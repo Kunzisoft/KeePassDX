@@ -167,30 +167,28 @@
     <string name="fingerprint_error">Problema impronta: %1$s</string>
     <string name="store_with_fingerprint">Usa l\'impronta per salvare questa password</string>
     <string name="no_password_stored">Questo database non ha ancora alcuna password.</string>
-
     <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.
 \n
 \nRicorda di salvare una copia del tuo file .kdbx in un luogo sicuro dopo ogni modifica.</string>
-
     <string-array name="timeout_options">
-    	<item>5 secondi</item>
-    	<item>10 secondi</item>
-    	<item>20 secondi</item>
-    	<item>30 secondi</item>
-    	<item>1 minuto</item>
-    	<item>5 minuti</item>
-    	<item>15 minuti</item>
-    	<item>30 minuti</item>
-    	<item>Mai</item>
+        <item>5 secondi</item>
+        <item>10 secondi</item>
+        <item>20 secondi</item>
+        <item>30 secondi</item>
+        <item>1 minuto</item>
+        <item>5 minuti</item>
+        <item>15 minuti</item>
+        <item>30 minuti</item>
+        <item>Mai</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Piccolo</item>
-    	<item>Medio</item>
-    	<item>Grande</item>
+        <item>Piccolo</item>
+        <item>Medio</item>
+        <item>Grande</item>
     </string-array>
-<string name="beta_dontask">Non mostrare di nuovo</string>
+    <string name="beta_dontask">Non mostrare di nuovo</string>
     <string name="allow">Consenti</string>
-    <string name="copy_field">Copia di %1$s</string>
+    <string name="copy_field">Copiato %1$s</string>
     <string name="encryption">Cifratura</string>
     <string name="key_derivation_function">Funzione di derivazione chiave</string>
     <string name="extended_ASCII">ASCII esteso</string>
@@ -286,7 +284,6 @@
     <string name="text_appearance">Testo</string>
     <string name="application_appearance">App</string>
     <string name="other">Altro</string>
-
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
     <string name="magic_keyboard_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
@@ -299,12 +296,10 @@
     <string name="keyboards_swicth_magikeyboard_text">Cambia tastiera premendo a lungo la barra spaziatrice, oppure, se non disponibile, con:</string>
     <string name="keyboard_lock_database_text">Blocca il database.</string>
     <string name="keyboard_back_main_keyboard_text">Usa di nuovo la tastiera predefinita.</string>
-
     <string name="allow_no_password_title">Permetti password mancante</string>
     <string name="allow_no_password_summary">Attiva il pulsante \"Apri\" se non è selezionata l\'identificazione della password</string>
     <string name="enable_read_only_title">Sola lettura</string>
     <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
-
     <string name="enable_education_screens_title">Schermate educative</string>
     <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
     <string name="reset_education_screens_title">Ripristina schermate educative</string>
@@ -347,36 +342,32 @@
     <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
-
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>sofware libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong></string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong>
+    </string>
     <string name="html_text_feature_generosity">Questa <strong>funzione visiva</strong> è disponibile grazie alla tua generosità.</string>
-    <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo <strong>contributo.</strong></string>
-
+    <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo <strong>contributo.</strong>
+    </string>
     <string name="html_text_dev_feature">Questa funzione è <strong>in sviluppo</strong> e richiede il tuo <strong>contributo</strong> per essere disponibile a breve.</string>
     <string name="html_text_dev_feature_buy_pro">Acquistando la versione <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Contribuendo</strong>,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Contribuendo</strong>,</string>
     <string name="html_text_dev_feature_encourage">incoraggi gli sviluppatori a creare <strong>nuove funzioni</strong> e a <strong>correggere errori</strong> secondo le tue osservazioni.</string>
     <string name="html_text_dev_feature_thanks">Grazie mille per il tuo contributo.</string>
     <string name="html_text_dev_feature_work_hard">Stiamo lavorando sodo per rilasciare questa funzione a breve.</string>
     <string name="html_text_dev_feature_upgrade">Non dimenticare di tenere aggiornata l\'app installando nuove versioni.</string>
-
     <string name="download">Scarica</string>
     <string name="contribute">Contribuisci</string>
-
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Tema app</string>
     <string name="style_choose_summary">Tema usato nell\'app</string>
     <string name="icon_pack_choose_title">Pacchetto icone</string>
     <string name="icon_pack_choose_summary">Pacchetto di icone usato nell\'app</string>
-
-<string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
+    <string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
     <string name="keyboard_fill_field_text">Riempi i campi usando gli elementi giusti.</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
