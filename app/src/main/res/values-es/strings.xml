@@ -346,4 +346,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="menu_file_selection_read_only">Protegido contra escritura</string>
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compila %1$s</string>
+    <string name="clipboard_warning">Si la supresión automática del portapapeles falla, borran el historial manualmente.</string>
+    <string name="magic_keyboard_preference_title">Ajustes de Magikeyboard</string>
 </resources>
