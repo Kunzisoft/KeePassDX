@@ -268,7 +268,7 @@
     <string name="allow_no_password_title">Tillat inget passord</string>
     <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt.</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
-    <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg.</string>
+    <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg</string>
     <string name="enable_education_screens_title">Hjelpeskjermer</string>
     <string name="enable_education_screens_summary">Framhev elementer for opplæring i programmet</string>
     <string name="reset_education_screens_title">Tilbakestill opplæringsskjermer</string>
