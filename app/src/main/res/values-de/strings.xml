@@ -44,7 +44,7 @@
     <string name="clipboard_timeout">Zwischenablagesperre</string>
     <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen\u2026</string>
+    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
     <string name="database">Datenbank</string>
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
@@ -73,21 +73,21 @@
     <string name="error_filename_required">Dateinamen eingeben.</string>
     <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
-    <string name="error_invalid_path">Stellen Sie sicher, dass der Pfad korrekt ist.</string>
+    <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
     <string name="error_no_name">Namen eingeben.</string>
     <string name="error_nokeyfile">Schlüsseldatei wählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_not_number">Mache \"Transformationsrunden\" zu einer Zahl.</string>
-    <string name="error_rounds_too_large">\"Transformationsrunden\" zu hoch. Stelle ein auf 214748364848.</string>
+    <string name="error_rounds_not_number">„Transformationsrunden“ zu einer Zahl machen.</string>
+    <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 214748364848 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Titel hinzufügen.</string>
-    <string name="error_wrong_length">Geben Sie die erforderliche Länge als positive, ganze Zahl in das Feld ein.</string>
+    <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
     <string name="file_not_found">Datei nicht gefunden.</string>
-    <string name="file_not_found_content">Datei nicht gefunden. Versuchen Sie, sie über Ihren Dateimanger zu öffnen.</string>
+    <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
     <string name="hint_conf_pass">Passwort wiederholen</string>
@@ -107,12 +107,12 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Gruppenliste</string>
     <string name="list_size_summary">Schriftgröße der Gruppenliste</string>
-    <string name="loading_database">Datenbank wird geladen\u2026</string>
+    <string name="loading_database">Datenbank wird geladen …</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="maskpass_title">Passwort verstecken</string>
     <string name="maskpass_summary">Passwörter standardmäßig mit (***) maskieren</string>
     <string name="menu_about">Über</string>
-    <string name="menu_change_key">Master-Schlüssel ändern</string>
+    <string name="menu_change_key">Hauptschlüssel ändern</string>
     <string name="settings">Einstellungen</string>
     <string name="menu_db_settings">Datenbank-Einstellungen</string>
     <string name="menu_delete">Löschen</string>
@@ -127,16 +127,16 @@
     <string name="minus">Bindestrich</string>
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
-    <string name="no_url_handler">Installieren Sie einen Web-Browser, um diese URL zu öffnen.</string>
+    <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
     <string name="open_recent">Zuletzt geöffnete Datenbanken</string>
     <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omitbackup_summary">Sicherungseinträge werden bei der Suche nicht berücksichtigt (nur bei .kdb Dateien)</string>
-    <string name="progress_create">Neue Datenbank anlegen\u2026</string>
-    <string name="progress_title">Ausführen\u2026</string>
+    <string name="progress_create">Neue Datenbank anlegen …</string>
+    <string name="progress_title">Ausführen …</string>
     <string name="protection">Sicherheit</string>
-    <string name="read_only">Schreibgeschutzt</string>
-    <string name="read_only_warning">KeePass DX benötigt Schreibrechte, um etwas an Ihrer Datenbank zu ändern.</string>
-    <string name="read_only_kitkat_warning">Ab Android KitKat haben auf einigen Geräten Apps keine Schreibrechte mehr für die SD-Karte.</string>
+    <string name="read_only">Schreibgeschützt</string>
+    <string name="read_only_warning">KeePass DX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
+    <string name="read_only_kitkat_warning">Ab Android KitKat haben Apps auf einigen Geräten keine Schreibrechte mehr für die SD-Karte.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
@@ -147,7 +147,7 @@
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
     <string name="rounds_hint">Schlüsseltransformationen</string>
-    <string name="saving_database">Speichere Datenbank\u2026</string>
+    <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Datenbank</string>
@@ -161,13 +161,13 @@
     <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
     <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
-    <string name="warning_password_encoding">Vermeiden Sie Passwortzeichen, die nicht Teil des Latin-1-Zeichensatzes sind, in .kbd-Dateien, da sie alle in ein und dasselbe Zeichen umgewandelt werden.</string>
-    <string name="warning_read_only">Gewähren Sie Schreibzugriff auf die SD-Karte, um Datenbankänderungen speichern zu können.</string>
-    <string name="warning_unmounted">Hängen Sie die SD-Karte ein, um eine Datenbank erstellen oder laden zu können.</string>
+    <string name="warning_password_encoding">Passwortzeichen in .kbd-Dateien vermeiden, die nicht Teil des Latin-1-Zeichensatzes sind, da sie alle in ein und dasselbe Zeichen umgewandelt werden.</string>
+    <string name="warning_read_only">Schreibzugriff auf die SD-Karte gewähren, um Datenbankänderungen speichern zu können.</string>
+    <string name="warning_unmounted">Die SD-Karte einbinden, um eine Datenbank erstellen oder laden zu können.</string>
     <string name="version_label">Version %1$s</string>
-    <string name="education_unlock_summary">Geben Sie ein Passwort und/oder eine Schlüsseldatei zum Entsperren Ihrer Datenbank ein.
-\n
-\nDenken Sie daran, nach jeder Änderung eine Kopie Ihrer .kdbx-Datei an einem sicheren Ort abzuspeichern.</string>
+    <string name="education_unlock_summary">Das Passwort und/oder eine Schlüsseldatei zum Entsperren der Datenbank eingeben. 
+\n 
+\nDaran denken, nach jeder Änderung die .kdbx-Datei an einem sicheren Ort abzuspeichern.</string>
     <string-array name="timeout_options">
         <item>5 Sekunden</item>
         <item>10 Sekunden</item>
@@ -184,13 +184,13 @@
         <item>Mittel</item>
         <item>Groß</item>
     </string-array>
-    <string name="warning_empty_password">Sind Sie sicher, dass das Entsperren ohne Passwort möglich sein soll\?</string>
-    <string name="warning_no_encryption_key">Sind Sie sicher, dass Sie keinen Verschlüsselungsschlüssel verwenden wollen ?</string>
+    <string name="warning_empty_password">Soll das Entsperren ohne Passwort wirklich möglich sein\?</string>
+    <string name="warning_no_encryption_key">Soll wirklich kein Verschlüsselungsschlüssel verwendet werden\?</string>
     <string name="appearance">Aussehen</string>
     <string name="password_size_title">Generierte Passwortlänge</string>
     <string name="password_size_summary">Legt die Standardlänge des generierten Passworts fest</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
-    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen einschalten um Eingabefelder zu aktivieren</string>
+    <string name="clipboard_notifications_summary">Zwischenablagenbenachrichtigungen einschalten, um Eingabefelder zu aktivieren</string>
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Neue Datenbank erstellen</string>
@@ -199,29 +199,29 @@
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
-    <string name="fingerprint_enable_summary">Ermöglicht die Datenbanköffnung mit Ihrem Fingerabdruck</string>
+    <string name="fingerprint_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
     <string name="fingerprint">Fingerabdruck</string>
     <string name="fingerprint_enable_title">Fingerabdruckscanner</string>
     <string name="fingerprint_scan_to_open">Fingerabdruck scannen, um die Datenbank zu öffnen, wenn die Passworteingabe ausgeschaltet ist.</string>
-    <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um Ihr Datenbank-Passwort sicher zu speichern.</string>
-    <string name="fingerprint_type_password_text">Geben Sie Ihr Datenbank-Passwort ein</string>
+    <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um das Datenbank-Passwort sicher zu speichern.</string>
+    <string name="fingerprint_type_password_text">Datenbank-Passwort eingeben</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_fingerprint">Fingerabdruck-Scannen wird unterstützt, ist jedoch nicht konfiguriert.</string>
     <string name="scanning_fingerprint">Fingerabdruck wird gescannt</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="fingerprint_invalid_key">Fingerabdruckschlüssel nicht lesbar. Stellen Sie Ihr Passwort wieder her.</string>
+    <string name="fingerprint_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="fingerprint_error">Problem mit dem Fingerabdruck: %1$s</string>
     <string name="history">Verlauf</string>
     <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
-    <string name="fingerprint_setting_text">Speichern Sie Ihren für Ihr Gerät eingelesenen Fingerabdruck in</string>
-    <string name="fingerprint_setting_way_text">\"Einstellungen\" → \"Sicherheit\" → \"Fingerabdruck\"</string>
+    <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
+    <string name="fingerprint_setting_way_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
-    <string name="store_with_fingerprint">Fingerabdruck verwenden um dieses Passwort zu speichern</string>
+    <string name="store_with_fingerprint">Fingerabdruck verwenden, um dieses Passwort zu speichern</string>
     <string name="no_password_stored">Diese Datenbank hat noch kein Passwort.</string>
-    <string name="style_choose_summary">App-Design, welches in der App genutzt wird</string>
+    <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweitertes ASCII</string>
@@ -232,11 +232,11 @@
     <string name="menu_form_filling_settings">Formularausfüllung</string>
     <string name="menu_fingerprint_remove_key">Gespeicherten Fingerabdruck löschen</string>
     <string name="encryption_explanation">Verschlüsselungsalgorithmus der Datenbank wird für sämtliche Daten verwendet.</string>
-    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Masterschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
+    <string name="kdf_explanation">Um den Schlüssel für den Verschlüsselungsalgorithmus zu generieren, wird der Hauptschlüssel umgewandelt, wobei ein zufälliger Salt in der Schlüsselberechnung verwendet wird.</string>
     <string name="memory_usage">Speichernutzung</string>
     <string name="memory_usage_explanation">Größe des Speichers (in binären Bytes) der für die Schlüsselableitung genutzt wird.</string>
     <string name="parallelism">Parallelismus</string>
-    <string name="parallelism_explanation">Grad des Parallelismus (d.h. Anzahl der Threads) der für die Schlüsselableitung genutzt wird.</string>
+    <string name="parallelism_explanation">Grad des Parallelismus (d. h. Anzahl der Threads), der für die Schlüsselableitung genutzt wird.</string>
     <string name="sort_menu">Sortieren</string>
     <string name="sort_ascending">Aufsteigend ↓</string>
     <string name="sort_groups_before">Gruppen davor</string>
@@ -253,10 +253,10 @@
     <string name="set_autofill_service_title">Standard Autofill-Dienst auswählen</string>
     <string name="set_autofill_service_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
-    <string name="fingerprint_delete_all_title">Verschlüsselungskeys löschen</string>
+    <string name="fingerprint_delete_all_title">Verschlüsselungsschlüssel löschen</string>
     <string name="fingerprint_delete_all_summary">Alle Verschlüsselungsschlüssel für Fingerabdruckerkennung löschen</string>
-    <string name="fingerprint_delete_all_warning">Sind Sie sicher, dass Sie alle mit der Fingerabdruckerkennung verknüpften Schlüssel löschen möchten\?</string>
-    <string name="unavailable_feature_version">Ihre Android-Version, %1$s, erfüllt nicht die Mindestanforderung, Version %2$s.</string>
+    <string name="fingerprint_delete_all_warning">Sollen wirklich alle mit der Fingerabdruckerkennung verknüpften Schlüssel gelöscht werden\?</string>
+    <string name="unavailable_feature_version">Die Android-Version, %1$s, erfüllt nicht die Mindestanforderung für Version %2$s.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Dateipfad</string>
@@ -285,42 +285,41 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Eine eigene Tastatur zum einfachen Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
     <string name="reset_education_screens_title">Hilfe-Anzeige wiederholen</string>
-    <string name="reset_education_screens_summary">Alle Hilfe-Themen noch einmal anzeigen</string>
+    <string name="reset_education_screens_summary">Alle Hilfethemen noch einmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
-    <string name="education_create_database_title">Ihre Datenbankdatei erstellen</string>
-    <string name="education_create_database_summary">Erstellen Sie Ihre erste Datei zur Passwortverwaltung.</string>
+    <string name="education_create_database_title">Die Datenbankdatei erstellen</string>
+    <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
-    <string name="education_select_database_summary">Öffnen Sie eine frühere Datenbankdatei über Ihren Dateimanager, um sie weiter zu verwenden.</string>
-    <string name="education_open_link_database_title">Ein Link zum Speicherort Ihrer Datei ist ausreichend</string>
-    <string name="education_open_link_database_summary">Sie können Ihre Datenbank auch mit einem physischen Link öffnen (z.B. mit file:// und content://).</string>
+    <string name="education_select_database_summary">Eine frühere Datenbankdatei über den Dateimanager öffnen, um sie weiter zu verwenden.</string>
+    <string name="education_open_link_database_title">Ein Link zum Speicherort der Datei ist ausreichend</string>
+    <string name="education_open_link_database_summary">Die Datenbank lässt sich auch mit einem physischen Link öffnen (z. B. mit file:// und content://).</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
-    <string name="education_new_node_summary">Einträge um Ihre digitalen Identitäten zu verwalten.
-\n
-\nGruppen (wie Ordner) um Einträge in ihrer Datenbank zu ordnen.</string>
+    <string name="education_new_node_summary">Einträge helfen, die digitalen Identitäten zu verwalten. 
+\n 
+\nGruppen (wie Ordner) helfen, Einträge in der Datenbank zu ordnen.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
-    <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben um Ihre Passwörter wiederzufinden.</string>
+    <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
     <string name="education_fingerprint_title">Datenbank mit Fingerabdruck entsperren</string>
-    <string name="education_fingerprint_summary">Verknüpfen Sie Ihr Passwort und Ihren Fingerabdruck um Ihre Datenbank schnell zu entsperren.</string>
+    <string name="education_fingerprint_summary">Passwort und eigenen Fingerabdruck verknüpfen, um die Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
-    <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit benutzerdefinierten Feldern. Pooldaten können zwischen verschiedenen Eingabefeldern referenziert werden.</string>
-    <string name="education_generate_password_title">Ein starkes Passwort für ihren Eintrag erstellen.</string>
-    <string name="education_generate_password_summary">Generieren Sie ein sicheres Passwort, um es mit Ihrem Eintrag zu verknüpfen. Definieren Sie es einfach nach den Kriterien des Formulars und vergessen Sie das sichere Passwort nicht.</string>
+    <string name="education_entry_edit_summary">Einträge mit benutzerdefinierten Feldern bearbeiten. Pooldaten können zwischen verschiedenen Eingabefeldern referenziert werden.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
+    <string name="education_generate_password_summary">Ein sicheres Passwort generieren, um es mit dem Eintrag zu verknüpfen. Einfach nach den Kriterien des Formulars definiert und das sichere Passwort nie vergessen.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Registrieren Sie ein einfaches, nicht mitgeliefertes Feld, indem Sie ein neues Feld ausfüllen, das Sie auch schützen können.</string>
-    <string name="education_unlock_title">Ihre Datenbank entsperren</string>
+    <string name="education_entry_new_field_summary">Ein einfaches, nicht mitgeliefertes Feld registrieren, indem ein neues Feld ausfüllt wird, das sich auch schützen lässt.</string>
+    <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
-    <string name="education_field_copy_summary">Kopieren Sie einfach ein Feld, um es, wo Sie wollen, wieder einzufügen
-\n
-\nSie können verschiedene Methoden zum Ausfüllen von Formularen verwenden. Wählen Sie die, die Ihnen am meisten zusagt.</string>
+    <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden.
+\n 
+\nAus den verschiedene Methoden zum Ausfüllen von Formularen einfach die bevorzugte auswählen.</string>
     <string name="education_lock_title">Datenbank sperren</string>
-    <string name="education_lock_summary">Schnell Ihre Datenbank sperren, in den App-Einstellungen können Sie eine Sperre nach Zeit und bei Ausschalten des Bildschirms festlegen.</string>
-    <string name="education_sort_title">Sortierung der Elemente</string>
+    <string name="education_lock_summary">Schnell die Datenbank sperren, in den App-Einstellungen lässt sich eine Sperre nach Zeit und bei Ausschalten des Bildschirms festlegen.</string>
+    <string name="education_sort_title">Sortierung der Einträge</string>
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Machen Sie mit, damit sich Stabilität, Sicherheit verbessern und weitere Funktionen hinzukommen.</string>
-    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern - unabhängig von der Version, die Sie nutzen.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhalten Sie Zugang zu dieser <strong>visuellen Funktion</strong> und Sie unterstützen insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
-    </string>
+    <string name="education_donation_summary">Mitmachen, um Stabilität und Sicherheit verbessern und weitere Funktionen zu ermöglichen.</string>
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern – unabhängig von der verwendeten Version.</string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten</strong>.</string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
     </string>
@@ -336,42 +335,42 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-    <string name="icon_pack_choose_title">Icon-Paket</string>
-    <string name="icon_pack_choose_summary">In der App verwendetes Icon-Packet</string>
+    <string name="icon_pack_choose_title">Symbolepaket</string>
+    <string name="icon_pack_choose_summary">In der App verwendetes Symbolepaket</string>
     <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
     <string name="menu_paste">Einfügen</string>
     <string name="menu_cancel">Abbrechen</string>
-    <string name="clipboard_warning">Wenn die automatische Löschung der Zwischenablage fehlschlägt, löschen Sie ihren Verlauf manuell.</string>
+    <string name="clipboard_warning">Wenn das automatische Löschen der Zwischenablage fehlschlägt, bitte den Verlauf manuell löschen.</string>
     <string name="allow_copy_password_warning">WARNUNG: Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
     <string name="magic_keyboard_configure_title">Tastatur zum sicheren Ausfüllen von Formularen einrichten.</string>
-    <string name="magic_keyboard_activate_setting_text">Aktivieren Sie das \"Magikeyboard\" in den Geräteeinstellungen.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Einstellungen\" → \"Sprache &amp; Eingabe\" → \"Aktuelle Tastatur\" und auswählen.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">oder (\"Einstellungen\" → \"Sprachen &amp; Eingabe\" → \"Bildschirmtastatur\" und auswählen.)</string>
-    <string name="keyboards_choose_magikeyboard_text">Wählen Sie das Magikeyboard aus, wenn Sie ein Formular ausfüllen müssen.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Wechseln Sie die Tastaturen durch einen langen Druck auf die Leertaste oder, wenn das nicht zur Verfügung steht, mit:</string>
-    <string name="keyboard_select_entry_text">Wählen Sie den Eintrag mit dem Schlüssel aus.</string>
-    <string name="keyboard_fill_field_text">Füllen Sie die Felder mit den Elementen des Eintrags aus.</string>
-    <string name="keyboard_lock_database_text">Sperren Sie die Datenbank.</string>
-    <string name="keyboard_back_main_keyboard_text">Kehren Sie zur Standardtastatur zurück.</string>
+    <string name="magic_keyboard_activate_setting_text">Das „Magikeyboard“ in den Geräteeinstellungen aktivieren.</string>
+    <string name="magic_keyboard_activate_setting_path_1_text">„Einstellungen“ → „Sprache &amp; Eingabe“ → „Aktuelle Tastatur“ und auswählen.</string>
+    <string name="magic_keyboard_activate_setting_path_2_text">oder („Einstellungen“ → „Sprache &amp; Eingabe“ → „Bildschirmtastatur“ und auswählen.)</string>
+    <string name="keyboards_choose_magikeyboard_text">Das Magikeyboard auswählen, wenn ein Formular ausgefüllt werden soll.</string>
+    <string name="keyboards_swicth_magikeyboard_text">Tastaturen durch langes Drücken auf die Leertaste wechseln oder, wenn das nicht zur Verfügung steht, mit:</string>
+    <string name="keyboard_select_entry_text">Den Eintrag mit dem Schlüssel auswählen.</string>
+    <string name="keyboard_fill_field_text">Die Felder mit den Elementen des Eintrags ausfüllen.</string>
+    <string name="keyboard_lock_database_text">Die Datenbank sperren.</string>
+    <string name="keyboard_back_main_keyboard_text">Zur Standardtastatur zurückkehren.</string>
     <string name="allow_no_password_title">Kein Passwort zulassen</string>
-    <string name="allow_no_password_summary">\"Öffnen\"-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
+    <string name="allow_no_password_summary">„Öffnen“-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
-    <string name="menu_open_file_read_and_write">veränderbar</string>
-    <string name="menu_file_selection_read_only">schreibgeschützt</string>
+    <string name="menu_open_file_read_and_write">Änderbar</string>
+    <string name="menu_file_selection_read_only">Schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
     <string name="education_read_only_title">Schreibschutz aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
-    <string name="education_read_only_summary">Ändern Sie den Öffnungsmodus für die Sitzung.
-\n
-\n\"Write-protected\" verhindert unbeabsichtigte Änderungen an der Datenbank.
-\nMit \"Modifizierbar\" können Sie alle Elemente hinzufügen, löschen oder ändern.</string>
+    <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. 
+\n 
+\n„Schreibgeschützt“ verhindert unbeabsichtigte Änderungen an der Datenbank. 
+\nMit „Änderbar“ können alle Elemente hinzugefügt, gelöscht oder geändert werden.</string>
     <string name="edit_entry">Eintrag bearbeiten</string>
     <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
-    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen; versuchen Sie, die \"Speicherplatznutzung\" von KDF zu verringen.</string>
+    <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
@@ -387,10 +386,10 @@
     <string name="keyboard_notification_entry_content_title">%1$s über Magikeyboard abrufbar</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Beim Schließen löschen</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Die Tastatureingabe löschen, wenn die Benachrichtung geschlossen wird</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Die Tastatureingabe löschen, wenn die Benachrichtigung geschlossen wird</string>
     <string name="keyboard_appearance_category">Aussehen</string>
     <string name="keyboard_theme_title">Tastaturdesign</string>
     <string name="keyboard_keys_category">Tasten</string>
-    <string name="keyboard_key_vibrate_title">Vibration auf Tastendruck</string>
-    <string name="keyboard_key_sound_title">Ton auf Tastendruck</string>
+    <string name="keyboard_key_vibrate_title">Vibration bei Tastendruck</string>
+    <string name="keyboard_key_sound_title">Ton bei Tastendruck</string>
 </resources>
