@@ -306,7 +306,7 @@
     <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
     <string name="education_generate_password_summary">Ein sicheres Passwort generieren, um es mit dem Eintrag zu verknüpfen. Einfach nach den Kriterien des Formulars definiert und das sichere Passwort nie vergessen.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Ein einfaches, nicht mitgeliefertes Feld registrieren, indem ein neues Feld ausfüllt wird, das sich auch schützen lässt.</string>
+    <string name="education_entry_new_field_summary">Ein wichtiges, nicht mitgeliefertes Feld erfassen, indem ein neues Feld ausgefüllt wird, das sich auch schützen lässt.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden.
@@ -317,9 +317,10 @@
     <string name="education_sort_title">Sortierung der Einträge</string>
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
-    <string name="education_donation_summary">Mitmachen, um Stabilität und Sicherheit verbessern und weitere Funktionen zu ermöglichen.</string>
+    <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern – unabhängig von der verwendeten Version.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten</strong>.</string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
+    </string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
     </string>
