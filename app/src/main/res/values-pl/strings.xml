@@ -377,7 +377,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="keyboard_entry_category">Wpis</string>
     <string name="keyboard_entry_timeout_title">Limit czasu</string>
     <string name="keyboard_entry_timeout_summary">Limit czasu, aby wyczyścić wpis klawiatury</string>
-    <string name="keyboard_notification_entry_title">Informacje dotyczące powiadomień</string>
+    <string name="keyboard_notification_entry_title">Informacje o powiadomieniach</string>
     <string name="keyboard_notification_entry_summary">Pokaż powiadomienie, gdy wpis jest dostępny</string>
     <string name="keyboard_notification_entry_content_title_text">Wpis</string>
     <string name="keyboard_notification_entry_content_title">%1$s dostępne na Magikeyboard</string>
