@@ -118,7 +118,7 @@ public class GroupEditDialogFragment extends DialogFragment
         iconColor = ta.getColor(0, Color.WHITE);
 
         // Init elements
-        database = App.getDB();
+        database = App.Companion.getCurrentDatabase();
         editGroupDialogAction = EditGroupDialogAction.NONE;
         nameGroup = "";
         iconGroup = database.getIconFactory().getFolderIcon();

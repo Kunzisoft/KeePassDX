@@ -206,7 +206,7 @@ public class GroupActivity extends LockingActivity
             return;
         }
 
-        database = App.getDB();
+        database = App.Companion.getCurrentDatabase();
 
         // Construct main view
         setContentView(getLayoutInflater().inflate(R.layout.list_nodes_with_add_button, null));
@@ -606,7 +606,7 @@ public class GroupActivity extends LockingActivity
 
     private void copyEntry(EntryVersioned entryToCopy, GroupVersioned newParent) {
         new Thread(new CopyEntryRunnable(this,
-				App.getDB(),
+				App.Companion.getCurrentDatabase(),
 				entryToCopy,
 				newParent,
 				new AfterAddNodeRunnable(),
@@ -649,7 +649,7 @@ public class GroupActivity extends LockingActivity
     private void moveGroup(GroupVersioned groupToMove, GroupVersioned newParent) {
         new Thread(new MoveGroupRunnable(
 				this,
-				App.getDB(),
+				App.Companion.getCurrentDatabase(),
 				groupToMove,
 				newParent,
 				new AfterAddNodeRunnable(),
@@ -660,7 +660,7 @@ public class GroupActivity extends LockingActivity
     private void moveEntry(EntryVersioned entryToMove, GroupVersioned newParent) {
         new Thread(new MoveEntryRunnable(
 				this,
-				App.getDB(),
+				App.Companion.getCurrentDatabase(),
 				entryToMove,
 				newParent,
 				new AfterAddNodeRunnable(),
@@ -685,7 +685,7 @@ public class GroupActivity extends LockingActivity
         //TODO Verify trash recycle bin
         new Thread(new DeleteGroupRunnable(
 				this,
-				App.getDB(),
+				App.Companion.getCurrentDatabase(),
 				group,
 				new AfterDeleteNodeRunnable(),
 				!getReadOnly())
@@ -695,7 +695,7 @@ public class GroupActivity extends LockingActivity
     private void deleteEntry(EntryVersioned entry) {
         new Thread(new DeleteEntryRunnable(
 				this,
-				App.getDB(),
+				App.Companion.getCurrentDatabase(),
 				entry,
 				new AfterDeleteNodeRunnable(),
 				!getReadOnly())
@@ -976,7 +976,7 @@ public class GroupActivity extends LockingActivity
     public void approveEditGroup(GroupEditDialogFragment.EditGroupDialogAction action,
                                  String name,
                                  PwIcon icon) {
-        Database database = App.getDB();
+        Database database = App.Companion.getCurrentDatabase();
 
         switch (action) {
             case CREATION:
@@ -990,7 +990,7 @@ public class GroupActivity extends LockingActivity
 
                 // If group created save it in the database
                 new Thread(new AddGroupRunnable(this,
-						App.getDB(),
+						App.Companion.getCurrentDatabase(),
 						newGroup,
                         mCurrentGroup,
 						new AfterAddNodeRunnable(),
@@ -1011,7 +1011,7 @@ public class GroupActivity extends LockingActivity
 
                     // If group updated save it in the database
                     new Thread(new UpdateGroupRunnable(this,
-							App.getDB(),
+							App.Companion.getCurrentDatabase(),
 							oldGroupToUpdate,
 							updateGroup,
 							new AfterUpdateNodeRunnable(),
@@ -1061,7 +1061,7 @@ public class GroupActivity extends LockingActivity
 
                     if (actionNodeValues.getOldNode() != null) {
                         GroupVersioned parent = actionNodeValues.getOldNode().getParent();
-						Database database = App.getDB();
+						Database database = App.Companion.getCurrentDatabase();
 						if (database.isRecycleBinAvailable() &&
 								database.isRecycleBinEnabled()) {
                             GroupVersioned recycleBin = database.getRecycleBin();
@@ -1100,7 +1100,7 @@ public class GroupActivity extends LockingActivity
     }
 	
 	protected void showWarnings() {
-		if (App.getDB().isReadOnly()) {
+		if (App.Companion.getCurrentDatabase().isReadOnly()) {
 		    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		    
 		    if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
@@ -1197,7 +1197,7 @@ public class GroupActivity extends LockingActivity
     	// Else lock if needed
     	else {
 			if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-				App.getDB().closeAndClear(getApplicationContext());
+				App.Companion.getCurrentDatabase().closeAndClear(getApplicationContext());
 				super.onBackPressed();
 			} else {
 				moveTaskToBack(true);

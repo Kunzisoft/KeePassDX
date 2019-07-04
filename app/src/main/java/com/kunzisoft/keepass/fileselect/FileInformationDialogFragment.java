@@ -40,11 +40,11 @@ public class FileInformationDialogFragment extends DialogFragment {
     private View fileSizeContainerView;
     private View fileModificationContainerView;
 
-    public static FileInformationDialogFragment newInstance(FileSelectBean fileSelectBean) {
+    public static FileInformationDialogFragment newInstance(FileDatabaseModel fileDatabaseModel) {
         FileInformationDialogFragment fileInformationDialogFragment =
                 new FileInformationDialogFragment();
         Bundle args = new Bundle();
-        args.putSerializable(FILE_SELECT_BEEN_ARG, fileSelectBean);
+        args.putSerializable(FILE_SELECT_BEEN_ARG, fileDatabaseModel);
         fileInformationDialogFragment.setArguments(args);
         return fileInformationDialogFragment;
     }
@@ -63,19 +63,19 @@ public class FileInformationDialogFragment extends DialogFragment {
         TextView fileModificationView = root.findViewById(R.id.file_modification);
 
         if (getArguments() != null && getArguments().containsKey(FILE_SELECT_BEEN_ARG)) {
-            FileSelectBean fileSelectBean = (FileSelectBean) getArguments().getSerializable(FILE_SELECT_BEEN_ARG);
-            if(fileSelectBean != null) {
+            FileDatabaseModel fileDatabaseModel = (FileDatabaseModel) getArguments().getSerializable(FILE_SELECT_BEEN_ARG);
+            if(fileDatabaseModel != null) {
 
-                filePathView.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
-                fileNameView.setText(fileSelectBean.getFileName());
+                filePathView.setText(Uri.decode(fileDatabaseModel.getFileUri().toString()));
+                fileNameView.setText(fileDatabaseModel.getFileName());
 
-                if(fileSelectBean.notFound()) {
+                if(fileDatabaseModel.notFound()) {
                     hideFileInfo();
                 } else {
                     showFileInfo();
-                    fileSizeView.setText(String.valueOf(fileSelectBean.getSize()));
+                    fileSizeView.setText(String.valueOf(fileDatabaseModel.getSize()));
                     fileModificationView.setText(DateFormat.getDateTimeInstance()
-                            .format(fileSelectBean.getLastModification()));
+                            .format(fileDatabaseModel.getLastModification()));
                 }
             } else
                 hideFileInfo();

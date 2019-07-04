@@ -21,14 +21,16 @@ package com.kunzisoft.keepass.fileselect;
 
 import android.os.AsyncTask;
 
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
+
 class OpenFileHistoryAsyncTask extends AsyncTask<Integer, Void, Void> {
 
     private AfterOpenFileHistoryListener afterOpenFileHistoryListener;
-    private RecentFileHistory fileHistory;
+    private FileDatabaseHistory fileHistory;
     private String fileName;
     private String keyFile;
 
-    OpenFileHistoryAsyncTask(AfterOpenFileHistoryListener afterOpenFileHistoryListener, RecentFileHistory fileHistory) {
+    OpenFileHistoryAsyncTask(AfterOpenFileHistoryListener afterOpenFileHistoryListener, FileDatabaseHistory fileHistory) {
         this.afterOpenFileHistoryListener = afterOpenFileHistoryListener;
         this.fileHistory = fileHistory;
     }
@@ -36,7 +38,7 @@ class OpenFileHistoryAsyncTask extends AsyncTask<Integer, Void, Void> {
     protected Void doInBackground(Integer... args) {
         int position = args[0];
         fileName = fileHistory.getDatabaseAt(position);
-        keyFile = fileHistory.getKeyfileAt(position);
+        keyFile = fileHistory.getKeyFileAt(position);
         return null;
     }
 

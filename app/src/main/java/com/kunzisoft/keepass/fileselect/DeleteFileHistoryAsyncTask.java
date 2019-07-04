@@ -21,20 +21,22 @@ package com.kunzisoft.keepass.fileselect;
 
 import android.os.AsyncTask;
 
-class DeleteFileHistoryAsyncTask extends AsyncTask<FileSelectBean, Void, Void> {
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
+
+class DeleteFileHistoryAsyncTask extends AsyncTask<FileDatabaseModel, Void, Void> {
 
     private AfterDeleteFileHistoryListener afterDeleteFileHistoryListener;
-    private RecentFileHistory fileHistory;
-    private FileSelectAdapter adapter;
+    private FileDatabaseHistory fileHistory;
+    private FileDatabaseHistoryAdapter adapter;
 
-    DeleteFileHistoryAsyncTask(AfterDeleteFileHistoryListener afterDeleteFileHistoryListener, RecentFileHistory fileHistory, FileSelectAdapter adapter) {
+    DeleteFileHistoryAsyncTask(AfterDeleteFileHistoryListener afterDeleteFileHistoryListener, FileDatabaseHistory fileHistory, FileDatabaseHistoryAdapter adapter) {
         this.afterDeleteFileHistoryListener = afterDeleteFileHistoryListener;
         this.fileHistory = fileHistory;
         this.adapter = adapter;
     }
 
-    protected Void doInBackground(FileSelectBean... args) {
-        fileHistory.deleteFile(args[0].getFileUri());
+    protected Void doInBackground(FileDatabaseModel... args) {
+        fileHistory.deleteDatabaseUri(args[0].getFileUri());
         return null;
     }
 

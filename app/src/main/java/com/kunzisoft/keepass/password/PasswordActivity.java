@@ -28,7 +28,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,7 +55,6 @@ import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
-import com.kunzisoft.keepass.compat.ClipDataCompat;
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.database.element.Database;
@@ -77,6 +75,7 @@ import permissions.dispatcher.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.lang.ref.WeakReference;
 
 @RuntimePermissions
 public class PasswordActivity extends StylishActivity
@@ -282,7 +281,7 @@ public class PasswordActivity extends StylishActivity
     protected void onResume() {
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
-        if (App.getDB().getLoaded()) {
+        if (App.Companion.getCurrentDatabase().getLoaded()) {
             setEmptyViews();
         }
 
@@ -316,7 +315,7 @@ public class PasswordActivity extends StylishActivity
             checkboxPasswordView.setOnCheckedChangeListener(enableButtonOncheckedChangeListener);
         }
 
-        new UriIntentInitTask(this, mRememberKeyfile)
+        new UriIntentInitTask(new WeakReference<>(this), this, mRememberKeyfile)
                 .execute(getIntent());
     }
 
@@ -868,7 +867,7 @@ public class PasswordActivity extends StylishActivity
 
     private void loadDatabase(String password, Uri keyfile) {
         // Clear before we load
-        Database database = App.getDB();
+        Database database = App.Companion.getCurrentDatabase();
         database.closeAndClear(getApplicationContext());
 
         // Show the progress dialog and load the database
@@ -876,7 +875,7 @@ public class PasswordActivity extends StylishActivity
 				this,
 				R.string.loading_database,
                 progressTaskUpdater -> new LoadDatabaseRunnable(
-						PasswordActivity.this,
+						new WeakReference<>(PasswordActivity.this),
 						database,
 						mDbUri,
 						password,
@@ -1030,87 +1029,11 @@ public class PasswordActivity extends StylishActivity
 				case LockingActivity.RESULT_EXIT_LOCK:
 				case Activity.RESULT_CANCELED:
 					setEmptyViews();
-					App.getDB().closeAndClear(getApplicationContext());
+					App.Companion.getCurrentDatabase().closeAndClear(getApplicationContext());
 					break;
 			}
 		}
 	}
-
-    private static class UriIntentInitTask extends AsyncTask<Intent, Void, Integer> {
-
-        static final String KEY_FILENAME = "fileName";
-        static final String KEY_KEYFILE = "keyFile";
-        private static final String VIEW_INTENT = "android.intent.action.VIEW";
-
-        private UriIntentInitTaskCallback uriIntentInitTaskCallback;
-        private boolean isKeyFileNeeded;
-        private Uri databaseUri;
-        private Uri keyFileUri;
-
-        UriIntentInitTask(UriIntentInitTaskCallback uriIntentInitTaskCallback, boolean isKeyFileNeeded) {
-            this.uriIntentInitTaskCallback = uriIntentInitTaskCallback;
-            this.isKeyFileNeeded = isKeyFileNeeded;
-        }
-
-        @Override
-        protected Integer doInBackground(Intent... args) {
-            Intent intent = args[0];
-            String action = intent.getAction();
-            if (action != null && action.equals(VIEW_INTENT)) {
-                Uri incoming = intent.getData();
-                databaseUri = incoming;
-                keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE);
-
-                if (incoming == null) {
-                    return R.string.error_can_not_handle_uri;
-                } else if (incoming.getScheme().equals("file")) {
-                    String fileName = incoming.getPath();
-
-                    if (fileName.length() == 0) {
-                        // No file name
-                        return R.string.file_not_found;
-                    }
-
-                    File dbFile = new File(fileName);
-                    if (!dbFile.exists()) {
-                        // File does not exist
-                        return R.string.file_not_found;
-                    }
-
-                    if (keyFileUri == null) {
-                        keyFileUri = getKeyFile(databaseUri);
-                    }
-                } else if (incoming.getScheme().equals("content")) {
-                    if (keyFileUri == null) {
-                        keyFileUri = getKeyFile(databaseUri);
-                    }
-                } else {
-                    return R.string.error_can_not_handle_uri;
-                }
-
-            } else {
-                databaseUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_FILENAME));
-                keyFileUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_KEYFILE));
-
-                if (keyFileUri == null || keyFileUri.toString().length() == 0) {
-                    keyFileUri = getKeyFile(databaseUri);
-                }
-            }
-            return null;
-        }
-
-        public void onPostExecute(Integer result) {
-            uriIntentInitTaskCallback.onPostInitTask(databaseUri, keyFileUri, result);
-        }
-
-        private Uri getKeyFile(Uri dbUri) {
-            if (isKeyFileNeeded) {
-                return App.getFileHistory().getFileByName(dbUri);
-            } else {
-                return null;
-            }
-        }
-    }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
     public void doNothing() {}

@@ -88,7 +88,7 @@ abstract class LockingActivity : StylishActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            if (App.getDB().loaded) {
+            if (App.currentDatabase.loaded) {
                 lockAndExit()
             }
         }
@@ -102,7 +102,7 @@ abstract class LockingActivity : StylishActivity() {
 
         if (timeoutEnable) {
             // End activity if database not loaded
-            if (!App.getDB().loaded) {
+            if (!App.currentDatabase.loaded) {
                 finish()
                 return
             }
@@ -190,7 +190,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.getDB().closeAndClear(applicationContext)
+    App.currentDatabase.closeAndClear(applicationContext)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

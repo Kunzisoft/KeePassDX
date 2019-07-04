@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,25 +17,28 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.app
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.support.multidex.MultiDexApplication
+import com.kunzisoft.keepass.compat.PRNGFixes
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.stylish.Stylish
 
-import com.kunzisoft.keepass.R;
+class App : MultiDexApplication() {
 
-class FileSelectViewHolder extends RecyclerView.ViewHolder {
+    companion object {
+        var currentDatabase: Database = Database()
+    }
 
-    View fileContainer;
-    TextView fileName;
-    ImageView fileInformation;
+    override fun onCreate() {
+        super.onCreate()
 
-    FileSelectViewHolder(View itemView) {
-        super(itemView);
-        fileContainer = itemView.findViewById(R.id.file_container);
-        fileName = (TextView) itemView.findViewById(R.id.file_filename);
-        fileInformation = (ImageView) itemView.findViewById(R.id.file_information);
+        Stylish.init(this)
+        PRNGFixes.apply()
+    }
+
+    override fun onTerminate() {
+        currentDatabase.closeAndClear(applicationContext)
+        super.onTerminate()
     }
 }

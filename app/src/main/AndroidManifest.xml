@@ -27,7 +27,7 @@
             android:value="" />
 
         <activity
-            android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
+            android:name="com.kunzisoft.keepass.fileselect.FileDatabaseSelectActivity"
             android:theme="@style/KeepassDXStyle.SplashScreen"
             android:label="@string/app_name"
             android:launchMode="singleTop"

@@ -106,7 +106,7 @@ public class EntryActivity extends LockingHideActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-		Database db = App.getDB();
+		Database db = App.Companion.getCurrentDatabase();
 		setReadOnly(db.isReadOnly() || getReadOnly());
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this);
@@ -156,7 +156,7 @@ public class EntryActivity extends LockingHideActivity {
         fillData();
         invalidateOptionsMenu();
 
-		Database database = App.getDB();
+		Database database = App.Companion.getCurrentDatabase();
         // Start to manage field reference to copy a value from ref
 		database.startManageEntry(mEntry);
 
@@ -314,7 +314,7 @@ public class EntryActivity extends LockingHideActivity {
     }
 
 	protected void fillData() {
-		Database database = App.getDB();
+		Database database = App.Companion.getCurrentDatabase();
 		database.startManageEntry(mEntry);
 		// Assign title icon
 		database.getDrawFactory().assignDatabaseIconTo(this, titleIconView, mEntry.getIcon(), iconColor);

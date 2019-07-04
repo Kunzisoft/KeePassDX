@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
 import com.kunzisoft.keepass.dialogs.KeyboardExplanationDialogFragment;
@@ -60,6 +61,8 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.MemoryUsagePrefer
 import com.kunzisoft.keepass.settings.preferencedialogfragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.RoundsPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.stylish.Stylish;
+
+import java.lang.ref.WeakReference;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -123,7 +126,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         if (getArguments() != null)
             key = getArguments().getInt(TAG_KEY);
 
-        database = App.getDB();
+        database = App.Companion.getCurrentDatabase();
         databaseReadOnly = ReadOnlyHelper.INSTANCE.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
         databaseReadOnly = database.isReadOnly() || databaseReadOnly;
 
@@ -138,7 +141,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
                     if (!value) {
-                        App.getFileHistory().deleteAllKeys();
+                        FileDatabaseHistory.Companion.getInstance(new WeakReference<>(getContext().getApplicationContext())).deleteAllKeys();
                     }
                     return true;
                 });
@@ -150,7 +153,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         value = true;
                     }
                     if (!value) {
-                        App.getFileHistory().deleteAll();
+                        FileDatabaseHistory.Companion.getInstance(new WeakReference<>(getContext().getApplicationContext())).deleteAll();
                     }
                     return true;
                 });

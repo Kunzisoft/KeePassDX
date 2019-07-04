@@ -27,7 +27,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Date;
 
-public class FileSelectBean implements Serializable {
+public class FileDatabaseModel implements Serializable {
 
     private static final String EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents";
 
@@ -36,7 +36,7 @@ public class FileSelectBean implements Serializable {
     private Date lastModification;
     private long size;
 
-    public FileSelectBean(Context context, String pathFile) {
+    public FileDatabaseModel(Context context, String pathFile) {
         fileName = "";
         lastModification = new Date();
         size = 0;

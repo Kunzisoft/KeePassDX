@@ -153,7 +153,7 @@ public class EntryEditActivity extends LockingHideActivity
 				entryExtraFieldsContainer);
 		
 		// Likely the app has been killed exit the activity
-        database = App.getDB();
+        database = App.Companion.getCurrentDatabase();
 
         // Retrieve the textColor to tint the icon
         int[] attrs = {android.R.attr.textColorPrimary};
@@ -498,7 +498,7 @@ public class EntryEditActivity extends LockingHideActivity
         assignIconView();
 
 		// Don't start the field reference manager, we want to see the raw ref
-        App.getDB().stopManageEntry(mEntry);
+        App.Companion.getCurrentDatabase().stopManageEntry(mEntry);
 
         entryTitleView.setText(mEntry.getTitle());
         entryUserNameView.setText(mEntry.getUsername());

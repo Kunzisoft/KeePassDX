@@ -92,7 +92,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
         });
 
         // Database
-        this.database = App.getDB();
+        this.database = App.Companion.getCurrentDatabase();
 
         // Retrieve the color to tint the icon
         int[] attrTextColorPrimary = {android.R.attr.textColorPrimary};
@@ -340,7 +340,7 @@ public class NodeAdapter extends RecyclerView.Adapter<BasicViewHolder> {
             MenuItem menuItem = contextMenu.findItem(R.id.menu_open);
             menuItem.setOnMenuItemClickListener(mOnMyActionClickListener);
 
-			Database database = App.getDB();
+			Database database = App.Companion.getCurrentDatabase();
 
             // Edition
             if (readOnly || node.equals(database.getRecycleBin())) {

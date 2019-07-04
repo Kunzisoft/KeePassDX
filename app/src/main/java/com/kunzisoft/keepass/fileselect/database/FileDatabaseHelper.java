@@ -17,30 +17,27 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.fileselect.database;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.io.File;
 import java.io.FileFilter;
 
-public class FileDbHelper {
+public class FileDatabaseHelper {
 
-    private static final String TAG = FileDbHelper.class.getName();
+    private static final String TAG = FileDatabaseHelper.class.getName();
 
-    public static final String LAST_FILENAME = "lastFile";
-    public static final String LAST_KEYFILE = "lastKey";
+    static final String LAST_FILENAME = "lastFile";
+    static final String LAST_KEYFILE = "lastKey";
 
     public static final String DATABASE_NAME = "keepassdroid"; // TODO Change db name
-    private static final String FILE_TABLE = "files";
-    private static final int DATABASE_VERSION = 1;
+    static final String FILE_TABLE = "files";
+    static final int DATABASE_VERSION = 1;
 
     public static final int MAX_FILES = 5;
 
@@ -49,74 +46,20 @@ public class FileDbHelper {
     public static final String KEY_FILE_KEYFILE = "keyFile";
     public static final String KEY_FILE_UPDATED = "updated";
 
-    private static final String DATABASE_CREATE =
+    static final String DATABASE_CREATE =
             "create table " + FILE_TABLE + " ( " + KEY_FILE_ID + " integer primary key autoincrement, "
                     + KEY_FILE_FILENAME + " text not null, " + KEY_FILE_KEYFILE + " text, "
                     + KEY_FILE_UPDATED + " integer not null);";
 
     private final Context mCtx;
-    private DatabaseHelper mDbHelper;
     private SQLiteDatabase mDb;
 
-    private static class DatabaseHelper extends SQLiteOpenHelper {
-        private final Context mCtx;
-
-        DatabaseHelper(Context ctx) {
-            super(ctx, DATABASE_NAME, null, DATABASE_VERSION);
-            mCtx = ctx;
-        }
-
-        @Override
-        public void onCreate(SQLiteDatabase db) {
-            db.execSQL(DATABASE_CREATE);
-
-            // Migrate preference to database if it is set.
-            SharedPreferences settings = mCtx.getSharedPreferences("PasswordActivity", Context.MODE_PRIVATE);
-            String lastFile = settings.getString(LAST_FILENAME, "");
-            String lastKey = settings.getString(LAST_KEYFILE,"");
-
-            if ( lastFile.length() > 0 ) {
-                ContentValues vals = new ContentValues();
-                vals.put(KEY_FILE_FILENAME, lastFile);
-                vals.put(KEY_FILE_UPDATED, System.currentTimeMillis());
-
-                if ( lastKey.length() > 0 ) {
-                    vals.put(KEY_FILE_KEYFILE, lastKey);
-                }
-
-                db.insert(FILE_TABLE, null, vals);
-
-                // Clear old preferences
-                deletePrefs(settings);
-
-            }
-        }
-
-        @Override
-        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-            // Only one database version so far
-        }
-
-        private void deletePrefs(SharedPreferences prefs) {
-            // We won't worry too much if this fails
-            try {
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.remove(LAST_FILENAME);
-                editor.remove(LAST_KEYFILE);
-                editor.apply();
-            } catch (Exception e) {
-                Log.e(TAG, "Unable to delete database preference", e);
-            }
-        }
-    }
-
-    public FileDbHelper(Context ctx) {
+    public FileDatabaseHelper(Context ctx) {
         mCtx = ctx;
     }
 
-    public FileDbHelper open() throws SQLException {
-        mDbHelper = new DatabaseHelper(mCtx);
-        mDb = mDbHelper.getWritableDatabase();
+    public FileDatabaseHelper open() throws SQLException {
+        mDb = new FileDatabaseHistoryHelper(mCtx).getWritableDatabase();
         return this;
     }
 
@@ -136,7 +79,6 @@ public class FileDbHelper {
             cursor = mDb.query(true, FILE_TABLE, new String[] {KEY_FILE_ID},
                     KEY_FILE_FILENAME + "=?", new String[] {fileName}, null, null, null, null);
         } catch (Exception e ) {
-            assert(true);
             return -1;
         }
 
@@ -167,7 +109,6 @@ public class FileDbHelper {
             deleteAllBut(MAX_FILES);
         } catch (Exception e) {
             e.printStackTrace();
-            assert(true);
         }
 
         cursor.close();

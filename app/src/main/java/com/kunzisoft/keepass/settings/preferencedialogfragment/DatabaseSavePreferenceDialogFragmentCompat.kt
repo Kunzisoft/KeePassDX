@@ -34,7 +34,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        this.database = App.getDB()
+        this.database = App.currentDatabase
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {

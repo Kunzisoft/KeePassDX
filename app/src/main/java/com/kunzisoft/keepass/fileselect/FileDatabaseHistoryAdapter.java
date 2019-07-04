@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil;
 
 import java.util.List;
 
-public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder> {
+public class FileDatabaseHistoryAdapter extends RecyclerView.Adapter<FileDatabaseHistoryViewHolder> {
 
     private static final int MENU_CLEAR = 1;
 
@@ -54,7 +54,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     private @ColorInt
     int warningColor;
 
-    FileSelectAdapter(Context context, List<String> listFiles) {
+    FileDatabaseHistoryAdapter(Context context, List<String> listFiles) {
         this.inflater = LayoutInflater.from(context);
         this.context = context;
         this.listFiles = listFiles;
@@ -69,28 +69,28 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     @NonNull
     @Override
-    public FileSelectViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FileDatabaseHistoryViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.file_row, parent, false);
-        return new FileSelectViewHolder(view);
+        return new FileDatabaseHistoryViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull FileSelectViewHolder holder, int position) {
-        FileSelectBean fileSelectBean = new FileSelectBean(context, listFiles.get(position));
+    public void onBindViewHolder(@NonNull FileDatabaseHistoryViewHolder holder, int position) {
+        FileDatabaseModel fileDatabaseModel = new FileDatabaseModel(context, listFiles.get(position));
         // Context menu creation
-        holder.fileContainer.setOnCreateContextMenuListener(new ContextMenuBuilder(fileSelectBean));
+        holder.getFileContainer().setOnCreateContextMenuListener(new ContextMenuBuilder(fileDatabaseModel));
         // Click item to open file
         if (fileItemOpenListener != null)
-            holder.fileContainer.setOnClickListener(new FileItemClickListener(position));
+            holder.getFileContainer().setOnClickListener(new FileItemClickListener(position));
         // Assign file name
         if (PreferencesUtil.isFullFilePathEnable(context))
-            holder.fileName.setText(Uri.decode(fileSelectBean.getFileUri().toString()));
+            holder.getFileName().setText(Uri.decode(fileDatabaseModel.getFileUri().toString()));
         else
-            holder.fileName.setText(fileSelectBean.getFileName());
-        holder.fileName.setTextSize(PreferencesUtil.getListTextSize(context));
+            holder.getFileName().setText(fileDatabaseModel.getFileName());
+        holder.getFileName().setTextSize(PreferencesUtil.getListTextSize(context));
         // Click on information
         if (fileInformationShowListener != null)
-            holder.fileInformation.setOnClickListener(new FileInformationClickListener(fileSelectBean));
+            holder.getFileInformation().setOnClickListener(new FileInformationClickListener(fileDatabaseModel));
     }
 
     @Override
@@ -115,11 +115,11 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
     }
 
     public interface FileSelectClearListener {
-        boolean onFileSelectClearListener(FileSelectBean fileSelectBean);
+        boolean onFileSelectClearListener(FileDatabaseModel fileDatabaseModel);
     }
 
     public interface FileInformationShowListener {
-        void onClickFileInformation(FileSelectBean fileSelectBean);
+        void onClickFileInformation(FileDatabaseModel fileDatabaseModel);
     }
 
     private class FileItemClickListener implements View.OnClickListener {
@@ -138,24 +138,24 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
 
     private class FileInformationClickListener implements View.OnClickListener {
 
-        private FileSelectBean fileSelectBean;
+        private FileDatabaseModel fileDatabaseModel;
 
-        FileInformationClickListener(FileSelectBean fileSelectBean) {
-            this.fileSelectBean = fileSelectBean;
+        FileInformationClickListener(FileDatabaseModel fileDatabaseModel) {
+            this.fileDatabaseModel = fileDatabaseModel;
         }
 
         @Override
         public void onClick(View view) {
-            fileInformationShowListener.onClickFileInformation(fileSelectBean);
+            fileInformationShowListener.onClickFileInformation(fileDatabaseModel);
         }
     }
 
     private class ContextMenuBuilder implements View.OnCreateContextMenuListener {
 
-        private FileSelectBean fileSelectBean;
+        private FileDatabaseModel fileDatabaseModel;
 
-        ContextMenuBuilder(FileSelectBean fileSelectBean) {
-            this.fileSelectBean = fileSelectBean;
+        ContextMenuBuilder(FileDatabaseModel fileDatabaseModel) {
+            this.fileDatabaseModel = fileDatabaseModel;
         }
 
         @Override
@@ -171,7 +171,7 @@ public class FileSelectAdapter extends RecyclerView.Adapter<FileSelectViewHolder
                     return false;
                 switch ( item.getItemId() ) {
                     case MENU_CLEAR:
-                        return fileSelectClearListener.onFileSelectClearListener(fileSelectBean);
+                        return fileSelectClearListener.onFileSelectClearListener(fileDatabaseModel);
                     default:
                         return false;
                 }

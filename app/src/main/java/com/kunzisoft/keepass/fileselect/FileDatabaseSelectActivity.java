@@ -50,10 +50,10 @@ import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
-import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable;
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
@@ -73,6 +73,7 @@ import org.jetbrains.annotations.Nullable;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.ref.WeakReference;
 import java.net.URLDecoder;
 
 import permissions.dispatcher.NeedsPermission;
@@ -83,24 +84,24 @@ import permissions.dispatcher.PermissionRequest;
 import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
-public class FileSelectActivity extends StylishActivity implements
+public class FileDatabaseSelectActivity extends StylishActivity implements
         CreateFileDialogFragment.DefinePathDialogListener,
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        FileSelectAdapter.FileItemOpenListener,
-        FileSelectAdapter.FileSelectClearListener,
-        FileSelectAdapter.FileInformationShowListener {
+        FileDatabaseHistoryAdapter.FileItemOpenListener,
+        FileDatabaseHistoryAdapter.FileSelectClearListener,
+        FileDatabaseHistoryAdapter.FileInformationShowListener {
 
-    private static final String TAG = "FileSelectActivity";
+    private static final String TAG = "FileDatabaseSelectActivity";
 
     private static final String EXTRA_STAY = "EXTRA_STAY";
 
-    private FileSelectAdapter mAdapter;
+    private FileDatabaseHistoryAdapter mAdapter;
     private View fileListContainer;
     private View createButtonView;
     private View browseButtonView;
     private View openButtonView;
 
-    private RecentFileHistory fileHistory;
+    private FileDatabaseHistory fileDatabaseHistory;
 
     private View fileSelectExpandableButton;
     private ExpandableLayout fileSelectExpandable;
@@ -125,7 +126,7 @@ public class FileSelectActivity extends StylishActivity implements
      */
 
     public static void launchForKeyboardSelection(Activity activity) {
-        KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, new Intent(activity, FileSelectActivity.class));
+        KeyboardHelper.INSTANCE.startActivityForKeyboardSelection(activity, new Intent(activity, FileDatabaseSelectActivity.class));
     }
 
     /*
@@ -137,7 +138,7 @@ public class FileSelectActivity extends StylishActivity implements
     @RequiresApi(api = Build.VERSION_CODES.O)
     public static void launchForAutofillResult(Activity activity, @NonNull AssistStructure assistStructure) {
         AutofillHelper.INSTANCE.startActivityForAutofillResult(activity,
-                new Intent(activity, FileSelectActivity.class),
+                new Intent(activity, FileDatabaseSelectActivity.class),
                 assistStructure);
     }
 
@@ -145,7 +146,7 @@ public class FileSelectActivity extends StylishActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        fileHistory = App.getFileHistory();
+        fileDatabaseHistory = FileDatabaseHistory.Companion.getInstance(new WeakReference<>(getApplicationContext()));
 
         setContentView(R.layout.file_selection);
         fileListContainer = findViewById(R.id.container_file_list);
@@ -189,8 +190,8 @@ public class FileSelectActivity extends StylishActivity implements
         // Create button
         createButtonView = findViewById(R.id.create_database);
         createButtonView .setOnClickListener(v ->
-                FileSelectActivityPermissionsDispatcher
-                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this)
+                FileDatabaseSelectActivityPermissionsDispatcher
+                        .openCreateFileDialogFragmentWithPermissionCheck(FileDatabaseSelectActivity.this)
         );
 
         keyFileHelper = new KeyFileHelper(this);
@@ -199,7 +200,7 @@ public class FileSelectActivity extends StylishActivity implements
                 () -> Uri.parse("file://" + openFileNameView.getText().toString())));
 
         // Construct adapter with listeners
-        mAdapter = new FileSelectAdapter(FileSelectActivity.this, fileHistory.getDbList());
+        mAdapter = new FileDatabaseHistoryAdapter(FileDatabaseSelectActivity.this, fileDatabaseHistory.getDatabaseUriList());
         mAdapter.setOnItemClickListener(this);
         mAdapter.setFileSelectClearListener(this);
         mAdapter.setFileInformationShowListener(this);
@@ -238,7 +239,7 @@ public class FileSelectActivity extends StylishActivity implements
 
     private void fileNoFoundAction(FileNotFoundException e) {
         String error = getString(R.string.file_not_found_content);
-        Toast.makeText(FileSelectActivity.this,
+        Toast.makeText(FileDatabaseSelectActivity.this,
                 error, Toast.LENGTH_LONG).show();
         Log.e(TAG, error, e);
     }
@@ -247,7 +248,7 @@ public class FileSelectActivity extends StylishActivity implements
         EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
                 () -> {
                     try {
-                        PasswordActivity.launch(FileSelectActivity.this,
+                        PasswordActivity.launch(FileDatabaseSelectActivity.this,
                                 fileName, keyFile);
                     } catch (FileNotFoundException e) {
                         fileNoFoundAction(e);
@@ -256,7 +257,7 @@ public class FileSelectActivity extends StylishActivity implements
                 },
                 () -> {
                     try {
-                        PasswordActivity.launchForKeyboardResult(FileSelectActivity.this,
+                        PasswordActivity.launchForKeyboardResult(FileDatabaseSelectActivity.this,
                                 fileName, keyFile);
                         finish();
                     } catch (FileNotFoundException e) {
@@ -267,7 +268,7 @@ public class FileSelectActivity extends StylishActivity implements
                 assistStructure -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         try {
-                            PasswordActivity.launchForAutofillResult(FileSelectActivity.this,
+                            PasswordActivity.launchForAutofillResult(FileDatabaseSelectActivity.this,
                                     fileName, keyFile,
                                     assistStructure);
                         } catch (FileNotFoundException e) {
@@ -320,7 +321,7 @@ public class FileSelectActivity extends StylishActivity implements
     private void checkAndPerformedEducation() {
 
         // If no recent files
-        if ( !fileHistory.hasRecentFiles() ) {
+        if ( !fileDatabaseHistory.hasRecentFiles() ) {
             // Try to open the creation base education
             if (!PreferencesUtil.isEducationCreateDatabasePerformed(this) ) {
 
@@ -336,8 +337,8 @@ public class FileSelectActivity extends StylishActivity implements
                             @Override
                             public void onTargetClick(TapTargetView view) {
                                 super.onTargetClick(view);
-                                FileSelectActivityPermissionsDispatcher
-                                        .openCreateFileDialogFragmentWithPermissionCheck(FileSelectActivity.this);
+                                FileDatabaseSelectActivityPermissionsDispatcher
+                                        .openCreateFileDialogFragmentWithPermissionCheck(FileDatabaseSelectActivity.this);
                             }
 
                             @Override
@@ -348,7 +349,7 @@ public class FileSelectActivity extends StylishActivity implements
                                 checkAndPerformedEducationForSelection();
                             }
                         });
-                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
                         R.string.education_create_db_key);
             }
         }
@@ -366,7 +367,7 @@ public class FileSelectActivity extends StylishActivity implements
             if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
                     && browseButtonView != null) {
 
-                TapTargetView.showFor(FileSelectActivity.this,
+                TapTargetView.showFor(FileDatabaseSelectActivity.this,
                         TapTarget.forView(browseButtonView,
                                 getString(R.string.education_select_database_title),
                                 getString(R.string.education_select_database_summary))
@@ -386,13 +387,13 @@ public class FileSelectActivity extends StylishActivity implements
                                 super.onOuterCircleClick(view);
                                 view.dismiss(false);
 
-                                if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileSelectActivity.this)) {
+                                if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileDatabaseSelectActivity.this)) {
 
-                                    TapTargetView.showFor(FileSelectActivity.this,
+                                    TapTargetView.showFor(FileDatabaseSelectActivity.this,
                                             TapTarget.forView(fileSelectExpandableButton,
                                                     getString(R.string.education_open_link_database_title),
                                                     getString(R.string.education_open_link_database_summary))
-                                                    .icon(ContextCompat.getDrawable(FileSelectActivity.this, R.drawable.ic_link_white_24dp))
+                                                    .icon(ContextCompat.getDrawable(FileDatabaseSelectActivity.this, R.drawable.ic_link_white_24dp))
                                                     .textColorInt(Color.WHITE)
                                                     .tintTarget(true)
                                                     .cancelable(true),
@@ -409,12 +410,12 @@ public class FileSelectActivity extends StylishActivity implements
                                                     view.dismiss(false);
                                                 }
                                             });
-                                    PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                                    PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
                                             R.string.education_open_link_db_key);
                                 }
                             }
                         });
-                PreferencesUtil.saveEducationPreference(FileSelectActivity.this,
+                PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
                         R.string.education_select_db_key);
             }
         }
@@ -431,7 +432,7 @@ public class FileSelectActivity extends StylishActivity implements
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // NOTE: delegate the permission handling to generated method
-        FileSelectActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
+        FileDatabaseSelectActivityPermissionsDispatcher.onRequestPermissionsResult(this, requestCode, grantResults);
     }
 
     @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -457,7 +458,7 @@ public class FileSelectActivity extends StylishActivity implements
         // Make sure file name exists
         if (pathString.length() == 0) {
             Log.e(TAG, getString(R.string.error_filename_required));
-            Toast.makeText(FileSelectActivity.this,
+            Toast.makeText(FileDatabaseSelectActivity.this,
                     R.string.error_filename_required,
                     Toast.LENGTH_LONG).show();
             return false;
@@ -468,7 +469,7 @@ public class FileSelectActivity extends StylishActivity implements
         try {
             if (file.exists()) {
                 Log.e(TAG, getString(R.string.error_database_exists) + " " + file);
-                Toast.makeText(FileSelectActivity.this,
+                Toast.makeText(FileDatabaseSelectActivity.this,
                         R.string.error_database_exists,
                         Toast.LENGTH_LONG).show();
                 return false;
@@ -477,7 +478,7 @@ public class FileSelectActivity extends StylishActivity implements
 
             if ( parent == null || (parent.exists() && ! parent.isDirectory()) ) {
                 Log.e(TAG, getString(R.string.error_invalid_path) + " " + file);
-                Toast.makeText(FileSelectActivity.this,
+                Toast.makeText(FileDatabaseSelectActivity.this,
                         R.string.error_invalid_path,
                         Toast.LENGTH_LONG).show();
                 return false;
@@ -487,7 +488,7 @@ public class FileSelectActivity extends StylishActivity implements
                 // Create parent directory
                 if ( ! parent.mkdirs() ) {
                     Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + parent);
-                    Toast.makeText(FileSelectActivity.this,
+                    Toast.makeText(FileDatabaseSelectActivity.this,
                             R.string.error_could_not_create_parent,
                             Toast.LENGTH_LONG).show();
                     return false;
@@ -499,7 +500,7 @@ public class FileSelectActivity extends StylishActivity implements
             Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + e.getLocalizedMessage());
             e.printStackTrace();
             Toast.makeText(
-                    FileSelectActivity.this,
+                    FileDatabaseSelectActivity.this,
                     getText(R.string.error_file_not_create) + " "
                             + e.getLocalizedMessage(),
                     Toast.LENGTH_LONG).show();
@@ -538,7 +539,7 @@ public class FileSelectActivity extends StylishActivity implements
                         progressTaskUpdater ->
                                 new CreateDatabaseRunnable(databaseFilename, database -> {
                                     // TODO store database created
-                                    return new AssignPasswordInDatabaseRunnable(FileSelectActivity.this,
+                                    return new AssignPasswordInDatabaseRunnable(FileDatabaseSelectActivity.this,
                                             database,
                                             masterPasswordChecked,
                                             masterPassword,
@@ -578,10 +579,10 @@ public class FileSelectActivity extends StylishActivity implements
             runOnUiThread(() -> {
                 if (isSuccess) {
                     // Add database to recent files
-                    fileHistory.createFile(fileURI);
+                    fileDatabaseHistory.addDatabaseUri(fileURI);
                     mAdapter.notifyDataSetChanged();
                     updateFileListVisibility();
-                    GroupActivity.launch(FileSelectActivity.this);
+                    GroupActivity.launch(FileDatabaseSelectActivity.this);
                 } else {
                     Log.e(TAG, "Unable to open the database");
                 }
@@ -601,25 +602,25 @@ public class FileSelectActivity extends StylishActivity implements
         new OpenFileHistoryAsyncTask((fileName, keyFile) -> {
             launchPasswordActivity(fileName, keyFile);
             updateFileListVisibility();
-        }, fileHistory).execute(itemPosition);
+        }, fileDatabaseHistory).execute(itemPosition);
     }
 
     @Override
-    public void onClickFileInformation(FileSelectBean fileSelectBean) {
-        if (fileSelectBean != null) {
+    public void onClickFileInformation(FileDatabaseModel fileDatabaseModel) {
+        if (fileDatabaseModel != null) {
             FileInformationDialogFragment fileInformationDialogFragment =
-                    FileInformationDialogFragment.newInstance(fileSelectBean);
+                    FileInformationDialogFragment.newInstance(fileDatabaseModel);
             fileInformationDialogFragment.show(getSupportFragmentManager(), "fileInformation");
         }
     }
 
     @Override
-    public boolean onFileSelectClearListener(final FileSelectBean fileSelectBean) {
+    public boolean onFileSelectClearListener(final FileDatabaseModel fileDatabaseModel) {
         new DeleteFileHistoryAsyncTask(() -> {
-            fileHistory.deleteFile(fileSelectBean.getFileUri());
+            fileDatabaseHistory.deleteDatabaseUri(fileDatabaseModel.getFileUri());
             mAdapter.notifyDataSetChanged();
             updateFileListVisibility();
-        }, fileHistory, mAdapter).execute(fileSelectBean);
+        }, fileDatabaseHistory, mAdapter).execute(fileDatabaseModel);
         return true;
     }
 
@@ -634,7 +635,7 @@ public class FileSelectActivity extends StylishActivity implements
         keyFileHelper.onActivityResultCallback(requestCode, resultCode, data,
                 uri -> {
                     if (uri != null) {
-                        if (PreferencesUtil.autoOpenSelectedFile(FileSelectActivity.this)) {
+                        if (PreferencesUtil.autoOpenSelectedFile(FileDatabaseSelectActivity.this)) {
                             launchPasswordActivityWithPath(uri.toString());
                         } else {
                             fileSelectExpandable.expand(false);

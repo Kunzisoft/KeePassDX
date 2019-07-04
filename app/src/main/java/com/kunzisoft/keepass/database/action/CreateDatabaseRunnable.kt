@@ -27,14 +27,11 @@ class CreateDatabaseRunnable(private val mFilename: String,
                              val onDatabaseCreate: (database: Database) -> ActionRunnable)
     : ActionRunnable() {
 
-    var database: Database? = null
-
     override fun run() {
         try {
             // Create new database record
-            database = Database(mFilename)
-            App.setDB(database)
-            database?.apply {
+            Database(mFilename).apply {
+                App.currentDatabase = this
                 // Set Database state
                 loaded = true
                 // Commit changes
