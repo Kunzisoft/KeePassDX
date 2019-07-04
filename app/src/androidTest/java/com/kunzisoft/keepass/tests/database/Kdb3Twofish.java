@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.tests.database;
 import android.test.AndroidTestCase;
 
 public class Kdb3Twofish extends AndroidTestCase {
-	public void testReadTwofish() throws Exception {
+    public void testReadTwofish() throws Exception {
 		/*
 		Context ctx = getContext();
 		
@@ -37,5 +37,5 @@ public class Kdb3Twofish extends AndroidTestCase {
 		
 		is.close();
 		*/
-	}
+    }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -22,5 +22,5 @@ package com.kunzisoft.keepass.crypto.finalkey;
 import java.io.IOException;
 
 public abstract class FinalKey {
-	public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
+    public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
 }

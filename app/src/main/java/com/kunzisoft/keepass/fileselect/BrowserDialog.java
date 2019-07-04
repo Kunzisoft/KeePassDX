@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -33,29 +33,29 @@ import com.kunzisoft.keepass.utils.Util;
 
 public class BrowserDialog extends DialogFragment {
 
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		// Get the layout inflater
-		LayoutInflater inflater = getActivity().getLayoutInflater();
-		View root = inflater.inflate(R.layout.browser_install, null);
-		builder.setView(root)
-				.setNegativeButton(R.string.cancel, (dialog, id) -> { });
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View root = inflater.inflate(R.layout.browser_install, null);
+        builder.setView(root)
+                .setNegativeButton(R.string.cancel, (dialog, id) -> { });
 
-		Button market = root.findViewById(R.id.install_market);
-		market.setOnClickListener((view) -> {
-			Util.gotoUrl(getContext(), R.string.filemanager_play_store);
-			dismiss();
-		});
+        Button market = root.findViewById(R.id.install_market);
+        market.setOnClickListener((view) -> {
+            Util.gotoUrl(getContext(), R.string.filemanager_play_store);
+            dismiss();
+        });
 
-		Button web = root.findViewById(R.id.install_web);
-		web.setOnClickListener(view -> {
+        Button web = root.findViewById(R.id.install_web);
+        web.setOnClickListener(view -> {
             Util.gotoUrl(getContext(), R.string.filemanager_f_droid);
             dismiss();
         });
 
-		return builder.create();
-	}
+        return builder.create();
+    }
 
 }

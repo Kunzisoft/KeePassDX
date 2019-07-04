@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -26,14 +26,14 @@ import com.kunzisoft.keepass.R;
 import java.security.SecureRandom;
 
 public class PasswordGenerator {
-	private static final String UPPERCASE_CHARS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	private static final String LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz";
-	private static final String DIGIT_CHARS 	= "0123456789";
-	private static final String MINUS_CHAR	 	= "-";
-	private static final String UNDERLINE_CHAR 	= "_";
-	private static final String SPACE_CHAR 		= " ";
-	private static final String SPECIAL_CHARS 	= "!\"#$%&'*+,./:;=?@\\^`";
-	private static final String BRACKET_CHARS 	= "[]{}()<>";
+    private static final String UPPERCASE_CHARS	= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private static final String LOWERCASE_CHARS = "abcdefghijklmnopqrstuvwxyz";
+    private static final String DIGIT_CHARS 	= "0123456789";
+    private static final String MINUS_CHAR	 	= "-";
+    private static final String UNDERLINE_CHAR 	= "_";
+    private static final String SPACE_CHAR 		= " ";
+    private static final String SPECIAL_CHARS 	= "!\"#$%&'*+,./:;=?@\\^`";
+    private static final String BRACKET_CHARS 	= "[]{}()<>";
 
     // From KeePassXC code https://github.com/keepassxreboot/keepassxc/pull/538
     private String extendedChars() {
@@ -48,14 +48,14 @@ public class PasswordGenerator {
         charSet.append('\u00FF');
         return charSet.toString();
     }
-	
-	private Context cxt;
-	
-	public PasswordGenerator(Context cxt) {
-		this.cxt = cxt;
-	}
-	
-	public String generatePassword(int length,
+
+    private Context cxt;
+
+    public PasswordGenerator(Context cxt) {
+        this.cxt = cxt;
+    }
+
+    public String generatePassword(int length,
                                    boolean upperCase,
                                    boolean lowerCase,
                                    boolean digits,
@@ -65,13 +65,13 @@ public class PasswordGenerator {
                                    boolean specials,
                                    boolean brackets,
                                    boolean extended) throws IllegalArgumentException{
-		// Desired password length is 0 or less
-		if (length <= 0) {
-			throw new IllegalArgumentException(cxt.getString(R.string.error_wrong_length));
-		}
-		
-		// No option has been checked
-		if (    !upperCase
+        // Desired password length is 0 or less
+        if (length <= 0) {
+            throw new IllegalArgumentException(cxt.getString(R.string.error_wrong_length));
+        }
+
+        // No option has been checked
+        if (    !upperCase
                 && !lowerCase
                 && !digits
                 && !minus
@@ -80,11 +80,11 @@ public class PasswordGenerator {
                 && !specials
                 && !brackets
                 && !extended) {
-			throw new IllegalArgumentException(cxt.getString(R.string.error_pass_gen_type));
-		}
-		
-		String characterSet = getCharacterSet(
-		        upperCase,
+            throw new IllegalArgumentException(cxt.getString(R.string.error_pass_gen_type));
+        }
+
+        String characterSet = getCharacterSet(
+                upperCase,
                 lowerCase,
                 digits,
                 minus,
@@ -93,68 +93,68 @@ public class PasswordGenerator {
                 specials,
                 brackets,
                 extended);
-		
-		int size = characterSet.length();
-		
-		StringBuilder buffer = new StringBuilder();
 
-		SecureRandom random = new SecureRandom(); // use more secure variant of Random!
-		if (size > 0) {
-			for (int i = 0; i < length; i++) {
-				char c = characterSet.charAt((char) random.nextInt(size));
-				buffer.append(c);
-			}
-		}
-		return buffer.toString();
-	}
-	
-	private String getCharacterSet(boolean upperCase,
-								  boolean lowerCase,
-								  boolean digits,
-								  boolean minus,
-								  boolean underline,
-								  boolean space,
-								  boolean specials,
-								  boolean brackets,
-                                  boolean extended) {
-		StringBuilder charSet = new StringBuilder();
-		
-		if (upperCase) {
-			charSet.append(UPPERCASE_CHARS);
-		}
-		
-		if (lowerCase) {
-			charSet.append(LOWERCASE_CHARS);
-		}
-		
-		if (digits) {
-			charSet.append(DIGIT_CHARS);
-		}
-		
-		if (minus) {
-			charSet.append(MINUS_CHAR);
-		}
-		
-		if (underline) {
-			charSet.append(UNDERLINE_CHAR);
-		}
-		
-		if (space) {
-			charSet.append(SPACE_CHAR);
-		}
-		
-		if (specials) {
-			charSet.append(SPECIAL_CHARS);
-		}
-		
-		if (brackets) {
-			charSet.append(BRACKET_CHARS);
-		}
+        int size = characterSet.length();
 
-		if (extended) {
+        StringBuilder buffer = new StringBuilder();
+
+        SecureRandom random = new SecureRandom(); // use more secure variant of Random!
+        if (size > 0) {
+            for (int i = 0; i < length; i++) {
+                char c = characterSet.charAt((char) random.nextInt(size));
+                buffer.append(c);
+            }
+        }
+        return buffer.toString();
+    }
+
+    private String getCharacterSet(boolean upperCase,
+                                   boolean lowerCase,
+                                   boolean digits,
+                                   boolean minus,
+                                   boolean underline,
+                                   boolean space,
+                                   boolean specials,
+                                   boolean brackets,
+                                   boolean extended) {
+        StringBuilder charSet = new StringBuilder();
+
+        if (upperCase) {
+            charSet.append(UPPERCASE_CHARS);
+        }
+
+        if (lowerCase) {
+            charSet.append(LOWERCASE_CHARS);
+        }
+
+        if (digits) {
+            charSet.append(DIGIT_CHARS);
+        }
+
+        if (minus) {
+            charSet.append(MINUS_CHAR);
+        }
+
+        if (underline) {
+            charSet.append(UNDERLINE_CHAR);
+        }
+
+        if (space) {
+            charSet.append(SPACE_CHAR);
+        }
+
+        if (specials) {
+            charSet.append(SPECIAL_CHARS);
+        }
+
+        if (brackets) {
+            charSet.append(BRACKET_CHARS);
+        }
+
+        if (extended) {
             charSet.append(extendedChars());
         }
 
-		return charSet.toString();
-	}
+        return charSet.toString();
+    }
 }

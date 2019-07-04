@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -34,18 +34,18 @@ import com.kunzisoft.keepass.R;
 
 public class Util {
 
-	public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {
-		if ( url != null && url.length() > 0 ) {
-			Uri uri = Uri.parse(url);
-			context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
-		}
-	}
-	
-	public static void gotoUrl(Context context, int resId) throws ActivityNotFoundException {
-		gotoUrl(context, context.getString(resId));
-	}
+    public static void gotoUrl(Context context, String url) throws ActivityNotFoundException {
+        if ( url != null && url.length() > 0 ) {
+            Uri uri = Uri.parse(url);
+            context.startActivity(new Intent(Intent.ACTION_VIEW, uri));
+        }
+    }
 
-	/**
+    public static void gotoUrl(Context context, int resId) throws ActivityNotFoundException {
+        gotoUrl(context, context.getString(resId));
+    }
+
+    /**
      * Replace font by monospace, must be called after seText()
      */
     public static void applyFontVisibilityTo(final Context context, final TextView textView) {
@@ -56,28 +56,28 @@ public class Util {
     /**
      * Replace font by monospace, must be called after seText()
      */
-	public static void applyFontVisibilityTo(final Context context, final EditText editText) {
+    public static void applyFontVisibilityTo(final Context context, final EditText editText) {
         applyFontVisibilityTo(context, (TextView) editText);
-	}
+    }
 
-	public static float getListTextDefaultSize(Context context) {
-		return Float.parseFloat(context.getString(R.string.list_size_default));
-	}
+    public static float getListTextDefaultSize(Context context) {
+        return Float.parseFloat(context.getString(R.string.list_size_default));
+    }
 
     public static void lockScreenOrientation(Activity activity) {
-		if (activity != null) {
-			int currentOrientation = activity.getResources().getConfiguration().orientation;
-			if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
+        if (activity != null) {
+            int currentOrientation = activity.getResources().getConfiguration().orientation;
+            if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
                 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-			} else {
+            } else {
                 activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-			}
-		}
-	}
+            }
+        }
+    }
 
     public static void unlockScreenOrientation(Activity activity) {
         if (activity != null) {
             activity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
         }
-	}
+    }
 }

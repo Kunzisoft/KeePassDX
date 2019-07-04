@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -27,18 +27,18 @@ import com.kunzisoft.keepass.tests.database.TestData;
 
 public class PwGroupTest extends AndroidTestCase {
 
-	PwGroupV3 mPG;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		//mPG = (PwGroupV3) TestData.GetTest1(getContext()).getGroups().get(0);
-		
-	}
-	
-	public void testGroupName() {
-		 //assertTrue("Name was " + mPG.getTitle(), mPG.getTitle().equals("Internet"));
-	}
+    PwGroupV3 mPG;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        //mPG = (PwGroupV3) TestData.GetTest1(getContext()).getGroups().get(0);
+
+    }
+
+    public void testGroupName() {
+        //assertTrue("Name was " + mPG.getTitle(), mPG.getTitle().equals("Internet"));
+    }
 }
 

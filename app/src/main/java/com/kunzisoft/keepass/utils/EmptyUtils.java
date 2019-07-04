@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -24,19 +24,19 @@ import android.net.Uri;
 import com.kunzisoft.keepass.database.element.PwDate;
 
 public class EmptyUtils {
-	public static boolean isNullOrEmpty(String str) {
-		return (str == null) || (str.length() == 0);
-	}
-	
-	public static boolean isNullOrEmpty(byte[] buf) {
-		return (buf == null) || (buf.length == 0);
-	}
-	
-	public static boolean isNullOrEmpty(PwDate date) {
-		return (date == null) || date.equals(PwDate.DEFAULT_PWDATE);
-	}
+    public static boolean isNullOrEmpty(String str) {
+        return (str == null) || (str.length() == 0);
+    }
 
-	public static boolean isNullOrEmpty(Uri uri) {
-		return (uri==null) || (uri.toString().length() == 0);
-	}
+    public static boolean isNullOrEmpty(byte[] buf) {
+        return (buf == null) || (buf.length == 0);
+    }
+
+    public static boolean isNullOrEmpty(PwDate date) {
+        return (date == null) || date.equals(PwDate.DEFAULT_PWDATE);
+    }
+
+    public static boolean isNullOrEmpty(Uri uri) {
+        return (uri==null) || (uri.toString().length() == 0);
+    }
 }

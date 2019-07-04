@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -26,11 +26,11 @@ import android.test.AndroidTestCase;
 import java.io.InputStream;
 
 public class Kdb4Header extends AndroidTestCase {
-	public void testReadHeader() throws Exception {
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
+    public void testReadHeader() throws Exception {
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 
 		/*
 		TODO Test
@@ -45,5 +45,5 @@ public class Kdb4Header extends AndroidTestCase {
 		is.close();
 		*/
 
-	}
+    }
 }

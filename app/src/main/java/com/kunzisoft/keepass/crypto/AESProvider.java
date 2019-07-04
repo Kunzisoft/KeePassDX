@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -23,14 +23,14 @@ import java.security.Provider;
 
 public final class AESProvider extends Provider {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -3846349284296062658L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -3846349284296062658L;
 
-	public AESProvider() {
-		super("AESProvider", 1.0, "");
-		put("Cipher.AES",NativeAESCipherSpi.class.getName());
-	}
+    public AESProvider() {
+        super("AESProvider", 1.0, "");
+        put("Cipher.AES",NativeAESCipherSpi.class.getName());
+    }
 
 }

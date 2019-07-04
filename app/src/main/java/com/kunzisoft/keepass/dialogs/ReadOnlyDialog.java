@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -25,14 +25,14 @@ import android.os.Build;
 import com.kunzisoft.keepass.R;
 
 public class ReadOnlyDialog extends WarningDialog {
-	
-	public ReadOnlyDialog(Context context) {
-		super(context, R.string.show_read_only_warning);
-		
-		warning = context.getString(R.string.read_only_warning);
-		
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-			warning = warning.concat("\n\n").concat(context.getString(R.string.read_only_kitkat_warning));
-		}
-	}
+
+    public ReadOnlyDialog(Context context) {
+        super(context, R.string.show_read_only_warning);
+
+        warning = context.getString(R.string.read_only_warning);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            warning = warning.concat("\n\n").concat(context.getString(R.string.read_only_kitkat_warning));
+        }
+    }
 }

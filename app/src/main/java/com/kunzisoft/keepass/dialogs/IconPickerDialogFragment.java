@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -45,16 +45,16 @@ import com.kunzisoft.keepass.stylish.StylishActivity;
 
 public class IconPickerDialogFragment extends DialogFragment {
 
-	public static final String KEY_ICON_STANDARD = "KEY_ICON_STANDARD";
+    public static final String KEY_ICON_STANDARD = "KEY_ICON_STANDARD";
 
-	private IconPickerListener iconPickerListener;
-	private IconPack iconPack;
+    private IconPickerListener iconPickerListener;
+    private IconPack iconPack;
 
-	public static void launch(StylishActivity activity)	{
+    public static void launch(StylishActivity activity)	{
         // Create an instance of the dialog fragment and show it
         IconPickerDialogFragment dialog = new IconPickerDialogFragment();
         dialog.show(activity.getSupportFragmentManager(), "IconPickerDialogFragment");
-	}
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -66,86 +66,86 @@ public class IconPickerDialogFragment extends DialogFragment {
             throw new ClassCastException(context.toString()
                     + " must implement " + IconPickerListener.class.getName());
         }
-	}
+    }
 
-	@NonNull
-	@Override
-	public Dialog onCreateDialog(Bundle savedInstanceState) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		// Get the layout inflater
-		LayoutInflater inflater = getActivity().getLayoutInflater();
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        // Get the layout inflater
+        LayoutInflater inflater = getActivity().getLayoutInflater();
 
-		iconPack = IconPackChooser.getSelectedIconPack(getContext());
+        iconPack = IconPackChooser.getSelectedIconPack(getContext());
 
-		// Inflate and set the layout for the dialog
-		// Pass null as the parent view because its going in the dialog layout
-		View root = inflater.inflate(R.layout.icon_picker, null);
-		builder.setView(root);
+        // Inflate and set the layout for the dialog
+        // Pass null as the parent view because its going in the dialog layout
+        View root = inflater.inflate(R.layout.icon_picker, null);
+        builder.setView(root);
 
-		GridView currIconGridView = root.findViewById(R.id.IconGridView);
-		currIconGridView.setAdapter(new ImageAdapter(this.getContext()));
+        GridView currIconGridView = root.findViewById(R.id.IconGridView);
+        currIconGridView.setAdapter(new ImageAdapter(this.getContext()));
 
-		currIconGridView.setOnItemClickListener((parent, v, position, id) -> {
+        currIconGridView.setOnItemClickListener((parent, v, position, id) -> {
             Bundle bundle = new Bundle();
-			bundle.putParcelable(KEY_ICON_STANDARD, new PwIconStandard(position));
-			iconPickerListener.iconPicked(bundle);
+            bundle.putParcelable(KEY_ICON_STANDARD, new PwIconStandard(position));
+            iconPickerListener.iconPicked(bundle);
             dismiss();
         });
 
         builder.setNegativeButton(R.string.cancel, (dialog, id) ->
-				IconPickerDialogFragment.this.getDialog().cancel());
+                IconPickerDialogFragment.this.getDialog().cancel());
 
-		return builder.create();
-	}
-   
-	public class ImageAdapter extends BaseAdapter {
-		private Context context;
+        return builder.create();
+    }
 
-		ImageAdapter(Context c)	{
-			context = c;
-		}
+    public class ImageAdapter extends BaseAdapter {
+        private Context context;
 
-		public int getCount() {
-			/* Return number of KeePass icons */
-			return iconPack.numberOfIcons();
-		}
-   	
-   		public Object getItem(int position) {
-			return null;
-		}
+        ImageAdapter(Context c)	{
+            context = c;
+        }
 
-		public long getItemId(int position)	{
-			return 0;
-		}
-   	
-		public View getView(int position, View convertView, ViewGroup parent) {
-			View currView;
-			if(convertView == null) {
-				LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        public int getCount() {
+            /* Return number of KeePass icons */
+            return iconPack.numberOfIcons();
+        }
+
+        public Object getItem(int position) {
+            return null;
+        }
+
+        public long getItemId(int position)	{
+            return 0;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View currView;
+            if(convertView == null) {
+                LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 assert li != null;
                 currView = li.inflate(R.layout.icon, parent, false);
-			}
-			else {
-				currView = convertView;
-			}
-			ImageView iv = currView.findViewById(R.id.icon_image);
-			iv.setImageResource(iconPack.iconToResId(position));
+            }
+            else {
+                currView = convertView;
+            }
+            ImageView iv = currView.findViewById(R.id.icon_image);
+            iv.setImageResource(iconPack.iconToResId(position));
 
-			// Assign color if icons are tintable
-			if (iconPack.tintable()) {
-				// Retrieve the textColor to tint the icon
-				int[] attrs = {android.R.attr.textColor};
-				assert getContext() != null;
-				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
-				int iconColor = ta.getColor(0, Color.BLACK);
+            // Assign color if icons are tintable
+            if (iconPack.tintable()) {
+                // Retrieve the textColor to tint the icon
+                int[] attrs = {android.R.attr.textColor};
+                assert getContext() != null;
+                TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
+                int iconColor = ta.getColor(0, Color.BLACK);
                 ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(iconColor));
-			}
+            }
 
-			return currView;
-		}
-   }
+            return currView;
+        }
+    }
 
-   public interface IconPickerListener {
-	    void iconPicked(Bundle bundle);
-   }
+    public interface IconPickerListener {
+        void iconPicked(Bundle bundle);
+    }
 }

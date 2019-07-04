@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -29,46 +29,46 @@ import com.kunzisoft.keepass.stylish.Stylish;
 import java.util.Calendar;
 
 public class App extends MultiDexApplication {
-	private static Database db = null;
-	private static Calendar calendar = null;
-	private static RecentFileHistory fileHistory = null;
-	
-	public static Database getDB() {
-		if ( db == null ) {
-			db = new Database();
-		}
-		return db;
-	}
+    private static Database db = null;
+    private static Calendar calendar = null;
+    private static RecentFileHistory fileHistory = null;
 
-	public static RecentFileHistory getFileHistory() {
-		return fileHistory;
-	}
-	
-	public static void setDB(Database d) {
-		db = d;
-	}
+    public static Database getDB() {
+        if ( db == null ) {
+            db = new Database();
+        }
+        return db;
+    }
 
-	public static Calendar getCalendar() {
-		if ( calendar == null ) {
-			calendar = Calendar.getInstance();
-		}
-		return calendar;
-	}
+    public static RecentFileHistory getFileHistory() {
+        return fileHistory;
+    }
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
+    public static void setDB(Database d) {
+        db = d;
+    }
 
-		Stylish.init(this);
-		fileHistory = new RecentFileHistory(this);
-		PRNGFixes.apply();
-	}
+    public static Calendar getCalendar() {
+        if ( calendar == null ) {
+            calendar = Calendar.getInstance();
+        }
+        return calendar;
+    }
 
-	@Override
-	public void onTerminate() {
-		if ( db != null ) {
-			db.closeAndClear(getApplicationContext());
-		}
-		super.onTerminate();
-	}
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        Stylish.init(this);
+        fileHistory = new RecentFileHistory(this);
+        PRNGFixes.apply();
+    }
+
+    @Override
+    public void onTerminate() {
+        if ( db != null ) {
+            db.closeAndClear(getApplicationContext());
+        }
+        super.onTerminate();
+    }
 }

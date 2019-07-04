@@ -1,6 +1,6 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -39,126 +39,126 @@ import java.util.*;
  */
 public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
 
-	private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
+    private static final int DEFAULT_ENCRYPTION_ROUNDS = 300;
 
-	private int numKeyEncRounds;
+    private int numKeyEncRounds;
 
-	protected PwGroupV3 rootGroup;
+    protected PwGroupV3 rootGroup;
 
     public PwDatabaseV3() {
         algorithm = PwEncryptionAlgorithm.AESRijndael;
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS;
     }
 
-	@Override
-	public String getVersion() {
-		return "KeePass 1";
-	}
+    @Override
+    public String getVersion() {
+        return "KeePass 1";
+    }
 
-	@Override
-	public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
-		List<PwEncryptionAlgorithm> list = new ArrayList<>();
-		list.add(PwEncryptionAlgorithm.AESRijndael);
-		return list;
-	}
+    @Override
+    public List<PwEncryptionAlgorithm> getAvailableEncryptionAlgorithms() {
+        List<PwEncryptionAlgorithm> list = new ArrayList<>();
+        list.add(PwEncryptionAlgorithm.AESRijndael);
+        return list;
+    }
 
-	public List<PwGroupV3> getRootGroups() {
+    public List<PwGroupV3> getRootGroups() {
         List<PwGroupV3> kids = new ArrayList<>();
-		for (Map.Entry<PwNodeId, PwGroupV3> group : groupIndexes.entrySet()) {
-			if (group.getValue().getLevel() == 0)
-				kids.add(group.getValue());
-		}
-		return kids;
-	}
+        for (Map.Entry<PwNodeId, PwGroupV3> group : groupIndexes.entrySet()) {
+            if (group.getValue().getLevel() == 0)
+                kids.add(group.getValue());
+        }
+        return kids;
+    }
 
-	private void assignGroupsChildren(PwGroupV3 parent) {
-		int levelToCheck = parent.getLevel() + 1;
-		boolean startFromParentPosition = false;
-		for (PwGroupV3 groupToCheck: getGroupIndexes()) {
-			if (getRootGroup().getNodeId().equals(parent.getNodeId())
-					|| groupToCheck.getNodeId().equals(parent.getNodeId())) {
-				startFromParentPosition = true;
-			}
-			if (startFromParentPosition) {
-				if (groupToCheck.getLevel() < levelToCheck)
-					break;
-				else if (groupToCheck.getLevel() == levelToCheck)
-					parent.addChildGroup(groupToCheck);
-			}
-		}
-	}
+    private void assignGroupsChildren(PwGroupV3 parent) {
+        int levelToCheck = parent.getLevel() + 1;
+        boolean startFromParentPosition = false;
+        for (PwGroupV3 groupToCheck: getGroupIndexes()) {
+            if (getRootGroup().getNodeId().equals(parent.getNodeId())
+                    || groupToCheck.getNodeId().equals(parent.getNodeId())) {
+                startFromParentPosition = true;
+            }
+            if (startFromParentPosition) {
+                if (groupToCheck.getLevel() < levelToCheck)
+                    break;
+                else if (groupToCheck.getLevel() == levelToCheck)
+                    parent.addChildGroup(groupToCheck);
+            }
+        }
+    }
 
-	private void assignEntriesChildren(PwGroupV3 parent) {
-		for (PwEntryV3 entry : getEntryIndexes()) {
-			if (entry.getParent().getNodeId().equals(parent.getNodeId()))
-				parent.addChildEntry(entry);
-		}
-	}
+    private void assignEntriesChildren(PwGroupV3 parent) {
+        for (PwEntryV3 entry : getEntryIndexes()) {
+            if (entry.getParent().getNodeId().equals(parent.getNodeId()))
+                parent.addChildEntry(entry);
+        }
+    }
 
-	private void constructTreeFromIndex(PwGroupV3 currentGroup) {
+    private void constructTreeFromIndex(PwGroupV3 currentGroup) {
 
-		assignGroupsChildren(currentGroup);
-		assignEntriesChildren(currentGroup);
+        assignGroupsChildren(currentGroup);
+        assignEntriesChildren(currentGroup);
 
-		// set parent in child entries (normally useless but to be sure or to update parent metadata)
-		for (PwEntryV3 childEntry : currentGroup.getChildEntries()) {
-			childEntry.setParent(currentGroup);
-		}
-		// recursively construct child groups
-		for (PwGroupV3 childGroup : currentGroup.getChildGroups()) {
-			childGroup.setParent(currentGroup);
-			constructTreeFromIndex(childGroup);
-		}
-	}
+        // set parent in child entries (normally useless but to be sure or to update parent metadata)
+        for (PwEntryV3 childEntry : currentGroup.getChildEntries()) {
+            childEntry.setParent(currentGroup);
+        }
+        // recursively construct child groups
+        for (PwGroupV3 childGroup : currentGroup.getChildGroups()) {
+            childGroup.setParent(currentGroup);
+            constructTreeFromIndex(childGroup);
+        }
+    }
 
-	public void constructTreeFromIndex() {
-		constructTreeFromIndex(getRootGroup());
-	}
+    public void constructTreeFromIndex() {
+        constructTreeFromIndex(getRootGroup());
+    }
 
-	/**
-	 * Generates an unused random tree id
-	 * 
-	 * @return new tree id
-	 */
-	@Override
-	public PwNodeIdInt newGroupId() {
-		PwNodeIdInt newId;
-		do {
-			newId = new PwNodeIdInt();
-		} while (isGroupIdUsed(newId));
+    /**
+     * Generates an unused random tree id
+     *
+     * @return new tree id
+     */
+    @Override
+    public PwNodeIdInt newGroupId() {
+        PwNodeIdInt newId;
+        do {
+            newId = new PwNodeIdInt();
+        } while (isGroupIdUsed(newId));
 
-		return newId;
-	}
+        return newId;
+    }
 
-	/**
-	 * Generates an unused random tree id
-	 *
-	 * @return new tree id
-	 */
-	@Override
-	public PwNodeIdUUID newEntryId() {
-		PwNodeIdUUID newId;
-		do {
-			newId = new PwNodeIdUUID();
-		} while (isEntryIdUsed(newId));
+    /**
+     * Generates an unused random tree id
+     *
+     * @return new tree id
+     */
+    @Override
+    public PwNodeIdUUID newEntryId() {
+        PwNodeIdUUID newId;
+        do {
+            newId = new PwNodeIdUUID();
+        } while (isEntryIdUsed(newId));
 
-		return newId;
-	}
+        return newId;
+    }
 
-	@Override
-	public byte[] getMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
-			throws InvalidKeyFileException, IOException {
+    @Override
+    public byte[] getMasterKey(@Nullable String key, @Nullable InputStream keyInputStream)
+            throws InvalidKeyFileException, IOException {
 
-	    if (key != null && keyInputStream != null) {
-			return getCompositeKey(key, keyInputStream);
-		} else if (key != null) { // key.length() >= 0
-			return getPasswordKey(key);
-		} else if (keyInputStream != null) { // key == null
-			return getFileKey(keyInputStream);
-		} else {
-			throw new IllegalArgumentException("Key cannot be empty.");
-		}
-	}
+        if (key != null && keyInputStream != null) {
+            return getCompositeKey(key, keyInputStream);
+        } else if (key != null) { // key.length() >= 0
+            return getPasswordKey(key);
+        } else if (keyInputStream != null) { // key == null
+            return getFileKey(keyInputStream);
+        } else {
+            throw new IllegalArgumentException("Key cannot be empty.");
+        }
+    }
 
     /**
      * Encrypt the master key a few times to make brute-force key-search harder
@@ -170,84 +170,84 @@ public class PwDatabaseV3 extends PwDatabase<PwGroupV3, PwEntryV3> {
         return key.transformMasterKey(pKeySeed, pKey, rounds);
     }
 
-	public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
+    public void makeFinalKey(byte[] masterSeed, byte[] masterSeed2, long numRounds) throws IOException {
 
-		// Write checksum Checksum
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("SHA-256");
-		} catch (NoSuchAlgorithmException e) {
-			throw new IOException("SHA-256 not implemented here.");
-		}
-		NullOutputStream nos = new NullOutputStream();
-		DigestOutputStream dos = new DigestOutputStream(nos, md);
+        // Write checksum Checksum
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-256");
+        } catch (NoSuchAlgorithmException e) {
+            throw new IOException("SHA-256 not implemented here.");
+        }
+        NullOutputStream nos = new NullOutputStream();
+        DigestOutputStream dos = new DigestOutputStream(nos, md);
 
-		byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
-		dos.write(masterSeed);
-		dos.write(transformedMasterKey);
+        byte[] transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds);
+        dos.write(masterSeed);
+        dos.write(transformedMasterKey);
 
-		finalKey = md.digest();
-	}
+        finalKey = md.digest();
+    }
 
-	@Override
-	protected String getPasswordEncoding() {
-		return "ISO-8859-1";
-	}
-	
-	@Override
-	protected byte[] loadXmlKeyFile(InputStream keyInputStream) {
-		return null;
-	}
+    @Override
+    protected String getPasswordEncoding() {
+        return "ISO-8859-1";
+    }
+
+    @Override
+    protected byte[] loadXmlKeyFile(InputStream keyInputStream) {
+        return null;
+    }
 
 
-	@Override
-	public long getNumberKeyEncryptionRounds() {
-		return numKeyEncRounds;
-	}
+    @Override
+    public long getNumberKeyEncryptionRounds() {
+        return numKeyEncRounds;
+    }
 
-	@Override
-	public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
-		if (rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE) {
-			throw new NumberFormatException();
-		}
-		numKeyEncRounds = (int) rounds;
-	}
+    @Override
+    public void setNumberKeyEncryptionRounds(long rounds) throws NumberFormatException {
+        if (rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE) {
+            throw new NumberFormatException();
+        }
+        numKeyEncRounds = (int) rounds;
+    }
 
-	@Override
-	public PwGroupV3 createGroup() {
-		return new PwGroupV3();
-	}
+    @Override
+    public PwGroupV3 createGroup() {
+        return new PwGroupV3();
+    }
 
-	public void setRootGroup(PwGroupV3 rootGroup) {
-		this.rootGroup = rootGroup;
-	}
+    public void setRootGroup(PwGroupV3 rootGroup) {
+        this.rootGroup = rootGroup;
+    }
 
-	@Override
-	public PwGroupV3 getRootGroup() {
-		return rootGroup;
-	}
+    @Override
+    public PwGroupV3 getRootGroup() {
+        return rootGroup;
+    }
 
-	@Override
-	public PwEntryV3 createEntry() {
-		return new PwEntryV3();
-	}
+    @Override
+    public PwEntryV3 createEntry() {
+        return new PwEntryV3();
+    }
 
-	@Override
-	public boolean isBackup(PwGroupV3 group) {
-		while (group != null) {
-			if (group.getLevel() == 0 && group.getTitle().equalsIgnoreCase("Backup")) {
-				return true;
-			}
-			group = group.getParent();
-		}
-		return false;
-	}
+    @Override
+    public boolean isBackup(PwGroupV3 group) {
+        while (group != null) {
+            if (group.getLevel() == 0 && group.getTitle().equalsIgnoreCase("Backup")) {
+                return true;
+            }
+            group = group.getParent();
+        }
+        return false;
+    }
 
-	@Override
-	public boolean isGroupSearchable(PwGroupV3 group, boolean omitBackup) {
-		if (!super.isGroupSearchable(group, omitBackup)) {
-			return false;
-		}
-		return !(omitBackup && isBackup(group));
-	}
+    @Override
+    public boolean isGroupSearchable(PwGroupV3 group, boolean omitBackup) {
+        if (!super.isGroupSearchable(group, omitBackup)) {
+            return false;
+        }
+        return !(omitBackup && isBackup(group));
+    }
 }

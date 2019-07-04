@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -48,21 +48,21 @@ public class IconDrawableFactory {
 
     private static final String TAG = IconDrawableFactory.class.getName();
 
-	private static Drawable blank = null;
-	private static int blankWidth = -1;
-	private static int blankHeight = -1;
-	
-	/** customIconMap
-	 *  Cache for icon drawable. 
-	 *  Keys: UUID, Values: Drawables
-	 */
-	private ReferenceMap customIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
-	
-	/** standardIconMap
-	 *  Cache for icon drawable. 
-	 *  Keys: Integer, Values: Drawables
-	 */
-	private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
+    private static Drawable blank = null;
+    private static int blankWidth = -1;
+    private static int blankHeight = -1;
+
+    /** customIconMap
+     *  Cache for icon drawable.
+     *  Keys: UUID, Values: Drawables
+     */
+    private ReferenceMap customIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
+
+    /** standardIconMap
+     *  Cache for icon drawable.
+     *  Keys: Integer, Values: Drawables
+     */
+    private ReferenceMap standardIconMap = new ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK);
 
     /**
      * Assign a default database icon to an ImageView and tint it if needed
@@ -95,19 +95,19 @@ public class IconDrawableFactory {
      * @param icon The icon from the database
      * @param tintColor Use this color to tint tintable icon
      */
-	public void assignDatabaseIconTo(Context context, ImageView iconView, PwIcon icon, int tintColor) {
-		if (IconPackChooser.getSelectedIconPack(context).tintable()) {
+    public void assignDatabaseIconTo(Context context, ImageView iconView, PwIcon icon, int tintColor) {
+        if (IconPackChooser.getSelectedIconPack(context).tintable()) {
             assignDrawableToImageView(getIconDrawable(context, icon, true, tintColor),
                     iconView,
                     true,
                     tintColor);
-		} else {
+        } else {
             assignDrawableToImageView(getIconDrawable(context, icon, true, tintColor),
                     iconView,
                     false,
                     Color.WHITE);
-		}
-	}
+        }
+    }
 
     /**
      *  Assign an image by its resourceId to an ImageView and tint it
@@ -146,9 +146,9 @@ public class IconDrawableFactory {
      * @param icon The icon from database
      * @return The build drawable
      */
-	public Drawable getIconDrawable(Context context, PwIcon icon) {
-		return getIconDrawable(context, icon, false, Color.WHITE).drawable;
-	}
+    public Drawable getIconDrawable(Context context, PwIcon icon) {
+        return getIconDrawable(context, icon, false, Color.WHITE).drawable;
+    }
 
     /**
      * Get the drawable icon from cache or build it and add it to the cache if not exists yet then tint it if needed
@@ -171,27 +171,27 @@ public class IconDrawableFactory {
      * Build a blank drawable
      * @param res Resource to build the drawable
      */
-	private static void initBlank(Resources res) {
-		if (blank==null) {
-			blankWidth = (int) res.getDimension(R.dimen.icon_size);
-			blankHeight = (int) res.getDimension(R.dimen.icon_size);
-			blank = new ColorDrawable(Color.TRANSPARENT);
-			blank.setBounds(0, 0, blankWidth, blankHeight);
-		}
-	}
+    private static void initBlank(Resources res) {
+        if (blank==null) {
+            blankWidth = (int) res.getDimension(R.dimen.icon_size);
+            blankHeight = (int) res.getDimension(R.dimen.icon_size);
+            blank = new ColorDrawable(Color.TRANSPARENT);
+            blank.setBounds(0, 0, blankWidth, blankHeight);
+        }
+    }
 
     /**
      * Key class to retrieve a Drawable in the cache if it's tinted or not
      */
-	private class CacheKey {
-	    int resId;
-	    boolean isTint;
-	    int color;
+    private class CacheKey {
+        int resId;
+        boolean isTint;
+        int color;
 
-	    CacheKey(int resId, boolean isTint, int color) {
-	        this.resId = resId;
-	        this.isTint = isTint;
-	        this.color = color;
+        CacheKey(int resId, boolean isTint, int color) {
+            this.resId = resId;
+            this.isTint = isTint;
+            this.color = color;
         }
 
         @Override
@@ -202,7 +202,7 @@ public class IconDrawableFactory {
             if (isTint)
                 return resId == cacheKey.resId &&
                         cacheKey.isTint &&
-                    color == cacheKey.color;
+                        color == cacheKey.color;
             else
                 return resId == cacheKey.resId &&
                         !cacheKey.isTint;
@@ -218,11 +218,11 @@ public class IconDrawableFactory {
      * @param tintColor Use this color if tint is true
      * @return The drawable
      */
-	private Drawable getIconDrawable(Context context, PwIconStandard icon, boolean isTint, int tintColor) {
-		int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.getIconId());
+    private Drawable getIconDrawable(Context context, PwIconStandard icon, boolean isTint, int tintColor) {
+        int resId = IconPackChooser.getSelectedIconPack(context).iconToResId(icon.getIconId());
 
-		return getIconDrawable(context, resId, isTint, tintColor);
-	}
+        return getIconDrawable(context, resId, isTint, tintColor);
+    }
 
     /**
      * Get the drawable icon from cache or build it and add it to the cache if not exists yet
@@ -257,23 +257,23 @@ public class IconDrawableFactory {
         return draw;
     }
 
-	/**
-	 * Utility class to prevent a custom icon to be tint
-	 */
-	private class SuperDrawable {
-    	Drawable drawable;
-    	boolean custom;
+    /**
+     * Utility class to prevent a custom icon to be tint
+     */
+    private class SuperDrawable {
+        Drawable drawable;
+        boolean custom;
 
-    	SuperDrawable(Drawable drawable) {
-    	    this.drawable = drawable;
-    	    this.custom = false;
+        SuperDrawable(Drawable drawable) {
+            this.drawable = drawable;
+            this.custom = false;
         }
 
         SuperDrawable(Drawable drawable, boolean custom) {
             this.drawable = drawable;
             this.custom = custom;
         }
-	}
+    }
 
     /**
      * Build a custom icon from database
@@ -281,55 +281,55 @@ public class IconDrawableFactory {
      * @param icon Icon from database
      * @return The drawable
      */
-	private Drawable getIconDrawable(Context context, PwIconCustom icon) {
-		initBlank(context.getResources());
-		if (icon == null) {
-			return blank;
-		}
-		
-		Drawable draw = (Drawable) customIconMap.get(icon.getUuid());
-		
-		if (draw == null) {
+    private Drawable getIconDrawable(Context context, PwIconCustom icon) {
+        initBlank(context.getResources());
+        if (icon == null) {
+            return blank;
+        }
 
-			Bitmap bitmap = BitmapFactory.decodeByteArray(icon.getImageData(), 0, icon.getImageData().length);
-			
-			// Could not understand custom icon
-			if (bitmap == null) {
-				return blank;
-			}
-			
-			bitmap = resize(bitmap);
-			
-			draw = new BitmapDrawable(context.getResources(), bitmap);
-			customIconMap.put(icon.getUuid(), draw);
-		}
+        Drawable draw = (Drawable) customIconMap.get(icon.getUuid());
 
-		return draw;
-	}
-	
-	/**
+        if (draw == null) {
+
+            Bitmap bitmap = BitmapFactory.decodeByteArray(icon.getImageData(), 0, icon.getImageData().length);
+
+            // Could not understand custom icon
+            if (bitmap == null) {
+                return blank;
+            }
+
+            bitmap = resize(bitmap);
+
+            draw = new BitmapDrawable(context.getResources(), bitmap);
+            customIconMap.put(icon.getUuid(), draw);
+        }
+
+        return draw;
+    }
+
+    /**
      * Resize the custom icon to match the built in icons
      *
-	 * @param bitmap Bitmap to resize
-	 * @return Bitmap resized
-	 */
-	private Bitmap resize(Bitmap bitmap) {
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		
-		if (width == blankWidth && height == blankHeight) {
-			return bitmap;
-		}
-		
-		return Bitmap.createScaledBitmap(bitmap, blankWidth, blankHeight, true);
-	}
+     * @param bitmap Bitmap to resize
+     * @return Bitmap resized
+     */
+    private Bitmap resize(Bitmap bitmap) {
+        int width = bitmap.getWidth();
+        int height = bitmap.getHeight();
+
+        if (width == blankWidth && height == blankHeight) {
+            return bitmap;
+        }
+
+        return Bitmap.createScaledBitmap(bitmap, blankWidth, blankHeight, true);
+    }
 
     /**
      * Clear the cache of icons
      */
-	public void clearCache() {
-		standardIconMap.clear();
-		customIconMap.clear();
-	}
-	
+    public void clearCache() {
+        standardIconMap.clear();
+        customIconMap.clear();
+    }
+
 }

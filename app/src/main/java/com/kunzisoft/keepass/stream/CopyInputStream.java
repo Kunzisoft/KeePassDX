@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -28,76 +28,76 @@ import java.io.OutputStream;
  * output stream. 
  */
 public class CopyInputStream extends InputStream {
-	private InputStream is;
-	private OutputStream os;
-	
-	public CopyInputStream(InputStream is, OutputStream os) {
-		this.is = is;
-		this.os = os;
-	}
+    private InputStream is;
+    private OutputStream os;
 
-	@Override
-	public int available() throws IOException {
-		return is.available();
-	}
+    public CopyInputStream(InputStream is, OutputStream os) {
+        this.is = is;
+        this.os = os;
+    }
 
-	@Override
-	public void close() throws IOException {
-		is.close();
-		os.close();
-	}
+    @Override
+    public int available() throws IOException {
+        return is.available();
+    }
 
-	@Override
-	public void mark(int readlimit) {
-		is.mark(readlimit);
-	}
+    @Override
+    public void close() throws IOException {
+        is.close();
+        os.close();
+    }
 
-	@Override
-	public boolean markSupported() {
-		return is.markSupported();
-	}
+    @Override
+    public void mark(int readlimit) {
+        is.mark(readlimit);
+    }
 
-	@Override
-	public int read() throws IOException {
-		int data = is.read();
-		
-		if (data != -1) {
-			os.write(data);
-		}
-		
-		return data;
-	}
+    @Override
+    public boolean markSupported() {
+        return is.markSupported();
+    }
 
-	@Override
-	public int read(byte[] b, int offset, int length) throws IOException {
-		int len = is.read(b, offset, length);
-		
-		if (len != -1) {
-			os.write(b, offset, len);
-		}
-		
-		return len;
-	}
+    @Override
+    public int read() throws IOException {
+        int data = is.read();
 
-	@Override
-	public int read(byte[] b) throws IOException {
-		int len = is.read(b);
-		
-		if (len != -1) {
-			os.write(b, 0, len);
-		}
-		
-		return len;
-	}
+        if (data != -1) {
+            os.write(data);
+        }
 
-	@Override
-	public synchronized void reset() throws IOException {
-		is.reset();
-	}
+        return data;
+    }
 
-	@Override
-	public long skip(long byteCount) throws IOException {
-		return is.skip(byteCount);
-	}
+    @Override
+    public int read(byte[] b, int offset, int length) throws IOException {
+        int len = is.read(b, offset, length);
+
+        if (len != -1) {
+            os.write(b, offset, len);
+        }
+
+        return len;
+    }
+
+    @Override
+    public int read(byte[] b) throws IOException {
+        int len = is.read(b);
+
+        if (len != -1) {
+            os.write(b, 0, len);
+        }
+
+        return len;
+    }
+
+    @Override
+    public synchronized void reset() throws IOException {
+        is.reset();
+    }
+
+    @Override
+    public long skip(long byteCount) throws IOException {
+        return is.skip(byteCount);
+    }
 
 }

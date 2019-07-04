@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -24,15 +24,15 @@ import junit.framework.TestCase;
 import com.kunzisoft.keepass.database.element.PwDate;
 
 public class PwDateTest extends TestCase {
-	public void testDate() {
-		PwDate jDate = new PwDate(System.currentTimeMillis());
-		
-		PwDate intermediate = new PwDate(jDate);
-		
-		PwDate cDate = new PwDate(intermediate.getCDate(), 0);
-		
-		assertTrue("jDate and intermediate not equal", jDate.equals(intermediate));
-		assertTrue("jDate and cDate not equal", cDate.equals(jDate));
-		
-	}
+    public void testDate() {
+        PwDate jDate = new PwDate(System.currentTimeMillis());
+
+        PwDate intermediate = new PwDate(jDate);
+
+        PwDate cDate = new PwDate(intermediate.getCDate(), 0);
+
+        assertTrue("jDate and intermediate not equal", jDate.equals(intermediate));
+        assertTrue("jDate and cDate not equal", cDate.equals(jDate));
+
+    }
 }

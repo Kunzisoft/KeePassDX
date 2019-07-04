@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -25,15 +25,15 @@ import android.app.backup.SharedPreferencesBackupHelper;
 
 @SuppressLint("NewApi")
 public class SettingsBackupAgent extends BackupAgentHelper {
-	
-	private static final String PREFS_BACKUP_KEY = "prefs";
-	
-	@Override
-	public void onCreate() {
-		String defaultPrefs = this.getPackageName() + "_preferences";
-		
-		SharedPreferencesBackupHelper prefHelper = new SharedPreferencesBackupHelper(this, defaultPrefs);
-		addHelper(PREFS_BACKUP_KEY, prefHelper);
-	}
+
+    private static final String PREFS_BACKUP_KEY = "prefs";
+
+    @Override
+    public void onCreate() {
+        String defaultPrefs = this.getPackageName() + "_preferences";
+
+        SharedPreferencesBackupHelper prefHelper = new SharedPreferencesBackupHelper(this, defaultPrefs);
+        addHelper(PREFS_BACKUP_KEY, prefHelper);
+    }
 
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -20,27 +20,27 @@
 package com.kunzisoft.keepass.crypto;
 
 public class NativeLib {
-	private static boolean isLoaded = false;
-	private static boolean loadSuccess = false;
-	
-	public static boolean loaded() {
-		return init();
-	}
-	
-	public static boolean init() {
-		if ( ! isLoaded ) {
-			try {
-				System.loadLibrary("final-key");
-				System.loadLibrary("argon2");
-			} catch ( UnsatisfiedLinkError e) {
-				return false;
-			}
-			isLoaded = true;
-			loadSuccess = true;
-		}
-		
-		return loadSuccess;
-		
-	}
+    private static boolean isLoaded = false;
+    private static boolean loadSuccess = false;
+
+    public static boolean loaded() {
+        return init();
+    }
+
+    public static boolean init() {
+        if ( ! isLoaded ) {
+            try {
+                System.loadLibrary("final-key");
+                System.loadLibrary("argon2");
+            } catch ( UnsatisfiedLinkError e) {
+                return false;
+            }
+            isLoaded = true;
+            loadSuccess = true;
+        }
+
+        return loadSuccess;
+
+    }
 
 }
