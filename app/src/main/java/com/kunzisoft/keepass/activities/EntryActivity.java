@@ -452,7 +452,7 @@ public class EntryActivity extends LockingHideActivity {
                 gotoUrl.setVisible(false);
             } else {
                 String url = mEntry.getUrl();
-                if (EmptyUtils.isNullOrEmpty(url)) {
+                if (EmptyUtils.INSTANCE.isNullOrEmpty(url)) {
                     // disable button if url is not available
                     gotoUrl.setVisible(false);
                 }

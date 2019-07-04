@@ -26,11 +26,8 @@ import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.fileselect.RecentFileHistory;
 import com.kunzisoft.keepass.stylish.Stylish;
 
-import java.util.Calendar;
-
 public class App extends MultiDexApplication {
     private static Database db = null;
-    private static Calendar calendar = null;
     private static RecentFileHistory fileHistory = null;
 
     public static Database getDB() {
@@ -46,13 +43,6 @@ public class App extends MultiDexApplication {
 
     public static void setDB(Database d) {
         db = d;
-    }
-
-    public static Calendar getCalendar() {
-        if ( calendar == null ) {
-            calendar = Calendar.getInstance();
-        }
-        return calendar;
     }
 
     @Override

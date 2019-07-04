@@ -131,7 +131,7 @@ public class PasswordActivity extends StylishActivity
     }
 
 	private static void verifyFileNameUriFromLaunch(String fileName) throws FileNotFoundException {
-		if (EmptyUtils.isNullOrEmpty(fileName)) {
+		if (EmptyUtils.INSTANCE.isNullOrEmpty(fileName)) {
 			throw new FileNotFoundException();
 		}
 
@@ -139,7 +139,7 @@ public class PasswordActivity extends StylishActivity
 		assert uri != null;
 		String scheme = uri.getScheme();
 
-		if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+		if (!EmptyUtils.INSTANCE.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
 			File dbFile = new File(uri.getPath());
 			if (!dbFile.exists()) {
 				throw new FileNotFoundException();
@@ -471,7 +471,7 @@ public class PasswordActivity extends StylishActivity
         // Retrieve settings for default database
         String defaultFilename = prefs.getString(KEY_DEFAULT_FILENAME, "");
         if (mDbUri!=null
-                && !EmptyUtils.isNullOrEmpty(mDbUri.getPath())
+                && !EmptyUtils.INSTANCE.isNullOrEmpty(mDbUri.getPath())
                 && UriUtil.equalsDefaultfile(mDbUri, defaultFilename)) {
             checkboxDefaultDatabaseView.setChecked(true);
         }

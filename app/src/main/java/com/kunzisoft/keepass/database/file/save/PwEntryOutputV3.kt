@@ -89,16 +89,16 @@ class PwEntryOutputV3
         length += addlLen.toLong()
 
         // Create date
-        writeDate(CREATE_FIELD_TYPE, mPE.creationTime.cDate)
+        writeDate(CREATE_FIELD_TYPE, mPE.creationTime.byteArrayDate)
 
         // Modification date
-        writeDate(MOD_FIELD_TYPE, mPE.lastModificationTime.cDate)
+        writeDate(MOD_FIELD_TYPE, mPE.lastModificationTime.byteArrayDate)
 
         // Access date
-        writeDate(ACCESS_FIELD_TYPE, mPE.lastAccessTime.cDate)
+        writeDate(ACCESS_FIELD_TYPE, mPE.lastAccessTime.byteArrayDate)
 
         // Expiration date
-        writeDate(EXPIRE_FIELD_TYPE, mPE.expiryTime.cDate)
+        writeDate(EXPIRE_FIELD_TYPE, mPE.expiryTime.byteArrayDate)
 
         // Binary desc
         mOS.write(BINARY_DESC_FIELD_TYPE)

@@ -49,22 +49,22 @@ class PwGroupOutputV3
         // Create date
         mOS.write(CREATE_FIELD_TYPE)
         mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.creationTime.cDate)
+        mOS.write(mPG.creationTime.byteArrayDate)
 
         // Modification date
         mOS.write(MOD_FIELD_TYPE)
         mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.lastModificationTime.cDate)
+        mOS.write(mPG.lastModificationTime.byteArrayDate)
 
         // Access date
         mOS.write(ACCESS_FIELD_TYPE)
         mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.lastAccessTime.cDate)
+        mOS.write(mPG.lastAccessTime.byteArrayDate)
 
         // Expiration date
         mOS.write(EXPIRE_FIELD_TYPE)
         mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.expiryTime.cDate)
+        mOS.write(mPG.expiryTime.byteArrayDate)
 
         // Image ID
         mOS.write(IMAGEID_FIELD_TYPE)

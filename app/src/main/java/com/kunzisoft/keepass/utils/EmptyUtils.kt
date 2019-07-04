@@ -17,22 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.tests;
+package com.kunzisoft.keepass.utils
 
-import junit.framework.TestCase;
+import android.net.Uri
 
-import com.kunzisoft.keepass.database.element.PwDate;
+import com.kunzisoft.keepass.database.element.PwDate
 
-public class PwDateTest extends TestCase {
-    public void testDate() {
-        PwDate jDate = new PwDate(System.currentTimeMillis());
+object EmptyUtils {
+    fun isNullOrEmpty(str: String?): Boolean {
+        return str == null || str.isEmpty()
+    }
 
-        PwDate intermediate = new PwDate(jDate);
+    fun isNullOrEmpty(buf: ByteArray?): Boolean {
+        return buf == null || buf.isEmpty()
+    }
 
-        PwDate cDate = new PwDate(intermediate.getCDate(), 0);
+    fun isNullOrEmpty(date: PwDate?): Boolean {
+        return date == null || date == PwDate.DEFAULT_PWDATE
+    }
 
-        assertTrue("jDate and intermediate not equal", jDate.equals(intermediate));
-        assertTrue("jDate and cDate not equal", cDate.equals(jDate));
-
+    fun isNullOrEmpty(uri: Uri?): Boolean {
+        return uri == null || uri.toString().isEmpty()
     }
 }

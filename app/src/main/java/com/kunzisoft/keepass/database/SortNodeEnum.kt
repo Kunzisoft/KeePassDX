@@ -111,7 +111,7 @@ enum class SortNodeEnum {
                     object1,
                     object2,
                     object1.creationTime.date
-                            .compareTo(object2.creationTime.date))
+                            ?.compareTo(object2.creationTime.date) ?: 0)
         }
     }
 
@@ -128,7 +128,7 @@ enum class SortNodeEnum {
                     object1,
                     object2,
                     object1.lastModificationTime.date
-                            .compareTo(object2.lastModificationTime.date))
+                            ?.compareTo(object2.lastModificationTime.date) ?: 0)
         }
     }
 
@@ -145,7 +145,7 @@ enum class SortNodeEnum {
                     object1,
                     object2,
                     object1.lastAccessTime.date
-                            .compareTo(object2.lastAccessTime.date))
+                            ?.compareTo(object2.lastAccessTime.date) ?: 0)
         }
     }
 
@@ -186,7 +186,7 @@ enum class SortNodeEnum {
                 return 0
 
             val groupCreationComp = object1.creationTime.date
-                    .compareTo(object2.creationTime.date)
+                    ?.compareTo(object2.creationTime.date) ?: 0
             // If same creation, can be different
             return if (groupCreationComp == 0) {
                 object1.hashCode() - object2.hashCode()
@@ -205,7 +205,7 @@ enum class SortNodeEnum {
                 return 0
 
             val groupLastModificationComp = object1.lastModificationTime.date
-                    .compareTo(object2.lastModificationTime.date)
+                    ?.compareTo(object2.lastModificationTime.date) ?: 0
             // If same creation, can be different
             return if (groupLastModificationComp == 0) {
                 object1.hashCode() - object2.hashCode()
@@ -224,7 +224,7 @@ enum class SortNodeEnum {
                 return 0
 
             val groupLastAccessComp = object1.lastAccessTime.date
-                    .compareTo(object2.lastAccessTime.date)
+                    ?.compareTo(object2.lastAccessTime.date) ?: 0
             // If same creation, can be different
             return if (groupLastAccessComp == 0) {
                 object1.hashCode() - object2.hashCode()
@@ -261,7 +261,7 @@ enum class SortNodeEnum {
                 return 0
 
             val entryCreationComp = object1.creationTime.date
-                    .compareTo(object2.creationTime.date)
+                    ?.compareTo(object2.creationTime.date) ?: 0
             // If same creation, can be different
             return if (entryCreationComp == 0) {
                 object1.hashCode() - object2.hashCode()
@@ -280,7 +280,7 @@ enum class SortNodeEnum {
                 return 0
 
             val entryLastModificationComp = object1.lastModificationTime.date
-                    .compareTo(object2.lastModificationTime.date)
+                    ?.compareTo(object2.lastModificationTime.date) ?: 0
             // If same creation, can be different
             return if (entryLastModificationComp == 0) {
                 object1.hashCode() - object2.hashCode()
@@ -299,7 +299,7 @@ enum class SortNodeEnum {
                 return 0
 
             val entryLastAccessComp = object1.lastAccessTime.date
-                    .compareTo(object2.lastAccessTime.date)
+                    ?.compareTo(object2.lastAccessTime.date) ?: 0
             // If same creation, can be different
             return if (entryLastAccessComp == 0) {
                 object1.hashCode() - object2.hashCode()

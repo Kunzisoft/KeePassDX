@@ -218,7 +218,7 @@ public class FileSelectActivity extends StylishActivity implements
                 if (dbUri != null)
                     scheme = dbUri.getScheme();
 
-                if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
+                if (!EmptyUtils.INSTANCE.isNullOrEmpty(scheme) && scheme.equalsIgnoreCase("file")) {
                     String path = dbUri.getPath();
                     File db = new File(path);
 
