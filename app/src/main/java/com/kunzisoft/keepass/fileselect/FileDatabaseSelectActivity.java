@@ -91,7 +91,7 @@ public class FileDatabaseSelectActivity extends StylishActivity implements
         FileDatabaseHistoryAdapter.FileSelectClearListener,
         FileDatabaseHistoryAdapter.FileInformationShowListener {
 
-    private static final String TAG = "FileDatabaseSelectActivity";
+    private static final String TAG = "FileDbSelectActivity";
 
     private static final String EXTRA_STAY = "EXTRA_STAY";
 
