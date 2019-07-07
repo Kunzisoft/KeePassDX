@@ -48,11 +48,11 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
         incrementEntry = 0
         database.rootGroup?.doForEachChild(
                 object : NodeHandler<EntryVersioned>() {
-                    override fun operate(entry: EntryVersioned): Boolean {
+                    override fun operate(node: EntryVersioned): Boolean {
                         if (incrementEntry >= max)
                             return false
-                        if (entryContainsString(entry, finalQStr, loc)) {
-                            searchGroup?.addChildEntry(entry)
+                        if (entryContainsString(node, finalQStr, loc)) {
+                            searchGroup?.addChildEntry(node)
                             incrementEntry++
                         }
                         // Stop searching when we have max entries
