@@ -139,6 +139,7 @@ public class IconPickerDialogFragment extends DialogFragment {
                 TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
                 int iconColor = ta.getColor(0, Color.BLACK);
                 ImageViewCompat.setImageTintList(iv, ColorStateList.valueOf(iconColor));
+                ta.recycle();
             }
 
             return currView;

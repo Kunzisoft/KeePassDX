@@ -98,10 +98,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 setReadOnly(readOnly)
                 setIsASearchResult(isASearchResult)
                 setOnNodeClickListener(nodeClickCallback)
-                nodeMenuListener?.let { menuListener ->
-                    setActivateContextMenu(true)
-                    setNodeMenuListener(menuListener)
-                }
+                setActivateContextMenu(true)
+                setNodeMenuListener(nodeMenuListener)
             }
             prefs = PreferenceManager.getDefaultSharedPreferences(context)
         }
@@ -150,7 +148,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     fun rebuildList() {
         // Add elements to the list
-        mainGroup?.let {
+        mainGroup?.let { mainGroup ->
             mAdapter?.rebuildList(mainGroup)
         }
         listView?.apply {
@@ -172,7 +170,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
         // Tell the adapter to refresh it's list
         mAdapter?.notifyChangeSort(sortNodeEnum, ascending, groupsBefore)
-        mAdapter?.rebuildList(mainGroup)
+        mainGroup?.let { mainGroup ->
+            mAdapter?.rebuildList(mainGroup)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -224,7 +224,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                             mAdapter?.addNode(newNode)
                         if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
                             //mAdapter.updateLastNodeRegister(newNode);
-                            mAdapter?.rebuildList(mainGroup)
+                            mainGroup?.let { mainGroup ->
+                                mAdapter?.rebuildList(mainGroup)
+                            }
                         }
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }

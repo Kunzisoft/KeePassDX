@@ -81,7 +81,14 @@ import com.kunzisoft.keepass.view.AddNodeButtonView
 
 import net.cachapa.expandablelayout.ExpandableLayout
 
-class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListener, IconPickerDialogFragment.IconPickerListener, NodeAdapter.NodeMenuListener, ListNodesFragment.OnScrollListener, AssignMasterKeyDialogFragment.AssignPasswordDialogListener, NodeAdapter.NodeClickCallback, SortDialogFragment.SortSelectionListener {
+class GroupActivity : LockingActivity(),
+        GroupEditDialogFragment.EditGroupListener,
+        IconPickerDialogFragment.IconPickerListener,
+        NodeAdapter.NodeMenuListener,
+        ListNodesFragment.OnScrollListener,
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
+        NodeAdapter.NodeClickCallback,
+        SortDialogFragment.SortSelectionListener {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -176,9 +183,9 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
         }
 
         // Retrieve the textColor to tint the icon
-        iconColor = theme
-                .obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-                .getColor(0, Color.WHITE)
+        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        iconColor = taTextColor.getColor(0, Color.WHITE)
+        taTextColor.recycle()
 
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
         if (currentGroupIsASearch)
@@ -209,7 +216,9 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
         }
 
         // Search suggestion
-        searchSuggestionAdapter = SearchEntryCursorAdapter(this, mDatabase)
+        mDatabase?.let { database ->
+            searchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
+        }
 
         Log.i(TAG, "Finished creating tree")
     }
@@ -631,7 +640,9 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
                 setOnSuggestionListener(object : SearchView.OnSuggestionListener {
                     override fun onSuggestionClick(position: Int): Boolean {
                         searchSuggestionAdapter?.let { searchAdapter ->
-                            onNodeClick(searchAdapter.getEntryFromPosition(position))
+                            searchAdapter.getEntryFromPosition(position)?.let { entry ->
+                                onNodeClick(entry)
+                            }
                         }
                         return true
                     }

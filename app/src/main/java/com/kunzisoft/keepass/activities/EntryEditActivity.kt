@@ -129,9 +129,9 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         mDatabase = App.currentDatabase
 
         // Retrieve the textColor to tint the icon
-        iconColor = theme
-                .obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-                .getColor(0, Color.WHITE)
+        val taIconColor = theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+        iconColor = taIconColor.getColor(0, Color.WHITE)
+        taIconColor.recycle()
 
         mSelectedIconStandard = mDatabase?.iconFactory?.unknownIcon
 

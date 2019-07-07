@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,19 +17,18 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.adapters;
+package com.kunzisoft.keepass.adapters
 
-import android.view.View;
+import android.view.View
 
-import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.R
 
-class EntryViewHolder extends BasicViewHolder {
+internal class GroupViewHolder(itemView: View) : BasicViewHolder(itemView) {
 
-    EntryViewHolder(View itemView) {
-        super(itemView);
-        container = itemView.findViewById(R.id.entry_container);
-        icon = itemView.findViewById(R.id.entry_icon);
-        text = itemView.findViewById(R.id.entry_text);
-        subText = itemView.findViewById(R.id.entry_subtext);
+    init {
+        container = itemView.findViewById(R.id.group_container)
+        icon = itemView.findViewById(R.id.group_icon)
+        text = itemView.findViewById(R.id.group_text)
+        subText = itemView.findViewById(R.id.group_subtext)
     }
 }

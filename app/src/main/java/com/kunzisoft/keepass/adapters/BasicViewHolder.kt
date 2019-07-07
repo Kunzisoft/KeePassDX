@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,19 +17,17 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.adapters;
+package com.kunzisoft.keepass.adapters
 
-import android.view.View;
+import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 
-import com.kunzisoft.keepass.R;
+abstract class BasicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-class GroupViewHolder extends BasicViewHolder {
-
-    GroupViewHolder(View itemView) {
-        super(itemView);
-        container = itemView.findViewById(R.id.group_container);
-        icon = itemView.findViewById(R.id.group_icon);
-        text = itemView.findViewById(R.id.group_text);
-        subText = itemView.findViewById(R.id.group_subtext);
-    }
+    var container: View? = null
+    var icon: ImageView? = null
+    var text: TextView? = null
+    var subText: TextView? = null
 }

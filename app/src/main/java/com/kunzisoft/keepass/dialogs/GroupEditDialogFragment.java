@@ -116,6 +116,7 @@ public class GroupEditDialogFragment extends DialogFragment
         int[] attrs = {android.R.attr.textColorPrimary};
         TypedArray ta = getActivity().getTheme().obtainStyledAttributes(attrs);
         iconColor = ta.getColor(0, Color.WHITE);
+        ta.recycle();
 
         // Init elements
         database = App.Companion.getCurrentDatabase();

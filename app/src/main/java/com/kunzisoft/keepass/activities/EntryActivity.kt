@@ -99,9 +99,9 @@ class EntryActivity : LockingHideActivity() {
         mEntry?.touch(modified = false, touchParents = false)
 
         // Retrieve the textColor to tint the icon
-        iconColor = theme.
-                obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-                .getColor(0, Color.WHITE)
+        val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        iconColor = taIconColor.getColor(0, Color.WHITE)
+        taIconColor.recycle()
 
         // Refresh Menu contents in case onCreateMenuOptions was called before mEntry was set
         invalidateOptionsMenu()

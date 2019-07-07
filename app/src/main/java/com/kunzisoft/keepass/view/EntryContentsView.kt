@@ -81,7 +81,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
 
         val attrColorAccent = intArrayOf(R.attr.colorAccentCompat)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
-        this.colorAccent = taColorAccent.getColor(0, Color.BLACK)
+        colorAccent = taColorAccent.getColor(0, Color.BLACK)
         taColorAccent.recycle()
     }
 
