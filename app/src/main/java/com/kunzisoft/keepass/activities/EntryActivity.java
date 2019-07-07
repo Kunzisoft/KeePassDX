@@ -37,8 +37,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
+
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
@@ -46,6 +45,7 @@ import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.database.element.EntryVersioned;
 import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.security.ProtectedString;
+import com.kunzisoft.keepass.education.EntryActivityEducation;
 import com.kunzisoft.keepass.notifications.NotificationCopyingService;
 import com.kunzisoft.keepass.notifications.NotificationField;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
@@ -240,79 +240,6 @@ public class EntryActivity extends LockingHideActivity {
         firstLaunchOfActivity = false;
     }
 
-    /**
-     * Check and display learning views
-     * Displays the explanation for copying a field and editing an entry
-     */
-    private void checkAndPerformedEducation(Menu menu) {
-        if (PreferencesUtil.isEducationScreensEnabled(this)) {
-
-            if (entryContentsView != null && entryContentsView.isUserNamePresent()
-                    && !PreferencesUtil.isEducationCopyUsernamePerformed(this)) {
-                TapTargetView.showFor(this,
-                        TapTarget.forView(findViewById(R.id.entry_user_name_action_image),
-                                getString(R.string.education_field_copy_title),
-                                getString(R.string.education_field_copy_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
-                                        getString(R.string.copy_field, getString(R.string.entry_user_name)));
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                                // Launch autofill settings
-                                startActivity(new Intent(EntryActivity.this, SettingsAutofillActivity.class));
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_copy_username_key);
-
-            } else if (!PreferencesUtil.isEducationEntryEditPerformed(this)) {
-
-                try {
-                    TapTargetView.showFor(this,
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_edit,
-                                    getString(R.string.education_entry_edit_title),
-                                    getString(R.string.education_entry_edit_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(true)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    MenuItem editItem = menu.findItem(R.id.menu_edit);
-                                    onOptionsItemSelected(editItem);
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                    // Open Keepass doc to create field references
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW,
-                                            Uri.parse(getString(R.string.field_references_url)));
-                                    startActivity(browserIntent);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_entry_edit_key);
-                } catch (Exception e) {
-                    // If icon not visible
-                    Log.w(TAG, "Can't performed education for entry's edition");
-                }
-            }
-        }
-    }
-
 	protected void fillData() {
 		Database database = App.Companion.getCurrentDatabase();
 		database.startManageEntry(mEntry);
@@ -460,10 +387,44 @@ public class EntryActivity extends LockingHideActivity {
         }
 
         // Show education views
-        new Handler().post(() -> checkAndPerformedEducation(menu));
-		
+        new Handler().post(() -> performedNextEducation(new EntryActivityEducation(this), menu));
+
 		return true;
 	}
+
+	private void performedNextEducation(EntryActivityEducation entryActivityEducation,
+                                        Menu menu) {
+        if (entryContentsView != null
+            && entryContentsView.isUserNamePresent()
+            && entryActivityEducation.checkAndPerformedEntryCopyEducation(
+                    findViewById(R.id.entry_user_name_action_image),
+                    tapTargetView -> {
+                        clipboardHelper.timeoutCopyToClipboard(mEntry.getUsername(),
+                                getString(R.string.copy_field,
+                                        getString(R.string.entry_user_name)));
+                        return null;
+                    },
+                    tapTargetView -> {
+                        // Launch autofill settings
+                        startActivity(new Intent(EntryActivity.this, SettingsAutofillActivity.class));
+                        return null;
+                    })
+        );
+        else if (toolbar.findViewById(R.id.menu_edit) != null
+                && entryActivityEducation.checkAndPerformedEntryEditEducation(
+                        toolbar.findViewById(R.id.menu_edit),
+                        tapTargetView -> {
+                            onOptionsItemSelected(menu.findItem(R.id.menu_edit));
+                            return null;
+                        },
+                        tapTargetView -> {
+                            // Open Keepass doc to create field references
+                            startActivity(new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse(getString(R.string.field_references_url))));
+                            return null;
+                        })
+        );
+    }
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {

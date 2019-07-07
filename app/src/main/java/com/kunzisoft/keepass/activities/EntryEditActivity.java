@@ -24,12 +24,20 @@ import android.content.Intent;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.*;
-import android.widget.*;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+import android.widget.Toast;
+
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity;
 import com.kunzisoft.keepass.app.App;
@@ -37,16 +45,24 @@ import com.kunzisoft.keepass.database.action.node.ActionNodeValues;
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable;
-import com.kunzisoft.keepass.database.element.*;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.EntryVersioned;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
+import com.kunzisoft.keepass.database.element.PwDate;
+import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwIconStandard;
+import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment;
 import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
+import com.kunzisoft.keepass.education.EntryEditActivityEducation;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.timeout.TimeoutHelper;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.Util;
 import com.kunzisoft.keepass.view.EntryEditCustomField;
+
 import org.jetbrains.annotations.NotNull;
 
 import static com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD;
@@ -89,6 +105,9 @@ public class EntryEditActivity extends LockingHideActivity
     private View addNewFieldView;
     private View saveView;
     private int iconColor;
+
+    // Education
+    private EntryEditActivityEducation entryEditActivityEducation;
 
 	/**
 	 * Launch EntryEditActivity to update an existing entry
@@ -218,8 +237,33 @@ public class EntryEditActivity extends LockingHideActivity
         }
 
         // Verify the education views
-        checkAndPerformedEducation();
-	}
+        entryEditActivityEducation = new EntryEditActivityEducation(this);
+        new Handler().post(() -> performedNextEducation(entryEditActivityEducation));
+    }
+
+    private void performedNextEducation(EntryEditActivityEducation entryEditActivityEducation) {
+        if (entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                generatePasswordView,
+                tapTargetView -> {
+                    openPasswordGenerator();
+                    return null;
+                },
+                tapTargetView -> {
+                    performedNextEducation(entryEditActivityEducation);
+                    return null;
+                }
+        ));
+        else if (mEntry.allowExtraFields()
+                && !mEntry.containsCustomFields()
+                && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
+                    addNewFieldView,
+                    tapTargetView -> {
+                        addNewCustomField();
+                        return null;
+                    },
+                    tapTargetView -> null)
+        );
+    }
 
     /**
      * Open the password generator fragment
@@ -283,65 +327,7 @@ public class EntryEditActivity extends LockingHideActivity
         new Thread(task).start();
     }
 
-    /**
-     * Check and display learning views
-     * Displays the explanation for the icon selection, the password generator and for a new field
-     */
-    private void checkAndPerformedEducation() {
-        if (PreferencesUtil.isEducationScreensEnabled(this)) {
-            // TODO Show icon
 
-            if (!PreferencesUtil.isEducationPasswordGeneratorPerformed(this)) {
-                TapTargetView.showFor(this,
-                        TapTarget.forView(generatePasswordView,
-                                getString(R.string.education_generate_password_title),
-                                getString(R.string.education_generate_password_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                openPasswordGenerator();
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_password_generator_key);
-            } else if (mEntry.allowExtraFields()
-                    && !mEntry.containsCustomFields()
-                    && !PreferencesUtil.isEducationEntryNewFieldPerformed(this)) {
-                TapTargetView.showFor(this,
-                        TapTarget.forView(addNewFieldView,
-                                getString(R.string.education_entry_new_field_title),
-                                getString(R.string.education_entry_new_field_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                addNewCustomField();
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_entry_new_field_key);
-            }
-        }
-    }
 
     /**
      * Utility class to retrieve a validation or an error with a message
@@ -549,7 +535,7 @@ public class EntryEditActivity extends LockingHideActivity
         entryPasswordView.setText(generatedPassword);
         entryConfirmationPasswordView.setText(generatedPassword);
 
-        checkAndPerformedEducation();
+        new Handler().post(() -> performedNextEducation(entryEditActivityEducation));
     }
 
     @Override

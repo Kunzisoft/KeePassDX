@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
 import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
+import com.kunzisoft.keepass.education.Education;
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
@@ -392,7 +393,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference stylePreference = findPreference(getString(R.string.setting_style_key));
                 stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String styleIdString = (String) newValue;
-                    if (!(!BuildConfig.CLOSED_STORE && PreferencesUtil.isEducationScreenReclickedPerformed(getContext())))
+                    if (!(!BuildConfig.CLOSED_STORE && Education.Companion.isEducationScreenReclickedPerformed(getContext())))
                     for (String themeIdDisabled : BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled.equals(styleIdString)) {
                             ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
@@ -411,7 +412,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference iconPackPreference = findPreference(getString(R.string.setting_icon_pack_choose_key));
                 iconPackPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String iconPackId = (String) newValue;
-                    if (!(!BuildConfig.CLOSED_STORE && PreferencesUtil.isEducationScreenReclickedPerformed(getContext())))
+                    if (!(!BuildConfig.CLOSED_STORE && Education.Companion.isEducationScreenReclickedPerformed(getContext())))
                     for (String iconPackIdDisabled : BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled.equals(iconPackId)) {
                             ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
@@ -429,9 +430,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 resetEducationScreens.setOnPreferenceClickListener(preference -> {
                     // To allow only one toast
                     if (count == 0) {
-                        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(getContext());
+                        SharedPreferences sharedPreferences = Education.Companion.getEducationSharedPreferences(getContext());
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        for (int resourceId : PreferencesUtil.educationResourceKeys) {
+                        for (int resourceId : Education.Companion.getEducationResourcesKeys()) {
                             editor.putBoolean(getString(resourceId), false);
                         }
                         editor.apply();
@@ -487,7 +488,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         super.onStop();
         if(count==10) {
             if (getActivity()!=null)
-                PreferencesUtil.getEducationSharedPreferences(getActivity()).edit()
+                Education.Companion.getEducationSharedPreferences(getActivity()).edit()
                     .putBoolean(getString(R.string.education_screen_reclicked_key), true).apply();
         }
     }

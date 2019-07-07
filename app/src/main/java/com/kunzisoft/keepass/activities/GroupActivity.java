@@ -51,8 +51,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.adapters.NodeAdapter;
@@ -71,7 +69,12 @@ import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable;
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable;
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable;
-import com.kunzisoft.keepass.database.element.*;
+import com.kunzisoft.keepass.database.element.Database;
+import com.kunzisoft.keepass.database.element.EntryVersioned;
+import com.kunzisoft.keepass.database.element.GroupVersioned;
+import com.kunzisoft.keepass.database.element.NodeVersioned;
+import com.kunzisoft.keepass.database.element.PwIcon;
+import com.kunzisoft.keepass.database.element.PwNodeId;
 import com.kunzisoft.keepass.database.element.security.ProtectedString;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment;
@@ -79,6 +82,7 @@ import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
 import com.kunzisoft.keepass.dialogs.ReadOnlyDialog;
 import com.kunzisoft.keepass.dialogs.SortDialogFragment;
+import com.kunzisoft.keepass.education.GroupActivityEducation;
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.magikeyboard.MagikIME;
@@ -712,141 +716,6 @@ public class GroupActivity extends LockingActivity
             searchSuggestionAdapter.reInit(this);
     }
 
-    /**
-     * Check and display learning views
-     * Displays the explanation for a add, search, sort a new node and lock the database
-     */
-    private void checkAndPerformedEducation(Menu menu) {
-        if (PreferencesUtil.isEducationScreensEnabled(this)) {
-
-            // If no node, show education to add new one
-            if (listNodesFragment != null
-                    && listNodesFragment.isEmpty()) {
-                if (!PreferencesUtil.isEducationNewNodePerformed(this)
-                        && addNodeButtonView.isEnable()) {
-
-                    TapTargetView.showFor(this,
-                            TapTarget.forView(findViewById(R.id.add_button),
-                                    getString(R.string.education_new_node_title),
-                                    getString(R.string.education_new_node_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(false)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    addNodeButtonView.openButtonIfClose();
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_new_node_key);
-
-                }
-            }
-            // Else show the search education
-            else if (!PreferencesUtil.isEducationSearchPerformed(this)) {
-
-                try {
-                    TapTargetView.showFor(this,
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_search,
-                                    getString(R.string.education_search_title),
-                                    getString(R.string.education_search_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(true)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    MenuItem searchItem = menu.findItem(R.id.menu_search);
-                                    searchItem.expandActionView();
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_search_key);
-                } catch (Exception e) {
-                    // If icon not visible
-                    Log.w(TAG, "Can't performed education for search");
-                }
-            }
-            // Else show the sort education
-            else if (!PreferencesUtil.isEducationSortPerformed(this)) {
-
-                try {
-                    TapTargetView.showFor(this,
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_sort,
-                                    getString(R.string.education_sort_title),
-                                    getString(R.string.education_sort_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(true)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    MenuItem sortItem = menu.findItem(R.id.menu_sort);
-                                    onOptionsItemSelected(sortItem);
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_sort_key);
-                } catch (Exception e) {
-                    Log.w(TAG, "Can't performed education for sort");
-                }
-            }
-            // Else show the lock education
-            else if (!PreferencesUtil.isEducationLockPerformed(this)) {
-
-                try {
-                    TapTargetView.showFor(this,
-                            TapTarget.forToolbarMenuItem(toolbar, R.id.menu_lock,
-                                    getString(R.string.education_lock_title),
-                                    getString(R.string.education_lock_summary))
-                                    .textColorInt(Color.WHITE)
-                                    .tintTarget(true)
-                                    .cancelable(true),
-                            new TapTargetView.Listener() {
-                                @Override
-                                public void onTargetClick(TapTargetView view) {
-                                    super.onTargetClick(view);
-                                    MenuItem lockItem = menu.findItem(R.id.menu_lock);
-                                    onOptionsItemSelected(lockItem);
-                                }
-
-                                @Override
-                                public void onOuterCircleClick(TapTargetView view) {
-                                    super.onOuterCircleClick(view);
-                                    view.dismiss(false);
-                                }
-                            });
-                    PreferencesUtil.saveEducationPreference(this,
-                            R.string.education_lock_key);
-                } catch (Exception e) {
-                    Log.w(TAG, "Can't performed education for lock");
-                }
-            }
-        }
-    }
-
     @Override
     protected void onStop() {
         super.onStop();
@@ -898,9 +767,61 @@ public class GroupActivity extends LockingActivity
         super.onCreateOptionsMenu(menu);
 
         // Launch education screen
-        new Handler().post(() -> checkAndPerformedEducation(menu));
+        new Handler().post(() -> performedNextEducation(new GroupActivityEducation(this), menu));
 
         return true;
+    }
+
+    private void performedNextEducation(GroupActivityEducation groupActivityEducation,
+                                        Menu menu) {
+        // If no node, show education to add new one
+        if (listNodesFragment != null
+                && listNodesFragment.isEmpty()
+                && addNodeButtonView.isEnable()
+                && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
+                    addNodeButtonView,
+                    tapTargetView -> {
+                        addNodeButtonView.openButtonIfClose();
+                        return null;
+                    },
+                    tapTargetView -> {
+                        performedNextEducation(groupActivityEducation, menu);
+                        return null;
+                    }
+            ));
+        else if (toolbar.findViewById(R.id.menu_search) != null
+            && groupActivityEducation.checkAndPerformedSearchMenuEducation(
+                toolbar.findViewById(R.id.menu_search),
+                tapTargetView -> {
+                    menu.findItem(R.id.menu_search).expandActionView();
+                    return null;
+                },
+                tapTargetView -> {
+                    performedNextEducation(groupActivityEducation, menu);
+                    return null;
+                }));
+        else if (toolbar.findViewById(R.id.menu_sort) != null
+            && groupActivityEducation.checkAndPerformedSortMenuEducation(
+                toolbar.findViewById(R.id.menu_sort),
+                tapTargetView -> {
+                    onOptionsItemSelected(menu.findItem(R.id.menu_sort));
+                    return null;
+                },
+                tapTargetView -> {
+                    performedNextEducation(groupActivityEducation, menu);
+                    return null;
+                }));
+        else if (toolbar.findViewById(R.id.menu_lock) != null
+            && groupActivityEducation.checkAndPerformedLockMenuEducation(
+                toolbar.findViewById(R.id.menu_lock),
+                tapTargetView -> {
+                    onOptionsItemSelected(menu.findItem(R.id.menu_lock));
+                    return null;
+                },
+                tapTargetView -> {
+                    performedNextEducation(groupActivityEducation, menu);
+                    return null;
+                }));
     }
 
 	@Override

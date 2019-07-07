@@ -25,7 +25,6 @@ import android.app.assist.AssistStructure;
 import android.app.backup.BackupManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Build;
@@ -34,7 +33,6 @@ import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -44,9 +42,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
@@ -59,6 +61,7 @@ import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper;
+import com.kunzisoft.keepass.education.PasswordActivityEducation;
 import com.kunzisoft.keepass.fileselect.KeyFileHelper;
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector;
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog;
@@ -70,12 +73,19 @@ import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
+
 import org.jetbrains.annotations.Nullable;
-import permissions.dispatcher.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.ref.WeakReference;
+
+import permissions.dispatcher.NeedsPermission;
+import permissions.dispatcher.OnNeverAskAgain;
+import permissions.dispatcher.OnPermissionDenied;
+import permissions.dispatcher.OnShowRationale;
+import permissions.dispatcher.PermissionRequest;
+import permissions.dispatcher.RuntimePermissions;
 
 @RuntimePermissions
 public class PasswordActivity extends StylishActivity
@@ -323,113 +333,6 @@ public class PasswordActivity extends StylishActivity
     protected void onSaveInstanceState(Bundle outState) {
         ReadOnlyHelper.INSTANCE.onSaveInstanceState(outState, readOnly);
         super.onSaveInstanceState(outState);
-    }
-
-    /**
-     * Check and display learning views
-     * Displays the explanation for a database opening with fingerprints if available
-     */
-    private void checkAndPerformedEducation(Menu menu) {
-        if (PreferencesUtil.isEducationScreensEnabled(this)) {
-
-            if (!PreferencesUtil.isEducationUnlockPerformed(this)) {
-
-                TapTargetView.showFor(this,
-                        TapTarget.forView(findViewById(R.id.password_input_container),
-                                getString(R.string.education_unlock_title),
-                                getString(R.string.education_unlock_summary))
-                                .dimColor(R.color.green)
-                                .icon(ContextCompat.getDrawable(getApplicationContext(), R.mipmap.ic_launcher_round))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(false)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                performedReadOnlyEducation(menu);
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                                performedReadOnlyEducation(menu);
-
-                            }
-                        });
-                // TODO make a period for donation
-                PreferencesUtil.saveEducationPreference(PasswordActivity.this,
-                        R.string.education_unlock_key);
-            }
-        }
-    }
-
-    /**
-     * Check and display learning views
-     * Displays read-only if available
-     */
-    private void performedReadOnlyEducation(Menu menu) {
-        if (!PreferencesUtil.isEducationReadOnlyPerformed(this)) {
-            try {
-                TapTargetView.showFor(this,
-                        TapTarget.forToolbarMenuItem(toolbar, R.id.menu_open_file_read_mode_key,
-                                getString(R.string.education_read_only_title),
-                                getString(R.string.education_read_only_summary))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                MenuItem editItem = menu.findItem(R.id.menu_open_file_read_mode_key);
-                                onOptionsItemSelected(editItem);
-                                checkAndPerformedEducationForFingerprint();
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                                checkAndPerformedEducationForFingerprint();
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(this,
-                        R.string.education_read_only_key);
-            } catch (Exception e) {
-                // If icon not visible
-                Log.w(TAG, "Can't performed education for entry's edition");
-            }
-        }
-    }
-
-    /**
-     * Check and display learning views
-     * Displays fingerprints if available
-     */
-    private void checkAndPerformedEducationForFingerprint() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-
-            if ( PreferencesUtil.isFingerprintEnable(getApplicationContext())
-                    && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager.class))) {
-
-                TapTargetView.showFor(this,
-                    TapTarget.forView(fingerprintImageView,
-                            getString(R.string.education_fingerprint_title),
-                            getString(R.string.education_fingerprint_summary))
-                            .textColorInt(Color.WHITE)
-                            .tintTarget(false)
-                            .cancelable(true),
-                    new TapTargetView.Listener() {
-                        @Override
-                        public void onOuterCircleClick(TapTargetView view) {
-                            super.onOuterCircleClick(view);
-                            view.dismiss(false);
-                        }
-                    });
-            }
-        }
     }
 
     @Override
@@ -957,9 +860,44 @@ public class PasswordActivity extends StylishActivity
         super.onCreateOptionsMenu(menu);
 
         // Show education views
-        new Handler().post(() -> checkAndPerformedEducation(menu));
+        new Handler().post(() -> performedNextEducation(new PasswordActivityEducation(this), menu));
 
         return true;
+    }
+
+    private void performedNextEducation(PasswordActivityEducation passwordActivityEducation,
+                                        Menu menu) {
+        if (passwordActivityEducation.checkAndPerformedFingerprintUnlockEducation(
+                toolbar,
+                tapTargetView -> {
+                    performedNextEducation(passwordActivityEducation, menu);
+                    return null;
+                },
+                tapTargetView -> {
+                    performedNextEducation(passwordActivityEducation, menu);
+                    return null;
+                })
+        );
+        else if (toolbar.findViewById(R.id.menu_open_file_read_mode_key) != null
+            && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
+                    toolbar.findViewById(R.id.menu_open_file_read_mode_key),
+                    tapTargetView -> {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key));
+                        performedNextEducation(passwordActivityEducation, menu);
+                        return null;
+                    },
+                    tapTargetView -> {
+                        performedNextEducation(passwordActivityEducation, menu);
+                        return null;
+                    })
+        );
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && PreferencesUtil.isFingerprintEnable(getApplicationContext())
+                && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager.class))
+                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerprintImageView,
+                tapTargetView -> null,
+                tapTargetView -> null)
+        );
     }
 
     private void changeOpenFileReadIcon(MenuItem togglePassword) {

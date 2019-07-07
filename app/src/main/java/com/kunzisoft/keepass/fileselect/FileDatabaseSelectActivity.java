@@ -24,15 +24,14 @@ import android.app.Activity;
 import android.app.assist.AssistStructure;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -45,23 +44,22 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.getkeepsafe.taptargetview.TapTarget;
-import com.getkeepsafe.taptargetview.TapTargetView;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
 import com.kunzisoft.keepass.autofill.AutofillHelper;
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable;
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable;
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
-import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable;
 import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment;
 import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment;
+import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation;
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper;
 import com.kunzisoft.keepass.password.PasswordActivity;
 import com.kunzisoft.keepass.settings.PreferencesUtil;
 import com.kunzisoft.keepass.stylish.StylishActivity;
+import com.kunzisoft.keepass.tasks.ActionRunnable;
 import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.MenuUtil;
 import com.kunzisoft.keepass.utils.UriUtil;
@@ -233,8 +231,40 @@ public class FileDatabaseSelectActivity extends StylishActivity implements
             }
         }
 
-        // For the first time show education
-        checkAndPerformedEducation();
+        new Handler().post(() -> performedNextEducation(new FileDatabaseSelectActivityEducation(this)));
+    }
+
+    private void performedNextEducation(FileDatabaseSelectActivityEducation fileDatabaseSelectActivityEducation) {
+        // If no recent files
+        if (!fileDatabaseHistory.hasRecentFiles()
+                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                    createButtonView,
+                    tapTargetView -> {
+                        FileDatabaseSelectActivityPermissionsDispatcher
+                                .openCreateFileDialogFragmentWithPermissionCheck(FileDatabaseSelectActivity.this);
+                        return null;
+                    },
+                    tapTargetView -> {
+                        // But if the user cancel, it can also select a database
+                        performedNextEducation(fileDatabaseSelectActivityEducation);
+                        return null;
+                    })
+        );
+        else if (fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
+                browseButtonView,
+                tapTargetView -> {
+                    keyFileHelper.getOpenFileOnClickViewListener().onClick(tapTargetView);
+                    return null;
+                },
+                tapTargetView -> {
+                    fileDatabaseSelectActivityEducation.checkAndPerformedOpenLinkDatabaseEducation(
+                            fileSelectExpandableButton,
+                            tapTargetView1 -> null,
+                            tapTargetView12 -> null
+                    );
+                    return null;
+                }
+        ));
     }
 
     private void fileNoFoundAction(FileNotFoundException e) {
@@ -312,113 +342,6 @@ public class FileDatabaseSelectActivity extends StylishActivity implements
         updateExternalStorageWarning();
         updateFileListVisibility();
         mAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * Check and display learning views
-     * Displays the explanation for a database creation then a database selection
-     */
-    private void checkAndPerformedEducation() {
-
-        // If no recent files
-        if ( !fileDatabaseHistory.hasRecentFiles() ) {
-            // Try to open the creation base education
-            if (!PreferencesUtil.isEducationCreateDatabasePerformed(this) ) {
-
-                TapTargetView.showFor(this,
-                        TapTarget.forView(createButtonView,
-                                getString(R.string.education_create_database_title),
-                                getString(R.string.education_create_database_summary))
-                                .icon(ContextCompat.getDrawable(this, R.drawable.ic_database_plus_white_24dp))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                FileDatabaseSelectActivityPermissionsDispatcher
-                                        .openCreateFileDialogFragmentWithPermissionCheck(FileDatabaseSelectActivity.this);
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-                                // But if the user cancel, it can also select a database
-                                checkAndPerformedEducationForSelection();
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
-                        R.string.education_create_db_key);
-            }
-        }
-        else
-            checkAndPerformedEducationForSelection();
-    }
-
-    /**
-     * Check and display learning views
-     * Displays the explanation for a database selection
-     */
-    private void checkAndPerformedEducationForSelection() {
-        if (PreferencesUtil.isEducationScreensEnabled(this)) {
-
-            if (!PreferencesUtil.isEducationSelectDatabasePerformed(this)
-                    && browseButtonView != null) {
-
-                TapTargetView.showFor(FileDatabaseSelectActivity.this,
-                        TapTarget.forView(browseButtonView,
-                                getString(R.string.education_select_database_title),
-                                getString(R.string.education_select_database_summary))
-                                .icon(ContextCompat.getDrawable(this, R.drawable.ic_folder_white_24dp))
-                                .textColorInt(Color.WHITE)
-                                .tintTarget(true)
-                                .cancelable(true),
-                        new TapTargetView.Listener() {
-                            @Override
-                            public void onTargetClick(TapTargetView view) {
-                                super.onTargetClick(view);
-                                keyFileHelper.getOpenFileOnClickViewListener().onClick(view);
-                            }
-
-                            @Override
-                            public void onOuterCircleClick(TapTargetView view) {
-                                super.onOuterCircleClick(view);
-                                view.dismiss(false);
-
-                                if (!PreferencesUtil.isEducationOpenLinkDatabasePerformed(FileDatabaseSelectActivity.this)) {
-
-                                    TapTargetView.showFor(FileDatabaseSelectActivity.this,
-                                            TapTarget.forView(fileSelectExpandableButton,
-                                                    getString(R.string.education_open_link_database_title),
-                                                    getString(R.string.education_open_link_database_summary))
-                                                    .icon(ContextCompat.getDrawable(FileDatabaseSelectActivity.this, R.drawable.ic_link_white_24dp))
-                                                    .textColorInt(Color.WHITE)
-                                                    .tintTarget(true)
-                                                    .cancelable(true),
-                                            new TapTargetView.Listener() {
-                                                @Override
-                                                public void onTargetClick(TapTargetView view) {
-                                                    super.onTargetClick(view);
-                                                    // Do nothing here
-                                                }
-
-                                                @Override
-                                                public void onOuterCircleClick(TapTargetView view) {
-                                                    super.onOuterCircleClick(view);
-                                                    view.dismiss(false);
-                                                }
-                                            });
-                                    PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
-                                            R.string.education_open_link_db_key);
-                                }
-                            }
-                        });
-                PreferencesUtil.saveEducationPreference(FileDatabaseSelectActivity.this,
-                        R.string.education_select_db_key);
-            }
-        }
     }
 
     @Override
