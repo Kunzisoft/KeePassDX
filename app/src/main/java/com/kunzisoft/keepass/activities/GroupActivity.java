@@ -503,7 +503,7 @@ public class GroupActivity extends LockingActivity
                     EntryVersioned entry = ((EntryVersioned) node);
                     EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
                             () -> {
-                                EntryActivity.launch(GroupActivity.this, entry, getReadOnly());
+                                EntryActivity.Companion.launch(GroupActivity.this, entry, getReadOnly());
                                 return null;
                             },
                             () -> {
