@@ -52,7 +52,6 @@ import android.widget.Toast;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.EntrySelectionHelper;
 import com.kunzisoft.keepass.activities.GroupActivity;
-import com.kunzisoft.keepass.activities.IntentBuildLauncher;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.activities.lock.LockingActivity;
 import com.kunzisoft.keepass.app.App;
@@ -826,18 +825,18 @@ public class PasswordActivity extends StylishActivity
     private void launchGroupActivity() {
         EntrySelectionHelper.INSTANCE.doEntrySelectionAction(getIntent(),
                 () -> {
-                    GroupActivity.launch(PasswordActivity.this, readOnly);
+                    GroupActivity.Companion.launch(PasswordActivity.this, readOnly);
                     return null;
                 },
                 () -> {
-                    GroupActivity.launchForKeyboardSelection(PasswordActivity.this, readOnly);
+                    GroupActivity.Companion.launchForKeyboardSelection(PasswordActivity.this, readOnly);
                     // Do not keep history
                     finish();
                     return null;
                 },
                 assistStructure -> {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(PasswordActivity.this, assistStructure, readOnly);
+                        GroupActivity.Companion.launchForAutofillResult(PasswordActivity.this, assistStructure, readOnly);
                     }
                     return null;
                 });

@@ -468,8 +468,8 @@ public class FileDatabaseSelectActivity extends StylishActivity implements
                                             masterPassword,
                                             keyFileChecked,
                                             keyFile,
-                                            new LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename)),
-                                            true // TODO get readonly
+                                            true, // TODO get readonly
+                                            new LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename))
                                     );
                                 })
                 )).start();
@@ -505,7 +505,7 @@ public class FileDatabaseSelectActivity extends StylishActivity implements
                     fileDatabaseHistory.addDatabaseUri(fileURI);
                     mAdapter.notifyDataSetChanged();
                     updateFileListVisibility();
-                    GroupActivity.launch(FileDatabaseSelectActivity.this);
+                    GroupActivity.Companion.launch(FileDatabaseSelectActivity.this);
                 } else {
                     Log.e(TAG, "Unable to open the database");
                 }

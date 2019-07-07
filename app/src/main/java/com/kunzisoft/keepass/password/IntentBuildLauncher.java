@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities;
+package com.kunzisoft.keepass.password;
 
 import android.content.Intent;
 

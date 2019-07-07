@@ -24,7 +24,6 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.getUriInputStream
 import java.io.IOException
 
@@ -35,8 +34,8 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         masterPassword: String?,
         withKeyFile: Boolean,
         keyFile: Uri?,
-        actionRunnable: ActionRunnable? = null,
-        save: Boolean)
+        save: Boolean,
+        actionRunnable: ActionRunnable? = null)
     : SaveDatabaseRunnable(ctx, db, actionRunnable, save) {
 
     private var mMasterPassword: String? = null
