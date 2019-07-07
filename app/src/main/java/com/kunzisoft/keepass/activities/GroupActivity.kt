@@ -818,7 +818,8 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.success) {
-                    listNodesFragment?.addNode(actionNodeValues.newNode)
+                    if (actionNodeValues.newNode != null)
+                        listNodesFragment?.addNode(actionNodeValues.newNode)
                 }
             }
         }
@@ -828,7 +829,8 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.success) {
-                    listNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
+                    if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
+                        listNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
                 }
             }
         }
@@ -838,19 +840,21 @@ class GroupActivity : LockingActivity(), GroupEditDialogFragment.EditGroupListen
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.success) {
-                    listNodesFragment?.removeNode(actionNodeValues.oldNode)
+                    if (actionNodeValues.oldNode != null)
+                        listNodesFragment?.removeNode(actionNodeValues.oldNode)
 
                     actionNodeValues.oldNode?.let { oldNode ->
-                        val parent = oldNode.parent
-                        val database = App.currentDatabase
-                        if (database.isRecycleBinAvailable && database.isRecycleBinEnabled) {
-                            val recycleBin = database.recycleBin
-                            // Add trash if it doesn't exists
-                            if (parent == recycleBin
-                                    && mCurrentGroup != null
-                                    && mCurrentGroup!!.parent == null
-                                    && mCurrentGroup != recycleBin) {
-                                listNodesFragment?.addNode(parent)
+                        oldNode.parent?.let { parent ->
+                            val database = App.currentDatabase
+                            if (database.isRecycleBinAvailable && database.isRecycleBinEnabled) {
+                                val recycleBin = database.recycleBin
+                                // Add trash if it doesn't exists
+                                if (parent == recycleBin
+                                        && mCurrentGroup != null
+                                        && mCurrentGroup!!.parent == null
+                                        && mCurrentGroup != recycleBin) {
+                                    listNodesFragment?.addNode(parent)
+                                }
                             }
                         }
                     }
