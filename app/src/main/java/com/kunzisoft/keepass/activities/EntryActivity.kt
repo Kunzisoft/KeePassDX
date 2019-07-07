@@ -169,13 +169,13 @@ class EntryActivity : LockingHideActivity() {
                             getString(R.string.clipboard_warning)
                     val warningDialog = AlertDialog.Builder(this@EntryActivity)
                             .setMessage(message).create()
-                    warningDialog.setButton(AlertDialog.BUTTON1, getText(android.R.string.ok)
+                    warningDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok)
                     ) { dialog, _ ->
                         PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
                         dialog.dismiss()
                         fillEntryDataInContentsView(entry)
                     }
-                    warningDialog.setButton(AlertDialog.BUTTON2, getText(android.R.string.cancel)
+                    warningDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel)
                     ) { dialog, _ ->
                         PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
                         dialog.dismiss()
@@ -328,7 +328,9 @@ class EntryActivity : LockingHideActivity() {
             }
 
             R.id.menu_edit -> {
-                EntryEditActivity.launch(this@EntryActivity, mEntry)
+                mEntry?.let {
+                    EntryEditActivity.launch(this@EntryActivity, it)
+                }
                 return true
             }
 
