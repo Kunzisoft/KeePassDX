@@ -298,7 +298,7 @@ public class GroupActivity extends LockingActivity
                 .show(getSupportFragmentManager(),
                         GroupEditDialogFragment.TAG_CREATE_GROUP));
         addNodeButtonView.setAddEntryClickListener(v ->
-                EntryEditActivity.launch(GroupActivity.this, mCurrentGroup));
+                EntryEditActivity.Companion.launch(GroupActivity.this, mCurrentGroup));
 
         // Search suggestion
         searchSuggestionAdapter = new SearchEntryCursorAdapter(this, database);
@@ -570,7 +570,7 @@ public class GroupActivity extends LockingActivity
                                 GroupEditDialogFragment.TAG_CREATE_GROUP);
                 break;
             case ENTRY:
-                EntryEditActivity.launch(GroupActivity.this, (EntryVersioned) node);
+                EntryEditActivity.Companion.launch(GroupActivity.this, (EntryVersioned) node);
                 break;
         }
         return true;

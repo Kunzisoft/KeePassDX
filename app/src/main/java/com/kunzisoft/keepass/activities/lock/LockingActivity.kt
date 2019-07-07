@@ -163,9 +163,9 @@ abstract class LockingActivity : StylishActivity() {
     /**
      * To reset the app timeout when a view is focused or changed
      */
-    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View) {
+    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View?) {
         views.forEach {
-            it.setOnFocusChangeListener { _, hasFocus ->
+            it?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
                 }
