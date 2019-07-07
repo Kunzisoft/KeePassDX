@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,23 +17,22 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.backup;
+package com.kunzisoft.keepass.backup
 
-import android.annotation.SuppressLint;
-import android.app.backup.BackupAgentHelper;
-import android.app.backup.SharedPreferencesBackupHelper;
+import android.annotation.SuppressLint
+import android.app.backup.BackupAgentHelper
+import android.app.backup.SharedPreferencesBackupHelper
 
 @SuppressLint("NewApi")
-public class SettingsBackupAgent extends BackupAgentHelper {
+class SettingsBackupAgent : BackupAgentHelper() {
 
-    private static final String PREFS_BACKUP_KEY = "prefs";
-
-    @Override
-    public void onCreate() {
-        String defaultPrefs = this.getPackageName() + "_preferences";
-
-        SharedPreferencesBackupHelper prefHelper = new SharedPreferencesBackupHelper(this, defaultPrefs);
-        addHelper(PREFS_BACKUP_KEY, prefHelper);
+    override fun onCreate() {
+        val defaultPrefs = this.packageName + "_preferences"
+        val prefHelper = SharedPreferencesBackupHelper(this, defaultPrefs)
+        addHelper(PREFS_BACKUP_KEY, prefHelper)
     }
 
+    companion object {
+        private const val PREFS_BACKUP_KEY = "prefs"
+    }
 }
