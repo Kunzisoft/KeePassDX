@@ -209,8 +209,8 @@ class GroupActivity : LockingActivity(),
                     .show(supportFragmentManager,
                             GroupEditDialogFragment.TAG_CREATE_GROUP)
         }
-        mCurrentGroup?.let { currentGroup ->
-            addNodeButtonView?.setAddEntryClickListener {
+        addNodeButtonView?.setAddEntryClickListener {
+            mCurrentGroup?.let { currentGroup ->
                 EntryEditActivity.launch(this@GroupActivity, currentGroup)
             }
         }
@@ -971,7 +971,6 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onBackPressed() {
-
         // Normal way when we are not in root
         if (mRootGroup != null && mRootGroup != mCurrentGroup)
             super.onBackPressed()
