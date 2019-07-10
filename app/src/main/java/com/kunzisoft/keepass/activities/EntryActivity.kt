@@ -36,6 +36,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.view.EntryContentsView
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwNodeId
@@ -48,7 +49,6 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.Util
-import com.kunzisoft.keepass.view.EntryContentsView
 
 class EntryActivity : LockingHideActivity() {
 

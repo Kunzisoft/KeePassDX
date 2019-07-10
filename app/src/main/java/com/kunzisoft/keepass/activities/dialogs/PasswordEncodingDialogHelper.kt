@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.dialogs
+package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.AlertDialog
 import android.content.Context

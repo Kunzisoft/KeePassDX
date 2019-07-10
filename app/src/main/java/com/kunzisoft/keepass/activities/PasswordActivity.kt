@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.fileselect.KeyFileHelper
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector

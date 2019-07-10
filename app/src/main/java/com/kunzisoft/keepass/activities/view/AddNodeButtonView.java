@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.view;
+package com.kunzisoft.keepass.activities.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -61,12 +61,12 @@ public class AddNodeButtonView extends RelativeLayout {
 	public AddNodeButtonView(Context context) {
 		this(context, null);
 	}
-	
+
 	public AddNodeButtonView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context);
 	}
-	
+
 	protected void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		assert inflater != null;

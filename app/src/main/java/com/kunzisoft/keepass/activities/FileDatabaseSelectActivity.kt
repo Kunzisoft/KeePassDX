@@ -47,8 +47,8 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
-import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.dialogs.CreateFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.CreateFileDialogFragment
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.fileselect.*
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
@@ -376,8 +376,10 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     }
 
-    override fun onDefinePathDialogPositiveClick(pathFile: Uri): Boolean {
+    override fun onDefinePathDialogPositiveClick(pathFile: Uri?): Boolean {
         mDatabaseFileUri = pathFile
+        if (pathFile == null)
+            return false
         return if (createDatabaseFile(pathFile)) {
             AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
             true
@@ -385,7 +387,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             false
     }
 
-    override fun onDefinePathDialogNegativeClick(pathFile: Uri): Boolean {
+    override fun onDefinePathDialogNegativeClick(pathFile: Uri?): Boolean {
         return true
     }
 

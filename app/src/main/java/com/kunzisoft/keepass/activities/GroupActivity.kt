@@ -42,6 +42,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -62,12 +63,12 @@ import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable
 import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.dialogs.GroupEditDialogFragment
-import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.dialogs.PasswordEncodingDialogHelper
-import com.kunzisoft.keepass.dialogs.ReadOnlyDialog
-import com.kunzisoft.keepass.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
+import com.kunzisoft.keepass.activities.dialogs.ReadOnlyDialog
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
@@ -77,7 +78,7 @@ import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.AddNodeButtonView
+import com.kunzisoft.keepass.activities.view.AddNodeButtonView
 
 import net.cachapa.expandablelayout.ExpandableLayout
 
@@ -774,54 +775,59 @@ class GroupActivity : LockingActivity(),
         AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
     }
 
-    override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
-                                  name: String,
-                                  icon: PwIcon) {
+    override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
+                                  name: String?,
+                                  icon: PwIcon?) {
         val database = App.currentDatabase
 
-        when (action) {
-            GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
-                // If group creation
-                mCurrentGroup?.let { currentGroup ->
-                    // Build the group
-                    database.createGroup()?.let { newGroup->
-                        newGroup.title = name
-                        newGroup.icon = icon
-                        // Not really needed here because added in runnable but safe
-                        newGroup.parent = currentGroup
+        if (name.isNullOrEmpty() || icon == null)
+            Toast.makeText(this, R.string.error_no_name, Toast.LENGTH_LONG).show()
+        else {
+            when (action) {
+                GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
+                    // If group creation
+                    mCurrentGroup?.let { currentGroup ->
+                        // Build the group
+                        database.createGroup()?.let { newGroup ->
+                            newGroup.title = name
+                            newGroup.icon = icon
+                            // Not really needed here because added in runnable but safe
+                            newGroup.parent = currentGroup
 
-                        // If group created save it in the database
-                        Thread(AddGroupRunnable(this,
-                                App.currentDatabase,
-                                newGroup,
-                                currentGroup,
-                                AfterAddNodeRunnable(),
-                                !readOnly)
-                        ).start()
+                            // If group created save it in the database
+                            Thread(AddGroupRunnable(this,
+                                    App.currentDatabase,
+                                    newGroup,
+                                    currentGroup,
+                                    AfterAddNodeRunnable(),
+                                    !readOnly)
+                            ).start()
+                        }
                     }
+                }
+                GroupEditDialogFragment.EditGroupDialogAction.UPDATE ->
+                    // If update add new elements
+                    mOldGroupToUpdate?.let { oldGroupToUpdate ->
+                        GroupVersioned(oldGroupToUpdate).let { updateGroup ->
+                            updateGroup.title = name
+                            // TODO custom icon
+                            updateGroup.icon = icon
+
+                            listNodesFragment?.removeNode(oldGroupToUpdate)
+
+                            // If group updated save it in the database
+                            Thread(UpdateGroupRunnable(this,
+                                    App.currentDatabase,
+                                    oldGroupToUpdate,
+                                    updateGroup,
+                                    AfterUpdateNodeRunnable(),
+                                    !readOnly)
+                            ).start()
+                        }
+                    }
+                else -> {
                 }
             }
-            GroupEditDialogFragment.EditGroupDialogAction.UPDATE ->
-                // If update add new elements
-                mOldGroupToUpdate?.let { oldGroupToUpdate ->
-                    GroupVersioned(oldGroupToUpdate).let { updateGroup ->
-                        updateGroup.title = name
-                        // TODO custom icon
-                        updateGroup.icon = icon
-
-                        listNodesFragment?.removeNode(oldGroupToUpdate)
-
-                        // If group updated save it in the database
-                        Thread(UpdateGroupRunnable(this,
-                                App.currentDatabase,
-                                oldGroupToUpdate,
-                                updateGroup,
-                                AfterUpdateNodeRunnable(),
-                                !readOnly)
-                        ).start()
-                    }
-                }
-            else -> {}
         }
     }
 
@@ -874,9 +880,9 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction,
-                                 name: String,
-                                 iconId: PwIcon) {
+    override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
+                                 name: String?,
+                                 iconId: PwIcon?) {
         // Do nothing here
     }
 

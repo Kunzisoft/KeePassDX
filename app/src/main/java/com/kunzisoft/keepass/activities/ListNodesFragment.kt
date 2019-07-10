@@ -20,7 +20,7 @@ import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
-import com.kunzisoft.keepass.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 

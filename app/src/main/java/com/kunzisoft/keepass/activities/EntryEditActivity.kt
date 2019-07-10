@@ -29,38 +29,26 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.Toast
-
+import android.widget.*
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment.Companion.KEY_ICON_STANDARD
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.view.EntryEditCustomField
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.element.PwDate
-import com.kunzisoft.keepass.database.element.PwIcon
-import com.kunzisoft.keepass.database.element.PwIconStandard
-import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.dialogs.GeneratePasswordDialogFragment
-import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.Util
-import com.kunzisoft.keepass.view.EntryEditCustomField
-
-import com.kunzisoft.keepass.dialogs.IconPickerDialogFragment.KEY_ICON_STANDARD
 
 class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
 

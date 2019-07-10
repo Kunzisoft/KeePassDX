@@ -46,14 +46,14 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.activities.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
-import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
-import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment;
 import com.kunzisoft.keepass.education.Education;
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.dialogs.KeyboardExplanationDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.KeyboardExplanationDialogFragment;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
@@ -194,7 +194,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
                         ((SwitchPreference) preference).setChecked(false);
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                        UnavailableFeatureDialogFragment.Companion.getInstance(Build.VERSION_CODES.M)
                                 .show(getFragmentManager(), "unavailableFeatureDialog");
                         return false;
                     });
@@ -297,7 +297,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         ((SwitchPreference) preference).setChecked(false);
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
+                        UnavailableFeatureDialogFragment.Companion.getInstance(Build.VERSION_CODES.O)
                                 .show(fragmentManager, "unavailableFeatureDialog");
                         return false;
                     });

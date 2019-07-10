@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.dialogs
+package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.content.Context
@@ -57,7 +57,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     interface AssignPasswordDialogListener {
         fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?,
                                            keyFileChecked: Boolean, keyFile: Uri?)
-
         fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean, masterPassword: String?,
                                            keyFileChecked: Boolean, keyFile: Uri?)
     }
@@ -74,10 +73,9 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-
-        activity?.let { notNullActivity ->
-            val builder = AlertDialog.Builder(notNullActivity)
-            val inflater = notNullActivity.layoutInflater
+        activity?.let { activity ->
+            val builder = AlertDialog.Builder(activity)
+            val inflater = activity.layoutInflater
 
             rootView = inflater.inflate(R.layout.set_password, null)
             builder.setView(rootView)
@@ -126,14 +124,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         mKeyFile = null
 
                         var error = verifyPassword() || verifyFile()
-
                         if (!passwordCheckBox!!.isChecked && !keyFileCheckBox!!.isChecked) {
                             error = true
                             showNoKeyConfirmationDialog()
                         }
-
                         if (!error) {
-                            mListener!!.onAssignKeyDialogPositiveClick(
+                            mListener?.onAssignKeyDialogPositiveClick(
                                     passwordCheckBox!!.isChecked, mMasterPassword,
                                     keyFileCheckBox!!.isChecked, mKeyFile)
                             dismiss()
