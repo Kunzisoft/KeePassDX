@@ -40,19 +40,19 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
 
-    private var masterPassword: String? = null
-    private var mKeyfile: Uri? = null
+    private var mMasterPassword: String? = null
+    private var mKeyFile: Uri? = null
 
     private var rootView: View? = null
     private var passwordCheckBox: CompoundButton? = null
     private var passView: TextView? = null
     private var passConfView: TextView? = null
-    private var keyfileCheckBox: CompoundButton? = null
-    private var keyfileView: TextView? = null
+    private var keyFileCheckBox: CompoundButton? = null
+    private var keyFileView: TextView? = null
 
     private var mListener: AssignPasswordDialogListener? = null
 
-    private var keyFileHelper: KeyFileHelper? = null
+    private var mKeyFileHelper: KeyFileHelper? = null
 
     interface AssignPasswordDialogListener {
         fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?,
@@ -67,7 +67,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         try {
             mListener = activity as AssignPasswordDialogListener?
         } catch (e: ClassCastException) {
-            throw ClassCastException(activity!!.toString()
+            throw ClassCastException(activity?.toString()
                     + " must implement " + AssignPasswordDialogListener::class.java.name)
         }
 
@@ -99,51 +99,51 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             })
             passConfView = rootView?.findViewById(R.id.pass_conf_password)
 
-            keyfileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
-            keyfileView = rootView?.findViewById(R.id.pass_keyfile)
-            keyfileView?.addTextChangedListener(object : TextWatcher {
+            keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
+            keyFileView = rootView?.findViewById(R.id.pass_keyfile)
+            keyFileView?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
                 override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
                 override fun afterTextChanged(editable: Editable) {
-                    keyfileCheckBox?.isChecked = true
+                    keyFileCheckBox?.isChecked = true
                 }
             })
 
-            keyFileHelper = KeyFileHelper(this)
+            mKeyFileHelper = KeyFileHelper(this)
             rootView?.findViewById<View>(R.id.browse_button)?.setOnClickListener { view ->
-                keyFileHelper?.openFileOnClickViewListener?.onClick(view) }
+                mKeyFileHelper?.openFileOnClickViewListener?.onClick(view) }
 
             val dialog = builder.create()
 
-            if (passwordCheckBox != null && keyfileCheckBox!= null) {
+            if (passwordCheckBox != null && keyFileCheckBox!= null) {
                 dialog.setOnShowListener { dialog1 ->
                     val positiveButton = (dialog1 as AlertDialog).getButton(DialogInterface.BUTTON_POSITIVE)
                     positiveButton.setOnClickListener {
 
-                        masterPassword = ""
-                        mKeyfile = null
+                        mMasterPassword = ""
+                        mKeyFile = null
 
                         var error = verifyPassword() || verifyFile()
 
-                        if (!passwordCheckBox!!.isChecked && !keyfileCheckBox!!.isChecked) {
+                        if (!passwordCheckBox!!.isChecked && !keyFileCheckBox!!.isChecked) {
                             error = true
                             showNoKeyConfirmationDialog()
                         }
 
                         if (!error) {
                             mListener!!.onAssignKeyDialogPositiveClick(
-                                    passwordCheckBox!!.isChecked, masterPassword,
-                                    keyfileCheckBox!!.isChecked, mKeyfile)
+                                    passwordCheckBox!!.isChecked, mMasterPassword,
+                                    keyFileCheckBox!!.isChecked, mKeyFile)
                             dismiss()
                         }
                     }
                     val negativeButton = dialog1.getButton(DialogInterface.BUTTON_NEGATIVE)
                     negativeButton.setOnClickListener {
-                        mListener!!.onAssignKeyDialogNegativeClick(
-                                passwordCheckBox!!.isChecked, masterPassword,
-                                keyfileCheckBox!!.isChecked, mKeyfile)
+                        mListener?.onAssignKeyDialogNegativeClick(
+                                passwordCheckBox!!.isChecked, mMasterPassword,
+                                keyFileCheckBox!!.isChecked, mKeyFile)
                         dismiss()
                     }
                 }
@@ -157,18 +157,21 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private fun verifyPassword(): Boolean {
         var error = false
-        if (passwordCheckBox!!.isChecked) {
-            masterPassword = passView!!.text.toString()
-            val confpass = passConfView!!.text.toString()
+        if (passwordCheckBox != null
+                && passwordCheckBox!!.isChecked
+                && passView != null
+                && passConfView != null) {
+            mMasterPassword = passView!!.text.toString()
+            val confPassword = passConfView!!.text.toString()
 
             // Verify that passwords match
-            if (masterPassword != confpass) {
+            if (mMasterPassword != confPassword) {
                 error = true
                 // Passwords do not match
                 Toast.makeText(context, R.string.error_pass_match, Toast.LENGTH_LONG).show()
             }
 
-            if (masterPassword == null || masterPassword!!.isEmpty()) {
+            if (mMasterPassword == null || mMasterPassword!!.isEmpty()) {
                 error = true
                 showEmptyPasswordConfirmationDialog()
             }
@@ -178,12 +181,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private fun verifyFile(): Boolean {
         var error = false
-        if (keyfileCheckBox!!.isChecked) {
-            val keyfile = UriUtil.parseDefaultFile(keyfileView!!.text.toString())
-            mKeyfile = keyfile
+        if (keyFileCheckBox != null
+                && keyFileCheckBox!!.isChecked
+                && keyFileView != null) {
+            val keyFile = UriUtil.parseDefaultFile(keyFileView!!.text.toString())
+            mKeyFile = keyFile
 
             // Verify that a keyfile is set
-            if (EmptyUtils.isNullOrEmpty(keyfile)) {
+            if (EmptyUtils.isNullOrEmpty(keyFile)) {
                 error = true
                 Toast.makeText(context, R.string.error_nokeyfile, Toast.LENGTH_LONG).show()
             }
@@ -192,43 +197,47 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     }
 
     private fun showEmptyPasswordConfirmationDialog() {
-        val builder = AlertDialog.Builder(activity!!)
-        builder.setMessage(R.string.warning_empty_password)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    if (!verifyFile()) {
-                        mListener!!.onAssignKeyDialogPositiveClick(
-                                passwordCheckBox!!.isChecked, masterPassword,
-                                keyfileCheckBox!!.isChecked, mKeyfile)
-                        this@AssignMasterKeyDialogFragment.dismiss()
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage(R.string.warning_empty_password)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        if (!verifyFile()) {
+                            mListener?.onAssignKeyDialogPositiveClick(
+                                    passwordCheckBox!!.isChecked, mMasterPassword,
+                                    keyFileCheckBox!!.isChecked, mKeyFile)
+                            this@AssignMasterKeyDialogFragment.dismiss()
+                        }
                     }
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-        builder.create().show()
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
+            builder.create().show()
+        }
     }
 
     private fun showNoKeyConfirmationDialog() {
-        val builder = AlertDialog.Builder(activity!!)
-        builder.setMessage(R.string.warning_no_encryption_key)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
-                    mListener!!.onAssignKeyDialogPositiveClick(
-                            passwordCheckBox!!.isChecked, masterPassword,
-                            keyfileCheckBox!!.isChecked, mKeyfile)
-                    this@AssignMasterKeyDialogFragment.dismiss()
-                }
-                .setNegativeButton(R.string.cancel) { _, _ -> }
-        builder.create().show()
+        activity?.let {
+            val builder = AlertDialog.Builder(it)
+            builder.setMessage(R.string.warning_no_encryption_key)
+                    .setPositiveButton(android.R.string.ok) { _, _ ->
+                        mListener?.onAssignKeyDialogPositiveClick(
+                                passwordCheckBox!!.isChecked, mMasterPassword,
+                                keyFileCheckBox!!.isChecked, mKeyFile)
+                        this@AssignMasterKeyDialogFragment.dismiss()
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
+            builder.create().show()
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        keyFileHelper!!.onActivityResultCallback(requestCode, resultCode, data
+        mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
             if (uri != null) {
                 val pathString = UriUtil.parseDefaultFile(uri.toString())
                 if (pathString != null) {
-                    keyfileCheckBox!!.isChecked = true
-                    keyfileView!!.text = pathString.toString()
+                    keyFileCheckBox?.isChecked = true
+                    keyFileView?.text = pathString.toString()
                 }
             }
         }

@@ -743,7 +743,7 @@ class PasswordActivity : StylishActivity(),
     override fun onActivityResult(
             requestCode: Int,
             resultCode: Int,
-            data: Intent) {
+            data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         // To get entry in result

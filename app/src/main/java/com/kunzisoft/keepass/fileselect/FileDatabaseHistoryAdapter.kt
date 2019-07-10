@@ -20,20 +20,13 @@
 package com.kunzisoft.keepass.fileselect
 
 import android.content.Context
-import android.content.res.Resources
 import android.net.Uri
 import android.support.annotation.ColorInt
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
-import android.view.ContextMenu
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
-
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
 

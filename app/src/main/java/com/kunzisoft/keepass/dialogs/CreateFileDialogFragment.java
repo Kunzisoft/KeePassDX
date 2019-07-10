@@ -187,7 +187,7 @@ public class CreateFileDialogFragment extends DialogFragment implements AdapterV
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
+        if (data != null && requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
             uriPath = data.getData();
             if (uriPath != null) {
                 File file = Utils.getFileForUri(uriPath);

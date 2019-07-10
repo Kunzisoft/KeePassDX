@@ -471,7 +471,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         return true
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
