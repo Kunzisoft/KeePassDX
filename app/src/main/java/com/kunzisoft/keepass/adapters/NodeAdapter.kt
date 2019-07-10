@@ -26,6 +26,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.util.SortedListAdapterCallback
 import android.util.Log
 import android.view.*
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.App
@@ -40,7 +42,7 @@ class NodeAdapter
  * @param context Context to use
  */
 (private val context: Context, private val menuInflater: MenuInflater)
-    : RecyclerView.Adapter<BasicViewHolder>() {
+    : RecyclerView.Adapter<NodeAdapter.BasicViewHolder>() {
 
     private val nodeSortedList: SortedList<NodeVersioned>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -350,6 +352,35 @@ class NodeAdapter
                 menuItem = contextMenu?.findItem(R.id.menu_delete)
                 menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
             }
+        }
+    }
+
+    abstract class BasicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
+        var container: View? = null
+        var icon: ImageView? = null
+        var text: TextView? = null
+        var subText: TextView? = null
+    }
+
+
+    internal class GroupViewHolder(itemView: View) : BasicViewHolder(itemView) {
+
+        init {
+            container = itemView.findViewById(R.id.group_container)
+            icon = itemView.findViewById(R.id.group_icon)
+            text = itemView.findViewById(R.id.group_text)
+            subText = itemView.findViewById(R.id.group_subtext)
+        }
+    }
+
+    internal class EntryViewHolder(itemView: View) : BasicViewHolder(itemView) {
+
+        init {
+            container = itemView.findViewById(R.id.entry_container)
+            icon = itemView.findViewById(R.id.entry_icon)
+            text = itemView.findViewById(R.id.entry_text)
+            subText = itemView.findViewById(R.id.entry_subtext)
         }
     }
 
