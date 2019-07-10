@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.stylish;
+package com.kunzisoft.keepass.activities.stylish;
 
 import android.content.Context;
 import android.support.annotation.StyleRes;

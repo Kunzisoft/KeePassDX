@@ -38,6 +38,7 @@ class FileDatabaseHistory private constructor(private val context: WeakReference
     private val mKeyFilesUriList = ArrayList<String>()
 
     private val mPreferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context.get())
+
     var isEnabled: Boolean = false
 
     val databaseUriList: List<String>
@@ -170,7 +171,9 @@ class FileDatabaseHistory private constructor(private val context: WeakReference
 
         list.clear()
         for (i in 0 until size) {
-            list.add(mPreferences.getString(keyPrefix + "_" + i, ""))
+            mPreferences.getString(keyPrefix + "_" + i, "")?.let {
+                list.add(it)
+            }
         }
     }
 

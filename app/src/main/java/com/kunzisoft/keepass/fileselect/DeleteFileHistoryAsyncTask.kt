@@ -19,16 +19,24 @@
  */
 package com.kunzisoft.keepass.fileselect
 
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
+import android.os.AsyncTask
 
-import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 
-internal class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+class DeleteFileHistoryAsyncTask(private val afterDeleteFileHistoryListener: (() -> Unit)?,
+                                 private val fileHistory: FileDatabaseHistory?,
+                                 private val adapter: FileDatabaseHistoryAdapter?)
+    : AsyncTask<FileDatabaseModel, Void, Void>() {
 
-    var fileContainer: View = itemView.findViewById(R.id.file_container)
-    var fileName: TextView = itemView.findViewById(R.id.file_filename)
-    var fileInformation: ImageView = itemView.findViewById(R.id.file_information)
+    override fun doInBackground(vararg args: FileDatabaseModel): Void? {
+        fileHistory?.deleteDatabaseUri(args[0].fileUri)
+        return null
+    }
+
+    override fun onPostExecute(v: Void) {
+        adapter?.notifyDataSetChanged()
+        if (adapter == null || adapter.itemCount == 0) {
+            afterDeleteFileHistoryListener?.invoke()
+        }
+    }
 }

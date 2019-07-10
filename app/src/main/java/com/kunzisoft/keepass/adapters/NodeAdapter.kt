@@ -39,7 +39,8 @@ class NodeAdapter
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-(private val context: Context, private val menuInflater: MenuInflater) : RecyclerView.Adapter<BasicViewHolder>() {
+(private val context: Context, private val menuInflater: MenuInflater)
+    : RecyclerView.Adapter<BasicViewHolder>() {
 
     private val nodeSortedList: SortedList<NodeVersioned>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -208,12 +209,11 @@ class NodeAdapter
         // Assign text
         holder.text?.text = subNode.title
         // Assign click
-        holder.container?.setOnClickListener(
-                OnNodeClickListener(subNode))
+        holder.container?.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
         // Context menu
         if (activateContextMenu) {
             holder.container?.setOnCreateContextMenuListener(
-                    ContextMenuBuilder(subNode, nodeMenuListener, readOnly))
+                    ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
         }
 
         // Add username
@@ -280,19 +280,14 @@ class NodeAdapter
     }
 
     /**
-     * Utility class for node listener
-     */
-    private inner class OnNodeClickListener internal constructor(private val node: NodeVersioned) : View.OnClickListener {
-
-        override fun onClick(v: View) {
-            nodeClickCallback?.onNodeClick(node)
-        }
-    }
-
-    /**
      * Utility class for menu listener
      */
-    private inner class ContextMenuBuilder internal constructor(private val node: NodeVersioned, private val menuListener: NodeMenuListener?, private val readOnly: Boolean) : View.OnCreateContextMenuListener {
+    private class ContextMenuBuilder(val menuInflater: MenuInflater,
+                                     val node: NodeVersioned,
+                                     val readOnly: Boolean,
+                                     val isASearchResult: Boolean,
+                                     val menuListener: NodeMenuListener?)
+        : View.OnCreateContextMenuListener {
 
         private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
             if (menuListener == null)
@@ -307,21 +302,23 @@ class NodeAdapter
             }
         }
 
-        override fun onCreateContextMenu(contextMenu: ContextMenu, view: View, contextMenuInfo: ContextMenu.ContextMenuInfo) {
+        override fun onCreateContextMenu(contextMenu: ContextMenu?,
+                                         view: View?,
+                                         contextMenuInfo: ContextMenu.ContextMenuInfo?) {
             menuInflater.inflate(R.menu.node_menu, contextMenu)
 
             // Opening
-            var menuItem = contextMenu.findItem(R.id.menu_open)
-            menuItem.setOnMenuItemClickListener(mOnMyActionClickListener)
+            var menuItem = contextMenu?.findItem(R.id.menu_open)
+            menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
 
             val database = App.currentDatabase
 
             // Edition
             if (readOnly || node == database.recycleBin) {
-                contextMenu.removeItem(R.id.menu_edit)
+                contextMenu?.removeItem(R.id.menu_edit)
             } else {
-                menuItem = contextMenu.findItem(R.id.menu_edit)
-                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener)
+                menuItem = contextMenu?.findItem(R.id.menu_edit)
+                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
             }
 
             // Copy (not for group)
@@ -330,28 +327,28 @@ class NodeAdapter
                     || node == database.recycleBin
                     || node.type == Type.GROUP) {
                 // TODO COPY For Group
-                contextMenu.removeItem(R.id.menu_copy)
+                contextMenu?.removeItem(R.id.menu_copy)
             } else {
-                menuItem = contextMenu.findItem(R.id.menu_copy)
-                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener)
+                menuItem = contextMenu?.findItem(R.id.menu_copy)
+                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
             }
 
             // Move
             if (readOnly
                     || isASearchResult
                     || node == database.recycleBin) {
-                contextMenu.removeItem(R.id.menu_move)
+                contextMenu?.removeItem(R.id.menu_move)
             } else {
-                menuItem = contextMenu.findItem(R.id.menu_move)
-                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener)
+                menuItem = contextMenu?.findItem(R.id.menu_move)
+                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
             }
 
             // Deletion
             if (readOnly || node == database.recycleBin) {
-                contextMenu.removeItem(R.id.menu_delete)
+                contextMenu?.removeItem(R.id.menu_delete)
             } else {
-                menuItem = contextMenu.findItem(R.id.menu_delete)
-                menuItem.setOnMenuItemClickListener(mOnMyActionClickListener)
+                menuItem = contextMenu?.findItem(R.id.menu_delete)
+                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
             }
         }
     }

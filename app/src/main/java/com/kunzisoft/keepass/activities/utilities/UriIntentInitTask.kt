@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.password
+package com.kunzisoft.keepass.activities.utilities
 
 import android.content.Context
 import android.content.Intent
@@ -13,7 +13,7 @@ import com.kunzisoft.keepass.utils.UriUtil
 import java.io.File
 import java.lang.ref.WeakReference
 
-internal class UriIntentInitTask(private val weakContext: WeakReference<Context>,
+class UriIntentInitTask(private val weakContext: WeakReference<Context>,
                                  private val uriIntentInitTaskCallback: UriIntentInitTaskCallback,
                                  private val isKeyFileNeeded: Boolean)
     : AsyncTask<Intent, Void, Int>() {
@@ -36,7 +36,7 @@ internal class UriIntentInitTask(private val weakContext: WeakReference<Context>
             } else if (incoming.scheme == "file") {
                 val fileName = incoming.path
 
-                if (fileName!!.isEmpty()) {
+                if (fileName?.isNotEmpty() == true) {
                     // No file name
                     return R.string.file_not_found
                 }

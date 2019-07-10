@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.activities.stylish;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,7 +26,6 @@ import android.support.annotation.StyleRes;
 import android.util.Log;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.stylish.Stylish;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 
 /**

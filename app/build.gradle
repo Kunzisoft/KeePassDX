@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 27
@@ -80,7 +81,7 @@ android {
 
 def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
-def permissionDispatcherVersion = "3.1.0"
+def permissionDispatcherVersion = "3.3.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -103,7 +104,7 @@ dependencies {
         // if you don't use android.app.Fragment you can exclude support for them
         exclude module: "support-v13"
     }
-    annotationProcessor "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
+    kapt "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
     implementation 'org.apache.commons:commons-io:1.3.2'

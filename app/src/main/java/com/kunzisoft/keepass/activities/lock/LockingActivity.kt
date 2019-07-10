@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.activities.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 abstract class LockingActivity : StylishActivity() {

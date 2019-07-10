@@ -40,7 +40,7 @@ import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.database.element.PwIconStandard;
 import com.kunzisoft.keepass.icons.IconPack;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.stylish.StylishActivity;
+import com.kunzisoft.keepass.activities.stylish.StylishActivity;
 
 
 public class IconPickerDialogFragment extends DialogFragment {

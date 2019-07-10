@@ -28,7 +28,7 @@ import android.widget.TextView
 
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
 
 import org.joda.time.DateTime
 

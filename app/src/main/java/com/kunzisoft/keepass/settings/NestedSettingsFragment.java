@@ -61,7 +61,7 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseNamePrefe
 import com.kunzisoft.keepass.settings.preferencedialogfragment.MemoryUsagePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.RoundsPreferenceDialogFragmentCompat;
-import com.kunzisoft.keepass.stylish.Stylish;
+import com.kunzisoft.keepass.activities.stylish.Stylish;
 
 import java.lang.ref.WeakReference;
 

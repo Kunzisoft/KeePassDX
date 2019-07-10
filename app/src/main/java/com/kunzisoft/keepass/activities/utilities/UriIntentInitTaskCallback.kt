@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,10 +17,10 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.password;
+package com.kunzisoft.keepass.activities.utilities
 
-import android.net.Uri;
+import android.net.Uri
 
 interface UriIntentInitTaskCallback {
-    void onPostInitTask(Uri dbUri, Uri keyFileUri, Integer errorStringId);
+    fun onPostInitTask(dbUri: Uri?, keyFileUri: Uri?, errorStringId: Int?)
 }

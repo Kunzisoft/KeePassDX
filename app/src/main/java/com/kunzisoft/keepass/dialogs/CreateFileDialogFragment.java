@@ -44,7 +44,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.fileselect.FilePickerStylishActivity;
+import com.kunzisoft.keepass.activities.stylish.FilePickerStylishActivity;
 import com.kunzisoft.keepass.utils.UriUtil;
 import com.nononsenseapps.filepicker.FilePickerActivity;
 import com.nononsenseapps.filepicker.Utils;
