@@ -151,7 +151,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         mKeyFileHelper = KeyFileHelper(this)
         browseButtonView = findViewById(R.id.browse_button)
-        browseButtonView?.setOnClickListener(mKeyFileHelper!!.getOpenFileOnClickViewListener { Uri.parse("file://" + openFileNameView!!.text.toString()) })
+        browseButtonView?.setOnClickListener(mKeyFileHelper!!.getOpenFileOnClickViewListener {
+            Uri.parse("file://" + openFileNameView!!.text.toString())
+        })
 
         // Construct adapter with listeners
         mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this@FileDatabaseSelectActivity,
@@ -208,7 +210,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
                         browseButtonView!!,
                          {tapTargetView ->
-                            mKeyFileHelper?.openFileOnClickViewListener?.onClick(tapTargetView)
+                             tapTargetView?.let {
+                                 mKeyFileHelper?.openFileOnClickViewListener?.onClick(it)
+                             }
                         },
                         {
                             fileSelectExpandableButtonView?.let {

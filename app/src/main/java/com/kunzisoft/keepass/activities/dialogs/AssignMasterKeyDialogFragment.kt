@@ -229,9 +229,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
-            if (uri != null) {
-                val pathString = UriUtil.parseDefaultFile(uri.toString())
-                if (pathString != null) {
+            uri?.let { currentUri ->
+                UriUtil.parseDefaultFile(currentUri.toString())?.let { pathString ->
                     keyFileCheckBox?.isChecked = true
                     keyFileView?.text = pathString.toString()
                 }
