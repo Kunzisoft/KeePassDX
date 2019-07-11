@@ -12,7 +12,7 @@
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
     <string name="key_derivation_function">Nøkkelutledningsfunksjon</string>
     <string name="app_timeout">Programtidsavbrudd</string>
-    <string name="app_timeout_summary">Tid før databasen låses, ved programinaktivitet.</string>
+    <string name="app_timeout_summary">Inaktivitet før appen er låst</string>
     <string name="application">Program</string>
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
@@ -128,7 +128,7 @@
     <string name="no_results">Ingen søkeresultater</string>
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
-    <string name="open_recent">Nylige databaser:</string>
+    <string name="open_recent">Nylige databaser</string>
     <string name="omitbackup_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
     <string name="omitbackup_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
@@ -171,7 +171,7 @@
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
-    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) -rammeverk til filutforsking (KitKat og senere).</string>
+    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) rammeverk til filutforsking (KitKat og senere)</string>
     <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
@@ -211,7 +211,7 @@
     <string name="fingerprint_setting_text">Sett ditt personlige fingeravtrykk for din enhet i</string>
     <string name="fingerprint_setting_way_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
     <string name="fingerprint_type_password_text">Skriv passordet ditt i KeePass DX</string>
-    <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert</string>
+    <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
     <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
     <string name="fingerprint">Fingeravtrykk</string>
@@ -232,16 +232,16 @@
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database.</string>
     <string name="permission_external_storage_rationale_read_database">KeePass DX trenger tilgang til eksternt lagringsmedium for å lese en URI som ikke leveres av en innholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist</string>
-    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium</string>
+    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist.</string>
+    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium.</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
     <string name="auto_open_file_uri_summary">Åpne en fil fra utvalgsskjermen automatisk etter at et valg er gjort i filutforskeren</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
-    <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen.</string>
+    <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
     <string name="warning_disabling_storage_access_framework">ADVARSEL: Å skru av denne funksjonen kan lede til manglende evne til å åpne eller lagre databaser.</string>
     <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
@@ -253,7 +253,7 @@
     <string name="other">Annet</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter.</string>
+    <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-innstillinger</string>
     <string name="magic_keyboard_configure_title">Sett opp tastaturet for sikker skjemautfylling.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard i enhetsinnstillingene.</string>
@@ -266,7 +266,7 @@
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Gå tilbake til ditt hovedtastatur.</string>
     <string name="allow_no_password_title">Tillat inget passord</string>
-    <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt.</string>
+    <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg</string>
     <string name="enable_education_screens_title">Hjelpeskjermer</string>
@@ -278,7 +278,7 @@
     <string name="education_create_database_summary">Du kjenner ikke KeePass DX enda, opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
     <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
-    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok.</string>
+    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok</string>
     <string name="education_open_link_database_summary">Du kan også åpne din database med en fysisk lenke (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
     <string name="education_new_node_summary">Legg til oppføringer for å behandle dine digitale identiteter.
@@ -286,11 +286,11 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_fingerprint_title">Lås opp databasen din med fingeravtrykket ditt.</string>
+    <string name="education_fingerprint_title">Lås opp databasen din med fingeravtrykket ditt</string>
     <string name="education_fingerprint_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
-    <string name="education_generate_password_title">Opprett et sterkt passord</string>
+    <string name="education_generate_password_title">Opprett et sterkt passord.</string>
     <string name="education_generate_password_summary">Generer et sterkt passord for å tilknytte oppføringen, definer det i henhold til kriteriene i skjemaet og ikke glem et sikkert passord du kan huske.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
@@ -344,7 +344,7 @@
     <string name="keyboard_entry_category">Oppføring</string>
     <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
     <string name="keyboard_entry_timeout_summary">Tidsavbrudd for tømming av tastaturoppføring</string>
-    <string name="keyboard_notification_entry_title">Merknadsinfo</string>
+    <string name="keyboard_notification_entry_title">Varslingsinfo</string>
     <string name="keyboard_notification_entry_summary">Vis en merknad når en oppføring er tilgjengelig</string>
     <string name="keyboard_notification_entry_content_title_text">Oppføring</string>
     <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
