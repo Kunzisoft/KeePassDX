@@ -105,19 +105,19 @@ class GroupActivity : LockingActivity(),
 
     private var mDatabase: Database? = null
 
-    private var listNodesFragment: ListNodesFragment? = null
-    private var currentGroupIsASearch: Boolean = false
+    private var mListNodesFragment: ListNodesFragment? = null
+    private var mCurrentGroupIsASearch: Boolean = false
 
     // Nodes
     private var mRootGroup: GroupVersioned? = null
     private var mCurrentGroup: GroupVersioned? = null
     private var mOldGroupToUpdate: GroupVersioned? = null
-    private var nodeToCopy: NodeVersioned? = null
-    private var nodeToMove: NodeVersioned? = null
+    private var mNodeToCopy: NodeVersioned? = null
+    private var mNodeToMove: NodeVersioned? = null
 
-    private var searchSuggestionAdapter: SearchEntryCursorAdapter? = null
+    private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
 
-    private var iconColor: Int = 0
+    private var mIconColor: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -148,10 +148,10 @@ class GroupActivity : LockingActivity(),
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
             if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
-                nodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
+                mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
             } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
-                nodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
+                mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
             }
         }
@@ -163,7 +163,7 @@ class GroupActivity : LockingActivity(),
         }
 
         mCurrentGroup = retrieveCurrentGroup(intent, savedInstanceState)
-        currentGroupIsASearch = Intent.ACTION_SEARCH == intent.action
+        mCurrentGroupIsASearch = Intent.ACTION_SEARCH == intent.action
 
         Log.i(TAG, "Started creating tree")
         if (mCurrentGroup == null) {
@@ -181,28 +181,28 @@ class GroupActivity : LockingActivity(),
         toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
         toolbarPaste?.setNavigationOnClickListener {
             toolbarPasteExpandableLayout?.collapse()
-            nodeToCopy = null
-            nodeToMove = null
+            mNodeToCopy = null
+            mNodeToMove = null
         }
 
         // Retrieve the textColor to tint the icon
         val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        iconColor = taTextColor.getColor(0, Color.WHITE)
+        mIconColor = taTextColor.getColor(0, Color.WHITE)
         taTextColor.recycle()
 
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
-        if (currentGroupIsASearch)
+        if (mCurrentGroupIsASearch)
             fragmentTag = SEARCH_FRAGMENT_TAG
 
         // Initialize the fragment with the list
-        listNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
-        if (listNodesFragment == null)
-            listNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, currentGroupIsASearch)
+        mListNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
+        if (mListNodesFragment == null)
+            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, mCurrentGroupIsASearch)
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
                 R.id.nodes_list_fragment_container,
-                listNodesFragment,
+                mListNodesFragment,
                 fragmentTag)
                 .commit()
 
@@ -220,7 +220,7 @@ class GroupActivity : LockingActivity(),
 
         // Search suggestion
         mDatabase?.let { database ->
-            searchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
+            mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
         }
 
         Log.i(TAG, "Finished creating tree")
@@ -229,7 +229,7 @@ class GroupActivity : LockingActivity(),
     override fun onNewIntent(intent: Intent) {
         Log.d(TAG, "setNewIntent: $intent")
         setIntent(intent)
-        currentGroupIsASearch = if (Intent.ACTION_SEARCH == intent.action) {
+        mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intent.action) {
             // only one instance of search in backstack
             openSearchGroup(retrieveCurrentGroup(intent, null))
             true
@@ -278,7 +278,7 @@ class GroupActivity : LockingActivity(),
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
 
-            listNodesFragment = newListNodeFragment
+            mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
             assignGroupViewElements()
         }
@@ -291,10 +291,10 @@ class GroupActivity : LockingActivity(),
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
-        nodeToCopy?.let {
+        mNodeToCopy?.let {
             outState.putParcelable(NODE_TO_COPY_KEY, it)
         }
-        nodeToMove?.let {
+        mNodeToMove?.let {
             outState.putParcelable(NODE_TO_MOVE_KEY, it)
         }
         super.onSaveInstanceState(outState)
@@ -346,14 +346,14 @@ class GroupActivity : LockingActivity(),
                 }
             }
         }
-        if (currentGroupIsASearch) {
+        if (mCurrentGroupIsASearch) {
             searchTitleView?.visibility = View.VISIBLE
         } else {
             searchTitleView?.visibility = View.GONE
         }
 
         // Assign icon
-        if (currentGroupIsASearch) {
+        if (mCurrentGroupIsASearch) {
             if (toolbar != null) {
                 toolbar?.navigationIcon = null
             }
@@ -362,7 +362,7 @@ class GroupActivity : LockingActivity(),
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let {
-                mDatabase?.drawFactory?.assignDatabaseIconTo(this, iconView, it.icon, iconColor)
+                mDatabase?.drawFactory?.assignDatabaseIconTo(this, iconView, it.icon, mIconColor)
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)
@@ -385,8 +385,8 @@ class GroupActivity : LockingActivity(),
         addNodeButtonView?.apply {
 
             // To enable add button
-            val addGroupEnabled = !readOnly && !currentGroupIsASearch
-            var addEntryEnabled = !readOnly && !currentGroupIsASearch
+            val addGroupEnabled = !readOnly && !mCurrentGroupIsASearch
+            var addEntryEnabled = !readOnly && !mCurrentGroupIsASearch
             mCurrentGroup?.let {
                 val isRoot = it == mRootGroup
                 if (!it.allowAddEntryIfIsRoot())
@@ -483,7 +483,7 @@ class GroupActivity : LockingActivity(),
 
     override fun onCopyMenuClick(node: NodeVersioned): Boolean {
         toolbarPasteExpandableLayout?.expand()
-        nodeToCopy = node
+        mNodeToCopy = node
         toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
         return false
     }
@@ -494,15 +494,15 @@ class GroupActivity : LockingActivity(),
 
             when (item.itemId) {
                 R.id.menu_paste -> {
-                    when (nodeToCopy?.type) {
+                    when (mNodeToCopy?.type) {
                         Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
                         Type.ENTRY -> {
                             mCurrentGroup?.let { currentGroup ->
-                                copyEntry(nodeToCopy as EntryVersioned, currentGroup)
+                                copyEntry(mNodeToCopy as EntryVersioned, currentGroup)
                             }
                         }
                     }
-                    nodeToCopy = null
+                    mNodeToCopy = null
                     return true
                 }
             }
@@ -522,7 +522,7 @@ class GroupActivity : LockingActivity(),
 
     override fun onMoveMenuClick(node: NodeVersioned): Boolean {
         toolbarPasteExpandableLayout?.expand()
-        nodeToMove = node
+        mNodeToMove = node
         toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
         return false
     }
@@ -533,19 +533,19 @@ class GroupActivity : LockingActivity(),
 
             when (item.itemId) {
                 R.id.menu_paste -> {
-                    when (nodeToMove?.type) {
+                    when (mNodeToMove?.type) {
                         Type.GROUP -> {
                             mCurrentGroup?.let { currentGroup ->
-                                moveGroup(nodeToMove as GroupVersioned, currentGroup)
+                                moveGroup(mNodeToMove as GroupVersioned, currentGroup)
                             }
                         }
                         Type.ENTRY -> {
                             mCurrentGroup?.let { currentGroup ->
-                                moveEntry(nodeToMove as EntryVersioned, currentGroup)
+                                moveEntry(mNodeToMove as EntryVersioned, currentGroup)
                             }
                         }
                     }
-                    nodeToMove = null
+                    mNodeToMove = null
                     return true
                 }
             }
@@ -609,7 +609,7 @@ class GroupActivity : LockingActivity(),
         // Refresh the elements
         assignGroupViewElements()
         // Refresh suggestions to change preferences
-        searchSuggestionAdapter?.reInit(this)
+        mSearchSuggestionAdapter?.reInit(this)
     }
 
     override fun onStop() {
@@ -639,10 +639,10 @@ class GroupActivity : LockingActivity(),
                 setSearchableInfo(searchManager.getSearchableInfo(
                         ComponentName(this@GroupActivity, GroupActivity::class.java)))
                 setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
-                suggestionsAdapter = searchSuggestionAdapter
+                suggestionsAdapter = mSearchSuggestionAdapter
                 setOnSuggestionListener(object : SearchView.OnSuggestionListener {
                     override fun onSuggestionClick(position: Int): Boolean {
-                        searchSuggestionAdapter?.let { searchAdapter ->
+                        mSearchSuggestionAdapter?.let { searchAdapter ->
                             searchAdapter.getEntryFromPosition(position)?.let { entry ->
                                 onNodeClick(entry)
                             }
@@ -668,8 +668,8 @@ class GroupActivity : LockingActivity(),
     private fun performedNextEducation(groupActivityEducation: GroupActivityEducation,
                                        menu: Menu) {
         // If no node, show education to add new one
-        if (listNodesFragment != null
-                && listNodesFragment!!.isEmpty
+        if (mListNodesFragment != null
+                && mListNodesFragment!!.isEmpty
                 && addNodeButtonView != null
                 && addNodeButtonView!!.isEnable
                 && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
@@ -815,7 +815,7 @@ class GroupActivity : LockingActivity(),
                             // TODO custom icon
                             updateGroup.icon = icon
 
-                            listNodesFragment?.removeNode(oldGroupToUpdate)
+                            mListNodesFragment?.removeNode(oldGroupToUpdate)
 
                             // If group updated save it in the database
                             Thread(UpdateGroupRunnable(this,
@@ -838,7 +838,7 @@ class GroupActivity : LockingActivity(),
             runOnUiThread {
                 if (actionNodeValues.success) {
                     if (actionNodeValues.newNode != null)
-                        listNodesFragment?.addNode(actionNodeValues.newNode)
+                        mListNodesFragment?.addNode(actionNodeValues.newNode)
                 }
             }
         }
@@ -849,7 +849,7 @@ class GroupActivity : LockingActivity(),
             runOnUiThread {
                 if (actionNodeValues.success) {
                     if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
-                        listNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
+                        mListNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
                 }
             }
         }
@@ -860,7 +860,7 @@ class GroupActivity : LockingActivity(),
             runOnUiThread {
                 if (actionNodeValues.success) {
                     if (actionNodeValues.oldNode != null)
-                        listNodesFragment?.removeNode(actionNodeValues.oldNode)
+                        mListNodesFragment?.removeNode(actionNodeValues.oldNode)
 
                     actionNodeValues.oldNode?.let { oldNode ->
                         oldNode.parent?.let { parent ->
@@ -872,7 +872,7 @@ class GroupActivity : LockingActivity(),
                                         && mCurrentGroup != null
                                         && mCurrentGroup!!.parent == null
                                         && mCurrentGroup != recycleBin) {
-                                    listNodesFragment?.addNode(parent)
+                                    mListNodesFragment?.addNode(parent)
                                 }
                             }
                         }
@@ -938,7 +938,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {
-        listNodesFragment?.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom)
+        mListNodesFragment?.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -972,7 +972,7 @@ class GroupActivity : LockingActivity(),
 
     private fun removeSearchInIntent(intent: Intent) {
         if (Intent.ACTION_SEARCH == intent.action) {
-            currentGroupIsASearch = false
+            mCurrentGroupIsASearch = false
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
         }
@@ -992,10 +992,10 @@ class GroupActivity : LockingActivity(),
             }
         }
 
-        listNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
+        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
         // to refresh fragment
-        listNodesFragment?.rebuildList()
-        mCurrentGroup = listNodesFragment?.mainGroup
+        mListNodesFragment?.rebuildList()
+        mCurrentGroup = mListNodesFragment?.mainGroup
         removeSearchInIntent(intent)
         assignGroupViewElements()
     }

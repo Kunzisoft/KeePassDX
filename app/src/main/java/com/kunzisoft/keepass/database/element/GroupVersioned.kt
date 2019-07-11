@@ -171,7 +171,10 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     override fun getChildGroups(): MutableList<GroupVersioned> {
         val children = ArrayList<GroupVersioned>()
 
-        pwGroupV3?:pwGroupV4?.getChildGroups()?.forEach {
+        pwGroupV3?.getChildGroups()?.forEach {
+            children.add(GroupVersioned(it))
+        }
+        pwGroupV4?.getChildGroups()?.forEach {
             children.add(GroupVersioned(it))
         }
 
@@ -181,7 +184,10 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     override fun getChildEntries(): MutableList<EntryVersioned> {
         val children = ArrayList<EntryVersioned>()
 
-        pwGroupV3?:pwGroupV4?.getChildEntries()?.forEach {
+        pwGroupV3?.getChildEntries()?.forEach {
+            children.add(EntryVersioned(it))
+        }
+        pwGroupV4?.getChildEntries()?.forEach {
             children.add(EntryVersioned(it))
         }
 
@@ -194,7 +200,6 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
      */
     fun getChildrenWithoutMetaStream(): List<NodeVersioned> {
         val children = ArrayList<NodeVersioned>()
-
         children.addAll(getChildGroups())
 
         pwGroupV3?.let {
