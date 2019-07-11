@@ -34,7 +34,7 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fileselect.KeyFileHelper
+import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
 

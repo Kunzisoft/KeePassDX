@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.utilities
+package com.kunzisoft.keepass.activities.helpers
 
 import android.net.Uri
 

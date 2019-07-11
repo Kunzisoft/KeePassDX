@@ -16,7 +16,7 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  */
-package com.kunzisoft.keepass.activities.view
+package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color

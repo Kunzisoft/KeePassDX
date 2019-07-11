@@ -43,7 +43,7 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.ReadOnlyHelper;
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.element.Database;
 import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment;

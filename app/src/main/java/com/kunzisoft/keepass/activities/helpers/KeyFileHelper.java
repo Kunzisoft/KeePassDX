@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.activities.helpers;
 
 import android.app.Activity;
 import android.content.ContentResolver;
@@ -29,7 +29,8 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 
-import com.kunzisoft.keepass.compat.StorageAF;
+import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment;
+import com.kunzisoft.keepass.fileselect.StorageAF;
 import com.kunzisoft.keepass.utils.Interaction;
 import com.kunzisoft.keepass.utils.UriUtil;
 
@@ -157,11 +158,11 @@ public class KeyFileHelper {
      */
     private void showBrowserDialog() {
         try {
-            BrowserDialog browserDialog = new BrowserDialog();
+            BrowserDialogFragment browserDialogFragment = new BrowserDialogFragment();
             if (fragment != null && fragment.getFragmentManager() != null)
-                browserDialog.show(fragment.getFragmentManager(), "browserDialog");
+                browserDialogFragment.show(fragment.getFragmentManager(), "browserDialog");
             else if (activity.getFragmentManager() != null)
-                browserDialog.show(((FragmentActivity) activity).getSupportFragmentManager(), "browserDialog");
+                browserDialogFragment.show(((FragmentActivity) activity).getSupportFragmentManager(), "browserDialog");
         } catch (Exception e) {
             Log.e(TAG, "Can't open BrowserDialog", e);
         }

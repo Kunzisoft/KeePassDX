@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment.Companion.KEY_ICON_STANDARD
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.activities.view.EntryEditCustomField
+import com.kunzisoft.keepass.view.EntryEditCustomField
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable

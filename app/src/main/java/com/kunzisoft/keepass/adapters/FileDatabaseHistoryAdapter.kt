@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect
+package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.net.Uri
@@ -28,6 +28,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.fileselect.FileDatabaseModel
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class FileDatabaseHistoryAdapter(private val context: Context, private val listFiles: List<String>)

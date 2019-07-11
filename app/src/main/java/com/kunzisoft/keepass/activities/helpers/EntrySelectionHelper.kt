@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities
+package com.kunzisoft.keepass.activities.helpers
 
 import android.app.assist.AssistStructure
 import android.content.Intent

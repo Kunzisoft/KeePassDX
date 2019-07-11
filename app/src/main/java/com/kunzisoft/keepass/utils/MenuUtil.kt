@@ -28,7 +28,7 @@ import android.widget.Toast
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
-import com.kunzisoft.keepass.activities.ReadOnlyHelper.READ_ONLY_DEFAULT
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper.READ_ONLY_DEFAULT
 import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 

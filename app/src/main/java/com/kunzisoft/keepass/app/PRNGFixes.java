@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.compat;
+package com.kunzisoft.keepass.app;
 
 /*
  * This software is provided 'as-is', without any express or implied

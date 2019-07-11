@@ -49,7 +49,11 @@ import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.CreateFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileInformationDialogFragment
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.fileselect.*
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
@@ -466,7 +470,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     override fun onFileSelectClearListener(fileDatabaseModel: FileDatabaseModel): Boolean {
         DeleteFileHistoryAsyncTask({
-            mFileDatabaseHistory?.deleteDatabaseUri(fileDatabaseModel.fileUri)
+            fileDatabaseModel.fileUri?.let {
+                mFileDatabaseHistory?.deleteDatabaseUri(it)
+            }
             mAdapterDatabaseHistory?.notifyDataSetChanged()
             updateFileListVisibility()
         }, mFileDatabaseHistory, mAdapterDatabaseHistory).execute(fileDatabaseModel)

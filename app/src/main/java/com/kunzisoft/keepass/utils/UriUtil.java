@@ -23,7 +23,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-import com.kunzisoft.keepass.compat.StorageAF;
+import com.kunzisoft.keepass.fileselect.StorageAF;
 
 import java.io.File;
 

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.collections;
+package com.kunzisoft.keepass.utils;
 
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;

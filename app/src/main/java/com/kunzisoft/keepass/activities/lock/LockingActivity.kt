@@ -28,8 +28,8 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishActivity

@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.fileselect
 
 import android.os.AsyncTask
+import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 
@@ -29,7 +30,9 @@ class DeleteFileHistoryAsyncTask(private val afterDeleteFileHistoryListener: (()
     : AsyncTask<FileDatabaseModel, Void, Void>() {
 
     override fun doInBackground(vararg args: FileDatabaseModel): Void? {
-        fileHistory?.deleteDatabaseUri(args[0].fileUri)
+        args[0].fileUri?.let {
+            fileHistory?.deleteDatabaseUri(it)
+        }
         return null
     }
 

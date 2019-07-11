@@ -70,6 +70,8 @@ import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
 import com.kunzisoft.keepass.activities.dialogs.ReadOnlyDialog
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -78,7 +80,7 @@ import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.activities.view.AddNodeButtonView
+import com.kunzisoft.keepass.view.AddNodeButtonView
 
 import net.cachapa.expandablelayout.ExpandableLayout
 

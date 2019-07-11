@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities
+package com.kunzisoft.keepass.activities.helpers
 
 import android.content.Context
 import android.content.Intent

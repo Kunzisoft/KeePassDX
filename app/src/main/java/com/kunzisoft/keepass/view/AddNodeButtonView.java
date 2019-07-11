@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.activities.view;
+package com.kunzisoft.keepass.view;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

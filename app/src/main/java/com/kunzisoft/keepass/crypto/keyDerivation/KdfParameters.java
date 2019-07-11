@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
-import com.kunzisoft.keepass.collections.VariantDictionary;
+import com.kunzisoft.keepass.utils.VariantDictionary;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
 import com.kunzisoft.keepass.utils.Types;

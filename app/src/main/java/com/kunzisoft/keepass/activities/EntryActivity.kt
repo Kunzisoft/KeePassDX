@@ -35,12 +35,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.activities.view.EntryContentsView
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.view.EntryContentsView
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwNodeId
-import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.notifications.NotificationEntryCopyManager
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields

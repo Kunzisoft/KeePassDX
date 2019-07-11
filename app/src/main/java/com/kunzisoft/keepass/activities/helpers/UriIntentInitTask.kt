@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.activities.utilities
+package com.kunzisoft.keepass.activities.helpers
 
 import android.content.Context
 import android.content.Intent
@@ -6,7 +6,6 @@ import android.net.Uri
 import android.os.AsyncTask
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.compat.ClipDataCompat
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.utils.UriUtil
 

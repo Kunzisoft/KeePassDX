@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.compat;
+package com.kunzisoft.keepass.fileselect;
 
 import android.content.Context;
 import android.content.Intent;

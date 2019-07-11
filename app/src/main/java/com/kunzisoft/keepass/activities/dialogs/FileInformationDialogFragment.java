@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.activities.dialogs;
 
 import android.app.Dialog;
 import android.net.Uri;
@@ -30,6 +30,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.fileselect.FileDatabaseModel;
 
 import java.text.DateFormat;
 

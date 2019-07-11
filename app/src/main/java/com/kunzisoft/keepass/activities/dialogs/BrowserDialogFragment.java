@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect;
+package com.kunzisoft.keepass.activities.dialogs;
 
 import android.app.Dialog;
 import android.os.Bundle;
@@ -31,7 +31,7 @@ import android.widget.Button;
 import com.kunzisoft.keepass.R;
 import com.kunzisoft.keepass.utils.Util;
 
-public class BrowserDialog extends DialogFragment {
+public class BrowserDialogFragment extends DialogFragment {
 
     @NonNull
     @Override
