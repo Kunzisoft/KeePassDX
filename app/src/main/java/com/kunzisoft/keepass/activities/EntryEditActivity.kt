@@ -37,6 +37,7 @@ import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment.Compani
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.view.EntryEditCustomField
 import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable
@@ -248,7 +249,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 populateEntryWithViewInfo(newEntry)
 
                 // Open a progress dialog and save entry
-                var task: ActionRunnable? = null
+                var actionRunnable: ActionRunnable? = null
                 val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
                     override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
                         if (actionNodeValues.success)
@@ -257,7 +258,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 }
                 if (mIsNew) {
                     mParent?.let { parent ->
-                        task = AddEntryRunnable(this@EntryEditActivity,
+                        actionRunnable = AddEntryRunnable(this@EntryEditActivity,
                                 database,
                                 newEntry,
                                 parent,
@@ -266,14 +267,16 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                     }
 
                 } else {
-                    task = UpdateEntryRunnable(this@EntryEditActivity,
+                    actionRunnable = UpdateEntryRunnable(this@EntryEditActivity,
                             database,
                             entry,
                             newEntry,
                             afterActionNodeFinishRunnable,
                             !readOnly)
                 }
-                Thread(task).start()
+                actionRunnable?.let { runnable ->
+                    ProgressDialogSaveDatabaseThread(this@EntryEditActivity) {runnable}.start()
+                }
             }
         }
     }

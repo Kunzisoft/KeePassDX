@@ -43,20 +43,16 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
+import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.activities.helpers.UriIntentInitTask
-import com.kunzisoft.keepass.activities.helpers.UriIntentInitTaskCallback
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
-import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector
 import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
@@ -599,19 +595,18 @@ class PasswordActivity : StylishActivity(),
 
         mDatabaseFileUri?.let { databaseUri ->
             // Show the progress dialog and load the database
-            Thread(ProgressDialogRunnable(
-                    this,
-                    R.string.loading_database
-            ) { progressTaskUpdater ->
-                LoadDatabaseRunnable(
-                        WeakReference(this@PasswordActivity),
-                        database,
-                        databaseUri,
-                        password,
-                        keyFile,
-                        progressTaskUpdater,
-                        AfterLoadingDatabase(database))
-            }).start()
+            ProgressDialogThread(this,
+                    { progressTaskUpdater ->
+                        LoadDatabaseRunnable(
+                                WeakReference(this@PasswordActivity.applicationContext),
+                                database,
+                                databaseUri,
+                                password,
+                                keyFile,
+                                progressTaskUpdater,
+                                AfterLoadingDatabase(database))
+                    },
+                    R.string.loading_database).start()
         }
     }
 

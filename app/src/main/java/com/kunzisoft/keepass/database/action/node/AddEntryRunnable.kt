@@ -34,8 +34,8 @@ class AddEntryRunnable constructor(
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     override fun nodeAction() {
-        mNewEntry.touch(true, true)
-        mParent.touch(true, true)
+        mNewEntry.touch(modified = true, touchParents = true)
+        mParent.touch(modified = true, touchParents = true)
         database.addEntryTo(mNewEntry, mParent)
     }
 

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.content.ContentResolver
 import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
@@ -233,7 +234,7 @@ class Database {
     }
 
     @Throws(IOException::class, InvalidDBException::class)
-    fun loadData(ctx: Context, uri: Uri, password: String?, keyfile: Uri?, progressTaskUpdater: ProgressTaskUpdater) {
+    fun loadData(ctx: Context, uri: Uri, password: String?, keyfile: Uri?, progressTaskUpdater: ProgressTaskUpdater?) {
 
         mUri = uri
         isReadOnly = false
@@ -370,48 +371,48 @@ class Database {
     }
 
     @Throws(IOException::class, PwDbOutputException::class)
-    fun saveData(ctx: Context) {
-        saveData(ctx, mUri!!)
+    fun saveData(contentResolver: ContentResolver) {
+        mUri?.let {
+            saveData(contentResolver, it)
+        }
     }
 
     @Throws(IOException::class, PwDbOutputException::class)
-    private fun saveData(ctx: Context, uri: Uri) {
+    private fun saveData(contentResolver: ContentResolver, uri: Uri) {
         val errorMessage = "Failed to store database."
 
         if (uri.scheme == "file") {
-            val filename = uri.path
-            val tempFile = File(filename!! + ".tmp")
+            uri.path?.let { filename ->
+                val tempFile = File("$filename.tmp")
 
-            var fileOutputStream: FileOutputStream? = null
-            try {
-                fileOutputStream = FileOutputStream(tempFile)
-                val pmo =
-                        pwDatabaseV3?.let { PwDbV3Output(it, fileOutputStream) }
-                        ?: pwDatabaseV4?.let { PwDbV4Output(it, fileOutputStream) }
-                pmo?.output()
-            } catch (e: Exception) {
-                Log.e(TAG, errorMessage, e)
-                throw IOException(errorMessage, e)
-            } finally {
-                fileOutputStream?.close()
-            }
+                var fileOutputStream: FileOutputStream? = null
+                try {
+                    fileOutputStream = FileOutputStream(tempFile)
+                    val pmo = pwDatabaseV3?.let { PwDbV3Output(it, fileOutputStream) }
+                            ?: pwDatabaseV4?.let { PwDbV4Output(it, fileOutputStream) }
+                    pmo?.output()
+                } catch (e: Exception) {
+                    Log.e(TAG, errorMessage, e)
+                    throw IOException(errorMessage, e)
+                } finally {
+                    fileOutputStream?.close()
+                }
 
-            // Force data to disk before continuing
-            try {
-                fileOutputStream!!.fd.sync()
-            } catch (e: SyncFailedException) {
-                // Ignore if fsync fails. We tried.
-            }
-
-            val orig = File(filename)
-
-            if (!tempFile.renameTo(orig)) {
-                throw IOException(errorMessage)
+                // Force data to disk before continuing
+                try {
+                    fileOutputStream?.fd?.sync()
+                } catch (e: SyncFailedException) {
+                    // Ignore if fsync fails. We tried.
+                }
+    
+                if (!tempFile.renameTo(File(filename))) {
+                    throw IOException(errorMessage)
+                }
             }
         } else {
             var outputStream: OutputStream? = null
             try {
-                outputStream = ctx.contentResolver.openOutputStream(uri)
+                outputStream = contentResolver.openOutputStream(uri)
                 val pmo =
                         pwDatabaseV3?.let { PwDbV3Output(it, outputStream) }
                         ?: pwDatabaseV4?.let { PwDbV4Output(it, outputStream) }

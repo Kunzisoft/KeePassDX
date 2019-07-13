@@ -28,15 +28,15 @@ import com.kunzisoft.keepass.utils.getUriInputStream
 import java.io.IOException
 
 class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
-        ctx: Context,
-        db: Database,
+        context: Context,
+        database: Database,
         withMasterPassword: Boolean,
         masterPassword: String?,
         withKeyFile: Boolean,
         keyFile: Uri?,
         save: Boolean,
         actionRunnable: ActionRunnable? = null)
-    : SaveDatabaseRunnable(ctx, db, actionRunnable, save) {
+    : SaveDatabaseRunnable(context, database, save, actionRunnable) {
 
     private var mMasterPassword: String? = null
     private var mKeyFile: Uri? = null

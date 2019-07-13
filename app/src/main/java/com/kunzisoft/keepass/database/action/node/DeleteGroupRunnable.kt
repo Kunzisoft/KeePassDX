@@ -34,7 +34,7 @@ class DeleteGroupRunnable(context: FragmentActivity,
 
     override fun nodeAction() {
         mParent = mGroupToDelete.parent
-        mParent?.touch(false, true)
+        mParent?.touch(modified = false, touchParents = true)
 
         // Remove Group from parent
         mRecycle = database.canRecycle(mGroupToDelete)

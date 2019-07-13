@@ -42,19 +42,19 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
-import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
-import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.CreateFileDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileInformationDialogFragment
-import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
-import com.kunzisoft.keepass.fileselect.*
+import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.database.action.*
+import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.fileselect.DeleteFileHistoryAsyncTask
+import com.kunzisoft.keepass.fileselect.FileDatabaseModel
+import com.kunzisoft.keepass.fileselect.OpenFileHistoryAsyncTask
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -406,22 +406,24 @@ class FileDatabaseSelectActivity : StylishActivity(),
         try {
             mDatabaseFileUri?.path?.let { databaseFilename ->
                 // Create the new database and start prof
-                Thread(ProgressDialogRunnable(this,
-                        R.string.progress_create
-                ) {
-                    CreateDatabaseRunnable(databaseFilename) { database ->
-                        // TODO store database created
-                        AssignPasswordInDatabaseRunnable(this@FileDatabaseSelectActivity,
-                                database,
-                                masterPasswordChecked,
-                                masterPassword,
-                                keyFileChecked,
-                                keyFile,
-                                true, // TODO get readonly
-                                LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename))
-                        )
-                    }
-                }).start()
+                ProgressDialogThread(this@FileDatabaseSelectActivity,
+                        {
+                            CreateDatabaseRunnable(databaseFilename) { database ->
+                                // TODO store database created
+                                AssignPasswordInDatabaseRunnable(
+                                        this@FileDatabaseSelectActivity,
+                                        database,
+                                        masterPasswordChecked,
+                                        masterPassword,
+                                        keyFileChecked,
+                                        keyFile,
+                                        true, // TODO get readonly
+                                        LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename))
+                                )
+                            }
+                        },
+                        R.string.progress_create)
+                        .start()
             }
         } catch (e: Exception) {
             val error = "Unable to create database with this password and key file"

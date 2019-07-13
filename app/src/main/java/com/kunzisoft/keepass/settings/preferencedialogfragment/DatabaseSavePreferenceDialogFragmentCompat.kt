@@ -21,8 +21,9 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
 import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
+import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.action.SaveDatabaseProgressDialogRunnable
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
@@ -42,11 +43,13 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
             activity?.let { notNullActivity ->
                 database?.let { notNullDatabase ->
                     afterSaveDatabaseRunnable?.let { runnable ->
-                        Thread(SaveDatabaseProgressDialogRunnable(
-                                notNullActivity,
-                                notNullDatabase,
-                                { runnable },
-                                true)).start() // TODO Read only
+                        ProgressDialogSaveDatabaseThread(notNullActivity) {
+                            SaveDatabaseRunnable(
+                                    notNullActivity,
+                                    notNullDatabase,
+                                    true,
+                                    runnable)
+                        }.start()
                     }
                 }
             }

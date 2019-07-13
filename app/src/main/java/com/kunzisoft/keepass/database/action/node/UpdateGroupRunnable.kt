@@ -37,7 +37,7 @@ class UpdateGroupRunnable constructor(
 
     override fun nodeAction() {
         // Update group with new values
-        mOldGroup.touch(true, true)
+        mOldGroup.touch(modified = true, touchParents = true)
         mOldGroup.updateWith(mNewGroup)
     }
 

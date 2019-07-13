@@ -43,8 +43,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
@@ -52,26 +54,11 @@ import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
-import com.kunzisoft.keepass.database.action.ProgressDialogRunnable
-import com.kunzisoft.keepass.database.action.node.ActionNodeValues
-import com.kunzisoft.keepass.database.action.node.AddGroupRunnable
-import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable
-import com.kunzisoft.keepass.database.action.node.CopyEntryRunnable
-import com.kunzisoft.keepass.database.action.node.DeleteEntryRunnable
-import com.kunzisoft.keepass.database.action.node.DeleteGroupRunnable
-import com.kunzisoft.keepass.database.action.node.MoveEntryRunnable
-import com.kunzisoft.keepass.database.action.node.MoveGroupRunnable
-import com.kunzisoft.keepass.database.action.node.UpdateGroupRunnable
+import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
-import com.kunzisoft.keepass.activities.dialogs.ReadOnlyDialog
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.education.GroupActivityEducation
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -81,7 +68,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
-
 import net.cachapa.expandablelayout.ExpandableLayout
 
 class GroupActivity : LockingActivity(),
@@ -511,13 +497,14 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned) {
-        Thread(CopyEntryRunnable(this,
-                App.currentDatabase,
-                entryToCopy,
-                newParent,
-                AfterAddNodeRunnable(),
-                !readOnly)
-        ).start()
+        ProgressDialogSaveDatabaseThread(this) {
+            CopyEntryRunnable(this,
+                    App.currentDatabase,
+                    entryToCopy,
+                    newParent,
+                    AfterAddNodeRunnable(),
+                    !readOnly)
+        }.start()
     }
 
     override fun onMoveMenuClick(node: NodeVersioned): Boolean {
@@ -554,25 +541,27 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun moveGroup(groupToMove: GroupVersioned, newParent: GroupVersioned) {
-        Thread(MoveGroupRunnable(
+        ProgressDialogSaveDatabaseThread(this) {
+            MoveGroupRunnable(
                 this,
                 App.currentDatabase,
                 groupToMove,
                 newParent,
                 AfterAddNodeRunnable(),
                 !readOnly)
-        ).start()
+        }.start()
     }
 
     private fun moveEntry(entryToMove: EntryVersioned, newParent: GroupVersioned) {
-        Thread(MoveEntryRunnable(
-                this,
-                App.currentDatabase,
-                entryToMove,
-                newParent,
-                AfterAddNodeRunnable(),
-                !readOnly)
-        ).start()
+        ProgressDialogSaveDatabaseThread(this) {
+            MoveEntryRunnable(
+                    this,
+                    App.currentDatabase,
+                    entryToMove,
+                    newParent,
+                    AfterAddNodeRunnable(),
+                    !readOnly)
+        }.start()
     }
 
     override fun onDeleteMenuClick(node: NodeVersioned): Boolean {
@@ -585,23 +574,25 @@ class GroupActivity : LockingActivity(),
 
     private fun deleteGroup(group: GroupVersioned) {
         //TODO Verify trash recycle bin
-        Thread(DeleteGroupRunnable(
-                this,
-                App.currentDatabase,
-                group,
-                AfterDeleteNodeRunnable(),
-                !readOnly)
-        ).start()
+        ProgressDialogSaveDatabaseThread(this) {
+            DeleteGroupRunnable(
+                    this,
+                    App.currentDatabase,
+                    group,
+                    AfterDeleteNodeRunnable(),
+                    !readOnly)
+        }.start()
     }
 
     private fun deleteEntry(entry: EntryVersioned) {
-        Thread(DeleteEntryRunnable(
-                this,
-                App.currentDatabase,
-                entry,
-                AfterDeleteNodeRunnable(),
-                !readOnly)
-        ).start()
+        ProgressDialogSaveDatabaseThread(this) {
+            DeleteEntryRunnable(
+                    this,
+                    App.currentDatabase,
+                    entry,
+                    AfterDeleteNodeRunnable(),
+                    !readOnly)
+        }.start()
     }
 
     override fun onResume() {
@@ -797,13 +788,14 @@ class GroupActivity : LockingActivity(),
                             newGroup.parent = currentGroup
 
                             // If group created save it in the database
-                            Thread(AddGroupRunnable(this,
+                            ProgressDialogSaveDatabaseThread(this) {
+                                AddGroupRunnable(this,
                                     App.currentDatabase,
                                     newGroup,
                                     currentGroup,
                                     AfterAddNodeRunnable(),
                                     !readOnly)
-                            ).start()
+                            }.start()
                         }
                     }
                 }
@@ -818,13 +810,14 @@ class GroupActivity : LockingActivity(),
                             mListNodesFragment?.removeNode(oldGroupToUpdate)
 
                             // If group updated save it in the database
-                            Thread(UpdateGroupRunnable(this,
-                                    App.currentDatabase,
-                                    oldGroupToUpdate,
-                                    updateGroup,
-                                    AfterUpdateNodeRunnable(),
-                                    !readOnly)
-                            ).start()
+                            ProgressDialogSaveDatabaseThread(this) {
+                                UpdateGroupRunnable(this,
+                                        App.currentDatabase,
+                                        oldGroupToUpdate,
+                                        updateGroup,
+                                        AfterUpdateNodeRunnable(),
+                                        !readOnly)
+                            }.start()
                         }
                     }
                 else -> {
@@ -910,23 +903,21 @@ class GroupActivity : LockingActivity(),
             keyFileChecked: Boolean, keyFile: Uri?) {
 
         mDatabase?.let { database ->
-            val taskThread = Thread(ProgressDialogRunnable(this,
-                    R.string.saving_database
-            ) {
+            val progressDialogThread = ProgressDialogSaveDatabaseThread(this) {
                 AssignPasswordInDatabaseRunnable(this@GroupActivity,
                         database,
                         masterPasswordChecked,
                         masterPassword,
                         keyFileChecked,
                         keyFile,
-                        true) // TODO save
-            })
+                        true)
+            }
             // Show the progress dialog now or after dialog confirmation
             if (database.validatePasswordEncoding(masterPassword!!)) {
-                taskThread.start()
+                progressDialogThread.start()
             } else {
                 PasswordEncodingDialogHelper()
-                        .show(this, DialogInterface.OnClickListener{ _, _ -> taskThread.start() })
+                        .show(this, DialogInterface.OnClickListener{ _, _ -> progressDialogThread.start() })
             }
         }
     }

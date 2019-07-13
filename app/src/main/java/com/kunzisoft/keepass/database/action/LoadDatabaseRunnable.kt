@@ -39,7 +39,7 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
                            private val mUri: Uri,
                            private val mPass: String?,
                            private val mKey: Uri?,
-                           private val progressTaskUpdater: ProgressTaskUpdater,
+                           private val progressTaskUpdater: ProgressTaskUpdater?,
                            nestedAction: ActionRunnable)
     : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
 

@@ -38,7 +38,7 @@ class DeleteEntryRunnable constructor(
 
     override fun nodeAction() {
         mParent = mEntryToDelete.parent
-        mParent?.touch(false, true)
+        mParent?.touch(modified = false, touchParents = true)
 
         // Remove Entry from parent
         mRecycle = database.canRecycle(mEntryToDelete)

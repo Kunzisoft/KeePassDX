@@ -37,7 +37,7 @@ class UpdateEntryRunnable constructor(
 
     override fun nodeAction() {
         mBackupEntry = database.addHistoryBackupTo(mOldEntry)
-        mOldEntry.touch(true, true)
+        mOldEntry.touch(modified = true, touchParents = true)
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
     }

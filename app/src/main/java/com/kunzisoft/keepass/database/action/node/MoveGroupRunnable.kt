@@ -42,7 +42,7 @@ class MoveGroupRunnable constructor(
             // Move group in new parent if not in the current group
             if (mGroupToMove != mNewParent && !mNewParent.isContainedIn(mGroupToMove)) {
                 database.moveGroupTo(mGroupToMove, mNewParent)
-                mGroupToMove.touch(true, true)
+                mGroupToMove.touch(modified = true, touchParents = true)
                 finishRun(true)
             } else {
                 // Only finish thread
