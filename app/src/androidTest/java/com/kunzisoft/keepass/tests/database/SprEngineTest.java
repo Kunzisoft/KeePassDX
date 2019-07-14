@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -35,17 +35,17 @@ import java.util.UUID;
 import biz.source_code.base64Coder.Base64Coder;
 
 public class SprEngineTest extends AndroidTestCase {
-	private PwDatabaseV4 db;
-	private SprEngineV4 spr;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		Context ctx = getContext();
-		
-		AssetManager am = ctx.getAssets();
-		InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
+    private PwDatabaseV4 db;
+    private SprEngineV4 spr;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+
+        Context ctx = getContext();
+
+        AssetManager am = ctx.getAssets();
+        InputStream is = am.open("test.kdbx", AssetManager.ACCESS_STREAMING);
 
 		/*
 		TODO Test
@@ -56,12 +56,12 @@ public class SprEngineTest extends AndroidTestCase {
 		
 		spr = new SprEngineV4();
 		*/
-	}
-	
-	private final String REF = "{REF:P@I:2B1D56590D961F48A8CE8C392CE6CD35}";
-	private final String ENCODE_UUID = "IN7RkON49Ui1UZ2ddqmLcw==";
-	private final String RESULT = "Password";
-	public void testRefReplace() {
+    }
+
+    private final String REF = "{REF:P@I:2B1D56590D961F48A8CE8C392CE6CD35}";
+    private final String ENCODE_UUID = "IN7RkON49Ui1UZ2ddqmLcw==";
+    private final String RESULT = "Password";
+    public void testRefReplace() {
 		/*
 		TODO TEST
 		UUID entryUUID = decodeUUID(ENCODE_UUID);
@@ -71,16 +71,16 @@ public class SprEngineTest extends AndroidTestCase {
 		
 		assertEquals(RESULT, spr.compile(REF, entry, db));
 		 */
-		
-	}
-	
-	private UUID decodeUUID(String encoded) {
-		if (encoded == null || encoded.length() == 0 ) {
-			return PwDatabase.UUID_ZERO;
-		}
-		
-		byte[] buf = Base64Coder.decode(encoded);
-		return Types.bytestoUUID(buf);
-	}
+
+    }
+
+    private UUID decodeUUID(String encoded) {
+        if (encoded == null || encoded.length() == 0 ) {
+            return PwDatabase.UUID_ZERO;
+        }
+
+        byte[] buf = Base64Coder.decode(encoded);
+        return Types.bytestoUUID(buf);
+    }
 
 }

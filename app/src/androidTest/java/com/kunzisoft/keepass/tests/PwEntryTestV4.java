@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.tests;
 import junit.framework.TestCase;
 
 public class PwEntryTestV4 extends TestCase {
-	public void testAssign() {
+    public void testAssign() {
 		/*
 		TODO Test
 		PwEntryV4 entry = new PwEntryV4();
@@ -53,7 +53,7 @@ public class PwEntryTestV4 extends TestCase {
 		/* This test is not so useful now that I am not implementing value equality for Entries
 		assertTrue("Entries do not match.", entry.equals(target));
 		*/
-		
-	}
+
+    }
 
 }

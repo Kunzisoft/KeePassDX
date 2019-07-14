@@ -25,31 +25,40 @@ import android.preference.PreferenceManager
 import android.support.annotation.StringRes
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.FileNotFoundException
 import java.io.IOException
+import java.lang.ref.WeakReference
 
-class LoadDatabaseRunnable(private val mContext: Context,
+class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
                            private val mDatabase: Database,
                            private val mUri: Uri,
                            private val mPass: String?,
                            private val mKey: Uri?,
-                           private val progressTaskUpdater: ProgressTaskUpdater,
+                           private val progressTaskUpdater: ProgressTaskUpdater?,
                            nestedAction: ActionRunnable)
     : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
 
-    private val mRememberKeyFile: Boolean = PreferenceManager.getDefaultSharedPreferences(mContext)
-            .getBoolean(mContext.getString(R.string.keyfile_key), mContext.resources.getBoolean(R.bool.keyfile_default))
+    private val mRememberKeyFile: Boolean
+        get() {
+            return mWeakContext.get()?.let {
+                PreferenceManager.getDefaultSharedPreferences(it)
+                        .getBoolean(it.getString(R.string.keyfile_key),
+                                it.resources.getBoolean(R.bool.keyfile_default))
+            } ?: true
+        }
 
     override fun run() {
         try {
-            mDatabase.loadData(mContext, mUri, mPass, mKey, progressTaskUpdater)
-            saveFileData(mUri, mKey)
-            finishRun(true)
+            mWeakContext.get()?.let {
+                mDatabase.loadData(it, mUri, mPass, mKey, progressTaskUpdater)
+                saveFileData(mUri, mKey)
+                finishRun(true)
+            } ?: finishRun(false, "Context null")
         } catch (e: ArcFourException) {
             catchError(e, R.string.error_arc4)
             return
@@ -98,7 +107,7 @@ class LoadDatabaseRunnable(private val mContext: Context,
     }
 
     private fun catchError(e: Throwable, @StringRes messageId: Int, addThrowableMessage: Boolean = false) {
-        var errorMessage = mContext.getString(messageId)
+        var errorMessage = mWeakContext.get()?.getString(messageId)
         Log.e(TAG, errorMessage, e)
         if (addThrowableMessage)
             errorMessage = errorMessage + " " + e.localizedMessage
@@ -110,7 +119,7 @@ class LoadDatabaseRunnable(private val mContext: Context,
         if (!mRememberKeyFile) {
             keyFileUri = null
         }
-        App.getFileHistory().createFile(uri, keyFileUri)
+        FileDatabaseHistory.getInstance(mWeakContext).addDatabaseUri(uri, keyFileUri)
     }
 
     override fun onFinishRun(isSuccess: Boolean, message: String?) {}

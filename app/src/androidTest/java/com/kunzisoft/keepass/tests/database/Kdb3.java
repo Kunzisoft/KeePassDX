@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.tests.database;
 import android.test.AndroidTestCase;
 
 public class Kdb3 extends AndroidTestCase {
-	
-	private void testKeyfile(String dbAsset, String keyAsset, String password) throws Exception {
+
+    private void testKeyfile(String dbAsset, String keyAsset, String password) throws Exception {
 		/*
 		Context ctx = getContext();
 
@@ -40,14 +40,14 @@ public class Kdb3 extends AndroidTestCase {
 		
 		is.close();
 		*/
-	}
-	
-	public void testXMLKeyFile() throws Exception {
-		testKeyfile("kdb_with_xml_keyfile.kdb", "keyfile.key", "12345");
-	}
-	
-	public void testBinary64KeyFile() throws Exception {
-		testKeyfile("binary-key.kdb", "binary.key", "12345");
-	}
+    }
+
+    public void testXMLKeyFile() throws Exception {
+        testKeyfile("kdb_with_xml_keyfile.kdb", "keyfile.key", "12345");
+    }
+
+    public void testBinary64KeyFile() throws Exception {
+        testKeyfile("binary-key.kdb", "binary.key", "12345");
+    }
 
 }

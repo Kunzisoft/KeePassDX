@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 public class EntryV4 extends TestCase {
 
-	public void testBackup() {
+    public void testBackup() {
 		/*
 		PwDatabaseV4 db = new PwDatabaseV4();
 		
@@ -51,6 +51,6 @@ public class EntryV4 extends TestCase {
 		assertEquals("Title2", backup.getTitle());
 		assertEquals("User2", backup.getUsername());
 		*/
-	}
+    }
 
 }

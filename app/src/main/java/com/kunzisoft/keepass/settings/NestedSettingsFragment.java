@@ -43,15 +43,17 @@ import android.widget.Toast;
 
 import com.kunzisoft.keepass.BuildConfig;
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.activities.ReadOnlyHelper;
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper;
 import com.kunzisoft.keepass.app.App;
 import com.kunzisoft.keepass.database.element.Database;
-import com.kunzisoft.keepass.dialogs.ProFeatureDialogFragment;
-import com.kunzisoft.keepass.dialogs.UnavailableFeatureDialogFragment;
-import com.kunzisoft.keepass.dialogs.UnderDevelopmentFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment;
+import com.kunzisoft.keepass.education.Education;
+import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory;
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper;
 import com.kunzisoft.keepass.icons.IconPackChooser;
-import com.kunzisoft.keepass.dialogs.KeyboardExplanationDialogFragment;
+import com.kunzisoft.keepass.activities.dialogs.KeyboardExplanationDialogFragment;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDescriptionPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseKeyDerivationPreferenceDialogFragmentCompat;
@@ -59,7 +61,9 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseNamePrefe
 import com.kunzisoft.keepass.settings.preferencedialogfragment.MemoryUsagePreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.ParallelismPreferenceDialogFragmentCompat;
 import com.kunzisoft.keepass.settings.preferencedialogfragment.RoundsPreferenceDialogFragmentCompat;
-import com.kunzisoft.keepass.stylish.Stylish;
+import com.kunzisoft.keepass.activities.stylish.Stylish;
+
+import java.lang.ref.WeakReference;
 
 public class NestedSettingsFragment extends PreferenceFragmentCompat
         implements Preference.OnPreferenceClickListener {
@@ -123,7 +127,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         if (getArguments() != null)
             key = getArguments().getInt(TAG_KEY);
 
-        database = App.getDB();
+        database = App.Companion.getCurrentDatabase();
         databaseReadOnly = ReadOnlyHelper.INSTANCE.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, getArguments());
         databaseReadOnly = database.isReadOnly() || databaseReadOnly;
 
@@ -138,7 +142,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 keyFile.setOnPreferenceChangeListener((preference, newValue) -> {
                     Boolean value = (Boolean) newValue;
                     if (!value) {
-                        App.getFileHistory().deleteAllKeys();
+                        FileDatabaseHistory.Companion.getInstance(new WeakReference<>(getContext().getApplicationContext())).deleteAllKeys();
                     }
                     return true;
                 });
@@ -150,7 +154,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         value = true;
                     }
                     if (!value) {
-                        App.getFileHistory().deleteAll();
+                        FileDatabaseHistory.Companion.getInstance(new WeakReference<>(getContext().getApplicationContext())).deleteAll();
                     }
                     return true;
                 });
@@ -190,7 +194,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
                         ((SwitchPreference) preference).setChecked(false);
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                        UnavailableFeatureDialogFragment.Companion.getInstance(Build.VERSION_CODES.M)
                                 .show(getFragmentManager(), "unavailableFeatureDialog");
                         return false;
                     });
@@ -293,7 +297,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                         ((SwitchPreference) preference).setChecked(false);
                         FragmentManager fragmentManager = getFragmentManager();
                         assert fragmentManager != null;
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
+                        UnavailableFeatureDialogFragment.Companion.getInstance(Build.VERSION_CODES.O)
                                 .show(fragmentManager, "unavailableFeatureDialog");
                         return false;
                     });
@@ -389,7 +393,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference stylePreference = findPreference(getString(R.string.setting_style_key));
                 stylePreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String styleIdString = (String) newValue;
-                    if (!(!BuildConfig.CLOSED_STORE && PreferencesUtil.isEducationScreenReclickedPerformed(getContext())))
+                    if (!(!BuildConfig.CLOSED_STORE && Education.Companion.isEducationScreenReclickedPerformed(getContext())))
                     for (String themeIdDisabled : BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled.equals(styleIdString)) {
                             ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
@@ -408,7 +412,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 Preference iconPackPreference = findPreference(getString(R.string.setting_icon_pack_choose_key));
                 iconPackPreference.setOnPreferenceChangeListener((preference, newValue) -> {
                     String iconPackId = (String) newValue;
-                    if (!(!BuildConfig.CLOSED_STORE && PreferencesUtil.isEducationScreenReclickedPerformed(getContext())))
+                    if (!(!BuildConfig.CLOSED_STORE && Education.Companion.isEducationScreenReclickedPerformed(getContext())))
                     for (String iconPackIdDisabled : BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled.equals(iconPackId)) {
                             ProFeatureDialogFragment dialogFragment = new ProFeatureDialogFragment();
@@ -426,9 +430,9 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 resetEducationScreens.setOnPreferenceClickListener(preference -> {
                     // To allow only one toast
                     if (count == 0) {
-                        SharedPreferences sharedPreferences = PreferencesUtil.getEducationSharedPreferences(getContext());
+                        SharedPreferences sharedPreferences = Education.Companion.getEducationSharedPreferences(getContext());
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        for (int resourceId : PreferencesUtil.educationResourceKeys) {
+                        for (int resourceId : Education.Companion.getEducationResourcesKeys()) {
                             editor.putBoolean(getString(resourceId), false);
                         }
                         editor.apply();
@@ -484,7 +488,7 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
         super.onStop();
         if(count==10) {
             if (getActivity()!=null)
-                PreferencesUtil.getEducationSharedPreferences(getActivity()).edit()
+                Education.Companion.getEducationSharedPreferences(getActivity()).edit()
                     .putBoolean(getString(R.string.education_screen_reclicked_key), true).apply();
         }
     }

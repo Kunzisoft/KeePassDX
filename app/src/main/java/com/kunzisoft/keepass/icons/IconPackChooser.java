@@ -108,7 +108,7 @@ public class IconPackChooser {
     public static void setSelectedIconPack(String iconPackIdString) {
         for(IconPack iconPack : iconPackList) {
             if (iconPack.getId().equals(iconPackIdString)) {
-                App.getDB().getDrawFactory().clearCache();
+                App.Companion.getCurrentDatabase().getDrawFactory().clearCache();
                 iconPackSelected = iconPack;
                 break;
             }

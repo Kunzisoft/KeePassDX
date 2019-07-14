@@ -24,7 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.kunzisoft.keepass.R;
-import com.kunzisoft.keepass.stylish.StylishActivity;
+import com.kunzisoft.keepass.activities.stylish.StylishActivity;
 
 public class MagikIMESettings extends StylishActivity {
 

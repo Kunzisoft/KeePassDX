@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -30,28 +30,28 @@ public class StringUtilTest extends TestCase {
     private final String search = "BcDe";
     private final String badSearch = "Ed";
 
-	public void testIndexOfIgnoreCase1() {
-		assertEquals(1, StringUtil.INSTANCE.indexOfIgnoreCase(text, search, Locale.ENGLISH));
-	}
+    public void testIndexOfIgnoreCase1() {
+        assertEquals(1, StringUtil.INSTANCE.indexOfIgnoreCase(text, search, Locale.ENGLISH));
+    }
 
-	public void testIndexOfIgnoreCase2() {
-		assertEquals(-1, StringUtil.INSTANCE.indexOfIgnoreCase(text, search, Locale.ENGLISH), 2);
-	}
+    public void testIndexOfIgnoreCase2() {
+        assertEquals(-1, StringUtil.INSTANCE.indexOfIgnoreCase(text, search, Locale.ENGLISH), 2);
+    }
 
-	public void testIndexOfIgnoreCase3() {
-		assertEquals(-1, StringUtil.INSTANCE.indexOfIgnoreCase(text, badSearch, Locale.ENGLISH));
-	}
-	
-	private final String repText = "AbCtestingaBc";
-	private final String repSearch = "ABc";
-	private final String repSearchBad = "CCCCCC";
-	private final String repNew = "12345";
-	private final String repResult = "12345testing12345";
-	public void testReplaceAllIgnoresCase1() {
-		assertEquals(repResult, StringUtil.INSTANCE.replaceAllIgnoresCase(repText, repSearch, repNew, Locale.ENGLISH));
-	}
+    public void testIndexOfIgnoreCase3() {
+        assertEquals(-1, StringUtil.INSTANCE.indexOfIgnoreCase(text, badSearch, Locale.ENGLISH));
+    }
 
-	public void testReplaceAllIgnoresCase2() {
-		assertEquals(repText, StringUtil.INSTANCE.replaceAllIgnoresCase(repText, repSearchBad, repNew, Locale.ENGLISH));
-	}
+    private final String repText = "AbCtestingaBc";
+    private final String repSearch = "ABc";
+    private final String repSearchBad = "CCCCCC";
+    private final String repNew = "12345";
+    private final String repResult = "12345testing12345";
+    public void testReplaceAllIgnoresCase1() {
+        assertEquals(repResult, StringUtil.INSTANCE.replaceAllIgnoresCase(repText, repSearch, repNew, Locale.ENGLISH));
+    }
+
+    public void testReplaceAllIgnoresCase2() {
+        assertEquals(repText, StringUtil.INSTANCE.replaceAllIgnoresCase(repText, repSearchBad, repNew, Locale.ENGLISH));
+    }
 }

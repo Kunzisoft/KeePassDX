@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.save
 
-import com.kunzisoft.keepass.collections.VariantDictionary
+import com.kunzisoft.keepass.utils.VariantDictionary
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
 import com.kunzisoft.keepass.database.file.PwDbHeader

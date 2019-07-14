@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -38,58 +38,58 @@ import javax.crypto.Cipher;
 import javax.crypto.NoSuchPaddingException;
 
 public class CipherFactory {
-	private static boolean blacklistInit = false;
-	private static boolean blacklisted;
+    private static boolean blacklistInit = false;
+    private static boolean blacklisted;
 
-	static {
-		Security.addProvider(new BouncyCastleProvider());
-	}
-	
-	public static Cipher getInstance(String transformation) throws NoSuchAlgorithmException, NoSuchPaddingException {
-		return getInstance(transformation, false);
-	}
-	
-	public static Cipher getInstance(String transformation, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException {
-		// Return the native AES if it is possible
-		if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
-			return Cipher.getInstance(transformation, new AESProvider());
-		} else {
+    static {
+        Security.addProvider(new BouncyCastleProvider());
+    }
+
+    public static Cipher getInstance(String transformation) throws NoSuchAlgorithmException, NoSuchPaddingException {
+        return getInstance(transformation, false);
+    }
+
+    public static Cipher getInstance(String transformation, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException {
+        // Return the native AES if it is possible
+        if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
+            return Cipher.getInstance(transformation, new AESProvider());
+        } else {
             return Cipher.getInstance(transformation);
-		}
-	}
-	
-	public static boolean deviceBlacklisted() {
-		if (!blacklistInit) {
-			blacklistInit = true;
-			
-			// The Acer Iconia A500 is special and seems to always crash in the native crypto libraries
-			blacklisted = Build.MODEL.equals("A500");
-		}
-		return blacklisted;
-	}
-	
-	private static boolean hasNativeImplementation(String transformation) {
-		return transformation.equals("AES/CBC/PKCS5Padding");
-	}
+        }
+    }
+
+    public static boolean deviceBlacklisted() {
+        if (!blacklistInit) {
+            blacklistInit = true;
+
+            // The Acer Iconia A500 is special and seems to always crash in the native crypto libraries
+            blacklisted = Build.MODEL.equals("A500");
+        }
+        return blacklisted;
+    }
+
+    private static boolean hasNativeImplementation(String transformation) {
+        return transformation.equals("AES/CBC/PKCS5Padding");
+    }
 
 
-	/** Generate appropriate cipher based on KeePass 2.x UUID's
-	 * @param uuid
-	 * @return
-	 * @throws NoSuchPaddingException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws InvalidAlgorithmParameterException 
-	 * @throws InvalidKeyException 
-	 */
-	public static CipherEngine getInstance(UUID uuid) throws NoSuchAlgorithmException {
-		if ( uuid.equals(AesEngine.CIPHER_UUID) ) {
-			return new AesEngine();
-		} else if ( uuid.equals(TwofishEngine.CIPHER_UUID) ) {
-			return new TwofishEngine();
-		} else if ( uuid.equals(ChaCha20Engine.CIPHER_UUID)) {
-			return new ChaCha20Engine();
-		}
-		
-		throw new NoSuchAlgorithmException("UUID unrecognized.");
-	}
+    /** Generate appropriate cipher based on KeePass 2.x UUID's
+     * @param uuid
+     * @return
+     * @throws NoSuchPaddingException
+     * @throws NoSuchAlgorithmException
+     * @throws InvalidAlgorithmParameterException
+     * @throws InvalidKeyException
+     */
+    public static CipherEngine getInstance(UUID uuid) throws NoSuchAlgorithmException {
+        if ( uuid.equals(AesEngine.CIPHER_UUID) ) {
+            return new AesEngine();
+        } else if ( uuid.equals(TwofishEngine.CIPHER_UUID) ) {
+            return new TwofishEngine();
+        } else if ( uuid.equals(ChaCha20Engine.CIPHER_UUID)) {
+            return new ChaCha20Engine();
+        }
+
+        throw new NoSuchAlgorithmException("UUID unrecognized.");
+    }
 }

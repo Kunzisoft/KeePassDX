@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element;
 
 import android.util.Log;
 import biz.source_code.base64Coder.Base64Coder;
-import com.kunzisoft.keepass.collections.VariantDictionary;
+import com.kunzisoft.keepass.utils.VariantDictionary;
 import com.kunzisoft.keepass.crypto.CryptoUtil;
 import com.kunzisoft.keepass.crypto.engine.AesEngine;
 import com.kunzisoft.keepass.crypto.engine.CipherEngine;

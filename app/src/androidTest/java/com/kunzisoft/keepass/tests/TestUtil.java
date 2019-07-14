@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -33,29 +33,29 @@ import com.kunzisoft.keepass.utils.EmptyUtils;
 import com.kunzisoft.keepass.utils.UriUtil;
 
 public class TestUtil {
-	private static final File sdcard = Environment.getExternalStorageDirectory();
+    private static final File sdcard = Environment.getExternalStorageDirectory();
 
-	public static void extractKey(Context ctx, String asset, String target) throws Exception {
-		
-		InputStream key = ctx.getAssets().open(asset, AssetManager.ACCESS_STREAMING);
-		
-		FileOutputStream keyFile = new FileOutputStream(target);
-		while (true) {
-			byte[] buf = new byte[1024];
-			int read = key.read(buf);
-			if ( read == -1 ) {
-				break;
-			} else {
-				keyFile.write(buf, 0, read);
-			}
-		}
-		
-		keyFile.close();
+    public static void extractKey(Context ctx, String asset, String target) throws Exception {
 
-	}
+        InputStream key = ctx.getAssets().open(asset, AssetManager.ACCESS_STREAMING);
 
-	public static String getSdPath(String filename) {
-		File file = new File(sdcard, filename);
-		return file.getAbsolutePath();
-	}
+        FileOutputStream keyFile = new FileOutputStream(target);
+        while (true) {
+            byte[] buf = new byte[1024];
+            int read = key.read(buf);
+            if ( read == -1 ) {
+                break;
+            } else {
+                keyFile.write(buf, 0, read);
+            }
+        }
+
+        keyFile.close();
+
+    }
+
+    public static String getSdPath(String filename) {
+        File file = new File(sdcard, filename);
+        return file.getAbsolutePath();
+    }
 }

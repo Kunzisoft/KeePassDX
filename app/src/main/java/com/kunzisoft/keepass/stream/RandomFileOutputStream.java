@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -25,40 +25,40 @@ import java.io.RandomAccessFile;
 
 public class RandomFileOutputStream extends OutputStream {
 
-	RandomAccessFile mFile;
-	
-	RandomFileOutputStream(RandomAccessFile file) {
-		mFile = file;
-	}
-	
-	@Override
-	public void close() throws IOException {
-		super.close();
-		
-		mFile.close();		
-	}
+    RandomAccessFile mFile;
 
-	@Override
-	public void write(byte[] buffer, int offset, int count) throws IOException {
-		super.write(buffer, offset, count);
-		
-		mFile.write(buffer, offset, count);
-	}
+    RandomFileOutputStream(RandomAccessFile file) {
+        mFile = file;
+    }
 
-	@Override
-	public void write(byte[] buffer) throws IOException {
-		super.write(buffer);
-		
-		mFile.write(buffer);
-	}
+    @Override
+    public void close() throws IOException {
+        super.close();
 
-	@Override
-	public void write(int oneByte) throws IOException {
-		mFile.write(oneByte);
-	}
-	
-	public void seek(long pos) throws IOException {
-		mFile.seek(pos);
-	}
+        mFile.close();
+    }
+
+    @Override
+    public void write(byte[] buffer, int offset, int count) throws IOException {
+        super.write(buffer, offset, count);
+
+        mFile.write(buffer, offset, count);
+    }
+
+    @Override
+    public void write(byte[] buffer) throws IOException {
+        super.write(buffer);
+
+        mFile.write(buffer);
+    }
+
+    @Override
+    public void write(int oneByte) throws IOException {
+        mFile.write(oneByte);
+    }
+
+    public void seek(long pos) throws IOException {
+        mFile.seek(pos);
+    }
 
 }

@@ -62,7 +62,7 @@ object TimeoutHelper {
         edit.putLong(context.getString(R.string.timeout_backup_key), time)
         edit.apply()
 
-        if (App.getDB().loaded) {
+        if (App.currentDatabase.loaded) {
             val timeout = try {
                 java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
                         context.getString(R.string.clipboard_timeout_default)))
@@ -91,7 +91,7 @@ object TimeoutHelper {
             return true
 
         // Cancel the lock PendingIntent
-        if (App.getDB().loaded) {
+        if (App.currentDatabase.loaded) {
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             Log.d(TAG, "TimeoutHelper cancel")
             am.cancel(getLockPendingIntent(context))

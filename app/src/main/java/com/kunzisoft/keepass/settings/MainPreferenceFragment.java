@@ -59,7 +59,7 @@ public class MainPreferenceFragment extends PreferenceFragmentCompat implements 
 
         preference = findPreference(getString(R.string.db_key));
         preference.setOnPreferenceClickListener(this);
-        Database db = App.getDB();
+        Database db = App.Companion.getCurrentDatabase();
         if (!(db.getLoaded())) {
             preference.setEnabled(false);
         }

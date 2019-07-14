@@ -61,12 +61,12 @@ public class AddNodeButtonView extends RelativeLayout {
 	public AddNodeButtonView(Context context) {
 		this(context, null);
 	}
-	
+
 	public AddNodeButtonView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		inflate(context);
 	}
-	
+
 	protected void inflate(Context context) {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		assert inflater != null;

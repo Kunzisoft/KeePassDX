@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -23,60 +23,60 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class CountInputStream extends InputStream {
-	InputStream is;
-	long bytes = 0;
-	
-	public CountInputStream(InputStream is) {
-		this.is = is;
-	}
+    InputStream is;
+    long bytes = 0;
 
-	@Override
-	public int available() throws IOException {
-		return is.available();
-	}
+    public CountInputStream(InputStream is) {
+        this.is = is;
+    }
 
-	@Override
-	public void close() throws IOException {
-		is.close();
-	}
+    @Override
+    public int available() throws IOException {
+        return is.available();
+    }
 
-	@Override
-	public void mark(int readlimit) {
-		is.mark(readlimit);
-	}
+    @Override
+    public void close() throws IOException {
+        is.close();
+    }
 
-	@Override
-	public boolean markSupported() {
-		return is.markSupported();
-	}
+    @Override
+    public void mark(int readlimit) {
+        is.mark(readlimit);
+    }
 
-	@Override
-	public int read() throws IOException {
-		bytes++;
-		return is.read();
-	}
+    @Override
+    public boolean markSupported() {
+        return is.markSupported();
+    }
 
-	@Override
-	public int read(byte[] buffer, int offset, int length) throws IOException {
-		bytes += length;
-		return is.read(buffer, offset, length);
-	}
+    @Override
+    public int read() throws IOException {
+        bytes++;
+        return is.read();
+    }
 
-	@Override
-	public int read(byte[] buffer) throws IOException {
-		bytes += buffer.length;
-		return is.read(buffer);
-	}
+    @Override
+    public int read(byte[] buffer, int offset, int length) throws IOException {
+        bytes += length;
+        return is.read(buffer, offset, length);
+    }
 
-	@Override
-	public synchronized void reset() throws IOException {
-		is.reset();
-	}
+    @Override
+    public int read(byte[] buffer) throws IOException {
+        bytes += buffer.length;
+        return is.read(buffer);
+    }
 
-	@Override
-	public long skip(long byteCount) throws IOException {
-		bytes += byteCount;
-		return is.skip(byteCount);
-	}
+    @Override
+    public synchronized void reset() throws IOException {
+        is.reset();
+    }
+
+    @Override
+    public long skip(long byteCount) throws IOException {
+        bytes += byteCount;
+        return is.skip(byteCount);
+    }
 
 }

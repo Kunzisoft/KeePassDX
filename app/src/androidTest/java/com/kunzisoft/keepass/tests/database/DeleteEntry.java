@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -26,15 +26,15 @@ import com.kunzisoft.keepass.database.element.PwDatabaseV3;
 import com.kunzisoft.keepass.database.element.PwEntryV3;
 
 public class DeleteEntry extends AndroidTestCase {
-	private static final String GROUP1_NAME = "Group1";
-	private static final String ENTRY1_NAME = "Test1";
-	private static final String ENTRY2_NAME = "Test2";
-	private static final String KEYFILE = "";
-	private static final String PASSWORD = "12345";
-	private static final String ASSET = "delete.kdb";
-	private static final String FILENAME = "/sdcard/delete.kdb";
-	
-	public void testDelete() {
+    private static final String GROUP1_NAME = "Group1";
+    private static final String ENTRY1_NAME = "Test1";
+    private static final String ENTRY2_NAME = "Test2";
+    private static final String KEYFILE = "";
+    private static final String PASSWORD = "12345";
+    private static final String ASSET = "delete.kdb";
+    private static final String FILENAME = "/sdcard/delete.kdb";
+
+    public void testDelete() {
 
 		/*
 		Database db;
@@ -76,9 +76,9 @@ public class DeleteEntry extends AndroidTestCase {
 		assertNull("Group 1 was not removed.", group1);
 		*/
 
-	}
-	
-	private PwEntryV3 getEntry(PwDatabaseV3 pm, String name) {
+    }
+
+    private PwEntryV3 getEntry(PwDatabaseV3 pm, String name) {
 		/*
 		TODO test
 		List<PwEntryV3> entries = pm.getEntries();
@@ -89,11 +89,11 @@ public class DeleteEntry extends AndroidTestCase {
 			}
 		}
 		*/
-		return null;
-		
-	}
-	
-	private GroupVersioned getGroup(PwDatabase pm, String name) {
+        return null;
+
+    }
+
+    private GroupVersioned getGroup(PwDatabase pm, String name) {
 		/*
 		List<GroupVersioned> groups = pm.getGroups();
 		for ( int i = 0; i < groups.size(); i++ ) {
@@ -103,9 +103,9 @@ public class DeleteEntry extends AndroidTestCase {
 			}
 		}
 		*/
-		
-		return null;
-	}
-	
+
+        return null;
+    }
+
 
 }

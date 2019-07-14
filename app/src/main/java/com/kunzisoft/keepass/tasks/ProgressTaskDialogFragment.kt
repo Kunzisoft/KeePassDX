@@ -26,7 +26,6 @@ import android.os.Bundle
 import android.support.annotation.StringRes
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
 import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.ProgressBar
@@ -71,7 +70,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             updateWarning(warning)
 
             isCancelable = false
-            Util.lockScreenOrientation(it)
 
             return builder.create()
         }
@@ -119,8 +117,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         private const val UNDEFINED = -1
 
-        fun start(fragmentManager: FragmentManager,
-                  @StringRes titleId: Int,
+        fun build(@StringRes titleId: Int,
                   @StringRes messageId: Int? = null,
                   @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
             // Create an instance of the dialog fragment and show it
@@ -132,8 +129,13 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             warningId?.let {
                 dialog.updateWarning(it)
             }
-            dialog.show(fragmentManager, PROGRESS_TASK_DIALOG_TAG)
             return dialog
+        }
+
+        fun start(activity: FragmentActivity,
+                  dialog: ProgressTaskDialogFragment) {
+            Util.lockScreenOrientation(activity)
+            dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
 
         fun stop(activity: FragmentActivity) {

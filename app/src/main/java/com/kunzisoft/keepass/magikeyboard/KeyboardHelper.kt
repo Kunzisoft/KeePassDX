@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.magikeyboard
 
 import android.app.Activity
 import android.content.Intent
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 
 object KeyboardHelper {
 

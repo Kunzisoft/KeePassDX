@@ -32,7 +32,7 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import java.util.*
 
@@ -52,11 +52,11 @@ object AutofillHelper {
     }
 
     private fun makeEntryTitle(entry: EntryVersioned): String {
-        if (!entry.title.isEmpty() && !entry.username.isEmpty())
+        if (entry.title.isNotEmpty() && entry.username.isNotEmpty())
             return String.format("%s (%s)", entry.title, entry.username)
-        if (!entry.title.isEmpty())
+        if (entry.title.isNotEmpty())
             return entry.title
-        if (!entry.username.isEmpty())
+        if (entry.username.isNotEmpty())
             return entry.username
         return if (!entry.notes.isEmpty()) entry.notes.trim { it <= ' ' } else ""
         // TODO No title
@@ -89,23 +89,26 @@ object AutofillHelper {
      * Method to hit when right key is selected
      */
     fun buildResponseWhenEntrySelected(activity: Activity, entry: EntryVersioned) {
-        val mReplyIntent: Intent
-        activity.intent?.let { intent ->
-            if (intent.extras.containsKey(ASSIST_STRUCTURE)) {
-                val structure = intent.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)
-                val result = StructureParser(structure).parse()
-
-                // New Response
-                val responseBuilder = FillResponse.Builder()
-                val dataset = buildDataset(activity, entry, result)
-                responseBuilder.addDataset(dataset)
-                mReplyIntent = Intent()
-                Log.d(activity.javaClass.name, "Successed Autofill auth.")
-                mReplyIntent.putExtra(
-                        AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                        responseBuilder.build())
-                activity.setResult(Activity.RESULT_OK, mReplyIntent)
-            } else {
+        var setResultOk = false
+        activity.intent?.extras?.let { extras ->
+            if (extras.containsKey(ASSIST_STRUCTURE)) {
+                activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
+                    StructureParser(structure).parse()?.let { result ->
+                        // New Response
+                        val responseBuilder = FillResponse.Builder()
+                        val dataset = buildDataset(activity, entry, result)
+                        responseBuilder.addDataset(dataset)
+                        val mReplyIntent = Intent()
+                        Log.d(activity.javaClass.name, "Successed Autofill auth.")
+                        mReplyIntent.putExtra(
+                                AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                                responseBuilder.build())
+                        setResultOk = true
+                        activity.setResult(Activity.RESULT_OK, mReplyIntent)
+                    }
+                }
+            }
+            if (!setResultOk) {
                 Log.w(activity.javaClass.name, "Failed Autofill auth.")
                 activity.setResult(Activity.RESULT_CANCELED)
             }
@@ -118,7 +121,7 @@ object AutofillHelper {
     fun startActivityForAutofillResult(activity: Activity, intent: Intent, assistStructure: AssistStructure) {
         EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
         intent.putExtra(ASSIST_STRUCTURE, assistStructure)
-        activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE)
+        activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
 
     /**

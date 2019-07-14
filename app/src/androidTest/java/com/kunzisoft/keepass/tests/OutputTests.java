@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -26,10 +26,10 @@ import android.test.suitebuilder.TestSuiteBuilder;
 
 public class OutputTests extends TestSuite {
 
-	public static Test suite() {
+    public static Test suite() {
 
-		return new TestSuiteBuilder(AllTests.class)
-		.includePackages("com.kunzisoft.keepass.tests.output")
-		.build();
-	}
+        return new TestSuiteBuilder(AllTests.class)
+                .includePackages("com.kunzisoft.keepass.tests.output")
+                .build();
+    }
 }

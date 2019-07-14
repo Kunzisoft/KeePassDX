@@ -41,7 +41,7 @@ class MoveEntryRunnable constructor(
         mEntryToMove?.let {
             mOldParent = it.parent
             database.moveEntryTo(it, mNewParent)
-            it.touch(true, true)
+            it.touch(modified = true, touchParents = true)
         } ?: Log.e(TAG, "Unable to create a copy of the entry")
     }
 

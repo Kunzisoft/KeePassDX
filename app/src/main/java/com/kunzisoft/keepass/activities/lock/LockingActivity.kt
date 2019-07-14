@@ -28,11 +28,11 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.ReadOnlyHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 abstract class LockingActivity : StylishActivity() {
@@ -88,7 +88,7 @@ abstract class LockingActivity : StylishActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            if (App.getDB().loaded) {
+            if (App.currentDatabase.loaded) {
                 lockAndExit()
             }
         }
@@ -102,7 +102,7 @@ abstract class LockingActivity : StylishActivity() {
 
         if (timeoutEnable) {
             // End activity if database not loaded
-            if (!App.getDB().loaded) {
+            if (!App.currentDatabase.loaded) {
                 finish()
                 return
             }
@@ -163,9 +163,9 @@ abstract class LockingActivity : StylishActivity() {
     /**
      * To reset the app timeout when a view is focused or changed
      */
-    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View) {
+    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View?) {
         views.forEach {
-            it.setOnFocusChangeListener { _, hasFocus ->
+            it?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
                     TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
                 }
@@ -190,7 +190,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.getDB().closeAndClear(applicationContext)
+    App.currentDatabase.closeAndClear(applicationContext)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

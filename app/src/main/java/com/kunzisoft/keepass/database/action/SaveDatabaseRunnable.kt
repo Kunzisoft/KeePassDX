@@ -28,19 +28,20 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 import java.io.IOException
 
-abstract class SaveDatabaseRunnable(protected var context: Context,
-                                    protected var database: Database,
-                                    nestedAction: ActionRunnable? = null,
-                                    private val save: Boolean) : ActionRunnable(nestedAction) {
+open class SaveDatabaseRunnable(protected var context: Context,
+                                protected var database: Database,
+                                private val save: Boolean,
+                                nestedAction: ActionRunnable? = null) : ActionRunnable(nestedAction) {
 
     init {
         TimeoutHelper.temporarilyDisableTimeout()
     }
 
+    // TODO Service to prevent background thread kill
     override fun run() {
         if (save) {
             try {
-                database.saveData(context)
+                database.saveData(context.contentResolver)
             } catch (e: IOException) {
                 finishRun(false, e.message)
             } catch (e: PwDbOutputException) {
@@ -53,7 +54,6 @@ abstract class SaveDatabaseRunnable(protected var context: Context,
 
     override fun onFinishRun(isSuccess: Boolean, message: String?) {
         // Need to call super.onFinishRun(isSuccess, message) in child class
-
         TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(context)
     }
 }
