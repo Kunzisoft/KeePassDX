@@ -1,2 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="about_feedback">피드백</string>
+    <string name="about_homepage">홈페이지</string>
+    <string name="about_description">KeePass 암호 관리자의 Android 구현본</string>
+</resources>
