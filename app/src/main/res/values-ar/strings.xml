@@ -136,7 +136,7 @@
     <string name="select_to_copy">نسخ صورة رمز QR الى الحافظة</string>
     <string name="retrieving_db_key">إنشاء مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدام هذا كقاعدة البيانات الافتراضية</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d د $ %1 كونزيسوفت تأتي مع \"الضمان لا على الإطلاق\"؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
     <string name="entry_accessed">الوصول إلى</string>
     <string name="entry_expires">انتهاء صلاحية</string>
     <string name="entry_keyfile">مفتاح الملف</string>

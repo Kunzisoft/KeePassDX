@@ -46,7 +46,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется БЕЗ КАКИХ-ЛИБО ГАРАНТИЙ. Распространяется свободно по лицензии GPL v3 или новее.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft Программа предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
     <string name="select_database_file">Выбрать существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>

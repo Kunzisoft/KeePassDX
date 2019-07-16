@@ -48,7 +48,7 @@
     <string name="decrypting_db">Rozšifrování obsahu databáze…</string>
     <string name="default_checkbox">Použít tuto databázi jako výchozí</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft přichází BEZ JAKÉKOLIV ZÁRUKY; Toto je svobodný software a je možné ho šířit dál za dodržení podmínek licence GPL verze 3 nebo novější.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft přichází bez jakékoliv záruky. Toto je svobodný software a je možné ho šířit dál za dodržení podmínek licence GPL verze 3 nebo novější.</string>
     <string name="select_database_file">Vyberte existující databázi</string>
     <string name="entry_accessed">Poslední přístup</string>
     <string name="entry_cancel">Storno</string>

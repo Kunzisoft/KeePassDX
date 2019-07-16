@@ -41,7 +41,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft 软件不带有绝对担保；本应用是自由软件，您可在遵循 GPL 3 或者此开源协议的更高版本的情况下重新发布。</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft 软件不带有绝对担保.本应用是自由软件，您可在遵循 GPL 3 或者此开源协议的更高版本的情况下重新发布。</string>
     <string name="select_database_file">选择一个已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>

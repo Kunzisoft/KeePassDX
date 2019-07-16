@@ -47,7 +47,7 @@
     <string name="decrypting_db">Dekrypterer databaseindhold…</string>
     <string name="default_checkbox">Brug som standarddatabase</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer med ABSOLUT INGEN GARANTI; Det er fri software, og kan videredistribueres under betingelserne i GPL version 3 eller nyere.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer med absolut ingen garanti. Det er fri software, og kan videredistribueres under betingelserne i GPL version 3 eller nyere.</string>
     <string name="select_database_file">Vælg en eksisterende database</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
