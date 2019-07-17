@@ -45,8 +45,8 @@ class MoveEntryRunnable constructor(
         } ?: Log.e(TAG, "Unable to create a copy of the entry")
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             // If we fail to save, try to remove in the first place
             try {
                 if (mEntryToMove != null && mOldParent != null)
@@ -56,7 +56,7 @@ class MoveEntryRunnable constructor(
             }
 
         }
-        return ActionNodeValues(isSuccess, message, null, mEntryToMove)
+        return ActionNodeValues(result, null, mEntryToMove)
     }
 
     companion object {

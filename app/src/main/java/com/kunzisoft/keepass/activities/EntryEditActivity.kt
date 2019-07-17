@@ -252,7 +252,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 var actionRunnable: ActionRunnable? = null
                 val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
                     override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-                        if (actionNodeValues.success)
+                        if (actionNodeValues.result.isSuccess)
                             finish()
                     }
                 }

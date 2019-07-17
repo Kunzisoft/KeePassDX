@@ -18,6 +18,7 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
             messageId,
             warningId)
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
+    var actionFinishInUIThread: ActionRunnable? = null
 
     init {
         actionRunnableAsyncTask = ActionRunnableAsyncTask(progressTaskDialogFragment,
@@ -26,8 +27,9 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
                         // Show the dialog
                         ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment)
                     }
-                }, {
+                }, { result ->
                     activity.runOnUiThread {
+                        actionFinishInUIThread?.onFinishRun(result)
                         // Remove the progress task
                         ProgressTaskDialogFragment.stop(activity)
                     }
@@ -41,24 +43,28 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
 
     private class ActionRunnableAsyncTask(private val progressTaskUpdater: ProgressTaskUpdater,
                                           private val onPreExecute: () -> Unit,
-                                          private val onPostExecute: () -> Unit)
-        : AsyncTask<((ProgressTaskUpdater?)-> ActionRunnable), Void, Void>() {
+                                          private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
+        : AsyncTask<((ProgressTaskUpdater?)-> ActionRunnable), Void, ActionRunnable.Result>() {
 
         override fun onPreExecute() {
             super.onPreExecute()
             onPreExecute.invoke()
         }
 
-        override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): Void? {
+        override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): ActionRunnable.Result {
+            var resultTask = ActionRunnable.Result(false)
             actionRunnables.forEach {
-                it?.invoke(progressTaskUpdater)?.run()
+                it?.invoke(progressTaskUpdater)?.apply {
+                    run()
+                    resultTask = result
+                }
             }
-            return null
+            return resultTask
         }
 
-        override fun onPostExecute(result: Void?) {
+        override fun onPostExecute(result: ActionRunnable.Result) {
             super.onPostExecute(result)
-            onPostExecute.invoke()
+            onPostExecute.invoke(result)
         }
     }
 }

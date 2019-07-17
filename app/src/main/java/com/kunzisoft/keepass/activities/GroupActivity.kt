@@ -829,7 +829,7 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterAddNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
+                if (actionNodeValues.result.isSuccess) {
                     if (actionNodeValues.newNode != null)
                         mListNodesFragment?.addNode(actionNodeValues.newNode)
                 }
@@ -840,7 +840,7 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterUpdateNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
+                if (actionNodeValues.result.isSuccess) {
                     if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
                         mListNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
                 }
@@ -851,7 +851,7 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterDeleteNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
+                if (actionNodeValues.result.isSuccess) {
                     if (actionNodeValues.oldNode != null)
                         mListNodesFragment?.removeNode(actionNodeValues.oldNode)
 

@@ -45,8 +45,8 @@ class DeleteGroupRunnable(context: FragmentActivity,
         }
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             if (mRecycle) {
                 mParent?.let {
                     database.undoRecycle(mGroupToDelete, it)
@@ -56,6 +56,6 @@ class DeleteGroupRunnable(context: FragmentActivity,
                 // TODO database.undoDeleteGroupFrom(mGroup, mParent);
             }
         }
-        return ActionNodeValues(isSuccess, message, mGroupToDelete, null)
+        return ActionNodeValues(result, mGroupToDelete, null)
     }
 }

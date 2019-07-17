@@ -110,7 +110,7 @@ class Database {
             return ArrayList()
         }
 
-    val kdfEngine: KdfEngine?
+    val kdfEngine: KdfEngine
         get() {
             return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
         }
@@ -475,9 +475,9 @@ class Database {
     }
 
     fun assignEncryptionAlgorithm(algorithm: PwEncryptionAlgorithm) {
-            pwDatabaseV4?.encryptionAlgorithm = algorithm
-            pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
-            pwDatabaseV4?.dataCipher = algorithm.dataCipher
+        pwDatabaseV4?.encryptionAlgorithm = algorithm
+        pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
+        pwDatabaseV4?.dataCipher = algorithm.dataCipher
     }
 
     fun getEncryptionAlgorithmName(resources: Resources): String {

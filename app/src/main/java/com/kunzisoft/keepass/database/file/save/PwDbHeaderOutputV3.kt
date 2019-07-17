@@ -33,7 +33,7 @@ class PwDbHeaderOutputV3(private val mHeader: PwDbHeaderV3, private val mOS: Out
         mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature2))
         mOS.write(LEDataOutputStream.writeIntBuf(mHeader.flags))
         mOS.write(LEDataOutputStream.writeIntBuf(mHeader.version))
-        mOS.write(mHeader.masterSeed!!)
+        mOS.write(mHeader.masterSeed)
         mOS.write(mHeader.encryptionIV)
         mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numGroups))
         mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numEntries))

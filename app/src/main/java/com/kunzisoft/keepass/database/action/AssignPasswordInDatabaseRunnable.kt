@@ -72,8 +72,8 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         }
     }
 
-    override fun onFinishRun(isSuccess: Boolean, message: String?) {
-        if (!isSuccess) {
+    override fun onFinishRun(result: Result) {
+        if (!result.isSuccess) {
             // Erase the current master key
             erase(database.masterKey)
             mBackupKey?.let {
@@ -81,7 +81,7 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
             }
         }
 
-        super.onFinishRun(isSuccess, message)
+        super.onFinishRun(result)
     }
 
     /**

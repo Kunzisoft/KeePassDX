@@ -42,13 +42,13 @@ class UpdateEntryRunnable constructor(
         mOldEntry.updateWith(mNewEntry)
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
             mBackupEntry?.let {
                 mOldEntry.updateWith(it)
             }
         }
-        return ActionNodeValues(isSuccess, message, mOldEntry, mNewEntry)
+        return ActionNodeValues(result, mOldEntry, mNewEntry)
     }
 }

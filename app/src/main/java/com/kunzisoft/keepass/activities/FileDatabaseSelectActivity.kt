@@ -441,9 +441,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
             finishRun(true, null)
         }
 
-        override fun onFinishRun(isSuccess: Boolean, message: String?) {
+        override fun onFinishRun(result: Result) {
             runOnUiThread {
-                if (isSuccess) {
+                if (result.isSuccess) {
                     // Add database to recent files
                     mFileDatabaseHistory?.addDatabaseUri(fileURI)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()

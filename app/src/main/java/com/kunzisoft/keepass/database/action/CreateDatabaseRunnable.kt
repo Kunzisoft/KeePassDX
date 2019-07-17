@@ -44,5 +44,5 @@ class CreateDatabaseRunnable(private val mFilename: String,
         }
     }
 
-    override fun onFinishRun(isSuccess: Boolean, message: String?) {}
+    override fun onFinishRun(result: Result) {}
 }

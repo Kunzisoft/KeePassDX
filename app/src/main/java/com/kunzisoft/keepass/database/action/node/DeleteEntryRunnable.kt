@@ -49,8 +49,8 @@ class DeleteEntryRunnable constructor(
         }
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             mParent?.let {
                 if (mRecycle) {
                     database.undoRecycle(mEntryToDelete, it)
@@ -59,6 +59,6 @@ class DeleteEntryRunnable constructor(
                 }
             }
         }
-        return ActionNodeValues(isSuccess, message, mEntryToDelete, null)
+        return ActionNodeValues(result, mEntryToDelete, null)
     }
 }

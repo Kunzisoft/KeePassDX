@@ -502,13 +502,13 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
 
         DialogFragment dialogFragment = null;
         if (preference.getKey().equals(getString(R.string.database_name_key))) {
-            dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else if (preference.getKey().equals(getString(R.string.database_description_key))) {
-            dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else if (preference.getKey().equals(getString(R.string.encryption_algorithm_key))) {
-            dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else if (preference.getKey().equals(getString(R.string.key_derivation_function_key))) {
-            DatabaseKeyDerivationPreferenceDialogFragmentCompat keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            DatabaseKeyDerivationPreferenceDialogFragmentCompat keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
             // Add other prefs to manage
             if (roundPref != null)
                 keyDerivationDialogFragment.setRoundPreference(roundPref);
@@ -518,11 +518,11 @@ public class NestedSettingsFragment extends PreferenceFragmentCompat
                 keyDerivationDialogFragment.setParallelismPreference(parallelismPref);
             dialogFragment = keyDerivationDialogFragment;
         } else if (preference.getKey().equals(getString(R.string.transform_rounds_key))) {
-            dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = RoundsPreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else if (preference.getKey().equals(getString(R.string.memory_usage_key))) {
-            dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else if (preference.getKey().equals(getString(R.string.parallelism_key))) {
-            dialogFragment = ParallelismPreferenceDialogFragmentCompat.newInstance(preference.getKey());
+            dialogFragment = ParallelismPreferenceDialogFragmentCompat.Companion.newInstance(preference.getKey());
         } else {
             otherDialogFragment = true;
         }

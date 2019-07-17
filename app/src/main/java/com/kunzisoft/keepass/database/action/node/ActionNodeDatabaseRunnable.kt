@@ -30,17 +30,17 @@ abstract class ActionNodeDatabaseRunnable(
     /**
      * Function do get the finish node action, don't implements onFinishRun() if used this
      */
-    abstract fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues
+    abstract fun nodeFinish(result: Result): ActionNodeValues
 
-    override fun onFinishRun(isSuccess: Boolean, message: String?) {
+    override fun onFinishRun(result: Result) {
         callbackRunnable?.apply {
-            onActionNodeFinish(nodeFinish(isSuccess, message))
+            onActionNodeFinish(nodeFinish(result))
         }
 
-        if (!isSuccess) {
+        if (!result.isSuccess) {
             displayMessage(context)
         }
 
-        super.onFinishRun(isSuccess, message)
+        super.onFinishRun(result)
     }
 }

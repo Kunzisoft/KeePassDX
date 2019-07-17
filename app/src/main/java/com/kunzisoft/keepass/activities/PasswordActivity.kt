@@ -615,7 +615,7 @@ class PasswordActivity : StylishActivity(),
      */
     private inner class AfterLoadingDatabase internal constructor(var database: Database) : ActionRunnable() {
 
-        override fun onFinishRun(isSuccess: Boolean, message: String?) {
+        override fun onFinishRun(result: Result) {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -627,11 +627,11 @@ class PasswordActivity : StylishActivity(),
                     val dialog = PasswordEncodingDialogHelper()
                     dialog.show(this@PasswordActivity,
                             DialogInterface.OnClickListener { _, _ -> launchGroupActivity() })
-                } else if (isSuccess) {
+                } else if (result.isSuccess) {
                     launchGroupActivity()
                 } else {
-                    if (message != null && message.isNotEmpty()) {
-                        Toast.makeText(this@PasswordActivity, message, Toast.LENGTH_LONG).show()
+                    if (result.message != null && result.message!!.isNotEmpty()) {
+                        Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
