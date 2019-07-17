@@ -69,7 +69,7 @@ class Database {
 
     val iconFactory: PwIconFactory
         get() {
-            return pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
+            return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         }
 
     val name: String
@@ -127,7 +127,7 @@ class Database {
         }
 
     val memoryUsageAsString: String
-        get() = java.lang.Long.toString(memoryUsage)
+        get() = memoryUsage.toString()
 
     var memoryUsage: Long
         get() {
@@ -138,7 +138,7 @@ class Database {
         }
 
     val parallelismAsString: String
-        get() = Integer.toString(parallelism)
+        get() = parallelism.toString()
 
     var parallelism: Int
         get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOW_VALUE
@@ -147,7 +147,7 @@ class Database {
         }
 
     var masterKey: ByteArray
-        get() = pwDatabaseV3?.getMasterKey() ?: pwDatabaseV4?.getMasterKey() ?: ByteArray(32)
+        get() = pwDatabaseV3?.masterKey ?: pwDatabaseV4?.masterKey ?: ByteArray(32)
         set(masterKey) {
             pwDatabaseV3?.masterKey = masterKey
             pwDatabaseV4?.masterKey = masterKey
@@ -155,11 +155,11 @@ class Database {
 
     val rootGroup: GroupVersioned?
         get() {
-            pwDatabaseV3?.let {
-                return GroupVersioned(it.rootGroup)
+            pwDatabaseV3?.rootGroup?.let {
+                return GroupVersioned(it)
             }
-            pwDatabaseV4?.let {
-                return GroupVersioned(it.rootGroup)
+            pwDatabaseV4?.rootGroup?.let {
+                return GroupVersioned(it)
             }
             return null
         }
@@ -192,7 +192,7 @@ class Database {
             val databaseV4 = PwDatabaseV4()
             val groupV4 = databaseV4.createGroup()
             groupV4.title = dbNameFromPath(databasePath)
-            groupV4.icon = databaseV4.getIconFactory().folderIcon
+            groupV4.icon = databaseV4.iconFactory.folderIcon
             databaseV4.rootGroup = groupV4
             setDatabaseV4(databaseV4)
         }
@@ -300,7 +300,8 @@ class Database {
         }
 
         try {
-            isPasswordEncodingError = !(pwDatabaseV3?.validatePasswordEncoding(password) ?: pwDatabaseV4?.validatePasswordEncoding(password) ?: true)
+            isPasswordEncodingError = !(pwDatabaseV3?.validatePasswordEncoding(password)
+                    ?: pwDatabaseV4?.validatePasswordEncoding(password) ?: true)
             searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
             loaded = true
         } catch (e: Exception) {
@@ -348,7 +349,7 @@ class Database {
     }
 
     fun getEntryFrom(cursor: Cursor): EntryVersioned? {
-        val iconFactory = pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
+        val iconFactory = pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         val entry = createEntry()
 
         // TODO invert field reference manager
@@ -571,26 +572,42 @@ class Database {
     }
 
     fun addEntryTo(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.addEntryTo(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.addEntryTo(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.addEntryTo(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.addEntryTo(entryV4, parent.pwGroupV4)
+        }
         entry.afterAssignNewParent()
     }
 
     fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.removeEntryFrom(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.removeEntryFrom(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.removeEntryFrom(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.removeEntryFrom(entryV4, parent.pwGroupV4)
+        }
         entry.afterAssignNewParent()
     }
 
     fun addGroupTo(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.addGroupTo(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.addGroupTo(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.addGroupTo(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.addGroupTo(groupV4, parent.pwGroupV4)
+        }
         group.afterAssignNewParent()
     }
 
     fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.removeGroupFrom(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.removeGroupFrom(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.removeGroupFrom(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.removeGroupFrom(groupV4, parent.pwGroupV4)
+        }
         group.afterAssignNewParent()
     }
 
@@ -647,37 +664,65 @@ class Database {
     }
 
     fun undoDeleteEntry(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.undoDeleteEntryFrom(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.undoDeleteEntryFrom(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.undoDeleteEntryFrom(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.undoDeleteEntryFrom(entryV4, parent.pwGroupV4)
+        }
     }
 
     fun undoDeleteGroup(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.undoDeleteGroupFrom(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.undoDeleteGroupFrom(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.undoDeleteGroupFrom(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.undoDeleteGroupFrom(groupV4, parent.pwGroupV4)
+        }
     }
 
     fun canRecycle(entry: EntryVersioned): Boolean {
-        return pwDatabaseV4?.canRecycle(entry.pwEntryV4) ?: false
+        var canRecycle: Boolean? = null
+        entry.pwEntryV4?.let { entryV4 ->
+            canRecycle = pwDatabaseV4?.canRecycle(entryV4)
+        }
+        return canRecycle ?: false
     }
 
     fun canRecycle(group: GroupVersioned): Boolean {
-        return pwDatabaseV4?.canRecycle(group.pwGroupV4) ?: false
+        var canRecycle: Boolean? = null
+        group.pwGroupV4?.let { groupV4 ->
+            canRecycle = pwDatabaseV4?.canRecycle(groupV4)
+        }
+        return canRecycle ?: false
     }
 
     fun recycle(entry: EntryVersioned) {
-        pwDatabaseV4?.recycle(entry.pwEntryV4)
+        entry.pwEntryV4?.let {
+            pwDatabaseV4?.recycle(it)
+        }
     }
 
     fun recycle(group: GroupVersioned) {
-        pwDatabaseV4?.recycle(group.pwGroupV4)
+        group.pwGroupV4?.let {
+            pwDatabaseV4?.recycle(it)
+        }
     }
 
     fun undoRecycle(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV4?.undoRecycle(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV4?.let { entryV4 ->
+            parent.pwGroupV4?.let { parentV4 ->
+                pwDatabaseV4?.undoRecycle(entryV4, parentV4)
+            }
+        }
     }
 
     fun undoRecycle(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV4?.undoRecycle(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV4?.let { groupV4 ->
+            parent.pwGroupV4?.let { parentV4 ->
+                pwDatabaseV4?.undoRecycle(groupV4, parentV4)
+            }
+        }
     }
 
     fun startManageEntry(entry: EntryVersioned) {

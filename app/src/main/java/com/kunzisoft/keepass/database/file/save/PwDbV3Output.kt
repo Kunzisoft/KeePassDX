@@ -1,5 +1,5 @@
 /*
-` * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+` * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -43,7 +43,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
     private var headerHashBlock: ByteArray? = null
 
     @Throws(PwDbOutputException::class)
-    fun getFinalKey(header: PwDbHeader): ByteArray {
+    fun getFinalKey(header: PwDbHeader): ByteArray? {
         try {
             val h3 = header as PwDbHeaderV3
             mDatabaseV3.makeFinalKey(h3.masterSeed, h3.transformSeed, mDatabaseV3.numberKeyEncryptionRounds)
@@ -51,7 +51,6 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         } catch (e: IOException) {
             throw PwDbOutputException("Key creation failed.", e)
         }
-
     }
 
     @Throws(PwDbOutputException::class)
@@ -205,7 +204,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
 
         // Groups
         for (group in mDatabaseV3.groupIndexes) {
-            val pgo = PwGroupOutputV3(group, os)
+            val pgo = PwGroupOutputV3(group as PwGroupV3, os)
             try {
                 pgo.output()
             } catch (e: IOException) {
@@ -215,7 +214,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
 
         // Entries
         for (entry in mDatabaseV3.entryIndexes) {
-            val peo = PwEntryOutputV3(entry, os)
+            val peo = PwEntryOutputV3(entry as PwEntryV3, os)
             try {
                 peo.output()
             } catch (e: IOException) {

@@ -55,6 +55,7 @@ import java.util.*
 import java.util.zip.GZIPInputStream
 import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
+import kotlin.math.min
 
 class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
@@ -116,8 +117,8 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         try {
             engine = CipherFactory.getInstance(mDatabase.dataCipher)
             mDatabase.setDataEngine(engine)
-            mDatabase.encryptionAlgorithm = engine.pwEncryptionAlgorithm
-            cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey, header.encryptionIV)
+            mDatabase.encryptionAlgorithm = engine.getPwEncryptionAlgorithm()
+            cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("Invalid algorithm.", e)
         } catch (e: NoSuchPaddingException) {
@@ -155,7 +156,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
                 throw InvalidDBException()
             }
 
-            val hmacKey = mDatabase.hmacKey
+            val hmacKey = mDatabase.hmacKey ?: throw InvalidDBException()
             val headerHmac = PwDbHeaderV4.computeHeaderHmac(pbHeader, hmacKey)
             val storedHmac = isData.readBytes(32)
             if (storedHmac == null || storedHmac.size != 32) {
@@ -182,10 +183,6 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             loadInnerHeader(isXml, header)
         }
 
-        if (header.innerRandomStreamKey == null) {
-            throw IOException("Invalid stream key.")
-        }
-
         randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
 
         if (randomStream == null) {
@@ -197,8 +194,8 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         return mDatabase
     }
 
-    private fun attachCipherStream(`is`: InputStream, cipher: Cipher): InputStream {
-        return BetterCipherInputStream(`is`, cipher, 50 * 1024)
+    private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
+        return BetterCipherInputStream(inputStream, cipher, 50 * 1024)
     }
 
     @Throws(IOException::class)
@@ -476,42 +473,46 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             KdbContext.Group -> if (name.equals(PwDatabaseV4XML.ElemUuid, ignoreCase = true)) {
-                ctxGroup!!.nodeId = PwNodeIdUUID(readUuid(xpp))
-                mDatabase.addGroupIndex(ctxGroup)
+                ctxGroup?.nodeId = PwNodeIdUUID(readUuid(xpp))
+                ctxGroup?.let { mDatabase.addGroupIndex(it) }
             } else if (name.equals(PwDatabaseV4XML.ElemName, ignoreCase = true)) {
-                ctxGroup!!.title = readString(xpp)
+                ctxGroup?.title = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemNotes, ignoreCase = true)) {
-                ctxGroup!!.notes = readString(xpp)
+                ctxGroup?.notes = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemIcon, ignoreCase = true)) {
-                ctxGroup!!.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
+                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
             } else if (name.equals(PwDatabaseV4XML.ElemCustomIconID, ignoreCase = true)) {
-                ctxGroup!!.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxGroup?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(PwDatabaseV4XML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupTimes, xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemIsExpanded, ignoreCase = true)) {
-                ctxGroup!!.isExpanded = readBool(xpp, true)
+                ctxGroup?.isExpanded = readBool(xpp, true)
             } else if (name.equals(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, ignoreCase = true)) {
-                ctxGroup!!.defaultAutoTypeSequence = readString(xpp)
+                ctxGroup?.defaultAutoTypeSequence = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEnableAutoType, ignoreCase = true)) {
-                ctxGroup!!.enableAutoType = stringToBoolean(readString(xpp))
+                ctxGroup?.enableAutoType = stringToBoolean(readString(xpp))
             } else if (name.equals(PwDatabaseV4XML.ElemEnableSearching, ignoreCase = true)) {
-                ctxGroup!!.enableSearching = stringToBoolean(readString(xpp))
+                ctxGroup?.enableSearching = stringToBoolean(readString(xpp))
             } else if (name.equals(PwDatabaseV4XML.ElemLastTopVisibleEntry, ignoreCase = true)) {
-                ctxGroup!!.lastTopVisibleEntry = readUuid(xpp)
+                ctxGroup?.lastTopVisibleEntry = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemCustomData, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.GroupCustomData, xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemGroup, ignoreCase = true)) {
                 ctxGroup = mDatabase.createGroup()
                 val groupPeek = ctxGroups.peek()
-                groupPeek.addChildGroup(ctxGroup!!)
-                ctxGroup!!.parent = groupPeek
-                ctxGroups.push(ctxGroup)
+                ctxGroup?.let {
+                    groupPeek.addChildGroup(it)
+                    it.parent = groupPeek
+                    ctxGroups.push(it)
+                }
 
                 return switchContext(ctx, KdbContext.Group, xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEntry, ignoreCase = true)) {
                 ctxEntry = mDatabase.createEntry()
-                ctxGroup!!.addChildEntry(ctxEntry!!)
-                ctxEntry!!.parent = ctxGroup
+                ctxEntry?.let {
+                    ctxGroup?.addChildEntry(it)
+                    it.parent = ctxGroup
+                }
 
                 entryInHistory = false
                 return switchContext(ctx, KdbContext.Entry, xpp)
@@ -531,20 +532,20 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
 
             KdbContext.Entry -> if (name.equals(PwDatabaseV4XML.ElemUuid, ignoreCase = true)) {
-                ctxEntry!!.nodeId = PwNodeIdUUID(readUuid(xpp))
-                mDatabase.addEntryIndex(ctxEntry)
+                ctxEntry?.nodeId = PwNodeIdUUID(readUuid(xpp))
+                ctxEntry?.let { mDatabase.addEntryIndex(it) }
             } else if (name.equals(PwDatabaseV4XML.ElemIcon, ignoreCase = true)) {
-                ctxEntry!!.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
+                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
             } else if (name.equals(PwDatabaseV4XML.ElemCustomIconID, ignoreCase = true)) {
-                ctxEntry!!.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
+                ctxEntry?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(PwDatabaseV4XML.ElemFgColor, ignoreCase = true)) {
-                ctxEntry!!.foregroundColor = readString(xpp)
+                ctxEntry?.foregroundColor = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemBgColor, ignoreCase = true)) {
-                ctxEntry!!.backgroundColor = readString(xpp)
+                ctxEntry?.backgroundColor = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemOverrideUrl, ignoreCase = true)) {
-                ctxEntry!!.overrideURL = readString(xpp)
+                ctxEntry?.overrideURL = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemTags, ignoreCase = true)) {
-                ctxEntry!!.tags = readString(xpp)
+                ctxEntry?.tags = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemTimes, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.EntryTimes, xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemString, ignoreCase = true)) {
@@ -585,13 +586,13 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
                 }
 
                 when {
-                    name.equals(PwDatabaseV4XML.ElemLastModTime, ignoreCase = true) -> tl!!.lastModificationTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemCreationTime, ignoreCase = true) -> tl!!.creationTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemLastAccessTime, ignoreCase = true) -> tl!!.lastAccessTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemExpiryTime, ignoreCase = true) -> tl!!.expiryTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl!!.isExpires = readBool(xpp, false)
-                    name.equals(PwDatabaseV4XML.ElemUsageCount, ignoreCase = true) -> tl!!.usageCount = readULong(xpp, 0)
-                    name.equals(PwDatabaseV4XML.ElemLocationChanged, ignoreCase = true) -> tl!!.locationChanged = readPwTime(xpp)
+                    name.equals(PwDatabaseV4XML.ElemLastModTime, ignoreCase = true) -> tl?.lastModificationTime = readPwTime(xpp)
+                    name.equals(PwDatabaseV4XML.ElemCreationTime, ignoreCase = true) -> tl?.creationTime = readPwTime(xpp)
+                    name.equals(PwDatabaseV4XML.ElemLastAccessTime, ignoreCase = true) -> tl?.lastAccessTime = readPwTime(xpp)
+                    name.equals(PwDatabaseV4XML.ElemExpiryTime, ignoreCase = true) -> tl?.expiryTime = readPwTime(xpp)
+                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl?.isExpires = readBool(xpp, false)
+                    name.equals(PwDatabaseV4XML.ElemUsageCount, ignoreCase = true) -> tl?.usageCount = readULong(xpp, 0)
+                    name.equals(PwDatabaseV4XML.ElemLocationChanged, ignoreCase = true) -> tl?.locationChanged = readPwTime(xpp)
                     else -> readUnknown(xpp)
                 }
             }
@@ -611,11 +612,11 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             KdbContext.EntryAutoType -> if (name.equals(PwDatabaseV4XML.ElemAutoTypeEnabled, ignoreCase = true)) {
-                ctxEntry!!.autoType.enabled = readBool(xpp, true)
+                ctxEntry?.autoType?.enabled = readBool(xpp, true)
             } else if (name.equals(PwDatabaseV4XML.ElemAutoTypeObfuscation, ignoreCase = true)) {
-                ctxEntry!!.autoType.obfuscationOptions = readUInt(xpp, 0)
+                ctxEntry?.autoType?.obfuscationOptions = readUInt(xpp, 0)
             } else if (name.equals(PwDatabaseV4XML.ElemAutoTypeDefaultSeq, ignoreCase = true)) {
-                ctxEntry!!.autoType.defaultSequence = readString(xpp)
+                ctxEntry?.autoType?.defaultSequence = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemAutoTypeItem, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.EntryAutoTypeItem, xpp)
             } else {
@@ -632,7 +633,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
             KdbContext.EntryHistory -> if (name.equals(PwDatabaseV4XML.ElemEntry, ignoreCase = true)) {
                 ctxEntry = PwEntryV4()
-                ctxHistoryBase!!.addToHistory(ctxEntry!!)
+                ctxEntry?.let { ctxHistoryBase?.addToHistory(it) }
 
                 entryInHistory = true
                 return switchContext(ctx, KdbContext.Entry, xpp)
@@ -642,7 +643,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
             KdbContext.RootDeletedObjects -> if (name.equals(PwDatabaseV4XML.ElemDeletedObject, ignoreCase = true)) {
                 ctxDeletedObject = PwDeletedObject()
-                mDatabase.addDeletedObject(ctxDeletedObject)
+                ctxDeletedObject?.let { mDatabase.addDeletedObject(it) }
 
                 return switchContext(ctx, KdbContext.DeletedObject, xpp)
             } else {
@@ -650,9 +651,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             KdbContext.DeletedObject -> if (name.equals(PwDatabaseV4XML.ElemUuid, ignoreCase = true)) {
-                ctxDeletedObject!!.uuid = readUuid(xpp)
+                ctxDeletedObject?.uuid = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemDeletionTime, ignoreCase = true)) {
-                ctxDeletedObject!!.deletionTime = readTime(xpp)
+                ctxDeletedObject?.deletionTime = readTime(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -677,7 +678,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         } else if (ctx == KdbContext.CustomIcons && name.equals(PwDatabaseV4XML.ElemCustomIcons, ignoreCase = true)) {
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomIcon && name.equals(PwDatabaseV4XML.ElemCustomIconItem, ignoreCase = true)) {
-            if (customIconID != PwDatabase.UUID_ZERO) {
+            if (customIconID != PwDatabase.UUID_ZERO && customIconData != null) {
                 val icon = PwIconCustom(customIconID, customIconData!!)
                 mDatabase.addCustomIcon(icon)
                 mDatabase.iconFactory.put(icon)
@@ -693,7 +694,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return KdbContext.Meta
         } else if (ctx == KdbContext.CustomDataItem && name.equals(PwDatabaseV4XML.ElemStringDictExItem, ignoreCase = true)) {
             if (customDataKey != null && customDataValue != null) {
-                mDatabase.putCustomData(customDataKey, customDataValue)
+                mDatabase.putCustomData(customDataKey!!, customDataValue!!)
             }
 
             customDataKey = null
@@ -701,9 +702,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
             return KdbContext.CustomData
         } else if (ctx == KdbContext.Group && name.equals(PwDatabaseV4XML.ElemGroup, ignoreCase = true)) {
-            if (ctxGroup!!.id == PwDatabase.UUID_ZERO) {
-                ctxGroup!!.nodeId = mDatabase.newGroupId()
-                mDatabase.addGroupIndex(ctxGroup)
+            if (ctxGroup != null && ctxGroup?.id == PwDatabase.UUID_ZERO) {
+                ctxGroup?.nodeId = mDatabase.newGroupId()
+                mDatabase.addGroupIndex(ctxGroup!!)
             }
 
             ctxGroups.pop()
@@ -721,7 +722,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return KdbContext.Group
         } else if (ctx == KdbContext.GroupCustomDataItem && name.equals(PwDatabaseV4XML.ElemStringDictExItem, ignoreCase = true)) {
             if (groupCustomDataKey != null && groupCustomDataValue != null) {
-                ctxGroup!!.putCustomData(groupCustomDataKey!!, groupCustomDataKey!!)
+                ctxGroup?.putCustomData(groupCustomDataKey!!, groupCustomDataValue!!)
             }
 
             groupCustomDataKey = null
@@ -730,9 +731,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return KdbContext.GroupCustomData
 
         } else if (ctx == KdbContext.Entry && name.equals(PwDatabaseV4XML.ElemEntry, ignoreCase = true)) {
-            if (ctxEntry!!.id == PwDatabase.UUID_ZERO) {
-                ctxEntry!!.nodeId = mDatabase.newEntryId()
-                mDatabase.addEntryIndex(ctxEntry)
+            if (ctxEntry != null && ctxEntry?.id == PwDatabase.UUID_ZERO) {
+                ctxEntry?.nodeId = mDatabase.newEntryId()
+                mDatabase.addEntryIndex(ctxEntry!!)
             }
 
             if (entryInHistory) {
@@ -744,13 +745,15 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         } else if (ctx == KdbContext.EntryTimes && name.equals(PwDatabaseV4XML.ElemTimes, ignoreCase = true)) {
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryString && name.equals(PwDatabaseV4XML.ElemString, ignoreCase = true)) {
-            ctxEntry!!.addExtraField(ctxStringName!!, ctxStringValue!!)
+            if (ctxStringName != null && ctxStringValue != null)
+                ctxEntry?.addExtraField(ctxStringName!!, ctxStringValue!!)
             ctxStringName = null
             ctxStringValue = null
 
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(PwDatabaseV4XML.ElemBinary, ignoreCase = true)) {
-            ctxEntry!!.putProtectedBinary(ctxBinaryName!!, ctxBinaryValue!!)
+            if (ctxBinaryName != null && ctxBinaryValue != null)
+                ctxEntry?.putProtectedBinary(ctxBinaryName!!, ctxBinaryValue!!)
             ctxBinaryName = null
             ctxBinaryValue = null
 
@@ -758,7 +761,8 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         } else if (ctx == KdbContext.EntryAutoType && name.equals(PwDatabaseV4XML.ElemAutoType, ignoreCase = true)) {
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryAutoTypeItem && name.equals(PwDatabaseV4XML.ElemAutoTypeItem, ignoreCase = true)) {
-            ctxEntry!!.autoType.put(ctxATName!!, ctxATSeq!!)
+            if (ctxATName != null && ctxATSeq != null)
+                ctxEntry?.autoType?.put(ctxATName!!, ctxATSeq!!)
             ctxATName = null
             ctxATSeq = null
 
@@ -767,7 +771,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryCustomDataItem && name.equals(PwDatabaseV4XML.ElemStringDictExItem, ignoreCase = true)) {
             if (entryCustomDataKey != null && entryCustomDataValue != null) {
-                ctxEntry!!.putCustomData(entryCustomDataKey!!, entryCustomDataValue!!)
+                ctxEntry?.putCustomData(entryCustomDataKey!!, entryCustomDataValue!!)
             }
 
             entryCustomDataKey = null
@@ -805,7 +809,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             var buf = Base64Coder.decode(sDate)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)
-                System.arraycopy(buf, 0, buf8, 0, Math.min(buf.size, 8))
+                System.arraycopy(buf, 0, buf8, 0, min(buf.size, 8))
                 buf = buf8
             }
 
@@ -862,14 +866,11 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     private fun readInt(xpp: XmlPullParser, def: Int): Int {
         val str = readString(xpp)
 
-        var u: Int
-        try {
-            u = Integer.parseInt(str)
+        return try {
+            Integer.parseInt(str)
         } catch (e: NumberFormatException) {
-            u = def
+            def
         }
-
-        return u
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -888,14 +889,11 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     private fun readLong(xpp: XmlPullParser, def: Long): Long {
         val str = readString(xpp)
 
-        val u: Long
-        u = try {
+        return try {
             java.lang.Long.parseLong(str)
         } catch (e: NumberFormatException) {
             def
         }
-
-        return u
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -1001,8 +999,6 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     private fun processNode(xpp: XmlPullParser): ByteArray? {
         //(xpp.getEventType() == XmlPullParser.START_TAG);
 
-        var buf: ByteArray? = null
-
         if (xpp.attributeCount > 0) {
             val protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected)
             if (protect != null && protect.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)) {
@@ -1010,19 +1006,16 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
                 val encrypted = readStringRaw(xpp)
 
                 if (encrypted.isNotEmpty()) {
-                    buf = Base64Coder.decode(encrypted)
-                    val plainText = ByteArray(buf!!.size)
-
-                    randomStream!!.processBytes(buf, 0, buf.size, plainText, 0)
-
-                    return plainText
-                } else {
-                    buf = ByteArray(0)
+                    Base64Coder.decode(encrypted)?.let { buffer ->
+                        val plainText = ByteArray(buffer.size)
+                        randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
+                        return plainText
+                    } ?: return ByteArray(0)
                 }
             }
         }
 
-        return buf
+        return null
     }
 
     @Throws(XmlPullParserException::class, IOException::class)

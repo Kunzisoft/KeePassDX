@@ -24,7 +24,7 @@ abstract class PwDbHeader {
     /**
      * Seed that gets hashed with the userkey to form the final key
      */
-    var masterSeed: ByteArray? = null
+    lateinit var masterSeed: ByteArray
 
     /**
      * IV used for content encryption

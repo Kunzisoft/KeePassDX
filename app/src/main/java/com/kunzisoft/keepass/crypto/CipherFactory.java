@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -82,14 +82,13 @@ public class CipherFactory {
      * @throws InvalidKeyException
      */
     public static CipherEngine getInstance(UUID uuid) throws NoSuchAlgorithmException {
-        if ( uuid.equals(AesEngine.CIPHER_UUID) ) {
+        if ( uuid.equals(AesEngine.Companion.getCIPHER_UUID()) ) {
             return new AesEngine();
-        } else if ( uuid.equals(TwofishEngine.CIPHER_UUID) ) {
+        } else if ( uuid.equals(TwofishEngine.Companion.getCIPHER_UUID()) ) {
             return new TwofishEngine();
-        } else if ( uuid.equals(ChaCha20Engine.CIPHER_UUID)) {
+        } else if ( uuid.equals(ChaCha20Engine.Companion.getCIPHER_UUID())) {
             return new ChaCha20Engine();
         }
-
         throw new NoSuchAlgorithmException("UUID unrecognized.");
     }
 }

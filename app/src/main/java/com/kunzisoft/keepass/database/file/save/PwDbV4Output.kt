@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -128,50 +128,52 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         writeMeta()
 
-        val root = mDatabaseV4.rootGroup
-        xml.startTag(null, PwDatabaseV4XML.ElemRoot)
-        startGroup(root)
-        val groupStack = Stack<PwGroupV4>()
-        groupStack.push(root)
+        mDatabaseV4.rootGroup?.let { root ->
+            xml.startTag(null, PwDatabaseV4XML.ElemRoot)
+            startGroup(root)
+            val groupStack = Stack<PwGroupV4>()
+            groupStack.push(root)
 
-        if (!root.doForEachChild(
-                        object : NodeHandler<PwEntryV4>() {
-                            override fun operate(node: PwEntryV4): Boolean {
-                                try {
-                                    writeEntry(node, false)
-                                } catch (ex: IOException) {
-                                    throw RuntimeException(ex)
-                                }
-
-                                return true
-                            }
-                        },
-                        object : NodeHandler<PwGroupV4>() {
-                            override fun operate(node: PwGroupV4): Boolean {
-                                while (true) {
+            if (!root.doForEachChild(
+                            object : NodeHandler<PwEntryV4>() {
+                                override fun operate(node: PwEntryV4): Boolean {
                                     try {
-                                        if (node.parent === groupStack.peek()) {
-                                            groupStack.push(node)
-                                            startGroup(node)
-                                            break
-                                        } else {
-                                            groupStack.pop()
-                                            if (groupStack.size <= 0) return false
-                                            endGroup()
-                                        }
-                                    } catch (e: IOException) {
-                                        throw RuntimeException(e)
+                                        writeEntry(node, false)
+                                    } catch (ex: IOException) {
+                                        throw RuntimeException(ex)
                                     }
 
+                                    return true
                                 }
-                                return true
-                            }
-                        }))
-            throw RuntimeException("Writing groups failed")
+                            },
+                            object : NodeHandler<PwGroupV4>() {
+                                override fun operate(node: PwGroupV4): Boolean {
+                                    while (true) {
+                                        try {
+                                            if (node.parent === groupStack.peek()) {
+                                                groupStack.push(node)
+                                                startGroup(node)
+                                                break
+                                            } else {
+                                                groupStack.pop()
+                                                if (groupStack.size <= 0) return false
+                                                endGroup()
+                                            }
+                                        } catch (e: IOException) {
+                                            throw RuntimeException(e)
+                                        }
 
-        while (groupStack.size > 1) {
-            xml.endTag(null, PwDatabaseV4XML.ElemGroup)
-            groupStack.pop()
+                                    }
+                                    return true
+                                }
+                            })
+            )
+                throw RuntimeException("Writing groups failed")
+
+            while (groupStack.size > 1) {
+                xml.endTag(null, PwDatabaseV4XML.ElemGroup)
+                groupStack.pop()
+            }
         }
 
         endGroup()
@@ -234,7 +236,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         try {
             //mDatabaseV4.makeFinalKey(header.masterSeed, mDatabaseV4.kdfParameters);
 
-            cipher = engine!!.getCipher(Cipher.ENCRYPT_MODE, mDatabaseV4.finalKey, header.encryptionIV)
+            cipher = engine!!.getCipher(Cipher.ENCRYPT_MODE, mDatabaseV4.finalKey!!, header.encryptionIV)
         } catch (e: Exception) {
             throw PwDbOutputException("Invalid algorithm.", e)
         }
