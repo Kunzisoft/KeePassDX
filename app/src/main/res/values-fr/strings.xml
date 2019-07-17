@@ -387,7 +387,7 @@
     <string name="keyboard_entry_category">Entrée</string>
     <string name="keyboard_entry_timeout_title">Délai d’expiration</string>
     <string name="keyboard_entry_timeout_summary">Délai d’expiration pour effacer l’entrée au clavier</string>
-    <string name="keyboard_notification_entry_title">Informations de notification</string>
+    <string name="keyboard_notification_entry_title">Info de notification</string>
     <string name="keyboard_notification_entry_summary">Afficher une notification lorsqu’une entrée est disponible</string>
     <string name="keyboard_notification_entry_content_title_text">Entrée</string>
     <string name="keyboard_notification_entry_content_title">1$s disponible sur Magikeyboard</string>
