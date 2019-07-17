@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,21 +17,17 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings.preferencedialogfragment.adapter;
+package com.kunzisoft.keepass.settings
 
-import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.widget.RadioButton;
+import android.os.Bundle
+import android.support.v7.preference.PreferenceFragmentCompat
 
-import com.kunzisoft.keepass.R;
+import com.kunzisoft.keepass.R
 
-public class ListRadioViewHolder extends RecyclerView.ViewHolder {
+class MagikIMESettingsFragment : PreferenceFragmentCompat() {
 
-    public RadioButton radioButton;
-
-    public ListRadioViewHolder(View itemView) {
-        super(itemView);
-
-        radioButton = itemView.findViewById(R.id.pref_dialog_list_radio);
+    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+        // Load the preferences from an XML resource
+        setPreferencesFromResource(R.xml.keyboard_preferences, rootKey)
     }
 }

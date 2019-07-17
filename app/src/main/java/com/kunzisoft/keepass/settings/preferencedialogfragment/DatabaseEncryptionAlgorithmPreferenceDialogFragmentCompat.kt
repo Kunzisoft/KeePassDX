@@ -39,13 +39,17 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat : DatabaseSavePr
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.pref_dialog_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val encryptionAlgorithmAdapter = ListRadioItemAdapter<PwEncryptionAlgorithm>(activity)
-        encryptionAlgorithmAdapter.setRadioItemSelectedCallback(this)
-        recyclerView.adapter = encryptionAlgorithmAdapter
 
-        database?.let { database ->
-            algorithmSelected = database.encryptionAlgorithm
-            encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, algorithmSelected)
+        activity?.let { activity ->
+            val encryptionAlgorithmAdapter = ListRadioItemAdapter<PwEncryptionAlgorithm>(activity)
+            encryptionAlgorithmAdapter.setRadioItemSelectedCallback(this)
+            recyclerView.adapter = encryptionAlgorithmAdapter
+
+            database?.let { database ->
+                algorithmSelected = database.encryptionAlgorithm
+                if (algorithmSelected != null)
+                    encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, algorithmSelected!!)
+            }
         }
     }
 

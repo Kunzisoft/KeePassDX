@@ -139,8 +139,8 @@ public class MagikIME extends InputMethodService
             }
 
             // Define preferences
-            keyboardView.setHapticFeedbackEnabled(PreferencesUtil.enableKeyboardVibration(this));
-            playSoundDuringCLick = PreferencesUtil.enableKeyboardSound(this);
+            keyboardView.setHapticFeedbackEnabled(PreferencesUtil.INSTANCE.enableKeyboardVibration(this));
+            playSoundDuringCLick = PreferencesUtil.INSTANCE.enableKeyboardSound(this);
         }
     }
 

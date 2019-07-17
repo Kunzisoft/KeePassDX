@@ -186,26 +186,28 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         when (item?.itemId) {
 
             R.id.menu_sort -> {
-                val sortDialogFragment: SortDialogFragment
+                context?.let { context ->
+                    val sortDialogFragment: SortDialogFragment
 
-                /*
-                // TODO Recycle bin bottom
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
-                    sortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                    PrefsUtil.getListSort(this),
-                                    PrefsUtil.getAscendingSort(this),
-                                    PrefsUtil.getGroupsBeforeSort(this),
-                                    PrefsUtil.getRecycleBinBottomSort(this));
-                } else {
-                */
-                sortDialogFragment = SortDialogFragment.getInstance(
-                        PreferencesUtil.getListSort(context),
-                        PreferencesUtil.getAscendingSort(context),
-                        PreferencesUtil.getGroupsBeforeSort(context))
-                //}
+                    /*
+                    // TODO Recycle bin bottom
+                    if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
+                        sortDialogFragment =
+                                SortDialogFragment.getInstance(
+                                        PrefsUtil.getListSort(this),
+                                        PrefsUtil.getAscendingSort(this),
+                                        PrefsUtil.getGroupsBeforeSort(this),
+                                        PrefsUtil.getRecycleBinBottomSort(this));
+                    } else {
+                    */
+                    sortDialogFragment = SortDialogFragment.getInstance(
+                            PreferencesUtil.getListSort(context),
+                            PreferencesUtil.getAscendingSort(context),
+                            PreferencesUtil.getGroupsBeforeSort(context))
+                    //}
 
-                sortDialogFragment.show(childFragmentManager, "sortDialog")
+                    sortDialogFragment.show(childFragmentManager, "sortDialog")
+                }
                 return true
             }
 

@@ -43,13 +43,17 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat : DatabaseSavePreferen
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.pref_dialog_list)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        val kdfAdapter = ListRadioItemAdapter<KdfEngine>(activity)
-        kdfAdapter.setRadioItemSelectedCallback(this)
-        recyclerView.adapter = kdfAdapter
 
-        database?.let { database ->
-            kdfEngineSelected = database.kdfEngine
-            kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected)
+        activity?.let { activity ->
+            val kdfAdapter = ListRadioItemAdapter<KdfEngine>(activity)
+            kdfAdapter.setRadioItemSelectedCallback(this)
+            recyclerView.adapter = kdfAdapter
+
+            database?.let { database ->
+                kdfEngineSelected = database.kdfEngine
+                if (kdfEngineSelected != null)
+                    kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected!!)
+            }
         }
     }
 

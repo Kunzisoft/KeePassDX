@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,14 +17,13 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings;
+package com.kunzisoft.keepass.settings
 
-import android.support.v4.app.Fragment;
+import android.support.v4.app.Fragment
 
-public class SettingsAutofillActivity extends SettingsActivity {
+class SettingsAutofillActivity : SettingsActivity() {
 
-    @Override
-    protected Fragment retrieveMainFragment() {
-        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.FORM_FILLING);
+    override fun retrieveMainFragment(): Fragment {
+        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.FORM_FILLING)
     }
 }

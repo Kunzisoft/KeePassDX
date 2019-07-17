@@ -124,7 +124,7 @@ public class IconPackChooser {
     public static IconPack getSelectedIconPack(Context context) {
         build(context);
         if (iconPackSelected == null)
-            setSelectedIconPack(PreferencesUtil.getIconPackSelectedId(context));
+            setSelectedIconPack(PreferencesUtil.INSTANCE.getIconPackSelectedId(context));
         return iconPackSelected;
     }
 
