@@ -876,7 +876,7 @@ class GroupActivity : LockingActivity(),
 
     override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                  name: String?,
-                                 iconId: PwIcon?) {
+                                 icon: PwIcon?) {
         // Do nothing here
     }
 

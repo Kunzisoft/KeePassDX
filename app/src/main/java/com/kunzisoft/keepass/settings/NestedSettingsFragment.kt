@@ -173,8 +173,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 deleteKeysFingerprints.isEnabled = false
             } else {
                 deleteKeysFingerprints.setOnPreferenceClickListener {
-                    if (context != null) {
-                        AlertDialog.Builder(context!!)
+                    context?.let { context ->
+                        AlertDialog.Builder(context)
                                 .setMessage(resources.getString(R.string.fingerprint_delete_all_warning))
                                 .setIcon(resources.getDrawable(
                                         android.R.drawable.ic_dialog_alert))
@@ -193,7 +193,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                                                     }
                                                 })
                                     }
-                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(context!!)
+                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(context)
                                 }
                                 .setNegativeButton(resources.getString(android.R.string.no))
                                 { _, _ -> }.show()
