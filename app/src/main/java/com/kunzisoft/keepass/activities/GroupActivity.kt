@@ -407,7 +407,7 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entry, readOnly)
                         },
                         {
-                            MagikIME.setEntryKey(getEntry(entry))
+                            MagikIME.entryKey = getEntry(entry)
                             // Show the notification if allowed in Preferences
                             if (PreferencesUtil.enableKeyboardNotificationEntry(this@GroupActivity)) {
                                 startService(Intent(
@@ -441,7 +441,7 @@ class GroupActivity : LockingActivity(),
         if (entry.containsCustomFields()) {
             entry.fields
                     .doActionToAllCustomProtectedField { key, value ->
-                        entryModel.addCustomField(
+                        entryModel.customFields.add(
                                 Field(key, value.toString()))
                     }
         }
