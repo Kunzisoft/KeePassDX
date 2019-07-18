@@ -162,7 +162,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
 
-            val generator = PasswordGenerator(activity)
+            val generator = PasswordGenerator(resources)
             password = generator.generatePassword(length,
                     uppercaseBox?.isChecked == true,
                     lowercaseBox?.isChecked == true,
