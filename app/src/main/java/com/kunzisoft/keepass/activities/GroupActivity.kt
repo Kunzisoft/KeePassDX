@@ -55,7 +55,6 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
@@ -193,16 +192,16 @@ class GroupActivity : LockingActivity(),
                 .commit()
 
         // Add listeners to the add buttons
-        addNodeButtonView?.setAddGroupClickListener {
+        addNodeButtonView?.setAddGroupClickListener(View.OnClickListener {
             GroupEditDialogFragment.build()
                     .show(supportFragmentManager,
                             GroupEditDialogFragment.TAG_CREATE_GROUP)
-        }
-        addNodeButtonView?.setAddEntryClickListener {
+        })
+        addNodeButtonView?.setAddEntryClickListener(View.OnClickListener {
             mCurrentGroup?.let { currentGroup ->
                 EntryEditActivity.launch(this@GroupActivity, currentGroup)
             }
-        }
+        })
 
         // Search suggestion
         mDatabase?.let { database ->

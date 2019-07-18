@@ -65,10 +65,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
     private var expiresDateView: TextView? = null
 
     val isUserNamePresent: Boolean
-        get() = userNameContainerView!!.visibility == View.VISIBLE
+        get() = userNameContainerView?.visibility == View.VISIBLE
 
     val isPasswordPresent: Boolean
-        get() = passwordContainerView!!.visibility == View.VISIBLE
+        get() = passwordContainerView?.visibility == View.VISIBLE
 
     init {
 
