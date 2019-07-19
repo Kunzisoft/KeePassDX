@@ -71,11 +71,11 @@ public class AesKdf extends KdfEngine {
         byte[] seed = p.getByteArray(ParamSeed);
 
         if (masterKey.length != 32) {
-            masterKey = CryptoUtil.hashSha256(masterKey);
+            masterKey = CryptoUtil.INSTANCE.hashSha256(masterKey);
         }
 
         if (seed.length != 32) {
-            seed = CryptoUtil.hashSha256(seed);
+            seed = CryptoUtil.INSTANCE.hashSha256(seed);
         }
 
         FinalKey key = FinalKeyFactory.createFinalKey();

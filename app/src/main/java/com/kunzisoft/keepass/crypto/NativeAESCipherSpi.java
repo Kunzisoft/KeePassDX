@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -47,8 +47,8 @@ public class NativeAESCipherSpi extends CipherSpi {
     private static final String TAG = NativeAESCipherSpi.class.getName();
 
     private static boolean mIsStaticInit = false;
-    private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<PhantomReference<NativeAESCipherSpi>, Long>();
-    private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<NativeAESCipherSpi>();
+    private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<>();
+    private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<>();
 
     private final int AES_BLOCK_SIZE = 16;
     private byte[] mIV;
@@ -73,7 +73,6 @@ public class NativeAESCipherSpi extends CipherSpi {
     /** Work with the garbage collector to clean up openssl memory when the cipher
      *  context is garbage collected.
      * @author bpellin
-     *
      */
     private static class Cleanup implements Runnable {
 
@@ -96,7 +95,7 @@ public class NativeAESCipherSpi extends CipherSpi {
     private static native void nCleanup(long ctxPtr);
 
     public NativeAESCipherSpi() {
-        if ( ! mIsStaticInit ) {
+        if ( !mIsStaticInit ) {
             staticInit();
         }
     }
@@ -132,11 +131,9 @@ public class NativeAESCipherSpi extends CipherSpi {
             IllegalBlockSizeException, BadPaddingException {
 
         int result = doFinal(input, inputOffset, inputLen, output, outputOffset);
-
         if ( result == -1 ) {
             throw new ShortBufferException();
         }
-
         return result;
     }
 
@@ -144,7 +141,6 @@ public class NativeAESCipherSpi extends CipherSpi {
             throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
 
         int outputSize = engineGetOutputSize(inputLen);
-
         int updateAmt;
         if (input != null && inputLen > 0) {
             updateAmt = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);

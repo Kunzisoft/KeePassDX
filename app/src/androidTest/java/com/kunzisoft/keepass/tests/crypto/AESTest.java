@@ -72,7 +72,7 @@ public class AESTest extends TestCase {
         android.init(Cipher.ENCRYPT_MODE, key, iv);
         byte[] outAndroid = android.doFinal(input, 0, dataSize);
 
-        Cipher nat = CipherFactory.getInstance("AES/CBC/PKCS5Padding");
+        Cipher nat = CipherFactory.INSTANCE.getInstance("AES/CBC/PKCS5Padding");
         nat.init(Cipher.ENCRYPT_MODE, key, iv);
         byte[] outNative = nat.doFinal(input, 0, dataSize);
 
