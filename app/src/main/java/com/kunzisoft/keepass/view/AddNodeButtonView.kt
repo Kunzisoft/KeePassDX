@@ -130,11 +130,13 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     fun showButton() {
-        addButtonView?.show(onAddButtonVisibilityChangedListener)
+        if (addButtonView?.visibility != VISIBLE)
+            addButtonView?.show(onAddButtonVisibilityChangedListener)
     }
 
     fun hideButton() {
-        addButtonView?.hide(onAddButtonVisibilityChangedListener)
+        if (addButtonView?.visibility == VISIBLE)
+            addButtonView?.hide(onAddButtonVisibilityChangedListener)
     }
 
     /**

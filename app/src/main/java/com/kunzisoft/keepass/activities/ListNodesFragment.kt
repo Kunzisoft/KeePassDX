@@ -129,13 +129,13 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             })
         }
 
+        rebuildList()
+
         return rootView
     }
 
     override fun onResume() {
         super.onResume()
-
-        rebuildList()
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "

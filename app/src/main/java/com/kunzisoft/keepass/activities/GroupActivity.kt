@@ -604,12 +604,6 @@ class GroupActivity : LockingActivity(),
         mSearchSuggestionAdapter?.reInit(this)
     }
 
-    override fun onStop() {
-        super.onStop()
-        // Hide button
-        addNodeButtonView?.hideButton()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         val inflater = menuInflater
@@ -941,7 +935,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Not directly get the entry from intent data but from database
-        // Is refresh from onResume()
+        mListNodesFragment?.rebuildList()
     }
 
     @SuppressLint("RestrictedApi")
