@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -347,7 +348,8 @@ class GroupActivity : LockingActivity(),
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let {
-                mDatabase?.drawFactory?.assignDatabaseIconTo(this, iconView, it.icon, mIconColor)
+                if (mDatabase?.drawFactory != null)
+                    iconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, it.icon, mIconColor)
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)

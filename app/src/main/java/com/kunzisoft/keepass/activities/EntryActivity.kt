@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.view.EntryContentsView
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.notifications.NotificationEntryCopyManager
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields
@@ -140,7 +141,7 @@ class EntryActivity : LockingHideActivity() {
         val database = App.currentDatabase
         database.startManageEntry(entry)
         // Assign title icon
-        database.drawFactory.assignDatabaseIconTo(this, titleIconView, entry.icon, iconColor)
+        titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)
 
         // Assign title text
         titleView?.text = entry.getVisualTitle()

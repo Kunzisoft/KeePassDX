@@ -3,12 +3,9 @@ package com.kunzisoft.keepass.settings.preference
 import android.content.Context
 import android.support.v7.preference.ListPreference
 import android.util.AttributeSet
-
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.icons.IconPack
 import com.kunzisoft.keepass.icons.IconPackChooser
-
-import java.util.ArrayList
+import java.util.*
 
 class IconPackListPreference @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,
@@ -20,12 +17,16 @@ class IconPackListPreference @JvmOverloads constructor(context: Context,
         val entries = ArrayList<String>()
         val values = ArrayList<String>()
         for (iconPack in IconPackChooser.getIconPackList(context)) {
-            entries.add(iconPack.name)
-            values.add(iconPack.id)
+            if (iconPack.id != null) {
+                entries.add(iconPack.name)
+                values.add(iconPack.id!!)
+            }
         }
 
         setEntries(entries.toTypedArray())
         entryValues = values.toTypedArray()
-        setDefaultValue(IconPackChooser.getSelectedIconPack(context).id)
+        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+            setDefaultValue(selectedIconPack.id)
+        }
     }
 }

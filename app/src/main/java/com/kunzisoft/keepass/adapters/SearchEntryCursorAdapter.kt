@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.database.cursor.EntryCursor
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
@@ -89,7 +90,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         val viewHolder = view.tag as ViewHolder
 
         // Assign image
-        database.drawFactory.assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor)
+        viewHolder.imageViewIcon?.assignDatabaseIcon(database.drawFactory, icon, iconColor)
 
         // Assign title
         val showTitle = EntryVersioned.getVisualTitle(false, title, username, url, uuid.toString())

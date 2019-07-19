@@ -61,7 +61,7 @@ class IconPickerDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
 
-            iconPack = IconPackChooser.getSelectedIconPack(context)
+            iconPack = IconPackChooser.getSelectedIconPack(context!!)
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout

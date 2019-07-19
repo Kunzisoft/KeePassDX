@@ -33,6 +33,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.Util
 
@@ -207,7 +208,7 @@ class NodeAdapter
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
-        mDatabase.drawFactory.assignDatabaseIconTo(context, holder.icon, subNode.icon, iconColor)
+        holder.icon?.assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
         // Assign text
         holder.text?.text = subNode.title
         // Assign click
