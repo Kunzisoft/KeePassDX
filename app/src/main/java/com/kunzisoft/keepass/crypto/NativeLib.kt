@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,20 +17,30 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto;
+package com.kunzisoft.keepass.crypto
 
-import java.security.Provider;
+object NativeLib {
+    private var isLoaded = false
+    private var loadSuccess = false
 
-public final class AESProvider extends Provider {
+    fun loaded(): Boolean {
+        return init()
+    }
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = -3846349284296062658L;
+    fun init(): Boolean {
+        if (!isLoaded) {
+            try {
+                System.loadLibrary("final-key")
+                System.loadLibrary("argon2")
+            } catch (e: UnsatisfiedLinkError) {
+                return false
+            }
 
-    public AESProvider() {
-        super("AESProvider", 1.0, "");
-        put("Cipher.AES",NativeAESCipherSpi.class.getName());
+            isLoaded = true
+            loadSuccess = true
+        }
+
+        return loadSuccess
     }
 
 }

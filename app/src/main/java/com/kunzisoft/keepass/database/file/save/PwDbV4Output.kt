@@ -24,7 +24,7 @@ import android.util.Xml
 import biz.source_code.base64Coder.Base64Coder
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.crypto.PwStreamCipherFactory
+import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.*
@@ -275,7 +275,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         }
         random.nextBytes(header.innerRandomStreamKey)
 
-        randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+        randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
         if (randomStream == null) {
             throw PwDbOutputException("Invalid random cipher")
         }

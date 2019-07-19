@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.file.load
 import biz.source_code.base64Coder.Base64Coder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.crypto.PwStreamCipherFactory
+import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.*
@@ -183,7 +183,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             loadInnerHeader(isXml, header)
         }
 
-        randomStream = PwStreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
+        randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
 
         if (randomStream == null) {
             throw ArcFourException()

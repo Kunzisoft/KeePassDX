@@ -51,7 +51,7 @@ public class CipherFactory {
 
     public static Cipher getInstance(String transformation, boolean androidOverride) throws NoSuchAlgorithmException, NoSuchPaddingException {
         // Return the native AES if it is possible
-        if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.loaded() ) {
+        if ( (!deviceBlacklisted()) && (!androidOverride) && hasNativeImplementation(transformation) && NativeLib.INSTANCE.loaded() ) {
             return Cipher.getInstance(transformation, new AESProvider());
         } else {
             return Cipher.getInstance(transformation);

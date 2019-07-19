@@ -27,12 +27,12 @@ import java.io.IOException;
 public class NativeFinalKey extends FinalKey {
 
     public static boolean availble() {
-        return NativeLib.init();
+        return NativeLib.INSTANCE.init();
     }
 
     @Override
     public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
-        NativeLib.init();
+        NativeLib.INSTANCE.init();
 
         return nTransformMasterKey(seed, key, rounds);
 
