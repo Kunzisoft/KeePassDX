@@ -94,7 +94,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 }
             }
 
-            mAdapter = NodeAdapter(getContextThemed(), currentActivity.menuInflater)
+            mAdapter = NodeAdapter(contextThemed, currentActivity.menuInflater)
             mAdapter?.apply {
                 setReadOnly(readOnly)
                 setIsASearchResult(isASearchResult)
@@ -115,7 +115,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         super.onCreateView(inflater, container, savedInstanceState)
 
         // To apply theme
-        val rootView = inflater.cloneInContext(getContextThemed())
+        val rootView = inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.list_nodes_fragment, container, false)
         listView = rootView.findViewById(R.id.nodes_list)
         notFoundView = rootView.findViewById(R.id.not_found_container)
