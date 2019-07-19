@@ -114,7 +114,7 @@ class Database {
         }
 
     val numberKeyEncryptionRoundsAsString: String
-        get() = java.lang.Long.toString(numberKeyEncryptionRounds)
+        get() = numberKeyEncryptionRounds.toString()
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -497,10 +497,7 @@ class Database {
     }
 
     fun getKeyDerivationName(resources: Resources): String {
-        val kdfEngine = kdfEngine
-        return if (kdfEngine != null) {
-            kdfEngine.getName(resources)
-        } else ""
+        return kdfEngine.getName(resources)
     }
 
     fun validatePasswordEncoding(key: String): Boolean {
@@ -516,16 +513,12 @@ class Database {
     fun createEntry(): EntryVersioned? {
         pwDatabaseV3?.let { database ->
             return EntryVersioned(database.createEntry()).apply {
-                database.newEntryId()?.let {
-                    nodeId = it
-                }
+                nodeId = database.newEntryId()
             }
         }
         pwDatabaseV4?.let { database ->
             return EntryVersioned(database.createEntry()).apply {
-                database.newEntryId()?.let {
-                    nodeId = it
-                }
+                nodeId = database.newEntryId()
             }
         }
 
@@ -535,16 +528,12 @@ class Database {
     fun createGroup(): GroupVersioned? {
         pwDatabaseV3?.let { database ->
             return GroupVersioned(database.createGroup()).apply {
-                database.newGroupId()?.let {
-                    setNodeId(it)
-                }
+                setNodeId(database.newGroupId())
             }
         }
         pwDatabaseV4?.let { database ->
             return GroupVersioned(database.createGroup()).apply {
-                database.newGroupId()?.let {
-                    setNodeId(it)
-                }
+                setNodeId(database.newGroupId())
             }
         }
 

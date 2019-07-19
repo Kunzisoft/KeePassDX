@@ -525,9 +525,9 @@ class PasswordActivity : StylishActivity(),
         setFingerPrintView(R.string.encrypted_value_stored)
     }
 
-    override fun handleDecryptedResult(passwordValue: String) {
+    override fun handleDecryptedResult(value: String) {
         // Load database directly
-        verifyKeyFileViewsAndLoadDatabase(passwordValue)
+        verifyKeyFileViewsAndLoadDatabase(value)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)

@@ -187,6 +187,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         return header
     }
 
+    @Suppress("CAST_NEVER_SUCCEEDS")
     @Throws(PwDbOutputException::class)
     fun outputPlanGroupAndEntries(os: OutputStream) {
         val los = LEDataOutputStream(os)
@@ -196,7 +197,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             try {
                 los.writeUShort(0x0000)
                 los.writeInt(headerHashBlock!!.size)
-                los.write(headerHashBlock)
+                los.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw PwDbOutputException("Failed to output header hash.", e)
             }
