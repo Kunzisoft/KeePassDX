@@ -177,9 +177,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private fun verifyFile(): Boolean {
         var error = false
         if (keyFileCheckBox != null
-                && keyFileCheckBox!!.isChecked
-                && keyFileView != null) {
-            val keyFile = UriUtil.parseDefaultFile(keyFileView!!.text.toString())
+                && keyFileCheckBox!!.isChecked) {
+            val keyFile = UriUtil.parseUriFile(keyFileView?.text?.toString())
             mKeyFile = keyFile
 
             // Verify that a keyfile is set
@@ -228,11 +227,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
-            uri?.let { currentUri ->
-                UriUtil.parseDefaultFile(currentUri.toString())?.let { pathString ->
-                    keyFileCheckBox?.isChecked = true
-                    keyFileView?.text = pathString.toString()
-                }
+            UriUtil.parseUriFile(uri)?.let { pathUri ->
+                keyFileCheckBox?.isChecked = true
+                keyFileView?.text = pathUri.toString()
+
             }
         }
     }

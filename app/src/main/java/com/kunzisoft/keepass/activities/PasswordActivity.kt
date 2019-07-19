@@ -265,7 +265,7 @@ class PasswordActivity : StylishActivity(),
         val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
         if (mDatabaseFileUri != null
                 && mDatabaseFileUri!!.path != null && mDatabaseFileUri!!.path!!.isNotEmpty()
-                && UriUtil.equalsDefaultfile(mDatabaseFileUri, defaultFilename)) {
+                && mDatabaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
@@ -562,8 +562,8 @@ class PasswordActivity : StylishActivity(),
 
     private fun verifyAllViewsAndLoadDatabase() {
         verifyCheckboxesAndLoadDatabase(
-                passwordView?.text.toString(),
-                UriUtil.parseDefaultFile(keyFileView?.text.toString()))
+                passwordView?.text?.toString(),
+                UriUtil.parseUriFile(keyFileView?.text?.toString()))
     }
 
     private fun verifyCheckboxesAndLoadDatabase(password: String?, keyFile: Uri?) {
@@ -579,8 +579,8 @@ class PasswordActivity : StylishActivity(),
     }
 
     private fun verifyKeyFileViewsAndLoadDatabase(password: String) {
-        val key = keyFileView?.text.toString()
-        var keyUri = UriUtil.parseDefaultFile(key)
+        val key = keyFileView?.text?.toString()
+        var keyUri = UriUtil.parseUriFile(key)
         if (checkboxKeyFileView?.isChecked != true) {
             keyUri = null
         }
@@ -817,9 +817,8 @@ class PasswordActivity : StylishActivity(),
                 throw FileNotFoundException()
             }
 
-            val uri = UriUtil.parseDefaultFile(fileName)
-            val scheme = uri.scheme
-
+            val uri = UriUtil.parseUriFile(fileName)
+            val scheme = uri?.scheme
             if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
                 val dbFile = File(uri.path!!)
                 if (!dbFile.exists()) {

@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class CreateDatabaseRunnable(private val mFilename: String,
-                             val onDatabaseCreate: (database: Database) -> ActionRunnable)
+                             val onDatabaseCreate: (database: Database) -> ActionRunnable?)
     : ActionRunnable() {
 
     override fun run() {
@@ -35,7 +35,7 @@ class CreateDatabaseRunnable(private val mFilename: String,
                 // Set Database state
                 loaded = true
                 // Commit changes
-                onDatabaseCreate(this).run()
+                onDatabaseCreate(this)?.run()
             }
 
             finishRun(true)

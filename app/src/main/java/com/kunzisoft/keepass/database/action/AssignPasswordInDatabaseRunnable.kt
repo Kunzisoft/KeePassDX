@@ -24,7 +24,7 @@ import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.getUriInputStream
+import com.kunzisoft.keepass.utils.UriUtil
 import java.io.IOException
 
 class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
@@ -57,7 +57,7 @@ class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
             mBackupKey = ByteArray(database.masterKey.size)
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
-            val uriInputStream = getUriInputStream(context.contentResolver, mKeyFile)
+            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mKeyFile)
             database.retrieveMasterKey(mMasterPassword, uriInputStream)
 
             // To save the database

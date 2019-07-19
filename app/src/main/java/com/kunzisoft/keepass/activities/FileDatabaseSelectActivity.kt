@@ -169,8 +169,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
             val fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "")
 
-            if (fileName!!.isNotEmpty()) {
-                val dbUri = UriUtil.parseDefaultFile(fileName)
+            if (fileName != null && fileName.isNotEmpty()) {
+                val dbUri = UriUtil.parseUriFile(fileName)
                 var scheme: String? = null
                 if (dbUri != null)
                     scheme = dbUri.scheme
@@ -408,17 +408,20 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 ProgressDialogThread(this@FileDatabaseSelectActivity,
                         {
                             CreateDatabaseRunnable(databaseFilename) { database ->
-                                // TODO store database created
-                                AssignPasswordInDatabaseRunnable(
-                                        this@FileDatabaseSelectActivity,
-                                        database,
-                                        masterPasswordChecked,
-                                        masterPassword,
-                                        keyFileChecked,
-                                        keyFile,
-                                        true, // TODO get readonly
-                                        LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename))
-                                )
+
+                                UriUtil.parseUriFile(databaseFilename)?.let { databaseUri ->
+                                    // TODO store database created
+                                    AssignPasswordInDatabaseRunnable(
+                                            this@FileDatabaseSelectActivity,
+                                            database,
+                                            masterPasswordChecked,
+                                            masterPassword,
+                                            keyFileChecked,
+                                            keyFile,
+                                            true, // TODO get readonly
+                                            LaunchGroupActivityFinish(databaseUri)
+                                    )
+                                }
                             }
                         },
                         R.string.progress_create)

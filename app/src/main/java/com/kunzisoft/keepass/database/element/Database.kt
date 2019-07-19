@@ -44,7 +44,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.getUriInputStream
 import org.apache.commons.io.FileUtils
 import java.io.*
 import java.util.*
@@ -196,7 +195,9 @@ class Database {
             setDatabaseV4(databaseV4)
         }
 
-        setUri(UriUtil.parseDefaultFile(databasePath))
+        UriUtil.parseUriFile(databasePath)?.let { uri ->
+            setUri(uri)
+        }
     }
 
     private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
@@ -245,7 +246,7 @@ class Database {
         // Pass Uris as InputStreams
         val inputStream: InputStream?
         try {
-            inputStream = getUriInputStream(ctx.contentResolver, uri)
+            inputStream = UriUtil.getUriInputStream(ctx.contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
             throw ContentFileNotFoundException.getInstance(uri)
@@ -255,7 +256,7 @@ class Database {
         var keyFileInputStream: InputStream? = null
         keyfile?.let {
             try {
-                keyFileInputStream = getUriInputStream(ctx.contentResolver, keyfile)
+                keyFileInputStream = UriUtil.getUriInputStream(ctx.contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
                 throw ContentFileNotFoundException.getInstance(keyfile)

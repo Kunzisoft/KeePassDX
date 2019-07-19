@@ -68,7 +68,6 @@ class KeyFileHelper {
                 if (lookForOpenIntentsFilePicker(dataUri?.invoke()))
                     showBrowserDialog()
             }
-
         }
     }
 
@@ -183,7 +182,7 @@ class KeyFileHelper {
                     val filename = data?.dataString
                     var keyUri: Uri? = null
                     if (filename != null) {
-                        keyUri = UriUtil.parseDefaultFile(filename)
+                        keyUri = UriUtil.parseUriFile(filename)
                     }
                     keyFileCallback?.invoke(keyUri)
                 }
@@ -194,7 +193,7 @@ class KeyFileHelper {
                     if (data != null) {
                         var uri = data.data
                         if (uri != null) {
-                            if (activity != null && StorageAF.useStorageFramework(activity!!)) {
+                            if (StorageAF.useStorageFramework(activity!!)) {
                                 try {
                                     // try to persist read and write permissions
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -208,7 +207,7 @@ class KeyFileHelper {
                                 }
                             }
                             if (requestCode == GET_CONTENT) {
-                                uri = UriUtil.translate(activity, uri)
+                                uri = UriUtil.translateUri(activity!!, uri)
                             }
                             keyFileCallback?.invoke(uri)
                         }

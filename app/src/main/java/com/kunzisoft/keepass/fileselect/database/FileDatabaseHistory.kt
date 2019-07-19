@@ -209,18 +209,16 @@ class FileDatabaseHistory private constructor(private val context: WeakReference
         }
     }
 
-    fun getKeyFileUriByDatabaseUri(database: Uri): Uri? {
-        if (!isEnabled) return null
-
+    fun getKeyFileUriByDatabaseUri(uri: Uri): Uri? {
+        if (!isEnabled)
+            return null
         init()
-
         val size = mDatabasesUriList.size
         for (i in 0 until size) {
-            if (UriUtil.equalsDefaultfile(database, mDatabasesUriList[i])) {
-                return UriUtil.parseDefaultFile(mKeyFilesUriList[i])
+            if (uri == UriUtil.parseUriFile(mDatabasesUriList[i])) {
+                return UriUtil.parseUriFile(mKeyFilesUriList[i])
             }
         }
-
         return null
     }
 
