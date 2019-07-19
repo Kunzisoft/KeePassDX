@@ -66,7 +66,7 @@ public class UriUtil {
      */
     public static Uri translate(Context ctx, Uri uri) {
         // StorageAF provides nice URIs
-        if (StorageAF.useStorageFramework(ctx) || hasWritableContentUri(uri)) { return uri; }
+        if (StorageAF.INSTANCE.useStorageFramework(ctx) || hasWritableContentUri(uri)) { return uri; }
 
         String scheme = uri.getScheme();
         if (EmptyUtils.INSTANCE.isNullOrEmpty(scheme)) { return uri; }

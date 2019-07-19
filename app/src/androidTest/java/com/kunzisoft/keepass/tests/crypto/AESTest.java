@@ -68,7 +68,7 @@ public class AESTest extends TestCase {
         mRand.nextBytes(ivArray);
         IvParameterSpec iv = new IvParameterSpec(ivArray);
 
-        Cipher android = CipherFactory.getInstance("AES/CBC/PKCS5Padding", true);
+        Cipher android = CipherFactory.INSTANCE.getInstance("AES/CBC/PKCS5Padding", true);
         android.init(Cipher.ENCRYPT_MODE, key, iv);
         byte[] outAndroid = android.doFinal(input, 0, dataSize);
 

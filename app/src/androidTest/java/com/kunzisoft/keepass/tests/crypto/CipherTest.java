@@ -56,7 +56,7 @@ public class CipherTest extends TestCase {
         rand.nextBytes(iv);
         rand.nextBytes(plaintext);
 
-        CipherEngine aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID);
+        CipherEngine aes = CipherFactory.INSTANCE.getInstance(AesEngine.CIPHER_UUID);
         Cipher encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv);
         Cipher decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv);
 
@@ -78,7 +78,7 @@ public class CipherTest extends TestCase {
         rand.nextBytes(iv);
         rand.nextBytes(plaintext);
 
-        CipherEngine aes = CipherFactory.getInstance(AesEngine.CIPHER_UUID);
+        CipherEngine aes = CipherFactory.INSTANCE.getInstance(AesEngine.CIPHER_UUID);
         Cipher encrypt = aes.getCipher(Cipher.ENCRYPT_MODE, key, iv);
         Cipher decrypt = aes.getCipher(Cipher.DECRYPT_MODE, key, iv);
 

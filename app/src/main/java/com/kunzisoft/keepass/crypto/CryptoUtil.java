@@ -59,15 +59,12 @@ public class CryptoUtil {
                 byte[] part = hmac.doFinal(pbR);
 
                 int copy = Math.min(cbOut - pos, part.length);
-                assert(copy > 0);
-
                 System.arraycopy(part, 0, ret, pos, copy);
                 pos += copy;
                 r++;
 
                 Arrays.fill(part, (byte)0);
             }
-            assert(pos == cbOut);
         }
 
         Arrays.fill(hash, (byte)0);

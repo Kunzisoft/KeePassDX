@@ -55,7 +55,7 @@ class KeyFileHelper {
 
         override fun onClick(v: View) {
             try {
-                if (StorageAF.useStorageFramework(activity)) {
+                if (activity != null && StorageAF.useStorageFramework(activity!!)) {
                     openActivityWithActionOpenDocument()
                 } else {
                     openActivityWithActionGetContent()
@@ -173,7 +173,7 @@ class KeyFileHelper {
                     if (data != null) {
                         var uri = data.data
                         if (uri != null) {
-                            if (StorageAF.useStorageFramework(activity)) {
+                            if (activity != null && StorageAF.useStorageFramework(activity!!)) {
                                 try {
                                     // try to persist read and write permissions
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -185,7 +185,6 @@ class KeyFileHelper {
                                 } catch (e: Exception) {
                                     // nop
                                 }
-
                             }
                             if (requestCode == GET_CONTENT) {
                                 uri = UriUtil.translate(activity, uri)
