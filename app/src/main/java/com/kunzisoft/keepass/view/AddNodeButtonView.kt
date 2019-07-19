@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.R
 class AddNodeButtonView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
     : RelativeLayout(context, attrs) {
 
-    private var addButtonView: FloatingActionButton? = null
+    var addButtonView: FloatingActionButton? = null
     private var addEntryView: View? = null
     private var addGroupView: View? = null
 

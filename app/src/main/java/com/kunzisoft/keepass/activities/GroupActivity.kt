@@ -662,10 +662,10 @@ class GroupActivity : LockingActivity(),
         // If no node, show education to add new one
         if (mListNodesFragment != null
                 && mListNodesFragment!!.isEmpty
-                && addNodeButtonView != null
+                && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
                 && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
-                        addNodeButtonView!!,
+                        addNodeButtonView?.addButtonView!!,
                         {
                             addNodeButtonView?.openButtonIfClose()
                         },
