@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.applyFontVisibility
 import com.kunzisoft.keepass.view.EntryEditCustomField
 
 class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
@@ -310,7 +311,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 for (i in 0 until it.childCount) {
                     val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
                     val key = entryEditCustomField.label
-                    if (key == null || key.isEmpty()) {
+                    if (key.isEmpty()) {
                         validationErrorMessageId = R.string.error_string_key
                         return false
                     }
@@ -418,10 +419,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
 
         val visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this)
         if (visibilityFontActivated) {
-            Util.applyFontVisibilityTo(this, entryUserNameView)
-            Util.applyFontVisibilityTo(this, entryPasswordView)
-            Util.applyFontVisibilityTo(this, entryConfirmationPasswordView)
-            Util.applyFontVisibilityTo(this, entryCommentView)
+            entryUserNameView?.applyFontVisibility()
+            entryPasswordView?.applyFontVisibility()
+            entryConfirmationPasswordView?.applyFontVisibility()
+            entryCommentView?.applyFontVisibility()
         }
 
         if (entry.allowExtraFields()) {

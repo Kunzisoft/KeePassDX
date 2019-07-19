@@ -32,6 +32,7 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.applyFontVisibility
 import java.text.DateFormat
 import java.util.*
 
@@ -121,7 +122,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
             userNameView?.apply {
                 text = userName
                 if (fontInVisibility)
-                    Util.applyFontVisibilityTo(context, this)
+                    applyFontVisibility()
             }
         } else {
             userNameContainerView?.visibility = View.GONE
@@ -138,7 +139,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
             passwordView?.apply {
                 text = password
                 if (fontInVisibility)
-                    Util.applyFontVisibilityTo(context, this)
+                    applyFontVisibility()
             }
             if (!allowCopyPassword) {
                 passwordActionView?.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
@@ -198,7 +199,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
             commentView?.apply {
                 text = comment
                 if (fontInVisibility)
-                    Util.applyFontVisibilityTo(context, this)
+                    applyFontVisibility()
             }
 
         } else {

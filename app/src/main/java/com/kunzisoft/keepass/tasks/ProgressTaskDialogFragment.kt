@@ -32,6 +32,8 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.lockScreenOrientation
+import com.kunzisoft.keepass.utils.unlockScreenOrientation
 
 open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
@@ -77,7 +79,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
-        Util.unlockScreenOrientation(activity)
+        activity?.unlockScreenOrientation()
         super.onDismiss(dialog)
     }
 
@@ -134,7 +136,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         fun start(activity: FragmentActivity,
                   dialog: ProgressTaskDialogFragment) {
-            Util.lockScreenOrientation(activity)
+            activity.lockScreenOrientation()
             dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
 
@@ -143,7 +145,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             if (fragmentTask != null) {
                 val loadingDatabaseDialog = fragmentTask as ProgressTaskDialogFragment
                 loadingDatabaseDialog.dismissAllowingStateLoss()
-                Util.unlockScreenOrientation(activity)
+                activity.unlockScreenOrientation()
             }
         }
     }

@@ -119,7 +119,7 @@ class NodeAdapter
     }
 
     private fun assignPreferences() {
-        val textSizeDefault = Util.getListTextDefaultSize(context)
+        val textSizeDefault = java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
         this.textSize = PreferencesUtil.getListTextSize(context)
         this.subtextSize = context.resources.getInteger(R.integer.list_small_size_default) * textSize / textSizeDefault
         // Retrieve the icon size

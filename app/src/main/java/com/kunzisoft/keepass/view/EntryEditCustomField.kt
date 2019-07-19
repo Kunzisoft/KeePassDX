@@ -33,6 +33,7 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class EntryEditCustomField @JvmOverloads constructor(context: Context,
                                                      attrs: AttributeSet? = null,
@@ -76,7 +77,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
 
     fun setFontVisibility(applyFontVisibility: Boolean) {
         if (applyFontVisibility)
-            Util.applyFontVisibilityTo(context, valueView)
+            valueView.applyFontVisibility()
     }
 
     private fun deleteViewFromParent() {

@@ -56,7 +56,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
                     builder.setPositiveButton(R.string.download) { _, _ ->
                         try {
-                            Util.gotoUrl(context, R.string.app_pro_url)
+                            Util.gotoUrl(context!!, R.string.app_pro_url)
                         } catch (e: ActivityNotFoundException) {
                             Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                         }
@@ -69,7 +69,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                         .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
                     try {
-                        Util.gotoUrl(context, R.string.contribution_url)
+                        Util.gotoUrl(context!!, R.string.contribution_url)
                     } catch (e: ActivityNotFoundException) {
                         Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                     }
