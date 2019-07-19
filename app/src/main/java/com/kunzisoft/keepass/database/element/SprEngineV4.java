@@ -17,16 +17,19 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils;
+package com.kunzisoft.keepass.database.element;
 
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.database.element.PwGroupV4;
-import com.kunzisoft.keepass.database.element.PwDatabase;
-import com.kunzisoft.keepass.database.element.PwDatabaseV4;
 import com.kunzisoft.keepass.database.search.EntrySearchHandlerV4;
 import com.kunzisoft.keepass.database.search.SearchParametersV4;
+import com.kunzisoft.keepass.utils.StringUtil;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 import java.util.Map.Entry;
 
 public class SprEngineV4 {

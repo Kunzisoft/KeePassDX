@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.getUriInputStream
 import org.apache.commons.io.FileUtils
@@ -220,7 +219,7 @@ class Database {
 
     private fun dbNameFromPath(dbPath: String): String {
         val filename = URLUtil.guessFileName(dbPath, null, null)
-        if (EmptyUtils.isNullOrEmpty(filename)) {
+        if (filename == null || filename.isEmpty()) {
             return "KeePass Database"
         }
         val lastExtDot = filename.lastIndexOf(".")

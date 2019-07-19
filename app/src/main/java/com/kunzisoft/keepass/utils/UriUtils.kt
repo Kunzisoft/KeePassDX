@@ -11,7 +11,7 @@ fun getUriInputStream(contentResolver: ContentResolver, uri: Uri?): InputStream?
     if (uri == null) return null
 
     val scheme = uri.scheme
-    return if (EmptyUtils.isNullOrEmpty(scheme) || scheme == "file") {
+    return if (scheme == null || scheme.isEmpty() || scheme == "file") {
         FileInputStream(uri.path!!)
     } else if (scheme == "content") {
         contentResolver.openInputStream(uri)

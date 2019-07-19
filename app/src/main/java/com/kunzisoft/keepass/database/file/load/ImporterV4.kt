@@ -37,8 +37,7 @@ import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.DateUtil
-import com.kunzisoft.keepass.utils.EmptyUtils
+import com.kunzisoft.keepass.database.file.KDBX4DateUtil
 import com.kunzisoft.keepass.utils.MemUtil
 import com.kunzisoft.keepass.utils.Types
 import org.spongycastle.crypto.StreamCipher
@@ -334,7 +333,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
                 readString(xpp) // Ignore
             } else if (name.equals(PwDatabaseV4XML.ElemHeaderHash, ignoreCase = true)) {
                 val encodedHash = readString(xpp)
-                if (!EmptyUtils.isNullOrEmpty(encodedHash) && hashOfHeader != null) {
+                if (encodedHash.isNotEmpty() && hashOfHeader != null) {
                     val hash = Base64Coder.decode(encodedHash)
                     if (!Arrays.equals(hash, hashOfHeader)) {
                         throw InvalidDBException()
@@ -814,7 +813,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             val seconds = LEDataInputStream.readLong(buf, 0)
-            utcDate = DateUtil.convertKDBX4Time(seconds)
+            utcDate = KDBX4DateUtil.convertKDBX4Time(seconds)
 
         } else {
 

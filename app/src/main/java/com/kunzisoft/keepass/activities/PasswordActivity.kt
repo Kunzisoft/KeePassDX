@@ -59,7 +59,6 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import permissions.dispatcher.*
@@ -265,7 +264,7 @@ class PasswordActivity : StylishActivity(),
         // Retrieve settings for default database
         val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
         if (mDatabaseFileUri != null
-                && !EmptyUtils.isNullOrEmpty(mDatabaseFileUri!!.path)
+                && mDatabaseFileUri!!.path != null && mDatabaseFileUri!!.path!!.isNotEmpty()
                 && UriUtil.equalsDefaultfile(mDatabaseFileUri, defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
@@ -814,14 +813,14 @@ class PasswordActivity : StylishActivity(),
 
         @Throws(FileNotFoundException::class)
         private fun verifyFileNameUriFromLaunch(fileName: String) {
-            if (EmptyUtils.isNullOrEmpty(fileName)) {
+            if (fileName.isEmpty()) {
                 throw FileNotFoundException()
             }
 
             val uri = UriUtil.parseDefaultFile(fileName)
             val scheme = uri.scheme
 
-            if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equals("file", ignoreCase = true)) {
+            if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
                 val dbFile = File(uri.path!!)
                 if (!dbFile.exists()) {
                     throw FileNotFoundException()

@@ -21,7 +21,9 @@ package com.kunzisoft.keepass.activities.helpers
 
 import android.app.Activity
 import android.app.Activity.RESULT_OK
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.support.v4.app.Fragment
@@ -30,7 +32,6 @@ import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.fileselect.StorageAF
-import com.kunzisoft.keepass.utils.Interaction
 import com.kunzisoft.keepass.utils.UriUtil
 
 class KeyFileHelper {
@@ -105,7 +106,7 @@ class KeyFileHelper {
     private fun lookForOpenIntentsFilePicker(dataUri: Uri?): Boolean {
         var showBrowser = false
         try {
-            if (Interaction.isIntentAvailable(activity!!, OPEN_INTENTS_FILE_BROWSE)) {
+            if (isIntentAvailable(activity!!, OPEN_INTENTS_FILE_BROWSE)) {
                 val intent = Intent(OPEN_INTENTS_FILE_BROWSE)
                 // Get file path parent if possible
                 if (dataUri != null
@@ -128,6 +129,26 @@ class KeyFileHelper {
         }
 
         return showBrowser
+    }
+
+    /**
+     * Indicates whether the specified action can be used as an intent. This
+     * method queries the package manager for installed packages that can
+     * respond to an intent with the specified action. If no suitable package is
+     * found, this method returns false.
+     *
+     * @param context The application's environment.
+     * @param action The Intent action to check for availability.
+     *
+     * @return True if an Intent with the specified action can be sent and
+     * responded to, false otherwise.
+     */
+    private fun isIntentAvailable(context: Context, action: String): Boolean {
+        val packageManager = context.packageManager
+        val intent = Intent(action)
+        val list = packageManager.queryIntentActivities(intent,
+                PackageManager.MATCH_DEFAULT_ONLY)
+        return list.size > 0
     }
 
     /**

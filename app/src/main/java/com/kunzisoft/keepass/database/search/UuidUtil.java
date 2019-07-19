@@ -17,7 +17,9 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils;
+package com.kunzisoft.keepass.database.search;
+
+import com.kunzisoft.keepass.utils.Types;
 
 import java.util.UUID;
 

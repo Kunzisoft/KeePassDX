@@ -35,7 +35,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
@@ -184,7 +183,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             mKeyFile = keyFile
 
             // Verify that a keyfile is set
-            if (EmptyUtils.isNullOrEmpty(keyFile)) {
+            if (keyFile == null || keyFile.toString().isEmpty()) {
                 error = true
                 Toast.makeText(context, R.string.error_nokeyfile, Toast.LENGTH_LONG).show()
             }

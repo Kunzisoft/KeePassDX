@@ -23,16 +23,10 @@ import android.content.Context;
 import android.content.res.AssetManager;
 import android.test.AndroidTestCase;
 
-import com.kunzisoft.keepass.database.element.PwDatabase;
 import com.kunzisoft.keepass.database.element.PwDatabaseV4;
-import com.kunzisoft.keepass.database.element.PwEntryV4;
-import com.kunzisoft.keepass.utils.SprEngineV4;
-import com.kunzisoft.keepass.utils.Types;
+import com.kunzisoft.keepass.database.element.SprEngineV4;
 
 import java.io.InputStream;
-import java.util.UUID;
-
-import biz.source_code.base64Coder.Base64Coder;
 
 public class SprEngineTest extends AndroidTestCase {
     private PwDatabaseV4 db;
@@ -73,14 +67,4 @@ public class SprEngineTest extends AndroidTestCase {
 		 */
 
     }
-
-    private UUID decodeUUID(String encoded) {
-        if (encoded == null || encoded.length() == 0 ) {
-            return PwDatabase.UUID_ZERO;
-        }
-
-        byte[] buf = Base64Coder.decode(encoded);
-        return Types.bytestoUUID(buf);
-    }
-
 }

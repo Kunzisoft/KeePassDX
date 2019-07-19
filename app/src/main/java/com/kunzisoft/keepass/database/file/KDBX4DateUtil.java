@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils;
+package com.kunzisoft.keepass.database.file;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -25,7 +25,7 @@ import org.joda.time.Duration;
 
 import java.util.Date;
 
-public class DateUtil {
+public class KDBX4DateUtil {
     private static final DateTime dotNetEpoch = new DateTime(1, 1, 1, 0, 0, 0, DateTimeZone.UTC);
     private static final DateTime javaEpoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeZone.UTC);
 
@@ -36,14 +36,11 @@ public class DateUtil {
     }
 
     public static Date convertKDBX4Time(long seconds) {
-
         DateTime dt = dotNetEpoch.plus(seconds * 1000L);
-
         // Switch corrupted dates to a more recent date that won't cause issues on the client
         if (dt.isBefore(javaEpoch)) {
             return javaEpoch.toDate();
         }
-
         return dt.toDate();
     }
 

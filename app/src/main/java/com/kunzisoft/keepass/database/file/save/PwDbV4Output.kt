@@ -38,8 +38,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.DateUtil
-import com.kunzisoft.keepass.utils.EmptyUtils
+import com.kunzisoft.keepass.database.file.KDBX4DateUtil
 import com.kunzisoft.keepass.utils.MemUtil
 import com.kunzisoft.keepass.utils.Types
 import org.joda.time.DateTime
@@ -482,7 +481,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             writeObject(name, PwDatabaseV4XML.dateFormatter.get().format(value))
         } else {
             val dt = DateTime(value)
-            val seconds = DateUtil.convertDateToKDBX4Time(dt)
+            val seconds = KDBX4DateUtil.convertDateToKDBX4Time(dt)
             val buf = LEDataOutputStream.writeLongBuf(seconds)
             val b64 = String(Base64Coder.encode(buf))
             writeObject(name, b64)
@@ -720,7 +719,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     private fun safeXmlString(text: String): String {
-        if (EmptyUtils.isNullOrEmpty(text)) {
+        if (text.isEmpty()) {
             return text
         }
 

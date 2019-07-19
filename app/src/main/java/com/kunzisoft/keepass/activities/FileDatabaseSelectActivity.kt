@@ -59,7 +59,6 @@ import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -176,7 +175,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 if (dbUri != null)
                     scheme = dbUri.scheme
 
-                if (!EmptyUtils.isNullOrEmpty(scheme) && scheme!!.equals("file", ignoreCase = true)) {
+                if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
                     val path = dbUri!!.path
                     val db = File(path!!)
 

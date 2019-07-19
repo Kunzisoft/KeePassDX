@@ -23,7 +23,6 @@ import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.PwEntryV4
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV4
 import com.kunzisoft.keepass.utils.StringUtil
-import com.kunzisoft.keepass.utils.UuidUtil
 
 import java.util.Date
 import java.util.Locale
