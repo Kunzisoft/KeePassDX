@@ -63,8 +63,8 @@ class SprEngineV4 {
 
     }
 
-    private fun fillRefPlaceholders(text: String, contextV4: SprContextV4, recursionLevel: Int): String {
-        var text = text
+    private fun fillRefPlaceholders(textReference: String, contextV4: SprContextV4, recursionLevel: Int): String {
+        var text = textReference
 
         if (contextV4.databaseV4 == null) {
             return text
@@ -74,7 +74,7 @@ class SprEngineV4 {
         for (i in 0..19) {
             text = fillRefsUsingCache(text, contextV4)
 
-            val start = StringUtil.indexOfIgnoreCase(text!!, STR_REF_START, offset, Locale.ENGLISH)
+            val start = StringUtil.indexOfIgnoreCase(text, STR_REF_START, offset, Locale.ENGLISH)
             if (start < 0) {
                 break
             }
@@ -117,8 +117,8 @@ class SprEngineV4 {
         return text
     }
 
-    private fun findRefTarget(fullRef: String?, contextV4: SprContextV4): TargetResult? {
-        var fullRef: String? = fullRef ?: return null
+    private fun findRefTarget(fullReference: String?, contextV4: SprContextV4): TargetResult? {
+        var fullRef: String? = fullReference ?: return null
 
         fullRef = fullRef!!.toUpperCase(Locale.ENGLISH)
         if (!fullRef.startsWith(STR_REF_START) || !fullRef.endsWith(STR_REF_END)) {
@@ -223,7 +223,7 @@ class SprEngineV4 {
             var negate = false
             if (searchParametersV4.searchString.startsWith("-")) {
                 searchParametersV4.searchString = searchParametersV4.searchString.substring(1)
-                negate = searchParametersV4.searchString.length > 0
+                negate = searchParametersV4.searchString.isNotEmpty()
             }
 
             if (!root.doForEachChild(EntrySearchHandlerV4(searchParametersV4, pgNew), null)) {
