@@ -43,7 +43,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
@@ -603,7 +603,7 @@ class PasswordActivity : StylishActivity(),
                                 password,
                                 keyFile,
                                 progressTaskUpdater,
-                                AfterLoadingDatabase(database))
+                                AfterLoadingDatabase(database, password))
                     },
                     R.string.loading_database).start()
         }
@@ -612,7 +612,9 @@ class PasswordActivity : StylishActivity(),
     /**
      * Called after verify and try to opening the database
      */
-    private inner class AfterLoadingDatabase internal constructor(var database: Database) : ActionRunnable() {
+    private inner class AfterLoadingDatabase internal constructor(var database: Database,
+                                                                  val password: String?)
+        : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
             runOnUiThread {
@@ -622,12 +624,17 @@ class PasswordActivity : StylishActivity(),
                     reInitWithFingerprintMode()
                 }
 
-                if (database.isPasswordEncodingError) {
-                    val dialog = PasswordEncodingDialogHelper()
-                    dialog.show(this@PasswordActivity,
-                            DialogInterface.OnClickListener { _, _ -> launchGroupActivity() })
-                } else if (result.isSuccess) {
-                    launchGroupActivity()
+                if (result.isSuccess) {
+                    if (database.validatePasswordEncoding(password)) {
+                        launchGroupActivity()
+                    } else {
+                        PasswordEncodingDialogFragment().apply {
+                            positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                                launchGroupActivity()
+                            }
+                            show(supportFragmentManager, "passwordEncodingTag")
+                        }
+                    }
                 } else {
                     if (result.message != null && result.message!!.isNotEmpty()) {
                         Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()

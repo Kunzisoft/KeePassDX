@@ -908,11 +908,15 @@ class GroupActivity : LockingActivity(),
                         true)
             }
             // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword!!)) {
+            if (database.validatePasswordEncoding(masterPassword)) {
                 progressDialogThread.start()
             } else {
-                PasswordEncodingDialogHelper()
-                        .show(this, DialogInterface.OnClickListener{ _, _ -> progressDialogThread.start() })
+                PasswordEncodingDialogFragment().apply {
+                    positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                        progressDialogThread.start()
+                    }
+                    show(supportFragmentManager, "passwordEncodingTag")
+                }
             }
         }
     }

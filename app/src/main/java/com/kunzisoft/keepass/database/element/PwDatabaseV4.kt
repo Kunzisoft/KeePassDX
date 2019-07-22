@@ -416,7 +416,9 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     }
 
     override fun validatePasswordEncoding(key: String?): Boolean {
-        return true
+        if (key == null)
+            return true
+        return super.validatePasswordEncoding(key)
     }
 
     fun clearCache() {

@@ -197,7 +197,7 @@
     <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
     <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
-    <string name="warning_password_encoding">Avoid password characters outside of Latin-1 in .kbd files, as they are all converted to the same letter.</string>
+    <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>

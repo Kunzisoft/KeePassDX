@@ -20,25 +20,27 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.AlertDialog
-import android.content.Context
+import android.app.Dialog
 import android.content.DialogInterface
-
+import android.os.Bundle
+import android.support.v4.app.DialogFragment
 import com.kunzisoft.keepass.R
 
-class PasswordEncodingDialogHelper {
-    private var dialog: AlertDialog? = null
+class PasswordEncodingDialogFragment : DialogFragment() {
 
-    @JvmOverloads
-    fun show(ctx: Context, onclick: DialogInterface.OnClickListener, showCancel: Boolean = false) {
-        val builder = AlertDialog.Builder(ctx)
-        builder.setMessage(R.string.warning_password_encoding).setTitle(R.string.warning)
-        builder.setPositiveButton(android.R.string.ok, onclick)
+    var positiveButtonClickListener: DialogInterface.OnClickListener? = null
 
-        if (showCancel) {
-            builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        activity?.let { activity ->
+            val builder = AlertDialog.Builder(activity)
+            builder.setMessage(activity.getString(R.string.warning_password_encoding)).setTitle(R.string.warning)
+            builder.setPositiveButton(android.R.string.ok, positiveButtonClickListener)
+            builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+
+            return builder.create()
         }
-
-        dialog = builder.create()
-        dialog?.show()
+        return super.onCreateDialog(savedInstanceState)
     }
+
+
 }

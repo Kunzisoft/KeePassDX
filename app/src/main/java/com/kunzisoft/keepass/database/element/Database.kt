@@ -58,8 +58,6 @@ class Database {
     private var mUri: Uri? = null
     private var searchHelper: SearchDbHelper? = null
     var isReadOnly = false
-    var isPasswordEncodingError = false
-        private set
 
     val drawFactory = IconDrawableFactory()
 
@@ -300,8 +298,6 @@ class Database {
         }
 
         try {
-            isPasswordEncodingError = !(pwDatabaseV3?.validatePasswordEncoding(password)
-                    ?: pwDatabaseV4?.validatePasswordEncoding(password) ?: true)
             searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
             loaded = true
         } catch (e: Exception) {
@@ -443,7 +439,6 @@ class Database {
         pwDatabaseV4 = null
         mUri = null
         loaded = false
-        isPasswordEncodingError = false
     }
 
     fun getVersion(): String {
@@ -500,8 +495,10 @@ class Database {
         return kdfEngine.getName(resources)
     }
 
-    fun validatePasswordEncoding(key: String): Boolean {
-        return pwDatabaseV3?.validatePasswordEncoding(key) ?: pwDatabaseV4?.validatePasswordEncoding(key) ?: false
+    fun validatePasswordEncoding(key: String?): Boolean {
+        return pwDatabaseV3?.validatePasswordEncoding(key)
+                ?: pwDatabaseV4?.validatePasswordEncoding(key)
+                ?: false
     }
 
     @Throws(InvalidKeyFileException::class, IOException::class)
