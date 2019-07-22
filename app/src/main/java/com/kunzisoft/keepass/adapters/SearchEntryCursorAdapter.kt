@@ -37,7 +37,8 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
-class SearchEntryCursorAdapter(context: Context, private val database: Database) : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
+class SearchEntryCursorAdapter(context: Context, private val database: Database)
+    : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -109,7 +110,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
-        return database.searchEntry(constraint.toString())
+        return database.searchEntries(constraint.toString())
     }
 
     fun getEntryFromPosition(position: Int): EntryVersioned? {

@@ -69,14 +69,10 @@ object StringUtil {
         return indexOfIgnoreCase(text, search, 0, locale)
     }
 
-    fun replaceAllIgnoresCase(text: String?, find: String?, newText: String?, locale: Locale): String? {
+    fun replaceAllIgnoresCase(text: String, find: String, newText: String, locale: Locale): String {
         var currentText = text
-        if (currentText == null || find == null || newText == null) {
-            return currentText
-        }
-
         var pos = 0
-        while (pos < currentText!!.length) {
+        while (pos < currentText.length) {
             pos = indexOfIgnoreCase(currentText, find, pos, locale)
             if (pos < 0) {
                 break

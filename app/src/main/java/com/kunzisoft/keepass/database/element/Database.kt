@@ -321,7 +321,7 @@ class Database {
         return searchHelper?.search(this, str, max)
     }
 
-    fun searchEntry(query: String): Cursor? {
+    fun searchEntries(query: String): Cursor? {
 
         var cursorV3: EntryCursorV3? = null
         var cursorV4: EntryCursorV4? = null

@@ -166,7 +166,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     }
 
     /**
-     * Decode a reference key woth the SprEngineV4
+     * Decode a reference key with the SprEngineV4
      * @param decodeRef
      * @param key
      * @return
@@ -174,7 +174,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     private fun decodeRefKey(decodeRef: Boolean, key: String): String {
         val text = fields.getProtectedStringValue(key)
         return if (decodeRef) {
-            if (mDatabase == null) text else SprEngineV4().compile(text, this, mDatabase)
+            if (mDatabase == null) text else SprEngineV4().compile(text, this, mDatabase!!)
         } else text
     }
 
