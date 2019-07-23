@@ -291,14 +291,14 @@
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord.</string>
-    <string name="education_generate_password_summary">Generer et sterkt passord for å tilknytte oppføringen, definer det i henhold til kriteriene i skjemaet og ikke glem et sikkert passord du kan huske.</string>
+    <string name="education_generate_password_summary">Generer et sterkt passord for å tilknytte oppføringen, definer det i henhold til kriteriene i skjemaet og ikke glem å gjøre passordet sikkert.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
     <string name="education_unlock_title">Lås opp databasen din</string>
     <string name="education_unlock_summary">Oppgi passord og/eller nøkkelfil for å låse opp databasen din.
 \n
 \nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
-    <string name="education_read_only_title">Skru på skrivebeskyttelse</string>
+    <string name="education_read_only_title">Skriv-beskytt databasen</string>
     <string name="education_read_only_summary">Endre åpningsmodus for økten.
 \n
 \nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
