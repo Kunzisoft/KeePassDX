@@ -12,7 +12,7 @@
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
     <string name="key_derivation_function">Nøkkelutledningsfunksjon</string>
     <string name="app_timeout">Programtidsavbrudd</string>
-    <string name="app_timeout_summary">Inaktivitet før appen er låst</string>
+    <string name="app_timeout_summary">Inaktivitet før programmet låses</string>
     <string name="application">Program</string>
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
@@ -50,7 +50,7 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
-    <string name="error_could_not_create_parent">Kunne ikke opprette overnevnt mappe.</string>
+    <string name="error_could_not_create_parent">Kunne ikke opprette ovennevnt mappe.</string>
     <string name="error_database_exists">Denne filen finnes allerede.</string>
     <string name="error_failed_to_launch_link">Kunne ikke åpne lenke.</string>
     <string name="error_filename_required">Et filnavn er påkrevd.</string>
@@ -291,14 +291,14 @@
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord.</string>
-    <string name="education_generate_password_summary">Generer et sterkt passord for å tilknytte oppføringen, definer det i henhold til kriteriene i skjemaet og ikke glem å gjøre passordet sikkert.</string>
+    <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem å gjøre passordet sikkert.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
     <string name="education_unlock_title">Lås opp databasen din</string>
     <string name="education_unlock_summary">Oppgi passord og/eller nøkkelfil for å låse opp databasen din.
 \n
 \nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
-    <string name="education_read_only_title">Skriv-beskytt databasen</string>
+    <string name="education_read_only_title">Skrivebeskytt databasen din</string>
     <string name="education_read_only_summary">Endre åpningsmodus for økten.
 \n
 \nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
@@ -344,7 +344,7 @@
     <string name="keyboard_entry_category">Oppføring</string>
     <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
     <string name="keyboard_entry_timeout_summary">Tidsavbrudd for tømming av tastaturoppføring</string>
-    <string name="keyboard_notification_entry_title">Varslingsinfo</string>
+    <string name="keyboard_notification_entry_title">Merknadsinfo</string>
     <string name="keyboard_notification_entry_summary">Vis en merknad når en oppføring er tilgjengelig</string>
     <string name="keyboard_notification_entry_content_title_text">Oppføring</string>
     <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
