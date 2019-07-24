@@ -278,7 +278,7 @@
     <string name="text_appearance">Text</string>
     <string name="application_appearance">App</string>
     <string name="other">Other</string>
-
+    <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields</string>

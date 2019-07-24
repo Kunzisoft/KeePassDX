@@ -683,15 +683,15 @@ class Database {
         return canRecycle ?: false
     }
 
-    fun recycle(entry: EntryVersioned) {
+    fun recycle(entry: EntryVersioned, resources: Resources) {
         entry.pwEntryV4?.let {
-            pwDatabaseV4?.recycle(it)
+            pwDatabaseV4?.recycle(it, resources)
         }
     }
 
-    fun recycle(group: GroupVersioned) {
+    fun recycle(group: GroupVersioned, resources: Resources) {
         group.pwGroupV4?.let {
-            pwDatabaseV4?.recycle(it)
+            pwDatabaseV4?.recycle(it, resources)
         }
     }
 

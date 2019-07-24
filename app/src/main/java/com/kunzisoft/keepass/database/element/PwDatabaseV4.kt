@@ -19,8 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.content.res.Resources
 import android.util.Log
 import biz.source_code.base64Coder.Base64Coder
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
@@ -315,21 +317,20 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
      * Ensure that the recycle bin tree exists, if enabled and create it
      * if it doesn't exist
      */
-    private fun ensureRecycleBin() {
+    private fun ensureRecycleBin(resources: Resources) {
         if (recycleBin == null) {
             // Create recycle bin
-            createGroup().apply {
-                title = RECYCLEBIN_NAME
+            val recycleBinGroup = createGroup().apply {
+                title = resources.getString(R.string.recycle_bin)
                 icon = iconFactory.trashIcon
                 enableAutoType = false
                 enableSearching = false
                 isExpanded = false
-
-                addGroupTo(this, rootGroup)
-                recycleBinUUID = id
-                lastModificationTime.date?.let {
-                    recycleBinChanged = it
-                }
+            }
+            addGroupTo(recycleBinGroup, rootGroup)
+            recycleBinUUID = recycleBinGroup.id
+            recycleBinGroup.lastModificationTime.date?.let {
+                recycleBinChanged = it
             }
         }
     }
@@ -349,15 +350,15 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
         return false
     }
 
-    fun recycle(group: PwGroupV4) {
-        ensureRecycleBin()
+    fun recycle(group: PwGroupV4, resources: Resources) {
+        ensureRecycleBin(resources)
         removeGroupFrom(group, group.parent)
         addGroupTo(group, recycleBin)
         group.afterAssignNewParent()
     }
 
-    fun recycle(entry: PwEntryV4) {
-        ensureRecycleBin()
+    fun recycle(entry: PwEntryV4, resources: Resources) {
+        ensureRecycleBin(resources)
         removeEntryFrom(entry, entry.parent)
         addEntryTo(entry, recycleBin)
         entry.afterAssignNewParent()
@@ -416,7 +417,6 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
 
         private const val DEFAULT_HISTORY_MAX_ITEMS = 10 // -1 unlimited
         private const val DEFAULT_HISTORY_MAX_SIZE = (6 * 1024 * 1024).toLong() // -1 unlimited
-        private const val RECYCLEBIN_NAME = "RecycleBin"
 
         private const val RootElementName = "KeyFile"
         //private const val MetaElementName = "Meta";

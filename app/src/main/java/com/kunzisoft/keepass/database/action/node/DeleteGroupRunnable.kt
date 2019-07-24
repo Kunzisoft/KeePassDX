@@ -39,7 +39,7 @@ class DeleteGroupRunnable(context: FragmentActivity,
         // Remove Group from parent
         mRecycle = database.canRecycle(mGroupToDelete)
         if (mRecycle) {
-            database.recycle(mGroupToDelete)
+            database.recycle(mGroupToDelete, context.resources)
         } else {
             database.deleteGroup(mGroupToDelete)
         }

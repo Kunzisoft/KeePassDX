@@ -43,7 +43,7 @@ class DeleteEntryRunnable constructor(
         // Remove Entry from parent
         mCanRecycle = database.canRecycle(mEntryToDelete)
         if (mCanRecycle) {
-            database.recycle(mEntryToDelete)
+            database.recycle(mEntryToDelete, context.resources)
         } else {
             database.deleteEntry(mEntryToDelete)
         }
