@@ -341,10 +341,10 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
      * @return true if node can be recycle, false elsewhere
      */
     fun canRecycle(node: PwNode<*, PwGroupV4, PwEntryV4>): Boolean {
-        if (recycleBin == null)
-            return false
         if (!isRecycleBinEnabled)
             return false
+        if (recycleBin == null)
+            return true
         if (!node.isContainedIn(recycleBin!!))
             return true
         return false
