@@ -204,18 +204,16 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         }
 
         // Groups
-        for (group in mDatabaseV3.groupIndexes) {
-            val pgo = PwGroupOutputV3(group as PwGroupV3, os)
+        mDatabaseV3.doForEachGroupInIndex { group ->
+            val pgo = PwGroupOutputV3(group, os)
             try {
                 pgo.output()
             } catch (e: IOException) {
                 throw PwDbOutputException("Failed to output a tree", e)
             }
         }
-
-        // Entries
-        for (entry in mDatabaseV3.entryIndexes) {
-            val peo = PwEntryOutputV3(entry as PwEntryV3, os)
+        mDatabaseV3.doForEachEntryInIndex { entry ->
+            val peo = PwEntryOutputV3(entry, os)
             try {
                 peo.output()
             } catch (e: IOException) {

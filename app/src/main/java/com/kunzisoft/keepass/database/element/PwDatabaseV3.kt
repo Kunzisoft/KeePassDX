@@ -51,16 +51,15 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
     val rootGroups: List<PwGroupV3>
         get() {
             val kids = ArrayList<PwGroupV3>()
-            for ((_, value) in groupIndexes) {
-                if (value.level == 0)
-                    kids.add(value)
+            doForEachGroupInIndex { group ->
+                if (group.level == 0)
+                    kids.add(group)
             }
             return kids
         }
 
     override val passwordEncoding: String
         get() = "ISO-8859-1"
-
 
     override var numberKeyEncryptionRounds: Long
         get() = numKeyEncRounds.toLong()

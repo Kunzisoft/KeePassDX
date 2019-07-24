@@ -218,8 +218,8 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemEntryTemplatesGroupChanged, mDatabaseV4.entryTemplatesGroupChanged.date)
         writeObject(PwDatabaseV4XML.ElemHistoryMaxItems, mDatabaseV4.historyMaxItems.toLong())
         writeObject(PwDatabaseV4XML.ElemHistoryMaxSize, mDatabaseV4.historyMaxSize)
-        writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mDatabaseV4.lastSelectedGroup)
-        writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mDatabaseV4.lastTopVisibleGroup)
+        writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mDatabaseV4.lastSelectedGroupUUID)
+        writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mDatabaseV4.lastTopVisibleGroupUUID)
 
         if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
             writeBinPool()

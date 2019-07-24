@@ -80,10 +80,8 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     var entryTemplatesGroupChanged = PwDate()
     var historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS
     var historyMaxSize = DEFAULT_HISTORY_MAX_SIZE
-    // TODO last selected group as object
-    var lastSelectedGroup = UUID_ZERO
-    // TODO last top visible group as object
-    var lastTopVisibleGroup = UUID_ZERO
+    var lastSelectedGroupUUID = UUID_ZERO
+    var lastTopVisibleGroupUUID = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<PwDeletedObject>()
     val customIcons = ArrayList<PwIconCustom>()
@@ -150,13 +148,21 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     override val passwordEncoding: String
         get() = "UTF-8"
 
+    fun getGroupByUUID(groupUUID: UUID): PwGroupV4? {
+        if (groupUUID == UUID_ZERO)
+            return null
+        return getGroupById(PwNodeIdUUID(groupUUID))
+    }
+
     // Retrieve recycle bin in index
     val recycleBin: PwGroupV4?
-        get() {
-            if (recycleBinUUID == UUID_ZERO)
-                return null
-            return groupIndexes[PwNodeIdUUID(recycleBinUUID)]
-        }
+        get() = getGroupByUUID(recycleBinUUID)
+
+    val lastSelectedGroup: PwGroupV4?
+        get() = getGroupByUUID(lastSelectedGroupUUID)
+
+    val lastTopVisibleGroup: PwGroupV4?
+        get() = getGroupByUUID(lastTopVisibleGroupUUID)
 
     fun setDataEngine(dataEngine: CipherEngine) {
         this.dataEngine = dataEngine

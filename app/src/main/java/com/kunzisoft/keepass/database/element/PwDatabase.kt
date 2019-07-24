@@ -45,8 +45,8 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     var iconFactory = PwIconFactory()
         protected set
 
-    var groupIndexes = LinkedHashMap<PwNodeId<*>, Group>()
-    var entryIndexes = LinkedHashMap<PwNodeId<*>, Entry>()
+    private var groupIndexes = LinkedHashMap<PwNodeId<*>, Group>()
+    private var entryIndexes = LinkedHashMap<PwNodeId<*>, Entry>()
 
     abstract val version: String
 
@@ -201,6 +201,12 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
      * -------------------------------------
      */
 
+    fun doForEachGroupInIndex(action: (Group) -> Unit) {
+        for (group in groupIndexes) {
+            action.invoke(group.value)
+        }
+    }
+
     /**
      * Determine if an id number is already in use
      *
@@ -237,6 +243,12 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     fun numberOfGroups(): Int {
         return groupIndexes.size
+    }
+
+    fun doForEachEntryInIndex(action: (Entry) -> Unit) {
+        for (entry in entryIndexes) {
+            action.invoke(entry.value)
+        }
     }
 
     fun isEntryIdUsed(id: PwNodeId<*>): Boolean {

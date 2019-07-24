@@ -385,9 +385,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             } else if (name.equals(PwDatabaseV4XML.ElemHistoryMaxSize, ignoreCase = true)) {
                 mDatabase.historyMaxSize = readLong(xpp, -1)
             } else if (name.equals(PwDatabaseV4XML.ElemLastSelectedGroup, ignoreCase = true)) {
-                mDatabase.lastSelectedGroup = readUuid(xpp)
+                mDatabase.lastSelectedGroupUUID = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemLastTopVisibleGroup, ignoreCase = true)) {
-                mDatabase.lastTopVisibleGroup = readUuid(xpp)
+                mDatabase.lastTopVisibleGroupUUID = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemBinaries, ignoreCase = true)) {
                 return switchContext(ctx, KdbContext.Binaries, xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemCustomData, ignoreCase = true)) {
