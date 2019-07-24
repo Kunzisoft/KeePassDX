@@ -75,13 +75,14 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
      */
     var isRecycleBinEnabled = true
     var recycleBinUUID: UUID = UUID_ZERO
-    // TODO recyclebin Date
     var recycleBinChanged = Date()
     var entryTemplatesGroup = UUID_ZERO
     var entryTemplatesGroupChanged = PwDate()
     var historyMaxItems = DEFAULT_HISTORY_MAX_ITEMS
     var historyMaxSize = DEFAULT_HISTORY_MAX_SIZE
+    // TODO last selected group as object
     var lastSelectedGroup = UUID_ZERO
+    // TODO last top visible group as object
     var lastTopVisibleGroup = UUID_ZERO
     var memoryProtection = MemoryProtectionConfig()
     val deletedObjects = ArrayList<PwDeletedObject>()
@@ -149,15 +150,12 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     override val passwordEncoding: String
         get() = "UTF-8"
 
-    // TODO delete recycle bin preference
+    // Retrieve recycle bin in index
     val recycleBin: PwGroupV4?
         get() {
-            if (recycleBinUUID == null) {
+            if (recycleBinUUID == UUID_ZERO)
                 return null
-            }
-
-            val recycleId = PwNodeIdUUID(recycleBinUUID!!)
-            return groupIndexes[recycleId]
+            return groupIndexes[PwNodeIdUUID(recycleBinUUID)]
         }
 
     fun setDataEngine(dataEngine: CipherEngine) {
@@ -295,16 +293,16 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
         return PwGroupV4()
     }
 
-
     override fun createEntry(): PwEntryV4 {
         return PwEntryV4()
     }
 
     override fun isBackup(group: PwGroupV4): Boolean {
+        if (recycleBin == null)
+            return false
         return if (!isRecycleBinEnabled) {
             false
         } else group.isContainedIn(recycleBin!!)
-
     }
 
     /**
@@ -314,76 +312,58 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     private fun ensureRecycleBin() {
         if (recycleBin == null) {
             // Create recycle bin
+            createGroup().apply {
+                title = RECYCLEBIN_NAME
+                icon = iconFactory.trashIcon
+                enableAutoType = false
+                enableSearching = false
+                isExpanded = false
 
-            val recycleBin = createGroup()
-            recycleBin.title = RECYCLEBIN_NAME
-            recycleBin.icon = iconFactory.trashIcon
-            recycleBin.enableAutoType = false
-            recycleBin.enableSearching = false
-            recycleBin.isExpanded = false
-            addGroupTo(recycleBin, rootGroup)
-
-            recycleBinUUID = recycleBin.id
+                addGroupTo(this, rootGroup)
+                recycleBinUUID = id
+                lastModificationTime.date?.let {
+                    recycleBinChanged = it
+                }
+            }
         }
     }
 
     /**
-     * Define if a Group must be delete or recycle
-     * @param group Group to remove
-     * @return true if group can be recycle, false elsewhere
+     * Define if a Node must be delete or recycle when remove action is called
+     * @param node Node to remove
+     * @return true if node can be recycle, false elsewhere
      */
-    fun canRecycle(group: PwGroupV4): Boolean {
-        if (!isRecycleBinEnabled) {
+    fun canRecycle(node: PwNode<*, PwGroupV4, PwEntryV4>): Boolean {
+        if (recycleBin == null)
             return false
-        }
-        val recycle = recycleBin
-        return recycle == null || !group.isContainedIn(recycle)
-    }
-
-    /**
-     * Define if an Entry must be delete or recycle
-     * @param entry Entry to remove
-     * @return true if entry can be recycle, false elsewhere
-     */
-    fun canRecycle(entry: PwEntryV4): Boolean {
-        if (!isRecycleBinEnabled) {
+        if (!isRecycleBinEnabled)
             return false
-        }
-        val parent = entry.parent
-        return parent != null && canRecycle(parent)
+        if (!node.isContainedIn(recycleBin!!))
+            return true
+        return false
     }
 
     fun recycle(group: PwGroupV4) {
         ensureRecycleBin()
-
         removeGroupFrom(group, group.parent)
-
         addGroupTo(group, recycleBin)
-
-        // TODO ? group.afterChangeParent();
+        group.afterAssignNewParent()
     }
 
     fun recycle(entry: PwEntryV4) {
         ensureRecycleBin()
-
         removeEntryFrom(entry, entry.parent)
-
         addEntryTo(entry, recycleBin)
-
-        entry.afterChangeParent()
+        entry.afterAssignNewParent()
     }
 
     fun undoRecycle(group: PwGroupV4, origParent: PwGroupV4) {
-
         removeGroupFrom(group, recycleBin)
-
         addGroupTo(group, origParent)
     }
 
     fun undoRecycle(entry: PwEntryV4, origParent: PwGroupV4) {
-
         removeEntryFrom(entry, recycleBin)
-
         addEntryTo(entry, origParent)
     }
 

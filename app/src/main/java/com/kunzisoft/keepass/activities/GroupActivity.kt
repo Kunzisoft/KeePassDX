@@ -847,21 +847,19 @@ class GroupActivity : LockingActivity(),
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.result.isSuccess) {
-                    if (actionNodeValues.oldNode != null)
-                        mListNodesFragment?.removeNode(actionNodeValues.oldNode)
-
                     actionNodeValues.oldNode?.let { oldNode ->
-                        oldNode.parent?.let { parent ->
-                            val database = App.currentDatabase
-                            if (database.isRecycleBinAvailable && database.isRecycleBinEnabled) {
-                                val recycleBin = database.recycleBin
-                                // Add trash if it doesn't exists
-                                if (parent == recycleBin
-                                        && mCurrentGroup != null
-                                        && mCurrentGroup!!.parent == null
-                                        && mCurrentGroup != recycleBin) {
-                                    mListNodesFragment?.addNode(parent)
-                                }
+
+                        mListNodesFragment?.removeNode(oldNode)
+
+                        // TODO Move trash view
+                        // Add trash in views list if it doesn't exists
+                        val database = App.currentDatabase
+                        if (database.isRecycleBinEnabled) {
+                            val recycleBin = database.recycleBin
+                            if (mCurrentGroup != null && recycleBin != null
+                                && mCurrentGroup!!.parent == null
+                                && mCurrentGroup != recycleBin) {
+                                    mListNodesFragment?.addNode(recycleBin)
                             }
                         }
                     }

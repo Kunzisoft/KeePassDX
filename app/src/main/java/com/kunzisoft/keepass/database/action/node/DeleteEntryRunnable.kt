@@ -33,7 +33,7 @@ class DeleteEntryRunnable constructor(
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     private var mParent: GroupVersioned? = null
-    private var mRecycle: Boolean = false
+    private var mCanRecycle: Boolean = false
 
 
     override fun nodeAction() {
@@ -41,8 +41,8 @@ class DeleteEntryRunnable constructor(
         mParent?.touch(modified = false, touchParents = true)
 
         // Remove Entry from parent
-        mRecycle = database.canRecycle(mEntryToDelete)
-        if (mRecycle) {
+        mCanRecycle = database.canRecycle(mEntryToDelete)
+        if (mCanRecycle) {
             database.recycle(mEntryToDelete)
         } else {
             database.deleteEntry(mEntryToDelete)
@@ -52,7 +52,7 @@ class DeleteEntryRunnable constructor(
     override fun nodeFinish(result: Result): ActionNodeValues {
         if (!result.isSuccess) {
             mParent?.let {
-                if (mRecycle) {
+                if (mCanRecycle) {
                     database.undoRecycle(mEntryToDelete, it)
                 } else {
                     database.undoDeleteEntry(mEntryToDelete, it)

@@ -848,6 +848,11 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
+    private fun readPwNodeIdUuid(xpp: XmlPullParser): PwNodeIdUUID {
+        return PwNodeIdUUID(readUuid(xpp))
+    }
+
+    @Throws(IOException::class, XmlPullParserException::class)
     private fun readUuid(xpp: XmlPullParser): UUID {
         val encoded = readString(xpp)
 
