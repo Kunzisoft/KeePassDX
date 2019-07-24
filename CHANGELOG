@@ -3,6 +3,7 @@ KeepassDX (2.5.0.0beta19)
  * Refactor connection workflow
  * Better Magikeyboard connection
  * Kotlinized code
+ * Fix Recycle Bin
  * Fix small bugs
 
 KeepassDX (2.5.0.0beta18)
