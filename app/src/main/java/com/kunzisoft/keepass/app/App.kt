@@ -37,7 +37,7 @@ class App : MultiDexApplication() {
     }
 
     override fun onTerminate() {
-        currentDatabase.closeAndClear(applicationContext)
+        currentDatabase.closeAndClear(applicationContext.filesDir)
         super.onTerminate()
     }
 }

@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
+import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -407,7 +408,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 // Create the new database and start prof
                 ProgressDialogThread(this@FileDatabaseSelectActivity,
                         {
-                            CreateDatabaseRunnable(databaseFilename) { database ->
+                            CreateDatabaseRunnable(databaseFilename, App.currentDatabase) { database ->
 
                                 UriUtil.parseUriFile(databaseFilename)?.let { databaseUri ->
                                     // TODO store database created

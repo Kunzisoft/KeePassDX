@@ -43,7 +43,7 @@ import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
 
 
-class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
+class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
 
     var hmacKey: ByteArray? = null
         private set
@@ -92,6 +92,17 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
     var binPool = BinaryPool()
 
     var localizedAppName = "KeePassDX" // TODO resource
+
+    constructor()
+
+    constructor(databaseName: String) {
+        val groupV4 = createGroup().apply {
+            title = databaseName
+            icon = iconFactory.folderIcon
+        }
+        rootGroup = groupV4
+        addGroupIndex(groupV4)
+    }
 
     override val version: String
         get() = "KeePass 2"
@@ -408,7 +419,8 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4>() {
         return super.validatePasswordEncoding(key)
     }
 
-    fun clearCache() {
+    override fun clearCache() {
+        super.clearCache()
         binPool.clear()
     }
 

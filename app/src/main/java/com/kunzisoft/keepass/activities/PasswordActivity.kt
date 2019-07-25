@@ -590,7 +590,7 @@ class PasswordActivity : StylishActivity(),
     private fun loadDatabase(password: String?, keyFile: Uri?) {
         // Clear before we load
         val database = App.currentDatabase
-        database.closeAndClear(applicationContext)
+        database.closeAndClear(applicationContext.filesDir)
 
         mDatabaseFileUri?.let { databaseUri ->
             // Show the progress dialog and load the database
@@ -768,7 +768,7 @@ class PasswordActivity : StylishActivity(),
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK, Activity.RESULT_CANCELED -> {
                     setEmptyViews()
-                    App.currentDatabase.closeAndClear(applicationContext)
+                    App.currentDatabase.closeAndClear(applicationContext.filesDir)
                 }
             }
         }

@@ -190,7 +190,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.currentDatabase.closeAndClear(applicationContext)
+    App.currentDatabase.closeAndClear(applicationContext.filesDir)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

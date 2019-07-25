@@ -19,19 +19,19 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class CreateDatabaseRunnable(private val mFilename: String,
+                             private val mDatabase: Database,
                              val onDatabaseCreate: (database: Database) -> ActionRunnable?)
     : ActionRunnable() {
 
     override fun run() {
         try {
             // Create new database record
-            Database(mFilename).apply {
-                App.currentDatabase = this
+            mDatabase.apply {
+                createData(mFilename)
                 // Set Database state
                 loaded = true
                 // Commit changes
@@ -40,6 +40,8 @@ class CreateDatabaseRunnable(private val mFilename: String,
 
             finishRun(true)
         } catch (e: Exception) {
+
+            mDatabase.closeAndClear()
             finishRun(false, e.message)
         }
     }

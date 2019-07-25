@@ -275,6 +275,11 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         return entryIndexes.size
     }
 
+    open fun clearCache() {
+        this.groupIndexes.clear()
+        this.entryIndexes.clear()
+    }
+
     /*
      * -------------------------------------
      *          Node Manipulation

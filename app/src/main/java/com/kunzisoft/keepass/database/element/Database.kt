@@ -178,26 +178,6 @@ class Database {
             return null
         }
 
-    constructor()
-
-    constructor(databasePath: String) {
-        // TODO Test with kdb extension
-        if (isKDBExtension(databasePath)) {
-            setDatabaseV3(PwDatabaseV3())
-        } else {
-            val databaseV4 = PwDatabaseV4()
-            val groupV4 = databaseV4.createGroup()
-            groupV4.title = dbNameFromPath(databasePath)
-            groupV4.icon = databaseV4.iconFactory.folderIcon
-            databaseV4.rootGroup = groupV4
-            setDatabaseV4(databaseV4)
-        }
-
-        UriUtil.parseUriFile(databasePath)?.let { uri ->
-            setUri(uri)
-        }
-    }
-
     private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
         this.pwDatabaseV3 = pwDatabaseV3
         this.pwDatabaseV4 = null
@@ -206,14 +186,6 @@ class Database {
     private fun setDatabaseV4(pwDatabaseV4: PwDatabaseV4) {
         this.pwDatabaseV3 = null
         this.pwDatabaseV4 = pwDatabaseV4
-    }
-
-    private fun isKDBExtension(filename: String?): Boolean {
-        if (filename == null) {
-            return false
-        }
-        val extIdx = filename.lastIndexOf(".")
-        return if (extIdx == -1) false else filename.substring(extIdx).equals(".kdb", ignoreCase = true)
     }
 
     private fun dbNameFromPath(dbPath: String): String {
@@ -227,8 +199,12 @@ class Database {
         } else filename.substring(0, lastExtDot)
     }
 
-    fun setUri(mUri: Uri) {
-        this.mUri = mUri
+    fun createData(databasePath: String) {
+        // Always create a new database with the last version
+        setDatabaseV4(PwDatabaseV4(dbNameFromPath(databasePath)))
+        UriUtil.parseUriFile(databasePath)?.let { uri ->
+            this.mUri = uri
+        }
     }
 
     @Throws(IOException::class, InvalidDBException::class)
@@ -425,17 +401,19 @@ class Database {
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
-    fun closeAndClear(context: Context) {
+    fun closeAndClear(filesDirectory: File? = null) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
+        pwDatabaseV3?.clearCache()
         pwDatabaseV4?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
-            FileUtils.cleanDirectory(context.filesDir)
+            FileUtils.cleanDirectory(filesDirectory)
         } catch (e: IOException) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
+        pwDatabaseV3 = null
         pwDatabaseV4 = null
         mUri = null
         loaded = false

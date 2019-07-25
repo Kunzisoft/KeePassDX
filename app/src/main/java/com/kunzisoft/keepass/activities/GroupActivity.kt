@@ -973,7 +973,7 @@ class GroupActivity : LockingActivity(),
         // Else lock if needed
         else {
             if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                App.currentDatabase.closeAndClear(applicationContext)
+                App.currentDatabase.closeAndClear(applicationContext.filesDir)
                 super.onBackPressed()
             } else {
                 moveTaskToBack(true)
