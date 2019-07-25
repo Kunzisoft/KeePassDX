@@ -404,26 +404,21 @@ class FileDatabaseSelectActivity : StylishActivity(),
             keyFileChecked: Boolean, keyFile: Uri?) {
 
         try {
-            mDatabaseFileUri?.path?.let { databaseFilename ->
-                // Create the new database and start prof
+            UriUtil.parseUriFile(mDatabaseFileUri)?.let { databaseUri ->
+
+                // Create the new database
                 ProgressDialogThread(this@FileDatabaseSelectActivity,
                         {
-                            CreateDatabaseRunnable(databaseFilename, App.currentDatabase) { database ->
-
-                                UriUtil.parseUriFile(databaseFilename)?.let { databaseUri ->
-                                    // TODO store database created
-                                    AssignPasswordInDatabaseRunnable(
-                                            this@FileDatabaseSelectActivity,
-                                            database,
-                                            masterPasswordChecked,
-                                            masterPassword,
-                                            keyFileChecked,
-                                            keyFile,
-                                            true, // TODO get readonly
-                                            LaunchGroupActivityFinish(databaseUri)
-                                    )
-                                }
-                            }
+                                CreateDatabaseRunnable(this@FileDatabaseSelectActivity,
+                                        databaseUri,
+                                        App.currentDatabase,
+                                        masterPasswordChecked,
+                                        masterPassword,
+                                        keyFileChecked,
+                                        keyFile,
+                                        true, // TODO get readonly
+                                        LaunchGroupActivityFinish(databaseUri)
+                                )
                         },
                         R.string.progress_create)
                         .start()
@@ -435,7 +430,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
             // TODO remove
             e.printStackTrace()
         }
-
     }
 
     private inner class LaunchGroupActivityFinish internal constructor(private val fileURI: Uri) : ActionRunnable() {

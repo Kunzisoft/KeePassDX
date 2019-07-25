@@ -188,8 +188,8 @@ class Database {
         this.pwDatabaseV4 = pwDatabaseV4
     }
 
-    private fun dbNameFromPath(dbPath: String): String {
-        val filename = URLUtil.guessFileName(dbPath, null, null)
+    private fun dbNameFromUri(databaseUri: Uri): String {
+        val filename = URLUtil.guessFileName(databaseUri.path, null, null)
         if (filename == null || filename.isEmpty()) {
             return "KeePass Database"
         }
@@ -199,12 +199,10 @@ class Database {
         } else filename.substring(0, lastExtDot)
     }
 
-    fun createData(databasePath: String) {
+    fun createData(databaseUri: Uri) {
         // Always create a new database with the last version
-        setDatabaseV4(PwDatabaseV4(dbNameFromPath(databasePath)))
-        UriUtil.parseUriFile(databasePath)?.let { uri ->
-            this.mUri = uri
-        }
+        setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
+        this.mUri = databaseUri
     }
 
     @Throws(IOException::class, InvalidDBException::class)

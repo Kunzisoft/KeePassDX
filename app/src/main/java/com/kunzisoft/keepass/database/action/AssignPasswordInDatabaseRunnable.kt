@@ -27,7 +27,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.IOException
 
-class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
+open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
         context: Context,
         database: Database,
         withMasterPassword: Boolean,
