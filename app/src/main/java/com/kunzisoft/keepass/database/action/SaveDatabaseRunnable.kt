@@ -20,22 +20,15 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
-
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.PwDbOutputException
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.timeout.TimeoutHelper
-
 import java.io.IOException
 
 abstract class SaveDatabaseRunnable(protected var context: Context,
                                 protected var database: Database,
                                 private val save: Boolean,
                                 nestedAction: ActionRunnable? = null) : ActionRunnable(nestedAction) {
-
-    init {
-        TimeoutHelper.temporarilyDisableTimeout()
-    }
 
     // TODO Service to prevent background thread kill
     override fun run() {
@@ -54,7 +47,6 @@ abstract class SaveDatabaseRunnable(protected var context: Context,
 
     override fun onFinishRun(result: Result) {
         // Need to call super.onFinishRun(result) in child class
-        TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(context)
     }
 }
 

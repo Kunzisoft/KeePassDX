@@ -597,7 +597,7 @@ class PasswordActivity : StylishActivity(),
             ProgressDialogThread(this,
                     { progressTaskUpdater ->
                         LoadDatabaseRunnable(
-                                WeakReference(this@PasswordActivity.applicationContext),
+                                WeakReference(this@PasswordActivity),
                                 database,
                                 databaseUri,
                                 password,

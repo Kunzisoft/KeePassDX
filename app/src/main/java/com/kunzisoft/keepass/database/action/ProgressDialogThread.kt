@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 open class ProgressDialogThread(private val activity: FragmentActivity,
                                 private val actionRunnable: (ProgressTaskUpdater?)-> ActionRunnable,
@@ -24,6 +25,7 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
         actionRunnableAsyncTask = ActionRunnableAsyncTask(progressTaskDialogFragment,
                 {
                     activity.runOnUiThread {
+                        TimeoutHelper.temporarilyDisableTimeout()
                         // Show the dialog
                         ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment)
                     }
@@ -32,6 +34,7 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
                         actionFinishInUIThread?.onFinishRun(result)
                         // Remove the progress task
                         ProgressTaskDialogFragment.stop(activity)
+                        TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
                     }
                 })
     }

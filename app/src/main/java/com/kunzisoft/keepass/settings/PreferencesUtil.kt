@@ -24,6 +24,7 @@ import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.SortNodeEnum
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
 
 object PreferencesUtil {
@@ -84,6 +85,38 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.clipboard_notifications_key),
                 context.resources.getBoolean(R.bool.clipboard_notifications_default))
+    }
+
+    /**
+     * Save current time, can be retrieve with `getTimeSaved()`
+     */
+    fun saveCurrentTime(context: Context) {
+        PreferenceManager.getDefaultSharedPreferences(context).edit().apply {
+            putLong(context.getString(R.string.timeout_backup_key), System.currentTimeMillis())
+            apply()
+        }
+    }
+
+    /**
+     * Time previously saved in milliseconds (commonly used to compare with current time and check timeout)
+     */
+    fun getTimeSaved(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getLong(context.getString(R.string.timeout_backup_key),
+                TimeoutHelper.NEVER)
+    }
+
+    /**
+     * App timeout selected in milliseconds
+     */
+    fun getAppTimeout(context: Context): Long {
+        return try {
+            val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+            java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
+                    context.getString(R.string.clipboard_timeout_default)))
+        } catch (e: NumberFormatException) {
+            TimeoutHelper.DEFAULT_TIMEOUT
+        }
     }
 
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {

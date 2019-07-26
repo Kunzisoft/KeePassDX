@@ -101,7 +101,7 @@ class KeyboardEntryNotificationService : Service() {
                     TimeoutHelper.DEFAULT_TIMEOUT
                 }
 
-                if (notificationTimeoutMilliSecs != TimeoutHelper.TIMEOUT_NEVER) {
+                if (notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
                     stopTask(cleanNotificationTimer)
                     cleanNotificationTimer = Thread {
                         val maxPos = 100
