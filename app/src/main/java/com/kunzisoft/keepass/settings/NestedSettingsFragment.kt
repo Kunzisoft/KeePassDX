@@ -289,33 +289,41 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         activity?.let { activity ->
             val stylePreference = findPreference(getString(R.string.setting_style_key))
             stylePreference.setOnPreferenceChangeListener { _, newValue ->
+                var styleEnabled = true
                 val styleIdString = newValue as String
-                if (!(!BuildConfig.CLOSED_STORE && Education.isEducationScreenReclickedPerformed(context!!)))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
-                            if (fragmentManager != null)
-                                ProFeatureDialogFragment().show(fragmentManager!!, "pro_feature_dialog")
+                            styleEnabled = false
+                            fragmentManager?.let { fragmentManager ->
+                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
+                            }
                         }
                     }
-
-                Stylish.assignStyle(styleIdString)
-                activity.recreate()
-                true
+                if (styleEnabled) {
+                    Stylish.assignStyle(styleIdString)
+                    activity.recreate()
+                }
+                styleEnabled
             }
 
             val iconPackPreference = findPreference(getString(R.string.setting_icon_pack_choose_key))
             iconPackPreference.setOnPreferenceChangeListener { _, newValue ->
+                var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (!(!BuildConfig.CLOSED_STORE && Education.isEducationScreenReclickedPerformed(context!!)))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
-                            if (fragmentManager != null)
-                                ProFeatureDialogFragment().show(fragmentManager!!, "pro_feature_dialog")
+                            iconPackEnabled = false
+                            fragmentManager?.let { fragmentManager ->
+                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
+                            }
                         }
                     }
-
-                IconPackChooser.setSelectedIconPack(iconPackId)
-                true
+                if (iconPackEnabled) {
+                    IconPackChooser.setSelectedIconPack(iconPackId)
+                }
+                iconPackEnabled
             }
 
             val resetEducationScreens = findPreference(getString(R.string.reset_education_screens_key))
