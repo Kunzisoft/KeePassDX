@@ -1,8 +1,11 @@
 package com.kunzisoft.keepass.database.action
 
+import android.content.Intent
 import android.os.AsyncTask
+import android.os.Build
 import android.support.annotation.StringRes
 import android.support.v4.app.FragmentActivity
+import com.kunzisoft.keepass.database.action.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -21,10 +24,18 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
     var actionFinishInUIThread: ActionRunnable? = null
 
+    private var intentDatabaseTask:Intent = Intent(activity, DatabaseTaskNotificationService::class.java)
+
     init {
         actionRunnableAsyncTask = ActionRunnableAsyncTask(progressTaskDialogFragment,
                 {
                     activity.runOnUiThread {
+                        intentDatabaseTask.putExtra(DATABASE_TASK_TITLE_KEY, titleId)
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            activity.startForegroundService(intentDatabaseTask)
+                        } else {
+                            activity.startService(intentDatabaseTask)
+                        }
                         TimeoutHelper.temporarilyDisableTimeout()
                         // Show the dialog
                         ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment)
@@ -35,6 +46,7 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
                         // Remove the progress task
                         ProgressTaskDialogFragment.stop(activity)
                         TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
+                        activity.stopService(intentDatabaseTask)
                     }
                 })
     }
