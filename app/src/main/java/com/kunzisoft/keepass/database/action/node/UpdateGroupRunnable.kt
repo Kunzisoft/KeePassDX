@@ -41,11 +41,11 @@ class UpdateGroupRunnable constructor(
         mOldGroup.updateWith(mNewGroup)
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
             mOldGroup.updateWith(mBackupGroup)
         }
-        return ActionNodeValues(isSuccess, message, mOldGroup, mNewGroup)
+        return ActionNodeValues(result, mOldGroup, mNewGroup)
     }
 }

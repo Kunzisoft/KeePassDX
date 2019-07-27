@@ -42,9 +42,8 @@ class AboutActivity : StylishActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = getString(R.string.menu_about)
         setSupportActionBar(toolbar)
-        assert(supportActionBar != null)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setDisplayShowHomeEnabled(true)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
 
         var version: String
         var build: String

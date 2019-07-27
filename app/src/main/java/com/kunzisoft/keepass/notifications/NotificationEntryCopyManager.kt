@@ -66,7 +66,7 @@ object NotificationEntryCopyManager {
                                         || PreferencesUtil.allowCopyPasswordAndProtectedFields(context)) {
                                     notificationFields.add(
                                             NotificationField(
-                                                    NotificationField.NotificationFieldId.getAnonymousFieldId()[anonymousFieldNumber],
+                                                    NotificationField.NotificationFieldId.anonymousFieldId[anonymousFieldNumber],
                                                     value.toString(),
                                                     key,
                                                     context.resources))
@@ -75,7 +75,7 @@ object NotificationEntryCopyManager {
                             }
                         })
                     } catch (e: ArrayIndexOutOfBoundsException) {
-                        Log.w("NotificationEntryCopyMg", "Only " + NotificationField.NotificationFieldId.getAnonymousFieldId().size +
+                        Log.w("NotificationEntryCopyMg", "Only " + NotificationField.NotificationFieldId.anonymousFieldId.size +
                                 " anonymous notifications are available")
                     }
 

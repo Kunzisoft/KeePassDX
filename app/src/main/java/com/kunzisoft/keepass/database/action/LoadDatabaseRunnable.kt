@@ -122,7 +122,11 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
         FileDatabaseHistory.getInstance(mWeakContext).addDatabaseUri(uri, keyFileUri)
     }
 
-    override fun onFinishRun(isSuccess: Boolean, message: String?) {}
+    override fun onFinishRun(result: Result) {
+        if (!result.isSuccess) {
+            mDatabase.closeAndClear(mWeakContext.get()?.filesDir)
+        }
+    }
 
     companion object {
         private val TAG = LoadDatabaseRunnable::class.java.name

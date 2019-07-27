@@ -33,10 +33,12 @@ import com.kunzisoft.keepass.database.cursor.EntryCursor
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
-class SearchEntryCursorAdapter(context: Context, private val database: Database) : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
+class SearchEntryCursorAdapter(context: Context, private val database: Database)
+    : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
@@ -89,7 +91,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         val viewHolder = view.tag as ViewHolder
 
         // Assign image
-        database.drawFactory.assignDatabaseIconTo(context, viewHolder.imageViewIcon, icon, iconColor)
+        viewHolder.imageViewIcon?.assignDatabaseIcon(database.drawFactory, icon, iconColor)
 
         // Assign title
         val showTitle = EntryVersioned.getVisualTitle(false, title, username, url, uuid.toString())
@@ -108,7 +110,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
-        return database.searchEntry(constraint.toString())
+        return database.searchEntries(constraint.toString())
     }
 
     fun getEntryFromPosition(position: Int): EntryVersioned? {

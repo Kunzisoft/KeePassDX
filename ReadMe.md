@@ -63,7 +63,7 @@ Other questions? You can read the [F.A.Q.](https://www.keepassdx.com/FAQ)
 
 ## License
 
- Copyright (c) 2017 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+ Copyright (c) 2019 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
  This file is part of KeePass DX.
 

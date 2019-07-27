@@ -142,7 +142,7 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
 
             // Spinner Drop down elements
             val fileTypes = resources.getStringArray(R.array.file_types)
-            val dataAdapter = ArrayAdapter(activity!!, android.R.layout.simple_spinner_item, fileTypes)
+            val dataAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, fileTypes)
             dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = dataAdapter
             // Or text if only one item https://github.com/Kunzisoft/KeePassDX/issues/105
@@ -158,7 +158,7 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
 
             val dialog = builder.create()
 
-            dialog.setOnShowListener { dialog1 ->
+            dialog.setOnShowListener { _ ->
                 positiveButton = dialog.getButton(DialogInterface.BUTTON_POSITIVE)
                 negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
                 positiveButton?.setOnClickListener { _ ->
@@ -181,11 +181,13 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
     }
 
     private fun buildPath(): Uri? {
-        if (folderPathView != null && mDatabaseFileExtension != null) {
+        if (folderPathView != null && fileNameView != null && mDatabaseFileExtension != null) {
             var path = Uri.Builder().path(folderPathView!!.text.toString())
                     .appendPath(fileNameView!!.text.toString() + mDatabaseFileExtension!!)
                     .build()
-            path = UriUtil.translate(context, path)
+            context?.let { context ->
+                path = UriUtil.translateUri(context, path)
+            }
             return path
         }
         return null

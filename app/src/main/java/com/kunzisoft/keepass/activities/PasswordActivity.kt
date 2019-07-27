@@ -43,7 +43,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.*
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogHelper
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
@@ -59,7 +59,6 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import permissions.dispatcher.*
@@ -265,8 +264,8 @@ class PasswordActivity : StylishActivity(),
         // Retrieve settings for default database
         val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
         if (mDatabaseFileUri != null
-                && !EmptyUtils.isNullOrEmpty(mDatabaseFileUri!!.path)
-                && UriUtil.equalsDefaultfile(mDatabaseFileUri, defaultFilename)) {
+                && mDatabaseFileUri!!.path != null && mDatabaseFileUri!!.path!!.isNotEmpty()
+                && mDatabaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
@@ -526,9 +525,9 @@ class PasswordActivity : StylishActivity(),
         setFingerPrintView(R.string.encrypted_value_stored)
     }
 
-    override fun handleDecryptedResult(passwordValue: String) {
+    override fun handleDecryptedResult(value: String) {
         // Load database directly
-        verifyKeyFileViewsAndLoadDatabase(passwordValue)
+        verifyKeyFileViewsAndLoadDatabase(value)
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -563,8 +562,8 @@ class PasswordActivity : StylishActivity(),
 
     private fun verifyAllViewsAndLoadDatabase() {
         verifyCheckboxesAndLoadDatabase(
-                passwordView?.text.toString(),
-                UriUtil.parseDefaultFile(keyFileView?.text.toString()))
+                passwordView?.text?.toString(),
+                UriUtil.parseUriFile(keyFileView?.text?.toString()))
     }
 
     private fun verifyCheckboxesAndLoadDatabase(password: String?, keyFile: Uri?) {
@@ -580,8 +579,8 @@ class PasswordActivity : StylishActivity(),
     }
 
     private fun verifyKeyFileViewsAndLoadDatabase(password: String) {
-        val key = keyFileView?.text.toString()
-        var keyUri = UriUtil.parseDefaultFile(key)
+        val key = keyFileView?.text?.toString()
+        var keyUri = UriUtil.parseUriFile(key)
         if (checkboxKeyFileView?.isChecked != true) {
             keyUri = null
         }
@@ -591,20 +590,20 @@ class PasswordActivity : StylishActivity(),
     private fun loadDatabase(password: String?, keyFile: Uri?) {
         // Clear before we load
         val database = App.currentDatabase
-        database.closeAndClear(applicationContext)
+        database.closeAndClear(applicationContext.filesDir)
 
         mDatabaseFileUri?.let { databaseUri ->
             // Show the progress dialog and load the database
             ProgressDialogThread(this,
                     { progressTaskUpdater ->
                         LoadDatabaseRunnable(
-                                WeakReference(this@PasswordActivity.applicationContext),
+                                WeakReference(this@PasswordActivity),
                                 database,
                                 databaseUri,
                                 password,
                                 keyFile,
                                 progressTaskUpdater,
-                                AfterLoadingDatabase(database))
+                                AfterLoadingDatabase(database, password))
                     },
                     R.string.loading_database).start()
         }
@@ -613,9 +612,11 @@ class PasswordActivity : StylishActivity(),
     /**
      * Called after verify and try to opening the database
      */
-    private inner class AfterLoadingDatabase internal constructor(var database: Database) : ActionRunnable() {
+    private inner class AfterLoadingDatabase internal constructor(var database: Database,
+                                                                  val password: String?)
+        : ActionRunnable() {
 
-        override fun onFinishRun(isSuccess: Boolean, message: String?) {
+        override fun onFinishRun(result: Result) {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -623,15 +624,20 @@ class PasswordActivity : StylishActivity(),
                     reInitWithFingerprintMode()
                 }
 
-                if (database.isPasswordEncodingError) {
-                    val dialog = PasswordEncodingDialogHelper()
-                    dialog.show(this@PasswordActivity,
-                            DialogInterface.OnClickListener { _, _ -> launchGroupActivity() })
-                } else if (isSuccess) {
-                    launchGroupActivity()
+                if (result.isSuccess) {
+                    if (database.validatePasswordEncoding(password)) {
+                        launchGroupActivity()
+                    } else {
+                        PasswordEncodingDialogFragment().apply {
+                            positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                                launchGroupActivity()
+                            }
+                            show(supportFragmentManager, "passwordEncodingTag")
+                        }
+                    }
                 } else {
-                    if (message != null && message.isNotEmpty()) {
-                        Toast.makeText(this@PasswordActivity, message, Toast.LENGTH_LONG).show()
+                    if (result.message != null && result.message!!.isNotEmpty()) {
+                        Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
                     }
                 }
             }
@@ -762,7 +768,7 @@ class PasswordActivity : StylishActivity(),
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK, Activity.RESULT_CANCELED -> {
                     setEmptyViews()
-                    App.currentDatabase.closeAndClear(applicationContext)
+                    App.currentDatabase.closeAndClear(applicationContext.filesDir)
                 }
             }
         }
@@ -814,14 +820,13 @@ class PasswordActivity : StylishActivity(),
 
         @Throws(FileNotFoundException::class)
         private fun verifyFileNameUriFromLaunch(fileName: String) {
-            if (EmptyUtils.isNullOrEmpty(fileName)) {
+            if (fileName.isEmpty()) {
                 throw FileNotFoundException()
             }
 
-            val uri = UriUtil.parseDefaultFile(fileName)
-            val scheme = uri.scheme
-
-            if (!EmptyUtils.isNullOrEmpty(scheme) && scheme.equals("file", ignoreCase = true)) {
+            val uri = UriUtil.parseUriFile(fileName)
+            val scheme = uri?.scheme
+            if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
                 val dbFile = File(uri.path!!)
                 if (!dbFile.exists()) {
                     throw FileNotFoundException()

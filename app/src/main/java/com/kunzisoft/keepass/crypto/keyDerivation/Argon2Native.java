@@ -28,7 +28,7 @@ public class Argon2Native {
     public static byte[] transformKey(byte[] password, byte[] salt, int parallelism,
                                               long memory, long iterations, byte[] secretKey,
                                               byte[] associatedData, long version) throws IOException {
-        NativeLib.init();
+        NativeLib.INSTANCE.init();
 
         return nTransformMasterKey(password, salt, parallelism, memory, iterations, secretKey, associatedData, version);
     }

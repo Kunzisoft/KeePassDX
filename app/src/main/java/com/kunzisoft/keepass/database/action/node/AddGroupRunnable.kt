@@ -38,10 +38,10 @@ class AddGroupRunnable constructor(
         database.addGroupTo(mNewGroup, mParent)
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             database.removeGroupFrom(mNewGroup, mParent)
         }
-        return ActionNodeValues(isSuccess, message, null, mNewGroup)
+        return ActionNodeValues(result, null, mNewGroup)
     }
 }

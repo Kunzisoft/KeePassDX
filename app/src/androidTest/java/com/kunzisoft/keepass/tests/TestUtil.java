@@ -19,18 +19,13 @@
  */
 package com.kunzisoft.keepass.tests;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.net.Uri;
 import android.os.Environment;
 
-import com.kunzisoft.keepass.utils.EmptyUtils;
-import com.kunzisoft.keepass.utils.UriUtil;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 
 public class TestUtil {
     private static final File sdcard = Environment.getExternalStorageDirectory();

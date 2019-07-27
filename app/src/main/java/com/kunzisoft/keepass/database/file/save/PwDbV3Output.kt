@@ -1,5 +1,5 @@
 /*
-` * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+` * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -43,7 +43,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
     private var headerHashBlock: ByteArray? = null
 
     @Throws(PwDbOutputException::class)
-    fun getFinalKey(header: PwDbHeader): ByteArray {
+    fun getFinalKey(header: PwDbHeader): ByteArray? {
         try {
             val h3 = header as PwDbHeaderV3
             mDatabaseV3.makeFinalKey(h3.masterSeed, h3.transformSeed, mDatabaseV3.numberKeyEncryptionRounds)
@@ -51,7 +51,6 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         } catch (e: IOException) {
             throw PwDbOutputException("Key creation failed.", e)
         }
-
     }
 
     @Throws(PwDbOutputException::class)
@@ -188,6 +187,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         return header
     }
 
+    @Suppress("CAST_NEVER_SUCCEEDS")
     @Throws(PwDbOutputException::class)
     fun outputPlanGroupAndEntries(os: OutputStream) {
         val los = LEDataOutputStream(os)
@@ -197,14 +197,14 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             try {
                 los.writeUShort(0x0000)
                 los.writeInt(headerHashBlock!!.size)
-                los.write(headerHashBlock)
+                los.write(headerHashBlock!!)
             } catch (e: IOException) {
                 throw PwDbOutputException("Failed to output header hash.", e)
             }
         }
 
         // Groups
-        for (group in mDatabaseV3.groupIndexes) {
+        mDatabaseV3.doForEachGroupInIndex { group ->
             val pgo = PwGroupOutputV3(group, os)
             try {
                 pgo.output()
@@ -212,9 +212,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
                 throw PwDbOutputException("Failed to output a tree", e)
             }
         }
-
-        // Entries
-        for (entry in mDatabaseV3.entryIndexes) {
+        mDatabaseV3.doForEachEntryInIndex { entry ->
             val peo = PwEntryOutputV3(entry, os)
             try {
                 peo.output()

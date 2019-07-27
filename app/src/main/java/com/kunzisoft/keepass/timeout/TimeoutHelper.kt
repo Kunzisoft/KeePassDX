@@ -1,5 +1,5 @@
 /*
- * Copyright 2018 Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -24,17 +24,17 @@ import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.preference.PreferenceManager
+import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 object TimeoutHelper {
 
     const val DEFAULT_TIMEOUT = (5 * 60 * 1000).toLong()  // 5 minutes
-    const val TIMEOUT_NEVER: Long = -1  // Infinite
+    const val NEVER: Long = -1  // Infinite
 
     private const val REQUEST_ID = 140
 
@@ -54,28 +54,22 @@ object TimeoutHelper {
      * Record the current time to check it later with checkTime
      */
     fun recordTime(context: Context) {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-
         // Record timeout time in case timeout service is killed
-        val time = System.currentTimeMillis()
-        val edit = prefs.edit()
-        edit.putLong(context.getString(R.string.timeout_backup_key), time)
-        edit.apply()
+        PreferencesUtil.saveCurrentTime(context)
 
         if (App.currentDatabase.loaded) {
-            val timeout = try {
-                java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
-                        context.getString(R.string.clipboard_timeout_default)))
-            } catch (e: NumberFormatException) {
-                DEFAULT_TIMEOUT
-            }
+            val timeout = PreferencesUtil.getAppTimeout(context)
 
             // No timeout don't start timeout service
-            if (timeout != TIMEOUT_NEVER) {
+            if (timeout != NEVER) {
                 val triggerTime = System.currentTimeMillis() + timeout
                 val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
                 Log.d(TAG, "TimeoutHelper start")
-                am.set(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    am.setExact(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                } else {
+                    am.set(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                }
             }
         }
     }
@@ -101,24 +95,16 @@ object TimeoutHelper {
         val currentTime = System.currentTimeMillis()
 
         // Retrieve the timeout programmatically backup
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val timeoutBackup = prefs.getLong(context.getString(R.string.timeout_backup_key),
-                TIMEOUT_NEVER)
+        val timeoutBackup = PreferencesUtil.getTimeSaved(context)
         // The timeout never started
-        if (timeoutBackup == TIMEOUT_NEVER) {
+        if (timeoutBackup == NEVER) {
             return true
         }
 
         // Retrieve the app timeout in settings
-        val appTimeout = try {
-            java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.clipboard_timeout_default)))
-        } catch (e: NumberFormatException) {
-            DEFAULT_TIMEOUT
-        }
-
+        val appTimeout = PreferencesUtil.getAppTimeout((context))
         // We are set to never timeout
-        if (appTimeout == TIMEOUT_NEVER) {
+        if (appTimeout == NEVER) {
             return true
         }
 

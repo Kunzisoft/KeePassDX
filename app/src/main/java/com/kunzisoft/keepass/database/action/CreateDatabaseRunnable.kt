@@ -19,30 +19,40 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import com.kunzisoft.keepass.app.App
+import android.content.Context
+import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class CreateDatabaseRunnable(private val mFilename: String,
-                             val onDatabaseCreate: (database: Database) -> ActionRunnable)
-    : ActionRunnable() {
+class CreateDatabaseRunnable(context: Context,
+                             private val mDatabaseUri: Uri,
+                             private val mDatabase: Database,
+                             withMasterPassword: Boolean,
+                             masterPassword: String?,
+                             withKeyFile: Boolean,
+                             keyFile: Uri?,
+                             save: Boolean,
+                             actionRunnable: ActionRunnable? = null)
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, withMasterPassword, masterPassword, withKeyFile, keyFile, save, actionRunnable) {
 
     override fun run() {
         try {
             // Create new database record
-            Database(mFilename).apply {
-                App.currentDatabase = this
+            mDatabase.apply {
+                createData(mDatabaseUri)
                 // Set Database state
                 loaded = true
                 // Commit changes
-                onDatabaseCreate(this).run()
+                super.run()
             }
 
             finishRun(true)
         } catch (e: Exception) {
+
+            mDatabase.closeAndClear()
             finishRun(false, e.message)
         }
     }
 
-    override fun onFinishRun(isSuccess: Boolean, message: String?) {}
+    override fun onFinishRun(result: Result) {}
 }

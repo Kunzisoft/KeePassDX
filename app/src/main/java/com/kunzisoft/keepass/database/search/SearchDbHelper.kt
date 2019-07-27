@@ -72,9 +72,13 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
         return searchGroup
     }
 
-    private fun entryContainsString(entry: EntryVersioned, qStr: String, loc: Locale): Boolean {
-        // Search all strings in the entry
+    private fun entryContainsString(entry: EntryVersioned, searchString: String, locale: Locale): Boolean {
 
+        // Entry don't contains string if the search string is empty
+        if (searchString.isEmpty())
+            return false
+
+        // Search all strings in the entry
         var iterator: EntrySearchStringIterator? = null
         entry.pwEntryV3?.let {
             iterator = EntrySearchStringIteratorV3(it)
@@ -87,8 +91,7 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
             while (it.hasNext()) {
                 val str = it.next()
                 if (str.isNotEmpty()) {
-                    val lower = str.toLowerCase(loc)
-                    if (lower.contains(qStr)) {
+                    if (str.toLowerCase(locale).contains(searchString)) {
                         return true
                     }
                 }

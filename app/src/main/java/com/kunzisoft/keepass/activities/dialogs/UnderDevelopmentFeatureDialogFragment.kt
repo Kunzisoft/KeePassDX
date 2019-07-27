@@ -40,7 +40,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = AlertDialog.Builder(activity!!)
+            val builder = AlertDialog.Builder(activity)
 
             val stringBuilder = SpannableStringBuilder()
             if (BuildConfig.CLOSED_STORE) {
@@ -49,32 +49,32 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                             .append(Html.fromHtml(getString(R.string.html_rose))).append("\n\n")
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_work_hard))).append("\n")
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_upgrade))).append(" ")
-                    builder.setPositiveButton(android.R.string.ok) { dialog, id -> dismiss() }
+                    builder.setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
                 } else {
                     stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_buy_pro))).append("\n")
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
-                    builder.setPositiveButton(R.string.download) { dialog, id ->
+                    builder.setPositiveButton(R.string.download) { _, _ ->
                         try {
-                            Util.gotoUrl(context, R.string.app_pro_url)
+                            Util.gotoUrl(context!!, R.string.app_pro_url)
                         } catch (e: ActivityNotFoundException) {
                             Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                         }
                     }
-                    builder.setNegativeButton(android.R.string.cancel) { dialog, id -> dismiss() }
+                    builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
                 }
             } else {
                 stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
                         .append(Html.fromHtml(getString(R.string.html_text_dev_feature_contibute))).append(" ")
                         .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
-                builder.setPositiveButton(R.string.contribute) { dialog, id ->
+                builder.setPositiveButton(R.string.contribute) { _, _ ->
                     try {
-                        Util.gotoUrl(context, R.string.contribution_url)
+                        Util.gotoUrl(context!!, R.string.contribution_url)
                     } catch (e: ActivityNotFoundException) {
                         Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                     }
                 }
-                builder.setNegativeButton(android.R.string.cancel) { dialog, id -> dismiss() }
+                builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             }
             builder.setMessage(stringBuilder)
             // Create the AlertDialog object and return it

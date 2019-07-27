@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.view.View
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
+import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
@@ -30,7 +30,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
 
     protected var database: Database? = null
 
-    var afterSaveDatabaseRunnable: ActionRunnable? = null
+    var actionInUIThreadAfterSaveDatabase: ActionRunnable? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -42,14 +42,14 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
         if (positiveResult) {
             activity?.let { notNullActivity ->
                 database?.let { notNullDatabase ->
-                    afterSaveDatabaseRunnable?.let { runnable ->
-                        ProgressDialogSaveDatabaseThread(notNullActivity) {
-                            SaveDatabaseRunnable(
-                                    notNullActivity,
-                                    notNullDatabase,
-                                    true,
-                                    runnable)
-                        }.start()
+                    ProgressDialogSaveDatabaseThread(notNullActivity) {
+                        SaveDatabaseActionRunnable(
+                                notNullActivity,
+                                notNullDatabase,
+                                true)
+                    }.apply {
+                        actionFinishInUIThread = actionInUIThreadAfterSaveDatabase
+                        start()
                     }
                 }
             }

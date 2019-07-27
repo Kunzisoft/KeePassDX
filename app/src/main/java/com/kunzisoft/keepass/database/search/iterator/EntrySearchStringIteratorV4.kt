@@ -29,7 +29,7 @@ class EntrySearchStringIteratorV4 : EntrySearchStringIterator {
 
     private var mCurrent: String? = null
     private var mSetIterator: Iterator<Entry<String, ProtectedString>>? = null
-    private var mSearchParametersV4: SearchParametersV4? = null
+    private var mSearchParametersV4: SearchParametersV4
 
     constructor(entry: PwEntryV4) {
         this.mSearchParametersV4 = SearchParametersV4()
@@ -52,9 +52,9 @@ class EntrySearchStringIteratorV4 : EntrySearchStringIterator {
             throw NoSuchElementException("Past the end of the list.")
         }
 
-        val next = mCurrent
+        val next:String = mCurrent!!
         advance()
-        return next!!
+        return next
     }
 
     private fun advance() {
@@ -75,12 +75,12 @@ class EntrySearchStringIteratorV4 : EntrySearchStringIterator {
 
     private fun searchInField(key: String): Boolean {
         return when (key) {
-            PwEntryV4.STR_TITLE -> mSearchParametersV4!!.searchInTitles
-            PwEntryV4.STR_USERNAME -> mSearchParametersV4!!.searchInUserNames
-            PwEntryV4.STR_PASSWORD -> mSearchParametersV4!!.searchInPasswords
-            PwEntryV4.STR_URL -> mSearchParametersV4!!.searchInUrls
-            PwEntryV4.STR_NOTES -> mSearchParametersV4!!.searchInNotes
-            else -> mSearchParametersV4!!.searchInOther
+            PwEntryV4.STR_TITLE -> mSearchParametersV4.searchInTitles
+            PwEntryV4.STR_USERNAME -> mSearchParametersV4.searchInUserNames
+            PwEntryV4.STR_PASSWORD -> mSearchParametersV4.searchInPasswords
+            PwEntryV4.STR_URL -> mSearchParametersV4.searchInUrls
+            PwEntryV4.STR_NOTES -> mSearchParametersV4.searchInNotes
+            else -> mSearchParametersV4.searchInOther
         }
     }
 

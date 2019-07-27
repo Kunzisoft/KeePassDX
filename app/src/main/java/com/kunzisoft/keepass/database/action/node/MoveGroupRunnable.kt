@@ -53,8 +53,8 @@ class MoveGroupRunnable constructor(
         } ?: Log.e(TAG, "Unable to create a copy of the group")
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             // If we fail to save, try to move in the first place
             try {
                 if (mGroupToMove != null && mOldParent != null)
@@ -64,7 +64,7 @@ class MoveGroupRunnable constructor(
             }
 
         }
-        return ActionNodeValues(isSuccess, message, null, mGroupToMove)
+        return ActionNodeValues(result, null, mGroupToMove)
     }
 
     companion object {

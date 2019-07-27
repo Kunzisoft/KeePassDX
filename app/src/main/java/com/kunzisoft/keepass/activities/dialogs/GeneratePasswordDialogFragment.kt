@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DialogFragment() {
 
@@ -66,7 +67,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
             root = inflater.inflate(R.layout.generate_password, null)
 
             passwordView = root?.findViewById(R.id.password)
-            Util.applyFontVisibilityTo(context, passwordView)
+            passwordView?.applyFontVisibility()
 
             lengthTextView = root?.findViewById(R.id.length)
 
@@ -92,7 +93,10 @@ class GeneratePasswordDialogFragment : DialogFragment() {
 
                 override fun onStopTrackingTouch(seekBar: SeekBar) {}
             })
-            seekBar?.progress = PreferencesUtil.getDefaultPasswordLength(context)
+
+            context?.let { context ->
+                seekBar?.progress = PreferencesUtil.getDefaultPasswordLength(context)
+            }
 
             root?.findViewById<Button>(R.id.generate_password_button)
                     ?.setOnClickListener { fillPassword() }
@@ -131,18 +135,21 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         bracketsBox?.isChecked = false
         extendedBox?.isChecked = false
 
-        val defaultPasswordChars = PreferencesUtil.getDefaultPasswordCharacters(context)
-        for (passwordChar in defaultPasswordChars) {
-            when (passwordChar) {
-                getString(R.string.value_password_uppercase) -> uppercaseBox?.isChecked = true
-                getString(R.string.value_password_lowercase) -> lowercaseBox?.isChecked = true
-                getString(R.string.value_password_digits) -> digitsBox?.isChecked = true
-                getString(R.string.value_password_minus) -> minusBox?.isChecked = true
-                getString(R.string.value_password_underline) -> underlineBox?.isChecked = true
-                getString(R.string.value_password_space) -> spaceBox?.isChecked = true
-                getString(R.string.value_password_special) -> specialsBox?.isChecked = true
-                getString(R.string.value_password_brackets) -> bracketsBox?.isChecked = true
-                getString(R.string.value_password_extended) -> extendedBox?.isChecked = true
+        context?.let { context ->
+            PreferencesUtil.getDefaultPasswordCharacters(context)?.let { charSet ->
+                for (passwordChar in charSet) {
+                    when (passwordChar) {
+                        getString(R.string.value_password_uppercase) -> uppercaseBox?.isChecked = true
+                        getString(R.string.value_password_lowercase) -> lowercaseBox?.isChecked = true
+                        getString(R.string.value_password_digits) -> digitsBox?.isChecked = true
+                        getString(R.string.value_password_minus) -> minusBox?.isChecked = true
+                        getString(R.string.value_password_underline) -> underlineBox?.isChecked = true
+                        getString(R.string.value_password_space) -> spaceBox?.isChecked = true
+                        getString(R.string.value_password_special) -> specialsBox?.isChecked = true
+                        getString(R.string.value_password_brackets) -> bracketsBox?.isChecked = true
+                        getString(R.string.value_password_extended) -> extendedBox?.isChecked = true
+                    }
+                }
             }
         }
     }
@@ -156,7 +163,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
 
-            val generator = PasswordGenerator(activity)
+            val generator = PasswordGenerator(resources)
             password = generator.generatePassword(length,
                     uppercaseBox?.isChecked == true,
                     lowercaseBox?.isChecked == true,

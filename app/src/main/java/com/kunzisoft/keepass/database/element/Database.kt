@@ -43,9 +43,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.utils.getUriInputStream
 import org.apache.commons.io.FileUtils
 import java.io.*
 import java.util.*
@@ -60,8 +58,6 @@ class Database {
     private var mUri: Uri? = null
     private var searchHelper: SearchDbHelper? = null
     var isReadOnly = false
-    var isPasswordEncodingError = false
-        private set
 
     val drawFactory = IconDrawableFactory()
 
@@ -69,7 +65,7 @@ class Database {
 
     val iconFactory: PwIconFactory
         get() {
-            return pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
+            return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         }
 
     val name: String
@@ -110,13 +106,13 @@ class Database {
             return ArrayList()
         }
 
-    val kdfEngine: KdfEngine?
+    val kdfEngine: KdfEngine
         get() {
             return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
         }
 
     val numberKeyEncryptionRoundsAsString: String
-        get() = java.lang.Long.toString(numberKeyEncryptionRounds)
+        get() = numberKeyEncryptionRounds.toString()
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -127,7 +123,7 @@ class Database {
         }
 
     val memoryUsageAsString: String
-        get() = java.lang.Long.toString(memoryUsage)
+        get() = memoryUsage.toString()
 
     var memoryUsage: Long
         get() {
@@ -138,7 +134,7 @@ class Database {
         }
 
     val parallelismAsString: String
-        get() = Integer.toString(parallelism)
+        get() = parallelism.toString()
 
     var parallelism: Int
         get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOW_VALUE
@@ -147,7 +143,7 @@ class Database {
         }
 
     var masterKey: ByteArray
-        get() = pwDatabaseV3?.getMasterKey() ?: pwDatabaseV4?.getMasterKey() ?: ByteArray(32)
+        get() = pwDatabaseV3?.masterKey ?: pwDatabaseV4?.masterKey ?: ByteArray(32)
         set(masterKey) {
             pwDatabaseV3?.masterKey = masterKey
             pwDatabaseV4?.masterKey = masterKey
@@ -155,11 +151,11 @@ class Database {
 
     val rootGroup: GroupVersioned?
         get() {
-            pwDatabaseV3?.let {
-                return GroupVersioned(it.rootGroup)
+            pwDatabaseV3?.rootGroup?.let {
+                return GroupVersioned(it)
             }
-            pwDatabaseV4?.let {
-                return GroupVersioned(it.rootGroup)
+            pwDatabaseV4?.rootGroup?.let {
+                return GroupVersioned(it)
             }
             return null
         }
@@ -182,24 +178,6 @@ class Database {
             return null
         }
 
-    constructor()
-
-    constructor(databasePath: String) {
-        // TODO Test with kdb extension
-        if (isKDBExtension(databasePath)) {
-            setDatabaseV3(PwDatabaseV3())
-        } else {
-            val databaseV4 = PwDatabaseV4()
-            val groupV4 = databaseV4.createGroup()
-            groupV4.title = dbNameFromPath(databasePath)
-            groupV4.icon = databaseV4.getIconFactory().folderIcon
-            databaseV4.rootGroup = groupV4
-            setDatabaseV4(databaseV4)
-        }
-
-        setUri(UriUtil.parseDefaultFile(databasePath))
-    }
-
     private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
         this.pwDatabaseV3 = pwDatabaseV3
         this.pwDatabaseV4 = null
@@ -210,17 +188,9 @@ class Database {
         this.pwDatabaseV4 = pwDatabaseV4
     }
 
-    private fun isKDBExtension(filename: String?): Boolean {
-        if (filename == null) {
-            return false
-        }
-        val extIdx = filename.lastIndexOf(".")
-        return if (extIdx == -1) false else filename.substring(extIdx).equals(".kdb", ignoreCase = true)
-    }
-
-    private fun dbNameFromPath(dbPath: String): String {
-        val filename = URLUtil.guessFileName(dbPath, null, null)
-        if (EmptyUtils.isNullOrEmpty(filename)) {
+    private fun dbNameFromUri(databaseUri: Uri): String {
+        val filename = URLUtil.guessFileName(databaseUri.path, null, null)
+        if (filename == null || filename.isEmpty()) {
             return "KeePass Database"
         }
         val lastExtDot = filename.lastIndexOf(".")
@@ -229,8 +199,10 @@ class Database {
         } else filename.substring(0, lastExtDot)
     }
 
-    fun setUri(mUri: Uri) {
-        this.mUri = mUri
+    fun createData(databaseUri: Uri) {
+        // Always create a new database with the last version
+        setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
+        this.mUri = databaseUri
     }
 
     @Throws(IOException::class, InvalidDBException::class)
@@ -246,7 +218,7 @@ class Database {
         // Pass Uris as InputStreams
         val inputStream: InputStream?
         try {
-            inputStream = getUriInputStream(ctx.contentResolver, uri)
+            inputStream = UriUtil.getUriInputStream(ctx.contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
             throw ContentFileNotFoundException.getInstance(uri)
@@ -256,7 +228,7 @@ class Database {
         var keyFileInputStream: InputStream? = null
         keyfile?.let {
             try {
-                keyFileInputStream = getUriInputStream(ctx.contentResolver, keyfile)
+                keyFileInputStream = UriUtil.getUriInputStream(ctx.contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
                 throw ContentFileNotFoundException.getInstance(keyfile)
@@ -300,7 +272,6 @@ class Database {
         }
 
         try {
-            isPasswordEncodingError = !(pwDatabaseV3?.validatePasswordEncoding(password) ?: pwDatabaseV4?.validatePasswordEncoding(password) ?: true)
             searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
             loaded = true
         } catch (e: Exception) {
@@ -320,7 +291,7 @@ class Database {
         return searchHelper?.search(this, str, max)
     }
 
-    fun searchEntry(query: String): Cursor? {
+    fun searchEntries(query: String): Cursor? {
 
         var cursorV3: EntryCursorV3? = null
         var cursorV4: EntryCursorV4? = null
@@ -348,7 +319,7 @@ class Database {
     }
 
     fun getEntryFrom(cursor: Cursor): EntryVersioned? {
-        val iconFactory = pwDatabaseV3?.getIconFactory() ?: pwDatabaseV4?.getIconFactory() ?: PwIconFactory()
+        val iconFactory = pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         val entry = createEntry()
 
         // TODO invert field reference manager
@@ -428,21 +399,22 @@ class Database {
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
-    fun closeAndClear(context: Context) {
+    fun closeAndClear(filesDirectory: File? = null) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
+        pwDatabaseV3?.clearCache()
         pwDatabaseV4?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
-            FileUtils.cleanDirectory(context.filesDir)
+            FileUtils.cleanDirectory(filesDirectory)
         } catch (e: IOException) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
+        pwDatabaseV3 = null
         pwDatabaseV4 = null
         mUri = null
         loaded = false
-        isPasswordEncodingError = false
     }
 
     fun getVersion(): String {
@@ -474,9 +446,9 @@ class Database {
     }
 
     fun assignEncryptionAlgorithm(algorithm: PwEncryptionAlgorithm) {
-            pwDatabaseV4?.encryptionAlgorithm = algorithm
-            pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
-            pwDatabaseV4?.dataCipher = algorithm.dataCipher
+        pwDatabaseV4?.encryptionAlgorithm = algorithm
+        pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
+        pwDatabaseV4?.dataCipher = algorithm.dataCipher
     }
 
     fun getEncryptionAlgorithmName(resources: Resources): String {
@@ -496,14 +468,13 @@ class Database {
     }
 
     fun getKeyDerivationName(resources: Resources): String {
-        val kdfEngine = kdfEngine
-        return if (kdfEngine != null) {
-            kdfEngine.getName(resources)
-        } else ""
+        return kdfEngine.getName(resources)
     }
 
-    fun validatePasswordEncoding(key: String): Boolean {
-        return pwDatabaseV3?.validatePasswordEncoding(key) ?: pwDatabaseV4?.validatePasswordEncoding(key) ?: false
+    fun validatePasswordEncoding(key: String?): Boolean {
+        return pwDatabaseV3?.validatePasswordEncoding(key)
+                ?: pwDatabaseV4?.validatePasswordEncoding(key)
+                ?: false
     }
 
     @Throws(InvalidKeyFileException::class, IOException::class)
@@ -515,16 +486,12 @@ class Database {
     fun createEntry(): EntryVersioned? {
         pwDatabaseV3?.let { database ->
             return EntryVersioned(database.createEntry()).apply {
-                database.newEntryId()?.let {
-                    nodeId = it
-                }
+                nodeId = database.newEntryId()
             }
         }
         pwDatabaseV4?.let { database ->
             return EntryVersioned(database.createEntry()).apply {
-                database.newEntryId()?.let {
-                    nodeId = it
-                }
+                nodeId = database.newEntryId()
             }
         }
 
@@ -534,16 +501,12 @@ class Database {
     fun createGroup(): GroupVersioned? {
         pwDatabaseV3?.let { database ->
             return GroupVersioned(database.createGroup()).apply {
-                database.newGroupId()?.let {
-                    setNodeId(it)
-                }
+                setNodeId(database.newGroupId())
             }
         }
         pwDatabaseV4?.let { database ->
             return GroupVersioned(database.createGroup()).apply {
-                database.newGroupId()?.let {
-                    setNodeId(it)
-                }
+                setNodeId(database.newGroupId())
             }
         }
 
@@ -571,26 +534,42 @@ class Database {
     }
 
     fun addEntryTo(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.addEntryTo(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.addEntryTo(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.addEntryTo(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.addEntryTo(entryV4, parent.pwGroupV4)
+        }
         entry.afterAssignNewParent()
     }
 
     fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.removeEntryFrom(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.removeEntryFrom(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.removeEntryFrom(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.removeEntryFrom(entryV4, parent.pwGroupV4)
+        }
         entry.afterAssignNewParent()
     }
 
     fun addGroupTo(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.addGroupTo(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.addGroupTo(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.addGroupTo(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.addGroupTo(groupV4, parent.pwGroupV4)
+        }
         group.afterAssignNewParent()
     }
 
     fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.removeGroupFrom(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.removeGroupFrom(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.removeGroupFrom(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.removeGroupFrom(groupV4, parent.pwGroupV4)
+        }
         group.afterAssignNewParent()
     }
 
@@ -647,37 +626,65 @@ class Database {
     }
 
     fun undoDeleteEntry(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.undoDeleteEntryFrom(entry.pwEntryV3, parent.pwGroupV3)
-        pwDatabaseV4?.undoDeleteEntryFrom(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.undoDeleteEntryFrom(entryV3, parent.pwGroupV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.undoDeleteEntryFrom(entryV4, parent.pwGroupV4)
+        }
     }
 
     fun undoDeleteGroup(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV3?.undoDeleteGroupFrom(group.pwGroupV3, parent.pwGroupV3)
-        pwDatabaseV4?.undoDeleteGroupFrom(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.undoDeleteGroupFrom(groupV3, parent.pwGroupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.undoDeleteGroupFrom(groupV4, parent.pwGroupV4)
+        }
     }
 
     fun canRecycle(entry: EntryVersioned): Boolean {
-        return pwDatabaseV4?.canRecycle(entry.pwEntryV4) ?: false
+        var canRecycle: Boolean? = null
+        entry.pwEntryV4?.let { entryV4 ->
+            canRecycle = pwDatabaseV4?.canRecycle(entryV4)
+        }
+        return canRecycle ?: false
     }
 
     fun canRecycle(group: GroupVersioned): Boolean {
-        return pwDatabaseV4?.canRecycle(group.pwGroupV4) ?: false
+        var canRecycle: Boolean? = null
+        group.pwGroupV4?.let { groupV4 ->
+            canRecycle = pwDatabaseV4?.canRecycle(groupV4)
+        }
+        return canRecycle ?: false
     }
 
-    fun recycle(entry: EntryVersioned) {
-        pwDatabaseV4?.recycle(entry.pwEntryV4)
+    fun recycle(entry: EntryVersioned, resources: Resources) {
+        entry.pwEntryV4?.let {
+            pwDatabaseV4?.recycle(it, resources)
+        }
     }
 
-    fun recycle(group: GroupVersioned) {
-        pwDatabaseV4?.recycle(group.pwGroupV4)
+    fun recycle(group: GroupVersioned, resources: Resources) {
+        group.pwGroupV4?.let {
+            pwDatabaseV4?.recycle(it, resources)
+        }
     }
 
     fun undoRecycle(entry: EntryVersioned, parent: GroupVersioned) {
-        pwDatabaseV4?.undoRecycle(entry.pwEntryV4, parent.pwGroupV4)
+        entry.pwEntryV4?.let { entryV4 ->
+            parent.pwGroupV4?.let { parentV4 ->
+                pwDatabaseV4?.undoRecycle(entryV4, parentV4)
+            }
+        }
     }
 
     fun undoRecycle(group: GroupVersioned, parent: GroupVersioned) {
-        pwDatabaseV4?.undoRecycle(group.pwGroupV4, parent.pwGroupV4)
+        group.pwGroupV4?.let { groupV4 ->
+            parent.pwGroupV4?.let { parentV4 ->
+                pwDatabaseV4?.undoRecycle(groupV4, parentV4)
+            }
+        }
     }
 
     fun startManageEntry(entry: EntryVersioned) {

@@ -71,13 +71,12 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         if (timeoutEnable) {
-            if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
-                lockReceiver = LockReceiver()
-                val intentFilter = IntentFilter()
-                intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
-                intentFilter.addAction(LOCK_ACTION)
-                registerReceiver(lockReceiver, IntentFilter(intentFilter))
+            lockReceiver = LockReceiver()
+            val intentFilter = IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(LOCK_ACTION)
             }
+            registerReceiver(lockReceiver, IntentFilter(intentFilter))
         }
 
         exitLock = false
@@ -190,7 +189,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.currentDatabase.closeAndClear(applicationContext)
+    App.currentDatabase.closeAndClear(applicationContext.filesDir)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

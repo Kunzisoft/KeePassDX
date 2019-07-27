@@ -28,23 +28,18 @@ import android.widget.Toast
  * Callback after a task is completed.
  */
 abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? = null,
-                              private var executeNestedActionIfResultFalse: Boolean = false) : Runnable {
+                              private var executeNestedActionIfResultFalse: Boolean = false)
+    : Runnable {
 
-    protected var isSuccess: Boolean = true
-    protected var message: String? = null
-
-    private fun setResult(result: Boolean, message: String? = null) {
-        this.isSuccess = result
-        this.message = message
-    }
+    var result: Result = Result()
 
     private fun execute() {
         nestedActionRunnable?.let {
             // Pass on result on call finish
-            it.setResult(isSuccess, message)
+            it.result = result
             it.run()
         }
-        onFinishRun(isSuccess, message)
+        onFinishRun(result)
     }
 
     override fun run() {
@@ -56,27 +51,28 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
      * launch the nested action runnable if exists and finish,
      * else directly finish
      */
-    protected fun finishRun(success: Boolean, message: String? = null) {
-        setResult(success, message)
-        if (success || executeNestedActionIfResultFalse) {
+    protected fun finishRun(isSuccess: Boolean, message: String? = null) {
+        result.isSuccess = isSuccess
+        result.message = message
+        if (isSuccess || executeNestedActionIfResultFalse) {
             execute()
         }
         else
-            onFinishRun(isSuccess, message)
+            onFinishRun(result)
     }
 
     /**
      * Method called when the action is finished
-     * @param isSuccess 'true' if success action, 'false' elsewhere
-     * @param message
+     * @param result 'true' if success action, 'false' elsewhere, with message
      */
-    abstract fun onFinishRun(isSuccess: Boolean, message: String?)
+    abstract fun onFinishRun(result: Result)
 
     /**
      * Display a message as a Toast only if [context] is an Activity
      * @param context Context to show the message
      */
     protected fun displayMessage(context: Context) {
+        val message = result.message
         Log.i(ActionRunnable::class.java.name, message)
         try {
             (context as Activity).runOnUiThread {
@@ -88,4 +84,9 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
             }
         } catch (exception: ClassCastException) {}
     }
+
+    /**
+     * Class to manage result from ActionRunnable
+     */
+    data class Result(var isSuccess: Boolean = true, var message: String? = null)
 }

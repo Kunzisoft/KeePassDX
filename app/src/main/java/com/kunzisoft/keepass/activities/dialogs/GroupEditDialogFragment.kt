@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
 class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {
 
@@ -45,7 +46,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     private var nameGroup: String? = null
     private var iconGroup: PwIcon? = null
 
-    private var iconButton: ImageView? = null
+    private var iconButtonView: ImageView? = null
     private var iconColor: Int = 0
 
     enum class EditGroupDialogAction {
@@ -76,7 +77,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.group_edit, null)
             val nameField = root?.findViewById<TextView>(R.id.group_edit_name)
-            iconButton = root?.findViewById(R.id.group_edit_icon_button)
+            iconButtonView = root?.findViewById(R.id.group_edit_icon_button)
 
             // Retrieve the textColor to tint the icon
             val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
@@ -133,7 +134,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                         this@GroupEditDialogFragment.dialog.cancel()
                     }
 
-            iconButton?.setOnClickListener { _ ->
+            iconButtonView?.setOnClickListener { _ ->
                 fragmentManager?.let {
                     IconPickerDialogFragment().show(it, "IconPickerDialogFragment")
                 }
@@ -145,12 +146,9 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     private fun assignIconView() {
-        mDatabase?.drawFactory
-                ?.assignDatabaseIconTo(
-                        context,
-                        iconButton,
-                        iconGroup,
-                        iconColor)
+        if (mDatabase?.drawFactory != null && iconGroup != null) {
+            iconButtonView?.assignDatabaseIcon(mDatabase?.drawFactory!!, iconGroup!!, iconColor)
+        }
     }
 
     override fun iconPicked(bundle: Bundle) {

@@ -58,8 +58,8 @@ class UriIntentInitTask(private val weakContext: WeakReference<Context>,
             }
 
         } else {
-            databaseUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_FILENAME))
-            keyFileUri = UriUtil.parseDefaultFile(intent.getStringExtra(KEY_KEYFILE))
+            databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
+            keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
 
             if (keyFileUri == null || keyFileUri!!.toString().isEmpty()) {
                 keyFileUri = getKeyFileUri(databaseUri)

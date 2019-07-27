@@ -36,7 +36,7 @@ class DeleteFileHistoryAsyncTask(private val afterDeleteFileHistoryListener: (()
         return null
     }
 
-    override fun onPostExecute(v: Void) {
+    override fun onPostExecute(v: Void?) {
         adapter?.notifyDataSetChanged()
         if (adapter == null || adapter.itemCount == 0) {
             afterDeleteFileHistoryListener?.invoke()

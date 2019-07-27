@@ -47,9 +47,9 @@ class KeyboardExplanationDialogFragment : DialogFragment() {
 
             val containerKeyboardSwitcher = rootView.findViewById<View>(R.id.container_keyboard_switcher)
             if (BuildConfig.CLOSED_STORE) {
-                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context, R.string.keyboard_switcher_play_store) }
+                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context!!, R.string.keyboard_switcher_play_store) }
             } else {
-                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context, R.string.keyboard_switcher_f_droid) }
+                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context!!, R.string.keyboard_switcher_f_droid) }
             }
 
             builder.setView(rootView)

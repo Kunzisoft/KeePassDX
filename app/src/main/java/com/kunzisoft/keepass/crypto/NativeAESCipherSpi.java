@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -47,14 +47,13 @@ public class NativeAESCipherSpi extends CipherSpi {
     private static final String TAG = NativeAESCipherSpi.class.getName();
 
     private static boolean mIsStaticInit = false;
-    private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<PhantomReference<NativeAESCipherSpi>, Long>();
-    private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<NativeAESCipherSpi>();
+    private static HashMap<PhantomReference<NativeAESCipherSpi>, Long> mCleanup = new HashMap<>();
+    private static ReferenceQueue<NativeAESCipherSpi> mQueue = new ReferenceQueue<>();
 
     private final int AES_BLOCK_SIZE = 16;
     private byte[] mIV;
 
-    private boolean mIsInited = false;
-    private boolean mEncrypting = false;
+    private boolean mIsInit = false;
     private long mCtxPtr;
 
     private boolean mPadding  = false;
@@ -68,13 +67,12 @@ public class NativeAESCipherSpi extends CipherSpi {
 
     private static void addToCleanupQueue(NativeAESCipherSpi ref, long ptr) {
         Log.d(TAG, "queued cipher context: " + ptr);
-        mCleanup.put(new PhantomReference<NativeAESCipherSpi>(ref, mQueue), ptr);
+        mCleanup.put(new PhantomReference<>(ref, mQueue), ptr);
     }
 
     /** Work with the garbage collector to clean up openssl memory when the cipher
      *  context is garbage collected.
      * @author bpellin
-     *
      */
     private static class Cleanup implements Runnable {
 
@@ -92,13 +90,12 @@ public class NativeAESCipherSpi extends CipherSpi {
                 }
             }
         }
-
     }
 
     private static native void nCleanup(long ctxPtr);
 
     public NativeAESCipherSpi() {
-        if ( ! mIsStaticInit ) {
+        if ( !mIsStaticInit ) {
             staticInit();
         }
     }
@@ -134,11 +131,9 @@ public class NativeAESCipherSpi extends CipherSpi {
             IllegalBlockSizeException, BadPaddingException {
 
         int result = doFinal(input, inputOffset, inputLen, output, outputOffset);
-
         if ( result == -1 ) {
             throw new ShortBufferException();
         }
-
         return result;
     }
 
@@ -146,7 +141,6 @@ public class NativeAESCipherSpi extends CipherSpi {
             throws ShortBufferException, IllegalBlockSizeException, BadPaddingException {
 
         int outputSize = engineGetOutputSize(inputLen);
-
         int updateAmt;
         if (input != null && inputLen > 0) {
             updateAmt = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
@@ -155,11 +149,7 @@ public class NativeAESCipherSpi extends CipherSpi {
         }
 
         int finalAmt = nFinal(mCtxPtr, mPadding, output, outputOffset + updateAmt, outputSize - updateAmt);
-
-        int out = updateAmt + finalAmt;
-
-
-        return out;
+        return updateAmt + finalAmt;
     }
 
     private native int nFinal(long ctxPtr, boolean usePadding, byte[] output, int outputOffest, int outputSize)
@@ -231,22 +221,19 @@ public class NativeAESCipherSpi extends CipherSpi {
         } catch (InvalidParameterSpecException e) {
             throw new InvalidAlgorithmParameterException(e);
         }
-
     }
 
     private void init(int opmode, Key key, IvParameterSpec params) {
-        if ( mIsInited ) {
+        if (mIsInit) {
             // Do not allow multiple inits
-            assert(true);
             throw new RuntimeException("Don't allow multiple inits");
         } else {
-            NativeLib.init();
-            mIsInited = true;
+            NativeLib.INSTANCE.init();
+            mIsInit = true;
         }
 
         mIV = params.getIV();
-        mEncrypting = opmode == Cipher.ENCRYPT_MODE;
-        mCtxPtr = nInit(mEncrypting, key.getEncoded(), mIV);
+        mCtxPtr = nInit(opmode == Cipher.ENCRYPT_MODE, key.getEncoded(), mIV);
         addToCleanupQueue(this, mCtxPtr);
     }
 
@@ -263,26 +250,23 @@ public class NativeAESCipherSpi extends CipherSpi {
     protected void engineSetPadding(String padding)
             throws NoSuchPaddingException {
 
-        if ( ! mIsInited ) {
-            NativeLib.init();
+        if ( !mIsInit) {
+            NativeLib.INSTANCE.init();
         }
-
         if ( padding.length() == 0 ) {
             return;
         }
-
-        if ( ! padding.equals("PKCS5Padding") ) {
+        if ( !padding.equals("PKCS5Padding") ) {
             throw new NoSuchPaddingException("Only supports PKCS5Padding.");
         }
 
         mPadding = true;
-
     }
 
     @Override
     protected byte[] engineUpdate(byte[] input, int inputOffset, int inputLen) {
         int maxSize = engineGetOutputSize(inputLen);
-        byte output[] = new byte[maxSize];
+        byte[] output = new byte[maxSize];
 
         int updateSize = update(input, inputOffset, inputLen, output, 0);
 
@@ -302,24 +286,15 @@ public class NativeAESCipherSpi extends CipherSpi {
                                byte[] output, int outputOffset) throws ShortBufferException {
 
         int result = update(input, inputOffset, inputLen, output, outputOffset);
-
         if ( result == -1 ) {
             throw new ShortBufferException("Insufficient buffer.");
         }
-
         return result;
-
     }
 
-    int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
+    private int update(byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset) {
         int outputSize = engineGetOutputSize(inputLen);
-
-        int out = nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
-
-
-        return out;
-
-
+        return nUpdate(mCtxPtr, input, inputOffset, inputLen, output, outputOffset, outputSize);
     }
 
     private native int nUpdate(long ctxPtr, byte[] input, int inputOffset, int inputLen, byte[] output, int outputOffset, int outputSize);

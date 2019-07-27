@@ -43,7 +43,7 @@
     <string name="decrypting_db">Bezig met ontsleutelen van databankinhoud…</string>
     <string name="default_checkbox">Gebruiken als standaarddatabank</string>
     <string name="digits">Getallen</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft biedt GEEN ENKELE GARANTIE. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft biedt geen enkele garantie. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
     <string name="select_database_file">Kies een bestaande databank</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>

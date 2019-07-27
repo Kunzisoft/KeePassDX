@@ -94,7 +94,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 }
             }
 
-            mAdapter = NodeAdapter(getContextThemed(), currentActivity.menuInflater)
+            mAdapter = NodeAdapter(contextThemed, currentActivity.menuInflater)
             mAdapter?.apply {
                 setReadOnly(readOnly)
                 setIsASearchResult(isASearchResult)
@@ -115,7 +115,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         super.onCreateView(inflater, container, savedInstanceState)
 
         // To apply theme
-        val rootView = inflater.cloneInContext(getContextThemed())
+        val rootView = inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.list_nodes_fragment, container, false)
         listView = rootView.findViewById(R.id.nodes_list)
         notFoundView = rootView.findViewById(R.id.not_found_container)
@@ -129,13 +129,13 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             })
         }
 
+        rebuildList()
+
         return rootView
     }
 
     override fun onResume() {
         super.onResume()
-
-        rebuildList()
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
@@ -186,26 +186,28 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         when (item?.itemId) {
 
             R.id.menu_sort -> {
-                val sortDialogFragment: SortDialogFragment
+                context?.let { context ->
+                    val sortDialogFragment: SortDialogFragment
 
-                /*
-                // TODO Recycle bin bottom
-                if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
-                    sortDialogFragment =
-                            SortDialogFragment.getInstance(
-                                    PrefsUtil.getListSort(this),
-                                    PrefsUtil.getAscendingSort(this),
-                                    PrefsUtil.getGroupsBeforeSort(this),
-                                    PrefsUtil.getRecycleBinBottomSort(this));
-                } else {
-                */
-                sortDialogFragment = SortDialogFragment.getInstance(
-                        PreferencesUtil.getListSort(context),
-                        PreferencesUtil.getAscendingSort(context),
-                        PreferencesUtil.getGroupsBeforeSort(context))
-                //}
+                    /*
+                    // TODO Recycle bin bottom
+                    if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
+                        sortDialogFragment =
+                                SortDialogFragment.getInstance(
+                                        PrefsUtil.getListSort(this),
+                                        PrefsUtil.getAscendingSort(this),
+                                        PrefsUtil.getGroupsBeforeSort(this),
+                                        PrefsUtil.getRecycleBinBottomSort(this));
+                    } else {
+                    */
+                    sortDialogFragment = SortDialogFragment.getInstance(
+                            PreferencesUtil.getListSort(context),
+                            PreferencesUtil.getAscendingSort(context),
+                            PreferencesUtil.getGroupsBeforeSort(context))
+                    //}
 
-                sortDialogFragment.show(childFragmentManager, "sortDialog")
+                    sortDialogFragment.show(childFragmentManager, "sortDialog")
+                }
                 return true
             }
 

@@ -49,6 +49,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
+import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -59,7 +60,6 @@ import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -170,13 +170,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
             val fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "")
 
-            if (fileName!!.isNotEmpty()) {
-                val dbUri = UriUtil.parseDefaultFile(fileName)
+            if (fileName != null && fileName.isNotEmpty()) {
+                val dbUri = UriUtil.parseUriFile(fileName)
                 var scheme: String? = null
                 if (dbUri != null)
                     scheme = dbUri.scheme
 
-                if (!EmptyUtils.isNullOrEmpty(scheme) && scheme!!.equals("file", ignoreCase = true)) {
+                if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
                     val path = dbUri!!.path
                     val db = File(path!!)
 
@@ -404,23 +404,21 @@ class FileDatabaseSelectActivity : StylishActivity(),
             keyFileChecked: Boolean, keyFile: Uri?) {
 
         try {
-            mDatabaseFileUri?.path?.let { databaseFilename ->
-                // Create the new database and start prof
+            UriUtil.parseUriFile(mDatabaseFileUri)?.let { databaseUri ->
+
+                // Create the new database
                 ProgressDialogThread(this@FileDatabaseSelectActivity,
                         {
-                            CreateDatabaseRunnable(databaseFilename) { database ->
-                                // TODO store database created
-                                AssignPasswordInDatabaseRunnable(
-                                        this@FileDatabaseSelectActivity,
-                                        database,
+                                CreateDatabaseRunnable(this@FileDatabaseSelectActivity,
+                                        databaseUri,
+                                        App.currentDatabase,
                                         masterPasswordChecked,
                                         masterPassword,
                                         keyFileChecked,
                                         keyFile,
                                         true, // TODO get readonly
-                                        LaunchGroupActivityFinish(UriUtil.parseDefaultFile(databaseFilename))
+                                        LaunchGroupActivityFinish(databaseUri)
                                 )
-                            }
                         },
                         R.string.progress_create)
                         .start()
@@ -432,7 +430,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
             // TODO remove
             e.printStackTrace()
         }
-
     }
 
     private inner class LaunchGroupActivityFinish internal constructor(private val fileURI: Uri) : ActionRunnable() {
@@ -441,9 +438,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
             finishRun(true, null)
         }
 
-        override fun onFinishRun(isSuccess: Boolean, message: String?) {
+        override fun onFinishRun(result: Result) {
             runOnUiThread {
-                if (isSuccess) {
+                if (result.isSuccess) {
                     // Add database to recent files
                     mFileDatabaseHistory?.addDatabaseUri(fileURI)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()

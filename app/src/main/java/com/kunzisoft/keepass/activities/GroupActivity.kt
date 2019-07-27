@@ -55,10 +55,10 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -193,16 +193,16 @@ class GroupActivity : LockingActivity(),
                 .commit()
 
         // Add listeners to the add buttons
-        addNodeButtonView?.setAddGroupClickListener {
+        addNodeButtonView?.setAddGroupClickListener(View.OnClickListener {
             GroupEditDialogFragment.build()
                     .show(supportFragmentManager,
                             GroupEditDialogFragment.TAG_CREATE_GROUP)
-        }
-        addNodeButtonView?.setAddEntryClickListener {
+        })
+        addNodeButtonView?.setAddEntryClickListener(View.OnClickListener {
             mCurrentGroup?.let { currentGroup ->
                 EntryEditActivity.launch(this@GroupActivity, currentGroup)
             }
-        }
+        })
 
         // Search suggestion
         mDatabase?.let { database ->
@@ -348,7 +348,8 @@ class GroupActivity : LockingActivity(),
             // Assign the group icon depending of IconPack or custom icon
             iconView?.visibility = View.VISIBLE
             mCurrentGroup?.let {
-                mDatabase?.drawFactory?.assignDatabaseIconTo(this, iconView, it.icon, mIconColor)
+                if (mDatabase?.drawFactory != null)
+                    iconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, it.icon, mIconColor)
 
                 if (toolbar != null) {
                     if (mCurrentGroup?.containsParent() == true)
@@ -408,7 +409,7 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entry, readOnly)
                         },
                         {
-                            MagikIME.setEntryKey(getEntry(entry))
+                            MagikIME.entryKey = getEntry(entry)
                             // Show the notification if allowed in Preferences
                             if (PreferencesUtil.enableKeyboardNotificationEntry(this@GroupActivity)) {
                                 startService(Intent(
@@ -442,7 +443,7 @@ class GroupActivity : LockingActivity(),
         if (entry.containsCustomFields()) {
             entry.fields
                     .doActionToAllCustomProtectedField { key, value ->
-                        entryModel.addCustomField(
+                        entryModel.customFields.add(
                                 Field(key, value.toString()))
                     }
         }
@@ -603,12 +604,6 @@ class GroupActivity : LockingActivity(),
         mSearchSuggestionAdapter?.reInit(this)
     }
 
-    override fun onStop() {
-        super.onStop()
-        // Hide button
-        addNodeButtonView?.hideButton()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
 
         val inflater = menuInflater
@@ -661,10 +656,10 @@ class GroupActivity : LockingActivity(),
         // If no node, show education to add new one
         if (mListNodesFragment != null
                 && mListNodesFragment!!.isEmpty
-                && addNodeButtonView != null
+                && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
                 && groupActivityEducation.checkAndPerformedAddNodeButtonEducation(
-                        addNodeButtonView!!,
+                        addNodeButtonView?.addButtonView!!,
                         {
                             addNodeButtonView?.openButtonIfClose()
                         },
@@ -829,7 +824,7 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterAddNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
+                if (actionNodeValues.result.isSuccess) {
                     if (actionNodeValues.newNode != null)
                         mListNodesFragment?.addNode(actionNodeValues.newNode)
                 }
@@ -840,7 +835,7 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterUpdateNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
+                if (actionNodeValues.result.isSuccess) {
                     if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
                         mListNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
                 }
@@ -851,22 +846,20 @@ class GroupActivity : LockingActivity(),
     internal inner class AfterDeleteNodeRunnable : AfterActionNodeFinishRunnable() {
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
-                if (actionNodeValues.success) {
-                    if (actionNodeValues.oldNode != null)
-                        mListNodesFragment?.removeNode(actionNodeValues.oldNode)
-
+                if (actionNodeValues.result.isSuccess) {
                     actionNodeValues.oldNode?.let { oldNode ->
-                        oldNode.parent?.let { parent ->
-                            val database = App.currentDatabase
-                            if (database.isRecycleBinAvailable && database.isRecycleBinEnabled) {
-                                val recycleBin = database.recycleBin
-                                // Add trash if it doesn't exists
-                                if (parent == recycleBin
-                                        && mCurrentGroup != null
-                                        && mCurrentGroup!!.parent == null
-                                        && mCurrentGroup != recycleBin) {
-                                    mListNodesFragment?.addNode(parent)
-                                }
+
+                        mListNodesFragment?.removeNode(oldNode)
+
+                        // TODO Move trash view
+                        // Add trash in views list if it doesn't exists
+                        val database = App.currentDatabase
+                        if (database.isRecycleBinEnabled) {
+                            val recycleBin = database.recycleBin
+                            if (mCurrentGroup != null && recycleBin != null
+                                && mCurrentGroup!!.parent == null
+                                && mCurrentGroup != recycleBin) {
+                                    mListNodesFragment?.addNode(recycleBin)
                             }
                         }
                     }
@@ -877,7 +870,7 @@ class GroupActivity : LockingActivity(),
 
     override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                  name: String?,
-                                 iconId: PwIcon?) {
+                                 icon: PwIcon?) {
         // Do nothing here
     }
 
@@ -913,11 +906,15 @@ class GroupActivity : LockingActivity(),
                         true)
             }
             // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword!!)) {
+            if (database.validatePasswordEncoding(masterPassword)) {
                 progressDialogThread.start()
             } else {
-                PasswordEncodingDialogHelper()
-                        .show(this, DialogInterface.OnClickListener{ _, _ -> progressDialogThread.start() })
+                PasswordEncodingDialogFragment().apply {
+                    positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                        progressDialogThread.start()
+                    }
+                    show(supportFragmentManager, "passwordEncodingTag")
+                }
             }
         }
     }
@@ -940,7 +937,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Not directly get the entry from intent data but from database
-        // Is refresh from onResume()
+        mListNodesFragment?.rebuildList()
     }
 
     @SuppressLint("RestrictedApi")
@@ -976,7 +973,7 @@ class GroupActivity : LockingActivity(),
         // Else lock if needed
         else {
             if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                App.currentDatabase.closeAndClear(applicationContext)
+                App.currentDatabase.closeAndClear(applicationContext.filesDir)
                 super.onBackPressed()
             } else {
                 moveTaskToBack(true)

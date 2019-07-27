@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX. Derived from KeePass for J2ME
  *
@@ -61,7 +61,7 @@ class PwDbHeaderV3 : PwDbHeader() {
         flags = LEDataInputStream.readInt(buf, offset + 8)
         version = LEDataInputStream.readInt(buf, offset + 12)
 
-        System.arraycopy(buf, offset + 16, masterSeed!!, 0, 16)
+        System.arraycopy(buf, offset + 16, masterSeed, 0, 16)
         System.arraycopy(buf, offset + 32, encryptionIV, 0, 16)
 
         numGroups = LEDataInputStream.readInt(buf, offset + 48)
@@ -80,7 +80,6 @@ class PwDbHeaderV3 : PwDbHeader() {
     init {
         masterSeed = ByteArray(16)
     }
-
 
     /** Determine if the database version is compatible with this application
      * @return true, if it is compatible

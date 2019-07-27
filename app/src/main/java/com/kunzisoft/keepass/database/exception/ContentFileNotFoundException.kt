@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -20,14 +20,8 @@
 package com.kunzisoft.keepass.database.exception
 
 import android.net.Uri
-
-import com.kunzisoft.keepass.utils.EmptyUtils
-
 import java.io.FileNotFoundException
 
-/**
- * Created by bpellin on 3/14/16.
- */
 class ContentFileNotFoundException : FileNotFoundException() {
     companion object {
         fun getInstance(uri: Uri?): FileNotFoundException {
@@ -36,11 +30,11 @@ class ContentFileNotFoundException : FileNotFoundException() {
             }
 
             val scheme = uri.scheme
-
-            return if (!EmptyUtils.isNullOrEmpty(scheme) && scheme!!.equals("content", ignoreCase = true)) {
+            return if (scheme != null
+                    && scheme.isNotEmpty()
+                    && scheme.equals("content", ignoreCase = true)) {
                 ContentFileNotFoundException()
             } else FileNotFoundException()
-
         }
     }
 }

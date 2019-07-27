@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -51,10 +51,10 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
 
     // version < FILE_VERSION_32_4)
     var transformSeed: ByteArray?
-        get() = db.kdfParameters.getByteArray(AesKdf.ParamSeed)
+        get() = db.kdfParameters?.getByteArray(AesKdf.ParamSeed)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            db.kdfParameters.setByteArray(AesKdf.ParamSeed, seed)
+            db.kdfParameters?.setByteArray(AesKdf.ParamSeed, seed)
         }
 
     object PwDbHeaderV4Fields {
@@ -120,7 +120,7 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
 
     private fun getMinKdbxVersion(databaseV4: PwDatabaseV4): Long {
         // Return v4 if AES is not use
-        if (databaseV4.kdfParameters != null && databaseV4.kdfParameters.uuid != AesKdf.CIPHER_UUID) {
+        if (databaseV4.kdfParameters != null && databaseV4.kdfParameters!!.uuid != AesKdf.CIPHER_UUID) {
             return FILE_VERSION_32_4
         }
 
@@ -135,7 +135,7 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
         if (databaseV4.rootGroup == null) {
             return FILE_VERSION_32_3
         }
-        databaseV4.rootGroup.doForEachChildAndForIt(entryHandler, groupHandler)
+        databaseV4.rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
         return if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
             FILE_VERSION_32_4
         } else FILE_VERSION_32_3
@@ -241,7 +241,7 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
     }
 
     private fun assignAesKdfEngineIfNotExists() {
-        if (db.kdfParameters == null || db.kdfParameters.uuid != KdfFactory.aesKdf.uuid) {
+        if (db.kdfParameters == null || db.kdfParameters!!.uuid != KdfFactory.aesKdf.uuid) {
             db.kdfParameters = KdfFactory.aesKdf.defaultParameters
         }
     }
@@ -258,7 +258,7 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
         val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
-        db.kdfParameters.setUInt64(AesKdf.ParamRounds, rounds)
+        db.kdfParameters?.setUInt64(AesKdf.ParamRounds, rounds)
         db.numberKeyEncryptionRounds = rounds
     }
 
@@ -273,7 +273,9 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Unrecognized compression flag.")
         }
 
-        db.compressionAlgorithm = PwCompressionAlgorithm.fromId(flag)
+        PwCompressionAlgorithm.fromId(flag)?.let { compression ->
+            db.compressionAlgorithm =  compression
+        }
     }
 
     @Throws(IOException::class)

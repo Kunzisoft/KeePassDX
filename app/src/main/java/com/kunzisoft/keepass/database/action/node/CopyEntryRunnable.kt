@@ -46,8 +46,8 @@ class CopyEntryRunnable constructor(
         } ?: Log.e(TAG, "Unable to create a copy of the entry")
     }
 
-    override fun nodeFinish(isSuccess: Boolean, message: String?): ActionNodeValues {
-        if (!isSuccess) {
+    override fun nodeFinish(result: Result): ActionNodeValues {
+        if (!result.isSuccess) {
             // If we fail to save, try to delete the copy
             try {
                 mEntryCopied?.let {
@@ -58,7 +58,7 @@ class CopyEntryRunnable constructor(
             }
 
         }
-        return ActionNodeValues(isSuccess, message, mEntryToCopy, mEntryCopied)
+        return ActionNodeValues(result, mEntryToCopy, mEntryCopied)
     }
 
     companion object {

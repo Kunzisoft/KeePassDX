@@ -304,4 +304,22 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     fun containsCustomData(): Boolean {
         return pwGroupV4?.containsCustomData() ?: false
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as GroupVersioned
+
+        if (pwGroupV3 != other.pwGroupV3) return false
+        if (pwGroupV4 != other.pwGroupV4) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = pwGroupV3?.hashCode() ?: 0
+        result = 31 * result + (pwGroupV4?.hashCode() ?: 0)
+        return result
+    }
 }

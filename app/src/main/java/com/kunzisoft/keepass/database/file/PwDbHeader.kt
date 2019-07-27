@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -24,7 +24,7 @@ abstract class PwDbHeader {
     /**
      * Seed that gets hashed with the userkey to form the final key
      */
-    var masterSeed: ByteArray? = null
+    lateinit var masterSeed: ByteArray
 
     /**
      * IV used for content encryption

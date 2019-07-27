@@ -35,7 +35,6 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
-import com.kunzisoft.keepass.utils.EmptyUtils
 import com.kunzisoft.keepass.utils.UriUtil
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
@@ -178,13 +177,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private fun verifyFile(): Boolean {
         var error = false
         if (keyFileCheckBox != null
-                && keyFileCheckBox!!.isChecked
-                && keyFileView != null) {
-            val keyFile = UriUtil.parseDefaultFile(keyFileView!!.text.toString())
+                && keyFileCheckBox!!.isChecked) {
+            val keyFile = UriUtil.parseUriFile(keyFileView?.text?.toString())
             mKeyFile = keyFile
 
             // Verify that a keyfile is set
-            if (EmptyUtils.isNullOrEmpty(keyFile)) {
+            if (keyFile == null || keyFile.toString().isEmpty()) {
                 error = true
                 Toast.makeText(context, R.string.error_nokeyfile, Toast.LENGTH_LONG).show()
             }
@@ -229,11 +227,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
-            uri?.let { currentUri ->
-                UriUtil.parseDefaultFile(currentUri.toString())?.let { pathString ->
-                    keyFileCheckBox?.isChecked = true
-                    keyFileView?.text = pathString.toString()
-                }
+            UriUtil.parseUriFile(uri)?.let { pathUri ->
+                keyFileCheckBox?.isChecked = true
+                keyFileView?.text = pathUri.toString()
+
             }
         }
     }

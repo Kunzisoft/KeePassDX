@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment.Companion.KEY_ICON_STANDARD
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.view.EntryEditCustomField
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues
@@ -45,11 +44,15 @@ import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.applyFontVisibility
+import com.kunzisoft.keepass.view.EntryEditCustomField
 
 class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
 
@@ -140,7 +143,9 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
             mEntry = mDatabase?.createEntry()
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
-            mDatabase?.drawFactory?.assignDefaultDatabaseIconTo(this, entryIconView, iconColor)
+            mDatabase?.drawFactory?.let { iconFactory ->
+                entryIconView?.assignDefaultDatabaseIcon(iconFactory, iconColor)
+            }
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -252,7 +257,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 var actionRunnable: ActionRunnable? = null
                 val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
                     override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-                        if (actionNodeValues.success)
+                        if (actionNodeValues.result.isSuccess)
                             finish()
                     }
                 }
@@ -306,7 +311,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 for (i in 0 until it.childCount) {
                     val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
                     val key = entryEditCustomField.label
-                    if (key == null || key.isEmpty()) {
+                    if (key.isEmpty()) {
                         validationErrorMessageId = R.string.error_string_key
                         return false
                     }
@@ -392,12 +397,8 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
     }
 
     private fun assignIconView() {
-        mEntry?.icon?.let {
-            mDatabase?.drawFactory?.assignDatabaseIconTo(
-                    this,
-                    entryIconView,
-                    it,
-                    iconColor)
+        if (mDatabase?.drawFactory != null && mEntry?.icon != null) {
+            entryIconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, mEntry?.icon!!, iconColor)
         }
     }
 
@@ -418,10 +419,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
 
         val visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this)
         if (visibilityFontActivated) {
-            Util.applyFontVisibilityTo(this, entryUserNameView)
-            Util.applyFontVisibilityTo(this, entryPasswordView)
-            Util.applyFontVisibilityTo(this, entryConfirmationPasswordView)
-            Util.applyFontVisibilityTo(this, entryCommentView)
+            entryUserNameView?.applyFontVisibility()
+            entryPasswordView?.applyFontVisibility()
+            entryConfirmationPasswordView?.applyFontVisibility()
+            entryCommentView?.applyFontVisibility()
         }
 
         if (entry.allowExtraFields()) {
