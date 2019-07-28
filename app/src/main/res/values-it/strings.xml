@@ -326,7 +326,7 @@
     <string name="education_entry_new_field_title">Aggiungi campi personali</string>
     <string name="education_entry_new_field_summary">Registra un campo base non fornito, inserendone uno nuovo che puoi anche proteggere.</string>
     <string name="education_unlock_title">Sblocca il tuo database</string>
-    <string name="education_read_only_title">Proteggi da scrittura il database</string>
+    <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
     <string name="education_read_only_summary">Cambia modalità di apertura per la sessione. 
 \n 
 \n\"Sola lettura\" impedisce modifiche accidentali al database. 
