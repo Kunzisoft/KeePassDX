@@ -35,7 +35,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
-class AutoFillLauncherActivity : AppCompatActivity() {
+class AutofillLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
@@ -61,7 +61,7 @@ class AutoFillLauncherActivity : AppCompatActivity() {
     companion object {
 
         fun getAuthIntentSenderForResponse(context: Context): IntentSender {
-            val intent = Intent(context, AutoFillLauncherActivity::class.java)
+            val intent = Intent(context, AutofillLauncherActivity::class.java)
             return PendingIntent.getActivity(context, 0,
                     intent, PendingIntent.FLAG_CANCEL_CURRENT).intentSender
         }

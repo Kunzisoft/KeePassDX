@@ -128,7 +128,7 @@
             android:launchMode="singleTask"
             android:label="@string/menu_about" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
-        <activity android:name="com.kunzisoft.keepass.autofill.AutoFillLauncherActivity"
+        <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
             android:configChanges="orientation|keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"

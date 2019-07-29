@@ -44,7 +44,7 @@ class KeeAutofillService : AutofillService() {
             if (listOf(*autofillIds).isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val sender = AutoFillLauncherActivity.getAuthIntentSenderForResponse(this)
+                val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this)
                 val presentation = RemoteViews(packageName, R.layout.autofill_service_unlock)
                 responseBuilder.setAuthentication(autofillIds, sender, presentation)
                 callback.onSuccess(responseBuilder.build())

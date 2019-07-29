@@ -19,9 +19,15 @@
  */
 package com.kunzisoft.keepass.settings
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
 
 class SettingsAutofillActivity : SettingsActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        timeoutEnable = false
+    }
 
     override fun retrieveMainFragment(): Fragment {
         return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.FORM_FILLING)
