@@ -17,13 +17,13 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <android.support.v7.widget.Toolbar
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/toolbar"
         android:title="@string/app_name"
@@ -33,8 +33,10 @@
         app:theme="?attr/toolbarAppearance"
         app:popupTheme="?attr/toolbarPopupAppearance"
         android:elevation="4dp"
-        tools:targetApi="lollipop" >
-        <LinearLayout android:id="@+id/title_block"
+        tools:targetApi="lollipop"
+        app:layout_constraintTop_toTopOf="parent">
+        <LinearLayout
+            android:id="@+id/title_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:translationZ="10dp"
@@ -57,18 +59,22 @@
         </LinearLayout>
     </android.support.v7.widget.Toolbar>
 
-    <ScrollView android:id="@+id/entry_scroll"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar"
+    <ScrollView
+        android:id="@+id/entry_scroll"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:fillViewport="true"
-        android:scrollbarStyle="insideOverlay">
+        android:scrollbarStyle="insideOverlay"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintWidth_percent="@dimen/content_percent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <com.kunzisoft.keepass.view.EntryContentsView
             android:id="@+id/entry_contents"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent" />
+            android:layout_width="match_parent"/>
 
     </ScrollView>
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

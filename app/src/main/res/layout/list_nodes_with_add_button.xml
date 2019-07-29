@@ -44,9 +44,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
+                <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:title="@string/app_name"
                     android:layout_width="match_parent"
@@ -112,11 +110,18 @@
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
                 android:text="@string/selection_mode"/>
-            <FrameLayout
-                android:id="@+id/nodes_list_fragment_container"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/windowBackground" />
+                android:background="?android:attr/windowBackground">
+                <FrameLayout
+                    android:id="@+id/nodes_list_fragment_container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="@dimen/content_percent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <com.kunzisoft.keepass.view.AddNodeButtonView
