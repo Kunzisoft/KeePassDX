@@ -151,7 +151,7 @@ class KeyboardEntryNotificationService : Service() {
 
     companion object {
 
-        private val TAG = KeyboardEntryNotificationService::class.java.name
+        private const val TAG = "KeyboardEntryNotifSrv"
 
         private const val CHANNEL_ID_KEYBOARD = "com.kunzisoft.keyboard.notification.entry.channel"
         private const val CHANNEL_NAME_KEYBOARD = "Magikeyboard notification"
