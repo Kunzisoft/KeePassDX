@@ -993,10 +993,15 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readStringRaw(xpp: XmlPullParser): String {
+    private fun readBase64String(xpp: XmlPullParser): ByteArray {
 
         //readNextNode = false;
-        return xpp.nextText()
+        Base64Coder.decode(xpp.nextText())?.let { buffer ->
+            val plainText = ByteArray(buffer.size)
+            randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
+            return plainText
+        }
+        return ByteArray(0)
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -1006,16 +1011,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         if (xpp.attributeCount > 0) {
             val protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected)
             if (protect != null && protect.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)) {
-                // TODO stream for encrypted data
-                val encrypted = readStringRaw(xpp)
-
-                if (encrypted.isNotEmpty()) {
-                    Base64Coder.decode(encrypted)?.let { buffer ->
-                        val plainText = ByteArray(buffer.size)
-                        randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
-                        return plainText
-                    } ?: return ByteArray(0)
-                }
+                return readBase64String(xpp)
             }
         }
 
