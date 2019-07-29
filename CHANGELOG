@@ -4,6 +4,7 @@ KeepassDX (2.5.0.0beta19)
  * Better Magikeyboard connection
  * Kotlinized code
  * Fix Recycle Bin
+ * Fix memory when load database
  * Fix small bugs
 
 KeepassDX (2.5.0.0beta18)
