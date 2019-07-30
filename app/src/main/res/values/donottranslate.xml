@@ -68,7 +68,7 @@
     <string name="app_key" translatable="false">app</string>
 
     <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
-    <bool name="allow_no_password_default" translatable="false">true</bool>
+    <bool name="allow_no_password_default" translatable="false">false</bool>
     <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
     <bool name="enable_read_only_default" translatable="false">false</bool>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
