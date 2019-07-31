@@ -18,7 +18,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
+    android:minHeight="48dp"
     android:orientation="horizontal">
+
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_gravity="center"
+        android:layout_marginStart="12dp"
+        android:layout_marginLeft="12dp"
+        android:src="@mipmap/ic_launcher"/>
 
     <TextView
         android:id="@+id/text"
@@ -34,12 +44,4 @@
         android:paddingStart="12dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 
-    <ImageView
-        android:id="@+id/icon"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
-        android:layout_gravity="center"
-        android:layout_marginRight="12dp"
-        android:layout_marginEnd="12dp"
-        android:src="@mipmap/ic_launcher"/>
 </LinearLayout>

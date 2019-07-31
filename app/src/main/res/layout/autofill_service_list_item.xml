@@ -13,10 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="?android:attr/windowBackground"
+    android:minHeight="48dp"
     android:orientation="horizontal">
 
     <ImageView
@@ -35,7 +37,7 @@
         android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
+        android:layout_gravity="center"
         android:paddingRight="12dp"
         android:paddingEnd="12dp"
         android:paddingLeft="12dp"
