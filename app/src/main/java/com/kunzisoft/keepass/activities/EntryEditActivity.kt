@@ -133,6 +133,11 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
             mEntry = mDatabase?.getEntryById(it)
             mEntry?.let { entry ->
                 mParent = entry.parent
+                // If no parent, add root group as parent
+                if (mParent == null) {
+                    mParent = mDatabase?.rootGroup
+                    entry.parent = mParent
+                }
                 fillEntryDataInContentsView(entry)
             }
         }
