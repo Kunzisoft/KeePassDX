@@ -50,9 +50,6 @@ class DatabaseNamePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDi
         override fun onFinishRun(result: Result) {
             val nameToShow = mNewName
             if (!result.isSuccess) {
-                activity?.let {
-                    displayMessage(it)
-                }
                 database?.assignName(mOldName)
             }
             preference.summary = nameToShow

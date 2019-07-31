@@ -19,7 +19,10 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.content.res.Resources
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
@@ -32,10 +35,14 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
 
     var actionInUIThreadAfterSaveDatabase: ActionRunnable? = null
 
+    protected lateinit var settingsResources: Resources
+
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         this.database = App.currentDatabase
+
+        activity?.resources?.let { settingsResources = it }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -48,11 +55,24 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
                                 notNullDatabase,
                                 true)
                     }.apply {
-                        actionFinishInUIThread = actionInUIThreadAfterSaveDatabase
+                        actionFinishInUIThread = object:ActionRunnable() {
+                            override fun onFinishRun(result: Result) {
+                                if (!result.isSuccess) {
+                                    Log.e(TAG, result.message)
+                                    Toast.makeText(notNullActivity, result.message, Toast.LENGTH_SHORT).show()
+                                }
+                                actionInUIThreadAfterSaveDatabase?.onFinishRun(result)
+                            }
+                        }
                         start()
                     }
                 }
             }
         }
+    }
+
+    companion object {
+
+        private const val TAG = "DbSavePrefDialog"
     }
 }

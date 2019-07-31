@@ -46,9 +46,9 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat : DatabaseSavePr
             recyclerView.adapter = encryptionAlgorithmAdapter
 
             database?.let { database ->
-                algorithmSelected = database.encryptionAlgorithm
-                if (algorithmSelected != null)
-                    encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, algorithmSelected!!)
+                algorithmSelected = database.encryptionAlgorithm?.apply {
+                    encryptionAlgorithmAdapter.setItems(database.availableEncryptionAlgorithms, this)
+                }
             }
         }
     }
@@ -80,15 +80,12 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat : DatabaseSavePr
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            activity?.let { activity ->
-                var algorithmToShow = mNewAlgorithm
-                if (!result.isSuccess) {
-                    displayMessage(activity)
-                    database?.assignEncryptionAlgorithm(mOldAlgorithm)
-                    algorithmToShow = mOldAlgorithm
-                }
-                preference.summary = algorithmToShow.getName(activity.resources)
+            var algorithmToShow = mNewAlgorithm
+            if (!result.isSuccess) {
+                database?.assignEncryptionAlgorithm(mOldAlgorithm)
+                algorithmToShow = mOldAlgorithm
             }
+            preference.summary = algorithmToShow.getName(settingsResources)
         }
     }
 

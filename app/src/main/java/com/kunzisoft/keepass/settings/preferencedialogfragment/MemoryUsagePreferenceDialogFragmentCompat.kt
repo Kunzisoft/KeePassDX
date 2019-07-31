@@ -65,9 +65,6 @@ class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
         override fun onFinishRun(result: Result) {
             val memoryToShow = mNewMemory
             if (!result.isSuccess) {
-                activity?.let {
-                    displayMessage(it)
-                }
                 database?.memoryUsage = mOldMemory
             }
             preference.summary = memoryToShow.toString()

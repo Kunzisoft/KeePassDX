@@ -94,13 +94,10 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat : DatabaseSavePreferen
         override fun onFinishRun(result: Result) {
             val kdfEngineToShow = mNewKdfEngine
 
-            activity?.let { activity ->
-                if (!result.isSuccess) {
-                    displayMessage(activity)
-                    database?.assignKdfEngine(mOldKdfEngine)
-                }
-                preference.summary = kdfEngineToShow.getName(activity.resources)
+            if (!result.isSuccess) {
+                database?.assignKdfEngine(mOldKdfEngine)
             }
+            preference.summary = kdfEngineToShow.getName(settingsResources)
 
             roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()
             // Disable memory and parallelism if not available

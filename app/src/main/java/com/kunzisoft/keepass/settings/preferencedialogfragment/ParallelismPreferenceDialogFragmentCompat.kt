@@ -65,9 +65,6 @@ class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
         override fun onFinishRun(result: Result) {
             val parallelismToShow = mNewParallelism
             if (!result.isSuccess) {
-                activity?.let {
-                    displayMessage(it)
-                }
                 database?.parallelism = mOldParallelism
             }
             preference.summary = parallelismToShow.toString()

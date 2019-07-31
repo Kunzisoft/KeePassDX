@@ -69,9 +69,6 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
         override fun onFinishRun(result: Result) {
             val roundsToShow = mNewRounds
             if (!result.isSuccess) {
-                activity?.let {
-                    displayMessage(it)
-                }
                 database?.numberKeyEncryptionRounds = mOldRounds
             }
 

@@ -50,9 +50,6 @@ class DatabaseDescriptionPreferenceDialogFragmentCompat : InputDatabaseSavePrefe
         override fun onFinishRun(result: Result) {
             val descriptionToShow = mNewDescription
             if (!result.isSuccess) {
-                activity?.let {
-                    displayMessage(it)
-                }
                 database?.assignDescription(mOldDescription)
             }
             preference.summary = descriptionToShow
