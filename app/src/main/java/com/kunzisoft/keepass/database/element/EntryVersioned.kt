@@ -3,6 +3,8 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.Entry
+import com.kunzisoft.keepass.model.Field
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -315,6 +317,29 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
 
     fun containsCustomData(): Boolean {
         return pwEntryV4?.containsCustomData() ?: false
+    }
+
+    /*
+      ------------
+      Converter
+      ------------
+     */
+
+    fun getEntry(database: Database): Entry {
+        val entryModel = Entry()
+        database.startManageEntry(this)
+        entryModel.title = title
+        entryModel.username = username
+        entryModel.password = password
+        entryModel.url = url
+        if (containsCustomFields()) {
+            fields.doActionToAllCustomProtectedField { key, value ->
+                        entryModel.customFields.add(
+                                Field(key, value.toString()))
+                    }
+        }
+        database.stopManageEntry(this)
+        return entryModel
     }
 
     /*

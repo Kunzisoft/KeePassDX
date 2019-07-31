@@ -62,8 +62,6 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.model.Entry
-import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -403,13 +401,15 @@ class GroupActivity : LockingActivity(),
             }
 
             Type.ENTRY -> try {
-                val entry = node as EntryVersioned
+                val entryVersioned = node as EntryVersioned
                 EntrySelectionHelper.doEntrySelectionAction(intent,
                         {
-                            EntryActivity.launch(this@GroupActivity, entry, readOnly)
+                            EntryActivity.launch(this@GroupActivity, entryVersioned, readOnly)
                         },
                         {
-                            MagikIME.entryKey = getEntry(entry)
+                            mDatabase?.let { database ->
+                                MagikIME.entryKey = entryVersioned.getEntry(database)
+                            }
                             // Show the notification if allowed in Preferences
                             if (PreferencesUtil.enableKeyboardNotificationEntry(this@GroupActivity)) {
                                 startService(Intent(
@@ -423,7 +423,7 @@ class GroupActivity : LockingActivity(),
                         {
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity, entry)
+                                AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity, entryVersioned)
                             }
                             finish()
                         })
@@ -431,23 +431,6 @@ class GroupActivity : LockingActivity(),
                 Log.e(TAG, "Node can't be cast in Entry")
             }
         }
-    }
-
-    // TODO Builder
-    private fun getEntry(entry: EntryVersioned): Entry {
-        val entryModel = Entry()
-        entryModel.title = entry.title
-        entryModel.username = entry.username
-        entryModel.password = entry.password
-        entryModel.url = entry.url
-        if (entry.containsCustomFields()) {
-            entry.fields
-                    .doActionToAllCustomProtectedField { key, value ->
-                        entryModel.customFields.add(
-                                Field(key, value.toString()))
-                    }
-        }
-        return entryModel
     }
 
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
