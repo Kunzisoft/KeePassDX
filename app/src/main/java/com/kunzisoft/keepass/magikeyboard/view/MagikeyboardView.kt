@@ -20,13 +20,12 @@ class MagikeyboardView : KeyboardView {
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     override fun onLongPress(key: Keyboard.Key): Boolean {
-        // TODO Action on long press
-        if (key.codes[0] == KEY_BACK_KEYBOARD) {
-            onKeyboardActionListener.onKey(KEY_CHANGE_KEYBOARD, null)
-            return true
+        return if (key.codes[0] == KEY_BACK_KEYBOARD) {
+            onKeyboardActionListener.onKey(KEY_CHANGE_KEYBOARD, IntArray(0))
+            true
         } else {
             //Log.d("LatinKeyboardView", "KEY: " + key.codes[0]);
-            return super.onLongPress(key)
+            super.onLongPress(key)
         }
     }
 }
