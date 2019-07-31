@@ -328,10 +328,12 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     fun getEntry(database: Database): Entry {
         val entryModel = Entry()
         database.startManageEntry(this)
+        entryModel.id = nodeId.toString()
         entryModel.title = title
         entryModel.username = username
         entryModel.password = password
         entryModel.url = url
+        entryModel.notes = notes
         if (containsCustomFields()) {
             fields.doActionToAllCustomProtectedField { key, value ->
                         entryModel.customFields.add(

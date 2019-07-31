@@ -7,19 +7,23 @@ import java.util.ArrayList
 
 class Entry : Parcelable {
 
+    var id: String = ""
     var title: String = ""
     var username: String = ""
     var password: String = ""
     var url: String = ""
+    var notes: String = ""
     var customFields: MutableList<Field> = ArrayList()
 
     constructor()
 
     private constructor(parcel: Parcel) {
+        id = parcel.readString()
         title = parcel.readString()
         username = parcel.readString()
         password = parcel.readString()
         url = parcel.readString()
+        notes = parcel.readString()
         parcel.readList(customFields, Field::class.java.classLoader)
     }
 
@@ -28,10 +32,12 @@ class Entry : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, i: Int) {
+        parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeString(url)
+        parcel.writeString(notes)
         parcel.writeArray(customFields.toTypedArray())
     }
 

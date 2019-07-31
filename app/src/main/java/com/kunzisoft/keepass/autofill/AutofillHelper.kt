@@ -33,7 +33,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.model.Entry
 import java.util.*
 
 
@@ -51,24 +51,25 @@ object AutofillHelper {
         return null
     }
 
-    private fun makeEntryTitle(entry: EntryVersioned): String {
+    private fun makeEntryTitle(entry: Entry): String {
         if (entry.title.isNotEmpty() && entry.username.isNotEmpty())
             return String.format("%s (%s)", entry.title, entry.username)
         if (entry.title.isNotEmpty())
             return entry.title
         if (entry.username.isNotEmpty())
             return entry.username
-        return if (!entry.notes.isEmpty()) entry.notes.trim { it <= ' ' } else ""
-        // TODO No title
+        if (entry.url.isNotEmpty())
+            return entry.url
+        return ""
     }
 
     private fun buildDataset(context: Context,
-                             entry: EntryVersioned,
+                             entry: Entry,
                              struct: StructureParser.Result): Dataset? {
         val title = makeEntryTitle(entry)
         val views = newRemoteViews(context.packageName, title)
         val builder = Dataset.Builder(views)
-        builder.setId(entry.nodeId.toString())
+        builder.setId(entry.id)
 
         struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entry.password)) }
 
@@ -88,7 +89,7 @@ object AutofillHelper {
     /**
      * Method to hit when right key is selected
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entry: EntryVersioned) {
+    fun buildResponseWhenEntrySelected(activity: Activity, entry: Entry) {
         var setResultOk = false
         activity.intent?.extras?.let { extras ->
             if (extras.containsKey(ASSIST_STRUCTURE)) {
