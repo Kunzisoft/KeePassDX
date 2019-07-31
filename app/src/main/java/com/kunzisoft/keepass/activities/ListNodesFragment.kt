@@ -94,13 +94,15 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 }
             }
 
-            mAdapter = NodeAdapter(contextThemed, currentActivity.menuInflater)
-            mAdapter?.apply {
-                setReadOnly(readOnly)
-                setIsASearchResult(isASearchResult)
-                setOnNodeClickListener(nodeClickCallback)
-                setActivateContextMenu(true)
-                setNodeMenuListener(nodeMenuListener)
+            contextThemed?.let { context ->
+                mAdapter = NodeAdapter(context, currentActivity.menuInflater)
+                mAdapter?.apply {
+                    setReadOnly(readOnly)
+                    setIsASearchResult(isASearchResult)
+                    setOnNodeClickListener(nodeClickCallback)
+                    setActivateContextMenu(true)
+                    setNodeMenuListener(nodeMenuListener)
+                }
             }
             prefs = PreferenceManager.getDefaultSharedPreferences(context)
         }

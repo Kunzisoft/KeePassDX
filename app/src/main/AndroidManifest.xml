@@ -31,7 +31,7 @@
             android:theme="@style/KeepassDXStyle.SplashScreen"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,7 +40,7 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.PasswordActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -99,7 +99,7 @@
         <!-- Main Activity -->
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask">
             <meta-data
@@ -116,11 +116,11 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <!-- About and Settings -->
         <activity
@@ -129,7 +129,7 @@
             android:label="@string/menu_about" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
-            android:configChanges="orientation|keyboardHidden" />
+            android:configChanges="keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
             android:label="@string/keyboard_name">

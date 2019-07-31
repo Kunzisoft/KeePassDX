@@ -34,7 +34,7 @@ abstract class StylishFragment : Fragment() {
 
     @StyleRes
     protected var themeId: Int = 0
-    protected lateinit var contextThemed: Context
+    protected var contextThemed: Context? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -50,11 +50,17 @@ abstract class StylishFragment : Fragment() {
             val window = activity!!.window
 
             val attrColorPrimaryDark = intArrayOf(android.R.attr.colorPrimaryDark)
-            val taColorPrimaryDark = contextThemed.theme.obtainStyledAttributes(attrColorPrimaryDark)
-            window.statusBarColor = taColorPrimaryDark.getColor(0, Color.BLACK)
-            taColorPrimaryDark.recycle()
+            val taColorPrimaryDark = contextThemed?.theme?.obtainStyledAttributes(attrColorPrimaryDark)
+            val defaultColor = Color.BLACK
+            window.statusBarColor = taColorPrimaryDark?.getColor(0, defaultColor) ?: defaultColor
+            taColorPrimaryDark?.recycle()
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
+    }
+
+    override fun onDetach() {
+        contextThemed = null
+        super.onDetach()
     }
 }
