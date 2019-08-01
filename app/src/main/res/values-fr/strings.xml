@@ -281,7 +281,7 @@
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifier votre entrée avec des champs personnalisés. La collection de données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort pour votre entrée.</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez pas le mot de passe sécurisé.</string>
+    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n\'oubliez pas d\'utiliser un mot de passe suffisamment complexe.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs personnalisés</string>
     <string name="education_entry_new_field_summary">Enregistrer un champ additionnel, ajouter une valeur et facultativement le protéger.</string>
     <string name="education_unlock_title">Déverrouiller votre base de données</string>
