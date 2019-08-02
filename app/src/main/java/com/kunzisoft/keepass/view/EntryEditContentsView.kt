@@ -56,7 +56,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context, attrs: A
         addNewFieldView = findViewById(R.id.entry_edit_add_new_field)
 
         // Retrieve the textColor to tint the icon
-        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+        val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         iconColor = taIconColor.getColor(0, Color.WHITE)
         taIconColor.recycle()
     }

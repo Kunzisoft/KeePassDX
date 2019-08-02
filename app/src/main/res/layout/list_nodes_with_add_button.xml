@@ -72,16 +72,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:layout_marginStart="@dimen/list_margin"
-                            android:layout_marginEnd="@dimen/list_margin">
-                            <android.support.v7.widget.AppCompatImageView android:id="@+id/icon"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp">
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end|center_vertical"
                                 android:layout_marginRight="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:scaleType="fitXY" />
-                            <android.support.v7.widget.AppCompatTextView android:id="@+id/group_name"
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/group_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center_vertical"

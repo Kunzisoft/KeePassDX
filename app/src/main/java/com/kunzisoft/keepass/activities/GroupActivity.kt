@@ -752,9 +752,7 @@ class GroupActivity : LockingActivity(),
                                   icon: PwIcon?) {
         val database = App.currentDatabase
 
-        if (name.isNullOrEmpty() || icon == null)
-            Toast.makeText(this, R.string.error_no_name, Toast.LENGTH_LONG).show()
-        else {
+        if (name != null && name.isNotEmpty() && icon != null) {
             when (action) {
                 GroupEditDialogFragment.EditGroupDialogAction.CREATION -> {
                     // If group creation

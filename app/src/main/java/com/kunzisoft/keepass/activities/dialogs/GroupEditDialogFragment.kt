@@ -23,8 +23,10 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
@@ -46,6 +48,8 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     private var nameGroup: String? = null
     private var iconGroup: PwIcon? = null
 
+    private var nameTextLayoutView: TextInputLayout? = null
+    private var nameTextView: TextView? = null
     private var iconButtonView: ImageView? = null
     private var iconColor: Int = 0
 
@@ -76,11 +80,12 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.group_edit, null)
-            val nameField = root?.findViewById<TextView>(R.id.group_edit_name)
+            nameTextLayoutView = root?.findViewById(R.id.group_edit_name_container)
+            nameTextView = root?.findViewById(R.id.group_edit_name)
             iconButtonView = root?.findViewById(R.id.group_edit_icon_button)
 
             // Retrieve the textColor to tint the icon
-            val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+            val ta = activity.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
             iconColor = ta.getColor(0, Color.WHITE)
             ta.recycle()
 
@@ -111,27 +116,18 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             }
 
             // populate the name
-            nameField?.text = nameGroup
+            nameTextView?.text = nameGroup
             // populate the icon
             assignIconView()
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        editGroupListener?.approveEditGroup(
-                                editGroupDialogAction,
-                                nameField?.text.toString(),
-                                iconGroup)
-
-                        this@GroupEditDialogFragment.dialog.cancel()
-                    }
+                    .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(R.string.cancel) { _, _ ->
                         editGroupListener?.cancelEditGroup(
                                 editGroupDialogAction,
-                                nameField?.text.toString(),
+                                nameTextView?.text?.toString(),
                                 iconGroup)
-
-                        this@GroupEditDialogFragment.dialog.cancel()
                     }
 
             iconButtonView?.setOnClickListener { _ ->
@@ -143,6 +139,25 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // To prevent auto dismiss
+        val d = dialog as AlertDialog?
+        if (d != null) {
+            val positiveButton = d.getButton(Dialog.BUTTON_POSITIVE) as Button
+            positiveButton.setOnClickListener {
+                if (isValid()) {
+                    editGroupListener?.approveEditGroup(
+                            editGroupDialogAction,
+                            nameTextView?.text?.toString(),
+                            iconGroup)
+                    d.dismiss()
+                }
+            }
+        }
     }
 
     private fun assignIconView() {
@@ -161,6 +176,14 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         outState.putString(KEY_NAME, nameGroup)
         outState.putParcelable(KEY_ICON, iconGroup)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun isValid(): Boolean {
+        if (nameTextView?.text?.toString()?.isNotEmpty() != true) {
+            nameTextLayoutView?.error = getString(R.string.error_no_name)
+            return false
+        }
+        return true
     }
 
     interface EditGroupListener {

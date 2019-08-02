@@ -35,7 +35,6 @@ import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.Util
 
 class NodeAdapter
 /**
@@ -43,7 +42,7 @@ class NodeAdapter
  * @param context Context to use
  */
 (private val context: Context, private val menuInflater: MenuInflater)
-    : RecyclerView.Adapter<NodeAdapter.BasicViewHolder>() {
+    : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
     private val nodeSortedList: SortedList<NodeVersioned>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
@@ -188,51 +187,47 @@ class NodeAdapter
         return nodeSortedList.get(position).type.ordinal
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BasicViewHolder {
-        val basicViewHolder: BasicViewHolder
-        val view: View
-        if (viewType == Type.GROUP.ordinal) {
-            view = inflater.inflate(R.layout.list_nodes_group, parent, false)
-            basicViewHolder = GroupViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
+        val view: View = if (viewType == Type.GROUP.ordinal) {
+            inflater.inflate(R.layout.list_nodes_group, parent, false)
         } else {
-            view = inflater.inflate(R.layout.list_nodes_entry, parent, false)
-            basicViewHolder = EntryViewHolder(view)
+            inflater.inflate(R.layout.list_nodes_entry, parent, false)
         }
-        return basicViewHolder
+        return NodeViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BasicViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val subNode = nodeSortedList.get(position)
         // Assign image
         val iconColor = when (subNode.type) {
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
-        holder.icon?.assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+        holder.icon.assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
         // Assign text
-        holder.text?.text = subNode.title
+        holder.text.text = subNode.title
         // Assign click
-        holder.container?.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
+        holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
         // Context menu
         if (activateContextMenu) {
-            holder.container?.setOnCreateContextMenuListener(
+            holder.container.setOnCreateContextMenuListener(
                     ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
         }
 
         // Add username
-        holder.subText?.text = ""
-        holder.subText?.visibility = View.GONE
+        holder.subText.text = ""
+        holder.subText.visibility = View.GONE
         if (subNode.type == Type.ENTRY) {
             val entry = subNode as EntryVersioned
 
             mDatabase.startManageEntry(entry)
 
-            holder.text?.text = entry.getVisualTitle()
+            holder.text.text = entry.getVisualTitle()
 
             val username = entry.username
             if (showUserNames && username.isNotEmpty()) {
-                holder.subText?.visibility = View.VISIBLE
-                holder.subText?.text = username
+                holder.subText.visibility = View.VISIBLE
+                holder.subText.text = username
             }
 
             mDatabase.stopManageEntry(entry)
@@ -240,10 +235,10 @@ class NodeAdapter
 
         // Assign image and text size
         // Relative size of the icon
-        holder.icon?.layoutParams?.height = iconSize.toInt()
-        holder.icon?.layoutParams?.width = iconSize.toInt()
-        holder.text?.textSize = textSize
-        holder.subText?.textSize = subtextSize
+        holder.icon.layoutParams?.height = iconSize.toInt()
+        holder.icon.layoutParams?.width = iconSize.toInt()
+        holder.text.textSize = textSize
+        holder.subText.textSize = subtextSize
     }
 
     override fun getItemCount(): Int {
@@ -356,33 +351,11 @@ class NodeAdapter
         }
     }
 
-    abstract class BasicViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
-        var container: View? = null
-        var icon: ImageView? = null
-        var text: TextView? = null
-        var subText: TextView? = null
-    }
-
-
-    internal class GroupViewHolder(itemView: View) : BasicViewHolder(itemView) {
-
-        init {
-            container = itemView.findViewById(R.id.group_container)
-            icon = itemView.findViewById(R.id.group_icon)
-            text = itemView.findViewById(R.id.group_text)
-            subText = itemView.findViewById(R.id.group_subtext)
-        }
-    }
-
-    internal class EntryViewHolder(itemView: View) : BasicViewHolder(itemView) {
-
-        init {
-            container = itemView.findViewById(R.id.entry_container)
-            icon = itemView.findViewById(R.id.entry_icon)
-            text = itemView.findViewById(R.id.entry_text)
-            subText = itemView.findViewById(R.id.entry_subtext)
-        }
+    class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var container: View = itemView.findViewById(R.id.node_container)
+        var icon: ImageView = itemView.findViewById(R.id.node_icon)
+        var text: TextView = itemView.findViewById(R.id.node_text)
+        var subText: TextView = itemView.findViewById(R.id.node_subtext)
     }
 
     companion object {
