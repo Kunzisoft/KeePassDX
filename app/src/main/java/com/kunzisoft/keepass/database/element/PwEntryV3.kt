@@ -92,8 +92,12 @@ class PwEntryV3 : PwEntry<PwGroupV3, PwEntryV3> {
         parcel.readByteArray(binaryData)
     }
 
-    override fun readParentParcelable(parcel: Parcel): PwGroupV3 {
+    override fun readParentParcelable(parcel: Parcel): PwGroupV3? {
         return parcel.readParcelable(PwGroupV3::class.java.classLoader)
+    }
+
+    override fun writeParentParcelable(parent: PwGroupV3?, parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(parent, flags)
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

@@ -54,7 +54,6 @@ class IconPickerDialogFragment : DialogFragment() {
             throw ClassCastException(context!!.toString()
                     + " must implement " + IconPickerListener::class.java.name)
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -127,7 +126,11 @@ class IconPickerDialogFragment : DialogFragment() {
 
     companion object {
 
-        const val KEY_ICON_STANDARD = "KEY_ICON_STANDARD"
+        private const val KEY_ICON_STANDARD = "KEY_ICON_STANDARD"
+
+        fun getIconStandardFromBundle(bundle: Bundle): PwIconStandard? {
+            return bundle.getParcelable(KEY_ICON_STANDARD)
+        }
 
         fun launch(activity: StylishActivity) {
             // Create an instance of the dialog fragment and show it

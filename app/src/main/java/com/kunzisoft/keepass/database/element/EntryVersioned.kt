@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.Entry
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import java.util.*
 import kotlin.collections.ArrayList
@@ -77,14 +77,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
 
     override var icon: PwIcon
         get() {
-            var iconGet: PwIcon? = pwEntryV3?.icon
-            if (iconGet == null)
-                iconGet = pwEntryV4?.iconCustom
-            if (iconGet == null || iconGet.isUnknown)
-                iconGet = pwEntryV4?.icon
-            if (iconGet == null)
-                PwIconStandard()
-            return iconGet!!
+            return pwEntryV3?.icon ?: pwEntryV4?.icon ?: PwIconStandard()
         }
         set(value) {
             pwEntryV3?.icon = value
@@ -231,7 +224,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
      */
 
     var iconCustom: PwIconCustom
-        get() = pwEntryV4?.iconCustom ?: PwIconCustom.ZERO
+        get() = pwEntryV4?.iconCustom ?: PwIconCustom.UNKNOWN_ICON
         set(value) {
             pwEntryV4?.iconCustom = value
         }
@@ -325,23 +318,27 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
       ------------
      */
 
-    fun getEntry(database: Database): Entry {
-        val entryModel = Entry()
-        database.startManageEntry(this)
-        entryModel.id = nodeId.toString()
-        entryModel.title = title
-        entryModel.username = username
-        entryModel.password = password
-        entryModel.url = url
-        entryModel.notes = notes
+    fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
+        val entryInfo = EntryInfo()
+        if (raw)
+            database?.stopManageEntry(this)
+        else
+            database?.startManageEntry(this)
+        entryInfo.id = nodeId.toString()
+        entryInfo.title = title
+        entryInfo.username = username
+        entryInfo.password = password
+        entryInfo.url = url
+        entryInfo.notes = notes
         if (containsCustomFields()) {
             fields.doActionToAllCustomProtectedField { key, value ->
-                        entryModel.customFields.add(
-                                Field(key, value.toString()))
+                        entryInfo.customFields.add(
+                                Field(key, value))
                     }
         }
-        database.stopManageEntry(this)
-        return entryModel
+        if (!raw)
+            database?.stopManageEntry(this)
+        return entryInfo
     }
 
     /*

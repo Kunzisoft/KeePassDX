@@ -27,7 +27,20 @@ import java.util.UUID
 
 class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
 
-    var iconCustom = PwIconCustom.ZERO
+    // TODO Encapsulate
+    override var icon: PwIcon
+        get() {
+            return if (iconCustom.isUnknown)
+                super.icon
+            else
+                iconCustom
+        }
+        set(value) {
+            if (value is PwIconStandard)
+                iconCustom = PwIconCustom.UNKNOWN_ICON
+            super.icon = value
+        }
+    var iconCustom = PwIconCustom.UNKNOWN_ICON
     private val customData = HashMap<String, String>()
     var notes = ""
     var isExpanded = true
@@ -65,8 +78,12 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
         lastTopVisibleEntry = parcel.readSerializable() as UUID
     }
 
-    override fun readParentParcelable(parcel: Parcel): PwGroupV4 {
+    override fun readParentParcelable(parcel: Parcel): PwGroupV4? {
         return parcel.readParcelable(PwGroupV4::class.java.classLoader)
+    }
+
+    override fun writeParentParcelable(parent: PwGroupV4?, parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(parent, flags)
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

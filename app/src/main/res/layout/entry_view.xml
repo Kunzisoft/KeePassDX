@@ -62,10 +62,11 @@
     <ScrollView
         android:id="@+id/entry_scroll"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:fillViewport="true"
         android:scrollbarStyle="insideOverlay"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintWidth_percent="@dimen/content_percent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">

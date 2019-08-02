@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.support.design.widget.TextInputLayout
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,10 +30,8 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
-
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.Util
 import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class EntryEditCustomField @JvmOverloads constructor(context: Context,
@@ -40,6 +39,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
                                                      defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle) {
 
+    private val labelLayoutView: TextInputLayout
     private val labelView: TextView
     private val valueView: EditText
     private val protectionCheckView: CompoundButton
@@ -61,6 +61,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
         val deleteView = findViewById<View>(R.id.entry_edit_new_field_delete)
         deleteView.setOnClickListener { deleteViewFromParent() }
 
+        labelLayoutView = findViewById(R.id.title_container)
         labelView = findViewById(R.id.entry_edit_new_field_label)
         valueView = findViewById(R.id.entry_edit_new_field_value)
         protectionCheckView = findViewById(R.id.protection)
@@ -73,6 +74,22 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
             valueView.setText(value.toString())
             protectionCheckView.isChecked = value.isProtected
         }
+    }
+
+    /**
+     * Validate or not the entry form
+     *
+     * @return ErrorValidation An error with a message or a validation without message
+     */
+    fun isValid(): Boolean {
+        // Validate extra field
+        if (label.isEmpty()) {
+            labelLayoutView.error = context.getString(R.string.error_string_key)
+            return false
+        } else {
+            labelLayoutView.error = null
+        }
+        return true
     }
 
     fun setFontVisibility(applyFontVisibility: Boolean) {

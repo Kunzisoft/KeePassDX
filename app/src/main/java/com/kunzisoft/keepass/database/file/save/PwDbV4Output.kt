@@ -313,7 +313,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemNotes, group.notes)
         writeObject(PwDatabaseV4XML.ElemIcon, group.icon.iconId.toLong())
 
-        if (group.iconCustom != PwIconCustom.ZERO) {
+        if (group.iconCustom != PwIconCustom.UNKNOWN_ICON) {
             writeObject(PwDatabaseV4XML.ElemCustomIconID, group.iconCustom.uuid)
         }
 
@@ -338,7 +338,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemUuid, entry.id)
         writeObject(PwDatabaseV4XML.ElemIcon, entry.icon.iconId.toLong())
 
-        if (entry.iconCustom != PwIconCustom.ZERO) {
+        if (entry.iconCustom != PwIconCustom.UNKNOWN_ICON) {
             writeObject(PwDatabaseV4XML.ElemCustomIconID, entry.iconCustom.uuid)
         }
 

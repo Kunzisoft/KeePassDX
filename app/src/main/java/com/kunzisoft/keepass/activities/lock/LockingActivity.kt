@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -28,6 +28,7 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
@@ -38,6 +39,8 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 abstract class LockingActivity : StylishActivity() {
 
     companion object {
+
+        private const val TAG = "LockingActivity"
 
         const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 
@@ -166,7 +169,13 @@ abstract class LockingActivity : StylishActivity() {
         views.forEach {
             it?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
+                    Log.d(TAG, "View focused, reset app timeout")
                     TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
+                }
+            }
+            if (it is ViewGroup) {
+                for (i in 0..it.childCount) {
+                    resetAppTimeoutWhenViewFocusedOrChanged(it.getChildAt(i))
                 }
             }
         }

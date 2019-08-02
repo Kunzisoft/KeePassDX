@@ -33,7 +33,7 @@ import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.model.Entry
+import com.kunzisoft.keepass.model.EntryInfo
 import java.util.*
 
 
@@ -51,32 +51,32 @@ object AutofillHelper {
         return null
     }
 
-    private fun makeEntryTitle(entry: Entry): String {
-        if (entry.title.isNotEmpty() && entry.username.isNotEmpty())
-            return String.format("%s (%s)", entry.title, entry.username)
-        if (entry.title.isNotEmpty())
-            return entry.title
-        if (entry.username.isNotEmpty())
-            return entry.username
-        if (entry.url.isNotEmpty())
-            return entry.url
+    private fun makeEntryTitle(entryInfo: EntryInfo): String {
+        if (entryInfo.title.isNotEmpty() && entryInfo.username.isNotEmpty())
+            return String.format("%s (%s)", entryInfo.title, entryInfo.username)
+        if (entryInfo.title.isNotEmpty())
+            return entryInfo.title
+        if (entryInfo.username.isNotEmpty())
+            return entryInfo.username
+        if (entryInfo.url.isNotEmpty())
+            return entryInfo.url
         return ""
     }
 
     private fun buildDataset(context: Context,
-                             entry: Entry,
+                             entryInfo: EntryInfo,
                              struct: StructureParser.Result): Dataset? {
-        val title = makeEntryTitle(entry)
+        val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context.packageName, title)
         val builder = Dataset.Builder(views)
-        builder.setId(entry.id)
+        builder.setId(entryInfo.id)
 
-        struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entry.password)) }
+        struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.password)) }
 
         val ids = ArrayList(struct.username)
-        if (entry.username.contains("@") || struct.username.isEmpty())
+        if (entryInfo.username.contains("@") || struct.username.isEmpty())
             ids.addAll(struct.email)
-        ids.forEach { id -> builder.setValue(id, AutofillValue.forText(entry.username)) }
+        ids.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.username)) }
 
         return try {
             builder.build()
@@ -89,7 +89,7 @@ object AutofillHelper {
     /**
      * Method to hit when right key is selected
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entry: Entry) {
+    fun buildResponseWhenEntrySelected(activity: Activity, entryInfo: EntryInfo) {
         var setResultOk = false
         activity.intent?.extras?.let { extras ->
             if (extras.containsKey(ASSIST_STRUCTURE)) {
@@ -97,7 +97,7 @@ object AutofillHelper {
                     StructureParser(structure).parse()?.let { result ->
                         // New Response
                         val responseBuilder = FillResponse.Builder()
-                        val dataset = buildDataset(activity, entry, result)
+                        val dataset = buildDataset(activity, entryInfo, result)
                         responseBuilder.addDataset(dataset)
                         val mReplyIntent = Intent()
                         Log.d(activity.javaClass.name, "Successed Autofill auth.")

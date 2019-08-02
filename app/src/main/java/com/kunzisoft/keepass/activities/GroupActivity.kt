@@ -408,7 +408,7 @@ class GroupActivity : LockingActivity(),
                         },
                         {
                             mDatabase?.let { database ->
-                                MagikIME.entryKey = entryVersioned.getEntry(database)
+                                MagikIME.entryInfoKey = entryVersioned.getEntryInfo(database)
                             }
                             // Show the notification if allowed in Preferences
                             if (PreferencesUtil.enableKeyboardNotificationEntry(this@GroupActivity)) {
@@ -424,7 +424,7 @@ class GroupActivity : LockingActivity(),
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
                                 AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
-                                        entryVersioned.getEntry(mDatabase!!))
+                                        entryVersioned.getEntryInfo(mDatabase!!))
                             }
                             finish()
                         })

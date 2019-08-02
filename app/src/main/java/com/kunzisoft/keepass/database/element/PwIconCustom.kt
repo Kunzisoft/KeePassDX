@@ -74,16 +74,16 @@ class PwIconCustom : PwIcon {
     }
 
     override val iconId: Int
-        get() = UNKNOWN
+        get() = UNKNOWN_ID
 
     override val isUnknown: Boolean
-        get() = this == ZERO
+        get() = this == UNKNOWN_ICON
 
     override val isMetaStreamIcon: Boolean
         get() = false
 
     companion object {
-        val ZERO = PwIconCustom(PwDatabase.UUID_ZERO, ByteArray(0))
+        val UNKNOWN_ICON = PwIconCustom(PwDatabase.UUID_ZERO, ByteArray(0))
 
         @JvmField
         val CREATOR: Parcelable.Creator<PwIconCustom> = object : Parcelable.Creator<PwIconCustom> {

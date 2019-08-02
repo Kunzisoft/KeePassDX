@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import android.os.Handler
 import android.support.v7.widget.Toolbar
@@ -28,12 +27,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.*
+import android.widget.ScrollView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment.Companion.KEY_ICON_STANDARD
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
@@ -42,45 +39,30 @@ import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
 import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable
 import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.Util
-import com.kunzisoft.keepass.utils.applyFontVisibility
-import com.kunzisoft.keepass.view.EntryEditCustomField
+import com.kunzisoft.keepass.view.EntryEditContentsView
 
 class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
 
     private var mDatabase: Database? = null
 
+    // Refs of an entry and group in database, are not modifiable
     private var mEntry: EntryVersioned? = null
     private var mParent: GroupVersioned? = null
+    // New or copy of mEntry in the database to be modifiable
     private var mNewEntry: EntryVersioned? = null
     private var mIsNew: Boolean = false
-    private var mSelectedIconStandard: PwIconStandard? = null
 
     // Views
     private var scrollView: ScrollView? = null
-    private var entryTitleView: EditText? = null
-    private var entryIconView: ImageView? = null
-    private var entryUserNameView: EditText? = null
-    private var entryUrlView: EditText? = null
-    private var entryPasswordView: EditText? = null
-    private var entryConfirmationPasswordView: EditText? = null
-    private var generatePasswordView: View? = null
-    private var entryCommentView: EditText? = null
-    private var entryExtraFieldsContainer: ViewGroup? = null
-    private var addNewFieldView: View? = null
-    private var saveView: View? = null
-    private var iconColor: Int = 0
 
-    // View validation message
-    private var validationErrorMessageId = UNKNOWN_MESSAGE
+    private var entryEditContentsView: EntryEditContentsView? = null
+
+    private var saveView: View? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -97,40 +79,21 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
 
-        entryTitleView = findViewById(R.id.entry_edit_title)
-        entryIconView = findViewById(R.id.entry_edit_icon_button)
-        entryUserNameView = findViewById(R.id.entry_edit_user_name)
-        entryUrlView = findViewById(R.id.entry_edit_url)
-        entryPasswordView = findViewById(R.id.entry_edit_password)
-        entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
-        entryCommentView = findViewById(R.id.entry_edit_notes)
-        entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
-
+        entryEditContentsView = findViewById(R.id.entry_edit_contents)
+        entryEditContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(
-                entryTitleView,
-                entryIconView,
-                entryUserNameView,
-                entryUrlView,
-                entryPasswordView,
-                entryConfirmationPasswordView,
-                entryCommentView,
-                entryExtraFieldsContainer)
+        resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
         // Likely the app has been killed exit the activity
         mDatabase = App.currentDatabase
 
-        // Retrieve the textColor to tint the icon
-        val taIconColor = theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
-        iconColor = taIconColor.getColor(0, Color.WHITE)
-        taIconColor.recycle()
-
-        mSelectedIconStandard = mDatabase?.iconFactory?.unknownIcon
-
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {
             mIsNew = false
+            // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
+
+            // Retrieve the parent
             mEntry?.let { entry ->
                 mParent = entry.parent
                 // If no parent, add root group as parent
@@ -138,57 +101,56 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                     mParent = mDatabase?.rootGroup
                     entry.parent = mParent
                 }
-                fillEntryDataInContentsView(entry)
+            }
+
+            // Retrieve the icon after an orientation change
+            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+                mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY) as EntryVersioned
+            } else {
+                mEntry?.let { entry ->
+                    // Create a copy to modify
+                    mNewEntry = EntryVersioned(entry).also { newEntry ->
+
+                        // WARNING Remove the parent to keep memory with parcelable
+                        newEntry.parent = null
+                    }
+                }
             }
         }
 
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            mEntry = mDatabase?.createEntry()
+            mNewEntry = mDatabase?.createEntry()
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
             mDatabase?.drawFactory?.let { iconFactory ->
-                entryIconView?.assignDefaultDatabaseIcon(iconFactory, iconColor)
+                entryEditContentsView?.setDefaultIcon(iconFactory)
             }
         }
 
         // Close the activity if entry or parent can't be retrieve
-        if (mEntry == null || mParent == null) {
+        if (mNewEntry == null || mParent == null) {
             finish()
             return
         }
 
+        populateViewsWithEntry(mNewEntry!!)
+
         // Assign title
         title = if (mIsNew) getString(R.string.add_entry) else getString(R.string.edit_entry)
 
-        // Retrieve the icon after an orientation change
-        savedInstanceState?.let {
-            if (it.containsKey(KEY_ICON_STANDARD)) {
-                iconPicked(it)
-            }
-        }
-
         // Add listener to the icon
-        entryIconView?.setOnClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
+        entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
         // Generate password button
-        generatePasswordView = findViewById(R.id.entry_edit_generate_button)
-        generatePasswordView?.setOnClickListener { openPasswordGenerator() }
+        entryEditContentsView?.setOnPasswordGeneratorClickListener { openPasswordGenerator() }
 
         // Save button
         saveView = findViewById(R.id.entry_edit_save)
-        mEntry?.let { entry ->
-            saveView?.setOnClickListener { saveEntry(entry) }
-        }
+        saveView?.setOnClickListener { saveEntry() }
 
-        if (mEntry?.allowExtraFields() == true) {
-            addNewFieldView = findViewById(R.id.entry_edit_add_new_field)
-            addNewFieldView?.apply {
-                visibility = View.VISIBLE
-                setOnClickListener { addNewCustomField() }
-            }
-        }
+        entryEditContentsView?.allowCustomField(mNewEntry?.allowExtraFields() == true) { addNewCustomField() }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -198,9 +160,12 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        if (generatePasswordView != null
+        val passwordView = entryEditContentsView?.generatePasswordView
+        val addNewFieldView = entryEditContentsView?.addNewFieldView
+
+        if (passwordView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                        generatePasswordView!!,
+                        passwordView,
                         {
                             openPasswordGenerator()
                         },
@@ -208,16 +173,62 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                             performedNextEducation(entryEditActivityEducation)
                         }
                 ))
-        else if (mEntry != null
-                && mEntry!!.allowExtraFields()
-                && !mEntry!!.containsCustomFields()
-                && addNewFieldView != null
+        else if (mNewEntry != null && mNewEntry!!.allowExtraFields() && !mNewEntry!!.containsCustomFields()
+                && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
                 && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
-                        addNewFieldView!!,
+                        addNewFieldView,
                         {
                             addNewCustomField()
                         }))
-        ;
+            ;
+    }
+
+    private fun populateViewsWithEntry(newEntry: EntryVersioned) {
+        // Don't start the field reference manager, we want to see the raw ref
+        mDatabase?.stopManageEntry(newEntry)
+
+        // Set info in temp parameters
+        temporarilySaveAndShowSelectedIcon(newEntry.icon)
+
+        // Set info in view
+        entryEditContentsView?.apply {
+            title = newEntry.title
+            username = newEntry.username
+            url = newEntry.url
+            password = newEntry.password
+            notes = newEntry.notes
+            newEntry.fields.doActionToAllCustomProtectedField { key, value ->
+                addNewCustomField(key, value)
+            }
+        }
+    }
+
+    private fun populateEntryWithViews(newEntry: EntryVersioned) {
+
+        mDatabase?.startManageEntry(newEntry)
+
+        newEntry.apply {
+            // Build info from view
+            entryEditContentsView?.let { entryView ->
+                title = entryView.title
+                username = entryView.username
+                url = entryView.url
+                password = entryView.password
+                notes = entryView.notes
+                entryView.customFields.forEach { customField ->
+                    addExtraField(customField.name, customField.protectedValue)
+                }
+            }
+        }
+
+        mDatabase?.stopManageEntry(newEntry)
+    }
+
+    private fun temporarilySaveAndShowSelectedIcon(icon: PwIcon) {
+        mNewEntry?.icon = icon
+        mDatabase?.drawFactory?.let { iconDrawFactory ->
+            entryEditContentsView?.setIcon(iconDrawFactory, icon)
+        }
     }
 
     /**
@@ -228,15 +239,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
     }
 
     /**
-     * Add a new view to fill in the information of the customized field
+     * Add a new customized field view and scroll to bottom
      */
     private fun addNewCustomField() {
-        val entryEditCustomField = EntryEditCustomField(this@EntryEditActivity)
-        entryEditCustomField.setData("", ProtectedString(false, ""))
-        val visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this)
-        entryEditCustomField.setFontVisibility(visibilityFontActivated)
-        entryExtraFieldsContainer?.addView(entryEditCustomField)
-
+        entryEditContentsView?.addNewCustomField()
         // Scroll bottom
         scrollView?.post { scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
     }
@@ -244,136 +250,56 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
     /**
      * Saves the new entry or update an existing entry in the database
      */
-    private fun saveEntry(entry: EntryVersioned) {
+    private fun saveEntry() {
 
         // Launch a validation and show the error if present
-        if (!isValid()) {
-            if (validationErrorMessageId != UNKNOWN_MESSAGE)
-                Toast.makeText(this@EntryEditActivity, validationErrorMessageId, Toast.LENGTH_LONG).show()
-            return
-        }
-        // Clone the entry
-        mDatabase?.let { database ->
-            mNewEntry = EntryVersioned(entry)
-            mNewEntry?.let { newEntry ->
-                populateEntryWithViewInfo(newEntry)
+        if (entryEditContentsView?.isValid() == true) {
+            // Clone the entry
+            mDatabase?.let { database ->
+                mNewEntry?.let { newEntry ->
 
-                // Open a progress dialog and save entry
-                var actionRunnable: ActionRunnable? = null
-                val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
-                    override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-                        if (actionNodeValues.result.isSuccess)
-                            finish()
+                    // WARNING Add the parent previously deleted
+                    newEntry.parent = mEntry?.parent
+                    // Build info
+                    newEntry.lastAccessTime = PwDate()
+                    newEntry.lastModificationTime = PwDate()
+
+                    populateEntryWithViews(newEntry)
+
+                    // Open a progress dialog and save entry
+                    var actionRunnable: ActionRunnable? = null
+                    val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
+                        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
+                            if (actionNodeValues.result.isSuccess)
+                                finish()
+                        }
                     }
-                }
-                if (mIsNew) {
-                    mParent?.let { parent ->
-                        actionRunnable = AddEntryRunnable(this@EntryEditActivity,
-                                database,
-                                newEntry,
-                                parent,
-                                afterActionNodeFinishRunnable,
-                                !readOnly)
+                    if (mIsNew) {
+                        mParent?.let { parent ->
+                            actionRunnable = AddEntryRunnable(this@EntryEditActivity,
+                                    database,
+                                    newEntry,
+                                    parent,
+                                    afterActionNodeFinishRunnable,
+                                    !readOnly)
+                        }
+
+                    } else {
+                        mEntry?.let { oldEntry ->
+                            actionRunnable = UpdateEntryRunnable(this@EntryEditActivity,
+                                    database,
+                                    oldEntry,
+                                    newEntry,
+                                    afterActionNodeFinishRunnable,
+                                    !readOnly)
+                        }
                     }
-
-                } else {
-                    actionRunnable = UpdateEntryRunnable(this@EntryEditActivity,
-                            database,
-                            entry,
-                            newEntry,
-                            afterActionNodeFinishRunnable,
-                            !readOnly)
-                }
-                actionRunnable?.let { runnable ->
-                    ProgressDialogSaveDatabaseThread(this@EntryEditActivity) {runnable}.start()
-                }
-            }
-        }
-    }
-
-    /**
-     * Validate or not the entry form
-     *
-     * @return ErrorValidation An error with a message or a validation without message
-     */
-    private fun isValid(): Boolean {
-
-        // Require title
-        if (entryTitleView?.text.toString().isEmpty()) {
-            validationErrorMessageId = R.string.error_title_required
-            return false
-        }
-
-        // Validate password
-        if (entryPasswordView?.text.toString() != entryConfirmationPasswordView?.text.toString()) {
-            validationErrorMessageId = R.string.error_pass_match
-            return false
-        }
-
-        // Validate extra fields
-        if (mEntry?.allowExtraFields() == true) {
-            entryExtraFieldsContainer?.let {
-                for (i in 0 until it.childCount) {
-                    val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
-                    val key = entryEditCustomField.label
-                    if (key.isEmpty()) {
-                        validationErrorMessageId = R.string.error_string_key
-                        return false
+                    actionRunnable?.let { runnable ->
+                        ProgressDialogSaveDatabaseThread(this@EntryEditActivity) { runnable }.start()
                     }
                 }
             }
         }
-        return true
-    }
-
-    private fun populateEntryWithViewInfo(newEntry: EntryVersioned) {
-
-        mDatabase?.startManageEntry(newEntry)
-
-        newEntry.lastAccessTime = PwDate()
-        newEntry.lastModificationTime = PwDate()
-
-        newEntry.title = entryTitleView?.text.toString()
-        newEntry.icon = retrieveIcon()
-
-        newEntry.url = entryUrlView?.text.toString()
-        newEntry.username = entryUserNameView?.text.toString()
-        newEntry.notes = entryCommentView?.text.toString()
-        newEntry.password = entryPasswordView?.text.toString()
-
-        if (newEntry.allowExtraFields()) {
-            // Delete all extra strings
-            newEntry.removeAllCustomFields()
-            // Add extra fields from views
-            entryExtraFieldsContainer?.let {
-                for (i in 0 until it.childCount) {
-                    val view = it.getChildAt(i) as EntryEditCustomField
-                    val key = view.label
-                    val value = view.value
-                    val protect = view.isProtected
-                    newEntry.addExtraField(key, ProtectedString(protect, value))
-                }
-            }
-        }
-
-        mDatabase?.stopManageEntry(newEntry)
-    }
-
-    /**
-     * Retrieve the icon by the selection, or the first icon in the list if the entry is new or the last one
-     */
-    private fun retrieveIcon(): PwIcon {
-
-        return if (mSelectedIconStandard?.isUnknown != true)
-            mSelectedIconStandard
-        else {
-            if (mIsNew) {
-                mDatabase?.iconFactory?.keyIcon
-            } else {
-                // Keep previous icon, if no new one was selected
-                mEntry?.icon
-            }
-        } ?: PwIconStandard()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -401,65 +327,21 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         return super.onOptionsItemSelected(item)
     }
 
-    private fun assignIconView() {
-        if (mDatabase?.drawFactory != null && mEntry?.icon != null) {
-            entryIconView?.assignDatabaseIcon(mDatabase?.drawFactory!!, mEntry?.icon!!, iconColor)
-        }
-    }
-
-    private fun fillEntryDataInContentsView(entry: EntryVersioned) {
-
-        assignIconView()
-
-        // Don't start the field reference manager, we want to see the raw ref
-        mDatabase?.stopManageEntry(entry)
-
-        entryTitleView?.setText(entry.title)
-        entryUserNameView?.setText(entry.username)
-        entryUrlView?.setText(entry.url)
-        val password = entry.password
-        entryPasswordView?.setText(password)
-        entryConfirmationPasswordView?.setText(password)
-        entryCommentView?.setText(entry.notes)
-
-        val visibilityFontActivated = PreferencesUtil.fieldFontIsInVisibility(this)
-        if (visibilityFontActivated) {
-            entryUserNameView?.applyFontVisibility()
-            entryPasswordView?.applyFontVisibility()
-            entryConfirmationPasswordView?.applyFontVisibility()
-            entryCommentView?.applyFontVisibility()
-        }
-
-        if (entry.allowExtraFields()) {
-            val container = findViewById<LinearLayout>(R.id.entry_edit_advanced_container)
-            entry.fields.doActionToAllCustomProtectedField { key, value ->
-                val entryEditCustomField = EntryEditCustomField(this@EntryEditActivity)
-                entryEditCustomField.setData(key, value)
-                entryEditCustomField.setFontVisibility(visibilityFontActivated)
-                container.addView(entryEditCustomField)
-            }
-        }
-    }
-
     override fun iconPicked(bundle: Bundle) {
-        mSelectedIconStandard = bundle.getParcelable(KEY_ICON_STANDARD)
-        mSelectedIconStandard?.let {
-            mEntry?.icon = it
+        IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
+            temporarilySaveAndShowSelectedIcon(icon)
         }
-        assignIconView()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        if (!mSelectedIconStandard!!.isUnknown) {
-            outState.putParcelable(KEY_ICON_STANDARD, mSelectedIconStandard)
-            super.onSaveInstanceState(outState)
-        }
+        outState.putParcelable(KEY_NEW_ENTRY, mNewEntry)
+
+        super.onSaveInstanceState(outState)
     }
 
     override fun acceptPassword(bundle: Bundle) {
         bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID)?.let {
-            entryPasswordView?.setText(it)
-            entryConfirmationPasswordView?.setText(it)
+            entryEditContentsView?.password = it
         }
 
         entryEditActivityEducation?.let {
@@ -500,13 +382,14 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         const val KEY_ENTRY = "entry"
         const val KEY_PARENT = "parent"
 
+        // SaveInstanceState
+        const val KEY_NEW_ENTRY = "new_entry"
+
         // Keys for callback
         const val ADD_ENTRY_RESULT_CODE = 31
         const val UPDATE_ENTRY_RESULT_CODE = 32
         const val ADD_OR_UPDATE_ENTRY_REQUEST_CODE = 7129
         const val ADD_OR_UPDATE_ENTRY_KEY = "ADD_OR_UPDATE_ENTRY_KEY"
-
-        const val UNKNOWN_MESSAGE = -1
 
         /**
          * Launch EntryEditActivity to update an existing entry

@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView
-import com.kunzisoft.keepass.model.Entry
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
@@ -60,7 +60,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockBroadcastReceiver = object : LockBroadcastReceiver() {
             override fun onReceiveLock(context: Context, intent: Intent) {
-                entryKey = null
+                entryInfoKey = null
                 assignKeyboardView()
             }
         }
@@ -95,7 +95,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             fieldsAdapter = FieldsAdapter(this)
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
-                    currentInputConnection.commitText(item.value, 1)
+                    currentInputConnection.commitText(item.protectedValue.toString(), 1)
                 }
             }
             recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
@@ -112,7 +112,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private fun assignKeyboardView() {
         if (keyboardView != null) {
-            if (entryKey != null) {
+            if (entryInfoKey != null) {
                 if (keyboardEntry != null)
                     keyboardView?.keyboard = keyboardEntry
             } else {
@@ -178,7 +178,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             KEY_ENTRY -> {
                 // Stop current service and reinit entry
                 stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-                entryKey = null
+                entryInfoKey = null
                 val intent = Intent(this, KeyboardLauncherActivity::class.java)
                 // New task needed because don't launch from an Activity context
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -189,23 +189,23 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 dismissCustomKeys()
             }
             KEY_USERNAME -> {
-                if (entryKey != null) {
-                    inputConnection.commitText(entryKey!!.username, 1)
+                if (entryInfoKey != null) {
+                    inputConnection.commitText(entryInfoKey!!.username, 1)
                 }
             }
             KEY_PASSWORD -> {
-                if (entryKey != null) {
-                    inputConnection.commitText(entryKey!!.password, 1)
+                if (entryInfoKey != null) {
+                    inputConnection.commitText(entryInfoKey!!.password, 1)
                 }
             }
             KEY_URL -> {
-                if (entryKey != null) {
-                    inputConnection.commitText(entryKey!!.url, 1)
+                if (entryInfoKey != null) {
+                    inputConnection.commitText(entryInfoKey!!.url, 1)
                 }
             }
             KEY_FIELDS -> {
-                if (entryKey != null) {
-                    fieldsAdapter?.fields = entryKey!!.customFields
+                if (entryInfoKey != null) {
+                    fieldsAdapter?.fields = entryInfoKey!!.customFields
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
@@ -262,12 +262,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
 
-        var entryKey: Entry? = null
+        var entryInfoKey: EntryInfo? = null
 
         fun deleteEntryKey(context: Context) {
             val lockIntent = Intent(LOCK_ACTION)
             context.sendBroadcast(lockIntent)
-            entryKey = null
+            entryInfoKey = null
         }
     }
 }

@@ -152,7 +152,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     override fun iconPicked(bundle: Bundle) {
-        iconGroup = bundle.getParcelable(IconPickerDialogFragment.KEY_ICON_STANDARD)
+        iconGroup = IconPickerDialogFragment.getIconStandardFromBundle(bundle)
         assignIconView()
     }
 

@@ -67,13 +67,13 @@ class KeyboardEntryNotificationService : Service() {
         val deleteIntent = Intent(this, NotificationDeleteBroadcastReceiver::class.java)
         pendingDeleteIntent = PendingIntent.getBroadcast(applicationContext, 0, deleteIntent, 0)
 
-        if (MagikIME.entryKey != null) {
+        if (MagikIME.entryInfoKey != null) {
             var entryTitle: String? = getString(R.string.keyboard_notification_entry_content_title_text)
             var entryUsername: String? = ""
-            if (MagikIME.entryKey!!.title.isNotEmpty())
-                entryTitle = MagikIME.entryKey!!.title
-            if (MagikIME.entryKey!!.username.isNotEmpty())
-                entryUsername = MagikIME.entryKey!!.username
+            if (MagikIME.entryInfoKey!!.title.isNotEmpty())
+                entryTitle = MagikIME.entryInfoKey!!.title
+            if (MagikIME.entryInfoKey!!.username.isNotEmpty())
+                entryUsername = MagikIME.entryInfoKey!!.username
 
             val builder = NotificationCompat.Builder(this, CHANNEL_ID_KEYBOARD)
                     .setSmallIcon(R.drawable.ic_vpn_key_white_24dp)

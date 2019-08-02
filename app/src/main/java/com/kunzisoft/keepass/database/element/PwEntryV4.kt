@@ -34,7 +34,19 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     @Transient
     private var mDecodeRef = false
 
-    var iconCustom = PwIconCustom.ZERO
+    override var icon: PwIcon
+        get() {
+            return if (iconCustom.isUnknown)
+                super.icon
+            else
+                iconCustom
+        }
+        set(value) {
+            if (value is PwIconStandard)
+                iconCustom = PwIconCustom.UNKNOWN_ICON
+            super.icon = value
+        }
+    var iconCustom = PwIconCustom.UNKNOWN_ICON
     private var customData = HashMap<String, String>()
     var fields = ExtraFields()
         private set
@@ -161,8 +173,12 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         return PwNodeIdUUID(nodeId.id)
     }
 
-    override fun readParentParcelable(parcel: Parcel): PwGroupV4 {
+    override fun readParentParcelable(parcel: Parcel): PwGroupV4? {
         return parcel.readParcelable(PwGroupV4::class.java.classLoader)
+    }
+
+    override fun writeParentParcelable(parent: PwGroupV4?, parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(parent, flags)
     }
 
     /**

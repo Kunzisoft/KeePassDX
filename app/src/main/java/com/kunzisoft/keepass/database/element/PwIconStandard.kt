@@ -65,7 +65,7 @@ class PwIconStandard : PwIcon {
     override val iconId: Int
 
     override val isUnknown: Boolean
-        get() = iconId == UNKNOWN
+        get() = iconId == UNKNOWN_ID
 
     override val isMetaStreamIcon: Boolean
         get() = iconId == 0

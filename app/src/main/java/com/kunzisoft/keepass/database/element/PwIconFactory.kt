@@ -38,7 +38,7 @@ class PwIconFactory {
     private val customCache = ReferenceMap(AbstractReferenceMap.HARD, AbstractReferenceMap.WEAK)
 
     val unknownIcon: PwIconStandard
-        get() = getIcon(PwIcon.UNKNOWN)
+        get() = getIcon(PwIcon.UNKNOWN_ID)
 
     val keyIcon: PwIconStandard
         get() = getIcon(PwIconStandard.KEY)

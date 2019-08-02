@@ -5,7 +5,7 @@ import android.os.Parcelable
 
 import java.util.ArrayList
 
-class Entry : Parcelable {
+class EntryInfo : Parcelable {
 
     var id: String = ""
     var title: String = ""
@@ -31,7 +31,7 @@ class Entry : Parcelable {
         return 0
     }
 
-    override fun writeToParcel(parcel: Parcel, i: Int) {
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(title)
         parcel.writeString(username)
@@ -44,12 +44,12 @@ class Entry : Parcelable {
     companion object {
 
         @JvmField
-        val CREATOR: Parcelable.Creator<Entry> = object : Parcelable.Creator<Entry> {
-            override fun createFromParcel(parcel: Parcel): Entry {
-                return Entry(parcel)
+        val CREATOR: Parcelable.Creator<EntryInfo> = object : Parcelable.Creator<EntryInfo> {
+            override fun createFromParcel(parcel: Parcel): EntryInfo {
+                return EntryInfo(parcel)
             }
 
-            override fun newArray(size: Int): Array<Entry?> {
+            override fun newArray(size: Int): Array<EntryInfo?> {
                 return arrayOfNulls(size)
             }
         }

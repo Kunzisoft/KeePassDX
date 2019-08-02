@@ -39,7 +39,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
     protected constructor(parcel: Parcel) {
         this.nodeId = parcel.readParcelable(PwNodeId::class.java.classLoader)
         this.parent = this.readParentParcelable(parcel)
-        this.icon = parcel.readParcelable(PwIconStandard::class.java.classLoader)
+        this.icon = parcel.readParcelable(PwIcon::class.java.classLoader)
         this.creationTime = parcel.readParcelable(PwDate::class.java.classLoader)
         this.lastModificationTime = parcel.readParcelable(PwDate::class.java.classLoader)
         this.lastAccessTime = parcel.readParcelable(PwDate::class.java.classLoader)
@@ -48,7 +48,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeParcelable(nodeId, flags)
-        dest.writeParcelable(parent, flags)
+        writeParentParcelable(parent, dest, flags)
         dest.writeParcelable(icon, flags)
         dest.writeParcelable(creationTime, flags)
         dest.writeParcelable(lastModificationTime, flags)
@@ -72,11 +72,12 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     protected abstract fun initNodeId(): PwNodeId<IdType>
     protected abstract fun copyNodeId(nodeId: PwNodeId<IdType>): PwNodeId<IdType>
-    protected abstract fun readParentParcelable(parcel: Parcel): Parent
+    protected abstract fun readParentParcelable(parcel: Parcel): Parent?
+    protected abstract fun writeParentParcelable(parent: Parent?, parcel: Parcel, flags: Int)
 
     final override var parent: Parent? = null
 
-    final override var icon: PwIcon = PwIconStandard()
+    override var icon: PwIcon = PwIconStandard()
 
     final override var creationTime: PwDate = PwDate()
 

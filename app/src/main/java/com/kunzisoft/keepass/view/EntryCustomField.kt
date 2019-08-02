@@ -26,10 +26,8 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.Util
 import com.kunzisoft.keepass.utils.applyFontVisibility
 
 open class EntryCustomField(context: Context,
@@ -40,9 +38,9 @@ open class EntryCustomField(context: Context,
                             onClickActionListener: OnClickListener?)
     : LinearLayout(context, attrs) {
 
-    protected var labelView: TextView
-    protected var valueView: TextView
-    protected var actionImageView: ImageView
+    protected val labelView: TextView
+    protected val valueView: TextView
+    protected val actionImageView: ImageView
 
     @JvmOverloads
     constructor(context: Context, attrs: AttributeSet? = null, title: String? = null, value: ProtectedString? = null)

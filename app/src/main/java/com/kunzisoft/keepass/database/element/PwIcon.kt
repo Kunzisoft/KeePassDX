@@ -32,6 +32,6 @@ abstract class PwIcon protected constructor() : Parcelable {
     }
 
     companion object {
-        const val UNKNOWN = -1
+        const val UNKNOWN_ID = -1
     }
 }
