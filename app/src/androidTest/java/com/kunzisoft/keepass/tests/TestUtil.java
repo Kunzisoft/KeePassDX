@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -19,53 +19,38 @@
  */
 package com.kunzisoft.keepass.tests;
 
+import android.content.Context;
+import android.content.res.AssetManager;
+import android.os.Environment;
+
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import android.content.Context;
-import android.content.res.AssetManager;
-import android.net.Uri;
-import android.os.Environment;
-
-import com.kunzisoft.keepass.utils.EmptyUtils;
-import com.kunzisoft.keepass.utils.UriUtil;
-
 public class TestUtil {
-	private static final File sdcard = Environment.getExternalStorageDirectory();
+    private static final File sdcard = Environment.getExternalStorageDirectory();
 
-	public static void extractKey(Context ctx, String asset, String target) throws Exception {
-		
-		InputStream key = ctx.getAssets().open(asset, AssetManager.ACCESS_STREAMING);
-		
-		FileOutputStream keyFile = new FileOutputStream(target);
-		while (true) {
-			byte[] buf = new byte[1024];
-			int read = key.read(buf);
-			if ( read == -1 ) {
-				break;
-			} else {
-				keyFile.write(buf, 0, read);
-			}
-		}
-		
-		keyFile.close();
+    public static void extractKey(Context ctx, String asset, String target) throws Exception {
 
-	}
+        InputStream key = ctx.getAssets().open(asset, AssetManager.ACCESS_STREAMING);
 
-	public static InputStream getKeyFileInputStream(Context ctx, String keyfile) throws FileNotFoundException {
-		InputStream keyIs = null;
-		if (!EmptyUtils.isNullOrEmpty(keyfile)) {
-			Uri uri = UriUtil.parseDefaultFile(keyfile);
-			keyIs = UriUtil.getUriInputStream(ctx, uri);
-		}
+        FileOutputStream keyFile = new FileOutputStream(target);
+        while (true) {
+            byte[] buf = new byte[1024];
+            int read = key.read(buf);
+            if ( read == -1 ) {
+                break;
+            } else {
+                keyFile.write(buf, 0, read);
+            }
+        }
 
-		return keyIs;
-	}
+        keyFile.close();
 
-	public static String getSdPath(String filename) {
-		File file = new File(sdcard, filename);
-		return file.getAbsolutePath();
-	}
+    }
+
+    public static String getSdPath(String filename) {
+        File file = new File(sdcard, filename);
+        return file.getAbsolutePath();
+    }
 }

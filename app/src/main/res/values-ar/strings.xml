@@ -122,8 +122,7 @@
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
     <string name="about_feedback">الملاحظات :</string>
-
-<string name="about_description">KeePass DX تنفيذ الروبوت مدير KeePass كلمة المرور.</string>
+    <string name="about_description">KeePass DX تنفيذ الروبوت مدير KeePass كلمة المرور.</string>
     <string name="add_entry">إضافة كلمة للقاموس</string>
     <string name="edit_entry">دخول فقط</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
@@ -133,10 +132,10 @@
     <string name="clipboard_error">بعض الهواتف الروبوت سامسونج يكون خلل في تنفيذ حافظة تسبب نسخ من تطبيقات إلى فشل. مزيد من التفاصيل:</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">الوقت قبل مسح الحافظة بعد نسخ اسم المستخدم أو كلمة المرور</string>
-    <string name="select_to_copy">نسخ صورة رمز QR الى الحافظة</string>
+    <string name="select_to_copy">حدد للنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">إنشاء مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدام هذا كقاعدة البيانات الافتراضية</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d د $ %1 كونزيسوفت تأتي مع \"الضمان لا على الإطلاق\"؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
     <string name="entry_accessed">الوصول إلى</string>
     <string name="entry_expires">انتهاء صلاحية</string>
     <string name="entry_keyfile">مفتاح الملف</string>
@@ -155,4 +154,4 @@
     <string name="error_wrong_length">قم بإدخال عدد صحيح موجب في الحقل \"المدة\"</string>
     <string name="error_autofill_enable_service">لا يمكن تمكين خدمة الملء التلقائي.</string>
     <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسه.</string>
-    </resources>
+</resources>

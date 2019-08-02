@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePass DX.
 
@@ -44,9 +44,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-                    xmlns:app="http://schemas.android.com/apk/res-auto"
-                    xmlns:tools="http://schemas.android.com/tools"
+                <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:title="@string/app_name"
                     android:layout_width="match_parent"
@@ -74,16 +72,18 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center_vertical"
-                            android:layout_marginStart="@dimen/list_margin"
-                            android:layout_marginEnd="@dimen/list_margin">
-                            <android.support.v7.widget.AppCompatImageView android:id="@+id/icon"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp">
+                            <android.support.v7.widget.AppCompatImageView
+                                android:id="@+id/icon"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="end|center_vertical"
                                 android:layout_marginRight="8dp"
                                 android:layout_marginEnd="8dp"
                                 android:scaleType="fitXY" />
-                            <android.support.v7.widget.AppCompatTextView android:id="@+id/group_name"
+                            <android.support.v7.widget.AppCompatTextView
+                                android:id="@+id/group_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center_vertical"
@@ -100,7 +100,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_below="@+id/toolbar">
@@ -112,11 +112,18 @@
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
                 android:text="@string/selection_mode"/>
-            <FrameLayout
-                android:id="@+id/nodes_list_fragment_container"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/windowBackground" />
+                android:background="?android:attr/windowBackground">
+                <FrameLayout
+                    android:id="@+id/nodes_list_fragment_container"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintWidth_percent="@dimen/content_percent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+            </android.support.constraint.ConstraintLayout>
         </LinearLayout>
 
         <com.kunzisoft.keepass.view.AddNodeButtonView

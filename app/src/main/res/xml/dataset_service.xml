@@ -15,7 +15,7 @@
 -->
 
 <!--
-Attributes for the AutoFill service that tell the framework what will act as the Autofill service's
+Attributes for the Autofill service that tell the framework what will act as the Autofill service's
 Settings Activity. This is pointed to in the service's meta-data in the application's manifest.
 -->
 <autofill-service xmlns:android="http://schemas.android.com/apk/res/android"

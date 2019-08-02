@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ve SENSE CAP MENA DE GARANTIA; Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
     <string name="select_database_file">Introdueix el nom de la base de dades</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>

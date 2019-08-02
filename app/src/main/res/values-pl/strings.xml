@@ -171,7 +171,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="clipboard_error">Niektóre telefony Samsung z Androidem mają błąd w implementacji schowka, co powoduje, że kopiowanie z aplikacji kończy się niepowodzeniem. Więcej szczegółów:</string>
     <string name="clipboard_error_clear">Czyszczenie schowka nie powiodło się</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft korzystasz ABSOLUTNIE BEZ GWARANCJI; To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Baza danych nie może być załadowana</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza, spróbuj zmniejszyć pamięć używaną przez KDF.</string>

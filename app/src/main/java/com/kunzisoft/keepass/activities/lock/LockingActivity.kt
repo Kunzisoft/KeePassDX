@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePass DX.
  *
@@ -28,16 +28,19 @@ import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.ReadOnlyHelper
+import android.view.ViewGroup
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 abstract class LockingActivity : StylishActivity() {
 
     companion object {
+
+        private const val TAG = "LockingActivity"
 
         const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 
@@ -71,13 +74,12 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         if (timeoutEnable) {
-            if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this)) {
-                lockReceiver = LockReceiver()
-                val intentFilter = IntentFilter()
-                intentFilter.addAction(Intent.ACTION_SCREEN_OFF)
-                intentFilter.addAction(LOCK_ACTION)
-                registerReceiver(lockReceiver, IntentFilter(intentFilter))
+            lockReceiver = LockReceiver()
+            val intentFilter = IntentFilter().apply {
+                addAction(Intent.ACTION_SCREEN_OFF)
+                addAction(LOCK_ACTION)
             }
+            registerReceiver(lockReceiver, IntentFilter(intentFilter))
         }
 
         exitLock = false
@@ -88,7 +90,7 @@ abstract class LockingActivity : StylishActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            if (App.getDB().loaded) {
+            if (App.currentDatabase.loaded) {
                 lockAndExit()
             }
         }
@@ -102,7 +104,7 @@ abstract class LockingActivity : StylishActivity() {
 
         if (timeoutEnable) {
             // End activity if database not loaded
-            if (!App.getDB().loaded) {
+            if (!App.currentDatabase.loaded) {
                 finish()
                 return
             }
@@ -163,11 +165,17 @@ abstract class LockingActivity : StylishActivity() {
     /**
      * To reset the app timeout when a view is focused or changed
      */
-    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View) {
+    protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View?) {
         views.forEach {
-            it.setOnFocusChangeListener { _, hasFocus ->
+            it?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
+                    Log.d(TAG, "View focused, reset app timeout")
                     TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
+                }
+            }
+            if (it is ViewGroup) {
+                for (i in 0..it.childCount) {
+                    resetAppTimeoutWhenViewFocusedOrChanged(it.getChildAt(i))
                 }
             }
         }
@@ -190,7 +198,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.getDB().closeAndClear(applicationContext)
+    App.currentDatabase.closeAndClear(applicationContext.filesDir)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

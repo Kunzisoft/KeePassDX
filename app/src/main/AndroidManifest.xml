@@ -27,11 +27,11 @@
             android:value="" />
 
         <activity
-            android:name="com.kunzisoft.keepass.fileselect.FileSelectActivity"
+            android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
             android:theme="@style/KeepassDXStyle.SplashScreen"
             android:label="@string/app_name"
             android:launchMode="singleTop"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,8 +39,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.kunzisoft.keepass.password.PasswordActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:name="com.kunzisoft.keepass.activities.PasswordActivity"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
@@ -89,7 +89,7 @@
                 android:resource="@xml/nnf_provider_paths" />
         </provider>
         <activity
-            android:name="com.kunzisoft.keepass.fileselect.FilePickerStylishActivity"
+            android:name=".activities.stylish.FilePickerStylishActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.GET_CONTENT" />
@@ -99,7 +99,7 @@
         <!-- Main Activity -->
         <activity
             android:name="com.kunzisoft.keepass.activities.GroupActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="adjustPan"
             android:launchMode="singleTask">
             <meta-data
@@ -116,11 +116,11 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="keyboardHidden"
             android:windowSoftInputMode="stateHidden" />
         <!-- About and Settings -->
         <activity
@@ -128,8 +128,8 @@
             android:launchMode="singleTask"
             android:label="@string/menu_about" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
-        <activity android:name="com.kunzisoft.keepass.autofill.AutoFillLauncherActivity"
-            android:configChanges="orientation|keyboardHidden" />
+        <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
+            android:configChanges="keyboardHidden" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
             android:label="@string/keyboard_name">
@@ -142,6 +142,10 @@
         </activity>
 
 
+        <service
+            android:name="com.kunzisoft.keepass.database.action.DatabaseTaskNotificationService"
+            android:enabled="true"
+            android:exported="false" />
         <!-- Receiver for Keyboard -->
         <receiver
             android:name="com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver"

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -17,30 +17,36 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:padding="@dimen/default_margin"
+	android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:padding="@dimen/default_margin"
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
 	<android.support.v7.widget.AppCompatImageButton
 		android:id="@+id/group_edit_icon_button"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-        android:src="@drawable/ic_blank_32dp"
-		android:layout_alignParentRight="true"
-		android:layout_alignParentEnd="true"
-		android:layout_alignParentTop="true"/>
-	<android.support.v7.widget.AppCompatEditText
-		android:id="@+id/group_edit_name"
+		android:layout_gravity="center"
+		android:layout_margin="@dimen/default_margin"
+        android:src="@drawable/ic_blank_32dp"/>
+	<android.support.design.widget.TextInputLayout
+		android:id="@+id/group_edit_name_container"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="4dp"
-		android:layout_marginStart="4dp"
-		android:layout_toLeftOf="@+id/group_edit_icon_button"
-		android:layout_toStartOf="@+id/group_edit_icon_button"
-		android:maxLines="1"
-		android:singleLine="true"
-		android:hint="@string/hint_group_name"/>
-</RelativeLayout>
+		android:layout_height="wrap_content">
+		<android.support.v7.widget.AppCompatEditText
+			android:id="@+id/group_edit_name"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="4dp"
+			android:layout_marginStart="4dp"
+			android:inputType="text"
+			android:maxLines="1"
+			android:singleLine="true"
+			android:hint="@string/hint_group_name"/>
+	</android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

@@ -41,7 +41,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy&#8230;</string>
     <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>

@@ -155,5 +155,5 @@
     <string name="encryption">Šifrēšana</string>
     <string name="extended_ASCII">Paplašinātais ASCII</string>
     <string name="allow">Atļaut</string>
-    <string name="disclaimer_formal">KeePassDX \u00A9 %1$d Kunzisoft nāk bez jebkādas garantijas; Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
+    <string name="disclaimer_formal">KeePassDX \u00A9 %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
     </resources>

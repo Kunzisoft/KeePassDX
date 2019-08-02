@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -22,17 +22,13 @@ package com.kunzisoft.keepass.crypto.finalkey;
 import com.kunzisoft.keepass.crypto.CipherFactory;
 
 public class FinalKeyFactory {
-	public static FinalKey createFinalKey() {
-		return createFinalKey(false);
-	}
-	
-	public static FinalKey createFinalKey(boolean androidOverride) {
-		// Prefer the native final key implementation
-		if ( !CipherFactory.deviceBlacklisted() && !androidOverride && NativeFinalKey.availble() ) {
-			return new NativeFinalKey();
-		} else {
-			// Fall back on the android crypto implementation
-			return new AndroidFinalKey();
-		}
-	}
+    public static FinalKey createFinalKey() {
+        // Prefer the native final key implementation
+        if ( !CipherFactory.INSTANCE.deviceBlacklisted() && NativeFinalKey.availble() ) {
+            return new NativeFinalKey();
+        } else {
+            // Fall back on the android crypto implementation
+            return new AndroidFinalKey();
+        }
+    }
 }

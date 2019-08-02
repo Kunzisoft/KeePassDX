@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -52,7 +52,7 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -174,6 +174,7 @@
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
+    <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="sort_menu">Sort</string>
@@ -196,7 +197,7 @@
     <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
     <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
-    <string name="warning_password_encoding">Avoid password characters outside of Latin-1 in .kbd files, as they are all converted to the same letter.</string>
+    <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
@@ -277,7 +278,7 @@
     <string name="text_appearance">Text</string>
     <string name="application_appearance">App</string>
     <string name="other">Other</string>
-
+    <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields</string>

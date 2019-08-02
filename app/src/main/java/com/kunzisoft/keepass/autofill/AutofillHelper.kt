@@ -32,8 +32,8 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntrySelectionHelper
-import com.kunzisoft.keepass.database.PwEntry
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.model.EntryInfo
 import java.util.*
 
 
@@ -42,7 +42,7 @@ object AutofillHelper {
 
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
-    private const val ASSIST_STRUCTURE = android.view.autofill.AutofillManager.EXTRA_ASSIST_STRUCTURE
+    private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
 
     fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
         intent?.let {
@@ -51,35 +51,33 @@ object AutofillHelper {
         return null
     }
 
-    private fun makeEntryTitle(entry: PwEntry<*>): String {
-        if (!entry.title.isEmpty() && !entry.username.isEmpty())
-            return String.format("%s (%s)", entry.title, entry.username)
-        if (!entry.title.isEmpty())
-            return entry.title
-        if (!entry.username.isEmpty())
-            return entry.username
-        return if (!entry.notes.isEmpty()) entry.notes.trim { it <= ' ' } else ""
-        // TODO No title
+    private fun makeEntryTitle(entryInfo: EntryInfo): String {
+        if (entryInfo.title.isNotEmpty() && entryInfo.username.isNotEmpty())
+            return String.format("%s (%s)", entryInfo.title, entryInfo.username)
+        if (entryInfo.title.isNotEmpty())
+            return entryInfo.title
+        if (entryInfo.username.isNotEmpty())
+            return entryInfo.username
+        if (entryInfo.url.isNotEmpty())
+            return entryInfo.url
+        return ""
     }
 
-    private fun buildDataset(context: Context, entry: PwEntry<*>,
+    private fun buildDataset(context: Context,
+                             entryInfo: EntryInfo,
                              struct: StructureParser.Result): Dataset? {
-        val title = makeEntryTitle(entry)
+        val title = makeEntryTitle(entryInfo)
         val views = newRemoteViews(context.packageName, title)
         val builder = Dataset.Builder(views)
-        builder.setId(entry.uuid.toString())
+        builder.setId(entryInfo.id)
 
-        if (entry.password != null) {
-            val value = AutofillValue.forText(entry.password)
-            struct.password.forEach { id -> builder.setValue(id, value) }
-        }
-        if (entry.username != null) {
-            val value = AutofillValue.forText(entry.username)
-            val ids = ArrayList(struct.username)
-            if (entry.username.contains("@") || struct.username.isEmpty())
-                ids.addAll(struct.email)
-            ids.forEach { id -> builder.setValue(id, value) }
-        }
+        struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.password)) }
+
+        val ids = ArrayList(struct.username)
+        if (entryInfo.username.contains("@") || struct.username.isEmpty())
+            ids.addAll(struct.email)
+        ids.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.username)) }
+
         return try {
             builder.build()
         } catch (e: IllegalArgumentException) {
@@ -91,24 +89,27 @@ object AutofillHelper {
     /**
      * Method to hit when right key is selected
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entry: PwEntry<*>) {
-        val mReplyIntent: Intent
-        activity.intent?.let { intent ->
-            if (intent.extras.containsKey(ASSIST_STRUCTURE)) {
-                val structure = intent.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)
-                val result = StructureParser(structure).parse()
-
-                // New Response
-                val responseBuilder = FillResponse.Builder()
-                val dataset = buildDataset(activity, entry, result)
-                responseBuilder.addDataset(dataset)
-                mReplyIntent = Intent()
-                Log.d(activity.javaClass.name, "Successed Autofill auth.")
-                mReplyIntent.putExtra(
-                        AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                        responseBuilder.build())
-                activity.setResult(Activity.RESULT_OK, mReplyIntent)
-            } else {
+    fun buildResponseWhenEntrySelected(activity: Activity, entryInfo: EntryInfo) {
+        var setResultOk = false
+        activity.intent?.extras?.let { extras ->
+            if (extras.containsKey(ASSIST_STRUCTURE)) {
+                activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
+                    StructureParser(structure).parse()?.let { result ->
+                        // New Response
+                        val responseBuilder = FillResponse.Builder()
+                        val dataset = buildDataset(activity, entryInfo, result)
+                        responseBuilder.addDataset(dataset)
+                        val mReplyIntent = Intent()
+                        Log.d(activity.javaClass.name, "Successed Autofill auth.")
+                        mReplyIntent.putExtra(
+                                AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                                responseBuilder.build())
+                        setResultOk = true
+                        activity.setResult(Activity.RESULT_OK, mReplyIntent)
+                    }
+                }
+            }
+            if (!setResultOk) {
                 Log.w(activity.javaClass.name, "Failed Autofill auth.")
                 activity.setResult(Activity.RESULT_CANCELED)
             }
@@ -121,7 +122,7 @@ object AutofillHelper {
     fun startActivityForAutofillResult(activity: Activity, intent: Intent, assistStructure: AssistStructure) {
         EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
         intent.putExtra(ASSIST_STRUCTURE, assistStructure)
-        activity.startActivityForResult(intent, AutofillHelper.AUTOFILL_RESPONSE_REQUEST_CODE)
+        activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
 
     /**
