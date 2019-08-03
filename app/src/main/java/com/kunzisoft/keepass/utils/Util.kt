@@ -48,7 +48,7 @@ object Util {
  * Replace font by monospace, must be called after seText()
  */
 fun TextView.applyFontVisibility() {
-    val typeFace = Typeface.createFromAsset(context.assets, "fonts/DroidSansMonoSlashed.ttf")
+    val typeFace = Typeface.createFromAsset(context.assets, "fonts/FiraMono-Regular.ttf")
     typeface = typeFace
 }
 
