@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.exception.SamsungClipboardException
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import java.util.*
 
 class NotificationCopyingService : Service() {
@@ -58,7 +59,7 @@ class NotificationCopyingService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID_COPYING,
                     CHANNEL_NAME_COPYING,
-                    NotificationManager.IMPORTANCE_LOW)
+                    NotificationManager.IMPORTANCE_HIGH)
             notificationManager?.createNotificationChannel(channel)
         }
 
@@ -73,25 +74,23 @@ class NotificationCopyingService : Service() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //Get settings
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val sClipClear = prefs.getString(getString(R.string.clipboard_timeout_key),
+        val timeoutClipboardClear = prefs.getString(getString(R.string.clipboard_timeout_key),
                 getString(R.string.clipboard_timeout_default))
-        notificationTimeoutMilliSecs = java.lang.Long.parseLong(sClipClear)
+        notificationTimeoutMilliSecs = java.lang.Long.parseLong(timeoutClipboardClear)
 
         when {
             intent == null -> Log.w(TAG, "null intent")
             ACTION_NEW_NOTIFICATION == intent.action -> {
                 val title = intent.getStringExtra(EXTRA_ENTRY_TITLE)
                 newNotification(title, constructListOfField(intent))
-
             }
             ACTION_CLEAN_CLIPBOARD == intent.action -> {
                 stopTask(countingDownTask)
                 try {
-                    clipboardHelper!!.cleanClipboard()
+                    clipboardHelper?.cleanClipboard()
                 } catch (e: SamsungClipboardException) {
                     Log.e(TAG, "Clipboard can't be cleaned", e)
                 }
-
             }
             else -> for (actionKey in NotificationField.allActionKeys) {
                 if (actionKey == intent.action) {
@@ -157,15 +156,18 @@ class NotificationCopyingService : Service() {
 
         val myNotificationId = notificationId
         stopTask(cleanNotificationTimer)
-        cleanNotificationTimer = Thread {
-            try {
-                Thread.sleep(notificationTimeoutMilliSecs)
-            } catch (e: InterruptedException) {
-                cleanNotificationTimer = null
+        // If timer
+        if (notificationTimeoutMilliSecs != NEVER) {
+            cleanNotificationTimer = Thread {
+                try {
+                    Thread.sleep(notificationTimeoutMilliSecs)
+                } catch (e: InterruptedException) {
+                    cleanNotificationTimer = null
+                }
+                notificationManager?.cancel(myNotificationId)
             }
-            notificationManager?.cancel(myNotificationId)
+            cleanNotificationTimer?.start()
         }
-        cleanNotificationTimer?.start()
     }
 
     private fun copyField(fieldToCopy: NotificationField, nextFields: ArrayList<NotificationField>) {
@@ -198,30 +200,35 @@ class NotificationCopyingService : Service() {
 
             val myNotificationId = notificationId
 
-            countingDownTask = Thread {
-                val maxPos = 100
-                val posDurationMills = notificationTimeoutMilliSecs / maxPos
-                for (pos in maxPos downTo 1) {
-                    builder.setProgress(maxPos, pos, false)
-                    notificationManager?.notify(myNotificationId, builder.build())
-                    try {
-                        Thread.sleep(posDurationMills)
-                    } catch (e: InterruptedException) {
-                        break
-                    }
+            if (notificationTimeoutMilliSecs != NEVER) {
+                countingDownTask = Thread {
+                    val maxPos = 100
+                    val posDurationMills = notificationTimeoutMilliSecs / maxPos
+                    for (pos in maxPos downTo 1) {
+                        builder.setProgress(maxPos, pos, false)
+                        notificationManager?.notify(myNotificationId, builder.build())
+                        try {
+                            Thread.sleep(posDurationMills)
+                        } catch (e: InterruptedException) {
+                            break
+                        }
 
-                }
-                countingDownTask = null
-                notificationManager?.cancel(myNotificationId)
-                // Clean password only if no next field
-                if (nextFields.size <= 0)
-                    try {
-                        clipboardHelper?.cleanClipboard()
-                    } catch (e: SamsungClipboardException) {
-                        Log.e(TAG, "Clipboard can't be cleaned", e)
                     }
+                    countingDownTask = null
+                    notificationManager?.cancel(myNotificationId)
+                    // Clean password only if no next field
+                    if (nextFields.size <= 0)
+                        try {
+                            clipboardHelper?.cleanClipboard()
+                        } catch (e: SamsungClipboardException) {
+                            Log.e(TAG, "Clipboard can't be cleaned", e)
+                        }
+                }
+                countingDownTask?.start()
+            } else {
+                // No timer
+                notificationManager?.notify(myNotificationId, builder.build())
             }
-            countingDownTask?.start()
 
         } catch (e: Exception) {
             Log.e(TAG, "Clipboard can't be populate", e)
