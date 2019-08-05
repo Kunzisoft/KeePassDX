@@ -116,12 +116,11 @@
         </activity>
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryActivity"
-            android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
+            android:configChanges="keyboardHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="adjustResize" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
