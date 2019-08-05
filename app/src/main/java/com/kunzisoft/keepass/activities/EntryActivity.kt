@@ -74,7 +74,6 @@ class EntryActivity : LockingHideActivity() {
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-        supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
