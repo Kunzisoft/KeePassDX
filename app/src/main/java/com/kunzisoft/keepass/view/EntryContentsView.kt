@@ -54,6 +54,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
     private val commentContainerView: View
     private val commentView: TextView
 
+    private val extrasContainerView: View
     private val extrasView: ViewGroup
 
     private val dateFormat: DateFormat = android.text.format.DateFormat.getDateFormat(context)
@@ -88,6 +89,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
         commentContainerView = findViewById(R.id.entry_notes_container)
         commentView = findViewById(R.id.entry_notes)
 
+        extrasContainerView = findViewById(R.id.extra_strings_container)
         extrasView = findViewById(R.id.extra_strings)
 
         creationDateView = findViewById(R.id.entry_created)
@@ -204,10 +206,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
             entryCustomField = EntryCustomField(context, null, title, value, showAction, onActionClickListener)
         entryCustomField.applyFontVisibility(fontInVisibility)
         extrasView.addView(entryCustomField)
+        extrasContainerView.visibility = View.VISIBLE
     }
 
     fun clearExtraFields() {
         extrasView.removeAllViews()
+        extrasContainerView.visibility = View.GONE
     }
 
     private fun getDateTime(date: Date): String {
