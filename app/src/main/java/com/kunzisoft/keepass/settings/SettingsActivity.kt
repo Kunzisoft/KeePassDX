@@ -21,18 +21,25 @@ package com.kunzisoft.keepass.settings
 
 import android.app.Activity
 import android.app.backup.BackupManager
+import android.content.DialogInterface
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
+import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
+import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
-open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback {
+open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback, AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     private var backupManager: BackupManager? = null
 
@@ -92,6 +99,35 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
     override fun onStop() {
         backupManager?.dataChanged()
         super.onStop()
+    }
+
+    override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
+        App.currentDatabase.let { database ->
+            val progressDialogThread = ProgressDialogSaveDatabaseThread(this) {
+                AssignPasswordInDatabaseRunnable(this,
+                        database,
+                        masterPasswordChecked,
+                        masterPassword,
+                        keyFileChecked,
+                        keyFile,
+                        true)
+            }
+            // Show the progress dialog now or after dialog confirmation
+            if (database.validatePasswordEncoding(masterPassword)) {
+                progressDialogThread.start()
+            } else {
+                PasswordEncodingDialogFragment().apply {
+                    positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                        progressDialogThread.start()
+                    }
+                    show(supportFragmentManager, "passwordEncodingTag")
+                }
+            }
+        }
+    }
+
+    override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
+
     }
 
     override fun onBackPressed() {

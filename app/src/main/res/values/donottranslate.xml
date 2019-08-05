@@ -136,7 +136,8 @@
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
 
     <!-- Database Settings -->
-    <string name="db_key" translatable="false">db</string>
+    <string name="database_main_menu_key" translatable="false">database_main_menu_key</string>
+    <string name="database_change_master_key_key" translatable="false">database_change_master_key_key</string>
     <string name="database_general_key" translatable="false">database_general_key</string>
 
     <string name="database_name_key" translatable="false">database_name_key</string>

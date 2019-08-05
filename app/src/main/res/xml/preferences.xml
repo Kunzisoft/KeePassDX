@@ -24,27 +24,33 @@
 		<Preference
             android:key="@string/app_key"
             android:title="@string/menu_app_settings"
-			android:icon="@drawable/ic_phone_android_prefs_24dp"
+			android:icon="@drawable/prefs_phone_android_24dp"
             android:persistent="false" />
         <Preference
             android:key="@string/settings_form_filling_key"
             android:title="@string/menu_form_filling_settings"
-            android:icon="@drawable/ic_content_paste_prefs_24dp"
+            android:icon="@drawable/prefs_content_paste_24dp"
             android:persistent="false" />
 		<Preference
 			android:key="@string/settings_appearance_key"
 			android:title="@string/appearance"
-			android:icon="@drawable/ic_color_lens_prefs_24dp"
+			android:icon="@drawable/prefs_color_lens_24dp"
 			android:persistent="false" />
 	</PreferenceCategory>
 
 	<PreferenceCategory
 		android:title="@string/database">
 		<Preference
-            android:key="@string/db_key"
+            android:key="@string/database_main_menu_key"
             android:title="@string/menu_db_settings"
-            android:icon="@drawable/ic_data_usage_prefs_24dp"
+            android:icon="@drawable/prefs_data_usage_24dp"
             android:persistent="false" />
+		<Preference
+			android:key="@string/database_change_master_key_key"
+			android:title="@string/menu_change_key"
+			android:icon="@drawable/prefs_key_white_24dp"
+			android:dependency="@string/database_main_menu_key"
+			android:persistent="false" />
 	</PreferenceCategory>
 
 </PreferenceScreen>

@@ -68,7 +68,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             throw ClassCastException(activity?.toString()
                     + " must implement " + AssignPasswordDialogListener::class.java.name)
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {

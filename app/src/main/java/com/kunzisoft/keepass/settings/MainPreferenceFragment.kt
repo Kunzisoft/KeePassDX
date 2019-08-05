@@ -24,9 +24,10 @@ import android.os.Bundle
 import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.app.App
 
-class MainPreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
+class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     private var mCallback: Callback? = null
 
@@ -44,42 +45,43 @@ class MainPreferenceFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         // add listeners for non-default actions
-        var preference = findPreference(getString(R.string.app_key))
-        preference.onPreferenceClickListener = this
-
-        preference = findPreference(getString(R.string.settings_form_filling_key))
-        preference.onPreferenceClickListener = this
-
-        preference = findPreference(getString(R.string.settings_appearance_key))
-        preference.onPreferenceClickListener = this
-
-        preference = findPreference(getString(R.string.db_key))
-        preference.onPreferenceClickListener = this
-
-        if (!App.currentDatabase.loaded) {
-            preference.isEnabled = false
-        }
-    }
-
-    override fun onPreferenceClick(preference: Preference): Boolean {
-        // here you should use the same keys as you used in the xml-file
-        if (preference.key == getString(R.string.app_key)) {
-            mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPLICATION)
+        findPreference(getString(R.string.app_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPLICATION)
+                false
+            }
         }
 
-        if (preference.key == getString(R.string.settings_form_filling_key)) {
-            mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.FORM_FILLING)
+        findPreference(getString(R.string.settings_form_filling_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.FORM_FILLING)
+                false
+            }
         }
 
-        if (preference.key == getString(R.string.db_key)) {
-            mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
+        findPreference(getString(R.string.settings_appearance_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPEARANCE)
+                false
+            }
         }
 
-        if (preference.key == getString(R.string.settings_appearance_key)) {
-            mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPEARANCE)
+        findPreference(getString(R.string.database_main_menu_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
+                false
+            }
+            if (!App.currentDatabase.loaded) {
+                isEnabled = false
+            }
         }
 
-        return false
+        findPreference(getString(R.string.database_change_master_key_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                false
+            }
+        }
     }
 
     interface Callback {

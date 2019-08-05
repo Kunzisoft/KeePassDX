@@ -24,10 +24,8 @@ import android.app.SearchManager
 import android.app.assist.AssistStructure
 import android.content.ComponentName
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
@@ -43,7 +41,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.ReadOnlyDialog
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -52,7 +53,6 @@ import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
-import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
@@ -72,7 +72,6 @@ class GroupActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
         NodeAdapter.NodeMenuListener,
         ListNodesFragment.OnScrollListener,
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
         NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
@@ -592,8 +591,6 @@ class GroupActivity : LockingActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
         inflater.inflate(R.menu.database_lock, menu)
-        if (!readOnly)
-            inflater.inflate(R.menu.database_master_key, menu)
         if (!selectionMode) {
             inflater.inflate(R.menu.default_menu, menu)
             MenuUtil.contributionMenuInflater(inflater, menu)
@@ -730,20 +727,12 @@ class GroupActivity : LockingActivity(),
                 lockAndExit()
                 return true
             }
-            R.id.menu_change_master_key -> {
-                setPassword()
-                return true
-            }
             else -> {
                 // Check the time lock before launching settings
                 MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true)
                 return super.onOptionsItemSelected(item)
             }
         }
-    }
-
-    private fun setPassword() {
-        AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
     }
 
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
@@ -870,40 +859,6 @@ class GroupActivity : LockingActivity(),
                 ReadOnlyDialog(this).show()
             }
         }
-    }
-
-    override fun onAssignKeyDialogPositiveClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
-
-        mDatabase?.let { database ->
-            val progressDialogThread = ProgressDialogSaveDatabaseThread(this) {
-                AssignPasswordInDatabaseRunnable(this@GroupActivity,
-                        database,
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile,
-                        true)
-            }
-            // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword)) {
-                progressDialogThread.start()
-            } else {
-                PasswordEncodingDialogFragment().apply {
-                    positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                        progressDialogThread.start()
-                    }
-                    show(supportFragmentManager, "passwordEncodingTag")
-                }
-            }
-        }
-    }
-
-    override fun onAssignKeyDialogNegativeClick(
-            masterPasswordChecked: Boolean, masterPassword: String?,
-            keyFileChecked: Boolean, keyFile: Uri?) {
-
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {
