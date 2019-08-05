@@ -279,7 +279,7 @@
     </style>
     <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.Light.v21">
         <item name="android:colorForeground">?attr/textColorInverse</item>
-        <item name="android:background">@drawable/image_button_background</item>
+        <item name="android:background">@drawable/background_image_button</item>
         <item name="android:gravity">center</item>
     </style>
 
