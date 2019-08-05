@@ -73,11 +73,11 @@ class IconDrawableFactory {
     /**
      * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, icon: PwIcon, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+    fun getIconSuperDrawable(context: Context, icon: PwIcon, density: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
         return when (icon) {
             is PwIconStandard -> {
                 val resId = IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.iconId) ?: R.drawable.ic_blank_32dp
-                getIconSuperDrawable(context, resId, tint, tintColor)
+                getIconSuperDrawable(context, resId, density, tint, tintColor)
             }
             is PwIconCustom -> {
                 SuperDrawable(getIconDrawable(context.resources, icon), true)
@@ -92,29 +92,33 @@ class IconDrawableFactory {
      * Get the [SuperDrawable] PwIconStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
      * , then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, iconId: Int, tint: Boolean, tintColor: Int): SuperDrawable {
-        return SuperDrawable(getIconDrawable(context.resources, iconId, tint, tintColor))
+    fun getIconSuperDrawable(context: Context, iconId: Int, density: Int, tint: Boolean, tintColor: Int): SuperDrawable {
+        return SuperDrawable(getIconDrawable(context.resources, iconId, density, tint, tintColor))
     }
 
     /**
      * Key class to retrieve a Drawable in the cache if it's tinted or not
      */
-    private inner class CacheKey internal constructor(internal var resId: Int, internal var isTint: Boolean, internal var color: Int) {
+    private inner class CacheKey(var resId: Int, var density: Int, var isTint: Boolean, var color: Int) {
 
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (other == null || javaClass != other.javaClass) return false
             val cacheKey = other as CacheKey
             return if (isTint)
-                resId == cacheKey.resId &&
-                        cacheKey.isTint &&
-                        color == cacheKey.color
+                resId == cacheKey.resId
+                        && density == cacheKey.density
+                        && cacheKey.isTint
+                        && color == cacheKey.color
             else
-                resId == cacheKey.resId && !cacheKey.isTint
+                resId == cacheKey.resId
+                        && density == cacheKey.density
+                        && !cacheKey.isTint
         }
 
         override fun hashCode(): Int {
             var result = resId
+            result = 31 * result + density
             result = 31 * result + isTint.hashCode()
             result = 31 * result + color
             return result
@@ -147,13 +151,16 @@ class IconDrawableFactory {
      * Get the standard [Drawable] icon from [iconId] (cache or build it and add it to the cache if not exists yet)
      * , then [tint] it with [tintColor] if needed
      */
-    private fun getIconDrawable(resources: Resources, iconId: Int, tint: Boolean, tintColor: Int): Drawable {
-        val newCacheKey = CacheKey(iconId, tint, tintColor)
+    private fun getIconDrawable(resources: Resources, iconId: Int, density: Int, tint: Boolean, tintColor: Int): Drawable {
+        val newCacheKey = CacheKey(iconId, density, tint, tintColor)
 
         var draw: Drawable? = standardIconMap[newCacheKey] as Drawable?
         if (draw == null) {
             try {
-                draw = ResourcesCompat.getDrawable(resources, iconId, null)
+                draw = if (density > 0)
+                    ResourcesCompat.getDrawableForDensity(resources, iconId, density, null)
+                else
+                    ResourcesCompat.getDrawable(resources, iconId, null)
             } catch (e: Exception) {
                 Log.e(TAG, "Can't get icon", e)
             }
@@ -232,6 +239,7 @@ fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintCo
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                                 selectedIconPack.defaultIconId,
+                                this.measuredHeight,
                                 selectedIconPack.tintable(),
                                 tintColor),
                     this,
@@ -249,6 +257,7 @@ fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: PwIcon,
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                         icon,
+                        this.measuredHeight,
                         true,
                         tintColor),
                     this,
