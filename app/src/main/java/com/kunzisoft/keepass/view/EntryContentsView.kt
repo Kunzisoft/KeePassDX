@@ -72,7 +72,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.entry_view_contents, this)
+        inflater.inflate(R.layout.view_entry_contents, this)
 
         userNameContainerView = findViewById(R.id.entry_user_name_container)
         userNameView = findViewById(R.id.entry_user_name)

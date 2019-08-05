@@ -69,7 +69,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.entry_edit)
+        setContentView(R.layout.activity_entry_edit)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)

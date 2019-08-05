@@ -40,7 +40,7 @@ class UnavailableFeatureDialogFragment : DialogFragment() {
                     minVersionRequired = getInt(MIN_REQUIRED_VERSION_ARG)
             }
 
-            val rootView = activity.layoutInflater.inflate(R.layout.unavailable_feature, null)
+            val rootView = activity.layoutInflater.inflate(R.layout.fragment_unavailable_feature, null)
             val messageView = rootView.findViewById<TextView>(R.id.unavailable_feature_message)
 
             val builder = AlertDialog.Builder(activity)

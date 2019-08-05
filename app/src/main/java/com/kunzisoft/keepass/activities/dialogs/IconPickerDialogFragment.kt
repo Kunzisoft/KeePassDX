@@ -64,7 +64,7 @@ class IconPickerDialogFragment : DialogFragment() {
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
-            val root = activity.layoutInflater.inflate(R.layout.icon_picker, null)
+            val root = activity.layoutInflater.inflate(R.layout.fragment_icon_picker, null)
             builder.setView(root)
 
             val currIconGridView = root.findViewById<GridView>(R.id.IconGridView)
@@ -101,7 +101,7 @@ class IconPickerDialogFragment : DialogFragment() {
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val currentView: View = convertView
                     ?: (context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater)
-                        .inflate(R.layout.icon, parent, false)
+                        .inflate(R.layout.item_icon, parent, false)
 
             iconPack?.let { iconPack ->
                 val iconImageView = currentView.findViewById<ImageView>(R.id.icon_image)

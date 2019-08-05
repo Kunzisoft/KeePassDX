@@ -31,7 +31,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.Util
 import com.kunzisoft.keepass.utils.lockScreenOrientation
 import com.kunzisoft.keepass.utils.unlockScreenOrientation
 
@@ -59,7 +58,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout
             @SuppressLint("InflateParams")
-            val root = inflater.inflate(R.layout.progress_dialog, null)
+            val root = inflater.inflate(R.layout.fragment_progress, null)
             builder.setView(root)
 
             titleView = root.findViewById(R.id.progress_dialog_title)

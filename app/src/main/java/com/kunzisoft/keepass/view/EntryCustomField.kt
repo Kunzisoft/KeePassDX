@@ -49,7 +49,7 @@ open class EntryCustomField(context: Context,
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.entry_new_field, this)
+        inflater.inflate(R.layout.view_entry_new_field, this)
 
         labelView = findViewById(R.id.title)
         valueView = findViewById(R.id.value)

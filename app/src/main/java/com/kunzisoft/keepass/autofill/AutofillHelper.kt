@@ -141,7 +141,7 @@ object AutofillHelper {
     }
 
     private fun newRemoteViews(packageName: String, remoteViewsText: String): RemoteViews {
-        val presentation = RemoteViews(packageName, R.layout.autofill_service_list_item)
+        val presentation = RemoteViews(packageName, R.layout.item_autofill_service)
         presentation.setTextViewText(R.id.text, remoteViewsText)
         return presentation
     }

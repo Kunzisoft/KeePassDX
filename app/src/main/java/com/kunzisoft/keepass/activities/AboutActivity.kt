@@ -37,7 +37,7 @@ class AboutActivity : StylishActivity() {
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.about)
+        setContentView(R.layout.activity_about)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = getString(R.string.menu_about)

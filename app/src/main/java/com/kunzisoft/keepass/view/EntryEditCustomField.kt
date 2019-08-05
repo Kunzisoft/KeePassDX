@@ -56,7 +56,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.entry_edit_new_field, this)
+        inflater.inflate(R.layout.view_entry_edit_new_field, this)
 
         val deleteView = findViewById<View>(R.id.entry_edit_new_field_delete)
         deleteView.setOnClickListener { deleteViewFromParent() }

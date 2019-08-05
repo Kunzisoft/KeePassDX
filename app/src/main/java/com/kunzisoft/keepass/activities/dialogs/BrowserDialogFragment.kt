@@ -33,7 +33,7 @@ class BrowserDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
             // Get the layout inflater
-            val root = activity.layoutInflater.inflate(R.layout.browser_install, null)
+            val root = activity.layoutInflater.inflate(R.layout.fragment_browser_install, null)
             builder.setView(root)
                     .setNegativeButton(R.string.cancel) { _, _ -> }
 

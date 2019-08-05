@@ -38,7 +38,7 @@ class KeyboardExplanationDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity!!)
             val inflater = activity!!.layoutInflater
 
-            val rootView = inflater.inflate(R.layout.keyboard_explanation, null)
+            val rootView = inflater.inflate(R.layout.fragment_keyboard_explanation, null)
 
             rootView.findViewById<View>(R.id.keyboards_activate_setting_path1_text)
                     .setOnClickListener { launchActivateKeyboardSetting() }

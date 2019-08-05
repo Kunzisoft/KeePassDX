@@ -116,7 +116,7 @@ class PasswordActivity : StylishActivity(),
         mRememberKeyFile = prefs!!.getBoolean(getString(R.string.keyfile_key),
                 resources.getBoolean(R.bool.keyfile_default))
 
-        setContentView(R.layout.password)
+        setContentView(R.layout.activity_password)
 
         toolbar = findViewById(R.id.toolbar)
         toolbar?.title = getString(R.string.app_name)

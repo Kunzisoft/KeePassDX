@@ -29,7 +29,6 @@ import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.Util
 import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DialogFragment() {
@@ -64,7 +63,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
-            root = inflater.inflate(R.layout.generate_password, null)
+            root = inflater.inflate(R.layout.fragment_generate_password, null)
 
             passwordView = root?.findViewById(R.id.password)
             passwordView?.applyFontVisibility()

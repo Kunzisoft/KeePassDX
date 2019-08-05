@@ -189,9 +189,9 @@ class NodeAdapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NodeViewHolder {
         val view: View = if (viewType == Type.GROUP.ordinal) {
-            inflater.inflate(R.layout.list_nodes_group, parent, false)
+            inflater.inflate(R.layout.item_list_nodes_group, parent, false)
         } else {
-            inflater.inflate(R.layout.list_nodes_entry, parent, false)
+            inflater.inflate(R.layout.item_list_nodes_entry, parent, false)
         }
         return NodeViewHolder(view)
     }

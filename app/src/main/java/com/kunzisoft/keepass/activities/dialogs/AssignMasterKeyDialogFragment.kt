@@ -76,7 +76,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
 
-            rootView = inflater.inflate(R.layout.set_password, null)
+            rootView = inflater.inflate(R.layout.fragment_set_password, null)
             builder.setView(rootView)
                     .setTitle(R.string.assign_master_key)
                     // Add action buttons

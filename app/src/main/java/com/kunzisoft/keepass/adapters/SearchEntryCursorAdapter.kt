@@ -60,7 +60,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
 
-        val view = cursorInflater.inflate(R.layout.search_entry, parent, false)
+        val view = cursorInflater.inflate(R.layout.item_search_entry, parent, false)
         val viewHolder = ViewHolder()
         viewHolder.imageViewIcon = view.findViewById(R.id.entry_icon)
         viewHolder.textViewTitle = view.findViewById(R.id.entry_text)

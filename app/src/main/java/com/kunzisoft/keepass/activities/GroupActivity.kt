@@ -42,7 +42,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -112,7 +111,7 @@ class GroupActivity : LockingActivity(),
         mDatabase = App.currentDatabase
 
         // Construct main view
-        setContentView(layoutInflater.inflate(R.layout.list_nodes_with_add_button, null))
+        setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
         iconView = findViewById(R.id.icon)

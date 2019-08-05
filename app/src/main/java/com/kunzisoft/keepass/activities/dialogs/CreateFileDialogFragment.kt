@@ -82,7 +82,7 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
 
-            val rootView = inflater.inflate(R.layout.file_creation, null)
+            val rootView = inflater.inflate(R.layout.fragment_file_creation, null)
             builder.setView(rootView)
                     .setTitle(R.string.create_keepass_file)
                     // Add action buttons

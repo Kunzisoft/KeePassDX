@@ -79,7 +79,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
-            val root = activity.layoutInflater.inflate(R.layout.group_edit, null)
+            val root = activity.layoutInflater.inflate(R.layout.fragment_group_edit, null)
             nameTextLayoutView = root?.findViewById(R.id.group_edit_name_container)
             nameTextView = root?.findViewById(R.id.group_edit_name)
             iconButtonView = root?.findViewById(R.id.group_edit_icon_button)

@@ -80,7 +80,7 @@ class SortDialogFragment : DialogFragment() {
 
             mCheckedId = retrieveViewFromEnum(mSortNodeEnum!!)
 
-            val rootView = activity.layoutInflater.inflate(R.layout.sort_selection, null)
+            val rootView = activity.layoutInflater.inflate(R.layout.fragment_sort_selection, null)
             builder.setTitle(R.string.sort_menu)
             builder.setView(rootView)
                     // Add action buttons

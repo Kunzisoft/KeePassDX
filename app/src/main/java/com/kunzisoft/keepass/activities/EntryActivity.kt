@@ -70,7 +70,7 @@ class EntryActivity : LockingHideActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.entry_view)
+        setContentView(R.layout.activity_entry)
 
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)

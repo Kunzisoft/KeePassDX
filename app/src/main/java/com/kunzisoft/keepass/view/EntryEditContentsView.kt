@@ -40,7 +40,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context, attrs: A
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.entry_edit_view_contents, this)
+        inflater.inflate(R.layout.view_entry_edit_contents, this)
 
         entryTitleLayoutView = findViewById(R.id.entry_edit_container_title)
         entryTitleView = findViewById(R.id.entry_edit_title)

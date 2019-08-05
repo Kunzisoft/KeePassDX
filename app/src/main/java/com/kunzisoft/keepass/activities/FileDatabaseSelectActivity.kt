@@ -104,7 +104,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         mFileDatabaseHistory = FileDatabaseHistory.getInstance(WeakReference(applicationContext))
 
-        setContentView(R.layout.file_selection)
+        setContentView(R.layout.activity_file_selection)
         fileListContainer = findViewById(R.id.container_file_list)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)

@@ -39,7 +39,7 @@ class FileInformationDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
-            val root = inflater.inflate(R.layout.file_selection_information, null)
+            val root = inflater.inflate(R.layout.fragment_file_selection_information, null)
             val fileNameView = root.findViewById<TextView>(R.id.file_filename)
             val filePathView = root.findViewById<TextView>(R.id.file_path)
             fileSizeContainerView = root.findViewById(R.id.file_size_container)

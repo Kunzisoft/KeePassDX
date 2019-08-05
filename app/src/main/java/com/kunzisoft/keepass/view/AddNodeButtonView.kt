@@ -68,7 +68,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context, attrs: Attri
 
     private fun inflate(context: Context) {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.add_node_button, this)
+        inflater.inflate(R.layout.view_button_add_node, this)
 
         addEntryEnable = true
         addGroupEnable = true

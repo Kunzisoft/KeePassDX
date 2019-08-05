@@ -118,7 +118,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
         // To apply theme
         val rootView = inflater.cloneInContext(contextThemed)
-                .inflate(R.layout.list_nodes_fragment, container, false)
+                .inflate(R.layout.fragment_list_nodes, container, false)
         listView = rootView.findViewById(R.id.nodes_list)
         notFoundView = rootView.findViewById(R.id.not_found_container)
 
