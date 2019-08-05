@@ -49,7 +49,7 @@
                 android:orientation="vertical"
                 android:background="@drawable/background_repeat"
                 android:gravity="center"
-                android:layout_marginBottom="28dp"
+                android:paddingBottom="28dp"
                 style="@style/KeepassDXStyle.TextAppearance.Default">
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/entry_icon"
