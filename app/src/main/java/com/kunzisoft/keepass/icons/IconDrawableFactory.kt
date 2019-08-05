@@ -73,11 +73,11 @@ class IconDrawableFactory {
     /**
      * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, icon: PwIcon, density: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+    fun getIconSuperDrawable(context: Context, icon: PwIcon, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
         return when (icon) {
             is PwIconStandard -> {
                 val resId = IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.iconId) ?: R.drawable.ic_blank_32dp
-                getIconSuperDrawable(context, resId, density, tint, tintColor)
+                getIconSuperDrawable(context, resId, width, tint, tintColor)
             }
             is PwIconCustom -> {
                 SuperDrawable(getIconDrawable(context.resources, icon), true)
@@ -92,8 +92,8 @@ class IconDrawableFactory {
      * Get the [SuperDrawable] PwIconStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
      * , then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, iconId: Int, density: Int, tint: Boolean, tintColor: Int): SuperDrawable {
-        return SuperDrawable(getIconDrawable(context.resources, iconId, density, tint, tintColor))
+    fun getIconSuperDrawable(context: Context, iconId: Int, width: Int, tint: Boolean, tintColor: Int): SuperDrawable {
+        return SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor))
     }
 
     /**
@@ -151,16 +151,13 @@ class IconDrawableFactory {
      * Get the standard [Drawable] icon from [iconId] (cache or build it and add it to the cache if not exists yet)
      * , then [tint] it with [tintColor] if needed
      */
-    private fun getIconDrawable(resources: Resources, iconId: Int, density: Int, tint: Boolean, tintColor: Int): Drawable {
-        val newCacheKey = CacheKey(iconId, density, tint, tintColor)
+    private fun getIconDrawable(resources: Resources, iconId: Int, width: Int, tint: Boolean, tintColor: Int): Drawable {
+        val newCacheKey = CacheKey(iconId, width, tint, tintColor)
 
         var draw: Drawable? = standardIconMap[newCacheKey] as Drawable?
         if (draw == null) {
             try {
-                draw = if (density > 0)
-                    ResourcesCompat.getDrawableForDensity(resources, iconId, density, null)
-                else
-                    ResourcesCompat.getDrawable(resources, iconId, null)
+                draw = ResourcesCompat.getDrawable(resources, iconId, null)
             } catch (e: Exception) {
                 Log.e(TAG, "Can't get icon", e)
             }
@@ -173,6 +170,7 @@ class IconDrawableFactory {
         if (draw == null) {
             draw = PatternIcon(resources).blankDrawable
         }
+        draw.isFilterBitmap = false
 
         return draw
     }
@@ -239,7 +237,7 @@ fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintCo
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                                 selectedIconPack.defaultIconId,
-                                this.measuredHeight,
+                                width,
                                 selectedIconPack.tintable(),
                                 tintColor),
                     this,
@@ -257,7 +255,7 @@ fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: PwIcon,
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                         icon,
-                        this.measuredHeight,
+                        width,
                         true,
                         tintColor),
                     this,

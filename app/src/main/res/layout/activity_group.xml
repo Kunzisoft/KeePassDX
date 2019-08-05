@@ -33,6 +33,7 @@
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            tools:targetApi="lollipop"
             android:elevation="4dp"
             android:fitsSystemWindows="true">
 
@@ -76,11 +77,11 @@
                             android:layout_marginEnd="6dp">
                             <android.support.v7.widget.AppCompatImageView
                                 android:id="@+id/icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
                                 android:layout_gravity="end|center_vertical"
-                                android:layout_marginRight="8dp"
-                                android:layout_marginEnd="8dp"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginEnd="12dp"
                                 android:scaleType="fitXY" />
                             <android.support.v7.widget.AppCompatTextView
                                 android:id="@+id/group_name"

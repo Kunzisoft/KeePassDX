@@ -41,7 +41,7 @@
             app:expandedTitleMarginEnd="32dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <LinearLayout
+            <android.support.v7.widget.LinearLayoutCompat
                 android:id="@+id/title_block"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -49,14 +49,13 @@
                 android:orientation="vertical"
                 android:background="@drawable/background_repeat"
                 android:gravity="center"
+                android:layout_marginBottom="28dp"
                 style="@style/KeepassDXStyle.TextAppearance.Default">
                 <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/entry_icon"
                     android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginBottom="28dp"
-                    android:scaleType="fitXY"/>
-            </LinearLayout>
+                    android:layout_height="64dp"/>
+            </android.support.v7.widget.LinearLayoutCompat>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"

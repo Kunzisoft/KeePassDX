@@ -26,8 +26,8 @@
     android:background="?android:attr/selectableItemBackground" >
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/node_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:layout_marginLeft="@dimen/image_list_margin"
