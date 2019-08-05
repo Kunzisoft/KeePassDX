@@ -28,15 +28,13 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_parallax_height"
-        android:fitsSystemWindows="true">
+        android:layout_height="@dimen/toolbar_parallax_height">
 
         <android.support.design.widget.CollapsingToolbarLayout
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
             app:expandedTitleMarginStart="32dp"
             app:expandedTitleGravity="center_horizontal|bottom"
