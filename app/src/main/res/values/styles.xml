@@ -76,6 +76,9 @@
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <!-- CollapsingToolbarLayout -->
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -133,6 +136,9 @@
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <!-- CollapsingToolbarLayout -->
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -181,6 +187,15 @@
     <!-- Contextual Action Bar -->
     <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">@color/green_dark</item>
+    </style>
+
+    <!-- CollapsingToolbarLayout -->
+    <style name="KeepassDXStyle.Expanded.Title" parent="KeepassDXStyle.TextAppearance.Title.TextOnPrimary">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="KeepassDXStyle.Collapsed.Title" parent="KeepassDXStyle.TextAppearance.Title.TextOnPrimary">
+        <item name="android:textSize">18sp</item>
     </style>
 
     <!-- Dialog -->

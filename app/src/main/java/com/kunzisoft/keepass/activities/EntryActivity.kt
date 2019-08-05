@@ -25,6 +25,7 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.util.Log
@@ -32,7 +33,6 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.education.EntryActivityEducation
@@ -54,8 +54,8 @@ import com.kunzisoft.keepass.utils.Util
 
 class EntryActivity : LockingHideActivity() {
 
+    private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
-    private var titleView: TextView? = null
     private var entryContentsView: EntryContentsView? = null
     private var toolbar: Toolbar? = null
 
@@ -109,8 +109,8 @@ class EntryActivity : LockingHideActivity() {
         invalidateOptionsMenu()
 
         // Get views
+        collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         titleIconView = findViewById(R.id.entry_icon)
-        titleView = findViewById(R.id.entry_title)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
 
@@ -144,7 +144,9 @@ class EntryActivity : LockingHideActivity() {
         titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)
 
         // Assign title text
-        titleView?.text = entry.getVisualTitle()
+        val entryTitle = entry.getVisualTitle()
+        collapsingToolbarLayout?.title = entryTitle
+        toolbar?.title = entryTitle
 
         // Assign basic fields
         entryContentsView?.assignUserName(entry.username)
