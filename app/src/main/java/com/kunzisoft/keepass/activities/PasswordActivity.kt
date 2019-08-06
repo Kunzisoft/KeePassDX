@@ -162,10 +162,15 @@ class PasswordActivity : StylishActivity(),
                     checkboxPasswordView,
                     enableButtonOnCheckedChangeListener,
                     passwordView) { password ->
-                password?.let {
-                    verifyKeyFileCheckboxAndLoadDatabase(password)
-                } ?: verifyCheckboxesAndLoadDatabase()
-            }
+                        // Load the database if password is registered or retrieve
+                        password?.let {
+                            // Retrieve from fingerprint
+                            verifyKeyFileCheckboxAndLoadDatabase(password)
+                        } ?: run {
+                            // Register with fingerprint
+                            verifyCheckboxesAndLoadDatabase()
+                        }
+                    }
             fingerPrintViewsManager?.initFingerprint()
         }
     }
