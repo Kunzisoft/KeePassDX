@@ -589,12 +589,21 @@ class PasswordActivity : StylishActivity(),
         loadDatabase(password, keyUri)
     }
 
+    private fun removePassword() {
+        passwordView?.setText("")
+        checkboxPasswordView?.isChecked = false
+    }
+
     private fun loadDatabase(password: String?, keyFile: Uri?) {
 
         // Deactivate the open button
         confirmButtonView?.isEnabled = false
         // Hide credentials
         unlockContainer?.visibility = View.INVISIBLE
+
+        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
+            removePassword()
+        }
 
         // Clear before we load
         val database = App.currentDatabase
@@ -632,12 +641,10 @@ class PasswordActivity : StylishActivity(),
                     reInitWithFingerprintMode()
                 }
 
-                // Show credentials
-                unlockContainer?.visibility = View.VISIBLE
-                // Activate the open button
-                confirmButtonView?.isEnabled = true
-
                 if (result.isSuccess) {
+                    // Remove the password in view in all cases
+                    removePassword()
+
                     if (database.validatePasswordEncoding(password)) {
                         launchGroupActivity()
                     } else {
@@ -649,10 +656,16 @@ class PasswordActivity : StylishActivity(),
                         }
                     }
                 } else {
+                    // Activate the open button
+                    confirmButtonView?.isEnabled = true
+
                     if (result.message != null && result.message!!.isNotEmpty()) {
                         Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
                     }
                 }
+
+                // Show credentials
+                unlockContainer?.visibility = View.VISIBLE
             }
         }
     }

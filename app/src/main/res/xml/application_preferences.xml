@@ -33,6 +33,11 @@
             android:title="@string/enable_read_only_title"
             android:summary="@string/enable_read_only_summary"
             android:defaultValue="@bool/enable_read_only_default"/>
+        <SwitchPreference
+            android:key="@string/delete_entered_password_key"
+            android:title="@string/delete_entered_password_title"
+            android:summary="@string/delete_entered_password_summary"
+            android:defaultValue="@bool/delete_entered_password_default"/>
 
     </PreferenceCategory>
 

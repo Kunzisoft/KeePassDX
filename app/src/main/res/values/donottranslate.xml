@@ -71,6 +71,8 @@
     <bool name="allow_no_password_default" translatable="false">false</bool>
     <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
     <bool name="enable_read_only_default" translatable="false">false</bool>
+    <string name="delete_entered_password_key" translatable="false">delete_entered_password_key</string>
+    <bool name="delete_entered_password_default" translatable="false">true</bool>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
     <bool name="omitbackup_default" translatable="false">true</bool>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>

@@ -227,6 +227,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.enable_read_only_default))
     }
 
+    fun deletePasswordAfterConnexionAttempt(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.delete_entered_password_key),
+                context.resources.getBoolean(R.bool.delete_entered_password_default))
+    }
+
     fun enableKeyboardNotificationEntry(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
