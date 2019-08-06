@@ -71,6 +71,7 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
+
     <android.support.v4.widget.NestedScrollView
         android:id="@+id/entry_scroll"
         android:layout_width="match_parent"
@@ -78,10 +79,18 @@
         android:scrollbarStyle="insideOverlay"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <com.kunzisoft.keepass.view.EntryContentsView
-            android:id="@+id/entry_contents"
-            android:layout_height="wrap_content"
-            android:layout_width="match_parent"/>
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <com.kunzisoft.keepass.view.EntryContentsView
+                android:id="@+id/entry_contents"
+                android:layout_height="match_parent"
+                android:layout_width="0dp"
+                app:layout_constraintWidth_percent="@dimen/content_percent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.v4.widget.NestedScrollView>
 

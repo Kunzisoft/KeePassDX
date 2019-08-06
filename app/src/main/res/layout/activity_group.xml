@@ -113,18 +113,11 @@
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
                 android:text="@string/selection_mode"/>
-            <android.support.constraint.ConstraintLayout
+            <FrameLayout
+                android:id="@+id/nodes_list_fragment_container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="?android:attr/windowBackground">
-                <FrameLayout
-                    android:id="@+id/nodes_list_fragment_container"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    app:layout_constraintWidth_percent="@dimen/content_percent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
-            </android.support.constraint.ConstraintLayout>
+                android:background="?android:attr/windowBackground" />
         </LinearLayout>
 
         <com.kunzisoft.keepass.view.AddNodeButtonView
