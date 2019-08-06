@@ -154,7 +154,7 @@ class PasswordActivity : StylishActivity(),
         }
 
         // Init FingerPrint elements
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (PreferencesUtil.isFingerprintEnable(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             fingerPrintInfoView = findViewById(R.id.fingerprint_info)
             fingerPrintViewsManager = FingerPrintViewsManager(this,
                     mDatabaseFileUri,
@@ -205,10 +205,11 @@ class PasswordActivity : StylishActivity(),
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.initFingerprint()
-
-            // Start the animation in all cases
-            fingerPrintInfoView?.startFingerPrintAnimation()
+            if (PreferencesUtil.isFingerprintEnable(this)) {
+                fingerPrintViewsManager?.initFingerprint()
+            } else {
+                fingerPrintViewsManager?.destroy()
+            }
         } else {
             checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
         }
@@ -326,10 +327,16 @@ class PasswordActivity : StylishActivity(),
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintInfoView?.stopFingerPrintAnimation()
-            fingerPrintViewsManager?.pause()
+            fingerPrintViewsManager?.stopListening()
         }
         super.onPause()
+    }
+
+    override fun onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fingerPrintViewsManager?.destroy()
+        }
+        super.onDestroy()
     }
 
     private fun verifyCheckboxesAndLoadDatabase(password: String? = passwordView?.text?.toString(),
@@ -440,8 +447,10 @@ class PasswordActivity : StylishActivity(),
 
         MenuUtil.defaultMenuInflater(inflater, menu)
 
-        // Fingerprint menu
-        fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
+        if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            // Fingerprint menu
+            fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
+        }
 
         super.onCreateOptionsMenu(menu)
 
@@ -604,10 +613,10 @@ class PasswordActivity : StylishActivity(),
         }
 
         /*
-	 * -------------------------
-	 * 		Standard Launch
-	 * -------------------------
-	 */
+         * -------------------------
+         * 		Standard Launch
+         * -------------------------
+         */
 
         @Throws(FileNotFoundException::class)
         fun launch(
@@ -619,10 +628,10 @@ class PasswordActivity : StylishActivity(),
         }
 
         /*
-	 * -------------------------
-	 * 		Keyboard Launch
-	 * -------------------------
-	 */
+         * -------------------------
+         * 		Keyboard Launch
+         * -------------------------
+         */
 
         @Throws(FileNotFoundException::class)
         fun launchForKeyboardResult(
@@ -637,10 +646,10 @@ class PasswordActivity : StylishActivity(),
         }
 
         /*
-	 * -------------------------
-	 * 		Autofill Launch
-	 * -------------------------
-	 */
+         * -------------------------
+         * 		Autofill Launch
+         * -------------------------
+         */
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         @Throws(FileNotFoundException::class)

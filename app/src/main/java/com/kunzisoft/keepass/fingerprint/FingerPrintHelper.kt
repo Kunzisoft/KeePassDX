@@ -93,7 +93,7 @@ class FingerPrintHelper(context: Context, private val fingerPrintCallback: Finge
 
         if (!isFingerprintSupported(fingerprintManager)) {
             // really not much to do when no fingerprint support found
-            setInitOk(false)
+            initOk = false
         } else {
             this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
@@ -108,10 +108,10 @@ class FingerPrintHelper(context: Context, private val fingerPrintCallback: Finge
                                     + KeyProperties.BLOCK_MODE_CBC + "/"
                                     + KeyProperties.ENCRYPTION_PADDING_PKCS7)
                     this.cryptoObject = FingerprintManager.CryptoObject(cipher!!)
-                    setInitOk(true)
+                    initOk = true
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to initialize the keystore", e)
-                    setInitOk(false)
+                    initOk = false
                     fingerPrintCallback?.onFingerPrintException(e)
                 }
 
@@ -292,10 +292,6 @@ class FingerPrintHelper(context: Context, private val fingerPrintCallback: Finge
                 && fingerprintManager != null && fingerprintManager!!.hasEnrolledFingerprints()
                 // and lockscreen configured
                 && keyguardManager != null && keyguardManager!!.isKeyguardSecure)
-    }
-
-    private fun setInitOk(initOk: Boolean) {
-        this.initOk = initOk
     }
 
     interface FingerPrintErrorCallback {

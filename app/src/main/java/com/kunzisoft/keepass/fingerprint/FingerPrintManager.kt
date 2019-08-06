@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.FingerPrintInfoView
 
+@RequiresApi(api = Build.VERSION_CODES.M)
 class FingerPrintViewsManager(var context: AppCompatActivity,
                               var databaseFileUri: Uri?,
                               var fingerPrintInfoView: FingerPrintInfoView?,
@@ -44,7 +45,6 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
     }
 
     // fingerprint related code here
-    @RequiresApi(api = Build.VERSION_CODES.M)
     fun initFingerprint() {
 
         // Check if fingerprint well init (be called the first time the fingerprint is configured
@@ -53,7 +53,8 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
 
             fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
 
-            fingerPrintHelper = FingerPrintHelper(context, this)
+            // Start the animation
+            fingerPrintInfoView?.startFingerPrintAnimation()
 
             checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
                 if (!fingerprintMustBeConfigured) {
@@ -74,6 +75,7 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
                 onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
             }
 
+            fingerPrintHelper = FingerPrintHelper(context, this)
             // callback for fingerprint findings
             fingerPrintHelper?.setAuthenticationCallback(object : FingerprintManager.AuthenticationCallback() {
                 override fun onAuthenticationError(
@@ -114,22 +116,20 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
                                 fingerPrintHelper?.decryptData(it)
                             }
                         }
-                        FingerPrintHelper.Mode.NOT_CONFIGURED_MODE -> TODO()
-                        FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> TODO()
+                        FingerPrintHelper.Mode.NOT_CONFIGURED_MODE -> {}
+                        FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> {}
                     }
                 }
             })
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private fun initEncryptData() {
         setFingerPrintView(R.string.store_with_fingerprint)
         fingerPrintMode = FingerPrintHelper.Mode.STORE_MODE
         fingerPrintHelper?.initEncryptData()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private fun initDecryptData() {
         setFingerPrintView(R.string.scanning_fingerprint)
         fingerPrintMode = FingerPrintHelper.Mode.OPEN_MODE
@@ -140,13 +140,11 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     private fun initWaitData() {
         setFingerPrintView(R.string.no_password_stored, true)
         fingerPrintMode = FingerPrintHelper.Mode.WAITING_PASSWORD_MODE
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Synchronized
     private fun toggleFingerprintMode(newMode: FingerPrintHelper.Mode) {
         when (newMode) {
@@ -161,7 +159,6 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Synchronized
     fun reInitWithFingerprintMode() {
         when (fingerPrintMode) {
@@ -174,11 +171,16 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         context.invalidateOptionsMenu()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    fun pause() {
+    fun stopListening() {
         // stop listening when we go in background
+        fingerPrintInfoView?.stopFingerPrintAnimation()
         fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
         fingerPrintHelper?.stopListening()
+    }
+
+    fun destroy() {
+        stopListening()
+        // TODO destroy
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
@@ -202,7 +204,6 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Synchronized
     fun checkFingerprintAvailability() {
         // fingerprint not supported (by API level or hardware) so keep option hidden
@@ -243,7 +244,6 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         context.invalidateOptionsMenu()
     }
 
-
     private fun removePrefsNoBackupKey() {
         prefsNoBackup?.edit()
                 ?.remove(preferenceKeyValue)
@@ -267,13 +267,11 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         loadDatabase.invoke(value)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onInvalidKeyException(e: Exception) {
         showError(context.getString(R.string.fingerprint_invalid_key))
         deleteEntryKey()
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     override fun onFingerPrintException(e: Exception) {
         // Don't show error here;
         // showError(getString(R.string.fingerprint_error, e.getMessage()));
@@ -281,12 +279,13 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         setFingerPrintView(e.localizedMessage, true)
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     fun deleteEntryKey() {
-        fingerPrintHelper?.deleteEntryKey()
-        removePrefsNoBackupKey()
-        fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
-        checkFingerprintAvailability()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            fingerPrintHelper?.deleteEntryKey()
+            removePrefsNoBackupKey()
+            fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
+            checkFingerprintAvailability()
+        }
     }
 
     private fun showError(messageId: Int) {
