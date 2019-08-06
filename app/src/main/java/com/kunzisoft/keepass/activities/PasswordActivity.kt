@@ -37,7 +37,6 @@ import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -55,14 +54,14 @@ import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector
-import com.kunzisoft.keepass.fingerprint.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
+import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.FingerPrintInfoView
 import permissions.dispatcher.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -70,15 +69,11 @@ import java.lang.ref.WeakReference
 
 @RuntimePermissions
 class PasswordActivity : StylishActivity(),
-        FingerPrintHelper.FingerPrintCallback,
         UriIntentInitTaskCallback {
 
     // Views
     private var toolbar: Toolbar? = null
-    private var fingerprintContainerView: View? = null
-    private var fingerPrintAnimatedVector: FingerPrintAnimatedVector? = null
-    private var fingerprintTextView: TextView? = null
-    private var fingerprintImageView: ImageView? = null
+
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileView: EditText? = null
@@ -86,34 +81,23 @@ class PasswordActivity : StylishActivity(),
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
-
+    private var fingerPrintInfoView: FingerPrintInfoView? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
     private var prefs: SharedPreferences? = null
-    private var prefsNoBackup: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
     private var mKeyFileHelper: KeyFileHelper? = null
 
     private var readOnly: Boolean = false
 
-    private var fingerPrintHelper: FingerPrintHelper? = null
-    private var fingerprintMustBeConfigured = true
-    private var fingerPrintMode: FingerPrintHelper.Mode? = null
-
-    // makes it possible to store passwords per database
-    private val preferenceKeyValue: String
-        get() = PREF_KEY_VALUE_PREFIX + (mDatabaseFileUri?.path ?: "")
-
-    private val preferenceKeyIvSpec: String
-        get() = PREF_KEY_IV_PREFIX + (mDatabaseFileUri?.path ?: "")
+    private var fingerPrintViewsManager: FingerPrintViewsManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        prefsNoBackup = PreferencesUtil.getNoBackupSharedPreferences(applicationContext)
 
         mRememberKeyFile = prefs!!.getBoolean(getString(R.string.keyfile_key),
                 resources.getBoolean(R.bool.keyfile_default))
@@ -163,21 +147,33 @@ class PasswordActivity : StylishActivity(),
             }
         })
 
+        enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
+            if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
+                confirmButtonView?.isEnabled = isChecked
+            }
+        }
+
+        // Init FingerPrint elements
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerprintContainerView = findViewById(R.id.fingerprint_container)
-            fingerprintTextView = findViewById(R.id.fingerprint_label)
-            fingerprintImageView = findViewById(R.id.fingerprint_image)
-            initForFingerprint()
-            // Init the fingerprint animation
-            fingerPrintAnimatedVector = FingerPrintAnimatedVector(this,
-                    fingerprintImageView!!)
+            fingerPrintInfoView = findViewById(R.id.fingerprint_info)
+            fingerPrintViewsManager = FingerPrintViewsManager(this,
+                    mDatabaseFileUri,
+                    fingerPrintInfoView,
+                    checkboxPasswordView,
+                    enableButtonOnCheckedChangeListener,
+                    passwordView) { password ->
+                password?.let {
+                    verifyKeyFileCheckboxAndLoadDatabase(password)
+                } ?: verifyCheckboxesAndLoadDatabase()
+            }
+            fingerPrintViewsManager?.initFingerprint()
         }
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == IME_ACTION_DONE) {
-                verifyAllViewsAndLoadDatabase()
+                verifyCheckboxesAndLoadDatabase()
                 return true
             }
             return false
@@ -202,21 +198,12 @@ class PasswordActivity : StylishActivity(),
         } else {
             confirmButtonView?.isEnabled = true
         }
-        enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-            if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
-                confirmButtonView?.isEnabled = isChecked
-            }
-        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Check if fingerprint well init (be called the first time the fingerprint is configured
-            // and the activity still active)
-            if (fingerPrintHelper == null || !fingerPrintHelper!!.isFingerprintInitialized) {
-                initForFingerprint()
-            }
+            fingerPrintViewsManager?.initFingerprint()
 
             // Start the animation in all cases
-            fingerPrintAnimatedVector?.startScan()
+            fingerPrintInfoView?.startFingerPrintAnimation()
         } else {
             checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
         }
@@ -230,8 +217,8 @@ class PasswordActivity : StylishActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    override fun onPostInitTask(dbUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
-        mDatabaseFileUri = dbUri
+    override fun onPostInitTask(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
+        mDatabaseFileUri = databaseFileUri
 
         if (errorStringId != null) {
             Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
@@ -240,16 +227,16 @@ class PasswordActivity : StylishActivity(),
         }
 
         // Verify permission to read file
-        if (mDatabaseFileUri != null && !mDatabaseFileUri!!.scheme!!.contains("content"))
+        if (databaseFileUri != null && !databaseFileUri.scheme!!.contains("content"))
             doNothingWithPermissionCheck()
 
         // Define title
-        val dbUriString = mDatabaseFileUri?.toString() ?: ""
+        val dbUriString = databaseFileUri?.toString() ?: ""
         if (dbUriString.isNotEmpty()) {
             if (PreferencesUtil.isFullFilePathEnable(this))
                 filenameView?.text = dbUriString
             else
-                filenameView?.text = File(mDatabaseFileUri!!.path!!).name // TODO Encapsulate
+                filenameView?.text = File(databaseFileUri!!.path!!).name // TODO Encapsulate
         }
 
         // Define Key File text
@@ -262,7 +249,7 @@ class PasswordActivity : StylishActivity(),
         checkboxDefaultDatabaseView?.setOnCheckedChangeListener { _, isChecked ->
             var newDefaultFileName = ""
             if (isChecked) {
-                newDefaultFileName = mDatabaseFileUri?.toString() ?: newDefaultFileName
+                newDefaultFileName = databaseFileUri?.toString() ?: newDefaultFileName
             }
 
             prefs?.edit()?.apply() {
@@ -273,19 +260,19 @@ class PasswordActivity : StylishActivity(),
             val backupManager = BackupManager(this@PasswordActivity)
             backupManager.dataChanged()
         }
-        confirmButtonView?.setOnClickListener { verifyAllViewsAndLoadDatabase() }
+        confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
         val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
-        if (mDatabaseFileUri != null
-                && mDatabaseFileUri!!.path != null && mDatabaseFileUri!!.path!!.isNotEmpty()
-                && mDatabaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
+        if (databaseFileUri != null
+                && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
+                && databaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
         // checks if fingerprint is available, will also start listening for fingerprints when available
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkFingerprintAvailability()
+            fingerPrintViewsManager?.checkFingerprintAvailability()
         }
 
         // If Activity is launch with a password and want to open directly
@@ -332,273 +319,25 @@ class PasswordActivity : StylishActivity(),
         }
     }
 
-    // fingerprint related code here
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun initForFingerprint() {
-        fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
-
-        fingerPrintHelper = FingerPrintHelper(this, this)
-
-        checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-            if (!fingerprintMustBeConfigured) {
-                // encrypt or decrypt mode based on how much input or not
-                if (checked) {
-                    toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE)
-                } else {
-                    if (prefsNoBackup?.contains(preferenceKeyValue) == true) {
-                        toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE)
-                    } else {
-                        // This happens when no fingerprints are registered.
-                        toggleFingerprintMode(FingerPrintHelper.Mode.WAITING_PASSWORD_MODE)
-                    }
-                }
-            }
-
-            // Add old listener to enable the button, only be call here because of onCheckedChange bug
-            enableButtonOnCheckedChangeListener?.onCheckedChanged(compoundButton, checked)
-        }
-
-        // callback for fingerprint findings
-        fingerPrintHelper?.setAuthenticationCallback(object : FingerprintManager.AuthenticationCallback() {
-            override fun onAuthenticationError(
-                    errorCode: Int,
-                    errString: CharSequence) {
-                when (errorCode) {
-                    5 -> Log.i(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                    else -> {
-                        Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                        setFingerPrintView(errString.toString(), true)
-                    }
-                }
-            }
-
-            override fun onAuthenticationHelp(
-                    helpCode: Int,
-                    helpString: CharSequence) {
-                Log.w(TAG, "Fingerprint authentication help. Code : $helpCode Help : $helpString")
-                showError(helpString)
-                setFingerPrintView(helpString.toString(), true)
-                fingerprintTextView?.text = helpString
-            }
-
-            override fun onAuthenticationFailed() {
-                Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized")
-                showError(R.string.fingerprint_not_recognized)
-            }
-
-            override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult) {
-                when (fingerPrintMode) {
-                    FingerPrintHelper.Mode.STORE_MODE -> {
-                        // newly store the entered password in encrypted way
-                        fingerPrintHelper?.encryptData(passwordView?.text.toString())
-                    }
-                    FingerPrintHelper.Mode.OPEN_MODE -> {
-                        // retrieve the encrypted value from preferences
-                        prefsNoBackup?.getString(preferenceKeyValue, null)?.let {
-                            fingerPrintHelper?.decryptData(it)
-                        }
-                    }
-                }
-            }
-        })
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun initEncryptData() {
-        setFingerPrintView(R.string.store_with_fingerprint)
-        fingerPrintMode = FingerPrintHelper.Mode.STORE_MODE
-        fingerPrintHelper?.initEncryptData()
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun initDecryptData() {
-        setFingerPrintView(R.string.scanning_fingerprint)
-        fingerPrintMode = FingerPrintHelper.Mode.OPEN_MODE
-        if (fingerPrintHelper != null) {
-            prefsNoBackup?.getString(preferenceKeyIvSpec, null)?.let {
-                fingerPrintHelper?.initDecryptData(it)
-            }
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun initWaitData() {
-        setFingerPrintView(R.string.no_password_stored, true)
-        fingerPrintMode = FingerPrintHelper.Mode.WAITING_PASSWORD_MODE
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Synchronized
-    private fun toggleFingerprintMode(newMode: FingerPrintHelper.Mode) {
-        when (newMode) {
-            FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> setFingerPrintView(R.string.no_password_stored, true)
-            FingerPrintHelper.Mode.STORE_MODE -> setFingerPrintView(R.string.store_with_fingerprint)
-            FingerPrintHelper.Mode.OPEN_MODE -> setFingerPrintView(R.string.scanning_fingerprint)
-            else -> {}
-        }
-        if (newMode != fingerPrintMode) {
-            fingerPrintMode = newMode
-            reInitWithFingerprintMode()
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Synchronized
-    private fun reInitWithFingerprintMode() {
-        when (fingerPrintMode) {
-            FingerPrintHelper.Mode.STORE_MODE -> initEncryptData()
-            FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> initWaitData()
-            FingerPrintHelper.Mode.OPEN_MODE -> initDecryptData()
-            else -> {}
-        }
-        // Show fingerprint key deletion
-        invalidateOptionsMenu()
-    }
-
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintAnimatedVector?.stopScan()
-            // stop listening when we go in background
-            fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
-            fingerPrintHelper?.stopListening()
+            fingerPrintInfoView?.stopFingerPrintAnimation()
+            fingerPrintViewsManager?.pause()
         }
         super.onPause()
     }
 
-    private fun setFingerPrintVisibility(vis: Int) {
-        runOnUiThread { fingerprintContainerView?.visibility = vis }
+    private fun verifyCheckboxesAndLoadDatabase(password: String? = passwordView?.text?.toString(),
+                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
+        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(keyPassword, keyFileUri)
     }
 
-    private fun setFingerPrintView(textId: Int, lock: Boolean = false) {
-        setFingerPrintView(getString(textId), lock)
-    }
-
-    private fun setFingerPrintView(text: CharSequence, lock: Boolean) {
-        runOnUiThread {
-            fingerprintContainerView?.alpha = if (lock) 0.8f else 1f
-            fingerprintTextView?.text = text
-        }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    @Synchronized
-    private fun checkFingerprintAvailability() {
-        // fingerprint not supported (by API level or hardware) so keep option hidden
-        // or manually disable
-        if (!PreferencesUtil.isFingerprintEnable(applicationContext)
-                || !FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))) {
-            setFingerPrintVisibility(View.GONE)
-        } else {
-            // show explanations
-            fingerprintContainerView?.setOnClickListener { _ ->
-                FingerPrintExplanationDialog().show(supportFragmentManager, "fingerprintDialog")
-            }
-            setFingerPrintVisibility(View.VISIBLE)
-
-            if (fingerPrintHelper?.hasEnrolledFingerprints() != true) {
-                // This happens when no fingerprints are registered. Listening won't start
-                setFingerPrintView(R.string.configure_fingerprint, true)
-            } else {
-                fingerprintMustBeConfigured = false
-
-                // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup?.contains(preferenceKeyValue) != true) {
-                    if (checkboxPasswordView?.isChecked == true) {
-                        // listen for encryption
-                        initEncryptData()
-                    } else {
-                        // wait for typing
-                        initWaitData()
-                    }
-                } else {
-                    // listen for decryption
-                    initDecryptData()
-                }// all is set here so we can confirm to user and start listening for fingerprints
-            }// finally fingerprint available and configured so we can use it
-        }// fingerprint is available but not configured show icon but in disabled state with some information
-
-        // Show fingerprint key deletion
-        invalidateOptionsMenu()
-    }
-
-    private fun removePrefsNoBackupKey() {
-        prefsNoBackup?.edit()
-                ?.remove(preferenceKeyValue)
-                ?.remove(preferenceKeyIvSpec)
-                ?.apply()
-    }
-
-    override fun handleEncryptedResult(
-            value: String,
-            ivSpec: String) {
-        prefsNoBackup?.edit()
-                ?.putString(preferenceKeyValue, value)
-                ?.putString(preferenceKeyIvSpec, ivSpec)
-                ?.apply()
-        verifyAllViewsAndLoadDatabase()
-        setFingerPrintView(R.string.encrypted_value_stored)
-    }
-
-    override fun handleDecryptedResult(value: String) {
-        // Load database directly
-        verifyKeyFileViewsAndLoadDatabase(value)
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onInvalidKeyException(e: Exception) {
-        showError(getString(R.string.fingerprint_invalid_key))
-        deleteEntryKey()
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    override fun onFingerPrintException(e: Exception) {
-        // Don't show error here;
-        // showError(getString(R.string.fingerprint_error, e.getMessage()));
-        // Can be uninit in Activity and init in fragment
-        setFingerPrintView(e.localizedMessage, true)
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.M)
-    private fun deleteEntryKey() {
-        fingerPrintHelper?.deleteEntryKey()
-        removePrefsNoBackupKey()
-        fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
-        checkFingerprintAvailability()
-    }
-
-    private fun showError(messageId: Int) {
-        showError(getString(messageId))
-    }
-
-    private fun showError(message: CharSequence) {
-        runOnUiThread { Toast.makeText(applicationContext, message, Toast.LENGTH_SHORT).show() }
-    }
-
-    private fun verifyAllViewsAndLoadDatabase() {
-        verifyCheckboxesAndLoadDatabase(
-                passwordView?.text?.toString(),
-                UriUtil.parseUriFile(keyFileView?.text?.toString()))
-    }
-
-    private fun verifyCheckboxesAndLoadDatabase(password: String?, keyFile: Uri?) {
-        var pass = password
-        var keyF = keyFile
-        if (checkboxPasswordView?.isChecked != true) {
-            pass = null
-        }
-        if (checkboxKeyFileView?.isChecked != true) {
-            keyF = null
-        }
-        loadDatabase(pass, keyF)
-    }
-
-    private fun verifyKeyFileViewsAndLoadDatabase(password: String) {
-        val key = keyFileView?.text?.toString()
-        var keyUri = UriUtil.parseUriFile(key)
-        if (checkboxKeyFileView?.isChecked != true) {
-            keyUri = null
-        }
-        loadDatabase(password, keyUri)
+    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String? = passwordView?.text?.toString(),
+                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(password, keyFileUri)
     }
 
     private fun removePassword() {
@@ -645,7 +384,7 @@ class PasswordActivity : StylishActivity(),
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     // Stay with the same mode
-                    reInitWithFingerprintMode()
+                    fingerPrintViewsManager?.reInitWithFingerprintMode()
                 }
 
                 if (result.isSuccess) {
@@ -697,8 +436,7 @@ class PasswordActivity : StylishActivity(),
         MenuUtil.defaultMenuInflater(inflater, menu)
 
         // Fingerprint menu
-        if (!fingerprintMustBeConfigured && prefsNoBackup?.contains(preferenceKeyValue) == true)
-            inflater.inflate(R.menu.fingerprint, menu)
+        fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
 
         super.onCreateOptionsMenu(menu)
 
@@ -733,7 +471,8 @@ class PasswordActivity : StylishActivity(),
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                 && PreferencesUtil.isFingerprintEnable(applicationContext)
                 && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerprintImageView!!))
+                && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
+                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
         ;
     }
 
@@ -756,7 +495,7 @@ class PasswordActivity : StylishActivity(),
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_fingerprint_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                deleteEntryKey()
+                fingerPrintViewsManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }
@@ -834,8 +573,6 @@ class PasswordActivity : StylishActivity(),
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
-        private const val PREF_KEY_VALUE_PREFIX = "valueFor_" // key is a combination of db file name and this prefix
-        private const val PREF_KEY_IV_PREFIX = "ivFor_" // key is a combination of db file name and this prefix
 
         private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String,
                                          intentBuildLauncher: (Intent) -> Unit) {

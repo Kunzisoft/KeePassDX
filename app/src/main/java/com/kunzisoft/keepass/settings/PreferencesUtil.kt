@@ -29,21 +29,6 @@ import java.util.*
 
 object PreferencesUtil {
 
-    private const val NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup"
-
-    fun getNoBackupSharedPreferences(context: Context): SharedPreferences {
-        return context.getSharedPreferences(
-                NO_BACKUP_PREFERENCE_FILE_NAME,
-                Context.MODE_PRIVATE)
-    }
-
-    fun deleteAllValuesFromNoBackupPreferences(context: Context) {
-        val prefsNoBackup = getNoBackupSharedPreferences(context)
-        val sharedPreferencesEditor = prefsNoBackup.edit()
-        sharedPreferencesEditor.clear()
-        sharedPreferencesEditor.apply()
-    }
-
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.omitbackup_key),

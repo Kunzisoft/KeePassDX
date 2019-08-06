@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
+import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import java.lang.ref.WeakReference
@@ -193,7 +194,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                                                     }
                                                 })
                                     }
-                                    PreferencesUtil.deleteAllValuesFromNoBackupPreferences(context)
+                                    FingerPrintViewsManager.deleteAllValuesFromNoBackupPreferences(context)
                                 }
                                 .setNegativeButton(resources.getString(android.R.string.no))
                                 { _, _ -> }.show()

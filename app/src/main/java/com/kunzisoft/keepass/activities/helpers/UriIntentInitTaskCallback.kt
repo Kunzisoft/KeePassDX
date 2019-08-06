@@ -22,5 +22,5 @@ package com.kunzisoft.keepass.activities.helpers
 import android.net.Uri
 
 interface UriIntentInitTaskCallback {
-    fun onPostInitTask(dbUri: Uri?, keyFileUri: Uri?, errorStringId: Int?)
+    fun onPostInitTask(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?)
 }
