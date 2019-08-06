@@ -77,6 +77,7 @@ class PasswordActivity : StylishActivity(),
     private var fingerPrintAnimatedVector: FingerPrintAnimatedVector? = null
     private var fingerprintTextView: TextView? = null
     private var fingerprintImageView: ImageView? = null
+    private var unlockContainer: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileView: EditText? = null
@@ -124,6 +125,7 @@ class PasswordActivity : StylishActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        unlockContainer = findViewById(R.id.unlock_container)
         confirmButtonView = findViewById(R.id.pass_ok)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -588,6 +590,12 @@ class PasswordActivity : StylishActivity(),
     }
 
     private fun loadDatabase(password: String?, keyFile: Uri?) {
+
+        // Deactivate the open button
+        confirmButtonView?.isEnabled = false
+        // Hide credentials
+        unlockContainer?.visibility = View.INVISIBLE
+
         // Clear before we load
         val database = App.currentDatabase
         database.closeAndClear(applicationContext.filesDir)
@@ -623,6 +631,11 @@ class PasswordActivity : StylishActivity(),
                     // Stay with the same mode
                     reInitWithFingerprintMode()
                 }
+
+                // Show credentials
+                unlockContainer?.visibility = View.VISIBLE
+                // Activate the open button
+                confirmButtonView?.isEnabled = true
 
                 if (result.isSuccess) {
                     if (database.validatePasswordEncoding(password)) {
