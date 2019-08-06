@@ -38,9 +38,11 @@ import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
@@ -77,7 +79,6 @@ class PasswordActivity : StylishActivity(),
     private var fingerPrintAnimatedVector: FingerPrintAnimatedVector? = null
     private var fingerprintTextView: TextView? = null
     private var fingerprintImageView: ImageView? = null
-    private var unlockContainer: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileView: EditText? = null
@@ -125,7 +126,6 @@ class PasswordActivity : StylishActivity(),
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        unlockContainer = findViewById(R.id.unlock_container)
         confirmButtonView = findViewById(R.id.pass_ok)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -140,6 +140,7 @@ class PasswordActivity : StylishActivity(),
         mKeyFileHelper = KeyFileHelper(this@PasswordActivity)
         browseView.setOnClickListener(mKeyFileHelper!!.openFileOnClickViewListener)
 
+        passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -150,6 +151,7 @@ class PasswordActivity : StylishActivity(),
                     checkboxPasswordView?.isChecked = true
             }
         })
+        keyFileView?.setOnEditorActionListener(onEditorActionListener)
         keyFileView?.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
 
@@ -169,6 +171,16 @@ class PasswordActivity : StylishActivity(),
             // Init the fingerprint animation
             fingerPrintAnimatedVector = FingerPrintAnimatedVector(this,
                     fingerprintImageView!!)
+        }
+    }
+
+    private val onEditorActionListener = object : TextView.OnEditorActionListener {
+        override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
+            if (actionId == IME_ACTION_DONE) {
+                verifyAllViewsAndLoadDatabase()
+                return true
+            }
+            return false
         }
     }
 
@@ -596,11 +608,6 @@ class PasswordActivity : StylishActivity(),
 
     private fun loadDatabase(password: String?, keyFile: Uri?) {
 
-        // Deactivate the open button
-        confirmButtonView?.isEnabled = false
-        // Hide credentials
-        unlockContainer?.visibility = View.INVISIBLE
-
         if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
             removePassword()
         }
@@ -656,16 +663,10 @@ class PasswordActivity : StylishActivity(),
                         }
                     }
                 } else {
-                    // Activate the open button
-                    confirmButtonView?.isEnabled = true
-
                     if (result.message != null && result.message!!.isNotEmpty()) {
                         Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
                     }
                 }
-
-                // Show credentials
-                unlockContainer?.visibility = View.VISIBLE
             }
         }
     }
