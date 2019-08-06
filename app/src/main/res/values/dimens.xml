@@ -9,7 +9,7 @@
 
     <dimen name="content_percent">1</dimen>
 
-    <dimen name="toolbar_parallax_height">220dp</dimen>
+    <dimen name="toolbar_parallax_height">160dp</dimen>
 
     <integer name="animation_duration">320</integer>
 </resources>
