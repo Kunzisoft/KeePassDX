@@ -26,14 +26,14 @@ object EntrySelectionHelper {
                                standardAction: () -> Unit,
                                keyboardAction: () -> Unit,
                                autofillAction: (assistStructure: AssistStructure) -> Unit) {
-        var assistStructure: AssistStructure? = null
+        var assistStructureInit = false
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            assistStructure = AutofillHelper.retrieveAssistStructure(intent)
-            assistStructure?.let {
+            AutofillHelper.retrieveAssistStructure(intent)?.let { assistStructure ->
                 autofillAction.invoke(assistStructure)
+                assistStructureInit = true
             }
         }
-        if (assistStructure == null) {
+        if (!assistStructureInit) {
             if (intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, DEFAULT_ENTRY_SELECTION_MODE)) {
                 intent.removeExtra(EXTRA_ENTRY_SELECTION_MODE)
                 keyboardAction.invoke()
