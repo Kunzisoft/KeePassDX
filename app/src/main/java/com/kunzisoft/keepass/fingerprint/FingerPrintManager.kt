@@ -53,9 +53,11 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
 
             fingerPrintMode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
 
+            showFingerPrintViews(true)
             // Start the animation
             fingerPrintInfoView?.startFingerPrintAnimation()
 
+            // Add a check listener to change fingerprint mode
             checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
                 if (!fingerprintMustBeConfigured) {
                     // encrypt or decrypt mode based on how much input or not
@@ -77,50 +79,52 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
 
             fingerPrintHelper = FingerPrintHelper(context, this)
             // callback for fingerprint findings
-            fingerPrintHelper?.setAuthenticationCallback(object : FingerprintManager.AuthenticationCallback() {
-                override fun onAuthenticationError(
-                        errorCode: Int,
-                        errString: CharSequence) {
-                    when (errorCode) {
-                        5 -> Log.i(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                        else -> {
-                            Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                            setFingerPrintView(errString.toString(), true)
-                        }
+            fingerPrintHelper?.setAuthenticationCallback(authenticationCallback)
+        }
+    }
+
+    private val authenticationCallback = object : FingerprintManager.AuthenticationCallback() {
+        override fun onAuthenticationError(
+                errorCode: Int,
+                errString: CharSequence) {
+            when (errorCode) {
+                5 -> Log.i(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
+                else -> {
+                    Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
+                    setFingerPrintView(errString.toString(), true)
+                }
+            }
+        }
+
+        override fun onAuthenticationHelp(
+                helpCode: Int,
+                helpString: CharSequence) {
+            Log.w(TAG, "Fingerprint authentication help. Code : $helpCode Help : $helpString")
+            showError(helpString)
+            setFingerPrintView(helpString.toString(), true)
+            fingerPrintInfoView?.text = helpString.toString()
+        }
+
+        override fun onAuthenticationFailed() {
+            Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized")
+            showError(R.string.fingerprint_not_recognized)
+        }
+
+        override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult) {
+            when (fingerPrintMode) {
+                FingerPrintHelper.Mode.STORE_MODE -> {
+                    // newly store the entered password in encrypted way
+                    fingerPrintHelper?.encryptData(passwordView?.text.toString())
+                }
+                FingerPrintHelper.Mode.OPEN_MODE -> {
+                    // retrieve the encrypted value from preferences
+                    prefsNoBackup?.getString(preferenceKeyValue, null)?.let {
+                        fingerPrintHelper?.decryptData(it)
                     }
                 }
-
-                override fun onAuthenticationHelp(
-                        helpCode: Int,
-                        helpString: CharSequence) {
-                    Log.w(TAG, "Fingerprint authentication help. Code : $helpCode Help : $helpString")
-                    showError(helpString)
-                    setFingerPrintView(helpString.toString(), true)
-                    fingerPrintInfoView?.text = helpString.toString()
-                }
-
-                override fun onAuthenticationFailed() {
-                    Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized")
-                    showError(R.string.fingerprint_not_recognized)
-                }
-
-                override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult) {
-                    when (fingerPrintMode) {
-                        FingerPrintHelper.Mode.STORE_MODE -> {
-                            // newly store the entered password in encrypted way
-                            fingerPrintHelper?.encryptData(passwordView?.text.toString())
-                        }
-                        FingerPrintHelper.Mode.OPEN_MODE -> {
-                            // retrieve the encrypted value from preferences
-                            prefsNoBackup?.getString(preferenceKeyValue, null)?.let {
-                                fingerPrintHelper?.decryptData(it)
-                            }
-                        }
-                        FingerPrintHelper.Mode.NOT_CONFIGURED_MODE -> {}
-                        FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> {}
-                    }
-                }
-            })
+                FingerPrintHelper.Mode.NOT_CONFIGURED_MODE -> {}
+                FingerPrintHelper.Mode.WAITING_PASSWORD_MODE -> {}
+            }
         }
     }
 
@@ -179,8 +183,13 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
     }
 
     fun destroy() {
+        // Restore the checked listener
+        checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
+
         stopListening()
-        // TODO destroy
+        fingerPrintHelper = null
+
+        showFingerPrintViews(false)
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
@@ -188,8 +197,8 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
             menuInflater.inflate(R.menu.fingerprint, menu)
     }
 
-    private fun hideFingerPrintViews(hide: Boolean) {
-        context.runOnUiThread { fingerPrintInfoView?.hide = hide }
+    private fun showFingerPrintViews(show: Boolean) {
+        context.runOnUiThread { fingerPrintInfoView?.hide = !show }
     }
 
     private fun setFingerPrintView(textId: Int, lock: Boolean = false) {
@@ -210,14 +219,16 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
         // or manually disable
         if (!PreferencesUtil.isFingerprintEnable(context)
                 || !FingerPrintHelper.isFingerprintSupported(context.getSystemService(FingerprintManager::class.java))) {
-            hideFingerPrintViews(true)
+            showFingerPrintViews(false)
         } else {
+            // all is set here so we can confirm to user and start listening for fingerprints
             // show explanations
             fingerPrintInfoView?.setOnClickListener { _ ->
                 FingerPrintExplanationDialog().show(context.supportFragmentManager, "fingerprintDialog")
             }
-            hideFingerPrintViews(false)
+            showFingerPrintViews(true)
 
+            // fingerprint is available but not configured, show icon but in disabled state with some information
             if (fingerPrintHelper?.hasEnrolledFingerprints() != true) {
                 // This happens when no fingerprints are registered. Listening won't start
                 setFingerPrintView(R.string.configure_fingerprint, true)
@@ -236,9 +247,9 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
                 } else {
                     // listen for decryption
                     initDecryptData()
-                }// all is set here so we can confirm to user and start listening for fingerprints
+                }
             }// finally fingerprint available and configured so we can use it
-        }// fingerprint is available but not configured show icon but in disabled state with some information
+        }
 
         // Show fingerprint key deletion
         context.invalidateOptionsMenu()
