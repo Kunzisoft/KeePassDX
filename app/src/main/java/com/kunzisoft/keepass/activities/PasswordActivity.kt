@@ -117,6 +117,7 @@ class PasswordActivity : StylishActivity(),
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
+        fingerPrintInfoView = findViewById(R.id.fingerprint_info)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
@@ -152,27 +153,6 @@ class PasswordActivity : StylishActivity(),
                 confirmButtonView?.isEnabled = isChecked
             }
         }
-
-        // Init FingerPrint elements
-        if (PreferencesUtil.isFingerprintEnable(this) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintInfoView = findViewById(R.id.fingerprint_info)
-            fingerPrintViewsManager = FingerPrintViewsManager(this,
-                    mDatabaseFileUri,
-                    fingerPrintInfoView,
-                    checkboxPasswordView,
-                    enableButtonOnCheckedChangeListener,
-                    passwordView) { password ->
-                        // Load the database if password is registered or retrieve
-                        password?.let {
-                            // Retrieve from fingerprint
-                            verifyKeyFileCheckboxAndLoadDatabase(password)
-                        } ?: run {
-                            // Register with fingerprint
-                            verifyCheckboxesAndLoadDatabase()
-                        }
-                    }
-            fingerPrintViewsManager?.initFingerprint()
-        }
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
@@ -202,16 +182,6 @@ class PasswordActivity : StylishActivity(),
             }
         } else {
             confirmButtonView?.isEnabled = true
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (PreferencesUtil.isFingerprintEnable(this)) {
-                fingerPrintViewsManager?.initFingerprint()
-            } else {
-                fingerPrintViewsManager?.destroy()
-            }
-        } else {
-            checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
         }
 
         UriIntentInitTask(WeakReference(this), this, mRememberKeyFile)
@@ -276,11 +246,6 @@ class PasswordActivity : StylishActivity(),
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
-        // checks if fingerprint is available, will also start listening for fingerprints when available
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.checkFingerprintAvailability()
-        }
-
         // If Activity is launch with a password and want to open directly
         val intent = intent
         val password = intent.getStringExtra(KEY_PASSWORD)
@@ -290,6 +255,39 @@ class PasswordActivity : StylishActivity(),
         }
         if (launchImmediately) {
             verifyCheckboxesAndLoadDatabase(password, keyFileUri)
+        } else {
+            // Init FingerPrint elements
+            var fingerPrintInit = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (PreferencesUtil.isFingerprintEnable(this)) {
+                    if (fingerPrintViewsManager == null) {
+                        fingerPrintViewsManager = FingerPrintViewsManager(this,
+                                mDatabaseFileUri,
+                                fingerPrintInfoView,
+                                checkboxPasswordView,
+                                enableButtonOnCheckedChangeListener,
+                                passwordView) { passwordRetrieve ->
+                                    // Load the database if password is registered or retrieve
+                                    passwordRetrieve?.let {
+                                        // Retrieve from fingerprint
+                                        verifyKeyFileCheckboxAndLoadDatabase(it)
+                                    } ?: run {
+                                        // Register with fingerprint
+                                        verifyCheckboxesAndLoadDatabase()
+                                    }
+                                }
+                    }
+                    fingerPrintViewsManager?.initFingerprint()
+                    // checks if fingerprint is available, will also start listening for fingerprints when available
+                    fingerPrintViewsManager?.checkFingerprintAvailability()
+                    fingerPrintInit = true
+                } else {
+                    fingerPrintViewsManager?.destroy()
+                }
+            }
+            if (!fingerPrintInit) {
+                checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
+            }
         }
     }
 
@@ -395,8 +393,10 @@ class PasswordActivity : StylishActivity(),
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    // Stay with the same mode
-                    fingerPrintViewsManager?.reInitWithFingerprintMode()
+                    if (PreferencesUtil.isFingerprintEnable(this@PasswordActivity)) {
+                        // Stay with the same mode
+                        fingerPrintViewsManager?.reInitWithFingerprintMode()
+                    }
                 }
 
                 if (result.isSuccess) {
