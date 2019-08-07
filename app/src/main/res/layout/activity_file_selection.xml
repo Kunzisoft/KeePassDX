@@ -163,8 +163,8 @@
         app:layout_constraintTop_toTopOf="parent"
         android:elevation="4dp"
         android:background="@color/transparent"
-        app:theme="?attr/toolbarAppearance"
-        app:popupTheme="?attr/toolbarPopupAppearance" />
+        android:theme="?attr/toolbarAppearance"
+        android:popupTheme="?attr/toolbarPopupAppearance" />
 
     <FrameLayout
         android:id="@+id/file_selection_buttons_container"

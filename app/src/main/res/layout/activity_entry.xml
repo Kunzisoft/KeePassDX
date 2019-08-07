@@ -62,8 +62,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 android:background="@color/transparent"
-                app:theme="?attr/toolbarAppearance"
-                app:popupTheme="?attr/toolbarPopupAppearance"
+                android:theme="?attr/toolbarAppearance"
+                android:popupTheme="?attr/toolbarPopupAppearance"
                 app:layout_collapseMode="pin"
                 tools:targetApi="lollipop">
             </android.support.v7.widget.Toolbar>

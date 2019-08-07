@@ -51,8 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:background="?attr/colorPrimary"
-                    app:theme="?attr/toolbarAppearance"
-                    app:popupTheme="?attr/toolbarPopupAppearance"
+                    android:theme="?attr/toolbarAppearance"
+                    android:popupTheme="?attr/toolbarPopupAppearance"
                     android:elevation="4dp"
                     tools:targetApi="lollipop">
                     <LinearLayout
@@ -142,7 +142,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:elevation="4dp"
-            app:theme="?attr/toolbarBottomAppearance"
+            android:theme="?attr/toolbarBottomAppearance"
             android:background="?attr/colorAccent"
             tools:targetApi="lollipop" />
 
