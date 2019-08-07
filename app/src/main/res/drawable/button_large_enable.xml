@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:color="@color/white"
+    tools:targetApi="lollipop">
     <item>
         <shape>
             <corners
@@ -9,7 +12,7 @@
                 android:right="0dp"
                 android:top="12dp"
                 android:bottom="12dp"/>
-            <solid android:color="@color/orange"/>
+            <solid android:color="?attr/colorAccentCompat"/>
         </shape>
     </item>
-</layer-list>
+</ripple>

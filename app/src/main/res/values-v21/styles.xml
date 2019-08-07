@@ -12,7 +12,16 @@
 
     <!-- Button Style -->
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" >
+        <item name="android:gravity">center</item>
         <item name="android:elevation">4dp</item>
+    </style>
+    <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
+        <item name="android:textColor">@color/text_color_button</item>
+        <item name="android:background">@drawable/button_large</item>
+    </style>
+    <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
+        <item name="android:textColor">?attr/textColorInverse</item>
+        <item name="android:background">@drawable/button_background_primary</item>
     </style>
 
     <!-- FAB -->
@@ -23,5 +32,6 @@
     <!-- Menu FAB -->
     <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:elevation">4dp</item>
+        <item name="android:background">@drawable/button_small_background</item>
     </style>
 </resources>

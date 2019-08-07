@@ -213,6 +213,11 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
+    <!-- CardView -->
+    <style name="KeepassDXStyle.CardView.PrimaryColor" parent="CardView">
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
+    </style>
+
     <!-- CheckBox -->
     <style name="KeepassDXStyle.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?android:attr/textColor</item>
@@ -266,21 +271,24 @@
 	</style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" />
+    <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:gravity">center</item>
+    </style>
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">@color/text_color_button</item>
-        <item name="android:background">@drawable/button_large</item>
-        <item name="android:gravity">center</item>
+        <item name="android:background">?attr/colorAccentCompat</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
     <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="android:background">@drawable/button_background_primary</item>
-        <item name="android:gravity">center</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
     </style>
-    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.Light.v21">
+    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.Button">
         <item name="android:colorForeground">?attr/textColorInverse</item>
         <item name="android:background">@drawable/background_image_button</item>
-        <item name="android:gravity">center</item>
     </style>
 
     <!-- FAB -->
@@ -293,10 +301,15 @@
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" />
+    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingLeft">14dp</item>
+        <item name="android:paddingRight">14dp</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:background">?attr/colorAccentCompat</item>
+    </style>
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/button_small_background</item>
     </style>
 
     <!-- Form -->
