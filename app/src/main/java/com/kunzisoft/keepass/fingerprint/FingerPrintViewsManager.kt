@@ -5,6 +5,7 @@ import android.content.SharedPreferences
 import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
@@ -30,6 +31,9 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
     private var fingerPrintHelper: FingerPrintHelper? = null
     private var fingerprintMustBeConfigured = true
     private var fingerPrintMode: FingerPrintHelper.Mode = FingerPrintHelper.Mode.NOT_CONFIGURED_MODE
+
+    private var checkboxListenerHandler = Handler()
+    private var checkboxListenerRunnable: Runnable? = null
 
     // makes it possible to store passwords per database
     private val preferenceKeyValue: String
@@ -59,19 +63,25 @@ class FingerPrintViewsManager(var context: AppCompatActivity,
 
             // Add a check listener to change fingerprint mode
             checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-                if (!fingerprintMustBeConfigured) {
-                    // encrypt or decrypt mode based on how much input or not
-                    if (checked) {
-                        toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE)
-                    } else {
-                        if (prefsNoBackup?.contains(preferenceKeyValue) == true) {
-                            toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE)
+
+                // New runnable to each change
+                checkboxListenerHandler.removeCallbacks(checkboxListenerRunnable)
+                checkboxListenerRunnable = Runnable {
+                    if (!fingerprintMustBeConfigured) {
+                        // encrypt or decrypt mode based on how much input or not
+                        if (checked) {
+                            toggleFingerprintMode(FingerPrintHelper.Mode.STORE_MODE)
                         } else {
-                            // This happens when no fingerprints are registered.
-                            toggleFingerprintMode(FingerPrintHelper.Mode.WAITING_PASSWORD_MODE)
+                            if (prefsNoBackup?.contains(preferenceKeyValue) == true) {
+                                toggleFingerprintMode(FingerPrintHelper.Mode.OPEN_MODE)
+                            } else {
+                                // This happens when no fingerprints are registered.
+                                toggleFingerprintMode(FingerPrintHelper.Mode.WAITING_PASSWORD_MODE)
+                            }
                         }
                     }
                 }
+                checkboxListenerHandler.post(checkboxListenerRunnable)
 
                 // Add old listener to enable the button, only be call here because of onCheckedChange bug
                 onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
