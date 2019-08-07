@@ -262,7 +262,7 @@ class PasswordActivity : StylishActivity(),
                 if (PreferencesUtil.isFingerprintEnable(this)) {
                     if (fingerPrintViewsManager == null) {
                         fingerPrintViewsManager = FingerPrintViewsManager(this,
-                                mDatabaseFileUri,
+                                databaseFileUri,
                                 fingerPrintInfoView,
                                 checkboxPasswordView,
                                 enableButtonOnCheckedChangeListener,
