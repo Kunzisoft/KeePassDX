@@ -363,7 +363,7 @@
     <string name="menu_open_file_read_and_write">Änderbar</string>
     <string name="menu_file_selection_read_only">Schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
-    <string name="education_read_only_title">Schreibschutz für deine Datenbank</string>
+    <string name="education_read_only_title">Die Datenbank schreibschützen</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
     <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. 
 \n 
