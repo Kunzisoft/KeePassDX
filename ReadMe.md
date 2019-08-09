@@ -15,6 +15,7 @@
  * **AutoFill** and Integration
  * Field filling **keyboard**
  * Precise management of **settings**
+ * Code written in **native language** *(Kotlin / Java / JNI / C)*
 
 Keepass DX is **open source** and **ad-free**. 
 
