@@ -323,8 +323,12 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     abstract fun isBackup(group: Group): Boolean
 
-    open fun isGroupSearchable(group: Group?, omitBackup: Boolean): Boolean {
-        return group != null
+    fun isGroupSearchable(group: Group?, omitBackup: Boolean): Boolean {
+        if (group == null)
+            return false
+        if (omitBackup && isBackup(group))
+            return false
+        return true
     }
 
     companion object {

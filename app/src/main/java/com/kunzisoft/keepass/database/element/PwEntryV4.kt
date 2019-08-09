@@ -204,9 +204,6 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     override val type: Type
         get() = Type.ENTRY
 
-    override val isSearchingEnabled: Boolean
-        get() = parent?.isSearchingEnabled ?: true
-
     override var username: String
         get() = decodeRefKey(mDecodeRef, STR_USERNAME)
         set(value) {

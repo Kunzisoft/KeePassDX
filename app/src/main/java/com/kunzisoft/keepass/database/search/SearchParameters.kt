@@ -35,7 +35,6 @@ open class SearchParameters {
     var searchInNotes = true
     var ignoreCase = true
     var ignoreExpired = false
-    var respectEntrySearchingDisabled = true
     var excludeExpired = false
 
     constructor()
@@ -54,7 +53,6 @@ open class SearchParameters {
         searchInNotes = source.searchInNotes
         ignoreCase = source.ignoreCase
         ignoreExpired = source.ignoreExpired
-        respectEntrySearchingDisabled = source.respectEntrySearchingDisabled
         excludeExpired = source.excludeExpired
     }
 

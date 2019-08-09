@@ -64,10 +64,11 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
                         return when {
                             incrementEntry >= max -> false
                             database.isGroupSearchable(node, isOmitBackup) -> true
-                            else -> incrementEntry < max
+                            else -> false
                         }
                     }
-                })
+                },
+                false)
 
         return searchGroup
     }

@@ -126,9 +126,6 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return contained ?: false
     }
 
-    override val isSearchingEnabled: Boolean
-        get() = pwEntryV3?.isSearchingEnabled ?: pwEntryV4?.isSearchingEnabled ?: false
-
     override var creationTime: PwDate
         get() = pwEntryV3?.creationTime ?: pwEntryV4?.creationTime ?: PwDate()
         set(value) {

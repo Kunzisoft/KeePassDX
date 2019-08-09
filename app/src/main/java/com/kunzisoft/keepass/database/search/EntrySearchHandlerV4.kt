@@ -32,9 +32,6 @@ class EntrySearchHandlerV4(private val mSearchParametersV4: SearchParametersV4, 
     private var now: Date = Date()
 
     override fun operate(node: PwEntryV4): Boolean {
-        if (mSearchParametersV4.respectEntrySearchingDisabled && !node.isSearchingEnabled) {
-            return true
-        }
 
         if (mSearchParametersV4.excludeExpired && node.isExpires && now.after(node.expiryTime.date)) {
             return true

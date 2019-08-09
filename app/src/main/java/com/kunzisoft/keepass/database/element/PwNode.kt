@@ -107,6 +107,8 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
     override fun afterAssignNewParent() {}
 
     override fun isContainedIn(container: Parent): Boolean {
+        if (this == container)
+            return true
         var cur = this.parent
         while (cur != null) {
             if (cur == container) {

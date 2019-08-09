@@ -52,9 +52,6 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
     override val type: Type
         get() = Type.GROUP
 
-    override val isSearchingEnabled: Boolean
-        get() = parent?.isSearchingEnabled ?: true
-
     override fun initNodeId(): PwNodeId<UUID> {
         return PwNodeIdUUID()
     }

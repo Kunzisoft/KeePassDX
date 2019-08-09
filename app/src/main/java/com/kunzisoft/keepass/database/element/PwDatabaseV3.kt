@@ -207,12 +207,6 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
         return false
     }
 
-    override fun isGroupSearchable(group: PwGroupV3?, omitBackup: Boolean): Boolean {
-        return if (!super.isGroupSearchable(group, omitBackup)) {
-            false
-        } else !(omitBackup && isBackup(group!!))
-    }
-
     companion object {
 
         private const val DEFAULT_ENCRYPTION_ROUNDS = 300

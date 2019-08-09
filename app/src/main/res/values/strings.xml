@@ -150,7 +150,7 @@
     <string name="create_keepass_file">Create new database</string>
     <string name="open_recent">Recent databases</string>
     <string name="omitbackup_title">Don\'t search through backup entries</string>
-    <string name="omitbackup_summary">Omits \"Backup\" group from search results (only applies to .kdb files)</string>
+    <string name="omitbackup_summary">Omits \"Backup\" and \"Recycle Bin\" groups from search results</string>
     <string name="progress_create">Creating new database…</string>
     <string name="progress_title">Working…</string>
     <string name="protection">Protection</string>

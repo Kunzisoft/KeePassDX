@@ -407,12 +407,6 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         return publicCustomData.size() > 0
     }
 
-    override fun isGroupSearchable(group: PwGroupV4?, omitBackup: Boolean): Boolean {
-        return if (!super.isGroupSearchable(group, omitBackup)) {
-            false
-        } else group!!.isSearchingEnabled
-    }
-
     override fun validatePasswordEncoding(key: String?): Boolean {
         if (key == null)
             return true

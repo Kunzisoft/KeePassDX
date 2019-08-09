@@ -59,9 +59,6 @@ class PwGroupV3 : PwGroup<Int, PwGroupV3, PwEntryV3> {
     override val type: Type
         get() = Type.GROUP
 
-    override val isSearchingEnabled: Boolean
-        get() = false
-
     override fun initNodeId(): PwNodeId<Int> {
         return PwNodeIdInt()
     }

@@ -21,8 +21,6 @@ interface PwNodeInterface<ParentGroup> : NodeTimeInterface, Parcelable {
      */
     var parent: ParentGroup?
 
-    val isSearchingEnabled: Boolean
-
     fun containsParent(): Boolean
 
     fun afterAssignNewParent()

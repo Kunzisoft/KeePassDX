@@ -167,10 +167,6 @@ class PwEntryV3 : PwEntry<PwGroupV3, PwEntryV3> {
     override val type: Type
         get() = Type.ENTRY
 
-    override val isSearchingEnabled: Boolean
-        get() = false
-
-
     fun setBinaryData(buf: ByteArray, offset: Int, len: Int) {
         /** Securely erase old data before copying new.  */
         fill(binaryData, 0.toByte())
