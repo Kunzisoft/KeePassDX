@@ -49,9 +49,10 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.*
+import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.fileselect.DeleteFileHistoryAsyncTask
 import com.kunzisoft.keepass.fileselect.FileDatabaseModel
@@ -411,7 +412,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         {
                                 CreateDatabaseRunnable(this@FileDatabaseSelectActivity,
                                         databaseUri,
-                                        App.currentDatabase,
+                                        Database.getInstance(),
                                         masterPasswordChecked,
                                         masterPassword,
                                         keyFileChecked,

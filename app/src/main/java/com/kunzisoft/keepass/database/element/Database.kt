@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import org.apache.commons.io.FileUtils
 import java.io.*
@@ -735,7 +736,7 @@ class Database {
         return backupEntry
     }
 
-    companion object {
+    companion object : SingletonHolder<Database>(::Database) {
 
         private val TAG = Database::class.java.name
     }

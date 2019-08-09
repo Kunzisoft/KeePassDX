@@ -57,7 +57,7 @@ import java.lang.ref.WeakReference
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
-    private var database: Database = App.currentDatabase
+    private var database: Database = Database.getInstance()
     private var databaseReadOnly: Boolean = false
 
     private var count = 0

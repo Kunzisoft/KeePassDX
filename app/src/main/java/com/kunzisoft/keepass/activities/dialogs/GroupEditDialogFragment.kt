@@ -32,7 +32,6 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.PwIcon
@@ -90,7 +89,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             ta.recycle()
 
             // Init elements
-            mDatabase = App.currentDatabase
+            mDatabase = Database.getInstance()
             editGroupDialogAction = EditGroupDialogAction.NONE
             nameGroup = ""
             iconGroup = mDatabase?.iconFactory?.folderIcon

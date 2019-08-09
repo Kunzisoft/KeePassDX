@@ -168,7 +168,7 @@ class PasswordActivity : StylishActivity(),
     override fun onResume() {
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
-        if (App.currentDatabase.loaded) {
+        if (Database.getInstance().loaded) {
             setEmptyViews()
         }
 
@@ -362,7 +362,7 @@ class PasswordActivity : StylishActivity(),
         }
 
         // Clear before we load
-        val database = App.currentDatabase
+        val database = Database.getInstance()
         database.closeAndClear(applicationContext.filesDir)
 
         mDatabaseFileUri?.let { databaseUri ->
@@ -548,7 +548,7 @@ class PasswordActivity : StylishActivity(),
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK, Activity.RESULT_CANCELED -> {
                     setEmptyViews()
-                    App.currentDatabase.closeAndClear(applicationContext.filesDir)
+                    Database.getInstance().closeAndClear(applicationContext.filesDir)
                 }
             }
         }

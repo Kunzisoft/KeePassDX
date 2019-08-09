@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.notifications
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -14,7 +14,7 @@ object NotificationEntryCopyManager {
 
     fun launchNotificationIfAllowed(context: Context, firstLaunch: Boolean, entry: EntryVersioned) {
         // Start to manage field reference to copy a value from ref
-        val database = App.currentDatabase
+        val database = Database.getInstance()
         database.startManageEntry(entry)
 
         val containsUsernameToCopy = entry.username.isNotEmpty()

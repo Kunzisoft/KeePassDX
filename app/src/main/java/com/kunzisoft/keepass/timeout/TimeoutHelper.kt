@@ -28,7 +28,7 @@ import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
-import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 object TimeoutHelper {
@@ -57,7 +57,7 @@ object TimeoutHelper {
         // Record timeout time in case timeout service is killed
         PreferencesUtil.saveCurrentTime(context)
 
-        if (App.currentDatabase.loaded) {
+        if (Database.getInstance().loaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
 
             // No timeout don't start timeout service
@@ -85,7 +85,7 @@ object TimeoutHelper {
             return true
 
         // Cancel the lock PendingIntent
-        if (App.currentDatabase.loaded) {
+        if (Database.getInstance().loaded) {
             val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             Log.d(TAG, "TimeoutHelper cancel")
             am.cancel(getLockPendingIntent(context))

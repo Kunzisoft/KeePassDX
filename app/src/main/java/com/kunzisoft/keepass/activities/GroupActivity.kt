@@ -50,7 +50,6 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
@@ -107,7 +106,7 @@ class GroupActivity : LockingActivity(),
         if (isFinishing) {
             return
         }
-        mDatabase = App.currentDatabase
+        mDatabase = Database.getInstance()
 
         // Construct main view
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
@@ -482,7 +481,7 @@ class GroupActivity : LockingActivity(),
     private fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned) {
         ProgressDialogSaveDatabaseThread(this) {
             CopyEntryRunnable(this,
-                    App.currentDatabase,
+                    Database.getInstance(),
                     entryToCopy,
                     newParent,
                     AfterAddNodeRunnable(),
@@ -527,7 +526,7 @@ class GroupActivity : LockingActivity(),
         ProgressDialogSaveDatabaseThread(this) {
             MoveGroupRunnable(
                 this,
-                App.currentDatabase,
+                    Database.getInstance(),
                 groupToMove,
                 newParent,
                 AfterAddNodeRunnable(),
@@ -539,7 +538,7 @@ class GroupActivity : LockingActivity(),
         ProgressDialogSaveDatabaseThread(this) {
             MoveEntryRunnable(
                     this,
-                    App.currentDatabase,
+                    Database.getInstance(),
                     entryToMove,
                     newParent,
                     AfterAddNodeRunnable(),
@@ -560,7 +559,7 @@ class GroupActivity : LockingActivity(),
         ProgressDialogSaveDatabaseThread(this) {
             DeleteGroupRunnable(
                     this,
-                    App.currentDatabase,
+                    Database.getInstance(),
                     group,
                     AfterDeleteNodeRunnable(),
                     !readOnly)
@@ -571,7 +570,7 @@ class GroupActivity : LockingActivity(),
         ProgressDialogSaveDatabaseThread(this) {
             DeleteEntryRunnable(
                     this,
-                    App.currentDatabase,
+                    Database.getInstance(),
                     entry,
                     AfterDeleteNodeRunnable(),
                     !readOnly)
@@ -738,7 +737,7 @@ class GroupActivity : LockingActivity(),
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                   name: String?,
                                   icon: PwIcon?) {
-        val database = App.currentDatabase
+        val database = Database.getInstance()
 
         if (name != null && name.isNotEmpty() && icon != null) {
             when (action) {
@@ -755,11 +754,11 @@ class GroupActivity : LockingActivity(),
                             // If group created save it in the database
                             ProgressDialogSaveDatabaseThread(this) {
                                 AddGroupRunnable(this,
-                                    App.currentDatabase,
-                                    newGroup,
-                                    currentGroup,
-                                    AfterAddNodeRunnable(),
-                                    !readOnly)
+                                        Database.getInstance(),
+                                        newGroup,
+                                        currentGroup,
+                                        AfterAddNodeRunnable(),
+                                        !readOnly)
                             }.start()
                         }
                     }
@@ -777,7 +776,7 @@ class GroupActivity : LockingActivity(),
                             // If group updated save it in the database
                             ProgressDialogSaveDatabaseThread(this) {
                                 UpdateGroupRunnable(this,
-                                        App.currentDatabase,
+                                        Database.getInstance(),
                                         oldGroupToUpdate,
                                         updateGroup,
                                         AfterUpdateNodeRunnable(),
@@ -823,7 +822,7 @@ class GroupActivity : LockingActivity(),
 
                         // TODO Move trash view
                         // Add trash in views list if it doesn't exists
-                        val database = App.currentDatabase
+                        val database = Database.getInstance()
                         if (database.isRecycleBinEnabled) {
                             val recycleBin = database.recycleBin
                             if (mCurrentGroup != null && recycleBin != null
@@ -853,7 +852,7 @@ class GroupActivity : LockingActivity(),
 
     private fun showWarnings() {
         // TODO Preferences
-        if (App.currentDatabase.isReadOnly) {
+        if (Database.getInstance().isReadOnly) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
             if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
                 ReadOnlyDialog(this).show()
@@ -909,7 +908,7 @@ class GroupActivity : LockingActivity(),
         // Else lock if needed
         else {
             if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                App.currentDatabase.closeAndClear(applicationContext.filesDir)
+                Database.getInstance().closeAndClear(applicationContext.filesDir)
                 super.onBackPressed()
             } else {
                 moveTaskToBack(true)

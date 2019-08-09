@@ -31,9 +31,9 @@ import android.view.View
 import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.app.App
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 abstract class LockingActivity : StylishActivity() {
@@ -90,7 +90,7 @@ abstract class LockingActivity : StylishActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
             exitLock = true
-            if (App.currentDatabase.loaded) {
+            if (Database.getInstance().loaded) {
                 lockAndExit()
             }
         }
@@ -104,7 +104,7 @@ abstract class LockingActivity : StylishActivity() {
 
         if (timeoutEnable) {
             // End activity if database not loaded
-            if (!App.currentDatabase.loaded) {
+            if (!Database.getInstance().loaded) {
                 finish()
                 return
             }
@@ -198,7 +198,7 @@ fun Activity.lock() {
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
-    App.currentDatabase.closeAndClear(applicationContext.filesDir)
+    Database.getInstance().closeAndClear(applicationContext.filesDir)
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }

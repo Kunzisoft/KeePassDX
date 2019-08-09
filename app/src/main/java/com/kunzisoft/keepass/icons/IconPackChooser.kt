@@ -21,12 +21,10 @@ package com.kunzisoft.keepass.icons
 
 import android.content.Context
 import android.util.Log
-
 import com.kunzisoft.keepass.BuildConfig
-import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
-
-import java.util.ArrayList
+import java.util.*
 
 /**
  * Utility class to built and select an IconPack dynamically by libraries importation
@@ -95,7 +93,7 @@ object IconPackChooser {
     fun setSelectedIconPack(iconPackIdString: String?) {
         for (iconPack in iconPackList) {
             if (iconPack.id == iconPackIdString) {
-                App.currentDatabase.drawFactory.clearCache()
+                Database.getInstance().drawFactory.clearCache()
                 iconPackSelected = iconPack
                 break
             }

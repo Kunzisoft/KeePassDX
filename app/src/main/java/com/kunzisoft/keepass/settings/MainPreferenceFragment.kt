@@ -25,7 +25,7 @@ import android.support.v7.preference.Preference
 import android.support.v7.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.database.element.Database
 
 class MainPreferenceFragment : PreferenceFragmentCompat() {
 
@@ -71,7 +71,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
             }
-            if (!App.currentDatabase.loaded) {
+            if (!Database.getInstance().loaded) {
                 isEnabled = false
             }
         }

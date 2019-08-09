@@ -20,14 +20,10 @@
 package com.kunzisoft.keepass.app
 
 import android.support.multidex.MultiDexApplication
-import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import com.kunzisoft.keepass.database.element.Database
 
 class App : MultiDexApplication() {
-
-    companion object {
-        var currentDatabase: Database = Database()
-    }
 
     override fun onCreate() {
         super.onCreate()
@@ -37,7 +33,7 @@ class App : MultiDexApplication() {
     }
 
     override fun onTerminate() {
-        currentDatabase.closeAndClear(applicationContext.filesDir)
+        Database.getInstance().closeAndClear(applicationContext.filesDir)
         super.onTerminate()
     }
 }

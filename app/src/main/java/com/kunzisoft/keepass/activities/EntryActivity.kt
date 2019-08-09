@@ -35,13 +35,12 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.education.EntryActivityEducation
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.view.EntryContentsView
-import com.kunzisoft.keepass.app.App
+import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.notifications.NotificationEntryCopyManager
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -51,6 +50,7 @@ import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.view.EntryContentsView
 
 class EntryActivity : LockingHideActivity() {
 
@@ -77,7 +77,7 @@ class EntryActivity : LockingHideActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val currentDatabase = App.currentDatabase
+        val currentDatabase = Database.getInstance()
         readOnly = currentDatabase.isReadOnly || readOnly
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this)
@@ -137,7 +137,7 @@ class EntryActivity : LockingHideActivity() {
 
     private fun fillEntryDataInContentsView(entry: EntryVersioned) {
 
-        val database = App.currentDatabase
+        val database = Database.getInstance()
         database.startManageEntry(entry)
         // Assign title icon
         titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)

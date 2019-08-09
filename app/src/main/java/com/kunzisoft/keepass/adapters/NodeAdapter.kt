@@ -93,7 +93,7 @@ class NodeAdapter
         })
 
         // Database
-        this.mDatabase = App.currentDatabase
+        this.mDatabase = Database.getInstance()
 
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
@@ -309,7 +309,7 @@ class NodeAdapter
             var menuItem = contextMenu?.findItem(R.id.menu_open)
             menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
 
-            val database = App.currentDatabase
+            val database = Database.getInstance()
 
             // Edition
             if (readOnly || node == database.recycleBin) {

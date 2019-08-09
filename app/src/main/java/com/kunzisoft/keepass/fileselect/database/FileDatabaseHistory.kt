@@ -24,13 +24,11 @@ import android.content.SharedPreferences
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.net.Uri
 import android.preference.PreferenceManager
-
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.SingletonHolder
+import com.kunzisoft.keepass.utils.SingletonHolderParameter
 import com.kunzisoft.keepass.utils.UriUtil
 import java.lang.ref.WeakReference
-
-import java.util.ArrayList
+import java.util.*
 
 class FileDatabaseHistory private constructor(private val context: WeakReference<Context>) {
 
@@ -252,7 +250,7 @@ class FileDatabaseHistory private constructor(private val context: WeakReference
         }
     }
 
-    companion object : SingletonHolder<FileDatabaseHistory, WeakReference<Context>>(::FileDatabaseHistory) {
+    companion object : SingletonHolderParameter<FileDatabaseHistory, WeakReference<Context>>(::FileDatabaseHistory) {
 
         private const val DB_KEY = "recent_databases"
         private const val KEY_FILE_KEY = "recent_keyfiles"

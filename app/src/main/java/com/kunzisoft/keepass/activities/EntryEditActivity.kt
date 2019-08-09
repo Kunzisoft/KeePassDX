@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.ActionNodeValues
 import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
@@ -86,7 +85,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
         // Likely the app has been killed exit the activity
-        mDatabase = App.currentDatabase
+        mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
         intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {

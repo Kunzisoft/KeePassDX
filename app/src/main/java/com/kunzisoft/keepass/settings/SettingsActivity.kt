@@ -33,9 +33,9 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
@@ -102,7 +102,7 @@ open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback
     }
 
     override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
-        App.currentDatabase.let { database ->
+        Database.getInstance().let { database ->
             val progressDialogThread = ProgressDialogSaveDatabaseThread(this) {
                 AssignPasswordInDatabaseRunnable(this,
                         database,

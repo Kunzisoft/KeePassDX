@@ -23,7 +23,6 @@ import android.content.res.Resources
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
 import com.kunzisoft.keepass.database.element.Database
@@ -40,7 +39,7 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        this.database = App.currentDatabase
+        this.database = Database.getInstance()
 
         activity?.resources?.let { settingsResources = it }
     }
