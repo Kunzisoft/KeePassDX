@@ -360,7 +360,7 @@
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">通过填写一个您可以保护的新字段来注册一个用户不提供基础的字段。</string>
     <string name="education_unlock_title">解锁您的数据库</string>
-    <string name="education_read_only_title">数据库写保护</string>
+    <string name="education_read_only_title">对数据库打开写入保护</string>
     <string name="education_read_only_summary">在会话中改变打开方式。
 \n
 \n“写保护（模式）”将阻止您对数据库任何意外的改动。
