@@ -41,16 +41,6 @@
             android:defaultValue="@string/timeout_default"
             android:dependency="@string/keyboard_notification_entry_clear_close_key"/>
     </PreferenceCategory>
-    <!--
-    <PreferenceCategory
-        android:title="@string/keyboard_appearance_category">
-        <Preference
-            android:key="@string/keyboard_theme_key"
-            android:title="@string/keyboard_theme_title"
-            android:summary="dark"
-            android:enabled="false"/>
-    </PreferenceCategory>
-    -->
     <PreferenceCategory
         android:title="@string/keyboard_keys_category">
         <SwitchPreference
