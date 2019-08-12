@@ -29,6 +29,7 @@ import android.util.Log
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 object TimeoutHelper {
@@ -46,7 +47,7 @@ object TimeoutHelper {
     private fun getLockPendingIntent(context: Context): PendingIntent {
         return PendingIntent.getBroadcast(context,
                 REQUEST_ID,
-                Intent(LockingActivity.LOCK_ACTION),
+                Intent(LOCK_ACTION),
                 PendingIntent.FLAG_CANCEL_CURRENT)
     }
 

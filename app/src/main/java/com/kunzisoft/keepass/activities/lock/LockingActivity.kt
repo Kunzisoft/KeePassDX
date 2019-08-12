@@ -33,6 +33,8 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -41,8 +43,6 @@ abstract class LockingActivity : StylishActivity() {
     companion object {
 
         private const val TAG = "LockingActivity"
-
-        const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 
         const val RESULT_EXIT_LOCK = 1450
 
@@ -145,6 +145,7 @@ abstract class LockingActivity : StylishActivity() {
     inner class LockReceiver : BroadcastReceiver() {
 
         override fun onReceive(context: Context, intent: Intent) {
+            // If allowed, lock and exit
             if (!TimeoutHelper.temporarilyDisableTimeout) {
                 intent.action?.let {
                     when (it) {
@@ -193,12 +194,17 @@ abstract class LockingActivity : StylishActivity() {
 }
 
 fun Activity.lock() {
+    // Stop the Magikeyboard service
+    stopService(Intent(this, KeyboardEntryNotificationService::class.java))
+
     Log.i(Activity::class.java.name, "Shutdown " + localClassName +
             " after inactivity or manual lock")
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
         cancelAll()
     }
+    // Clear data
     Database.getInstance().closeAndClear(applicationContext.filesDir)
+    // Add onActivityForResult response
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()
 }
