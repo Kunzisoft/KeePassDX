@@ -37,6 +37,7 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService.Companion.ENTRY_INFO_KEY
 import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
@@ -210,7 +211,8 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 startActivity(intent)
             }
             KEY_LOCK -> {
-                removeEntryInfoAndSendBroadcastLockAction(this)
+                removeEntryInfo()
+                sendBroadcast(Intent(LOCK_ACTION))
                 dismissCustomKeys()
             }
             KEY_USERNAME -> {
@@ -287,15 +289,20 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
 
-        var entryInfoKey: EntryInfo? = null
+        private var entryInfoKey: EntryInfo? = null
 
         fun removeEntryInfo() {
             entryInfoKey = null
         }
 
-        fun removeEntryInfoAndSendBroadcastLockAction(context: Context) {
-            removeEntryInfo()
-            context.sendBroadcast(Intent(LOCK_ACTION))
+        fun initMagikeyboardForEntry(context: Context, entry: EntryInfo) {
+            entryInfoKey = entry
+            // Show the notification if allowed in Preferences
+            if (PreferencesUtil.enableKeyboardNotificationEntry(context)) {
+                context.startService(Intent(context, KeyboardEntryNotificationService::class.java).apply {
+                    putExtra(ENTRY_INFO_KEY, entry)
+                })
+            }
         }
     }
 }

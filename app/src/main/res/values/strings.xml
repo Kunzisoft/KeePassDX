@@ -227,7 +227,7 @@
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="clipboard">Clipboard</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
-    <string name="clipboard_notifications_summary">Enable clipboard notifications to copy entry fields</string>
+    <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>
     <string name="clipboard_warning">If automatic deletion of clipboard fails, delete its history manually.</string>
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
@@ -302,18 +302,21 @@
 
     <string name="keyboard_entry_category">Entry</string>
 
-    <string name="keyboard_entry_timeout_title">Timeout</string>
-    <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
+    <string name="keyboard_selection_entry_title">Entry selection</string>
+    <string name="keyboard_selection_entry_summary">Show input fields in Magikeyboard when viewing an entry</string>
 
     <string name="keyboard_notification_entry_title">Notification information</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
 
+    <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
+
+    <string name="keyboard_entry_timeout_title">Timeout</string>
+    <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
+
     <string name="keyboard_notification_entry_content_title_text">Entry</string>
     <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
-    <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
 
     <string name="keyboard_appearance_category">Appearance</string>
 

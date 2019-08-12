@@ -218,6 +218,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.delete_entered_password_default))
     }
 
+    fun enableKeyboardEntrySelection(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
+                context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
+    }
+
     fun enableKeyboardNotificationEntry(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),

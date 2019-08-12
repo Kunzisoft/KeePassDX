@@ -59,7 +59,7 @@ class NotificationCopyingService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID_COPYING,
                     CHANNEL_NAME_COPYING,
-                    NotificationManager.IMPORTANCE_HIGH)
+                    NotificationManager.IMPORTANCE_DEFAULT)
             notificationManager?.createNotificationChannel(channel)
         }
 
@@ -131,10 +131,11 @@ class NotificationCopyingService : Service() {
         val builder = NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
                 .setSmallIcon(R.drawable.ic_key_white_24dp)
                 .setColor(colorNotificationAccent)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+
         if (title != null)
             builder.setContentTitle(title)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-            builder.setVisibility(Notification.VISIBILITY_SECRET)
 
         if (fieldsToAdd.size > 0) {
             val field = fieldsToAdd[0]
@@ -181,6 +182,8 @@ class NotificationCopyingService : Service() {
                     .setSmallIcon(R.drawable.ic_key_white_24dp)
                     .setColor(colorNotificationAccent)
                     .setContentTitle(fieldToCopy.label)
+                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
 
             // New action with next field if click
             if (nextFields.size > 0) {

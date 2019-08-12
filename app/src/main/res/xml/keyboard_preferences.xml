@@ -21,6 +21,11 @@
     <PreferenceCategory
         android:title="@string/keyboard_entry_category">
         <SwitchPreference
+            android:key="@string/keyboard_selection_entry_key"
+            android:title="@string/keyboard_selection_entry_title"
+            android:summary="@string/keyboard_selection_entry_summary"
+            android:defaultValue="@bool/keyboard_selection_entry_default"/>
+        <SwitchPreference
             android:key="@string/keyboard_notification_entry_key"
             android:title="@string/keyboard_notification_entry_title"
             android:summary="@string/keyboard_notification_entry_summary"

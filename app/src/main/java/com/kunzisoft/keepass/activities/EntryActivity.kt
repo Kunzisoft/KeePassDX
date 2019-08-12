@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwNodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
+import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.NotificationEntryCopyManager
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields
@@ -130,6 +131,10 @@ class EntryActivity : LockingHideActivity() {
             NotificationEntryCopyManager.launchNotificationIfAllowed(this,
                     firstLaunchOfActivity,
                     entry)
+            // Manage entry to init Magikeyboard
+            if (PreferencesUtil.enableKeyboardEntrySelection(this)) {
+                MagikIME.initMagikeyboardForEntry(this, entry.getEntryInfo(Database.getInstance()))
+            }
         }
 
         firstLaunchOfActivity = false

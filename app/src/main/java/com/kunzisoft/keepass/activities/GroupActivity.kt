@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -404,14 +403,9 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, readOnly)
                         },
                         {
+                            // Init Magikeyboard with entry
                             mDatabase?.let { database ->
-                                MagikIME.entryInfoKey = entryVersioned.getEntryInfo(database)
-                            }
-                            // Show the notification if allowed in Preferences
-                            if (PreferencesUtil.enableKeyboardNotificationEntry(this@GroupActivity)) {
-                                startService(Intent(
-                                        this@GroupActivity,
-                                        KeyboardEntryNotificationService::class.java))
+                                MagikIME.initMagikeyboardForEntry(this@GroupActivity, entryVersioned.getEntryInfo(database))
                             }
                             // Consume the selection mode
                             EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)

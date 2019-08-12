@@ -145,11 +145,6 @@
             android:name="com.kunzisoft.keepass.database.action.DatabaseTaskNotificationService"
             android:enabled="true"
             android:exported="false" />
-        <!-- Receiver for Keyboard -->
-        <receiver
-            android:name="com.kunzisoft.keepass.magikeyboard.receiver.KeyboardNotificationDeleteBroadcastReceiver"
-            android:exported="false" >
-        </receiver>
         <service
             android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
             android:enabled="true"
