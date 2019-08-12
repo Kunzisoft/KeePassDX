@@ -29,8 +29,8 @@ import android.util.Log
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 object TimeoutHelper {
 

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.magikeyboard
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -37,11 +38,10 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
@@ -53,19 +53,24 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     private var fieldsAdapter: FieldsAdapter? = null
     private var playSoundDuringCLick: Boolean = false
 
-    private var lockBroadcastReceiver: LockBroadcastReceiver? = null
+    private var lockBroadcastReceiver: BroadcastReceiver? = null
 
     override fun onCreate() {
         super.onCreate()
 
         // Remove the entry and lock the keyboard when the lock signal is receive
-        lockBroadcastReceiver = object : LockBroadcastReceiver() {
-            override fun onReceiveLock(context: Context, intent: Intent) {
+        lockBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
                 entryInfoKey = null
                 assignKeyboardView()
             }
         }
-        registerReceiver(lockBroadcastReceiver, IntentFilter(LOCK_ACTION))
+
+        registerReceiver(lockBroadcastReceiver,
+                IntentFilter().apply {
+                    addAction(LOCK_ACTION)
+                }
+        )
     }
 
     override fun onCreateInputView(): View {
@@ -285,8 +290,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         var entryInfoKey: EntryInfo? = null
 
         fun deleteEntryKey(context: Context) {
-            val lockIntent = Intent(LOCK_ACTION)
-            context.sendBroadcast(lockIntent)
+            context.sendBroadcast(Intent(LOCK_ACTION))
             entryInfoKey = null
         }
     }

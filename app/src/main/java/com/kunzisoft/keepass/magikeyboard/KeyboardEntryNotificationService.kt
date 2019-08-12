@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.Service
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
@@ -13,10 +14,9 @@ import android.support.v4.app.NotificationCompat
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class KeyboardEntryNotificationService : Service() {
 
@@ -25,7 +25,7 @@ class KeyboardEntryNotificationService : Service() {
     private val notificationId = 582
     private var notificationTimeoutMilliSecs: Long = 0
 
-    private var lockBroadcastReceiver: LockBroadcastReceiver? = null
+    private var lockBroadcastReceiver: BroadcastReceiver? = null
     private var pendingDeleteIntent: PendingIntent? = null
 
     override fun onBind(intent: Intent): IBinder? {
@@ -45,12 +45,19 @@ class KeyboardEntryNotificationService : Service() {
         }
 
         // Register a lock receiver to stop notification service when lock on keyboard is performed
-        lockBroadcastReceiver = object : LockBroadcastReceiver() {
-            override fun onReceiveLock(context: Context, intent: Intent) {
-                context.stopService(Intent(context, KeyboardEntryNotificationService::class.java))
+        lockBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                context?.let {
+                    MagikIME.entryInfoKey = null
+                    it.stopService(Intent(context, KeyboardEntryNotificationService::class.java))
+                }
             }
         }
-        registerReceiver(lockBroadcastReceiver, IntentFilter(LOCK_ACTION))
+        registerReceiver(lockBroadcastReceiver,
+                IntentFilter().apply {
+                addAction(LOCK_ACTION)
+            }
+        )
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {

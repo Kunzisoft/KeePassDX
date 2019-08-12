@@ -34,9 +34,9 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
-import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 abstract class LockingActivity : StylishActivity() {
 
@@ -79,7 +79,7 @@ abstract class LockingActivity : StylishActivity() {
                 addAction(Intent.ACTION_SCREEN_OFF)
                 addAction(LOCK_ACTION)
             }
-            registerReceiver(lockReceiver, IntentFilter(intentFilter))
+            registerReceiver(lockReceiver, intentFilter)
         }
 
         exitLock = false
