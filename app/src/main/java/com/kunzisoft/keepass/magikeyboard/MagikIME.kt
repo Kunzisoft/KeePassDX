@@ -61,7 +61,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                entryInfoKey = null
+                removeEntryInfo()
                 assignKeyboardView()
             }
         }
@@ -203,14 +203,14 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             KEY_ENTRY -> {
                 // Stop current service and reinit entry
                 stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-                entryInfoKey = null
+                removeEntryInfo()
                 val intent = Intent(this, KeyboardLauncherActivity::class.java)
                 // New task needed because don't launch from an Activity context
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
             }
             KEY_LOCK -> {
-                deleteEntryKey(this)
+                removeEntryInfoAndSendBroadcastLockAction(this)
                 dismissCustomKeys()
             }
             KEY_USERNAME -> {
@@ -289,9 +289,13 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
         var entryInfoKey: EntryInfo? = null
 
-        fun deleteEntryKey(context: Context) {
-            context.sendBroadcast(Intent(LOCK_ACTION))
+        fun removeEntryInfo() {
             entryInfoKey = null
+        }
+
+        fun removeEntryInfoAndSendBroadcastLockAction(context: Context) {
+            removeEntryInfo()
+            context.sendBroadcast(Intent(LOCK_ACTION))
         }
     }
 }

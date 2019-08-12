@@ -14,7 +14,7 @@ import android.support.v4.app.NotificationCompat
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.magikeyboard.receiver.NotificationDeleteBroadcastReceiver
+import com.kunzisoft.keepass.magikeyboard.receiver.KeyboardNotificationDeleteBroadcastReceiver
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
@@ -48,15 +48,15 @@ class KeyboardEntryNotificationService : Service() {
         lockBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
                 context?.let {
-                    MagikIME.entryInfoKey = null
+                    MagikIME.removeEntryInfo()
                     it.stopService(Intent(context, KeyboardEntryNotificationService::class.java))
                 }
             }
         }
         registerReceiver(lockBroadcastReceiver,
                 IntentFilter().apply {
-                addAction(LOCK_ACTION)
-            }
+                    addAction(LOCK_ACTION)
+                }
         )
     }
 
@@ -71,7 +71,7 @@ class KeyboardEntryNotificationService : Service() {
 
     private fun newNotification() {
 
-        val deleteIntent = Intent(this, NotificationDeleteBroadcastReceiver::class.java)
+        val deleteIntent = Intent(this, KeyboardNotificationDeleteBroadcastReceiver::class.java)
         pendingDeleteIntent = PendingIntent.getBroadcast(applicationContext, 0, deleteIntent, 0)
 
         if (MagikIME.entryInfoKey != null) {
