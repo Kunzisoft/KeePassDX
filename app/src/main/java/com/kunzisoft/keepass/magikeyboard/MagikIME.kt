@@ -34,11 +34,11 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.FrameLayout
 import android.widget.PopupWindow
+import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver
 import com.kunzisoft.keepass.magikeyboard.receiver.LockBroadcastReceiver.Companion.LOCK_ACTION
-import com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     private var keyboardView: KeyboardView? = null
+    private var entryText: TextView? = null
     private var keyboard: Keyboard? = null
     private var keyboardEntry: Keyboard? = null
     private var popupCustomKeys: PopupWindow? = null
@@ -68,7 +69,10 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     }
 
     override fun onCreateInputView(): View {
-        keyboardView = layoutInflater.inflate(R.layout.keyboard_view, null) as MagikeyboardView
+
+        val rootKeyboardView = layoutInflater.inflate(R.layout.keyboard_container, null)
+        entryText = rootKeyboardView.findViewById(R.id.magikeyboard_entry_text)
+        keyboardView = rootKeyboardView.findViewById(R.id.magikeyboard_view)
 
         if (keyboardView != null) {
             keyboard = Keyboard(this, R.xml.keyboard_password)
@@ -104,7 +108,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
             closeView.setOnClickListener { popupCustomKeys?.dismiss() }
 
-            return keyboardView!!
+            return rootKeyboardView
         }
 
         return super.onCreateInputView()
@@ -113,10 +117,13 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     private fun assignKeyboardView() {
         if (keyboardView != null) {
             if (entryInfoKey != null) {
-                if (keyboardEntry != null)
+                if (keyboardEntry != null) {
+                    populateEntryInfoInView()
                     keyboardView?.keyboard = keyboardEntry
+                }
             } else {
                 if (keyboard != null) {
+                    hideEntryInfo()
                     dismissCustomKeys()
                     keyboardView?.keyboard = keyboard
                 }
@@ -126,6 +133,19 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             keyboardView?.isHapticFeedbackEnabled = PreferencesUtil.enableKeyboardVibration(this)
             playSoundDuringCLick = PreferencesUtil.enableKeyboardSound(this)
         }
+    }
+
+    private fun populateEntryInfoInView() {
+        entryText?.visibility = View.VISIBLE
+        if (entryInfoKey?.title?.isNotEmpty() == true) {
+            entryText?.text = entryInfoKey?.title
+        } else {
+            hideEntryInfo()
+        }
+    }
+
+    private fun hideEntryInfo() {
+        entryText?.visibility = View.GONE
     }
 
     override fun onStartInputView(info: EditorInfo, restarting: Boolean) {
