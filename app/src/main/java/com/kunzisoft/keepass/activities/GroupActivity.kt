@@ -954,13 +954,9 @@ class GroupActivity : LockingActivity(),
 
         @JvmOverloads
         fun launch(activity: Activity, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            launch(activity, null, readOnly)
-        }
-
-        fun launch(activity: Activity, group: GroupVersioned?, readOnly: Boolean) {
             TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, group, readOnly) { intent ->
-                activity.startActivityForResult(intent, 0)
+            buildAndLaunchIntent(activity, null, readOnly) { intent ->
+                activity.startActivity(intent)
             }
         }
 

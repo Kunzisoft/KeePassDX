@@ -624,7 +624,9 @@ class PasswordActivity : StylishActivity(),
                 fileName: String,
                 keyFile: String) {
             verifyFileNameUriFromLaunch(fileName)
-            buildAndLaunchIntent(activity, fileName, keyFile) { activity.startActivity(it) }
+            buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                activity.startActivity(intent)
+            }
         }
 
         /*

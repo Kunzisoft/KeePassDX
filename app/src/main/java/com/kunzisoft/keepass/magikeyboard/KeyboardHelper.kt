@@ -9,6 +9,6 @@ object KeyboardHelper {
     fun startActivityForKeyboardSelection(activity: Activity, intent: Intent) {
         EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
         // only to avoid visible flickering when redirecting
-        activity.startActivityForResult(intent, 0)
+        activity.startActivity(intent)
     }
 }
