@@ -309,7 +309,7 @@
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
 
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
 
     <string name="keyboard_entry_timeout_title">Timeout</string>
     <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>

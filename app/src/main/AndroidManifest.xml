@@ -146,7 +146,7 @@
             android:enabled="true"
             android:exported="false" />
         <service
-            android:name="com.kunzisoft.keepass.notifications.NotificationCopyingService"
+            android:name="com.kunzisoft.keepass.notifications.CopyingEntryNotificationService"
             android:enabled="true"
             android:exported="false" />
         <!-- Receiver for Autofill -->

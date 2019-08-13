@@ -31,7 +31,7 @@ import java.util.ArrayList
 /**
  * Utility class to manage fields in Notifications
  */
-open class NotificationField : Parcelable {
+open class NotificationCopyingField : Parcelable {
 
     private var id: NotificationFieldId = NotificationFieldId.UNKNOWN
     var value: String
@@ -79,7 +79,7 @@ open class NotificationField : Parcelable {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (other == null || javaClass != other.javaClass) return false
-        val field = other as NotificationField
+        val field = other as NotificationCopyingField
         return id == field.id
     }
 
@@ -111,15 +111,15 @@ open class NotificationField : Parcelable {
 
     companion object {
 
-        private val TAG = NotificationField::class.java.name
+        private val TAG = NotificationCopyingField::class.java.name
 
         @JvmField
-        val CREATOR: Parcelable.Creator<NotificationField> = object : Parcelable.Creator<NotificationField> {
-            override fun createFromParcel(`in`: Parcel): NotificationField {
-                return NotificationField(`in`)
+        val CREATOR: Parcelable.Creator<NotificationCopyingField> = object : Parcelable.Creator<NotificationCopyingField> {
+            override fun createFromParcel(`in`: Parcel): NotificationCopyingField {
+                return NotificationCopyingField(`in`)
             }
 
-            override fun newArray(size: Int): Array<NotificationField?> {
+            override fun newArray(size: Int): Array<NotificationCopyingField?> {
                 return arrayOfNulls(size)
             }
         }

@@ -35,23 +35,23 @@ object NotificationEntryCopyManager {
             if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
 
                 // username already copied, waiting for user's action before copy password.
-                val intent = Intent(context, NotificationCopyingService::class.java)
-                intent.action = NotificationCopyingService.ACTION_NEW_NOTIFICATION
-                intent.putExtra(NotificationCopyingService.EXTRA_ENTRY_TITLE, entry.title)
+                val intent = Intent(context, CopyingEntryNotificationService::class.java)
+                intent.action = CopyingEntryNotificationService.ACTION_NEW_NOTIFICATION
+                intent.putExtra(CopyingEntryNotificationService.EXTRA_ENTRY_TITLE, entry.title)
                 // Construct notification fields
-                val notificationFields = ArrayList<NotificationField>()
+                val notificationFields = ArrayList<NotificationCopyingField>()
                 // Add username if exists to notifications
                 if (containsUsernameToCopy)
                     notificationFields.add(
-                            NotificationField(
-                                    NotificationField.NotificationFieldId.USERNAME,
+                            NotificationCopyingField(
+                                    NotificationCopyingField.NotificationFieldId.USERNAME,
                                     entry.username,
                                     context.resources))
                 // Add password to notifications
                 if (containsPasswordToCopy) {
                     notificationFields.add(
-                            NotificationField(
-                                    NotificationField.NotificationFieldId.PASSWORD,
+                            NotificationCopyingField(
+                                    NotificationCopyingField.NotificationFieldId.PASSWORD,
                                     entry.password,
                                     context.resources))
                 }
@@ -65,8 +65,8 @@ object NotificationEntryCopyManager {
                                 if (!value.isProtected
                                         || PreferencesUtil.allowCopyPasswordAndProtectedFields(context)) {
                                     notificationFields.add(
-                                            NotificationField(
-                                                    NotificationField.NotificationFieldId.anonymousFieldId[anonymousFieldNumber],
+                                            NotificationCopyingField(
+                                                    NotificationCopyingField.NotificationFieldId.anonymousFieldId[anonymousFieldNumber],
                                                     value.toString(),
                                                     key,
                                                     context.resources))
@@ -75,13 +75,13 @@ object NotificationEntryCopyManager {
                             }
                         })
                     } catch (e: ArrayIndexOutOfBoundsException) {
-                        Log.w("NotificationEntryCopyMg", "Only " + NotificationField.NotificationFieldId.anonymousFieldId.size +
+                        Log.w("NotificationEntryCopyMg", "Only " + NotificationCopyingField.NotificationFieldId.anonymousFieldId.size +
                                 " anonymous notifications are available")
                     }
 
                 }
                 // Add notifications
-                intent.putParcelableArrayListExtra(NotificationCopyingService.EXTRA_FIELDS, notificationFields)
+                intent.putParcelableArrayListExtra(CopyingEntryNotificationService.EXTRA_FIELDS, notificationFields)
                 context.startService(intent)
             }
         }

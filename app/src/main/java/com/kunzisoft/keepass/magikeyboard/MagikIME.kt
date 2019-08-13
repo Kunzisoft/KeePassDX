@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION
 
 class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
@@ -70,6 +71,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         registerReceiver(lockBroadcastReceiver,
                 IntentFilter().apply {
                     addAction(LOCK_ACTION)
+                    addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
                 }
         )
     }
@@ -291,8 +293,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
         private var entryInfoKey: EntryInfo? = null
 
-        fun removeEntryInfo() {
+        private fun removeEntryInfo() {
             entryInfoKey = null
+        }
+
+        fun removeEntry(context: Context) {
+            context.sendBroadcast(Intent(REMOVE_ENTRY_MAGIKEYBOARD_ACTION))
         }
 
         fun initMagikeyboardForEntry(context: Context, entry: EntryInfo) {

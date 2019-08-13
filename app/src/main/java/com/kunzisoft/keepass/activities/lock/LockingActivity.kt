@@ -197,7 +197,7 @@ abstract class LockingActivity : StylishActivity() {
 fun Activity.lock() {
     // Stop the Magikeyboard service
     stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-    MagikIME.removeEntryInfo()
+    MagikIME.removeEntry(this)
 
     Log.i(Activity::class.java.name, "Shutdown " + localClassName +
             " after inactivity or manual lock")

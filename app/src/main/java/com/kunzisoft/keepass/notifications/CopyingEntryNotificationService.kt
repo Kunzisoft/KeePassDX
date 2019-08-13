@@ -19,56 +19,29 @@
  */
 package com.kunzisoft.keepass.notifications
 
-import android.app.*
-import android.content.Context
+import android.app.PendingIntent
 import android.content.Intent
-import android.os.Build
-import android.os.IBinder
 import android.preference.PreferenceManager
-import android.support.v4.app.NotificationCompat
 import android.util.Log
-import android.util.TypedValue
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.exception.SamsungClipboardException
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import java.util.*
 
-class NotificationCopyingService : Service() {
+class CopyingEntryNotificationService : NotificationService() {
 
-    private var notificationManager: NotificationManager? = null
-    private var clipboardHelper: ClipboardHelper? = null
-    private var cleanNotificationTimer: Thread? = null
-    private var countingDownTask: Thread? = null
     private var notificationId = 1
+    private var cleanNotificationTimer: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
-    private var colorNotificationAccent: Int = 0
-
-    override fun onBind(intent: Intent): IBinder? {
-        return null
-    }
+    private var clipboardHelper: ClipboardHelper? = null
+    private var countingDownTask: Thread? = null
 
     override fun onCreate() {
         super.onCreate()
-        notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+
         clipboardHelper = ClipboardHelper(this)
-
-        // Create notification channel for Oreo+
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel = NotificationChannel(CHANNEL_ID_COPYING,
-                    CHANNEL_NAME_COPYING,
-                    NotificationManager.IMPORTANCE_DEFAULT)
-            notificationManager?.createNotificationChannel(channel)
-        }
-
-        // Get the color
-        setTheme(Stylish.getThemeId(this))
-        val typedValue = TypedValue()
-        val theme = theme
-        theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
-        colorNotificationAccent = typedValue.data
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -92,10 +65,10 @@ class NotificationCopyingService : Service() {
                     Log.e(TAG, "Clipboard can't be cleaned", e)
                 }
             }
-            else -> for (actionKey in NotificationField.allActionKeys) {
+            else -> for (actionKey in NotificationCopyingField.allActionKeys) {
                 if (actionKey == intent.action) {
-                    val fieldToCopy = intent.getParcelableExtra<NotificationField>(
-                            NotificationField.getExtraKeyLinkToActionKey(actionKey))
+                    val fieldToCopy = intent.getParcelableExtra<NotificationCopyingField>(
+                            NotificationCopyingField.getExtraKeyLinkToActionKey(actionKey))
                     val nextFields = constructListOfField(intent)
                     // Remove the current field from the next fields
                     nextFields.remove(fieldToCopy)
@@ -106,8 +79,8 @@ class NotificationCopyingService : Service() {
         return START_NOT_STICKY
     }
 
-    private fun constructListOfField(intent: Intent?): ArrayList<NotificationField> {
-        var fieldList = ArrayList<NotificationField>()
+    private fun constructListOfField(intent: Intent?): ArrayList<NotificationCopyingField> {
+        var fieldList = ArrayList<NotificationCopyingField>()
         if (intent != null && intent.extras != null) {
             if (intent.extras!!.containsKey(EXTRA_FIELDS))
                 fieldList = intent.getParcelableArrayListExtra(EXTRA_FIELDS)
@@ -115,8 +88,8 @@ class NotificationCopyingService : Service() {
         return fieldList
     }
 
-    private fun getCopyPendingIntent(fieldToCopy: NotificationField, fieldsToAdd: ArrayList<NotificationField>): PendingIntent {
-        val copyIntent = Intent(this, NotificationCopyingService::class.java)
+    private fun getCopyPendingIntent(fieldToCopy: NotificationCopyingField, fieldsToAdd: ArrayList<NotificationCopyingField>): PendingIntent {
+        val copyIntent = Intent(this, CopyingEntryNotificationService::class.java)
         copyIntent.action = fieldToCopy.actionKey
         copyIntent.putExtra(fieldToCopy.extraKey, fieldToCopy)
         copyIntent.putParcelableArrayListExtra(EXTRA_FIELDS, fieldsToAdd)
@@ -125,14 +98,11 @@ class NotificationCopyingService : Service() {
                 this, 0, copyIntent, PendingIntent.FLAG_UPDATE_CURRENT)
     }
 
-    private fun newNotification(title: String?, fieldsToAdd: ArrayList<NotificationField>) {
+    private fun newNotification(title: String?, fieldsToAdd: ArrayList<NotificationCopyingField>) {
         stopTask(countingDownTask)
 
-        val builder = NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
+        val builder = buildNewNotification()
                 .setSmallIcon(R.drawable.ic_key_white_24dp)
-                .setColor(colorNotificationAccent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                .setVisibility(NotificationCompat.VISIBILITY_SECRET)
 
         if (title != null)
             builder.setContentTitle(title)
@@ -171,19 +141,16 @@ class NotificationCopyingService : Service() {
         }
     }
 
-    private fun copyField(fieldToCopy: NotificationField, nextFields: ArrayList<NotificationField>) {
+    private fun copyField(fieldToCopy: NotificationCopyingField, nextFields: ArrayList<NotificationCopyingField>) {
         stopTask(countingDownTask)
         stopTask(cleanNotificationTimer)
 
         try {
             clipboardHelper?.copyToClipboard(fieldToCopy.label, fieldToCopy.value)
 
-            val builder = NotificationCompat.Builder(this, CHANNEL_ID_COPYING)
+            val builder = buildNewNotification()
                     .setSmallIcon(R.drawable.ic_key_white_24dp)
-                    .setColor(colorNotificationAccent)
                     .setContentTitle(fieldToCopy.label)
-                    .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-                    .setVisibility(NotificationCompat.VISIBILITY_SECRET)
 
             // New action with next field if click
             if (nextFields.size > 0) {
@@ -195,7 +162,7 @@ class NotificationCopyingService : Service() {
                 builder.setContentText(getString(R.string.clipboard_swipe_clean))
             }
 
-            val cleanIntent = Intent(this, NotificationCopyingService::class.java)
+            val cleanIntent = Intent(this, CopyingEntryNotificationService::class.java)
             cleanIntent.action = ACTION_CLEAN_CLIPBOARD
             val cleanPendingIntent = PendingIntent.getService(
                     this, 0, cleanIntent, PendingIntent.FLAG_UPDATE_CURRENT)
@@ -246,9 +213,7 @@ class NotificationCopyingService : Service() {
 
     companion object {
 
-        private val TAG = NotificationCopyingService::class.java.name
-        private const val CHANNEL_ID_COPYING = "CHANNEL_ID_COPYING"
-        private const val CHANNEL_NAME_COPYING = "Copy fields"
+        private val TAG = CopyingEntryNotificationService::class.java.name
 
         const val ACTION_NEW_NOTIFICATION = "ACTION_NEW_NOTIFICATION"
         const val EXTRA_ENTRY_TITLE = "EXTRA_ENTRY_TITLE"

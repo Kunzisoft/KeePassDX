@@ -115,7 +115,7 @@
     <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
     <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
-    <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
+    <bool name="keyboard_notification_entry_clear_close_default" translatable="false">false</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
     <string name="keyboard_theme_key" translatable="false">keyboard_theme_key</string>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
