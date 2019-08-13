@@ -1,0 +1,9 @@
+ * Ajout du bouton de lock toujours visible
+ * Nouveau workflow de connexion
+ * Code refactorisé en Kotlin
+ * Meilleure implementation des notifications
+ * Meilleures vues pour les écrans larges
+ * Amélioration du Magikeyboard
+ * Correction de la Corbeille
+ * Correction de la mémoire lors du chargement de base de données
+ * Correction de petits bugs

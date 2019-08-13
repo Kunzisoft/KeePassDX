@@ -1,8 +1,10 @@
 KeepassDX (2.5.0.0beta19)
  * Add lock button always visible
- * Refactor connection workflow
- * Better Magikeyboard connection
+ * New connection workflow
  * Code refactored in Kotlin
+ * Better notification implementation
+ * Better views for large screen
+ * Magikeyboard enhancement
  * Fix Recycle Bin
  * Fix memory when load database
  * Fix small bugs
