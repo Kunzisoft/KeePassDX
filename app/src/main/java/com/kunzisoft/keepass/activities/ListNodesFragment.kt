@@ -21,6 +21,7 @@ import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -43,6 +44,10 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     private var prefs: SharedPreferences? = null
 
     private var readOnly: Boolean = false
+        get() {
+            return field || selectionMode
+        }
+    private var selectionMode: Boolean = false
 
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
@@ -138,6 +143,17 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     override fun onResume() {
         super.onResume()
+
+        activity?.intent?.let {
+            selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(it)
+        }
+        // Force read only mode if selection mode
+        mAdapter?.apply {
+            setReadOnly(readOnly)
+        }
+
+        // Refresh data
+        mAdapter?.notifyDataSetChanged()
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
