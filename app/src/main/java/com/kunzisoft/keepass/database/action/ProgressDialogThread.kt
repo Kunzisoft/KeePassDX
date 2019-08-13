@@ -5,7 +5,8 @@ import android.os.AsyncTask
 import android.os.Build
 import android.support.annotation.StringRes
 import android.support.v4.app.FragmentActivity
-import com.kunzisoft.keepass.database.action.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater

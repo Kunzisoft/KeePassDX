@@ -142,7 +142,7 @@
 
 
         <service
-            android:name="com.kunzisoft.keepass.database.action.DatabaseTaskNotificationService"
+            android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
             android:enabled="true"
             android:exported="false" />
         <service
