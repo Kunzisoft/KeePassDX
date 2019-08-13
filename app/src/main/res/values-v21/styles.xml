@@ -23,6 +23,9 @@
     <!-- Menu FAB -->
     <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
         <item name="android:elevation">4dp</item>
+    </style>
+    <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
+        <item name="android:textSize">15sp</item>
         <item name="android:background">@drawable/background_button_small</item>
     </style>
 </resources>
