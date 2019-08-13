@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -903,7 +904,7 @@ class GroupActivity : LockingActivity(),
         // Else lock if needed
         else {
             if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                Database.getInstance().closeAndClear(applicationContext.filesDir)
+                lockAndExit()
                 super.onBackPressed()
             } else {
                 moveTaskToBack(true)
