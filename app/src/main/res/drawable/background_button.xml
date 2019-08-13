@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <corners
+                android:radius="0dp" />
+            <padding
+                android:left="0dp"
+                android:right="0dp"
+                android:top="12dp"
+                android:bottom="12dp"/>
+            <solid android:color="@color/orange_light"/>
+        </shape>
+    </item>
     <item>
         <shape>
             <corners
@@ -12,4 +24,4 @@
             <solid android:color="@color/orange"/>
         </shape>
     </item>
-</layer-list>
+</selector>

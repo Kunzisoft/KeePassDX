@@ -85,7 +85,7 @@
                     android:shadowDy="2"
                     android:shadowRadius="4"
                     android:paddingTop="?attr/actionBarSize"
-                    android:textColor="?attr/colorAccentCompat"
+                    android:textColor="?attr/colorAccent"
                     android:gravity="center"
                     android:text="@string/app_name_part2"/>
                 <TextView

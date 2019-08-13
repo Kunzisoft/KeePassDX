@@ -48,7 +48,7 @@ class FileDatabaseHistoryAdapter(private val context: Context, private val listF
 
         val typedValue = TypedValue()
         val theme = context.theme
-        theme.resolveAttribute(R.attr.colorAccentCompat, typedValue, true)
+        theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
         warningColor = typedValue.data
         theme.resolveAttribute(android.R.attr.textColorHintInverse, typedValue, true)
         defaultColor = typedValue.data

@@ -97,7 +97,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
         lastAccessDateView = findViewById(R.id.entry_accessed)
         expiresDateView = findViewById(R.id.entry_expires)
 
-        val attrColorAccent = intArrayOf(R.attr.colorAccentCompat)
+        val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
         colorAccent = taColorAccent.getColor(0, Color.BLACK)
         taColorAccent.recycle()

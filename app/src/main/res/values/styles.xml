@@ -45,7 +45,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -102,7 +102,7 @@
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -291,12 +291,13 @@
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
+    <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
     </style>
     <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
         <item name="colorAccent">@color/white</item>
-        <item name="tint">?attr/colorAccentCompat</item>
+        <item name="tint">?attr/colorAccentLight</item>
+        <item name="android:tint">?attr/colorAccentLight</item>
     </style>
 
     <!-- Menu FAB -->

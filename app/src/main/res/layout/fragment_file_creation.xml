@@ -21,7 +21,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignBottom="@+id/folder_path_input_layout"
             android:src="@drawable/ic_folder_white_24dp"
-            android:tint="?attr/colorAccentCompat" />
+            android:tint="?attr/colorAccent" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/folder_path_input_layout"

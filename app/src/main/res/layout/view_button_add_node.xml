@@ -43,7 +43,6 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_key_white_24dp"
-            android:tint="?attr/colorAccentCompat"
             android:theme="@style/KeepassDXStyle.Fab.White"
             app:fabSize="mini"
             app:useCompatPadding="true" />
@@ -74,7 +73,6 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_folder_white_24dp"
-            android:tint="?attr/colorAccentCompat"
             android:theme="@style/KeepassDXStyle.Fab.White"
             app:fabSize="mini"
             app:useCompatPadding="true" />
