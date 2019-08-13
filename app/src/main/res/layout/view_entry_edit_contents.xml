@@ -20,6 +20,8 @@
 <android.support.constraint.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:targetApi="o"
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
@@ -49,6 +51,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:inputType="text"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_title"/>
 		</android.support.design.widget.TextInputLayout>
@@ -63,6 +67,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:inputType="text"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_user_name"/>
 		</android.support.design.widget.TextInputLayout>
@@ -89,6 +95,7 @@
 					android:layout_height="wrap_content"
 					android:inputType="textPassword"
 					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
 					android:maxLines="1"
 					android:hint="@string/entry_password"/>
 			</android.support.design.widget.TextInputLayout>
@@ -111,6 +118,7 @@
 					android:layout_height="wrap_content"
 					android:inputType="textPassword"
 					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
 					android:maxLines="1"
 					android:hint="@string/entry_confpassword"/>
 			</android.support.design.widget.TextInputLayout>
@@ -137,6 +145,8 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:inputType="textUri"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_url"/>
 		</android.support.design.widget.TextInputLayout>
@@ -153,6 +163,8 @@
 				android:gravity="start"
 				android:lines="4"
 				android:maxLines="10"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
 				android:inputType="textMultiLine"
 				android:hint="@string/entry_notes"/>
 		</android.support.design.widget.TextInputLayout>

@@ -41,6 +41,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/field_name"
+            android:importantForAccessibility="no"
+            android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
@@ -76,6 +78,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
+            android:importantForAccessibility="no"
+            android:importantForAutofill="no"
             android:hint="@string/field_value" />
     </android.support.design.widget.TextInputLayout>
 
