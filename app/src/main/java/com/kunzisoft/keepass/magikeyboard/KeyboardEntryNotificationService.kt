@@ -10,12 +10,13 @@ import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.notifications.NotificationService
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class KeyboardEntryNotificationService : NotificationService() {
 
-    private val notificationId = 2
+    private val notificationId = 486
     private var cleanNotificationTimer: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
@@ -157,6 +158,15 @@ class KeyboardEntryNotificationService : NotificationService() {
         const val ENTRY_INFO_KEY = "ENTRY_INFO_KEY"
 
         const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
+
+        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+            // Show the notification if allowed in Preferences
+            if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
+                context.startService(Intent(context, KeyboardEntryNotificationService::class.java).apply {
+                    putExtra(ENTRY_INFO_KEY, entry)
+                })
+            }
+        }
     }
 
 }

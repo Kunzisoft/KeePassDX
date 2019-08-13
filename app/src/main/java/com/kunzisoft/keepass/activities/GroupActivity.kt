@@ -403,9 +403,10 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, readOnly)
                         },
                         {
-                            // Init Magikeyboard with entry
+                            // Populate Magikeyboard with entry
                             mDatabase?.let { database ->
-                                MagikIME.initMagikeyboardForEntry(this@GroupActivity, entryVersioned.getEntryInfo(database))
+                                MagikIME.addEntryAndLaunchNotificationIfAllowed(this@GroupActivity,
+                                        entryVersioned.getEntryInfo(database))
                             }
                             // Consume the selection mode
                             EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)

@@ -20,18 +20,21 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.exception.SamsungClipboardException
+import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import java.util.*
 
 class CopyingEntryNotificationService : NotificationService() {
 
-    private var notificationId = 1
+    private var notificationId = 485
     private var cleanNotificationTimer: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
@@ -219,6 +222,72 @@ class CopyingEntryNotificationService : NotificationService() {
         const val EXTRA_ENTRY_TITLE = "EXTRA_ENTRY_TITLE"
         const val EXTRA_FIELDS = "EXTRA_FIELDS"
         const val ACTION_CLEAN_CLIPBOARD = "ACTION_CLEAN_CLIPBOARD"
-    }
 
+        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+
+            val containsUsernameToCopy = entry.username.isNotEmpty()
+            val containsPasswordToCopy = entry.password.isNotEmpty()
+                    && PreferencesUtil.allowCopyPasswordAndProtectedFields(context)
+            val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
+                    && (entry.containsCustomFieldsNotProtected()
+                        ||
+                        (entry.containsCustomFieldsProtected() && PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
+                    )
+
+            // If notifications enabled in settings
+            // Don't if application timeout
+            if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
+                if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+
+                    // username already copied, waiting for user's action before copy password.
+                    val intent = Intent(context, CopyingEntryNotificationService::class.java)
+                    intent.action = ACTION_NEW_NOTIFICATION
+                    intent.putExtra(EXTRA_ENTRY_TITLE, entry.title)
+                    // Construct notification fields
+                    val notificationFields = ArrayList<NotificationCopyingField>()
+                    // Add username if exists to notifications
+                    if (containsUsernameToCopy)
+                        notificationFields.add(
+                                NotificationCopyingField(
+                                        NotificationCopyingField.NotificationFieldId.USERNAME,
+                                        entry.username,
+                                        context.resources))
+                    // Add password to notifications
+                    if (containsPasswordToCopy) {
+                        notificationFields.add(
+                                NotificationCopyingField(
+                                        NotificationCopyingField.NotificationFieldId.PASSWORD,
+                                        entry.password,
+                                        context.resources))
+                    }
+                    // Add extra fields
+                    if (containsExtraFieldToCopy) {
+                        try {
+                            var anonymousFieldNumber = 0
+                            entry.customFields.forEach { field ->
+                                //If value is not protected or allowed
+                                if (!field.protectedValue.isProtected
+                                        || PreferencesUtil.allowCopyPasswordAndProtectedFields(context)) {
+                                    notificationFields.add(
+                                            NotificationCopyingField(
+                                                    NotificationCopyingField.NotificationFieldId.anonymousFieldId[anonymousFieldNumber],
+                                                    field.protectedValue.toString(),
+                                                    field.name,
+                                                    context.resources))
+                                    anonymousFieldNumber++
+                                }
+                            }
+                        } catch (e: ArrayIndexOutOfBoundsException) {
+                            Log.w("NotificationEntryCopyMg", "Only " + NotificationCopyingField.NotificationFieldId.anonymousFieldId.size +
+                                    " anonymous notifications are available")
+                        }
+
+                    }
+                    // Add notifications
+                    intent.putParcelableArrayListExtra(EXTRA_FIELDS, notificationFields)
+                    context.startService(intent)
+                }
+            }
+        }
+    }
 }

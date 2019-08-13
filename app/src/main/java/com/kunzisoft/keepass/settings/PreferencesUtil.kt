@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.SortNodeEnum
@@ -218,25 +217,25 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.delete_entered_password_default))
     }
 
-    fun enableKeyboardEntrySelection(context: Context): Boolean {
+    fun isKeyboardEntrySelectionEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_selection_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_selection_entry_default))
     }
 
-    fun enableKeyboardNotificationEntry(context: Context): Boolean {
+    fun isKeyboardNotificationEntryEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_key),
                 context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
     }
 
-    fun enableKeyboardVibration(context: Context): Boolean {
+    fun isKeyboardVibrationEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_key_vibrate_key),
                 context.resources.getBoolean(R.bool.keyboard_key_vibrate_default))
     }
 
-    fun enableKeyboardSound(context: Context): Boolean {
+    fun isKeyboardSoundEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_key_sound_key),
                 context.resources.getBoolean(R.bool.keyboard_key_sound_default))

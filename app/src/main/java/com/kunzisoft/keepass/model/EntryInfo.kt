@@ -41,6 +41,14 @@ class EntryInfo : Parcelable {
         parcel.writeArray(customFields.toTypedArray())
     }
 
+    fun containsCustomFieldsProtected(): Boolean {
+        return customFields.any { it.protectedValue.isProtected }
+    }
+
+    fun containsCustomFieldsNotProtected(): Boolean {
+        return customFields.any { !it.protectedValue.isProtected }
+    }
+
     companion object {
 
         @JvmField

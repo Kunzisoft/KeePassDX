@@ -37,7 +37,6 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService.Companion.ENTRY_INFO_KEY
 import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
@@ -63,8 +62,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         // Remove the entry and lock the keyboard when the lock signal is receive
         lockBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                removeEntryInfo()
-                assignKeyboardView()
+                when (intent?.action) {
+                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION, LOCK_ACTION -> {
+                        removeEntryInfo()
+                        assignKeyboardView()
+                    }
+                }
             }
         }
 
@@ -138,8 +141,8 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
 
             // Define preferences
-            keyboardView?.isHapticFeedbackEnabled = PreferencesUtil.enableKeyboardVibration(this)
-            playSoundDuringCLick = PreferencesUtil.enableKeyboardSound(this)
+            keyboardView?.isHapticFeedbackEnabled = PreferencesUtil.isKeyboardVibrationEnable(this)
+            playSoundDuringCLick = PreferencesUtil.isKeyboardSoundEnable(this)
         }
     }
 
@@ -301,14 +304,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             context.sendBroadcast(Intent(REMOVE_ENTRY_MAGIKEYBOARD_ACTION))
         }
 
-        fun initMagikeyboardForEntry(context: Context, entry: EntryInfo) {
+        fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+            // Add a new entry
             entryInfoKey = entry
-            // Show the notification if allowed in Preferences
-            if (PreferencesUtil.enableKeyboardNotificationEntry(context)) {
-                context.startService(Intent(context, KeyboardEntryNotificationService::class.java).apply {
-                    putExtra(ENTRY_INFO_KEY, entry)
-                })
-            }
+            // Launch notification if allowed
+            KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry)
         }
     }
 }

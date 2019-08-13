@@ -51,8 +51,9 @@ abstract class NotificationService : Service() {
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
     }
 
+    companion object {
+        const val CHANNEL_ID_KEEPASS = "com.kunzisoft.keepass.notification.channel"
+        const val CHANNEL_NAME_KEEPASS = "KeePass DX notification"
+        const val GROUP_KEEPASS = "GROUP_KEEPASS"
+    }
 }
-
-const val CHANNEL_ID_KEEPASS = "com.kunzisoft.keepass.notification.channel"
-const val CHANNEL_NAME_KEEPASS = "KeePass DX notification"
-const val GROUP_KEEPASS = "GROUP_KEEPASS"
