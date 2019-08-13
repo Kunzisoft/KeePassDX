@@ -330,7 +330,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
      */
     private fun createDatabaseFile(path: Uri): Boolean {
 
-        val pathString = URLDecoder.decode(path.path)
+        val pathString = URLDecoder.decode(path.path, "UTF-8")
         // Make sure file name exists
         if (pathString.isEmpty()) {
             Log.e(TAG, getString(R.string.error_filename_required))

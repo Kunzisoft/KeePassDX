@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
@@ -177,8 +176,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     context?.let { context ->
                         AlertDialog.Builder(context)
                                 .setMessage(resources.getString(R.string.fingerprint_delete_all_warning))
-                                .setIcon(resources.getDrawable(
-                                        android.R.drawable.ic_dialog_alert))
+                                .setIcon(android.R.drawable.ic_dialog_alert)
                                 .setPositiveButton(resources.getString(android.R.string.yes)
                                 ) { _, _ ->
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

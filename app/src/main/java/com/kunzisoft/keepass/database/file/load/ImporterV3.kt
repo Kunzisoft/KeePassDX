@@ -158,7 +158,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             throw InvalidPasswordException()
         }
 
-        var md: MessageDigest? = null
+        val md: MessageDigest
         try {
             md = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
@@ -169,7 +169,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         val dos = DigestOutputStream(nos, md)
         dos.write(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize)
         dos.close()
-        val hash = md!!.digest()
+        val hash = md.digest()
 
         if (!Arrays.equals(hash, hdr.contentsHash)) {
 
