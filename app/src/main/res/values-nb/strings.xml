@@ -1,8 +1,8 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_feedback">Tilbakemelding:</string>
-    <string name="about_homepage">Hjemmeside:</string>
-    <string name="about_description">KeePass DX er en Android-implementasjon av KeePass-passordsbehandleren.</string>
+    <string name="about_feedback">Tilbakemelding</string>
+    <string name="about_homepage">Hjemmeside</string>
+    <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
     <string name="edit_entry">Rediger oppføring</string>
@@ -12,17 +12,17 @@
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
     <string name="key_derivation_function">Nøkkelutledningsfunksjon</string>
     <string name="app_timeout">Programtidsavbrudd</string>
-    <string name="app_timeout_summary">Tid før databasen låses, ved programinaktivitet.</string>
+    <string name="app_timeout_summary">Inaktivitet før programmet låses</string>
     <string name="application">Program</string>
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
-    <string name="browser_intall_text">Filutforskning krever at OpenIntents filutforsker er installert, klikk nedenfor for å gjøre dette. På grunn av noen snodigheter i filutforskeren, kan det hende at det ikke virker første gang.</string>
+    <string name="browser_intall_text">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
     <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
-    <string name="clipboard_error">Noen Samsung Android-telefoner har en feil i utklippstavlen, som forårsaker problemer ved kopiering fra programmer. Flere detaljer:</string>
+    <string name="clipboard_error">Noen Android-telefoner fra Samsung lar ikke programmer bruke utklippstavlen.</string>
     <string name="clipboard_error_clear">Tømming av utklippstavle mislyktes</string>
     <string name="clipboard_timeout">Tidsavbrudd for utklippstavle</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavlen tømmes etter kopiering av brukernavn og passord</string>
@@ -50,7 +50,7 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
-    <string name="error_could_not_create_parent">Kunne ikke opprette overnevnt mappe.</string>
+    <string name="error_could_not_create_parent">Kunne ikke opprette ovennevnt mappe.</string>
     <string name="error_database_exists">Denne filen finnes allerede.</string>
     <string name="error_failed_to_launch_link">Kunne ikke åpne lenke.</string>
     <string name="error_filename_required">Et filnavn er påkrevd.</string>
@@ -60,7 +60,7 @@
     <string name="error_no_name">Et navn er påkrevd.</string>
     <string name="error_nokeyfile">En nøkkelfil er påkrevd.</string>
     <string name="error_out_of_memory">Enheten slapp opp for minne under fortolkning av databasen din.</string>
-    <string name="error_load_database">Databasen kan ikke lastes</string>
+    <string name="error_load_database">Kunne ikke laste inn databasen din.</string>
     <string name="error_load_database_KDF_memory">Kunne ikke laste nøkkelen, prøv å senke minnet brukt av KDF.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
@@ -102,7 +102,7 @@
     <string name="maskpass_summary">Skjul passord som forvalg</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key">Endre hovednøkkel</string>
-    <string name="copy_field">Kopi av %1$s</string>
+    <string name="copy_field">Kopierte %1$s</string>
     <string name="settings">Innstillinger</string>
     <string name="menu_app_settings">Programinnstillinger</string>
     <string name="menu_form_filling_settings">Skjemautfylling</string>
@@ -128,7 +128,7 @@
     <string name="no_results">Ingen søkeresultater</string>
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
-    <string name="open_recent">Nylige databaser:</string>
+    <string name="open_recent">Nylige databaser</string>
     <string name="omitbackup_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
     <string name="omitbackup_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
@@ -171,7 +171,7 @@
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
-    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) -rammeverk til filutforsking (KitKat og senere).</string>
+    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) rammeverk til filutforsking (KitKat og senere)</string>
     <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
@@ -187,7 +187,7 @@
     <string name="fingerprint_not_recognized">Fremmed fingeravtrykk</string>
     <string name="fingerprint_error">Fingeravtrykksproblem: %1$s</string>
     <string name="store_with_fingerprint">Bruk fingeravtrykk til å lagre dette passordet</string>
-    <string name="no_password_stored">Inget passord lagret for denne databasen enda</string>
+    <string name="no_password_stored">Denne databasen har ikke et passord enda.</string>
     <string name="history">Historikk</string>
     <string name="appearance">Utseende</string>
     <string name="general">Generelt</string>
@@ -211,8 +211,8 @@
     <string name="fingerprint_setting_text">Sett ditt personlige fingeravtrykk for din enhet i</string>
     <string name="fingerprint_setting_way_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
     <string name="fingerprint_type_password_text">Skriv passordet ditt i KeePass DX</string>
-    <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert</string>
-    <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt når passordutkryssingsboksen er fravalgt for å åpne databasen</string>
+    <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
+    <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
     <string name="fingerprint">Fingeravtrykk</string>
     <string name="fingerprint_enable_title">Skanner etter fingeravtrykk</string>
@@ -226,22 +226,22 @@
     <string name="file_name">Filnavn</string>
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøkkel</string>
-    <string name="create_keepass_file">Oppret en KeePass-fil</string>
+    <string name="create_keepass_file">Opprett ny KeePass-fil</string>
     <string name="bytes">Byte</string>
     <string name="full_file_path_enable_title">Filsti</string>
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database</string>
+    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database.</string>
     <string name="permission_external_storage_rationale_read_database">KeePass DX trenger tilgang til eksternt lagringsmedium for å lese en URI som ikke leveres av en innholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist</string>
-    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium</string>
+    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist.</string>
+    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium.</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
     <string name="auto_open_file_uri_summary">Åpne en fil fra utvalgsskjermen automatisk etter at et valg er gjort i filutforskeren</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
-    <string name="allow_copy_password_summary">Tillat kopiering av passordet og beskyttede felter til utklippstavlen.</string>
+    <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
     <string name="warning_disabling_storage_access_framework">ADVARSEL: Å skru av denne funksjonen kan lede til manglende evne til å åpne eller lagre databaser.</string>
     <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
@@ -251,12 +251,11 @@
     <string name="text_appearance">Tekstutseende</string>
     <string name="application_appearance">Programutseende</string>
     <string name="other">Annet</string>
-
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter automatisk.</string>
+    <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-innstillinger</string>
-    <string name="magic_keyboard_configure_title">Hvordan setter jeg opp tastaturet for sikker skjemautfylling?</string>
+    <string name="magic_keyboard_configure_title">Sett opp tastaturet for sikker skjemautfylling.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard i enhetsinnstillingene.</string>
     <string name="magic_keyboard_activate_setting_path_1_text">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
     <string name="magic_keyboard_activate_setting_path_2_text">eller (\"Innstillinger\" → \"Språk og inndata\" → \"Virtuelt tastatur\" og velg ett.)</string>
@@ -266,12 +265,10 @@
     <string name="keyboard_fill_field_text">Fyll inn feltene ved bruk av elementene i oppføringen.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Gå tilbake til ditt hovedtastatur.</string>
-
     <string name="allow_no_password_title">Tillat inget passord</string>
-    <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt.</string>
+    <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
-    <string name="enable_read_only_summary">Åpne databaser skrivebeskyttet som forvalg.</string>
-
+    <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg</string>
     <string name="enable_education_screens_title">Hjelpeskjermer</string>
     <string name="enable_education_screens_summary">Framhev elementer for opplæring i programmet</string>
     <string name="reset_education_screens_title">Tilbakestill opplæringsskjermer</string>
@@ -281,7 +278,7 @@
     <string name="education_create_database_summary">Du kjenner ikke KeePass DX enda, opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
     <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
-    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok.</string>
+    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok</string>
     <string name="education_open_link_database_summary">Du kan også åpne din database med en fysisk lenke (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
     <string name="education_new_node_summary">Legg til oppføringer for å behandle dine digitale identiteter.
@@ -289,19 +286,19 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_fingerprint_title">Lås opp databasen din med fingeravtrykket ditt.</string>
+    <string name="education_fingerprint_title">Lås opp databasen din med fingeravtrykket ditt</string>
     <string name="education_fingerprint_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
-    <string name="education_generate_password_title">Opprett et sterkt passord</string>
-    <string name="education_generate_password_summary">Generer et sterkt passord for å tilknytte oppføringen, definer det i henhold til kriteriene i skjemaet og ikke glem et sikkert passord du kan huske.</string>
+    <string name="education_generate_password_title">Opprett et sterkt passord.</string>
+    <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem å gjøre passordet sikkert.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
     <string name="education_unlock_title">Lås opp databasen din</string>
     <string name="education_unlock_summary">Oppgi passord og/eller nøkkelfil for å låse opp databasen din.
 \n
 \nHusk å lagre en kopi av din .kdbx-fil på et trygt sted etter hver endring.</string>
-    <string name="education_read_only_title">Skru på skrivebeskyttelse</string>
+    <string name="education_read_only_title">Skrivebeskytt databasen din</string>
     <string name="education_read_only_summary">Endre åpningsmodus for økten.
 \n
 \nI skrivebeskyttet modus, kan du forhindre utilsiktede endringer i databasen.
@@ -316,12 +313,12 @@
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
-
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong></string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
+    </string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong></string>
-
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>
@@ -329,20 +326,34 @@
     <string name="html_text_dev_feature_thanks">Takk for ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Det arbeides hardt på realiseringen av denne utgaven.</string>
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>
-
     <string name="download">Last ned</string>
     <string name="contribute">Bidra</string>
-
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string name="style_choose_title">Velg en drakt</string>
     <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
     <string name="icon_pack_choose_title">Velg en ikonpakke</string>
     <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
-
+    <string name="build_label">Bygg %1$s</string>
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard-innstillinger</string>
+    <string name="keyboard_entry_category">Oppføring</string>
+    <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
+    <string name="keyboard_entry_timeout_summary">Tidsavbrudd for tømming av tastaturoppføring</string>
+    <string name="keyboard_notification_entry_title">Merknadsinfo</string>
+    <string name="keyboard_notification_entry_summary">Vis en merknad når en oppføring er tilgjengelig</string>
+    <string name="keyboard_notification_entry_content_title_text">Oppføring</string>
+    <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+    <string name="keyboard_notification_entry_clear_close_title">Tøm ved lukking</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Tøm tastaturoppføringen ved lukking av merknaden</string>
+    <string name="keyboard_appearance_category">Utseende</string>
+    <string name="keyboard_theme_title">Tastaturdrakt</string>
+    <string name="keyboard_keys_category">Taster</string>
+    <string name="keyboard_key_vibrate_title">Vibrer ved tastetrykk</string>
+    <string name="keyboard_key_sound_title">Lyd ved tastetrykk</string>
 </resources>

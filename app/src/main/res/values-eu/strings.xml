@@ -18,15 +18,14 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Basque translation by David García-Abad, released under GPL V2.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Feedback:</string>
-    <string name="about_homepage">Hasiera orria:</string>
-    <string name="about_description">KeePass DX ireki iturburukoa den Keepass pasahitza kudeatzailaren Androiderako inplementazioa da.</string>
+    <string name="about_homepage">Hasiera orria</string>
+    <string name="about_description">Keepass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
     <string name="add_group">Taldea gehitu</string>
-    <string name="encryption_algorithm">Algoritmoa</string>
+    <string name="encryption_algorithm">Zifratze algoritmoa</string>
     <string name="app_timeout">Aplikazioa itzaltzeko denbora</string>
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
@@ -42,9 +41,9 @@
     <string name="clipboard_timeout">Arbela denbora pasatu da</string>
     <string name="clipboard_timeout_summary">Erabiltzaile izena edo pasahitza kopiatu ondoren arbela ezabatzeko igaro beharreko denbora</string>
     <string name="select_to_copy">Aukeratu %1$s arbelera kopiatzeko</string>
-    <string name="retrieving_db_key">Datubasearen gakoa sortzen&#8230;</string>
+    <string name="retrieving_db_key">Datubasearen gakoa sortzen…</string>
     <string name="database">Datubasea</string>
-    <string name="decrypting_db">Datubasearen datuak desenkriptatzen&#8230;</string>
+    <string name="decrypting_db">Datubasearen datuak desenkriptatzen…</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
@@ -104,7 +103,7 @@
     <string name="length">Luzera</string>
     <string name="list_size_title">Talde listaren tamaina</string>
     <string name="list_size_summary">Testuaren tamaina taldearen listan</string>
-    <string name="loading_database">Datubasea kargatzen&#8230;</string>
+    <string name="loading_database">Datubasea kargatzen…</string>
     <string name="lowercase">minuskulak</string>
     <string name="maskpass_title">Pasahitza estali</string>
     <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
@@ -128,8 +127,8 @@
     <string name="open_recent">Duela gutxiko datubasea ireki :</string>
     <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
     <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
-    <string name="progress_create">Datubase berria sortzen&#8230;</string>
-    <string name="progress_title">Lanean&#8230;</string>
+    <string name="progress_create">Datubase berria sortzen…</string>
+    <string name="progress_title">Lanean…</string>
     <string name="protection">Babesa</string>
     <string name="recentfile_title">Duela gutxiko fitxategien historia</string>
     <string name="recentfile_summary">Gogoratu duela gutxi erabili diren fitxategien izenak</string>
@@ -141,7 +140,7 @@
     <string name="rounds">Enkriptatzeko Rondak</string>
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
     <string name="rounds_hint">rondak</string>
-    <string name="saving_database">Datubasea gordetzen&#8230;</string>
+    <string name="saving_database">Datubasea gordetzen…</string>
     <string name="space">Lekua</string>
     <string name="search_label">Bilatu</string>
     <string name="sort_db">DB-a antolatzeko ordena</string>

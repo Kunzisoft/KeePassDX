@@ -18,15 +18,14 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
   
   Swedish translation by Niclas Burgren (burgren@gmail.com)
--->
-<resources>
+--><resources>
     <string name="about_feedback">Feedback:</string>
     <string name="about_homepage">Hemsida:</string>
     <string name="about_description">KeePass DX är en Android-implementation av KeePass password manager.</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
-    <string name="encryption_algorithm">Algoritm</string>
+    <string name="encryption_algorithm">Krypterings algoritm</string>
     <string name="app_timeout">Tidsgräns för applikation</string>
     <string name="app_timeout_summary">Tid innan låsning när applikationen är inaktiv.</string>
     <string name="application">Applikation</string>
@@ -42,12 +41,12 @@
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
     <string name="clipboard_timeout_summary">Tiden innan användarnamn och lösenord rensas från urklipp</string>
     <string name="select_to_copy">Kopiera %1$s till urklipp</string>
-    <string name="retrieving_db_key">Skapar databasnyckel&#8230;</string>
+    <string name="retrieving_db_key">Skapar databasnyckel…</string>
     <string name="database">Databas</string>
-    <string name="decrypting_db">Dekrypterar databasinnehåll&#8230;</string>
+    <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använda denna databasen som standard</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer helt utan garantier. Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_cancel">Avbryt</string>
@@ -103,7 +102,7 @@
     <string name="length">Längd</string>
     <string name="list_size_title">Storlek på grupplista</string>
     <string name="list_size_summary">Textstorlek i grupplistan</string>
-    <string name="loading_database">Laddar databas&#8230;</string>
+    <string name="loading_database">Laddar databas…</string>
     <string name="lowercase">Gemener</string>
     <string name="maskpass_title">Maskera lösenord</string>
     <string name="maskpass_summary">Döljer lösenord som standard</string>
@@ -127,8 +126,8 @@
     <string name="open_recent">Senat öppnade databaser :</string>
     <string name="omitbackup_title">Sök inte efter poster i backup/papperskorg</string>
     <string name="omitbackup_summary">Söker inte efter poster i \'Backup\' eller \'Recycle Bin\'</string>
-    <string name="progress_create">Skapar ny databas&#8230;</string>
-    <string name="progress_title">Arbetar&#8230;</string>
+    <string name="progress_create">Skapar ny databas…</string>
+    <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
     <string name="remember_keyfile_summary">Sparar sökvägar till nyckelfiler</string>
     <string name="remember_keyfile_title">Spara nyckelfil</string>
@@ -138,7 +137,7 @@
     <string name="rounds">Krypteringsrundor</string>
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot "brute force"-attacker, men kan göra att ladda och spara går betydligt långsammare.</string>
     <string name="rounds_hint">rundor</string>
-    <string name="saving_database">Sparar databas&#8230;</string>
+    <string name="saving_database">Sparar databas…</string>
     <string name="space">Mellanslag</string>
     <string name="search_label">Sök</string>
     <string name="sort_db">Sortera efter databasordning</string>
@@ -151,23 +150,23 @@
     <string name="uppercase">Versaler</string>
     <string name="warning_unmounted">SD-kortet är för närvarande inte monterat på enheten. Du kan inte skapa/ladda databasen.</string>
     <string name="version_label">Version %1$s</string>
-
     <string name="education_unlock_summary">Ange lösenord och/eller nyckelfil för att öppna databasen.</string>
-
     <string-array name="timeout_options">
-    	<item>5 sekunder</item>
-    	<item>10 sekunder</item>
-    	<item>20 sekunder</item>
-    	<item>30 sekunder</item>
-    	<item>1 minut</item>
-    	<item>5 minuter</item>
-    	<item>15 minuter</item>
-    	<item>30 minuter</item>
-    	<item>Aldrig</item>
+        <item>5 sekunder</item>
+        <item>10 sekunder</item>
+        <item>20 sekunder</item>
+        <item>30 sekunder</item>
+        <item>1 minut</item>
+        <item>5 minuter</item>
+        <item>15 minuter</item>
+        <item>30 minuter</item>
+        <item>Aldrig</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Liten</item>
-    	<item>Medium</item>
-    	<item>Stor</item>
+        <item>Liten</item>
+        <item>Medium</item>
+        <item>Stor</item>
     </string-array>
+    <string name="edit_entry">Uppdatera post</string>
+    <string name="encryption">Kryptering</string>
 </resources>
