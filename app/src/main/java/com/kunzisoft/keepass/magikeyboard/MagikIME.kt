@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION

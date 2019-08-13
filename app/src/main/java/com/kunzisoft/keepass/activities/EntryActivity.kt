@@ -43,7 +43,7 @@ import com.kunzisoft.keepass.database.element.PwNodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.notifications.CopyingEntryNotificationService
+import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
@@ -133,7 +133,7 @@ class EntryActivity : LockingHideActivity() {
             // Manage entry copy to start notification if allowed
             if (firstLaunchOfActivity) {
                 // Manage entry to launch copying notification if allowed
-                CopyingEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
+                ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
                 // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
                 if (PreferencesUtil.isKeyboardEntrySelectionEnable(this)) {
                     MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)

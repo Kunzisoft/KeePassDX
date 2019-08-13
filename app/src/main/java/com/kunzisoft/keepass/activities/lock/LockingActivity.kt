@@ -33,7 +33,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.magikeyboard.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper

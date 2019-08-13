@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.magikeyboard
+package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
@@ -8,8 +8,8 @@ import android.content.IntentFilter
 import android.support.v7.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
-import com.kunzisoft.keepass.notifications.NotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -17,7 +17,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 class KeyboardEntryNotificationService : NotificationService() {
 
     private val notificationId = 486
-    private var cleanNotificationTimer: Thread? = null
+    private var cleanNotificationTimerTask: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
     private var lockBroadcastReceiver: BroadcastReceiver? = null
@@ -95,7 +95,7 @@ class KeyboardEntryNotificationService : NotificationService() {
         notificationManager?.notify(notificationId, builder.build())
 
 
-        stopTask(cleanNotificationTimer)
+        stopTask(cleanNotificationTimerTask)
         // Timeout only if notification clear is available
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
         if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
@@ -109,7 +109,7 @@ class KeyboardEntryNotificationService : NotificationService() {
             }
 
             if (notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
-                cleanNotificationTimer = Thread {
+                cleanNotificationTimerTask = Thread {
                     val maxPos = 100
                     val posDurationMills = notificationTimeoutMilliSecs / maxPos
                     for (pos in maxPos downTo 0) {
@@ -125,7 +125,7 @@ class KeyboardEntryNotificationService : NotificationService() {
                         }
                     }
                 }
-                cleanNotificationTimer?.start()
+                cleanNotificationTimerTask?.start()
             }
         }
     }
@@ -136,8 +136,8 @@ class KeyboardEntryNotificationService : NotificationService() {
     }
 
     private fun destroyKeyboardNotification() {
-        stopTask(cleanNotificationTimer)
-        cleanNotificationTimer = null
+        stopTask(cleanNotificationTimerTask)
+        cleanNotificationTimerTask = null
         unregisterReceiver(lockBroadcastReceiver)
         pendingDeleteIntent?.cancel()
 

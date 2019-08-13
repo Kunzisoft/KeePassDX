@@ -42,6 +42,11 @@
             android:title="@string/allow_copy_password_title"
             android:summary="@string/allow_copy_password_summary"
             android:defaultValue="@bool/allow_copy_password_default"/>
+        <SwitchPreference
+            android:key="@string/clear_clipboard_notification_key"
+            android:title="@string/clear_clipboard_notification_title"
+            android:summary="@string/clear_clipboard_notification_summary"
+            android:defaultValue="@bool/clear_clipboard_notification_default"/>
         <ListPreference
             android:key="@string/clipboard_timeout_key"
             android:title="@string/clipboard_timeout"
