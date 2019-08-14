@@ -260,7 +260,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         try {
             val kdf = KdfFactory.getEngineV4(mDatabaseV4.kdfParameters)
-            kdf.randomize(mDatabaseV4.kdfParameters)
+            kdf.randomize(mDatabaseV4.kdfParameters!!)
         } catch (unknownKDF: UnknownKDF) {
             Log.e(TAG, "Unable to retrieve header", unknownKDF)
         }
@@ -705,14 +705,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     private fun writeBinPool() {
         xml.startTag(null, PwDatabaseV4XML.ElemBinaries)
 
-        for ((key, value) in mDatabaseV4.binPool.entrySet()) {
+        mDatabaseV4.binPool.doForEachBinary { key, binary ->
             xml.startTag(null, PwDatabaseV4XML.ElemBinary)
             xml.attribute(null, PwDatabaseV4XML.AttrId, Integer.toString(key))
 
-            subWriteValue(value)
+            subWriteValue(binary)
 
             xml.endTag(null, PwDatabaseV4XML.ElemBinary)
-
         }
 
         xml.endTag(null, PwDatabaseV4XML.ElemBinaries)

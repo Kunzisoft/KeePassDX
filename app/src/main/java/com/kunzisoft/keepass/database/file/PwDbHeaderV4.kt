@@ -19,22 +19,16 @@
  */
 package com.kunzisoft.keepass.database.file
 
+import com.kunzisoft.keepass.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
-import com.kunzisoft.keepass.crypto.CrsAlgorithm
-import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
-import com.kunzisoft.keepass.database.element.PwEntryV4
-import com.kunzisoft.keepass.database.element.PwGroupV4
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.utils.Types
-
-import javax.crypto.Mac
-import javax.crypto.spec.SecretKeySpec
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -42,8 +36,10 @@ import java.security.DigestInputStream
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import javax.crypto.Mac
+import javax.crypto.spec.SecretKeySpec
 
-class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
+class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     var innerRandomStreamKey: ByteArray = ByteArray(32)
     var streamStartBytes: ByteArray = ByteArray(32)
     var innerRandomStream: CrsAlgorithm? = null
@@ -51,10 +47,10 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
 
     // version < FILE_VERSION_32_4)
     var transformSeed: ByteArray?
-        get() = db.kdfParameters?.getByteArray(AesKdf.ParamSeed)
+        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.ParamSeed)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            db.kdfParameters?.setByteArray(AesKdf.ParamSeed, seed)
+            databaseV4.kdfParameters?.setByteArray(AesKdf.ParamSeed, seed)
         }
 
     object PwDbHeaderV4Fields {
@@ -88,97 +84,61 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
     inner class HeaderAndHash(var header: ByteArray, var hash: ByteArray)
 
     init {
-        this.version = getMinKdbxVersion(db).toLong() // Only for writing
+        this.version = getMinKdbxVersion(databaseV4) // Only for writing
         this.masterSeed = ByteArray(32)
     }
 
-    private inner class GroupHasCustomData : NodeHandler<PwGroupV4>() {
-
-        internal var hasCustomData = false
-
-        override fun operate(node: PwGroupV4): Boolean {
-            if (node.containsCustomData()) {
-                hasCustomData = true
-                return false
-            }
-            return true
-        }
-    }
-
-    private inner class EntryHasCustomData : NodeHandler<PwEntryV4>() {
-
-        internal var hasCustomData = false
-
-        override fun operate(node: PwEntryV4): Boolean {
-            if (node.containsCustomData()) {
-                hasCustomData = true
-                return false
-            }
-            return true
-        }
-    }
-
     private fun getMinKdbxVersion(databaseV4: PwDatabaseV4): Long {
+        if (databaseV4.rootGroup == null) {
+            return FILE_VERSION_32_3
+        }
+
         // Return v4 if AES is not use
         if (databaseV4.kdfParameters != null && databaseV4.kdfParameters!!.uuid != AesKdf.CIPHER_UUID) {
             return FILE_VERSION_32_4
         }
 
-        // Return V4 if custom data are present
-        if (databaseV4.containsPublicCustomData()) {
-            return FILE_VERSION_32_4
-        }
-
-        val entryHandler = EntryHasCustomData()
-        val groupHandler = GroupHasCustomData()
-
-        if (databaseV4.rootGroup == null) {
-            return FILE_VERSION_32_3
-        }
-        databaseV4.rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
-        return if (groupHandler.hasCustomData || entryHandler.hasCustomData) {
-            FILE_VERSION_32_4
-        } else FILE_VERSION_32_3
-
+        // Return V4 by default
+        return FILE_VERSION_32_4
     }
 
     /** Assumes the input stream is at the beginning of the .kdbx file
-     * @param `is`
+     * @param inputStream
      * @throws IOException
      * @throws InvalidDBVersionException
      */
     @Throws(IOException::class, InvalidDBVersionException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
-        val md: MessageDigest
+        val messageDigest: MessageDigest
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("No SHA-256 implementation")
         }
 
         val headerBOS = ByteArrayOutputStream()
-        val cis = CopyInputStream(inputStream, headerBOS)
-        val dis = DigestInputStream(cis, md)
-        val lis = LEDataInputStream(dis)
+        val copyInputStream = CopyInputStream(inputStream, headerBOS)
+        val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
+        val littleEndianDataInputStream = LEDataInputStream(digestInputStream)
 
-        val sig1 = lis.readInt()
-        val sig2 = lis.readInt()
+        val sig1 = littleEndianDataInputStream.readInt()
+        val sig2 = littleEndianDataInputStream.readInt()
 
         if (!matchesHeader(sig1, sig2)) {
             throw InvalidDBVersionException()
         }
 
-        version = lis.readUInt() // Erase previous value
+        version = littleEndianDataInputStream.readUInt() // Erase previous value
         if (!validVersion(version)) {
             throw InvalidDBVersionException()
         }
 
         var done = false
         while (!done) {
-            done = readHeaderField(lis)
+            done = readHeaderField(littleEndianDataInputStream)
         }
 
-        val hash = md.digest()
+        val hash = messageDigest.digest()
         return HeaderAndHash(headerBOS.toByteArray(), hash)
     }
 
@@ -228,10 +188,10 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
             PwDbHeaderV4Fields.InnerRandomStreamID -> if (version < FILE_VERSION_32_4)
                 setRandomStreamID(fieldData)
 
-            PwDbHeaderV4Fields.KdfParameters -> db.kdfParameters = KdfParameters.deserialize(fieldData)
+            PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
 
             PwDbHeaderV4Fields.PublicCustomData -> {
-                db.publicCustomData = KdfParameters.deserialize(fieldData) // TODO verify
+                databaseV4.publicCustomData = KdfParameters.deserialize(fieldData) // TODO verify
                 throw IOException("Invalid header type: $fieldID")
             }
             else -> throw IOException("Invalid header type: $fieldID")
@@ -241,8 +201,8 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
     }
 
     private fun assignAesKdfEngineIfNotExists() {
-        if (db.kdfParameters == null || db.kdfParameters!!.uuid != KdfFactory.aesKdf.uuid) {
-            db.kdfParameters = KdfFactory.aesKdf.defaultParameters
+        if (databaseV4.kdfParameters == null || databaseV4.kdfParameters!!.uuid != KdfFactory.aesKdf.uuid) {
+            databaseV4.kdfParameters = KdfFactory.aesKdf.defaultParameters
         }
     }
 
@@ -252,14 +212,14 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Invalid cipher ID.")
         }
 
-        db.dataCipher = Types.bytestoUUID(pbId)
+        databaseV4.dataCipher = Types.bytestoUUID(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
         val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
-        db.kdfParameters?.setUInt64(AesKdf.ParamRounds, rounds)
-        db.numberKeyEncryptionRounds = rounds
+        databaseV4.kdfParameters?.setUInt64(AesKdf.ParamRounds, rounds)
+        databaseV4.numberKeyEncryptionRounds = rounds
     }
 
     @Throws(IOException::class)
@@ -274,7 +234,7 @@ class PwDbHeaderV4(private val db: PwDatabaseV4) : PwDbHeader() {
         }
 
         PwCompressionAlgorithm.fromId(flag)?.let { compression ->
-            db.compressionAlgorithm =  compression
+            databaseV4.compressionAlgorithm =  compression
         }
     }
 

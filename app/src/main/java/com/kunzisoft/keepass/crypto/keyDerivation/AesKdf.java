@@ -45,7 +45,7 @@ public class AesKdf extends KdfEngine {
     public static final String ParamSeed = "S";
 
     AesKdf() {
-        setUUID(CIPHER_UUID);
+        setUuid(CIPHER_UUID);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AesKdf extends KdfEngine {
 
     @Override
     public KdfParameters getDefaultParameters() {
-        KdfParameters p = new KdfParameters(uuid);
+        KdfParameters p = new KdfParameters(getUuid());
 
         p.setParamUUID();
         p.setUInt32(ParamRounds, DEFAULT_ROUNDS);

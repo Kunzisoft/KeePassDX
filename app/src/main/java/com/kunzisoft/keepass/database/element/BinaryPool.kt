@@ -19,51 +19,48 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.util.SparseArray
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
-import java.util.HashMap
-import kotlin.collections.Map.Entry
 
 class BinaryPool {
-    // TODO SparseArray
-    private val pool = HashMap<Int, ProtectedBinary>()
+    private val pool = SparseArray<ProtectedBinary>()
 
     operator fun get(key: Int): ProtectedBinary? {
         return pool[key]
     }
 
     fun put(key: Int, value: ProtectedBinary) {
-        pool[key] = value
+        pool.put(key, value)
     }
 
-    fun entrySet(): Set<Entry<Int, ProtectedBinary>> {
-        return pool.entries
+    fun doForEachBinary(action: (key: Int, binary: ProtectedBinary) -> Unit) {
+        for (i in 0 until pool.size()) {
+            action.invoke(i, pool.get(pool.keyAt(i)))
+        }
     }
 
     fun clear() {
-        for ((_, value) in pool)
-            value.clear()
+        doForEachBinary { _, binary ->
+            binary.clear()
+        }
         pool.clear()
-    }
-
-    fun binaries(): Collection<ProtectedBinary> {
-        return pool.values
     }
 
     fun add(protectedBinary: ProtectedBinary) {
         if (findKey(protectedBinary) != -1) return
-        pool[findUnusedKey()] = protectedBinary
+        pool.put(findUnusedKey(), protectedBinary)
     }
 
     fun findUnusedKey(): Int {
-        var unusedKey = pool.size
+        var unusedKey = pool.size()
         while (get(unusedKey) != null)
             unusedKey++
         return unusedKey
     }
 
     fun findKey(pb: ProtectedBinary): Int {
-        for ((key, value) in pool) {
-            if (value == pb) return key
+        for (i in 0 until pool.size()) {
+            if (pool.get(pool.keyAt(i)) == pb) return i
         }
         return -1
     }

@@ -65,7 +65,7 @@ public class Argon2Kdf extends KdfEngine {
     private static final String DEFAULT_NAME = "Argon2";
 
     Argon2Kdf() {
-        setUUID(CIPHER_UUID);
+        setUuid(CIPHER_UUID);
     }
 
     @Override
@@ -77,7 +77,7 @@ public class Argon2Kdf extends KdfEngine {
 
     @Override
     public KdfParameters getDefaultParameters() {
-        KdfParameters p = new KdfParameters(uuid);
+        KdfParameters p = new KdfParameters(getUuid());
 
         p.setParamUUID();
         p.setUInt32(ParamParallelism, DefaultParallelism);
@@ -134,10 +134,12 @@ public class Argon2Kdf extends KdfEngine {
         return p.getUInt64(ParamMemory);
     }
 
+    @Override
     public void setMemoryUsage(KdfParameters p, long memory) {
         p.setUInt64(ParamMemory, memory);
     }
 
+    @Override
     public long getDefaultMemoryUsage() {
         return DefaultMemory;
     }
@@ -147,10 +149,12 @@ public class Argon2Kdf extends KdfEngine {
         return (int) p.getUInt32(ParamParallelism); // TODO Verify
     }
 
+    @Override
     public void setParallelism(KdfParameters p, int parallelism) {
         p.setUInt32(ParamParallelism, parallelism);
     }
 
+    @Override
     public int getDefaultParallelism() {
         return (int) DefaultParallelism; // TODO Verify
     }

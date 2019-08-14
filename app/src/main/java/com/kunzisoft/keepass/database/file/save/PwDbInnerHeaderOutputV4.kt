@@ -21,10 +21,8 @@ package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.utils.MemUtil
-
 import java.io.IOException
 import java.io.OutputStream
 import kotlin.experimental.or
@@ -46,7 +44,7 @@ class PwDbInnerHeaderOutputV4(private val db: PwDatabaseV4, private val header: 
         los.writeInt(streamKeySize)
         los.write(header.innerRandomStreamKey)
 
-        for (protectedBinary in db.binPool.binaries()) {
+        db.binPool.doForEachBinary { _, protectedBinary ->
             var flag = PwDbHeaderV4.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or PwDbHeaderV4.KdbxBinaryFlags.Protected

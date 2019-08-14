@@ -95,20 +95,21 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
                               keyInputStream: InputStream?,
                               progressTaskUpdater: ProgressTaskUpdater?): PwDatabaseV4 {
 
+        // TODO performance
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
+
         mDatabase = PwDatabaseV4()
-
         val header = PwDbHeaderV4(mDatabase)
-        mDatabase.binPool.clear()
 
-        val hh = header.loadFromFile(databaseInputStream)
+        val headerAndHash = header.loadFromFile(databaseInputStream)
         version = header.version
 
-        hashOfHeader = hh.hash
-        val pbHeader = hh.header
+        hashOfHeader = headerAndHash.hash
+        val pbHeader = headerAndHash.header
 
         mDatabase.retrieveMasterKey(password, keyInputStream)
         mDatabase.makeFinalKey(header.masterSeed)
+        // TODO performance
 
         progressTaskUpdater?.updateMessage(R.string.decrypting_db)
         val engine: CipherEngine

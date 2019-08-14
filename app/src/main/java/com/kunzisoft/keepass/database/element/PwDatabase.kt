@@ -77,19 +77,41 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     @Throws(InvalidKeyFileException::class, IOException::class)
     protected fun getCompositeKey(key: String, keyInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyInputStream)
-
         val passwordKey = getPasswordKey(key)
 
-        val md: MessageDigest
+        val messageDigest: MessageDigest
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not supported")
         }
 
-        md.update(passwordKey)
+        messageDigest.update(passwordKey)
 
-        return md.digest(fileKey)
+        return messageDigest.digest(fileKey)
+    }
+
+    @Throws(IOException::class)
+    protected fun getPasswordKey(key: String?): ByteArray {
+        if (key == null)
+            throw IllegalArgumentException("Key cannot be empty.") // TODO
+
+        val messageDigest: MessageDigest
+        try {
+            messageDigest = MessageDigest.getInstance("SHA-256")
+        } catch (e: NoSuchAlgorithmException) {
+            throw IOException("SHA-256 not supported")
+        }
+
+        val bKey: ByteArray = try {
+            key.toByteArray(charset(passwordEncoding))
+        } catch (e: UnsupportedEncodingException) {
+            key.toByteArray()
+        }
+
+        messageDigest.update(bKey, 0, bKey.size)
+
+        return messageDigest.digest()
     }
 
     @Throws(InvalidKeyFileException::class, IOException::class)
@@ -156,29 +178,6 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
             return false
         }
         return key == reEncoded
-    }
-
-    @Throws(IOException::class)
-    fun getPasswordKey(key: String?): ByteArray {
-        if (key == null)
-            throw IllegalArgumentException("Key cannot be empty.") // TODO
-
-        val md: MessageDigest
-        try {
-            md = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("SHA-256 not supported")
-        }
-
-        val bKey: ByteArray = try {
-            key.toByteArray(charset(passwordEncoding))
-        } catch (e: UnsupportedEncodingException) {
-            key.toByteArray()
-        }
-
-        md.update(bKey, 0, bKey.size)
-
-        return md.digest()
     }
 
     /*

@@ -44,7 +44,7 @@ class InputNumberPreference @JvmOverloads constructor(context: Context,
     }
 
     override fun setSummary(summary: CharSequence) {
-        if (summary == KdfEngine.UNKNOW_VALUE_STRING) {
+        if (summary == KdfEngine.UNKNOWN_VALUE_STRING) {
             isEnabled = false
             super.setSummary("")
         } else {

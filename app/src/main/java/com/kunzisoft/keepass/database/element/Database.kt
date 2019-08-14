@@ -128,7 +128,7 @@ class Database {
 
     var memoryUsage: Long
         get() {
-            return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOW_VALUE.toLong()
+            return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
         }
         set(memory) {
             pwDatabaseV4?.memoryUsage = memory
@@ -138,7 +138,7 @@ class Database {
         get() = parallelism.toString()
 
     var parallelism: Int
-        get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOW_VALUE
+        get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
             pwDatabaseV4?.parallelism = parallelism
         }
@@ -464,8 +464,8 @@ class Database {
         if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
             pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
         numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-        memoryUsage = kdfEngine.defaultMemoryUsage
-        parallelism = kdfEngine.defaultParallelism
+        memoryUsage = kdfEngine.getDefaultMemoryUsage()
+        parallelism = kdfEngine.getDefaultParallelism()
     }
 
     fun getKeyDerivationName(resources: Resources): String {

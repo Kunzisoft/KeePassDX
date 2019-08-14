@@ -152,15 +152,17 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
     }
 
     @Throws(InvalidKeyFileException::class, IOException::class)
-    public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
+    override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
         return if (key != null && keyInputStream != null) {
             getCompositeKey(key, keyInputStream)
-        } else key?.let { // key.length() >= 0
-            getPasswordKey(it)
-        } ?: (keyInputStream?.let { // key == null
-            getFileKey(it)
-        } ?: throw IllegalArgumentException("Key cannot be empty."))
+        } else if (key != null) { // key.length() >= 0
+            getPasswordKey(key)
+        } else if (keyInputStream != null) { // key == null
+            getFileKey(keyInputStream)
+        } else {
+            throw IllegalArgumentException("Key cannot be empty.")
+        }
     }
 
     @Throws(IOException::class)

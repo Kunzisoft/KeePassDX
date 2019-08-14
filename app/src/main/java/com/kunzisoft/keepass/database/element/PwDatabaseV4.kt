@@ -118,44 +118,43 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
 
     val kdfEngine: KdfEngine?
         get() {
-            try {
-                return KdfFactory.getEngineV4(kdfParameters)
+            return try {
+                KdfFactory.getEngineV4(kdfParameters)
             } catch (unknownKDF: UnknownKDF) {
                 Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
-                return null
+                null
             }
-
         }
 
     override var numberKeyEncryptionRounds: Long
         get() {
             if (kdfEngine != null && kdfParameters != null)
-                numKeyEncRounds = kdfEngine!!.getKeyRounds(kdfParameters)
+                numKeyEncRounds = kdfEngine!!.getKeyRounds(kdfParameters!!)
             return numKeyEncRounds
         }
         @Throws(NumberFormatException::class)
         set(rounds) {
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine!!.setKeyRounds(kdfParameters, rounds)
+                kdfEngine!!.setKeyRounds(kdfParameters!!, rounds)
             numKeyEncRounds = rounds
         }
 
     var memoryUsage: Long
         get() = if (kdfEngine != null && kdfParameters != null) {
-            kdfEngine!!.getMemoryUsage(kdfParameters)
-        } else KdfEngine.UNKNOW_VALUE.toLong()
+            kdfEngine!!.getMemoryUsage(kdfParameters!!)
+        } else KdfEngine.UNKNOWN_VALUE.toLong()
         set(memory) {
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine!!.setMemoryUsage(kdfParameters, memory)
+                kdfEngine!!.setMemoryUsage(kdfParameters!!, memory)
         }
 
     var parallelism: Int
         get() = if (kdfEngine != null && kdfParameters != null) {
-            kdfEngine!!.getParallelism(kdfParameters)
-        } else KdfEngine.UNKNOW_VALUE
+            kdfEngine!!.getParallelism(kdfParameters!!)
+        } else KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine!!.setParallelism(kdfParameters, parallelism)
+                kdfEngine!!.setParallelism(kdfParameters!!, parallelism)
         }
 
     override val passwordEncoding: String
@@ -200,50 +199,52 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
     @Throws(InvalidKeyFileException::class, IOException::class)
     public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
-        var fKey = byteArrayOf()
+        var masterKey = byteArrayOf()
 
         if (key != null && keyInputStream != null) {
             return getCompositeKey(key, keyInputStream)
         } else if (key != null) { // key.length() >= 0
-            fKey = getPasswordKey(key)
+            masterKey = getPasswordKey(key)
         } else if (keyInputStream != null) { // key == null
-            fKey = getFileKey(keyInputStream)
+            masterKey = getFileKey(keyInputStream)
         }
 
-        val md: MessageDigest
+        val messageDigest: MessageDigest
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("No SHA-256 implementation")
         }
 
-        return md.digest(fKey)
+        return messageDigest.digest(masterKey)
     }
 
     @Throws(IOException::class)
     fun makeFinalKey(masterSeed: ByteArray) {
 
-        val kdfEngine = KdfFactory.getEngineV4(kdfParameters)
+        kdfParameters?.let { keyDerivationFunctionParameters ->
+            val kdfEngine = KdfFactory.getEngineV4(keyDerivationFunctionParameters)
 
-        var transformedMasterKey = kdfEngine.transform(masterKey, kdfParameters)
-        if (transformedMasterKey.size != 32) {
-            transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey)
-        }
+            var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
+            if (transformedMasterKey.size != 32) {
+                transformedMasterKey = CryptoUtil.hashSha256(transformedMasterKey)
+            }
 
-        val cmpKey = ByteArray(65)
-        System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
-        System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
-        finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength())
+            val cmpKey = ByteArray(65)
+            System.arraycopy(masterSeed, 0, cmpKey, 0, 32)
+            System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
+            finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength())
 
-        val md: MessageDigest
-        try {
-            md = MessageDigest.getInstance("SHA-512")
-            cmpKey[64] = 1
-            hmacKey = md.digest(cmpKey)
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-512 implementation")
-        } finally {
-            Arrays.fill(cmpKey, 0.toByte())
+            val md: MessageDigest
+            try {
+                md = MessageDigest.getInstance("SHA-512")
+                cmpKey[64] = 1
+                hmacKey = md.digest(cmpKey)
+            } catch (e: NoSuchAlgorithmException) {
+                throw IOException("No SHA-512 implementation")
+            } finally {
+                Arrays.fill(cmpKey, 0.toByte())
+            }
         }
     }
 
