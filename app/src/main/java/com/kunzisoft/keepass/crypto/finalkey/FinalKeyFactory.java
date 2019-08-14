@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.crypto.CipherFactory;
 public class FinalKeyFactory {
     public static FinalKey createFinalKey() {
         // Prefer the native final key implementation
-        if ( !CipherFactory.INSTANCE.deviceBlacklisted() && NativeFinalKey.availble() ) {
+        if ( !CipherFactory.INSTANCE.deviceBlacklisted() && NativeFinalKey.available() ) {
             return new NativeFinalKey();
         } else {
             // Fall back on the android crypto implementation

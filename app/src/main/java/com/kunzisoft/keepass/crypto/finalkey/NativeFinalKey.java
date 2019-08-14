@@ -26,7 +26,7 @@ import java.io.IOException;
 
 public class NativeFinalKey extends FinalKey {
 
-    public static boolean availble() {
+    public static boolean available() {
         return NativeLib.INSTANCE.init();
     }
 
@@ -35,21 +35,7 @@ public class NativeFinalKey extends FinalKey {
         NativeLib.INSTANCE.init();
 
         return nTransformMasterKey(seed, key, rounds);
-
     }
 
     private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
-
-    // For testing
-	/*
-	public static byte[] reflect(byte[] key) {
-		NativeLib.init();
-		
-		return nativeReflect(key);
-	}
-	
-	private static native byte[] nativeReflect(byte[] key);
-	*/
-
-
 }

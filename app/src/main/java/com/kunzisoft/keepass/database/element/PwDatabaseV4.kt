@@ -235,11 +235,11 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
             System.arraycopy(transformedMasterKey, 0, cmpKey, 32, 32)
             finalKey = CryptoUtil.resizeKey(cmpKey, 0, 64, dataEngine.keyLength())
 
-            val md: MessageDigest
+            val messageDigest: MessageDigest
             try {
-                md = MessageDigest.getInstance("SHA-512")
+                messageDigest = MessageDigest.getInstance("SHA-512")
                 cmpKey[64] = 1
-                hmacKey = md.digest(cmpKey)
+                hmacKey = messageDigest.digest(cmpKey)
             } catch (e: NoSuchAlgorithmException) {
                 throw IOException("No SHA-512 implementation")
             } finally {

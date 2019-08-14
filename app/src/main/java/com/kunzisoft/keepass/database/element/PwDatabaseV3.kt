@@ -169,21 +169,23 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
     fun makeFinalKey(masterSeed: ByteArray, masterSeed2: ByteArray, numRounds: Long) {
 
         // Write checksum Checksum
-        val md: MessageDigest
+        val messageDigest: MessageDigest
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not implemented here.")
         }
 
         val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, md)
+        val dos = DigestOutputStream(nos, messageDigest)
 
-        val transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds)
-        dos.write(masterSeed)
-        dos.write(transformedMasterKey)
+        masterKey?.let { masterKey ->
+            val transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds)
+            dos.write(masterSeed)
+            dos.write(transformedMasterKey)
+        }
 
-        finalKey = md.digest()
+        finalKey = messageDigest.digest()
     }
 
     override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
