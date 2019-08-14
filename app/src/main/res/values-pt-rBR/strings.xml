@@ -116,7 +116,7 @@
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
     <string name="open_recent">Bancos de dados recentes</string>
     <string name="omitbackup_title">Não procurar por entradas no backup ou na lixeira</string>
-    <string name="omitbackup_summary">Omite o grupo \"Backup\" dos resultados da busca (apenas se aplica a arquivos .kdb)</string>
+    <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
     <string name="remember_keyfile_summary">Lembra o local dos arquivos-chave dos bancos de dados</string>
@@ -178,7 +178,7 @@
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_does_not_exist">Não existem arquivos-chave.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
-    <string name="copy_field">Copiado %1$s</string>
+    <string name="copy_field">Cópia de %1$s</string>
     <string name="menu_form_filling_settings">Preenchimento de formulário</string>
     <string name="menu_copy">Cópia</string>
     <string name="menu_move">Mover</string>
@@ -212,7 +212,7 @@
     <string name="use_saf_summary">Use o framework de acesso de armazenamento (SAF) do Android para navegação de arquivos (KitKat e posterior)</string>
     <string name="use_saf_title">Framework de acesso de armazenamento</string>
     <string name="warning">Aviso</string>
-    <string name="warning_password_encoding">Evite caracteres fora da tabela Latin-1 em arquivos .kdb, pois todos estes são convertidos para a mesma letra.</string>
+    <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Você realmente não quer proteção por senha\?</string>
     <string name="warning_no_encryption_key">Você tem certeza de que não quer usar uma chave de encriptação\?</string>
     <string name="configure_fingerprint">Impressão digital é suportada, mas não está configurada.</string>
@@ -236,7 +236,7 @@
     <string name="list_password_generator_options_title">Caracteres da senha</string>
     <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de senha</string>
     <string name="clipboard_notifications_title">Notificações da área de transferência</string>
-    <string name="clipboard_notifications_summary">Habilite notificações da área de transferência para copiar campos de entrada</string>
+    <string name="clipboard_notifications_summary">Habilite notificações da área de transferência para campos copiáveis quando estiver visualizando uma entrada</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
@@ -325,7 +325,7 @@
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Crie uma senha forte para sua entrada.</string>
-    <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e não se esqueça de tornar a senha segura.</string>
+    <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e não se esqueça de torná-la segura.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
     <string name="education_entry_new_field_summary">Registre facilmente um campo básico não fornecido que você também pode proteger.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
@@ -354,7 +354,7 @@
     <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>contribuindo </strong>,</string>
+        <strong>Contribuindo </strong>,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
@@ -388,10 +388,21 @@
     <string name="keyboard_notification_entry_content_title">%1$s disponível no Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Limpar ao fechar</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Limpar a entrada do teclado ao fechar a notificação</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Fecha a base de dados ao dispensar a notificação</string>
     <string name="keyboard_appearance_category">Aparência</string>
     <string name="keyboard_theme_title">Tema do teclado</string>
     <string name="keyboard_keys_category">Teclas</string>
     <string name="keyboard_key_vibrate_title">Vibrar ao clicar</string>
     <string name="keyboard_key_sound_title">Som ao clicar</string>
+    <string name="selection_mode">Modo de seleção</string>
+    <string name="do_not_kill_app">Não feche o aplicativo…</string>
+    <string name="lock_database_back_root_title">Trancar ao voltar</string>
+    <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
+    <string name="clear_clipboard_notification_title">Limpar a Área de Transferência ao fechar</string>
+    <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
+    <string name="recycle_bin">Lixeira</string>
+    <string name="keyboard_selection_entry_title">Seleção de entrada</string>
+    <string name="keyboard_selection_entry_summary">Mostrar campos de entrada no Magikeyboard quando estiver visualizando uma Entrada</string>
+    <string name="delete_entered_password_title">Deletar senha</string>
+    <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão</string>
 </resources>
