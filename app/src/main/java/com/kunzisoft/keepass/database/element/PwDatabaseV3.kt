@@ -179,11 +179,9 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
         val nos = NullOutputStream()
         val dos = DigestOutputStream(nos, messageDigest)
 
-        masterKey?.let { masterKey ->
-            val transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds)
-            dos.write(masterSeed)
-            dos.write(transformedMasterKey)
-        }
+        val transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds)
+        dos.write(masterSeed)
+        dos.write(transformedMasterKey)
 
         finalKey = messageDigest.digest()
     }
