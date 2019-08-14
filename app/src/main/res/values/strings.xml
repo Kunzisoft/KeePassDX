@@ -231,7 +231,7 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
-    <string name="lock_database_back_root_title">Back lock</string>
+    <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="fingerprint_quick_unlock_title">How to set up fingerprint scanning for quick unlocking?</string>
     <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in </string>
