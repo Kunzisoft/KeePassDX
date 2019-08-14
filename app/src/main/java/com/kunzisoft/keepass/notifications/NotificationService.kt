@@ -31,7 +31,10 @@ abstract class NotificationService : Service() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel = NotificationChannel(CHANNEL_ID_KEEPASS,
                     CHANNEL_NAME_KEEPASS,
-                    NotificationManager.IMPORTANCE_DEFAULT)
+                    NotificationManager.IMPORTANCE_DEFAULT).apply {
+                enableVibration(false)
+                setSound(null, null)
+            }
             notificationManager?.createNotificationChannel(channel)
         }
 
