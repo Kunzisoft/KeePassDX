@@ -42,7 +42,7 @@
             app:expandedTitleMarginBottom="24dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-            <android.support.v7.widget.LinearLayoutCompat
+            <FrameLayout
                 android:id="@+id/title_block"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -52,11 +52,14 @@
                 android:gravity="center"
                 android:paddingBottom="12dp"
                 style="@style/KeepassDXStyle.TextAppearance.Default">
-                <android.support.v7.widget.AppCompatImageView
+                <android.support.v7.widget.AppCompatImageButton
                     android:id="@+id/entry_icon"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"/>
-            </android.support.v7.widget.LinearLayoutCompat>
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:src="@drawable/ic_blank_32dp"
+                    android:layout_gravity="center"/>
+            </FrameLayout>
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
