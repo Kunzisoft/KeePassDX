@@ -356,4 +356,15 @@
     <string name="keyboard_keys_category">Taster</string>
     <string name="keyboard_key_vibrate_title">Vibrer ved tastetrykk</string>
     <string name="keyboard_key_sound_title">Lyd ved tastetrykk</string>
+    <string name="selection_mode">Valgmodus</string>
+    <string name="do_not_kill_app">Ikke drep programmet…</string>
+    <string name="lock_database_back_root_title">Tilbakelås</string>
+    <string name="lock_database_back_root_summary">Lås databasen når brukeren klikker tilbakeknappen på root-skjermen</string>
+    <string name="clear_clipboard_notification_title">Tøm ved lukking</string>
+    <string name="clear_clipboard_notification_summary">Lukk databasen ved lukking av merknaden</string>
+    <string name="recycle_bin">Papirkurv</string>
+    <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
+    <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
+    <string name="delete_entered_password_title">Slett passord</string>
+    <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
 </resources>
