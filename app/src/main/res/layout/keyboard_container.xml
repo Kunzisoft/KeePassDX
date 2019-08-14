@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_alignParentBottom="true"
+    android:paddingTop="4dp"
+    android:paddingBottom="8dp"
+    android:background="@color/keyboard_background"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/magikeyboard_entry_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/magikeyboard_view"
+        android:background="@color/keyboard_background"
+        android:gravity="center"
+        android:textColor="@color/white"/>
+    <com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView
+        android:id="@+id/magikeyboard_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@color/keyboard_background"
+        android:keyBackground="@drawable/key_background"
+        android:keyTextColor="@color/white"
+        android:popupLayout="@layout/keyboard_popup_fields" />
+</android.support.constraint.ConstraintLayout>

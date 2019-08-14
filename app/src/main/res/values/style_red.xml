@@ -23,7 +23,7 @@
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/red_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
         <item name="colorControlActivated">@color/red</item>
         <item name="android:textColorPrimary">@color/red</item>
         <item name="android:textColorHintInverse">@color/red_lighter</item>

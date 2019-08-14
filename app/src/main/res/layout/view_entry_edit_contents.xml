@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<android.support.constraint.ConstraintLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:targetApi="o"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content">
+
+	<LinearLayout
+		android:padding="@dimen/default_margin"
+		android:orientation="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		app:layout_constraintTop_toTopOf="parent">
+
+		<android.support.v7.widget.AppCompatImageButton
+			android:id="@+id/entry_edit_icon_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="4dp"
+			android:src="@drawable/ic_blank_32dp"
+			android:layout_gravity="center"/>
+
+		<!--  Title -->
+		<android.support.design.widget.TextInputLayout
+			android:id="@+id/entry_edit_container_title"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<android.support.v7.widget.AppCompatEditText
+				android:id="@+id/entry_edit_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
+				android:maxLines="1"
+				android:hint="@string/entry_title"/>
+		</android.support.design.widget.TextInputLayout>
+
+		<!-- Username -->
+		<android.support.design.widget.TextInputLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<android.support.v7.widget.AppCompatEditText
+				android:id="@+id/entry_edit_user_name"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="text"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
+				android:maxLines="1"
+				android:hint="@string/entry_user_name"/>
+		</android.support.design.widget.TextInputLayout>
+
+		<!-- Password -->
+		<RelativeLayout
+			android:orientation="horizontal"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<android.support.design.widget.TextInputLayout
+				android:id="@+id/entry_edit_container_password"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:passwordToggleEnabled="true"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				android:layout_toLeftOf="@+id/entry_edit_generate_button"
+				android:layout_toStartOf="@+id/entry_edit_generate_button">
+
+				<android.support.v7.widget.AppCompatEditText
+					android:id="@+id/entry_edit_password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPassword"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:maxLines="1"
+					android:hint="@string/entry_password"/>
+			</android.support.design.widget.TextInputLayout>
+
+			<!-- Confirm Password -->
+			<android.support.design.widget.TextInputLayout
+				android:id="@+id/entry_edit_container_confirmation_password"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_alignParentLeft="true"
+				android:layout_alignParentStart="true"
+				app:passwordToggleEnabled="true"
+				android:layout_toLeftOf="@+id/entry_edit_generate_button"
+				android:layout_toStartOf="@+id/entry_edit_generate_button"
+				android:layout_below="@+id/entry_edit_container_password">
+
+				<android.support.v7.widget.AppCompatEditText
+					android:id="@+id/entry_edit_confirmation_password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textPassword"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:maxLines="1"
+					android:hint="@string/entry_confpassword"/>
+			</android.support.design.widget.TextInputLayout>
+
+			<android.support.v7.widget.AppCompatImageView
+				android:id="@+id/entry_edit_generate_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_alignParentEnd="true"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:layout_margin="8dp"
+				android:src="@drawable/ic_key_white_24dp"
+				android:tint="?attr/colorAccent"/>
+		</RelativeLayout>
+
+		<!--  URL -->
+		<android.support.design.widget.TextInputLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<android.support.v7.widget.AppCompatEditText
+				android:id="@+id/entry_edit_url"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:inputType="textUri"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
+				android:maxLines="1"
+				android:hint="@string/entry_url"/>
+		</android.support.design.widget.TextInputLayout>
+
+		<!-- Comment -->
+		<android.support.design.widget.TextInputLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content">
+
+			<android.support.v7.widget.AppCompatEditText
+				android:id="@+id/entry_edit_notes"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:gravity="start"
+				android:lines="4"
+				android:maxLines="10"
+				android:importantForAccessibility="no"
+				android:importantForAutofill="no"
+				android:inputType="textMultiLine"
+				android:hint="@string/entry_notes"/>
+		</android.support.design.widget.TextInputLayout>
+
+		<LinearLayout
+			android:id="@+id/entry_edit_advanced_container"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+		</LinearLayout>
+
+		<ImageView
+			android:id="@+id/entry_edit_add_new_field"
+			android:layout_width="30sp"
+			android:layout_height="30sp"
+			android:contentDescription="@string/add_string"
+			android:src="@drawable/ic_add_white_24dp"
+			android:tint="?attr/colorAccent"
+			android:scaleType="centerCrop"
+			android:visibility="gone"/>
+	</LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

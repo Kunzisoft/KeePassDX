@@ -13,6 +13,7 @@ This pro version is under development, buying it encourages <b>faster developmen
  - AutoFill and Integration
  - Field filling keyboard
  - Precise management of settings
+ - Code written in native language (Kotlin / Java / JNI / C)
 
 <b>Pro Features</b> :
  - Access to custom themes (including the classic deep black theme)

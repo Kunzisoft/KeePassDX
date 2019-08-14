@@ -21,6 +21,11 @@
     <PreferenceCategory
         android:title="@string/keyboard_entry_category">
         <SwitchPreference
+            android:key="@string/keyboard_selection_entry_key"
+            android:title="@string/keyboard_selection_entry_title"
+            android:summary="@string/keyboard_selection_entry_summary"
+            android:defaultValue="@bool/keyboard_selection_entry_default"/>
+        <SwitchPreference
             android:key="@string/keyboard_notification_entry_key"
             android:title="@string/keyboard_notification_entry_title"
             android:summary="@string/keyboard_notification_entry_summary"
@@ -38,19 +43,9 @@
             android:entries="@array/timeout_options"
             android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/keyboard_entry_timeout_title"
-            android:defaultValue="@string/timeout_default"
+            android:defaultValue="@string/keyboard_entry_timeout_default"
             android:dependency="@string/keyboard_notification_entry_clear_close_key"/>
     </PreferenceCategory>
-    <!--
-    <PreferenceCategory
-        android:title="@string/keyboard_appearance_category">
-        <Preference
-            android:key="@string/keyboard_theme_key"
-            android:title="@string/keyboard_theme_title"
-            android:summary="dark"
-            android:enabled="false"/>
-    </PreferenceCategory>
-    -->
     <PreferenceCategory
         android:title="@string/keyboard_keys_category">
         <SwitchPreference

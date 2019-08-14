@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/add_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_add_white_24dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        app:useCompatPadding="true"
+        app:fabSize="normal"
+        style="@style/KeepassDXStyle.Fab" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/container_add_entry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/add_button"
+        android:layout_alignEnd="@+id/add_button"
+        android:layout_alignRight="@+id/add_button"
+        android:layout_marginBottom="-12dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/text_add_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:text="@string/add_entry"
+            style="@style/KeepassDXStyle.FabMenu"
+            tools:ignore="UnusedAttribute" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_entry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginRight="@dimen/image_button_margin"
+            android:layout_marginEnd="@dimen/image_button_margin"
+            android:src="@drawable/ic_key_white_24dp"
+            android:theme="@style/KeepassDXStyle.Fab.White"
+            app:fabSize="mini"
+            app:useCompatPadding="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:id="@+id/container_add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/container_add_entry"
+        android:layout_alignEnd="@+id/container_add_entry"
+        android:layout_alignRight="@+id/container_add_entry"
+        android:layout_marginBottom="-12dp"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/text_add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="@string/add_group"
+            style="@style/KeepassDXStyle.FabMenu"
+            tools:ignore="UnusedAttribute" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/image_button_margin"
+            android:layout_marginEnd="@dimen/image_button_margin"
+            android:src="@drawable/ic_folder_white_24dp"
+            android:theme="@style/KeepassDXStyle.Fab.White"
+            app:fabSize="mini"
+            app:useCompatPadding="true" />
+    </LinearLayout>
+
+</RelativeLayout>

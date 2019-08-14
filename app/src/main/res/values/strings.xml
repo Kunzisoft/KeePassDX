@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -52,10 +52,10 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
-    <string name="entry_comment">Notes</string>
+    <string name="entry_notes">Notes</string>
     <string name="entry_confpassword">Confirm password</string>
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
@@ -150,13 +150,14 @@
     <string name="create_keepass_file">Create new database</string>
     <string name="open_recent">Recent databases</string>
     <string name="omitbackup_title">Don\'t search through backup entries</string>
-    <string name="omitbackup_summary">Omits \"Backup\" group from search results (only applies to .kdb files)</string>
+    <string name="omitbackup_summary">Omits \"Backup\" and \"Recycle Bin\" groups from search results</string>
     <string name="progress_create">Creating new database…</string>
     <string name="progress_title">Working…</string>
     <string name="protection">Protection</string>
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">KeePass DX needs write permission in order to change anything in your database.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow apps to write to the SD card.</string>
+    <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
     <string name="remember_keyfile_summary">Remembers the location of databases keyfiles</string>
@@ -173,6 +174,7 @@
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
+    <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
     <string name="sort_menu">Sort</string>
@@ -195,7 +197,7 @@
     <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
     <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
-    <string name="warning_password_encoding">Avoid password characters outside of Latin-1 in .kbd files, as they are all converted to the same letter.</string>
+    <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
@@ -225,11 +227,13 @@
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="clipboard">Clipboard</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
-    <string name="clipboard_notifications_summary">Enable clipboard notifications to copy entry fields</string>
+    <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>
     <string name="clipboard_warning">If automatic deletion of clipboard fails, delete its history manually.</string>
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
+    <string name="lock_database_back_root_title">Back lock</string>
+    <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="fingerprint_quick_unlock_title">How to set up fingerprint scanning for quick unlocking?</string>
     <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in </string>
     <!-- Use ← for LTR languages -->
@@ -266,6 +270,8 @@
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow the entry password and protected fields to enter the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
+    <string name="clear_clipboard_notification_title">Clear at closing</string>
+    <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
     <string name="warning_disabling_storage_access_framework">WARNING: Turning off this feature may prevent opening or saving databases.</string>
     <string name="open_link_database">Link of database file to open</string>
     <string name="database_name_title">Database name</string>
@@ -274,7 +280,7 @@
     <string name="text_appearance">Text</string>
     <string name="application_appearance">App</string>
     <string name="other">Other</string>
-
+    <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
@@ -298,42 +304,37 @@
 
     <string name="keyboard_entry_category">Entry</string>
 
-    <string name="keyboard_entry_timeout_key" translatable="false">erase_entry_timeout_key</string>
-    <string name="keyboard_entry_timeout_title">Timeout</string>
-    <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
+    <string name="keyboard_selection_entry_title">Entry selection</string>
+    <string name="keyboard_selection_entry_summary">Show input fields in Magikeyboard when viewing an entry</string>
 
-    <string name="keyboard_notification_entry_key" translatable="false">notification_entry_key</string>
     <string name="keyboard_notification_entry_title">Notification information</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
-    <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
+
+    <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
+
+    <string name="keyboard_entry_timeout_title">Timeout</string>
+    <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
 
     <string name="keyboard_notification_entry_content_title_text">Entry</string>
     <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
 
-    <string name="keyboard_notification_entry_clear_close_key" translatable="false">notification_entry_slide_close_key</string>
-    <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Clear the keyboard entry when closing the notification</string>
-    <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
-
     <string name="keyboard_appearance_category">Appearance</string>
 
-    <string name="keyboard_theme_key" translatable="false">keyboard_theme_key</string>
     <string name="keyboard_theme_title">Keyboard theme</string>
 
     <string name="keyboard_keys_category">Keys</string>
-    <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
-    <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
 
-    <string name="keyboard_key_sound_key" translatable="false">key_sound_key</string>
     <string name="keyboard_key_sound_title">Sound on keypress</string>
-    <bool name="keyboard_key_sound_default" translatable="false">false</bool>
 
     <string name="allow_no_password_title">Allow no password</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no password identification is selected</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open your database read-only by default</string>
+    <string name="delete_entered_password_title">Delete password</string>
+    <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
 
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>

@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -16,11 +16,9 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<!-- translated by Arthur Zamarin<arthurzam@gmail.com>-->
-<resources>
-    <string name="about_feedback">משוב:</string>
-    <string name="about_homepage">דף הבית:</string>
+--><!-- translated by Arthur Zamarin<arthurzam@gmail.com>--><resources>
+    <string name="about_feedback">משוב</string>
+    <string name="about_homepage">דף הבית</string>
     <string name="about_description">KeePass DX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
@@ -49,7 +47,7 @@
     <string name="select_database_file">הזן שם קובץ למסד נתונים:</string>
     <string name="entry_accessed">ניגש לאחרונה</string>
     <string name="entry_cancel">בטל</string>
-    <string name="entry_comment">הערות</string>
+    <string name="entry_notes">הערות</string>
     <string name="entry_confpassword">אשר סיסמה</string>
     <string name="entry_created">תאריך יצירה</string>
     <string name="entry_expires">פג תוקף</string>
@@ -149,9 +147,7 @@
     <string name="uppercase">רישית</string>
     <string name="warning_unmounted">כרטיס ה-SD במצב לקריאה בלבד. אתה לא תוכל לשמור או ליצור במסד הנתונים.</string>
     <string name="version_label">גרסה %1$s</string>
-
     <string name="education_unlock_summary">הזן סיסמה ו/או קובץ מפתח כדי לפתוח את מסד הנתונים.</string>
-
     <string-array name="timeout_options">
         <item>5 שניות</item>
         <item>10 שניות</item>
@@ -168,11 +164,11 @@
         <item>בינוני</item>
         <item>גדול</item>
     </string-array>
-<string name="edit_entry">ערוך רשומה</string>
+    <string name="edit_entry">ערוך רשומה</string>
     <string name="add_string">הוסף מחרוזת</string>
     <string name="encryption">הצפנה</string>
     <string name="allow">אפשר</string>
     <string name="clipboard_swipe_clean">החלק לניקוי לוח העתקה עכשיו</string>
     <string name="entry_url">כתובת URL</string>
     <string name="error_load_database">לא ניתן לטעון את בסיס הנתונים</string>
-    </resources>
+</resources>

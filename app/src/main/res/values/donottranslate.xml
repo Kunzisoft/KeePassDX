@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -18,12 +18,18 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
+
+    <!--
+    *******************
+    Titles and links
+    *******************
+    -->
+
     <string name="app_name" translatable="false">KeePass DX</string>
     <string name="app_name_part1" translatable="false">KeePass</string>
     <string name="app_name_part2" translatable="false">DX</string>
     <string name="app_name_part3" translatable="false" />
 
-    <!-- TODO Move urls in flavors -->
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
@@ -35,121 +41,178 @@
     <string name="keyboard_switcher_play_store" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keyboard.switcher</string>
     <string name="keyboard_switcher_f_droid" translatable="false">https://f-droid.org/en/packages/com.kunzisoft.keyboard.switcher/</string>
     <string name="keyboard_switcher_app_title">Keyboard Switcher</string>
-
     <string name="html_rose">--,--`--,{@</string>
 
-    <!--  Password generator -->
-    <string name="password_length_key" translatable="false">password_length_key</string>
-    <string name="min_password_length" translatable="false">1</string>
-    <string name="default_password_length" translatable="false">14</string>
-    <string name="max_password_length" translatable="false">64</string>
+    <!-- Tutorial -->
+    <string name="chapter_1">I</string>
+    <string name="chapter_2">II</string>
+    <string name="chapter_3">III</string>
+    <string name="chapter_4">IV</string>
+    <string name="chapter_5">V</string>
 
-    <!--  Preference settings -->
+    <!-- File Path -->
+    <string name="database_file_path_default" translatable="false">/keepass/</string>
+    <string name="database_file_name_default" translatable="false">keepass</string>
+    <string name="database_file_extension_default" translatable="false">.kdbx</string>
+    <string-array name="file_types">
+        <item translatable="false">@string/database_file_extension_default</item>
+    </string-array>
+
+    <!--
+    *******************
+    Preference settings
+    *******************
+    -->
+
+    <!-- App Settings -->
+    <string name="app_key" translatable="false">app</string>
+
+    <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
+    <bool name="allow_no_password_default" translatable="false">false</bool>
+    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
+    <bool name="enable_read_only_default" translatable="false">false</bool>
+    <string name="delete_entered_password_key" translatable="false">delete_entered_password_key</string>
+    <bool name="delete_entered_password_default" translatable="false">true</bool>
+    <string name="omitbackup_key" translatable="false">omitbackup</string>
+    <bool name="omitbackup_default" translatable="false">true</bool>
+    <string name="app_timeout_key" translatable="false">app_timeout_key</string>
+    <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
+    <bool name="lock_database_screen_off_default" translatable="false">true</bool>
+    <string name="lock_database_back_root_key" translatable="false">lock_database_back_root_key</string>
+    <bool name="lock_database_back_root_default" translatable="false">true</bool>
+    <string name="password_length_key" translatable="false">password_length_key</string>
+    <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
+    <string name="maskpass_key" translatable="false">maskpass</string>
+    <bool name="maskpass_default" translatable="false">true</bool>
+    <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
+    <bool name="allow_copy_password_default" translatable="false">false</bool>
+    <string name="recentfile_key" translatable="false">recentfile</string>
+    <bool name="recentfile_default" translatable="false">true</bool>
+    <string name="keyfile_key" translatable="false">keyfile</string>
+    <bool name="keyfile_default" translatable="false">true</bool>
+    <string name="saf_key" translatable="false">storage_access_framework_key</string>
+    <bool name="settings_saf_default" translatable="false">false</bool>
+    <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
+    <bool name="auto_open_file_uri_default" translatable="false">true</bool>
+    <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
+    <bool name="fingerprint_enable_default" translatable="false">false</bool>
+    <string name="fingerprint_delete_all_key" translatable="false">fingerprint_delete_all_key</string>
+
+    <!-- Form Filling Settings -->
+    <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
+
+    <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
+    <bool name="magic_keyboard_default" translatable="false">false</bool>
+    <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
+    <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
+    <bool name="clipboard_notifications_default" translatable="false">false</bool>
+    <string name="clear_clipboard_notification_key" translatable="false">clear_clipboard_notification_key</string>
+    <bool name="clear_clipboard_notification_default" translatable="false">true</bool>
+    <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
+    <string name="clipboard_timeout_default" translatable="false">60000</string>
+    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
+    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
+    <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
+    <bool name="keyboard_selection_entry_default" translatable="false">false</bool>
+    <string name="keyboard_notification_entry_key" translatable="false">keyboard_notification_entry_key</string>
+    <bool name="keyboard_notification_entry_default" translatable="false">true</bool>
+    <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
+    <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
+    <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
+    <string name="keyboard_entry_timeout_default" translatable="false">60000</string>
+    <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
+    <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
+    <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
+    <bool name="keyboard_key_sound_default" translatable="false">false</bool>
+
+    <!-- Appearance Settings -->
+    <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
+
+    <string name="setting_style_key" translatable="false">setting_style_key</string>
+    <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
+    <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
+    <bool name="list_entries_show_username_default" translatable="false">true</bool>
+    <string name="list_size_key" translatable="false">list_size</string>
+    <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
+    <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
+    <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
+    <bool name="full_file_path_enable_default" translatable="false">false</bool>
+    <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
+    <bool name="enable_education_screens_default" translatable="false">true</bool>
+    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
+
+    <!-- Database Settings -->
+    <string name="database_main_menu_key" translatable="false">database_main_menu_key</string>
+    <string name="database_change_master_key_key" translatable="false">database_change_master_key_key</string>
+    <string name="database_general_key" translatable="false">database_general_key</string>
+
+    <string name="database_name_key" translatable="false">database_name_key</string>
+    <string name="database_description_key" translatable="false">database_description_key</string>
+    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
+    <string name="database_version_key" translatable="false">database_version_key</string>
     <string name="encryption_algorithm_key" translatable="false">algorithm</string>
     <string name="key_derivation_function_key" translatable="false">key_derivation_function_key</string>
-    <string name="app_key" translatable="false">app</string>
-    <string name="app_timeout_key" translatable="false">app_timeout_key</string>
-    <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
-    <string name="db_key" translatable="false">db</string>
     <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
     <string name="memory_usage_key" translatable="false">memory_usage_key</string>
     <string name="parallelism_key" translatable="false">parallelism_key</string>
-    <string name="keyfile_key" translatable="false">keyfile</string>
-    <string name="maskpass_key" translatable="false">maskpass</string>
-    <string name="omitbackup_key" translatable="false">omitbackup</string>
-    <string name="recentfile_key" translatable="false">recentfile</string>
-    <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
-    <string name="list_size_key" translatable="false">list_size</string>
+
+    <!--
+    *******************
+    Store settings
+    *******************
+    -->
+
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
     <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
+
+    <!-- Sort -->
     <string name="sort_node_key" translatable="false">sort_node_key</string>
     <string name="sort_group_before_key" translatable="false">sort_group_before_key</string>
-    <string name="sort_ascending_key" translatable="false">sort_ascending_key</string>
-    <string name="sort_recycle_bin_bottom_key" translatable="false">sort_recycle_bin_bottom_key</string>
-    <string name="timeout_key" translatable="false">timeout_key</string>
-    <string name="saf_key" translatable="false">storage_access_framework_key</string>
-    <string name="setting_style_key" translatable="false">setting_style_key</string>
-    <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
-    <string name="clipboard_notifications_key" translatable="false">clipboard_notifications_key</string>
-    <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
-    <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
-    <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
-    <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
-    <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
-    <string name="fingerprint_delete_all_key" translatable="false">fingerprint_delete_all_key</string>
-    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
-    <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
-    <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
-    <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
-    <string name="allow_copy_password_first_time_key" translatable="false">allow_copy_password_first_time_key</string>
-    <string name="database_general_key" translatable="false">database_general_key</string>
-    <string name="database_name_key" translatable="false">database_name_key</string>
-    <string name="database_description_key" translatable="false">database_description_key</string>
-    <string name="database_version_key" translatable="false">database_version_key</string>
-
-    <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
-    <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
-    <string name="education_create_db_key" translatable="false">education_create_db_key</string>
-    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
-    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
-    <string name="education_unlock_key" translatable="false">education_unlock_key</string>
-    <string name="education_read_only_key" translatable="false">education_read_only_key</string>
-    <string name="education_search_key" translatable="false">education_search_key</string>
-    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
-    <string name="education_sort_key" translatable="false">education_sort_key</string>
-    <string name="education_lock_key" translatable="false">education_lock_key</string>
-    <string name="education_copy_username_key" translatable="false">education_copy_username_key</string>
-    <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
-    <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
-    <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
-    <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
-
-    <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
-    <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
-    <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>
-    <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
-    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
-
-    <bool name="maskpass_default" translatable="false">true</bool>
-    <bool name="keyfile_default" translatable="false">true</bool>
-    <bool name="omitbackup_default" translatable="false">true</bool>
-    <bool name="recentfile_default" translatable="false">true</bool>
-    <bool name="settings_saf_default" translatable="false">false</bool>
-    <bool name="clipboard_notifications_default" translatable="false">false</bool>
-    <bool name="lock_database_screen_off_default" translatable="false">true</bool>
-    <bool name="fingerprint_enable_default" translatable="false">false</bool>
-    <bool name="settings_autofill_enable_default" translatable="false">false</bool>
-    <bool name="full_file_path_enable_default" translatable="false">false</bool>
     <bool name="sort_group_before_default" translatable="false">true</bool>
+    <string name="sort_ascending_key" translatable="false">sort_ascending_key</string>
     <bool name="sort_ascending_default" translatable="false">true</bool>
+    <string name="sort_recycle_bin_bottom_key" translatable="false">sort_recycle_bin_bottom_key</string>
     <bool name="sort_recycle_bin_bottom_default" translatable="false">true</bool>
-    <bool name="list_entries_show_username_default" translatable="false">true</bool>
-    <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
-    <bool name="auto_open_file_uri_default" translatable="false">true</bool>
-    <bool name="allow_copy_password_default" translatable="false">false</bool>
+
+    <string name="allow_copy_password_first_time_key" translatable="false">allow_copy_password_first_time_key</string>
     <bool name="allow_copy_password_first_time_default" translatable="false">true</bool>
-    <bool name="enable_education_screens_default" translatable="false">true</bool>
+
+    <!-- Education -->
+    <string name="education_create_db_key" translatable="false">education_create_db_key</string>
     <bool name="education_create_db_default" translatable="false">false</bool>
+    <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <bool name="education_select_db_default" translatable="false">false</bool>
+    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
     <bool name="education_open_link_db_default" translatable="false">false</bool>
+    <string name="education_unlock_key" translatable="false">education_unlock_key</string>
     <bool name="education_unlock_default" translatable="false">false</bool>
+    <string name="education_read_only_key" translatable="false">education_read_only_key</string>
     <bool name="education_read_only_default" translatable="false">false</bool>
+    <string name="education_fingerprint_key" translatable="false">education_fingerprint_key</string>
+    <bool name="education_fingerprint_default" translatable="false">false</bool>
+    <string name="education_search_key" translatable="false">education_search_key</string>
     <bool name="education_search_default" translatable="false">false</bool>
+    <string name="education_new_node_key" translatable="false">education_new_node_key</string>
     <bool name="education_new_node_default" translatable="false">false</bool>
+    <string name="education_sort_key" translatable="false">education_sort_key</string>
     <bool name="education_sort_default" translatable="false">false</bool>
+    <string name="education_lock_key" translatable="false">education_lock_key</string>
     <bool name="education_lock_default" translatable="false">false</bool>
+    <string name="education_copy_username_key" translatable="false">education_copy_username_key</string>
     <bool name="education_copy_username_key" translatable="false">false</bool>
+    <string name="education_entry_edit_key" translatable="false">education_entry_edit_key</string>
     <bool name="education_entry_edit_default" translatable="false">false</bool>
+    <string name="education_password_generator_key" translatable="false">education_password_generator_key</string>
     <bool name="education_password_generator_default" translatable="false">false</bool>
+    <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
-    <bool name="magic_keyboard_default" translatable="false">false</bool>
-    <bool name="allow_no_password_default" translatable="false">true</bool>
-    <bool name="enable_read_only_default" translatable="false">false</bool>
 
+
+    <!-- TimeOut -->
+    <string name="timeout_backup_key" translatable="false">timeout_backup_key</string>
     <string name="timeout_default" translatable="false">300000</string>
-    <string name="clipboard_timeout_default" translatable="false">60000</string>
-
     <string-array name="timeout_values">
         <item translatable="false">5000</item>
         <item translatable="false">10000</item>
@@ -162,6 +225,7 @@
     	<item translatable="false">-1</item>
     </string-array>
 
+    <!-- Text Size -->
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
     <integer name="list_small_size_default" translatable="false">13</integer>
     <string name="list_size_default" translatable="false">16</string>
@@ -171,6 +235,7 @@
     	<item translatable="false">22</item>
     </string-array>
 
+    <!-- Style -->
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
@@ -188,7 +253,11 @@
     <!-- WARNING ! module icon-pack-material must be import in gradle -->
     <string name="setting_icon_pack_choose_default" translatable="false">@string/material_resource_id</string>
 
-    <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
+    <!--  Password generator -->
+    <string name="min_password_length" translatable="false">1</string>
+    <string name="default_password_length" translatable="false">14</string>
+    <string name="max_password_length" translatable="false">64</string>
+
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
     <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>
     <string name="value_password_digits" translatable="false">value_password_digits</string>
@@ -233,19 +302,6 @@
         <item translatable="false">@string/special</item>
         <item translatable="false">@string/brackets</item>
         <item translatable="false">@string/extended_ASCII</item>
-    </string-array>
-
-    <string name="chapter_1">I</string>
-    <string name="chapter_2">II</string>
-    <string name="chapter_3">III</string>
-    <string name="chapter_4">IV</string>
-    <string name="chapter_5">V</string>
-
-    <string name="database_file_path_default" translatable="false">/keepass/</string>
-    <string name="database_file_name_default" translatable="false">keepass</string>
-    <string name="database_file_extension_default" translatable="false">.kdbx</string>
-    <string-array name="file_types">
-        <item translatable="false">@string/database_file_extension_default</item>
     </string-array>
 
 </resources>

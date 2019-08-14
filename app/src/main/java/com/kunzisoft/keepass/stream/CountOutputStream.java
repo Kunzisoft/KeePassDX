@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -23,40 +23,40 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 public class CountOutputStream extends OutputStream {
-	OutputStream os;
-	long bytes = 0;
-	
-	public CountOutputStream(OutputStream os) {
-		this.os = os;
-	}
+    OutputStream os;
+    long bytes = 0;
+
+    public CountOutputStream(OutputStream os) {
+        this.os = os;
+    }
 
 
-	@Override
-	public void close() throws IOException {
-		os.close();
-	}
+    @Override
+    public void close() throws IOException {
+        os.close();
+    }
 
-	@Override
-	public void flush() throws IOException {
-		os.flush();
-	}
+    @Override
+    public void flush() throws IOException {
+        os.flush();
+    }
 
 
-	@Override
-	public void write(byte[] buffer, int offset, int count) throws IOException {
-		bytes += count;
-		os.write(buffer, offset, count);
-	}
+    @Override
+    public void write(byte[] buffer, int offset, int count) throws IOException {
+        bytes += count;
+        os.write(buffer, offset, count);
+    }
 
-	@Override
-	public void write(byte[] buffer) throws IOException {
-		bytes += buffer.length;
-		os.write(buffer);
-	}
+    @Override
+    public void write(byte[] buffer) throws IOException {
+        bytes += buffer.length;
+        os.write(buffer);
+    }
 
-	@Override
-	public void write(int oneByte) throws IOException {
-		bytes++;
-		os.write(oneByte);
-	}
+    @Override
+    public void write(int oneByte) throws IOException {
+        bytes++;
+        os.write(oneByte);
+    }
 }

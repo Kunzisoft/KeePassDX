@@ -16,89 +16,86 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources
-  xmlns:tools="http://schemas.android.com/tools"
-  tools:ignore="MissingTranslation">
-    <string name="about_feedback">Comentários:</string>
-    <string name="about_homepage">Página Web:</string>
-    <string name="about_description">KeePass DX é uma implementação para o Android do gerenciador de palavras-passe KeePass.</string>
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="about_feedback">Comentários</string>
+    <string name="about_homepage">Página inicial</string>
+    <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
     <string name="add_string">Adicionar linha</string>
-    <string name="encryption_algorithm">Algoritmo</string>
-    <string name="app_timeout">Tempo de espera da aplicação</string>
-    <string name="app_timeout_summary">Tempo antes do bloqueio da base de dados quando a aplicação está inativa.</string>
-    <string name="application">Aplicação</string>
+    <string name="encryption_algorithm">Algoritmo de encriptação</string>
+    <string name="app_timeout">Tempo de espera da app</string>
+    <string name="app_timeout_summary">Inatividade antes da app ser bloqueada</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">Definições da aplicação</string>
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">A exploração de ficheiros requer o gestor de ficheiros Open Itents, clique em baixo para instalar. Devido a algumas particularidades no gestor de ficheiros, a exploração pode não funcionar corretamente na primeira vez.</string>
+    <string name="browser_intall_text">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa.</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
-    <string name="clipboard_error">Alguns dispositivos Samsung Android têm um erro na implementação da área de transferência que causa falhas na cópia a partir de aplicações. Para mais de detalhes vá a:</string>
-    <string name="clipboard_error_clear">A limpeza da área de transferência falhou</string>
+    <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>
+    <string name="clipboard_error_clear">Não foi possível limpar a área de transferência</string>
     <string name="clipboard_timeout">Tempo de espera da área de transferência</string>
-    <string name="clipboard_timeout_summary">Tempo antes da limpeza da área de transferência depois de copiado o nome de utilizador ou a palavra-passe.</string>
+    <string name="clipboard_timeout_summary">Duração do armazenamento na área de transferência</string>
     <string name="select_to_copy">Selecione para copiar %1$s para a área de transferência</string>
-    <string name="retrieving_db_key">A criar a chave da base de dados&#8230;</string>
+    <string name="retrieving_db_key">A criar a chave da base de dados…</string>
     <string name="database">Base de dados</string>
-    <string name="decrypting_db">A desencriptar conteúdo da base de dados&#8230;</string>
-    <string name="default_checkbox">Utilizar esta base de dados como predefinida</string>
+    <string name="decrypting_db">A desencriptar o conteúdo da base de dados…</string>
+    <string name="default_checkbox">Utilizar como base de dados predefinida</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft vem com ABSOLUTAMENTE NENHUMA GARANTIA; Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft é fornecido absolutamente sem nenhuma garantia. Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
     <string name="select_database_file">Introduza o nome do ficheiro da base de dados</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
-    <string name="entry_comment">Comentários</string>
-    <string name="entry_confpassword">Confirmar palavra-passe</string>
+    <string name="entry_notes">Notas</string>
+    <string name="entry_confpassword">Confirmar palavra-chave</string>
     <string name="entry_created">Criado</string>
     <string name="entry_expires">Expira</string>
     <string name="entry_keyfile">Ficheiro chave</string>
     <string name="entry_modified">Modificado</string>
-    <string name="entry_not_found">Dados da entrada não encontrados.</string>
-    <string name="entry_password">Palavra-passe</string>
+    <string name="entry_not_found">Não foi possível encontrar os dados da entrada.</string>
+    <string name="entry_password">Palavra-chave</string>
     <string name="entry_save">Guardar</string>
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de utilizador</string>
-    <string name="error_arc4">A cifra de fluxo ArcFour não é suportada.</string>
+    <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
     <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
     <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
     <string name="error_database_exists">Este ficheiro já existe.</string>
-    <string name="error_failed_to_launch_link">Falha ao abrir hiperligação.</string>
-    <string name="error_filename_required">É obrigatório introduzir um nome para o ficheiro.</string>
+    <string name="error_failed_to_launch_link">Não foi possível abrir a hiperligação.</string>
+    <string name="error_filename_required">Introduza um nome para o ficheiro.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
-    <string name="error_invalid_db">Base de dados inválida.</string>
-    <string name="error_invalid_path">Caminho inválido.</string>
-    <string name="error_no_name">É obrigatório introduzir um nome.</string>
-    <string name="error_nokeyfile">É obrigatório introduzir uma palavra-passe ou um ficheiro chave.</string>
-    <string name="error_out_of_memory">O dispositivo ficou sem memória ao analisar a base de dados. Poderá ser muito grande para o seu dispositivo.</string>
-    <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-passe deve ser selecionado</string>
-    <string name="error_pass_match">As palavra-passe não coincidem.</string>
+    <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
+    <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
+    <string name="error_no_name">Introduza um nome.</string>
+    <string name="error_nokeyfile">Selecione um ficheiro chave.</string>
+    <string name="error_out_of_memory">Sem memória para carregar toda a bases de dados.</string>
+    <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
+    <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_rounds_not_number">As rondas devem ser um número.</string>
     <string name="error_rounds_too_large">Rondas muito grandes.  A definir para 2147483648.</string>
     <string name="error_string_key">É obrigatório introduzir um nome para o campo de cada linha.</string>
-    <string name="error_title_required">É obrigatório introduzir um título.</string>
+    <string name="error_title_required">Adicione um título.</string>
     <string name="error_wrong_length">Introduza um número inteiro positivo no campo do comprimento</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
     <string name="file_not_found">Ficheiro não encontrado.</string>
     <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
     <string name="file_browser">Explorador de ficheiros</string>
-    <string name="generate_password">Gerar palavra-passe</string>
-    <string name="hint_conf_pass">confirmar palavra-passe</string>
-    <string name="hint_generated_password">palavra-passe gerada</string>
+    <string name="generate_password">Gerar palavra-chave</string>
+    <string name="hint_conf_pass">confirmar palavra-chave</string>
+    <string name="hint_generated_password">palavra-chave gerada</string>
     <string name="hint_group_name">Nome do grupo</string>
     <string name="hint_keyfile">ficheiro chave</string>
     <string name="hint_length">comprimento</string>
-    <string name="hint_pass">palavra-passe</string>
-    <string name="password">Palavra-passe</string>
+    <string name="hint_pass">palavra-chave</string>
+    <string name="password">Palavra-chave</string>
     <string name="install_from_play_store">Instalar pela Play Store</string>
     <string name="install_from_f_droid">Instalar pela F-Droid</string>
-    <string name="invalid_password">Palavra-passe ou ficheiro chave inválidos.</string>
+    <string name="invalid_password">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo inválido.</string>
     <string name="invalid_db_sig">Formato da base de dados não reconhecido.</string>
     <string name="keyfile_does_not_exist">O ficheiro chave não existe.</string>
@@ -106,7 +103,7 @@
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
-    <string name="loading_database">A carregar base de dados&#8230;</string>
+    <string name="loading_database">A carregar base de dados…</string>
     <string name="lowercase">Minúsculas</string>
     <string name="maskpass_title">Mascarar palavra-passe</string>
     <string name="maskpass_summary">Ocultar as palavras-passe por predefinição</string>
@@ -117,11 +114,11 @@
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Fazer donativo</string>
     <string name="menu_edit">Editar</string>
-    <string name="menu_hide_password">Ocultar palavra-passe</string>
+    <string name="menu_hide_password">Ocultar palavra-chave</string>
     <string name="menu_lock">Bloquear base de dados</string>
     <string name="menu_open">Abrir</string>
     <string name="menu_search">Pesquisar</string>
-    <string name="menu_showpass">Mostrar palavra-passe</string>
+    <string name="menu_showpass">Mostrar palavra-chave</string>
     <string name="menu_url">Ir para o URL</string>
     <string name="minus">Menos</string>
     <string name="never">Nunca</string>
@@ -130,8 +127,8 @@
     <string name="open_recent">Abrir base de dados recente :</string>
     <string name="omitbackup_title">Não pesquisar entradas nas cópias de segurança</string>
     <string name="omitbackup_summary">Omitir o grupo \"Backup\" dos resultados da pesquisa (aplica-se apenas a ficheiros .kdb)</string>
-    <string name="progress_create">A criar nova base de dados&#8230;</string>
-    <string name="progress_title">Em funcionamento&#8230;</string>
+    <string name="progress_create">A criar nova base de dados…</string>
+    <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">O KeePass DX não tem permissão para escrever na localização da base de dados, a sua base de dados será aberta apenas para leitura.</string>
@@ -146,7 +143,7 @@
     <string name="rounds">Rondas de encriptação</string>
     <string name="rounds_explanation">Rondas de encriptação altas providenciam proteção adicional contra ataques de força bruta, mas podem atrasar o tempo de carregamento e armazenamento.</string>
     <string name="rounds_hint">rondas</string>
-    <string name="saving_database">A guardar base de dados&#8230;</string>
+    <string name="saving_database">A guardar base de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>
     <string name="sort_db">Ordenação da BD</string>
@@ -160,26 +157,76 @@
     <string name="use_saf_summary">Utilizar o Storage Access Framework (SAF) do Android para explorar os ficheiros (KitKat e superior)</string>
     <string name="use_saf_title">Storage Access Framework (SAF)</string>
     <string name="warning">Aviso</string>
-    <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-passe pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-passe. É recomendável alterar a sua palavra-passe.</string>
+    <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-chave pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-chave. É recomendável alterar a sua palavra-chave.</string>
     <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>
     <string name="version_label">Versão %1$s</string>
-
     <string name="education_unlock_summary">Introduza a palavra-passe e/ou o ficheiro chave para desbloquear a base de dados.</string>
-
     <string-array name="timeout_options">
-    	<item>5 segundos</item>
-    	<item>10 segundos</item>
-    	<item>20 segundos</item>
-    	<item>30 segundos</item>
-    	<item>1 minuto</item>
-    	<item>5 minutos</item>
-    	<item>15 minutos</item>
-    	<item>30 minutos</item>
-    	<item>Nunca</item>
+        <item>5 segundos</item>
+        <item>10 segundos</item>
+        <item>20 segundos</item>
+        <item>30 segundos</item>
+        <item>1 minuto</item>
+        <item>5 minutos</item>
+        <item>15 minutos</item>
+        <item>30 minutos</item>
+        <item>Nunca</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Pequena</item>
-    	<item>Média</item>
-    	<item>Grande</item>
+        <item>Pequena</item>
+        <item>Média</item>
+        <item>Grande</item>
     </string-array>
+    <string name="extended_ASCII">ASCII Estendido</string>
+    <string name="allow">Permitir</string>
+    <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
+    <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente baixar \"Uso de Memória\" do KDF.</string>
+    <string name="error_move_folder_in_itself">Não pode mover um grupo para si mesmo.</string>
+    <string name="list_entries_show_username_title">Mostrar nomes de utilizador</string>
+    <string name="copy_field">Cópia de %1$s</string>
+    <string name="menu_form_filling_settings">Preenchimento de formulário</string>
+    <string name="menu_copy">Copiar</string>
+    <string name="menu_move">Mover</string>
+    <string name="menu_paste">Colar</string>
+    <string name="menu_cancel">Cancelar</string>
+    <string name="menu_fingerprint_remove_key">Apagar de impressão digital gravada</string>
+    <string name="menu_file_selection_read_only">Protegido contra escrita</string>
+    <string name="menu_open_file_read_and_write">Pode ser modificado</string>
+    <string name="create_keepass_file">Criar nova base de dados</string>
+    <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre comprimida (SHA-256) é transformada usando uma função de derivação de chave (com um salt aleatório).</string>
+    <string name="memory_usage">Uso de memória</string>
+    <string name="memory_usage_explanation">Quantidade de memória (em bytes binários) a ser usada pela função de derivação de chave.</string>
+    <string name="parallelism">Paralelismo</string>
+    <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
+    <string name="sort_menu">Ordenar</string>
+    <string name="sort_ascending">Ascendente</string>
+    <string name="sort_groups_before">Grupos primeiro</string>
+    <string name="sort_recycle_bin_bottom">Reciclagem no fundo</string>
+    <string name="sort_title">Título</string>
+    <string name="sort_username">Nome de utilizador</string>
+    <string name="sort_creation_time">Data de criação</string>
+    <string name="sort_last_modify_time">Última modificação</string>
+    <string name="sort_last_access_time">Último acesso</string>
+    <string name="warning_empty_password">Quer realmente usar uma palavra-chave vazia\?</string>
+    <string name="warning_no_encryption_key">Tem a certeza que não quer usar uma chave de encriptação\?</string>
+    <string name="build_label">Construir %1$s</string>
+    <string name="configure_fingerprint">Impressão digital suportada, mas não configurada para dispositivo.</string>
+    <string name="encrypted_value_stored">Palavra-chave encriptada armazenada</string>
+    <string name="fingerprint_not_recognized">Impressão digital não reconhecida</string>
+    <string name="fingerprint_error">Problema da Impressão digital: %1$s</string>
+    <string name="store_with_fingerprint">Use a impressão digital para armazenar esta palavra-chave</string>
+    <string name="no_password_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
+    <string name="history">Histórico</string>
+    <string name="appearance">Aparência</string>
+    <string name="general">Geral</string>
+    <string name="autofill">Preenchimento automático</string>
+    <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePass DX</string>
+    <string name="autofill_sign_in_prompt">Entrar com KeePass DX</string>
+    <string name="set_autofill_service_title">Definir como serviço de preenchimento automático padrão</string>
+    <string name="set_autofill_service_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
+    <string name="password_size_title">Tamanho da palavra-chave gerada</string>
+    <string name="edit_entry">Editar entrada</string>
+    <string name="encryption">Encriptação</string>
+    <string name="key_derivation_function">Função de derivação de chave</string>
+    <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
 </resources>

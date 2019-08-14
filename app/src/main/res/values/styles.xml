@@ -37,12 +37,15 @@
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
 
+        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
+        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
+
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -73,6 +76,9 @@
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <!-- CollapsingToolbarLayout -->
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -88,12 +94,15 @@
         <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
         <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
 
+        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
+        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
+
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/green_dark</item>
         <item name="colorAccent">@color/orange</item>
-        <item name="colorAccentCompat">@color/orange</item>
+        <item name="colorAccentLight">@color/orange_light</item>
 
         <item name="colorControlNormal">@color/colorTextSecondary</item>
         <item name="colorControlActivated">@color/orange</item>
@@ -127,6 +136,9 @@
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
+        <!-- CollapsingToolbarLayout -->
+        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
+        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
 
         <!-- White FAB -->
         <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
@@ -177,6 +189,15 @@
         <item name="background">@color/green_dark</item>
     </style>
 
+    <!-- CollapsingToolbarLayout -->
+    <style name="KeepassDXStyle.Expanded.Title" parent="KeepassDXStyle.TextAppearance.Title.TextOnPrimary">
+        <item name="android:textSize">28sp</item>
+    </style>
+
+    <style name="KeepassDXStyle.Collapsed.Title" parent="KeepassDXStyle.TextAppearance.Title.TextOnPrimary">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <!-- Dialog -->
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
@@ -190,6 +211,11 @@
     </style>
     <style name="KeepassDXStyle.Dialog.PositiveButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
         <item name="android:textColor">?android:attr/textColorPrimary</item>
+    </style>
+
+    <!-- CardView -->
+    <style name="KeepassDXStyle.CardView.PrimaryColor" parent="CardView">
+        <item name="cardBackgroundColor">?attr/colorPrimary</item>
     </style>
 
     <!-- CheckBox -->
@@ -245,32 +271,42 @@
 	</style>
 
     <!-- Button Style -->
-    <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button" />
+    <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:gravity">center</item>
+    </style>
     <style name="KeepassDXStyle.Button" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">@color/text_color_button</item>
-        <item name="android:background">@drawable/button_large</item>
-        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/background_button</item>
+        <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
     <style name="KeepassDXStyle.Button.Primary" parent="KeepassDXStyle.v21.Button">
         <item name="android:textColor">?attr/textColorInverse</item>
-        <item name="android:background">@drawable/button_background_primary</item>
-        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/background_button</item>
+        <item name="backgroundTint">@color/background_button_color_primary</item>
+    </style>
+    <style name="KeepassDXStyle.ImageButton" parent="KeepassDXStyle.v21.Button">
+        <item name="android:colorForeground">?attr/textColorInverse</item>
+        <item name="android:background">@drawable/background_image_button</item>
+        <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
 
     <!-- FAB -->
-    <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat" />
+    <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
     </style>
     <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
         <item name="colorAccent">@color/white</item>
-        <item name="tint">?attr/colorAccentCompat</item>
+        <item name="tint">?attr/colorAccentLight</item>
+        <item name="android:tint">?attr/colorAccentLight</item>
     </style>
 
     <!-- Menu FAB -->
-    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary" />
+    <style name="KeepassDXStyle.v21.FabMenu" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+    </style>
     <style name="KeepassDXStyle.FabMenu" parent="KeepassDXStyle.v21.FabMenu">
         <item name="android:textSize">15sp</item>
-        <item name="android:background">@drawable/button_small_background</item>
+        <item name="android:background">@drawable/background_button_small</item>
+        <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
 
     <!-- Form -->

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -45,11 +45,11 @@
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένων βάσης δεδομένων&#8230;</string>
     <string name="default_checkbox">Χρήση αυτής της βάσης ως προεπιλεγμένη</string>
     <string name="digits">Ψηφία</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft χωρίς ΚΑΜΙΑ ΑΠΟΛΥΤΩΣ ΕΓΓΥΗΣΗ. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 3 ή μεταγενέστερης.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft χωρίς καμια απολυτως εγγυηση. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 3 ή μεταγενέστερης.</string>
     <string name="select_database_file">Εισαγωγή ονόματος βάσης δεδομένων</string>
     <string name="entry_accessed">Προσπελάσθηκε</string>
     <string name="entry_cancel">Ακύρωση</string>
-    <string name="entry_comment">Σχόλια</string>
+    <string name="entry_notes">Σχόλια</string>
     <string name="entry_confpassword">Επιβεβαίωση κωδικού πρόσβασης</string>
     <string name="entry_created">Δημιουργήθηκε</string>
     <string name="entry_expires">Λήγει</string>

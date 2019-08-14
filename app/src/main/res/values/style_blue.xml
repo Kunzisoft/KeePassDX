@@ -23,7 +23,7 @@
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue_white</item>
-        <item name="colorAccentCompat">@color/blue_white</item>
+        <item name="colorAccentLight">@color/blue_lighter</item>
         <item name="colorControlActivated">@color/blue</item>
         <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorHintInverse">@color/blue_lighter</item>

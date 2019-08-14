@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+     
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/entry_table"
+	android:layout_height="wrap_content"
+	android:layout_width="match_parent"
+	android:orientation="vertical">
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- Username -->
+			<RelativeLayout
+				android:id="@+id/entry_user_name_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone">
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_user_name_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_user_name"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_user_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_below="@+id/entry_user_name_label"
+					android:layout_toLeftOf="@+id/entry_user_name_action_image"
+					android:layout_toStartOf="@+id/entry_user_name_action_image"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+				<android.support.v7.widget.AppCompatImageView
+					android:id="@+id/entry_user_name_action_image"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@+id/entry_user_name_label"
+					android:src="@drawable/ic_content_copy_white_24dp"
+					android:tint="?attr/colorAccent" />
+			</RelativeLayout>
+
+			<!-- Password -->
+			<RelativeLayout
+				android:id="@+id/entry_password_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone">
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_password_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_password"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<HorizontalScrollView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_below="@+id/entry_password_label"
+					android:layout_toLeftOf="@+id/entry_password_action_image"
+					android:layout_toStartOf="@+id/entry_password_action_image">
+					<android.support.v7.widget.AppCompatTextView
+						android:id="@+id/entry_password"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:scrollHorizontally="true"
+						android:inputType="textPassword"
+						android:focusable="false"
+						android:lines="1"
+						style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+				</HorizontalScrollView>
+				<android.support.v7.widget.AppCompatImageView
+					android:id="@+id/entry_password_action_image"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@+id/entry_password_label"
+					android:src="@drawable/ic_content_copy_white_24dp"
+					android:tint="?attr/colorAccent" />
+			</RelativeLayout>
+
+			<!--  URL -->
+			<LinearLayout
+				android:id="@+id/entry_url_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:visibility="gone">
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_url_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_url"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_url"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:autoLink="all"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</LinearLayout>
+
+			<!-- Comment -->
+			<LinearLayout
+				android:id="@+id/entry_notes_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				android:visibility="gone">
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_notes_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_notes"
+					android:autoLink="all"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_notes"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</LinearLayout>
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+    <!-- Extras -->
+	<android.support.v7.widget.CardView
+		android:id="@+id/extra_strings_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:visibility="gone"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:id="@+id/extra_strings"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- Created -->
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_created"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+
+			<!-- Modified -->
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_modified"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+
+			<!-- Accessed -->
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_accessed"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+
+			<!-- Expires -->
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_expires"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+</LinearLayout>

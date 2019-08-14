@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -25,31 +25,17 @@ import java.io.IOException;
 
 
 public class NativeFinalKey extends FinalKey {
-	
-	public static boolean availble() {
-		return NativeLib.init();
-	}
 
-	@Override
-	public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
-		NativeLib.init();
-		
-		return nTransformMasterKey(seed, key, rounds);
+    public static boolean available() {
+        return NativeLib.INSTANCE.init();
+    }
 
-	}
-	
-	private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
+    @Override
+    public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
+        NativeLib.INSTANCE.init();
 
-	// For testing
-	/*
-	public static byte[] reflect(byte[] key) {
-		NativeLib.init();
-		
-		return nativeReflect(key);
-	}
-	
-	private static native byte[] nativeReflect(byte[] key);
-	*/
-	
+        return nTransformMasterKey(seed, key, rounds);
+    }
 
+    private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
 }

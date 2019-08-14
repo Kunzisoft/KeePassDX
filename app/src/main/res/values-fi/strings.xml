@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
      
  This file is part of KeePass DX.
 
@@ -45,11 +45,11 @@
     <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
-    <string name="entry_comment">Kommentit</string>
+    <string name="entry_notes">Kommentit</string>
     <string name="entry_confpassword">Vahvista salasana</string>
     <string name="entry_created">Luotu</string>
     <string name="entry_expires">Vanhenee</string>

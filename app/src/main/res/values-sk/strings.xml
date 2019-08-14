@@ -16,46 +16,45 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="about_feedback">Spätná Väzba:</string>
-    <string name="about_homepage">Domovská Stránka:</string>
-    <string name="about_description">KeePass DX je Android verzia KeePass password manažéra.</string>
+--><resources>
+    <string name="about_feedback">Spätná väzba</string>
+    <string name="about_homepage">Domovská stránka</string>
+    <string name="about_description">Správca hesiel KeePass pre Android</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
     <string name="add_group">Pridať Skupinu</string>
-    <string name="encryption_algorithm">Algoritmus</string>
-    <string name="app_timeout">Časový limit aplikácie.</string>
+    <string name="encryption_algorithm">Šifrovací algoritmus</string>
+    <string name="app_timeout">Časový limit aplikácie</string>
     <string name="app_timeout_summary">Čas pred uzamknutím databázy, ak je aplikácia neaktívna.</string>
-    <string name="application">Applikácia</string>
+    <string name="application">Aplikácia</string>
     <string name="menu_app_settings">Nastavenia aplikácie</string>
     <string name="brackets">Konzoly</string>
     <string name="browser_intall_text">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
     <string name="cancel">Zrušiť</string>
     <string name="clipboard_cleared">Schránka vyčistená.</string>
     <string name="clipboard_timeout">Timeout Schránky</string>
-    <string name="clipboard_timeout_summary">Čas pred vyčistením schránky po skopírovaní mena alebo hesla</string>
+    <string name="clipboard_timeout_summary">Čas uchovania v schránke</string>
     <string name="select_to_copy">%1$s skopírované do schránky</string>
-    <string name="retrieving_db_key">Vytváram databázový kľúč&#8230;</string>
+    <string name="retrieving_db_key">Vytváram databázový kľúč…</string>
     <string name="database">Databáza</string>
-    <string name="decrypting_db">Dešifrujem obsah databázy&#8230;</string>
-    <string name="default_checkbox">Použiť toto ako predvolenú databázu</string>
+    <string name="decrypting_db">Dešifrujem obsah databázy…</string>
+    <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky; Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
+    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
-    <string name="entry_comment">Poznámky</string>
+    <string name="entry_notes">Poznámky</string>
     <string name="entry_confpassword">Potvrdiť heslo</string>
     <string name="entry_created">Vytvorené</string>
     <string name="entry_expires">Expirácia</string>
-    <string name="entry_keyfile">Súbor Keyfile</string>
+    <string name="entry_keyfile">Súbor s kľúčom</string>
     <string name="entry_modified">Upravené</string>
     <string name="entry_password">Heslo</string>
     <string name="entry_save">Uložiť</string>
     <string name="entry_title">Meno</string>
     <string name="entry_url">URL</string>
-    <string name="entry_user_name">Užívateľské meno</string>
+    <string name="entry_user_name">Meno používateľa</string>
     <string name="error_arc4">ArcFour stream šifra nieje podporovaná.</string>
     <string name="error_can_not_handle_uri">KeePass DX nevie použiť túto uri.</string>
     <string name="error_could_not_create_parent">Neviem vytvoriť nadradený adresár.</string>
@@ -91,7 +90,7 @@
     <string name="length">Dĺžka</string>
     <string name="list_size_title">Dĺžka zoznamu skupiny</string>
     <string name="list_size_summary">Veľkosť textu v zozname skupín</string>
-    <string name="loading_database">Načítavam Databázu&#8230;</string>
+    <string name="loading_database">Načítavam Databázu…</string>
     <string name="lowercase">Malé písmená</string>
     <string name="maskpass_title">Skryť heslo</string>
     <string name="maskpass_summary">Skryť heslá štandardne</string>
@@ -115,8 +114,8 @@
     <string name="open_recent">Otvoriť poslednú databázu :</string>
     <string name="omitbackup_title">Neprehľadávať položky</string>
     <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
-    <string name="progress_create">Vytváram novú databázu&#8230;</string>
-    <string name="progress_title">Pracujem&#8230;</string>
+    <string name="progress_create">Vytváram novú databázu…</string>
+    <string name="progress_title">Pracujem…</string>
     <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
     <string name="remember_keyfile_title">Uložiť keyfile</string>
     <string name="remove_from_filelist">Odstrániť</string>
@@ -125,7 +124,7 @@
     <string name="rounds">Šifrovacie opakovania</string>
     <string name="rounds_explanation">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
     <string name="rounds_hint">opakovania</string>
-    <string name="saving_database">Ukladám databázu&#8230;</string>
+    <string name="saving_database">Ukladám databázu…</string>
     <string name="space">Miesto</string>
     <string name="search_label">Hľadať</string>
     <string name="sort_db">DB zoradenie poradia</string>
@@ -137,23 +136,33 @@
     <string name="uppercase">Veľké písmená</string>
     <string name="warning_unmounted">Vaša SD karta nie je momentálne pripojená k zariadeniu. Nemôžete načítať, alebo vytvoriť databázu.</string>
     <string name="version_label">Version %1$s</string>
-
     <string name="education_unlock_summary">Vložte heslo a / alebo keyfile pre odomknutie databázy.</string>
-
     <string-array name="timeout_options">
         <item>5 sekúnd</item>
         <item>10 sekúnd</item>
         <item>20 sekúnd</item>
         <item>30 sekúnd</item>
         <item>1 minúta</item>
-    	<item>5 minút</item>
-    	<item>15 minút</item>
-    	<item>30 minút</item>
-    	<item>Nikdy</item>
+        <item>5 minút</item>
+        <item>15 minút</item>
+        <item>30 minút</item>
+        <item>Nikdy</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Malé</item>
-    	<item>Stredné</item>
-    	<item>Veľké</item>
+        <item>Malé</item>
+        <item>Stredné</item>
+        <item>Veľké</item>
     </string-array>
+    <string name="edit_entry">Upraviť záznam</string>
+    <string name="add_string">Pridať reťazec</string>
+    <string name="encryption">Šifrovanie</string>
+    <string name="key_derivation_function">Funkcia pre tvorbu kľúča</string>
+    <string name="beta_dontask">Nezobrazovať znovu</string>
+    <string name="extended_ASCII">Rozšírené ASCII</string>
+    <string name="allow">Povoliť</string>
+    <string name="clipboard_error_title">Chyba schránky</string>
+    <string name="clipboard_error">Niektoré Samsungy nedovolia aplikáciám používať schránku.</string>
+    <string name="clipboard_error_clear">Nepodarilo sa vymazať schránku</string>
+    <string name="clipboard_swipe_clean">Schránku vymažete potiahnutím prsta cez políčko</string>
+    <string name="entry_not_found">Nenašli sa údaje záznamu</string>
 </resources>

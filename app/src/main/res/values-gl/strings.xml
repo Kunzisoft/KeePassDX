@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources><string name="about_feedback">Comentarios:</string>
     <string name="about_homepage">Páxina inicial:</string>
     <string name="about_description">KeePass DX é unha implementación para Android do xestor de contrasinais KeePass.</string>
@@ -23,4 +23,21 @@
     <string name="clipboard_timeout">Tempo límite para o portapapeis</string>
     <string name="clipboard_timeout_summary">Tempo antes de limpar o portapapeis após copiar usuario ou contrasinal</string>
     <string name="clipboard_swipe_clean">Deslice para limpar agora o portapapeis</string>
-    </resources>
+    <string name="edit_entry">Editar entrada</string>
+    <string name="select_to_copy">Seleccione para copiar %1$s para o portapapeis</string>
+    <string name="retrieving_db_key">A criar a chave da base de dados…</string>
+    <string name="database">Base de dados</string>
+    <string name="digits">Díxitos</string>
+    <string name="entry_accessed">Accedido</string>
+    <string name="entry_cancel">Cancelar</string>
+    <string name="entry_notes">Notas</string>
+    <string name="entry_confpassword">Confirmar contrasinal</string>
+    <string name="entry_created">Criado</string>
+    <string name="entry_expires">Caduca</string>
+    <string name="entry_modified">Modificado</string>
+    <string name="entry_password">Contrasinal</string>
+    <string name="entry_save">Gardar</string>
+    <string name="entry_title">Nome</string>
+    <string name="entry_url">URL</string>
+    <string name="entry_user_name">Usuario</string>
+</resources>

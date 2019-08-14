@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
@@ -16,15 +16,14 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="about_feedback">回饋：</string>
-    <string name="about_homepage">首頁：</string>
-    <string name="about_description">KeePass DX是KeePass密碼管理軟體的Android版本。</string>
+--><resources>
+    <string name="about_feedback">回饋</string>
+    <string name="about_homepage">首頁</string>
+    <string name="about_description">KeePass DX是兼容KeePass密碼管理軟體的Android版本實現。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
     <string name="add_group">添加群組</string>
-    <string name="encryption_algorithm">演算法</string>
+    <string name="encryption_algorithm">加密演算法</string>
     <string name="app_timeout">應用程式超時</string>
     <string name="app_timeout_summary">應用程式處於非活動時鎖定資料庫。</string>
     <string name="application">應用程式</string>
@@ -45,7 +44,7 @@
     <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
-    <string name="entry_comment">備註</string>
+    <string name="entry_notes">備註</string>
     <string name="entry_confpassword">確認密碼</string>
     <string name="entry_created">創建</string>
     <string name="entry_expires">失效時間</string>
@@ -133,26 +132,24 @@
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="uppercase">大寫</string>
     <string name="warning_unmounted">你的SD卡目前尚未安裝在您的設備上。你將無法讀或創建您的資料庫。</string>
-
     <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫.</string>
-
     <string-array name="timeout_options">
-    	<item>5秒</item>
-    	<item>10秒</item>
-    	<item>20秒</item>
-    	<item>30秒</item>
-    	<item>1分鐘</item>
-    	<item>5分鐘</item>
-    	<item>15分鐘</item>
-    	<item>30分鐘</item>
-    	<item>從不</item>
+        <item>5秒</item>
+        <item>10秒</item>
+        <item>20秒</item>
+        <item>30秒</item>
+        <item>1分鐘</item>
+        <item>5分鐘</item>
+        <item>15分鐘</item>
+        <item>30分鐘</item>
+        <item>從不</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>小</item>
-    	<item>中</item>
-    	<item>大</item>
+        <item>小</item>
+        <item>中</item>
+        <item>大</item>
     </string-array>
-<string name="beta_dontask">下次不要再顯示</string>
+    <string name="beta_dontask">下次不要再顯示</string>
     <string name="extended_ASCII">增強的ASCII</string>
     <string name="allow">允許</string>
     <string name="clipboard_error_title">剪貼簿錯誤</string>
@@ -178,4 +175,8 @@
     <string name="read_only">唯讀</string>
     <string name="read_only_warning">KeePass DX 無法存取資料庫所在位置，將以唯讀模式開啟資料庫。</string>
     <string name="read_only_kitkat_warning">Adnroid 4.4 開始，許多裝置不允許應用程式對 SD 卡進行寫入。</string>
-    </resources>
+    <string name="add_string">添加字串</string>
+    <string name="encryption">加密</string>
+    <string name="key_derivation_function">金鑰派生函數</string>
+    <string name="edit_entry">編輯入口</string>
+</resources>

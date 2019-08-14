@@ -23,7 +23,7 @@
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>
-        <item name="colorAccentCompat">@color/red</item>
+        <item name="colorAccentLight">@color/red_light</item>
         <item name="android:textColor">@color/purple_dark</item>
         <item name="android:editTextColor">@color/purple</item>
         <item name="colorControlActivated">@color/green</item>

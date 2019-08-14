@@ -23,7 +23,7 @@
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">@color/dark</item>
         <item name="colorAccent">#26a69a</item>
-        <item name="colorAccentCompat">#26a69a</item>
+        <item name="colorAccentLight">#80cbc4</item>
         <item name="colorControlActivated">#80cbc4</item>
         <item name="android:textColorPrimary">#80cbc4</item>
         <item name="android:textColorHintInverse">#80cbc4</item>

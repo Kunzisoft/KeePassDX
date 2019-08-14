@@ -22,7 +22,7 @@
     <attr name="toolbarBottomAppearance" format="reference" />
     <attr name="toolbarPopupAppearance" format="reference" />
 
-    <attr name="colorAccentCompat" format="reference|color" />
+    <attr name="colorAccentLight" format="reference|color" />
 
     <attr name="iconPreferenceColor" format="reference|color" />
 

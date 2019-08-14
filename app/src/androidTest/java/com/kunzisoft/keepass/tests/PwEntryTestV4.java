@@ -1,6 +1,6 @@
 /*
  * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
- *     
+ *
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -19,20 +19,12 @@
  */
 package com.kunzisoft.keepass.tests;
 
-import com.kunzisoft.keepass.database.AutoType;
-import com.kunzisoft.keepass.database.PwEntryV4;
-import com.kunzisoft.keepass.database.PwGroupV4;
-import com.kunzisoft.keepass.database.PwIconCustom;
-import com.kunzisoft.keepass.database.PwIconStandard;
-import com.kunzisoft.keepass.database.security.ProtectedBinary;
-import com.kunzisoft.keepass.database.security.ProtectedString;
-
 import junit.framework.TestCase;
 
-import java.util.UUID;
-
 public class PwEntryTestV4 extends TestCase {
-	public void testAssign() {
+    public void testAssign() {
+		/*
+		TODO Test
 		PwEntryV4 entry = new PwEntryV4();
 		
 		entry.setAdditional("test223");
@@ -43,7 +35,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.getAutoType().obfuscationOptions = 123412432109L;
 		entry.getAutoType().put("key", "value");
 		
-		entry.setBackgroupColor("blue");
+		entry.setBackgroundColor("blue");
 		entry.putProtectedBinary("key1", new ProtectedBinary(false, new byte[] {0,1}));
 		entry.setIconCustom(new PwIconCustom(UUID.randomUUID(), new byte[0]));
 		entry.setForegroundColor("red");
@@ -53,7 +45,7 @@ public class PwEntryTestV4 extends TestCase {
 		entry.setParent(new PwGroupV4());
 		entry.addExtraField("key2", new ProtectedString(false, "value2"));
 		entry.setUrl("http://localhost");
-		entry.setUUID(UUID.randomUUID());
+		entry.setNodeId(UUID.randomUUID());
 
 		PwEntryV4 target = new PwEntryV4();
 		target.updateWith(entry);
@@ -61,7 +53,7 @@ public class PwEntryTestV4 extends TestCase {
 		/* This test is not so useful now that I am not implementing value equality for Entries
 		assertTrue("Entries do not match.", entry.equals(target));
 		*/
-		
-	}
+
+    }
 
 }
