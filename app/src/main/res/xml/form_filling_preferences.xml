@@ -38,14 +38,10 @@
             android:defaultValue="@bool/clipboard_notifications_default"
             android:summary="@string/clipboard_notifications_summary" />
         <SwitchPreference
-            android:key="@string/allow_copy_password_key"
-            android:title="@string/allow_copy_password_title"
-            android:summary="@string/allow_copy_password_summary"
-            android:defaultValue="@bool/allow_copy_password_default"/>
-        <SwitchPreference
             android:key="@string/clear_clipboard_notification_key"
             android:title="@string/clear_clipboard_notification_title"
             android:summary="@string/clear_clipboard_notification_summary"
+            android:dependency="@string/clipboard_notifications_key"
             android:defaultValue="@bool/clear_clipboard_notification_default"/>
         <ListPreference
             android:key="@string/clipboard_timeout_key"
@@ -55,6 +51,11 @@
             android:entryValues="@array/timeout_values"
             android:dialogTitle="@string/clipboard_timeout"
             android:defaultValue="@string/clipboard_timeout_default"/>
+        <SwitchPreference
+            android:key="@string/allow_copy_password_key"
+            android:title="@string/allow_copy_password_title"
+            android:summary="@string/allow_copy_password_summary"
+            android:defaultValue="@bool/allow_copy_password_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory
