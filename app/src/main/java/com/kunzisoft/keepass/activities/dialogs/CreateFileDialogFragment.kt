@@ -26,39 +26,26 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
-import android.widget.TextView
-
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.FilePickerStylishActivity
 import com.kunzisoft.keepass.utils.UriUtil
-import com.nononsenseapps.filepicker.FilePickerActivity
-import com.nononsenseapps.filepicker.Utils
 
-class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedListener {
 
-    private val FILE_CODE = 3853
+class CreateFileDialogFragment : DialogFragment() {
 
-    private var folderPathView: EditText? = null
-    private var fileNameView: EditText? = null
+    private var pathFileNameView: EditText? = null
     private var positiveButton: Button? = null
     private var negativeButton: Button? = null
 
     private var mDefinePathDialogListener: DefinePathDialogListener? = null
 
-    private var mDatabaseFileExtension: String? = null
     private var mUriPath: Uri? = null
 
     interface DefinePathDialogListener {
@@ -114,47 +101,13 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
 
             // Folder selection
             val browseView = rootView.findViewById<View>(R.id.browse_button)
-            folderPathView = rootView.findViewById(R.id.folder_path)
-            folderPathView?.customSelectionActionModeCallback = actionCopyBarCallback
-            fileNameView = rootView.findViewById(R.id.filename)
-            fileNameView?.customSelectionActionModeCallback = actionCopyBarCallback
-
-            val defaultPath = Environment.getExternalStorageDirectory().path + getString(R.string.database_file_path_default)
-            folderPathView?.setText(defaultPath)
-            browseView.setOnClickListener { _ ->
-                Intent(context, FilePickerStylishActivity::class.java).apply {
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_MULTIPLE, false)
-                    putExtra(FilePickerActivity.EXTRA_ALLOW_CREATE_DIR, true)
-                    putExtra(FilePickerActivity.EXTRA_MODE, FilePickerActivity.MODE_DIR)
-                    putExtra(FilePickerActivity.EXTRA_START_PATH,
-                            Environment.getExternalStorageDirectory().path)
-                    startActivityForResult(this, FILE_CODE)
-                }
-            }
+            pathFileNameView = rootView.findViewById(R.id.folder_path)
+            pathFileNameView?.customSelectionActionModeCallback = actionCopyBarCallback
+            pathFileNameView?.setText("/document/primary:keepass/keepass.kdbx") // TODO
+            browseView.setOnClickListener { createNewFile() }
 
             // Init path
             mUriPath = null
-
-            // Extension
-            mDatabaseFileExtension = getString(R.string.database_file_extension_default)
-            val spinner = rootView.findViewById<Spinner>(R.id.file_types)
-            spinner.onItemSelectedListener = this
-
-            // Spinner Drop down elements
-            val fileTypes = resources.getStringArray(R.array.file_types)
-            val dataAdapter = ArrayAdapter(activity, android.R.layout.simple_spinner_item, fileTypes)
-            dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            spinner.adapter = dataAdapter
-            // Or text if only one item https://github.com/Kunzisoft/KeePassDX/issues/105
-            if (fileTypes.size == 1) {
-                val params = spinner.layoutParams
-                spinner.visibility = View.GONE
-                val extensionTextView = TextView(context)
-                extensionTextView.text = mDatabaseFileExtension
-                extensionTextView.layoutParams = params
-                val parentView = spinner.parent as ViewGroup
-                parentView.addView(extensionTextView)
-            }
 
             val dialog = builder.create()
 
@@ -181,10 +134,8 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
     }
 
     private fun buildPath(): Uri? {
-        if (folderPathView != null && fileNameView != null && mDatabaseFileExtension != null) {
-            var path = Uri.Builder().path(folderPathView!!.text.toString())
-                    .appendPath(fileNameView!!.text.toString() + mDatabaseFileExtension!!)
-                    .build()
+        if (pathFileNameView != null) {
+            var path = Uri.Builder().path(pathFileNameView!!.text.toString()).build()
             context?.let { context ->
                 path = UriUtil.translateUri(context, path)
             }
@@ -193,21 +144,33 @@ class CreateFileDialogFragment : DialogFragment(), AdapterView.OnItemSelectedLis
         return null
     }
 
+    /**
+     * Create a new file by calling the content provider
+     */
+    private fun createNewFile() {
+        startActivityForResult(Intent(
+                Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/x-keepass"
+                    putExtra(Intent.EXTRA_TITLE, getString(R.string.database_file_name_default) +
+                            getString(R.string.database_file_extension_default))
+                },
+                CREATE_FILE_REQUEST_CODE)
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == FILE_CODE && resultCode == Activity.RESULT_OK) {
+        if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mUriPath = data?.data
             mUriPath?.let {
-                val file = Utils.getFileForUri(it)
-                folderPathView?.setText(file.path)
+                val file = data?.data
+                if (file != null) {
+                    pathFileNameView?.setText(file.path)
+                }
             }
         }
     }
 
-    override fun onItemSelected(adapterView: AdapterView<*>, view: View, position: Int, id: Long) {
-        mDatabaseFileExtension = adapterView.getItemAtPosition(position).toString()
-    }
-
-    override fun onNothingSelected(adapterView: AdapterView<*>) {
-        // Do nothing
+    companion object {
+        private const val CREATE_FILE_REQUEST_CODE = 3853
     }
 }
