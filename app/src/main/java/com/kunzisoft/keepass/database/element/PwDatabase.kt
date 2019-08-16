@@ -233,7 +233,9 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     }
 
     fun addGroupIndex(group: Group) {
-        this.groupIndexes[group.nodeId] = group
+        val groupId = group.nodeId
+        if (!groupIndexes.containsKey(groupId))
+            this.groupIndexes[groupId] = group
     }
 
     fun removeGroupIndex(group: Group) {
@@ -263,7 +265,9 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     }
 
     fun addEntryIndex(entry: Entry) {
-        this.entryIndexes[entry.nodeId] = entry
+        val entryId = entry.nodeId
+        if (!entryIndexes.containsKey(entryId))
+            this.entryIndexes[entryId] = entry
     }
 
     fun removeEntryIndex(entry: Entry) {
