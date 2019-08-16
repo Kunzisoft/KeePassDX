@@ -102,7 +102,7 @@
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_change_key">Ana anahtarı değitir</string>
-    <string name="copy_field">1$s kopyalandı</string>
+    <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
     <string name="menu_form_filling_settings">Form doldurma</string>
