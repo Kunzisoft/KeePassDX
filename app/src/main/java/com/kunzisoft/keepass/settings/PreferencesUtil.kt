@@ -130,7 +130,7 @@ object PreferencesUtil {
     fun getListSort(context: Context): SortNodeEnum {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs.getString(context.getString(R.string.sort_node_key),
-                SortNodeEnum.TITLE.name)?.let {
+                SortNodeEnum.DB.name)?.let {
             return SortNodeEnum.valueOf(it)
         }
         return SortNodeEnum.DB
