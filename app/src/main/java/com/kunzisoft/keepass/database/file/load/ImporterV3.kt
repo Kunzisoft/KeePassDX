@@ -68,9 +68,6 @@ import java.util.Arrays
 
 /**
  * Load a v3 database file.
- *
- * @author Naomaru Itoi <nao></nao>@phoneid.org>
- * @author Bill Zwicky <wrzwicky></wrzwicky>@pobox.com>
  */
 class ImporterV3 : Importer<PwDatabaseV3>() {
 
