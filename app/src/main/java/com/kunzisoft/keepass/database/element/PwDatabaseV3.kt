@@ -27,7 +27,6 @@ import java.io.InputStream
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.*
 
 /**
  * @author Naomaru Itoi <nao></nao>@phoneid.org>
@@ -76,50 +75,44 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS
     }
 
-    private fun assignGroupsChildren(parent: PwGroupV3) {
-        val levelToCheck = parent.level + 1
-        var startFromParentPosition = false
-        for (groupToCheck in getGroupIndexes()) {
-            rootGroup?.let { root ->
-                if (root.nodeId == parent.nodeId || groupToCheck.nodeId == parent.nodeId) {
-                    startFromParentPosition = true
-                }
-            }
-            if (startFromParentPosition) {
-                if (groupToCheck.level < levelToCheck)
-                    break
-                else if (groupToCheck.level == levelToCheck)
-                    parent.addChildGroup(groupToCheck)
-            }
+    private fun buildTreeGroups(previousGroup: PwGroupV3, currentGroup: PwGroupV3, groupIterator: Iterator<PwGroupV3>) {
+
+        if (currentGroup.parent == null && (previousGroup.level + 1) == currentGroup.level) {
+            // Current group has an increment level compare to the previous, current group is a child
+            previousGroup.addChildGroup(currentGroup)
+            currentGroup.parent = previousGroup
+        } else if (previousGroup.parent != null && previousGroup.level == currentGroup.level) {
+            // In the same level, previous parent is the same as previous group
+            previousGroup.parent!!.addChildGroup(currentGroup)
+            currentGroup.parent = previousGroup.parent
+        } else if (previousGroup.parent != null) {
+            // Previous group has a higher level than the current group, check it's parent
+            buildTreeGroups(previousGroup.parent!!, currentGroup, groupIterator)
         }
-    }
 
-    private fun assignEntriesChildren(parent: PwGroupV3) {
-        for (entry in getEntryIndexes()) {
-            if (entry.parent!!.nodeId == parent.nodeId)
-                parent.addChildEntry(entry)
-        }
-    }
-
-    private fun constructTreeFromIndex(currentGroup: PwGroupV3) {
-
-        assignGroupsChildren(currentGroup)
-        assignEntriesChildren(currentGroup)
-
-        // set parent in child entries (normally useless but to be sure or to update parent metadata)
-        for (childEntry in currentGroup.getChildEntries()) {
-            childEntry.parent = currentGroup
-        }
-        // recursively construct child groups
-        for (childGroup in currentGroup.getChildGroups()) {
-            childGroup.parent = currentGroup
-            constructTreeFromIndex(childGroup)
+        // Next current group
+        if (groupIterator.hasNext()){
+            buildTreeGroups(currentGroup, groupIterator.next(), groupIterator)
         }
     }
 
     fun constructTreeFromIndex() {
         rootGroup?.let {
-            constructTreeFromIndex(it)
+
+            // add each group
+            val groupIterator = getGroupIndexes().iterator()
+            if (groupIterator.hasNext())
+                buildTreeGroups(it, groupIterator.next(), groupIterator)
+
+            // add each child
+            for (currentEntry in getEntryIndexes()) {
+                if (currentEntry.parent != null) {
+                    // Only the parent id is known so complete the info
+                    val parentGroupRetrieve = getGroupById(currentEntry.parent!!.nodeId)
+                    parentGroupRetrieve?.addChildEntry(currentEntry)
+                    currentEntry.parent = parentGroupRetrieve
+                }
+            }
         }
     }
 

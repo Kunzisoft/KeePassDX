@@ -1,4 +1,7 @@
 KeepassDX (2.5.0.0beta20)
+ * Fix nested groups no longer visible in V1 databases
+
+KeepassDX (2.5.0.0beta20)
  * Fix a major bug that displays an entry history
 
 KeepassDX (2.5.0.0beta19)
