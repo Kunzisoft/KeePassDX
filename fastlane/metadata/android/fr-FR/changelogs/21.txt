@@ -1,9 +1,2 @@
- * Ajout du bouton de lock toujours visible
- * Nouveau workflow de connexion
- * Code refactorisé en Kotlin
- * Meilleure implementation des notifications
- * Meilleures vues pour les écrans larges
- * Amélioration du Magikeyboard
- * Correction de la Corbeille
- * Correction de la mémoire lors du chargement de base de données
- * Correction de bugs d'affichage des entrée et groupes (2.5.0.0beta19-20)
+ * Correction des groupes imbriqués plus visible dans les bases V1
+ * Ajout du tri par ordre naturel de la base

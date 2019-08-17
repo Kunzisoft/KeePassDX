@@ -15,8 +15,7 @@
             <RadioButton android:id="@+id/sort_selection_db"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/sort_db"
-                android:visibility="gone"/>
+                android:text="@string/sort_db"/>
             <RadioButton android:id="@+id/sort_selection_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

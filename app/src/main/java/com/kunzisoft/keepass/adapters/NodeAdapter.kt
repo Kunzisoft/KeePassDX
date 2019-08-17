@@ -30,7 +30,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -138,7 +137,7 @@ class NodeAdapter
         assignPreferences()
         // TODO verify sort
         try {
-            this.nodeSortedList.addAll(group.getChildrenWithoutMetaStream())
+            this.nodeSortedList.addAll(group.getChildren())
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
