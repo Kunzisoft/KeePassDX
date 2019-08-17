@@ -1,2 +1,3 @@
  * Correction des groupes imbriqués plus visible dans les bases V1
  * Ajout du tri par ordre naturel de la base
+ * Ajout du tri par nom d'utilisateur

@@ -1,2 +1,3 @@
  * Fix nested groups no longer visible in V1 databases
  * Add natural database sort
+ * Add username database sort
