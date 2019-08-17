@@ -25,6 +25,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
+import com.kunzisoft.keepass.database.element.Database
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -205,24 +206,20 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
             R.id.menu_sort -> {
                 context?.let { context ->
-                    val sortDialogFragment: SortDialogFragment
-
-                    /*
-                    // TODO Recycle bin bottom
-                    if (database.isRecycleBinAvailable() && database.isRecycleBinEnabled()) {
-                        sortDialogFragment =
+                    val sortDialogFragment: SortDialogFragment =
+                            if (Database.getInstance().isRecycleBinAvailable
+                                    && Database.getInstance().isRecycleBinEnabled) {
                                 SortDialogFragment.getInstance(
-                                        PrefsUtil.getListSort(this),
-                                        PrefsUtil.getAscendingSort(this),
-                                        PrefsUtil.getGroupsBeforeSort(this),
-                                        PrefsUtil.getRecycleBinBottomSort(this));
-                    } else {
-                    */
-                    sortDialogFragment = SortDialogFragment.getInstance(
-                            PreferencesUtil.getListSort(context),
-                            PreferencesUtil.getAscendingSort(context),
-                            PreferencesUtil.getGroupsBeforeSort(context))
-                    //}
+                                        PreferencesUtil.getListSort(context),
+                                        PreferencesUtil.getAscendingSort(context),
+                                        PreferencesUtil.getGroupsBeforeSort(context),
+                                        PreferencesUtil.getRecycleBinBottomSort(context))
+                            } else {
+                                SortDialogFragment.getInstance(
+                                        PreferencesUtil.getListSort(context),
+                                        PreferencesUtil.getAscendingSort(context),
+                                        PreferencesUtil.getGroupsBeforeSort(context))
+                            }
 
                     sortDialogFragment.show(childFragmentManager, "sortDialog")
                 }

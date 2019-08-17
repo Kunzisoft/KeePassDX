@@ -29,18 +29,18 @@ import java.util.*
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
 
-    fun getNodeComparator(ascending: Boolean, groupsBefore: Boolean): Comparator<NodeVersioned> {
+    fun getNodeComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean): Comparator<NodeVersioned> {
         return when (this) {
-            DB -> NodeNaturalComparator(ascending, groupsBefore)
-            TITLE -> NodeTitleComparator(ascending, groupsBefore)
-            USERNAME -> NodeUsernameComparator(ascending, groupsBefore)
-            CREATION_TIME -> NodeCreationComparator(ascending, groupsBefore)
-            LAST_MODIFY_TIME -> NodeLastModificationComparator(ascending, groupsBefore)
-            LAST_ACCESS_TIME -> NodeLastAccessComparator(ascending, groupsBefore)
+            DB -> NodeNaturalComparator(ascending, groupsBefore, recycleBinBottom)
+            TITLE -> NodeTitleComparator(ascending, groupsBefore, recycleBinBottom)
+            USERNAME -> NodeUsernameComparator(ascending, groupsBefore, recycleBinBottom)
+            CREATION_TIME -> NodeCreationComparator(ascending, groupsBefore, recycleBinBottom)
+            LAST_MODIFY_TIME -> NodeLastModificationComparator(ascending, groupsBefore, recycleBinBottom)
+            LAST_ACCESS_TIME -> NodeLastAccessComparator(ascending, groupsBefore, recycleBinBottom)
         }
     }
 
-    abstract class NodeComparator(var ascending: Boolean, var groupsBefore: Boolean) : Comparator<NodeVersioned> {
+    abstract class NodeComparator(var ascending: Boolean, var groupsBefore: Boolean, var recycleBinBottom: Boolean) : Comparator<NodeVersioned> {
 
         abstract fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int
 
@@ -58,6 +58,14 @@ enum class SortNodeEnum {
 
             if (object1.type == Type.GROUP) {
                 return if (object2.type == Type.GROUP) {
+                    // RecycleBin at end of groups
+                    if (recycleBinBottom) {
+                        if (Database.getInstance().recycleBin == object1)
+                            return 1
+                        if (Database.getInstance().recycleBin == object2)
+                            return -1
+                    }
+
                     specificOrderOrHashIfEquals(object1, object2)
                 } else if (object2.type == Type.ENTRY) {
                     if (groupsBefore)
@@ -88,7 +96,8 @@ enum class SortNodeEnum {
     /**
      * Comparator of node by natural database placement
      */
-    class NodeNaturalComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeNaturalComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.nodePositionInParent.compareTo(object2.nodePositionInParent)
@@ -98,7 +107,8 @@ enum class SortNodeEnum {
     /**
      * Comparator of Node by Title
      */
-    class NodeTitleComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeTitleComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.title.compareTo(object2.title, ignoreCase = true)
@@ -108,7 +118,8 @@ enum class SortNodeEnum {
     /**
      * Comparator of Node by Username, Groups by title
      */
-    class NodeUsernameComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeUsernameComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             if (object1.type == Type.ENTRY && object2.type == Type.ENTRY) {
@@ -117,14 +128,15 @@ enum class SortNodeEnum {
                         .compareTo((object2 as EntryVersioned).getEntryInfo(Database.getInstance()).username,
                                 ignoreCase = true)
             }
-            return NodeTitleComparator(ascending, groupsBefore).compare(object1, object2)
+            return NodeTitleComparator(ascending, groupsBefore, recycleBinBottom).compare(object1, object2)
         }
     }
 
     /**
      * Comparator of node by creation
      */
-    class NodeCreationComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeCreationComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.creationTime.date
@@ -135,7 +147,8 @@ enum class SortNodeEnum {
     /**
      * Comparator of node by last modification
      */
-    class NodeLastModificationComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeLastModificationComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.lastModificationTime.date
@@ -146,7 +159,8 @@ enum class SortNodeEnum {
     /**
      * Comparator of node by last access
      */
-    class NodeLastAccessComparator(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeLastAccessComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.lastAccessTime.date

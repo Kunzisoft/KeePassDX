@@ -48,9 +48,10 @@ class NodeAdapter
     private var textSize: Float = 0.toFloat()
     private var subtextSize: Float = 0.toFloat()
     private var iconSize: Float = 0.toFloat()
-    private var listSort: SortNodeEnum? = null
-    private var groupsBeforeSort: Boolean = false
-    private var ascendingSort: Boolean = false
+    private var listSort: SortNodeEnum = SortNodeEnum.DB
+    private var ascendingSort: Boolean = true
+    private var groupsBeforeSort: Boolean = true
+    private var recycleBinBottomSort: Boolean = true
     private var showUserNames: Boolean = false
 
     private var nodeClickCallback: NodeClickCallback? = null
@@ -79,7 +80,7 @@ class NodeAdapter
 
         this.nodeSortedList = SortedList(NodeVersioned::class.java, object : SortedListAdapterCallback<NodeVersioned>(this) {
             override fun compare(item1: NodeVersioned, item2: NodeVersioned): Int {
-                return listSort?.getNodeComparator(ascendingSort, groupsBeforeSort)?.compare(item1, item2) ?: 0
+                return listSort.getNodeComparator(ascendingSort, groupsBeforeSort, recycleBinBottomSort).compare(item1, item2)
             }
 
             override fun areContentsTheSame(oldItem: NodeVersioned, newItem: NodeVersioned): Boolean {
@@ -124,8 +125,9 @@ class NodeAdapter
         val iconDefaultSize = context.resources.getDimension(R.dimen.list_icon_size_default)
         this.iconSize = iconDefaultSize * textSize / textSizeDefault
         this.listSort = PreferencesUtil.getListSort(context)
-        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
+        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
+        this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
     }
 
