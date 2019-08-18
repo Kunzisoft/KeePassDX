@@ -12,9 +12,9 @@ abstract class PwGroup
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = LinkedHashSet<Group>()
+    private val childGroups = ArrayList<Group>()
     @Transient
-    private val childEntries = LinkedHashSet<Entry>()
+    private val childEntries = ArrayList<Entry>()
 
     constructor() : super()
 
@@ -39,20 +39,22 @@ abstract class PwGroup
         set(value) { titleGroup = value }
 
     override fun getChildGroups(): MutableList<Group> {
-        return childGroups.toMutableList()
+        return childGroups
     }
 
     override fun getChildEntries(): MutableList<Entry> {
-        return childEntries.toMutableList()
+        return childEntries
     }
 
     override fun addChildGroup(group: Group) {
-        // TODO duplicate UUID
+        if (childGroups.contains(group))
+            removeChildGroup(group)
         this.childGroups.add(group)
     }
 
     override fun addChildEntry(entry: Entry) {
-        // TODO duplicate UUID
+        if (childEntries.contains(entry))
+            removeChildEntry(entry)
         this.childEntries.add(entry)
     }
 
