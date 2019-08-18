@@ -3,3 +3,4 @@
  * Add natural database sort
  * Add username database sort
  * Fix button disabled with only KeyFile
+ * Show the number of entries in a group
