@@ -137,14 +137,12 @@ class NodeAdapter
     fun rebuildList(group: GroupVersioned) {
         this.nodeSortedList.clear()
         assignPreferences()
-        // TODO verify sort
         try {
             this.nodeSortedList.addAll(group.getChildren())
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
         }
-
     }
 
     /**
@@ -240,6 +238,9 @@ class NodeAdapter
         holder.icon.layoutParams?.width = iconSize.toInt()
         holder.text.textSize = textSize
         holder.subText.textSize = subtextSize
+        if (subNode.type == Type.GROUP) {
+            holder.numberChildren?.text = (subNode as GroupVersioned).getChildEntries().size.toString()
+        }
     }
 
     override fun getItemCount(): Int {
@@ -357,6 +358,7 @@ class NodeAdapter
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
+        var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
     }
 
     companion object {
