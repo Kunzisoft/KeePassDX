@@ -154,7 +154,7 @@
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
     <string name="rounds_hint">tours de transformation</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
-    <string name="memory_usage_explanation">Quantité de mémoire (en multiplets binaires) à utiliser par la fonction de dérivation de clé.</string>
+    <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
     <string name="parallelism_explanation">Degré de parallélisme (nombre de fils d’exécution) utilisé par la fonction de dérivation de clé.</string>
     <string name="saving_database">Enregistrement de la base de données…</string>
@@ -232,7 +232,7 @@
     <string name="path">Chemin</string>
     <string name="assign_master_key">Assigner une clé maîtresse</string>
     <string name="create_keepass_file">Créer une nouvelle base de données</string>
-    <string name="bytes">Multiplets</string>
+    <string name="bytes">Octets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
