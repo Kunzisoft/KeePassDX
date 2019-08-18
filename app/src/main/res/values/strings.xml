@@ -329,8 +329,8 @@
 
     <string name="keyboard_key_sound_title">Sound on keypress</string>
 
-    <string name="allow_no_password_title">Allow no password</string>
-    <string name="allow_no_password_summary">Enable the \"Open\" button if no password identification is selected</string>
+    <string name="allow_no_password_title">Allow no master key</string>
+    <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>
