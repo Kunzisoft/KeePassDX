@@ -25,7 +25,6 @@
     <string name="add_entry">Add entry</string>
     <string name="edit_entry">Edit entry</string>
     <string name="add_group">Add group</string>
-    <string name="add_string">Add string</string>
     <string name="encryption">Encryption</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="key_derivation_function">Key derivation function</string>
@@ -45,6 +44,23 @@
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
+    <string name="content_description_open_file">Open file</string>
+    <string name="content_description_show_file_link">Show file link</string>
+    <string name="content_description_open_file_link">Open file link</string>
+    <string name="content_description_node_children">Node children</string>
+    <string name="content_description_add_node">Add node</string>
+    <string name="content_description_add_entry">Add entry</string>
+    <string name="content_description_add_group">Add group</string>
+    <string name="content_description_file_information">File information</string>
+    <string name="content_description_password_checkbox">Password checkbox</string>
+    <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
+    <string name="content_description_entry_icon">Entry icon</string>
+    <string name="content_description_entry_save">Entry save</string>
+    <string name="content_description_password_generator">Password generator</string>
+    <string name="content_description_password_length">Password length</string>
+    <string name="content_description_add_field">Add field</string>
+    <string name="content_description_remove_field">Remove field</string>
      <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -113,6 +129,8 @@
     <string name="length">Length</string>
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Show usernames in entry lists</string>
+    <string name="list_groups_show_number_entries_title">Show number of entries</string>
+    <string name="list_groups_show_number_entries_summary">Show the number of entries in a group</string>
     <string name="list_size_title">Size of list items</string>
     <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database…</string>
@@ -181,7 +199,7 @@
     <string name="sort_ascending">Lowest first ↓</string>
     <string name="sort_groups_before">Groups before</string>
     <string name="sort_recycle_bin_bottom">Recycle bin at the bottom</string>
-    <string name="sort_db">Natural Database</string>
+    <string name="sort_db">Natural order</string>
     <string name="sort_title">Title</string>
     <string name="sort_username">Username</string>
     <string name="sort_creation_time">Creation</string>
@@ -329,8 +347,8 @@
 
     <string name="keyboard_key_sound_title">Sound on keypress</string>
 
-    <string name="allow_no_password_title">Allow no password</string>
-    <string name="allow_no_password_summary">Enable the \"Open\" button if no password identification is selected</string>
+    <string name="allow_no_password_title">Allow no master key</string>
+    <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>

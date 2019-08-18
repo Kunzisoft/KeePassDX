@@ -5,7 +5,6 @@
     <string name="accept">Aceptar</string>
     <string name="add_entry">Engadir entrada</string>
     <string name="add_group">Engadir grupo</string>
-    <string name="add_string">Engadir texto</string>
     <string name="encryption">Cifrado</string>
     <string name="encryption_algorithm">Algoritmo de cifrado</string>
     <string name="key_derivation_function">Función de derivación de chave</string>

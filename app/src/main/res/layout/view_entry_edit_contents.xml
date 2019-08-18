@@ -38,6 +38,7 @@
 			android:layout_height="wrap_content"
 			android:layout_margin="4dp"
 			android:src="@drawable/ic_blank_32dp"
+			android:contentDescription="@string/content_description_entry_icon"
 			android:layout_gravity="center"/>
 
 		<!--  Title -->
@@ -108,6 +109,7 @@
 				android:layout_alignParentLeft="true"
 				android:layout_alignParentStart="true"
 				app:passwordToggleEnabled="true"
+				android:contentDescription="@string/content_description_repeat_toggle_password_visibility"
 				android:layout_toLeftOf="@+id/entry_edit_generate_button"
 				android:layout_toStartOf="@+id/entry_edit_generate_button"
 				android:layout_below="@+id/entry_edit_container_password">
@@ -125,13 +127,15 @@
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/entry_edit_generate_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:padding="12dp"
 				android:layout_alignParentEnd="true"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:layout_margin="8dp"
 				android:src="@drawable/ic_key_white_24dp"
+				android:contentDescription="@string/content_description_password_generator"
 				android:tint="?attr/colorAccent"/>
 		</RelativeLayout>
 
@@ -176,15 +180,14 @@
 			android:orientation="vertical">
 		</LinearLayout>
 
-		<ImageView
+		<android.support.v7.widget.AppCompatImageButton
 			android:id="@+id/entry_edit_add_new_field"
-			android:layout_width="30sp"
-			android:layout_height="30sp"
-			android:contentDescription="@string/add_string"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:src="@drawable/ic_add_white_24dp"
+            android:contentDescription="@string/content_description_add_field"
 			android:tint="?attr/colorAccent"
-			android:scaleType="centerCrop"
-			android:visibility="gone"/>
+			android:scaleType="centerCrop"/>
 	</LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

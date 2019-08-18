@@ -1,0 +1,6 @@
+ * Fix nested groups no longer visible in V1 databases
+ * Improved data import algorithm for V1 databases
+ * Add natural database sort
+ * Add username database sort
+ * Fix button disabled with only KeyFile
+ * Show the number of entries in a group

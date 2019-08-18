@@ -20,41 +20,54 @@
 
 package com.kunzisoft.keepass.database
 
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
-
-import java.util.Comparator
+import com.kunzisoft.keepass.database.element.Type
+import java.util.*
 
 enum class SortNodeEnum {
     DB, TITLE, USERNAME, CREATION_TIME, LAST_MODIFY_TIME, LAST_ACCESS_TIME;
 
-    fun getNodeComparator(ascending: Boolean, groupsBefore: Boolean): Comparator<NodeVersioned> {
+    fun getNodeComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean): Comparator<NodeVersioned> {
         return when (this) {
-            DB -> NodeCreationComparator(ascending, groupsBefore) // TODO Sort
-            TITLE -> NodeTitleComparator(ascending, groupsBefore)
-            USERNAME -> NodeCreationComparator(ascending, groupsBefore) // TODO Sort
-            CREATION_TIME -> NodeCreationComparator(ascending, groupsBefore)
-            LAST_MODIFY_TIME -> NodeLastModificationComparator(ascending, groupsBefore)
-            LAST_ACCESS_TIME -> NodeLastAccessComparator(ascending, groupsBefore)
+            DB -> NodeNaturalComparator(ascending, groupsBefore, recycleBinBottom)
+            TITLE -> NodeTitleComparator(ascending, groupsBefore, recycleBinBottom)
+            USERNAME -> NodeUsernameComparator(ascending, groupsBefore, recycleBinBottom)
+            CREATION_TIME -> NodeCreationComparator(ascending, groupsBefore, recycleBinBottom)
+            LAST_MODIFY_TIME -> NodeLastModificationComparator(ascending, groupsBefore, recycleBinBottom)
+            LAST_ACCESS_TIME -> NodeLastAccessComparator(ascending, groupsBefore, recycleBinBottom)
         }
     }
 
-    abstract class NodeComparator internal constructor(internal var ascending: Boolean, private var groupsBefore: Boolean) : Comparator<NodeVersioned> {
+    abstract class NodeComparator(var ascending: Boolean, var groupsBefore: Boolean, var recycleBinBottom: Boolean) : Comparator<NodeVersioned> {
 
-        internal fun compareWith(comparatorGroup: Comparator<GroupVersioned>,
-                                 comparatorEntry: Comparator<EntryVersioned>,
-                                 object1: NodeVersioned,
-                                 object2: NodeVersioned,
-                                 resultOfNodeMethodCompare: Int): Int {
+        abstract fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int
+
+        private fun specificOrderOrHashIfEquals(object1: NodeVersioned, object2: NodeVersioned): Int {
+            val specificOrderComp = compareBySpecificOrder(object1, object2)
+
+            return if (specificOrderComp == 0) {
+                object1.hashCode() - object2.hashCode()
+            } else if (!ascending) -specificOrderComp else specificOrderComp // If descending, revert
+        }
+
+        override fun compare(object1: NodeVersioned,object2: NodeVersioned): Int {
             if (object1 == object2)
                 return 0
 
-            if (object1 is GroupVersioned) {
-                return if (object2 is GroupVersioned) {
-                    comparatorGroup
-                            .compare(object1, object2)
-                } else if (object2 is EntryVersioned) {
+            if (object1.type == Type.GROUP) {
+                return if (object2.type == Type.GROUP) {
+                    // RecycleBin at end of groups
+                    if (recycleBinBottom) {
+                        if (Database.getInstance().recycleBin == object1)
+                            return 1
+                        if (Database.getInstance().recycleBin == object2)
+                            return -1
+                    }
+
+                    specificOrderOrHashIfEquals(object1, object2)
+                } else if (object2.type == Type.ENTRY) {
                     if (groupsBefore)
                         -1
                     else
@@ -62,11 +75,10 @@ enum class SortNodeEnum {
                 } else {
                     -1
                 }
-            } else if (object1 is EntryVersioned) {
-                return if (object2 is EntryVersioned) {
-                    comparatorEntry
-                            .compare(object1, object2)
-                } else if (object2 is GroupVersioned) {
+            } else if (object1.type == Type.ENTRY) {
+                return if (object2.type == Type.ENTRY) {
+                    specificOrderOrHashIfEquals(object1, object2)
+                } else if (object2.type == Type.GROUP) {
                     if (groupsBefore)
                         1
                     else
@@ -76,235 +88,83 @@ enum class SortNodeEnum {
                 }
             }
 
-            // If same name, can be different
-            return if (resultOfNodeMethodCompare == 0) object1.hashCode() - object2.hashCode() else resultOfNodeMethodCompare
+            // Type not known
+            return -1
         }
     }
 
     /**
-     * Comparator of Node by Title, Groups first, Entries second
+     * Comparator of node by natural database placement
      */
-    class NodeTitleComparator internal constructor(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeNaturalComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: NodeVersioned, object2: NodeVersioned): Int {
-
-            return compareWith(
-                    GroupNameComparator(ascending),
-                    EntryNameComparator(ascending),
-                    object1,
-                    object2,
-                    object1.title
-                            .compareTo(object2.title, ignoreCase = true))
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            return object1.nodePositionInParent.compareTo(object2.nodePositionInParent)
         }
     }
 
     /**
-     * Comparator of node by creation, Groups first, Entries second
+     * Comparator of Node by Title
      */
-    class NodeCreationComparator internal constructor(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeTitleComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: NodeVersioned, object2: NodeVersioned): Int {
-
-            return compareWith(
-                    GroupCreationComparator(ascending),
-                    EntryCreationComparator(ascending),
-                    object1,
-                    object2,
-                    object1.creationTime.date
-                            ?.compareTo(object2.creationTime.date) ?: 0)
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            return object1.title.compareTo(object2.title, ignoreCase = true)
         }
     }
 
     /**
-     * Comparator of node by last modification, Groups first, Entries second
+     * Comparator of Node by Username, Groups by title
      */
-    class NodeLastModificationComparator internal constructor(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeUsernameComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: NodeVersioned, object2: NodeVersioned): Int {
-
-            return compareWith(
-                    GroupLastModificationComparator(ascending),
-                    EntryLastModificationComparator(ascending),
-                    object1,
-                    object2,
-                    object1.lastModificationTime.date
-                            ?.compareTo(object2.lastModificationTime.date) ?: 0)
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            if (object1.type == Type.ENTRY && object2.type == Type.ENTRY) {
+                // To get username if it's a ref
+                return (object1 as EntryVersioned).getEntryInfo(Database.getInstance()).username
+                        .compareTo((object2 as EntryVersioned).getEntryInfo(Database.getInstance()).username,
+                                ignoreCase = true)
+            }
+            return NodeTitleComparator(ascending, groupsBefore, recycleBinBottom).compare(object1, object2)
         }
     }
 
     /**
-     * Comparator of node by last access, Groups first, Entries second
+     * Comparator of node by creation
      */
-    class NodeLastAccessComparator internal constructor(ascending: Boolean, groupsBefore: Boolean) : NodeComparator(ascending, groupsBefore) {
+    class NodeCreationComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: NodeVersioned, object2: NodeVersioned): Int {
-
-            return compareWith(
-                    GroupLastAccessComparator(ascending),
-                    EntryLastAccessComparator(ascending),
-                    object1,
-                    object2,
-                    object1.lastAccessTime.date
-                            ?.compareTo(object2.lastAccessTime.date) ?: 0)
-        }
-    }
-
-    abstract class AscendingComparator<Node> internal constructor(private val ascending: Boolean) : Comparator<Node> {
-
-        internal fun compareWithAscending(basicCompareResult: Int): Int {
-            // If descending, revert
-            return if (!ascending) -basicCompareResult else basicCompareResult
-
-        }
-    }
-
-    /**
-     * Group comparator by name
-     */
-    class GroupNameComparator internal constructor(ascending: Boolean) : AscendingComparator<GroupVersioned>(ascending) {
-
-        override fun compare(object1: GroupVersioned, object2: GroupVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val groupNameComp = object1.title.compareTo(object2.title, ignoreCase = true)
-            // If same name, can be different
-            return if (groupNameComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(groupNameComp)
-
-        }
-    }
-
-    /**
-     * Group comparator by name
-     */
-    class GroupCreationComparator internal constructor(ascending: Boolean) : AscendingComparator<GroupVersioned>(ascending) {
-
-        override fun compare(object1: GroupVersioned, object2: GroupVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val groupCreationComp = object1.creationTime.date
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            return object1.creationTime.date
                     ?.compareTo(object2.creationTime.date) ?: 0
-            // If same creation, can be different
-            return if (groupCreationComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(groupCreationComp)
-
         }
     }
 
     /**
-     * Group comparator by last modification
+     * Comparator of node by last modification
      */
-    class GroupLastModificationComparator internal constructor(ascending: Boolean) : AscendingComparator<GroupVersioned>(ascending) {
+    class NodeLastModificationComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: GroupVersioned, object2: GroupVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val groupLastModificationComp = object1.lastModificationTime.date
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            return object1.lastModificationTime.date
                     ?.compareTo(object2.lastModificationTime.date) ?: 0
-            // If same creation, can be different
-            return if (groupLastModificationComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(groupLastModificationComp)
-
         }
     }
 
     /**
-     * Group comparator by last access
+     * Comparator of node by last access
      */
-    class GroupLastAccessComparator internal constructor(ascending: Boolean) : AscendingComparator<GroupVersioned>(ascending) {
+    class NodeLastAccessComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean)
+        : NodeComparator(ascending, groupsBefore, recycleBinBottom) {
 
-        override fun compare(object1: GroupVersioned, object2: GroupVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val groupLastAccessComp = object1.lastAccessTime.date
+        override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
+            return object1.lastAccessTime.date
                     ?.compareTo(object2.lastAccessTime.date) ?: 0
-            // If same creation, can be different
-            return if (groupLastAccessComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(groupLastAccessComp)
-
-        }
-    }
-
-    /**
-     * Comparator of Entry by Name
-     */
-    class EntryNameComparator internal constructor(ascending: Boolean) : AscendingComparator<EntryVersioned>(ascending) {
-
-        override fun compare(object1: EntryVersioned, object2: EntryVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val entryTitleComp = object1.title.compareTo(object2.title, ignoreCase = true)
-            // If same title, can be different
-            return if (entryTitleComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(entryTitleComp)
-
-        }
-    }
-
-    /**
-     * Comparator of Entry by Creation
-     */
-    class EntryCreationComparator internal constructor(ascending: Boolean) : AscendingComparator<EntryVersioned>(ascending) {
-
-        override fun compare(object1: EntryVersioned, object2: EntryVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val entryCreationComp = object1.creationTime.date
-                    ?.compareTo(object2.creationTime.date) ?: 0
-            // If same creation, can be different
-            return if (entryCreationComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(entryCreationComp)
-
-        }
-    }
-
-    /**
-     * Comparator of Entry by Last Modification
-     */
-    class EntryLastModificationComparator internal constructor(ascending: Boolean) : AscendingComparator<EntryVersioned>(ascending) {
-
-        override fun compare(object1: EntryVersioned, object2: EntryVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val entryLastModificationComp = object1.lastModificationTime.date
-                    ?.compareTo(object2.lastModificationTime.date) ?: 0
-            // If same creation, can be different
-            return if (entryLastModificationComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(entryLastModificationComp)
-
-        }
-    }
-
-    /**
-     * Comparator of Entry by Last Access
-     */
-    class EntryLastAccessComparator internal constructor(ascending: Boolean) : AscendingComparator<EntryVersioned>(ascending) {
-
-        override fun compare(object1: EntryVersioned, object2: EntryVersioned): Int {
-            if (object1 == object2)
-                return 0
-
-            val entryLastAccessComp = object1.lastAccessTime.date
-                    ?.compareTo(object2.lastAccessTime.date) ?: 0
-            // If same creation, can be different
-            return if (entryLastAccessComp == 0) {
-                object1.hashCode() - object2.hashCode()
-            } else compareWithAscending(entryLastAccessComp)
-
         }
     }
 }

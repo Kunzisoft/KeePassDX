@@ -195,12 +195,15 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
      * Filter MetaStream entries and return children
      * @return List of direct children (one level below) as PwNode
      */
-    fun getChildrenWithoutMetaStream(): List<NodeVersioned> {
+    fun getChildren(withoutMetaStream: Boolean = true): List<NodeVersioned> {
         val children = ArrayList<NodeVersioned>()
         children.addAll(getChildGroups())
 
         pwGroupV3?.let {
-            children.addAll(getChildEntries().filter { !it.isMetaStream })
+            if (withoutMetaStream)
+                children.addAll(getChildEntries().filter { !it.isMetaStream })
+            else
+                children.addAll(getChildEntries())
         }
         pwGroupV4?.let {
             // No MetasStream in V4

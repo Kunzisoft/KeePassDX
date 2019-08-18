@@ -1,0 +1,6 @@
+ * Correction des groupes imbriqués plus visible dans les bases V1
+ * Amélioration de l'algortihme d'import des données pour les bases V1
+ * Ajout du tri par ordre naturel de la base
+ * Ajout du tri par nom d'utilisateur
+ * Correction du bouton désactivé avec seulement un fichier de clé
+ * Affiche le nombre d'entrées dans un groupe

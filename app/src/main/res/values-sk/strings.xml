@@ -154,7 +154,6 @@
         <item>Veľké</item>
     </string-array>
     <string name="edit_entry">Upraviť záznam</string>
-    <string name="add_string">Pridať reťazec</string>
     <string name="encryption">Šifrovanie</string>
     <string name="key_derivation_function">Funkcia pre tvorbu kľúča</string>
     <string name="beta_dontask">Nezobrazovať znovu</string>

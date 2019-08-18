@@ -6,7 +6,7 @@
     <item>
         <shape
             android:shape="oval">
-            <stroke android:color="?attr/colorAccent" android:width="2dp"/>
+            <stroke android:color="?attr/colorAccent" android:width="1dp"/>
             <padding
                 android:left="12dp"
                 android:right="12dp"

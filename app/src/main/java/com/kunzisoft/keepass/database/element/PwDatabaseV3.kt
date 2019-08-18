@@ -27,7 +27,6 @@ import java.io.InputStream
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.*
 
 /**
  * @author Naomaru Itoi <nao></nao>@phoneid.org>
@@ -74,53 +73,6 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
     init {
         algorithm = PwEncryptionAlgorithm.AESRijndael
         numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS
-    }
-
-    private fun assignGroupsChildren(parent: PwGroupV3) {
-        val levelToCheck = parent.level + 1
-        var startFromParentPosition = false
-        for (groupToCheck in getGroupIndexes()) {
-            rootGroup?.let { root ->
-                if (root.nodeId == parent.nodeId || groupToCheck.nodeId == parent.nodeId) {
-                    startFromParentPosition = true
-                }
-            }
-            if (startFromParentPosition) {
-                if (groupToCheck.level < levelToCheck)
-                    break
-                else if (groupToCheck.level == levelToCheck)
-                    parent.addChildGroup(groupToCheck)
-            }
-        }
-    }
-
-    private fun assignEntriesChildren(parent: PwGroupV3) {
-        for (entry in getEntryIndexes()) {
-            if (entry.parent!!.nodeId == parent.nodeId)
-                parent.addChildEntry(entry)
-        }
-    }
-
-    private fun constructTreeFromIndex(currentGroup: PwGroupV3) {
-
-        assignGroupsChildren(currentGroup)
-        assignEntriesChildren(currentGroup)
-
-        // set parent in child entries (normally useless but to be sure or to update parent metadata)
-        for (childEntry in currentGroup.getChildEntries()) {
-            childEntry.parent = currentGroup
-        }
-        // recursively construct child groups
-        for (childGroup in currentGroup.getChildGroups()) {
-            childGroup.parent = currentGroup
-            constructTreeFromIndex(childGroup)
-        }
-    }
-
-    fun constructTreeFromIndex() {
-        rootGroup?.let {
-            constructTreeFromIndex(it)
-        }
     }
 
     /**

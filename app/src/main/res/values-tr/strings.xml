@@ -7,7 +7,6 @@
     <string name="add_entry">"Girdi Ekle "</string>
     <string name="edit_entry">"Girdi Düzenle "</string>
     <string name="add_group">"Grup Ekle "</string>
-    <string name="add_string">Dizi ekle</string>
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
@@ -102,7 +101,7 @@
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_change_key">Ana anahtarı değitir</string>
-    <string name="copy_field">1$s kopyalandı</string>
+    <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
     <string name="menu_form_filling_settings">Form doldurma</string>

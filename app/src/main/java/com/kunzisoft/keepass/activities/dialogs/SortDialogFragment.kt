@@ -35,12 +35,12 @@ class SortDialogFragment : DialogFragment() {
 
     private var mListener: SortSelectionListener? = null
 
-    private var mSortNodeEnum: SortNodeEnum? = null
+    private var mSortNodeEnum: SortNodeEnum = SortNodeEnum.DB
     @IdRes
     private var mCheckedId: Int = 0
-    private var mGroupsBefore: Boolean = false
-    private var mAscending: Boolean = false
-    private var mRecycleBinBottom: Boolean = false
+    private var mGroupsBefore: Boolean = true
+    private var mAscending: Boolean = true
+    private var mRecycleBinBottom: Boolean = true
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -50,18 +50,13 @@ class SortDialogFragment : DialogFragment() {
             throw ClassCastException(context!!.toString()
                     + " must implement " + SortSelectionListener::class.java.name)
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
 
-            mSortNodeEnum = SortNodeEnum.TITLE
-            mAscending = true
-            mGroupsBefore = true
             var recycleBinAllowed = false
-            mRecycleBinBottom = true
 
             arguments?.apply {
                 if (containsKey(SORT_NODE_ENUM_BUNDLE_KEY))

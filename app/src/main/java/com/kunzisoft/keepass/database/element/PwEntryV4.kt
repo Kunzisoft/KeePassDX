@@ -268,10 +268,6 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         binaries[key] = value
     }
 
-    fun addToHistory(entry: PwEntryV4) {
-        history.add(entry)
-    }
-
     fun sizeOfHistory(): Int {
         return history.size
     }
