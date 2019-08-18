@@ -86,7 +86,9 @@ class NodeAdapter
             }
 
             override fun areContentsTheSame(oldItem: NodeVersioned, newItem: NodeVersioned): Boolean {
-                return oldItem.title == newItem.title && oldItem.icon == newItem.icon
+                return oldItem.type == newItem.type
+                        && oldItem.title == newItem.title
+                        && oldItem.icon == newItem.icon
             }
 
             override fun areItemsTheSame(item1: NodeVersioned, item2: NodeVersioned): Boolean {
@@ -147,6 +149,10 @@ class NodeAdapter
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
         }
+    }
+
+    fun contains(node: NodeVersioned): Boolean {
+        return nodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
     }
 
     /**

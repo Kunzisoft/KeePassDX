@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.element.Database
+import org.w3c.dom.Node
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -252,12 +253,16 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
+    fun contains(node: NodeVersioned): Boolean {
+        return mAdapter?.contains(node) ?: false
+    }
+
     fun addNode(newNode: NodeVersioned) {
         mAdapter?.addNode(newNode)
     }
 
-    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned) {
-        mAdapter?.updateNode(oldNode, newNode)
+    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned? = null) {
+        mAdapter?.updateNode(oldNode, newNode ?: oldNode)
     }
 
     fun removeNode(pwNode: NodeVersioned) {

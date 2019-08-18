@@ -816,7 +816,6 @@ class GroupActivity : LockingActivity(),
 
                         mListNodesFragment?.removeNode(oldNode)
 
-                        // TODO Move trash view
                         // Add trash in views list if it doesn't exists
                         val database = Database.getInstance()
                         if (database.isRecycleBinEnabled) {
@@ -824,6 +823,9 @@ class GroupActivity : LockingActivity(),
                             if (mCurrentGroup != null && recycleBin != null
                                 && mCurrentGroup!!.parent == null
                                 && mCurrentGroup != recycleBin) {
+                                if (mListNodesFragment?.contains(recycleBin) == true)
+                                    mListNodesFragment?.updateNode(recycleBin)
+                                else
                                     mListNodesFragment?.addNode(recycleBin)
                             }
                         }
