@@ -46,9 +46,7 @@ class MoveGroupRunnable constructor(
                 finishRun(true)
             } else {
                 // Only finish thread
-                val message = context.getString(R.string.error_move_folder_in_itself)
-                Log.e(TAG, message)
-                finishRun(false, message)
+                throw Exception(context.getString(R.string.error_move_folder_in_itself))
             }
         } ?: Log.e(TAG, "Unable to create a copy of the group")
     }

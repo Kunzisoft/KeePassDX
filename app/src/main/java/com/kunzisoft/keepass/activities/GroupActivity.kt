@@ -523,10 +523,10 @@ class GroupActivity : LockingActivity(),
             MoveGroupRunnable(
                 this,
                     Database.getInstance(),
-                groupToMove,
-                newParent,
-                AfterAddNodeRunnable(),
-                !readOnly)
+                    groupToMove,
+                    newParent,
+                    AfterAddNodeRunnable(),
+                    !readOnly)
         }.start()
     }
 

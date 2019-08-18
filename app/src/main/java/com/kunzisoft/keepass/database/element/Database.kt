@@ -484,6 +484,10 @@ class Database {
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
     }
 
+    fun rootCanContainsEntry(): Boolean {
+        return pwDatabaseV3?.rootCanContainsEntry() ?: pwDatabaseV4?.rootCanContainsEntry() ?: false
+    }
+
     fun createEntry(): EntryVersioned? {
         pwDatabaseV3?.let { database ->
             return EntryVersioned(database.createEntry()).apply {

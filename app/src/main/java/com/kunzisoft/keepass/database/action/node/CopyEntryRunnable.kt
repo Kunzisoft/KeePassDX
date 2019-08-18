@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.GroupVersioned
@@ -37,9 +38,18 @@ class CopyEntryRunnable constructor(
     private var mEntryCopied: EntryVersioned? = null
 
     override fun nodeAction() {
-        // Update entry with new values
-        mNewParent.touch(modified = false, touchParents = true)
-        mEntryCopied = database.copyEntryTo(mEntryToCopy, mNewParent)
+        // Condition
+        var conditionAccepted = true
+        if(mNewParent == database.rootGroup && !database.rootCanContainsEntry())
+            conditionAccepted = false
+        if (conditionAccepted) {
+            // Update entry with new values
+            mNewParent.touch(modified = false, touchParents = true)
+            mEntryCopied = database.copyEntryTo(mEntryToCopy, mNewParent)
+        } else {
+            // Only finish thread
+            throw Exception(context.getString(R.string.error_copy_entry_here))
+        }
 
         mEntryCopied?.apply {
             touch(modified = true, touchParents = true)
@@ -56,7 +66,6 @@ class CopyEntryRunnable constructor(
             } catch (e: Exception) {
                 Log.i(TAG, "Unable to delete the copied entry")
             }
-
         }
         return ActionNodeValues(result, mEntryToCopy, mEntryCopied)
     }
