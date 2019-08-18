@@ -31,6 +31,8 @@ abstract class PwGroup
     protected fun updateWith(source: PwGroup<Id, Group, Entry>) {
         super.updateWith(source)
         titleGroup = source.titleGroup
+        childGroups.addAll(source.childGroups)
+        childEntries.addAll(source.childEntries)
     }
 
     override var title: String
