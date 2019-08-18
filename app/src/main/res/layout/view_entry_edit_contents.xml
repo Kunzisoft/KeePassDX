@@ -127,8 +127,9 @@
 
 			<android.support.v7.widget.AppCompatImageView
 				android:id="@+id/entry_edit_generate_button"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
+				android:layout_width="48dp"
+				android:layout_height="48dp"
+				android:padding="12dp"
 				android:layout_alignParentEnd="true"
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
@@ -179,15 +180,14 @@
 			android:orientation="vertical">
 		</LinearLayout>
 
-		<ImageView
+		<android.support.v7.widget.AppCompatImageButton
 			android:id="@+id/entry_edit_add_new_field"
-			android:layout_width="30sp"
-			android:layout_height="30sp"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
 			android:src="@drawable/ic_add_white_24dp"
             android:contentDescription="@string/content_description_add_field"
 			android:tint="?attr/colorAccent"
-			android:scaleType="centerCrop"
-			android:visibility="gone"/>
+			android:scaleType="centerCrop"/>
 	</LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
