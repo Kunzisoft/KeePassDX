@@ -40,6 +40,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.list_entries_show_username_default))
     }
 
+    fun showNumberEntries(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.list_groups_show_number_entries_key),
+                context.resources.getBoolean(R.bool.list_groups_show_number_entries_default))
+    }
+
     /**
      * Retrieve the text size in SP, verify the integrity of the size stored in preference
      */

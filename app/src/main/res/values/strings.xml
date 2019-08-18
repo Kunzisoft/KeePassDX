@@ -113,6 +113,8 @@
     <string name="length">Length</string>
     <string name="list_entries_show_username_title">Show usernames</string>
     <string name="list_entries_show_username_summary">Show usernames in entry lists</string>
+    <string name="list_groups_show_number_entries_title">Show number of entries</string>
+    <string name="list_groups_show_number_entries_summary">Show the number of entries in a group</string>
     <string name="list_size_title">Size of list items</string>
     <string name="list_size_summary">Text size in the element list</string>
     <string name="loading_database">Loading database…</string>

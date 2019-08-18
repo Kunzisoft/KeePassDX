@@ -132,6 +132,8 @@
     <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
     <bool name="list_entries_show_username_default" translatable="false">true</bool>
+    <string name="list_groups_show_number_entries_key" translatable="false">list_groups_show_number_entries_key</string>
+    <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
     <string name="list_size_key" translatable="false">list_size</string>
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
