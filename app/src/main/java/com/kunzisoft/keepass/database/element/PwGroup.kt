@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
-import java.util.*
 
 abstract class PwGroup
         <
@@ -13,9 +12,9 @@ abstract class PwGroup
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = ArrayList<Group>()
+    private val childGroups = LinkedHashSet<Group>()
     @Transient
-    private val childEntries = ArrayList<Entry>()
+    private val childEntries = LinkedHashSet<Entry>()
 
     constructor() : super()
 
@@ -40,18 +39,20 @@ abstract class PwGroup
         set(value) { titleGroup = value }
 
     override fun getChildGroups(): MutableList<Group> {
-        return childGroups
+        return childGroups.toMutableList()
     }
 
     override fun getChildEntries(): MutableList<Entry> {
-        return childEntries
+        return childEntries.toMutableList()
     }
 
     override fun addChildGroup(group: Group) {
+        // TODO duplicate UUID
         this.childGroups.add(group)
     }
 
     override fun addChildEntry(entry: Entry) {
+        // TODO duplicate UUID
         this.childEntries.add(entry)
     }
 
