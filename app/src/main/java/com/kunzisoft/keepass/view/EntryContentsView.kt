@@ -65,6 +65,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
     private val lastAccessDateView: TextView
     private val expiresDateView: TextView
 
+    private val uuidView: TextView
+
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
 
@@ -96,6 +98,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
         modificationDateView = findViewById(R.id.entry_modified)
         lastAccessDateView = findViewById(R.id.entry_accessed)
         expiresDateView = findViewById(R.id.entry_expires)
+
+        uuidView = findViewById(R.id.entry_UUID)
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -236,6 +240,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
 
     fun assignExpiresDate(constString: String) {
         expiresDateView.text = constString
+    }
+
+    fun assignUUID(uuid: UUID) {
+        uuidView.text = uuid.toString()
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

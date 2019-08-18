@@ -236,6 +236,9 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
 
+        // Assign special data
+        entryContentsView?.assignUUID(entry.nodeId.id)
+
         database.stopManageEntry(entry)
     }
 
