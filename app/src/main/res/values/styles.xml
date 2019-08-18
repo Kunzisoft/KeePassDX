@@ -271,7 +271,6 @@
 	</style>
 
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">8sp</item>
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:background">@drawable/background_text_info</item>
         <item name="backgroundTint">?attr/colorAccent</item>

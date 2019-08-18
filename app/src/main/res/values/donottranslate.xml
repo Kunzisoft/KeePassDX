@@ -229,6 +229,7 @@
 
     <!-- Text Size -->
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
+    <integer name="list_tiny_size_default" translatable="false">9</integer>
     <integer name="list_small_size_default" translatable="false">13</integer>
     <string name="list_size_default" translatable="false">16</string>
     <string-array name="list_size_values">

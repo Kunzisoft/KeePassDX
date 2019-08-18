@@ -47,6 +47,7 @@ class NodeAdapter
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var textSize: Float = 0.toFloat()
     private var subtextSize: Float = 0.toFloat()
+    private var infoTextSize: Float = 0.toFloat()
     private var iconSize: Float = 0.toFloat()
     private var listSort: SortNodeEnum = SortNodeEnum.DB
     private var ascendingSort: Boolean = true
@@ -122,6 +123,7 @@ class NodeAdapter
         val textSizeDefault = java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
         this.textSize = PreferencesUtil.getListTextSize(context)
         this.subtextSize = context.resources.getInteger(R.integer.list_small_size_default) * textSize / textSizeDefault
+        this.infoTextSize = context.resources.getInteger(R.integer.list_tiny_size_default) * textSize / textSizeDefault
         // Retrieve the icon size
         val iconDefaultSize = context.resources.getDimension(R.dimen.list_icon_size_default)
         this.iconSize = iconDefaultSize * textSize / textSizeDefault
@@ -244,6 +246,7 @@ class NodeAdapter
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as GroupVersioned).getChildEntries().size.toString()
+                    textSize = infoTextSize
                     visibility = View.VISIBLE
                 }
             } else {
