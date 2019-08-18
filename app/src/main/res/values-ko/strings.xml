@@ -7,7 +7,6 @@
     <string name="add_entry">항목 추가</string>
     <string name="edit_entry">항목 수정</string>
     <string name="add_group">그룹 추가</string>
-    <string name="add_string">단어 추가</string>
     <string name="encryption">암호화</string>
     <string name="encryption_algorithm">안호화 방식</string>
     <string name="key_derivation_function">키 파생 기능</string>

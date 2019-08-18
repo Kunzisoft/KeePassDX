@@ -65,6 +65,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/ic_save_white_24dp"
+        android:contentDescription="@string/content_description_entry_save"
         app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 </android.support.constraint.ConstraintLayout>

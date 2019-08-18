@@ -157,7 +157,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
         <item>Mediano</item>
         <item>Grande</item>
     </string-array>
-    <string name="add_string">Añadir cadena</string>
     <string name="encryption">Cifrado</string>
     <string name="key_derivation_function">Función de derivación de clave</string>
     <string name="beta_dontask">No mostrar nuevamente</string>

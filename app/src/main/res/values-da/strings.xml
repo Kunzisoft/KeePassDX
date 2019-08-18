@@ -175,7 +175,6 @@
         <item>Stor</item>
     </string-array>
     <string name="edit_entry">Rediger post</string>
-    <string name="add_string">Tilføj streng</string>
     <string name="encryption">Kryptering</string>
     <string name="key_derivation_function">Nøgleafledningsfunktion</string>
     <string name="extended_ASCII">Udvidet ASCII</string>

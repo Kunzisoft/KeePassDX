@@ -211,7 +211,8 @@
                 android:layout_marginTop="6dp"
                 android:layout_marginBottom="6dp"
                 android:tint="?attr/textColorInverse"
-                android:src="@drawable/ic_link_white_24dp"/>
+                android:src="@drawable/ic_link_white_24dp"
+                android:contentDescription="@string/content_description_show_file_link"/>
 
             <net.cachapa.expandablelayout.ExpandableLayout
                 android:id="@+id/file_select_expandable"
@@ -259,6 +260,7 @@
                         android:layout_alignParentEnd="true"
                         android:focusable="true"
                         android:src="@drawable/ic_send_white_24dp"
+                        android:contentDescription="@string/content_description_open_file_link"
                         android:tint="?attr/textColorInverse"/>
                 </RelativeLayout>
 

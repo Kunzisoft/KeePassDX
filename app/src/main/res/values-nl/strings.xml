@@ -161,7 +161,6 @@
     	<item>Groot</item>
     </string-array>
 <string name="edit_entry">Item bewerken</string>
-    <string name="add_string">Zin toevoegen</string>
     <string name="encryption">Versleuteling</string>
     <string name="key_derivation_function">Sleutelafleidingsfunctie</string>
     <string name="beta_dontask">Niet meer tonen</string>

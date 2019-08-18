@@ -7,7 +7,6 @@
     <string name="add_entry">Legg til oppføring</string>
     <string name="edit_entry">Rediger oppføring</string>
     <string name="add_group">Legg til gruppe</string>
-    <string name="add_string">Legg til streng</string>
     <string name="encryption">Kryptering</string>
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
     <string name="key_derivation_function">Nøkkelutledningsfunksjon</string>

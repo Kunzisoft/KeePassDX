@@ -56,6 +56,7 @@
         android:layout_alignParentRight="true"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_close_white_24dp"
+        android:contentDescription="@string/content_description_remove_field"
         android:tint="?attr/colorAccent" />
 
     <android.support.v7.widget.SwitchCompat

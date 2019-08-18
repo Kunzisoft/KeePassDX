@@ -7,7 +7,6 @@
     <string name="add_entry">"Girdi Ekle "</string>
     <string name="edit_entry">"Girdi Düzenle "</string>
     <string name="add_group">"Grup Ekle "</string>
-    <string name="add_string">Dizi ekle</string>
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>

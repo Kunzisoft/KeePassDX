@@ -49,6 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_info_white_24dp"
+        android:contentDescription="@string/content_description_file_information"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:tint="?android:attr/textColorHintInverse"/>

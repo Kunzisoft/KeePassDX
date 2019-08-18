@@ -23,7 +23,6 @@
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
     <string name="add_group">Ajouter un groupe</string>
-    <string name="add_string">Ajouter une chaîne</string>
     <string name="encryption">Chiffrement</string>
     <string name="encryption_algorithm">Algorithme de chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>

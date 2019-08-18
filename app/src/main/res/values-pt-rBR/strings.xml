@@ -158,7 +158,6 @@
         <item>Médio</item>
         <item>Grande</item>
     </string-array>
-    <string name="add_string">Adicionar texto</string>
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
     <string name="beta_dontask">Não mostre novamente</string>
