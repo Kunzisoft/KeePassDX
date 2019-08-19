@@ -28,19 +28,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
-import android.view.ActionMode
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import android.widget.EditText
+import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
 
 
 class CreateFileDialogFragment : DialogFragment() {
 
-    private var pathFileNameView: EditText? = null
+    private var pathFileNameView: TextView? = null
     private var positiveButton: Button? = null
     private var negativeButton: Button? = null
 
@@ -61,7 +57,6 @@ class CreateFileDialogFragment : DialogFragment() {
             throw ClassCastException(activity?.toString()
                     + " must implement " + DefinePathDialogListener::class.java.name)
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -76,35 +71,11 @@ class CreateFileDialogFragment : DialogFragment() {
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
                     .setNegativeButton(R.string.cancel) { _, _ -> }
 
-            // To prevent crash issue #69 https://github.com/Kunzisoft/KeePassDX/issues/69
-            val actionCopyBarCallback = object : ActionMode.Callback {
-
-                override fun onPrepareActionMode(mode: ActionMode, menu: Menu): Boolean {
-                    positiveButton?.isEnabled = false
-                    negativeButton?.isEnabled = false
-                    return true
-                }
-
-                override fun onDestroyActionMode(mode: ActionMode) {
-                    positiveButton?.isEnabled = true
-                    negativeButton?.isEnabled = true
-                }
-
-                override fun onCreateActionMode(mode: ActionMode, menu: Menu): Boolean {
-                    return true
-                }
-
-                override fun onActionItemClicked(mode: ActionMode, item: MenuItem): Boolean {
-                    return true
-                }
-            }
-
             // Folder selection
-            val browseView = rootView.findViewById<View>(R.id.browse_button)
-            pathFileNameView = rootView.findViewById(R.id.folder_path)
-            pathFileNameView?.customSelectionActionModeCallback = actionCopyBarCallback
-            pathFileNameView?.setText("/document/primary:keepass/keepass.kdbx") // TODO
-            browseView.setOnClickListener { createNewFile() }
+            pathFileNameView = rootView.findViewById(R.id.create_document_path)
+
+            rootView.findViewById<View>(R.id.container_create_document)
+                    .setOnClickListener { createNewFile() }
 
             // Init path
             mUriPath = null
@@ -116,13 +87,13 @@ class CreateFileDialogFragment : DialogFragment() {
                 negativeButton = dialog.getButton(DialogInterface.BUTTON_NEGATIVE)
                 positiveButton?.setOnClickListener { _ ->
                     mDefinePathDialogListener?.let {
-                        if (it.onDefinePathDialogPositiveClick(buildPath()))
+                        if (it.onDefinePathDialogPositiveClick(mUriPath))
                             dismiss()
                     }
                 }
                 negativeButton?.setOnClickListener { _->
                     mDefinePathDialogListener?.let {
-                        if (it.onDefinePathDialogNegativeClick(buildPath())) {
+                        if (it.onDefinePathDialogNegativeClick(mUriPath)) {
                             dismiss()
                         }
                     }
@@ -133,22 +104,13 @@ class CreateFileDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    private fun buildPath(): Uri? {
-        if (pathFileNameView != null) {
-            var path = Uri.Builder().path(pathFileNameView!!.text.toString()).build()
-            context?.let { context ->
-                path = UriUtil.translateUri(context, path)
-            }
-            return path
-        }
-        return null
-    }
-
     /**
      * Create a new file by calling the content provider
      */
     private fun createNewFile() {
         startActivityForResult(Intent(
+                // TODO pre kitkat
+                // TODO orientation change
                 Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/x-keepass"
@@ -164,7 +126,7 @@ class CreateFileDialogFragment : DialogFragment() {
             mUriPath?.let {
                 val file = data?.data
                 if (file != null) {
-                    pathFileNameView?.setText(file.path)
+                    pathFileNameView?.text = file.path
                 }
             }
         }
