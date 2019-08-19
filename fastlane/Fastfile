@@ -49,8 +49,8 @@ platform :android do
   lane :deploy_beta_free do
     upload_to_play_store(
       track: "beta",
-      skip_upload_metadata: "true",
-      skip_upload_images: "false",
+      skip_upload_metadata: "false",
+      skip_upload_images: "true",
       skip_upload_screenshots: "true",
       apk: "./app/build/outputs/apk/free/release/app-free-release.apk",
       validate_only: "false",
@@ -62,11 +62,11 @@ platform :android do
     sh("cp", "-a", "./pro/.", "./")
     upload_to_play_store(
       track: "beta",
-      skip_upload_metadata: "true",
-      skip_upload_images: "false",
+      skip_upload_metadata: "false",
+      skip_upload_images: "true",
       skip_upload_screenshots: "true",
       apk: "./app/build/outputs/apk/pro/release/app-pro-release.apk",
-      validate_only: "true",
+      validate_only: "false",
     )
     gradle(
       task: 'clean'

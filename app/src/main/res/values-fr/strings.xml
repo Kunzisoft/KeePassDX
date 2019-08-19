@@ -134,7 +134,7 @@
     <string name="select_database_file">Ouvrir une base de données existante</string>
     <string name="open_recent">Bases de données récentes</string>
     <string name="omitbackup_title">Ne pas rechercher dans les entrées de sauvegarde</string>
-    <string name="omitbackup_summary">Omet le groupe « Sauvegarde » des résultats de recherche (ne s’applique qu’aux fichiers .kdb)</string>
+    <string name="omitbackup_summary">Omet les groupes « Sauvegarde » et \"Corbeille\" des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours …</string>
     <string name="protection">Protection</string>
@@ -206,7 +206,7 @@
     <string name="list_password_generator_options_summary">Définir les caractères autorisés du générateur de mot de passe</string>
     <string name="clipboard">Presse-papier</string>
     <string name="clipboard_notifications_title">Notifications du presse-papier</string>
-    <string name="clipboard_notifications_summary">Activer les notifications du presse-papier pour copier les champs des entrées</string>
+    <string name="clipboard_notifications_summary">Activer les notifications du presse-papier pour copier les champs lors de l\'affichage d\'une entrée</string>
     <string name="clipboard_warning">Si la suppression automatique du presse-papier échoue, supprimer son historique manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
@@ -392,10 +392,21 @@
     <string name="keyboard_notification_entry_content_title">1$s disponible sur Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Effacer à la fermeture</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Effacer l’entrée au clavier lors de la fermeture de la notification</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Fermer la base de données lors de la fermeture de la notification</string>
     <string name="keyboard_appearance_category">Apparence</string>
     <string name="keyboard_theme_title">Thème du clavier</string>
     <string name="keyboard_keys_category">Touches</string>
     <string name="keyboard_key_vibrate_title">Vibrer au toucher</string>
     <string name="keyboard_key_sound_title">Son au toucher</string>
+    <string name="selection_mode">Mode sélection</string>
+    <string name="do_not_kill_app">Ne pas tuer l\'application…</string>
+    <string name="lock_database_back_root_title">Déverouillage de retour</string>
+    <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l\'utilisateur clique sur le bouton Précédent de l\'écran racine</string>
+    <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
+    <string name="clear_clipboard_notification_summary">Ferme la base de données lors de la fermeture de notification</string>
+    <string name="recycle_bin">Corbeille</string>
+    <string name="keyboard_selection_entry_title">Sélection d\'entrée</string>
+    <string name="keyboard_selection_entry_summary">Afficher les champs de saisie dans Magikeyboard lors de l\'affichage d\'une entrée</string>
+    <string name="delete_entered_password_title">Supprimer le mot de passe</string>
+    <string name="delete_entered_password_summary">Supprime le mot de passe entré après une tentative de connexion</string>
 </resources>

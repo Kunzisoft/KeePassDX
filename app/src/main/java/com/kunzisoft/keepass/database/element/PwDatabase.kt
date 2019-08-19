@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.util.Log
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException
 import com.kunzisoft.keepass.utils.MemUtil
@@ -234,8 +235,11 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     fun addGroupIndex(group: Group) {
         val groupId = group.nodeId
-        if (!groupIndexes.containsKey(groupId))
+        if (groupIndexes.containsKey(groupId)) {
+            Log.e(TAG, "Error, a group with the same UUID $groupId already exists")
+        } else {
             this.groupIndexes[groupId] = group
+        }
     }
 
     fun removeGroupIndex(group: Group) {
@@ -266,8 +270,11 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
-        if (!entryIndexes.containsKey(entryId))
+        if (entryIndexes.containsKey(entryId)) {
+            Log.e(TAG, "Error, a group with the same UUID $entryId already exists, change the UUID")
+        } else {
             this.entryIndexes[entryId] = entry
+        }
     }
 
     fun removeEntryIndex(entry: Entry) {
@@ -288,6 +295,8 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
      *          Node Manipulation
      * -------------------------------------
      */
+
+    abstract fun rootCanContainsEntry(): Boolean
 
     fun addGroupTo(newGroup: Group, parent: Group?) {
         // Add tree to parent tree
@@ -310,7 +319,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     }
 
     open fun removeEntryFrom(entryToRemove: Entry, parent: Group?) {
-        // Remove entry for parent
+        // Remove entry from parent
         parent?.removeChildEntry(entryToRemove)
         removeEntryIndex(entryToRemove)
     }
@@ -335,6 +344,8 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     }
 
     companion object {
+
+        private const val TAG = "PwDatabase"
 
         val UUID_ZERO = UUID(0, 0)
 

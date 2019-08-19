@@ -31,7 +31,7 @@ enum class SortNodeEnum {
 
     fun getNodeComparator(ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean): Comparator<NodeVersioned> {
         return when (this) {
-            DB -> NodeNaturalComparator(ascending, groupsBefore, recycleBinBottom)
+            DB -> NodeNaturalComparator(ascending, groupsBefore, false) // Force false because natural order contains recycle bin
             TITLE -> NodeTitleComparator(ascending, groupsBefore, recycleBinBottom)
             USERNAME -> NodeUsernameComparator(ascending, groupsBefore, recycleBinBottom)
             CREATION_TIME -> NodeCreationComparator(ascending, groupsBefore, recycleBinBottom)

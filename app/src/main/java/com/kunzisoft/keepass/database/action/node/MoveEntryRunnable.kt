@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.support.v4.app.FragmentActivity
 import android.util.Log
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.GroupVersioned
@@ -40,7 +41,18 @@ class MoveEntryRunnable constructor(
         // Move entry in new parent
         mEntryToMove?.let {
             mOldParent = it.parent
-            database.moveEntryTo(it, mNewParent)
+
+            // Condition
+            var conditionAccepted = true
+            if(mNewParent == database.rootGroup && !database.rootCanContainsEntry())
+                conditionAccepted = false
+            // Move only if the parent change
+            if (mOldParent != mNewParent && conditionAccepted) {
+                database.moveEntryTo(it, mNewParent)
+            } else {
+                // Only finish thread
+                throw Exception(context.getString(R.string.error_move_entry_here))
+            }
             it.touch(modified = true, touchParents = true)
         } ?: Log.e(TAG, "Unable to create a copy of the entry")
     }

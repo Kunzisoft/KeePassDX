@@ -252,16 +252,24 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
+    fun contains(node: NodeVersioned): Boolean {
+        return mAdapter?.contains(node) ?: false
+    }
+
     fun addNode(newNode: NodeVersioned) {
         mAdapter?.addNode(newNode)
     }
 
-    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned) {
-        mAdapter?.updateNode(oldNode, newNode)
+    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned? = null) {
+        mAdapter?.updateNode(oldNode, newNode ?: oldNode)
     }
 
     fun removeNode(pwNode: NodeVersioned) {
         mAdapter?.removeNode(pwNode)
+    }
+
+    fun removeNodeAt(position: Int) {
+        mAdapter?.removeNodeAt(position)
     }
 
     interface OnScrollListener {

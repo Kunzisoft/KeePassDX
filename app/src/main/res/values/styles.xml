@@ -296,6 +296,12 @@
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
 
+    <!-- Icon Style -->
+    <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
+        <item name="android:background">@drawable/background_icon</item>
+        <item name="backgroundTint">?attr/colorAccent</item>
+    </style>
+
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">

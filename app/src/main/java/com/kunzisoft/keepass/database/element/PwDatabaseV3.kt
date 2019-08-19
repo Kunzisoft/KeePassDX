@@ -150,6 +150,10 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
         return PwEntryV3()
     }
 
+    override fun rootCanContainsEntry(): Boolean {
+        return false
+    }
+
     override fun isBackup(group: PwGroupV3): Boolean {
         var currentGroup: PwGroupV3? = group
         while (currentGroup != null) {

@@ -86,7 +86,9 @@ class NodeAdapter
             }
 
             override fun areContentsTheSame(oldItem: NodeVersioned, newItem: NodeVersioned): Boolean {
-                return oldItem.title == newItem.title && oldItem.icon == newItem.icon
+                return oldItem.type == newItem.type
+                        && oldItem.title == newItem.title
+                        && oldItem.icon == newItem.icon
             }
 
             override fun areItemsTheSame(item1: NodeVersioned, item2: NodeVersioned): Boolean {
@@ -149,6 +151,10 @@ class NodeAdapter
         }
     }
 
+    fun contains(node: NodeVersioned): Boolean {
+        return nodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
+    }
+
     /**
      * Add a node to the list
      * @param node Node to add
@@ -163,6 +169,13 @@ class NodeAdapter
      */
     fun removeNode(node: NodeVersioned) {
         nodeSortedList.remove(node)
+    }
+
+    /**
+     * Remove a node at [position] in the list
+     */
+    fun removeNodeAt(position: Int) {
+        nodeSortedList.removeItemAt(position)
     }
 
     /**
@@ -245,7 +258,7 @@ class NodeAdapter
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as GroupVersioned).getChildEntries().size.toString()
+                    text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
                     textSize = infoTextSize
                     visibility = View.VISIBLE
                 }
