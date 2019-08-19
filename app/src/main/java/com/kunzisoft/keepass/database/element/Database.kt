@@ -304,14 +304,12 @@ class Database {
 
         val searchResult = search(query, SearchDbHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
-            for (entry in searchResult.getChildEntries()) {
-                if (!entry.isMetaStream) { // TODO metastream
-                    entry.pwEntryV3?.let {
-                        cursorV3?.addEntry(it)
-                    }
-                    entry.pwEntryV4?.let {
-                        cursorV4?.addEntry(it)
-                    }
+            for (entry in searchResult.getChildEntries(true)) {
+                entry.pwEntryV3?.let {
+                    cursorV3?.addEntry(it)
+                }
+                entry.pwEntryV4?.let {
+                    cursorV4?.addEntry(it)
                 }
             }
         }
@@ -482,6 +480,10 @@ class Database {
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
+    }
+
+    fun rootCanContainsEntry(): Boolean {
+        return pwDatabaseV3?.rootCanContainsEntry() ?: pwDatabaseV4?.rootCanContainsEntry() ?: false
     }
 
     fun createEntry(): EntryVersioned? {

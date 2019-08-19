@@ -175,7 +175,6 @@
     <string name="read_only">唯讀</string>
     <string name="read_only_warning">KeePass DX 無法存取資料庫所在位置，將以唯讀模式開啟資料庫。</string>
     <string name="read_only_kitkat_warning">Adnroid 4.4 開始，許多裝置不允許應用程式對 SD 卡進行寫入。</string>
-    <string name="add_string">添加字串</string>
     <string name="encryption">加密</string>
     <string name="key_derivation_function">金鑰派生函數</string>
     <string name="edit_entry">編輯入口</string>

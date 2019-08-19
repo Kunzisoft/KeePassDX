@@ -52,12 +52,13 @@
                 android:gravity="center"
                 android:paddingBottom="12dp"
                 style="@style/KeepassDXStyle.TextAppearance.Default">
-                <android.support.v7.widget.AppCompatImageButton
+                <android.support.v7.widget.AppCompatImageView
                     android:id="@+id/entry_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:src="@drawable/ic_blank_32dp"
+                    style="@style/KeepassDXStyle.Icon"
                     android:layout_gravity="center"/>
             </FrameLayout>
             <android.support.v7.widget.Toolbar

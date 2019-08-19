@@ -6,7 +6,6 @@
     <string name="add_entry">"ఎంట్రీని జత చెయ్యండి "</string>
     <string name="edit_entry">ఎంట్రీని మార్పు చెయ్యండి</string>
     <string name="add_group">"గ్రూపుని జత చెయ్యండి "</string>
-    <string name="add_string">"స్ట్రింగ్ ని జత చెయ్యండి "</string>
     <string name="encryption">ఎన్క్రిప్షన్</string>
     <string name="encryption_algorithm">ఎన్క్రిప్షన్ అల్గోరిథం</string>
     <string name="key_derivation_function">కీ వ్యుత్పత్తి ఫంక్షన్</string>

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
+import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 
 import com.kunzisoft.keepass.database.element.Database
@@ -32,9 +33,18 @@ class DeleteGroupRunnable(context: FragmentActivity,
     private var mParent: GroupVersioned? = null
     private var mRecycle: Boolean = false
 
+    private var mGroupToDeleteBackup: GroupVersioned? = null
+    private var mNodePosition: Int? = null
+
     override fun nodeAction() {
         mParent = mGroupToDelete.parent
         mParent?.touch(modified = false, touchParents = true)
+
+        // Get the node position
+        mNodePosition = mGroupToDelete.nodePositionInParent
+
+        // Create a copy to keep the old ref and remove it visually
+        mGroupToDeleteBackup = GroupVersioned(mGroupToDelete)
 
         // Remove Group from parent
         mRecycle = database.canRecycle(mGroupToDelete)
@@ -56,6 +66,16 @@ class DeleteGroupRunnable(context: FragmentActivity,
                 // TODO database.undoDeleteGroupFrom(mGroup, mParent);
             }
         }
-        return ActionNodeValues(result, mGroupToDelete, null)
+
+        // Add position in bundle to delete the node in view
+        mNodePosition?.let { position ->
+            result.data = Bundle().apply {
+                putInt(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY, position )
+            }
+        }
+
+        // Return a copy of unchanged group as old param
+        // and group deleted or moved in recycle bin as new param
+        return ActionNodeValues(result, mGroupToDeleteBackup, mGroupToDelete)
     }
 }

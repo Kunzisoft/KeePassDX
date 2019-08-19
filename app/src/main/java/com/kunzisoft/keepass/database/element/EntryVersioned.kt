@@ -338,11 +338,24 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return entryInfo
     }
 
-    /*
-      ------------
-      Class methods
-      ------------
-     */
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as EntryVersioned
+
+        if (pwEntryV3 != other.pwEntryV3) return false
+        if (pwEntryV4 != other.pwEntryV4) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = pwEntryV3?.hashCode() ?: 0
+        result = 31 * result + (pwEntryV4?.hashCode() ?: 0)
+        return result
+    }
+
 
     companion object CREATOR : Parcelable.Creator<EntryVersioned> {
         override fun createFromParcel(parcel: Parcel): EntryVersioned {

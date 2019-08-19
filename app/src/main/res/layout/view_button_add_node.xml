@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/ic_add_white_24dp"
+        android:contentDescription="@string/content_description_add_node"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -43,6 +44,7 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_key_white_24dp"
+            android:contentDescription="@string/add_entry"
             android:theme="@style/KeepassDXStyle.Fab.White"
             app:fabSize="mini"
             app:useCompatPadding="true" />
@@ -73,6 +75,7 @@
             android:layout_marginRight="@dimen/image_button_margin"
             android:layout_marginEnd="@dimen/image_button_margin"
             android:src="@drawable/ic_folder_white_24dp"
+            android:contentDescription="@string/add_group"
             android:theme="@style/KeepassDXStyle.Fab.White"
             app:fabSize="mini"
             app:useCompatPadding="true" />

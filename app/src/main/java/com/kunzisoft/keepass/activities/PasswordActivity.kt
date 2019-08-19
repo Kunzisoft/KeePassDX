@@ -48,7 +48,6 @@ import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -148,10 +147,8 @@ class PasswordActivity : StylishActivity(),
             }
         })
 
-        enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, isChecked ->
-            if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
-                confirmButtonView?.isEnabled = isChecked
-            }
+        enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, _ ->
+            enableOrNotTheConfirmationButton()
         }
     }
 
@@ -174,15 +171,6 @@ class PasswordActivity : StylishActivity(),
 
         // For check shutdown
         super.onResume()
-
-        // Enable or not the open button
-        if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
-            checkboxPasswordView?.let {
-                confirmButtonView?.isEnabled = it.isChecked
-            }
-        } else {
-            confirmButtonView?.isEnabled = true
-        }
 
         UriIntentInitTask(WeakReference(this), this, mRememberKeyFile)
                 .execute(intent)
@@ -288,6 +276,21 @@ class PasswordActivity : StylishActivity(),
             if (!fingerPrintInit) {
                 checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
             }
+            checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
+        }
+
+        enableOrNotTheConfirmationButton()
+    }
+
+    private fun enableOrNotTheConfirmationButton() {
+        // Enable or not the open button if setting is checked
+        if (!PreferencesUtil.emptyPasswordAllowed(this@PasswordActivity)) {
+            checkboxPasswordView?.let {
+                confirmButtonView?.isEnabled = (checkboxPasswordView?.isChecked == true
+                        || checkboxKeyFileView?.isChecked == true)
+            }
+        } else {
+            confirmButtonView?.isEnabled = true
         }
     }
 

@@ -184,7 +184,6 @@
         <item>Nagy</item>
     </string-array>
     <string name="edit_entry">Bejegyzés szerkesztése</string>
-    <string name="add_string">Karakterlánc hozzáadása</string>
     <string name="encryption">Titkosítás</string>
     <string name="key_derivation_function">Kulcsváltozási függvény</string>
     <string name="extended_ASCII">Bővített ASCII</string>

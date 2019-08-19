@@ -25,6 +25,7 @@
     </LinearLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/nodes_list"
+        android:contentDescription="@string/content_description_node_children"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/windowBackground" />

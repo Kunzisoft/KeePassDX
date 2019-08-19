@@ -182,48 +182,88 @@
 			android:orientation="vertical">
 
 			<!-- Created -->
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created_label"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_created_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/entry_created"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_created"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_created"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 			<!-- Modified -->
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified_label"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_modified_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/entry_modified"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_modified"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_modified"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 			<!-- Accessed -->
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed_label"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_accessed_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/entry_accessed"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_accessed"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_accessed"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 
 			<!-- Expires -->
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires_label"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_expires_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/entry_expires"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<android.support.v7.widget.AppCompatTextView  android:id="@+id/entry_expires"
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_expires"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+
+		</LinearLayout>
+	</android.support.v7.widget.CardView>
+
+	<android.support.v7.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- Expires -->
+			<android.support.v7.widget.AppCompatTextView
+				android:id="@+id/entry_UUID_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_UUID"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<HorizontalScrollView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<android.support.v7.widget.AppCompatTextView
+					android:id="@+id/entry_UUID"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</HorizontalScrollView>
 
 		</LinearLayout>
 	</android.support.v7.widget.CardView>

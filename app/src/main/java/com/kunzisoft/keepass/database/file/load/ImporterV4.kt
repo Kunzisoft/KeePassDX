@@ -533,7 +533,6 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
             KdbContext.Entry -> if (name.equals(PwDatabaseV4XML.ElemUuid, ignoreCase = true)) {
                 ctxEntry?.nodeId = PwNodeIdUUID(readUuid(xpp))
-                ctxEntry?.let { mDatabase.addEntryIndex(it) }
             } else if (name.equals(PwDatabaseV4XML.ElemIcon, ignoreCase = true)) {
                 ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
             } else if (name.equals(PwDatabaseV4XML.ElemCustomIconID, ignoreCase = true)) {
@@ -633,7 +632,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
             KdbContext.EntryHistory -> if (name.equals(PwDatabaseV4XML.ElemEntry, ignoreCase = true)) {
                 ctxEntry = PwEntryV4()
-                ctxEntry?.let { ctxHistoryBase?.addToHistory(it) }
+                ctxEntry?.let { ctxHistoryBase?.addEntryToHistory(it) }
 
                 entryInHistory = true
                 return switchContext(ctx, KdbContext.Entry, xpp)
@@ -731,14 +730,17 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return KdbContext.GroupCustomData
 
         } else if (ctx == KdbContext.Entry && name.equals(PwDatabaseV4XML.ElemEntry, ignoreCase = true)) {
-            if (ctxEntry != null && ctxEntry?.id == PwDatabase.UUID_ZERO) {
+
+            if (ctxEntry?.id == PwDatabase.UUID_ZERO)
                 ctxEntry?.nodeId = mDatabase.newEntryId()
-                mDatabase.addEntryIndex(ctxEntry!!)
-            }
 
             if (entryInHistory) {
                 ctxEntry = ctxHistoryBase
                 return KdbContext.EntryHistory
+            }
+            else if (ctxEntry != null) {
+                // Add entry to the index only when close the XML element
+                mDatabase.addEntryIndex(ctxEntry!!)
             }
 
             return KdbContext.Group

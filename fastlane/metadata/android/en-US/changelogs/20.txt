@@ -1,0 +1,9 @@
+ * Add lock button always visible
+ * New connection workflow
+ * Code refactored in Kotlin
+ * Better notification implementation
+ * Better views for large screen
+ * Magikeyboard enhancement
+ * Fix Recycle Bin
+ * Fix memory when load database
+ * Fix a bug that displays an entry history in 2.5.0.0beta19

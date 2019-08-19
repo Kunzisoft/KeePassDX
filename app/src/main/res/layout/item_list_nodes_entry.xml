@@ -20,6 +20,7 @@
 <android.support.constraint.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/node_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -61,6 +62,7 @@
                 android:id="@+id/node_text"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                tools:text="Node Title"
                 android:lines="1"
                 android:singleLine="true"
                 style="@style/KeepassDXStyle.TextAppearance.Default" /> <!-- style override -->
@@ -69,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 android:layout_marginTop="-4dp"
+                tools:text="Node SubTitle"
                 android:lines="1"
                 android:singleLine="true"
                 style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
