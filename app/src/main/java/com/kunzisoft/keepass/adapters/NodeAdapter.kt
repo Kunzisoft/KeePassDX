@@ -172,6 +172,13 @@ class NodeAdapter
     }
 
     /**
+     * Remove a node at [position] in the list
+     */
+    fun removeNodeAt(position: Int) {
+        nodeSortedList.removeItemAt(position)
+    }
+
+    /**
      * Update a node in the list
      * @param oldNode Node before the update
      * @param newNode Node after the update

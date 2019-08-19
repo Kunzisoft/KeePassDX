@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.element.Database
-import org.w3c.dom.Node
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
 
@@ -267,6 +266,10 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     fun removeNode(pwNode: NodeVersioned) {
         mAdapter?.removeNode(pwNode)
+    }
+
+    fun removeNodeAt(position: Int) {
+        mAdapter?.removeNodeAt(position)
     }
 
     interface OnScrollListener {

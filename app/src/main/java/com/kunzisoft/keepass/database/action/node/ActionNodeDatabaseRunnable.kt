@@ -45,4 +45,8 @@ abstract class ActionNodeDatabaseRunnable(
 
         super.onFinishRun(result)
     }
+
+    companion object {
+        const val NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY = "NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY"
+    }
 }

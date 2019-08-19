@@ -54,6 +54,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.*
+import com.kunzisoft.keepass.database.action.node.ActionNodeDatabaseRunnable.Companion.NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -61,7 +62,6 @@ import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import net.cachapa.expandablelayout.ExpandableLayout
@@ -812,22 +812,30 @@ class GroupActivity : LockingActivity(),
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.result.isSuccess) {
-                    actionNodeValues.oldNode?.let { oldNode ->
 
-                        mListNodesFragment?.removeNode(oldNode)
+                    // If the action register the position, use it to remove the entry view
+                    val positionNode = actionNodeValues.result.data?.getInt(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY)
+                    if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB
+                            && positionNode != null) {
+                        mListNodesFragment?.removeNodeAt(positionNode)
+                    } else {
+                        // else use the old Node that was the entry unchanged with the old parent
+                        actionNodeValues.oldNode?.let { oldNode ->
+                            mListNodesFragment?.removeNode(oldNode)
+                        }
+                    }
 
-                        // Add trash in views list if it doesn't exists
-                        val database = Database.getInstance()
-                        if (database.isRecycleBinEnabled) {
-                            val recycleBin = database.recycleBin
-                            if (mCurrentGroup != null && recycleBin != null
+                    // Add trash in views list if it doesn't exists
+                    val database = Database.getInstance()
+                    if (database.isRecycleBinEnabled) {
+                        val recycleBin = database.recycleBin
+                        if (mCurrentGroup != null && recycleBin != null
                                 && mCurrentGroup!!.parent == null
                                 && mCurrentGroup != recycleBin) {
-                                if (mListNodesFragment?.contains(recycleBin) == true)
-                                    mListNodesFragment?.updateNode(recycleBin)
-                                else
-                                    mListNodesFragment?.addNode(recycleBin)
-                            }
+                            if (mListNodesFragment?.contains(recycleBin) == true)
+                                mListNodesFragment?.updateNode(recycleBin)
+                            else
+                                mListNodesFragment?.addNode(recycleBin)
                         }
                     }
                 }
