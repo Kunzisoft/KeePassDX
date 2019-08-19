@@ -144,7 +144,7 @@
     <string name="saving_database">Gemmer database…</string>
     <string name="space">Mellemrum</string>
     <string name="search_label">Søg</string>
-    <string name="sort_db">Naturlig database</string>
+    <string name="sort_db">Naturlig rækkefølge</string>
     <string name="special">Speciel</string>
     <string name="search">Søg</string>
     <string name="search_results">Søgeresultater</string>
@@ -205,7 +205,7 @@
     <string name="parallelism_explanation">"Grad af parallelitet (dvs. antallet af tråde), som anvendes af  nøgleafledningsfunktion."</string>
     <string name="sort_menu">Sorter</string>
     <string name="sort_ascending">Stigende ↓</string>
-    <string name="sort_groups_before">Grupper før</string>
+    <string name="sort_groups_before">Grupper først</string>
     <string name="sort_recycle_bin_bottom">Papirkurv nederst</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Brugernavn</string>
@@ -305,8 +305,8 @@
     <string name="keyboard_fill_field_text">Udfyld felterne ved hjælp af elementerne i posten.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Brug standard tastaturet igen.</string>
-    <string name="allow_no_password_title">Tillad ingen adgangskode</string>
-    <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt en adgangskodeidentifikation</string>
+    <string name="allow_no_password_title">Tillad ingen hovednøgle</string>
+    <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn database skrivebeskyttet som standard</string>
     <string name="enable_education_screens_title">Hjælpeskærme</string>
@@ -404,4 +404,24 @@
     <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
+    <string name="content_description_open_file">Åbn fil</string>
+    <string name="content_description_show_file_link">Vis fillink</string>
+    <string name="content_description_open_file_link">Åbn fillink</string>
+    <string name="content_description_node_children">Underknude</string>
+    <string name="content_description_add_node">Tilføj knude</string>
+    <string name="content_description_add_entry">Tilføj post</string>
+    <string name="content_description_add_group">Tilføj gruppe</string>
+    <string name="content_description_file_information">Filoplysninger</string>
+    <string name="content_description_password_checkbox">Afkrydsningsfelt for adgangskode</string>
+    <string name="content_description_keyfile_checkbox">Afkrydsningsfelt for nøglefil</string>
+    <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
+    <string name="content_description_entry_icon">Indtastningsikon</string>
+    <string name="content_description_entry_save">Gem indlæg</string>
+    <string name="content_description_password_generator">Adgangskodegenerator</string>
+    <string name="content_description_password_length">Længde på adgangskode</string>
+    <string name="content_description_add_field">Tilføj felt</string>
+    <string name="content_description_remove_field">Fjern felt</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="list_groups_show_number_entries_title">Vis antal poster</string>
+    <string name="list_groups_show_number_entries_summary">Vise antallet af poster i en gruppe</string>
 </resources>
