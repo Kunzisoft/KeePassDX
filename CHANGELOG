@@ -1,3 +1,10 @@
+KeepassDX (2.5.0.0beta22)
+ * Rebuild code for actions
+ * Add UUID as entry view
+ * Fix bug with natural order
+ * Fix number of entries in databaseV1
+ * New entry views
+
 KeepassDX (2.5.0.0beta21)
  * Fix nested groups no longer visible in V1 databases
  * Improved data import algorithm for V1 databases
