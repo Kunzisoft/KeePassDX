@@ -152,7 +152,7 @@ class EntryActivity : LockingHideActivity() {
         titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)
 
         // Assign title text
-        val entryTitle = entry.getVisualTitle()
+        val entryTitle = entry.title
         collapsingToolbarLayout?.title = entryTitle
         toolbar?.title = entryTitle
 
