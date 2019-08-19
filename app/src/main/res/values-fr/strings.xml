@@ -163,7 +163,7 @@
     <string name="sort_ascending">Ascendant ↓</string>
     <string name="sort_groups_before">Groupes avant</string>
     <string name="sort_recycle_bin_bottom">Corbeille à la fin</string>
-    <string name="sort_db">Tri par défaut (base de données)</string>
+    <string name="sort_db">Ordre naturel</string>
     <string name="sort_title">Titre</string>
     <string name="sort_username">Nom d’utilisateur</string>
     <string name="sort_creation_time">Création</string>
@@ -409,4 +409,17 @@
     <string name="keyboard_selection_entry_summary">Afficher les champs de saisie dans Magikeyboard lors de l\'affichage d\'une entrée</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
     <string name="delete_entered_password_summary">Supprime le mot de passe entré après une tentative de connexion</string>
+    <string name="content_description_open_file">Ouvrir le fichier</string>
+    <string name="content_description_add_node">Ajouter un nœud</string>
+    <string name="content_description_add_entry">Ajouter une entrée</string>
+    <string name="content_description_add_group">Ajouter un groupe</string>
+    <string name="content_description_entry_icon">Icône de l\'entrée</string>
+    <string name="content_description_entry_save">Enregistrer l\'entrée</string>
+    <string name="content_description_password_generator">Générateur de mot de passe</string>
+    <string name="content_description_password_length">Longueur de mot de passe</string>
+    <string name="content_description_add_field">Ajouter un champ</string>
+    <string name="content_description_remove_field">Supprimer un champ</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
+    <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
 </resources>
