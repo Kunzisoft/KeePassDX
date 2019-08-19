@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
@@ -44,6 +44,7 @@
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
+
     <string name="content_description_open_file">Open file</string>
     <string name="content_description_show_file_link">Show file link</string>
     <string name="content_description_open_file_link">Open file link</string>
@@ -61,7 +62,8 @@
     <string name="content_description_password_length">Password length</string>
     <string name="content_description_add_field">Add field</string>
     <string name="content_description_remove_field">Remove field</string>
-     <!--%1$s is either \"Username\" or \"Password\".-->
+
+    <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
@@ -253,7 +255,7 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
-    <string name="lock_database_back_root_title">Back lock</string>
+    <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="fingerprint_quick_unlock_title">How to set up fingerprint scanning for quick unlocking?</string>
     <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in </string>
@@ -318,36 +320,25 @@
     <string name="keyboard_fill_field_text">Fill in your fields using the entry elements.</string>
     <string name="keyboard_lock_database_text">Lock the database.</string>
     <string name="keyboard_back_main_keyboard_text">Use default keyboard again.</string>
-
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
-
     <string name="keyboard_entry_category">Entry</string>
-
     <string name="keyboard_selection_entry_title">Entry selection</string>
     <string name="keyboard_selection_entry_summary">Show input fields in Magikeyboard when viewing an entry</string>
-
-    <string name="keyboard_notification_entry_title">Notification information</string>
+    <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
-
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
-
     <string name="keyboard_entry_timeout_title">Timeout</string>
     <string name="keyboard_entry_timeout_summary">Timeout to clear the keyboard entry</string>
-
     <string name="keyboard_notification_entry_content_title_text">Entry</string>
     <string name="keyboard_notification_entry_content_title">%1$s available on Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
-
     <string name="keyboard_appearance_category">Appearance</string>
-
     <string name="keyboard_theme_title">Keyboard theme</string>
-
     <string name="keyboard_keys_category">Keys</string>
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
-
     <string name="keyboard_key_sound_title">Sound on keypress</string>
 
     <string name="allow_no_password_title">Allow no master key</string>
@@ -356,7 +347,6 @@
     <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
-
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational screens</string>
@@ -393,12 +383,10 @@
     <string name="education_sort_summary">Choose how entries and groups are sorted.</string>
     <string name="education_donation_title">Participate</string>
     <string name="education_donation_summary">Help increase the stability, security and in adding more features.</string>
-
     <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
     <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual feature&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">This &lt;strong&gt;visual feature&lt;/strong&gt; is available thanks to your generosity.</string>
     <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
-
     <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
     <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
     <string name="html_text_dev_feature_contibute">By &lt;strong&gt;contributing&lt;/strong&gt;,</string>
@@ -406,36 +394,31 @@
     <string name="html_text_dev_feature_thanks">Thanks a lot for your contribution.</string>
     <string name="html_text_dev_feature_work_hard">We are working hard to release this feature quickly.</string>
     <string name="html_text_dev_feature_upgrade">Do not forget to keep your app up to date by installing new versions.</string>
-
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
-
     <!-- Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-
     <!-- Key Derivation Functions -->
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
     <string-array name="timeout_options">
-    	<item>5 seconds</item>
-    	<item>10 seconds</item>
-    	<item>20 seconds</item>
-    	<item>30 seconds</item>
-    	<item>1 minute</item>
-    	<item>5 minutes</item>
-    	<item>15 minutes</item>
-    	<item>30 minutes</item>
-    	<item>Never</item>
+        <item>5 seconds</item>
+        <item>10 seconds</item>
+        <item>20 seconds</item>
+        <item>30 seconds</item>
+        <item>1 minute</item>
+        <item>5 minutes</item>
+        <item>15 minutes</item>
+        <item>30 minutes</item>
+        <item>Never</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Small</item>
-    	<item>Medium</item>
-    	<item>Large</item>
+        <item>Small</item>
+        <item>Medium</item>
+        <item>Large</item>
     </string-array>
-
     <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>
     <string-array name="list_style_names">
@@ -448,5 +431,4 @@
     </string-array>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
-
 </resources>
