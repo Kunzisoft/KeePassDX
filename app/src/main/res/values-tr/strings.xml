@@ -52,7 +52,7 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft, KESİNLİKLE HİÇBİR GARANTİ VERMEZ; Bu bir libre yazılımıdır ve bunu GPL sürüm 3 veya üstü koşullarında yeniden dağıtabilirsiniz.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">ARCFOUR akış şifresi desteklenmiyor.</string>
@@ -129,7 +129,7 @@
     <string name="create_keepass_file">Yeni veritabanı oluştur</string>
     <string name="open_recent">Son veritabanları</string>
     <string name="omitbackup_title">Yedek girişleri arama</string>
-    <string name="omitbackup_summary">Arama sonuçlarından \"Yedekleme\" grubunu çıkar (yalnızca .kdb dosyaları için geçerlidir)</string>
+    <string name="omitbackup_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri Dönüşüm Kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veritabanı oluştur…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>
@@ -159,7 +159,7 @@
 \n</string>
     <string name="sort_groups_before">Grup önce</string>
     <string name="sort_recycle_bin_bottom">Alttaki geri dönüşüm kutusu</string>
-    <string name="sort_db">Doğal Veritabanı</string>
+    <string name="sort_db">Doğal sıra</string>
     <string name="sort_title">Başlık</string>
     <string name="sort_username">Kullanıcı adı</string>
     <string name="sort_creation_time">Oluşturma</string>
@@ -175,7 +175,7 @@
     <string name="use_saf_summary">Dosya taraması için Android depolama erişim yapısını (SAF) kullan (KitKat sonrası)</string>
     <string name="use_saf_title">Depolama erişim yapısı</string>
     <string name="warning">Uyarı</string>
-    <string name="warning_password_encoding">Tümü aynı harfe dönüştürüldüğünden .kbd dosyalarındaki Latin-1 dışındaki şifre karakterlerinden kaçının.</string>
+    <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
     <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
     <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için SD kartı takın.</string>
     <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
@@ -204,7 +204,7 @@
     <string name="list_password_generator_options_summary">İzin verilen parola üreticisi karakterlerini ayarla</string>
     <string name="clipboard">Pano</string>
     <string name="clipboard_notifications_title">Pano bildirimleri</string>
-    <string name="clipboard_notifications_summary">Giriş alanlarını kopyalamak için pano bildirimlerini etkinleştirin</string>
+    <string name="clipboard_notifications_summary">Bir girişi görüntülerken alanları kopyalamak için pano bildirimlerini etkinleştirin</string>
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
@@ -356,4 +356,28 @@
     <string name="style_choose_summary">Uygulamada kullanılan tema</string>
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
+    <string name="selection_mode">Seçim modu</string>
+    <string name="do_not_kill_app">Uygulamayı öldürmeyin…</string>
+    <string name="lock_database_back_root_summary">Kullanıcı kök ekranda geri düğmesine tıkladığında veritabanını kilitle</string>
+    <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
+    <string name="clear_clipboard_notification_summary">Bildirimi kapatırken veritabanını kapatın</string>
+    <string name="content_description_open_file">Dosya aç</string>
+    <string name="content_description_show_file_link">Dosya bağlantısını göster</string>
+    <string name="content_description_open_file_link">Dosya bağlantısını aç</string>
+    <string name="content_description_add_node">Düğüm ekle</string>
+    <string name="content_description_add_entry">Girdi Ekle</string>
+    <string name="content_description_add_group">Grup ekle</string>
+    <string name="content_description_file_information">Dosya bilgileri</string>
+    <string name="content_description_password_checkbox">Parola onay kutusu</string>
+    <string name="content_description_keyfile_checkbox">Anahtar dosyası onay kutusu</string>
+    <string name="content_description_entry_icon">Giriş simgesi</string>
+    <string name="content_description_password_generator">Parola üreteci</string>
+    <string name="content_description_password_length">Parola uzunluğu</string>
+    <string name="content_description_add_field">Alan ekle</string>
+    <string name="content_description_remove_field">Alanı kaldır</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Buraya bir girişi taşıyamazsınız.</string>
+    <string name="error_copy_entry_here">Buraya bir girişi kopyalayamazsınız.</string>
+    <string name="list_groups_show_number_entries_title">Giriş sayısını göster</string>
+    <string name="list_groups_show_number_entries_summary">Bir gruptaki girişlerin sayısını göster</string>
 </resources>
