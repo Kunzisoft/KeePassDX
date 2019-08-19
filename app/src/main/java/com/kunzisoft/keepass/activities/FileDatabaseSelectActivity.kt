@@ -324,76 +324,14 @@ class FileDatabaseSelectActivity : StylishActivity(),
             fileListContainer?.visibility = View.VISIBLE
     }
 
-    /**
-     * Create file for database
-     * @return If not created, return false
-     */
-    private fun createDatabaseFile(path: Uri): Boolean {
-
-        val pathString = URLDecoder.decode(path.path, "UTF-8")
-        // Make sure file name exists
-        if (pathString.isEmpty()) {
-            Log.e(TAG, getString(R.string.error_filename_required))
-            Toast.makeText(this@FileDatabaseSelectActivity,
-                    R.string.error_filename_required,
-                    Toast.LENGTH_LONG).show()
-            return false
-        }
-
-        // Try to create the file
-        val file = File(pathString)
-        try {
-            if (file.exists()) {
-                Log.e(TAG, getString(R.string.error_database_exists) + " " + file)
-                Toast.makeText(this@FileDatabaseSelectActivity,
-                        R.string.error_database_exists,
-                        Toast.LENGTH_LONG).show()
-                return false
-            }
-            val parent = file.parentFile
-
-            if (parent == null || parent.exists() && !parent.isDirectory) {
-                Log.e(TAG, getString(R.string.error_invalid_path) + " " + file)
-                Toast.makeText(this@FileDatabaseSelectActivity,
-                        R.string.error_invalid_path,
-                        Toast.LENGTH_LONG).show()
-                return false
-            }
-
-            if (!parent.exists()) {
-                // Create parent directory
-                if (!parent.mkdirs()) {
-                    Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + parent)
-                    Toast.makeText(this@FileDatabaseSelectActivity,
-                            R.string.error_could_not_create_parent,
-                            Toast.LENGTH_LONG).show()
-                    return false
-                }
-            }
-
-            return file.createNewFile()
-        } catch (e: IOException) {
-            Log.e(TAG, getString(R.string.error_could_not_create_parent) + " " + e.localizedMessage)
-            e.printStackTrace()
-            Toast.makeText(
-                    this@FileDatabaseSelectActivity,
-                    getText(R.string.error_file_not_create).toString() + " "
-                            + e.localizedMessage,
-                    Toast.LENGTH_LONG).show()
-            return false
-        }
-
-    }
-
     override fun onDefinePathDialogPositiveClick(pathFile: Uri?): Boolean {
         mDatabaseFileUri = pathFile
-        if (pathFile == null)
-            return false
-        return if (createDatabaseFile(pathFile)) {
+        return if (pathFile == null)
+            false
+        else {
             AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
             true
-        } else
-            false
+        }
     }
 
     override fun onDefinePathDialogNegativeClick(pathFile: Uri?): Boolean {

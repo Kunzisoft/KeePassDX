@@ -63,10 +63,7 @@
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret ArcFour stöds inte.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan inte hantera denna URI.</string>
-    <string name="error_could_not_create_parent">Kunde inte skapa föräldermapp.</string>
-    <string name="error_database_exists">Filen existerar redan.</string>
     <string name="error_failed_to_launch_link">Kunde inte öppna länk.</string>
-    <string name="error_filename_required">Ett filnamn krävs.</string>
     <string name="error_file_not_create">Kunde inte skapa filen:</string>
     <string name="error_invalid_db">Ogiltig databas.</string>
     <string name="error_invalid_path">Ogiltig sökväg.</string>

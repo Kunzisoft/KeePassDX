@@ -55,10 +55,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
     <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePass DX.</string>
-    <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
-    <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>
     <string name="error_failed_to_launch_link">Nie można otworzyć łącza.</string>
-    <string name="error_filename_required">Wprowadź nazwę pliku.</string>
     <string name="error_file_not_create">Nie można utworzyć pliku:</string>
     <string name="error_invalid_db">Nie można odczytać bazy danych.</string>
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>

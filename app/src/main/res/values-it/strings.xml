@@ -64,10 +64,7 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso ARCFOUR non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePass DX non può gestire questo URI.</string>
-    <string name="error_could_not_create_parent">Impossibile creare la directory principale.</string>
-    <string name="error_database_exists">File già esistente.</string>
     <string name="error_failed_to_launch_link">Impossibile aprire il collegamento.</string>
-    <string name="error_filename_required">Inserisci un nome file.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>

@@ -58,10 +58,7 @@
     <string name="entry_user_name">Ім’я користувача</string>
     <string name="error_arc4">Потокове шифрування ArcFour не підтримується.</string>
     <string name="error_can_not_handle_uri">KeePass DX не може опрацювати цю адресу.</string>
-    <string name="error_could_not_create_parent">Не вдалося створити батьківський каталог.</string>
-    <string name="error_database_exists">Файл вже існує.</string>
     <string name="error_failed_to_launch_link">Не вдалося відкрити посилання.</string>
-    <string name="error_filename_required">Необхідно ім’я файла.</string>
     <string name="error_file_not_create">Не можливо створити файл:</string>
     <string name="error_invalid_db">Невірна база даних.</string>
     <string name="error_invalid_path">Невірний шлях.</string>

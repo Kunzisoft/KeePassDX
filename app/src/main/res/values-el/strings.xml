@@ -63,10 +63,7 @@
     <string name="entry_user_name">Όνομα Χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης ArcFour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePass DX δε μπορεί να χειριστεί αυτή τη διεύθυνση uri.</string>
-    <string name="error_could_not_create_parent">Δεν ήταν δυνατή η δημιουργία του γονικού καταλόγου.</string>
-    <string name="error_database_exists">Το συγκεκριμένο αρχείο υπάρχει ήδη.</string>
     <string name="error_failed_to_launch_link">Απέτυχε η εκτέλεση του συνδέσμου.</string>
-    <string name="error_filename_required">Το όνομα αρχείου είναι υποχρεωτικό.</string>
     <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία του αρχείου:</string>
     <string name="error_invalid_db">Μη έγκυρη βάση δεδομένων.</string>
     <string name="error_invalid_path">Μη έγκυρη διαδρομή.</string>

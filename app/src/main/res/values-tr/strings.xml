@@ -38,10 +38,7 @@
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
-    <string name="error_could_not_create_parent">Ana dizin oluşturulamadı.</string>
-    <string name="error_database_exists">Bu dosya zaten var.</string>
     <string name="error_failed_to_launch_link">Bağlantı açılamadı.</string>
-    <string name="error_filename_required">Bir dosya adı girin.</string>
     <string name="error_file_not_create">Dosya oluşturulamadı:</string>
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>

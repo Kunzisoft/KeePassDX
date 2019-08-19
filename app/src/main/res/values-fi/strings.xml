@@ -63,10 +63,7 @@
     <string name="entry_user_name">Käyttäjänimi</string>
     <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
-    <string name="error_could_not_create_parent">Virhe aliryhmän luonnissa.</string>
-    <string name="error_database_exists">Tiedosto on jo olemassa.</string>
     <string name="error_failed_to_launch_link">Linkin avaus epäonnistui.</string>
-    <string name="error_filename_required">Tiedostonimi on pakollinen.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
     <string name="error_invalid_path">Viallinen hakemistopolku.</string>

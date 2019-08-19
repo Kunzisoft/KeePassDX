@@ -57,10 +57,7 @@
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">ArcFour stream cipherには対応していません。</string>
     <string name="error_can_not_handle_uri">KeePass DXはこのuriを処理できません。</string>
-    <string name="error_could_not_create_parent">親ディレクトリを作成できませんでした。</string>
-    <string name="error_database_exists">ファイルが既に存在します。</string>
     <string name="error_failed_to_launch_link">リンクを開けませんでした。</string>
-    <string name="error_filename_required">ファイル名は必須入力です。</string>
     <string name="error_file_not_create">ファイルを作成できません。</string>
     <string name="error_invalid_db">無効なデータベースです。</string>
     <string name="error_invalid_path">パスが無効です。</string>

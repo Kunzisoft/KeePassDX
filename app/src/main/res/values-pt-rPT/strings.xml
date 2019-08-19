@@ -62,10 +62,7 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
     <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
-    <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
-    <string name="error_database_exists">Este ficheiro já existe.</string>
     <string name="error_failed_to_launch_link">Não foi possível abrir a hiperligação.</string>
-    <string name="error_filename_required">Introduza um nome para o ficheiro.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>

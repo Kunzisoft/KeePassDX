@@ -58,10 +58,7 @@
     <string name="entry_user_name">Brukaramn</string>
     <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikkje bruka denne ressursen.</string>
-    <string name="error_could_not_create_parent">Klarte ikkje å laga foreldrekatalogen.</string>
-    <string name="error_database_exists">Denne fila finst allereie.</string>
     <string name="error_failed_to_launch_link">Klarte ikkje å lasta lenkja.</string>
-    <string name="error_filename_required">Treng eit filnamn.</string>
     <string name="error_file_not_create">Klarte ikkje å laga fila:</string>
     <string name="error_invalid_db">Ugyldig database.</string>
     <string name="error_invalid_path">Ugyldig stig.</string>

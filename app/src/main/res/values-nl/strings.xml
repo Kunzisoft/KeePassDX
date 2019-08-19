@@ -60,10 +60,7 @@
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De ARCFOUR stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan deze URI niet verwerken.</string>
-    <string name="error_could_not_create_parent">Kan bovenliggende map niet creëren.</string>
-    <string name="error_database_exists">Dit bestand bestaat al.</string>
     <string name="error_failed_to_launch_link">Kan link niet openen.</string>
-    <string name="error_filename_required">Voer een bestandsnaam in.</string>
     <string name="error_file_not_create">Kan bestand niet creëren:</string>
     <string name="error_invalid_db">Kan databank niet uitlezen.</string>
     <string name="error_invalid_path">Zorg ervoor dat het pad juist is.</string>

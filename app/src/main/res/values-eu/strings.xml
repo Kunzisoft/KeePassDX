@@ -64,10 +64,7 @@
     <string name="entry_user_name">Erabiltzaile izena</string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
     <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
-    <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
-    <string name="error_database_exists">Fitxategia esistitzen da.</string>
     <string name="error_failed_to_launch_link">Ezin izan da esteka ireki.</string>
-    <string name="error_filename_required">Fitxategi izen bat beharrezkoa da.</string>
     <string name="error_file_not_create">Ezin izan da fitxategia sortu:</string>
     <string name="error_invalid_db">Datubase baliogabea.</string>
     <string name="error_invalid_path">Fitxategirako bide baliogabea.</string>

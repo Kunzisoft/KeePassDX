@@ -58,10 +58,7 @@
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az ARCFOUR adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePass DX-ben.</string>
-    <string name="error_could_not_create_parent">Nem sikerült létrehozni a szülőkönyvtárat.</string>
-    <string name="error_database_exists">Ez a fájl már létezik.</string>
     <string name="error_failed_to_launch_link">A hivatkozás nem nyitható meg.</string>
-    <string name="error_filename_required">Adjon meg egy fájlnevet.</string>
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
     <string name="error_invalid_path">Győződjön meg róla, hogy az útvonal helyes.</string>
