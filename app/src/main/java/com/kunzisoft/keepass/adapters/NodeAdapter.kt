@@ -258,7 +258,7 @@ class NodeAdapter
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as GroupVersioned).getChildEntries().size.toString()
+                    text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
                     textSize = infoTextSize
                     visibility = View.VISIBLE
                 }
