@@ -150,8 +150,6 @@
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы.</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
-    <string name="use_saf_summary">Использовать Storage Access Framework для обзора файлов (KitKat и выше)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки Latin-1 в .kbd файлах, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="warning_read_only">Карта помять в режиме только для чтения. Изменения не будут сохранены.</string>
@@ -273,7 +271,6 @@
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: Буфер обмена доступен всем приложениям. Если чувствительные данные копируются, другие программы могут его перехватить.</string>
-    <string name="warning_disabling_storage_access_framework">ПРЕДУПРЕЖДЕНИЕ: Отключение этой функции может привести к невозможности открывать и сохранять базы</string>
     <string name="open_link_database">Ссылка на файл KDBX</string>
     <string name="database_name_title">Название базы</string>
     <string name="database_description_title">Описание базы</string>

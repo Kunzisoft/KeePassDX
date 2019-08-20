@@ -19,33 +19,38 @@
  */
 package com.kunzisoft.keepass.activities.dialogs
 
-import android.app.AlertDialog
-import android.content.Context
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-
+import android.support.v4.app.DialogFragment
 import com.kunzisoft.keepass.R
 
-class ReadOnlyDialog(context: Context) : AlertDialog(context) {
+class ReadOnlyDialog : DialogFragment() {
 
-    override fun onCreate(savedInstanceState: Bundle) {
-        val ctx = context
-        var warning = ctx.getString(R.string.read_only_warning)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            warning = warning + "\n\n" + context.getString(R.string.read_only_kitkat_warning)
+    override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        activity?.let { activity ->
+            // Use the Builder class for convenient dialog construction
+            val builder = android.support.v7.app.AlertDialog.Builder(activity)
+
+            var warning = getString(R.string.read_only_warning)
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                warning = warning + "\n\n" + getString(R.string.read_only_kitkat_warning)
+            }
+            builder.setMessage(warning)
+
+            builder.setPositiveButton(getString(android.R.string.ok)) { _, _ -> dismiss() }
+            builder.setNegativeButton(getString(R.string.beta_dontask)) { _, _ ->
+                val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+                val edit = prefs.edit()
+                edit.putBoolean(getString(R.string.show_read_only_warning), false)
+                edit.apply()
+                dismiss()
+            }
+
+            // Create the AlertDialog object and return it
+            return builder.create()
         }
-        setMessage(warning)
-
-        setButton(BUTTON_POSITIVE, ctx.getText(android.R.string.ok)) { _, _ -> dismiss() }
-        setButton(BUTTON_NEGATIVE, ctx.getText(R.string.beta_dontask)) { _, _ ->
-            val prefs = PreferenceManager.getDefaultSharedPreferences(ctx)
-            val edit = prefs.edit()
-            edit.putBoolean(ctx.getString(R.string.show_read_only_warning), false)
-            edit.apply()
-            dismiss()
-        }
-
-        super.onCreate(savedInstanceState)
+        return super.onCreateDialog(savedInstanceState)
     }
 }

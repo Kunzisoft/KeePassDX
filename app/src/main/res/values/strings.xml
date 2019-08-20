@@ -214,8 +214,6 @@
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
-    <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
@@ -288,7 +286,6 @@
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
-    <string name="warning_disabling_storage_access_framework">WARNING: Turning off this feature may prevent opening or saving databases.</string>
     <string name="open_link_database">Link of database file to open</string>
     <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>

@@ -150,8 +150,6 @@
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="uppercase">Maiúsculas</string>
-    <string name="use_saf_summary">Utilizar o Storage Access Framework (SAF) do Android para explorar os ficheiros (KitKat e superior)</string>
-    <string name="use_saf_title">Storage Access Framework (SAF)</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-chave pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-chave. É recomendável alterar a sua palavra-chave.</string>
     <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>

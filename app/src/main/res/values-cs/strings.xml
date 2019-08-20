@@ -213,8 +213,6 @@
     <string name="sort_creation_time">Vytvoření</string>
     <string name="sort_last_modify_time">Změna</string>
     <string name="sort_last_access_time">Přístup</string>
-    <string name="use_saf_summary">Použít \"Android storage access framework\" pro procházení souborů (k dispozici v Android KitKat a novějším)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Varování</string>
     <string name="warning_password_encoding">Nepoužívejte v hesle pro .kdb soubory znaky nepodporované znakovou sadou Latin-1 (nepoužívejte znaky s diakritikou).</string>
     <string name="warning_empty_password">Opravdu chcete ponechat databázi nechráněnou (bez hesla)?</string>
@@ -278,7 +276,6 @@
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
     <string name="allow_copy_password_summary">Umožnit kopírovat heslo a chráněné položky do schránky</string>
     <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, může se k nim dostat další software.</string>
-    <string name="warning_disabling_storage_access_framework">VAROVÁNÍ: Vypnutí této funkce může znemožnit otevírání nebo ukládání databází.</string>
     <string name="open_link_database">Odkaz na otevíranou databázi</string>
     <string name="database_name_title">Název databáze</string>
     <string name="database_description_title">Popis databáze</string>

@@ -169,8 +169,6 @@
     <string name="underline">Altı çizili</string>
     <string name="unsupported_db_version">Desteklenmeyen veritabanı sürümü.</string>
     <string name="uppercase">Büyük harf</string>
-    <string name="use_saf_summary">Dosya taraması için Android depolama erişim yapısını (SAF) kullan (KitKat sonrası)</string>
-    <string name="use_saf_title">Depolama erişim yapısı</string>
     <string name="warning">Uyarı</string>
     <string name="warning_password_encoding">Tümü aynı harfe dönüştürüldüğünden .kbd dosyalarındaki Latin-1 dışındaki şifre karakterlerinden kaçının.</string>
     <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
@@ -237,7 +235,6 @@
     <string name="allow_copy_password_title">Pano güveni</string>
     <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
     <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
-    <string name="warning_disabling_storage_access_framework">UYARI: Bu özelliği kapatmak, veritabanlarını açmayı veya kaydetmeyi engelleyebilir.</string>
     <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
     <string name="database_name_title">Veritabanı adı</string>
     <string name="database_description_title">Veritabanı açıklaması</string>

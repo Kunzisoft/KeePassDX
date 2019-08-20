@@ -132,23 +132,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 true
             }
 
-            val storageAccessFramework = findPreference(getString(R.string.saf_key)) as SwitchPreference
-            storageAccessFramework.setOnPreferenceChangeListener { _, newValue ->
-                if (!(newValue as Boolean) && context != null) {
-                    val alertDialog = AlertDialog.Builder(context!!)
-                            .setMessage(getString(R.string.warning_disabling_storage_access_framework)).create()
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok)
-                    ) { dialog, _ -> dialog.dismiss() }
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel)
-                    ) { dialog, _ ->
-                        storageAccessFramework.isChecked = true
-                        dialog.dismiss()
-                    }
-                    alertDialog.show()
-                }
-                true
-            }
-
             val fingerprintEnablePreference = findPreference(getString(R.string.fingerprint_enable_key)) as SwitchPreference
             // < M solve verifyError exception
             var fingerprintSupported = false

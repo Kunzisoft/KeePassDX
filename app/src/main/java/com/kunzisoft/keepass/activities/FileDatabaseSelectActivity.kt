@@ -228,7 +228,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
-        if (createButtonView != null
+        if (createButtonView != null && createButtonView!!.visibility == View.VISIBLE
                 && mFileDatabaseHistory != null
                 && !mFileDatabaseHistory!!.hasRecentFiles() && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createButtonView!!,

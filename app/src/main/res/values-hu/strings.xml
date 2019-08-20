@@ -146,8 +146,6 @@
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis-verzió.</string>
     <string name="uppercase">Nagybetűs</string>
-    <string name="use_saf_summary">Az androidos tároló-hozzáférési keretrendszer (SAF) használata a fájlok böngészéséhez (KitKattől kezdve)</string>
-    <string name="use_saf_title">Tároló-hozzáférési keretrendszer</string>
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket a .kbd fájlokban, mert ugyanarra a betűre lesznek átalakítva.</string>
     <string name="warning_unmounted">Csatolja az SD kártyát, hogy adatbázist hozzon létre vagy töltsön be.</string>
@@ -272,7 +270,6 @@
     <string name="allow_copy_password_title">Megbízás a vágólapban</string>
     <string name="allow_copy_password_summary">Engedélyezés, hogy a jelszó és a védett mezők a vágólapra kerüljenek</string>
     <string name="allow_copy_password_warning">FIGYELMEZTETÉS: A vágólapon osztozik az összes alkalmazás. Ha érzékeny adatokat másol, akkor a többi szoftver is hozzáférhet.</string>
-    <string name="warning_disabling_storage_access_framework">FIGYELMEZTETÉS: A funkció kikapcsolása megakadályozhatja az adatbázisok megnyitását vagy mentését.</string>
     <string name="open_link_database">A megnyitandó adatbázisfájl hivatkozása</string>
     <string name="database_name_title">Adatbázis neve</string>
     <string name="database_description_title">Adatbázis leírása</string>

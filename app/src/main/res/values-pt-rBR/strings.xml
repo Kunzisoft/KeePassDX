@@ -205,8 +205,6 @@
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
     <string name="search_results">Resultados da pesquisa</string>
-    <string name="use_saf_summary">Use o framework de acesso de armazenamento (SAF) do Android para navegação de arquivos (KitKat e posterior)</string>
-    <string name="use_saf_title">Framework de acesso de armazenamento</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Você realmente não quer proteção por senha\?</string>
@@ -269,7 +267,6 @@
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da senha e de campos protegidos para a área de transferência</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="warning_disabling_storage_access_framework">AVISO: Desativar essa função pode resultar na inabilidade de abrir ou salvar bancos de dados.</string>
     <string name="open_link_database">Link do arquivo da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>

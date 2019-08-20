@@ -149,8 +149,6 @@
     <string name="underline">Trattino basso</string>
     <string name="unsupported_db_version">Versione database non supportata.</string>
     <string name="uppercase">Maiuscole</string>
-    <string name="use_saf_summary">Usa l\'Android storage access framework (SAF) per sfogliare i file (KitKat e successivi)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del set Latin-1 nei file .kdb, dato che sono convertiti tutti nella stessa lettera.</string>
     <string name="warning_read_only">Permetti l\'accesso in scrittura alla scheda SD per salvare le modifiche al database.</string>
@@ -268,7 +266,6 @@
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
-    <string name="warning_disabling_storage_access_framework">ATTENZIONE: disattivare questa funzione può impedire l\'apertura o salvataggio dei database.</string>
     <string name="open_link_database">Link del file database da aprire</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>

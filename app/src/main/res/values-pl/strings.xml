@@ -131,8 +131,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="use_saf_summary">Użyj struktury dostępu do pamięci Android (SAF) do przeglądania plików (KitKat i nowsze)</string>
-    <string name="use_saf_title">Dostęp do pamięci masowej</string>
     <string name="warning_read_only">Przydziel dostęp do zapisu na karcie SD, aby zapisać zmiany w bazie danych.</string>
     <string name="warning_unmounted">Zamontuj kartę SD, aby utworzyć lub załadować bazę danych.</string>
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
@@ -272,7 +270,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalaj na zapisywanie hasła dostepu i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">OSTRZEŻENIE: schowek jest udostępniany przez wszystkie aplikacje. Jeśli dane wrażliwe zostaną skopiowane, inne oprogramowanie może je odzyskać.</string>
-    <string name="warning_disabling_storage_access_framework">OSTRZEŻENIE: Wyłączenie tej funkcji może uniemożliwić otwieranie lub zapisywanie baz danych.</string>
     <string name="open_link_database">Link do otwarcia pliku bazy danych</string>
     <string name="database_name_title">Nazwa bazy danych</string>
     <string name="database_description_title">Opis bazy danych</string>

@@ -244,8 +244,6 @@
     <string name="field_value">字段值</string>
     <string name="copy_field">已复制 %1$s</string>
     <string name="sort_ascending">最低优先 ↓</string>
-    <string name="use_saf_summary">使用 Android 存储访问框架 （SAF）浏览文件（需要 KitKat 或更高）</string>
-    <string name="use_saf_title">存储访问框架</string>
     <string name="warning_password_encoding">请避免在 .kbd 文件中保存含有 Latin-1 以外的其他字符的密码，因为这些字符将会被转换为同一字符。</string>
     <string name="sort_groups_before">文件夹优先</string>
     <string name="sort_recycle_bin_bottom">底部回收站</string>
@@ -293,7 +291,6 @@
     <string name="auto_open_file_uri_summary">自动打开在文件浏览器中选中的文件</string>
     <string name="allow_copy_password_summary">允许剪切板保存输入的密码以及受保护的字段</string>
     <string name="allow_copy_password_warning">警告：所有应用都可以访问剪切板，如果剪切板存在敏感数据，可能会被其他软件存储在剪切板的数据覆盖。</string>
-    <string name="warning_disabling_storage_access_framework">警告：关闭此功能可能会导致打开或者保存数据库失败。</string>
     <string name="open_link_database">打开数据库文件的链接</string>
     <string name="magic_keyboard_summary">激活自定义键盘，填充密码和所有标识字段</string>
     <string name="magic_keyboard_configure_title">选择“Magikeyboard键盘”以安全地自动填充表单。</string>

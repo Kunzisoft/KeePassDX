@@ -212,8 +212,6 @@
     <string name="sort_last_modify_time">Aangepast om</string>
     <string name="sort_last_access_time">Geopend om</string>
     <string name="search_results">Zoekresultaten</string>
-    <string name="use_saf_summary">Android-opslagtoegang-framework (SAF) gebruiken voor bestandsverkenning (KitKat en hoger)</string>
-    <string name="use_saf_title">Opslagtoegang-framework</string>
     <string name="warning">Waarschuwing</string>
     <string name="warning_password_encoding">Vermijd letters bevatten die niet ondersteund worden door de Latin-1-tekenset van .kdb-bestanden; ze worden allemaal omgezet naar dezelfde letter.</string>
     <string name="warning_empty_password">Weet je zeker dat je geen wachtwoordontgrendelbescherming wilt\?</string>
@@ -277,7 +275,6 @@
     <string name="allow_copy_password_title">Wachtwoord kopiëren toestaan</string>
     <string name="allow_copy_password_summary">Staat toe dat het wachtwoord en beveiligde velden worden gekopieerd naar het klembord</string>
     <string name="allow_copy_password_warning">WAARSCHUWING: het klembord wordt gedeeld door alle apps. Als gevoelige gegevens worden gekopieerd, kan andere software deze opvragen.</string>
-    <string name="warning_disabling_storage_access_framework">WAARSCHUWING: door deze functie uit te schakelen kunnen databanken mogelijk niet meer worden geopend of opgeslagen</string>
     <string name="open_link_database">Link naar het te openen KDBX-bestand</string>
     <string name="database_name_title">Databanknaam</string>
     <string name="database_description_title">Databankomschrijving</string>

@@ -209,8 +209,6 @@
     <string name="sort_creation_time">Oprettelse</string>
     <string name="sort_last_modify_time">Ændring</string>
     <string name="sort_last_access_time">Adgang</string>
-    <string name="use_saf_summary">Brug Android Storage Access (SAF) som filhåndtering (KitKat og senere)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
@@ -274,7 +272,6 @@
     <string name="allow_copy_password_title">Udklipsholder tillid</string>
     <string name="allow_copy_password_summary">Tillad at adgangskoden og beskyttede felter kopieres til udklipsholderen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Udklipsholder deles af alle apps. Hvis følsomme data er kopieret, kan andet software gendanne den.</string>
-    <string name="warning_disabling_storage_access_framework">ADVARSEL: Deaktivering af funktionen kan forhindre åbne eller gemme databaser.</string>
     <string name="open_link_database">Link til database-filen der skal åbnes</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Database beskrivelse</string>

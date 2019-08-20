@@ -857,11 +857,9 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun showWarnings() {
-        // TODO Preferences
         if (Database.getInstance().isReadOnly) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-            if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
-                ReadOnlyDialog(this).show()
+            if (PreferencesUtil.showReadOnlyWarning(this)) {
+                ReadOnlyDialog().show(supportFragmentManager, "readOnlyDialog")
             }
         }
     }

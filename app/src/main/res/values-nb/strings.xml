@@ -167,8 +167,6 @@
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
-    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) rammeverk til filutforsking (KitKat og senere)</string>
-    <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
     <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
@@ -235,7 +233,6 @@
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
-    <string name="warning_disabling_storage_access_framework">ADVARSEL: Å skru av denne funksjonen kan lede til manglende evne til å åpne eller lagre databaser.</string>
     <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>

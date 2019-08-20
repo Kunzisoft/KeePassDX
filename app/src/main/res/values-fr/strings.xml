@@ -172,8 +172,6 @@
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non prise en charge.</string>
     <string name="uppercase">Majuscule</string>
-    <string name="use_saf_summary">Utiliser l’environnement de développement d’accès au stockage (SAF) Android pour naviguer dans les fichiers (à partir de KitKat)</string>
-    <string name="use_saf_title">Environnement de développement d’accès au stockage</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors de Latin-1 pour les mots de passe dans les fichiers .kbd car ils sont tous convertis en une même lettre.</string>
     <string name="warning_read_only">Accorder l’accès en écriture à la carte microSD pour enregistrer les modifications de la base de données.</string>
@@ -240,7 +238,6 @@
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
     <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
-    <string name="warning_disabling_storage_access_framework">ATTENTION : la désactivation de cette fonctionnalité peut empêcher l’ouverture ou l’enregistrement des bases de données.</string>
     <string name="open_link_database">Lien du fichier de base de données à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>

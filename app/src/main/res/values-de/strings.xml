@@ -154,8 +154,6 @@
     <string name="underline">Unterstriche</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
-    <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
-    <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in .kbd-Dateien vermeiden, die nicht Teil des Latin-1-Zeichensatzes sind, da sie alle in ein und dasselbe Zeichen umgewandelt werden.</string>
     <string name="warning_read_only">Schreibzugriff auf die SD-Karte gewähren, um Datenbankänderungen speichern zu können.</string>
@@ -265,7 +263,6 @@
     <string name="auto_open_file_uri_summary">Dateien nach Auswahl im Dateimanager automatisch öffnen</string>
     <string name="allow_copy_password_title">Zwischenablage vertrauen</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
-    <string name="warning_disabling_storage_access_framework">WARNUNG: Die Deaktivierung dieses Features kann das Öffnen und Speichern von Datenbanken unmöglich machen.</string>
     <string name="open_link_database">Link zu der zu öffnenden Datenbank</string>
     <string name="database_name_title">Datenbankname</string>
     <string name="database_description_title">Datenbankbeschreibung</string>

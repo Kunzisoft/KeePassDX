@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.utils
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.fileselect.StorageAF
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -58,7 +57,7 @@ object UriUtil {
     fun translateUri(ctx: Context, uri: Uri): Uri {
         var currentUri = uri
         // StorageAF provides nice URIs
-        if (StorageAF.useStorageFramework(ctx) || hasWritableContentUri(currentUri)) {
+        if (hasWritableContentUri(currentUri)) {
             return currentUri
         }
 
