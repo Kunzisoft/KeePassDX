@@ -266,10 +266,6 @@
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать Корзину</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в Корзину перед удалением</string>
-    <string name="permission_external_storage_rationale_write_database">Для записи базы KeePass DX необходимо разрешение доступа к внешней памяти</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX необходимо разрешение доступа к внешней памяти для чтения URI не поставщика содержимого</string>
-    <string name="permission_external_storage_denied">Доступ к внешней памяти отказан</string>
-    <string name="permission_external_storage_never_ask">Невозможно выполнить действие без разрешения доступа к внешней памяти</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
     <string name="auto_open_file_uri_title">Автоматически открывать выбранный файл</string>

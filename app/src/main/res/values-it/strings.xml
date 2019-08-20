@@ -261,10 +261,6 @@
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
     <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX richiede l\'autorizzazione di archiviazione per scrivere in un database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX richiede l\'autorizzazione di archiviazione per leggere un URI non gestito da un fornitore di contenuti.</string>
-    <string name="permission_external_storage_denied">Autorizzazione di archiviazione non ottenuta.</string>
-    <string name="permission_external_storage_never_ask">Impossibile eseguire l\'azione senza l\'autorizzazione di archiviazione.</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="auto_open_file_uri_title">Apri i file selezionandoli</string>

@@ -271,10 +271,6 @@
     <string name="full_file_path_enable_summary">Zobrazit úplný popis umístění souboru</string>
     <string name="recycle_bin_title">Použít koš</string>
     <string name="recycle_bin_summary">Přesunout skupiny či položky do „Koše“ místo smazání</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX potřebuje oprávnění k externímu úložišti, aby mohl zapsat do databáze.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX potřebuje oprávnění k externímu úložišti, aby mohl načítat URI adresy, které nepocházejí od poskytovatele obsahu.</string>
-    <string name="permission_external_storage_denied">Oprávnění k externímu úložišti odepřeno.</string>
-    <string name="permission_external_storage_never_ask">Akci nelze provést bez oprávnění k externímu úložišti.</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v položkách můžete přizpůsobit změnou písma</string>
     <string name="auto_open_file_uri_title">Otevírat soubory vybráním</string>

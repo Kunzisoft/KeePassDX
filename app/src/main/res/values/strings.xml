@@ -279,10 +279,6 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX needs external storage permission to write to a database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX needs external storage permission to read an URI not provided by a content provider.</string>
-    <string name="permission_external_storage_denied">Could not get external storage permission.</string>
-    <string name="permission_external_storage_never_ask">Cannot perform the action without external storage permission.</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="auto_open_file_uri_title">Open files by selecting</string>

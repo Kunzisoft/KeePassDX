@@ -270,10 +270,6 @@
     <string name="full_file_path_enable_summary">Volledig bestandspad tonen</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>
     <string name="recycle_bin_summary">Groep of item naar de \"Prullenbak\" verplaatsen alvorens te verwijderen</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX heeft de machtiging externe opslag nodig om een databank weg te schrijven</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DC heeft de machtiging externe opslag nodig om een URL uit te lezen die niet is opgegeven door een inhoudsdienst</string>
-    <string name="permission_external_storage_denied">Machtiging externe opslag afgewezen</string>
-    <string name="permission_external_storage_never_ask">Kan de actie niet uitvoeren zonder de machtiging externe opslag</string>
     <string name="monospace_font_fields_enable_title">Veldlettertype</string>
     <string name="monospace_font_fields_enable_summary">Wijzg het lettertype dat gebruikt wordt in velden voor betere leesbaarheid</string>
     <string name="auto_open_file_uri_title">Gekozen bestand automatisch openen</string>

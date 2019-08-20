@@ -252,10 +252,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la Papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX necesita permiso de almacenamiento externo para escribir una base de datos</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX necesita permiso de almacenamiento externo para leer una URI no proporcionada por el proveedor de contenido</string>
-    <string name="permission_external_storage_denied">Permiso de almacenamiento externo denegado</string>
-    <string name="permission_external_storage_never_ask">No se puede realizar la acción sin permiso de almacenamiento externo</string>
     <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
     <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>

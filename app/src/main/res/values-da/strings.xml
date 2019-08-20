@@ -267,10 +267,6 @@
     <string name="full_file_path_enable_summary">Se den fulde filsti</string>
     <string name="recycle_bin_title">Brug papirkurven</string>
     <string name="recycle_bin_summary">Flyt grupper og poster til \"Papirkurven\" før den slettes</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX skal have tilladelse til ekstern lagring for at skrive til en database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX skal have tilladelse til ekstern lagring for at læse en URI, der ikke leveres af en indholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilladelse til ekstern lager nægtet.</string>
-    <string name="permission_external_storage_never_ask">Kan ikke udføre handlingen uden ekstern lager tilladelse.</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>
     <string name="monospace_font_fields_enable_summary">Skift skrifttypen, der anvendes i felter, for at forbedre tegnsynlighed</string>
     <string name="auto_open_file_uri_title">Åbn filer ved at vælge</string>

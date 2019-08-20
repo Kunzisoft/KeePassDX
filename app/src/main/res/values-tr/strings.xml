@@ -230,10 +230,6 @@
     <string name="full_file_path_enable_summary">Tam dosya yolunu görüntüle</string>
     <string name="recycle_bin_title">Geri Dönüşüm Kutusunu kullan</string>
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX\'in bir veritabanına yazmak için harici depolama iznine ihtiyacı var.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX, bir içerik sağlayıcı tarafından sağlanmayan bir URI\'yi okumak için harici depolama iznine ihtiyaç duyar.</string>
-    <string name="permission_external_storage_denied">Harici depolama izni alınamadı.</string>
-    <string name="permission_external_storage_never_ask">Eylem, harici depolama izni olmadan gerçekleştirilemez.</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
     <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>

@@ -228,10 +228,6 @@
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX trenger tilgang til eksternt lagringsmedium for å lese en URI som ikke leveres av en innholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist.</string>
-    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium.</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>

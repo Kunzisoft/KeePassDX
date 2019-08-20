@@ -265,10 +265,6 @@
     <string name="full_file_path_enable_summary">A teljes fájlútvonal megtekintése</string>
     <string name="recycle_bin_title">Kuka használata</string>
     <string name="recycle_bin_summary">A csoportok és bejegyzések „Kukába” helyezése törlés előtt</string>
-    <string name="permission_external_storage_rationale_write_database">A KeePass DX-nek külső tároló jogosultságra van szüksége az adatbázis írásához.</string>
-    <string name="permission_external_storage_rationale_read_database">A KeePass DX-nek külső tároló jogosultságra van szükséges a nem tartalomszolgáltató által biztosított URI olvasásához.</string>
-    <string name="permission_external_storage_denied">Nem sikerült külső tároló jogosultságot szerezni.</string>
-    <string name="permission_external_storage_never_ask">A művelet nem hajtható végre külső tároló jogosultság nélkül.</string>
     <string name="monospace_font_fields_enable_title">Mező betűkészlete</string>
     <string name="monospace_font_fields_enable_summary">A mezőkben használt betűkészlet módosítása a karakterek jobb láthatósága érdekében</string>
     <string name="auto_open_file_uri_title">Fájlok megnyitása kiválasztással</string>

@@ -262,10 +262,6 @@
     <string name="full_file_path_enable_summary">Veja o caminho inteiro do arquivo</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX precisa de permissão de armazenamento externo para escrever em um banco de dados.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX precisa de permissão de armazenamento externo para ler uma URI não fornecida pelo Provedor de Conteúdo.</string>
-    <string name="permission_external_storage_denied">Não pôde adquirir permissão de armazenamento externo.</string>
-    <string name="permission_external_storage_never_ask">Não é possível fazer essa ação sem a permissão de armazenamento externo.</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
     <string name="auto_open_file_uri_title">Abrir arquivos ao selecionar</string>

@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.content.Intent
@@ -30,7 +30,6 @@ import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -43,7 +42,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.CreateFileDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileInformationDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
@@ -64,17 +63,12 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import net.cachapa.expandablelayout.ExpandableLayout
-import permissions.dispatcher.*
 import java.io.File
 import java.io.FileNotFoundException
-import java.io.IOException
 import java.lang.ref.WeakReference
-import java.net.URLDecoder
 import java.util.*
 
-@RuntimePermissions
 class FileDatabaseSelectActivity : StylishActivity(),
-        CreateFileDialogFragment.DefinePathDialogListener,
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
         FileDatabaseHistoryAdapter.FileItemOpenListener,
         FileDatabaseHistoryAdapter.FileSelectClearListener,
@@ -148,7 +142,19 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         // Create button
         createButtonView = findViewById(R.id.create_database)
-        createButtonView?.setOnClickListener { openCreateFileDialogFragmentWithPermissionCheck() }
+        if (Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
+                    addCategory(Intent.CATEGORY_OPENABLE)
+                    type = "application/x-keepass"
+                }.resolveActivity(packageManager) == null) {
+            // No Activity found that can handle this intent.
+            createButtonView?.visibility = View.GONE
+        }
+        else{
+            // There is an activity which can handle this intent.
+            createButtonView?.visibility = View.VISIBLE
+        }
+
+        createButtonView?.setOnClickListener { createNewFile() }
 
         mKeyFileHelper = KeyFileHelper(this)
         browseButtonView = findViewById(R.id.browse_button)
@@ -194,6 +200,32 @@ class FileDatabaseSelectActivity : StylishActivity(),
         Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
     }
 
+    /**
+     * Create a new file by calling the content provider
+     */
+    @SuppressLint("InlinedApi")
+    private fun createNewFile() {
+        try {
+            startActivityForResult(Intent(
+                    // TODO orientation change
+                    Intent.ACTION_CREATE_DOCUMENT).apply {
+                        addCategory(Intent.CATEGORY_OPENABLE)
+                        type = "application/x-keepass"
+                        putExtra(Intent.EXTRA_TITLE, getString(R.string.database_file_name_default) +
+                                getString(R.string.database_file_extension_default))
+                    },
+                    CREATE_FILE_REQUEST_CODE)
+        } catch (e: Exception) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+                // Do the historic action to create a new database file
+
+            } else {
+                // TODO show dialog
+                BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
+            }
+        }
+    }
+
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
         if (createButtonView != null
@@ -201,7 +233,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 && !mFileDatabaseHistory!!.hasRecentFiles() && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createButtonView!!,
                         {
-                            openCreateFileDialogFragmentWithPermissionCheck()
+                            createNewFile()
                         },
                         {
                             // But if the user cancel, it can also select a database
@@ -305,37 +337,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
         outState.putBoolean(EXTRA_STAY, true)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated method
-        onRequestPermissionsResult(requestCode, grantResults)
-    }
-
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun openCreateFileDialogFragment() {
-        val createFileDialogFragment = CreateFileDialogFragment()
-        createFileDialogFragment.show(supportFragmentManager, "createFileDialogFragment")
-    }
-
     private fun updateFileListVisibility() {
         if (mAdapterDatabaseHistory?.itemCount == 0)
             fileListContainer?.visibility = View.INVISIBLE
         else
             fileListContainer?.visibility = View.VISIBLE
-    }
-
-    override fun onDefinePathDialogPositiveClick(pathFile: Uri?): Boolean {
-        mDatabaseFileUri = pathFile
-        return if (pathFile == null)
-            false
-        else {
-            AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
-            true
-        }
-    }
-
-    override fun onDefinePathDialogNegativeClick(pathFile: Uri?): Boolean {
-        return true
     }
 
     override fun onAssignKeyDialogPositiveClick(
@@ -439,25 +445,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 }
             }
         }
-    }
 
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showRationaleForExternalStorage(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.permission_external_storage_rationale_write_database)
-                .setPositiveButton(R.string.allow) { _, _ -> request.proceed() }
-                .setNegativeButton(R.string.cancel) { _, _ -> request.cancel() }
-                .show()
-    }
-
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showDeniedForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show()
-    }
-
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showNeverAskForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show()
+        if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
+            mDatabaseFileUri = data?.data
+            if (mDatabaseFileUri != null) {
+                AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
+            } else {
+                // TODO Show error
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -474,6 +470,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         private const val TAG = "FileDbSelectActivity"
         private const val EXTRA_STAY = "EXTRA_STAY"
+
+        private const val CREATE_FILE_REQUEST_CODE = 3853
 
         /*
          * -------------------------

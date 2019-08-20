@@ -287,10 +287,6 @@
     <string name="assign_master_key">分配主键</string>
     <string name="recycle_bin_title">启用回收站</string>
     <string name="recycle_bin_summary">在彻底删除文件夹和项目之前先移动到回收站</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX 需要外部存储设备存储权限以便写入数据库。</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX 需要外部设备存储权限以读取一个不通过内容提供者提供的统一资源标识符。</string>
-    <string name="permission_external_storage_denied">未能获取外部存储设备权限。</string>
-    <string name="permission_external_storage_never_ask">没有外部存储设备权限的情况下，不能执行此操作。</string>
     <string name="monospace_font_fields_enable_title">字段显示优化</string>
     <string name="monospace_font_fields_enable_summary">在字段中改变使用的字体以优化内容的展示</string>
     <string name="auto_open_file_uri_title">选择需要打开的文件</string>

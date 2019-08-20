@@ -265,10 +265,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="full_file_path_enable_summary">Wyświetl pełną ścieżkę do pliku</string>
     <string name="recycle_bin_title">Użyj kosza</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do \"Kosza\" przed usunięciem</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX potrzebuje zewnętrznego pozwolenia na przechowywanie, aby zapisać bazę danych.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX potrzebuje zewnętrznego pozwolenia na przechowywanie, aby odczytać URI, który nie został dostarczony przez dostawcę treści.</string>
-    <string name="permission_external_storage_denied">Nie można uzyskać uprawnień do zewnętrznej pamięci masowej.</string>
-    <string name="permission_external_storage_never_ask">Nie można wykonać akcji bez uprawnień do zewnętrznej karty pamięci.</string>
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
     <string name="auto_open_file_uri_title">Otwórz pliki, wybierając</string>
