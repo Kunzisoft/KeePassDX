@@ -81,7 +81,6 @@ android {
 
 def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
-def permissionDispatcherVersion = "3.3.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -99,12 +98,6 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.9'
     implementation 'org.sufficientlysecure:html-textview:3.5'
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
-    // Permissions
-    implementation("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
-        // if you don't use android.app.Fragment you can exclude support for them
-        exclude module: "support-v13"
-    }
-    kapt "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
     implementation 'org.apache.commons:commons-io:1.3.2'
