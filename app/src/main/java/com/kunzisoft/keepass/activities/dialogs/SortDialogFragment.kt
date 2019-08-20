@@ -35,12 +35,14 @@ class SortDialogFragment : DialogFragment() {
 
     private var mListener: SortSelectionListener? = null
 
-    private var mSortNodeEnum: SortNodeEnum? = null
+    private var mSortNodeEnum: SortNodeEnum = SortNodeEnum.DB
     @IdRes
     private var mCheckedId: Int = 0
-    private var mGroupsBefore: Boolean = false
-    private var mAscending: Boolean = false
-    private var mRecycleBinBottom: Boolean = false
+    private var mGroupsBefore: Boolean = true
+    private var mAscending: Boolean = true
+    private var mRecycleBinBottom: Boolean = true
+
+    private var recycleBinBottomView: CompoundButton? = null
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -50,18 +52,13 @@ class SortDialogFragment : DialogFragment() {
             throw ClassCastException(context!!.toString()
                     + " must implement " + SortSelectionListener::class.java.name)
         }
-
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
 
-            mSortNodeEnum = SortNodeEnum.TITLE
-            mAscending = true
-            mGroupsBefore = true
             var recycleBinAllowed = false
-            mRecycleBinBottom = true
 
             arguments?.apply {
                 if (containsKey(SORT_NODE_ENUM_BUNDLE_KEY))
@@ -78,14 +75,14 @@ class SortDialogFragment : DialogFragment() {
                 }
             }
 
-            mCheckedId = retrieveViewFromEnum(mSortNodeEnum!!)
+            mCheckedId = retrieveViewFromEnum(mSortNodeEnum)
 
             val rootView = activity.layoutInflater.inflate(R.layout.fragment_sort_selection, null)
             builder.setTitle(R.string.sort_menu)
             builder.setView(rootView)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok
-                    ) { _, _ -> mListener?.onSortSelected(mSortNodeEnum!!, mAscending, mGroupsBefore, mRecycleBinBottom) }
+                    ) { _, _ -> mListener?.onSortSelected(mSortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom) }
                     .setNegativeButton(R.string.cancel) { _, _ -> }
 
             val ascendingView = rootView.findViewById<CompoundButton>(R.id.sort_selection_ascending)
@@ -98,23 +95,33 @@ class SortDialogFragment : DialogFragment() {
             groupsBeforeView.isChecked = mGroupsBefore
             groupsBeforeView.setOnCheckedChangeListener { _, isChecked -> mGroupsBefore = isChecked }
 
-            val recycleBinBottomView = rootView.findViewById<CompoundButton>(R.id.sort_selection_recycle_bin_bottom)
+            recycleBinBottomView = rootView.findViewById(R.id.sort_selection_recycle_bin_bottom)
             if (!recycleBinAllowed) {
-                recycleBinBottomView.visibility = View.GONE
+                recycleBinBottomView?.visibility = View.GONE
             } else {
                 // Check if recycle bin at the bottom
-                recycleBinBottomView.isChecked = mRecycleBinBottom
-                recycleBinBottomView.setOnCheckedChangeListener { _, isChecked -> mRecycleBinBottom = isChecked }
+                recycleBinBottomView?.isChecked = mRecycleBinBottom
+                recycleBinBottomView?.setOnCheckedChangeListener { _, isChecked -> mRecycleBinBottom = isChecked }
+
+                disableRecycleBinBottomOptionIfNaturalOrder()
             }
 
             val sortSelectionRadioGroupView = rootView.findViewById<RadioGroup>(R.id.sort_selection_radio_group)
             // Check value by default
             sortSelectionRadioGroupView.check(mCheckedId)
-            sortSelectionRadioGroupView.setOnCheckedChangeListener { _, checkedId -> mSortNodeEnum = retrieveSortEnumFromViewId(checkedId) }
+            sortSelectionRadioGroupView.setOnCheckedChangeListener { _, checkedId ->
+                mSortNodeEnum = retrieveSortEnumFromViewId(checkedId)
+                disableRecycleBinBottomOptionIfNaturalOrder()
+            }
 
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    private fun disableRecycleBinBottomOptionIfNaturalOrder() {
+        // Disable recycle bin if natural order
+        recycleBinBottomView?.isEnabled = mSortNodeEnum != SortNodeEnum.DB
     }
 
     @IdRes

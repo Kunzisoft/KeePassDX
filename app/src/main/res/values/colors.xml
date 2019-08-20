@@ -62,7 +62,7 @@
     <color name="colorTextPrimaryInverse">#cccccc</color>
     <color name="colorText">#616161</color>
     <color name="colorTextDisable">#c7c7c7</color>
-    <color name="colorTextInverse">#eeeeee</color>
+    <color name="colorTextInverse">#FFFFFF</color>
     <color name="colorTextInverseDisable">#565656</color>
     <color name="colorTextSecondary">#7c7c7c</color>
     <color name="colorTextSecondaryDisable">#c7c7c7</color>

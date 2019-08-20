@@ -27,12 +27,11 @@
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
     <string name="add_group">Gruppe hinzufügen</string>
-    <string name="add_string">Text hinzufügen</string>
     <string name="encryption_algorithm">Verschlüsselungsalgorithmus</string>
     <string name="app_timeout">App-Sperre</string>
     <string name="app_timeout_summary">Dauer der Inaktivität bis die App gesperrt wird</string>
     <string name="application">App</string>
-    <string name="menu_app_settings">Einstellungen</string>
+    <string name="menu_app_settings">App Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
     <string name="browser_intall_text">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>

@@ -23,7 +23,6 @@
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
-    <string name="add_string">Adicionar linha</string>
     <string name="encryption_algorithm">Algoritmo de encriptação</string>
     <string name="app_timeout">Tempo de espera da app</string>
     <string name="app_timeout_summary">Inatividade antes da app ser bloqueada</string>

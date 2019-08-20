@@ -152,7 +152,7 @@ class EntryActivity : LockingHideActivity() {
         titleIconView?.assignDatabaseIcon(database.drawFactory, entry.icon, iconColor)
 
         // Assign title text
-        val entryTitle = entry.getVisualTitle()
+        val entryTitle = entry.title
         collapsingToolbarLayout?.title = entryTitle
         toolbar?.title = entryTitle
 
@@ -235,6 +235,9 @@ class EntryActivity : LockingHideActivity() {
         } else {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
+
+        // Assign special data
+        entryContentsView?.assignUUID(entry.nodeId.id)
 
         database.stopManageEntry(entry)
     }

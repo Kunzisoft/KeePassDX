@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
-import java.util.*
 
 abstract class PwGroup
         <
@@ -31,6 +30,8 @@ abstract class PwGroup
     protected fun updateWith(source: PwGroup<Id, Group, Entry>) {
         super.updateWith(source)
         titleGroup = source.titleGroup
+        childGroups.addAll(source.childGroups)
+        childEntries.addAll(source.childEntries)
     }
 
     override var title: String
@@ -46,10 +47,14 @@ abstract class PwGroup
     }
 
     override fun addChildGroup(group: Group) {
+        if (childGroups.contains(group))
+            removeChildGroup(group)
         this.childGroups.add(group)
     }
 
     override fun addChildEntry(entry: Entry) {
+        if (childEntries.contains(entry))
+            removeChildEntry(entry)
         this.childEntries.add(entry)
     }
 

@@ -68,9 +68,6 @@ import java.util.Arrays
 
 /**
  * Load a v3 database file.
- *
- * @author Naomaru Itoi <nao></nao>@phoneid.org>
- * @author Bill Zwicky <wrzwicky></wrzwicky>@pobox.com>
  */
 class ImporterV3 : Importer<PwDatabaseV3>() {
 
@@ -223,9 +220,50 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             pos += 2 + 4 + fieldSize
         }
 
-        mDatabaseToOpen.constructTreeFromIndex()
+        constructTreeFromIndex()
 
         return mDatabaseToOpen
+    }
+
+    private fun buildTreeGroups(previousGroup: PwGroupV3, currentGroup: PwGroupV3, groupIterator: Iterator<PwGroupV3>) {
+
+        if (currentGroup.parent == null && (previousGroup.level + 1) == currentGroup.level) {
+            // Current group has an increment level compare to the previous, current group is a child
+            previousGroup.addChildGroup(currentGroup)
+            currentGroup.parent = previousGroup
+        } else if (previousGroup.parent != null && previousGroup.level == currentGroup.level) {
+            // In the same level, previous parent is the same as previous group
+            previousGroup.parent!!.addChildGroup(currentGroup)
+            currentGroup.parent = previousGroup.parent
+        } else if (previousGroup.parent != null) {
+            // Previous group has a higher level than the current group, check it's parent
+            buildTreeGroups(previousGroup.parent!!, currentGroup, groupIterator)
+        }
+
+        // Next current group
+        if (groupIterator.hasNext()){
+            buildTreeGroups(currentGroup, groupIterator.next(), groupIterator)
+        }
+    }
+
+    private fun constructTreeFromIndex() {
+        mDatabaseToOpen.rootGroup?.let {
+
+            // add each group
+            val groupIterator = mDatabaseToOpen.getGroupIndexes().iterator()
+            if (groupIterator.hasNext())
+                buildTreeGroups(it, groupIterator.next(), groupIterator)
+
+            // add each child
+            for (currentEntry in mDatabaseToOpen.getEntryIndexes()) {
+                if (currentEntry.parent != null) {
+                    // Only the parent id is known so complete the info
+                    val parentGroupRetrieve = mDatabaseToOpen.getGroupById(currentEntry.parent!!.nodeId)
+                    parentGroupRetrieve?.addChildEntry(currentEntry)
+                    currentEntry.parent = parentGroupRetrieve
+                }
+            }
+        }
     }
 
     /**

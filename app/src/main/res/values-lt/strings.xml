@@ -9,7 +9,6 @@
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
-    <string name="add_string">Pridėti eilutę</string>
     <string name="encryption_algorithm">Algortimas</string>
     <string name="app_timeout_summary">Laikas, per kurį yra užrakinama duomenų bazė po neveiklumo programėlėje.</string>
     <string name="application">Programėlė</string>

@@ -30,7 +30,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -48,11 +47,14 @@ class NodeAdapter
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var textSize: Float = 0.toFloat()
     private var subtextSize: Float = 0.toFloat()
+    private var infoTextSize: Float = 0.toFloat()
     private var iconSize: Float = 0.toFloat()
-    private var listSort: SortNodeEnum? = null
-    private var groupsBeforeSort: Boolean = false
-    private var ascendingSort: Boolean = false
-    private var showUserNames: Boolean = false
+    private var listSort: SortNodeEnum = SortNodeEnum.DB
+    private var ascendingSort: Boolean = true
+    private var groupsBeforeSort: Boolean = true
+    private var recycleBinBottomSort: Boolean = true
+    private var showUserNames: Boolean = true
+    private var showNumberEntries: Boolean = true
 
     private var nodeClickCallback: NodeClickCallback? = null
     private var nodeMenuListener: NodeMenuListener? = null
@@ -80,11 +82,13 @@ class NodeAdapter
 
         this.nodeSortedList = SortedList(NodeVersioned::class.java, object : SortedListAdapterCallback<NodeVersioned>(this) {
             override fun compare(item1: NodeVersioned, item2: NodeVersioned): Int {
-                return listSort?.getNodeComparator(ascendingSort, groupsBeforeSort)?.compare(item1, item2) ?: 0
+                return listSort.getNodeComparator(ascendingSort, groupsBeforeSort, recycleBinBottomSort).compare(item1, item2)
             }
 
             override fun areContentsTheSame(oldItem: NodeVersioned, newItem: NodeVersioned): Boolean {
-                return oldItem.title == newItem.title && oldItem.icon == newItem.icon
+                return oldItem.type == newItem.type
+                        && oldItem.title == newItem.title
+                        && oldItem.icon == newItem.icon
             }
 
             override fun areItemsTheSame(item1: NodeVersioned, item2: NodeVersioned): Boolean {
@@ -121,13 +125,16 @@ class NodeAdapter
         val textSizeDefault = java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
         this.textSize = PreferencesUtil.getListTextSize(context)
         this.subtextSize = context.resources.getInteger(R.integer.list_small_size_default) * textSize / textSizeDefault
+        this.infoTextSize = context.resources.getInteger(R.integer.list_tiny_size_default) * textSize / textSizeDefault
         // Retrieve the icon size
         val iconDefaultSize = context.resources.getDimension(R.dimen.list_icon_size_default)
         this.iconSize = iconDefaultSize * textSize / textSizeDefault
         this.listSort = PreferencesUtil.getListSort(context)
-        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
+        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
+        this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
+        this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
     }
 
     /**
@@ -136,14 +143,16 @@ class NodeAdapter
     fun rebuildList(group: GroupVersioned) {
         this.nodeSortedList.clear()
         assignPreferences()
-        // TODO verify sort
         try {
-            this.nodeSortedList.addAll(group.getChildrenWithoutMetaStream())
+            this.nodeSortedList.addAll(group.getChildren())
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
         }
+    }
 
+    fun contains(node: NodeVersioned): Boolean {
+        return nodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
     }
 
     /**
@@ -160,6 +169,13 @@ class NodeAdapter
      */
     fun removeNode(node: NodeVersioned) {
         nodeSortedList.remove(node)
+    }
+
+    /**
+     * Remove a node at [position] in the list
+     */
+    fun removeNodeAt(position: Int) {
+        nodeSortedList.removeItemAt(position)
     }
 
     /**
@@ -239,6 +255,17 @@ class NodeAdapter
         holder.icon.layoutParams?.width = iconSize.toInt()
         holder.text.textSize = textSize
         holder.subText.textSize = subtextSize
+        if (subNode.type == Type.GROUP) {
+            if (showNumberEntries) {
+                holder.numberChildren?.apply {
+                    text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
+                    textSize = infoTextSize
+                    visibility = View.VISIBLE
+                }
+            } else {
+                holder.numberChildren?.visibility = View.GONE
+            }
+        }
     }
 
     override fun getItemCount(): Int {
@@ -356,6 +383,7 @@ class NodeAdapter
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
+        var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)
     }
 
     companion object {

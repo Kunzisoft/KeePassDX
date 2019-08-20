@@ -179,7 +179,6 @@
     	<item>Velký</item>
     </string-array>
 <string name="edit_entry">Upravit záznam</string>
-    <string name="add_string">Přidat řetězec</string>
     <string name="encryption">Šifrování</string>
     <string name="key_derivation_function">Funkce pro tvorbu klíče</string>
     <string name="extended_ASCII">Rozšířené ASCII</string>

@@ -158,7 +158,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
         <item>Duża</item>
     </string-array>
     <string name="edit_entry">Edytuj wpis</string>
-    <string name="add_string">Dodaj ciąg</string>
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
     <string name="beta_dontask">Nie pokazuj więcej</string>

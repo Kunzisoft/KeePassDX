@@ -317,6 +317,10 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         return PwEntryV4()
     }
 
+    override fun rootCanContainsEntry(): Boolean {
+        return true
+    }
+
     override fun isBackup(group: PwGroupV4): Boolean {
         if (recycleBin == null)
             return false

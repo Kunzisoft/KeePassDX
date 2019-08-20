@@ -152,7 +152,6 @@
         <item>中</item>
         <item>大</item>
     </string-array>
-    <string name="add_string">添加字符串</string>
     <string name="encryption">加密</string>
     <string name="beta_dontask">不再显示</string>
     <string name="extended_ASCII">ASCⅡ 拓展区字符</string>

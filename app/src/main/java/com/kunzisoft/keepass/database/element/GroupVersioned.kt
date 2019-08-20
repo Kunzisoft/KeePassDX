@@ -179,10 +179,16 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     }
 
     override fun getChildEntries(): MutableList<EntryVersioned> {
+        return getChildEntries(false)
+    }
+
+    fun getChildEntries(withoutMetaStream: Boolean): MutableList<EntryVersioned> {
         val children = ArrayList<EntryVersioned>()
 
         pwGroupV3?.getChildEntries()?.forEach {
-            children.add(EntryVersioned(it))
+            val entryToAddAsChild = EntryVersioned(it)
+            if (!withoutMetaStream || (withoutMetaStream && !entryToAddAsChild.isMetaStream))
+                children.add(entryToAddAsChild)
         }
         pwGroupV4?.getChildEntries()?.forEach {
             children.add(EntryVersioned(it))
@@ -195,16 +201,16 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
      * Filter MetaStream entries and return children
      * @return List of direct children (one level below) as PwNode
      */
-    fun getChildrenWithoutMetaStream(): List<NodeVersioned> {
+    fun getChildren(withoutMetaStream: Boolean = true): List<NodeVersioned> {
         val children = ArrayList<NodeVersioned>()
         children.addAll(getChildGroups())
 
         pwGroupV3?.let {
-            children.addAll(getChildEntries().filter { !it.isMetaStream })
+            children.addAll(getChildEntries(withoutMetaStream))
         }
         pwGroupV4?.let {
             // No MetasStream in V4
-            children.addAll(getChildEntries())
+            children.addAll(getChildEntries(withoutMetaStream))
         }
 
         return children

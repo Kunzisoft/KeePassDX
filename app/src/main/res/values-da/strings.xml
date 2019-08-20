@@ -125,7 +125,7 @@
     <string name="no_url_handler">Installer en web-browser til at åbne URL.</string>
     <string name="open_recent">Seneste databaser</string>
     <string name="omitbackup_title">Gennemsøg ikke backup poster</string>
-    <string name="omitbackup_summary">Udelad \"Backup\" - gruppe fra søgeresultaterne (gælder kun for .kdb filer)</string>
+    <string name="omitbackup_summary">Udelader \"Backup\" og \"Papirkurv\" - grupper fra søgeresultater</string>
     <string name="progress_create">Opretter ny database…</string>
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
@@ -175,7 +175,6 @@
         <item>Stor</item>
     </string-array>
     <string name="edit_entry">Rediger post</string>
-    <string name="add_string">Tilføj streng</string>
     <string name="encryption">Kryptering</string>
     <string name="key_derivation_function">Nøgleafledningsfunktion</string>
     <string name="extended_ASCII">Udvidet ASCII</string>
@@ -188,7 +187,7 @@
     <string name="file_not_found_content">Kunne ikke finde filen. Prøv at åbne den fra filhåndtering.</string>
     <string name="list_entries_show_username_title">Vis brugernavne</string>
     <string name="list_entries_show_username_summary">Vis brugernavne i postlister</string>
-    <string name="copy_field">Kopieret %1$s</string>
+    <string name="copy_field">Kopi af %1$s</string>
     <string name="menu_form_filling_settings">Formularudfyldning</string>
     <string name="menu_copy">Kopier</string>
     <string name="menu_move">Flyt</string>
@@ -216,7 +215,7 @@
     <string name="use_saf_summary">Brug Android Storage Access (SAF) som filhåndtering (KitKat og senere)</string>
     <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Advarsel</string>
-    <string name="warning_password_encoding">Undgå adgangskodetegn undenfor Latin-1 tegnsæt i .kdb filer, da de alle konverteres til det samme bogstav.</string>
+    <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Bekræft ingen brug af en krypteringsnøgle?</string>
     <string name="configure_fingerprint">Fingeraftryksscanning understøttes, men er ikke sat op.</string>
@@ -241,7 +240,7 @@
     <string name="list_password_generator_options_summary">Angiv tilladte tegn for adgangskodegenerator</string>
     <string name="clipboard">Udklipsholder</string>
     <string name="clipboard_notifications_title">Udklipsholdermeddelelser</string>
-    <string name="clipboard_notifications_summary">Aktivere meddelelser fra udklipsholder for at kopiere indtastningsfelter</string>
+    <string name="clipboard_notifications_summary">Aktivér udklipsholder for at kopiere felter når en post vises</string>
     <string name="clipboard_warning">Hvis automatisk sletning af udklipsholder mislykkes, slet historikken manuelt.</string>
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
@@ -379,13 +378,13 @@
     <string name="keyboard_setting_label">Magikeyboard indstillinger</string>
     <string name="keyboard_entry_category">Post</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
-    <string name="keyboard_notification_entry_title">Meddelsesinformation</string>
+    <string name="keyboard_notification_entry_title">Meddelelsesinfo</string>
     <string name="keyboard_notification_entry_summary">Vis en meddelelse, når en post er til rådighed</string>
     <string name="keyboard_notification_entry_content_title_text">Post</string>
     <string name="keyboard_notification_entry_content_title">%1$s til rådighed på Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Ryd ved lukning</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Ryd tastatur post, når meddelse lukkes</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Luk databasen, når meddelse lukkes</string>
     <string name="keyboard_appearance_category">Udseende</string>
     <string name="keyboard_theme_title">Tastaturtema</string>
     <string name="keyboard_keys_category">Taster</string>
@@ -393,4 +392,16 @@
     <string name="keyboard_key_sound_title">Lyd ved tastetryk</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_entry_timeout_summary">Timeout for at rydde indtastning</string>
+    <string name="entry_notes">Noter</string>
+    <string name="selection_mode">Valgstilstand</string>
+    <string name="do_not_kill_app">Luk ikke programmet…</string>
+    <string name="lock_database_back_root_title">Lås ved retur</string>
+    <string name="lock_database_back_root_summary">Lås databasen, når brugeren klikker på tilbage-knappen fra startskærmen</string>
+    <string name="clear_clipboard_notification_title">Ryd ved lukning</string>
+    <string name="clear_clipboard_notification_summary">Luk databasen ved lukning af underretning</string>
+    <string name="recycle_bin">Papirkurv</string>
+    <string name="keyboard_selection_entry_title">Valg af indtastning</string>
+    <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
+    <string name="delete_entered_password_title">Slet adgangskode</string>
+    <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
 </resources>

@@ -165,7 +165,6 @@
         <item>גדול</item>
     </string-array>
     <string name="edit_entry">ערוך רשומה</string>
-    <string name="add_string">הוסף מחרוזת</string>
     <string name="encryption">הצפנה</string>
     <string name="allow">אפשר</string>
     <string name="clipboard_swipe_clean">החלק לניקוי לוח העתקה עכשיו</string>

@@ -1,3 +1,21 @@
+KeepassDX (2.5.0.0beta22)
+ * Rebuild code for actions
+ * Add UUID as entry view
+ * Fix bug with natural order
+ * Fix number of entries in databaseV1
+ * New entry views
+
+KeepassDX (2.5.0.0beta21)
+ * Fix nested groups no longer visible in V1 databases
+ * Improved data import algorithm for V1 databases
+ * Add natural database sort
+ * Add username database sort
+ * Fix button disabled with only KeyFile
+ * Show the number of entries in a group
+
+KeepassDX (2.5.0.0beta20)
+ * Fix a major bug that displays an entry history
+
 KeepassDX (2.5.0.0beta19)
  * Add lock button always visible
  * New connection workflow

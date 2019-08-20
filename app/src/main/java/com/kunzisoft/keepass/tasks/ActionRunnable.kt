@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.tasks
 
 import android.app.Activity
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 
@@ -88,5 +89,5 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
     /**
      * Class to manage result from ActionRunnable
      */
-    data class Result(var isSuccess: Boolean = true, var message: String? = null)
+    data class Result(var isSuccess: Boolean = true, var message: String? = null, var data: Bundle? = null)
 }

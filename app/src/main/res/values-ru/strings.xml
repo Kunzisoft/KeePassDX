@@ -23,7 +23,6 @@
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
-    <string name="add_string">Новая строка</string>
     <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Задержка</string>
     <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
