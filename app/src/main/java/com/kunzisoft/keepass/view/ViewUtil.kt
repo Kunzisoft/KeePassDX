@@ -17,32 +17,16 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils
+package com.kunzisoft.keepass.view
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.graphics.Color
 import android.graphics.Typeface
-import android.net.Uri
+import android.support.design.widget.Snackbar
 import android.widget.TextView
-
-object Util {
-
-    @Throws(ActivityNotFoundException::class)
-    fun gotoUrl(context: Context, url: String?) {
-        if (url != null && url.isNotEmpty()) {
-            context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-        }
-    }
-
-    @Throws(ActivityNotFoundException::class)
-    fun gotoUrl(context: Context, resId: Int) {
-        gotoUrl(context, context.getString(resId))
-    }
-}
+import com.kunzisoft.keepass.R
 
 /**
  * Replace font by monospace, must be called after seText()
@@ -50,6 +34,14 @@ object Util {
 fun TextView.applyFontVisibility() {
     val typeFace = Typeface.createFromAsset(context.assets, "fonts/FiraMono-Regular.ttf")
     typeface = typeFace
+}
+
+fun Snackbar.asError(): Snackbar{
+    this.view.apply {
+        setBackgroundColor(Color.RED)
+        findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)
+    }
+    return this
 }
 
 fun Activity.lockScreenOrientation() {

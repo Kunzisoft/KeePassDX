@@ -30,6 +30,7 @@ import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -39,7 +40,6 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
@@ -62,6 +62,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.asError
+import kotlinx.android.synthetic.main.activity_file_selection.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.File
 import java.io.FileNotFoundException
@@ -258,8 +260,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
         val error = getString(R.string.file_not_found_content)
-        Toast.makeText(this@FileDatabaseSelectActivity,
-                error, Toast.LENGTH_LONG).show()
+        Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
         Log.e(TAG, error, e)
     }
 
@@ -370,11 +371,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         .start()
             }
         } catch (e: Exception) {
-            val error = "Unable to create database with this password and key file"
-            Toast.makeText(this, error, Toast.LENGTH_LONG).show()
-            Log.e(TAG, error + " " + e.message)
-            // TODO remove
-            e.printStackTrace()
+            val error = getString(R.string.error_create_database_file)
+            Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
+            Log.e(TAG, error, e)
         }
     }
 

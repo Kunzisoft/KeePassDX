@@ -31,7 +31,6 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.applyFontVisibility
 import java.text.DateFormat
 import java.util.*
 

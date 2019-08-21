@@ -27,10 +27,9 @@ import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.widget.Toast
-
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 
 /**
  * Custom Dialog that asks the user to download the pro version or make a donation.
@@ -49,7 +48,7 @@ class ProFeatureDialogFragment : DialogFragment() {
                 stringBuilder.append(Html.fromHtml(getString(R.string.html_text_buy_pro)))
                 builder.setPositiveButton(R.string.download) { _, _ ->
                     try {
-                        Util.gotoUrl(context!!, R.string.app_pro_url)
+                        UriUtil.gotoUrl(context!!, R.string.app_pro_url)
                     } catch (e: ActivityNotFoundException) {
                         Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                     }
@@ -59,7 +58,7 @@ class ProFeatureDialogFragment : DialogFragment() {
                 stringBuilder.append(Html.fromHtml(getString(R.string.html_text_donation)))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
                     try {
-                        Util.gotoUrl(context!!, R.string.contribution_url)
+                        UriUtil.gotoUrl(context!!, R.string.contribution_url)
                     } catch (e: ActivityNotFoundException) {
                         Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
                     }

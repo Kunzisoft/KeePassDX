@@ -19,9 +19,13 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
+import android.widget.Toast
+import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -143,6 +147,22 @@ object UriUtil {
         } else {
             null
         }
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, url: String?) {
+        try {
+            if (url != null && url.isNotEmpty()) {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_url_handler, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, resId: Int) {
+        gotoUrl(context, context.getString(resId))
     }
 
 }

@@ -32,6 +32,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
+import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -58,7 +59,9 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.FingerPrintInfoView
+import kotlinx.android.synthetic.main.activity_password.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
@@ -410,7 +413,7 @@ class PasswordActivity : StylishActivity(),
                     }
                 } else {
                     if (result.message != null && result.message!!.isNotEmpty()) {
-                        Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }

@@ -28,7 +28,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
 open class EntryCustomField @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,

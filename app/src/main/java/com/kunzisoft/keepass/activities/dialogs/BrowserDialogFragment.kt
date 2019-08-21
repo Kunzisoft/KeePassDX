@@ -26,7 +26,7 @@ import android.support.v7.app.AlertDialog
 import android.widget.Button
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 
 class BrowserDialogFragment : DialogFragment() {
 
@@ -43,13 +43,13 @@ class BrowserDialogFragment : DialogFragment() {
 
             val market = root.findViewById<Button>(R.id.file_manager_install_play_store)
             market.setOnClickListener {
-                Util.gotoUrl(context!!, R.string.filemanager_play_store)
+                UriUtil.gotoUrl(context!!, R.string.filemanager_play_store)
                 dismiss()
             }
 
             val web = root.findViewById<Button>(R.id.file_manager_install_f_droid)
             web.setOnClickListener {
-                Util.gotoUrl(context!!, R.string.filemanager_f_droid)
+                UriUtil.gotoUrl(context!!, R.string.filemanager_f_droid)
                 dismiss()
             }
 

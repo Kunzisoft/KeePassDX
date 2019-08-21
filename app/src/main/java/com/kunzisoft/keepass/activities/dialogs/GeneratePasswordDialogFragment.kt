@@ -29,7 +29,7 @@ import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.applyFontVisibility
+import com.kunzisoft.keepass.view.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DialogFragment() {
 

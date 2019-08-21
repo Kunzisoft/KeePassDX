@@ -17,7 +17,6 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class EntryEditContentsView @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,

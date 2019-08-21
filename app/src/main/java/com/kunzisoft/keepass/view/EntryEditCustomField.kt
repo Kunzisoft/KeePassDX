@@ -32,7 +32,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class EntryEditCustomField @JvmOverloads constructor(context: Context,
                                                      attrs: AttributeSet? = null,

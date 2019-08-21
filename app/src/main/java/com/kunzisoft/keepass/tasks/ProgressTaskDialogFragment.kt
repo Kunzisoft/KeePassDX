@@ -31,8 +31,8 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.lockScreenOrientation
-import com.kunzisoft.keepass.utils.unlockScreenOrientation
+import com.kunzisoft.keepass.view.lockScreenOrientation
+import com.kunzisoft.keepass.view.unlockScreenOrientation
 
 open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 

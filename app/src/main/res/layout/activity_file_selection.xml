@@ -30,131 +30,138 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@string/content_description_background"
         android:background="@drawable/background_repeat"/>
 
-    <android.support.v4.widget.NestedScrollView
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/activity_file_selection_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container"
-        android:layout_gravity="fill_vertical"
-        android:fillViewport="true">
-        <android.support.constraint.ConstraintLayout
+        app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
+        <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:layout_height="0dp"
 
-            <LinearLayout
-                android:id="@+id/file_selection_title_container"
+            android:layout_gravity="fill_vertical"
+            android:fillViewport="true">
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                app:layout_constraintTop_toTopOf="parent"
-                android:paddingLeft="24dp"
-                android:paddingStart="24dp"
-                android:paddingRight="24dp"
-                android:paddingEnd="24dp"
-                android:paddingTop="48dp"
-                android:paddingBottom="24dp"
-                android:layout_marginBottom="36dp">
-                <TextView
-                    android:id="@+id/file_selection_title_part_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:shadowColor="#393939"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:paddingTop="?attr/actionBarSize"
-                    android:textColor="?attr/textColorInverse"
-                    android:gravity="center"
-                    android:text="@string/app_name_part1"/>
-                <TextView
-                    android:id="@+id/file_selection_title_part_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:shadowColor="#393939"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:paddingTop="?attr/actionBarSize"
-                    android:textColor="?attr/colorAccent"
-                    android:gravity="center"
-                    android:text="@string/app_name_part2"/>
-                <TextView
-                    android:id="@+id/file_selection_title_part_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="12dp"
-                    android:layout_marginLeft="12dp"
-                    android:textSize="32sp"
-                    android:textStyle="bold"
-                    android:shadowColor="#393939"
-                    android:shadowDx="2"
-                    android:shadowDy="2"
-                    android:shadowRadius="4"
-                    android:paddingTop="?attr/actionBarSize"
-                    android:textColor="?android:attr/textColorHintInverse"
-                    android:gravity="center"
-                    android:text="@string/app_name_part3"/>
-            </LinearLayout>
-
-            <TextView android:id="@+id/label_warning"
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:layout_marginLeft="@dimen/default_margin"
-                      android:layout_marginStart="@dimen/default_margin"
-                      android:layout_marginRight="@dimen/default_margin"
-                      android:layout_marginEnd="@dimen/default_margin"
-                      android:layout_marginBottom="@dimen/default_margin"
-                      android:gravity="center"
-                      android:textColor="?attr/textColorInverse"
-                      app:layout_constraintTop_toBottomOf="@+id/file_selection_title_container"
-                      android:visibility="gone" />
-
-            <android.support.v7.widget.CardView
-                android:id="@+id/container_file_list"
-                android:layout_height="wrap_content"
-                android:layout_width="0dp"
-                style="@style/KeepassDXStyle.CardView.PrimaryColor"
-                android:layout_margin="12dp"
-                app:layout_constraintWidth_percent="@dimen/content_percent"
-                app:layout_constraintTop_toBottomOf="@+id/label_warning"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/file_selection_title_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView android:id="@+id/file_list_title"
-                              android:layout_width="match_parent"
-                              android:layout_height="wrap_content"
-                              android:padding="12dp"
-                              style="@style/KeepassDXStyle.TextAppearance.Title"
-                              android:textColor="?android:attr/textColorHintInverse"
-                              android:text="@string/open_recent"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/textColorHintInverse"/>
-                    <android.support.v7.widget.RecyclerView
-                        android:id="@+id/file_list"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    android:paddingLeft="24dp"
+                    android:paddingStart="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingTop="48dp"
+                    android:paddingBottom="24dp"
+                    android:layout_marginBottom="36dp">
+                    <TextView
+                        android:id="@+id/file_selection_title_part_1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?attr/textColorInverse"
+                        android:gravity="center"
+                        android:text="@string/app_name_part1"/>
+                    <TextView
+                        android:id="@+id/file_selection_title_part_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?attr/colorAccent"
+                        android:gravity="center"
+                        android:text="@string/app_name_part2"/>
+                    <TextView
+                        android:id="@+id/file_selection_title_part_3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginLeft="12dp"
+                        android:textSize="32sp"
+                        android:textStyle="bold"
+                        android:shadowColor="#393939"
+                        android:shadowDx="2"
+                        android:shadowDy="2"
+                        android:shadowRadius="4"
+                        android:paddingTop="?attr/actionBarSize"
+                        android:textColor="?android:attr/textColorHintInverse"
+                        android:gravity="center"
+                        android:text="@string/app_name_part3"/>
                 </LinearLayout>
-            </android.support.v7.widget.CardView>
+
+                <TextView android:id="@+id/label_warning"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:layout_marginLeft="@dimen/default_margin"
+                          android:layout_marginStart="@dimen/default_margin"
+                          android:layout_marginRight="@dimen/default_margin"
+                          android:layout_marginEnd="@dimen/default_margin"
+                          android:layout_marginBottom="@dimen/default_margin"
+                          android:gravity="center"
+                          android:textColor="?attr/textColorInverse"
+                          app:layout_constraintTop_toBottomOf="@+id/file_selection_title_container"
+                          android:visibility="gone" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/container_file_list"
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    style="@style/KeepassDXStyle.CardView.PrimaryColor"
+                    android:layout_margin="12dp"
+                    app:layout_constraintWidth_percent="@dimen/content_percent"
+                    app:layout_constraintTop_toBottomOf="@+id/label_warning"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+                        <TextView android:id="@+id/file_list_title"
+                                  android:layout_width="match_parent"
+                                  android:layout_height="wrap_content"
+                                  android:padding="12dp"
+                                  style="@style/KeepassDXStyle.TextAppearance.Title"
+                                  android:textColor="?android:attr/textColorHintInverse"
+                                  android:text="@string/open_recent"/>
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/textColorHintInverse"/>
+                        <android.support.v7.widget.RecyclerView
+                            android:id="@+id/file_list"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
 
-        </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"

@@ -19,7 +19,6 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
@@ -49,7 +48,7 @@ import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
 
 class EntryActivity : LockingHideActivity() {
@@ -371,11 +370,7 @@ class EntryActivity : LockingHideActivity() {
                     url = "http://$url"
                 }
 
-                try {
-                    Util.gotoUrl(this, url)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show()
-                }
+                UriUtil.gotoUrl(this, url)
 
                 return true
             }

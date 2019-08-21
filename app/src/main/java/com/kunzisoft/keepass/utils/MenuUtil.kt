@@ -29,8 +29,8 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper.READ_ONLY_DEFAULT
-import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.settings.SettingsActivity
 
 
 object MenuUtil {
@@ -47,7 +47,7 @@ object MenuUtil {
 
     fun onContributionItemSelected(activity: StylishActivity): Boolean {
         try {
-            Util.gotoUrl(activity, R.string.contribution_url)
+            UriUtil.gotoUrl(activity, R.string.contribution_url)
         } catch (e: ActivityNotFoundException) {
             Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
             return false
