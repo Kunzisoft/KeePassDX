@@ -16,7 +16,7 @@
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
-    <string name="browser_intall_text">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
+    <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
     <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>

@@ -30,7 +30,7 @@
     <string name="menu_app_settings">הגדרות יישום</string>
     <string name="beta_dontask">אל תציג שוב</string>
     <string name="brackets">סוגריים</string>
-    <string name="browser_intall_text">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
+    <string name="file_manager_install_description">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
     <string name="cancel">בטל</string>
     <string name="clipboard_cleared">לוח ההעתקה נוקה.</string>
     <string name="clipboard_error_title">שגיאת לוח ההעתקה</string>

@@ -27,7 +27,7 @@
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="brackets">Zárójelek</string>
-    <string name="browser_intall_text">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
+    <string name="file_manager_install_description">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
     <string name="cancel">Mégse</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>

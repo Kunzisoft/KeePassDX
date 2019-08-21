@@ -31,7 +31,7 @@
     <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
     <string name="beta_dontask">Να μην ερωτηθώ ξανά</string>
     <string name="brackets">Αγκύλες</string>
-    <string name="browser_intall_text">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
+    <string name="file_manager_install_description">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
     <string name="cancel">Ακύρωση</string>
     <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε.</string>
     <string name="clipboard_error_title">Σφάλμα προχείρου</string>

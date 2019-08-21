@@ -32,7 +32,7 @@
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
-    <string name="browser_intall_text">Sfoglia i file installando il Gestore File di OpenIntents</string>
+    <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
     <string name="cancel">Annulla</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
@@ -74,7 +74,7 @@
     <string name="error_pass_match">Le password non corrispondono.</string>
     <string name="error_rounds_not_number">Rendi il \"livello\" un numero.</string>
     <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
-    <string name="error_string_key">Ogni stringa deve avere un un nome.</string>
+    <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_title_required">Aggiungi un titolo.</string>
     <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
     <string name="field_name">Nome campo</string>
@@ -331,7 +331,7 @@
     <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
-    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>sofware libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
+    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>software libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
     <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong>
     </string>
     <string name="html_text_feature_generosity">Questa <strong>funzione visiva</strong> è disponibile grazie alla tua generosità.</string>

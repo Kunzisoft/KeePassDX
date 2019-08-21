@@ -213,7 +213,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private fun createNewFile() {
         try {
             startActivityForResult(Intent(
-                    // TODO orientation change
                     Intent.ACTION_CREATE_DOCUMENT).apply {
                         addCategory(Intent.CATEGORY_OPENABLE)
                         type = "application/x-keepass"
@@ -222,13 +221,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     },
                     CREATE_FILE_REQUEST_CODE)
         } catch (e: Exception) {
-            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
-                // Do the historic action to create a new database file
-
-            } else {
-                // TODO show dialog
-                BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
-            }
+            BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
         }
     }
 

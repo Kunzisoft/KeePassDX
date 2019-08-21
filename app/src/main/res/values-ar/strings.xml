@@ -124,7 +124,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال التطبيق</string>
-    <string name="browser_intall_text">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
+    <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
     <string name="clipboard_error">بعض هواتف سامسونغ لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة</string>

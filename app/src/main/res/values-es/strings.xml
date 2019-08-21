@@ -31,7 +31,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
-    <string name="browser_intall_text">Explora ficheros con OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Explora ficheros con OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>

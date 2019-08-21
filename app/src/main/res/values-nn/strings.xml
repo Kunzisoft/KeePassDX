@@ -30,7 +30,7 @@
     <string name="application">Program</string>
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
-    <string name="browser_intall_text">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
+    <string name="file_manager_install_description">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
     <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Utklippstavla er tømt.</string>
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>

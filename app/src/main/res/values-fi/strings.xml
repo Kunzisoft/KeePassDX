@@ -31,7 +31,7 @@
     <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="brackets">Hakasulkeet</string>
-    <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
+    <string name="file_manager_install_description">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
     <string name="cancel">Peruuta</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>

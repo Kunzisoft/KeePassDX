@@ -30,7 +30,7 @@
     <string name="menu_app_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для обзора файлов установите OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Для обзора файлов установите OpenIntents File Manager</string>
     <string name="cancel">Отмена</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>

@@ -32,7 +32,7 @@
     <string name="application">Aplicativo</string>
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Procure arquivos instalando o OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Procure arquivos instalando o OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>

@@ -34,7 +34,7 @@
     <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="beta_dontask">Znovu nezobrazovat</string>
     <string name="brackets">Závorky</string>
-    <string name="browser_intall_text">Instalace správce souborů OpenIntents k procházení souborů</string>
+    <string name="file_manager_install_description">Instalace správce souborů OpenIntents k procházení souborů</string>
     <string name="cancel">Storno</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
     <string name="clipboard_error_title">Chyba schránky</string>

@@ -34,7 +34,7 @@
     <string name="beta_dontask">Don\'t show again</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
-    <string name="browser_intall_text">Browse files by installing the OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Create, Open and Save a database file requires installing a file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>

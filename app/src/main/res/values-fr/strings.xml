@@ -34,7 +34,7 @@
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
-    <string name="browser_intall_text">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
+    <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>

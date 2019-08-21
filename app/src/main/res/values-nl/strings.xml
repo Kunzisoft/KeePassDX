@@ -32,7 +32,7 @@
     <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
     <string name="brackets">Haakjes</string>
-    <string name="browser_intall_text">Zoek een bestand op door het installeren van de OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Zoek een bestand op door het installeren van de OpenIntents File Manager</string>
     <string name="cancel">Annuleren</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Klembordtime-out</string>
