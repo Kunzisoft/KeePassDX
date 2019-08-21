@@ -24,7 +24,7 @@
     android:layout_height="wrap_content"
     android:layout_marginBottom="@dimen/default_margin"
     android:importantForAutofill="noExcludeDescendants"
-    android:background="@drawable/background_new_field"
+    android:background="@drawable/background_stroke_element"
     tools:targetApi="o">
 
     <android.support.design.widget.TextInputLayout

@@ -29,7 +29,7 @@
     <string name="application">應用程式</string>
     <string name="menu_app_settings">應用程式設定</string>
     <string name="brackets">括弧</string>
-    <string name="browser_intall_text">流覽檔需要安裝Open Intents File Manager軟體，點下面安裝。由於一些檔管理軟體的差異，在你第一次瀏覽時可能無法正常工作。</string>
+    <string name="file_manager_install_description">流覽檔需要安裝Open Intents File Manager軟體，點下面安裝。由於一些檔管理軟體的差異，在你第一次瀏覽時可能無法正常工作。</string>
     <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪貼板已清除</string>
     <string name="clipboard_timeout">剪貼板超時</string>
@@ -57,10 +57,7 @@
     <string name="entry_user_name">用戶名</string>
     <string name="error_arc4">ArcFour流密碼不被支援。</string>
     <string name="error_can_not_handle_uri">KeePass DX無法處理此URI。</string>
-    <string name="error_could_not_create_parent">無法創建上級目錄。</string>
-    <string name="error_database_exists">文件已存在。</string>
     <string name="error_failed_to_launch_link">運行鏈結失敗。</string>
-    <string name="error_filename_required">檔案名稱為必填.</string>
     <string name="error_file_not_create">不能創建檔案：</string>
     <string name="error_invalid_db">無效的資料庫或無法辨識的主密鑰。</string>
     <string name="error_invalid_path">非法路徑。</string>

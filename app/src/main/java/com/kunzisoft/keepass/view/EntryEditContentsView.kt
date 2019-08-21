@@ -19,7 +19,10 @@ import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.utils.applyFontVisibility
 
-class EntryEditContentsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class EntryEditContentsView @JvmOverloads constructor(context: Context,
+                                                      attrs: AttributeSet? = null,
+                                                      defStyle: Int = 0)
+    : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
 

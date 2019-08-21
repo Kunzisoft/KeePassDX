@@ -24,6 +24,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.widget.Button
+import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.Util
 
@@ -37,13 +38,16 @@ class BrowserDialogFragment : DialogFragment() {
             builder.setView(root)
                     .setNegativeButton(R.string.cancel) { _, _ -> }
 
-            val market = root.findViewById<Button>(R.id.install_market)
+            val textDescription = root.findViewById<TextView>(R.id.file_manager_install_description)
+            textDescription.text = getString(R.string.file_manager_install_description)
+
+            val market = root.findViewById<Button>(R.id.file_manager_install_play_store)
             market.setOnClickListener {
                 Util.gotoUrl(context!!, R.string.filemanager_play_store)
                 dismiss()
             }
 
-            val web = root.findViewById<Button>(R.id.install_web)
+            val web = root.findViewById<Button>(R.id.file_manager_install_f_droid)
             web.setOnClickListener {
                 Util.gotoUrl(context!!, R.string.filemanager_f_droid)
                 dismiss()

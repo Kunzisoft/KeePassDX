@@ -331,19 +331,4 @@
         <item name="android:textSize">16sp</item>
 	</style>
 
-    <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle" parent="Theme.AppCompat.DialogWhenLarge">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-
-        <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
-        <item name="nnf_separator_color">@color/nnf_dark_separator_color</item>
-        <item name="nnf_save_icon_color">?attr/colorAccent</item>
-        <item name="nnf_dir_icon_color">?attr/colorAccent</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
 </resources>

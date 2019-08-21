@@ -16,7 +16,7 @@
     <string name="beta_dontask">다시 보이지 않음</string>
     <string name="brackets">브라켓</string>
     <string name="extended_ASCII">확장 ASCII</string>
-    <string name="browser_intall_text">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
+    <string name="file_manager_install_description">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
     <string name="cancel">취소</string>
     <string name="allow">허가</string>
     <string name="clipboard_cleared">클립보드 비워짐</string>
@@ -49,10 +49,7 @@
     <string name="entry_user_name">아이디</string>
     <string name="error_arc4">ARCFOUR 스트림 암호는 지원되지 않습니다.</string>
     <string name="error_can_not_handle_uri">KeePass DX에서는 이 URI를 처리할 수 없습니다.</string>
-    <string name="error_could_not_create_parent">상위 디렉터리를 생성할 수 없습니다.</string>
-    <string name="error_database_exists">파일이 이미 존재합니다.</string>
     <string name="error_failed_to_launch_link">링크를 열 수 없음</string>
-    <string name="error_filename_required">파일 이름을 입력하십시오.</string>
     <string name="error_file_not_create">파일을 생성할 수 없음:</string>
     <string name="error_invalid_db">데이터베이스를 읽을 수 없음.</string>
     <string name="error_invalid_path">경로가 확실한지 확인하십시오.</string>

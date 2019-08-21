@@ -30,7 +30,7 @@
     <string name="menu_app_settings">הגדרות יישום</string>
     <string name="beta_dontask">אל תציג שוב</string>
     <string name="brackets">סוגריים</string>
-    <string name="browser_intall_text">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
+    <string name="file_manager_install_description">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
     <string name="cancel">בטל</string>
     <string name="clipboard_cleared">לוח ההעתקה נוקה.</string>
     <string name="clipboard_error_title">שגיאת לוח ההעתקה</string>
@@ -60,10 +60,7 @@
     <string name="entry_user_name">שם משתמש</string>
     <string name="error_arc4">צופן זרם ArcFour אינו נתמך.</string>
     <string name="error_can_not_handle_uri">KeePass DX לא יכול לטפל ב-URI הזה.</string>
-    <string name="error_could_not_create_parent">לא הצליח לפתוח את תקיית האב.</string>
-    <string name="error_database_exists">קובץ זה קיים כבר.</string>
     <string name="error_failed_to_launch_link">הפעלת הקישור נכשלה.</string>
-    <string name="error_filename_required">שם קובץ נדרש.</string>
     <string name="error_file_not_create">לא הצליח ליצור קובץ:</string>
     <string name="error_invalid_db">מסד נתונים לא חוקי.</string>
     <string name="error_invalid_path">נתיב לא חוקי.</string>

@@ -1,5 +1,1 @@
- * Rebuild code for actions
- * Add UUID as entry view
- * Fix bug with natural order
- * Fix number of entries in databaseV1
- * New entry views
+ * New, more secure database creation workflow

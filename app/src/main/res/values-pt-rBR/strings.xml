@@ -32,7 +32,7 @@
     <string name="application">Aplicativo</string>
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Procure arquivos instalando o OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Procure arquivos instalando o OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
@@ -60,10 +60,7 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePass DX.</string>
-    <string name="error_could_not_create_parent">Não foi possível criar o diretório pai.</string>
-    <string name="error_database_exists">Este arquivo já existe.</string>
     <string name="error_failed_to_launch_link">Falha ao abrir link.</string>
-    <string name="error_filename_required">Digite um nome de arquivo.</string>
     <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>
@@ -208,8 +205,6 @@
     <string name="sort_last_modify_time">Última modificação</string>
     <string name="sort_last_access_time">Último acesso</string>
     <string name="search_results">Resultados da pesquisa</string>
-    <string name="use_saf_summary">Use o framework de acesso de armazenamento (SAF) do Android para navegação de arquivos (KitKat e posterior)</string>
-    <string name="use_saf_title">Framework de acesso de armazenamento</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
     <string name="warning_empty_password">Você realmente não quer proteção por senha\?</string>
@@ -265,10 +260,6 @@
     <string name="full_file_path_enable_summary">Veja o caminho inteiro do arquivo</string>
     <string name="recycle_bin_title">Usar lixeira</string>
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX precisa de permissão de armazenamento externo para escrever em um banco de dados.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX precisa de permissão de armazenamento externo para ler uma URI não fornecida pelo Provedor de Conteúdo.</string>
-    <string name="permission_external_storage_denied">Não pôde adquirir permissão de armazenamento externo.</string>
-    <string name="permission_external_storage_never_ask">Não é possível fazer essa ação sem a permissão de armazenamento externo.</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
     <string name="auto_open_file_uri_title">Abrir arquivos ao selecionar</string>
@@ -276,7 +267,6 @@
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da senha e de campos protegidos para a área de transferência</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="warning_disabling_storage_access_framework">AVISO: Desativar essa função pode resultar na inabilidade de abrir ou salvar bancos de dados.</string>
     <string name="open_link_database">Link do arquivo da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>

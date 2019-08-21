@@ -1,5 +1,1 @@
- * Recréation du code pour les actions
- * Ajout de l'UUID comme vue d'entrée
- * Correction d'un bug avec l'ordre naturel
- * Correction du nombre d'entrée dans les bases de données V1 number of entries in databaseV1
- * Nouvelles vues d'entrée
+ * Nouveau workflow de création de base de données plus sécurisé

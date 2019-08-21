@@ -46,9 +46,7 @@
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>
-    <string name="error_database_exists">هذا الملف موجود مِن قَبل.</string>
     <string name="error_failed_to_launch_link">تعذر فتح الرابط.</string>
-    <string name="error_filename_required">ادخل اسمًا للملف.</string>
     <string name="error_file_not_create">تعذر إنشاء الملف :</string>
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
@@ -126,7 +124,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال التطبيق</string>
-    <string name="browser_intall_text">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
+    <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
     <string name="clipboard_error">بعض هواتف سامسونغ لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة</string>
@@ -139,7 +137,6 @@
     <string name="entry_keyfile">ملف المفتاح</string>
     <string name="error_arc4">تشفير دفق ARCFOUR غير مدعوم.</string>
     <string name="error_can_not_handle_uri">تعذرت معاملة هذا الرابط في KeePass DX.</string>
-    <string name="error_could_not_create_parent">تعذر إنشاء الدليل الأصل.</string>
     <string name="error_invalid_db">تعذرت قراءة قاعدة البيانات.</string>
     <string name="error_nokeyfile">اختر ملف مفتاح.</string>
     <string name="error_out_of_memory">لا ذاكرة لتحميل قاعدة البيانات كاملة.</string>
@@ -235,7 +232,6 @@
     <string name="allow_copy_password_title">الوثوق بالحافظة</string>
     <string name="allow_copy_password_summary">اسمح لكلمة السر والحقول المحمية بالدخول للحافظة</string>
     <string name="allow_copy_password_warning">تحذير: الحافظة مشتركة بين التطبيقات وستتمكن التطبيقات الاخرى من الوصول الى المعلومات الحساسة.</string>
-    <string name="warning_disabling_storage_access_framework">تحذير: تعطيل هذه الخاصية سيمنع فتح وحفظ قاعدة البيانات.</string>
     <string name="open_link_database">رابط قاعدة البيانات</string>
     <string name="database_name_title">اسم قاعدة البيانات</string>
     <string name="database_description_title">وصف قاعدة البيانات</string>

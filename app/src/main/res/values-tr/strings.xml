@@ -16,7 +16,7 @@
     <string name="beta_dontask">Tekrar gösterme</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
-    <string name="browser_intall_text">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
+    <string name="file_manager_install_description">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
     <string name="cancel">İptal</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
@@ -38,10 +38,7 @@
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
-    <string name="error_could_not_create_parent">Ana dizin oluşturulamadı.</string>
-    <string name="error_database_exists">Bu dosya zaten var.</string>
     <string name="error_failed_to_launch_link">Bağlantı açılamadı.</string>
-    <string name="error_filename_required">Bir dosya adı girin.</string>
     <string name="error_file_not_create">Dosya oluşturulamadı:</string>
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
@@ -172,8 +169,6 @@
     <string name="underline">Altı çizili</string>
     <string name="unsupported_db_version">Desteklenmeyen veritabanı sürümü.</string>
     <string name="uppercase">Büyük harf</string>
-    <string name="use_saf_summary">Dosya taraması için Android depolama erişim yapısını (SAF) kullan (KitKat sonrası)</string>
-    <string name="use_saf_title">Depolama erişim yapısı</string>
     <string name="warning">Uyarı</string>
     <string name="warning_password_encoding">Tümü aynı harfe dönüştürüldüğünden .kbd dosyalarındaki Latin-1 dışındaki şifre karakterlerinden kaçının.</string>
     <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
@@ -233,10 +228,6 @@
     <string name="full_file_path_enable_summary">Tam dosya yolunu görüntüle</string>
     <string name="recycle_bin_title">Geri Dönüşüm Kutusunu kullan</string>
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX\'in bir veritabanına yazmak için harici depolama iznine ihtiyacı var.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX, bir içerik sağlayıcı tarafından sağlanmayan bir URI\'yi okumak için harici depolama iznine ihtiyaç duyar.</string>
-    <string name="permission_external_storage_denied">Harici depolama izni alınamadı.</string>
-    <string name="permission_external_storage_never_ask">Eylem, harici depolama izni olmadan gerçekleştirilemez.</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
     <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>
@@ -244,7 +235,6 @@
     <string name="allow_copy_password_title">Pano güveni</string>
     <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
     <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
-    <string name="warning_disabling_storage_access_framework">UYARI: Bu özelliği kapatmak, veritabanlarını açmayı veya kaydetmeyi engelleyebilir.</string>
     <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
     <string name="database_name_title">Veritabanı adı</string>
     <string name="database_description_title">Veritabanı açıklaması</string>

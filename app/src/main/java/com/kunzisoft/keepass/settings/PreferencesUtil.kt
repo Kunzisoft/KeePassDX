@@ -28,6 +28,11 @@ import java.util.*
 
 object PreferencesUtil {
 
+    fun showReadOnlyWarning(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_read_only_warning), true)
+    }
+
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.omitbackup_key),

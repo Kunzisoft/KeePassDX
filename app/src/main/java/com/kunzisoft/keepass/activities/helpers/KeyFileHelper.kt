@@ -31,7 +31,6 @@ import android.support.v4.app.FragmentActivity
 import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
-import com.kunzisoft.keepass.fileselect.StorageAF
 import com.kunzisoft.keepass.utils.UriUtil
 
 class KeyFileHelper {
@@ -56,9 +55,9 @@ class KeyFileHelper {
 
         override fun onClick(v: View) {
             try {
-                if (activity != null && StorageAF.useStorageFramework(activity!!)) {
+                try {
                     openActivityWithActionOpenDocument()
-                } else {
+                } catch(e: Exception) {
                     openActivityWithActionGetContent()
                 }
             } catch (e: Exception) {
@@ -72,7 +71,7 @@ class KeyFileHelper {
     }
 
     private fun openActivityWithActionOpenDocument() {
-        val i = Intent(StorageAF.ACTION_OPEN_DOCUMENT)
+        val i = Intent(ACTION_OPEN_DOCUMENT)
         i.addCategory(Intent.CATEGORY_OPENABLE)
         i.type = "*/*"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -193,18 +192,16 @@ class KeyFileHelper {
                     if (data != null) {
                         var uri = data.data
                         if (uri != null) {
-                            if (StorageAF.useStorageFramework(activity!!)) {
-                                try {
-                                    // try to persist read and write permissions
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                                        activity?.contentResolver?.apply {
-                                            takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                            takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
-                                        }
+                            try {
+                                // try to persist read and write permissions
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                    activity?.contentResolver?.apply {
+                                        takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                        takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                                     }
-                                } catch (e: Exception) {
-                                    // nop
                                 }
+                            } catch (e: Exception) {
+                                // nop
                             }
                             if (requestCode == GET_CONTENT) {
                                 uri = UriUtil.translateUri(activity!!, uri)
@@ -222,6 +219,17 @@ class KeyFileHelper {
     companion object {
 
         private const val TAG = "KeyFileHelper"
+
+        private var ACTION_OPEN_DOCUMENT: String
+
+        init {
+            ACTION_OPEN_DOCUMENT = try {
+                val openDocument = Intent::class.java.getField("ACTION_OPEN_DOCUMENT")
+                openDocument.get(null) as String
+            } catch (e: Exception) {
+                "android.intent.action.OPEN_DOCUMENT"
+            }
+        }
 
         const val OPEN_INTENTS_FILE_BROWSE = "org.openintents.action.PICK_FILE"
 

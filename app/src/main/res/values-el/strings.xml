@@ -31,7 +31,7 @@
     <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
     <string name="beta_dontask">Να μην ερωτηθώ ξανά</string>
     <string name="brackets">Αγκύλες</string>
-    <string name="browser_intall_text">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
+    <string name="file_manager_install_description">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
     <string name="cancel">Ακύρωση</string>
     <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε.</string>
     <string name="clipboard_error_title">Σφάλμα προχείρου</string>
@@ -63,10 +63,7 @@
     <string name="entry_user_name">Όνομα Χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης ArcFour δεν υποστηρίζεται.</string>
     <string name="error_can_not_handle_uri">Το KeePass DX δε μπορεί να χειριστεί αυτή τη διεύθυνση uri.</string>
-    <string name="error_could_not_create_parent">Δεν ήταν δυνατή η δημιουργία του γονικού καταλόγου.</string>
-    <string name="error_database_exists">Το συγκεκριμένο αρχείο υπάρχει ήδη.</string>
     <string name="error_failed_to_launch_link">Απέτυχε η εκτέλεση του συνδέσμου.</string>
-    <string name="error_filename_required">Το όνομα αρχείου είναι υποχρεωτικό.</string>
     <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία του αρχείου:</string>
     <string name="error_invalid_db">Μη έγκυρη βάση δεδομένων.</string>
     <string name="error_invalid_path">Μη έγκυρη διαδρομή.</string>

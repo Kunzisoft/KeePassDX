@@ -32,7 +32,7 @@
     <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
     <string name="brackets">Haakjes</string>
-    <string name="browser_intall_text">Zoek een bestand op door het installeren van de OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Zoek een bestand op door het installeren van de OpenIntents File Manager</string>
     <string name="cancel">Annuleren</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Klembordtime-out</string>
@@ -60,10 +60,7 @@
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De ARCFOUR stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan deze URI niet verwerken.</string>
-    <string name="error_could_not_create_parent">Kan bovenliggende map niet creëren.</string>
-    <string name="error_database_exists">Dit bestand bestaat al.</string>
     <string name="error_failed_to_launch_link">Kan link niet openen.</string>
-    <string name="error_filename_required">Voer een bestandsnaam in.</string>
     <string name="error_file_not_create">Kan bestand niet creëren:</string>
     <string name="error_invalid_db">Kan databank niet uitlezen.</string>
     <string name="error_invalid_path">Zorg ervoor dat het pad juist is.</string>
@@ -215,8 +212,6 @@
     <string name="sort_last_modify_time">Aangepast om</string>
     <string name="sort_last_access_time">Geopend om</string>
     <string name="search_results">Zoekresultaten</string>
-    <string name="use_saf_summary">Android-opslagtoegang-framework (SAF) gebruiken voor bestandsverkenning (KitKat en hoger)</string>
-    <string name="use_saf_title">Opslagtoegang-framework</string>
     <string name="warning">Waarschuwing</string>
     <string name="warning_password_encoding">Vermijd letters bevatten die niet ondersteund worden door de Latin-1-tekenset van .kdb-bestanden; ze worden allemaal omgezet naar dezelfde letter.</string>
     <string name="warning_empty_password">Weet je zeker dat je geen wachtwoordontgrendelbescherming wilt\?</string>
@@ -273,10 +268,6 @@
     <string name="full_file_path_enable_summary">Volledig bestandspad tonen</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>
     <string name="recycle_bin_summary">Groep of item naar de \"Prullenbak\" verplaatsen alvorens te verwijderen</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX heeft de machtiging externe opslag nodig om een databank weg te schrijven</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DC heeft de machtiging externe opslag nodig om een URL uit te lezen die niet is opgegeven door een inhoudsdienst</string>
-    <string name="permission_external_storage_denied">Machtiging externe opslag afgewezen</string>
-    <string name="permission_external_storage_never_ask">Kan de actie niet uitvoeren zonder de machtiging externe opslag</string>
     <string name="monospace_font_fields_enable_title">Veldlettertype</string>
     <string name="monospace_font_fields_enable_summary">Wijzg het lettertype dat gebruikt wordt in velden voor betere leesbaarheid</string>
     <string name="auto_open_file_uri_title">Gekozen bestand automatisch openen</string>
@@ -284,7 +275,6 @@
     <string name="allow_copy_password_title">Wachtwoord kopiëren toestaan</string>
     <string name="allow_copy_password_summary">Staat toe dat het wachtwoord en beveiligde velden worden gekopieerd naar het klembord</string>
     <string name="allow_copy_password_warning">WAARSCHUWING: het klembord wordt gedeeld door alle apps. Als gevoelige gegevens worden gekopieerd, kan andere software deze opvragen.</string>
-    <string name="warning_disabling_storage_access_framework">WAARSCHUWING: door deze functie uit te schakelen kunnen databanken mogelijk niet meer worden geopend of opgeslagen</string>
     <string name="open_link_database">Link naar het te openen KDBX-bestand</string>
     <string name="database_name_title">Databanknaam</string>
     <string name="database_description_title">Databankomschrijving</string>

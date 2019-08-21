@@ -34,7 +34,7 @@
     <string name="beta_dontask">Don\'t show again</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
-    <string name="browser_intall_text">Browse files by installing the OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Create, Open and Save a database file requires installing a file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT</string>
     <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
@@ -88,10 +88,7 @@
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePass DX.</string>
-    <string name="error_could_not_create_parent">Could not create parent directory.</string>
-    <string name="error_database_exists">This file already exists.</string>
     <string name="error_failed_to_launch_link">Could not open link.</string>
-    <string name="error_filename_required">Enter a filename.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
@@ -217,8 +214,6 @@
     <string name="underline">Underline</string>
     <string name="unsupported_db_version">Unsupported database version.</string>
     <string name="uppercase">Upper-case</string>
-    <string name="use_saf_summary">Use Android storage access framework (SAF) for file browsing (KitKat onwards)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
@@ -282,10 +277,6 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX needs external storage permission to write to a database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX needs external storage permission to read an URI not provided by a content provider.</string>
-    <string name="permission_external_storage_denied">Could not get external storage permission.</string>
-    <string name="permission_external_storage_never_ask">Cannot perform the action without external storage permission.</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="auto_open_file_uri_title">Open files by selecting</string>
@@ -293,9 +284,10 @@
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow the entry password and protected fields to enter the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
-    <string name="warning_disabling_storage_access_framework">WARNING: Turning off this feature may prevent opening or saving databases.</string>
     <string name="open_link_database">Link of database file to open</string>
     <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>

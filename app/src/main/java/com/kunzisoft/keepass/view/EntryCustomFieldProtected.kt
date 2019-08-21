@@ -23,22 +23,15 @@ import android.content.Context
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 
-import com.kunzisoft.keepass.database.element.security.ProtectedString
+class EntryCustomFieldProtected @JvmOverloads constructor(context: Context,
+                                                          attrs: AttributeSet? = null,
+                                                          defStyle: Int = 0)
+    : EntryCustomField(context, attrs, defStyle) {
 
-class EntryCustomFieldProtected : EntryCustomField {
-
-    constructor(context: Context) : super(context)
-
-    constructor(context: Context, attrs: AttributeSet?) : super(context, attrs)
-
-    constructor(context: Context, attrs: AttributeSet?, label: String?, value: ProtectedString?) : super(context, attrs, label, value)
-
-    constructor(context: Context, attrs: AttributeSet?, label: String?, value: ProtectedString?, showAction: Boolean, onClickActionListener: OnClickListener?) : super(context, attrs, label, value, showAction, onClickActionListener)
-
-    override fun setValue(value: ProtectedString?) {
+    fun setValue(value: String?, isProtected: Boolean) {
         if (value != null) {
-            valueView.text = value.toString()
-            setHiddenPasswordStyle(value.isProtected)
+            valueView.text = value
+            setHiddenPasswordStyle(isProtected)
         }
     }
 

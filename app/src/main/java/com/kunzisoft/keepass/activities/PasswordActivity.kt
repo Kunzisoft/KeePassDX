@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.Manifest
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
@@ -33,7 +32,6 @@ import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
 import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
@@ -61,12 +59,10 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.FingerPrintInfoView
-import permissions.dispatcher.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
 
-@RuntimePermissions
 class PasswordActivity : StylishActivity(),
         UriIntentInitTaskCallback {
 
@@ -189,10 +185,6 @@ class PasswordActivity : StylishActivity(),
             finish()
             return
         }
-
-        // Verify permission to read file
-        if (databaseFileUri != null && !databaseFileUri.scheme!!.contains("content"))
-            doNothingWithPermissionCheck()
 
         // Define title
         val dbUriString = databaseFileUri?.toString() ?: ""
@@ -520,12 +512,6 @@ class PasswordActivity : StylishActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated method
-        onRequestPermissionsResult(requestCode, grantResults)
-    }
-
     override fun onActivityResult(
             requestCode: Int,
             resultCode: Int,
@@ -555,31 +541,6 @@ class PasswordActivity : StylishActivity(),
                 }
             }
         }
-    }
-
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun doNothing() {
-    }
-
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showRationaleForExternalStorage(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.permission_external_storage_rationale_read_database)
-                .setPositiveButton(R.string.allow) { _, _ -> request.proceed() }
-                .setNegativeButton(R.string.cancel) { _, _ -> request.cancel() }
-                .show()
-    }
-
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showDeniedForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showNeverAskForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show()
-        finish()
     }
 
     companion object {

@@ -34,7 +34,7 @@
     <string name="menu_app_settings">Nastavení aplikace</string>
     <string name="beta_dontask">Znovu nezobrazovat</string>
     <string name="brackets">Závorky</string>
-    <string name="browser_intall_text">Instalace správce souborů OpenIntents k procházení souborů</string>
+    <string name="file_manager_install_description">Instalace správce souborů OpenIntents k procházení souborů</string>
     <string name="cancel">Storno</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
     <string name="clipboard_error_title">Chyba schránky</string>
@@ -66,10 +66,7 @@
     <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">ARCFOUR proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePass DX nemůže zpracovat toto URI.</string>
-    <string name="error_could_not_create_parent">Nedaří se vytvořit nadřazenou složku.</string>
-    <string name="error_database_exists">Tento soubor už existuje.</string>
     <string name="error_failed_to_launch_link">Odkaz se nedaří otevřít.</string>
-    <string name="error_filename_required">Vložte název souboru.</string>
     <string name="error_file_not_create">Soubor se nedaří vytvořit:</string>
     <string name="error_invalid_db">Nelze přečíst databázi.</string>
     <string name="error_invalid_path">Neplatná cesta.</string>
@@ -216,8 +213,6 @@
     <string name="sort_creation_time">Vytvoření</string>
     <string name="sort_last_modify_time">Změna</string>
     <string name="sort_last_access_time">Přístup</string>
-    <string name="use_saf_summary">Použít \"Android storage access framework\" pro procházení souborů (k dispozici v Android KitKat a novějším)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Varování</string>
     <string name="warning_password_encoding">Nepoužívejte v hesle pro .kdb soubory znaky nepodporované znakovou sadou Latin-1 (nepoužívejte znaky s diakritikou).</string>
     <string name="warning_empty_password">Opravdu chcete ponechat databázi nechráněnou (bez hesla)?</string>
@@ -274,10 +269,6 @@
     <string name="full_file_path_enable_summary">Zobrazit úplný popis umístění souboru</string>
     <string name="recycle_bin_title">Použít koš</string>
     <string name="recycle_bin_summary">Přesunout skupiny či položky do „Koše“ místo smazání</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX potřebuje oprávnění k externímu úložišti, aby mohl zapsat do databáze.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX potřebuje oprávnění k externímu úložišti, aby mohl načítat URI adresy, které nepocházejí od poskytovatele obsahu.</string>
-    <string name="permission_external_storage_denied">Oprávnění k externímu úložišti odepřeno.</string>
-    <string name="permission_external_storage_never_ask">Akci nelze provést bez oprávnění k externímu úložišti.</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v položkách můžete přizpůsobit změnou písma</string>
     <string name="auto_open_file_uri_title">Otevírat soubory vybráním</string>
@@ -285,7 +276,6 @@
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
     <string name="allow_copy_password_summary">Umožnit kopírovat heslo a chráněné položky do schránky</string>
     <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, může se k nim dostat další software.</string>
-    <string name="warning_disabling_storage_access_framework">VAROVÁNÍ: Vypnutí této funkce může znemožnit otevírání nebo ukládání databází.</string>
     <string name="open_link_database">Odkaz na otevíranou databázi</string>
     <string name="database_name_title">Název databáze</string>
     <string name="database_description_title">Popis databáze</string>

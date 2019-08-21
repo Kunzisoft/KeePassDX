@@ -29,7 +29,7 @@
     <string name="application">应用</string>
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
-    <string name="browser_intall_text">安装 OpenIntents File Manager 应用来选取文件</string>
+    <string name="file_manager_install_description">安装 OpenIntents File Manager 应用来选取文件</string>
     <string name="cancel">取消</string>
     <string name="clipboard_cleared">已清空剪贴板</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
@@ -57,10 +57,7 @@
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持 ARCFOUR 流式密码。</string>
     <string name="error_can_not_handle_uri">KeePass DX 无法处理此 URI。</string>
-    <string name="error_could_not_create_parent">无法创建上级目录。</string>
-    <string name="error_database_exists">文件已存在。</string>
     <string name="error_failed_to_launch_link">无法打开链接。</string>
-    <string name="error_filename_required">必须输入文件名。</string>
     <string name="error_file_not_create">无法创建文件：</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径是正确的。</string>
@@ -247,8 +244,6 @@
     <string name="field_value">字段值</string>
     <string name="copy_field">已复制 %1$s</string>
     <string name="sort_ascending">最低优先 ↓</string>
-    <string name="use_saf_summary">使用 Android 存储访问框架 （SAF）浏览文件（需要 KitKat 或更高）</string>
-    <string name="use_saf_title">存储访问框架</string>
     <string name="warning_password_encoding">请避免在 .kbd 文件中保存含有 Latin-1 以外的其他字符的密码，因为这些字符将会被转换为同一字符。</string>
     <string name="sort_groups_before">文件夹优先</string>
     <string name="sort_recycle_bin_bottom">底部回收站</string>
@@ -290,17 +285,12 @@
     <string name="assign_master_key">分配主键</string>
     <string name="recycle_bin_title">启用回收站</string>
     <string name="recycle_bin_summary">在彻底删除文件夹和项目之前先移动到回收站</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX 需要外部存储设备存储权限以便写入数据库。</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX 需要外部设备存储权限以读取一个不通过内容提供者提供的统一资源标识符。</string>
-    <string name="permission_external_storage_denied">未能获取外部存储设备权限。</string>
-    <string name="permission_external_storage_never_ask">没有外部存储设备权限的情况下，不能执行此操作。</string>
     <string name="monospace_font_fields_enable_title">字段显示优化</string>
     <string name="monospace_font_fields_enable_summary">在字段中改变使用的字体以优化内容的展示</string>
     <string name="auto_open_file_uri_title">选择需要打开的文件</string>
     <string name="auto_open_file_uri_summary">自动打开在文件浏览器中选中的文件</string>
     <string name="allow_copy_password_summary">允许剪切板保存输入的密码以及受保护的字段</string>
     <string name="allow_copy_password_warning">警告：所有应用都可以访问剪切板，如果剪切板存在敏感数据，可能会被其他软件存储在剪切板的数据覆盖。</string>
-    <string name="warning_disabling_storage_access_framework">警告：关闭此功能可能会导致打开或者保存数据库失败。</string>
     <string name="open_link_database">打开数据库文件的链接</string>
     <string name="magic_keyboard_summary">激活自定义键盘，填充密码和所有标识字段</string>
     <string name="magic_keyboard_configure_title">选择“Magikeyboard键盘”以安全地自动填充表单。</string>

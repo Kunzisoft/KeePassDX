@@ -49,10 +49,4 @@
         <item name="colorAccent">#fefefe</item>
         <item name="android:textColorPrimary">#80cbc4</item>
     </style>
-    <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle.Dark" parent="KeepassDXStyle.FilePickerStyle">
-        <item name="colorPrimary">#212121</item>
-        <item name="colorPrimaryDark">#000000</item>
-        <item name="colorAccent">#59585a</item>
-    </style>
 </resources>

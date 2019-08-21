@@ -13,7 +13,7 @@
     <string name="menu_app_settings">Programmas iestatījumi</string>
     <string name="beta_dontask">Turpmāk nerādīt</string>
     <string name="brackets">Iekavas</string>
-    <string name="browser_intall_text">Failu pārlūkošanai nepieciešams pārlūks.</string>
+    <string name="file_manager_install_description">Failu pārlūkošanai nepieciešams pārlūks.</string>
     <string name="cancel">Atcelt</string>
     <string name="clipboard_cleared">Starpliktuve notīrīta</string>
     <string name="clipboard_error_title">Starpliktuves kļūda</string>
@@ -43,10 +43,7 @@
     <string name="entry_user_name">Lietotāja vārds</string>
     <string name="error_arc4">ArcFour plūsmas šifrs netiek atbalstīts.</string>
     <string name="error_can_not_handle_uri">Neizdevās pātiet uz norādīto adresi.</string>
-    <string name="error_could_not_create_parent">Neizdevās izveidot mātes direktoriju.</string>
-    <string name="error_database_exists">Šāds fails jau pastāv.</string>
     <string name="error_failed_to_launch_link">Neizdevās atvērt saiti.</string>
-    <string name="error_filename_required">Nepieciešams faila nosaukums.</string>
     <string name="error_file_not_create">Neizdevās izveidot failu:</string>
     <string name="error_invalid_db">Nederīga datu bāze.</string>
     <string name="error_invalid_path">Nederīgs ceļš.</string>

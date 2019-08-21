@@ -34,7 +34,7 @@
     <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
-    <string name="browser_intall_text">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
+    <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
     <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
@@ -67,10 +67,7 @@
     <string name="entry_user_name">Nom d’utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux ARCFOUR n’est pas pris en charge.</string>
     <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePass DX.</string>
-    <string name="error_could_not_create_parent">Impossible de créer le répertoire parent.</string>
-    <string name="error_database_exists">Ce fichier existe déjà.</string>
     <string name="error_failed_to_launch_link">Impossible d’ouvrir le lien.</string>
-    <string name="error_filename_required">Saisir le nom du fichier.</string>
     <string name="error_file_not_create">Impossible de créer le fichier :</string>
     <string name="error_invalid_db">Impossible de lire la base de données.</string>
     <string name="error_invalid_path">Vérifier la validité du chemin.</string>
@@ -175,8 +172,6 @@
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non prise en charge.</string>
     <string name="uppercase">Majuscule</string>
-    <string name="use_saf_summary">Utiliser l’environnement de développement d’accès au stockage (SAF) Android pour naviguer dans les fichiers (à partir de KitKat)</string>
-    <string name="use_saf_title">Environnement de développement d’accès au stockage</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors de Latin-1 pour les mots de passe dans les fichiers .kbd car ils sont tous convertis en une même lettre.</string>
     <string name="warning_read_only">Accorder l’accès en écriture à la carte microSD pour enregistrer les modifications de la base de données.</string>
@@ -236,10 +231,6 @@
     <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX a besoin de la permission de stockage externe pour écrire dans une base de données.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX a besoin de la permission de stockage externe pour lire une URI non fournie par un fournisseur de contenu.</string>
-    <string name="permission_external_storage_denied">Impossible d’obtenir la permission de stockage externe.</string>
-    <string name="permission_external_storage_never_ask">Impossible d’effectuer l’action sans la permission de stockage externe.</string>
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
     <string name="auto_open_file_uri_title">Ouvrir les fichiers par sélection</string>
@@ -247,7 +238,6 @@
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
     <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
-    <string name="warning_disabling_storage_access_framework">ATTENTION : la désactivation de cette fonctionnalité peut empêcher l’ouverture ou l’enregistrement des bases de données.</string>
     <string name="open_link_database">Lien du fichier de base de données à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>

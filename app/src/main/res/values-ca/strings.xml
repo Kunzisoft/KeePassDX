@@ -33,7 +33,7 @@
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Paràmetres de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
-    <string name="browser_intall_text">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
+    <string name="file_manager_install_description">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
     <string name="cancel">Cancel·la</string>
     <string name="clipboard_cleared">Porta-retalls netejat.</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
@@ -61,10 +61,7 @@
     <string name="entry_user_name">Usuari</string>
     <string name="error_arc4">L\'encriptació ArcFour no està suportada.</string>
     <string name="error_can_not_handle_uri">KeePass DX no pot manejar aquesta uri.</string>
-    <string name="error_could_not_create_parent">No s\'ha pogut crear el directori pare.</string>
-    <string name="error_database_exists">Aquest arxiu ja existeix.</string>
     <string name="error_failed_to_launch_link">Error en executar enllaç.</string>
-    <string name="error_filename_required">Es requereix un nom d\'arxiu.</string>
     <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
     <string name="error_invalid_db">Base de dades invàlida.</string>
     <string name="error_invalid_path">Camí invàlid.</string>
