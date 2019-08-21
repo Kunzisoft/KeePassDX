@@ -197,6 +197,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
             }
         }
 
+        // Retrieve the database URI provided by file manager after an orientation change
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
+            mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
+        }
+
         Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
     }
 
@@ -335,6 +341,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         super.onSaveInstanceState(outState)
         // only to keep the current activity
         outState.putBoolean(EXTRA_STAY, true)
+        // to retrieve the URI of a created database after an orientation change
+        outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
     }
 
     private fun updateFileListVisibility() {
@@ -446,6 +454,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             }
         }
 
+        // Retrieve the created URI from the file manager
         if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
@@ -470,6 +479,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         private const val TAG = "FileDbSelectActivity"
         private const val EXTRA_STAY = "EXTRA_STAY"
+        private const val EXTRA_DATABASE_URI = "EXTRA_DATABASE_URI"
 
         private const val CREATE_FILE_REQUEST_CODE = 3853
 

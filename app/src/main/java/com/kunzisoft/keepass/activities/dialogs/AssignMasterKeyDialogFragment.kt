@@ -53,6 +53,26 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private var mKeyFileHelper: KeyFileHelper? = null
 
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun afterTextChanged(editable: Editable) {
+            passwordCheckBox?.isChecked = true
+        }
+    }
+
+    private val keyFileTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
+
+        override fun afterTextChanged(editable: Editable) {
+            keyFileCheckBox?.isChecked = true
+        }
+    }
+
     interface AssignPasswordDialogListener {
         fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?,
                                            keyFileChecked: Boolean, keyFile: Uri?)
@@ -84,28 +104,10 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
             passView = rootView?.findViewById(R.id.pass_password)
-            passView?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-                override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-                override fun afterTextChanged(editable: Editable) {
-                    passwordCheckBox?.isChecked = true
-                }
-            })
             passConfView = rootView?.findViewById(R.id.pass_conf_password)
 
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileView = rootView?.findViewById(R.id.pass_keyfile)
-            keyFileView?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-                override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-                override fun afterTextChanged(editable: Editable) {
-                    keyFileCheckBox?.isChecked = true
-                }
-            })
 
             mKeyFileHelper = KeyFileHelper(this)
             rootView?.findViewById<View>(R.id.browse_button)?.setOnClickListener { view ->
@@ -147,6 +149,21 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         }
 
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        // To check checkboxes if a text is present
+        passView?.addTextChangedListener(passwordTextWatcher)
+        keyFileView?.addTextChangedListener(keyFileTextWatcher)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        passView?.removeTextChangedListener(passwordTextWatcher)
+        keyFileView?.removeTextChangedListener(keyFileTextWatcher)
     }
 
     private fun verifyPassword(): Boolean {
