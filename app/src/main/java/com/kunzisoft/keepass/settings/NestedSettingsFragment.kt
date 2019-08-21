@@ -401,11 +401,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                         .setMessage(message)
                         .create()
                         .apply {
-                            setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok))
+                            setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable))
                             { dialog, _ ->
                                 dialog.dismiss()
                             }
-                            setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel))
+                            setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable))
                             { dialog, _ ->
                                 copyPasswordPreference.isChecked = false
                                 dialog.dismiss()

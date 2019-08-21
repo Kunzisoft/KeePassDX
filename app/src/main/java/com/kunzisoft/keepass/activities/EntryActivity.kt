@@ -45,7 +45,6 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -164,9 +163,33 @@ class EntryActivity : LockingHideActivity() {
                             getString(R.string.entry_user_name)))
         })
 
-        val allowCopyPassword = PreferencesUtil.allowCopyPasswordAndProtectedFields(this)
-        entryContentsView?.assignPassword(entry.password, allowCopyPassword)
-        if (allowCopyPassword) {
+        val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
+                PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)
+        val allowCopyPasswordAndProtectedFields =
+                PreferencesUtil.allowCopyPasswordAndProtectedFields(this)
+
+        val showWarningClipboardDialogOnClickListener = View.OnClickListener {
+            AlertDialog.Builder(this@EntryActivity)
+                    .setMessage(getString(R.string.allow_copy_password_warning) +
+                            "\n\n" +
+                            getString(R.string.clipboard_warning))
+                    .create().apply {
+                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) {dialog, _ ->
+                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
+                            dialog.dismiss()
+                            fillEntryDataInContentsView(entry)
+                        }
+                        setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable)) { dialog, _ ->
+                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
+                            dialog.dismiss()
+                            fillEntryDataInContentsView(entry)
+                        }
+                        show()
+                    }
+        }
+
+        entryContentsView?.assignPassword(entry.password, allowCopyPasswordAndProtectedFields)
+        if (allowCopyPasswordAndProtectedFields) {
             entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
                 clipboardHelper?.timeoutCopyToClipboard(entry.password,
                                 getString(R.string.copy_field,
@@ -174,27 +197,8 @@ class EntryActivity : LockingHideActivity() {
             })
         } else {
             // If dialog not already shown
-            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)) {
-                entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
-                    val message = getString(R.string.allow_copy_password_warning) +
-                            "\n\n" +
-                            getString(R.string.clipboard_warning)
-                    val warningDialog = AlertDialog.Builder(this@EntryActivity)
-                            .setMessage(message).create()
-                    warningDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok)
-                    ) { dialog, _ ->
-                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
-                        dialog.dismiss()
-                        fillEntryDataInContentsView(entry)
-                    }
-                    warningDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel)
-                    ) { dialog, _ ->
-                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
-                        dialog.dismiss()
-                        fillEntryDataInContentsView(entry)
-                    }
-                    warningDialog.show()
-                })
+            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                entryContentsView?.assignPasswordCopyListener(showWarningClipboardDialogOnClickListener)
             } else {
                 entryContentsView?.assignPasswordCopyListener(null)
             }
@@ -209,13 +213,23 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.clearExtraFields()
 
             entry.fields.doActionToAllCustomProtectedField { label, value ->
-                val showAction = !value.isProtected || PreferencesUtil.allowCopyPasswordAndProtectedFields(this@EntryActivity)
-                entryContentsView?.addExtraField(label, value, showAction, View.OnClickListener {
-                    clipboardHelper?.timeoutCopyToClipboard(
-                            value.toString(),
-                            getString(R.string.copy_field, label)
-                    )
-                })
+
+                val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
+                if (allowCopyProtectedField) {
+                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField, View.OnClickListener {
+                        clipboardHelper?.timeoutCopyToClipboard(
+                                value.toString(),
+                                getString(R.string.copy_field, label)
+                        )
+                    })
+                } else {
+                    // If dialog not already shown
+                    if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
+                    } else {
+                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, null)
+                    }
+                }
             }
         }
 

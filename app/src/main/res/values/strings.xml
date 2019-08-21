@@ -284,6 +284,8 @@
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow the entry password and protected fields to enter the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
+    <string name="enable">Enable</string>
+    <string name="disable">Disable</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
     <string name="open_link_database">Link of database file to open</string>
