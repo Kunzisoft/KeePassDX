@@ -26,6 +26,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.support.annotation.IntegerRes
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
@@ -46,7 +47,7 @@ class ClipboardHelper(private val context: Context) {
 
     @JvmOverloads
     fun timeoutCopyToClipboard(text: String, toastString: String = "") {
-        if (!toastString.isEmpty())
+        if (toastString.isNotEmpty())
             Toast.makeText(context, toastString, Toast.LENGTH_LONG).show()
         try {
             copyToClipboard(text)
@@ -107,38 +108,37 @@ class ClipboardHelper(private val context: Context) {
         override fun run() {
             val currentClip = getClipboard(mCtx).toString()
             if (currentClip == mClearText) {
-                try {
+
+                @IntegerRes
+                val stringErrorId = try {
                     cleanClipboard()
-                    uiThreadCallback.post {
-                        Toast.makeText(mCtx,
-                                R.string.clipboard_cleared,
-                                Toast.LENGTH_LONG).show()
-                    }
+                    R.string.clipboard_cleared
                 } catch (e: SamsungClipboardException) {
-                    uiThreadCallback.post {
-                        Toast.makeText(mCtx,
-                                R.string.clipboard_error_clear,
-                                Toast.LENGTH_LONG).show()
-                    }
+                    R.string.clipboard_error_clear
+                }
+                uiThreadCallback.post {
+                    Toast.makeText(mCtx, stringErrorId, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
     private fun showSamsungDialog() {
-        val text = context.getString(R.string.clipboard_error)+
+        val textDescription = context.getString(R.string.clipboard_error)+
                 System.getProperty("line.separator") +
                 context.getString(R.string.clipboard_error_url)
-        val s = SpannableString(text)
-        val tv = TextView(context)
-        tv.text = s
-        tv.autoLinkMask = Activity.RESULT_OK
-        tv.movementMethod = LinkMovementMethod.getInstance()
-        Linkify.addLinks(s, Linkify.WEB_URLS)
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.clipboard_error_title)
+        val spannableString = SpannableString(textDescription)
+        val textView = TextView(context).apply {
+            text = spannableString
+            autoLinkMask = Activity.RESULT_OK
+            movementMethod = LinkMovementMethod.getInstance()
+        }
+
+        Linkify.addLinks(spannableString, Linkify.WEB_URLS)
+        AlertDialog.Builder(context)
+                .setTitle(R.string.clipboard_error_title)
+                .setView(textView)
                 .setPositiveButton(android.R.string.ok) { dialog, _ -> dialog.dismiss() }
-                .setView(tv)
                 .show()
     }
 }

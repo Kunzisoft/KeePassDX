@@ -62,7 +62,6 @@
     <string name="entry_user_name">Логин</string>
     <string name="error_arc4">Потоковый шифр RC4 не поддерживается.</string>
     <string name="error_can_not_handle_uri">Не удалось обработать указанный URI в KeePass DX.</string>
-    <string name="error_failed_to_launch_link">Не удалось открыть ссылку.</string>
     <string name="error_file_not_create">Не удалось создать файл:</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь что путь указан верно.</string>

@@ -63,7 +63,6 @@
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">ARCFOUR stream cipher er ikke understøttet.</string>
     <string name="error_can_not_handle_uri">Kunne ikke håndtere URI i KeePass DX.</string>
-    <string name="error_failed_to_launch_link">Kunne ikke åbne linket.</string>
     <string name="error_file_not_create">Kunne ikke oprette fil:</string>
     <string name="error_invalid_db">Kunne ikke læse databasen.</string>
     <string name="error_invalid_path">Sørg for, at stien er korrekt.</string>

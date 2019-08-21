@@ -89,7 +89,6 @@
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePass DX.</string>
-    <string name="error_failed_to_launch_link">Could not open link.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>

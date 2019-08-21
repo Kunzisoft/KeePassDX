@@ -66,7 +66,6 @@
     <string name="entry_user_name">Uživatelské jméno</string>
     <string name="error_arc4">ARCFOUR proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePass DX nemůže zpracovat toto URI.</string>
-    <string name="error_failed_to_launch_link">Odkaz se nedaří otevřít.</string>
     <string name="error_file_not_create">Soubor se nedaří vytvořit:</string>
     <string name="error_invalid_db">Nelze přečíst databázi.</string>
     <string name="error_invalid_path">Neplatná cesta.</string>

@@ -57,7 +57,6 @@
     <string name="entry_user_name">用戶名</string>
     <string name="error_arc4">ArcFour流密碼不被支援。</string>
     <string name="error_can_not_handle_uri">KeePass DX無法處理此URI。</string>
-    <string name="error_failed_to_launch_link">運行鏈結失敗。</string>
     <string name="error_file_not_create">不能創建檔案：</string>
     <string name="error_invalid_db">無效的資料庫或無法辨識的主密鑰。</string>
     <string name="error_invalid_path">非法路徑。</string>

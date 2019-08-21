@@ -346,7 +346,10 @@ class EntryActivity : LockingHideActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> return MenuUtil.onContributionItemSelected(this)
+            R.id.menu_contribute -> {
+                MenuUtil.onContributionItemSelected(this)
+                return true
+            }
 
             R.id.menu_toggle_pass -> {
                 mShowPassword = !mShowPassword

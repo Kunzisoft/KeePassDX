@@ -57,7 +57,6 @@
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持 ARCFOUR 流式密码。</string>
     <string name="error_can_not_handle_uri">KeePass DX 无法处理此 URI。</string>
-    <string name="error_failed_to_launch_link">无法打开链接。</string>
     <string name="error_file_not_create">无法创建文件：</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径是正确的。</string>

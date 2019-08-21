@@ -20,13 +20,11 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.text.Html
 import android.text.SpannableStringBuilder
-import android.widget.Toast
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil
@@ -54,11 +52,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_buy_pro))).append("\n")
                             .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
                     builder.setPositiveButton(R.string.download) { _, _ ->
-                        try {
-                            UriUtil.gotoUrl(context!!, R.string.app_pro_url)
-                        } catch (e: ActivityNotFoundException) {
-                            Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
-                        }
+                        UriUtil.gotoUrl(context!!, R.string.app_pro_url)
                     }
                     builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
                 }
@@ -67,11 +61,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                         .append(Html.fromHtml(getString(R.string.html_text_dev_feature_contibute))).append(" ")
                         .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    try {
-                        UriUtil.gotoUrl(context!!, R.string.contribution_url)
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
-                    }
+                    UriUtil.gotoUrl(context!!, R.string.contribution_url)
                 }
                 builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             }

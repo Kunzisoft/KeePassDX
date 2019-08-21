@@ -67,7 +67,6 @@
     <string name="entry_user_name">Nom d’utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux ARCFOUR n’est pas pris en charge.</string>
     <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePass DX.</string>
-    <string name="error_failed_to_launch_link">Impossible d’ouvrir le lien.</string>
     <string name="error_file_not_create">Impossible de créer le fichier :</string>
     <string name="error_invalid_db">Impossible de lire la base de données.</string>
     <string name="error_invalid_path">Vérifier la validité du chemin.</string>

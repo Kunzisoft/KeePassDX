@@ -60,7 +60,6 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePass DX.</string>
-    <string name="error_failed_to_launch_link">Falha ao abrir link.</string>
     <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>

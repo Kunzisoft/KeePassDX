@@ -43,7 +43,6 @@
     <string name="entry_user_name">Lietotāja vārds</string>
     <string name="error_arc4">ArcFour plūsmas šifrs netiek atbalstīts.</string>
     <string name="error_can_not_handle_uri">Neizdevās pātiet uz norādīto adresi.</string>
-    <string name="error_failed_to_launch_link">Neizdevās atvērt saiti.</string>
     <string name="error_file_not_create">Neizdevās izveidot failu:</string>
     <string name="error_invalid_db">Nederīga datu bāze.</string>
     <string name="error_invalid_path">Nederīgs ceļš.</string>

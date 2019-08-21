@@ -49,7 +49,6 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
-    <string name="error_failed_to_launch_link">Kunne ikke åpne lenke.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil:</string>
     <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>

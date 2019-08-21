@@ -319,7 +319,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 return true
             }
 
-            R.id.menu_contribute -> return MenuUtil.onContributionItemSelected(this)
+            R.id.menu_contribute -> {
+                MenuUtil.onContributionItemSelected(this)
+                return true
+            }
 
             android.R.id.home -> finish()
         }
