@@ -178,7 +178,7 @@
     <string name="use_saf_summary">Utiliser l’environnement de développement d’accès au stockage (SAF) Android pour naviguer dans les fichiers (à partir de KitKat)</string>
     <string name="use_saf_title">Environnement de développement d’accès au stockage</string>
     <string name="warning">Alerte</string>
-    <string name="warning_password_encoding">Éviter les caractères en dehors de Latin-1 pour les mots de passe dans les fichiers .kbd car ils sont tous convertis en une même lettre.</string>
+    <string name="warning_password_encoding">Éviter les caractères en dehors du format d\'encodage de texte du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
     <string name="warning_read_only">Accorder l’accès en écriture à la carte microSD pour enregistrer les modifications de la base de données.</string>
     <string name="warning_unmounted">Monter la carte microSD pour créer ou charger une base de données.</string>
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
@@ -362,8 +362,8 @@
     <string name="keyboard_fill_field_text">Remplisser vos champs avec les éléments de l’entrée.</string>
     <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
     <string name="keyboard_back_main_keyboard_text">Utiliser à nouveau le clavier par défaut.</string>
-    <string name="allow_no_password_title">N’autoriser aucun mot de passe</string>
-    <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification par mot de passe n’est sélectionnée</string>
+    <string name="allow_no_password_title">Autoriser aucune clé maîtresse</string>
+    <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
     <string name="menu_file_selection_read_only">Protégé en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
@@ -400,7 +400,7 @@
     <string name="keyboard_key_sound_title">Son au toucher</string>
     <string name="selection_mode">Mode sélection</string>
     <string name="do_not_kill_app">Ne pas tuer l\'application…</string>
-    <string name="lock_database_back_root_title">Déverouillage de retour</string>
+    <string name="lock_database_back_root_title">Déverouillage du bouton retour</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l\'utilisateur clique sur le bouton Précédent de l\'écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
     <string name="clear_clipboard_notification_summary">Ferme la base de données lors de la fermeture de notification</string>
@@ -422,4 +422,13 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
     <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
+    <string name="content_description_show_file_link">Afficher le lien de fichier</string>
+    <string name="content_description_open_file_link">Ouvrir le lien de fichier</string>
+    <string name="content_description_node_children">Enfants de noeud</string>
+    <string name="content_description_file_information">Information de fichier</string>
+    <string name="content_description_password_checkbox">Case à cocher mot de passe</string>
+    <string name="content_description_keyfile_checkbox">Case à cocher Fichier de Clé</string>
+    <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
+    <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
+    <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
 </resources>
