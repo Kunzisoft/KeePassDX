@@ -25,6 +25,7 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.DialogFragment
 import android.support.v7.app.AlertDialog
 import android.text.Editable
@@ -32,7 +33,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.utils.UriUtil
@@ -43,9 +43,13 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private var mKeyFile: Uri? = null
 
     private var rootView: View? = null
+
     private var passwordCheckBox: CompoundButton? = null
-    private var passView: TextView? = null
-    private var passConfView: TextView? = null
+    private var passwordView: TextView? = null
+    private var passwordRepeatTextInputLayout: TextInputLayout? = null
+    private var passwordRepeatView: TextView? = null
+
+    private var keyFileTextInputLayout: TextInputLayout? = null
     private var keyFileCheckBox: CompoundButton? = null
     private var keyFileView: TextView? = null
 
@@ -103,9 +107,11 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                     .setNegativeButton(R.string.cancel) { _, _ -> }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
-            passView = rootView?.findViewById(R.id.pass_password)
-            passConfView = rootView?.findViewById(R.id.pass_conf_password)
+            passwordView = rootView?.findViewById(R.id.pass_password)
+            passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
+            passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
 
+            keyFileTextInputLayout = rootView?.findViewById(R.id.keyfile_input_layout)
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileView = rootView?.findViewById(R.id.pass_keyfile)
 
@@ -155,14 +161,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         super.onResume()
 
         // To check checkboxes if a text is present
-        passView?.addTextChangedListener(passwordTextWatcher)
+        passwordView?.addTextChangedListener(passwordTextWatcher)
         keyFileView?.addTextChangedListener(keyFileTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
-        passView?.removeTextChangedListener(passwordTextWatcher)
+        passwordView?.removeTextChangedListener(passwordTextWatcher)
         keyFileView?.removeTextChangedListener(keyFileTextWatcher)
     }
 
@@ -170,16 +176,16 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         var error = false
         if (passwordCheckBox != null
                 && passwordCheckBox!!.isChecked
-                && passView != null
-                && passConfView != null) {
-            mMasterPassword = passView!!.text.toString()
-            val confPassword = passConfView!!.text.toString()
+                && passwordView != null
+                && passwordRepeatView != null) {
+            mMasterPassword = passwordView!!.text.toString()
+            val confPassword = passwordRepeatView!!.text.toString()
 
             // Verify that passwords match
             if (mMasterPassword != confPassword) {
                 error = true
                 // Passwords do not match
-                Toast.makeText(context, R.string.error_pass_match, Toast.LENGTH_LONG).show()
+                passwordRepeatTextInputLayout?.error = getString(R.string.error_pass_match)
             }
 
             if (mMasterPassword == null || mMasterPassword!!.isEmpty()) {
@@ -200,7 +206,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             // Verify that a keyfile is set
             if (keyFile == null || keyFile.toString().isEmpty()) {
                 error = true
-                Toast.makeText(context, R.string.error_nokeyfile, Toast.LENGTH_LONG).show()
+                // TODO better keyfile check
+                keyFileTextInputLayout?.error = getString(R.string.error_nokeyfile)
             }
         }
         return error
