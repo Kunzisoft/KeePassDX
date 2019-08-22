@@ -77,6 +77,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data android:scheme="file" />
                 <data android:scheme="content" />
+                <data android:mimeType="application/octet-stream" />
                 <data android:mimeType="application/x-kdb" />
                 <data android:mimeType="application/x-kdbx" />
                 <data android:mimeType="application/x-keepass" />
