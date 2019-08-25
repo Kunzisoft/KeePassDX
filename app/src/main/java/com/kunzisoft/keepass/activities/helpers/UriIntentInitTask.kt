@@ -6,15 +6,15 @@ import android.net.Uri
 import android.os.AsyncTask
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
+import com.kunzisoft.keepass.fileselect.FileDatabaseHistory
 import com.kunzisoft.keepass.utils.UriUtil
 
 import java.io.File
 import java.lang.ref.WeakReference
 
 class UriIntentInitTask(private val weakContext: WeakReference<Context>,
-                                 private val uriIntentInitTaskCallback: UriIntentInitTaskCallback,
-                                 private val isKeyFileNeeded: Boolean)
+                        private val uriIntentInitTaskCallback: UriIntentInitTaskCallback,
+                        private val isKeyFileNeeded: Boolean)
     : AsyncTask<Intent, Void, Int>() {
 
     private var databaseUri: Uri? = null
@@ -46,13 +46,9 @@ class UriIntentInitTask(private val weakContext: WeakReference<Context>,
                     return R.string.file_not_found
                 }
 
-                if (keyFileUri == null) {
-                    keyFileUri = getKeyFileUri(databaseUri)
-                }
+                return null
             } else if (incoming.scheme == "content") {
-                if (keyFileUri == null) {
-                    keyFileUri = getKeyFileUri(databaseUri)
-                }
+                return null
             } else {
                 return R.string.error_can_not_handle_uri
             }
@@ -61,22 +57,22 @@ class UriIntentInitTask(private val weakContext: WeakReference<Context>,
             databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
             keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
 
-            if (keyFileUri == null || keyFileUri!!.toString().isEmpty()) {
-                keyFileUri = getKeyFileUri(databaseUri)
-            }
+            return null
         }
-        return null
     }
 
     public override fun onPostExecute(result: Int?) {
-        uriIntentInitTaskCallback.onPostInitTask(databaseUri, keyFileUri, result)
-    }
 
-    private fun getKeyFileUri(databaseUri: Uri?): Uri? {
-        return if (isKeyFileNeeded) {
-            FileDatabaseHistory.getInstance(weakContext).getKeyFileUriByDatabaseUri(databaseUri!!)
+        if (isKeyFileNeeded && (keyFileUri == null || keyFileUri!!.toString().isEmpty())) {
+            // Retrieve KeyFile in a thread if needed
+            databaseUri?.let { databaseUriNotNull ->
+                FileDatabaseHistory.getInstance(weakContext)
+                        .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
+                            uriIntentInitTaskCallback.onPostInitTask(databaseUri, it, result)
+                        }
+            }
         } else {
-            null
+            uriIntentInitTaskCallback.onPostInitTask(databaseUri, keyFileUri, result)
         }
     }
 

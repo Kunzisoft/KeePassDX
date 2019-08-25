@@ -28,16 +28,19 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.fileselect.DatabaseFileHistoryEntity
 import com.kunzisoft.keepass.fileselect.FileDatabaseModel
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
-class FileDatabaseHistoryAdapter(private val context: Context, private val listFiles: List<String>)
+class FileDatabaseHistoryAdapter(private val context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var fileItemOpenListener: FileItemOpenListener? = null
     private var fileSelectClearListener: FileSelectClearListener? = null
     private var fileInformationShowListener: FileInformationShowListener? = null
+
+    private val listDatabaseFiles = ArrayList<DatabaseFileHistoryEntity>()
 
     @ColorInt
     private val defaultColor: Int
@@ -60,25 +63,36 @@ class FileDatabaseHistoryAdapter(private val context: Context, private val listF
     }
 
     override fun onBindViewHolder(holder: FileDatabaseHistoryViewHolder, position: Int) {
-        val fileDatabaseModel = FileDatabaseModel(context, listFiles[position])
+        val fileHistoryEntity = listDatabaseFiles[position]
+
+        val fileDatabaseInfo = FileDatabaseModel(context, fileHistoryEntity.databaseUri)
         // Context menu creation
-        holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileDatabaseModel))
+        holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileDatabaseInfo))
         // Click item to open file
         if (fileItemOpenListener != null)
-            holder.fileContainer.setOnClickListener(FileItemClickListener(position))
+            holder.fileContainer.setOnClickListener(FileItemClickListener(fileHistoryEntity))
         // Assign file name
         if (PreferencesUtil.isFullFilePathEnable(context))
-            holder.fileName.text = Uri.decode(fileDatabaseModel.fileUri.toString())
+            holder.fileName.text = Uri.decode(fileDatabaseInfo.databaseFileUri.toString())
         else
-            holder.fileName.text = fileDatabaseModel.fileName
+            holder.fileName.text = fileDatabaseInfo.fileName
         holder.fileName.textSize = PreferencesUtil.getListTextSize(context)
         // Click on information
         if (fileInformationShowListener != null)
-            holder.fileInformation.setOnClickListener(FileInformationClickListener(fileDatabaseModel))
+            holder.fileInformation.setOnClickListener(FileInformationClickListener(fileDatabaseInfo))
     }
 
     override fun getItemCount(): Int {
-        return listFiles.size
+        return listDatabaseFiles.size
+    }
+
+    fun addDatabaseFileHistoryList(listDatabaseFileHistoryToAdd: List<DatabaseFileHistoryEntity>) {
+        listDatabaseFiles.clear()
+        listDatabaseFiles.addAll(listDatabaseFileHistoryToAdd)
+    }
+
+    fun deleteDatabaseFileHistory(databaseFileHistoryToDelete: DatabaseFileHistoryEntity) {
+        listDatabaseFiles.remove(databaseFileHistoryToDelete)
     }
 
     fun setOnItemClickListener(fileItemOpenListener: FileItemOpenListener) {
@@ -94,7 +108,7 @@ class FileDatabaseHistoryAdapter(private val context: Context, private val listF
     }
 
     interface FileItemOpenListener {
-        fun onFileItemOpenListener(itemPosition: Int)
+        fun onFileItemOpenListener(fileHistoryEntity: DatabaseFileHistoryEntity)
     }
 
     interface FileSelectClearListener {
@@ -105,10 +119,10 @@ class FileDatabaseHistoryAdapter(private val context: Context, private val listF
         fun onClickFileInformation(fileDatabaseModel: FileDatabaseModel)
     }
 
-    private inner class FileItemClickListener(private val position: Int) : View.OnClickListener {
+    private inner class FileItemClickListener(private val fileHistoryEntity: DatabaseFileHistoryEntity) : View.OnClickListener {
 
         override fun onClick(v: View) {
-            fileItemOpenListener?.onFileItemOpenListener(position)
+            fileItemOpenListener?.onFileItemOpenListener(fileHistoryEntity)
         }
     }
 

@@ -81,6 +81,7 @@ android {
 
 def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
+def room_version = "1.1.1"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -90,6 +91,10 @@ dependencies {
     implementation "com.android.support:preference-v14:$supportVersion"
     implementation "com.android.support:cardview-v7:$supportVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
     // Expandable view

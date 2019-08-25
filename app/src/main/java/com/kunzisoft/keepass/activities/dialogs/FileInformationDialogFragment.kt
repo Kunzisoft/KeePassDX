@@ -50,7 +50,7 @@ class FileInformationDialogFragment : DialogFragment() {
             arguments?.apply {
                 if (containsKey(FILE_SELECT_BEEN_ARG)) {
                     (getSerializable(FILE_SELECT_BEEN_ARG) as FileDatabaseModel?)?.let { fileDatabaseModel ->
-                        fileDatabaseModel.fileUri?.let { fileUri ->
+                        fileDatabaseModel.databaseFileUri?.let { fileUri ->
                             filePathView.text = Uri.decode(fileUri.toString())
                         }
                         fileNameView.text = fileDatabaseModel.fileName

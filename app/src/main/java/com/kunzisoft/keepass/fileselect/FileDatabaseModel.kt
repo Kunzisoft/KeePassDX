@@ -30,26 +30,26 @@ import java.util.Date
 class FileDatabaseModel(context: Context, pathFile: String) : Serializable {
 
     var fileName: String? = ""
-    var fileUri: Uri? = null
+    var databaseFileUri: Uri? = null
     var lastModification = Date()
     var size: Long = 0L
 
     init {
-        fileUri = Uri.parse(pathFile)
-        if (EXTERNAL_STORAGE_AUTHORITY == fileUri!!.authority) {
-            val file = DocumentFile.fromSingleUri(context, fileUri)
+        databaseFileUri = Uri.parse(pathFile)
+        if (EXTERNAL_STORAGE_AUTHORITY == databaseFileUri!!.authority) {
+            val file = DocumentFile.fromSingleUri(context, databaseFileUri)
             size = file.length()
             fileName = file.name
             lastModification = Date(file.lastModified())
         } else {
-            val file = File(fileUri!!.path!!)
+            val file = File(databaseFileUri!!.path!!)
             size = file.length()
             fileName = file.name
             lastModification = Date(file.lastModified())
         }
 
         if (fileName == null || fileName!!.isEmpty()) {
-            fileName = fileUri!!.path
+            fileName = databaseFileUri!!.path
         }
     }
 

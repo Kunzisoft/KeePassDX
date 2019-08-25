@@ -47,7 +47,7 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
+import com.kunzisoft.keepass.fileselect.FileDatabaseHistory
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
 import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
 import com.kunzisoft.keepass.icons.IconPackChooser
@@ -119,7 +119,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val keyFile = findPreference(getString(R.string.keyfile_key))
             keyFile.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAllKeys()
+                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAllKeyFiles()
                 }
                 true
             }

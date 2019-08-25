@@ -53,10 +53,7 @@ import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.fileselect.DeleteFileHistoryAsyncTask
-import com.kunzisoft.keepass.fileselect.FileDatabaseModel
-import com.kunzisoft.keepass.fileselect.OpenFileHistoryAsyncTask
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
+import com.kunzisoft.keepass.fileselect.*
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -165,8 +162,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         })
 
         // Construct adapter with listeners
-        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this@FileDatabaseSelectActivity,
-                mFileDatabaseHistory?.databaseUriList ?: ArrayList())
+        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this@FileDatabaseSelectActivity)
         mAdapterDatabaseHistory?.setOnItemClickListener(this)
         mAdapterDatabaseHistory?.setFileSelectClearListener(this)
         mAdapterDatabaseHistory?.setFileInformationShowListener(this)
@@ -230,8 +226,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
         if (createButtonView != null && createButtonView!!.visibility == View.VISIBLE
-                && mFileDatabaseHistory != null
-                && !mFileDatabaseHistory!!.hasRecentFiles() && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                && mAdapterDatabaseHistory != null
+                && mAdapterDatabaseHistory!!.itemCount > 0
+                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
                         createButtonView!!,
                         {
                             createNewFile()
@@ -264,7 +261,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         Log.e(TAG, error, e)
     }
 
-    private fun launchPasswordActivity(fileName: String, keyFile: String) {
+    private fun launchPasswordActivity(fileName: String, keyFile: String?) {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     try {
@@ -327,8 +324,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
         super.onResume()
 
         updateExternalStorageWarning()
-        updateFileListVisibility()
-        mAdapterDatabaseHistory!!.notifyDataSetChanged()
+
+        // Construct adapter with listeners
+        mFileDatabaseHistory?.getAll { databaseFileHistoryList ->
+            databaseFileHistoryList?.let {
+                mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
+                updateFileListVisibility()
+                mAdapterDatabaseHistory?.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -404,12 +408,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     }
 
-    override fun onFileItemOpenListener(itemPosition: Int) {
-        OpenFileHistoryAsyncTask({ fileName, keyFile ->
-            if (fileName != null && keyFile != null)
-                launchPasswordActivity(fileName, keyFile)
-            updateFileListVisibility()
-        }, mFileDatabaseHistory).execute(itemPosition)
+    override fun onFileItemOpenListener(fileHistoryEntity: DatabaseFileHistoryEntity) {
+        launchPasswordActivity(fileHistoryEntity.databaseUri, fileHistoryEntity.keyFileUri)
+        updateFileListVisibility()
     }
 
     override fun onClickFileInformation(fileDatabaseModel: FileDatabaseModel) {
@@ -417,13 +418,16 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onFileSelectClearListener(fileDatabaseModel: FileDatabaseModel): Boolean {
-        DeleteFileHistoryAsyncTask({
-            fileDatabaseModel.fileUri?.let {
-                mFileDatabaseHistory?.deleteDatabaseUri(it)
+
+        fileDatabaseModel.databaseFileUri?.let {
+            mFileDatabaseHistory?.deleteDatabaseUri(it) { fileHistoryDeleted ->
+                fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
+                    mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
+                    mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    updateFileListVisibility()
+                }
             }
-            mAdapterDatabaseHistory?.notifyDataSetChanged()
-            updateFileListVisibility()
-        }, mFileDatabaseHistory, mAdapterDatabaseHistory).execute(fileDatabaseModel)
+        }
         return true
     }
 

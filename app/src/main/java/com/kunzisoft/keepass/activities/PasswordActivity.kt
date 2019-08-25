@@ -555,11 +555,12 @@ class PasswordActivity : StylishActivity(),
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
-        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String,
+        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
             intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName)
-            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile)
+            if (keyFile != null)
+                intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile)
             intentBuildLauncher.invoke(intent)
         }
 
@@ -589,7 +590,7 @@ class PasswordActivity : StylishActivity(),
         fun launch(
                 activity: Activity,
                 fileName: String,
-                keyFile: String) {
+                keyFile: String?) {
             verifyFileNameUriFromLaunch(fileName)
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
                 activity.startActivity(intent)
@@ -606,7 +607,7 @@ class PasswordActivity : StylishActivity(),
         fun launchForKeyboardResult(
                 activity: Activity,
                 fileName: String,
-                keyFile: String) {
+                keyFile: String?) {
             verifyFileNameUriFromLaunch(fileName)
 
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
@@ -625,7 +626,7 @@ class PasswordActivity : StylishActivity(),
         fun launchForAutofillResult(
                 activity: Activity,
                 fileName: String,
-                keyFile: String,
+                keyFile: String?,
                 assistStructure: AssistStructure?) {
             verifyFileNameUriFromLaunch(fileName)
 
