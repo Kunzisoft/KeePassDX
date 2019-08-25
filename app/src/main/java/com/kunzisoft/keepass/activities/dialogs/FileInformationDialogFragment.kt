@@ -27,7 +27,7 @@ import android.support.v7.app.AlertDialog
 import android.view.View
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fileselect.FileDatabaseModel
+import com.kunzisoft.keepass.adapters.FileInfo
 import java.text.DateFormat
 
 class FileInformationDialogFragment : DialogFragment() {
@@ -49,8 +49,8 @@ class FileInformationDialogFragment : DialogFragment() {
 
             arguments?.apply {
                 if (containsKey(FILE_SELECT_BEEN_ARG)) {
-                    (getSerializable(FILE_SELECT_BEEN_ARG) as FileDatabaseModel?)?.let { fileDatabaseModel ->
-                        fileDatabaseModel.databaseFileUri?.let { fileUri ->
+                    (getSerializable(FILE_SELECT_BEEN_ARG) as FileInfo?)?.let { fileDatabaseModel ->
+                        fileDatabaseModel.fileUri?.let { fileUri ->
                             filePathView.text = Uri.decode(fileUri.toString())
                         }
                         fileNameView.text = fileDatabaseModel.fileName
@@ -88,10 +88,10 @@ class FileInformationDialogFragment : DialogFragment() {
 
         private const val FILE_SELECT_BEEN_ARG = "FILE_SELECT_BEEN_ARG"
 
-        fun newInstance(fileDatabaseModel: FileDatabaseModel): FileInformationDialogFragment {
+        fun newInstance(fileInfo: FileInfo): FileInformationDialogFragment {
             val fileInformationDialogFragment = FileInformationDialogFragment()
             val args = Bundle()
-            args.putSerializable(FILE_SELECT_BEEN_ARG, fileDatabaseModel)
+            args.putSerializable(FILE_SELECT_BEEN_ARG, fileInfo)
             fileInformationDialogFragment.arguments = args
             return fileInformationDialogFragment
         }

@@ -28,8 +28,7 @@ import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fileselect.DatabaseFileHistoryEntity
-import com.kunzisoft.keepass.fileselect.FileDatabaseModel
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class FileDatabaseHistoryAdapter(private val context: Context)
@@ -40,7 +39,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     private var fileSelectClearListener: FileSelectClearListener? = null
     private var fileInformationShowListener: FileInformationShowListener? = null
 
-    private val listDatabaseFiles = ArrayList<DatabaseFileHistoryEntity>()
+    private val listDatabaseFiles = ArrayList<FileDatabaseHistoryEntity>()
 
     @ColorInt
     private val defaultColor: Int
@@ -65,7 +64,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     override fun onBindViewHolder(holder: FileDatabaseHistoryViewHolder, position: Int) {
         val fileHistoryEntity = listDatabaseFiles[position]
 
-        val fileDatabaseInfo = FileDatabaseModel(context, fileHistoryEntity.databaseUri)
+        val fileDatabaseInfo = FileInfo(context, fileHistoryEntity.databaseUri)
         // Context menu creation
         holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileDatabaseInfo))
         // Click item to open file
@@ -73,7 +72,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
             holder.fileContainer.setOnClickListener(FileItemClickListener(fileHistoryEntity))
         // Assign file name
         if (PreferencesUtil.isFullFilePathEnable(context))
-            holder.fileName.text = Uri.decode(fileDatabaseInfo.databaseFileUri.toString())
+            holder.fileName.text = Uri.decode(fileDatabaseInfo.fileUri.toString())
         else
             holder.fileName.text = fileDatabaseInfo.fileName
         holder.fileName.textSize = PreferencesUtil.getListTextSize(context)
@@ -86,13 +85,13 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         return listDatabaseFiles.size
     }
 
-    fun addDatabaseFileHistoryList(listDatabaseFileHistoryToAdd: List<DatabaseFileHistoryEntity>) {
+    fun addDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<FileDatabaseHistoryEntity>) {
         listDatabaseFiles.clear()
-        listDatabaseFiles.addAll(listDatabaseFileHistoryToAdd)
+        listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
     }
 
-    fun deleteDatabaseFileHistory(databaseFileHistoryToDelete: DatabaseFileHistoryEntity) {
-        listDatabaseFiles.remove(databaseFileHistoryToDelete)
+    fun deleteDatabaseFileHistory(fileDatabaseHistoryToDelete: FileDatabaseHistoryEntity) {
+        listDatabaseFiles.remove(fileDatabaseHistoryToDelete)
     }
 
     fun setOnItemClickListener(fileItemOpenListener: FileItemOpenListener) {
@@ -108,38 +107,38 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     }
 
     interface FileItemOpenListener {
-        fun onFileItemOpenListener(fileHistoryEntity: DatabaseFileHistoryEntity)
+        fun onFileItemOpenListener(fileDatabaseHistoryEntity: FileDatabaseHistoryEntity)
     }
 
     interface FileSelectClearListener {
-        fun onFileSelectClearListener(fileDatabaseModel: FileDatabaseModel): Boolean
+        fun onFileSelectClearListener(fileInfo: FileInfo): Boolean
     }
 
     interface FileInformationShowListener {
-        fun onClickFileInformation(fileDatabaseModel: FileDatabaseModel)
+        fun onClickFileInformation(fileInfo: FileInfo)
     }
 
-    private inner class FileItemClickListener(private val fileHistoryEntity: DatabaseFileHistoryEntity) : View.OnClickListener {
+    private inner class FileItemClickListener(private val fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) : View.OnClickListener {
 
         override fun onClick(v: View) {
-            fileItemOpenListener?.onFileItemOpenListener(fileHistoryEntity)
+            fileItemOpenListener?.onFileItemOpenListener(fileDatabaseHistoryEntity)
         }
     }
 
-    private inner class FileInformationClickListener(private val fileDatabaseModel: FileDatabaseModel) : View.OnClickListener {
+    private inner class FileInformationClickListener(private val fileInfo: FileInfo) : View.OnClickListener {
 
         override fun onClick(view: View) {
-            fileInformationShowListener?.onClickFileInformation(fileDatabaseModel)
+            fileInformationShowListener?.onClickFileInformation(fileInfo)
         }
     }
 
-    private inner class ContextMenuBuilder(private val fileDatabaseModel: FileDatabaseModel) : View.OnCreateContextMenuListener {
+    private inner class ContextMenuBuilder(private val fileInfo: FileInfo) : View.OnCreateContextMenuListener {
 
         private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
             if (fileSelectClearListener == null)
                 return@OnMenuItemClickListener false
             when (item.itemId) {
-                MENU_CLEAR -> fileSelectClearListener!!.onFileSelectClearListener(fileDatabaseModel)
+                MENU_CLEAR -> fileSelectClearListener!!.onFileSelectClearListener(fileInfo)
                 else -> false
             }
         }

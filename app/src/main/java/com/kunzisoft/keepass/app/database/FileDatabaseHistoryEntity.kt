@@ -1,11 +1,11 @@
-package com.kunzisoft.keepass.fileselect
+package com.kunzisoft.keepass.app.database
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
 import android.arch.persistence.room.PrimaryKey
 
-@Entity(tableName = "database_file_history")
-data class DatabaseFileHistoryEntity(
+@Entity(tableName = "file_database_history")
+data class FileDatabaseHistoryEntity(
         @PrimaryKey
         @ColumnInfo(name = "database_uri")
             val databaseUri: String,
@@ -23,7 +23,7 @@ data class DatabaseFileHistoryEntity(
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
 
-        other as DatabaseFileHistoryEntity
+        other as FileDatabaseHistoryEntity
 
         if (databaseUri != other.databaseUri) return false
 

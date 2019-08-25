@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.AsyncTask
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fileselect.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.utils.UriUtil
 
 import java.io.File

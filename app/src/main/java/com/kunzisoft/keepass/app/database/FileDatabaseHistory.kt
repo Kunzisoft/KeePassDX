@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect
+package com.kunzisoft.keepass.app.database
 
 import android.arch.persistence.db.SimpleSQLiteQuery
 import android.content.Context
@@ -29,11 +29,11 @@ import java.lang.ref.WeakReference
 class FileDatabaseHistory(val context: WeakReference<Context>) {
 
     private val databaseFileHistoryDao =
-            DatabaseFileHistoryDatabase
+            AppDatabase
                 .getDatabase(context.get()!!)
                 .databaseFileHistoryDao()
 
-    fun getAll(fileHistoryResultListener: (fileHistoryResult: List<DatabaseFileHistoryEntity>?) -> Unit) {
+    fun getAll(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
         ActionFileHistoryAsyncTask(
                 {
                     databaseFileHistoryDao.getAll()
@@ -47,7 +47,7 @@ class FileDatabaseHistory(val context: WeakReference<Context>) {
     fun addDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null) {
         ActionFileHistoryAsyncTask(
                 {
-                    val newDatabaseFileHistory = DatabaseFileHistoryEntity(
+                    val newDatabaseFileHistory = FileDatabaseHistoryEntity(
                             databaseUri.toString(),
                             "",
                             keyFileUri?.toString(),
@@ -80,9 +80,9 @@ class FileDatabaseHistory(val context: WeakReference<Context>) {
     }
 
     fun deleteDatabaseUri(databaseUri: Uri,
-                          fileHistoryDeletedResult: (DatabaseFileHistoryEntity?) -> Unit) {
+                          fileHistoryDeletedResult: (FileDatabaseHistoryEntity?) -> Unit) {
 
-        val databaseFileHistoryDeleted = DatabaseFileHistoryEntity(
+        val databaseFileHistoryDeleted = FileDatabaseHistoryEntity(
                                             databaseUri.toString(),
                                             "",
                                             null,
@@ -106,7 +106,7 @@ class FileDatabaseHistory(val context: WeakReference<Context>) {
         ActionFileHistoryAsyncTask(
                 {
                     databaseFileHistoryDao
-                            .deleteAllKeyFiles(SimpleSQLiteQuery("REPLACE INTO database_file_history(keyfile_uri) VALUES(null)"))
+                            .deleteAllKeyFiles(SimpleSQLiteQuery("REPLACE INTO file_database_history(keyfile_uri) VALUES(null)"))
                 }
         ).execute()
     }

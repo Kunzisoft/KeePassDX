@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fileselect
+package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.net.Uri
@@ -27,29 +27,29 @@ import java.io.File
 import java.io.Serializable
 import java.util.Date
 
-class FileDatabaseModel(context: Context, pathFile: String) : Serializable {
+class FileInfo(context: Context, pathFile: String) : Serializable {
 
     var fileName: String? = ""
-    var databaseFileUri: Uri? = null
+    var fileUri: Uri? = null
     var lastModification = Date()
     var size: Long = 0L
 
     init {
-        databaseFileUri = Uri.parse(pathFile)
-        if (EXTERNAL_STORAGE_AUTHORITY == databaseFileUri!!.authority) {
-            val file = DocumentFile.fromSingleUri(context, databaseFileUri)
+        fileUri = Uri.parse(pathFile)
+        if (EXTERNAL_STORAGE_AUTHORITY == fileUri!!.authority) {
+            val file = DocumentFile.fromSingleUri(context, fileUri)
             size = file.length()
             fileName = file.name
             lastModification = Date(file.lastModified())
         } else {
-            val file = File(databaseFileUri!!.path!!)
+            val file = File(fileUri!!.path!!)
             size = file.length()
             fileName = file.name
             lastModification = Date(file.lastModified())
         }
 
         if (fileName == null || fileName!!.isEmpty()) {
-            fileName = databaseFileUri!!.path
+            fileName = fileUri!!.path
         }
     }
 

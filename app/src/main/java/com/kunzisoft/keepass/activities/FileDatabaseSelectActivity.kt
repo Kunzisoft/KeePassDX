@@ -48,12 +48,13 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
+import com.kunzisoft.keepass.adapters.FileInfo
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.fileselect.*
+import com.kunzisoft.keepass.app.database.*
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -65,7 +66,6 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
-import java.util.*
 
 class FileDatabaseSelectActivity : StylishActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
@@ -408,18 +408,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     }
 
-    override fun onFileItemOpenListener(fileHistoryEntity: DatabaseFileHistoryEntity) {
-        launchPasswordActivity(fileHistoryEntity.databaseUri, fileHistoryEntity.keyFileUri)
+    override fun onFileItemOpenListener(fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) {
+        launchPasswordActivity(fileDatabaseHistoryEntity.databaseUri, fileDatabaseHistoryEntity.keyFileUri)
         updateFileListVisibility()
     }
 
-    override fun onClickFileInformation(fileDatabaseModel: FileDatabaseModel) {
-        FileInformationDialogFragment.newInstance(fileDatabaseModel).show(supportFragmentManager, "fileInformation")
+    override fun onClickFileInformation(fileInfo: FileInfo) {
+        FileInformationDialogFragment.newInstance(fileInfo).show(supportFragmentManager, "fileInformation")
     }
 
-    override fun onFileSelectClearListener(fileDatabaseModel: FileDatabaseModel): Boolean {
+    override fun onFileSelectClearListener(fileInfo: FileInfo): Boolean {
 
-        fileDatabaseModel.databaseFileUri?.let {
+        fileInfo.fileUri?.let {
             mFileDatabaseHistory?.deleteDatabaseUri(it) { fileHistoryDeleted ->
                 fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
                     mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
