@@ -119,7 +119,9 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
         if (!mRememberKeyFile) {
             keyFileUri = null
         }
-        FileDatabaseHistory.getInstance(mWeakContext).addDatabaseUri(uri, keyFileUri)
+        mWeakContext.get()?.let {
+            FileDatabaseHistory.getInstance(it).addDatabaseUri(uri, keyFileUri)
+        }
     }
 
     override fun onFinishRun(result: Result) {

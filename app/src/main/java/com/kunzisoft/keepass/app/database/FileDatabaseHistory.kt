@@ -24,13 +24,12 @@ import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
-import java.lang.ref.WeakReference
 
-class FileDatabaseHistory(val context: WeakReference<Context>) {
+class FileDatabaseHistory(applicationContext: Context) {
 
     private val databaseFileHistoryDao =
             AppDatabase
-                .getDatabase(context.get()!!)
+                .getDatabase(applicationContext)
                 .databaseFileHistoryDao()
 
     fun getAll(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
@@ -136,5 +135,5 @@ class FileDatabaseHistory(val context: WeakReference<Context>) {
         }
     }
 
-    companion object : SingletonHolderParameter<FileDatabaseHistory, WeakReference<Context>>(::FileDatabaseHistory)
+    companion object : SingletonHolderParameter<FileDatabaseHistory, Context>(::FileDatabaseHistory)
 }

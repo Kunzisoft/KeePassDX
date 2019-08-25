@@ -45,14 +45,13 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
 import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import java.lang.ref.WeakReference
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -119,7 +118,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val keyFile = findPreference(getString(R.string.keyfile_key))
             keyFile.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAllKeyFiles()
+                    FileDatabaseHistory.getInstance(activity.applicationContext).deleteAllKeyFiles()
                 }
                 true
             }
@@ -127,7 +126,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val recentHistory = findPreference(getString(R.string.recentfile_key))
             recentHistory.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAll()
+                    FileDatabaseHistory.getInstance(activity.applicationContext).deleteAll()
                 }
                 true
             }

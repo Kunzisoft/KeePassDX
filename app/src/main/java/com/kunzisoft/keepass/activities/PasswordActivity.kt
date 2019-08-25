@@ -31,6 +31,7 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
+import android.support.annotation.IntegerRes
 import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
@@ -44,9 +45,13 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.*
+import com.kunzisoft.keepass.activities.helpers.ClipDataCompat
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -59,15 +64,14 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.asError
 import com.kunzisoft.keepass.view.FingerPrintInfoView
+import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
 
-class PasswordActivity : StylishActivity(),
-        UriIntentInitTaskCallback {
+class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -171,8 +175,7 @@ class PasswordActivity : StylishActivity(),
         // For check shutdown
         super.onResume()
 
-        UriIntentInitTask(WeakReference(this), this, mRememberKeyFile)
-                .execute(intent)
+        initUriFromIntent()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -180,7 +183,63 @@ class PasswordActivity : StylishActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    override fun onPostInitTask(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
+    private fun initUriFromIntent() {
+
+        val databaseUri: Uri?
+        val keyFileUri: Uri?
+        @IntegerRes
+        var errorStringId: Int? = null
+
+        // If is a view intent
+        val action = intent.action
+        if (action != null && action == VIEW_INTENT) {
+            val incoming = intent.data
+
+            databaseUri = incoming
+            keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE)
+
+            if (incoming == null) {
+                errorStringId = R.string.error_can_not_handle_uri
+            }
+            else if (incoming.scheme == "file") {
+                // Encapsulate file existance with content scheme
+
+                val fileName = incoming.path
+
+                if (fileName?.isNotEmpty() == true) {
+                    // No file name
+                    errorStringId = R.string.file_not_found
+                }
+
+                val dbFile = File(fileName)
+                if (!dbFile.exists()) {
+                    // File does not exist
+                    errorStringId = R.string.file_not_found
+                }
+            } else {
+                errorStringId = R.string.error_can_not_handle_uri
+            }
+
+        } else {
+            databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
+            keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
+        }
+
+        // Post init uri with KeyFile if needed
+        if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
+            // Retrieve KeyFile in a thread
+            databaseUri?.let { databaseUriNotNull ->
+                FileDatabaseHistory.getInstance(applicationContext)
+                        .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
+                            onPostInitUri(databaseUri, it, errorStringId)
+                        }
+            }
+        } else {
+            onPostInitUri(databaseUri, keyFileUri, errorStringId)
+        }
+    }
+
+    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
         mDatabaseFileUri = databaseFileUri
 
         if (errorStringId != null) {
@@ -552,15 +611,19 @@ class PasswordActivity : StylishActivity(),
 
         const val KEY_DEFAULT_FILENAME = "defaultFileName"
 
+        private const val KEY_FILENAME = "fileName"
+        private const val KEY_KEYFILE = "keyFile"
+        private const val VIEW_INTENT = "android.intent.action.VIEW"
+
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
         private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
-            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName)
+            intent.putExtra(KEY_FILENAME, fileName)
             if (keyFile != null)
-                intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile)
+                intent.putExtra(KEY_KEYFILE, keyFile)
             intentBuildLauncher.invoke(intent)
         }
 

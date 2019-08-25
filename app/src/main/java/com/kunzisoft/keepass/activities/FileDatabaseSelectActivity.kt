@@ -49,12 +49,13 @@ import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.adapters.FileInfo
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.app.database.*
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -65,7 +66,6 @@ import kotlinx.android.synthetic.main.activity_file_selection.*
 import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.File
 import java.io.FileNotFoundException
-import java.lang.ref.WeakReference
 
 class FileDatabaseSelectActivity : StylishActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
@@ -96,7 +96,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mFileDatabaseHistory = FileDatabaseHistory.getInstance(WeakReference(applicationContext))
+        mFileDatabaseHistory = FileDatabaseHistory.getInstance(applicationContext)
 
         setContentView(R.layout.activity_file_selection)
         fileListContainer = findViewById(R.id.container_file_list)
