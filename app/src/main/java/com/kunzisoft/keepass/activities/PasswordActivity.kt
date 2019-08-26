@@ -47,7 +47,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.utils.ClipDataCompat
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
@@ -91,7 +91,7 @@ class PasswordActivity : StylishActivity() {
     private var prefs: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mKeyFileHelper: KeyFileHelper? = null
+    private var mOpenFileHelper: OpenFileHelper? = null
 
     private var readOnly: Boolean = false
 
@@ -125,8 +125,8 @@ class PasswordActivity : StylishActivity() {
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.browse_button)
-        mKeyFileHelper = KeyFileHelper(this@PasswordActivity)
-        browseView.setOnClickListener(mKeyFileHelper!!.openFileOnClickViewListener)
+        mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
+        browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
@@ -193,10 +193,10 @@ class PasswordActivity : StylishActivity() {
         val action = intent.action
         if (action != null && action == VIEW_INTENT) {
 
-            databaseUri = intent.data
+            var databaseUriRetrieve = intent.data
             // Stop activity here if we can't verify database URI
             try {
-                UriUtil.verifyFileUri(databaseUri)
+                UriUtil.verifyFileUri(databaseUriRetrieve)
             } catch (e : Exception) {
                 Log.e(TAG, "File URI not validate", e)
                 Toast.makeText(this@PasswordActivity, e.message, Toast.LENGTH_LONG).show()
@@ -204,6 +204,7 @@ class PasswordActivity : StylishActivity() {
                 return
             }
 
+            databaseUri = databaseUriRetrieve
             keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE)
 
         } else {
@@ -566,7 +567,7 @@ class PasswordActivity : StylishActivity() {
         }
 
         var keyFileResult = false
-        mKeyFileHelper?.let {
+        mOpenFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {

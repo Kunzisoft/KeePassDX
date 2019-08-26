@@ -33,7 +33,7 @@ import android.view.View
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 
-class KeyFileHelper {
+class OpenFileHelper {
 
     private var activity: Activity? = null
     private var fragment: Fragment? = null
@@ -218,7 +218,7 @@ class KeyFileHelper {
 
     companion object {
 
-        private const val TAG = "KeyFileHelper"
+        private const val TAG = "OpenFileHelper"
 
         private var ACTION_OPEN_DOCUMENT: String
 

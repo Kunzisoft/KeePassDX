@@ -34,7 +34,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.utils.UriUtil
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
@@ -55,7 +55,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     private var mListener: AssignPasswordDialogListener? = null
 
-    private var mKeyFileHelper: KeyFileHelper? = null
+    private var mOpenFileHelper: OpenFileHelper? = null
 
     private val passwordTextWatcher = object : TextWatcher {
         override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -115,9 +115,9 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
             keyFileView = rootView?.findViewById(R.id.pass_keyfile)
 
-            mKeyFileHelper = KeyFileHelper(this)
+            mOpenFileHelper = OpenFileHelper(this)
             rootView?.findViewById<View>(R.id.browse_button)?.setOnClickListener { view ->
-                mKeyFileHelper?.openFileOnClickViewListener?.onClick(view) }
+                mOpenFileHelper?.openFileOnClickViewListener?.onClick(view) }
 
             val dialog = builder.create()
 
@@ -248,7 +248,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
+        mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
             UriUtil.parseUriFile(uri)?.let { pathUri ->
                 keyFileCheckBox?.isChecked = true

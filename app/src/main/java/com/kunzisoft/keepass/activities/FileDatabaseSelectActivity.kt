@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.FileInformationDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
-import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
+import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.adapters.FileInfo
@@ -88,7 +88,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private var mDatabaseFileUri: Uri? = null
 
-    private var mKeyFileHelper: KeyFileHelper? = null
+    private var mOpenFileHelper: OpenFileHelper? = null
 
     private var mDefaultPath: String? = null
 
@@ -154,9 +154,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         createButtonView?.setOnClickListener { createNewFile() }
 
-        mKeyFileHelper = KeyFileHelper(this)
+        mOpenFileHelper = OpenFileHelper(this)
         browseButtonView = findViewById(R.id.browse_button)
-        browseButtonView?.setOnClickListener(mKeyFileHelper!!.getOpenFileOnClickViewListener {
+        browseButtonView?.setOnClickListener(mOpenFileHelper!!.getOpenFileOnClickViewListener {
             Uri.parse("file://" + openFileNameView!!.text.toString())
         })
 
@@ -230,7 +230,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         browseButtonView!!,
                          {tapTargetView ->
                              tapTargetView?.let {
-                                 mKeyFileHelper?.openFileOnClickViewListener?.onClick(it)
+                                 mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
                              }
                         },
                         {
@@ -426,7 +426,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        mKeyFileHelper?.onActivityResultCallback(requestCode, resultCode, data
+        mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
             if (uri != null) {
                 if (PreferencesUtil.autoOpenSelectedFile(this@FileDatabaseSelectActivity)) {
