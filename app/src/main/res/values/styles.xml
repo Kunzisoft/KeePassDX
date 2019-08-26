@@ -213,11 +213,6 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <!-- CardView -->
-    <style name="KeepassDXStyle.CardView.PrimaryColor" parent="CardView">
-        <item name="cardBackgroundColor">?attr/colorPrimary</item>
-    </style>
-
     <!-- CheckBox -->
     <style name="KeepassDXStyle.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?android:attr/textColor</item>

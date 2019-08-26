@@ -125,39 +125,37 @@
                           app:layout_constraintTop_toBottomOf="@+id/file_selection_title_container"
                           android:visibility="gone" />
 
-                <android.support.v7.widget.CardView
+                <LinearLayout
                     android:id="@+id/container_file_list"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    style="@style/KeepassDXStyle.CardView.PrimaryColor"
                     android:layout_margin="12dp"
+                    android:padding="8dp"
+                    android:elevation="12dp"
+                    android:background="@color/transparent"
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintTop_toBottomOf="@+id/label_warning"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent">
-
-                    <LinearLayout
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:orientation="vertical">
+                    <TextView
+                        android:id="@+id/file_list_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
-                        <TextView android:id="@+id/file_list_title"
-                                  android:layout_width="match_parent"
-                                  android:layout_height="wrap_content"
-                                  android:padding="12dp"
-                                  style="@style/KeepassDXStyle.TextAppearance.Title"
-                                  android:textColor="?android:attr/textColorHintInverse"
-                                  android:text="@string/open_recent"/>
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?android:attr/textColorHintInverse"/>
-                        <android.support.v7.widget.RecyclerView
-                            android:id="@+id/file_list"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"/>
-                    </LinearLayout>
-                </android.support.v7.widget.CardView>
-
+                        android:padding="12dp"
+                        style="@style/KeepassDXStyle.TextAppearance.Title"
+                        android:background="?attr/colorPrimary"
+                        android:textColor="?android:attr/textColorHintInverse"
+                        android:text="@string/open_recent"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="?attr/colorPrimaryDark"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/file_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>
         </android.support.v4.widget.NestedScrollView>

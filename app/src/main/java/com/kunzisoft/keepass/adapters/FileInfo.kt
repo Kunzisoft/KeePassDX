@@ -22,12 +22,14 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.net.Uri
 import android.support.v4.provider.DocumentFile
+import com.kunzisoft.keepass.R
 
 import java.io.File
 import java.io.Serializable
+import java.text.DateFormat
 import java.util.Date
 
-class FileInfo(context: Context, pathFile: String) : Serializable {
+class FileInfo(private val context: Context, pathFile: String) : Serializable {
 
     var fileName: String? = ""
     var fileUri: Uri? = null
@@ -53,8 +55,17 @@ class FileInfo(context: Context, pathFile: String) : Serializable {
         }
     }
 
-    fun notFound(): Boolean {
-        return size == 0L
+    fun found(): Boolean {
+        return size != 0L
+    }
+
+    fun getModificationString(): String {
+        return DateFormat.getDateTimeInstance()
+                .format(lastModification)
+    }
+
+    fun getSizeString(): String {
+        return (size.toString() + " " + context.getString(R.string.bytes))
     }
 
     companion object {

@@ -33,6 +33,7 @@ import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.SimpleItemAnimator
 import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.Menu
@@ -43,7 +44,6 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.FileInformationDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
@@ -69,8 +69,7 @@ import java.io.FileNotFoundException
 class FileDatabaseSelectActivity : StylishActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
         FileDatabaseHistoryAdapter.FileItemOpenListener,
-        FileDatabaseHistoryAdapter.FileSelectClearListener,
-        FileDatabaseHistoryAdapter.FileInformationShowListener {
+        FileDatabaseHistoryAdapter.FileSelectClearListener {
 
     // Views
     private var fileListContainer: View? = null
@@ -123,10 +122,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 fileSelectExpandableLayout?.expand()
         }
 
-        // History list
-        val databaseFileListView = findViewById<RecyclerView>(R.id.file_list)
-        databaseFileListView.layoutManager = LinearLayoutManager(this)
-
         // Open button
         openButtonView = findViewById(R.id.open_database)
         openButtonView?.setOnClickListener { _ ->
@@ -160,12 +155,17 @@ class FileDatabaseSelectActivity : StylishActivity(),
             Uri.parse("file://" + openFileNameView!!.text.toString())
         })
 
+
+        // History list
+        val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
+        fileDatabaseHistoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        // Removes blinks
+        (fileDatabaseHistoryRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         // Construct adapter with listeners
-        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this@FileDatabaseSelectActivity)
+        mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
         mAdapterDatabaseHistory?.setOnItemClickListener(this)
         mAdapterDatabaseHistory?.setFileSelectClearListener(this)
-        mAdapterDatabaseHistory?.setFileInformationShowListener(this)
-        databaseFileListView.adapter = mAdapterDatabaseHistory
+        fileDatabaseHistoryRecyclerView.adapter = mAdapterDatabaseHistory
 
         // Load default database if not an orientation change
         if (!(savedInstanceState != null
@@ -399,10 +399,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
     override fun onFileItemOpenListener(fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) {
         launchPasswordActivity(fileDatabaseHistoryEntity.databaseUri, fileDatabaseHistoryEntity.keyFileUri)
         updateFileListVisibility()
-    }
-
-    override fun onClickFileInformation(fileInfo: FileInfo) {
-        FileInformationDialogFragment.newInstance(fileInfo).show(supportFragmentManager, "fileInformation")
     }
 
     override fun onFileSelectClearListener(fileInfo: FileInfo): Boolean {
