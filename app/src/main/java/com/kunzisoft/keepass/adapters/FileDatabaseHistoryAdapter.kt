@@ -103,10 +103,12 @@ class FileDatabaseHistoryAdapter(private val context: Context)
 
         if (isExpanded)
             mPreviousExpandedPosition = position
-        holder.fileInformation.setOnClickListener {
-            mExpandedPosition = if (isExpanded) -1 else position
-            notifyItemChanged(mPreviousExpandedPosition)
-            notifyItemChanged(position)
+        if (mPreviousExpandedPosition != position) {
+            holder.fileInformation.setOnClickListener {
+                mExpandedPosition = if (isExpanded) -1 else position
+                notifyItemChanged(mPreviousExpandedPosition)
+                notifyItemChanged(position)
+            }
         }
     }
 
