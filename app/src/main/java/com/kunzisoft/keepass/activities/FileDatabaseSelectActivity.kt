@@ -158,7 +158,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
-        fileDatabaseHistoryRecyclerView.layoutManager = LinearLayoutManager(this)
+        fileDatabaseHistoryRecyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         // Removes blinks
         (fileDatabaseHistoryRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         // Construct adapter with listeners

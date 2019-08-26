@@ -41,8 +41,7 @@
         app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
         <android.support.v4.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-
+            android:layout_height="match_parent"
             android:layout_gravity="fill_vertical"
             android:fillViewport="true">
             <android.support.constraint.ConstraintLayout
@@ -129,12 +128,13 @@
                     android:id="@+id/container_file_list"
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
-                    android:layout_margin="12dp"
-                    android:padding="8dp"
-                    android:elevation="12dp"
-                    android:background="@color/transparent"
+                    android:layout_margin="24dp"
+                    android:minHeight="200dp"
+                    android:elevation="6dp"
+                    android:background="?attr/colorPrimaryDark"
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintTop_toBottomOf="@+id/label_warning"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:orientation="vertical">
@@ -147,14 +147,10 @@
                         android:background="?attr/colorPrimary"
                         android:textColor="?android:attr/textColorHintInverse"
                         android:text="@string/open_recent"/>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?attr/colorPrimaryDark"/>
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/file_list"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
+                        android:layout_height="match_parent"/>
                 </LinearLayout>
 
             </android.support.constraint.ConstraintLayout>

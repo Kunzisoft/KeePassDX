@@ -28,6 +28,11 @@
     android:background="?attr/colorPrimary"
     tools:targetApi="lollipop">
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimaryDark"/>
+
     <android.support.constraint.ConstraintLayout
         android:id="@+id/file_main_container"
         android:orientation="horizontal"
