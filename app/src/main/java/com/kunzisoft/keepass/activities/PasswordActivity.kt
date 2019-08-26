@@ -225,28 +225,29 @@ class PasswordActivity : StylishActivity() {
             keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
         }
 
+        // Stop activity here if we can't retrieve database URI
+        if (errorStringId != null) {
+            Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
             // Retrieve KeyFile in a thread
             databaseUri?.let { databaseUriNotNull ->
                 FileDatabaseHistory.getInstance(applicationContext)
                         .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
-                            onPostInitUri(databaseUri, it, errorStringId)
+                            onPostInitUri(databaseUri, it)
                         }
             }
         } else {
-            onPostInitUri(databaseUri, keyFileUri, errorStringId)
+            onPostInitUri(databaseUri, keyFileUri)
         }
     }
 
-    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
+    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
         mDatabaseFileUri = databaseFileUri
-
-        if (errorStringId != null) {
-            Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
 
         // Define title
         val dbUriString = databaseFileUri?.toString() ?: ""
