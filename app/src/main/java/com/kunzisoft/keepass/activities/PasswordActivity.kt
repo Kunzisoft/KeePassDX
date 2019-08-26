@@ -31,12 +31,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.IntegerRes
 import android.support.annotation.RequiresApi
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +45,7 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.ClipDataCompat
+import com.kunzisoft.keepass.utils.ClipDataCompat
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.KeyFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -69,6 +69,7 @@ import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.File
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.lang.ref.WeakReference
 
 class PasswordActivity : StylishActivity() {
@@ -187,49 +188,27 @@ class PasswordActivity : StylishActivity() {
 
         val databaseUri: Uri?
         val keyFileUri: Uri?
-        @IntegerRes
-        var errorStringId: Int? = null
 
         // If is a view intent
         val action = intent.action
         if (action != null && action == VIEW_INTENT) {
-            val incoming = intent.data
 
-            databaseUri = incoming
+            databaseUri = intent.data
+            // Stop activity here if we can't verify database URI
+            try {
+                UriUtil.verifyFileUri(databaseUri)
+            } catch (e : Exception) {
+                Log.e(TAG, "File URI not validate", e)
+                Toast.makeText(this@PasswordActivity, e.message, Toast.LENGTH_LONG).show()
+                finish()
+                return
+            }
+
             keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE)
-
-            if (incoming == null) {
-                errorStringId = R.string.error_can_not_handle_uri
-            }
-            else if (incoming.scheme == "file") {
-                // Encapsulate file existance with content scheme
-
-                val fileName = incoming.path
-
-                if (fileName?.isNotEmpty() == true) {
-                    // No file name
-                    errorStringId = R.string.file_not_found
-                }
-
-                val dbFile = File(fileName)
-                if (!dbFile.exists()) {
-                    // File does not exist
-                    errorStringId = R.string.file_not_found
-                }
-            } else {
-                errorStringId = R.string.error_can_not_handle_uri
-            }
 
         } else {
             databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
             keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
-        }
-
-        // Stop activity here if we can't retrieve database URI
-        if (errorStringId != null) {
-            Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
-            finish()
-            return
         }
 
         // Post init uri with KeyFile if needed
@@ -628,22 +607,6 @@ class PasswordActivity : StylishActivity() {
             intentBuildLauncher.invoke(intent)
         }
 
-        @Throws(FileNotFoundException::class)
-        private fun verifyFileNameUriFromLaunch(fileName: String) {
-            if (fileName.isEmpty()) {
-                throw FileNotFoundException()
-            }
-
-            val uri = UriUtil.parseUriFile(fileName)
-            val scheme = uri?.scheme
-            if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
-                val dbFile = File(uri.path!!)
-                if (!dbFile.exists()) {
-                    throw FileNotFoundException()
-                }
-            }
-        }
-
         /*
          * -------------------------
          * 		Standard Launch
@@ -655,7 +618,7 @@ class PasswordActivity : StylishActivity() {
                 activity: Activity,
                 fileName: String,
                 keyFile: String?) {
-            verifyFileNameUriFromLaunch(fileName)
+            UriUtil.verifyFilePath(fileName)
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
                 activity.startActivity(intent)
             }
@@ -672,7 +635,7 @@ class PasswordActivity : StylishActivity() {
                 activity: Activity,
                 fileName: String,
                 keyFile: String?) {
-            verifyFileNameUriFromLaunch(fileName)
+            UriUtil.verifyFilePath(fileName)
 
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
                 KeyboardHelper.startActivityForKeyboardSelection(activity, intent)
@@ -692,7 +655,7 @@ class PasswordActivity : StylishActivity() {
                 fileName: String,
                 keyFile: String?,
                 assistStructure: AssistStructure?) {
-            verifyFileNameUriFromLaunch(fileName)
+            UriUtil.verifyFilePath(fileName)
 
             if (assistStructure != null) {
                 buildAndLaunchIntent(activity, fileName, keyFile) { intent ->

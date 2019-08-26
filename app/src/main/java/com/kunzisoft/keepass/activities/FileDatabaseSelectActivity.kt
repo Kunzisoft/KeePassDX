@@ -64,7 +64,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
 import net.cachapa.expandablelayout.ExpandableLayout
-import java.io.File
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : StylishActivity(),
@@ -175,23 +174,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
             val fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "")
 
-            if (fileName != null && fileName.isNotEmpty()) {
-                val dbUri = UriUtil.parseUriFile(fileName)
-                var scheme: String? = null
-                if (dbUri != null)
-                    scheme = dbUri.scheme
-
-                if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
-                    val path = dbUri!!.path
-                    val db = File(path!!)
-
-                    if (db.exists()) {
-                        launchPasswordActivityWithPath(path)
-                    }
-                } else {
-                    if (dbUri != null)
-                        launchPasswordActivityWithPath(dbUri.toString())
+            try {
+                UriUtil.verifyFilePath(fileName) { path ->
+                    launchPasswordActivityWithPath(path)
                 }
+            } catch (e: FileNotFoundException) {
+                Log.e(TAG, "Unable to launch Password Activity", e)
             }
         }
 
