@@ -11,7 +11,7 @@ data class FileDatabaseHistoryEntity(
             val databaseUri: String,
 
         @ColumnInfo(name = "database_alias")
-            val databaseAlias: String,
+            var databaseAlias: String,
 
         @ColumnInfo(name = "keyfile_uri")
             var keyFileUri: String?,

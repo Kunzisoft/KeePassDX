@@ -120,7 +120,7 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
             keyFileUri = null
         }
         mWeakContext.get()?.let {
-            FileDatabaseHistory.getInstance(it).addDatabaseUri(uri, keyFileUri)
+            FileDatabaseHistory.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
         }
     }
 

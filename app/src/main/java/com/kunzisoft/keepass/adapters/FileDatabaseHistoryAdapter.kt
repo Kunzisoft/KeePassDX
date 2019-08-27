@@ -25,11 +25,15 @@ import android.support.annotation.ColorInt
 import android.support.v7.widget.RecyclerView
 import android.util.TypedValue
 import android.view.*
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.ViewSwitcher
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.utils.FileInfo
 
 class FileDatabaseHistoryAdapter(private val context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
@@ -37,6 +41,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     private var fileItemOpenListener: FileItemOpenListener? = null
     private var fileSelectClearListener: FileSelectClearListener? = null
+    private var saveAliasListener: ((FileDatabaseHistoryEntity)->Unit)? = null
 
     private val listDatabaseFiles = ArrayList<FileDatabaseHistoryEntity>()
 
@@ -64,9 +69,9 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     }
 
     override fun onBindViewHolder(holder: FileDatabaseHistoryViewHolder, position: Int) {
+        // Get info from position
         val fileHistoryEntity = listDatabaseFiles[position]
-
-        val fileDatabaseInfo = FileInfo(context, fileHistoryEntity.databaseUri)
+        val fileDatabaseInfo = FileDatabaseInfo(context, fileHistoryEntity.databaseUri)
 
         // Context menu creation
         holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileDatabaseInfo))
@@ -75,12 +80,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
             holder.fileContainer.setOnClickListener(FileItemClickListener(fileHistoryEntity))
 
         // File alias
-        val aliasText = fileHistoryEntity.databaseAlias
-        holder.fileAlias.text = when {
-            aliasText.isNotEmpty() -> aliasText
-            PreferencesUtil.isFullFilePathEnable(context) -> Uri.decode(fileDatabaseInfo.fileUri.toString())
-            else -> fileDatabaseInfo.fileName
-        }
+        holder.fileAlias.text = fileDatabaseInfo.retrieveDatabaseAlias(fileHistoryEntity.databaseAlias)
 
         // File path
         holder.filePath.text = Uri.decode(fileDatabaseInfo.fileUri.toString())
@@ -101,15 +101,40 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         //This line hides or shows the layout in question
         holder.fileExpandContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
-        if (isExpanded)
-            mPreviousExpandedPosition = position
-        if (mPreviousExpandedPosition != position) {
-            holder.fileInformation.setOnClickListener {
-                mExpandedPosition = if (isExpanded) -1 else position
-                notifyItemChanged(mPreviousExpandedPosition)
-                notifyItemChanged(position)
-            }
+        // Save alias modification
+        holder.fileAliasCloseButton.setOnClickListener {
+            // Change the alias
+            fileHistoryEntity.databaseAlias = holder.fileAliasEdit.text.toString()
+            saveAliasListener?.invoke(fileHistoryEntity)
+
+            // Finish save mode
+            holder.fileMainSwitcher.showPrevious()
+            // Refresh current position to show alias
+            notifyItemChanged(position)
         }
+
+        // Open alias modification
+        holder.fileModifyButton.setOnClickListener {
+            holder.fileAliasEdit.setText(holder.fileAlias.text)
+            holder.fileMainSwitcher.showNext()
+        }
+
+        if (isExpanded) {
+            mPreviousExpandedPosition = position
+        }
+
+        holder.fileInformation.setOnClickListener {
+            mExpandedPosition = if (isExpanded) -1 else position
+
+            // Notify change
+            notifyItemChanged(mPreviousExpandedPosition)
+            notifyItemChanged(position)
+        }
+
+        // Refresh View / Close alias modification if not contains fileAlias
+        if (holder.fileMainSwitcher.currentView.findViewById<View>(R.id.file_alias)
+                != holder.fileAlias)
+            holder.fileMainSwitcher.showPrevious()
     }
 
     override fun getItemCount(): Int {
@@ -131,6 +156,10 @@ class FileDatabaseHistoryAdapter(private val context: Context)
 
     fun setFileSelectClearListener(fileSelectClearListener: FileSelectClearListener) {
         this.fileSelectClearListener = fileSelectClearListener
+    }
+
+    fun setSaveAliasListener(listener : ((FileDatabaseHistoryEntity)->Unit)?) {
+        this.saveAliasListener = listener
     }
 
     interface FileItemOpenListener {
@@ -167,12 +196,17 @@ class FileDatabaseHistoryAdapter(private val context: Context)
 
     inner class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        var fileContainer: ViewGroup = itemView.findViewById(R.id.file_main_container)
+        var fileContainer: ViewGroup = itemView.findViewById(R.id.file_container_basic_info)
 
         var fileAlias: TextView = itemView.findViewById(R.id.file_alias)
         var fileInformation: ImageView = itemView.findViewById(R.id.file_information)
 
+        var fileMainSwitcher: ViewSwitcher = itemView.findViewById(R.id.file_main_switcher)
+        var fileAliasEdit: EditText = itemView.findViewById(R.id.file_alias_edit)
+        var fileAliasCloseButton: ImageView = itemView.findViewById(R.id.file_alias_save)
+
         var fileExpandContainer: ViewGroup = itemView.findViewById(R.id.file_expand_container)
+        var fileModifyButton: ImageView = itemView.findViewById(R.id.file_modify_button)
         var filePath: TextView = itemView.findViewById(R.id.file_path)
         var filePreciseInfoContainer: ViewGroup = itemView.findViewById(R.id.file_precise_info_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)

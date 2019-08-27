@@ -17,41 +17,56 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.adapters
+package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
 import android.support.v4.provider.DocumentFile
 import com.kunzisoft.keepass.R
-
 import java.io.File
 import java.io.Serializable
 import java.text.DateFormat
-import java.util.Date
+import java.util.*
 
-class FileInfo(private val context: Context, pathFile: String) : Serializable {
+open class FileInfo : Serializable {
 
+    var context: Context
+    var fileUri: Uri
+    var filePath: String? = null
     var fileName: String? = ""
-    var fileUri: Uri? = null
     var lastModification = Date()
     var size: Long = 0L
 
-    init {
-        fileUri = Uri.parse(pathFile)
-        if (EXTERNAL_STORAGE_AUTHORITY == fileUri!!.authority) {
+    constructor(context: Context, fileUri: Uri) {
+        this.context = context
+        this.fileUri = fileUri
+        init()
+    }
+
+    constructor(context: Context, filePath: String) {
+        this.context = context
+        this.fileUri = Uri.parse(filePath)
+        init()
+    }
+
+    fun init() {
+        this.filePath = fileUri.path
+        if (EXTERNAL_STORAGE_AUTHORITY == fileUri.authority) {
             val file = DocumentFile.fromSingleUri(context, fileUri)
             size = file.length()
             fileName = file.name
             lastModification = Date(file.lastModified())
         } else {
-            val file = File(fileUri!!.path!!)
-            size = file.length()
-            fileName = file.name
-            lastModification = Date(file.lastModified())
+            filePath?.let {
+                val file = File(it)
+                size = file.length()
+                fileName = file.name
+                lastModification = Date(file.lastModified())
+            }
         }
 
         if (fileName == null || fileName!!.isEmpty()) {
-            fileName = fileUri!!.path
+            fileName = filePath
         }
     }
 

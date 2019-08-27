@@ -129,7 +129,6 @@
                     android:layout_height="wrap_content"
                     android:layout_width="0dp"
                     android:layout_margin="24dp"
-                    android:minHeight="200dp"
                     android:elevation="6dp"
                     android:background="?attr/colorPrimaryDark"
                     app:layout_constraintWidth_percent="@dimen/content_percent"

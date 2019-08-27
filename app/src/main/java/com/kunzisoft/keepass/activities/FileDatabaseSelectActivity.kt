@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
-import com.kunzisoft.keepass.adapters.FileInfo
+import com.kunzisoft.keepass.utils.FileInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -165,6 +165,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
         mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
         mAdapterDatabaseHistory?.setOnItemClickListener(this)
         mAdapterDatabaseHistory?.setFileSelectClearListener(this)
+        mAdapterDatabaseHistory?.setSaveAliasListener { fileDatabaseHistoryWithNewAlias ->
+            mFileDatabaseHistory?.addOrUpdateFileDatabaseHistory(fileDatabaseHistoryWithNewAlias)
+        }
         fileDatabaseHistoryRecyclerView.adapter = mAdapterDatabaseHistory
 
         // Load default database if not an orientation change
@@ -379,7 +382,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             runOnUiThread {
                 if (result.isSuccess) {
                     // Add database to recent files
-                    mFileDatabaseHistory?.addDatabaseUri(fileURI)
+                    mFileDatabaseHistory?.addOrUpdateDatabaseUri(fileURI)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
                     updateFileListVisibility()
                     GroupActivity.launch(this@FileDatabaseSelectActivity)

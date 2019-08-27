@@ -32,6 +32,17 @@ class FileDatabaseHistory(applicationContext: Context) {
                 .getDatabase(applicationContext)
                 .databaseFileHistoryDao()
 
+    fun getFileDatabaseHistory(databaseUri: Uri, fileHistoryResultListener: (fileDatabaseHistoryResult: FileDatabaseHistoryEntity?) -> Unit) {
+        ActionFileHistoryAsyncTask(
+                {
+                    databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
+                },
+                {
+                    fileHistoryResultListener.invoke(it)
+                }
+        ).execute()
+    }
+
     fun getAll(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
         ActionFileHistoryAsyncTask(
                 {
@@ -43,20 +54,28 @@ class FileDatabaseHistory(applicationContext: Context) {
         ).execute()
     }
 
-    fun addDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null) {
+    fun addOrUpdateDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null) {
+        addOrUpdateFileDatabaseHistory(FileDatabaseHistoryEntity(
+                databaseUri.toString(),
+                "",
+                keyFileUri?.toString(),
+                System.currentTimeMillis()
+        ), true)
+    }
+
+    fun addOrUpdateFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity, unmodifiedAlias: Boolean = false) {
         ActionFileHistoryAsyncTask(
                 {
-                    val newDatabaseFileHistory = FileDatabaseHistoryEntity(
-                            databaseUri.toString(),
-                            "",
-                            keyFileUri?.toString(),
-                            System.currentTimeMillis()
-                    )
+                    val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(fileDatabaseHistory.databaseUri)
+
+                    if (unmodifiedAlias) {
+                        fileDatabaseHistory.databaseAlias = fileDatabaseHistoryRetrieve?.databaseAlias ?: ""
+                    }
                     // Update values if history element not yet in the database
-                    if (databaseFileHistoryDao.getByDatabaseUri(newDatabaseFileHistory.databaseUri) == null) {
-                        databaseFileHistoryDao.add(newDatabaseFileHistory)
+                    if (fileDatabaseHistoryRetrieve == null) {
+                        databaseFileHistoryDao.add(fileDatabaseHistory)
                     } else {
-                        databaseFileHistoryDao.update(newDatabaseFileHistory)
+                        databaseFileHistoryDao.update(fileDatabaseHistory)
                     }
                 }
         ).execute()

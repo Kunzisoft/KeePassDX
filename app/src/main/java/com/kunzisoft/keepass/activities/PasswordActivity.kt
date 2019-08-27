@@ -51,6 +51,7 @@ import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
@@ -67,7 +68,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.FingerPrintInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
-import java.io.File
 import java.io.FileNotFoundException
 import java.lang.Exception
 import java.lang.ref.WeakReference
@@ -230,12 +230,10 @@ class PasswordActivity : StylishActivity() {
         mDatabaseFileUri = databaseFileUri
 
         // Define title
-        val dbUriString = databaseFileUri?.toString() ?: ""
-        if (dbUriString.isNotEmpty()) {
-            if (PreferencesUtil.isFullFilePathEnable(this))
-                filenameView?.text = dbUriString
-            else
-                filenameView?.text = File(databaseFileUri!!.path!!).name // TODO Encapsulate
+        databaseFileUri?.let {
+            FileDatabaseInfo(this, it).retrieveDatabaseTitle { title ->
+                filenameView?.text = title
+            }
         }
 
         // Define Key File text
@@ -251,7 +249,7 @@ class PasswordActivity : StylishActivity() {
                 newDefaultFileName = databaseFileUri?.toString() ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply() {
+            prefs?.edit()?.apply {
                 putString(KEY_DEFAULT_FILENAME, newDefaultFileName)
                 apply()
             }
