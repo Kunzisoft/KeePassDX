@@ -32,7 +32,8 @@ class FileDatabaseHistory(applicationContext: Context) {
                 .getDatabase(applicationContext)
                 .databaseFileHistoryDao()
 
-    fun getFileDatabaseHistory(databaseUri: Uri, fileHistoryResultListener: (fileDatabaseHistoryResult: FileDatabaseHistoryEntity?) -> Unit) {
+    fun getFileDatabaseHistory(databaseUri: Uri,
+                               fileHistoryResultListener: (fileDatabaseHistoryResult: FileDatabaseHistoryEntity?) -> Unit) {
         ActionFileHistoryAsyncTask(
                 {
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
@@ -43,7 +44,23 @@ class FileDatabaseHistory(applicationContext: Context) {
         ).execute()
     }
 
-    fun getAll(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
+    fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
+                                   keyFileUriResultListener: (Uri?) -> Unit) {
+        ActionFileHistoryAsyncTask(
+                {
+                    databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
+                },
+                {
+                    it?.let { fileHistoryEntity ->
+                        fileHistoryEntity.keyFileUri?.let { keyFileUri ->
+                            keyFileUriResultListener.invoke(Uri.parse(keyFileUri))
+                        }
+                    } ?: keyFileUriResultListener.invoke(null)
+                }
+        ).execute()
+    }
+
+    fun getAllFileDatabaseHistories(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
         ActionFileHistoryAsyncTask(
                 {
                     databaseFileHistoryDao.getAll()
@@ -81,38 +98,15 @@ class FileDatabaseHistory(applicationContext: Context) {
         ).execute()
     }
 
-    fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
-                                   keyFileUriResultListener: (Uri?) -> Unit) {
+    fun deleteFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity,
+                                  fileHistoryDeletedResult: (FileDatabaseHistoryEntity?) -> Unit) {
         ActionFileHistoryAsyncTask(
                 {
-                    databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
-                },
-                {
-                    it?.let { fileHistoryEntity ->
-                        fileHistoryEntity.keyFileUri?.let { keyFileUri ->
-                            keyFileUriResultListener.invoke(Uri.parse(keyFileUri))
-                        }
-                    } ?: keyFileUriResultListener.invoke(null)
-                }
-        ).execute()
-    }
-
-    fun deleteDatabaseUri(databaseUri: Uri,
-                          fileHistoryDeletedResult: (FileDatabaseHistoryEntity?) -> Unit) {
-
-        val databaseFileHistoryDeleted = FileDatabaseHistoryEntity(
-                                            databaseUri.toString(),
-                                            "",
-                                            null,
-                                            0)
-
-        ActionFileHistoryAsyncTask(
-                {
-                    databaseFileHistoryDao.delete(databaseFileHistoryDeleted)
+                    databaseFileHistoryDao.delete(fileDatabaseHistory)
                 },
                 {
                     if (it != null && it > 0)
-                        fileHistoryDeletedResult.invoke(databaseFileHistoryDeleted)
+                        fileHistoryDeletedResult.invoke(fileDatabaseHistory)
                     else
                         fileHistoryDeletedResult.invoke(null)
                 }

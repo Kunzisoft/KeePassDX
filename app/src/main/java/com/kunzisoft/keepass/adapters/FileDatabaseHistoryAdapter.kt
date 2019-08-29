@@ -33,14 +33,13 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
-import com.kunzisoft.keepass.utils.FileInfo
 
 class FileDatabaseHistoryAdapter(private val context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var fileItemOpenListener: FileItemOpenListener? = null
-    private var fileSelectClearListener: FileSelectClearListener? = null
+    private var fileItemOpenListener: ((FileDatabaseHistoryEntity)->Unit)? = null
+    private var fileSelectClearListener: ((FileDatabaseHistoryEntity)->Boolean)? = null
     private var saveAliasListener: ((FileDatabaseHistoryEntity)->Unit)? = null
 
     private val listDatabaseFiles = ArrayList<FileDatabaseHistoryEntity>()
@@ -74,7 +73,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         val fileDatabaseInfo = FileDatabaseInfo(context, fileHistoryEntity.databaseUri)
 
         // Context menu creation
-        holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileDatabaseInfo))
+        holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileHistoryEntity))
         // Click item to open file
         if (fileItemOpenListener != null)
             holder.fileContainer.setOnClickListener(FileItemClickListener(fileHistoryEntity))
@@ -150,40 +149,30 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         listDatabaseFiles.remove(fileDatabaseHistoryToDelete)
     }
 
-    fun setOnItemClickListener(fileItemOpenListener: FileItemOpenListener) {
-        this.fileItemOpenListener = fileItemOpenListener
+    fun setOnFileDatabaseHistoryOpenListener(listener : ((FileDatabaseHistoryEntity)->Unit)?) {
+        this.fileItemOpenListener = listener
     }
 
-    fun setFileSelectClearListener(fileSelectClearListener: FileSelectClearListener) {
-        this.fileSelectClearListener = fileSelectClearListener
+    fun setOnFileDatabaseHistoryDeleteListener(listener : ((FileDatabaseHistoryEntity)->Boolean)?) {
+        this.fileSelectClearListener = listener
     }
 
-    fun setSaveAliasListener(listener : ((FileDatabaseHistoryEntity)->Unit)?) {
+    fun setOnSaveAliasListener(listener : ((FileDatabaseHistoryEntity)->Unit)?) {
         this.saveAliasListener = listener
-    }
-
-    interface FileItemOpenListener {
-        fun onFileItemOpenListener(fileDatabaseHistoryEntity: FileDatabaseHistoryEntity)
-    }
-
-    interface FileSelectClearListener {
-        fun onFileSelectClearListener(fileInfo: FileInfo): Boolean
     }
 
     private inner class FileItemClickListener(private val fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) : View.OnClickListener {
 
         override fun onClick(v: View) {
-            fileItemOpenListener?.onFileItemOpenListener(fileDatabaseHistoryEntity)
+            fileItemOpenListener?.invoke(fileDatabaseHistoryEntity)
         }
     }
 
-    private inner class ContextMenuBuilder(private val fileInfo: FileInfo) : View.OnCreateContextMenuListener {
+    private inner class ContextMenuBuilder(private val fileHistoryEntity: FileDatabaseHistoryEntity) : View.OnCreateContextMenuListener {
 
         private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
-            if (fileSelectClearListener == null)
-                return@OnMenuItemClickListener false
             when (item.itemId) {
-                MENU_CLEAR -> fileSelectClearListener!!.onFileSelectClearListener(fileInfo)
+                MENU_CLEAR -> fileSelectClearListener?.invoke(fileHistoryEntity) ?: false
                 else -> false
             }
         }

@@ -48,9 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
-import com.kunzisoft.keepass.utils.FileInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistory
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -67,9 +65,7 @@ import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : StylishActivity(),
-        AssignMasterKeyDialogFragment.AssignPasswordDialogListener,
-        FileDatabaseHistoryAdapter.FileItemOpenListener,
-        FileDatabaseHistoryAdapter.FileSelectClearListener {
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views
     private var fileListContainer: View? = null
@@ -163,9 +159,25 @@ class FileDatabaseSelectActivity : StylishActivity(),
         (fileDatabaseHistoryRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         // Construct adapter with listeners
         mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
-        mAdapterDatabaseHistory?.setOnItemClickListener(this)
-        mAdapterDatabaseHistory?.setFileSelectClearListener(this)
-        mAdapterDatabaseHistory?.setSaveAliasListener { fileDatabaseHistoryWithNewAlias ->
+        mAdapterDatabaseHistory?.setOnFileDatabaseHistoryOpenListener { fileDatabaseHistoryEntityToOpen ->
+            launchPasswordActivity(
+                    fileDatabaseHistoryEntityToOpen.databaseUri,
+                    fileDatabaseHistoryEntityToOpen.keyFileUri)
+            updateFileListVisibility()
+        }
+        mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
+            // Remove from app database
+            mFileDatabaseHistory?.deleteFileDatabaseHistory(fileDatabaseHistoryToDelete) { fileHistoryDeleted ->
+                // Remove from adapter
+                fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
+                    mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
+                    mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    updateFileListVisibility()
+                }
+            }
+            true
+        }
+        mAdapterDatabaseHistory?.setOnSaveAliasListener { fileDatabaseHistoryWithNewAlias ->
             mFileDatabaseHistory?.addOrUpdateFileDatabaseHistory(fileDatabaseHistoryWithNewAlias)
         }
         fileDatabaseHistoryRecyclerView.adapter = mAdapterDatabaseHistory
@@ -317,7 +329,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         updateExternalStorageWarning()
 
         // Construct adapter with listeners
-        mFileDatabaseHistory?.getAll { databaseFileHistoryList ->
+        mFileDatabaseHistory?.getAllFileDatabaseHistories { databaseFileHistoryList ->
             databaseFileHistoryList?.let {
                 mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
                 updateFileListVisibility()
@@ -359,7 +371,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                                         keyFileChecked,
                                         keyFile,
                                         true, // TODO get readonly
-                                        LaunchGroupActivityFinish(databaseUri)
+                                        LaunchGroupActivityFinish(databaseUri, keyFile)
                                 )
                         },
                         R.string.progress_create)
@@ -372,7 +384,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
     }
 
-    private inner class LaunchGroupActivityFinish internal constructor(private val fileURI: Uri) : ActionRunnable() {
+    private inner class LaunchGroupActivityFinish(private val databaseFileUri: Uri,
+                                                  private val keyFileUri: Uri?) : ActionRunnable() {
 
         override fun run() {
             finishRun(true, null)
@@ -382,7 +395,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             runOnUiThread {
                 if (result.isSuccess) {
                     // Add database to recent files
-                    mFileDatabaseHistory?.addOrUpdateDatabaseUri(fileURI)
+                    mFileDatabaseHistory?.addOrUpdateDatabaseUri(databaseFileUri, keyFileUri)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
                     updateFileListVisibility()
                     GroupActivity.launch(this@FileDatabaseSelectActivity)
@@ -397,25 +410,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
             masterPasswordChecked: Boolean, masterPassword: String?,
             keyFileChecked: Boolean, keyFile: Uri?) {
 
-    }
-
-    override fun onFileItemOpenListener(fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) {
-        launchPasswordActivity(fileDatabaseHistoryEntity.databaseUri, fileDatabaseHistoryEntity.keyFileUri)
-        updateFileListVisibility()
-    }
-
-    override fun onFileSelectClearListener(fileInfo: FileInfo): Boolean {
-
-        fileInfo.fileUri?.let {
-            mFileDatabaseHistory?.deleteDatabaseUri(it) { fileHistoryDeleted ->
-                fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
-                    mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    updateFileListVisibility()
-                }
-            }
-        }
-        return true
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
