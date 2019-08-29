@@ -45,10 +45,13 @@ class NodeAdapter
 
     private val nodeSortedList: SortedList<NodeVersioned>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var textSize: Float = 0.toFloat()
-    private var subtextSize: Float = 0.toFloat()
-    private var infoTextSize: Float = 0.toFloat()
-    private var iconSize: Float = 0.toFloat()
+
+    private var calculateViewTypeTextSize = Array(2) { true} // number of view type
+    private var prefTextSize: Float = 0F
+    private var subtextSize: Float = 0F
+    private var infoTextSize: Float = 0F
+    private var numberChildrenTextSize: Float = 0F
+    private var iconSize: Float = 0F
     private var listSort: SortNodeEnum = SortNodeEnum.DB
     private var ascendingSort: Boolean = true
     private var groupsBeforeSort: Boolean = true
@@ -122,19 +125,16 @@ class NodeAdapter
     }
 
     private fun assignPreferences() {
-        val textSizeDefault = java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
-        this.textSize = PreferencesUtil.getListTextSize(context)
-        this.subtextSize = context.resources.getInteger(R.integer.list_small_size_default) * textSize / textSizeDefault
-        this.infoTextSize = context.resources.getInteger(R.integer.list_tiny_size_default) * textSize / textSizeDefault
-        // Retrieve the icon size
-        val iconDefaultSize = context.resources.getDimension(R.dimen.list_icon_size_default)
-        this.iconSize = iconDefaultSize * textSize / textSizeDefault
+        this.prefTextSize = PreferencesUtil.getListTextSize(context) / java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
         this.listSort = PreferencesUtil.getListSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
         this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
+
+        // Reinit textSize for all view type
+        calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
     }
 
     /**
@@ -212,16 +212,41 @@ class NodeAdapter
         return NodeViewHolder(view)
     }
 
+    private fun calculateTextSize(holder: NodeViewHolder, viewType: Int) {
+        if (calculateViewTypeTextSize[viewType]) {
+            this.subtextSize = holder.subText.textSize * prefTextSize
+            this.infoTextSize = holder.text.textSize * prefTextSize
+            holder.numberChildren?.let {
+                this.numberChildrenTextSize = it.textSize * prefTextSize
+            }
+            this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
+            calculateViewTypeTextSize[viewType] = false
+        }
+    }
+
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val subNode = nodeSortedList.get(position)
+
+        calculateTextSize(holder, getItemViewType(position))
+
         // Assign image
         val iconColor = when (subNode.type) {
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
-        holder.icon.assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+        holder.icon.apply {
+            assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+            // Relative size of the icon
+            layoutParams?.apply {
+                height = iconSize.toInt()
+                width = iconSize.toInt()
+            }
+        }
         // Assign text
-        holder.text.text = subNode.title
+        holder.text.apply {
+            text = subNode.title
+            textSize = infoTextSize
+        }
         // Assign click
         holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
         // Context menu
@@ -230,36 +255,34 @@ class NodeAdapter
                     ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
         }
 
-        // Add username
-        holder.subText.text = ""
-        holder.subText.visibility = View.GONE
-        if (subNode.type == Type.ENTRY) {
-            val entry = subNode as EntryVersioned
+        // Add subText with username
+        holder.subText.apply {
+            text = ""
+            visibility = View.GONE
+            if (subNode.type == Type.ENTRY) {
+                val entry = subNode as EntryVersioned
 
-            mDatabase.startManageEntry(entry)
+                mDatabase.startManageEntry(entry)
 
-            holder.text.text = entry.getVisualTitle()
+                holder.text.text = entry.getVisualTitle()
 
-            val username = entry.username
-            if (showUserNames && username.isNotEmpty()) {
-                holder.subText.visibility = View.VISIBLE
-                holder.subText.text = username
+                val username = entry.username
+                if (showUserNames && username.isNotEmpty()) {
+                    visibility = View.VISIBLE
+                    text = username
+                }
+
+                mDatabase.stopManageEntry(entry)
             }
-
-            mDatabase.stopManageEntry(entry)
+            textSize = subtextSize
         }
 
-        // Assign image and text size
-        // Relative size of the icon
-        holder.icon.layoutParams?.height = iconSize.toInt()
-        holder.icon.layoutParams?.width = iconSize.toInt()
-        holder.text.textSize = textSize
-        holder.subText.textSize = subtextSize
+        // Add number of entries in groups
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
-                    textSize = infoTextSize
+                    textSize = numberChildrenTextSize
                     visibility = View.VISIBLE
                 }
             } else {

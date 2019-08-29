@@ -44,6 +44,7 @@
             android:layout_marginRight="@dimen/image_list_margin"
             android:layout_marginEnd="@dimen/image_list_margin"
             android:scaleType="fitXY"
+            android:src="@drawable/ic_blank_32dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

@@ -31,7 +31,6 @@ import android.widget.TextView
 import android.widget.ViewSwitcher
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 
 class FileDatabaseHistoryAdapter(private val context: Context)
@@ -53,7 +52,6 @@ class FileDatabaseHistoryAdapter(private val context: Context)
     private val warningColor: Int
 
     init {
-
         val typedValue = TypedValue()
         val theme = context.theme
         theme.resolveAttribute(R.attr.colorAccent, typedValue, true)
@@ -76,14 +74,15 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileHistoryEntity))
         // Click item to open file
         if (fileItemOpenListener != null)
-            holder.fileContainer.setOnClickListener(FileItemClickListener(fileHistoryEntity))
+            holder.fileContainer.setOnClickListener {
+                fileItemOpenListener?.invoke(fileHistoryEntity)
+            }
 
         // File alias
         holder.fileAlias.text = fileDatabaseInfo.retrieveDatabaseAlias(fileHistoryEntity.databaseAlias)
 
         // File path
         holder.filePath.text = Uri.decode(fileDatabaseInfo.fileUri.toString())
-        holder.filePath.textSize = PreferencesUtil.getListTextSize(context)
 
         holder.filePreciseInfoContainer.visibility = if (fileDatabaseInfo.found()) {
             // Modification
@@ -118,6 +117,10 @@ class FileDatabaseHistoryAdapter(private val context: Context)
             holder.fileMainSwitcher.showNext()
         }
 
+        holder.fileDeleteButton.setOnClickListener {
+            fileSelectClearListener?.invoke(fileHistoryEntity)
+        }
+
         if (isExpanded) {
             mPreviousExpandedPosition = position
         }
@@ -126,7 +129,8 @@ class FileDatabaseHistoryAdapter(private val context: Context)
             mExpandedPosition = if (isExpanded) -1 else position
 
             // Notify change
-            notifyItemChanged(mPreviousExpandedPosition)
+            if (mPreviousExpandedPosition < itemCount)
+                notifyItemChanged(mPreviousExpandedPosition)
             notifyItemChanged(position)
         }
 
@@ -161,13 +165,6 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         this.saveAliasListener = listener
     }
 
-    private inner class FileItemClickListener(private val fileDatabaseHistoryEntity: FileDatabaseHistoryEntity) : View.OnClickListener {
-
-        override fun onClick(v: View) {
-            fileItemOpenListener?.invoke(fileDatabaseHistoryEntity)
-        }
-    }
-
     private inner class ContextMenuBuilder(private val fileHistoryEntity: FileDatabaseHistoryEntity) : View.OnCreateContextMenuListener {
 
         private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
@@ -196,6 +193,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
 
         var fileExpandContainer: ViewGroup = itemView.findViewById(R.id.file_expand_container)
         var fileModifyButton: ImageView = itemView.findViewById(R.id.file_modify_button)
+        var fileDeleteButton: ImageView = itemView.findViewById(R.id.file_delete_button)
         var filePath: TextView = itemView.findViewById(R.id.file_path)
         var filePreciseInfoContainer: ViewGroup = itemView.findViewById(R.id.file_precise_info_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)

@@ -54,6 +54,7 @@
             android:layout_marginStart="@dimen/image_list_margin"
             android:layout_marginRight="@dimen/image_list_margin"
             android:layout_marginEnd="@dimen/image_list_margin"
+            android:src="@drawable/ic_blank_32dp"
             android:scaleType="fitXY"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/group_arrow"

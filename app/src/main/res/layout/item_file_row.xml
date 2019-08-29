@@ -152,37 +152,58 @@
             android:textStyle="italic"/>
 
         <android.support.constraint.ConstraintLayout
-            android:id="@+id/file_precise_info_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/file_path"
             app:layout_constraintStart_toEndOf="@+id/file_modify_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:paddingBottom="12dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:orientation="horizontal">
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/file_modification"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                tools:text="25 Augst"
-                android:textColor="?android:attr/textColorHintInverse"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/file_size"
-                android:gravity="start"/>
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/file_size"
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/file_precise_info_container"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:textColor="?android:attr/textColorHintInverse"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/file_delete_button">
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/file_modification"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    tools:text="25 Augst"
+                    android:textColor="?android:attr/textColorHintInverse"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/file_size"
+                    android:gravity="start|bottom"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/file_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:gravity="end|bottom"
+                    android:textColor="?android:attr/textColorHintInverse"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/file_modification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    tools:text="8 bytes" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.v7.widget.AppCompatImageView
+                android:id="@+id/file_delete_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_content_delete_white_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/file_modification"
-                app:layout_constraintTop_toTopOf="@+id/file_modification"
-                tools:text="8 bytes" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:tint="?android:attr/textColorHintInverse"/>
         </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
