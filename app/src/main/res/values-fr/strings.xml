@@ -378,7 +378,7 @@
     <string name="keyboard_notification_entry_title">Info de notification</string>
     <string name="keyboard_notification_entry_summary">Afficher une notification lorsqu’une entrée est disponible</string>
     <string name="keyboard_notification_entry_content_title_text">Entrée</string>
-    <string name="keyboard_notification_entry_content_title">1$s disponible sur Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_title">%1$s disponible sur Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Effacer à la fermeture</string>
     <string name="keyboard_notification_entry_clear_close_summary">Fermer la base de données lors de la fermeture de la notification</string>
