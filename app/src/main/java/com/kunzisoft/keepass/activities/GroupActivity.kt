@@ -183,7 +183,7 @@ class GroupActivity : LockingActivity(),
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
                 R.id.nodes_list_fragment_container,
-                mListNodesFragment,
+                mListNodesFragment!!,
                 fragmentTag)
                 .commit()
 

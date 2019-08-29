@@ -4,13 +4,13 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode = 23
         versionName = "2.5.0.0beta23"
         multiDexEnabled true
@@ -79,7 +79,7 @@ android {
     }
 }
 
-def supportVersion = "27.1.1"
+def supportVersion = "28.0.0"
 def spongycastleVersion = "1.58.0.0"
 def room_version = "1.1.1"
 
@@ -110,7 +110,7 @@ dependencies {
     implementation 'biz.source_code:base64coder:2010-12-19'
     // IO-Extras
     implementation 'com.github.davidmoten:io-extras:0.1'
-    implementation 'com.google.code.gson:gson:2.8.4'
+    implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.google.guava:guava:23.0-android'
     // Icon pack
     implementation project(path: ':icon-pack-classic')

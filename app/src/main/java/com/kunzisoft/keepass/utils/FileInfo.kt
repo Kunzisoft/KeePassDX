@@ -52,16 +52,18 @@ open class FileInfo : Serializable {
     fun init() {
         this.filePath = fileUri.path
         if (EXTERNAL_STORAGE_AUTHORITY == fileUri.authority) {
-            val file = DocumentFile.fromSingleUri(context, fileUri)
-            size = file.length()
-            fileName = file.name
-            lastModification = Date(file.lastModified())
-        } else {
-            filePath?.let {
-                val file = File(it)
+            DocumentFile.fromSingleUri(context, fileUri)?.let { file ->
                 size = file.length()
                 fileName = file.name
                 lastModification = Date(file.lastModified())
+            }
+        } else {
+            filePath?.let {
+                File(it).let { file ->
+                    size = file.length()
+                    fileName = file.name
+                    lastModification = Date(file.lastModified())
+                }
             }
         }
 
