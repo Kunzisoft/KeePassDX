@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
-import android.support.v4.provider.DocumentFile
+import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.Serializable

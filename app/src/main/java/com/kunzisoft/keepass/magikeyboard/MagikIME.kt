@@ -27,8 +27,6 @@ import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -37,7 +35,7 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.magikeyboard.adapter.FieldsAdapter
+import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
@@ -107,14 +105,14 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             popupCustomKeys?.inputMethodMode = PopupWindow.INPUT_METHOD_NEEDED
             popupCustomKeys?.contentView = popupFieldsView
 
-            val recyclerView = popupFieldsView.findViewById<RecyclerView>(R.id.keyboard_popup_fields_list)
+            val recyclerView = popupFieldsView.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.keyboard_popup_fields_list)
             fieldsAdapter = FieldsAdapter(this)
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
                     currentInputConnection.commitText(item.protectedValue.toString(), 1)
                 }
             }
-            recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, true)
+            recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, true)
             recyclerView.adapter = fieldsAdapter
 
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
@@ -194,7 +192,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             KEY_BACK_KEYBOARD -> try {
                 val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 if (window.window != null)
-                    imeManager.switchToLastInputMethod(window.window!!.attributes.token)
+                    imeManager.switchToLastInputMethod(window.window!!.attributes.token) // TODO Deprecated
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to switch to the previous IME", e)
                 val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

@@ -17,7 +17,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +35,7 @@
         android:background="@color/keyboard_background"
         android:gravity="center"
         android:textColor="@color/white"/>
-    <com.kunzisoft.keepass.magikeyboard.view.MagikeyboardView
+    <com.kunzisoft.keepass.view.MagikeyboardView
         android:id="@+id/magikeyboard_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -45,4 +45,4 @@
         android:keyBackground="@drawable/key_background"
         android:keyTextColor="@color/white"
         android:popupLayout="@layout/keyboard_popup_fields" />
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

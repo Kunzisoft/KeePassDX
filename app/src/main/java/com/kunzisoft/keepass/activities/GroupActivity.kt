@@ -30,10 +30,10 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v4.app.FragmentManager
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -628,6 +628,7 @@ class GroupActivity : LockingActivity(),
 
     private fun performedNextEducation(groupActivityEducation: GroupActivityEducation,
                                        menu: Menu) {
+        // TODO better condition
         // If no node, show education to add new one
         if (mListNodesFragment != null
                 && mListNodesFragment!!.isEmpty

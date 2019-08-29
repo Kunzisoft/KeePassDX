@@ -21,10 +21,11 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
-import android.text.Html
 import android.text.SpannableStringBuilder
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
+import androidx.core.text.HtmlCompat.FROM_HTML_MODE_LEGACY
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil
@@ -41,15 +42,14 @@ class ProFeatureDialogFragment : DialogFragment() {
 
             val stringBuilder = SpannableStringBuilder()
             if (BuildConfig.CLOSED_STORE) {
-                // TODO HtmlCompat with androidX
-                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_ad_free))).append("\n\n")
-                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_buy_pro)))
+                stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_ad_free), FROM_HTML_MODE_LEGACY)).append("\n\n")
+                stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_buy_pro), FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.download) { _, _ ->
                     UriUtil.gotoUrl(context!!, R.string.app_pro_url)
                 }
             } else {
-                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_feature_generosity))).append("\n\n")
-                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_donation)))
+                stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_feature_generosity), FROM_HTML_MODE_LEGACY)).append("\n\n")
+                stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_donation), FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
                     UriUtil.gotoUrl(context!!, R.string.contribution_url)
                 }

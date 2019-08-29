@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.autofill
 import android.os.Build
 import android.os.CancellationSignal
 import android.service.autofill.*
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.util.Log
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R

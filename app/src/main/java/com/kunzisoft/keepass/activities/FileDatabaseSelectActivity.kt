@@ -29,12 +29,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SimpleItemAnimator
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -436,9 +436,10 @@ class FileDatabaseSelectActivity : StylishActivity(),
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
-            } else {
-                // TODO Show error
             }
+            // else {
+                // TODO Show error
+            // }
         }
     }
 

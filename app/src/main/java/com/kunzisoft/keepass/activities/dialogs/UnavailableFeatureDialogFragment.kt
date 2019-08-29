@@ -22,12 +22,13 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.widget.TextView
+import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.R
 
 class UnavailableFeatureDialogFragment : DialogFragment() {
@@ -53,7 +54,7 @@ class UnavailableFeatureDialogFragment : DialogFragment() {
                         androidNameFromApiNumber(Build.VERSION.SDK_INT, Build.VERSION.RELEASE),
                         androidNameFromApiNumber(minVersionRequired)))
                 message.append("\n\n")
-                        .append(Html.fromHtml("<a href=\"https://source.android.com/setup/build-numbers\">CodeNames</a>"))
+                        .append(HtmlCompat.fromHtml("<a href=\"https://source.android.com/setup/build-numbers\">CodeNames</a>", HtmlCompat.FROM_HTML_MODE_LEGACY))
             } else
                 message.append(getString(R.string.unavailable_feature_hardware))
 

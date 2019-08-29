@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.app.database
 
-import android.arch.persistence.db.SupportSQLiteQuery
-import android.arch.persistence.room.*
+import androidx.sqlite.db.SupportSQLiteQuery
+import androidx.room.*
 
 @Dao
 interface FileDatabaseHistoryDao {

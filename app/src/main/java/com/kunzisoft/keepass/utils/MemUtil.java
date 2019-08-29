@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.utils;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.kunzisoft.keepass.stream.ActionReadBytes;
@@ -145,6 +145,7 @@ public class MemUtil {
         return compressedDataStream;
     }
 
+    // TODO Remove
 
     // For writing to a Parcel
 	public static <K extends Parcelable,V extends Parcelable> void writeParcelableMap(

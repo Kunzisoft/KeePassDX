@@ -22,7 +22,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +45,9 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 
-class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
+class EntryEditActivity : LockingHideActivity(),
+        IconPickerDialogFragment.IconPickerListener,
+        GeneratePasswordDialogFragment.GeneratePasswordListener {
 
     private var mDatabase: Database? = null
 
@@ -163,6 +165,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         val passwordView = entryEditContentsView?.generatePasswordView
         val addNewFieldView = entryEditContentsView?.addNewFieldView
 
+        // TODO better condition
         if (passwordView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
                         passwordView,

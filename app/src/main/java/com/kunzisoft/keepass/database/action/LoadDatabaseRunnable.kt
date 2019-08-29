@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import android.preference.PreferenceManager
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database

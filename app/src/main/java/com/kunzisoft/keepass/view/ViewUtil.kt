@@ -24,7 +24,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
-import android.support.design.widget.Snackbar
+import com.google.android.material.snackbar.Snackbar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 
@@ -36,7 +36,7 @@ fun TextView.applyFontVisibility() {
     typeface = typeFace
 }
 
-fun Snackbar.asError(): Snackbar{
+fun Snackbar.asError(): Snackbar {
     this.view.apply {
         setBackgroundColor(Color.RED)
         findViewById<TextView>(R.id.snackbar_text).setTextColor(Color.WHITE)

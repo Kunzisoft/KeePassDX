@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.app.database
 
-import android.arch.persistence.db.SimpleSQLiteQuery
+import androidx.sqlite.db.SimpleSQLiteQuery
 import android.content.Context
 import android.net.Uri
 import android.os.AsyncTask

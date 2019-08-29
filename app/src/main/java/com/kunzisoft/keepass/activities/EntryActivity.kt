@@ -24,9 +24,9 @@ import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -319,6 +319,7 @@ class EntryActivity : LockingHideActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
+        // TODO better condition
         if (entryContentsView?.isUserNamePresent == true
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
                         findViewById(R.id.entry_user_name_action_image),

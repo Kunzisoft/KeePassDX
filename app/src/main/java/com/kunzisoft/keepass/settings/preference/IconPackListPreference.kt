@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.settings.preference
 
 import android.content.Context
-import android.support.v7.preference.ListPreference
+import androidx.preference.ListPreference
 import android.util.AttributeSet
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.icons.IconPackChooser

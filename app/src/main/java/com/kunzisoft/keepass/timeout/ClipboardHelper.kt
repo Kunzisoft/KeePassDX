@@ -26,7 +26,7 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.IntegerRes
+import androidx.annotation.IntegerRes
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify

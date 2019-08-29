@@ -26,8 +26,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import android.util.Log
 import android.view.View
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
@@ -157,7 +157,7 @@ class OpenFileHelper {
             val browserDialogFragment = BrowserDialogFragment()
             if (fragment != null && fragment!!.fragmentManager != null)
                 browserDialogFragment.show(fragment!!.fragmentManager!!, "browserDialog")
-            else if (activity!!.fragmentManager != null)
+            else if ((activity as FragmentActivity).supportFragmentManager != null)
                 browserDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
         } catch (e: Exception) {
             Log.e(TAG, "Can't open BrowserDialog", e)

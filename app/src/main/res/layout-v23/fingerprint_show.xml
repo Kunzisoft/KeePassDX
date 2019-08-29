@@ -10,7 +10,7 @@
         android:layout_height="1dp"
         android:background="?attr/colorPrimaryDark"/>
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fingerprint_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
