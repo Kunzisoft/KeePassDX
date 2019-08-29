@@ -413,4 +413,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="error_copy_entry_here">Nie możesz tutaj skopiować wpisu.</string>
     <string name="list_groups_show_number_entries_title">Pokaż liczbę wpisów</string>
     <string name="list_groups_show_number_entries_summary">Pokaż liczbę wpisów w grupie</string>
+    <string name="selection_mode">Tryb wyboru</string>
+    <string name="content_description_add_node">Dodaj węzeł</string>
 </resources>
