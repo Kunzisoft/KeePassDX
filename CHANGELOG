@@ -1,5 +1,6 @@
 KeepassDX (2.5.0.0beta23)
  * New, more secure database creation workflow
+ * Add alias for history files (WARNING: history is erased)
 
 KeepassDX (2.5.0.0beta22)
  * Rebuild code for actions

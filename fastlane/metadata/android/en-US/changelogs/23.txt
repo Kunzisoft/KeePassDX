@@ -1,1 +1,2 @@
  * New, more secure database creation workflow
+ * Add alias for history files (WARNING: history is erased)
