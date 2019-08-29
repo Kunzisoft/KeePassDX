@@ -109,7 +109,7 @@
     <string name="recentfile_summary">Glabāt atvērto failu nosaukumus</string>
     <string name="remember_keyfile_summary">Atcerēties šo atslēgas faila vietu</string>
     <string name="remember_keyfile_title">Saglabāt atslēgas failu</string>
-    <string name="remove_from_filelist">Noņemt</string>
+    <string name="content_description_remove_from_list">Noņemt</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrēšanas līmeņi</string>

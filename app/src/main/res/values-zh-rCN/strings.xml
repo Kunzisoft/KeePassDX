@@ -111,7 +111,7 @@
     <string name="progress_title">正在处理…</string>
     <string name="remember_keyfile_summary">记住密钥文件的位置</string>
     <string name="remember_keyfile_title">保存密钥文件</string>
-    <string name="remove_from_filelist">移除</string>
+    <string name="content_description_remove_from_list">移除</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次数</string>

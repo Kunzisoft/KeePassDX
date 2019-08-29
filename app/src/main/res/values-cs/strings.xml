@@ -134,7 +134,7 @@
     <string name="recentfile_summary">Pamatovat si nedávno otevřené soubory</string>
     <string name="remember_keyfile_summary">Pamatovat si umístění souborů s klíči</string>
     <string name="remember_keyfile_title">Uložit soubor s klíčem</string>
-    <string name="remove_from_filelist">Odstranit</string>
+    <string name="content_description_remove_from_list">Odstranit</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Kořen</string>
     <string name="rounds">Počet šifrovacích průchodů</string>

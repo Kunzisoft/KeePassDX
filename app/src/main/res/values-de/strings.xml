@@ -136,7 +136,7 @@
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
-    <string name="remove_from_filelist">Löschen</string>
+    <string name="content_description_remove_from_list">Löschen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>

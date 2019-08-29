@@ -114,7 +114,7 @@
     <string name="progress_title">実行中…</string>
     <string name="remember_keyfile_summary">前回使用したキーファイルを次回も表示します</string>
     <string name="remember_keyfile_title">キーファイルを記憶</string>
-    <string name="remove_from_filelist">消去</string>
+    <string name="content_description_remove_from_list">消去</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">暗号化レベル</string>

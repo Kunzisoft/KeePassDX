@@ -128,7 +128,7 @@
     <string name="recentfile_summary">שמור קבצים שהיו בשימוש לאחרונה</string>
     <string name="remember_keyfile_summary">זכור מיקום קבצי מפתח</string>
     <string name="remember_keyfile_title">שמור קובץ מפתח</string>
-    <string name="remove_from_filelist">הסר</string>
+    <string name="content_description_remove_from_list">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
     <string name="rounds_hint">סיבובים</string>

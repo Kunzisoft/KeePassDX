@@ -70,8 +70,6 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         val fileHistoryEntity = listDatabaseFiles[position]
         val fileDatabaseInfo = FileDatabaseInfo(context, fileHistoryEntity.databaseUri)
 
-        // Context menu creation
-        holder.fileContainer.setOnCreateContextMenuListener(ContextMenuBuilder(fileHistoryEntity))
         // Click item to open file
         if (fileItemOpenListener != null)
             holder.fileContainer.setOnClickListener {
@@ -165,21 +163,6 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         this.saveAliasListener = listener
     }
 
-    private inner class ContextMenuBuilder(private val fileHistoryEntity: FileDatabaseHistoryEntity) : View.OnCreateContextMenuListener {
-
-        private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
-            when (item.itemId) {
-                MENU_CLEAR -> fileSelectClearListener?.invoke(fileHistoryEntity) ?: false
-                else -> false
-            }
-        }
-
-        override fun onCreateContextMenu(contextMenu: ContextMenu?, view: View?, contextMenuInfo: ContextMenu.ContextMenuInfo?) {
-            contextMenu?.add(Menu.NONE, MENU_CLEAR, Menu.NONE, R.string.remove_from_filelist)
-                    ?.setOnMenuItemClickListener(mOnMyActionClickListener)
-        }
-    }
-
     inner class FileDatabaseHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var fileContainer: ViewGroup = itemView.findViewById(R.id.file_container_basic_info)
@@ -198,10 +181,5 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         var filePreciseInfoContainer: ViewGroup = itemView.findViewById(R.id.file_precise_info_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)
         var fileSize: TextView = itemView.findViewById(R.id.file_size)
-    }
-
-    companion object {
-
-        private const val MENU_CLEAR = 1
     }
 }

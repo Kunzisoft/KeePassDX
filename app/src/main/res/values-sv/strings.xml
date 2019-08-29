@@ -127,7 +127,7 @@
     <string name="protection">Skydd</string>
     <string name="remember_keyfile_summary">Sparar sökvägar till nyckelfiler</string>
     <string name="remember_keyfile_title">Spara nyckelfil</string>
-    <string name="remove_from_filelist">Ta bort</string>
+    <string name="content_description_remove_from_list">Ta bort</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypteringsrundor</string>

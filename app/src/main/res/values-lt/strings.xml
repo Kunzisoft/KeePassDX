@@ -64,7 +64,7 @@
     <string name="recentfile_summary">Atsiminti paskutinius naudotus failų pavadinimus</string>
     <string name="remember_keyfile_title">Saugoti rakto failą</string>
     <string name="remember_keyfile_summary">Atsimena rakto failų vietą</string>
-    <string name="remove_from_filelist">Pašalinti</string>
+    <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
     <string name="read_only">Tik skaitymui</string>
     <string name="error_pass_match">Slaptažodžiai nesutampa</string>

@@ -114,7 +114,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="recentfile_summary">Zapamiętaj najnowsze nazwy plików</string>
     <string name="remember_keyfile_summary">Zapamiętuje lokalizację plików kluczy baz danych</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
-    <string name="remove_from_filelist">Usuń</string>
+    <string name="content_description_remove_from_list">Usuń</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Rundy szyfrowania</string>

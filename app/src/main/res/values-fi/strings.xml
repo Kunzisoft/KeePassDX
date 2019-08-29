@@ -129,7 +129,7 @@
     <string name="recentfile_summary">Muista viimeksi käytettyjen tiedostojen nimet</string>
     <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
     <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
-    <string name="remove_from_filelist">Poista</string>
+    <string name="content_description_remove_from_list">Poista</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>

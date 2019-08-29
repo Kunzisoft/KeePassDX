@@ -131,7 +131,7 @@
     <string name="recentfile_summary">Husk de seneste filnavne</string>
     <string name="remember_keyfile_summary">Husker placeringen af databasernøglefiler</string>
     <string name="remember_keyfile_title">Gem nøglefil</string>
-    <string name="remove_from_filelist">Fjern</string>
+    <string name="content_description_remove_from_list">Fjern</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rod</string>
     <string name="rounds">Transformationsrunder</string>

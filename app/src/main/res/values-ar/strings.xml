@@ -89,7 +89,7 @@
     <string name="protection">الحماية</string>
     <string name="read_only">للقراءة فقط</string>
     <string name="recentfile_summary">تذكر أسماء الملفات المستخدمة مؤخرا</string>
-    <string name="remove_from_filelist">حذف</string>
+    <string name="content_description_remove_from_list">حذف</string>
     <string name="root">الجذر</string>
     <string name="memory_usage">استخدام الذاكرة</string>
     <string name="parallelism">التَّوازِي</string>

@@ -132,7 +132,7 @@
     <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
     <string name="remember_keyfile_title">Хранить файлы ключей</string>
-    <string name="remove_from_filelist">Убрать из списка</string>
+    <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Раунды шифрования</string>

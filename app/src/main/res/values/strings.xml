@@ -63,6 +63,8 @@
     <string name="content_description_password_length">Password length</string>
     <string name="content_description_add_field">Add field</string>
     <string name="content_description_remove_field">Remove field</string>
+    <string name="content_description_update_from_list">Update</string>
+    <string name="content_description_remove_from_list">Remove</string>
 
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
@@ -183,7 +185,6 @@
     <string name="recentfile_summary">Remember recent filenames</string>
     <string name="remember_keyfile_summary">Remembers the location of databases keyfiles</string>
     <string name="remember_keyfile_title">Save keyfile</string>
-    <string name="remove_from_filelist">Remove</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>

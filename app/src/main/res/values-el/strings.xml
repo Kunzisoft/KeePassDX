@@ -131,7 +131,7 @@
     <string name="recentfile_summary">Να θυμάσαι πρόσφατα χρησιμοποιημένα ονόματα αρχείων</string>
     <string name="remember_keyfile_summary">Να θυμάσαι την τοποθεσία των αρχείων κλειδιών</string>
     <string name="remember_keyfile_title">Αποθήκευση αρχείου κλειδιού</string>
-    <string name="remove_from_filelist">Απομάκρυνση</string>
+    <string name="content_description_remove_from_list">Απομάκρυνση</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Ριζικός Κατάλογος</string>
     <string name="rounds">Κύκλοι Κρυπτογράφησης</string>

@@ -136,7 +136,7 @@
     <string name="recentfile_summary">Husk nylig brukte filnavn</string>
     <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>
     <string name="remember_keyfile_title">Lagre nøkkelfil</string>
-    <string name="remove_from_filelist">Fjern</string>
+    <string name="content_description_remove_from_list">Fjern</string>
     <string name="root">Rot</string>
     <string name="encryption_explanation">Algoritme for å kryptere hele databasen. (Passord, brukernavn, merknader og all data i databasen er kryptert med valgt algoritme).</string>
     <string name="kdf_explanation">For å generere en nøkkel for krypteringsalgoritmen, er den komprimerte hovednøkkelen (SHA-256) transformert ved bruk av en tilfeldig saltet nøkkelutledningsfunksjon.</string>

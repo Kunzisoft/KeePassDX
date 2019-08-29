@@ -141,7 +141,7 @@
     <string name="recentfile_summary">Mémoriser les noms des fichiers récents</string>
     <string name="remember_keyfile_summary">Mémoriser l’emplacement des fichiers clé des bases de données</string>
     <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
-    <string name="remove_from_filelist">Effacer</string>
+    <string name="content_description_remove_from_list">Effacer</string>
     <string name="root">Racine</string>
     <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>
     <string name="kdf_explanation">Afin de générer la clé pour l’algorithme de chiffrement, la clé maîtresse est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>

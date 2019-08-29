@@ -114,7 +114,7 @@
     <string name="progress_title">Pracujem…</string>
     <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
     <string name="remember_keyfile_title">Uložiť keyfile</string>
-    <string name="remove_from_filelist">Odstrániť</string>
+    <string name="content_description_remove_from_list">Odstrániť</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>

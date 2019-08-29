@@ -132,6 +132,7 @@
             android:padding="12dp"
             android:src="@drawable/ic_mode_edit_white_24dp"
             android:scaleX="-1"
+            android:contentDescription="@string/content_description_update_from_list"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:tint="?android:attr/textColorHintInverse"/>
@@ -200,6 +201,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:padding="12dp"
+                android:contentDescription="@string/content_description_remove_from_list"
                 android:src="@drawable/ic_content_delete_white_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"

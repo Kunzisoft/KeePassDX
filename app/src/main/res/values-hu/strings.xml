@@ -128,7 +128,7 @@
     <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
     <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>
     <string name="remember_keyfile_title">Kulcsfájl mentése</string>
-    <string name="remove_from_filelist">Eltávolítás</string>
+    <string name="content_description_remove_from_list">Eltávolítás</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>

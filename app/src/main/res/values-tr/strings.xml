@@ -136,7 +136,7 @@
     <string name="recentfile_summary">Son dosya adlarını hatırla</string>
     <string name="remember_keyfile_summary">Veritaban anahtar dosyaların yerini hatırlar</string>
     <string name="remember_keyfile_title">Anahtar dosya kaydet</string>
-    <string name="remove_from_filelist">Kaldır</string>
+    <string name="content_description_remove_from_list">Kaldır</string>
     <string name="root">Kök</string>
     <string name="encryption_explanation">Tüm veriler için veritabanı şifreleme algoritması kullanılmıştır.</string>
     <string name="kdf_explanation">Şifreleme algoritmasının anahtarını üretmek için ana anahtar, rastgele anahtar türetme işlevi kullanılarak dönüştürülür.</string>

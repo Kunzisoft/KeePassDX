@@ -136,7 +136,7 @@
     <string name="recentfile_summary">최근 파일 이름 기억하기</string>
     <string name="remember_keyfile_summary">데이터베이스 키 파일 위치 기억하기</string>
     <string name="remember_keyfile_title">키 파일 저장</string>
-    <string name="remove_from_filelist">삭제</string>
+    <string name="content_description_remove_from_list">삭제</string>
     <string name="root">루트</string>
     <string name="encryption_explanation">데이터베이스 암호화 알고리즘이 모든 데이터에 적용됩니다.</string>
     <string name="memory_usage">메모리 사용량</string>
