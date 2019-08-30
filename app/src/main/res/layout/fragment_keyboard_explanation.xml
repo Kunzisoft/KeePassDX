@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -87,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:orientation="horizontal">
-                    <android.support.v7.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageView
                         android:layout_width="wrap_content"
                         android:layout_height="38dp"
                         android:layout_gravity="center"
@@ -130,7 +130,7 @@
                     android:padding="5dp"
                     android:text="@string/keyboard_select_entry_text"/>
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/keyboard_entry_key_image"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -158,7 +158,7 @@
                     android:padding="5dp"
                     android:text="@string/keyboard_fill_field_text"/>
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/keyboard_fields_keys_image"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -186,7 +186,7 @@
                     android:padding="5dp"
                     android:text="@string/keyboard_lock_database_text"/>
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/keyboard_lock_key_image"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -214,7 +214,7 @@
                     android:padding="5dp"
                     android:text="@string/keyboard_back_main_keyboard_text"/>
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/keyboard_switch_key_image"
                 android:layout_gravity="center"
                 android:layout_width="wrap_content"
@@ -222,4 +222,4 @@
                 android:src="@drawable/capture_keyboard_switch_key" />
         </LinearLayout>
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

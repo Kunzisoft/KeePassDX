@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.activities.stylish
 
 import android.content.Context
-import android.support.annotation.StyleRes
-import android.support.v7.preference.PreferenceManager
+import androidx.annotation.StyleRes
+import androidx.preference.PreferenceManager
 import android.util.Log
 
 import com.kunzisoft.keepass.R

@@ -29,12 +29,12 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.design.widget.Snackbar
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SimpleItemAnimator
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import com.google.android.material.snackbar.Snackbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -203,8 +203,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
             mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
         }
-
-        Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
     }
 
     /**
@@ -224,38 +222,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
         } catch (e: Exception) {
             BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
         }
-    }
-
-    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
-        // If no recent files
-        if (createButtonView != null && createButtonView!!.visibility == View.VISIBLE
-                && mAdapterDatabaseHistory != null
-                && mAdapterDatabaseHistory!!.itemCount > 0
-                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                        createButtonView!!,
-                        {
-                            createNewFile()
-                        },
-                        {
-                            // But if the user cancel, it can also select a database
-                            performedNextEducation(fileDatabaseSelectActivityEducation)
-                        }))
-        else if (browseButtonView != null
-                && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                        browseButtonView!!,
-                         {tapTargetView ->
-                             tapTargetView?.let {
-                                 mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
-                             }
-                        },
-                        {
-                            fileSelectExpandableButtonView?.let {
-                                fileDatabaseSelectActivityEducation
-                                        .checkAndPerformedOpenLinkDatabaseEducation(it)
-                            }
-                        }
-                ))
-        ;
     }
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
@@ -436,16 +402,54 @@ class FileDatabaseSelectActivity : StylishActivity(),
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
-            } else {
-                // TODO Show error
             }
+            // else {
+                // TODO Show error
+            // }
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         MenuUtil.defaultMenuInflater(menuInflater, menu)
+
+        Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
+
         return true
+    }
+
+    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
+        // If no recent files
+        val createDatabaseEducationPerformed = createButtonView != null && createButtonView!!.visibility == View.VISIBLE
+                && mAdapterDatabaseHistory != null
+                && mAdapterDatabaseHistory!!.itemCount > 0
+                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                createButtonView!!,
+                {
+                    createNewFile()
+                },
+                {
+                    // But if the user cancel, it can also select a database
+                    performedNextEducation(fileDatabaseSelectActivityEducation)
+                })
+        if (!createDatabaseEducationPerformed) {
+            // selectDatabaseEducationPerformed
+            browseButtonView != null
+                    && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
+                    browseButtonView!!,
+                    {tapTargetView ->
+                        tapTargetView?.let {
+                            mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
+                        }
+                    },
+                    {
+                        fileSelectExpandableButtonView?.let {
+                            fileDatabaseSelectActivityEducation
+                                    .checkAndPerformedOpenLinkDatabaseEducation(it)
+                        }
+                    }
+            )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

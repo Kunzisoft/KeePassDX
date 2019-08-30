@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.net.Uri
-import android.support.annotation.ColorInt
-import android.support.v7.widget.RecyclerView
+import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
 import android.view.*
 import android.widget.EditText

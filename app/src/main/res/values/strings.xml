@@ -65,6 +65,7 @@
     <string name="content_description_remove_field">Remove field</string>
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
+    <string name="content_description_keyboard_close_fields">Close fields</string>
 
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>

@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.education
 
 import android.app.Activity
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import com.getkeepsafe.taptargetview.TapTarget
 import com.getkeepsafe.taptargetview.TapTargetView
@@ -11,9 +11,9 @@ import com.kunzisoft.keepass.R
 class PasswordActivityEducation(activity: Activity)
     : Education(activity) {
 
-    fun checkAndPerformedFingerprintUnlockEducation(educationView: View,
-                                                    onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                                    onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+    fun checkAndPerformedUnlockEducation(educationView: View,
+                                         onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                         onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
         return checkAndPerformedEducation(!isEducationUnlockPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),

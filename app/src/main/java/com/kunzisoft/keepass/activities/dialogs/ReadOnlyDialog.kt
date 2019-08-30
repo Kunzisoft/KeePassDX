@@ -23,7 +23,7 @@ import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v4.app.DialogFragment
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 
 class ReadOnlyDialog : DialogFragment() {
@@ -31,7 +31,7 @@ class ReadOnlyDialog : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
-            val builder = android.support.v7.app.AlertDialog.Builder(activity)
+            val builder = androidx.appcompat.app.AlertDialog.Builder(activity)
 
             var warning = getString(R.string.read_only_warning)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {

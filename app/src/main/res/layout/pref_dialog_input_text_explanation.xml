@@ -26,14 +26,14 @@
 	android:layout_height="match_parent"
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
 		android:id="@+id/explanation_text"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
         android:gravity="center"
 		android:layout_marginBottom="8dp"
         style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
-	<android.support.v7.widget.AppCompatEditText
+	<androidx.appcompat.widget.AppCompatEditText
         android:id="@+id/input_text"
 	  	android:layout_height="wrap_content"
 	  	android:layout_width="match_parent"/>

@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
-import android.support.annotation.StringRes
-import android.support.v7.preference.PreferenceDialogFragmentCompat
+import androidx.annotation.StringRes
+import androidx.preference.PreferenceDialogFragmentCompat
 import android.view.View
 import android.widget.TextView
 

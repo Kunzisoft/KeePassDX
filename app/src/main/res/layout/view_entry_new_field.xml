@@ -27,7 +27,7 @@
     android:background="@drawable/background_stroke_element"
     tools:targetApi="o">
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/title_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -46,9 +46,9 @@
             android:importantForAutofill="no"
             android:inputType="text"
             android:maxLines="1" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <android.support.v7.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/entry_new_field_delete"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -59,7 +59,7 @@
         android:contentDescription="@string/content_description_remove_field"
         android:tint="?attr/colorAccent" />
 
-    <android.support.v7.widget.SwitchCompat
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/protection"
         style="@style/KeepassDXStyle.TextAppearance.Default"
         android:layout_width="wrap_content"
@@ -69,7 +69,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/protection" />
 
-    <android.support.design.widget.TextInputLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/value_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,6 +87,6 @@
             android:importantForAccessibility="no"
             android:importantForAutofill="no"
             android:hint="@string/field_value" />
-    </android.support.design.widget.TextInputLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
 </RelativeLayout>

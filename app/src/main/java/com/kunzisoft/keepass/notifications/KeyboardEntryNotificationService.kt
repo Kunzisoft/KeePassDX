@@ -5,7 +5,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import android.support.v7.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -103,7 +103,9 @@ class KeyboardEntryNotificationService : NotificationService() {
             val keyboardTimeout = sharedPreferences.getString(getString(R.string.keyboard_entry_timeout_key),
                     getString(R.string.timeout_default))
             notificationTimeoutMilliSecs = try {
-                java.lang.Long.parseLong(keyboardTimeout)
+                keyboardTimeout?.let {
+                    java.lang.Long.parseLong(keyboardTimeout)
+                } ?: 0
             } catch (e: NumberFormatException) {
                 TimeoutHelper.DEFAULT_TIMEOUT
             }

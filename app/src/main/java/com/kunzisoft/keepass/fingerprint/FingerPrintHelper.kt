@@ -28,7 +28,7 @@ import android.os.CancellationSignal
 import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.util.Base64
 import android.util.Log
 
@@ -289,7 +289,7 @@ class FingerPrintHelper(context: Context, private val fingerPrintCallback: Finge
         // fingerprint hardware supported and api level OK
         return (isFingerprintSupported(fingerprintManager)
                 // fingerprints enrolled
-                && fingerprintManager != null && fingerprintManager!!.hasEnrolledFingerprints()
+                && fingerprintManager != null && fingerprintManager.hasEnrolledFingerprints()
                 // and lockscreen configured
                 && keyguardManager != null && keyguardManager!!.isKeyguardSecure)
     }

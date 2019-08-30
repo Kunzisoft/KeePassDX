@@ -28,8 +28,8 @@ import android.graphics.Color
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v4.widget.ImageViewCompat
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.widget.ImageViewCompat
 import android.util.Log
 import android.widget.ImageView
 import com.kunzisoft.keepass.R

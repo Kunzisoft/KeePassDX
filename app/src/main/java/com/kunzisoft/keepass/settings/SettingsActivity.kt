@@ -25,8 +25,8 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
@@ -38,8 +38,10 @@ import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
-
-open class SettingsActivity : LockingActivity(), MainPreferenceFragment.Callback, AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
+open class SettingsActivity
+    : LockingActivity(),
+        MainPreferenceFragment.Callback,
+        AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     private var backupManager: BackupManager? = null
 
