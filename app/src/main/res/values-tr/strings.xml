@@ -278,14 +278,14 @@
     <string name="keyboard_notification_entry_content_title">Magikeyboard\'da %1$s mevcut</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Kapanışta temizle</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken klavye girişini temizle</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken veritabanını kapatın</string>
     <string name="keyboard_appearance_category">Görünüm</string>
     <string name="keyboard_theme_title">Klavye teması</string>
     <string name="keyboard_keys_category">Anahtarlar</string>
     <string name="keyboard_key_vibrate_title">Tuşa basıldığında titreştir</string>
     <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
-    <string name="allow_no_password_title">Parola olmamasına izin ver</string>
-    <string name="allow_no_password_summary">Parola tanımlaması seçilmemişse \"Aç\" düğmesini etkinleştir</string>
+    <string name="allow_no_password_title">Ana anahtar olmamasına izin ver</string>
+    <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesini etkinleştirin</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veritabanınızı varsayılan olarak salt okunur açın</string>
     <string name="enable_education_screens_title">Eğitim ekranları</string>
@@ -310,7 +310,7 @@
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Girdiniz için güçlü bir parola oluşturun.</string>
-    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir parola oluşturun, formun ölçütlerine göre kolayca tanımlayın ve şifreyi güvenli hale getirmeyi unutmayın.</string>
+    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
     <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
@@ -338,9 +338,9 @@
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">
-        <strong>Pro</strong> sürümünü satın alarak,</string>
+        <strong>pro</strong> sürümünü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>Katkıda</strong> bulunarak,</string>
+        <strong>katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
     <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
@@ -380,4 +380,13 @@
     <string name="error_copy_entry_here">Buraya bir girişi kopyalayamazsınız.</string>
     <string name="list_groups_show_number_entries_title">Giriş sayısını göster</string>
     <string name="list_groups_show_number_entries_summary">Bir gruptaki girişlerin sayısını göster</string>
+    <string name="lock_database_back_root_title">Kilitlemek için Root\'a Geri basın</string>
+    <string name="recycle_bin">Geri Dönüşüm Kutusu</string>
+    <string name="keyboard_selection_entry_title">Giriş seçimi</string>
+    <string name="keyboard_selection_entry_summary">Bir girişi görüntülerken Magikeyboard\'da giriş alanlarını göster</string>
+    <string name="delete_entered_password_title">Parolayı sil</string>
+    <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
+    <string name="content_description_node_children">Alt düğüm</string>
+    <string name="content_description_repeat_toggle_password_visibility">Geçiş şifre görünürlüğünü tekrarlayın</string>
+    <string name="content_description_entry_save">Giriş kaydet</string>
 </resources>
