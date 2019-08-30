@@ -32,7 +32,7 @@
     <string name="menu_app_settings">Aplikazioaren ezarpenak</string>
     <string name="beta_dontask">Ez erakutsi berriro</string>
     <string name="brackets">Brackets</string>
-    <string name="browser_intall_text">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
+    <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
     <string name="cancel">Utzi</string>
     <string name="clipboard_cleared">Arbela ezabatuta.</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
@@ -64,10 +64,6 @@
     <string name="entry_user_name">Erabiltzaile izena</string>
     <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
     <string name="error_can_not_handle_uri">KeePass DX-ek ezin dut uri hau kudeatu.</string>
-    <string name="error_could_not_create_parent">Ezin izan da aita-direktorioa sortu.</string>
-    <string name="error_database_exists">Fitxategia esistitzen da.</string>
-    <string name="error_failed_to_launch_link">Ezin izan da esteka ireki.</string>
-    <string name="error_filename_required">Fitxategi izen bat beharrezkoa da.</string>
     <string name="error_file_not_create">Ezin izan da fitxategia sortu:</string>
     <string name="error_invalid_db">Datubase baliogabea.</string>
     <string name="error_invalid_path">Fitxategirako bide baliogabea.</string>
@@ -134,7 +130,7 @@
     <string name="recentfile_summary">Gogoratu duela gutxi erabili diren fitxategien izenak</string>
     <string name="remember_keyfile_summary">Gogoratu gako fitxategien kokapenak</string>
     <string name="remember_keyfile_title">Gako fitxategia gorde</string>
-    <string name="remove_from_filelist">Ezabatu</string>
+    <string name="content_description_remove_from_list">Ezabatu</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Enkriptatzeko Rondak</string>

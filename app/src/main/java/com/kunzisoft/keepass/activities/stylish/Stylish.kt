@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.activities.stylish
 
 import android.content.Context
-import android.support.annotation.StyleRes
-import android.support.v7.preference.PreferenceManager
+import androidx.annotation.StyleRes
+import androidx.preference.PreferenceManager
 import android.util.Log
 
 import com.kunzisoft.keepass.R
@@ -66,17 +66,6 @@ object Stylish {
             context.getString(R.string.list_style_name_red) -> R.style.KeepassDXStyle_Red
             context.getString(R.string.list_style_name_purple) -> R.style.KeepassDXStyle_Purple
             else -> R.style.KeepassDXStyle_Light
-        }
-    }
-
-    @StyleRes
-    fun getFilePickerThemeId(context: Context): Int {
-        return when {
-            themeString.equals(context.getString(R.string.list_style_name_dark)) -> R.style.KeepassDXStyle_FilePickerStyle_Dark
-            themeString.equals(context.getString(R.string.list_style_name_blue)) -> R.style.KeepassDXStyle_FilePickerStyle_Blue
-            themeString.equals(context.getString(R.string.list_style_name_red)) -> R.style.KeepassDXStyle_FilePickerStyle_Red
-            themeString.equals(context.getString(R.string.list_style_name_purple)) -> R.style.KeepassDXStyle_FilePickerStyle_Purple
-            else -> R.style.KeepassDXStyle_FilePickerStyle
         }
     }
 }

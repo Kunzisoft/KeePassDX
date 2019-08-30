@@ -14,7 +14,7 @@ import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector
 class FingerPrintInfoView @JvmOverloads constructor(context: Context,
                                                     attrs: AttributeSet? = null,
                                                     defStyle: Int = 0)
-    : LinearLayout(context, attrs) {
+    : LinearLayout(context, attrs, defStyle) {
 
     private val fingerPrintContainerView: View
     private var fingerPrintAnimatedVector: FingerPrintAnimatedVector? = null

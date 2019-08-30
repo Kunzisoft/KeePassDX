@@ -19,15 +19,14 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.CollapsingToolbarLayout
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import com.google.android.material.appbar.CollapsingToolbarLayout
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -45,12 +44,11 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
 
 class EntryActivity : LockingHideActivity() {
@@ -164,9 +162,33 @@ class EntryActivity : LockingHideActivity() {
                             getString(R.string.entry_user_name)))
         })
 
-        val allowCopyPassword = PreferencesUtil.allowCopyPasswordAndProtectedFields(this)
-        entryContentsView?.assignPassword(entry.password, allowCopyPassword)
-        if (allowCopyPassword) {
+        val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
+                PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)
+        val allowCopyPasswordAndProtectedFields =
+                PreferencesUtil.allowCopyPasswordAndProtectedFields(this)
+
+        val showWarningClipboardDialogOnClickListener = View.OnClickListener {
+            AlertDialog.Builder(this@EntryActivity)
+                    .setMessage(getString(R.string.allow_copy_password_warning) +
+                            "\n\n" +
+                            getString(R.string.clipboard_warning))
+                    .create().apply {
+                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) {dialog, _ ->
+                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
+                            dialog.dismiss()
+                            fillEntryDataInContentsView(entry)
+                        }
+                        setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable)) { dialog, _ ->
+                            PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
+                            dialog.dismiss()
+                            fillEntryDataInContentsView(entry)
+                        }
+                        show()
+                    }
+        }
+
+        entryContentsView?.assignPassword(entry.password, allowCopyPasswordAndProtectedFields)
+        if (allowCopyPasswordAndProtectedFields) {
             entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
                 clipboardHelper?.timeoutCopyToClipboard(entry.password,
                                 getString(R.string.copy_field,
@@ -174,27 +196,8 @@ class EntryActivity : LockingHideActivity() {
             })
         } else {
             // If dialog not already shown
-            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)) {
-                entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
-                    val message = getString(R.string.allow_copy_password_warning) +
-                            "\n\n" +
-                            getString(R.string.clipboard_warning)
-                    val warningDialog = AlertDialog.Builder(this@EntryActivity)
-                            .setMessage(message).create()
-                    warningDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok)
-                    ) { dialog, _ ->
-                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
-                        dialog.dismiss()
-                        fillEntryDataInContentsView(entry)
-                    }
-                    warningDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel)
-                    ) { dialog, _ ->
-                        PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, false)
-                        dialog.dismiss()
-                        fillEntryDataInContentsView(entry)
-                    }
-                    warningDialog.show()
-                })
+            if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                entryContentsView?.assignPasswordCopyListener(showWarningClipboardDialogOnClickListener)
             } else {
                 entryContentsView?.assignPasswordCopyListener(null)
             }
@@ -209,13 +212,23 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.clearExtraFields()
 
             entry.fields.doActionToAllCustomProtectedField { label, value ->
-                val showAction = !value.isProtected || PreferencesUtil.allowCopyPasswordAndProtectedFields(this@EntryActivity)
-                entryContentsView?.addExtraField(label, value, showAction, View.OnClickListener {
-                    clipboardHelper?.timeoutCopyToClipboard(
-                            value.toString(),
-                            getString(R.string.copy_field, label)
-                    )
-                })
+
+                val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
+                if (allowCopyProtectedField) {
+                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField, View.OnClickListener {
+                        clipboardHelper?.timeoutCopyToClipboard(
+                                value.toString(),
+                                getString(R.string.copy_field, label)
+                        )
+                    })
+                } else {
+                    // If dialog not already shown
+                    if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
+                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, showWarningClipboardDialogOnClickListener)
+                    } else {
+                        entryContentsView?.addExtraField(label, value, allowCopyProtectedField, null)
+                    }
+                }
             }
         }
 
@@ -306,7 +319,7 @@ class EntryActivity : LockingHideActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        if (entryContentsView?.isUserNamePresent == true
+        val entryCopyEducationPerformed = entryContentsView?.isUserNamePresent == true
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
                         findViewById(R.id.entry_user_name_action_image),
                         {
@@ -317,23 +330,29 @@ class EntryActivity : LockingHideActivity() {
                         {
                             // Launch autofill settings
                             startActivity(Intent(this@EntryActivity, SettingsAutofillActivity::class.java))
-                        }))
-        else if (toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
-                        toolbar!!.findViewById(R.id.menu_edit),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_edit))
-                        },
-                        {
-                            // Open Keepass doc to create field references
-                            startActivity(Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(getString(R.string.field_references_url))))
-                        }))
-        ;
+                        })
+
+        if (!entryCopyEducationPerformed) {
+            // entryEditEducationPerformed
+            toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+                            toolbar!!.findViewById(R.id.menu_edit),
+                            {
+                                onOptionsItemSelected(menu.findItem(R.id.menu_edit))
+                            },
+                            {
+                                // Open Keepass doc to create field references
+                                startActivity(Intent(Intent.ACTION_VIEW,
+                                        Uri.parse(getString(R.string.field_references_url))))
+                            })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> return MenuUtil.onContributionItemSelected(this)
+            R.id.menu_contribute -> {
+                MenuUtil.onContributionItemSelected(this)
+                return true
+            }
 
             R.id.menu_toggle_pass -> {
                 mShowPassword = !mShowPassword
@@ -357,11 +376,7 @@ class EntryActivity : LockingHideActivity() {
                     url = "http://$url"
                 }
 
-                try {
-                    Util.gotoUrl(this, url)
-                } catch (e: ActivityNotFoundException) {
-                    Toast.makeText(this, R.string.no_url_handler, Toast.LENGTH_LONG).show()
-                }
+                UriUtil.gotoUrl(this, url)
 
                 return true
             }

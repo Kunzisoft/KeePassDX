@@ -34,7 +34,7 @@
     <string name="menu_app_settings">App Einstellungen</string>
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
-    <string name="browser_intall_text">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>
+    <string name="file_manager_install_description">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>
     <string name="cancel">Abbrechen</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
@@ -66,10 +66,6 @@
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/ARCFOUR-Stromverschlüsselung wird nicht unterstützt.</string>
     <string name="error_can_not_handle_uri">KeePass DX kann diese URI-Adresse nicht verarbeiten.</string>
-    <string name="error_could_not_create_parent">Verzeichnis konnte nicht erstellt werden.</string>
-    <string name="error_database_exists">Die Datei existiert bereits.</string>
-    <string name="error_failed_to_launch_link">Fehler beim Öffnen der Verknüpfung.</string>
-    <string name="error_filename_required">Dateinamen eingeben.</string>
     <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
@@ -140,7 +136,7 @@
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
     <string name="remember_keyfile_title">Schlüsselquelle merken</string>
-    <string name="remove_from_filelist">Löschen</string>
+    <string name="content_description_remove_from_list">Löschen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
@@ -157,8 +153,6 @@
     <string name="underline">Unterstriche</string>
     <string name="unsupported_db_version">Datenbankversion wird nicht unterstützt.</string>
     <string name="uppercase">Großbuchstaben</string>
-    <string name="use_saf_summary">Storage Access Framework (SAF) als Dateimanager verwenden (Android KitKat und später)</string>
-    <string name="use_saf_title">Speicherzugriff-Framework</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in .kbd-Dateien vermeiden, die nicht Teil des Latin-1-Zeichensatzes sind, da sie alle in ein und dasselbe Zeichen umgewandelt werden.</string>
     <string name="warning_read_only">Schreibzugriff auf die SD-Karte gewähren, um Datenbankänderungen speichern zu können.</string>
@@ -262,17 +256,12 @@
     <string name="full_file_path_enable_summary">Vollständigen Dateipfad anzeigen</string>
     <string name="recycle_bin_title">Papierkorb verwenden</string>
     <string name="recycle_bin_summary">Verschiebt Gruppen oder Einträge in den Papierkorb, bevor sie gelöscht werden.</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX benötigt eine Zugriffsberechtigung für den externen Speicher, um in eine Datenbank zu schreiben.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX benötigt externe Speicherzugriffsberechtigung, um eine URI zu lesen, die nicht von einem Content-Provider zur Verfügung gestellt wird.</string>
-    <string name="permission_external_storage_denied">Kein Speicherzugriff möglich.</string>
-    <string name="permission_external_storage_never_ask">Aktion kann ohne Speicherzugriff nicht ausgeführt werden.</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>
     <string name="monospace_font_fields_enable_summary">Schriftart in Feldern ändern, um Lesbarkeit zu verbessern</string>
     <string name="auto_open_file_uri_title">Gewählte Datei automatisch öffnen</string>
     <string name="auto_open_file_uri_summary">Dateien nach Auswahl im Dateimanager automatisch öffnen</string>
     <string name="allow_copy_password_title">Zwischenablage vertrauen</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
-    <string name="warning_disabling_storage_access_framework">WARNUNG: Die Deaktivierung dieses Features kann das Öffnen und Speichern von Datenbanken unmöglich machen.</string>
     <string name="open_link_database">Link zu der zu öffnenden Datenbank</string>
     <string name="database_name_title">Datenbankname</string>
     <string name="database_description_title">Datenbankbeschreibung</string>

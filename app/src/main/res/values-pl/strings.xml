@@ -28,7 +28,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="application">Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
-    <string name="browser_intall_text">Przeglądaj pliki, instalując Menedżera plików OpenIntents</string>
+    <string name="file_manager_install_description">Przeglądaj pliki, instalując Menedżera plików OpenIntents</string>
     <string name="cancel">Anuluj</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
@@ -55,10 +55,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
     <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePass DX.</string>
-    <string name="error_could_not_create_parent">Nie można utworzyć folderu nadrzędnego.</string>
-    <string name="error_database_exists">Plik o podanej nazwie już istnieje.</string>
-    <string name="error_failed_to_launch_link">Nie można otworzyć łącza.</string>
-    <string name="error_filename_required">Wprowadź nazwę pliku.</string>
     <string name="error_file_not_create">Nie można utworzyć pliku:</string>
     <string name="error_invalid_db">Nie można odczytać bazy danych.</string>
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>
@@ -118,7 +114,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="recentfile_summary">Zapamiętaj najnowsze nazwy plików</string>
     <string name="remember_keyfile_summary">Zapamiętuje lokalizację plików kluczy baz danych</string>
     <string name="remember_keyfile_title">Zapisz plik klucza</string>
-    <string name="remove_from_filelist">Usuń</string>
+    <string name="content_description_remove_from_list">Usuń</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Rundy szyfrowania</string>
@@ -134,8 +130,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="use_saf_summary">Użyj struktury dostępu do pamięci Android (SAF) do przeglądania plików (KitKat i nowsze)</string>
-    <string name="use_saf_title">Dostęp do pamięci masowej</string>
     <string name="warning_read_only">Przydziel dostęp do zapisu na karcie SD, aby zapisać zmiany w bazie danych.</string>
     <string name="warning_unmounted">Zamontuj kartę SD, aby utworzyć lub załadować bazę danych.</string>
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
@@ -268,10 +262,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="full_file_path_enable_summary">Wyświetl pełną ścieżkę do pliku</string>
     <string name="recycle_bin_title">Użyj kosza</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do \"Kosza\" przed usunięciem</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX potrzebuje zewnętrznego pozwolenia na przechowywanie, aby zapisać bazę danych.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX potrzebuje zewnętrznego pozwolenia na przechowywanie, aby odczytać URI, który nie został dostarczony przez dostawcę treści.</string>
-    <string name="permission_external_storage_denied">Nie można uzyskać uprawnień do zewnętrznej pamięci masowej.</string>
-    <string name="permission_external_storage_never_ask">Nie można wykonać akcji bez uprawnień do zewnętrznej karty pamięci.</string>
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
     <string name="auto_open_file_uri_title">Otwórz pliki, wybierając</string>
@@ -279,7 +269,6 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalaj na zapisywanie hasła dostepu i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">OSTRZEŻENIE: schowek jest udostępniany przez wszystkie aplikacje. Jeśli dane wrażliwe zostaną skopiowane, inne oprogramowanie może je odzyskać.</string>
-    <string name="warning_disabling_storage_access_framework">OSTRZEŻENIE: Wyłączenie tej funkcji może uniemożliwić otwieranie lub zapisywanie baz danych.</string>
     <string name="open_link_database">Link do otwarcia pliku bazy danych</string>
     <string name="database_name_title">Nazwa bazy danych</string>
     <string name="database_description_title">Opis bazy danych</string>

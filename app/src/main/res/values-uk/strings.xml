@@ -30,7 +30,7 @@
     <string name="application">Програма</string>
     <string name="menu_app_settings">Налаштування програми</string>
     <string name="brackets">Дужки</string>
-    <string name="browser_intall_text">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
+    <string name="file_manager_install_description">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
     <string name="cancel">Відміна</string>
     <string name="clipboard_cleared">Буфер обміну очищено.</string>
     <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
@@ -58,10 +58,6 @@
     <string name="entry_user_name">Ім’я користувача</string>
     <string name="error_arc4">Потокове шифрування ArcFour не підтримується.</string>
     <string name="error_can_not_handle_uri">KeePass DX не може опрацювати цю адресу.</string>
-    <string name="error_could_not_create_parent">Не вдалося створити батьківський каталог.</string>
-    <string name="error_database_exists">Файл вже існує.</string>
-    <string name="error_failed_to_launch_link">Не вдалося відкрити посилання.</string>
-    <string name="error_filename_required">Необхідно ім’я файла.</string>
     <string name="error_file_not_create">Не можливо створити файл:</string>
     <string name="error_invalid_db">Невірна база даних.</string>
     <string name="error_invalid_path">Невірний шлях.</string>
@@ -119,7 +115,7 @@
     <string name="progress_title">Працює&#8230;</string>
     <string name="remember_keyfile_summary">Запам’ятати розташування файла ключа</string>
     <string name="remember_keyfile_title">Збережіть файл ключа</string>
-    <string name="remove_from_filelist">Вилучити</string>
+    <string name="content_description_remove_from_list">Вилучити</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>

@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.view
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Rect
-import android.support.design.widget.FloatingActionButton
-import android.support.v4.view.ViewCompat
-import android.support.v4.view.ViewPropertyAnimatorListener
-import android.support.v4.view.animation.FastOutSlowInInterpolator
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.core.view.ViewCompat
+import androidx.core.view.ViewPropertyAnimatorListener
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.MotionEvent
@@ -36,8 +36,10 @@ import android.widget.RelativeLayout
 
 import com.kunzisoft.keepass.R
 
-class AddNodeButtonView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null)
-    : RelativeLayout(context, attrs) {
+class AddNodeButtonView @JvmOverloads constructor(context: Context,
+                                                  attrs: AttributeSet? = null,
+                                                  defStyle: Int = 0)
+    : RelativeLayout(context, attrs, defStyle) {
 
     var addButtonView: FloatingActionButton? = null
     private var addEntryView: View? = null

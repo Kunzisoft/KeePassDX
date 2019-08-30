@@ -25,5 +25,5 @@
         app:showAsAction="always|collapseActionView"
         android:orderInCategory="31"
         android:iconifiedByDefault="true"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        app:actionViewClass="androidx.appcompat.widget.SearchView" />
 </menu>

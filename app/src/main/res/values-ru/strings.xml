@@ -30,7 +30,7 @@
     <string name="menu_app_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для обзора файлов установите OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Для обзора файлов установите OpenIntents File Manager</string>
     <string name="cancel">Отмена</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
@@ -62,10 +62,6 @@
     <string name="entry_user_name">Логин</string>
     <string name="error_arc4">Потоковый шифр RC4 не поддерживается.</string>
     <string name="error_can_not_handle_uri">Не удалось обработать указанный URI в KeePass DX.</string>
-    <string name="error_could_not_create_parent">Не удалось создать родительскую папку.</string>
-    <string name="error_database_exists">Такой файл уже существует.</string>
-    <string name="error_failed_to_launch_link">Не удалось открыть ссылку.</string>
-    <string name="error_filename_required">Введите имя файла.</string>
     <string name="error_file_not_create">Не удалось создать файл:</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь что путь указан верно.</string>
@@ -136,7 +132,7 @@
     <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
     <string name="remember_keyfile_title">Хранить файлы ключей</string>
-    <string name="remove_from_filelist">Убрать из списка</string>
+    <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Раунды шифрования</string>
@@ -153,8 +149,6 @@
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы.</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
-    <string name="use_saf_summary">Использовать Storage Access Framework для обзора файлов (KitKat и выше)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки Latin-1 в .kbd файлах, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="warning_read_only">Карта помять в режиме только для чтения. Изменения не будут сохранены.</string>
@@ -269,10 +263,6 @@
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать Корзину</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в Корзину перед удалением</string>
-    <string name="permission_external_storage_rationale_write_database">Для записи базы KeePass DX необходимо разрешение доступа к внешней памяти</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX необходимо разрешение доступа к внешней памяти для чтения URI не поставщика содержимого</string>
-    <string name="permission_external_storage_denied">Доступ к внешней памяти отказан</string>
-    <string name="permission_external_storage_never_ask">Невозможно выполнить действие без разрешения доступа к внешней памяти</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
     <string name="auto_open_file_uri_title">Автоматически открывать выбранный файл</string>
@@ -280,7 +270,6 @@
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: Буфер обмена доступен всем приложениям. Если чувствительные данные копируются, другие программы могут его перехватить.</string>
-    <string name="warning_disabling_storage_access_framework">ПРЕДУПРЕЖДЕНИЕ: Отключение этой функции может привести к невозможности открывать и сохранять базы</string>
     <string name="open_link_database">Ссылка на файл KDBX</string>
     <string name="database_name_title">Название базы</string>
     <string name="database_description_title">Описание базы</string>

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -68,7 +68,7 @@
                     style="@style/KeepassDXStyle.TextAppearance.TinyText"
                     android:padding="5dp"
                     android:text="@string/fingerprint_type_password_text"/>
-                <android.support.v7.widget.AppCompatImageView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="38dp"
                     android:src="@drawable/capture_type_password"/>
@@ -97,7 +97,7 @@
                     android:padding="5dp"
                     android:text="@string/fingerprint_scan_to_store"/>
             </LinearLayout>
-            <android.support.v7.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/fingerprint_image"
                 android:layout_gravity="center"
                 android:layout_width="48dp"
@@ -122,7 +122,7 @@
             android:padding="5dp"
             android:gravity="center"
             android:text="@string/fingerprint_scan_to_open"/>
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:elevation="4dp"
@@ -133,4 +133,4 @@
             android:backgroundTint="?attr/colorPrimary"
             tools:targetApi="lollipop" />
     </LinearLayout>
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

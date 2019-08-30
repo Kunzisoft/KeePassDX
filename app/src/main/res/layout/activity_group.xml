@@ -24,12 +24,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.CoordinatorLayout
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/expandable_toolbar_paste_layout">
 
-        <android.support.design.widget.AppBarLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
             android:elevation="4dp"
             android:fitsSystemWindows="true">
 
-            <android.support.design.widget.CollapsingToolbarLayout
+            <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -45,7 +45,7 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
-                <android.support.v7.widget.Toolbar
+                <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:title="@string/app_name"
                     android:layout_width="match_parent"
@@ -75,7 +75,7 @@
                             android:gravity="center_vertical"
                             android:layout_marginStart="6dp"
                             android:layout_marginEnd="6dp">
-                            <android.support.v7.widget.AppCompatImageView
+                            <androidx.appcompat.widget.AppCompatImageView
                                 android:id="@+id/icon"
                                 android:layout_width="32dp"
                                 android:layout_height="32dp"
@@ -83,7 +83,7 @@
                                 android:layout_marginRight="12dp"
                                 android:layout_marginEnd="12dp"
                                 android:scaleType="fitXY" />
-                            <android.support.v7.widget.AppCompatTextView
+                            <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/group_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
@@ -94,10 +94,10 @@
                                 style="@style/KeepassDXStyle.TextAppearance.Title.TextOnPrimary" />
                         </LinearLayout>
                     </LinearLayout>
-                </android.support.v7.widget.Toolbar>
+                </androidx.appcompat.widget.Toolbar>
 
-            </android.support.design.widget.CollapsingToolbarLayout>
-        </android.support.design.widget.AppBarLayout>
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,7 +105,7 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_below="@+id/toolbar">
-            <android.support.v7.widget.AppCompatTextView
+            <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/mode_title_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -126,7 +126,7 @@
             android:layout_height="wrap_content"
             app:layout_anchor="@+id/nodes_list"
             app:layout_anchorGravity="right|bottom" />
-    </android.support.design.widget.CoordinatorLayout>
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <net.cachapa.expandablelayout.ExpandableLayout
         android:id="@+id/expandable_toolbar_paste_layout"
@@ -137,7 +137,7 @@
         app:el_expanded="false"
         app:el_parallax="0.5">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar_paste"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"

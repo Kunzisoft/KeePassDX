@@ -29,7 +29,7 @@
     <string name="application">Aplikácia</string>
     <string name="menu_app_settings">Nastavenia aplikácie</string>
     <string name="brackets">Konzoly</string>
-    <string name="browser_intall_text">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
+    <string name="file_manager_install_description">Prezeranie súborov vyžaduje otvorenie Správcu súborov, kliknite nižšie pre inštalovanie. Kôli chybám v správcovi súborov, prehľadávanie nemusí pracovať správne, ak prehľadávate prvý krát.</string>
     <string name="cancel">Zrušiť</string>
     <string name="clipboard_cleared">Schránka vyčistená.</string>
     <string name="clipboard_timeout">Timeout Schránky</string>
@@ -57,10 +57,6 @@
     <string name="entry_user_name">Meno používateľa</string>
     <string name="error_arc4">ArcFour stream šifra nieje podporovaná.</string>
     <string name="error_can_not_handle_uri">KeePass DX nevie použiť túto uri.</string>
-    <string name="error_could_not_create_parent">Neviem vytvoriť nadradený adresár.</string>
-    <string name="error_database_exists">Tento súbor už existuje.</string>
-    <string name="error_failed_to_launch_link">Nedá sa spustiť odkaz.</string>
-    <string name="error_filename_required">Vyžaduje sa názov súboru.</string>
     <string name="error_file_not_create">Neviem vytvoriť súbor:</string>
     <string name="error_invalid_db">Chybná databáza.</string>
     <string name="error_invalid_path">Chybná cesta.</string>
@@ -118,7 +114,7 @@
     <string name="progress_title">Pracujem…</string>
     <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
     <string name="remember_keyfile_title">Uložiť keyfile</string>
-    <string name="remove_from_filelist">Odstrániť</string>
+    <string name="content_description_remove_from_list">Odstrániť</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>

@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.os.Bundle
-import android.support.v4.app.FragmentActivity
+import androidx.fragment.app.FragmentActivity
 
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
@@ -61,10 +61,11 @@ class DeleteGroupRunnable(context: FragmentActivity,
                 mParent?.let {
                     database.undoRecycle(mGroupToDelete, it)
                 }
-            } else {
+            }
+            // else {
                 // Let's not bother recovering from a failure to save a deleted tree. It is too much work.
                 // TODO database.undoDeleteGroupFrom(mGroup, mParent);
-            }
+            // }
         }
 
         // Add position in bundle to delete the node in view

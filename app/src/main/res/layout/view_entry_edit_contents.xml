@@ -17,7 +17,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
@@ -32,7 +32,7 @@
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toTopOf="parent">
 
-		<android.support.v7.widget.AppCompatImageButton
+		<androidx.appcompat.widget.AppCompatImageButton
 			android:id="@+id/entry_edit_icon_button"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -42,12 +42,12 @@
 			android:layout_gravity="center"/>
 
 		<!--  Title -->
-		<android.support.design.widget.TextInputLayout
+		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/entry_edit_container_title"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<android.support.v7.widget.AppCompatEditText
+			<androidx.appcompat.widget.AppCompatEditText
 				android:id="@+id/entry_edit_title"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -56,14 +56,14 @@
 				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_title"/>
-		</android.support.design.widget.TextInputLayout>
+		</com.google.android.material.textfield.TextInputLayout>
 
 		<!-- Username -->
-		<android.support.design.widget.TextInputLayout
+		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<android.support.v7.widget.AppCompatEditText
+			<androidx.appcompat.widget.AppCompatEditText
 				android:id="@+id/entry_edit_user_name"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -72,7 +72,7 @@
 				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_user_name"/>
-		</android.support.design.widget.TextInputLayout>
+		</com.google.android.material.textfield.TextInputLayout>
 
 		<!-- Password -->
 		<RelativeLayout
@@ -80,7 +80,7 @@
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<android.support.design.widget.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/entry_edit_container_password"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -90,7 +90,7 @@
 				android:layout_toLeftOf="@+id/entry_edit_generate_button"
 				android:layout_toStartOf="@+id/entry_edit_generate_button">
 
-				<android.support.v7.widget.AppCompatEditText
+				<androidx.appcompat.widget.AppCompatEditText
 					android:id="@+id/entry_edit_password"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -99,10 +99,10 @@
 					android:importantForAutofill="no"
 					android:maxLines="1"
 					android:hint="@string/entry_password"/>
-			</android.support.design.widget.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
 			<!-- Confirm Password -->
-			<android.support.design.widget.TextInputLayout
+			<com.google.android.material.textfield.TextInputLayout
 				android:id="@+id/entry_edit_container_confirmation_password"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -114,7 +114,7 @@
 				android:layout_toStartOf="@+id/entry_edit_generate_button"
 				android:layout_below="@+id/entry_edit_container_password">
 
-				<android.support.v7.widget.AppCompatEditText
+				<androidx.appcompat.widget.AppCompatEditText
 					android:id="@+id/entry_edit_confirmation_password"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -123,9 +123,9 @@
 					android:importantForAutofill="no"
 					android:maxLines="1"
 					android:hint="@string/entry_confpassword"/>
-			</android.support.design.widget.TextInputLayout>
+			</com.google.android.material.textfield.TextInputLayout>
 
-			<android.support.v7.widget.AppCompatImageView
+			<androidx.appcompat.widget.AppCompatImageView
 				android:id="@+id/entry_edit_generate_button"
 				android:layout_width="48dp"
 				android:layout_height="48dp"
@@ -140,11 +140,11 @@
 		</RelativeLayout>
 
 		<!--  URL -->
-		<android.support.design.widget.TextInputLayout
+		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<android.support.v7.widget.AppCompatEditText
+			<androidx.appcompat.widget.AppCompatEditText
 				android:id="@+id/entry_edit_url"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -153,14 +153,14 @@
 				android:importantForAutofill="no"
 				android:maxLines="1"
 				android:hint="@string/entry_url"/>
-		</android.support.design.widget.TextInputLayout>
+		</com.google.android.material.textfield.TextInputLayout>
 
 		<!-- Comment -->
-		<android.support.design.widget.TextInputLayout
+		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content">
 
-			<android.support.v7.widget.AppCompatEditText
+			<androidx.appcompat.widget.AppCompatEditText
 				android:id="@+id/entry_edit_notes"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -171,7 +171,7 @@
 				android:importantForAutofill="no"
 				android:inputType="textMultiLine"
 				android:hint="@string/entry_notes"/>
-		</android.support.design.widget.TextInputLayout>
+		</com.google.android.material.textfield.TextInputLayout>
 
 		<LinearLayout
 			android:id="@+id/entry_edit_advanced_container"
@@ -180,7 +180,7 @@
 			android:orientation="vertical">
 		</LinearLayout>
 
-		<android.support.v7.widget.AppCompatImageButton
+		<androidx.appcompat.widget.AppCompatImageButton
 			android:id="@+id/entry_edit_add_new_field"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -190,4 +190,4 @@
 			android:scaleType="centerCrop"/>
 	</LinearLayout>
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

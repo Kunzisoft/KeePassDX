@@ -20,15 +20,17 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat(), ListRadioItemAdapter.RadioItemSelectedCallback<PwEncryptionAlgorithm> {
+class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
+    : DatabaseSavePreferenceDialogFragmentCompat(),
+        ListRadioItemAdapter.RadioItemSelectedCallback<PwEncryptionAlgorithm> {
 
     private var algorithmSelected: PwEncryptionAlgorithm? = null
 

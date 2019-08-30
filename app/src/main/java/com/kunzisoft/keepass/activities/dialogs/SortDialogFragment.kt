@@ -22,9 +22,9 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.annotation.IdRes
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import androidx.annotation.IdRes
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.RadioGroup

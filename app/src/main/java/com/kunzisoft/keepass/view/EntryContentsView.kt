@@ -20,7 +20,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -31,11 +31,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.applyFontVisibility
 import java.text.DateFormat
 import java.util.*
 
-class EntryContentsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class EntryContentsView @JvmOverloads constructor(context: Context,
+                                                  var attrs: AttributeSet? = null,
+                                                  var defStyle: Int = 0)
+    : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
     private val colorAccent: Int
@@ -136,10 +138,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
                 if (fontInVisibility)
                     applyFontVisibility()
             }
-            if (!allowCopyPassword) {
-                passwordActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-            } else {
+            if (allowCopyPassword) {
                 passwordActionView.setColorFilter(colorAccent)
+            } else {
+                passwordActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
             }
         } else {
             passwordContainerView.visibility = View.GONE
@@ -147,9 +149,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
     }
 
     fun assignPasswordCopyListener(onClickListener: OnClickListener?) {
-        if (onClickListener == null)
-            isClickable = false
-        passwordActionView.setOnClickListener(onClickListener)
+        passwordActionView.apply {
+            setOnClickListener(onClickListener)
+            if (onClickListener == null) {
+                visibility = View.GONE
+            }
+        }
     }
 
     fun atLeastOneFieldProtectedPresent(): Boolean {
@@ -202,13 +207,23 @@ class EntryContentsView @JvmOverloads constructor(context: Context, attrs: Attri
         }
     }
 
-    fun addExtraField(title: String, value: ProtectedString, showAction: Boolean, onActionClickListener: OnClickListener) {
-        val entryCustomField: EntryCustomField
-        if (value.isProtected)
-            entryCustomField = EntryCustomFieldProtected(context, null, title, value, showAction, onActionClickListener)
-        else
-            entryCustomField = EntryCustomField(context, null, title, value, showAction, onActionClickListener)
-        entryCustomField.applyFontVisibility(fontInVisibility)
+    fun addExtraField(title: String,
+                      value: ProtectedString,
+                      enableActionButton: Boolean,
+                      onActionClickListener: OnClickListener?) {
+
+        val entryCustomField: EntryCustomField =
+                if (value.isProtected)
+                    EntryCustomFieldProtected(context, attrs, defStyle)
+                else
+                    EntryCustomField(context, attrs, defStyle)
+        entryCustomField.apply {
+            assignLabel(title)
+            assignValue(value.toString())
+            enableActionButton(enableActionButton)
+            assignActionButtonClickListener(onActionClickListener)
+            applyFontVisibility(fontInVisibility)
+        }
         extrasView.addView(entryCustomField)
         extrasContainerView.visibility = View.VISIBLE
     }

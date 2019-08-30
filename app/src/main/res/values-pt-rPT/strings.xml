@@ -30,7 +30,7 @@
     <string name="menu_app_settings">Definições da aplicação</string>
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
+    <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa.</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
@@ -62,10 +62,6 @@
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
     <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
-    <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
-    <string name="error_database_exists">Este ficheiro já existe.</string>
-    <string name="error_failed_to_launch_link">Não foi possível abrir a hiperligação.</string>
-    <string name="error_filename_required">Introduza um nome para o ficheiro.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
@@ -136,7 +132,7 @@
     <string name="recentfile_summary">Relembrar o nome dos ficheiros usados recentemente</string>
     <string name="remember_keyfile_summary">Relembra a localização dos ficheiros chave</string>
     <string name="remember_keyfile_title">Guardar ficheiro chave</string>
-    <string name="remove_from_filelist">Remover</string>
+    <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rondas de encriptação</string>
@@ -153,8 +149,6 @@
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="uppercase">Maiúsculas</string>
-    <string name="use_saf_summary">Utilizar o Storage Access Framework (SAF) do Android para explorar os ficheiros (KitKat e superior)</string>
-    <string name="use_saf_title">Storage Access Framework (SAF)</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-chave pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-chave. É recomendável alterar a sua palavra-chave.</string>
     <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>

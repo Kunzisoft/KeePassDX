@@ -79,7 +79,7 @@
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <string name="lock_database_back_root_key" translatable="false">lock_database_back_root_key</string>
-    <bool name="lock_database_back_root_default" translatable="false">true</bool>
+    <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="maskpass_key" translatable="false">maskpass</string>
@@ -90,8 +90,6 @@
     <bool name="recentfile_default" translatable="false">true</bool>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <bool name="keyfile_default" translatable="false">true</bool>
-    <string name="saf_key" translatable="false">storage_access_framework_key</string>
-    <bool name="settings_saf_default" translatable="false">false</bool>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>

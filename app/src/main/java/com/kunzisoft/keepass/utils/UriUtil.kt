@@ -19,10 +19,13 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import com.kunzisoft.keepass.fileselect.StorageAF
+import android.widget.Toast
+import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -30,24 +33,6 @@ import java.io.InputStream
 
 
 object UriUtil {
-
-    fun parseUriFile(text: String?): Uri? {
-        if (text == null || text.isEmpty()) {
-            return null
-        }
-        return parseUriFile(Uri.parse(text))
-    }
-
-    fun parseUriFile(uri: Uri?): Uri? {
-        if (uri == null) {
-            return null
-        }
-        var currentUri = uri
-        if (currentUri.scheme == null || currentUri.scheme!!.isEmpty()) {
-            currentUri = currentUri.buildUpon().scheme("file").authority("").build()
-        }
-        return currentUri
-    }
 
     /**
      * Many android apps respond with non-writeable content URIs that correspond to files.
@@ -58,7 +43,7 @@ object UriUtil {
     fun translateUri(ctx: Context, uri: Uri): Uri {
         var currentUri = uri
         // StorageAF provides nice URIs
-        if (StorageAF.useStorageFramework(ctx) || hasWritableContentUri(currentUri)) {
+        if (hasWritableContentUri(currentUri)) {
             return currentUri
         }
 
@@ -144,6 +129,92 @@ object UriUtil {
         } else {
             null
         }
+    }
+
+    @Throws(FileNotFoundException::class)
+    fun verifyFilePath(fileName: String?, doActionIfFileExists: ((String) -> Unit)? = null) {
+
+        if (fileName != null && fileName.isNotEmpty()) {
+            val fileUri = parseUriFile(fileName)
+            verifyFileUri(fileUri, doActionIfFileExists)
+        } else {
+            throw FileNotFoundException("File name is empty")
+        }
+    }
+
+    @Throws(Exception::class)
+    fun verifyFileUri(fileUri: Uri?, doActionIfFileExists: ((filePath: String) -> Unit)? = null) {
+
+        /* TODO errorString
+        @IntegerRes
+        var errorStringId: Int? = null
+        */
+
+        val scheme = fileUri?.scheme
+
+        if (scheme == null || scheme.isEmpty()) {
+            throw FileNotFoundException("Uri scheme is empty")
+            // TODO error errorStringId = R.string.error_can_not_handle_uri
+        }
+        else {
+            when {
+                scheme.equals("file", ignoreCase = true) -> {
+                    val filePath = fileUri.path
+
+                    if (filePath == null || filePath.isEmpty())
+                        throw FileNotFoundException("Unable to retrieve file path")
+                    else {
+                        if (!File(filePath).exists()) {
+                            throw FileNotFoundException("File do not exists")
+                            // TODO error errorStringId = R.string.file_not_found
+                        } else {
+                            doActionIfFileExists?.invoke(filePath)
+                        }
+                    }
+                }
+                scheme.equals("content", ignoreCase = true) -> {
+                    doActionIfFileExists?.invoke(fileUri.toString())
+                    // TODO verify
+                }
+                else -> throw FileNotFoundException("Uri scheme not recognized")
+            }
+        }
+    }
+
+    fun parseUriFile(text: String?): Uri? {
+        if (text == null || text.isEmpty()) {
+            return null
+        }
+        return parseUriFile(Uri.parse(text))
+    }
+
+    fun parseUriFile(uri: Uri?): Uri? {
+        if (uri == null) {
+            return null
+        }
+
+        // Add file scheme if URI scheme is null
+        var currentUri = uri
+        if (currentUri.scheme == null || currentUri.scheme!!.isEmpty()) {
+            currentUri = currentUri.buildUpon().scheme("file").authority("").build()
+        }
+        return currentUri
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, url: String?) {
+        try {
+            if (url != null && url.isNotEmpty()) {
+                context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            }
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_url_handler, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, resId: Int) {
+        gotoUrl(context, context.getString(resId))
     }
 
 }

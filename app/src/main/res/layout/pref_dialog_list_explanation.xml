@@ -25,7 +25,7 @@
 	android:layout_height="match_parent"
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
 		android:id="@+id/explanation_text"
 		android:layout_height="wrap_content"
 		android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
 		android:layout_marginBottom="8dp"
 		android:visibility="gone"
         style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
-	<android.support.v7.widget.RecyclerView
+	<androidx.recyclerview.widget.RecyclerView
         android:id="@+id/pref_dialog_list"
 	  	android:layout_height="wrap_content"
 	  	android:layout_width="match_parent"/>

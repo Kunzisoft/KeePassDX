@@ -48,10 +48,4 @@
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">@color/blue_dark</item>
     </style>
-    <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle.Blue" parent="KeepassDXStyle.FilePickerStyle">
-        <item name="colorPrimary">@color/blue</item>
-        <item name="colorPrimaryDark">@color/blue_dark</item>
-        <item name="colorAccent">@color/blue</item>
-    </style>
 </resources>

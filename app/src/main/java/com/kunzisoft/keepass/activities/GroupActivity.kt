@@ -29,11 +29,10 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v4.app.FragmentManager
-import android.support.v7.widget.SearchView
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -183,7 +182,7 @@ class GroupActivity : LockingActivity(),
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
                 R.id.nodes_list_fragment_container,
-                mListNodesFragment,
+                mListNodesFragment!!,
                 fragmentTag)
                 .commit()
 
@@ -628,8 +627,9 @@ class GroupActivity : LockingActivity(),
 
     private fun performedNextEducation(groupActivityEducation: GroupActivityEducation,
                                        menu: Menu) {
+
         // If no node, show education to add new one
-        if (mListNodesFragment != null
+        val addNodeButtonEducationPerformed = mListNodesFragment != null
                 && mListNodesFragment!!.isEmpty
                 && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
@@ -641,38 +641,48 @@ class GroupActivity : LockingActivity(),
                         {
                             performedNextEducation(groupActivityEducation, menu)
                         }
-                ))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_search) != null
-                && groupActivityEducation.checkAndPerformedSearchMenuEducation(
-                        toolbar!!.findViewById(R.id.menu_search),
-                        {
-                            menu.findItem(R.id.menu_search).expandActionView()
-                        },
-                        {
-                            performedNextEducation(groupActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_sort) != null
-                && groupActivityEducation.checkAndPerformedSortMenuEducation(
+                )
+        if (!addNodeButtonEducationPerformed) {
+
+            val searchMenuEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_search) != null
+                    && groupActivityEducation.checkAndPerformedSearchMenuEducation(
+                    toolbar!!.findViewById(R.id.menu_search),
+                    {
+                        menu.findItem(R.id.menu_search).expandActionView()
+                    },
+                    {
+                        performedNextEducation(groupActivityEducation, menu)
+                    })
+
+            if (!searchMenuEducationPerformed) {
+
+                val sortMenuEducationPerformed = toolbar != null
+                        && toolbar!!.findViewById<View>(R.id.menu_sort) != null
+                        && groupActivityEducation.checkAndPerformedSortMenuEducation(
                         toolbar!!.findViewById(R.id.menu_sort),
                         {
                             onOptionsItemSelected(menu.findItem(R.id.menu_sort))
                         },
                         {
                             performedNextEducation(groupActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_lock) != null
-                && groupActivityEducation.checkAndPerformedLockMenuEducation(
-                        toolbar!!.findViewById(R.id.menu_lock),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_lock))
-                        },
-                        {
-                            performedNextEducation(groupActivityEducation, menu)
-                        }))
-        ;
+                        })
+
+                if (!sortMenuEducationPerformed) {
+                    // lockMenuEducationPerformed
+                    toolbar != null
+                            && toolbar!!.findViewById<View>(R.id.menu_lock) != null
+                            && groupActivityEducation.checkAndPerformedLockMenuEducation(
+                            toolbar!!.findViewById(R.id.menu_lock),
+                            {
+                                onOptionsItemSelected(menu.findItem(R.id.menu_lock))
+                            },
+                            {
+                                performedNextEducation(groupActivityEducation, menu)
+                            })
+                }
+            }
+        }
     }
 
     override fun startActivity(intent: Intent) {
@@ -857,11 +867,9 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun showWarnings() {
-        // TODO Preferences
         if (Database.getInstance().isReadOnly) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-            if (prefs.getBoolean(getString(R.string.show_read_only_warning), true)) {
-                ReadOnlyDialog(this).show()
+            if (PreferencesUtil.showReadOnlyWarning(this)) {
+                ReadOnlyDialog().show(supportFragmentManager, "readOnlyDialog")
             }
         }
     }

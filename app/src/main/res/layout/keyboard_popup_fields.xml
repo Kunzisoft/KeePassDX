@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/keyboard_popup_fields_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -21,6 +21,7 @@
         android:layout_alignParentRight="true"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="5dp"
+        android:contentDescription="@string/content_description_keyboard_close_fields"
         android:background="@drawable/key_background"
         android:src="@drawable/ic_close_white_24dp" />
 </RelativeLayout>

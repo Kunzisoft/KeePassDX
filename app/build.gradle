@@ -4,15 +4,15 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
-        targetSdkVersion 27
-        versionCode = 22
-        versionName = "2.5.0.0beta22"
+        targetSdkVersion 28
+        versionCode = 23
+        versionName = "2.5.0.0beta23"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -79,42 +79,34 @@ android {
     }
 }
 
-def supportVersion = "27.1.1"
 def spongycastleVersion = "1.58.0.0"
-def permissionDispatcherVersion = "3.3.1"
+def room_version = "2.1.0"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$supportVersion"
-    implementation "com.android.support:design:$supportVersion"
-    implementation "com.android.support:preference-v7:$supportVersion"
-    implementation "com.android.support:preference-v14:$supportVersion"
-    implementation "com.android.support:cardview-v7:$supportVersion"
-    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
+    implementation 'androidx.preference:preference:1.0.0'
+    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'com.google.android.material:material:1.0.0'
+
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
     implementation "com.madgag.spongycastle:core:$spongycastleVersion"
     implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
     // Expandable view
     implementation 'net.cachapa.expandablelayout:expandablelayout:2.9.2'
     // Time
     implementation 'joda-time:joda-time:2.9.9'
-    implementation 'org.sufficientlysecure:html-textview:3.5'
-    implementation 'com.nononsenseapps:filepicker:4.1.0'
+    // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
-    // Permissions
-    implementation("com.github.hotchemi:permissionsdispatcher:$permissionDispatcherVersion") {
-        // if you don't use android.app.Fragment you can exclude support for them
-        exclude module: "support-v13"
-    }
-    kapt "com.github.hotchemi:permissionsdispatcher-processor:$permissionDispatcherVersion"
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
     implementation 'org.apache.commons:commons-io:1.3.2'
     // Base64
     implementation 'biz.source_code:base64coder:2010-12-19'
-    // IO-Extras
-    implementation 'com.github.davidmoten:io-extras:0.1'
-    implementation 'com.google.code.gson:gson:2.8.4'
-    implementation 'com.google.guava:guava:23.0-android'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

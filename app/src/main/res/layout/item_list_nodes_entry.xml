@@ -17,7 +17,7 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<android.support.constraint.ConstraintLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -33,7 +33,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
-        <android.support.v7.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/node_icon"
             android:layout_width="32dp"
             android:layout_height="32dp"
@@ -44,6 +44,7 @@
             android:layout_marginRight="@dimen/image_list_margin"
             android:layout_marginEnd="@dimen/image_list_margin"
             android:scaleType="fitXY"
+            android:src="@drawable/ic_blank_32dp"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -77,4 +78,4 @@
                 style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
         </LinearLayout>
     </RelativeLayout>
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

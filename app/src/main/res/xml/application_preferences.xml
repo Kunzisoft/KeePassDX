@@ -127,11 +127,6 @@
         android:title="@string/file_browser">
 
         <SwitchPreference
-            android:key="@string/saf_key"
-            android:title="@string/use_saf_title"
-            android:summary="@string/use_saf_summary"
-            android:defaultValue="@bool/settings_saf_default"/>
-        <SwitchPreference
             android:key="@string/auto_open_file_uri_key"
             android:title="@string/auto_open_file_uri_title"
             android:summary="@string/auto_open_file_uri_summary"

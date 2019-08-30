@@ -20,16 +20,18 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import android.support.v7.preference.Preference
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.preference.Preference
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class DatabaseKeyDerivationPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat(), ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
+class DatabaseKeyDerivationPreferenceDialogFragmentCompat
+    : DatabaseSavePreferenceDialogFragmentCompat(),
+        ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
 
     private var kdfEngineSelected: KdfEngine? = null
     private var roundPreference: Preference? = null

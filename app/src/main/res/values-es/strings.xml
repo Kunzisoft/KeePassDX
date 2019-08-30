@@ -31,7 +31,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
-    <string name="browser_intall_text">Explora ficheros con OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Explora ficheros con OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
@@ -59,10 +59,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="entry_user_name">Nombre de usuario</string>
     <string name="error_arc4">Secuencia de cifrado ARCFOUR no es soportada.</string>
     <string name="error_can_not_handle_uri">KeePass DX no puede manejar este URI.</string>
-    <string name="error_could_not_create_parent">No pudo crearse el directorio padre.</string>
-    <string name="error_database_exists">Este archivo ya existe.</string>
-    <string name="error_failed_to_launch_link">Falló al abrir el enlace.</string>
-    <string name="error_filename_required">Se necesita un nombre de archivo.</string>
     <string name="error_file_not_create">No se pudo crear el archivo:</string>
     <string name="error_invalid_db">Impossible de leer la base de datos.</string>
     <string name="error_invalid_path">Asegúranse que la ruta es correcta.</string>
@@ -122,7 +118,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="progress_title">Trabajando…</string>
     <string name="remember_keyfile_summary">Recordar la ubicación de archivos de clave</string>
     <string name="remember_keyfile_title">Guardando archivo de clave</string>
-    <string name="remove_from_filelist">Borrar</string>
+    <string name="content_description_remove_from_list">Borrar</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>
     <string name="rounds">Pasadas de cifrado</string>
@@ -197,8 +193,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="sort_last_modify_time">Ordenar por Hora de última modificación</string>
     <string name="sort_last_access_time">Ordenar por Hora de último acceso</string>
     <string name="search_results">Resultados de la búsqueda</string>
-    <string name="use_saf_summary">Usar Android Storage Access Framework para examinar archivos (KitKat y posteriores)</string>
-    <string name="use_saf_title">Framework de Acceso al Almacenamiento</string>
     <string name="warning">Advertencia</string>
     <string name="entry_not_found">Datos de entrada no encontrados.</string>
     <string name="warning_password_encoding">El formato .kdb solo admite el juego de caracteres Latin1. Su contraseña puede contener caracteres fuera de este juego de caracteres. Todos los caracteres no-Latin1 se convierten al mismo carácter, lo que reduce la seguridad de su contraseña. Se recomienda cambiar su contraseña.</string>
@@ -255,17 +249,12 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la Papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX necesita permiso de almacenamiento externo para escribir una base de datos</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX necesita permiso de almacenamiento externo para leer una URI no proporcionada por el proveedor de contenido</string>
-    <string name="permission_external_storage_denied">Permiso de almacenamiento externo denegado</string>
-    <string name="permission_external_storage_never_ask">No se puede realizar la acción sin permiso de almacenamiento externo</string>
     <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
     <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>
     <string name="auto_open_file_uri_summary">Abrir automáticamente un archivo desde la pantalla de selección después de una selección en el explorador de archivos</string>
     <string name="allow_copy_password_title">Copia de contraseña</string>
     <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles.</string>
-    <string name="warning_disabling_storage_access_framework">ADVERTENCIA: deshabilitar esta característica puede dar lugar a una incapacidad para abrir o guardar las bases de datos</string>
     <string name="open_link_database">Enlace del archivo Kdbx para abrir</string>
     <string name="database_name_title">Nombre de la base de datos</string>
     <string name="database_description_title">Descripción de la base de datos</string>

@@ -22,12 +22,12 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import android.preference.PreferenceManager
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.FileNotFoundException
@@ -119,7 +119,9 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
         if (!mRememberKeyFile) {
             keyFileUri = null
         }
-        FileDatabaseHistory.getInstance(mWeakContext).addDatabaseUri(uri, keyFileUri)
+        mWeakContext.get()?.let {
+            FileDatabaseHistory.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
+        }
     }
 
     override fun onFinishRun(result: Result) {

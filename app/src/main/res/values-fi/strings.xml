@@ -31,7 +31,7 @@
     <string name="menu_app_settings">Ohjelman asetukset</string>
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="brackets">Hakasulkeet</string>
-    <string name="browser_intall_text">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
+    <string name="file_manager_install_description">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
     <string name="cancel">Peruuta</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
@@ -63,10 +63,6 @@
     <string name="entry_user_name">Käyttäjänimi</string>
     <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
-    <string name="error_could_not_create_parent">Virhe aliryhmän luonnissa.</string>
-    <string name="error_database_exists">Tiedosto on jo olemassa.</string>
-    <string name="error_failed_to_launch_link">Linkin avaus epäonnistui.</string>
-    <string name="error_filename_required">Tiedostonimi on pakollinen.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
     <string name="error_invalid_path">Viallinen hakemistopolku.</string>
@@ -133,7 +129,7 @@
     <string name="recentfile_summary">Muista viimeksi käytettyjen tiedostojen nimet</string>
     <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
     <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
-    <string name="remove_from_filelist">Poista</string>
+    <string name="content_description_remove_from_list">Poista</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>

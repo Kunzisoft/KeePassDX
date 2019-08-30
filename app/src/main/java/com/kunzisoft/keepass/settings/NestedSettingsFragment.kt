@@ -27,13 +27,13 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.support.annotation.RequiresApi
-import android.support.v14.preference.SwitchPreference
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
-import android.support.v7.preference.Preference
-import android.support.v7.preference.PreferenceCategory
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.annotation.RequiresApi
+import androidx.preference.SwitchPreference
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
+import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
+import androidx.preference.PreferenceFragmentCompat
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.widget.Toast
@@ -45,14 +45,13 @@ import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.fileselect.database.FileDatabaseHistory
 import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
 import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import java.lang.ref.WeakReference
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -119,7 +118,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val keyFile = findPreference(getString(R.string.keyfile_key))
             keyFile.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAllKeys()
+                    FileDatabaseHistory.getInstance(activity.applicationContext).deleteAllKeyFiles()
                 }
                 true
             }
@@ -127,24 +126,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val recentHistory = findPreference(getString(R.string.recentfile_key))
             recentHistory.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistory.getInstance(WeakReference(activity.applicationContext)).deleteAll()
-                }
-                true
-            }
-
-            val storageAccessFramework = findPreference(getString(R.string.saf_key)) as SwitchPreference
-            storageAccessFramework.setOnPreferenceChangeListener { _, newValue ->
-                if (!(newValue as Boolean) && context != null) {
-                    val alertDialog = AlertDialog.Builder(context!!)
-                            .setMessage(getString(R.string.warning_disabling_storage_access_framework)).create()
-                    alertDialog.setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok)
-                    ) { dialog, _ -> dialog.dismiss() }
-                    alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel)
-                    ) { dialog, _ ->
-                        storageAccessFramework.isChecked = true
-                        dialog.dismiss()
-                    }
-                    alertDialog.show()
+                    FileDatabaseHistory.getInstance(activity.applicationContext).deleteAll()
                 }
                 true
             }
@@ -418,11 +400,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                         .setMessage(message)
                         .create()
                         .apply {
-                            setButton(AlertDialog.BUTTON_POSITIVE, getText(android.R.string.ok))
+                            setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable))
                             { dialog, _ ->
                                 dialog.dismiss()
                             }
-                            setButton(AlertDialog.BUTTON_NEGATIVE, getText(android.R.string.cancel))
+                            setButton(AlertDialog.BUTTON_NEGATIVE, getText(R.string.disable))
                             { dialog, _ ->
                                 copyPasswordPreference.isChecked = false
                                 dialog.dismiss()

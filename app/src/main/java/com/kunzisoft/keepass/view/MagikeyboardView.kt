@@ -1,10 +1,10 @@
-package com.kunzisoft.keepass.magikeyboard.view
+package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.os.Build
-import android.support.annotation.RequiresApi
+import androidx.annotation.RequiresApi
 import android.util.AttributeSet
 
 import com.kunzisoft.keepass.magikeyboard.MagikIME.Companion.KEY_BACK_KEYBOARD

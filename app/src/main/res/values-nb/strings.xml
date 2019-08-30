@@ -16,7 +16,7 @@
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
-    <string name="browser_intall_text">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
+    <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
     <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
@@ -49,10 +49,6 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
-    <string name="error_could_not_create_parent">Kunne ikke opprette ovennevnt mappe.</string>
-    <string name="error_database_exists">Denne filen finnes allerede.</string>
-    <string name="error_failed_to_launch_link">Kunne ikke åpne lenke.</string>
-    <string name="error_filename_required">Et filnavn er påkrevd.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil:</string>
     <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
@@ -140,7 +136,7 @@
     <string name="recentfile_summary">Husk nylig brukte filnavn</string>
     <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>
     <string name="remember_keyfile_title">Lagre nøkkelfil</string>
-    <string name="remove_from_filelist">Fjern</string>
+    <string name="content_description_remove_from_list">Fjern</string>
     <string name="root">Rot</string>
     <string name="encryption_explanation">Algoritme for å kryptere hele databasen. (Passord, brukernavn, merknader og all data i databasen er kryptert med valgt algoritme).</string>
     <string name="kdf_explanation">For å generere en nøkkel for krypteringsalgoritmen, er den komprimerte hovednøkkelen (SHA-256) transformert ved bruk av en tilfeldig saltet nøkkelutledningsfunksjon.</string>
@@ -170,8 +166,6 @@
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
-    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) rammeverk til filutforsking (KitKat og senere)</string>
-    <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
     <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
@@ -231,10 +225,6 @@
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX trenger tilgang til eksternt lagringsmedium for å lese en URI som ikke leveres av en innholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist.</string>
-    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium.</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
@@ -242,7 +232,6 @@
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
-    <string name="warning_disabling_storage_access_framework">ADVARSEL: Å skru av denne funksjonen kan lede til manglende evne til å åpne eller lagre databaser.</string>
     <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>

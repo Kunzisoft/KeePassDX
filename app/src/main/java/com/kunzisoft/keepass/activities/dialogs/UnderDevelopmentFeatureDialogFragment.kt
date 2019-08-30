@@ -20,17 +20,14 @@
 package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
-import android.content.ActivityNotFoundException
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
-import android.text.Html
 import android.text.SpannableStringBuilder
-import android.widget.Toast
-
+import androidx.appcompat.app.AlertDialog
+import androidx.core.text.HtmlCompat
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 
 /**
  * Custom Dialog that asks the user to download the pro version or make a donation.
@@ -45,34 +42,26 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
             val stringBuilder = SpannableStringBuilder()
             if (BuildConfig.CLOSED_STORE) {
                 if (BuildConfig.FULL_VERSION) {
-                    stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature_thanks))).append("\n\n")
-                            .append(Html.fromHtml(getString(R.string.html_rose))).append("\n\n")
-                            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_work_hard))).append("\n")
-                            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_upgrade))).append(" ")
+                    stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_thanks), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
+                            .append(HtmlCompat.fromHtml(getString(R.string.html_rose), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
+                            .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_work_hard), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n")
+                            .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_upgrade), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                     builder.setPositiveButton(android.R.string.ok) { _, _ -> dismiss() }
                 } else {
-                    stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
-                            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_buy_pro))).append("\n")
-                            .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
+                    stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
+                            .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_buy_pro), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n")
+                            .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     builder.setPositiveButton(R.string.download) { _, _ ->
-                        try {
-                            Util.gotoUrl(context!!, R.string.app_pro_url)
-                        } catch (e: ActivityNotFoundException) {
-                            Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
-                        }
+                        UriUtil.gotoUrl(context!!, R.string.app_pro_url)
                     }
                     builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
                 }
             } else {
-                stringBuilder.append(Html.fromHtml(getString(R.string.html_text_dev_feature))).append("\n\n")
-                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_contibute))).append(" ")
-                        .append(Html.fromHtml(getString(R.string.html_text_dev_feature_encourage)))
+                stringBuilder.append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n\n")
+                        .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_contibute), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
+                        .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    try {
-                        Util.gotoUrl(context!!, R.string.contribution_url)
-                    } catch (e: ActivityNotFoundException) {
-                        Toast.makeText(context, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
-                    }
+                    UriUtil.gotoUrl(context!!, R.string.contribution_url)
                 }
                 builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             }

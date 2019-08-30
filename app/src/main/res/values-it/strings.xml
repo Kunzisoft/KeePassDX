@@ -32,7 +32,7 @@
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
-    <string name="browser_intall_text">Sfoglia i file installando il Gestore File di OpenIntents</string>
+    <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
     <string name="cancel">Annulla</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
@@ -64,10 +64,6 @@
     <string name="entry_user_name">Nome utente</string>
     <string name="error_arc4">La codifica a flusso ARCFOUR non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePass DX non può gestire questo URI.</string>
-    <string name="error_could_not_create_parent">Impossibile creare la directory principale.</string>
-    <string name="error_database_exists">File già esistente.</string>
-    <string name="error_failed_to_launch_link">Impossibile aprire il collegamento.</string>
-    <string name="error_filename_required">Inserisci un nome file.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
@@ -77,7 +73,7 @@
     <string name="error_pass_match">Le password non corrispondono.</string>
     <string name="error_rounds_not_number">Rendi il \"livello\" un numero.</string>
     <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
-    <string name="error_string_key">Ogni stringa deve avere un un nome.</string>
+    <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_title_required">Aggiungi un titolo.</string>
     <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
     <string name="field_name">Nome campo</string>
@@ -137,7 +133,7 @@
     <string name="recentfile_summary">Ricorda i file recenti</string>
     <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave dei database</string>
     <string name="remember_keyfile_title">Salva il file chiave</string>
-    <string name="remove_from_filelist">Elimina</string>
+    <string name="content_description_remove_from_list">Elimina</string>
     <string name="root">Root</string>
     <string name="rounds">Livello cifratura</string>
     <string name="rounds_explanation">Livelli di cifratura aggiuntivi forniscono una maggiore protezione contro attacchi di tipo forza bruta, ma può rallentare il caricamento e il salvataggio.</string>
@@ -152,8 +148,6 @@
     <string name="underline">Trattino basso</string>
     <string name="unsupported_db_version">Versione database non supportata.</string>
     <string name="uppercase">Maiuscole</string>
-    <string name="use_saf_summary">Usa l\'Android storage access framework (SAF) per sfogliare i file (KitKat e successivi)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del set Latin-1 nei file .kdb, dato che sono convertiti tutti nella stessa lettera.</string>
     <string name="warning_read_only">Permetti l\'accesso in scrittura alla scheda SD per salvare le modifiche al database.</string>
@@ -264,10 +258,6 @@
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
     <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX richiede l\'autorizzazione di archiviazione per scrivere in un database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX richiede l\'autorizzazione di archiviazione per leggere un URI non gestito da un fornitore di contenuti.</string>
-    <string name="permission_external_storage_denied">Autorizzazione di archiviazione non ottenuta.</string>
-    <string name="permission_external_storage_never_ask">Impossibile eseguire l\'azione senza l\'autorizzazione di archiviazione.</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="auto_open_file_uri_title">Apri i file selezionandoli</string>
@@ -275,7 +265,6 @@
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
-    <string name="warning_disabling_storage_access_framework">ATTENZIONE: disattivare questa funzione può impedire l\'apertura o salvataggio dei database.</string>
     <string name="open_link_database">Link del file database da aprire</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>
@@ -341,7 +330,7 @@
     <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
-    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>sofware libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
+    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>software libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
     <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong>
     </string>
     <string name="html_text_feature_generosity">Questa <strong>funzione visiva</strong> è disponibile grazie alla tua generosità.</string>

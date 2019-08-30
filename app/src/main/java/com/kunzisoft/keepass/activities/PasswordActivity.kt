@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.Manifest
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
@@ -32,11 +31,12 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
@@ -45,9 +45,14 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.*
+import com.kunzisoft.keepass.utils.ClipDataCompat
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -61,14 +66,13 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.FingerPrintInfoView
-import permissions.dispatcher.*
-import java.io.File
+import com.kunzisoft.keepass.view.asError
+import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
+import java.lang.Exception
 import java.lang.ref.WeakReference
 
-@RuntimePermissions
-class PasswordActivity : StylishActivity(),
-        UriIntentInitTaskCallback {
+class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -87,7 +91,7 @@ class PasswordActivity : StylishActivity(),
     private var prefs: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mKeyFileHelper: KeyFileHelper? = null
+    private var mOpenFileHelper: OpenFileHelper? = null
 
     private var readOnly: Boolean = false
 
@@ -121,8 +125,8 @@ class PasswordActivity : StylishActivity(),
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.browse_button)
-        mKeyFileHelper = KeyFileHelper(this@PasswordActivity)
-        browseView.setOnClickListener(mKeyFileHelper!!.openFileOnClickViewListener)
+        mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
+        browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
@@ -172,8 +176,7 @@ class PasswordActivity : StylishActivity(),
         // For check shutdown
         super.onResume()
 
-        UriIntentInitTask(WeakReference(this), this, mRememberKeyFile)
-                .execute(intent)
+        initUriFromIntent()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -181,26 +184,56 @@ class PasswordActivity : StylishActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    override fun onPostInitTask(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
-        mDatabaseFileUri = databaseFileUri
+    private fun initUriFromIntent() {
 
-        if (errorStringId != null) {
-            Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
-            finish()
-            return
+        val databaseUri: Uri?
+        val keyFileUri: Uri?
+
+        // If is a view intent
+        val action = intent.action
+        if (action != null && action == VIEW_INTENT) {
+
+            val databaseUriRetrieve = intent.data
+            // Stop activity here if we can't verify database URI
+            try {
+                UriUtil.verifyFileUri(databaseUriRetrieve)
+            } catch (e : Exception) {
+                Log.e(TAG, "File URI not validate", e)
+                Toast.makeText(this@PasswordActivity, e.message, Toast.LENGTH_LONG).show()
+                finish()
+                return
+            }
+
+            databaseUri = databaseUriRetrieve
+            keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE)
+
+        } else {
+            databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
+            keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
         }
 
-        // Verify permission to read file
-        if (databaseFileUri != null && !databaseFileUri.scheme!!.contains("content"))
-            doNothingWithPermissionCheck()
+        // Post init uri with KeyFile if needed
+        if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
+            // Retrieve KeyFile in a thread
+            databaseUri?.let { databaseUriNotNull ->
+                FileDatabaseHistory.getInstance(applicationContext)
+                        .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
+                            onPostInitUri(databaseUri, it)
+                        }
+            }
+        } else {
+            onPostInitUri(databaseUri, keyFileUri)
+        }
+    }
+
+    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
+        mDatabaseFileUri = databaseFileUri
 
         // Define title
-        val dbUriString = databaseFileUri?.toString() ?: ""
-        if (dbUriString.isNotEmpty()) {
-            if (PreferencesUtil.isFullFilePathEnable(this))
-                filenameView?.text = dbUriString
-            else
-                filenameView?.text = File(databaseFileUri!!.path!!).name // TODO Encapsulate
+        databaseFileUri?.let {
+            FileDatabaseInfo(this, it).retrieveDatabaseTitle { title ->
+                filenameView?.text = title
+            }
         }
 
         // Define Key File text
@@ -216,7 +249,7 @@ class PasswordActivity : StylishActivity(),
                 newDefaultFileName = databaseFileUri?.toString() ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply() {
+            prefs?.edit()?.apply {
                 putString(KEY_DEFAULT_FILENAME, newDefaultFileName)
                 apply()
             }
@@ -418,7 +451,7 @@ class PasswordActivity : StylishActivity(),
                     }
                 } else {
                     if (result.message != null && result.message!!.isNotEmpty()) {
-                        Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }
@@ -465,32 +498,40 @@ class PasswordActivity : StylishActivity(),
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu) {
-        if (toolbar != null
-                && passwordActivityEducation.checkAndPerformedFingerprintUnlockEducation(
+        val unlockEducationPerformed = toolbar != null
+                && passwordActivityEducation.checkAndPerformedUnlockEducation(
                         toolbar!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
                         },
                         {
                             performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
-                        toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
-                            performedNextEducation(passwordActivityEducation, menu)
-                        },
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && PreferencesUtil.isFingerprintEnable(applicationContext)
-                && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
-                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
-        ;
+                        })
+        if (!unlockEducationPerformed) {
+
+            val readOnlyEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+                    && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
+                    toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
+                    {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
+                        performedNextEducation(passwordActivityEducation, menu)
+                    },
+                    {
+                        performedNextEducation(passwordActivityEducation, menu)
+                    })
+
+            if (!readOnlyEducationPerformed) {
+
+                // fingerprintEducationPerformed
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && PreferencesUtil.isFingerprintEnable(applicationContext)
+                        && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
+                        && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
+                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
+
+            }
+        }
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {
@@ -520,12 +561,6 @@ class PasswordActivity : StylishActivity(),
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated method
-        onRequestPermissionsResult(requestCode, grantResults)
-    }
-
     override fun onActivityResult(
             requestCode: Int,
             resultCode: Int,
@@ -538,7 +573,7 @@ class PasswordActivity : StylishActivity(),
         }
 
         var keyFileResult = false
-        mKeyFileHelper?.let {
+        mOpenFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {
@@ -557,62 +592,26 @@ class PasswordActivity : StylishActivity(),
         }
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun doNothing() {
-    }
-
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showRationaleForExternalStorage(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.permission_external_storage_rationale_read_database)
-                .setPositiveButton(R.string.allow) { _, _ -> request.proceed() }
-                .setNegativeButton(R.string.cancel) { _, _ -> request.cancel() }
-                .show()
-    }
-
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showDeniedForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showNeverAskForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
     companion object {
 
         private val TAG = PasswordActivity::class.java.name
 
         const val KEY_DEFAULT_FILENAME = "defaultFileName"
 
+        private const val KEY_FILENAME = "fileName"
+        private const val KEY_KEYFILE = "keyFile"
+        private const val VIEW_INTENT = "android.intent.action.VIEW"
+
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
-        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String,
+        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
-            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName)
-            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile)
+            intent.putExtra(KEY_FILENAME, fileName)
+            if (keyFile != null)
+                intent.putExtra(KEY_KEYFILE, keyFile)
             intentBuildLauncher.invoke(intent)
-        }
-
-        @Throws(FileNotFoundException::class)
-        private fun verifyFileNameUriFromLaunch(fileName: String) {
-            if (fileName.isEmpty()) {
-                throw FileNotFoundException()
-            }
-
-            val uri = UriUtil.parseUriFile(fileName)
-            val scheme = uri?.scheme
-            if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
-                val dbFile = File(uri.path!!)
-                if (!dbFile.exists()) {
-                    throw FileNotFoundException()
-                }
-            }
         }
 
         /*
@@ -625,8 +624,8 @@ class PasswordActivity : StylishActivity(),
         fun launch(
                 activity: Activity,
                 fileName: String,
-                keyFile: String) {
-            verifyFileNameUriFromLaunch(fileName)
+                keyFile: String?) {
+            UriUtil.verifyFilePath(fileName)
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
                 activity.startActivity(intent)
             }
@@ -642,8 +641,8 @@ class PasswordActivity : StylishActivity(),
         fun launchForKeyboardResult(
                 activity: Activity,
                 fileName: String,
-                keyFile: String) {
-            verifyFileNameUriFromLaunch(fileName)
+                keyFile: String?) {
+            UriUtil.verifyFilePath(fileName)
 
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
                 KeyboardHelper.startActivityForKeyboardSelection(activity, intent)
@@ -661,9 +660,9 @@ class PasswordActivity : StylishActivity(),
         fun launchForAutofillResult(
                 activity: Activity,
                 fileName: String,
-                keyFile: String,
+                keyFile: String?,
                 assistStructure: AssistStructure?) {
-            verifyFileNameUriFromLaunch(fileName)
+            UriUtil.verifyFilePath(fileName)
 
             if (assistStructure != null) {
                 buildAndLaunchIntent(activity, fileName, keyFile) { intent ->

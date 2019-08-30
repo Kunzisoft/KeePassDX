@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.app
 
-import android.support.multidex.MultiDexApplication
+import androidx.multidex.MultiDexApplication
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.database.element.Database
 

@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -32,7 +32,6 @@ import android.widget.RelativeLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
 class EntryEditCustomField @JvmOverloads constructor(context: Context,
                                                      attrs: AttributeSet? = null,
