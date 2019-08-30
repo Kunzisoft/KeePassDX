@@ -11,9 +11,9 @@ import com.kunzisoft.keepass.R
 class PasswordActivityEducation(activity: Activity)
     : Education(activity) {
 
-    fun checkAndPerformedFingerprintUnlockEducation(educationView: View,
-                                                    onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                                    onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+    fun checkAndPerformedUnlockEducation(educationView: View,
+                                         onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                         onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
         return checkAndPerformedEducation(!isEducationUnlockPerformed(activity),
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),

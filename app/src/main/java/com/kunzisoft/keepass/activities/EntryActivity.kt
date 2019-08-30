@@ -319,8 +319,7 @@ class EntryActivity : LockingHideActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        // TODO better condition
-        if (entryContentsView?.isUserNamePresent == true
+        val entryCopyEducationPerformed = entryContentsView?.isUserNamePresent == true
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
                         findViewById(R.id.entry_user_name_action_image),
                         {
@@ -331,18 +330,21 @@ class EntryActivity : LockingHideActivity() {
                         {
                             // Launch autofill settings
                             startActivity(Intent(this@EntryActivity, SettingsAutofillActivity::class.java))
-                        }))
-        else if (toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
-                        toolbar!!.findViewById(R.id.menu_edit),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_edit))
-                        },
-                        {
-                            // Open Keepass doc to create field references
-                            startActivity(Intent(Intent.ACTION_VIEW,
-                                    Uri.parse(getString(R.string.field_references_url))))
-                        }))
-        ;
+                        })
+
+        if (!entryCopyEducationPerformed) {
+            // entryEditEducationPerformed
+            toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+                            toolbar!!.findViewById(R.id.menu_edit),
+                            {
+                                onOptionsItemSelected(menu.findItem(R.id.menu_edit))
+                            },
+                            {
+                                // Open Keepass doc to create field references
+                                startActivity(Intent(Intent.ACTION_VIEW,
+                                        Uri.parse(getString(R.string.field_references_url))))
+                            })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

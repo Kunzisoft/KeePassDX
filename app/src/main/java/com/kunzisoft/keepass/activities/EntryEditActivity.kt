@@ -156,34 +156,6 @@ class EntryEditActivity : LockingHideActivity(),
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
-        entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
-        }
-    }
-
-    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldView
-
-        // TODO better condition
-        if (passwordView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                        passwordView,
-                        {
-                            openPasswordGenerator()
-                        },
-                        {
-                            performedNextEducation(entryEditActivityEducation)
-                        }
-                ))
-        else if (mNewEntry != null && mNewEntry!!.allowExtraFields() && !mNewEntry!!.containsCustomFields()
-                && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
-                && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
-                        addNewFieldView,
-                        {
-                            addNewCustomField()
-                        }))
-            ;
     }
 
     private fun populateViewsWithEntry(newEntry: EntryVersioned) {
@@ -312,7 +284,37 @@ class EntryEditActivity : LockingHideActivity(),
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
 
+        entryEditActivityEducation?.let {
+            Handler().post { performedNextEducation(it) }
+        }
+
         return true
+    }
+
+    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+        val passwordView = entryEditContentsView?.generatePasswordView
+        val addNewFieldView = entryEditContentsView?.addNewFieldView
+
+        val generatePasswordEducationPerformed = passwordView != null
+                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                passwordView,
+                {
+                    openPasswordGenerator()
+                },
+                {
+                    performedNextEducation(entryEditActivityEducation)
+                }
+        )
+        if (!generatePasswordEducationPerformed) {
+            // entryNewFieldEducationPerformed
+            mNewEntry != null && mNewEntry!!.allowExtraFields() && !mNewEntry!!.containsCustomFields()
+                    && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
+                    && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
+                    addNewFieldView,
+                    {
+                        addNewCustomField()
+                    })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

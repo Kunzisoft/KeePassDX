@@ -203,8 +203,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
             mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
         }
-
-        Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
     }
 
     /**
@@ -224,38 +222,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
         } catch (e: Exception) {
             BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
         }
-    }
-
-    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
-        // If no recent files
-        if (createButtonView != null && createButtonView!!.visibility == View.VISIBLE
-                && mAdapterDatabaseHistory != null
-                && mAdapterDatabaseHistory!!.itemCount > 0
-                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                        createButtonView!!,
-                        {
-                            createNewFile()
-                        },
-                        {
-                            // But if the user cancel, it can also select a database
-                            performedNextEducation(fileDatabaseSelectActivityEducation)
-                        }))
-        else if (browseButtonView != null
-                && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                        browseButtonView!!,
-                         {tapTargetView ->
-                             tapTargetView?.let {
-                                 mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
-                             }
-                        },
-                        {
-                            fileSelectExpandableButtonView?.let {
-                                fileDatabaseSelectActivityEducation
-                                        .checkAndPerformedOpenLinkDatabaseEducation(it)
-                            }
-                        }
-                ))
-        ;
     }
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
@@ -446,7 +412,44 @@ class FileDatabaseSelectActivity : StylishActivity(),
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
         MenuUtil.defaultMenuInflater(menuInflater, menu)
+
+        Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
+
         return true
+    }
+
+    private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
+        // If no recent files
+        val createDatabaseEducationPerformed = createButtonView != null && createButtonView!!.visibility == View.VISIBLE
+                && mAdapterDatabaseHistory != null
+                && mAdapterDatabaseHistory!!.itemCount > 0
+                && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
+                createButtonView!!,
+                {
+                    createNewFile()
+                },
+                {
+                    // But if the user cancel, it can also select a database
+                    performedNextEducation(fileDatabaseSelectActivityEducation)
+                })
+        if (!createDatabaseEducationPerformed) {
+            // selectDatabaseEducationPerformed
+            browseButtonView != null
+                    && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
+                    browseButtonView!!,
+                    {tapTargetView ->
+                        tapTargetView?.let {
+                            mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
+                        }
+                    },
+                    {
+                        fileSelectExpandableButtonView?.let {
+                            fileDatabaseSelectActivityEducation
+                                    .checkAndPerformedOpenLinkDatabaseEducation(it)
+                        }
+                    }
+            )
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

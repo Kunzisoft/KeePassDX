@@ -498,33 +498,40 @@ class PasswordActivity : StylishActivity() {
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu) {
-        // TODO better condition
-        if (toolbar != null
-                && passwordActivityEducation.checkAndPerformedFingerprintUnlockEducation(
+        val unlockEducationPerformed = toolbar != null
+                && passwordActivityEducation.checkAndPerformedUnlockEducation(
                         toolbar!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
                         },
                         {
                             performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
-                        toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
-                            performedNextEducation(passwordActivityEducation, menu)
-                        },
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && PreferencesUtil.isFingerprintEnable(applicationContext)
-                && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
-                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
-        ;
+                        })
+        if (!unlockEducationPerformed) {
+
+            val readOnlyEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+                    && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
+                    toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
+                    {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
+                        performedNextEducation(passwordActivityEducation, menu)
+                    },
+                    {
+                        performedNextEducation(passwordActivityEducation, menu)
+                    })
+
+            if (!readOnlyEducationPerformed) {
+
+                // fingerprintEducationPerformed
+                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && PreferencesUtil.isFingerprintEnable(applicationContext)
+                        && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
+                        && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
+                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
+
+            }
+        }
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {

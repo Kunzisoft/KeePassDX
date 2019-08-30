@@ -29,7 +29,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import androidx.appcompat.widget.SearchView
@@ -628,9 +627,9 @@ class GroupActivity : LockingActivity(),
 
     private fun performedNextEducation(groupActivityEducation: GroupActivityEducation,
                                        menu: Menu) {
-        // TODO better condition
+
         // If no node, show education to add new one
-        if (mListNodesFragment != null
+        val addNodeButtonEducationPerformed = mListNodesFragment != null
                 && mListNodesFragment!!.isEmpty
                 && addNodeButtonView?.addButtonView != null
                 && addNodeButtonView!!.isEnable
@@ -642,38 +641,48 @@ class GroupActivity : LockingActivity(),
                         {
                             performedNextEducation(groupActivityEducation, menu)
                         }
-                ))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_search) != null
-                && groupActivityEducation.checkAndPerformedSearchMenuEducation(
-                        toolbar!!.findViewById(R.id.menu_search),
-                        {
-                            menu.findItem(R.id.menu_search).expandActionView()
-                        },
-                        {
-                            performedNextEducation(groupActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_sort) != null
-                && groupActivityEducation.checkAndPerformedSortMenuEducation(
+                )
+        if (!addNodeButtonEducationPerformed) {
+
+            val searchMenuEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_search) != null
+                    && groupActivityEducation.checkAndPerformedSearchMenuEducation(
+                    toolbar!!.findViewById(R.id.menu_search),
+                    {
+                        menu.findItem(R.id.menu_search).expandActionView()
+                    },
+                    {
+                        performedNextEducation(groupActivityEducation, menu)
+                    })
+
+            if (!searchMenuEducationPerformed) {
+
+                val sortMenuEducationPerformed = toolbar != null
+                        && toolbar!!.findViewById<View>(R.id.menu_sort) != null
+                        && groupActivityEducation.checkAndPerformedSortMenuEducation(
                         toolbar!!.findViewById(R.id.menu_sort),
                         {
                             onOptionsItemSelected(menu.findItem(R.id.menu_sort))
                         },
                         {
                             performedNextEducation(groupActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_lock) != null
-                && groupActivityEducation.checkAndPerformedLockMenuEducation(
-                        toolbar!!.findViewById(R.id.menu_lock),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_lock))
-                        },
-                        {
-                            performedNextEducation(groupActivityEducation, menu)
-                        }))
-        ;
+                        })
+
+                if (!sortMenuEducationPerformed) {
+                    // lockMenuEducationPerformed
+                    toolbar != null
+                            && toolbar!!.findViewById<View>(R.id.menu_lock) != null
+                            && groupActivityEducation.checkAndPerformedLockMenuEducation(
+                            toolbar!!.findViewById(R.id.menu_lock),
+                            {
+                                onOptionsItemSelected(menu.findItem(R.id.menu_lock))
+                            },
+                            {
+                                performedNextEducation(groupActivityEducation, menu)
+                            })
+                }
+            }
+        }
     }
 
     override fun startActivity(intent: Intent) {
