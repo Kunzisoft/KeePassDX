@@ -16,8 +16,7 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
@@ -44,7 +43,6 @@
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
-
     <string name="content_description_open_file">Open file</string>
     <string name="content_description_show_file_link">Show file link</string>
     <string name="content_description_open_file_link">Open file link</string>
@@ -62,7 +60,6 @@
     <string name="content_description_password_length">Password length</string>
     <string name="content_description_add_field">Add field</string>
     <string name="content_description_remove_field">Remove field</string>
-
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -315,7 +312,7 @@
     <!--Use ← for LTR languages-->
     <string name="magic_keyboard_activate_setting_path_2_text">or (\"Settings\" → \"Language &amp; input\" → \"Virtual keyboard\" and pick one.)</string>
     <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Switch keybaords by long pressing the spacebar of your keyboard, or, if it is not available, with: </string>
+    <string name="keyboards_swicth_magikeyboard_text">Switch keyboards by long pressing the spacebar of your keyboard, or, if it is not available, with:</string>
     <string name="keyboard_select_entry_text">Select your entry with the key.</string>
     <string name="keyboard_fill_field_text">Fill in your fields using the entry elements.</string>
     <string name="keyboard_lock_database_text">Lock the database.</string>
@@ -340,7 +337,6 @@
     <string name="keyboard_keys_category">Keys</string>
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
     <string name="keyboard_key_sound_title">Sound on keypress</string>
-
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="enable_read_only_title">Write-protected</string>
