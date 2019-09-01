@@ -261,7 +261,7 @@
     <string name="magic_keyboard_activate_setting_path_1_text">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
     <string name="magic_keyboard_activate_setting_path_2_text">veya (\"Ayarlar\" → \"Dil &amp; giriş\" → \"Sanal klavye\" ve birini seçin.)</string>
     <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Klavyenizdeki boşluk çubuğuna uzun basarak veya mevcut değilse şunu yaparak klavyeleri değiştirin:</string>
+    <string name="keyboards_swicth_magikeyboard_text">Klavyenizin boşluk çubuğuna uzun basarak veya yoksa şununla klavyeleri değiştirin:</string>
     <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>
     <string name="keyboard_fill_field_text">Giriş öğelerini kullanarak alanlarınızı doldurun.</string>
     <string name="keyboard_lock_database_text">Veritabanını kilitle.</string>
