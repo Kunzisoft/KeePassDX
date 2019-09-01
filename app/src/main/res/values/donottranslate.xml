@@ -232,7 +232,7 @@
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
     <string name="list_size_string_small" translatable="false">small</string>
     <string name="list_size_string_medium" translatable="false">medium</string>
-    <string name="list_size_string_large" translatable="false">marge</string>
+    <string name="list_size_string_large" translatable="false">large</string>
     <string-array name="list_size_string_values">
     	<item translatable="false">@string/list_size_string_small</item>
     	<item translatable="false">@string/list_size_string_medium</item>
