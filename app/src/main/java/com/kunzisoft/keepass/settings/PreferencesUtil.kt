@@ -52,15 +52,17 @@ object PreferencesUtil {
     }
 
     /**
-     * Retrieve the text size in SP, verify the integrity of the size stored in preference
+     * Retrieve the text size in % (1 for 100%)
      */
     fun getListTextSize(context: Context): Float {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val defaultSizeString = context.getString(R.string.list_size_default)
-        var listSize = prefs.getString(context.getString(R.string.list_size_key), defaultSizeString)
-        if (!listOf(*context.resources.getStringArray(R.array.list_size_values)).contains(listSize))
-            listSize = defaultSizeString
-        return java.lang.Float.parseFloat(listSize)
+        val listSizeString = prefs.getString(context.getString(R.string.list_size_key),
+                            context.getString(R.string.list_size_string_medium))
+        val index = context.resources.getStringArray(R.array.list_size_string_values).indexOf(listSizeString)
+        val typedArray = context.resources.obtainTypedArray(R.array.list_size_values)
+        val listSize = typedArray.getFloat(index, 1.0F)
+        typedArray.recycle()
+        return listSize
     }
 
     fun getDefaultPasswordLength(context: Context): Int {

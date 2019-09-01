@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -47,6 +48,7 @@ class NodeAdapter
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private var calculateViewTypeTextSize = Array(2) { true} // number of view type
+    private var textSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
     private var prefTextSize: Float = 0F
     private var subtextSize: Float = 0F
     private var infoTextSize: Float = 0F
@@ -125,7 +127,12 @@ class NodeAdapter
     }
 
     private fun assignPreferences() {
-        this.prefTextSize = PreferencesUtil.getListTextSize(context) / java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
+        this.prefTextSize = PreferencesUtil.getListTextSize(context)
+        this.infoTextSize = context.resources.getDimension(R.dimen.list_medium_size_default) * prefTextSize
+        this.subtextSize = context.resources.getDimension(R.dimen.list_small_size_default) * prefTextSize
+        this.numberChildrenTextSize = context.resources.getDimension(R.dimen.list_tiny_size_default) * prefTextSize
+        this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
+
         this.listSort = PreferencesUtil.getListSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
@@ -212,23 +219,8 @@ class NodeAdapter
         return NodeViewHolder(view)
     }
 
-    private fun calculateTextSize(holder: NodeViewHolder, viewType: Int) {
-        if (calculateViewTypeTextSize[viewType]) {
-            this.subtextSize = holder.subText.textSize * prefTextSize
-            this.infoTextSize = holder.text.textSize * prefTextSize
-            holder.numberChildren?.let {
-                this.numberChildrenTextSize = it.textSize * prefTextSize
-            }
-            this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
-            calculateViewTypeTextSize[viewType] = false
-        }
-    }
-
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val subNode = nodeSortedList.get(position)
-
-        calculateTextSize(holder, getItemViewType(position))
-
         // Assign image
         val iconColor = when (subNode.type) {
             Type.GROUP -> iconGroupColor
@@ -245,7 +237,7 @@ class NodeAdapter
         // Assign text
         holder.text.apply {
             text = subNode.title
-            textSize = infoTextSize
+            setTextSize(textSizeUnit, infoTextSize)
         }
         // Assign click
         holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
@@ -270,11 +262,11 @@ class NodeAdapter
                 if (showUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
+                    setTextSize(textSizeUnit, subtextSize)
                 }
 
                 mDatabase.stopManageEntry(entry)
             }
-            textSize = subtextSize
         }
 
         // Add number of entries in groups
@@ -282,7 +274,7 @@ class NodeAdapter
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
-                    textSize = numberChildrenTextSize
+                    setTextSize(textSizeUnit, numberChildrenTextSize)
                     visibility = View.VISIBLE
                 }
             } else {
