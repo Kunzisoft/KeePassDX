@@ -53,31 +53,31 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     val isEmpty: Boolean
         get() = mAdapter == null || mAdapter?.itemCount?:0 <= 0
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            nodeClickCallback = context as NodeAdapter.NodeClickCallback?
+            nodeClickCallback = context as NodeAdapter.NodeClickCallback
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context?.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + NodeAdapter.NodeClickCallback::class.java.name)
         }
 
         try {
-            nodeMenuListener = context as NodeAdapter.NodeMenuListener?
+            nodeMenuListener = context as NodeAdapter.NodeMenuListener
         } catch (e: ClassCastException) {
             nodeMenuListener = null
             // Context menu can be omit
-            Log.w(TAG, context?.toString()
+            Log.w(TAG, context.toString()
                     + " must implement " + NodeAdapter.NodeMenuListener::class.java.name)
         }
 
         try {
-            onScrollListener = context as OnScrollListener?
+            onScrollListener = context as OnScrollListener
         } catch (e: ClassCastException) {
             onScrollListener = null
             // Context menu can be omit
-            Log.w(TAG, context?.toString()
+            Log.w(TAG, context.toString()
                     + " must implement " + RecyclerView.OnScrollListener::class.java.name)
         }
     }
@@ -195,14 +195,14 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
-        inflater?.inflate(R.menu.tree, menu)
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.tree, menu)
 
         super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item?.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
 
             R.id.menu_sort -> {
                 context?.let { context ->

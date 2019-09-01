@@ -45,13 +45,13 @@ class IconPickerDialogFragment : DialogFragment() {
     private var iconPickerListener: IconPickerListener? = null
     private var iconPack: IconPack? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            iconPickerListener = context as IconPickerListener?
+            iconPickerListener = context as IconPickerListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context!!.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + IconPickerListener::class.java.name)
         }
     }
@@ -77,7 +77,7 @@ class IconPickerDialogFragment : DialogFragment() {
                 dismiss()
             }
 
-            builder.setNegativeButton(R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog.cancel() }
+            builder.setNegativeButton(R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog?.cancel() }
 
             return builder.create()
         }

@@ -84,12 +84,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                                            keyFileChecked: Boolean, keyFile: Uri?)
     }
 
-    override fun onAttach(activity: Context?) {
+    override fun onAttach(activity: Context) {
         super.onAttach(activity)
         try {
             mListener = activity as AssignPasswordDialogListener?
         } catch (e: ClassCastException) {
-            throw ClassCastException(activity?.toString()
+            throw ClassCastException(activity.toString()
                     + " must implement " + AssignPasswordDialogListener::class.java.name)
         }
     }

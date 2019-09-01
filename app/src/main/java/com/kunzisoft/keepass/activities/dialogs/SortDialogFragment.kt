@@ -44,12 +44,12 @@ class SortDialogFragment : DialogFragment() {
 
     private var recycleBinBottomView: CompoundButton? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            mListener = context as SortSelectionListener?
+            mListener = context as SortSelectionListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context!!.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + SortSelectionListener::class.java.name)
         }
     }

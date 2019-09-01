@@ -36,11 +36,9 @@ abstract class StylishFragment : Fragment() {
     protected var themeId: Int = 0
     protected var contextThemed: Context? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context != null) {
-            this.themeId = Stylish.getThemeId(context)
-        }
+        this.themeId = Stylish.getThemeId(context)
         contextThemed = ContextThemeWrapper(context, themeId)
     }
 

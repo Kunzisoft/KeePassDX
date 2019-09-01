@@ -54,12 +54,12 @@ class GeneratePasswordDialogFragment : DialogFragment() {
     private var bracketsBox: CompoundButton? = null
     private var extendedBox: CompoundButton? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            mListener = context as GeneratePasswordListener?
+            mListener = context as GeneratePasswordListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context?.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + GeneratePasswordListener::class.java.name)
         }
     }
