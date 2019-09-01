@@ -213,8 +213,8 @@
     <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
     <string name="usage">Utilisation</string>
     <string name="fingerprint">Empreinte digitale</string>
-    <string name="fingerprint_enable_title">Reconnaissance d’empreinte digitale</string>
-    <string name="fingerprint_enable_summary">Vous permet de numériser votre empreinte digitale pour ouvrir la base de données</string>
+    <string name="biometric_unlock_enable_title">Reconnaissance d’empreinte digitale</string>
+    <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte digitale pour ouvrir la base de données</string>
     <string name="fingerprint_delete_all_title">Supprimer les clés de chiffrement</string>
     <string name="fingerprint_delete_all_summary">Supprimer toutes les clés de chiffrement liées à la reconnaissance d’empreinte digitale</string>
     <string name="fingerprint_delete_all_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées à la reconnaissance d’empreinte digitale \?</string>

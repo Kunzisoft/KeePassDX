@@ -232,8 +232,8 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="fingerprint_scan_to_open">Escanee su huella digital cuando la casilla de verificación de contraseña esté desmarcada para abrir la base de datos</string>
     <string name="usage">Uso</string>
     <string name="fingerprint">Huella digital</string>
-    <string name="fingerprint_enable_title">Monitoreando Huella digital</string>
-    <string name="fingerprint_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
+    <string name="biometric_unlock_enable_title">Monitoreando Huella digital</string>
+    <string name="biometric_unlock_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
     <string name="fingerprint_delete_all_title">Eliminar claves de cifrado</string>
     <string name="fingerprint_delete_all_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento de huellas digitales</string>
     <string name="fingerprint_delete_all_warning">¿Está seguro de que desea borrar todas las claves relacionadas con las huellas digitales?</string>

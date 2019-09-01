@@ -264,8 +264,8 @@
     <string name="fingerprint_scan_to_open">Scan your fingerprint to open the database when password is turned off.</string>
     <string name="usage">Usage</string>
     <string name="fingerprint">Fingerprint</string>
-    <string name="fingerprint_enable_title">Fingerprint scanning</string>
-    <string name="fingerprint_enable_summary">Lets you scan your fingerprint to open the database</string>
+    <string name="biometric_unlock_enable_title">Biometric unlocking</string>
+    <string name="biometric_unlock_enable_summary">Lets you scan your fingerprint or other biometric prompt to open the database</string>
     <string name="fingerprint_delete_all_title">Delete encryption keys</string>
     <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
     <string name="fingerprint_delete_all_warning">Are you sure you want to delete all keys related to fingerprint recognition?</string>

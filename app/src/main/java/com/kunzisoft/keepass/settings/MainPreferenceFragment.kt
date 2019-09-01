@@ -31,7 +31,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
 
     private var mCallback: Callback? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
 
         if (context is Callback) {
@@ -78,7 +78,9 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
 
         findPreference(getString(R.string.database_change_master_key_key)).apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                fragmentManager?.let { fragmentManager ->
+                    AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                }
                 false
             }
         }

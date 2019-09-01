@@ -246,8 +246,8 @@
     <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
     <string name="usage">Használat</string>
     <string name="fingerprint">Ujjlenyomat</string>
-    <string name="fingerprint_enable_title">Ujjlenyomat-leolvasás</string>
-    <string name="fingerprint_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
+    <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
+    <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
     <string name="fingerprint_delete_all_title">Titkosítási kulcsok törlése</string>
     <string name="fingerprint_delete_all_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
     <string name="fingerprint_delete_all_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>

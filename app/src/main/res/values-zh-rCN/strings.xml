@@ -273,8 +273,8 @@
     <string name="fingerprint_scan_to_store">扫描你的指纹，以便安全的存储数据库密码。</string>
     <string name="fingerprint_scan_to_open">当数据库密码功能关闭的时候，使用指纹扫描解锁数据库。</string>
     <string name="usage">使用指纹解锁</string>
-    <string name="fingerprint_enable_title">指纹扫描</string>
-    <string name="fingerprint_enable_summary">通过指纹扫描解锁数据库</string>
+    <string name="biometric_unlock_enable_title">指纹扫描</string>
+    <string name="biometric_unlock_enable_summary">通过指纹扫描解锁数据库</string>
     <string name="fingerprint_delete_all_title">删除加密密钥</string>
     <string name="fingerprint_delete_all_summary">删除所有与指纹解锁相关的加密密钥</string>
     <string name="fingerprint_delete_all_warning">确认要删除所有与指纹识别相关的密钥吗？</string>

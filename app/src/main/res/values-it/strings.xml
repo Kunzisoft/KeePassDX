@@ -241,8 +241,8 @@
     <string name="fingerprint_scan_to_open">Scansiona la tua impronta per aprire il database quando la password è disattivata.</string>
     <string name="usage">Utilizzo</string>
     <string name="fingerprint">Impronta</string>
-    <string name="fingerprint_enable_title">Scansione di impronte</string>
-    <string name="fingerprint_enable_summary">Consente la scansione di impronte per aprire il database</string>
+    <string name="biometric_unlock_enable_title">Scansione di impronte</string>
+    <string name="biometric_unlock_enable_summary">Consente la scansione di impronte per aprire il database</string>
     <string name="fingerprint_delete_all_title">Elimina chiavi di cifratura</string>
     <string name="fingerprint_delete_all_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
     <string name="fingerprint_delete_all_warning">Sei sicuro di volere eliminare tutte le chiavi relative alle impronte?</string>

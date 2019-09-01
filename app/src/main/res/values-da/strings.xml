@@ -247,8 +247,8 @@
     <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
     <string name="usage">Brug</string>
     <string name="fingerprint">Fingeraftryk</string>
-    <string name="fingerprint_enable_title">Fingeraftryksscanning</string>
-    <string name="fingerprint_enable_summary">Scan fingeraftryk for at åbne databasen</string>
+    <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
+    <string name="biometric_unlock_enable_summary">Scan fingeraftryk for at åbne databasen</string>
     <string name="fingerprint_delete_all_title">Slet krypteringsnøgler</string>
     <string name="fingerprint_delete_all_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
     <string name="fingerprint_delete_all_warning">Bekræft sletning af alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>

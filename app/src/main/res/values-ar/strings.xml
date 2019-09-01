@@ -222,8 +222,8 @@
     <string name="fingerprint_scan_to_store">افحص البصمة لتخزين كلمة سر قاعدة البيانات بأمان.</string>
     <string name="fingerprint_scan_to_open">افحص البصمة لفتح قاعدة البيانات عند تعطيل كلمة السر.</string>
     <string name="fingerprint">البصمة</string>
-    <string name="fingerprint_enable_title">فحص البصمة</string>
-    <string name="fingerprint_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
+    <string name="biometric_unlock_enable_title">فحص البصمة</string>
+    <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
     <string name="auto_open_file_uri_title">افتح الملفات بالتحديد
 \n</string>

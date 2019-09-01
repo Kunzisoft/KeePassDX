@@ -77,7 +77,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         activity?.unlockScreenOrientation()
         super.onDismiss(dialog)
     }

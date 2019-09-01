@@ -251,8 +251,8 @@
     <string name="fingerprint_scan_to_open">Pro otevření databáze s vypnutým heslem přiložte prst na snímač otisku prstu.</string>
     <string name="usage">Použítí</string>
     <string name="fingerprint">Otisk</string>
-    <string name="fingerprint_enable_title">Snímání otisku prstu</string>
-    <string name="fingerprint_enable_summary">Otevírat databázi otiskem prstu</string>
+    <string name="biometric_unlock_enable_title">Snímání otisku prstu</string>
+    <string name="biometric_unlock_enable_summary">Otevírat databázi otiskem prstu</string>
     <string name="fingerprint_delete_all_title">Smazat šifrovací klíče</string>
     <string name="fingerprint_delete_all_summary">Smazat všechny šifrovací klíče související s rozpoznáváním otisku prstu</string>
     <string name="fingerprint_delete_all_warning">Opravdu chcete smazat všechny klíče přiřazené k otiskům prstů\?</string>

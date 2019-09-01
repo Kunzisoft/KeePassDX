@@ -211,8 +211,8 @@
     <string name="fingerprint_scan_to_open">Parola kapatıldığında veritabanını açmak için parmak izinizi tarayın.</string>
     <string name="usage">Kullanım</string>
     <string name="fingerprint">Parmakizi</string>
-    <string name="fingerprint_enable_title">Parmak izi tarama</string>
-    <string name="fingerprint_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
+    <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
+    <string name="biometric_unlock_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
     <string name="fingerprint_delete_all_title">Şifreleme anahtarlarını silin</string>
     <string name="fingerprint_delete_all_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
     <string name="fingerprint_delete_all_warning">Parmak izi tanıma ile ilgili tüm tuşları silmek istediğinizden emin misiniz\?</string>

@@ -25,7 +25,6 @@ import android.app.backup.BackupManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -43,6 +42,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
+import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.utils.ClipDataCompat
@@ -58,14 +58,13 @@ import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
-import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
+import com.kunzisoft.keepass.fingerprint.AdvancedUnlockedViewManager
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.FingerPrintInfoView
+import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
@@ -84,7 +83,7 @@ class PasswordActivity : StylishActivity() {
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
-    private var fingerPrintInfoView: FingerPrintInfoView? = null
+    private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
@@ -95,7 +94,7 @@ class PasswordActivity : StylishActivity() {
 
     private var readOnly: Boolean = false
 
-    private var fingerPrintViewsManager: FingerPrintViewsManager? = null
+    private var advancedUnlockedViewManager: AdvancedUnlockedViewManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +119,7 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
-        fingerPrintInfoView = findViewById(R.id.fingerprint_info)
+        advancedUnlockInfoView = findViewById(R.id.fingerprint_info)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
@@ -280,11 +279,11 @@ class PasswordActivity : StylishActivity() {
             // Init FingerPrint elements
             var fingerPrintInit = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isFingerprintEnable(this)) {
-                    if (fingerPrintViewsManager == null) {
-                        fingerPrintViewsManager = FingerPrintViewsManager(this,
+                if (PreferencesUtil.isBiometricPromptEnable(this)) {
+                    if (advancedUnlockedViewManager == null) {
+                        advancedUnlockedViewManager = AdvancedUnlockedViewManager(this,
                                 databaseFileUri,
-                                fingerPrintInfoView,
+                                advancedUnlockInfoView,
                                 checkboxPasswordView,
                                 enableButtonOnCheckedChangeListener,
                                 passwordView) { passwordRetrieve ->
@@ -298,12 +297,12 @@ class PasswordActivity : StylishActivity() {
                                     }
                                 }
                     }
-                    fingerPrintViewsManager?.initFingerprint()
+                    advancedUnlockedViewManager?.initBiometric()
                     // checks if fingerprint is available, will also start listening for fingerprints when available
-                    fingerPrintViewsManager?.checkFingerprintAvailability()
+                    advancedUnlockedViewManager?.checkBiometricAvailability()
                     fingerPrintInit = true
                 } else {
-                    fingerPrintViewsManager?.destroy()
+                    advancedUnlockedViewManager?.destroy()
                 }
             }
             if (!fingerPrintInit) {
@@ -361,14 +360,14 @@ class PasswordActivity : StylishActivity() {
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.stopListening()
+            advancedUnlockedViewManager?.stopListening()
         }
         super.onPause()
     }
 
     override fun onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.destroy()
+            advancedUnlockedViewManager?.destroy()
         }
         super.onDestroy()
     }
@@ -429,9 +428,9 @@ class PasswordActivity : StylishActivity() {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (PreferencesUtil.isFingerprintEnable(this@PasswordActivity)) {
+                    if (PreferencesUtil.isBiometricPromptEnable(this@PasswordActivity)) {
                         // Stay with the same mode
-                        fingerPrintViewsManager?.reInitWithFingerprintMode()
+                        advancedUnlockedViewManager?.reInitWithFingerprintMode()
                     }
                 }
 
@@ -485,7 +484,7 @@ class PasswordActivity : StylishActivity() {
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Fingerprint menu
-            fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
+            advancedUnlockedViewManager?.inflateOptionsMenu(inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)
@@ -523,12 +522,13 @@ class PasswordActivity : StylishActivity() {
 
             if (!readOnlyEducationPerformed) {
 
+                val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
                 // fingerprintEducationPerformed
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isFingerprintEnable(applicationContext)
-                        && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                        && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
-                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && PreferencesUtil.isBiometricPromptEnable(applicationContext)
+                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(advancedUnlockInfoView?.unlockIconImageView!!)
 
             }
         }
@@ -553,7 +553,7 @@ class PasswordActivity : StylishActivity() {
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_fingerprint_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                fingerPrintViewsManager?.deleteEntryKey()
+                advancedUnlockedViewManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }

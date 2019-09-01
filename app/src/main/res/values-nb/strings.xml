@@ -208,8 +208,8 @@
     <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
     <string name="fingerprint">Fingeravtrykk</string>
-    <string name="fingerprint_enable_title">Skanner etter fingeravtrykk</string>
-    <string name="fingerprint_enable_summary">Skru på fingeravtrykksåpning av database</string>
+    <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
+    <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
     <string name="fingerprint_delete_all_title">Slett krypteringsnøkler</string>
     <string name="fingerprint_delete_all_summary">Slett alle fingeravtrykksnøkler som har med fingeravtrykksgjenkjennelse å gjøre</string>
     <string name="fingerprint_delete_all_warning">Er du sikker på at du vil slette alle nøklene som har med fingeravtrykk å gjøre?</string>

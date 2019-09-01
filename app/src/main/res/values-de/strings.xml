@@ -192,9 +192,9 @@
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
-    <string name="fingerprint_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
+    <string name="biometric_unlock_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
     <string name="fingerprint">Fingerabdruck</string>
-    <string name="fingerprint_enable_title">Fingerabdruckscanner</string>
+    <string name="biometric_unlock_enable_title">Fingerabdruckscanner</string>
     <string name="fingerprint_scan_to_open">Fingerabdruck scannen, um die Datenbank zu öffnen, wenn die Passworteingabe ausgeschaltet ist.</string>
     <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um das Datenbank-Passwort sicher zu speichern.</string>
     <string name="fingerprint_type_password_text">Datenbank-Passwort eingeben</string>

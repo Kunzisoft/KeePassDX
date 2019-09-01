@@ -250,8 +250,8 @@
     <string name="fingerprint_scan_to_open">Scan je vingerafdruk om de databank te ontgrendelen als er geen vinkje staat bij wachtwoord</string>
     <string name="usage">Gebruik</string>
     <string name="fingerprint">Vingerafdruk</string>
-    <string name="fingerprint_enable_title">Bezig met vingerafdrukherkenning</string>
-    <string name="fingerprint_enable_summary">Databank openen met vingerafdruk</string>
+    <string name="biometric_unlock_enable_title">Bezig met vingerafdrukherkenning</string>
+    <string name="biometric_unlock_enable_summary">Databank openen met vingerafdruk</string>
     <string name="fingerprint_delete_all_title">Sleutels voor versleuteling verwijderen</string>
     <string name="fingerprint_delete_all_summary">Alle aan vingerafdrukherkenning gerelateerde sleutels wilt verwijderen</string>
     <string name="fingerprint_delete_all_warning">Weet je zeker dat je alle aan vingerafdrukherkenning gerelateerde sleutels wilt verwijderen?</string>

@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Resources
-import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,6 +36,7 @@ import androidx.preference.PreferenceFragmentCompat
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.widget.Toast
+import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.KeyboardExplanationDialogFragment
@@ -48,8 +48,8 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
-import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
+import com.kunzisoft.keepass.fingerprint.BiometricHelper
+import com.kunzisoft.keepass.fingerprint.AdvancedUnlockedViewManager
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 
@@ -131,16 +131,18 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 true
             }
 
-            val fingerprintEnablePreference = findPreference(getString(R.string.fingerprint_enable_key)) as SwitchPreference
+            val biometricUnlockEnablePreference = findPreference(getString(R.string.biometric_unlock_enable_key)) as SwitchPreference
             // < M solve verifyError exception
-            var fingerprintSupported = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-                fingerprintSupported = FingerPrintHelper.isFingerprintSupported(
-                        activity.getSystemService(FingerprintManager::class.java))
-            if (!fingerprintSupported) {
+            var biometricUnlockSupported = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val biometricCanAuthenticate = BiometricManager.from(activity).canAuthenticate()
+                biometricUnlockSupported = biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+            }
+            if (!biometricUnlockSupported) {
                 // False if under Marshmallow
-                fingerprintEnablePreference.isChecked = false
-                fingerprintEnablePreference.setOnPreferenceClickListener { preference ->
+                biometricUnlockEnablePreference.isChecked = false
+                biometricUnlockEnablePreference.setOnPreferenceClickListener { preference ->
                     fragmentManager?.let { fragmentManager ->
                         (preference as SwitchPreference).isChecked = false
                         UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
@@ -151,7 +153,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
 
             val deleteKeysFingerprints = findPreference(getString(R.string.fingerprint_delete_all_key))
-            if (!fingerprintSupported) {
+            if (!biometricUnlockSupported) {
                 deleteKeysFingerprints.isEnabled = false
             } else {
                 deleteKeysFingerprints.setOnPreferenceClickListener {
@@ -162,19 +164,19 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                                 .setPositiveButton(resources.getString(android.R.string.yes)
                                 ) { _, _ ->
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        FingerPrintHelper.deleteEntryKeyInKeystoreForFingerprints(
-                                                context,
-                                                object : FingerPrintHelper.FingerPrintErrorCallback {
+                                        BiometricHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                activity,
+                                                object : BiometricHelper.BiometricUnlockErrorCallback {
                                                     override fun onInvalidKeyException(e: Exception) {}
 
-                                                    override fun onFingerPrintException(e: Exception) {
+                                                    override fun onBiometricException(e: Exception) {
                                                         Toast.makeText(context,
                                                                 getString(R.string.fingerprint_error, e.localizedMessage),
                                                                 Toast.LENGTH_SHORT).show()
                                                     }
                                                 })
                                     }
-                                    FingerPrintViewsManager.deleteAllValuesFromNoBackupPreferences(context)
+                                    AdvancedUnlockedViewManager.deleteAllValuesFromNoBackupPreferences(context)
                                 }
                                 .setNegativeButton(resources.getString(android.R.string.no))
                                 { _, _ -> }.show()

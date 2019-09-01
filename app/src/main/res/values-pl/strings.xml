@@ -245,8 +245,8 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="fingerprint_scan_to_open">Zeskanuj swój odcisk palca, aby otworzyć bazę danych po wyłączeniu hasła.</string>
     <string name="usage">Użycie</string>
     <string name="fingerprint">Odcisk palca</string>
-    <string name="fingerprint_enable_title">Skanowanie odcisków palców</string>
-    <string name="fingerprint_enable_summary">Umożliwia skanowanie odcisku palca w celu otwarcia bazy danych</string>
+    <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
+    <string name="biometric_unlock_enable_summary">Umożliwia skanowanie odcisku palca w celu otwarcia bazy danych</string>
     <string name="fingerprint_delete_all_title">Usuń klucze szyfrowania</string>
     <string name="fingerprint_delete_all_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
     <string name="fingerprint_delete_all_warning">Czy na pewno chcesz usunąć wszystkie klucze związane z rozpoznawaniem linii papilarnych\?</string>
