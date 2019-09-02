@@ -4,13 +4,11 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
 import android.widget.CompoundButton
 import android.widget.TextView
-import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -30,11 +28,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     : BiometricHelper.BiometricUnlockCallback {
 
     private var biometricHelper: BiometricHelper? = null
-    private var fingerprintMustBeConfigured = true
-    private var biometricMode: Mode = Mode.NOT_CONFIGURED_MODE
-
-    private var checkboxListenerHandler = Handler()
-    private var checkboxListenerRunnable: Runnable? = null
+    private var biometricMode: Mode = Mode.NOT_CONFIGURED
 
     // makes it possible to store passwords per database
     private val preferenceKeyValue: String
@@ -43,11 +37,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private val preferenceKeyIvSpec: String
         get() = PREF_KEY_IV_PREFIX + (databaseFileUri?.path ?: "")
 
-    private var prefsNoBackup: SharedPreferences? = null
-
-    init {
-        prefsNoBackup = getNoBackupSharedPreferences(context)
-    }
+    private var prefsNoBackup: SharedPreferences = getNoBackupSharedPreferences(context)
 
     // fingerprint related code here
     fun initBiometric() {
@@ -56,41 +46,54 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         // and the activity still active)
         if (biometricHelper == null || !biometricHelper!!.isFingerprintInitialized) {
 
-            biometricMode = Mode.NOT_CONFIGURED_MODE
-
-            showFingerPrintViews(true)
-            // Start the animation
-            advancedUnlockInfoView?.startIconViewAnimation()
-
-            // Add a check listener to change fingerprint mode
-            checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-
-                // New runnable to each change
-                checkboxListenerHandler.removeCallbacks(checkboxListenerRunnable)
-                checkboxListenerRunnable = Runnable {
-                    if (!fingerprintMustBeConfigured) {
-                        // encrypt or decrypt mode based on how much input or not
-                        if (checked) {
-                            toggleFingerprintMode(Mode.STORE_MODE)
-                        } else {
-                            if (prefsNoBackup?.contains(preferenceKeyValue) == true) {
-                                toggleFingerprintMode(Mode.OPEN_MODE)
-                            } else {
-                                // This happens when no fingerprints are registered.
-                                toggleFingerprintMode(Mode.WAITING_PASSWORD_MODE)
-                            }
-                        }
-                    }
-                }
-                checkboxListenerHandler.post(checkboxListenerRunnable)
-
-                // Add old listener to enable the button, only be call here because of onCheckedChange bug
-                onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
-            }
-
             biometricHelper = BiometricHelper(context, this)
             // callback for fingerprint findings
             biometricHelper?.setAuthenticationCallback(biometricCallback)
+        }
+        checkBiometricAvailability()
+    }
+
+    @Synchronized
+    fun checkBiometricAvailability() {
+
+        // fingerprint not supported (by API level or hardware) so keep option hidden
+        // or manually disable
+        val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
+
+        val newBiometricMode: Mode = if (!PreferencesUtil.isBiometricPromptEnable(context)
+                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
+                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
+
+            Mode.UNAVAILABLE
+
+        } else {
+
+            // fingerprint is available but not configured, show icon but in disabled state with some information
+            if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
+
+                Mode.NOT_CONFIGURED
+
+            } else {
+                // fingerprint available but no stored password found yet for this DB so show info don't listen
+                if (prefsNoBackup.contains(preferenceKeyValue)) {
+                    // listen for decryption
+                    Mode.OPEN
+                } else {
+                    if (checkboxPasswordView?.isChecked == true) {
+                        // listen for encryption
+                        Mode.STORE
+                    } else {
+                        // wait for typing
+                        Mode.WAIT_CREDENTIAL
+                    }
+                }
+            }
+        }
+
+        // Toggle mode
+        if (newBiometricMode != biometricMode) {
+            biometricMode = newBiometricMode
+            initBiometricMode()
         }
     }
 
@@ -103,37 +106,64 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                 5 -> Log.i(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
                 else -> {
                     Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                    setAdvancedUnlockedView(errString.toString(), true)
+                    setAdvancedUnlockedView(errString.toString())
                 }
             }
         }
 
         override fun onAuthenticationFailed() {
             Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized")
-            showError(R.string.fingerprint_not_recognized)
+            setAdvancedUnlockedView(R.string.fingerprint_not_recognized)
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             when (biometricMode) {
-                Mode.STORE_MODE -> {
+                Mode.UNAVAILABLE -> {}
+                Mode.NOT_CONFIGURED -> {}
+                Mode.WAIT_CREDENTIAL -> {}
+                Mode.STORE -> {
                     // newly store the entered password in encrypted way
                     biometricHelper?.encryptData(passwordView?.text.toString())
                 }
-                Mode.OPEN_MODE -> {
+                Mode.OPEN -> {
                     // retrieve the encrypted value from preferences
-                    prefsNoBackup?.getString(preferenceKeyValue, null)?.let {
+                    prefsNoBackup.getString(preferenceKeyValue, null)?.let {
                         biometricHelper?.decryptData(it)
                     }
                 }
-                Mode.NOT_CONFIGURED_MODE -> {}
-                Mode.WAITING_PASSWORD_MODE -> {}
             }
         }
     }
 
+    private fun initNotAvailable() {
+        showFingerPrintViews(false)
+
+        advancedUnlockInfoView?.stopIconViewAnimation()
+
+        advancedUnlockInfoView?.setIconViewClickListener(null)
+    }
+
+    private fun initNotConfigured() {
+        showFingerPrintViews(true)
+        setAdvancedUnlockedView(R.string.configure_biometric)
+        advancedUnlockInfoView?.stopIconViewAnimation()
+
+        advancedUnlockInfoView?.setIconViewClickListener(null)
+    }
+
+    private fun initWaitData() {
+        showFingerPrintViews(true)
+        setAdvancedUnlockedView(R.string.no_password_stored)
+        advancedUnlockInfoView?.startIconViewAnimation()
+
+        advancedUnlockInfoView?.setIconViewClickListener(null)
+    }
+
     private fun initEncryptData() {
-        setAdvancedUnlockedView(R.string.store_with_fingerprint)
-        biometricMode = Mode.STORE_MODE
+        showFingerPrintViews(true)
+        setAdvancedUnlockedView(R.string.open_biometric_prompt_store_credential)
+        advancedUnlockInfoView?.startIconViewAnimation()
+
         biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
             // Set listener to open the biometric dialog and save credential
             advancedUnlockInfoView?.setIconViewClickListener { _ ->
@@ -145,10 +175,12 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     private fun initDecryptData() {
-        setAdvancedUnlockedView(R.string.scanning_fingerprint)
-        biometricMode = Mode.OPEN_MODE
+        showFingerPrintViews(true)
+        setAdvancedUnlockedView(R.string.open_biometric_prompt_unlock_database)
+        advancedUnlockInfoView?.startIconViewAnimation()
+
         if (biometricHelper != null) {
-            prefsNoBackup?.getString(preferenceKeyIvSpec, null)?.let {
+            prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
                 biometricHelper?.initDecryptData(it) { biometricPrompt, cryptoObject, promptInfo ->
                     // Set listener to open the biometric dialog and check credential
                     advancedUnlockInfoView?.setIconViewClickListener { _ ->
@@ -161,120 +193,58 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         }
     }
 
-    private fun initWaitData() {
-        setAdvancedUnlockedView(R.string.no_password_stored, true)
-        biometricMode = Mode.WAITING_PASSWORD_MODE
-    }
-
     @Synchronized
-    private fun toggleFingerprintMode(newMode: Mode) {
-        when (newMode) {
-            Mode.WAITING_PASSWORD_MODE -> setAdvancedUnlockedView(R.string.no_password_stored, true)
-            Mode.STORE_MODE -> setAdvancedUnlockedView(R.string.store_with_fingerprint)
-            Mode.OPEN_MODE -> setAdvancedUnlockedView(R.string.scanning_fingerprint)
-            else -> {}
-        }
-        if (newMode != biometricMode) {
-            biometricMode = newMode
-            reInitWithFingerprintMode()
-        }
-    }
-
-    @Synchronized
-    fun reInitWithFingerprintMode() {
+    fun initBiometricMode() {
         when (biometricMode) {
-            Mode.STORE_MODE -> initEncryptData()
-            Mode.WAITING_PASSWORD_MODE -> initWaitData()
-            Mode.OPEN_MODE -> initDecryptData()
-            else -> {}
+            Mode.UNAVAILABLE -> initNotAvailable()
+            Mode.NOT_CONFIGURED -> initNotConfigured()
+            Mode.WAIT_CREDENTIAL -> initWaitData()
+            Mode.STORE -> initEncryptData()
+            Mode.OPEN -> initDecryptData()
         }
         // Show fingerprint key deletion
         context.invalidateOptionsMenu()
     }
 
-    fun stopListening() {
-        // stop listening when we go in background
-        advancedUnlockInfoView?.stopIconViewAnimation()
-        biometricMode = Mode.NOT_CONFIGURED_MODE
+    fun pause() {
+        biometricMode = Mode.NOT_CONFIGURED
+        initBiometricMode()
     }
 
     fun destroy() {
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
 
-        stopListening()
+        biometricMode = Mode.UNAVAILABLE
+        initBiometricMode()
         biometricHelper = null
-
-        showFingerPrintViews(false)
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
-        if (!fingerprintMustBeConfigured && prefsNoBackup?.contains(preferenceKeyValue) == true)
-            menuInflater.inflate(R.menu.fingerprint, menu)
+        if (biometricMode != Mode.UNAVAILABLE
+                && biometricMode != Mode.NOT_CONFIGURED
+                && prefsNoBackup.contains(preferenceKeyValue))
+            menuInflater.inflate(R.menu.advanced_unlock, menu)
     }
 
     private fun showFingerPrintViews(show: Boolean) {
         context.runOnUiThread { advancedUnlockInfoView?.hide = !show }
     }
 
-    private fun setAdvancedUnlockedView(textId: Int, lock: Boolean = false) {
+    private fun setAdvancedUnlockedView(textId: Int) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.setText(textId, lock)
+            advancedUnlockInfoView?.setText(textId)
         }
     }
 
-    private fun setAdvancedUnlockedView(text: CharSequence, lock: Boolean = false) {
+    private fun setAdvancedUnlockedView(text: CharSequence) {
         context.runOnUiThread {
-            advancedUnlockInfoView?.setText(text, lock)
+            advancedUnlockInfoView?.text = text
         }
-    }
-
-    @Synchronized
-    fun checkBiometricAvailability() {
-        // fingerprint not supported (by API level or hardware) so keep option hidden
-        // or manually disable
-        val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
-        if (!PreferencesUtil.isBiometricPromptEnable(context)
-                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
-                || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-            showFingerPrintViews(false)
-        } else {
-            // all is set here so we can confirm to user and start listening for fingerprints
-            // show explanations
-            advancedUnlockInfoView?.setOnClickListener { _ ->
-                FingerPrintExplanationDialog().show(context.supportFragmentManager, "fingerprintDialog")
-            }
-            showFingerPrintViews(true)
-
-            // fingerprint is available but not configured, show icon but in disabled state with some information
-            if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-                // This happens when no fingerprints are registered. Listening won't start
-                setAdvancedUnlockedView(R.string.configure_fingerprint, true)
-            } else {
-                fingerprintMustBeConfigured = false
-
-                // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup?.contains(preferenceKeyValue) != true) {
-                    if (checkboxPasswordView?.isChecked == true) {
-                        // listen for encryption
-                        initEncryptData()
-                    } else {
-                        // wait for typing
-                        initWaitData()
-                    }
-                } else {
-                    // listen for decryption
-                    initDecryptData()
-                }
-            }// finally fingerprint available and configured so we can use it
-        }
-
-        // Show fingerprint key deletion
-        context.invalidateOptionsMenu()
     }
 
     private fun removePrefsNoBackupKey() {
-        prefsNoBackup?.edit()
+        prefsNoBackup.edit()
                 ?.remove(preferenceKeyValue)
                 ?.remove(preferenceKeyIvSpec)
                 ?.apply()
@@ -283,7 +253,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     override fun handleEncryptedResult(
             value: String,
             ivSpec: String) {
-        prefsNoBackup?.edit()
+        prefsNoBackup.edit()
                 ?.putString(preferenceKeyValue, value)
                 ?.putString(preferenceKeyIvSpec, ivSpec)
                 ?.apply()
@@ -297,7 +267,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     override fun onInvalidKeyException(e: Exception) {
-        showError(context.getString(R.string.fingerprint_invalid_key))
+        setAdvancedUnlockedView(R.string.biometric_invalid_key)
         deleteEntryKey()
     }
 
@@ -305,28 +275,20 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         // Don't show error here;
         // showError(getString(R.string.fingerprint_error, e.getMessage()));
         // Can be uninit in Activity and init in fragment
-        setAdvancedUnlockedView(e.localizedMessage, true)
+        setAdvancedUnlockedView(e.localizedMessage)
     }
 
     fun deleteEntryKey() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             biometricHelper?.deleteEntryKey()
             removePrefsNoBackupKey()
-            biometricMode = Mode.NOT_CONFIGURED_MODE
+            biometricMode = Mode.NOT_CONFIGURED
             checkBiometricAvailability()
         }
     }
 
-    private fun showError(messageId: Int) {
-        showError(context.getString(messageId))
-    }
-
-    private fun showError(message: CharSequence) {
-        context.runOnUiThread { Toast.makeText(context, message, Toast.LENGTH_SHORT).show() } // TODO Error
-    }
-
     enum class Mode {
-        NOT_CONFIGURED_MODE, WAITING_PASSWORD_MODE, STORE_MODE, OPEN_MODE
+        UNAVAILABLE, NOT_CONFIGURED, WAIT_CREDENTIAL, STORE, OPEN
     }
 
     companion object {

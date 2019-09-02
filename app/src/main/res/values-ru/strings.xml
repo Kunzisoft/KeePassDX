@@ -154,12 +154,12 @@
     <string name="warning_read_only">Карта помять в режиме только для чтения. Изменения не будут сохранены.</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна.</string>
     <string name="version_label">Версия %1$s</string>
-    <string name="configure_fingerprint">Отпечатки пальцев поддерживаются, но не настроены.</string>
-    <string name="scanning_fingerprint">Ожидание отпечатка пальца</string>
+    <string name="configure_biometric">Отпечатки пальцев поддерживаются, но не настроены.</string>
+    <string name="open_biometric_prompt_unlock_database">Ожидание отпечатка пальца</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="fingerprint_invalid_key">Неверный ключ отпечатка пальца. Восстановите пароль.</string>
-    <string name="fingerprint_error">Проблема с отпечатком пальца : %1$s</string>
-    <string name="store_with_fingerprint">Используйте отпечаток пальца, чтобы сохранить пароль</string>
+    <string name="biometric_invalid_key">Неверный ключ отпечатка пальца. Восстановите пароль.</string>
+    <string name="biometric_scanning_error">Проблема с отпечатком пальца : %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Используйте отпечаток пальца, чтобы сохранить пароль</string>
     <string name="no_password_stored">Для этой базы пароль ещё не сохранён</string>
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
@@ -210,7 +210,7 @@
     <string name="menu_move">Переместить</string>
     <string name="menu_paste">Вставить</string>
     <string name="menu_cancel">Отмена</string>
-    <string name="menu_fingerprint_remove_key">Удалить отпечаток</string>
+    <string name="menu_biometric_remove_key">Удалить отпечаток</string>
     <string name="menu_file_selection_read_only">Только чтение</string>
     <string name="menu_open_file_read_and_write">Чтение и запись</string>
     <string name="sort_groups_before">Сначала группы</string>
@@ -248,9 +248,9 @@
     <string name="fingerprint">Отпечаток пальца</string>
     <string name="biometric_unlock_enable_title">Сканирование отпечатка пальца</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы с помощью отпечатка пальца</string>
-    <string name="fingerprint_delete_all_title">Удалить ключи шифрования</string>
-    <string name="fingerprint_delete_all_summary">Удалить все ключи шифрования, связанные с распознаванием отпечатка пальца</string>
-    <string name="fingerprint_delete_all_warning">Вы уверены, что хотите удалить все ключи, связанные с отпечатком пальца?</string>
+    <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
+    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием отпечатка пальца</string>
+    <string name="biometric_delete_all_key_warning">Вы уверены, что хотите удалить все ключи, связанные с отпечатком пальца?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s ниже минимально необходимой %2$s.</string>
     <string name="unavailable_feature_hardware">Оборудование не найдено.</string>

@@ -163,7 +163,7 @@
     <string name="menu_paste">貼上</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">顯示密碼</string>
-    <string name="menu_fingerprint_remove_key">移除指紋密鑰</string>
+    <string name="menu_biometric_remove_key">移除指紋密鑰</string>
     <string name="menu_file_selection_read_only">唯讀</string>
     <string name="menu_open_file_read_and_write">讀寫</string>
     <string name="omitbackup_title">不要搜尋備份的項目</string>

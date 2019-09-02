@@ -32,13 +32,13 @@ import androidx.annotation.RequiresApi
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
+import com.kunzisoft.keepass.R
 import java.io.IOException
 import java.security.KeyStore
 import java.security.KeyStoreException
 import java.security.NoSuchAlgorithmException
 import java.security.UnrecoverableKeyException
 import java.security.cert.CertificateException
-import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
@@ -60,21 +60,16 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
     private var isFingerprintInit = false
     private var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
 
-    // TODO promptInfo
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Set the title to display.")
-            .setSubtitle("Set the subtitle to display.")
-            .setDescription("Set the description to display")
-            .setNegativeButtonText("Negative Button")
+            .setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
             //.setDeviceCredentialAllowed(true)
+            .setNegativeButtonText(context.getString(android.R.string.cancel))
             .build()
 
-    private val promptInfoRetrieveCredential = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Set the title to display.")
-            .setSubtitle("Set the subtitle to display.")
-            .setDescription("Set the description to display")
-            .setNegativeButtonText("Negative Button")
+    private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder()
+            .setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
             //.setDeviceCredentialAllowed(true)
+            .setNegativeButtonText(context.getString(android.R.string.cancel))
             .build()
 
     val isFingerprintInitialized: Boolean
@@ -129,7 +124,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             cipher?.init(Cipher.ENCRYPT_MODE, key)
 
             initBiometricPrompt()
-            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoRetrieveCredential)
+            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoStoreCredential)
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
@@ -184,7 +179,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             cipher?.init(Cipher.DECRYPT_MODE, key, spec)
 
             initBiometricPrompt()
-            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoRetrieveCredential)
+            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoExtractCredential)
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)

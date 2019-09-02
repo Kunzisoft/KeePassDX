@@ -298,8 +298,16 @@ class PasswordActivity : StylishActivity() {
                                 }
                     }
                     advancedUnlockedViewManager?.initBiometric()
-                    // checks if fingerprint is available, will also start listening for fingerprints when available
-                    advancedUnlockedViewManager?.checkBiometricAvailability()
+
+                    // Add a check listener to change fingerprint mode
+                    checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
+
+                        advancedUnlockedViewManager?.checkBiometricAvailability()
+
+                        // Add old listener to enable the button, only be call here because of onCheckedChange bug
+                        enableButtonOnCheckedChangeListener?.onCheckedChanged(compoundButton, checked)
+                    }
+
                     fingerPrintInit = true
                 } else {
                     advancedUnlockedViewManager?.destroy()
@@ -360,7 +368,7 @@ class PasswordActivity : StylishActivity() {
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockedViewManager?.stopListening()
+            advancedUnlockedViewManager?.pause()
         }
         super.onPause()
     }
@@ -429,8 +437,8 @@ class PasswordActivity : StylishActivity() {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     if (PreferencesUtil.isBiometricPromptEnable(this@PasswordActivity)) {
-                        // Stay with the same mode
-                        advancedUnlockedViewManager?.reInitWithFingerprintMode()
+                        // Stay with the same mode and init it
+                        advancedUnlockedViewManager?.initBiometricMode()
                     }
                 }
 

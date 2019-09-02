@@ -181,7 +181,7 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_fingerprint_remove_key">删除保存的指纹</string>
+    <string name="menu_biometric_remove_key">删除保存的指纹</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="omitbackup_title">搜索时忽略备份条目</string>
@@ -207,7 +207,7 @@
     <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
-    <string name="store_with_fingerprint">使用指纹保存此密码</string>
+    <string name="open_biometric_prompt_store_credential">使用指纹保存此密码</string>
     <string name="history">历史</string>
     <string name="appearance">外观</string>
     <string name="general">通用</string>
@@ -249,12 +249,12 @@
     <string name="warning_empty_password">你真的不需要密码解锁的保护吗？</string>
     <string name="warning_no_encryption_key">你确认不使用任何的密钥吗？</string>
     <string name="build_label">版本 %1$s</string>
-    <string name="configure_fingerprint">指纹解锁功能支持，但没有配置使用。</string>
-    <string name="scanning_fingerprint">指纹扫描</string>
+    <string name="configure_biometric">指纹解锁功能支持，但没有配置使用。</string>
+    <string name="open_biometric_prompt_unlock_database">指纹扫描</string>
     <string name="encrypted_value_stored">加密密码存储</string>
-    <string name="fingerprint_invalid_key">不能读取指纹密钥，请重置你的密码。</string>
+    <string name="biometric_invalid_key">不能读取指纹密钥，请重置你的密码。</string>
     <string name="fingerprint_not_recognized">未能识别的指纹</string>
-    <string name="fingerprint_error">指纹识别问题：%1$s</string>
+    <string name="biometric_scanning_error">指纹识别问题：%1$s</string>
     <string name="no_password_stored">当前数据库没有任何密码。</string>
     <string name="set_autofill_service_title">配置自动填充服务</string>
     <string name="set_autofill_service_summary">打开自动填充功能，以便快速的在其他应用中填写信息</string>
@@ -275,9 +275,9 @@
     <string name="usage">使用指纹解锁</string>
     <string name="biometric_unlock_enable_title">指纹扫描</string>
     <string name="biometric_unlock_enable_summary">通过指纹扫描解锁数据库</string>
-    <string name="fingerprint_delete_all_title">删除加密密钥</string>
-    <string name="fingerprint_delete_all_summary">删除所有与指纹解锁相关的加密密钥</string>
-    <string name="fingerprint_delete_all_warning">确认要删除所有与指纹识别相关的密钥吗？</string>
+    <string name="biometric_delete_all_key_title">删除加密密钥</string>
+    <string name="biometric_delete_all_key_summary">删除所有与指纹解锁相关的加密密钥</string>
+    <string name="biometric_delete_all_key_warning">确认要删除所有与指纹识别相关的密钥吗？</string>
     <string name="unavailable_feature_text">无法启动此功能。</string>
     <string name="unavailable_feature_version">你的安卓版本 %1$s 不能满足软件对最低系统版本 %2$s 的要求。</string>
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>

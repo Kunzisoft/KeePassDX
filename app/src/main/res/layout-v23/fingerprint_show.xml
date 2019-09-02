@@ -10,6 +10,17 @@
         android:layout_height="1dp"
         android:background="?attr/colorPrimaryDark"/>
 
+    <TextView
+        android:id="@+id/fingerprint_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="18dp"
+        android:layout_toStartOf="@+id/fingerprint_image"
+        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        android:gravity="center_vertical|start" />
+
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/fingerprint_image"
         android:layout_width="48dp"
@@ -23,15 +34,4 @@
         android:src="@drawable/fingerprint"
         android:background="@drawable/circle"
         android:backgroundTint="?attr/colorAccent" />
-
-    <TextView
-        android:id="@+id/fingerprint_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="18dp"
-        android:layout_toStartOf="@+id/fingerprint_image"
-        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
-        android:gravity="center_vertical|start" />
 </RelativeLayout>

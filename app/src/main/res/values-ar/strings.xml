@@ -80,7 +80,7 @@
     <string name="menu_lock">قفل قاعدة البيانات</string>
     <string name="menu_open">فتح</string>
     <string name="menu_search">البحث</string>
-    <string name="menu_fingerprint_remove_key">إزالة بصمة المفتاح</string>
+    <string name="menu_biometric_remove_key">إزالة بصمة المفتاح</string>
     <string name="minus">ناقص</string>
     <string name="never">أبداً</string>
     <string name="no_results">لا توجد نتائج للبحث</string>
@@ -201,7 +201,7 @@
     <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
     <string name="fingerprint_type_password_text">ادخل كلمة سر قاعدة البيانات</string>
     <string name="usage">استخدام</string>
-    <string name="fingerprint_delete_all_title">حذف مفاتيح التشفير</string>
+    <string name="biometric_delete_all_key_title">حذف مفاتيح التشفير</string>
     <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
@@ -209,12 +209,12 @@
     <string name="bytes">بايت</string>
     <string name="full_file_path_enable_title">مسار الملف</string>
     <string name="full_file_path_enable_summary">عرض المسار الكامل للملف</string>
-    <string name="configure_fingerprint">فحص البصمة مدعوم لكنه ليس معد.</string>
-    <string name="scanning_fingerprint">فحص البصمة</string>
-    <string name="fingerprint_invalid_key">لا يمكن قراءة مفتاح البصمة.
+    <string name="configure_biometric">فحص البصمة مدعوم لكنه ليس معد.</string>
+    <string name="open_biometric_prompt_unlock_database">فحص البصمة</string>
+    <string name="biometric_invalid_key">لا يمكن قراءة مفتاح البصمة.
 \nاستعد كلمة السر.</string>
     <string name="fingerprint_not_recognized">لم يتعرّف على البصمة</string>
-    <string name="store_with_fingerprint">استخدم البصمة لحفظ كلمة السر</string>
+    <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
     <string name="history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="fingerprint_quick_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>

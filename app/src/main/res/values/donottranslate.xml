@@ -94,7 +94,7 @@
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
-    <string name="fingerprint_delete_all_key" translatable="false">fingerprint_delete_all_key</string>
+    <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
 
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>

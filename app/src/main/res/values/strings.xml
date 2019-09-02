@@ -162,7 +162,7 @@
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
-    <string name="menu_fingerprint_remove_key">Delete saved fingerprint</string>
+    <string name="menu_biometric_remove_key">Delete saved biometric key</string>
     <string name="menu_url">Go to URL</string>
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
@@ -225,15 +225,17 @@
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_fingerprint">Fingerprint scanning is supported but not set up.</string>
-    <string name="scanning_fingerprint">Fingerprint Scanning</string>
+    <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
+    <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
+    <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
+    <string name="biometric_prompt_store_credential_title">Store database credentials with biometric data</string>
+    <string name="biometric_prompt_extract_credential_title">Extract database credential with biometric data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="fingerprint_invalid_key">Could not read fingerprint key. Restore your password.</string>
+    <string name="biometric_invalid_key">Could not read biometric key. Restore your credential.</string>
     <string name="fingerprint_not_recognized">Could not recognize fingerprint</string>
     <!--This problem could be with scanning, or something else.-->
-    <string name="fingerprint_error">Fingerprinting problem: %1$s</string>
-    <string name="store_with_fingerprint">Use fingerprint to store this password</string>
-    <string name="no_password_stored">This database does not have a password yet.</string>
+    <string name="biometric_scanning_error">Biometric error: %1$s</string>
+    <string name="no_password_stored">This database does not have stored credential yet.</string>
     <string name="history">History</string>
     <string name="appearance">Appearance</string>
     <string name="general">General</string>
@@ -266,9 +268,9 @@
     <string name="fingerprint">Fingerprint</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your fingerprint or other biometric prompt to open the database</string>
-    <string name="fingerprint_delete_all_title">Delete encryption keys</string>
-    <string name="fingerprint_delete_all_summary">Delete all encryption keys related to fingerprint recognition</string>
-    <string name="fingerprint_delete_all_warning">Are you sure you want to delete all keys related to fingerprint recognition?</string>
+    <string name="biometric_delete_all_key_title">Delete encryption keys</string>
+    <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
+    <string name="biometric_delete_all_key_warning">Are you sure you want to delete all keys related to biometric recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>

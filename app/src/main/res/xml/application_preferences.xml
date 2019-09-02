@@ -143,9 +143,9 @@
             android:summary="@string/biometric_unlock_enable_summary"
             android:defaultValue="@bool/biometric_unlock_enable_default"/>
         <Preference
-            android:key="@string/fingerprint_delete_all_key"
-            android:title="@string/fingerprint_delete_all_title"
-            android:summary="@string/fingerprint_delete_all_summary" />
+            android:key="@string/biometric_delete_all_key_key"
+            android:title="@string/biometric_delete_all_key_title"
+            android:summary="@string/biometric_delete_all_key_summary" />
 
     </PreferenceCategory>
 

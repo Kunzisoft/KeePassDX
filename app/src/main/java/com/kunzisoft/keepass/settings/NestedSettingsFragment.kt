@@ -152,14 +152,14 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 }
             }
 
-            val deleteKeysFingerprints = findPreference(getString(R.string.fingerprint_delete_all_key))
+            val deleteKeysFingerprints = findPreference(getString(R.string.biometric_delete_all_key_key))
             if (!biometricUnlockSupported) {
                 deleteKeysFingerprints.isEnabled = false
             } else {
                 deleteKeysFingerprints.setOnPreferenceClickListener {
                     context?.let { context ->
                         AlertDialog.Builder(context)
-                                .setMessage(resources.getString(R.string.fingerprint_delete_all_warning))
+                                .setMessage(resources.getString(R.string.biometric_delete_all_key_warning))
                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                 .setPositiveButton(resources.getString(android.R.string.yes)
                                 ) { _, _ ->
@@ -171,7 +171,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
                                                     override fun onBiometricException(e: Exception) {
                                                         Toast.makeText(context,
-                                                                getString(R.string.fingerprint_error, e.localizedMessage),
+                                                                getString(R.string.biometric_scanning_error, e.localizedMessage),
                                                                 Toast.LENGTH_SHORT).show()
                                                     }
                                                 })

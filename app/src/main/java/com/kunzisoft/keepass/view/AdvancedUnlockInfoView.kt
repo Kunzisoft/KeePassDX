@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector
 
@@ -48,8 +49,9 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setIconViewClickListener(listener: (view: View)->Unit) {
+    fun setIconViewClickListener(listener: ((view: View)->Unit)?) {
         unlockIconImageView?.setOnClickListener(listener)
+        unlockContainerView.alpha = if (listener == null) 0.8f else 1f
     }
 
     var text: CharSequence
@@ -60,13 +62,8 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
             unlockTextView?.text = value
         }
 
-    fun setText(textId: Int, lock: Boolean = false) {
-        setText(context.getString(textId), lock)
-    }
-
-    fun setText(text: CharSequence, lock: Boolean = false) {
-        unlockContainerView.alpha = if (lock) 0.8f else 1f
-        unlockTextView?.text = text
+    fun setText(@StringRes textId: Int) {
+        text = context.getString(textId)
     }
 
     var hide: Boolean

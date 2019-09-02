@@ -149,12 +149,12 @@
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket a .kbd fájlokban, mert ugyanarra a betűre lesznek átalakítva.</string>
     <string name="warning_unmounted">Csatolja az SD kártyát, hogy adatbázist hozzon létre vagy töltsön be.</string>
     <string name="version_label">Verzió: %1$s</string>
-    <string name="configure_fingerprint">Az ujjlenyomat-leolvasás támogatott, de nincs beállítva.</string>
-    <string name="scanning_fingerprint">Ujjlenyomat-leolvasás</string>
+    <string name="configure_biometric">Az ujjlenyomat-leolvasás támogatott, de nincs beállítva.</string>
+    <string name="open_biometric_prompt_unlock_database">Ujjlenyomat-leolvasás</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
-    <string name="fingerprint_invalid_key">Az ujjlenyomat kulcs nem olvasható. Állítsa vissza a jelszavát.</string>
-    <string name="fingerprint_error">Ujjlenyomat probléma: %1$s</string>
-    <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó tárolásához</string>
+    <string name="biometric_invalid_key">Az ujjlenyomat kulcs nem olvasható. Állítsa vissza a jelszavát.</string>
+    <string name="biometric_scanning_error">Ujjlenyomat probléma: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Használjon ujjlenyomatot a jelszó tárolásához</string>
     <string name="no_password_stored">Az adatbázisnak még nincs jelszava.</string>
 
     <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
@@ -195,7 +195,7 @@
     <string name="menu_move">Áthelyezés</string>
     <string name="menu_paste">Beillesztés</string>
     <string name="menu_cancel">Mégse</string>
-    <string name="menu_fingerprint_remove_key">Mentett ujjlenyomat törlése</string>
+    <string name="menu_biometric_remove_key">Mentett ujjlenyomat törlése</string>
     <string name="menu_file_selection_read_only">Írásvédett</string>
     <string name="menu_open_file_read_and_write">Módosítható</string>
     <string name="create_keepass_file">Új adatbázis létrehozása</string>
@@ -248,9 +248,9 @@
     <string name="fingerprint">Ujjlenyomat</string>
     <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
     <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
-    <string name="fingerprint_delete_all_title">Titkosítási kulcsok törlése</string>
-    <string name="fingerprint_delete_all_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
-    <string name="fingerprint_delete_all_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>
+    <string name="biometric_delete_all_key_title">Titkosítási kulcsok törlése</string>
+    <string name="biometric_delete_all_key_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
+    <string name="biometric_delete_all_key_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>
     <string name="unavailable_feature_text">A funkciót nem sikerült elindítani.</string>
     <string name="unavailable_feature_version">Az Android verziója (%1$s) nem éri el a minimálisan szükséges verziót (%2$s).</string>
     <string name="unavailable_feature_hardware">Nem található a megfelelő hardver.</string>
