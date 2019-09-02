@@ -25,7 +25,7 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.fingerprint_show, this)
+        inflater.inflate(R.layout.view_advanced_unlock, this)
 
         unlockContainerView = findViewById(R.id.fingerprint_container)
 

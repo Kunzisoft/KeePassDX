@@ -286,12 +286,10 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     fun deleteEntryKey() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            biometricHelper?.deleteEntryKey()
-            removePrefsNoBackupKey()
-            biometricMode = Mode.NOT_CONFIGURED
-            checkBiometricAvailability()
-        }
+        biometricHelper?.deleteEntryKey()
+        removePrefsNoBackupKey()
+        biometricMode = Mode.NOT_CONFIGURED
+        checkBiometricAvailability()
     }
 
     enum class Mode {

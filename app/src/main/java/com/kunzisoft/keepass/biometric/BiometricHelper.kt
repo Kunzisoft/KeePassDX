@@ -57,7 +57,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
     private var keyguardManager: KeyguardManager? = null
     private var cryptoObject: BiometricPrompt.CryptoObject? = null
 
-    private var isFingerprintInit = false
+    private var isBiometricInit = false
     private var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
 
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder()
@@ -73,13 +73,18 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             .build()
 
     val isFingerprintInitialized: Boolean
-        get() = isFingerprintInitialized(true)
+        get() {
+            if (!isBiometricInit && biometricUnlockCallback != null) {
+                biometricUnlockCallback.onBiometricException(Exception("FingerPrint not initialized"))
+            }
+            return isBiometricInit
+        }
 
     init {
 
         if (BiometricManager.from(context).canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
             // really not much to do when no fingerprint support found
-            isFingerprintInit = false
+            isBiometricInit = false
         } else {
             this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
@@ -93,21 +98,13 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
                                 + KeyProperties.BLOCK_MODE_CBC + "/"
                                 + KeyProperties.ENCRYPTION_PADDING_PKCS7)
                 this.cryptoObject = BiometricPrompt.CryptoObject(cipher!!)
-                isFingerprintInit = true
+                isBiometricInit = true
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to initialize the keystore", e)
-                isFingerprintInit = false
+                isBiometricInit = false
                 biometricUnlockCallback?.onBiometricException(e)
             }
         }
-    }
-
-    private fun isFingerprintInitialized(throwException: Boolean): Boolean {
-        if (!isFingerprintInit && biometricUnlockCallback != null) {
-            if (throwException)
-                biometricUnlockCallback.onBiometricException(Exception("FingerPrint not initialized"))
-        }
-        return isFingerprintInit
     }
 
     fun initEncryptData(actionIfCypherInit
@@ -118,7 +115,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             return
         }
         try {
-            createNewKeyIfNeeded(false) // no need to keep deleting existing keys
+            createNewKeyIfNeeded() // no need to keep deleting existing keys
             keyStore?.load(null)
             val key = keyStore?.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey
             cipher?.init(Cipher.ENCRYPT_MODE, key)
@@ -169,7 +166,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             return
         }
         try {
-            createNewKeyIfNeeded(false)
+            createNewKeyIfNeeded()
             keyStore?.load(null)
             val key = keyStore?.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey
 
@@ -216,16 +213,11 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
     }
 
     @SuppressLint("NewApi")
-    private fun createNewKeyIfNeeded(allowDeleteExisting: Boolean) {
+    private fun createNewKeyIfNeeded() {
         if (!isFingerprintInitialized) {
             return
         }
         try {
-            keyStore?.load(null)
-            if (allowDeleteExisting && keyStore != null && keyStore!!.containsAlias(BIOMETRIC_KEYSTORE_KEY)) {
-                keyStore?.deleteEntry(BIOMETRIC_KEYSTORE_KEY)
-            }
-
             // Create new key if needed
             if (keyStore != null && !keyStore!!.containsAlias(BIOMETRIC_KEYSTORE_KEY)) {
                 // Set the alias of the entry in Android KeyStore where the key will appear

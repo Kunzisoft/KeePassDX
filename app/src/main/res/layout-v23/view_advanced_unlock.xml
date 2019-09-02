@@ -32,6 +32,6 @@
         android:layout_alignParentEnd="true"
         android:elevation="8dp"
         android:src="@drawable/fingerprint"
-        android:background="@drawable/circle"
+        android:background="@drawable/background_image"
         android:backgroundTint="?attr/colorAccent" />
 </RelativeLayout>

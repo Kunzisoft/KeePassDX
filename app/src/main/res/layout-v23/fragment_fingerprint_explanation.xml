@@ -20,6 +20,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="20dp"
@@ -103,8 +104,7 @@
                 android:layout_height="48dp"
                 android:elevation="4dp"
                 android:src="@drawable/fingerprint"
-                android:background="@drawable/circle"
-                android:backgroundTint="?attr/colorAccent"
+                android:background="@drawable/background_image"
                 tools:targetApi="lollipop" />
         </LinearLayout>
 
@@ -130,6 +130,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
             style="@style/KeepassDXStyle.TextAppearance.Title"
             android:text="@string/usage" />
 
@@ -208,9 +209,8 @@
             android:elevation="4dp"
             android:layout_marginBottom="8dp"
             android:layout_gravity="center"
-            android:src="@drawable/lock_open"
-            android:background="@drawable/circle"
-            android:backgroundTint="?attr/colorPrimary"
+            android:src="@drawable/ic_settings_white_24dp"
+            android:background="@drawable/background_icon"
             tools:targetApi="lollipop" />
 
     </LinearLayout>
