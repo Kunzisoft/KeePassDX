@@ -205,10 +205,10 @@
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
-    <string name="fingerprint_quick_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
+    <string name="fingerprint_advanced_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
     <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans</string>
     <string name="fingerprint_setting_way_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
-    <string name="fingerprint_type_password_text">Saisir le mot de passe de verrouillage de la base de données</string>
+    <string name="fingerprint_type_credentials_text">Saisir le mot de passe de verrouillage de la base de données</string>
     <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
     <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
     <string name="usage">Utilisation</string>

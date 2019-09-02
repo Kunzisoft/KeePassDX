@@ -44,6 +44,7 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.utils.ClipDataCompat
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -58,7 +59,7 @@ import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.fingerprint.AdvancedUnlockedViewManager
+import com.kunzisoft.keepass.biometric.AdvancedUnlockedViewManager
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -280,6 +281,11 @@ class PasswordActivity : StylishActivity() {
             var fingerPrintInit = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricPromptEnable(this)) {
+
+                    advancedUnlockInfoView?.setOnClickListener {
+                        FingerPrintExplanationDialog().show(supportFragmentManager, "fingerPrintExplanationDialog")
+                    }
+
                     if (advancedUnlockedViewManager == null) {
                         advancedUnlockedViewManager = AdvancedUnlockedViewManager(this,
                                 databaseFileUri,
@@ -298,16 +304,6 @@ class PasswordActivity : StylishActivity() {
                                 }
                     }
                     advancedUnlockedViewManager?.initBiometric()
-
-                    // Add a check listener to change fingerprint mode
-                    checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-
-                        advancedUnlockedViewManager?.checkBiometricAvailability()
-
-                        // Add old listener to enable the button, only be call here because of onCheckedChange bug
-                        enableButtonOnCheckedChangeListener?.onCheckedChanged(compoundButton, checked)
-                    }
-
                     fingerPrintInit = true
                 } else {
                     advancedUnlockedViewManager?.destroy()

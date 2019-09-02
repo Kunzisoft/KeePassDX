@@ -238,10 +238,10 @@
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása, ha a képernyő kikapcsol</string>
-    <string name="fingerprint_quick_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
+    <string name="fingerprint_advanced_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
     <string name="fingerprint_setting_text">Mentse a leolvasott ujjlenyomatát az eszközén a</string>
     <string name="fingerprint_setting_way_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
-    <string name="fingerprint_type_password_text">Adja meg az adatbázis zárolási jelszavát</string>
+    <string name="fingerprint_type_credentials_text">Adja meg az adatbázis zárolási jelszavát</string>
     <string name="fingerprint_scan_to_store">Olvassa le az ujjlenyomatát, hogy biztonságosan tárolja az adatbázist zároló jelszót.</string>
     <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
     <string name="usage">Használat</string>

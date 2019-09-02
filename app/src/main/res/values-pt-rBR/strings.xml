@@ -234,10 +234,10 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="fingerprint_quick_unlock_title">Como configurar impressões digitais para desbloqueio rápido?</string>
+    <string name="fingerprint_advanced_unlock_title">Como configurar impressões digitais para desbloqueio rápido?</string>
     <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
     <string name="fingerprint_setting_way_text">\"Configurações\" → \"Segurança\" → \"Impressão Digital\"</string>
-    <string name="fingerprint_type_password_text">Entre com sua senha no banco</string>
+    <string name="fingerprint_type_credentials_text">Entre com sua senha no banco</string>
     <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua senha da base com segurança.</string>
     <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a senha estiber desativada.</string>
     <string name="usage">Uso</string>

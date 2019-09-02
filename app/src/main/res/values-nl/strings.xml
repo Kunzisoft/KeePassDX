@@ -242,10 +242,10 @@
     <string name="lock">Vergrendelen</string>
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
     <string name="lock_database_screen_off_summary">Databank vergrendelen als het scherm uitgaat</string>
-    <string name="fingerprint_quick_unlock_title">Hoe stel ik mijn vingerafdruk in voor snelle ontgrendeling?</string>
+    <string name="fingerprint_advanced_unlock_title">Hoe stel ik mijn vingerafdruk in voor snelle ontgrendeling?</string>
     <string name="fingerprint_setting_text">Stel je persoonlijke vingerafdruk voor je apparaat in via</string>
     <string name="fingerprint_setting_way_text">\"Instellingen\" → \"Beveiliging\" → \"Vingerafdruk\"</string>
-    <string name="fingerprint_type_password_text">Voer het databankwachtwoord in</string>
+    <string name="fingerprint_type_credentials_text">Voer het databankwachtwoord in</string>
     <string name="fingerprint_scan_to_store">Scan je vingerafdruk om je databankwachtwoord veilig op te slaan.</string>
     <string name="fingerprint_scan_to_open">Scan je vingerafdruk om de databank te ontgrendelen als er geen vinkje staat bij wachtwoord</string>
     <string name="usage">Gebruik</string>

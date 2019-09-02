@@ -1,4 +1,4 @@
-package com.kunzisoft.keepass.fingerprint
+package com.kunzisoft.keepass.biometric
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -50,6 +50,16 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
             // callback for fingerprint findings
             biometricHelper?.setAuthenticationCallback(biometricCallback)
         }
+
+        // Add a check listener to change fingerprint mode
+        checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
+
+            checkBiometricAvailability()
+
+            // Add old listener to enable the button, only be call here because of onCheckedChange bug
+            onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
+        }
+
         checkBiometricAvailability()
     }
 
@@ -74,14 +84,14 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                 Mode.NOT_CONFIGURED
 
             } else {
-                // fingerprint available but no stored password found yet for this DB so show info don't listen
-                if (prefsNoBackup.contains(preferenceKeyValue)) {
-                    // listen for decryption
-                    Mode.OPEN
+                if (checkboxPasswordView?.isChecked == true) {
+                    // listen for encryption
+                    Mode.STORE
                 } else {
-                    if (checkboxPasswordView?.isChecked == true) {
-                        // listen for encryption
-                        Mode.STORE
+                    // fingerprint available but no stored password found yet for this DB so show info don't listen
+                    if (prefsNoBackup.contains(preferenceKeyValue)) {
+                        // listen for decryption
+                        Mode.OPEN
                     } else {
                         // wait for typing
                         Mode.WAIT_CREDENTIAL
@@ -102,13 +112,8 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         override fun onAuthenticationError(
                 errorCode: Int,
                 errString: CharSequence) {
-            when (errorCode) {
-                5 -> Log.i(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                else -> {
-                    Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-                    setAdvancedUnlockedView(errString.toString())
-                }
-            }
+            Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
+            setAdvancedUnlockedView(errString.toString())
         }
 
         override fun onAuthenticationFailed() {
@@ -119,6 +124,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             when (biometricMode) {
                 Mode.UNAVAILABLE -> {}
+                Mode.PAUSE -> {}
                 Mode.NOT_CONFIGURED -> {}
                 Mode.WAIT_CREDENTIAL -> {}
                 Mode.STORE -> {
@@ -139,7 +145,13 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         showFingerPrintViews(false)
 
         advancedUnlockInfoView?.stopIconViewAnimation()
+        advancedUnlockInfoView?.setIconViewClickListener(null)
+    }
 
+    private fun initPause() {
+        showFingerPrintViews(true)
+
+        advancedUnlockInfoView?.stopIconViewAnimation()
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
@@ -197,6 +209,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     fun initBiometricMode() {
         when (biometricMode) {
             Mode.UNAVAILABLE -> initNotAvailable()
+            Mode.PAUSE -> initPause()
             Mode.NOT_CONFIGURED -> initNotConfigured()
             Mode.WAIT_CREDENTIAL -> initWaitData()
             Mode.STORE -> initEncryptData()
@@ -207,7 +220,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     fun pause() {
-        biometricMode = Mode.NOT_CONFIGURED
+        biometricMode = Mode.PAUSE
         initBiometricMode()
     }
 
@@ -288,7 +301,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     enum class Mode {
-        UNAVAILABLE, NOT_CONFIGURED, WAIT_CREDENTIAL, STORE, OPEN
+        UNAVAILABLE, PAUSE, NOT_CONFIGURED, WAIT_CREDENTIAL, STORE, OPEN
     }
 
     companion object {

@@ -237,10 +237,10 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
-    <string name="fingerprint_quick_unlock_title">Jak skonfigurować skanowanie linii papilarnych do szybkiego odblokowania\?</string>
+    <string name="fingerprint_advanced_unlock_title">Jak skonfigurować skanowanie linii papilarnych do szybkiego odblokowania\?</string>
     <string name="fingerprint_setting_text">Zapisz zeskanowany odcisk palca w urządzeniu</string>
     <string name="fingerprint_setting_way_text">\"Ustawienia\" → \"Bezpieczeństwo\" → \"Odcisk palca\"</string>
-    <string name="fingerprint_type_password_text">Wprowadź hasło blokady bazy danych</string>
+    <string name="fingerprint_type_credentials_text">Wprowadź hasło blokady bazy danych</string>
     <string name="fingerprint_scan_to_store">Zeskanuj swój odcisk palca, aby bezpiecznie zapisać hasło blokady bazy danych.</string>
     <string name="fingerprint_scan_to_open">Zeskanuj swój odcisk palca, aby otworzyć bazę danych po wyłączeniu hasła.</string>
     <string name="usage">Użycie</string>

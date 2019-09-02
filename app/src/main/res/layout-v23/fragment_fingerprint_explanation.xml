@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/KeepassDXStyle.TextAppearance.Title"
-            android:text="@string/fingerprint_quick_unlock_title"/>
+            android:text="@string/fingerprint_advanced_unlock_title"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -67,13 +67,12 @@
                     android:layout_height="wrap_content"
                     style="@style/KeepassDXStyle.TextAppearance.TinyText"
                     android:padding="5dp"
-                    android:text="@string/fingerprint_type_password_text"/>
+                    android:text="@string/fingerprint_type_credentials_text"/>
                 <androidx.appcompat.widget.AppCompatImageView
                     android:layout_width="wrap_content"
                     android:layout_height="38dp"
                     android:src="@drawable/capture_type_password"/>
             </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -95,14 +94,13 @@
                     android:layout_height="wrap_content"
                     style="@style/KeepassDXStyle.TextAppearance.TinyText"
                     android:padding="5dp"
-                    android:text="@string/fingerprint_scan_to_store"/>
+                    android:text="@string/fingerprint_open_biometric_prompt"/>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/fingerprint_image"
                 android:layout_gravity="center"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_marginBottom="8dp"
                 android:elevation="4dp"
                 android:src="@drawable/fingerprint"
                 android:background="@drawable/circle"
@@ -110,19 +108,101 @@
                 tools:targetApi="lollipop" />
         </LinearLayout>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                android:padding="5dp"
+                android:text="@string/fingerprint_scan_to_store"/>
+        </LinearLayout>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/KeepassDXStyle.TextAppearance.Title"
             android:text="@string/usage" />
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/KeepassDXStyle.TextAppearance.TinyText"
-            android:padding="5dp"
-            android:gravity="center"
-            android:text="@string/fingerprint_scan_to_open"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_1"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:padding="5dp"
+                    android:text="@string/fingerprint_open_biometric_prompt"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_2"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:padding="5dp"
+                    android:text="@string/fingerprint_scan_to_open"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+            <TextView
+                android:layout_width="20dp"
+                android:layout_height="wrap_content"
+                style="@style/KeepassDXStyle.TextAppearance.WarningTextStyle"
+                android:text="@string/chapter_3"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
+                    android:padding="5dp"
+                    android:text="@string/fingerprint_auto_open_biometric_prompt"/>
+            </LinearLayout>
+        </LinearLayout>
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/auto_open_biometric_prompt_button"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:elevation="4dp"
@@ -132,5 +212,6 @@
             android:background="@drawable/circle"
             android:backgroundTint="?attr/colorPrimary"
             tools:targetApi="lollipop" />
+
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

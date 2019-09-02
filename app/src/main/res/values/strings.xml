@@ -259,17 +259,19 @@
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
-    <string name="fingerprint_quick_unlock_title">How to set up fingerprint scanning for quick unlocking?</string>
+    <string name="fingerprint_advanced_unlock_title">How to set up fingerprint scanning for advanced unlocking?</string>
     <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in </string>
     <!-- Use ← for LTR languages -->
     <string name="fingerprint_setting_way_text">\"Settings\" → \"Security\" → \"Fingerprint\"</string>
-    <string name="fingerprint_type_password_text">Enter database lock password</string>
+    <string name="fingerprint_type_credentials_text">Enter database lock credentials</string>
+    <string name="fingerprint_open_biometric_prompt">Open the biometric prompt by clicking on biometric button.</string>
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your database lock password securely.</string>
     <string name="fingerprint_scan_to_open">Scan your fingerprint to open the database when password is turned off.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">You can change the preference to quickly open the biometric prompt to not repeat step 1.</string>
     <string name="usage">Usage</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
-    <string name="biometric_unlock_enable_summary">Lets you scan your fingerprint or other biometric prompt to open the database</string>
+    <string name="biometric_unlock_enable_summary">Lets you scan your fingerprint or other biometric to open the database</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Are you sure you want to delete all keys related to biometric recognition?</string>

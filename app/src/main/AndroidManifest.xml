@@ -128,6 +128,7 @@
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
             android:configChanges="keyboardHidden" />
+        <activity android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
             android:label="@string/keyboard_name">

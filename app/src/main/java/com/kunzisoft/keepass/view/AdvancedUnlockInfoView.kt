@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.fingerprint.FingerPrintAnimatedVector
+import com.kunzisoft.keepass.biometric.FingerPrintAnimatedVector
 
 class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
                                                        attrs: AttributeSet? = null,

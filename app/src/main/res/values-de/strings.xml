@@ -197,7 +197,7 @@
     <string name="biometric_unlock_enable_title">Fingerabdruckscanner</string>
     <string name="fingerprint_scan_to_open">Fingerabdruck scannen, um die Datenbank zu öffnen, wenn die Passworteingabe ausgeschaltet ist.</string>
     <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um das Datenbank-Passwort sicher zu speichern.</string>
-    <string name="fingerprint_type_password_text">Datenbank-Passwort eingeben</string>
+    <string name="fingerprint_type_credentials_text">Datenbank-Passwort eingeben</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
@@ -207,7 +207,7 @@
     <string name="biometric_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="biometric_scanning_error">Problem mit dem Fingerabdruck: %1$s</string>
     <string name="history">Verlauf</string>
-    <string name="fingerprint_quick_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
+    <string name="fingerprint_advanced_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
     <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
     <string name="fingerprint_setting_way_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
     <string name="usage">Verwendung</string>

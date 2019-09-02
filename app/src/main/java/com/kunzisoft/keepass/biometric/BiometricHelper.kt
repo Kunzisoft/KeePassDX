@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fingerprint
+package com.kunzisoft.keepass.biometric
 
 import android.annotation.SuppressLint
 import android.app.KeyguardManager

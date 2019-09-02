@@ -48,8 +48,8 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.FileDatabaseHistory
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
-import com.kunzisoft.keepass.fingerprint.BiometricHelper
-import com.kunzisoft.keepass.fingerprint.AdvancedUnlockedViewManager
+import com.kunzisoft.keepass.biometric.BiometricHelper
+import com.kunzisoft.keepass.biometric.AdvancedUnlockedViewManager
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 

@@ -266,10 +266,10 @@
     <string name="clipboard_warning">如果剪切板自动删除记录失败，则手动删除历史记录。</string>
     <string name="lock_database_screen_off_title">屏幕锁定</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
-    <string name="fingerprint_quick_unlock_title">如何设置指纹扫描以快速解锁？</string>
+    <string name="fingerprint_advanced_unlock_title">如何设置指纹扫描以快速解锁？</string>
     <string name="fingerprint_setting_text">通过您设备的安全设置保存您的指纹：</string>
     <string name="fingerprint_setting_way_text">\"设置\" → \"安全\" → \"指纹\"</string>
-    <string name="fingerprint_type_password_text">输入数据库密码</string>
+    <string name="fingerprint_type_credentials_text">输入数据库密码</string>
     <string name="fingerprint_scan_to_store">扫描你的指纹，以便安全的存储数据库密码。</string>
     <string name="fingerprint_scan_to_open">当数据库密码功能关闭的时候，使用指纹扫描解锁数据库。</string>
     <string name="usage">使用指纹解锁</string>

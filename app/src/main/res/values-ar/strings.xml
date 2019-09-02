@@ -199,7 +199,7 @@
     <string name="clipboard_warning">اذا فشل الحذف التلقائي من الحافظة ,احذف تأريخه يدويا</string>
     <string name="lock_database_screen_off_title">قفل الشاشة</string>
     <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
-    <string name="fingerprint_type_password_text">ادخل كلمة سر قاعدة البيانات</string>
+    <string name="fingerprint_type_credentials_text">ادخل كلمة سر قاعدة البيانات</string>
     <string name="usage">استخدام</string>
     <string name="biometric_delete_all_key_title">حذف مفاتيح التشفير</string>
     <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
@@ -217,7 +217,7 @@
     <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
     <string name="history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
-    <string name="fingerprint_quick_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
+    <string name="fingerprint_advanced_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>
     <string name="fingerprint_scan_to_store">افحص البصمة لتخزين كلمة سر قاعدة البيانات بأمان.</string>
     <string name="fingerprint_scan_to_open">افحص البصمة لفتح قاعدة البيانات عند تعطيل كلمة السر.</string>

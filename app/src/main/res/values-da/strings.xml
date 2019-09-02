@@ -239,10 +239,10 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
-    <string name="fingerprint_quick_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
+    <string name="fingerprint_advanced_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
     <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i</string>
     <string name="fingerprint_setting_way_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
-    <string name="fingerprint_type_password_text">Indtast adgangskoden til at låse databasen</string>
+    <string name="fingerprint_type_credentials_text">Indtast adgangskoden til at låse databasen</string>
     <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
     <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
     <string name="usage">Brug</string>

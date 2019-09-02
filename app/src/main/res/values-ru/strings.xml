@@ -238,10 +238,10 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="fingerprint_quick_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
+    <string name="fingerprint_advanced_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
     <string name="fingerprint_setting_text">Установите ваш личный отпечаток пальца для вашего устройства</string>
     <string name="fingerprint_setting_way_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
-    <string name="fingerprint_type_password_text">Введите ваш пароль в Keepass DX</string>
+    <string name="fingerprint_type_credentials_text">Введите ваш пароль в Keepass DX</string>
     <string name="fingerprint_scan_to_store">Сканируйте ваш отпечаток пальца для безопасного хранения вашего мастер-пароля</string>
     <string name="fingerprint_scan_to_open">Сканируйте ваш отпечаток пальца, когда поле \"Пароль\" не отмечено, для разблокировки базы</string>
     <string name="usage">Использование</string>

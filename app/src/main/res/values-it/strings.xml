@@ -233,10 +233,10 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
-    <string name="fingerprint_quick_unlock_title">Come impostare la scansione di impronte per sbloccare velocemente\?</string>
+    <string name="fingerprint_advanced_unlock_title">Come impostare la scansione di impronte per sbloccare velocemente\?</string>
     <string name="fingerprint_setting_text">Salva la tua impronta per il dispositivo in</string>
     <string name="fingerprint_setting_way_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta\"</string>
-    <string name="fingerprint_type_password_text">Digita la password di blocco database</string>
+    <string name="fingerprint_type_credentials_text">Digita la password di blocco database</string>
     <string name="fingerprint_scan_to_store">Scansiona la tua impronta per salvare la password di blocco database in modo sicuro.</string>
     <string name="fingerprint_scan_to_open">Scansiona la tua impronta per aprire il database quando la password è disattivata.</string>
     <string name="usage">Utilizzo</string>
