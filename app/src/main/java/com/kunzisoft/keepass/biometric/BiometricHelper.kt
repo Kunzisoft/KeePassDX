@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.biometric
 
-import android.annotation.SuppressLint
 import android.app.KeyguardManager
 import android.content.Context
 import android.os.Build
@@ -83,7 +82,6 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
         }
 
     init {
-
         if (BiometricManager.from(context).canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
             // really not much to do when no fingerprint support found
             isBiometricInit = false
@@ -91,14 +89,12 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
             try {
-                this.keyStore = KeyStore.getInstance("AndroidKeyStore")
-                this.keyGenerator = KeyGenerator.getInstance(
-                        KeyProperties.KEY_ALGORITHM_AES,
-                        "AndroidKeyStore")
+                this.keyStore = KeyStore.getInstance(BIOMETRIC_KEYSTORE)
+                this.keyGenerator = KeyGenerator.getInstance(BIOMETRIC_KEY_ALGORITHM, BIOMETRIC_KEYSTORE)
                 this.cipher = Cipher.getInstance(
-                        KeyProperties.KEY_ALGORITHM_AES + "/"
-                                + KeyProperties.BLOCK_MODE_CBC + "/"
-                                + KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                        BIOMETRIC_KEY_ALGORITHM + "/"
+                                + BIOMETRIC_BLOCKS_MODES + "/"
+                                + BIOMETRIC_ENCRYPTION_PADDING)
                 this.cryptoObject = BiometricPrompt.CryptoObject(cipher!!)
                 isBiometricInit = true
             } catch (e: Exception) {
@@ -109,6 +105,45 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
         }
     }
 
+    private fun getSecretKey(): SecretKey? {
+        if (!isFingerprintInitialized) {
+            return null
+        }
+        try {
+            // Create new key if needed
+            keyStore?.let { keyStore ->
+                keyStore.load(null)
+
+                try {
+                    if (!keyStore.containsAlias(BIOMETRIC_KEYSTORE_KEY)) {
+                        // Set the alias of the entry in Android KeyStore where the key will appear
+                        // and the constrains (purposes) in the constructor of the Builder
+                        keyGenerator?.init(
+                                KeyGenParameterSpec.Builder(
+                                        BIOMETRIC_KEYSTORE_KEY,
+                                        KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                                        .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
+                                        .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
+                                        // Require the user to authenticate with a fingerprint to authorize every use
+                                        // of the key
+                                        .setUserAuthenticationRequired(true)
+                                        .build())
+                        keyGenerator?.generateKey()
+                    }
+                }catch (e: Exception) {
+                    Log.e(TAG, "Unable to create a key in keystore", e)
+                    biometricUnlockCallback?.onBiometricException(e)
+                }
+
+                return keyStore.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey?
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to retrieve the key in keystore", e)
+            biometricUnlockCallback?.onBiometricException(e)
+        }
+        return null
+    }
+
     fun initEncryptData(actionIfCypherInit
                         : (biometricPrompt: BiometricPrompt?,
                            cryptoObject: BiometricPrompt.CryptoObject?,
@@ -117,10 +152,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             return
         }
         try {
-            createNewKeyIfNeeded() // no need to keep deleting existing keys
-            keyStore?.load(null)
-            val key = keyStore?.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey
-            cipher?.init(Cipher.ENCRYPT_MODE, key)
+            cipher?.init(Cipher.ENCRYPT_MODE, getSecretKey())
 
             initBiometricPrompt()
             actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoStoreCredential)
@@ -168,14 +200,10 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             return
         }
         try {
-            createNewKeyIfNeeded()
-            keyStore?.load(null)
-            val key = keyStore?.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey
-
             // important to restore spec here that was used for decryption
             val iv = Base64.decode(ivSpecValue, Base64.NO_WRAP)
             val spec = IvParameterSpec(iv)
-            cipher?.init(Cipher.DECRYPT_MODE, key, spec)
+            cipher?.init(Cipher.DECRYPT_MODE, getSecretKey(), spec)
 
             initBiometricPrompt()
             actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoExtractCredential)
@@ -212,34 +240,6 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
             biometricUnlockCallback?.onBiometricException(e)
         }
 
-    }
-
-    @SuppressLint("NewApi")
-    private fun createNewKeyIfNeeded() {
-        if (!isFingerprintInitialized) {
-            return
-        }
-        try {
-            // Create new key if needed
-            if (keyStore != null && !keyStore!!.containsAlias(BIOMETRIC_KEYSTORE_KEY)) {
-                // Set the alias of the entry in Android KeyStore where the key will appear
-                // and the constrains (purposes) in the constructor of the Builder
-                keyGenerator?.init(
-                        KeyGenParameterSpec.Builder(
-                                BIOMETRIC_KEYSTORE_KEY,
-                                KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
-                                .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                                // Require the user to authenticate with a fingerprint to authorize every use
-                                // of the key
-                                .setUserAuthenticationRequired(true)
-                                .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                                .build())
-                keyGenerator?.generateKey()
-            }
-        } catch (e: Exception) {
-            Log.e(TAG, "Unable to create a key in keystore", e)
-            biometricUnlockCallback?.onBiometricException(e)
-        }
     }
 
     fun deleteEntryKey() {
@@ -291,7 +291,11 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
 
         private val TAG = BiometricHelper::class.java.name
 
+        private const val BIOMETRIC_KEYSTORE = "AndroidKeyStore"
         private const val BIOMETRIC_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
+        private const val BIOMETRIC_KEY_ALGORITHM = KeyProperties.KEY_ALGORITHM_AES
+        private const val BIOMETRIC_BLOCKS_MODES = KeyProperties.BLOCK_MODE_CBC
+        private const val BIOMETRIC_ENCRYPTION_PADDING = KeyProperties.ENCRYPTION_PADDING_PKCS7
 
         /**
          * Remove entry key in keystore

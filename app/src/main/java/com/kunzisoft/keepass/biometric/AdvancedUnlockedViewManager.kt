@@ -156,6 +156,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initNotConfigured() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.configure_biometric)
+        setAdvancedUnlockedMessageView("")
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
@@ -163,6 +164,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initWaitData() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
+        setAdvancedUnlockedMessageView("")
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
@@ -170,13 +172,16 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initEncryptData() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_store_credential)
+        setAdvancedUnlockedMessageView("")
 
         biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
 
             cryptoObject?.let { crypto ->
                 // Set listener to open the biometric dialog and save credential
                 advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                    biometricPrompt?.authenticate(promptInfo, crypto)
+                    context.runOnUiThread {
+                        biometricPrompt?.authenticate(promptInfo, crypto)
+                    }
                 }
             }
 
@@ -186,6 +191,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initDecryptData() {
         showFingerPrintViews(true)
         setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_unlock_database)
+        setAdvancedUnlockedMessageView("")
 
         if (biometricHelper != null) {
             prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
@@ -194,13 +200,17 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                     cryptoObject?.let { crypto ->
                         // Set listener to open the biometric dialog and check credential
                         advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                            biometricPrompt?.authenticate(promptInfo, crypto)
+                            context.runOnUiThread {
+                                biometricPrompt?.authenticate(promptInfo, crypto)
+                            }
                         }
 
                         // Auto open the biometric prompt
                         if (isBiometricPromptAutoOpenEnable) {
                             isBiometricPromptAutoOpenEnable = false
-                            biometricPrompt?.authenticate(promptInfo, crypto)
+                            context.runOnUiThread {
+                                biometricPrompt?.authenticate(promptInfo, crypto)
+                            }
                         }
                     }
 
