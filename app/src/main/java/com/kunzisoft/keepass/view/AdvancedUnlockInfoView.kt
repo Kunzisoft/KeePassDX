@@ -19,7 +19,8 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
 
     private val unlockContainerView: View
     private var unlockAnimatedVector: FingerPrintAnimatedVector? = null
-    private var unlockTextView: TextView? = null
+    private var unlockTitleTextView: TextView? = null
+    private var unlockMessageTextView: TextView? = null
     var unlockIconImageView: ImageView? = null
 
     init {
@@ -30,8 +31,9 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         unlockContainerView = findViewById(R.id.fingerprint_container)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            unlockTextView = findViewById(R.id.fingerprint_label)
-            unlockIconImageView = findViewById(R.id.fingerprint_image)
+            unlockTitleTextView = findViewById(R.id.biometric_title)
+            unlockMessageTextView = findViewById(R.id.biometric_message)
+            unlockIconImageView = findViewById(R.id.biometric_image)
             // Init the fingerprint animation
             unlockAnimatedVector = FingerPrintAnimatedVector(context, unlockIconImageView!!)
         }
@@ -58,16 +60,28 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         unlockIconImageView?.setOnClickListener(listener)
     }
 
-    var text: CharSequence
+    var title: CharSequence
         get() {
-            return unlockTextView?.text?.toString() ?: ""
+            return unlockTitleTextView?.text?.toString() ?: ""
         }
         set(value) {
-            unlockTextView?.text = value
+            unlockTitleTextView?.text = value
         }
 
-    fun setText(@StringRes textId: Int) {
-        text = context.getString(textId)
+    fun setTitle(@StringRes textId: Int) {
+        title = context.getString(textId)
+    }
+
+    var message: CharSequence
+        get() {
+            return unlockMessageTextView?.text?.toString() ?: ""
+        }
+        set(value) {
+            unlockMessageTextView?.text = value
+        }
+
+    fun setMessage(@StringRes textId: Int) {
+        message = context.getString(textId)
     }
 
     var hide: Boolean

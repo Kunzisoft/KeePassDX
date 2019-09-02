@@ -229,8 +229,10 @@
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
-    <string name="biometric_prompt_store_credential_title">Store database credentials with biometric data</string>
-    <string name="biometric_prompt_extract_credential_title">Extract database credential with biometric data</string>
+    <string name="biometric_prompt_store_credential_title">Save biometric recognition</string>
+    <string name="biometric_prompt_store_credential_message">Store database credentials with biometric data</string>
+    <string name="biometric_prompt_extract_credential_title">Open database with biometric recognition</string>
+    <string name="biometric_prompt_extract_credential_message">Extract database credential with biometric data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="biometric_invalid_key">Could not read biometric key. Restore your credential.</string>
     <string name="fingerprint_not_recognized">Could not recognize fingerprint</string>

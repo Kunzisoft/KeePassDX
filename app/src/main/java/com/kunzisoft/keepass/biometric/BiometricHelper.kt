@@ -62,12 +62,14 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
 
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder()
             .setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
-            //.setDeviceCredentialAllowed(true)
+            .setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+            //.setDeviceCredentialAllowed(true) TODO device credential
             .setNegativeButtonText(context.getString(android.R.string.cancel))
             .build()
 
     private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder()
             .setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
+            .setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
             //.setDeviceCredentialAllowed(true)
             .setNegativeButtonText(context.getString(android.R.string.cancel))
             .build()
@@ -294,8 +296,8 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
         /**
          * Remove entry key in keystore
          */
-        fun deleteEntryKeyInKeystoreForFingerprints(context: FragmentActivity,
-                                                    biometricUnlockCallback: BiometricUnlockErrorCallback) {
+        fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
+                                                 biometricUnlockCallback: BiometricUnlockErrorCallback) {
             val fingerPrintHelper = BiometricHelper(context, object : BiometricUnlockCallback {
 
                 override fun handleEncryptedResult(value: String, ivSpec: String) {}

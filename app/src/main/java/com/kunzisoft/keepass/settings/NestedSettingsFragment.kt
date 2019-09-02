@@ -252,7 +252,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                                 .setPositiveButton(resources.getString(android.R.string.yes)
                                 ) { _, _ ->
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        BiometricHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                        BiometricHelper.deleteEntryKeyInKeystoreForBiometric(
                                                 activity,
                                                 object : BiometricHelper.BiometricUnlockErrorCallback {
                                                     override fun onInvalidKeyException(e: Exception) {}

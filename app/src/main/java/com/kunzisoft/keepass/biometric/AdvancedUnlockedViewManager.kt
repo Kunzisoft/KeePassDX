@@ -114,13 +114,13 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         override fun onAuthenticationError(
                 errorCode: Int,
                 errString: CharSequence) {
-            Log.e(TAG, "Fingerprint authentication error. Code : $errorCode Error : $errString")
-            setAdvancedUnlockedView(errString.toString())
+            Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+            setAdvancedUnlockedMessageView(errString.toString())
         }
 
         override fun onAuthenticationFailed() {
-            Log.e(TAG, "Fingerprint authentication failed, fingerprint not recognized")
-            setAdvancedUnlockedView(R.string.fingerprint_not_recognized)
+            Log.e(TAG, "Biometric authentication failed, biometric not recognized")
+            setAdvancedUnlockedMessageView(R.string.fingerprint_not_recognized)
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
@@ -155,21 +155,21 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
     private fun initNotConfigured() {
         showFingerPrintViews(true)
-        setAdvancedUnlockedView(R.string.configure_biometric)
+        setAdvancedUnlockedTitleView(R.string.configure_biometric)
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     private fun initWaitData() {
         showFingerPrintViews(true)
-        setAdvancedUnlockedView(R.string.no_credentials_stored)
+        setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     private fun initEncryptData() {
         showFingerPrintViews(true)
-        setAdvancedUnlockedView(R.string.open_biometric_prompt_store_credential)
+        setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_store_credential)
 
         biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
 
@@ -185,7 +185,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
     private fun initDecryptData() {
         showFingerPrintViews(true)
-        setAdvancedUnlockedView(R.string.open_biometric_prompt_unlock_database)
+        setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_unlock_database)
 
         if (biometricHelper != null) {
             prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
@@ -244,27 +244,18 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
             menuInflater.inflate(R.menu.advanced_unlock, menu)
     }
 
-    private fun showFingerPrintViews(show: Boolean) {
-        context.runOnUiThread { advancedUnlockInfoView?.hide = !show }
-    }
-
-    private fun setAdvancedUnlockedView(textId: Int) {
-        context.runOnUiThread {
-            advancedUnlockInfoView?.setText(textId)
-        }
-    }
-
-    private fun setAdvancedUnlockedView(text: CharSequence) {
-        context.runOnUiThread {
-            advancedUnlockInfoView?.text = text
-        }
-    }
-
     private fun removePrefsNoBackupKey() {
         prefsNoBackup.edit()
                 ?.remove(preferenceKeyValue)
                 ?.remove(preferenceKeyIvSpec)
                 ?.apply()
+    }
+
+    fun deleteEntryKey() {
+        biometricHelper?.deleteEntryKey()
+        removePrefsNoBackupKey()
+        biometricMode = Mode.NOT_CONFIGURED
+        checkBiometricAvailability()
     }
 
     override fun handleEncryptedResult(
@@ -275,7 +266,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                 ?.putString(preferenceKeyIvSpec, ivSpec)
                 ?.apply()
         loadDatabase.invoke(null)
-        setAdvancedUnlockedView(R.string.encrypted_value_stored)
+        setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
     }
 
     override fun handleDecryptedResult(value: String) {
@@ -284,22 +275,36 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     override fun onInvalidKeyException(e: Exception) {
-        setAdvancedUnlockedView(R.string.biometric_invalid_key)
-        deleteEntryKey()
+        setAdvancedUnlockedMessageView(R.string.biometric_invalid_key)
     }
 
     override fun onBiometricException(e: Exception) {
         // Don't show error here;
         // showError(getString(R.string.fingerprint_error, e.getMessage()));
         // Can be uninit in Activity and init in fragment
-        setAdvancedUnlockedView(e.localizedMessage)
+        setAdvancedUnlockedMessageView(e.localizedMessage)
     }
 
-    fun deleteEntryKey() {
-        biometricHelper?.deleteEntryKey()
-        removePrefsNoBackupKey()
-        biometricMode = Mode.NOT_CONFIGURED
-        checkBiometricAvailability()
+    private fun showFingerPrintViews(show: Boolean) {
+        context.runOnUiThread { advancedUnlockInfoView?.hide = !show }
+    }
+
+    private fun setAdvancedUnlockedTitleView(textId: Int) {
+        context.runOnUiThread {
+            advancedUnlockInfoView?.setTitle(textId)
+        }
+    }
+
+    private fun setAdvancedUnlockedMessageView(textId: Int) {
+        context.runOnUiThread {
+            advancedUnlockInfoView?.setMessage(textId)
+        }
+    }
+
+    private fun setAdvancedUnlockedMessageView(text: CharSequence) {
+        context.runOnUiThread {
+            advancedUnlockInfoView?.message = text
+        }
     }
 
     enum class Mode {

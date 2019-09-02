@@ -98,7 +98,7 @@
                     android:text="@string/fingerprint_open_biometric_prompt"/>
             </LinearLayout>
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/fingerprint_image"
+                android:id="@+id/biometric_image"
                 android:layout_gravity="center"
                 android:layout_width="48dp"
                 android:layout_height="48dp"

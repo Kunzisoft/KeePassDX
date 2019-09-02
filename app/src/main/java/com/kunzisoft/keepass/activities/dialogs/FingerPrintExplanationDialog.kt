@@ -29,7 +29,6 @@ import androidx.appcompat.app.AlertDialog
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.biometric.FingerPrintAnimatedVector
-import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 
 @RequiresApi(api = Build.VERSION_CODES.M)
@@ -53,7 +52,7 @@ class FingerPrintExplanationDialog : DialogFragment() {
             }
 
             fingerPrintAnimatedVector = FingerPrintAnimatedVector(activity,
-                    rootView.findViewById(R.id.fingerprint_image))
+                    rootView.findViewById(R.id.biometric_image))
 
             builder.setView(rootView)
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
