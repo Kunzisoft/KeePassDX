@@ -50,8 +50,12 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
     }
 
     fun setIconViewClickListener(listener: ((view: View)->Unit)?) {
-        unlockIconImageView?.setOnClickListener(listener)
+        if (listener == null)
+            stopIconViewAnimation()
+        else
+            startIconViewAnimation()
         unlockContainerView.alpha = if (listener == null) 0.8f else 1f
+        unlockIconImageView?.setOnClickListener(listener)
     }
 
     var text: CharSequence

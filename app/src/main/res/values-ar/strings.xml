@@ -184,7 +184,7 @@
     <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
-    <string name="no_password_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
+    <string name="no_credentials_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
     <string name="menu_appearance_settings">مظهر</string>
     <string name="general">عام</string>
     <string name="autofill">ملأ تلقائي</string>

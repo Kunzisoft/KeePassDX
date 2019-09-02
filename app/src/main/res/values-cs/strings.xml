@@ -223,7 +223,7 @@
     <string name="fingerprint_not_recognized">Otisk prstu není rozpoznán</string>
     <string name="biometric_scanning_error">Problém s otiskem prstu: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Použít pro uložení tohoto hesla otisk prstu</string>
-    <string name="no_password_stored">Tato databáze zatím není chráněna heslem.</string>
+    <string name="no_credentials_stored">Tato databáze zatím není chráněna heslem.</string>
     <string name="history">Historie</string>
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>

@@ -236,7 +236,7 @@
     <string name="fingerprint_not_recognized">Could not recognize fingerprint</string>
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
-    <string name="no_password_stored">This database does not have stored credential yet.</string>
+    <string name="no_credentials_stored">This database does not have stored credential yet.</string>
     <string name="history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>

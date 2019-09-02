@@ -144,29 +144,25 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initNotAvailable() {
         showFingerPrintViews(false)
 
-        advancedUnlockInfoView?.stopIconViewAnimation()
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     private fun initPause() {
         showFingerPrintViews(true)
 
-        advancedUnlockInfoView?.stopIconViewAnimation()
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     private fun initNotConfigured() {
         showFingerPrintViews(true)
         setAdvancedUnlockedView(R.string.configure_biometric)
-        advancedUnlockInfoView?.stopIconViewAnimation()
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
     private fun initWaitData() {
         showFingerPrintViews(true)
-        setAdvancedUnlockedView(R.string.no_password_stored)
-        advancedUnlockInfoView?.startIconViewAnimation()
+        setAdvancedUnlockedView(R.string.no_credentials_stored)
 
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
@@ -174,7 +170,6 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initEncryptData() {
         showFingerPrintViews(true)
         setAdvancedUnlockedView(R.string.open_biometric_prompt_store_credential)
-        advancedUnlockInfoView?.startIconViewAnimation()
 
         biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
             // Set listener to open the biometric dialog and save credential
@@ -189,7 +184,6 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private fun initDecryptData() {
         showFingerPrintViews(true)
         setAdvancedUnlockedView(R.string.open_biometric_prompt_unlock_database)
-        advancedUnlockInfoView?.startIconViewAnimation()
 
         if (biometricHelper != null) {
             prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {

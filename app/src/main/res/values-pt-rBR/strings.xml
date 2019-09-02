@@ -215,7 +215,7 @@
     <string name="fingerprint_not_recognized">Não pôde reconhecer impressão digital</string>
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
-    <string name="no_password_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
+    <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>

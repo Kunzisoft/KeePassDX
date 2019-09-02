@@ -183,7 +183,7 @@
     <string name="fingerprint_not_recognized">Parmak izi tanınamadı</string>
     <string name="biometric_scanning_error">Parmak izi sorunu: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bu şifreyi saklamak için parmak izini kullanın</string>
-    <string name="no_password_stored">Bu veritabanının henüz bir parolası yok.</string>
+    <string name="no_credentials_stored">Bu veritabanının henüz bir parolası yok.</string>
     <string name="history">Geçmiş</string>
     <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>

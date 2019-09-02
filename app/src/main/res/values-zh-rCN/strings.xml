@@ -255,7 +255,7 @@
     <string name="biometric_invalid_key">不能读取指纹密钥，请重置你的密码。</string>
     <string name="fingerprint_not_recognized">未能识别的指纹</string>
     <string name="biometric_scanning_error">指纹识别问题：%1$s</string>
-    <string name="no_password_stored">当前数据库没有任何密码。</string>
+    <string name="no_credentials_stored">当前数据库没有任何密码。</string>
     <string name="set_autofill_service_title">配置自动填充服务</string>
     <string name="set_autofill_service_summary">打开自动填充功能，以便快速的在其他应用中填写信息</string>
     <string name="password_size_title">密码生成长度</string>

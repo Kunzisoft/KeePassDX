@@ -213,7 +213,7 @@
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="open_biometric_prompt_store_credential">Fingerabdruck verwenden, um dieses Passwort zu speichern</string>
-    <string name="no_password_stored">Diese Datenbank hat noch kein Passwort.</string>
+    <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
     <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>

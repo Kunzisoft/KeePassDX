@@ -159,7 +159,7 @@
     <string name="biometric_invalid_key">Lettura dell\'impronta fallita. Ripristina la tua password.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa l\'impronta per salvare questa password</string>
-    <string name="no_password_stored">Questo database non ha ancora alcuna password.</string>
+    <string name="no_credentials_stored">Questo database non ha ancora alcuna password.</string>
     <string name="education_unlock_summary">Inserisci una password e/o file chiave per sbloccare il database.
 \n
 \nRicorda di salvare una copia del tuo file .kdbx in un luogo sicuro dopo ogni modifica.</string>

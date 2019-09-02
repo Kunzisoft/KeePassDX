@@ -39,19 +39,23 @@ class FingerPrintAnimatedVector(context: Context, imageView: ImageView) {
         imageView.setImageDrawable(scanFingerprint)
     }
 
+    private var animationCallback = object : Animatable2.AnimationCallback() {
+        override fun onAnimationEnd(drawable: Drawable) {
+            if (!scanFingerprint.isRunning)
+                scanFingerprint.start()
+        }
+    }
+
     fun startScan() {
-        scanFingerprint.registerAnimationCallback(object : Animatable2.AnimationCallback() {
-            override fun onAnimationEnd(drawable: Drawable) {
-                if (!scanFingerprint.isRunning)
-                    scanFingerprint.start()
-            }
-        })
+        scanFingerprint.registerAnimationCallback(animationCallback)
 
         if (!scanFingerprint.isRunning)
             scanFingerprint.start()
     }
 
     fun stopScan() {
+        scanFingerprint.unregisterAnimationCallback(animationCallback)
+
         if (scanFingerprint.isRunning)
             scanFingerprint.stop()
     }

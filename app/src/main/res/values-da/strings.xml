@@ -219,7 +219,7 @@
     <string name="fingerprint_not_recognized">Kunne ikke genkende fingeraftryk</string>
     <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
-    <string name="no_password_stored">Databasen har endnu ikke en adgangskode.</string>
+    <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>

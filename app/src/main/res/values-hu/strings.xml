@@ -155,7 +155,7 @@
     <string name="biometric_invalid_key">Az ujjlenyomat kulcs nem olvasható. Állítsa vissza a jelszavát.</string>
     <string name="biometric_scanning_error">Ujjlenyomat probléma: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Használjon ujjlenyomatot a jelszó tárolásához</string>
-    <string name="no_password_stored">Az adatbázisnak még nincs jelszava.</string>
+    <string name="no_credentials_stored">Az adatbázisnak még nincs jelszava.</string>
 
     <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
 \n

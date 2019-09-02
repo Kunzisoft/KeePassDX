@@ -217,7 +217,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="fingerprint_not_recognized">Nie można rozpoznać odcisku palca</string>
     <string name="biometric_scanning_error">Problem z odciskiem palca: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Użyj odcisku palca, aby zapisać to hasło</string>
-    <string name="no_password_stored">Baza danych nie ma jeszcze hasła.</string>
+    <string name="no_credentials_stored">Baza danych nie ma jeszcze hasła.</string>
     <string name="history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
