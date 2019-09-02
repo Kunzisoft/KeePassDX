@@ -26,6 +26,11 @@
             android:title="@string/biometric_unlock_enable_title"
             android:summary="@string/biometric_unlock_enable_summary"
             android:defaultValue="@bool/biometric_unlock_enable_default"/>
+        <SwitchPreference
+            android:key="@string/biometric_auto_open_prompt_key"
+            android:title="@string/biometric_auto_open_prompt_title"
+            android:summary="@string/biometric_auto_open_prompt_summary"
+            android:defaultValue="@bool/biometric_auto_open_prompt_default"/>
         <Preference
             android:key="@string/biometric_delete_all_key_key"
             android:title="@string/biometric_delete_all_key_title"

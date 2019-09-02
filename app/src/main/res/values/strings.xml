@@ -272,6 +272,8 @@
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your fingerprint or other biometric to open the database</string>
+    <string name="biometric_auto_open_prompt_title">Auto open biometric prompt</string>
+    <string name="biometric_auto_open_prompt_summary">Automatically open biometric prompt when a biometric key is defined for a database</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Are you sure you want to delete all keys related to biometric recognition?</string>

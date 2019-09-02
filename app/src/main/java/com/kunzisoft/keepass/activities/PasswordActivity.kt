@@ -280,7 +280,7 @@ class PasswordActivity : StylishActivity() {
             // Init FingerPrint elements
             var fingerPrintInit = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isBiometricPromptEnable(this)) {
+                if (PreferencesUtil.isBiometricUnlockEnable(this)) {
 
                     advancedUnlockInfoView?.setOnClickListener {
                         FingerPrintExplanationDialog().show(supportFragmentManager, "fingerPrintExplanationDialog")
@@ -432,7 +432,7 @@ class PasswordActivity : StylishActivity() {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (PreferencesUtil.isBiometricPromptEnable(this@PasswordActivity)) {
+                    if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
                         // Stay with the same mode and init it
                         advancedUnlockedViewManager?.initBiometricMode()
                     }
@@ -529,7 +529,7 @@ class PasswordActivity : StylishActivity() {
                 val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
                 // fingerprintEducationPerformed
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isBiometricPromptEnable(applicationContext)
+                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
                         && passwordActivityEducation.checkAndPerformedFingerprintEducation(advancedUnlockInfoView?.unlockIconImageView!!)

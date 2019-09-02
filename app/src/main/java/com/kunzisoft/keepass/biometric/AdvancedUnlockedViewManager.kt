@@ -30,6 +30,8 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     private var biometricHelper: BiometricHelper? = null
     private var biometricMode: Mode = Mode.NOT_CONFIGURED
 
+    private var isBiometricPromptAutoOpenEnable = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
+
     // makes it possible to store passwords per database
     private val preferenceKeyValue: String
         get() = PREF_KEY_VALUE_PREFIX + (databaseFileUri?.path ?: "")
@@ -70,7 +72,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         // or manually disable
         val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
 
-        val newBiometricMode: Mode = if (!PreferencesUtil.isBiometricPromptEnable(context)
+        val newBiometricMode: Mode = if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
 
@@ -148,8 +150,6 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     private fun initPause() {
-        showFingerPrintViews(true)
-
         advancedUnlockInfoView?.setIconViewClickListener(null)
     }
 
@@ -172,12 +172,14 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         setAdvancedUnlockedView(R.string.open_biometric_prompt_store_credential)
 
         biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
-            // Set listener to open the biometric dialog and save credential
-            advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                cryptoObject?.let { crypto ->
+
+            cryptoObject?.let { crypto ->
+                // Set listener to open the biometric dialog and save credential
+                advancedUnlockInfoView?.setIconViewClickListener { _ ->
                     biometricPrompt?.authenticate(promptInfo, crypto)
                 }
             }
+
         }
     }
 
@@ -188,12 +190,20 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         if (biometricHelper != null) {
             prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
                 biometricHelper?.initDecryptData(it) { biometricPrompt, cryptoObject, promptInfo ->
-                    // Set listener to open the biometric dialog and check credential
-                    advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                        cryptoObject?.let { crypto ->
+
+                    cryptoObject?.let { crypto ->
+                        // Set listener to open the biometric dialog and check credential
+                        advancedUnlockInfoView?.setIconViewClickListener { _ ->
+                            biometricPrompt?.authenticate(promptInfo, crypto)
+                        }
+
+                        // Auto open the biometric prompt
+                        if (isBiometricPromptAutoOpenEnable) {
+                            isBiometricPromptAutoOpenEnable = false
                             biometricPrompt?.authenticate(promptInfo, crypto)
                         }
                     }
+
                 }
             }
         }

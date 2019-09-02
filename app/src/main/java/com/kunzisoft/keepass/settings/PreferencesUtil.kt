@@ -128,10 +128,16 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.lock_database_back_root_default))
     }
 
-    fun isBiometricPromptEnable(context: Context): Boolean {
+    fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
                 context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
+    }
+
+    fun isBiometricPromptAutoOpenEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
+                context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
     }
 
     fun isFullFilePathEnable(context: Context): Boolean {
