@@ -266,8 +266,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     }
 
     interface BiometricUnlockCallback : BiometricUnlockErrorCallback {
-        fun handleEncryptedResult(value: String, ivSpec: String)
-        fun handleDecryptedResult(value: String)
+        fun handleEncryptedResult(encryptedValue: String, ivSpec: String)
+        fun handleDecryptedResult(decryptedValue: String)
     }
 
     companion object {
@@ -287,9 +287,9 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
                                                  biometricUnlockCallback: BiometricUnlockErrorCallback) {
             val fingerPrintHelper = BiometricUnlockDatabaseHelper(context, object : BiometricUnlockCallback {
 
-                override fun handleEncryptedResult(value: String, ivSpec: String) {}
+                override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
 
-                override fun handleDecryptedResult(value: String) {}
+                override fun handleDecryptedResult(decryptedValue: String) {}
 
                 override fun onInvalidKeyException(e: Exception) {
                     biometricUnlockCallback.onInvalidKeyException(e)

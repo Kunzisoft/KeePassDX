@@ -268,20 +268,19 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         checkBiometricAvailability()
     }
 
-    override fun handleEncryptedResult(
-            value: String,
-            ivSpec: String) {
+    override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
         prefsNoBackup.edit()
-                ?.putString(preferenceKeyValue, value)
+                ?.putString(preferenceKeyValue, encryptedValue)
                 ?.putString(preferenceKeyIvSpec, ivSpec)
                 ?.apply()
+        // Only for callback
         loadDatabase.invoke(null)
         setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
     }
 
-    override fun handleDecryptedResult(value: String) {
+    override fun handleDecryptedResult(decryptedValue: String) {
         // Load database directly with password retrieve
-        loadDatabase.invoke(value)
+        loadDatabase.invoke(decryptedValue)
     }
 
     override fun onInvalidKeyException(e: Exception) {
