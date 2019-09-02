@@ -103,9 +103,9 @@
     <string name="maskpass_title">Skjul adgangskoder</string>
     <string name="maskpass_summary">Masker adgangskoder (***) som standard</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Skift hovednøgle</string>
+    <string name="menu_change_key_settings">Skift hovednøgle</string>
     <string name="settings">Indstillinger</string>
-    <string name="menu_db_settings">Database indstillinger</string>
+    <string name="menu_database_settings">Database indstillinger</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_donate">Donér</string>
     <string name="menu_edit">Rediger</string>
@@ -221,7 +221,7 @@
     <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
     <string name="no_password_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="history">Historik</string>
-    <string name="appearance">Udseende</string>
+    <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autoudfyld</string>
     <string name="autofill_service_name">KeePass DX formularudfyldning</string>
@@ -246,7 +246,7 @@
     <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
     <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
     <string name="usage">Brug</string>
-    <string name="fingerprint">Fingeraftryk</string>
+    <string name="advanced_unlock">Fingeraftryk</string>
     <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
     <string name="biometric_unlock_enable_summary">Scan fingeraftryk for at åbne databasen</string>
     <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>

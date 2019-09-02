@@ -91,9 +91,9 @@
     <string name="maskpass_title">隐藏密码</string>
     <string name="maskpass_summary">默认使用星号 (***) 隐藏密码</string>
     <string name="menu_about">关于</string>
-    <string name="menu_change_key">更改主密钥</string>
+    <string name="menu_change_key_settings">更改主密钥</string>
     <string name="settings">设置</string>
-    <string name="menu_db_settings">数据库设置</string>
+    <string name="menu_database_settings">数据库设置</string>
     <string name="menu_delete">删除</string>
     <string name="menu_donate">捐赠</string>
     <string name="menu_edit">编辑</string>
@@ -209,7 +209,7 @@
     <string name="version_label">版本 %1$s</string>
     <string name="open_biometric_prompt_store_credential">使用指纹保存此密码</string>
     <string name="history">历史</string>
-    <string name="appearance">外观</string>
+    <string name="menu_appearance_settings">外观</string>
     <string name="general">通用</string>
     <string name="autofill">自动填充</string>
     <string name="autofill_service_name">KeePass DX 表单自动填充</string>
@@ -217,7 +217,7 @@
     <string name="clipboard">剪贴板</string>
     <string name="clipboard_notifications_title">剪贴板通知</string>
     <string name="lock">锁定</string>
-    <string name="fingerprint">指纹</string>
+    <string name="advanced_unlock">指纹</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
     <string name="create_keepass_file">创建新数据库</string>

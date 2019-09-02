@@ -91,9 +91,9 @@
     <string name="maskpass_title">パスワードを隠す</string>
     <string name="maskpass_summary">パスワード欄をアスタリスクで表示します</string>
     <string name="menu_about">About</string>
-    <string name="menu_change_key">マスターキーを変更</string>
+    <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
-    <string name="menu_db_settings">データベース設定</string>
+    <string name="menu_database_settings">データベース設定</string>
     <string name="menu_delete">削除</string>
     <string name="menu_donate">寄付</string>
     <string name="menu_edit">編集</string>

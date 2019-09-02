@@ -96,12 +96,12 @@
     <string name="maskpass_title">비밀번호 숨기기</string>
     <string name="maskpass_summary">기본 비밀번호를 (***) 로 가리기</string>
     <string name="menu_about">정보</string>
-    <string name="menu_change_key">마스터 키 바꾸기</string>
+    <string name="menu_change_key_settings">마스터 키 바꾸기</string>
     <string name="copy_field">%1$s 복사됨</string>
     <string name="settings">설정</string>
     <string name="menu_app_settings">앱 설정</string>
     <string name="menu_form_filling_settings">폼 채우기</string>
-    <string name="menu_db_settings">데이터베이스 설정</string>
+    <string name="menu_database_settings">데이터베이스 설정</string>
     <string name="menu_donate">기부</string>
     <string name="menu_edit">수정</string>
     <string name="menu_copy">복사</string>

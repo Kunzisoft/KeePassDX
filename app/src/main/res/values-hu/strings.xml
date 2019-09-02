@@ -99,9 +99,9 @@
     <string name="maskpass_title">Jelszavak elrejtése</string>
     <string name="maskpass_summary">Jelszavak alapértelmezett elrejtése (***)</string>
     <string name="menu_about">Névjegy</string>
-    <string name="menu_change_key">Mesterkulcs cseréje</string>
+    <string name="menu_change_key_settings">Mesterkulcs cseréje</string>
     <string name="settings">Beállítások</string>
-    <string name="menu_db_settings">Adatbázis-beállítások</string>
+    <string name="menu_database_settings">Adatbázis-beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>
     <string name="menu_edit">Szerkesztés</string>
@@ -220,7 +220,7 @@
     <string name="build_label">Összeállítás: %1$s</string>
     <string name="fingerprint_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
     <string name="history">Előzmények</string>
-    <string name="appearance">Megjelenés</string>
+    <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
     <string name="autofill_service_name">KeePass DX űrlapkitöltés</string>
@@ -245,7 +245,7 @@
     <string name="fingerprint_scan_to_store">Olvassa le az ujjlenyomatát, hogy biztonságosan tárolja az adatbázist zároló jelszót.</string>
     <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
     <string name="usage">Használat</string>
-    <string name="fingerprint">Ujjlenyomat</string>
+    <string name="advanced_unlock">Ujjlenyomat</string>
     <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
     <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
     <string name="biometric_delete_all_key_title">Titkosítási kulcsok törlése</string>

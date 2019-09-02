@@ -65,7 +65,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     private var parallelismPref: Preference? = null
 
     enum class Screen {
-        APPLICATION, FORM_FILLING, DATABASE, APPEARANCE
+        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, DATABASE, APPEARANCE
     }
 
     override fun onResume() {
@@ -100,6 +100,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             Screen.FORM_FILLING -> {
                 onCreateFormFillingPreference(rootKey)
             }
+            Screen.ADVANCED_UNLOCK -> {
+                onCreateAdvancesUnlockPreferences(rootKey)
+            }
             Screen.APPEARANCE -> {
                 onCreateAppearancePreferences(rootKey)
             }
@@ -110,7 +113,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     }
 
     private fun onCreateApplicationPreferences(rootKey: String?) {
-        setPreferencesFromResource(R.xml.application_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_application, rootKey)
 
         activity?.let { activity ->
             allowCopyPassword()
@@ -130,65 +133,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 }
                 true
             }
-
-            val biometricUnlockEnablePreference = findPreference(getString(R.string.biometric_unlock_enable_key)) as SwitchPreference
-            // < M solve verifyError exception
-            var biometricUnlockSupported = false
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                val biometricCanAuthenticate = BiometricManager.from(activity).canAuthenticate()
-                biometricUnlockSupported = biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
-                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
-            }
-            if (!biometricUnlockSupported) {
-                // False if under Marshmallow
-                biometricUnlockEnablePreference.isChecked = false
-                biometricUnlockEnablePreference.setOnPreferenceClickListener { preference ->
-                    fragmentManager?.let { fragmentManager ->
-                        (preference as SwitchPreference).isChecked = false
-                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
-                                .show(fragmentManager, "unavailableFeatureDialog")
-                    }
-                    false
-                }
-            }
-
-            val deleteKeysFingerprints = findPreference(getString(R.string.biometric_delete_all_key_key))
-            if (!biometricUnlockSupported) {
-                deleteKeysFingerprints.isEnabled = false
-            } else {
-                deleteKeysFingerprints.setOnPreferenceClickListener {
-                    context?.let { context ->
-                        AlertDialog.Builder(context)
-                                .setMessage(resources.getString(R.string.biometric_delete_all_key_warning))
-                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                .setPositiveButton(resources.getString(android.R.string.yes)
-                                ) { _, _ ->
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                        BiometricHelper.deleteEntryKeyInKeystoreForFingerprints(
-                                                activity,
-                                                object : BiometricHelper.BiometricUnlockErrorCallback {
-                                                    override fun onInvalidKeyException(e: Exception) {}
-
-                                                    override fun onBiometricException(e: Exception) {
-                                                        Toast.makeText(context,
-                                                                getString(R.string.biometric_scanning_error, e.localizedMessage),
-                                                                Toast.LENGTH_SHORT).show()
-                                                    }
-                                                })
-                                    }
-                                    AdvancedUnlockedViewManager.deleteAllValuesFromNoBackupPreferences(context)
-                                }
-                                .setNegativeButton(resources.getString(android.R.string.no))
-                                { _, _ -> }.show()
-                    }
-                    false
-                }
-            }
         }
     }
 
     private fun onCreateFormFillingPreference(rootKey: String?) {
-        setPreferencesFromResource(R.xml.form_filling_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_form_filling, rootKey)
 
         activity?.let { activity ->
             val autoFillEnablePreference = findPreference(getString(R.string.settings_autofill_enable_key)) as SwitchPreference
@@ -266,8 +215,68 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         allowCopyPassword()
     }
 
+    private fun onCreateAdvancesUnlockPreferences(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
+
+        activity?.let { activity ->
+            val biometricUnlockEnablePreference = findPreference(getString(R.string.biometric_unlock_enable_key)) as SwitchPreference
+            // < M solve verifyError exception
+            var biometricUnlockSupported = false
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                val biometricCanAuthenticate = BiometricManager.from(activity).canAuthenticate()
+                biometricUnlockSupported = biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED
+                        || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS
+            }
+            if (!biometricUnlockSupported) {
+                // False if under Marshmallow
+                biometricUnlockEnablePreference.isChecked = false
+                biometricUnlockEnablePreference.setOnPreferenceClickListener { preference ->
+                    fragmentManager?.let { fragmentManager ->
+                        (preference as SwitchPreference).isChecked = false
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                                .show(fragmentManager, "unavailableFeatureDialog")
+                    }
+                    false
+                }
+            }
+
+            val deleteKeysFingerprints = findPreference(getString(R.string.biometric_delete_all_key_key))
+            if (!biometricUnlockSupported) {
+                deleteKeysFingerprints.isEnabled = false
+            } else {
+                deleteKeysFingerprints.setOnPreferenceClickListener {
+                    context?.let { context ->
+                        AlertDialog.Builder(context)
+                                .setMessage(resources.getString(R.string.biometric_delete_all_key_warning))
+                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                .setPositiveButton(resources.getString(android.R.string.yes)
+                                ) { _, _ ->
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                        BiometricHelper.deleteEntryKeyInKeystoreForFingerprints(
+                                                activity,
+                                                object : BiometricHelper.BiometricUnlockErrorCallback {
+                                                    override fun onInvalidKeyException(e: Exception) {}
+
+                                                    override fun onBiometricException(e: Exception) {
+                                                        Toast.makeText(context,
+                                                                getString(R.string.biometric_scanning_error, e.localizedMessage),
+                                                                Toast.LENGTH_SHORT).show()
+                                                    }
+                                                })
+                                    }
+                                    AdvancedUnlockedViewManager.deleteAllValuesFromNoBackupPreferences(context)
+                                }
+                                .setNegativeButton(resources.getString(android.R.string.no))
+                                { _, _ -> }.show()
+                    }
+                    false
+                }
+            }
+        }
+    }
+
     private fun onCreateAppearancePreferences(rootKey: String?) {
-        setPreferencesFromResource(R.xml.appearance_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
         activity?.let { activity ->
             val stylePreference = findPreference(getString(R.string.setting_style_key))
@@ -328,7 +337,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     }
 
     private fun onCreateDatabasePreference(rootKey: String?) {
-        setPreferencesFromResource(R.xml.database_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_database, rootKey)
 
         if (database.loaded) {
 
@@ -525,8 +534,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             return when (key) {
                 Screen.APPLICATION -> resources.getString(R.string.menu_app_settings)
                 Screen.FORM_FILLING -> resources.getString(R.string.menu_form_filling_settings)
-                Screen.DATABASE -> resources.getString(R.string.menu_db_settings)
-                Screen.APPEARANCE -> resources.getString(R.string.appearance)
+                Screen.ADVANCED_UNLOCK -> resources.getString(R.string.menu_advanced_unlock_settings)
+                Screen.DATABASE -> resources.getString(R.string.menu_database_settings)
+                Screen.APPEARANCE -> resources.getString(R.string.menu_appearance_settings)
             }
         }
     }

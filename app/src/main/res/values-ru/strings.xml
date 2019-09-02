@@ -103,9 +103,9 @@
     <string name="maskpass_title">Скрыть пароли</string>
     <string name="maskpass_summary">Скрывать пароли по умолчанию</string>
     <string name="menu_about">Сведения</string>
-    <string name="menu_change_key">Изменить мастер-ключ</string>
+    <string name="menu_change_key_settings">Изменить мастер-ключ</string>
     <string name="settings">Настройки</string>
-    <string name="menu_db_settings">Настройки базы</string>
+    <string name="menu_database_settings">Настройки базы</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_donate">Помочь</string>
     <string name="menu_edit">Правка</string>
@@ -220,7 +220,7 @@
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
     <string name="fingerprint_not_recognized">Отпечаток пальца не распознан</string>
     <string name="history">История</string>
-    <string name="appearance">Внешний вид</string>
+    <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
     <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
@@ -245,7 +245,7 @@
     <string name="fingerprint_scan_to_store">Сканируйте ваш отпечаток пальца для безопасного хранения вашего мастер-пароля</string>
     <string name="fingerprint_scan_to_open">Сканируйте ваш отпечаток пальца, когда поле \"Пароль\" не отмечено, для разблокировки базы</string>
     <string name="usage">Использование</string>
-    <string name="fingerprint">Отпечаток пальца</string>
+    <string name="advanced_unlock">Отпечаток пальца</string>
     <string name="biometric_unlock_enable_title">Сканирование отпечатка пальца</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы с помощью отпечатка пальца</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>

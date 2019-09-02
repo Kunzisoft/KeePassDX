@@ -96,12 +96,12 @@
     <string name="maskpass_title">"Parolaları gizle "</string>
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
-    <string name="menu_change_key">Ana anahtarı değitir</string>
+    <string name="menu_change_key_settings">Ana anahtarı değitir</string>
     <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
     <string name="menu_form_filling_settings">Form doldurma</string>
-    <string name="menu_db_settings">Veritabanı ayarları</string>
+    <string name="menu_database_settings">Veritabanı ayarları</string>
     <string name="menu_donate">Bağış Yap</string>
     <string name="menu_edit">Düzen</string>
     <string name="menu_copy">Kopyala</string>
@@ -185,7 +185,7 @@
     <string name="open_biometric_prompt_store_credential">Bu şifreyi saklamak için parmak izini kullanın</string>
     <string name="no_password_stored">Bu veritabanının henüz bir parolası yok.</string>
     <string name="history">Geçmiş</string>
-    <string name="appearance">Görünüm</string>
+    <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
     <string name="autofill_service_name">KeePass DX formu otomatik doldurma</string>
@@ -210,7 +210,7 @@
     <string name="fingerprint_scan_to_store">Veritabanı kilit parolanızı güvenli bir şekilde saklamak için parmak izinizi tarayın.</string>
     <string name="fingerprint_scan_to_open">Parola kapatıldığında veritabanını açmak için parmak izinizi tarayın.</string>
     <string name="usage">Kullanım</string>
-    <string name="fingerprint">Parmakizi</string>
+    <string name="advanced_unlock">Parmakizi</string>
     <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
     <string name="biometric_unlock_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>

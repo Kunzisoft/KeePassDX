@@ -103,9 +103,9 @@
     <string name="maskpass_title">Απόκρυψη κωδικού</string>
     <string name="maskpass_summary">Απόκρυψη κωδικών από προεπιλογή</string>
     <string name="menu_about">Σχετικά με</string>
-    <string name="menu_change_key">Αλλαγή Κύριου Κλειδιού</string>
+    <string name="menu_change_key_settings">Αλλαγή Κύριου Κλειδιού</string>
     <string name="settings">Ρυθμίσεις</string>
-    <string name="menu_db_settings">Ρυθμίσεις βάσης δεδομένων</string>
+    <string name="menu_database_settings">Ρυθμίσεις βάσης δεδομένων</string>
     <string name="menu_delete">Διαγραφή</string>
     <string name="menu_donate">Δωρεά</string>
     <string name="menu_edit">Επεξεργασία</string>

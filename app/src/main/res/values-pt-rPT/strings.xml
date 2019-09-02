@@ -103,9 +103,9 @@
     <string name="maskpass_title">Mascarar palavra-passe</string>
     <string name="maskpass_summary">Ocultar as palavras-passe por predefinição</string>
     <string name="menu_about">Sobre</string>
-    <string name="menu_change_key">Alterar chave mestre</string>
+    <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="settings">Definições</string>
-    <string name="menu_db_settings">Definições da base de dados</string>
+    <string name="menu_database_settings">Definições da base de dados</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Fazer donativo</string>
     <string name="menu_edit">Editar</string>
@@ -210,7 +210,7 @@
     <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
     <string name="no_password_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
     <string name="history">Histórico</string>
-    <string name="appearance">Aparência</string>
+    <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePass DX</string>

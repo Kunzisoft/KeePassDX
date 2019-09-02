@@ -96,12 +96,12 @@
     <string name="maskpass_title">Masker passord</string>
     <string name="maskpass_summary">Skjul passord som forvalg</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Endre hovednøkkel</string>
+    <string name="menu_change_key_settings">Endre hovednøkkel</string>
     <string name="copy_field">Kopierte %1$s</string>
     <string name="settings">Innstillinger</string>
     <string name="menu_app_settings">Programinnstillinger</string>
     <string name="menu_form_filling_settings">Skjemautfylling</string>
-    <string name="menu_db_settings">Databaseinnstillinger</string>
+    <string name="menu_database_settings">Databaseinnstillinger</string>
     <string name="menu_donate">Doner</string>
     <string name="menu_edit">Rediger</string>
     <string name="menu_copy">Kopier</string>
@@ -182,7 +182,7 @@
     <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_password_stored">Denne databasen har ikke et passord enda.</string>
     <string name="history">Historikk</string>
-    <string name="appearance">Utseende</string>
+    <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>
     <string name="autofill_service_name">KeePass DX autofyll-tjeneste</string>
@@ -207,7 +207,7 @@
     <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
     <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
-    <string name="fingerprint">Fingeravtrykk</string>
+    <string name="advanced_unlock">Fingeravtrykk</string>
     <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
     <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
     <string name="biometric_delete_all_key_title">Slett krypteringsnøkler</string>

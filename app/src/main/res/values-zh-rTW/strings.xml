@@ -91,9 +91,9 @@
     <string name="maskpass_title">密碼遮罩</string>
     <string name="maskpass_summary">預設隱藏密碼</string>
     <string name="menu_about">關於</string>
-    <string name="menu_change_key">變更主密鑰</string>
+    <string name="menu_change_key_settings">變更主密鑰</string>
     <string name="settings">設定</string>
-    <string name="menu_db_settings">資料庫設定</string>
+    <string name="menu_database_settings">資料庫設定</string>
     <string name="menu_delete">刪除</string>
     <string name="menu_donate">贊助</string>
     <string name="menu_edit">編輯</string>

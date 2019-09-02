@@ -83,9 +83,9 @@
     <string name="maskpass_title">Sēpt paroles</string>
     <string name="maskpass_summary">Sēpt paroles *****</string>
     <string name="menu_about">Par</string>
-    <string name="menu_change_key">Mainīt galveno paroli</string>
+    <string name="menu_change_key_settings">Mainīt galveno paroli</string>
     <string name="settings">Iestatījumi</string>
-    <string name="menu_db_settings">Datu bāzes iestatījumi</string>
+    <string name="menu_database_settings">Datu bāzes iestatījumi</string>
     <string name="menu_delete">Dzēst</string>
     <string name="menu_donate">Ziedot</string>
     <string name="menu_edit">Rediģēt</string>

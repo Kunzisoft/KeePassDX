@@ -92,9 +92,9 @@
     <string name="maskpass_title">Маска пароля</string>
     <string name="maskpass_summary">Приховати паролі за замовчуванням</string>
     <string name="menu_about">Про</string>
-    <string name="menu_change_key">Змінити головний ключ</string>
+    <string name="menu_change_key_settings">Змінити головний ключ</string>
     <string name="settings">Налаштування</string>
-    <string name="menu_db_settings">Налаштування бази даних</string>
+    <string name="menu_database_settings">Налаштування бази даних</string>
     <string name="menu_delete">Вилучити</string>
     <string name="menu_donate">Пожертвувати</string>
     <string name="menu_edit">Редагувати</string>

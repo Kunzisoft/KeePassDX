@@ -28,6 +28,6 @@ class MagikIMESettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.keyboard_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
     }
 }

@@ -45,7 +45,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         // add listeners for non-default actions
-        findPreference(getString(R.string.app_key)).apply {
+        findPreference(getString(R.string.settings_app_key)).apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPLICATION)
                 false
@@ -59,6 +59,13 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
+        findPreference(getString(R.string.settings_advanced_unlock_key)).apply {
+            onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
+                false
+            }
+        }
+
         findPreference(getString(R.string.settings_appearance_key)).apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPEARANCE)
@@ -66,7 +73,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference(getString(R.string.database_main_menu_key)).apply {
+        findPreference(getString(R.string.settings_database_key)).apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
@@ -76,7 +83,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference(getString(R.string.database_change_master_key_key)).apply {
+        findPreference(getString(R.string.settings_database_change_credentials_key)).apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 fragmentManager?.let { fragmentManager ->
                     AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")

@@ -89,9 +89,9 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="maskpass_title">Ukryj hasła</string>
     <string name="maskpass_summary">Maskuj hasła (***) domyślnie</string>
     <string name="menu_about">O programie</string>
-    <string name="menu_change_key">Zmień klucz główny</string>
+    <string name="menu_change_key_settings">Zmień klucz główny</string>
     <string name="settings">Ustawienia</string>
-    <string name="menu_db_settings">Ustawienia bazy danych</string>
+    <string name="menu_database_settings">Ustawienia bazy danych</string>
     <string name="menu_delete">Usuń</string>
     <string name="menu_donate">Dotuj</string>
     <string name="menu_edit">Edytuj</string>
@@ -219,7 +219,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="open_biometric_prompt_store_credential">Użyj odcisku palca, aby zapisać to hasło</string>
     <string name="no_password_stored">Baza danych nie ma jeszcze hasła.</string>
     <string name="history">Historia</string>
-    <string name="appearance">Wygląd</string>
+    <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
     <string name="autofill">Wypełnij automatycznie</string>
     <string name="autofill_service_name">Autouzupełnianie formularzy KeePass DX</string>
@@ -244,7 +244,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="fingerprint_scan_to_store">Zeskanuj swój odcisk palca, aby bezpiecznie zapisać hasło blokady bazy danych.</string>
     <string name="fingerprint_scan_to_open">Zeskanuj swój odcisk palca, aby otworzyć bazę danych po wyłączeniu hasła.</string>
     <string name="usage">Użycie</string>
-    <string name="fingerprint">Odcisk palca</string>
+    <string name="advanced_unlock">Odcisk palca</string>
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
     <string name="biometric_unlock_enable_summary">Umożliwia skanowanie odcisku palca w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>

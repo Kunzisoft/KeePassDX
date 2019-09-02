@@ -104,9 +104,9 @@
     <string name="maskpass_title">Pasahitza estali</string>
     <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
     <string name="menu_about">Honi buruz</string>
-    <string name="menu_change_key">Gako Maisua Aldatu</string>
+    <string name="menu_change_key_settings">Gako Maisua Aldatu</string>
     <string name="settings">Ezarpenak</string>
-    <string name="menu_db_settings">Datubasearen ezarpenak</string>
+    <string name="menu_database_settings">Datubasearen ezarpenak</string>
     <string name="menu_delete">Ezabatu</string>
     <string name="menu_donate">Dirua eman</string>
     <string name="menu_edit">Editatu</string>

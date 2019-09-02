@@ -94,9 +94,9 @@
     <string name="maskpass_title">Esconder senhas</string>
     <string name="maskpass_summary">Mascarar senhas (***) por padrão</string>
     <string name="menu_about">Sobre</string>
-    <string name="menu_change_key">Modificar senha mestre</string>
+    <string name="menu_change_key_settings">Modificar senha mestre</string>
     <string name="settings">Configurações</string>
-    <string name="menu_db_settings">Configurações do banco de dados</string>
+    <string name="menu_database_settings">Configurações do banco de dados</string>
     <string name="menu_delete">Deletar</string>
     <string name="menu_donate">Doaçoes</string>
     <string name="menu_edit">Editar</string>
@@ -217,7 +217,7 @@
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_password_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
     <string name="history">Histórico</string>
-    <string name="appearance">Aparência</string>
+    <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Preenchimento Automático KeePass DX</string>
@@ -241,7 +241,7 @@
     <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua senha da base com segurança.</string>
     <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a senha estiber desativada.</string>
     <string name="usage">Uso</string>
-    <string name="fingerprint">Impressão Digital</string>
+    <string name="advanced_unlock">Impressão Digital</string>
     <string name="biometric_unlock_enable_title">Escaneamento de impressão digital</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua impressão digital para a abertura do banco de dados</string>
     <string name="biometric_delete_all_key_title">Apague chaves de encriptação</string>

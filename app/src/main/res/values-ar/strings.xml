@@ -70,10 +70,10 @@
     <string name="lowercase">حروف صغيرة</string>
     <string name="maskpass_summary">إخفاء كلمات المرور بشكل افتراضي</string>
     <string name="menu_about">عن التطبيق</string>
-    <string name="menu_change_key">تغيير المفتاح الرئيسي</string>
+    <string name="menu_change_key_settings">تغيير المفتاح الرئيسي</string>
     <string name="settings">الإعدادات</string>
     <string name="menu_app_settings">إعدادات التطبيق</string>
-    <string name="menu_db_settings">إعدادات قاعدة البيانات</string>
+    <string name="menu_database_settings">إعدادات قاعدة البيانات</string>
     <string name="menu_delete">حذف</string>
     <string name="menu_donate">التبرع</string>
     <string name="menu_edit">تعديل</string>
@@ -185,7 +185,7 @@
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
     <string name="no_password_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
-    <string name="appearance">مظهر</string>
+    <string name="menu_appearance_settings">مظهر</string>
     <string name="general">عام</string>
     <string name="autofill">ملأ تلقائي</string>
     <string name="autofill_sign_in_prompt">سجل باستخدام KeePass DX</string>
@@ -221,7 +221,7 @@
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>
     <string name="fingerprint_scan_to_store">افحص البصمة لتخزين كلمة سر قاعدة البيانات بأمان.</string>
     <string name="fingerprint_scan_to_open">افحص البصمة لفتح قاعدة البيانات عند تعطيل كلمة السر.</string>
-    <string name="fingerprint">البصمة</string>
+    <string name="advanced_unlock">البصمة</string>
     <string name="biometric_unlock_enable_title">فحص البصمة</string>
     <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>

@@ -109,10 +109,10 @@
     <string name="maskpass_title">Masquer les mots de passe</string>
     <string name="maskpass_summary">Masquer les mots de passe (***) par défaut</string>
     <string name="menu_about">À propos</string>
-    <string name="menu_change_key">Modifier la clé maîtresse</string>
+    <string name="menu_change_key_settings">Modifier la clé maîtresse</string>
     <string name="copy_field">%1$s copié</string>
     <string name="settings">Paramètres</string>
-    <string name="menu_db_settings">Paramètres de la base de données</string>
+    <string name="menu_database_settings">Paramètres de la base de données</string>
     <string name="menu_delete">Supprimer</string>
     <string name="menu_donate">Faire un don</string>
     <string name="menu_edit">Modifier</string>
@@ -187,7 +187,7 @@
     <string name="open_biometric_prompt_store_credential">Utiliser l’empreinte digitale pour stocker ce mot de passe</string>
     <string name="no_password_stored">Cette base de données n’a pas encore de mot de passe.</string>
     <string name="history">Historique</string>
-    <string name="appearance">Apparence</string>
+    <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
     <string name="autofill_service_name">Remplissage automatique des formulaires KeePass DX</string>
@@ -212,7 +212,7 @@
     <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
     <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
     <string name="usage">Utilisation</string>
-    <string name="fingerprint">Empreinte digitale</string>
+    <string name="advanced_unlock">Empreinte digitale</string>
     <string name="biometric_unlock_enable_title">Reconnaissance d’empreinte digitale</string>
     <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte digitale pour ouvrir la base de données</string>
     <string name="biometric_delete_all_key_title">Supprimer les clés de chiffrement</string>

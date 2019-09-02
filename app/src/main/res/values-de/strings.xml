@@ -107,9 +107,9 @@
     <string name="maskpass_title">Passwort verstecken</string>
     <string name="maskpass_summary">Passwörter standardmäßig mit (***) maskieren</string>
     <string name="menu_about">Über</string>
-    <string name="menu_change_key">Hauptschlüssel ändern</string>
+    <string name="menu_change_key_settings">Hauptschlüssel ändern</string>
     <string name="settings">Einstellungen</string>
-    <string name="menu_db_settings">Datenbank-Einstellungen</string>
+    <string name="menu_database_settings">Datenbank-Einstellungen</string>
     <string name="menu_delete">Löschen</string>
     <string name="menu_donate">Spenden</string>
     <string name="menu_edit">Ändern</string>
@@ -179,7 +179,7 @@
     </string-array>
     <string name="warning_empty_password">Soll das Entsperren ohne Passwort wirklich möglich sein\?</string>
     <string name="warning_no_encryption_key">Soll wirklich kein Verschlüsselungsschlüssel verwendet werden\?</string>
-    <string name="appearance">Aussehen</string>
+    <string name="menu_appearance_settings">Aussehen</string>
     <string name="password_size_title">Generierte Passwortlänge</string>
     <string name="password_size_summary">Legt die Standardlänge des generierten Passworts fest</string>
     <string name="clipboard_notifications_title">Zwischenablagenbenachrichtigungen</string>
@@ -193,7 +193,7 @@
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
     <string name="biometric_unlock_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
-    <string name="fingerprint">Fingerabdruck</string>
+    <string name="advanced_unlock">Fingerabdruck</string>
     <string name="biometric_unlock_enable_title">Fingerabdruckscanner</string>
     <string name="fingerprint_scan_to_open">Fingerabdruck scannen, um die Datenbank zu öffnen, wenn die Passworteingabe ausgeschaltet ist.</string>
     <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um das Datenbank-Passwort sicher zu speichern.</string>

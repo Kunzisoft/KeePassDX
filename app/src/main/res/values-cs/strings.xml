@@ -106,9 +106,9 @@
     <string name="maskpass_title">Skrýt hesla</string>
     <string name="maskpass_summary">Ve výchozím stavu zobrazovat (***) místo hesla</string>
     <string name="menu_about">O aplikaci</string>
-    <string name="menu_change_key">Změnit hlavní klíč</string>
+    <string name="menu_change_key_settings">Změnit hlavní klíč</string>
     <string name="settings">Nastavení</string>
-    <string name="menu_db_settings">Nastavení databáze</string>
+    <string name="menu_database_settings">Nastavení databáze</string>
     <string name="menu_delete">Smazat</string>
     <string name="menu_donate">Podpořit vývoj darem</string>
     <string name="menu_edit">Upravit</string>
@@ -225,7 +225,7 @@
     <string name="open_biometric_prompt_store_credential">Použít pro uložení tohoto hesla otisk prstu</string>
     <string name="no_password_stored">Tato databáze zatím není chráněna heslem.</string>
     <string name="history">Historie</string>
-    <string name="appearance">Vzhled</string>
+    <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
     <string name="autofill">Automatické vyplnění</string>
     <string name="autofill_service_name">KeePass DX automatické vyplňování formulářů</string>
@@ -250,7 +250,7 @@
     <string name="fingerprint_scan_to_store">Přiložte prst na snímač otisku prstu a zabezpečte tak heslo k databázi otiskem.</string>
     <string name="fingerprint_scan_to_open">Pro otevření databáze s vypnutým heslem přiložte prst na snímač otisku prstu.</string>
     <string name="usage">Použítí</string>
-    <string name="fingerprint">Otisk</string>
+    <string name="advanced_unlock">Otisk</string>
     <string name="biometric_unlock_enable_title">Snímání otisku prstu</string>
     <string name="biometric_unlock_enable_summary">Otevírat databázi otiskem prstu</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
