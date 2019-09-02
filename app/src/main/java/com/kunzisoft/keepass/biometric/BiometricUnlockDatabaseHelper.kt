@@ -172,14 +172,13 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             return
         }
         try {
-            // actual do encryption here
             val encrypted = cipher?.doFinal(value.toByteArray())
-            val encryptedValue = Base64.encodeToString(encrypted, Base64.NO_WRAP)
+            val encryptedBase64 = Base64.encodeToString(encrypted, Base64.NO_WRAP)
 
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
                 val ivSpecValue = Base64.encodeToString(spec.iv, Base64.NO_WRAP)
-                biometricUnlockCallback?.handleEncryptedResult(encryptedValue, ivSpecValue)
+                biometricUnlockCallback?.handleEncryptedResult(encryptedBase64, ivSpecValue)
             }
 
         } catch (e: Exception) {
@@ -226,7 +225,6 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             // actual decryption here
             val encrypted = Base64.decode(encryptedValue, Base64.NO_WRAP)
             cipher?.doFinal(encrypted)?.let { decrypted ->
-                //final String encryptedString = Base64.encodeToString(encrypted, 0 /* flags */);
                 biometricUnlockCallback?.handleDecryptedResult(String(decrypted))
             }
         } catch (badPaddingException: BadPaddingException) {
