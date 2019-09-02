@@ -246,19 +246,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity, priva
         try {
             keyStore?.load(null)
             keyStore?.deleteEntry(BIOMETRIC_KEYSTORE_KEY)
-        } catch (e: KeyStoreException) {
-            Log.e(TAG, "Unable to delete entry key in keystore", e)
-            biometricUnlockCallback?.onBiometricException(e)
-        } catch (e: CertificateException) {
-            Log.e(TAG, "Unable to delete entry key in keystore", e)
-            biometricUnlockCallback?.onBiometricException(e)
-        } catch (e: NoSuchAlgorithmException) {
-            Log.e(TAG, "Unable to delete entry key in keystore", e)
-            biometricUnlockCallback?.onBiometricException(e)
-        } catch (e: IOException) {
-            Log.e(TAG, "Unable to delete entry key in keystore", e)
-            biometricUnlockCallback?.onBiometricException(e)
-        } catch (e: NullPointerException) {
+        } catch (e: Exception) {
             Log.e(TAG, "Unable to delete entry key in keystore", e)
             biometricUnlockCallback?.onBiometricException(e)
         }

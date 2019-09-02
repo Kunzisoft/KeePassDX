@@ -289,9 +289,6 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     override fun onBiometricException(e: Exception) {
-        // Don't show error here;
-        // showError(getString(R.string.fingerprint_error, e.getMessage()));
-        // Can be uninit in Activity and init in fragment
         setAdvancedUnlockedMessageView(e.localizedMessage)
     }
 
