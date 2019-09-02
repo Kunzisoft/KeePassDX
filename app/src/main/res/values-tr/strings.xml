@@ -205,7 +205,7 @@
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
     <string name="fingerprint_advanced_unlock_title">Hızlı kilit açmak için parmak izi taraması nasıl ayarlanır\?</string>
     <string name="fingerprint_setting_text">Cihazınız için taranmış parmak izinizi kaydet</string>
-    <string name="fingerprint_setting_way_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
+    <string name="fingerprint_setting_link_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
     <string name="fingerprint_type_credentials_text">Veritabanı kilitleme parolasını girin</string>
     <string name="fingerprint_scan_to_store">Veritabanı kilit parolanızı güvenli bir şekilde saklamak için parmak izinizi tarayın.</string>
     <string name="fingerprint_scan_to_open">Parola kapatıldığında veritabanını açmak için parmak izinizi tarayın.</string>
@@ -247,8 +247,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard ayarları</string>
     <string name="magic_keyboard_configure_title">Formları güvenli bir şekilde otomatik doldurmak için klavyeyi ayarlayın.</string>
     <string name="magic_keyboard_activate_setting_text">Cihaz ayarlarında \"Magikeyboard\"u etkinleştirin.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">veya (\"Ayarlar\" → \"Dil &amp; giriş\" → \"Sanal klavye\" ve birini seçin.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
     <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
     <string name="keyboards_swicth_magikeyboard_text">Klavyenizdeki boşluk çubuğuna uzun basarak veya mevcut değilse şunu yaparak klavyeleri değiştirin:</string>
     <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>

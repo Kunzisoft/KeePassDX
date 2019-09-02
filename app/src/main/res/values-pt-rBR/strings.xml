@@ -236,7 +236,7 @@
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
     <string name="fingerprint_advanced_unlock_title">Como configurar impressões digitais para desbloqueio rápido?</string>
     <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
-    <string name="fingerprint_setting_way_text">\"Configurações\" → \"Segurança\" → \"Impressão Digital\"</string>
+    <string name="fingerprint_setting_link_text">\"Configurações\" → \"Segurança\" → \"Impressão Digital\"</string>
     <string name="fingerprint_type_credentials_text">Entre com sua senha no banco</string>
     <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua senha da base com segurança.</string>
     <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a senha estiber desativada.</string>
@@ -279,8 +279,7 @@
     <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
     <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Configurações\" → \"Idioma e Entrada\" → \"Teclado Atual\" → \"Selecionar Teclado\" e escolha um.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">ou (\"Configurações\" → \"Sistema → Idioma e Entrada\" → \"Teclado Virtual\" → \"Gerenciar Teclados\")</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Configurações\" → \"Idioma e Entrada\" → \"Teclado Atual\" → \"Selecionar Teclado\" e escolha um.</string>
     <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
     <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
     <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>

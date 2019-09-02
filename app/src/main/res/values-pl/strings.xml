@@ -239,7 +239,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
     <string name="fingerprint_advanced_unlock_title">Jak skonfigurować skanowanie linii papilarnych do szybkiego odblokowania\?</string>
     <string name="fingerprint_setting_text">Zapisz zeskanowany odcisk palca w urządzeniu</string>
-    <string name="fingerprint_setting_way_text">\"Ustawienia\" → \"Bezpieczeństwo\" → \"Odcisk palca\"</string>
+    <string name="fingerprint_setting_link_text">\"Ustawienia\" → \"Bezpieczeństwo\" → \"Odcisk palca\"</string>
     <string name="fingerprint_type_credentials_text">Wprowadź hasło blokady bazy danych</string>
     <string name="fingerprint_scan_to_store">Zeskanuj swój odcisk palca, aby bezpiecznie zapisać hasło blokady bazy danych.</string>
     <string name="fingerprint_scan_to_open">Zeskanuj swój odcisk palca, aby otworzyć bazę danych po wyłączeniu hasła.</string>
@@ -282,8 +282,7 @@ along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
     <string name="magic_keyboard_preference_title">Ustawienia Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Skonfiguruj klawiaturę, aby bezpiecznie wypełniać formularze.</string>
     <string name="magic_keyboard_activate_setting_text">Aktywuj \"Magikeyboard\" w ustawieniach urządzenia.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">lub (\"Ustawienia\" → \"Język i wprowadzanie danych\" → \"Klawiatura wirtualna\" i wybierz jedną.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
     <string name="keyboards_choose_magikeyboard_text">Wybierz Magikeyboard, gdy potrzebujesz wypełnić formularz.</string>
     <string name="keyboards_swicth_magikeyboard_text">Przełącz klawiaturę naciskając klawisz spacji na klawiaturze lub, jeśli nie jest dostępny, z:</string>
     <string name="keyboard_select_entry_text">Wybierz wpis za pomocą klawisza.</string>

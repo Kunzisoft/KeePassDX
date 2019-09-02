@@ -209,7 +209,7 @@
     <string name="history">Verlauf</string>
     <string name="fingerprint_advanced_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
     <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
-    <string name="fingerprint_setting_way_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
+    <string name="fingerprint_setting_link_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="open_biometric_prompt_store_credential">Fingerabdruck verwenden, um dieses Passwort zu speichern</string>
@@ -336,8 +336,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
     <string name="magic_keyboard_configure_title">Tastatur zum sicheren Ausfüllen von Formularen einrichten.</string>
     <string name="magic_keyboard_activate_setting_text">Das „Magikeyboard“ in den Geräteeinstellungen aktivieren.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">„Einstellungen“ → „Sprache &amp; Eingabe“ → „Aktuelle Tastatur“ und auswählen.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">oder („Einstellungen“ → „Sprache &amp; Eingabe“ → „Bildschirmtastatur“ und auswählen.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">„Einstellungen“ → „Sprache &amp; Eingabe“ → „Aktuelle Tastatur“ und auswählen.</string>
     <string name="keyboards_choose_magikeyboard_text">Das Magikeyboard auswählen, wenn ein Formular ausgefüllt werden soll.</string>
     <string name="keyboards_swicth_magikeyboard_text">Tastaturen durch langes Drücken auf die Leertaste wechseln oder, wenn das nicht zur Verfügung steht, mit:</string>
     <string name="keyboard_select_entry_text">Den Eintrag mit dem Schlüssel auswählen.</string>

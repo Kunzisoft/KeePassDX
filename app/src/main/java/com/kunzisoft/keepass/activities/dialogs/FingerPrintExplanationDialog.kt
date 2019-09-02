@@ -43,7 +43,7 @@ class FingerPrintExplanationDialog : DialogFragment() {
 
             val rootView = inflater.inflate(R.layout.fragment_fingerprint_explanation, null)
 
-            rootView.findViewById<View>(R.id.fingerprint_setting_way_text).setOnClickListener {
+            rootView.findViewById<View>(R.id.fingerprint_setting_link_text).setOnClickListener {
                 startActivity(Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS))
             }
 

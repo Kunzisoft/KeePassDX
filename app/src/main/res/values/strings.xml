@@ -262,9 +262,8 @@
     <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="fingerprint_advanced_unlock_title">How to set up fingerprint scanning for advanced unlocking?</string>
-    <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in </string>
-    <!-- Use ← for LTR languages -->
-    <string name="fingerprint_setting_way_text">\"Settings\" → \"Security\" → \"Fingerprint\"</string>
+    <string name="fingerprint_setting_text">Save your scanned fingerprint for your device in device settings.</string>
+    <string name="fingerprint_setting_link_text">Device Fingerprint Settings</string>
     <string name="fingerprint_type_credentials_text">Enter database lock credentials</string>
     <string name="fingerprint_open_biometric_prompt">Open the biometric prompt by clicking on biometric button.</string>
     <string name="fingerprint_scan_to_store">Scan your fingerprint to store your database lock password securely.</string>
@@ -315,10 +314,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
     <string name="magic_keyboard_configure_title">Set up the keyboard to autofill forms securely.</string>
     <string name="magic_keyboard_activate_setting_text">Activate \"Magikeyboard\" in the device settings.</string>
-    <!--Use ← for LTR languages-->
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Settings\" → \"Language &amp; input\" → \"Current Keyboard\" and pick one.</string>
-    <!--Use ← for LTR languages-->
-    <string name="magic_keyboard_activate_setting_path_2_text">or (\"Settings\" → \"Language &amp; input\" → \"Virtual keyboard\" and pick one.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Device Keyboard Settings</string>
     <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
     <string name="keyboards_swicth_magikeyboard_text">Switch keybaords by long pressing the spacebar of your keyboard, or, if it is not available, with: </string>
     <string name="keyboard_select_entry_text">Select your entry with the key.</string>

@@ -207,7 +207,7 @@
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
     <string name="fingerprint_advanced_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
     <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans</string>
-    <string name="fingerprint_setting_way_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
+    <string name="fingerprint_setting_link_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
     <string name="fingerprint_type_credentials_text">Saisir le mot de passe de verrouillage de la base de données</string>
     <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
     <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
@@ -343,8 +343,7 @@
     <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Configurer le clavier pour le remplissage automatique des formulaires en sécurité.</string>
     <string name="magic_keyboard_activate_setting_text">Activer le « Magikeyboard » dans les paramètres de l’appareil.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">(Ou « Paramètres » → « Langues et saisie » → « Clavier virtuel » et en choisir un.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
     <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
     <string name="keyboards_swicth_magikeyboard_text">Basculer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
     <string name="keyboard_select_entry_text">Sélectionner votre entrée avec la clé.</string>

@@ -240,7 +240,7 @@
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
     <string name="fingerprint_advanced_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
     <string name="fingerprint_setting_text">Установите ваш личный отпечаток пальца для вашего устройства</string>
-    <string name="fingerprint_setting_way_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
+    <string name="fingerprint_setting_link_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
     <string name="fingerprint_type_credentials_text">Введите ваш пароль в Keepass DX</string>
     <string name="fingerprint_scan_to_store">Сканируйте ваш отпечаток пальца для безопасного хранения вашего мастер-пароля</string>
     <string name="fingerprint_scan_to_open">Сканируйте ваш отпечаток пальца, когда поле \"Пароль\" не отмечено, для разблокировки базы</string>
@@ -283,8 +283,7 @@
     <string name="magic_keyboard_preference_title">Настройки Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Как настроить клавиатуру для безопасного заполнения форм?</string>
     <string name="magic_keyboard_activate_setting_text">Активировать Magikeyboard в настройках устройства.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">или (\"Настройки\" → \"Язык и ввод\" → \"Виртуальная клавиатура\" и выбрать.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать.</string>
     <string name="keyboards_choose_magikeyboard_text">Выбрать Magikeyboard, когда вам необходимо заполнить форму.</string>
     <string name="keyboards_swicth_magikeyboard_text">Вы можете легко переключаться с основной клавиатуры на Magikeyboard с помощью кнопки языка клавиатуры, длительного нажатия на пробел клавиатуры или, если она недоступна, с помощью:</string>
     <string name="keyboard_select_entry_text">Выберите запись с помощью кнопки.</string>

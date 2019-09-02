@@ -38,13 +38,13 @@
                     android:paddingTop="5dp"
                     style="@style/KeepassDXStyle.TextAppearance.TinyText"
                     android:text="@string/fingerprint_setting_text"/>
-                <TextView
-                    android:id="@+id/fingerprint_setting_way_text"
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/fingerprint_setting_link_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    style="@style/KeepassDXStyle.TextAppearance.TinyText"
-                    android:textColor="?attr/colorAccent"
-                    android:text="@string/fingerprint_setting_way_text"/>
+                    android:layout_margin="8dp"
+                    style="@style/KeepassDXStyle.FabMenu"
+                    android:text="@string/fingerprint_setting_link_text"/>
             </LinearLayout>
 
         </LinearLayout>

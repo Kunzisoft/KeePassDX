@@ -270,13 +270,12 @@
     <string name="sort_db">قاعده بيانات طبيعية</string>
     <string name="sort_last_access_time">الوصول</string>
     <string name="lock">إقفال</string>
-    <string name="fingerprint_setting_way_text">\"الإعدادات\" ← \"الأمان\" ← \"البصمة\"</string>
+    <string name="fingerprint_setting_link_text">\"الإعدادات\" ← \"الأمان\" ← \"البصمة\"</string>
     <string name="assign_master_key">تعيين مفتاح رئيسي</string>
     <string name="recycle_bin_title">استخدم سلة المحذوفات</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_preference_title">إعدادات Magikeyboard</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الحالية\" ثم اختر واحدا.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">أو (\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الافتراضية\" ثم اختر واحدا.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الحالية\" ثم اختر واحدا.</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_notification_entry_content_title">%1$s متوفر على Magikeyboard</string>

@@ -244,7 +244,7 @@
     <string name="lock_database_screen_off_summary">Databank vergrendelen als het scherm uitgaat</string>
     <string name="fingerprint_advanced_unlock_title">Hoe stel ik mijn vingerafdruk in voor snelle ontgrendeling?</string>
     <string name="fingerprint_setting_text">Stel je persoonlijke vingerafdruk voor je apparaat in via</string>
-    <string name="fingerprint_setting_way_text">\"Instellingen\" → \"Beveiliging\" → \"Vingerafdruk\"</string>
+    <string name="fingerprint_setting_link_text">\"Instellingen\" → \"Beveiliging\" → \"Vingerafdruk\"</string>
     <string name="fingerprint_type_credentials_text">Voer het databankwachtwoord in</string>
     <string name="fingerprint_scan_to_store">Scan je vingerafdruk om je databankwachtwoord veilig op te slaan.</string>
     <string name="fingerprint_scan_to_open">Scan je vingerafdruk om de databank te ontgrendelen als er geen vinkje staat bij wachtwoord</string>
@@ -288,8 +288,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-instellingen</string>
     <string name="magic_keyboard_configure_title">Hoe stel ik het toetsenbord in voor het veilig invullen van formulieren?</string>
     <string name="magic_keyboard_activate_setting_text">Activeer Magikeyboard in de apparaatinstellingen.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\" en kies er een.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">of (\"Instellingen\" → \"Taal en invoer\" → \"Virtueel toetsenbord\")</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\" en kies er een.</string>
     <string name="keyboards_choose_magikeyboard_text">Kies Magikeyboard als je een formulier moet invullen.</string>
     <string name="keyboards_swicth_magikeyboard_text">Je kunt eenvoudig schakelen tussen je gebruikelijke toetsenbord en Magikeyboard middels de taalknop op je toetsenbord of door de spatiebalk lang ingedrukt te houden. Indien niet beschikbaar kan het ook met:</string>
     <string name="keyboard_select_entry_text">Kies je iteminvoer met de toets.</string>

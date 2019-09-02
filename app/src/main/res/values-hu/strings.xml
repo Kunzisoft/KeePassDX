@@ -240,7 +240,7 @@
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása, ha a képernyő kikapcsol</string>
     <string name="fingerprint_advanced_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
     <string name="fingerprint_setting_text">Mentse a leolvasott ujjlenyomatát az eszközén a</string>
-    <string name="fingerprint_setting_way_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
+    <string name="fingerprint_setting_link_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
     <string name="fingerprint_type_credentials_text">Adja meg az adatbázis zárolási jelszavát</string>
     <string name="fingerprint_scan_to_store">Olvassa le az ujjlenyomatát, hogy biztonságosan tárolja az adatbázist zároló jelszót.</string>
     <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
@@ -282,8 +282,7 @@
     <string name="magic_keyboard_preference_title">Mágikus billentyűzet beállításai</string>
     <string name="magic_keyboard_configure_title">Billentyűzet beállítása az űrlapok biztonságos automatikus kitöltéséhez.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiválja a „Mágikus billentyűzetet” az eszközbeállításokban.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">„Beállítások” → „Nyelvek és bevitel” → „Jelenlegi billentyűzet” és válasszon egyet.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">vagy („Beállítások” → „Nyelv és bevitel” → „Virtuális billentyűzet” és válasszon egyet.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">„Beállítások” → „Nyelvek és bevitel” → „Jelenlegi billentyűzet” és válasszon egyet.</string>
     <string name="keyboards_choose_magikeyboard_text">Válassza a Mágikus billentyűzetet, ha egy űrlapot kell kitöltenie.</string>
     <string name="keyboards_swicth_magikeyboard_text">Válasszon a a billentyűzetek közt a billentyűzet szóközének hosszú nyomásával, vagy ha nem érhető el, akkor így:</string>
     <string name="keyboard_select_entry_text">Válassza ki a bejegyzést a gombbal.</string>

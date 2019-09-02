@@ -245,7 +245,7 @@
     <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
     <string name="fingerprint_advanced_unlock_title">Jak nastavit rychlé odemykání otiskem prstu?</string>
     <string name="fingerprint_setting_text">Uložte svůj otisk prstu pro své zařízení v</string>
-    <string name="fingerprint_setting_way_text">„Nastavení“ → „Zabezpečení“ → „Otisk prstu“</string>
+    <string name="fingerprint_setting_link_text">„Nastavení“ → „Zabezpečení“ → „Otisk prstu“</string>
     <string name="fingerprint_type_credentials_text">Zadejte heslo pro zamčení databáze</string>
     <string name="fingerprint_scan_to_store">Přiložte prst na snímač otisku prstu a zabezpečte tak heslo k databázi otiskem.</string>
     <string name="fingerprint_scan_to_open">Pro otevření databáze s vypnutým heslem přiložte prst na snímač otisku prstu.</string>
@@ -289,8 +289,7 @@
     <string name="magic_keyboard_preference_title">Nastavení Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Nastavit klávesnici pro bezpečné vyplňování formulářů.</string>
     <string name="magic_keyboard_activate_setting_text">Zapnout \"Magikeyboard\" v nastavení zařízení.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">„Nastavení“ → „Jazyk a vstup“ → „Stávající klávesnice“ a zvolte některou.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">nebo („Nastavení“ → „Jazyk a vstup“ → „Virtuální klávesnice“ a zvolte nějakou.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">„Nastavení“ → „Jazyk a vstup“ → „Stávající klávesnice“ a zvolte některou.</string>
     <string name="keyboards_choose_magikeyboard_text">Když potřebujete vyplnit formulář, zvolte Magikeyboard.</string>
     <string name="keyboards_swicth_magikeyboard_text">Na Magikeyboard můžete přepnout ze své obvyklé klávesnice stisknutím jazykového tlačítka na své klávesnici, dlouhým podržením mezerníku, a pokud nejsou k dispozici tak pomocí:</string>
     <string name="keyboard_select_entry_text">Vyberte položku klávesou.</string>

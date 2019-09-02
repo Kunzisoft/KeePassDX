@@ -241,7 +241,7 @@
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
     <string name="fingerprint_advanced_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
     <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i</string>
-    <string name="fingerprint_setting_way_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
+    <string name="fingerprint_setting_link_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
     <string name="fingerprint_type_credentials_text">Indtast adgangskoden til at låse databasen</string>
     <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
     <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
@@ -286,8 +286,7 @@
 \n
 \nOpsæt tastaturet til autofyld af formularerne sikkert.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard\" i enhedens indstillinger.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">eller (\"Indstillinger\" → \"Sprog &amp; input\" → \"Virtuelt tastatur\" og vælg et.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
     <string name="keyboards_choose_magikeyboard_text">Vælg Magikeyboard, når der er brug for at udfylde en formular.</string>
     <string name="keyboards_swicth_magikeyboard_text">Skift tastatur med et langt tryk på mellemrumstasten på tastaturet eller -hvis det ikke er tilgængelig - med:</string>
     <string name="keyboard_select_entry_text">Vælg post med nøglen.</string>

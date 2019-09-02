@@ -235,7 +235,7 @@
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
     <string name="fingerprint_advanced_unlock_title">Come impostare la scansione di impronte per sbloccare velocemente\?</string>
     <string name="fingerprint_setting_text">Salva la tua impronta per il dispositivo in</string>
-    <string name="fingerprint_setting_way_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta\"</string>
+    <string name="fingerprint_setting_link_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta\"</string>
     <string name="fingerprint_type_credentials_text">Digita la password di blocco database</string>
     <string name="fingerprint_scan_to_store">Scansiona la tua impronta per salvare la password di blocco database in modo sicuro.</string>
     <string name="fingerprint_scan_to_open">Scansiona la tua impronta per aprire il database quando la password è disattivata.</string>
@@ -278,8 +278,7 @@
     <string name="magic_keyboard_preference_title">Impostazioni Magitastiera</string>
     <string name="magic_keyboard_configure_title">Imposta la tastiera per un\'autocompletamento sicuro dei moduli.</string>
     <string name="magic_keyboard_activate_setting_text">Attiva la \"Magitastiera\" nelle impostazioni del dispositivo.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera attuale\" e scegline una.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">o (\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera virtuale\" e scegline una.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera attuale\" e scegline una.</string>
     <string name="keyboards_choose_magikeyboard_text">Scegli la Magitastiera quando devi compilare un modulo.</string>
     <string name="keyboards_swicth_magikeyboard_text">Cambia tastiera premendo a lungo la barra spaziatrice, oppure, se non disponibile, con:</string>
     <string name="keyboard_lock_database_text">Blocca il database.</string>

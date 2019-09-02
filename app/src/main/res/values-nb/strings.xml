@@ -202,7 +202,7 @@
     <string name="lock_database_screen_off_summary">Lås databasen når skjermen er av</string>
     <string name="fingerprint_advanced_unlock_title">Hvordan sette opp fingeravtrykk for rask opplåsing?</string>
     <string name="fingerprint_setting_text">Sett ditt personlige fingeravtrykk for din enhet i</string>
-    <string name="fingerprint_setting_way_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
+    <string name="fingerprint_setting_link_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
     <string name="fingerprint_type_credentials_text">Skriv passordet ditt i KeePass DX</string>
     <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
     <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
@@ -245,8 +245,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-innstillinger</string>
     <string name="magic_keyboard_configure_title">Sett opp tastaturet for sikker skjemautfylling.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard i enhetsinnstillingene.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">eller (\"Innstillinger\" → \"Språk og inndata\" → \"Virtuelt tastatur\" og velg ett.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
     <string name="keyboards_choose_magikeyboard_text">Velg Magikeyboard når du trenger å fylle inn et skjema.</string>
     <string name="keyboards_swicth_magikeyboard_text">Du kan enkelt bytte fra ditt hovedtastatur til Magikeyboard med språkknappen på tastaturet ditt, et langt trykk på ditt tastaturs mellomromstast, eller, hvis det ikke er tilgjengelig, med:</string>
     <string name="keyboard_select_entry_text">Velg din oppføring med nøkkelen.</string>
