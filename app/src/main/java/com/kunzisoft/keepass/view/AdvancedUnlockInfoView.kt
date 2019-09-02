@@ -72,12 +72,16 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         title = context.getString(textId)
     }
 
-    var message: CharSequence
+    var message: CharSequence?
         get() {
             return unlockMessageTextView?.text?.toString() ?: ""
         }
         set(value) {
-            unlockMessageTextView?.text = value
+            if (value == null || value.isEmpty())
+                unlockMessageTextView?.visibility = GONE
+            else
+                unlockMessageTextView?.visibility = VISIBLE
+            unlockMessageTextView?.text = value ?: ""
         }
 
     fun setMessage(@StringRes textId: Int) {

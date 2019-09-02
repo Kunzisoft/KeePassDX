@@ -46,7 +46,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class BiometricHelper(private val context: FragmentActivity, private val biometricUnlockCallback: BiometricUnlockCallback?) {
+class BiometricUnlockDatabaseHelper(private val context: FragmentActivity, private val biometricUnlockCallback: BiometricUnlockCallback?) {
 
     private var biometricPrompt: BiometricPrompt? = null
 
@@ -130,7 +130,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
                                         .build())
                         keyGenerator?.generateKey()
                     }
-                }catch (e: Exception) {
+                } catch (e: Exception) {
                     Log.e(TAG, "Unable to create a key in keystore", e)
                     biometricUnlockCallback?.onBiometricException(e)
                 }
@@ -289,7 +289,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
 
     companion object {
 
-        private val TAG = BiometricHelper::class.java.name
+        private val TAG = BiometricUnlockDatabaseHelper::class.java.name
 
         private const val BIOMETRIC_KEYSTORE = "AndroidKeyStore"
         private const val BIOMETRIC_KEYSTORE_KEY = "com.kunzisoft.keepass.biometric.key"
@@ -302,7 +302,7 @@ class BiometricHelper(private val context: FragmentActivity, private val biometr
          */
         fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
                                                  biometricUnlockCallback: BiometricUnlockErrorCallback) {
-            val fingerPrintHelper = BiometricHelper(context, object : BiometricUnlockCallback {
+            val fingerPrintHelper = BiometricUnlockDatabaseHelper(context, object : BiometricUnlockCallback {
 
                 override fun handleEncryptedResult(value: String, ivSpec: String) {}
 

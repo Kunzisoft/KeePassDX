@@ -103,6 +103,7 @@
                 android:layout_width="48dp"
                 android:layout_height="48dp"
                 android:elevation="4dp"
+                android:layout_marginBottom="12dp"
                 android:src="@drawable/fingerprint"
                 android:background="@drawable/background_image"
                 tools:targetApi="lollipop" />
@@ -112,7 +113,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp">
             <TextView
                 android:layout_width="20dp"

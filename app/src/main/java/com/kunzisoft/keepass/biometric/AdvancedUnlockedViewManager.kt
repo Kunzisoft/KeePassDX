@@ -25,9 +25,9 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                                   var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
                                   var passwordView: TextView?,
                                   var loadDatabase: (password: String?) -> Unit)
-    : BiometricHelper.BiometricUnlockCallback {
+    : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
-    private var biometricHelper: BiometricHelper? = null
+    private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
     private var biometricMode: Mode = Mode.NOT_CONFIGURED
 
     private var isBiometricPromptAutoOpenEnable = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
@@ -46,11 +46,11 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
         // Check if fingerprint well init (be called the first time the fingerprint is configured
         // and the activity still active)
-        if (biometricHelper == null || !biometricHelper!!.isFingerprintInitialized) {
+        if (biometricUnlockDatabaseHelper == null || !biometricUnlockDatabaseHelper!!.isFingerprintInitialized) {
 
-            biometricHelper = BiometricHelper(context, this)
+            biometricUnlockDatabaseHelper = BiometricUnlockDatabaseHelper(context, this)
             // callback for fingerprint findings
-            biometricHelper?.setAuthenticationCallback(biometricCallback)
+            biometricUnlockDatabaseHelper?.setAuthenticationCallback(biometricCallback)
         }
 
         // Add a check listener to change fingerprint mode
@@ -131,12 +131,12 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                 Mode.WAIT_CREDENTIAL -> {}
                 Mode.STORE -> {
                     // newly store the entered password in encrypted way
-                    biometricHelper?.encryptData(passwordView?.text.toString())
+                    biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
                 }
                 Mode.OPEN -> {
                     // retrieve the encrypted value from preferences
                     prefsNoBackup.getString(preferenceKeyValue, null)?.let {
-                        biometricHelper?.decryptData(it)
+                        biometricUnlockDatabaseHelper?.decryptData(it)
                     }
                 }
             }
@@ -174,7 +174,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_store_credential)
         setAdvancedUnlockedMessageView("")
 
-        biometricHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
+        biometricUnlockDatabaseHelper?.initEncryptData { biometricPrompt, cryptoObject, promptInfo ->
 
             cryptoObject?.let { crypto ->
                 // Set listener to open the biometric dialog and save credential
@@ -193,9 +193,9 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.open_biometric_prompt_unlock_database)
         setAdvancedUnlockedMessageView("")
 
-        if (biometricHelper != null) {
+        if (biometricUnlockDatabaseHelper != null) {
             prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
-                biometricHelper?.initDecryptData(it) { biometricPrompt, cryptoObject, promptInfo ->
+                biometricUnlockDatabaseHelper?.initDecryptData(it) { biometricPrompt, cryptoObject, promptInfo ->
 
                     cryptoObject?.let { crypto ->
                         // Set listener to open the biometric dialog and check credential
@@ -244,7 +244,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
         biometricMode = Mode.UNAVAILABLE
         initBiometricMode()
-        biometricHelper = null
+        biometricUnlockDatabaseHelper = null
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
@@ -262,7 +262,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     fun deleteEntryKey() {
-        biometricHelper?.deleteEntryKey()
+        biometricUnlockDatabaseHelper?.deleteEntryKey()
         removePrefsNoBackupKey()
         biometricMode = Mode.NOT_CONFIGURED
         checkBiometricAvailability()
