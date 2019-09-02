@@ -32,12 +32,8 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
-import java.io.IOException
 import java.security.KeyStore
-import java.security.KeyStoreException
-import java.security.NoSuchAlgorithmException
 import java.security.UnrecoverableKeyException
-import java.security.cert.CertificateException
 import java.util.concurrent.Executors
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
@@ -46,7 +42,8 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class BiometricUnlockDatabaseHelper(private val context: FragmentActivity, private val biometricUnlockCallback: BiometricUnlockCallback?) {
+class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
+                                    private val biometricUnlockCallback: BiometricUnlockCallback?) {
 
     private var biometricPrompt: BiometricPrompt? = null
 
