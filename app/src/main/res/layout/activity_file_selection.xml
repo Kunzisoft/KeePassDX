@@ -131,6 +131,7 @@
                     android:layout_margin="24dp"
                     android:elevation="6dp"
                     android:background="?attr/colorPrimaryDark"
+                    android:visibility="invisible"
                     app:layout_constraintWidth_percent="@dimen/content_percent"
                     app:layout_constraintTop_toBottomOf="@+id/label_warning"
                     app:layout_constraintBottom_toBottomOf="parent"
