@@ -2,6 +2,7 @@ KeepassDX (2.5.0.0beta23)
  * New, more secure database creation workflow
  * Add alias for history files (WARNING: history is erased)
  * New Biometric unlock (Fingerprint with new API)
+ * Fix small issues
 
 KeepassDX (2.5.0.0beta22)
  * Rebuild code for actions

@@ -296,7 +296,7 @@
     <!-- Icon Style -->
     <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/background_icon</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="backgroundTint">?android:attr/windowBackground</item>
     </style>
 
     <!-- FAB -->
