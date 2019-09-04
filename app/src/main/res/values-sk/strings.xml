@@ -91,9 +91,9 @@
     <string name="maskpass_title">Skryť heslo</string>
     <string name="maskpass_summary">Skryť heslá štandardne</string>
     <string name="menu_about">O Programe</string>
-    <string name="menu_change_key">Zmeniť hlavný Kľúč</string>
+    <string name="menu_change_key_settings">Zmeniť hlavný Kľúč</string>
     <string name="settings">Nastavenia</string>
-    <string name="menu_db_settings">Nastavenia Databázy</string>
+    <string name="menu_database_settings">Nastavenia Databázy</string>
     <string name="menu_delete">Zmazať</string>
     <string name="menu_donate">Darovať</string>
     <string name="menu_edit">Upraviť</string>

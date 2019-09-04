@@ -91,9 +91,9 @@
     <string name="maskpass_title">パスワードを隠す</string>
     <string name="maskpass_summary">パスワード欄をアスタリスクで表示します</string>
     <string name="menu_about">About</string>
-    <string name="menu_change_key">マスターキーを変更</string>
+    <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
-    <string name="menu_db_settings">データベース設定</string>
+    <string name="menu_database_settings">データベース設定</string>
     <string name="menu_delete">削除</string>
     <string name="menu_donate">寄付</string>
     <string name="menu_edit">編集</string>
@@ -179,7 +179,7 @@
     <string name="menu_move">移動</string>
     <string name="menu_paste">貼り付け</string>
     <string name="menu_cancel">キャンセル</string>
-    <string name="menu_fingerprint_remove_key">保存された指紋を削除</string>
+    <string name="menu_biometric_remove_key">保存された指紋を削除</string>
     <string name="menu_file_selection_read_only">書き込み保護</string>
     <string name="menu_open_file_read_and_write">変更可能</string>
     <string name="create_keepass_file">新しいデータベースを作成</string>

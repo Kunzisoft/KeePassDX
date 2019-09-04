@@ -27,7 +27,7 @@ import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.app.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.FileNotFoundException
@@ -120,7 +120,7 @@ class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
             keyFileUri = null
         }
         mWeakContext.get()?.let {
-            FileDatabaseHistory.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
+            FileDatabaseHistoryAction.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
         }
     }
 

@@ -103,9 +103,9 @@
     <string name="maskpass_title">Piilota salasaan</string>
     <string name="maskpass_summary">Piilota salasanat oletuksena</string>
     <string name="menu_about">Tietoa</string>
-    <string name="menu_change_key">Vaihda pääsalasanaa</string>
+    <string name="menu_change_key_settings">Vaihda pääsalasanaa</string>
     <string name="settings">Asetukset</string>
-    <string name="menu_db_settings">Salasanatietokannan asetukset</string>
+    <string name="menu_database_settings">Salasanatietokannan asetukset</string>
     <string name="menu_delete">Poista</string>
     <string name="menu_donate">Lahjoita</string>
     <string name="menu_edit">Muokkaa</string>

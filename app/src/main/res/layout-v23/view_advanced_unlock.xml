@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fingerprint_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <View
+        android:id="@+id/biometric_delimiter"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimaryDark"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="18dp"
+        android:orientation="vertical"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="@+id/biometric_delimiter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/biometric_image" >
+        <TextView
+            android:id="@+id/biometric_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="@string/biometric_prompt_store_credential_title"
+            style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+            android:gravity="center_vertical|end" />
+        <TextView
+            android:id="@+id/biometric_message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Sample error"
+            style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+            android:gravity="center_vertical|end" />
+    </LinearLayout>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/biometric_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_margin="@dimen/default_margin"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="8dp"
+        android:src="@drawable/fingerprint"
+        android:background="@drawable/background_image"
+        android:backgroundTint="?attr/colorAccent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -91,9 +91,9 @@
     <string name="maskpass_title">密碼遮罩</string>
     <string name="maskpass_summary">預設隱藏密碼</string>
     <string name="menu_about">關於</string>
-    <string name="menu_change_key">變更主密鑰</string>
+    <string name="menu_change_key_settings">變更主密鑰</string>
     <string name="settings">設定</string>
-    <string name="menu_db_settings">資料庫設定</string>
+    <string name="menu_database_settings">資料庫設定</string>
     <string name="menu_delete">刪除</string>
     <string name="menu_donate">贊助</string>
     <string name="menu_edit">編輯</string>
@@ -163,7 +163,7 @@
     <string name="menu_paste">貼上</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">顯示密碼</string>
-    <string name="menu_fingerprint_remove_key">移除指紋密鑰</string>
+    <string name="menu_biometric_remove_key">移除指紋密鑰</string>
     <string name="menu_file_selection_read_only">唯讀</string>
     <string name="menu_open_file_read_and_write">讀寫</string>
     <string name="omitbackup_title">不要搜尋備份的項目</string>

@@ -134,19 +134,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/fingerprint">
-
-        <SwitchPreference
-            android:key="@string/fingerprint_enable_key"
-            android:title="@string/fingerprint_enable_title"
-            android:summary="@string/fingerprint_enable_summary"
-            android:defaultValue="@bool/fingerprint_enable_default"/>
-        <Preference
-            android:key="@string/fingerprint_delete_all_key"
-            android:title="@string/fingerprint_delete_all_title"
-            android:summary="@string/fingerprint_delete_all_summary" />
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

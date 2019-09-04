@@ -40,9 +40,7 @@ class KeyboardExplanationDialogFragment : DialogFragment() {
 
             val rootView = inflater.inflate(R.layout.fragment_keyboard_explanation, null)
 
-            rootView.findViewById<View>(R.id.keyboards_activate_setting_path1_text)
-                    .setOnClickListener { launchActivateKeyboardSetting() }
-            rootView.findViewById<View>(R.id.keyboards_activate_setting_path2_text)
+            rootView.findViewById<View>(R.id.keyboards_activate_device_setting_button)
                     .setOnClickListener { launchActivateKeyboardSetting() }
 
             val containerKeyboardSwitcher = rootView.findViewById<View>(R.id.container_keyboard_switcher)

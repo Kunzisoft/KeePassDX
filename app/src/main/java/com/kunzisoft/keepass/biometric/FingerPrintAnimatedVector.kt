@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fingerprint
+package com.kunzisoft.keepass.biometric
 
 import android.content.Context
 import android.graphics.drawable.Animatable2
@@ -39,19 +39,23 @@ class FingerPrintAnimatedVector(context: Context, imageView: ImageView) {
         imageView.setImageDrawable(scanFingerprint)
     }
 
+    private var animationCallback = object : Animatable2.AnimationCallback() {
+        override fun onAnimationEnd(drawable: Drawable) {
+            if (!scanFingerprint.isRunning)
+                scanFingerprint.start()
+        }
+    }
+
     fun startScan() {
-        scanFingerprint.registerAnimationCallback(object : Animatable2.AnimationCallback() {
-            override fun onAnimationEnd(drawable: Drawable) {
-                if (!scanFingerprint.isRunning)
-                    scanFingerprint.start()
-            }
-        })
+        scanFingerprint.registerAnimationCallback(animationCallback)
 
         if (!scanFingerprint.isRunning)
             scanFingerprint.start()
     }
 
     fun stopScan() {
+        scanFingerprint.unregisterAnimationCallback(animationCallback)
+
         if (scanFingerprint.isRunning)
             scanFingerprint.stop()
     }

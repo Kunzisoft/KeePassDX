@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.fingerprint
+package com.kunzisoft.keepass.activities.dialogs
 
 import android.app.Dialog
 import android.content.Intent
@@ -28,6 +28,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.appcompat.app.AlertDialog
 import android.view.View
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.biometric.FingerPrintAnimatedVector
+import com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 class FingerPrintExplanationDialog : DialogFragment() {
@@ -41,11 +43,16 @@ class FingerPrintExplanationDialog : DialogFragment() {
 
             val rootView = inflater.inflate(R.layout.fragment_fingerprint_explanation, null)
 
-            val fingerprintSettingWayTextView = rootView.findViewById<View>(R.id.fingerprint_setting_way_text)
-            fingerprintSettingWayTextView.setOnClickListener { startActivity(Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS)) }
+            rootView.findViewById<View>(R.id.fingerprint_setting_link_text).setOnClickListener {
+                startActivity(Intent(android.provider.Settings.ACTION_SECURITY_SETTINGS))
+            }
+
+            rootView.findViewById<View>(R.id.auto_open_biometric_prompt_button).setOnClickListener {
+                startActivity(Intent(activity, SettingsAdvancedUnlockActivity::class.java))
+            }
 
             fingerPrintAnimatedVector = FingerPrintAnimatedVector(activity,
-                    rootView.findViewById(R.id.fingerprint_image))
+                    rootView.findViewById(R.id.biometric_image))
 
             builder.setView(rootView)
                     .setPositiveButton(android.R.string.ok) { _, _ -> }

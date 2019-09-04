@@ -19,22 +19,20 @@
  */
 package com.kunzisoft.keepass.app.database
 
-import androidx.sqlite.db.SimpleSQLiteQuery
 import android.content.Context
 import android.net.Uri
-import android.os.AsyncTask
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
 
-class FileDatabaseHistory(applicationContext: Context) {
+class FileDatabaseHistoryAction(applicationContext: Context) {
 
     private val databaseFileHistoryDao =
             AppDatabase
                 .getDatabase(applicationContext)
-                .databaseFileHistoryDao()
+                .fileDatabaseHistoryDao()
 
     fun getFileDatabaseHistory(databaseUri: Uri,
                                fileHistoryResultListener: (fileDatabaseHistoryResult: FileDatabaseHistoryEntity?) -> Unit) {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                 },
@@ -46,7 +44,7 @@ class FileDatabaseHistory(applicationContext: Context) {
 
     fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
                                    keyFileUriResultListener: (Uri?) -> Unit) {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                 },
@@ -61,7 +59,7 @@ class FileDatabaseHistory(applicationContext: Context) {
     }
 
     fun getAllFileDatabaseHistories(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     databaseFileHistoryDao.getAll()
                 },
@@ -81,7 +79,7 @@ class FileDatabaseHistory(applicationContext: Context) {
     }
 
     fun addOrUpdateFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity, unmodifiedAlias: Boolean = false) {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(fileDatabaseHistory.databaseUri)
 
@@ -100,7 +98,7 @@ class FileDatabaseHistory(applicationContext: Context) {
 
     fun deleteFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity,
                                   fileHistoryDeletedResult: (FileDatabaseHistoryEntity?) -> Unit) {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     databaseFileHistoryDao.delete(fileDatabaseHistory)
                 },
@@ -114,39 +112,20 @@ class FileDatabaseHistory(applicationContext: Context) {
     }
 
     fun deleteAllKeyFiles() {
-        // TODO replace for unsupported query databaseFileHistoryDao.deleteAllKeyFiles()
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
-                    databaseFileHistoryDao
-                            .deleteAllKeyFiles(SimpleSQLiteQuery("REPLACE INTO file_database_history(keyfile_uri) VALUES(null)"))
+                    databaseFileHistoryDao.deleteAllKeyFiles()
                 }
         ).execute()
     }
 
     fun deleteAll() {
-        ActionFileHistoryAsyncTask(
+        ActionDatabaseAsyncTask(
                 {
                     databaseFileHistoryDao.deleteAll()
                 }
         ).execute()
     }
 
-    /**
-     * Private class to invoke each method in a separate thread
-     */
-    private class ActionFileHistoryAsyncTask<T>(
-            private val action: () -> T ,
-            private val afterActionFileHistoryListener: ((fileHistoryResult: T?) -> Unit)? = null
-    ) : AsyncTask<Void, Void, T>() {
-
-        override fun doInBackground(vararg args: Void?): T? {
-            return action.invoke()
-        }
-
-        override fun onPostExecute(result: T?) {
-            afterActionFileHistoryListener?.invoke(result)
-        }
-    }
-
-    companion object : SingletonHolderParameter<FileDatabaseHistory, Context>(::FileDatabaseHistory)
+    companion object : SingletonHolderParameter<FileDatabaseHistoryAction, Context>(::FileDatabaseHistoryAction)
 }

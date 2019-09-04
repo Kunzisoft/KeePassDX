@@ -25,7 +25,6 @@ import android.app.backup.BackupManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -43,7 +42,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
+import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.utils.ClipDataCompat
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -52,20 +53,19 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
-import com.kunzisoft.keepass.app.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
-import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
+import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.FingerPrintInfoView
+import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
@@ -84,7 +84,7 @@ class PasswordActivity : StylishActivity() {
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
-    private var fingerPrintInfoView: FingerPrintInfoView? = null
+    private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
@@ -95,7 +95,7 @@ class PasswordActivity : StylishActivity() {
 
     private var readOnly: Boolean = false
 
-    private var fingerPrintViewsManager: FingerPrintViewsManager? = null
+    private var advancedUnlockedManager: AdvancedUnlockedManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,7 +120,7 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
-        fingerPrintInfoView = findViewById(R.id.fingerprint_info)
+        advancedUnlockInfoView = findViewById(R.id.fingerprint_info)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
@@ -216,7 +216,7 @@ class PasswordActivity : StylishActivity() {
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
             // Retrieve KeyFile in a thread
             databaseUri?.let { databaseUriNotNull ->
-                FileDatabaseHistory.getInstance(applicationContext)
+                FileDatabaseHistoryAction.getInstance(applicationContext)
                         .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
                             onPostInitUri(databaseUri, it)
                         }
@@ -280,11 +280,16 @@ class PasswordActivity : StylishActivity() {
             // Init FingerPrint elements
             var fingerPrintInit = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isFingerprintEnable(this)) {
-                    if (fingerPrintViewsManager == null) {
-                        fingerPrintViewsManager = FingerPrintViewsManager(this,
+                if (PreferencesUtil.isBiometricUnlockEnable(this)) {
+
+                    advancedUnlockInfoView?.setOnClickListener {
+                        FingerPrintExplanationDialog().show(supportFragmentManager, "fingerPrintExplanationDialog")
+                    }
+
+                    if (advancedUnlockedManager == null && databaseFileUri != null) {
+                        advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
-                                fingerPrintInfoView,
+                                advancedUnlockInfoView,
                                 checkboxPasswordView,
                                 enableButtonOnCheckedChangeListener,
                                 passwordView) { passwordRetrieve ->
@@ -298,12 +303,10 @@ class PasswordActivity : StylishActivity() {
                                     }
                                 }
                     }
-                    fingerPrintViewsManager?.initFingerprint()
-                    // checks if fingerprint is available, will also start listening for fingerprints when available
-                    fingerPrintViewsManager?.checkFingerprintAvailability()
+                    advancedUnlockedManager?.initBiometric()
                     fingerPrintInit = true
                 } else {
-                    fingerPrintViewsManager?.destroy()
+                    advancedUnlockedManager?.destroy()
                 }
             }
             if (!fingerPrintInit) {
@@ -361,14 +364,14 @@ class PasswordActivity : StylishActivity() {
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.stopListening()
+            advancedUnlockedManager?.pause()
         }
         super.onPause()
     }
 
     override fun onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.destroy()
+            advancedUnlockedManager?.destroy()
         }
         super.onDestroy()
     }
@@ -429,9 +432,9 @@ class PasswordActivity : StylishActivity() {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (PreferencesUtil.isFingerprintEnable(this@PasswordActivity)) {
-                        // Stay with the same mode
-                        fingerPrintViewsManager?.reInitWithFingerprintMode()
+                    if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                        // Stay with the same mode and init it
+                        advancedUnlockedManager?.initBiometricMode()
                     }
                 }
 
@@ -485,7 +488,7 @@ class PasswordActivity : StylishActivity() {
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Fingerprint menu
-            fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
+            advancedUnlockedManager?.inflateOptionsMenu(inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)
@@ -523,12 +526,13 @@ class PasswordActivity : StylishActivity() {
 
             if (!readOnlyEducationPerformed) {
 
+                val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
                 // fingerprintEducationPerformed
-                (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                        && PreferencesUtil.isFingerprintEnable(applicationContext)
-                        && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                        && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
-                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(advancedUnlockInfoView?.unlockIconImageView!!)
 
             }
         }
@@ -553,7 +557,7 @@ class PasswordActivity : StylishActivity() {
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_fingerprint_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                fingerPrintViewsManager?.deleteEntryKey()
+                advancedUnlockedManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }

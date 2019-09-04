@@ -87,7 +87,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     override fun onAttach(activity: Context) {
         super.onAttach(activity)
         try {
-            mListener = activity as AssignPasswordDialogListener?
+            mListener = activity as AssignPasswordDialogListener
         } catch (e: ClassCastException) {
             throw ClassCastException(activity.toString()
                     + " must implement " + AssignPasswordDialogListener::class.java.name)
