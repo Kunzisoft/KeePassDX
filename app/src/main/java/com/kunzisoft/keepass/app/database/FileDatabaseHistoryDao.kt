@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.app.database
 
-import androidx.sqlite.db.SupportSQLiteQuery
 import androidx.room.*
 
 @Dao
@@ -20,12 +19,8 @@ interface FileDatabaseHistoryDao {
     @Delete
     fun delete(fileDatabaseHistory: FileDatabaseHistoryEntity): Int
 
-    /* TODO Replace (Insert not yet supported)
     @Query("REPLACE INTO file_database_history(keyfile_uri) VALUES(null)")
     fun deleteAllKeyFiles()
-    */
-    @RawQuery
-    fun deleteAllKeyFiles(query: SupportSQLiteQuery): Boolean
 
     @Query("DELETE FROM file_database_history")
     fun deleteAll()

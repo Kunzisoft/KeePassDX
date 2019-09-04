@@ -1,2 +1,3 @@
  * New, more secure database creation workflow
  * Add alias for history files (WARNING: history is erased)
+ * New Biometric unlock (Fingerprint with new API)

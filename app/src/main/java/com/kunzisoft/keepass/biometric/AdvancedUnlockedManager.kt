@@ -1,7 +1,5 @@
 package com.kunzisoft.keepass.biometric
 
-import android.content.Context
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -14,17 +12,19 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class AdvancedUnlockedViewManager(var context: FragmentActivity,
-                                  var databaseFileUri: Uri?,
-                                  var advancedUnlockInfoView: AdvancedUnlockInfoView?,
-                                  var checkboxPasswordView: CompoundButton?,
-                                  var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
-                                  var passwordView: TextView?,
-                                  var loadDatabase: (password: String?) -> Unit)
+class AdvancedUnlockedManager(var context: FragmentActivity,
+                              var databaseFileUri: Uri,
+                              var advancedUnlockInfoView: AdvancedUnlockInfoView?,
+                              var checkboxPasswordView: CompoundButton?,
+                              var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
+                              var passwordView: TextView?,
+                              var loadDatabase: (password: String?) -> Unit)
     : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
@@ -32,14 +32,7 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
     private var isBiometricPromptAutoOpenEnable = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
 
-    // makes it possible to store passwords per database
-    private val preferenceKeyValue: String
-        get() = PREF_KEY_VALUE_PREFIX + (databaseFileUri?.path ?: "")
-
-    private val preferenceKeyIvSpec: String
-        get() = PREF_KEY_IV_PREFIX + (databaseFileUri?.path ?: "")
-
-    private var prefsNoBackup: SharedPreferences = getNoBackupSharedPreferences(context)
+    private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
     // fingerprint related code here
     fun initBiometric() {
@@ -72,37 +65,41 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         // or manually disable
         val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
 
-        val newBiometricMode: Mode = if (!PreferencesUtil.isBiometricUnlockEnable(context)
+        if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
 
-            Mode.UNAVAILABLE
+            toggleMode(Mode.UNAVAILABLE)
 
         } else {
 
             // fingerprint is available but not configured, show icon but in disabled state with some information
             if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
 
-                Mode.NOT_CONFIGURED
+                toggleMode(Mode.NOT_CONFIGURED)
 
             } else {
                 if (checkboxPasswordView?.isChecked == true) {
                     // listen for encryption
-                    Mode.STORE
+                    toggleMode(Mode.STORE)
                 } else {
-                    // fingerprint available but no stored password found yet for this DB so show info don't listen
-                    if (prefsNoBackup.contains(preferenceKeyValue)) {
-                        // listen for decryption
-                        Mode.OPEN
-                    } else {
-                        // wait for typing
-                        Mode.WAIT_CREDENTIAL
+                    cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
+
+                        // fingerprint available but no stored password found yet for this DB so show info don't listen
+                        toggleMode( if (it) {
+                            // listen for decryption
+                            Mode.OPEN
+                        } else {
+                            // wait for typing
+                            Mode.WAIT_CREDENTIAL
+                        })
                     }
                 }
             }
         }
+    }
 
-        // Toggle mode
+    private fun toggleMode(newBiometricMode: Mode) {
         if (newBiometricMode != biometricMode) {
             biometricMode = newBiometricMode
             initBiometricMode()
@@ -135,8 +132,10 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
                 }
                 Mode.OPEN -> {
                     // retrieve the encrypted value from preferences
-                    prefsNoBackup.getString(preferenceKeyValue, null)?.let {
-                        biometricUnlockDatabaseHelper?.decryptData(it)
+                    cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
+                        it?.encryptedValue?.let { value ->
+                            biometricUnlockDatabaseHelper?.decryptData(value)
+                        }
                     }
                 }
             }
@@ -194,26 +193,29 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
         setAdvancedUnlockedMessageView("")
 
         if (biometricUnlockDatabaseHelper != null) {
-            prefsNoBackup.getString(preferenceKeyIvSpec, null)?.let {
-                biometricUnlockDatabaseHelper?.initDecryptData(it) { biometricPrompt, cryptoObject, promptInfo ->
+            cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
 
-                    cryptoObject?.let { crypto ->
-                        // Set listener to open the biometric dialog and check credential
-                        advancedUnlockInfoView?.setIconViewClickListener { _ ->
-                            context.runOnUiThread {
-                                biometricPrompt?.authenticate(promptInfo, crypto)
+                it?.specParameters?.let { specs ->
+                    biometricUnlockDatabaseHelper?.initDecryptData(specs) { biometricPrompt, cryptoObject, promptInfo ->
+
+                        cryptoObject?.let { crypto ->
+                            // Set listener to open the biometric dialog and check credential
+                            advancedUnlockInfoView?.setIconViewClickListener { _ ->
+                                context.runOnUiThread {
+                                    biometricPrompt?.authenticate(promptInfo, crypto)
+                                }
+                            }
+
+                            // Auto open the biometric prompt
+                            if (isBiometricPromptAutoOpenEnable) {
+                                isBiometricPromptAutoOpenEnable = false
+                                context.runOnUiThread {
+                                    biometricPrompt?.authenticate(promptInfo, crypto)
+                                }
                             }
                         }
 
-                        // Auto open the biometric prompt
-                        if (isBiometricPromptAutoOpenEnable) {
-                            isBiometricPromptAutoOpenEnable = false
-                            context.runOnUiThread {
-                                biometricPrompt?.authenticate(promptInfo, crypto)
-                            }
-                        }
                     }
-
                 }
             }
         }
@@ -248,34 +250,30 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
     }
 
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
-        if (biometricMode != Mode.UNAVAILABLE
-                && biometricMode != Mode.NOT_CONFIGURED
-                && prefsNoBackup.contains(preferenceKeyValue))
-            menuInflater.inflate(R.menu.advanced_unlock, menu)
-    }
-
-    private fun removePrefsNoBackupKey() {
-        prefsNoBackup.edit()
-                ?.remove(preferenceKeyValue)
-                ?.remove(preferenceKeyIvSpec)
-                ?.apply()
+        cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
+            if ((biometricMode != Mode.UNAVAILABLE
+                            && biometricMode != Mode.NOT_CONFIGURED) && it)
+                menuInflater.inflate(R.menu.advanced_unlock, menu)
+        }
     }
 
     fun deleteEntryKey() {
         biometricUnlockDatabaseHelper?.deleteEntryKey()
-        removePrefsNoBackupKey()
+        cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri)
         biometricMode = Mode.NOT_CONFIGURED
         checkBiometricAvailability()
     }
 
     override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
-        prefsNoBackup.edit()
-                ?.putString(preferenceKeyValue, encryptedValue)
-                ?.putString(preferenceKeyIvSpec, ivSpec)
-                ?.apply()
-        // Only for callback
-        loadDatabase.invoke(null)
-        setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
+        cipherDatabaseAction.addOrUpdateCipherDatabase(CipherDatabaseEntity(
+                databaseFileUri.toString(),
+                encryptedValue,
+                ivSpec
+        )) {
+            // Only for callback
+            loadDatabase.invoke(null)
+            setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
+        }
     }
 
     override fun handleDecryptedResult(decryptedValue: String) {
@@ -319,25 +317,6 @@ class AdvancedUnlockedViewManager(var context: FragmentActivity,
 
     companion object {
 
-        private val TAG = AdvancedUnlockedViewManager::class.java.name
-
-        private const val PREF_KEY_VALUE_PREFIX = "valueFor_" // key is a combination of db file name and this prefix
-        private const val PREF_KEY_IV_PREFIX = "ivFor_" // key is a combination of db file name and this prefix
-
-        private const val NO_BACKUP_PREFERENCE_FILE_NAME = "nobackup"
-
-        fun getNoBackupSharedPreferences(context: Context): SharedPreferences {
-            return context.getSharedPreferences(
-                    NO_BACKUP_PREFERENCE_FILE_NAME,
-                    Context.MODE_PRIVATE)
-        }
-
-        fun deleteAllValuesFromNoBackupPreferences(context: Context) {
-            val prefsNoBackup = getNoBackupSharedPreferences(context)
-            val sharedPreferencesEditor = prefsNoBackup.edit()
-            sharedPreferencesEditor.clear()
-            sharedPreferencesEditor.apply()
-        }
+        private val TAG = AdvancedUnlockedManager::class.java.name
     }
-
 }

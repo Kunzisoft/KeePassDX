@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
-import com.kunzisoft.keepass.app.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -79,7 +79,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
 
-    private var mFileDatabaseHistory: FileDatabaseHistory? = null
+    private var mFileDatabaseHistoryAction: FileDatabaseHistoryAction? = null
 
     private var mDatabaseFileUri: Uri? = null
 
@@ -90,7 +90,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mFileDatabaseHistory = FileDatabaseHistory.getInstance(applicationContext)
+        mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(applicationContext)
 
         setContentView(R.layout.activity_file_selection)
         fileListContainer = findViewById(R.id.container_file_list)
@@ -167,7 +167,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
             // Remove from app database
-            mFileDatabaseHistory?.deleteFileDatabaseHistory(fileDatabaseHistoryToDelete) { fileHistoryDeleted ->
+            mFileDatabaseHistoryAction?.deleteFileDatabaseHistory(fileDatabaseHistoryToDelete) { fileHistoryDeleted ->
                 // Remove from adapter
                 fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
                     mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
@@ -178,7 +178,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             true
         }
         mAdapterDatabaseHistory?.setOnSaveAliasListener { fileDatabaseHistoryWithNewAlias ->
-            mFileDatabaseHistory?.addOrUpdateFileDatabaseHistory(fileDatabaseHistoryWithNewAlias)
+            mFileDatabaseHistoryAction?.addOrUpdateFileDatabaseHistory(fileDatabaseHistoryWithNewAlias)
         }
         fileDatabaseHistoryRecyclerView.adapter = mAdapterDatabaseHistory
 
@@ -295,7 +295,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         updateExternalStorageWarning()
 
         // Construct adapter with listeners
-        mFileDatabaseHistory?.getAllFileDatabaseHistories { databaseFileHistoryList ->
+        mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
             databaseFileHistoryList?.let {
                 mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
                 updateFileListVisibility()
@@ -361,7 +361,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             runOnUiThread {
                 if (result.isSuccess) {
                     // Add database to recent files
-                    mFileDatabaseHistory?.addOrUpdateDatabaseUri(databaseFileUri, keyFileUri)
+                    mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseFileUri, keyFileUri)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
                     updateFileListVisibility()
                     GroupActivity.launch(this@FileDatabaseSelectActivity)

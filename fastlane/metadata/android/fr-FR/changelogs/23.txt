@@ -1,2 +1,3 @@
  * Nouveau workflow de création de base de données plus sécurisé
  * Ajout d'un alias pour les fichiers d'historiques (ATTENTION: l'historique est effacé)
+ * Nouveau déblocage par biométrique (Empreinte digitale avec nouvelle API)

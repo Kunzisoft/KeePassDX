@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
-import com.kunzisoft.keepass.app.database.FileDatabaseHistory
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class FileDatabaseInfo : FileInfo {
@@ -21,7 +21,7 @@ class FileDatabaseInfo : FileInfo {
 
     fun retrieveDatabaseTitle(titleCallback: (String)->Unit) {
 
-        FileDatabaseHistory.getInstance(context.applicationContext).getFileDatabaseHistory(fileUri) {
+        FileDatabaseHistoryAction.getInstance(context.applicationContext).getFileDatabaseHistory(fileUri) {
             fileDatabaseHistoryEntity ->
 
             titleCallback.invoke(retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""))
