@@ -161,6 +161,14 @@
     <string name="education_unlock_summary">Das Passwort und/oder eine Schlüsseldatei zum Entsperren der Datenbank eingeben. 
 \n 
 \nDaran denken, nach jeder Änderung die .kdbx-Datei an einem sicheren Ort abzuspeichern.</string>
+    <string name="delete_entered_password_title">Passwort löschen</string>
+    <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch</string>
+    <string name="lock_database_back_root_title">Drücke Zurück auf der Startseite zum Schließen</string>
+    <string name="lock_database_back_root_summary">Schließe die Datenbank wenn auf der Startseite der Zurück-Button gedrückt wird</string>
+    <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
+    <string name="list_groups_show_number_entries_title">Zeige die Anzahl der Einträge</string>
+    <string name="list_groups_show_number_entries_summary">Zeige die Anzahl der Einträge in einer Gruppe</string>
     <string-array name="timeout_options">
         <item>5 Sekunden</item>
         <item>10 Sekunden</item>
