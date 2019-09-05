@@ -366,4 +366,20 @@
     <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
+    <string name="content_description_open_file">Åpne fil</string>
+    <string name="content_description_show_file_link">Vis fillenke</string>
+    <string name="content_description_open_file_link">Åpne fillenke</string>
+    <string name="content_description_add_node">Legg til node</string>
+    <string name="content_description_add_entry">Legg til oppføring</string>
+    <string name="content_description_add_group">Legg til gruppe</string>
+    <string name="content_description_file_information">Filinfo</string>
+    <string name="content_description_password_generator">Passordgenerator</string>
+    <string name="content_description_password_length">Passordslengde</string>
+    <string name="content_description_add_field">Legg til felt</string>
+    <string name="content_description_remove_field">Fjern felt</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Du kan ikke flytte en oppføring hit.</string>
+    <string name="error_copy_entry_here">Du kan ikke kopiere en oppføring hit.</string>
+    <string name="list_groups_show_number_entries_title">Vis antall oppføringer</string>
+    <string name="list_groups_show_number_entries_summary">Vis antall oppføringer i en gruppe</string>
 </resources>
