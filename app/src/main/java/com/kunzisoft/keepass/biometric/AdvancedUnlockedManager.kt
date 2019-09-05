@@ -28,7 +28,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
-    private var biometricMode: Mode = Mode.NOT_CONFIGURED
+    private var biometricMode: Mode = Mode.UNAVAILABLE
 
     private var isBiometricPromptAutoOpenEnable = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
 
