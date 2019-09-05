@@ -52,6 +52,8 @@ import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -292,16 +294,25 @@ class PasswordActivity : StylishActivity() {
                                 advancedUnlockInfoView,
                                 checkboxPasswordView,
                                 enableButtonOnCheckedChangeListener,
-                                passwordView) { passwordRetrieve ->
-                                    // Load the database if password is registered or retrieve
-                                    passwordRetrieve?.let {
+                                passwordView,
+                                { passwordEncrypted, ivSpec ->
+                                    // Load the database if password is registered with biometric
+                                    if (passwordEncrypted != null && ivSpec != null) {
+                                        verifyCheckboxesAndLoadDatabase(
+                                                CipherDatabaseEntity(
+                                                    databaseFileUri.toString(),
+                                                    passwordEncrypted,
+                                                    ivSpec)
+                                        )
+                                    }
+                                },
+                                { passwordDecrypted ->
+                                    // Load the database if password is retrieve from biometric
+                                    passwordDecrypted?.let {
                                         // Retrieve from fingerprint
                                         verifyKeyFileCheckboxAndLoadDatabase(it)
-                                    } ?: run {
-                                        // Register with fingerprint
-                                        verifyCheckboxesAndLoadDatabase()
                                     }
-                                }
+                                })
                     }
                     advancedUnlockedManager?.initBiometric()
                     fingerPrintInit = true
@@ -376,15 +387,22 @@ class PasswordActivity : StylishActivity() {
         super.onDestroy()
     }
 
-    private fun verifyCheckboxesAndLoadDatabase(password: String? = passwordView?.text?.toString(),
-                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
-        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
-        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
-        loadDatabase(keyPassword, keyFileUri)
+    private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+        val password: String? = passwordView?.text?.toString()
+        val keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())
+        verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
     }
 
-    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String? = passwordView?.text?.toString(),
-                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
+    private fun verifyCheckboxesAndLoadDatabase(password: String?,
+                                                keyFile: Uri?,
+                                                cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(keyPassword, keyFileUri, cipherDatabaseEntity)
+    }
+
+    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
+        val keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())
         val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
         loadDatabase(password, keyFileUri)
     }
@@ -394,10 +412,12 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
-    private fun loadDatabase(password: String?, keyFile: Uri?) {
+    private fun loadDatabase(password: String?, keyFile: Uri?, cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
-        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-            removePassword()
+        runOnUiThread {
+            if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
+                removePassword()
+            }
         }
 
         // Clear before we load
@@ -415,7 +435,7 @@ class PasswordActivity : StylishActivity() {
                                 password,
                                 keyFile,
                                 progressTaskUpdater,
-                                AfterLoadingDatabase(database, password))
+                                AfterLoadingDatabase(database, password, cipherDatabaseEntity))
                     },
                     R.string.loading_database).start()
         }
@@ -424,8 +444,8 @@ class PasswordActivity : StylishActivity() {
     /**
      * Called after verify and try to opening the database
      */
-    private inner class AfterLoadingDatabase internal constructor(var database: Database,
-                                                                  val password: String?)
+    private inner class AfterLoadingDatabase(val database: Database, val password: String?,
+                                             val cipherDatabaseEntity: CipherDatabaseEntity? = null)
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
@@ -442,21 +462,34 @@ class PasswordActivity : StylishActivity() {
                     // Remove the password in view in all cases
                     removePassword()
 
-                    if (database.validatePasswordEncoding(password)) {
-                        launchGroupActivity()
+                    // Register the biometric
+                    if (cipherDatabaseEntity != null) {
+                        CipherDatabaseAction.getInstance(this@PasswordActivity)
+                                .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                                    checkAndLaunchGroupActivity(database, password)
+                                }
                     } else {
-                        PasswordEncodingDialogFragment().apply {
-                            positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                                launchGroupActivity()
-                            }
-                            show(supportFragmentManager, "passwordEncodingTag")
-                        }
+                        checkAndLaunchGroupActivity(database, password)
                     }
+
                 } else {
                     if (result.message != null && result.message!!.isNotEmpty()) {
                         Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
+            }
+        }
+    }
+
+    private fun checkAndLaunchGroupActivity(database: Database, password: String?) {
+        if (database.validatePasswordEncoding(password)) {
+            launchGroupActivity()
+        } else {
+            PasswordEncodingDialogFragment().apply {
+                positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                    launchGroupActivity()
+                }
+                show(supportFragmentManager, "passwordEncodingTag")
             }
         }
     }

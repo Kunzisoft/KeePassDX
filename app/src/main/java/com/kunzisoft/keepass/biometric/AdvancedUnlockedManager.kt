@@ -13,7 +13,6 @@ import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
-import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 
@@ -24,7 +23,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                               var checkboxPasswordView: CompoundButton?,
                               var onCheckedPasswordChangeListener: CompoundButton.OnCheckedChangeListener? = null,
                               var passwordView: TextView?,
-                              var loadDatabase: (password: String?) -> Unit)
+                              var loadDatabaseAfterRegisterCredentials: (encryptedPassword: String?, ivSpec: String?) -> Unit,
+                              var loadDatabaseAfterRetrieveCredentials: (decryptedPassword: String?) -> Unit)
     : BiometricUnlockDatabaseHelper.BiometricUnlockCallback {
 
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
@@ -265,20 +265,13 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
-        cipherDatabaseAction.addOrUpdateCipherDatabase(CipherDatabaseEntity(
-                databaseFileUri.toString(),
-                encryptedValue,
-                ivSpec
-        )) {
-            // Only for callback
-            loadDatabase.invoke(null)
-            setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
-        }
+        loadDatabaseAfterRegisterCredentials.invoke(encryptedValue, ivSpec)
+        // TODO setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
     }
 
     override fun handleDecryptedResult(decryptedValue: String) {
         // Load database directly with password retrieve
-        loadDatabase.invoke(decryptedValue)
+        loadDatabaseAfterRetrieveCredentials.invoke(decryptedValue)
     }
 
     override fun onInvalidKeyException(e: Exception) {
