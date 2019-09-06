@@ -152,7 +152,7 @@ class EntryEditActivity : LockingHideActivity(),
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
 
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowExtraFields() == true) { addNewCustomField() }
+        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) { addNewCustomField() }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -172,8 +172,8 @@ class EntryEditActivity : LockingHideActivity(),
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes
-            newEntry.fields.doActionToAllCustomProtectedField { key, value ->
-                addNewCustomField(key, value)
+            for (entry in newEntry.customFields.entries) {
+                addNewCustomField(entry.key, entry.value)
             }
         }
     }
@@ -307,7 +307,7 @@ class EntryEditActivity : LockingHideActivity(),
         )
         if (!generatePasswordEducationPerformed) {
             // entryNewFieldEducationPerformed
-            mNewEntry != null && mNewEntry!!.allowExtraFields() && !mNewEntry!!.containsCustomFields()
+            mNewEntry != null && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
                     && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,

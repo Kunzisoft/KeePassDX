@@ -33,13 +33,13 @@ class EntrySearchStringIteratorV4 : EntrySearchStringIterator {
 
     constructor(entry: PwEntryV4) {
         this.mSearchParametersV4 = SearchParametersV4()
-        mSetIterator = entry.fields.listOfAllFields.entries.iterator()
+        mSetIterator = entry.fields.entries.iterator()
         advance()
     }
 
     constructor(entry: PwEntryV4, searchParametersV4: SearchParametersV4) {
         this.mSearchParametersV4 = searchParametersV4
-        mSetIterator = entry.fields.listOfAllFields.entries.iterator()
+        mSetIterator = entry.fields.entries.iterator()
         advance()
     }
 

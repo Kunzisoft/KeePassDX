@@ -349,7 +349,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         writeList(PwDatabaseV4XML.ElemTimes, entry)
 
-        writeList(entry.fields.listOfAllFields, true)
+        writeList(entry.fields, true)
         writeList(entry.binaries)
         writeList(PwDatabaseV4XML.ElemAutoType, entry.autoType)
 

@@ -212,10 +212,12 @@ class EntryActivity : LockingHideActivity() {
         entryContentsView?.assignComment(entry.notes)
 
         // Assign custom fields
-        if (entry.allowExtraFields()) {
+        if (entry.allowCustomFields()) {
             entryContentsView?.clearExtraFields()
 
-            entry.fields.doActionToAllCustomProtectedField { label, value ->
+            for (element in entry.customFields.entries) {
+                val label = element.key
+                val value = element.value
 
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {
