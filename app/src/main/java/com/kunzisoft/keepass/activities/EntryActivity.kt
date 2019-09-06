@@ -208,7 +208,6 @@ class EntryActivity : LockingHideActivity() {
         }
 
         entryContentsView?.assignURL(entry.url)
-        entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
         entryContentsView?.assignComment(entry.notes)
 
         // Assign custom fields
@@ -237,6 +236,7 @@ class EntryActivity : LockingHideActivity() {
                 }
             }
         }
+        entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
         // Assign dates
         entry.creationTime.date?.let {

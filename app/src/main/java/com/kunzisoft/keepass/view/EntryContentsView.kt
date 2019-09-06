@@ -161,8 +161,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryCustomFieldProtected)
-                    return true
+                if (childCustomView is EntryCustomField)
+                    if (childCustomView.isProtected)
+                        return true
             }
         }
         return false
@@ -178,7 +179,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryCustomFieldProtected)
+                if (childCustomView is EntryCustomField)
                     childCustomView.setHiddenPasswordStyle(hiddenStyle)
             }
         }
@@ -212,14 +213,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       enableActionButton: Boolean,
                       onActionClickListener: OnClickListener?) {
 
-        val entryCustomField: EntryCustomField =
-                if (value.isProtected)
-                    EntryCustomFieldProtected(context, attrs, defStyle)
-                else
-                    EntryCustomField(context, attrs, defStyle)
+        val entryCustomField = EntryCustomField(context, attrs, defStyle)
         entryCustomField.apply {
-            assignLabel(title)
-            assignValue(value.toString())
+            setLabel(title)
+            setValue(value.toString(), value.isProtected)
             enableActionButton(enableActionButton)
             assignActionButtonClickListener(onActionClickListener)
             applyFontVisibility(fontInVisibility)

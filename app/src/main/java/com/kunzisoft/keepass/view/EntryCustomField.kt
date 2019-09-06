@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
+import android.text.method.PasswordTransformationMethod
 import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -35,8 +36,9 @@ open class EntryCustomField @JvmOverloads constructor(context: Context,
     : LinearLayout(context, attrs, defStyle) {
 
     private val labelView: TextView
-    protected val valueView: TextView
+    private val valueView: TextView
     private val actionImageView: ImageView
+    var isProtected = false
 
     private val colorAccent: Int
 
@@ -60,12 +62,21 @@ open class EntryCustomField @JvmOverloads constructor(context: Context,
             valueView.applyFontVisibility()
     }
 
-    fun assignLabel(label: String?) {
+    fun setLabel(label: String?) {
         labelView.text = label ?: ""
     }
 
-    fun assignValue(value: String?) {
+    fun setValue(value: String?, isProtected: Boolean = false) {
         valueView.text = value ?: ""
+        this.isProtected = isProtected
+    }
+
+    fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
+        if (isProtected && hiddenStyle) {
+            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
+        } else {
+            valueView.transformationMethod = null
+        }
     }
 
     fun enableActionButton(enable: Boolean) {
