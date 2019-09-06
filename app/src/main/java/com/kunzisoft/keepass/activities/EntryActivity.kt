@@ -157,9 +157,11 @@ class EntryActivity : LockingHideActivity() {
         // Assign basic fields
         entryContentsView?.assignUserName(entry.username)
         entryContentsView?.assignUserNameCopyListener(View.OnClickListener {
+            database.startManageEntry(entry)
             clipboardHelper?.timeoutCopyToClipboard(entry.username,
                             getString(R.string.copy_field,
                             getString(R.string.entry_user_name)))
+            database.stopManageEntry(entry)
         })
 
         val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
@@ -190,9 +192,11 @@ class EntryActivity : LockingHideActivity() {
         entryContentsView?.assignPassword(entry.password, allowCopyPasswordAndProtectedFields)
         if (allowCopyPasswordAndProtectedFields) {
             entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
+                database.startManageEntry(entry)
                 clipboardHelper?.timeoutCopyToClipboard(entry.password,
                                 getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
+                database.stopManageEntry(entry)
             })
         } else {
             // If dialog not already shown
