@@ -355,14 +355,14 @@
     <string name="keyboard_fill_field_text">Die Felder mit den Elementen des Eintrags ausfüllen.</string>
     <string name="keyboard_lock_database_text">Die Datenbank sperren.</string>
     <string name="keyboard_back_main_keyboard_text">Zur Standardtastatur zurückkehren.</string>
-    <string name="allow_no_password_title">Kein Passwort zulassen</string>
+    <string name="allow_no_password_title">Zulassen, dass kein Master-Passwort verwendet wird.</string>
     <string name="allow_no_password_summary">„Öffnen“-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>
     <string name="enable_education_screens_summary">Bedienelemente hervorheben, um die Funktionsweise der App zu lernen</string>
     <string name="menu_open_file_read_and_write">Änderbar</string>
     <string name="menu_file_selection_read_only">Schreibgeschützt</string>
     <string name="enable_read_only_title">Schreibgeschützt</string>
-    <string name="education_read_only_title">Die Datenbank schreibschützen</string>
+    <string name="education_read_only_title">Schreibschutz der Datenbank aktivieren</string>
     <string name="enable_read_only_summary">Datenbank standardmäßig schreibgeschützt öffnen</string>
     <string name="education_read_only_summary">Den Öffnungsmodus für die Sitzung ändern. 
 \n 
@@ -416,4 +416,5 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Anzahl der Einträge anzeigen</string>
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in der Gruppe anzeigen</string>
+    <string name="content_description_add_node">Knoten hinzufügen</string>
 </resources>
