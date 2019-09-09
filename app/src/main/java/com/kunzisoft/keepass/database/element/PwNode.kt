@@ -37,13 +37,13 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
     protected constructor()
 
     protected constructor(parcel: Parcel) {
-        this.nodeId = parcel.readParcelable(PwNodeId::class.java.classLoader)
+        this.nodeId = parcel.readParcelable(PwNodeId::class.java.classLoader) ?: nodeId
         this.parent = this.readParentParcelable(parcel)
-        this.icon = parcel.readParcelable(PwIcon::class.java.classLoader)
-        this.creationTime = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.lastModificationTime = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.lastAccessTime = parcel.readParcelable(PwDate::class.java.classLoader)
-        this.expiryTime = parcel.readParcelable(PwDate::class.java.classLoader)
+        this.icon = parcel.readParcelable(PwIcon::class.java.classLoader) ?: icon
+        this.creationTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: creationTime
+        this.lastModificationTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: lastModificationTime
+        this.lastAccessTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: lastAccessTime
+        this.expiryTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: expiryTime
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

@@ -47,7 +47,7 @@ class AutoType : Parcelable {
     constructor(parcel: Parcel) {
         this.enabled = parcel.readByte().toInt() != 0
         this.obfuscationOptions = parcel.readLong()
-        this.defaultSequence = parcel.readString()
+        this.defaultSequence = parcel.readString() ?: defaultSequence
         this.windowSeqPairs = MemoryUtil.readStringParcelableMap(parcel)
     }
 

@@ -45,8 +45,8 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
     var notes = ""
     var isExpanded = true
     var defaultAutoTypeSequence = ""
-    var enableAutoType: Boolean? = null
-    var enableSearching: Boolean? = null
+    var enableAutoType: Boolean = true
+    var enableSearching: Boolean = true
     var lastTopVisibleEntry: UUID = PwDatabase.UUID_ZERO
 
     override val type: Type
@@ -63,13 +63,13 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader)
+        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader) ?: iconCustom
         usageCount = parcel.readLong()
-        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader)
+        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
         // TODO customData = MemoryUtil.readStringParcelableMap(in);
-        notes = parcel.readString()
+        notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
-        defaultAutoTypeSequence = parcel.readString()
+        defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
         enableAutoType = parcel.readByte().toInt() != 0
         enableSearching = parcel.readByte().toInt() != 0
         lastTopVisibleEntry = parcel.readSerializable() as UUID
@@ -92,8 +92,8 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
         dest.writeString(defaultAutoTypeSequence)
-        dest.writeByte((if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0).toByte())
-        dest.writeByte((if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0).toByte())
+        dest.writeByte((if (enableAutoType) 1 else 0).toByte())
+        dest.writeByte((if (enableSearching) 1 else 0).toByte())
         dest.writeSerializable(lastTopVisibleEntry)
     }
 

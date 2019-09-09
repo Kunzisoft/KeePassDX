@@ -36,10 +36,10 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
 
     override var icon: PwIcon
         get() {
-            return if (iconCustom.isUnknown)
-                super.icon
-            else
-                iconCustom
+            return when {
+                iconCustom.isUnknown -> super.icon
+                else -> iconCustom
+            }
         }
         set(value) {
             if (value is PwIconStandard)
@@ -91,20 +91,20 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader)
+        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader) ?: iconCustom
         usageCount = parcel.readLong()
-        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader)
+        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
         customData = MemoryUtil.readStringParcelableMap(parcel)
         fields = MemoryUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
         // TODO binaries = MemoryUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
-        foregroundColor = parcel.readString()
-        backgroundColor = parcel.readString()
-        overrideURL = parcel.readString()
-        autoType = parcel.readParcelable(AutoType::class.java.classLoader)
+        foregroundColor = parcel.readString() ?: foregroundColor
+        backgroundColor = parcel.readString() ?: backgroundColor
+        overrideURL = parcel.readString() ?: overrideURL
+        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
-        url = parcel.readString()
-        additional = parcel.readString()
-        tags = parcel.readString()
+        url = parcel.readString() ?: url
+        additional = parcel.readString() ?: additional
+        tags = parcel.readString() ?: tags
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

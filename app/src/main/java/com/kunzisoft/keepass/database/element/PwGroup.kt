@@ -19,7 +19,7 @@ abstract class PwGroup
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        titleGroup = parcel.readString()
+        titleGroup = parcel.readString() ?: titleGroup
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

@@ -1033,9 +1033,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     }
 
 
-    private fun stringToBoolean(str: String?): Boolean? {
+    private fun stringToBoolean(str: String?): Boolean {
         if (str == null || str.isEmpty()) {
-            return null
+            return false
         }
 
         val trimmed = str.trim { it <= ' ' }
@@ -1045,7 +1045,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return false
         }
 
-        return null
+        return false
     }
 
     companion object {
