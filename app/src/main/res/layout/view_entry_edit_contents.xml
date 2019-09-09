@@ -125,7 +125,7 @@
 					android:hint="@string/entry_confpassword"/>
 			</com.google.android.material.textfield.TextInputLayout>
 
-			<androidx.appcompat.widget.AppCompatImageView
+			<androidx.appcompat.widget.AppCompatImageButton
 				android:id="@+id/entry_edit_generate_button"
 				android:layout_width="48dp"
 				android:layout_height="48dp"
