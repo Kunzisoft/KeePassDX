@@ -39,7 +39,7 @@ import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import com.kunzisoft.keepass.utils.Types
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
@@ -423,7 +423,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         try (InputStream base64InputStream =
                      IOUtil.pipe(inputStream,
                              o -> new Base64OutputStream(o, DEFAULT))) {
-            MemUtil.readBytes(base64InputStream,
+            MemoryUtil.readBytes(base64InputStream,
                     buffer -> xml.text(Arrays.toString(buffer)));
         }
     }
@@ -448,7 +448,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                     if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
                         xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
-                        val compressData = MemUtil.compress(buffer)
+                        val compressData = MemoryUtil.compress(buffer)
                         xml.text(String(Base64Coder.encode(compressData)))
 
                     } else {

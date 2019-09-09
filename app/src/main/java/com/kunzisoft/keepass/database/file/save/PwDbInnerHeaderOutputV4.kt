@@ -23,7 +23,7 @@ import com.kunzisoft.keepass.database.element.PwDatabaseV4
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.stream.ActionReadBytes
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import java.io.IOException
 import java.io.OutputStream
 import kotlin.experimental.or
@@ -56,7 +56,7 @@ class PwDbInnerHeaderOutputV4(private val db: PwDatabaseV4, private val header: 
             los.write(flag.toInt())
 
             protectedBinary.getData()?.let {
-                MemUtil.readBytes(it, ActionReadBytes { buffer ->
+                MemoryUtil.readBytes(it, ActionReadBytes { buffer ->
                     los.write(buffer)
                 })
             } ?: throw IOException("Can't write protected binary")

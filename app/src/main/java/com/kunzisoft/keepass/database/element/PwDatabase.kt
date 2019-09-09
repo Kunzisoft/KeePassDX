@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.util.Log
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
@@ -118,43 +118,41 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     @Throws(InvalidKeyFileException::class, IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
-        val bos = ByteArrayOutputStream()
-        MemUtil.copyStream(keyInputStream, bos)
-        val keyData = bos.toByteArray()
+        val keyByteArrayOutputStream = ByteArrayOutputStream()
+        MemoryUtil.copyStream(keyInputStream, keyByteArrayOutputStream)
+        //StreamUtils.copy(keyInputStream, keyByteArrayOutputStream);
+        val keyData = keyByteArrayOutputStream.toByteArray()
 
-        val bis = ByteArrayInputStream(keyData)
-        val key = loadXmlKeyFile(bis)
+        val keyByteArrayInputStream = ByteArrayInputStream(keyData)
+        val key = loadXmlKeyFile(keyByteArrayInputStream)
         if (key != null) {
             return key
         }
 
-        val fileSize = keyData.size.toLong()
-        if (fileSize == 0L) {
-            throw KeyFileEmptyException()
-        } else if (fileSize == 32L) {
-            return keyData
-        } else if (fileSize == 64L) {
-            try {
+        when (keyData.size.toLong()) {
+            0L -> throw KeyFileEmptyException()
+            32L -> return keyData
+            64L -> try {
                 return hexStringToByteArray(String(keyData))
             } catch (e: IndexOutOfBoundsException) {
                 // Key is not base 64, treat it as binary data
             }
         }
 
-        val md: MessageDigest
+        val messageDigest: MessageDigest
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw IOException("SHA-256 not supported")
         }
 
         try {
-            md.update(keyData)
+            messageDigest.update(keyData)
         } catch (e: Exception) {
             println(e.toString())
         }
 
-        return md.digest()
+        return messageDigest.digest()
     }
 
     protected abstract fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray?

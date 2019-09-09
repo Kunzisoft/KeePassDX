@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import java.util.*
 
 class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
@@ -94,9 +94,9 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader)
         usageCount = parcel.readLong()
         locationChanged = parcel.readParcelable(PwDate::class.java.classLoader)
-        customData = MemUtil.readStringParcelableMap(parcel)
-        fields = MemUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        // TODO binaries = MemUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+        customData = MemoryUtil.readStringParcelableMap(parcel)
+        fields = MemoryUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
+        // TODO binaries = MemoryUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
         foregroundColor = parcel.readString()
         backgroundColor = parcel.readString()
         overrideURL = parcel.readString()
@@ -112,9 +112,9 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         dest.writeParcelable(iconCustom, flags)
         dest.writeLong(usageCount)
         dest.writeParcelable(locationChanged, flags)
-        MemUtil.writeStringParcelableMap(dest, customData)
-        MemUtil.writeStringParcelableMap(dest, flags, fields)
-        // TODO MemUtil.writeStringParcelableMap(dest, flags, binaries);
+        MemoryUtil.writeStringParcelableMap(dest, customData)
+        MemoryUtil.writeStringParcelableMap(dest, flags, fields)
+        // TODO MemoryUtil.writeStringParcelableMap(dest, flags, binaries);
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)

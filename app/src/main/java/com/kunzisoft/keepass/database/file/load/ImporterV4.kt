@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import com.kunzisoft.keepass.utils.Types
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
@@ -933,7 +933,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
     @Throws(IOException::class)
     private fun createProtectedBinaryFromData(protection: Boolean, data: ByteArray): ProtectedBinary {
-        return if (data.size > MemUtil.BUFFER_SIZE_BYTES) {
+        return if (data.size > MemoryUtil.BUFFER_SIZE_BYTES) {
             val file = File(streamDir, unusedCacheFileName)
             FileOutputStream(file).use { outputStream -> outputStream.write(data) }
             ProtectedBinary(protection, file, data.size)
@@ -971,7 +971,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         var data = Base64Coder.decode(base64)
 
         if (compressed) {
-            data = MemUtil.decompress(data)
+            data = MemoryUtil.decompress(data)
         }
 
         return createProtectedBinaryFromData(false, data)

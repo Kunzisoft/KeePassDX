@@ -38,24 +38,26 @@ import java.util.HashMap
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 
-object MemUtil {
+object MemoryUtil {
 
-    private val TAG = MemUtil::class.java.name
+    private val TAG = MemoryUtil::class.java.name
     const val BUFFER_SIZE_BYTES = 3 * 128
 
     @Throws(IOException::class)
     fun copyStream(inputStream: InputStream, out: OutputStream) {
-        val buf = ByteArray(BUFFER_SIZE_BYTES)
-        val read: Int
+        val buffer = ByteArray(BUFFER_SIZE_BYTES)
         try {
-            read = inputStream.read(buf)
+            var read = inputStream.read(buffer)
             while (read != -1) {
-                out.write(buf, 0, read)
+                out.write(buffer, 0, read)
+                read = inputStream.read(buffer)
+                if (Thread.interrupted()) {
+                    throw InterruptedException()
+                }
             }
         } catch (error: OutOfMemoryError) {
             throw IOException(error)
         }
-
     }
 
     @Throws(IOException::class)
