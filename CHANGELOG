@@ -4,6 +4,7 @@ KeepassDX (2.5.0.0beta23)
  * Add alias for history files (WARNING: history is erased)
  * New Biometric unlock (Fingerprint with new API)
  * Fix entry references
+ * Fix OOM with KeyFile
  * Fix small issues
 
 KeepassDX (2.5.0.0beta22)
