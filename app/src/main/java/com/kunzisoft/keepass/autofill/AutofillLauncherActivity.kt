@@ -56,6 +56,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
+        super.onActivityResult(requestCode, resultCode, data)
     }
 
     companion object {
