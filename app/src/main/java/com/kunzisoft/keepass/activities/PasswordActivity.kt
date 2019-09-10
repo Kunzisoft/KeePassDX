@@ -62,7 +62,6 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
-import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -500,7 +499,7 @@ class PasswordActivity : StylishActivity() {
                     GroupActivity.launch(this@PasswordActivity, readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    GroupActivity.launchForKeyboarSelection(this@PasswordActivity, readOnly)
                     // Do not keep history
                     finish()
                 },
@@ -682,7 +681,7 @@ class PasswordActivity : StylishActivity() {
             UriUtil.verifyFilePath(fileName)
 
             buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
-                KeyboardHelper.startActivityForKeyboardSelection(activity, intent)
+                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
             }
         }
 

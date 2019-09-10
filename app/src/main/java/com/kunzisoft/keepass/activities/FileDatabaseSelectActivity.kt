@@ -54,7 +54,6 @@ import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -477,7 +476,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
          */
 
         fun launchForKeyboardSelection(activity: Activity) {
-            KeyboardHelper.startActivityForKeyboardSelection(activity, Intent(activity, FileDatabaseSelectActivity::class.java))
+            EntrySelectionHelper.startActivityForEntrySelection(activity, Intent(activity, FileDatabaseSelectActivity::class.java))
         }
 
         /*

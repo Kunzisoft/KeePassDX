@@ -57,7 +57,6 @@ import com.kunzisoft.keepass.database.action.node.ActionNodeDatabaseRunnable.Com
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -701,7 +700,7 @@ class GroupActivity : LockingActivity(),
                         super@GroupActivity.startActivity(intent)
                     },
                     {
-                        KeyboardHelper.startActivityForKeyboardSelection(
+                        EntrySelectionHelper.startActivityForEntrySelection(
                                 this@GroupActivity,
                                 searchIntent)
                         finish()
@@ -981,10 +980,10 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboardSelection(activity: Activity, readOnly: Boolean) {
+        fun launchForKeyboarSelection(activity: Activity, readOnly: Boolean) {
             TimeoutHelper.recordTime(activity)
             buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                KeyboardHelper.startActivityForKeyboardSelection(activity, intent)
+                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
             }
         }
 
