@@ -270,7 +270,7 @@
     <!--  Password generator -->
     <string name="min_password_length" translatable="false">1</string>
     <string name="default_password_length" translatable="false">14</string>
-    <string name="max_password_length" translatable="false">64</string>
+    <string name="max_password_length" translatable="false">128</string>
 
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
     <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>
