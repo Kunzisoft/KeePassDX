@@ -120,7 +120,6 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
         val keyByteArrayOutputStream = ByteArrayOutputStream()
         MemoryUtil.copyStream(keyInputStream, keyByteArrayOutputStream)
-        //StreamUtils.copy(keyInputStream, keyByteArrayOutputStream);
         val keyData = keyByteArrayOutputStream.toByteArray()
 
         val keyByteArrayInputStream = ByteArrayInputStream(keyData)
