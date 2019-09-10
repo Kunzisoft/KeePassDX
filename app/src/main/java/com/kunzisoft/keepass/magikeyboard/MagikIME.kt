@@ -36,6 +36,7 @@ import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.FieldsAdapter
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
@@ -88,6 +89,8 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             keyboard = Keyboard(this, R.xml.keyboard_password)
             keyboardEntry = Keyboard(this, R.xml.keyboard_password_entry)
 
+            if (!Database.getInstance().loaded)
+                removeEntryInfo()
             assignKeyboardView()
             keyboardView?.setOnKeyboardActionListener(this)
             keyboardView?.isPreviewEnabled = false
