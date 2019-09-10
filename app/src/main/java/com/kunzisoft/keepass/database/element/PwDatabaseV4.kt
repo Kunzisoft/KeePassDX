@@ -322,11 +322,22 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
     }
 
     override fun isBackup(group: PwGroupV4): Boolean {
-        if (recycleBin == null)
-            return false
-        return if (!isRecycleBinEnabled) {
+        // To keep compatibility with old V1 databases
+        var currentGroup: PwGroupV4? = group
+        while (currentGroup != null) {
+            if (currentGroup.parent == rootGroup
+                    && currentGroup.title.equals("Backup", ignoreCase = true)) {
+                return true
+            }
+            currentGroup = currentGroup.parent
+        }
+
+        return if (recycleBin == null)
             false
-        } else group.isContainedIn(recycleBin!!)
+        else if (!isRecycleBinEnabled)
+            false
+        else
+            group.isContainedIn(recycleBin!!)
     }
 
     /**
