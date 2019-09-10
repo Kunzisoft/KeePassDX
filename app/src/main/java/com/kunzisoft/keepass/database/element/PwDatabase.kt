@@ -268,6 +268,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
+            // TODO History
             Log.e(TAG, "Error, a group with the same UUID $entryId already exists, change the UUID")
         } else {
             this.entryIndexes[entryId] = entry
