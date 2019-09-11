@@ -423,4 +423,5 @@
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Eintrag kann nicht hierher verschoben werden.</string>
     <string name="error_copy_entry_here">Eintrag kann nicht hierher kopiert werden.</string>
+    <string name="content_description_password_checkbox">Passwort-Kontrollkästchen</string>
 </resources>
