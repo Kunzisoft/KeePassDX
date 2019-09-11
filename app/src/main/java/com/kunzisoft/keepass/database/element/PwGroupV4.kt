@@ -45,8 +45,8 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
     var notes = ""
     var isExpanded = true
     var defaultAutoTypeSequence = ""
-    var enableAutoType: Boolean = true
-    var enableSearching: Boolean = true
+    var enableAutoType: Boolean? = null
+    var enableSearching: Boolean? = null
     var lastTopVisibleEntry: UUID = PwDatabase.UUID_ZERO
 
     override val type: Type
@@ -70,8 +70,10 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
         defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
-        enableAutoType = parcel.readByte().toInt() != 0
-        enableSearching = parcel.readByte().toInt() != 0
+        val isAutoTypeEnabled = parcel.readInt()
+        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
+        val isSearchingEnabled = parcel.readInt()
+        enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         lastTopVisibleEntry = parcel.readSerializable() as UUID
     }
 
@@ -92,8 +94,8 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
         dest.writeString(defaultAutoTypeSequence)
-        dest.writeByte((if (enableAutoType) 1 else 0).toByte())
-        dest.writeByte((if (enableSearching) 1 else 0).toByte())
+        dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
+        dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
         dest.writeSerializable(lastTopVisibleEntry)
     }
 

@@ -496,7 +496,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, value: Boolean?) {
         val text: String = when {
-            value == null -> "null"
+            value == null -> PwDatabaseV4XML.ValNull
             value -> PwDatabaseV4XML.ValTrue
             else -> PwDatabaseV4XML.ValFalse
         }

@@ -490,9 +490,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             } else if (name.equals(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, ignoreCase = true)) {
                 ctxGroup?.defaultAutoTypeSequence = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEnableAutoType, ignoreCase = true)) {
-                ctxGroup?.enableAutoType = stringToBoolean(readString(xpp))
+                ctxGroup?.enableAutoType = readOptionalBool(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEnableSearching, ignoreCase = true)) {
-                ctxGroup?.enableSearching = stringToBoolean(readString(xpp))
+                ctxGroup?.enableSearching = readOptionalBool(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemLastTopVisibleEntry, ignoreCase = true)) {
                 ctxGroup?.lastTopVisibleEntry = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemCustomData, ignoreCase = true)) {
@@ -847,7 +847,23 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     private fun readBool(xpp: XmlPullParser, bDefault: Boolean): Boolean {
         val str = readString(xpp)
 
-        return str.equals("true", ignoreCase = true) || !str.equals("false", ignoreCase = true) && bDefault
+        return when {
+            str.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true) -> true
+            str.equals(PwDatabaseV4XML.ValFalse, ignoreCase = true) -> false
+            else -> bDefault
+        }
+    }
+
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readOptionalBool(xpp: XmlPullParser, bDefault: Boolean? = null): Boolean? {
+        val str = readString(xpp)
+
+        return when {
+            str.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true) -> true
+            str.equals(PwDatabaseV4XML.ValFalse, ignoreCase = true) -> false
+            str.equals(PwDatabaseV4XML.ValNull, ignoreCase = true) -> null
+            else -> bDefault
+        }
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -1030,22 +1046,6 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return ctxCurrent
         }
         return ctxNew
-    }
-
-
-    private fun stringToBoolean(str: String?): Boolean {
-        if (str == null || str.isEmpty()) {
-            return false
-        }
-
-        val trimmed = str.trim { it <= ' ' }
-        if (trimmed.equals("true", ignoreCase = true)) {
-            return true
-        } else if (trimmed.equals("false", ignoreCase = true)) {
-            return false
-        }
-
-        return false
     }
 
     companion object {

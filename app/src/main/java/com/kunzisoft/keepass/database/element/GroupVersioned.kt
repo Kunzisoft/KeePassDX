@@ -292,11 +292,11 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         pwGroupV4?.nodeId = id
     }
 
-    fun setEnableAutoType(enableAutoType: Boolean) {
+    fun setEnableAutoType(enableAutoType: Boolean?) {
         pwGroupV4?.enableAutoType = enableAutoType
     }
 
-    fun setEnableSearching(enableSearching: Boolean) {
+    fun setEnableSearching(enableSearching: Boolean?) {
         pwGroupV4?.enableSearching = enableSearching
     }
 
