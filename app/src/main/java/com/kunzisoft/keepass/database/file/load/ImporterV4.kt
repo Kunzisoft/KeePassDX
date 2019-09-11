@@ -577,12 +577,12 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             KdbContext.GroupTimes, KdbContext.EntryTimes -> {
-                val tl: NodeV4Interface?
-                if (ctx == KdbContext.GroupTimes) {
-                    tl = ctxGroup
-                } else {
-                    tl = ctxEntry
-                }
+                val tl: PwNodeV4Interface? =
+                        if (ctx == KdbContext.GroupTimes) {
+                            ctxGroup
+                        } else {
+                            ctxEntry
+                        }
 
                 when {
                     name.equals(PwDatabaseV4XML.ElemLastModTime, ignoreCase = true) -> tl?.lastModificationTime = readPwTime(xpp)

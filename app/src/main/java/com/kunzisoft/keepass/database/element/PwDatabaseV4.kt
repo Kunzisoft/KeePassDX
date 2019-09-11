@@ -196,6 +196,10 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         this.customData[label] = value
     }
 
+    override fun containsCustomData(): Boolean {
+        return getCustomData().isNotEmpty()
+    }
+
     @Throws(InvalidKeyFileException::class, IOException::class)
     public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 

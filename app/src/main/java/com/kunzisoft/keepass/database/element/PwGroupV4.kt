@@ -25,7 +25,7 @@ import android.os.Parcelable
 import java.util.HashMap
 import java.util.UUID
 
-class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
+class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // TODO Encapsulate
     override var icon: PwIcon
@@ -123,12 +123,12 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
         locationChanged = PwDate()
     }
 
-    fun putCustomData(key: String, value: String) {
+    override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }
 
-    fun containsCustomData(): Boolean {
-        return customData.size > 0
+    override fun containsCustomData(): Boolean {
+        return customData.isNotEmpty()
     }
 
     override fun allowAddEntryIfIsRoot(): Boolean {

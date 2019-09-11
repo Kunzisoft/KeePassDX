@@ -23,7 +23,11 @@ import com.kunzisoft.keepass.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.database.NodeHandler
+import com.kunzisoft.keepass.database.element.PwNodeV4Interface
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
+import com.kunzisoft.keepass.database.element.PwEntryV4
+import com.kunzisoft.keepass.database.element.PwGroupV4
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
@@ -88,18 +92,42 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         this.masterSeed = ByteArray(32)
     }
 
+    private inner class NodeHasCustomData<T:PwNodeV4Interface> : NodeHandler<T>() {
+
+        internal var containsCustomData = false
+
+        override fun operate(node: T): Boolean {
+            if (node.containsCustomData()) {
+                containsCustomData = true
+                return false
+            }
+            return true
+        }
+    }
+
     private fun getMinKdbxVersion(databaseV4: PwDatabaseV4): Long {
+        // https://keepass.info/help/kb/kdbx_4.html
+
+        // Return v4 if AES is not use
+        if (databaseV4.kdfParameters != null
+                && databaseV4.kdfParameters!!.uuid != AesKdf.CIPHER_UUID) {
+            return FILE_VERSION_32_4
+        }
+
         if (databaseV4.rootGroup == null) {
             return FILE_VERSION_32_3
         }
 
-        // Return v4 if AES is not use
-        if (databaseV4.kdfParameters != null && databaseV4.kdfParameters!!.uuid != AesKdf.CIPHER_UUID) {
-            return FILE_VERSION_32_4
+        val entryHandler = NodeHasCustomData<PwEntryV4>()
+        val groupHandler = NodeHasCustomData<PwGroupV4>()
+        databaseV4.rootGroup?.doForEachChildAndForIt(entryHandler, groupHandler)
+        return if (databaseV4.containsCustomData()
+                    || entryHandler.containsCustomData
+                    || groupHandler.containsCustomData) {
+            FILE_VERSION_32_4
+        } else {
+            FILE_VERSION_32_3
         }
-
-        // Return V4 by default
-        return FILE_VERSION_32_4
     }
 
     /** Assumes the input stream is at the beginning of the .kdbx file

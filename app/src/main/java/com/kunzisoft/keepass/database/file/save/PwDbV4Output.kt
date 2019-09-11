@@ -653,7 +653,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, it: NodeV4Interface) {
+    private fun writeList(name: String?, it: PwNodeV4Interface) {
         assert(name != null)
 
         xml.startTag(null, name)

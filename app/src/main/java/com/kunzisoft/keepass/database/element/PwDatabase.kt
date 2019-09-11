@@ -296,6 +296,8 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     abstract fun rootCanContainsEntry(): Boolean
 
+    abstract fun containsCustomData(): Boolean
+
     fun addGroupTo(newGroup: Group, parent: Group?) {
         // Add tree to parent tree
         parent?.addChildGroup(newGroup)

@@ -19,10 +19,14 @@
  */
 package com.kunzisoft.keepass.database.element
 
-interface NodeV4Interface : NodeTimeInterface {
+interface PwNodeV4Interface : NodeTimeInterface {
 
     var usageCount: Long
 
     var locationChanged: PwDate
+
+    fun putCustomData(key: String, value: String)
+
+    fun containsCustomData(): Boolean
 
 }

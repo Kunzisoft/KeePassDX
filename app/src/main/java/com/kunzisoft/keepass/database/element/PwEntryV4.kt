@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.MemoryUtil
 import java.util.*
 
-class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
+class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // To decode each field not parcelable
     @Transient
@@ -275,12 +275,12 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         return history.size
     }
 
-    fun putCustomData(key: String, value: String) {
+    override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }
 
-    fun containsCustomData(): Boolean {
-        return customData.size > 0
+    override fun containsCustomData(): Boolean {
+        return customData.isNotEmpty()
     }
 
     fun addEntryToHistory(entry: PwEntryV4) {
