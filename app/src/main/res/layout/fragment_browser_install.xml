@@ -40,12 +40,14 @@
 			android:layout_margin="@dimen/button_margin"
 			android:layout_width="200sp"
 			android:layout_height="wrap_content"
+			android:enabled="false"
 			android:text="@string/install_from_play_store" />
 		<Button
 			android:id="@+id/file_manager_install_f_droid"
 			android:layout_margin="@dimen/button_margin"
 			android:layout_width="200sp"
 			android:layout_height="wrap_content"
+			android:enabled="false"
 			android:text="@string/install_from_f_droid" />
 	</LinearLayout>
 </LinearLayout>

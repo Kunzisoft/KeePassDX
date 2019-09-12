@@ -43,13 +43,13 @@ class BrowserDialogFragment : DialogFragment() {
 
             val market = root.findViewById<Button>(R.id.file_manager_install_play_store)
             market.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.filemanager_play_store)
+                UriUtil.gotoUrl(context!!, R.string.file_manager_play_store)
                 dismiss()
             }
 
             val web = root.findViewById<Button>(R.id.file_manager_install_f_droid)
             web.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.filemanager_f_droid)
+                UriUtil.gotoUrl(context!!, R.string.file_manager_f_droid)
                 dismiss()
             }
 
