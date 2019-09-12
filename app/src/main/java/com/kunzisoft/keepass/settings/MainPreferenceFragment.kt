@@ -45,35 +45,35 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         // add listeners for non-default actions
-        findPreference(getString(R.string.settings_app_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_app_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPLICATION)
                 false
             }
         }
 
-        findPreference(getString(R.string.settings_form_filling_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_form_filling_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.FORM_FILLING)
                 false
             }
         }
 
-        findPreference(getString(R.string.settings_advanced_unlock_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_advanced_unlock_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.ADVANCED_UNLOCK)
                 false
             }
         }
 
-        findPreference(getString(R.string.settings_appearance_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_appearance_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.APPEARANCE)
                 false
             }
         }
 
-        findPreference(getString(R.string.settings_database_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_database_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE)
                 false
@@ -83,7 +83,7 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference(getString(R.string.settings_database_change_credentials_key)).apply {
+        findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
                 fragmentManager?.let { fragmentManager ->
                     AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
