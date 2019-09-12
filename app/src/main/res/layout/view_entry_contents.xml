@@ -159,6 +159,8 @@
 		android:visibility="gone"
 		android:layout_marginStart="@dimen/default_margin"
 		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:id="@+id/extra_strings"
@@ -174,7 +176,9 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/default_margin"
 		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -241,6 +245,8 @@
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/default_margin"
 		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
