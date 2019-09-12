@@ -65,7 +65,7 @@ class InputNumberPreference @JvmOverloads constructor(context: Context,
         if (!restorePersistedValue) {
             numberValue = 100000
             if (defaultValue is String) {
-                numberValue = java.lang.Long.parseLong(defaultValue as String?)
+                numberValue = java.lang.Long.parseLong(defaultValue)
             }
             if (defaultValue is Int) {
                 numberValue = defaultValue.toLong()

@@ -110,7 +110,7 @@ object PreferencesUtil {
         return try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.clipboard_timeout_default)))
+                    context.getString(R.string.clipboard_timeout_default)) ?: "60000")
         } catch (e: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }

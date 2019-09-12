@@ -26,22 +26,22 @@ class ProtectedString : Parcelable {
 
     var isProtected: Boolean = false
         private set
-    private var string: String = ""
+    private var stringValue: String = ""
 
     constructor(toCopy: ProtectedString) {
         this.isProtected = toCopy.isProtected
-        this.string = toCopy.string
+        this.stringValue = toCopy.stringValue
     }
 
     @JvmOverloads
     constructor(enableProtection: Boolean = false, string: String = "") {
         this.isProtected = enableProtection
-        this.string = string
+        this.stringValue = string
     }
 
     constructor(parcel: Parcel) {
         isProtected = parcel.readByte().toInt() != 0
-        string = parcel.readString()
+        stringValue = parcel.readString() ?: stringValue
     }
 
     override fun describeContents(): Int {
@@ -50,15 +50,15 @@ class ProtectedString : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeString(string)
+        dest.writeString(stringValue)
     }
 
     fun length(): Int {
-        return string.length
+        return stringValue.length
     }
 
     override fun toString(): String {
-        return string
+        return stringValue
     }
 
     companion object {

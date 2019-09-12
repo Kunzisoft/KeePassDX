@@ -821,7 +821,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         } else {
 
             try {
-                utcDate = PwDatabaseV4XML.dateFormatter.get().parse(sDate)
+                utcDate = PwDatabaseV4XML.dateFormatter.get()?.parse(sDate)
             } catch (e: ParseException) {
                 // Catch with null test below
             }
