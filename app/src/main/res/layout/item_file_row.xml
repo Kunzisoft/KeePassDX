@@ -174,8 +174,8 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/file_modification"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    tools:text="25 Augst"
+                    android:layout_height="match_parent"
+                    tools:text="3:40:14 PM"
                     android:textColor="?android:attr/textColorHintInverse"
                     android:paddingBottom="12dp"
                     app:layout_constraintTop_toTopOf="parent"
@@ -187,7 +187,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/file_size"
                     android:layout_width="wrap_content"
-                    android:layout_height="0dp"
+                    android:layout_height="match_parent"
                     android:gravity="end|bottom"
                     android:textColor="?android:attr/textColorHintInverse"
                     android:paddingBottom="12dp"
