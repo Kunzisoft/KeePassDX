@@ -79,9 +79,6 @@
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
-
-        <!-- White FAB -->
-        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
@@ -139,9 +136,6 @@
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
-
-        <!-- White FAB -->
-        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
 
     <!-- Light Style -->
@@ -302,11 +296,6 @@
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
-    </style>
-    <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
-        <item name="colorAccent">@color/white</item>
-        <item name="tint">?attr/colorAccentLight</item>
-        <item name="android:tint">?attr/colorAccentLight</item>
     </style>
 
     <!-- Menu FAB -->
