@@ -125,7 +125,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 if (fileName.isEmpty())
                     fileName = it
             }
-            launchPasswordActivityWithPath(fileName)
+            UriUtil.parse(fileName)?.let { fileNameUri ->
+                launchPasswordActivityWithPath(fileNameUri)
+            } ?: run {
+                Log.e(TAG, "Unable to open the database link")
+                Snackbar.make(activity_file_selection_coordinator_layout, getString(R.string.error_can_not_handle_uri), Snackbar.LENGTH_LONG).asError().show()
+                null
+            }
         }
 
         // Create button
@@ -147,9 +153,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         mOpenFileHelper = OpenFileHelper(this)
         browseButtonView = findViewById(R.id.browse_button)
         browseButtonView?.setOnClickListener(mOpenFileHelper!!.getOpenFileOnClickViewListener {
-            Uri.parse("file://" + openFileNameView!!.text.toString())
+            UriUtil.parse(openFileNameView?.text?.toString())
         })
-
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -159,9 +164,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
         // Construct adapter with listeners
         mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryOpenListener { fileDatabaseHistoryEntityToOpen ->
-            launchPasswordActivity(
-                    fileDatabaseHistoryEntityToOpen.databaseUri,
-                    fileDatabaseHistoryEntityToOpen.keyFileUri)
+            UriUtil.parse(fileDatabaseHistoryEntityToOpen.databaseUri)?.let { databaseFileUri ->
+                launchPasswordActivity(
+                        databaseFileUri,
+                        UriUtil.parse(fileDatabaseHistoryEntityToOpen.keyFileUri))
+            }
             updateFileListVisibility()
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
@@ -186,14 +193,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         && savedInstanceState.containsKey(EXTRA_STAY)
                         && savedInstanceState.getBoolean(EXTRA_STAY, false))) {
             val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-            val fileName = prefs.getString(PasswordActivity.KEY_DEFAULT_FILENAME, "")
+            val databasePath = prefs.getString(PasswordActivity.KEY_DEFAULT_DATABASE_PATH, "")
 
-            try {
-                UriUtil.verifyFilePath(fileName) { path ->
-                    launchPasswordActivityWithPath(path)
-                }
-            } catch (e: FileNotFoundException) {
-                Log.e(TAG, "Unable to launch Password Activity", e)
+            UriUtil.parse(databasePath)?.let { databaseFileUri ->
+                launchPasswordActivityWithPath(databaseFileUri)
+            } ?: run {
+                Log.e(TAG, "Unable to launch Password Activity")
             }
         }
 
@@ -229,12 +234,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
         Log.e(TAG, error, e)
     }
 
-    private fun launchPasswordActivity(fileName: String, keyFile: String?) {
+    private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     try {
                         PasswordActivity.launch(this@FileDatabaseSelectActivity,
-                                fileName, keyFile)
+                                databaseUri, keyFile)
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
@@ -242,7 +247,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 {
                     try {
                         PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
-                                fileName, keyFile)
+                                databaseUri, keyFile)
                         finish()
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
@@ -252,7 +257,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         try {
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
-                                    fileName, keyFile,
+                                    databaseUri, keyFile,
                                     assistStructure)
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
@@ -262,8 +267,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
     }
 
-    private fun launchPasswordActivityWithPath(path: String) {
-        launchPasswordActivity(path, "")
+    private fun launchPasswordActivityWithPath(databaseUri: Uri) {
+        launchPasswordActivity(databaseUri, null)
         // Delete flickering for kitkat <=
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP)
             overridePendingTransition(0, 0)
@@ -323,7 +328,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             keyFileChecked: Boolean, keyFile: Uri?) {
 
         try {
-            UriUtil.parseUriFile(mDatabaseFileUri)?.let { databaseUri ->
+            mDatabaseFileUri?.let { databaseUri ->
 
                 // Create the new database
                 ProgressDialogThread(this@FileDatabaseSelectActivity,
@@ -388,7 +393,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         ) { uri ->
             if (uri != null) {
                 if (PreferencesUtil.autoOpenSelectedFile(this@FileDatabaseSelectActivity)) {
-                    launchPasswordActivityWithPath(uri.toString())
+                    launchPasswordActivityWithPath(uri)
                 } else {
                     fileSelectExpandableLayout?.expand(false)
                     openFileNameView?.setText(uri.toString())

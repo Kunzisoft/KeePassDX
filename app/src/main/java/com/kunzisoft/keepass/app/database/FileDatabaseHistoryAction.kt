@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.app.database
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.utils.SingletonHolderParameter
+import com.kunzisoft.keepass.utils.UriUtil
 
 class FileDatabaseHistoryAction(applicationContext: Context) {
 
@@ -51,7 +52,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
                 {
                     it?.let { fileHistoryEntity ->
                         fileHistoryEntity.keyFileUri?.let { keyFileUri ->
-                            keyFileUriResultListener.invoke(Uri.parse(keyFileUri))
+                            keyFileUriResultListener.invoke(UriUtil.parse(keyFileUri))
                         }
                     } ?: keyFileUriResultListener.invoke(null)
                 }

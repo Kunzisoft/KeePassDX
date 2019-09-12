@@ -46,7 +46,6 @@ import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.utils.ClipDataCompat
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -70,7 +69,6 @@ import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
-import java.lang.Exception
 import java.lang.ref.WeakReference
 
 class PasswordActivity : StylishActivity() {
@@ -196,21 +194,16 @@ class PasswordActivity : StylishActivity() {
 
             val databaseUriRetrieve = intent.data
             // Stop activity here if we can't verify database URI
-            try {
-                UriUtil.verifyFileUri(databaseUriRetrieve)
-            } catch (e : Exception) {
-                Log.e(TAG, "File URI not validate", e)
-                Toast.makeText(this@PasswordActivity, e.message, Toast.LENGTH_LONG).show()
+            if (!UriUtil.verifyFileUri(databaseUriRetrieve)) {
+                Log.e(TAG, "File URI not validate")
                 finish()
-                return
             }
-
             databaseUri = databaseUriRetrieve
-            keyFileUri = ClipDataCompat.getUriFromIntent(intent, KEY_KEYFILE)
+            keyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
 
         } else {
-            databaseUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_FILENAME))
-            keyFileUri = UriUtil.parseUriFile(intent.getStringExtra(KEY_KEYFILE))
+            databaseUri = intent.getParcelableExtra(KEY_FILENAME)
+            keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
 
         // Post init uri with KeyFile if needed
@@ -245,14 +238,16 @@ class PasswordActivity : StylishActivity() {
 
         // Define listeners for default database checkbox and validate button
         checkboxDefaultDatabaseView?.setOnCheckedChangeListener { _, isChecked ->
-            var newDefaultFileName = ""
+            var newDefaultFileName: Uri? = null
             if (isChecked) {
-                newDefaultFileName = databaseFileUri?.toString() ?: newDefaultFileName
+                newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply {
-                putString(KEY_DEFAULT_FILENAME, newDefaultFileName)
-                apply()
+            newDefaultFileName?.let {
+                prefs?.edit()?.apply {
+                    putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
+                    apply()
+                }
             }
 
             val backupManager = BackupManager(this@PasswordActivity)
@@ -261,10 +256,10 @@ class PasswordActivity : StylishActivity() {
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
-        val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
+        val defaultFilename = prefs?.getString(KEY_DEFAULT_DATABASE_PATH, "")
         if (databaseFileUri != null
                 && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
-                && databaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
+                && databaseFileUri == UriUtil.parse(defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
@@ -388,7 +383,7 @@ class PasswordActivity : StylishActivity() {
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val password: String? = passwordView?.text?.toString()
-        val keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())
+        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
         verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
     }
 
@@ -401,7 +396,7 @@ class PasswordActivity : StylishActivity() {
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
-        val keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())
+        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
         val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
         loadDatabase(password, keyFileUri)
     }
@@ -632,7 +627,7 @@ class PasswordActivity : StylishActivity() {
 
         private val TAG = PasswordActivity::class.java.name
 
-        const val KEY_DEFAULT_FILENAME = "defaultFileName"
+        const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
 
         private const val KEY_FILENAME = "fileName"
         private const val KEY_KEYFILE = "keyFile"
@@ -641,10 +636,10 @@ class PasswordActivity : StylishActivity() {
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
-        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String?,
+        private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
-            intent.putExtra(KEY_FILENAME, fileName)
+            intent.putExtra(KEY_FILENAME, databaseFile)
             if (keyFile != null)
                 intent.putExtra(KEY_KEYFILE, keyFile)
             intentBuildLauncher.invoke(intent)
@@ -659,10 +654,9 @@ class PasswordActivity : StylishActivity() {
         @Throws(FileNotFoundException::class)
         fun launch(
                 activity: Activity,
-                fileName: String,
-                keyFile: String?) {
-            UriUtil.verifyFilePath(fileName)
-            buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                databaseFile: Uri,
+                keyFile: Uri?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 activity.startActivity(intent)
             }
         }
@@ -676,11 +670,9 @@ class PasswordActivity : StylishActivity() {
         @Throws(FileNotFoundException::class)
         fun launchForKeyboardResult(
                 activity: Activity,
-                fileName: String,
-                keyFile: String?) {
-            UriUtil.verifyFilePath(fileName)
-
-            buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                databaseFile: Uri,
+                keyFile: Uri?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
             }
         }
@@ -695,20 +687,18 @@ class PasswordActivity : StylishActivity() {
         @Throws(FileNotFoundException::class)
         fun launchForAutofillResult(
                 activity: Activity,
-                fileName: String,
-                keyFile: String?,
+                databaseFile: Uri,
+                keyFile: Uri?,
                 assistStructure: AssistStructure?) {
-            UriUtil.verifyFilePath(fileName)
-
             if (assistStructure != null) {
-                buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                     AutofillHelper.startActivityForAutofillResult(
                             activity,
                             intent,
                             assistStructure)
                 }
             } else {
-                launch(activity, fileName, keyFile)
+                launch(activity, databaseFile, keyFile)
             }
         }
     }

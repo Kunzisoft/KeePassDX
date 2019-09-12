@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -348,7 +347,7 @@ class EntryActivity : LockingHideActivity() {
                             {
                                 // Open Keepass doc to create field references
                                 startActivity(Intent(Intent.ACTION_VIEW,
-                                        Uri.parse(getString(R.string.field_references_url))))
+                                        UriUtil.parse(getString(R.string.field_references_url))))
                             })
         }
     }

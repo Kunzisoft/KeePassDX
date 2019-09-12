@@ -200,13 +200,11 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         var error = false
         if (keyFileCheckBox != null
                 && keyFileCheckBox!!.isChecked) {
-            val keyFile = UriUtil.parseUriFile(keyFileView?.text?.toString())
-            mKeyFile = keyFile
 
-            // Verify that a keyfile is set
-            if (keyFile == null || keyFile.toString().isEmpty()) {
+            UriUtil.parse(keyFileView?.text?.toString())?.let { uri ->
+                mKeyFile = uri
+            } ?: run {
                 error = true
-                // TODO better keyfile check
                 keyFileTextInputLayout?.error = getString(R.string.error_nokeyfile)
             }
         }
@@ -250,7 +248,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
-            UriUtil.parseUriFile(uri)?.let { pathUri ->
+            uri?.let { pathUri ->
                 keyFileCheckBox?.isChecked = true
                 keyFileView?.text = pathUri.toString()
 

@@ -53,6 +53,7 @@ import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preference.InputNumberPreference
 import com.kunzisoft.keepass.settings.preference.InputTextPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
+import com.kunzisoft.keepass.utils.UriUtil
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -177,6 +178,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     private fun startEnableService() {
                         if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
                             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
+                            // TODO Autofill
                             intent.data = Uri.parse("package:com.example.android.autofill.service")
                             Log.d(javaClass.name, "enableService(): intent=$intent")
                             startActivityForResult(intent, REQUEST_CODE_AUTOFILL)

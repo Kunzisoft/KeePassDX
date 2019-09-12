@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
-import android.net.Uri
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
@@ -32,6 +31,7 @@ import android.widget.ViewSwitcher
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryEntity
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.utils.UriUtil
 
 class FileDatabaseHistoryAdapter(private val context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
@@ -80,7 +80,7 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         holder.fileAlias.text = fileDatabaseInfo.retrieveDatabaseAlias(fileHistoryEntity.databaseAlias)
 
         // File path
-        holder.filePath.text = Uri.decode(fileDatabaseInfo.fileUri.toString())
+        holder.filePath.text = UriUtil.decode(fileDatabaseInfo.fileUri?.toString())
 
         holder.filePreciseInfoContainer.visibility = if (fileDatabaseInfo.found()) {
             // Modification

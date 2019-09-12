@@ -51,7 +51,7 @@ class OpenFileHelper {
         this.fragment = context
     }
 
-    inner class OpenFileOnClickViewListener(private val dataUri: (() -> Uri)?) : View.OnClickListener {
+    inner class OpenFileOnClickViewListener(private val dataUri: (() -> Uri?)?) : View.OnClickListener {
 
         override fun onClick(v: View) {
             try {
@@ -97,7 +97,7 @@ class OpenFileHelper {
             activity?.startActivityForResult(i, GET_CONTENT)
     }
 
-    fun getOpenFileOnClickViewListener(dataUri: () -> Uri): OpenFileOnClickViewListener {
+    fun getOpenFileOnClickViewListener(dataUri: () -> Uri?): OpenFileOnClickViewListener {
         return OpenFileOnClickViewListener(dataUri)
     }
 
@@ -181,7 +181,7 @@ class OpenFileHelper {
                     val filename = data?.dataString
                     var keyUri: Uri? = null
                     if (filename != null) {
-                        keyUri = UriUtil.parseUriFile(filename)
+                        keyUri = UriUtil.parse(filename)
                     }
                     keyFileCallback?.invoke(keyUri)
                 }

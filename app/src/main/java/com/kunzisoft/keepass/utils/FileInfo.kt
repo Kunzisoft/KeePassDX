@@ -31,7 +31,7 @@ import java.util.*
 open class FileInfo : Serializable {
 
     var context: Context
-    var fileUri: Uri
+    var fileUri: Uri?
     var filePath: String? = null
     var fileName: String? = ""
     var lastModification = Date()
@@ -45,17 +45,19 @@ open class FileInfo : Serializable {
 
     constructor(context: Context, filePath: String) {
         this.context = context
-        this.fileUri = Uri.parse(filePath)
+        this.fileUri = UriUtil.parse(filePath)
         init()
     }
 
     fun init() {
-        this.filePath = fileUri.path
-        if (EXTERNAL_STORAGE_AUTHORITY == fileUri.authority) {
-            DocumentFile.fromSingleUri(context, fileUri)?.let { file ->
-                size = file.length()
-                fileName = file.name
-                lastModification = Date(file.lastModified())
+        this.filePath = fileUri?.path
+        if (EXTERNAL_STORAGE_AUTHORITY == fileUri?.authority) {
+            fileUri?.let { fileUri ->
+                DocumentFile.fromSingleUri(context, fileUri)?.let { file ->
+                    size = file.length()
+                    fileName = file.name
+                    lastModification = Date(file.lastModified())
+                }
             }
         } else {
             filePath?.let {

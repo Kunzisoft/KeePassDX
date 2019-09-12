@@ -21,10 +21,12 @@ class FileDatabaseInfo : FileInfo {
 
     fun retrieveDatabaseTitle(titleCallback: (String)->Unit) {
 
-        FileDatabaseHistoryAction.getInstance(context.applicationContext).getFileDatabaseHistory(fileUri) {
-            fileDatabaseHistoryEntity ->
-
-            titleCallback.invoke(retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""))
+        fileUri?.let { fileUri ->
+            FileDatabaseHistoryAction.getInstance(context.applicationContext)
+                    .getFileDatabaseHistory(fileUri) { fileDatabaseHistoryEntity ->
+                titleCallback.invoke(retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
+                        ?: ""))
+            }
         }
     }
 
