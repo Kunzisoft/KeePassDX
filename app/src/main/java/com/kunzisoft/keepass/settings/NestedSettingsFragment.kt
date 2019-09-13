@@ -53,18 +53,17 @@ import com.kunzisoft.keepass.settings.preference.IconPackListPreference
 import com.kunzisoft.keepass.settings.preference.InputNumberPreference
 import com.kunzisoft.keepass.settings.preference.InputTextPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import com.kunzisoft.keepass.utils.UriUtil
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
-    private var database: Database = Database.getInstance()
-    private var databaseReadOnly: Boolean = false
+    private var mDatabase: Database = Database.getInstance()
+    private var mDatabaseReadOnly: Boolean = false
 
-    private var count = 0
+    private var mCount = 0
 
-    private var roundPref: Preference? = null
-    private var memoryPref: Preference? = null
-    private var parallelismPref: Preference? = null
+    private var mRoundPref: InputNumberPreference? = null
+    private var mMemoryPref: InputNumberPreference? = null
+    private var mParallelismPref: InputNumberPreference? = null
 
     enum class Screen {
         APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, DATABASE, APPEARANCE
@@ -75,7 +74,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference = findPreference(getString(R.string.settings_autofill_enable_key)) as SwitchPreference?
+                val autoFillEnablePreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.settings_autofill_enable_key))
                 if (autoFillEnablePreference != null) {
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
@@ -91,7 +90,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         if (arguments != null)
             key = arguments!!.getInt(TAG_KEY)
 
-        databaseReadOnly = database.isReadOnly
+        mDatabaseReadOnly = mDatabase.isReadOnly
                 || ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
 
         // Load the preferences from an XML resource
@@ -319,7 +318,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
             findPreference<Preference>(getString(R.string.reset_education_screens_key))?.setOnPreferenceClickListener {
                 // To allow only one toast
-                if (count == 0) {
+                if (mCount == 0) {
                     val sharedPreferences = Education.getEducationSharedPreferences(context!!)
                     val editor = sharedPreferences.edit()
                     for (resourceId in Education.educationResourcesKeys) {
@@ -328,7 +327,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     editor.apply()
                     Toast.makeText(context, R.string.reset_education_screens_text, Toast.LENGTH_SHORT).show()
                 }
-                count++
+                mCount++
                 false
             }
         }
@@ -337,22 +336,22 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     private fun onCreateDatabasePreference(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_database, rootKey)
 
-        if (database.loaded) {
+        if (mDatabase.loaded) {
 
             val dbGeneralPrefCategory: PreferenceCategory? = findPreference<PreferenceCategory>(getString(R.string.database_general_key))
 
             // Db name
             val dbNamePref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_name_key))
-            if (database.containsName()) {
-                dbNamePref?.summary = database.name
+            if (mDatabase.containsName()) {
+                dbNamePref?.summary = mDatabase.name
             } else {
                 dbGeneralPrefCategory?.removePreference(dbNamePref)
             }
 
             // Db description
             val dbDescriptionPref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_description_key))
-            if (database.containsDescription()) {
-                dbDescriptionPref?.summary = database.description
+            if (mDatabase.containsDescription()) {
+                dbDescriptionPref?.summary = mDatabase.description
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
@@ -361,30 +360,36 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val recycleBinPref: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.recycle_bin_key))
             // TODO Recycle
             dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
-            if (database.isRecycleBinAvailable) {
-                recycleBinPref?.isChecked = database.isRecycleBinEnabled
+            if (mDatabase.isRecycleBinAvailable) {
+                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
                 recycleBinPref?.isEnabled = false
             } else {
                 dbGeneralPrefCategory?.removePreference(recycleBinPref)
             }
 
             // Version
-            findPreference<Preference>(getString(R.string.database_version_key))?.summary = database.getVersion()
+            findPreference<Preference>(getString(R.string.database_version_key))
+                    ?.summary = mDatabase.getVersion()
 
             // Encryption Algorithm
-            findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.summary = database.getEncryptionAlgorithmName(resources)
+            findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
+                    ?.summary = mDatabase.getEncryptionAlgorithmName(resources)
 
             // Key derivation function
-            findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.summary = database.getKeyDerivationName(resources)
+            findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))
+                    ?.summary = mDatabase.getKeyDerivationName(resources)
 
             // Round encryption
-            findPreference<InputNumberPreference>(getString(R.string.transform_rounds_key))?.summary = database.numberKeyEncryptionRoundsAsString
+            mRoundPref = findPreference<InputNumberPreference>(getString(R.string.transform_rounds_key))
+            mRoundPref?.summary = mDatabase.numberKeyEncryptionRoundsAsString
 
             // Memory Usage
-            findPreference<InputNumberPreference>(getString(R.string.memory_usage_key))?.summary = database.memoryUsageAsString
+            mMemoryPref = findPreference<InputNumberPreference>(getString(R.string.memory_usage_key))
+            mMemoryPref?.summary = mDatabase.memoryUsageAsString
 
             // Parallelism
-            findPreference<InputNumberPreference>(getString(R.string.parallelism_key))?.summary = database.parallelismAsString
+            mParallelismPref = findPreference<InputNumberPreference>(getString(R.string.parallelism_key))
+            mParallelismPref?.summary = mDatabase.parallelismAsString
 
         } else {
             Log.e(javaClass.name, "Database isn't ready")
@@ -435,7 +440,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     override fun onStop() {
         super.onStop()
         activity?.let { activity ->
-            if (count == 10) {
+            if (mCount == 10) {
                 Education.getEducationSharedPreferences(activity).edit()
                         .putBoolean(getString(R.string.education_screen_reclicked_key), true).apply()
             }
@@ -462,12 +467,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     preference.key == getString(R.string.key_derivation_function_key) -> {
                         val keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.key)
                         // Add other prefs to manage
-                        if (roundPref != null)
-                            keyDerivationDialogFragment.setRoundPreference(roundPref!!)
-                        if (memoryPref != null)
-                            keyDerivationDialogFragment.setMemoryPreference(memoryPref!!)
-                        if (parallelismPref != null)
-                            keyDerivationDialogFragment.setParallelismPreference(parallelismPref!!)
+                        keyDerivationDialogFragment.setRoundPreference(mRoundPref)
+                        keyDerivationDialogFragment.setMemoryPreference(mMemoryPref)
+                        keyDerivationDialogFragment.setParallelismPreference(mParallelismPref)
                         dialogFragment = keyDerivationDialogFragment
                     }
                     preference.key == getString(R.string.transform_rounds_key) -> {
@@ -482,7 +484,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     else -> otherDialogFragment = true
                 }
 
-                if (dialogFragment != null && !databaseReadOnly) {
+                if (dialogFragment != null && !mDatabaseReadOnly) {
                     dialogFragment.setTargetFragment(this, 0)
                     dialogFragment.show(fragmentManager, null)
                 }
@@ -495,7 +497,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, databaseReadOnly)
+        ReadOnlyHelper.onSaveInstanceState(outState, mDatabaseReadOnly)
         super.onSaveInstanceState(outState)
     }
 

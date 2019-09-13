@@ -62,26 +62,26 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     override fun onDialogClosed(positiveResult: Boolean) {
         if (database != null && positiveResult && database!!.allowKdfModification()) {
             if (kdfEngineSelected != null) {
-                val newKdfEngine = kdfEngineSelected
+                val newKdfEngine = kdfEngineSelected!!
                 val oldKdfEngine = database!!.kdfEngine
-                database?.assignKdfEngine(newKdfEngine!!)
+                database?.assignKdfEngine(newKdfEngine)
 
-                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine!!, oldKdfEngine)
+                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
             }
         }
 
         super.onDialogClosed(positiveResult)
     }
 
-    fun setRoundPreference(preference: Preference) {
+    fun setRoundPreference(preference: Preference?) {
         this.roundPreference = preference
     }
 
-    fun setMemoryPreference(preference: Preference) {
+    fun setMemoryPreference(preference: Preference?) {
         this.memoryPreference = preference
     }
 
-    fun setParallelismPreference(preference: Preference) {
+    fun setParallelismPreference(preference: Preference?) {
         this.parallelismPreference = preference
     }
 
