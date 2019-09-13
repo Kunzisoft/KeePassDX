@@ -27,6 +27,7 @@ import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
 import android.media.AudioManager
+import android.os.Build
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo
@@ -182,6 +183,24 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         }
     }
 
+    @Suppress("DEPRECATION")
+    private fun switchToPreviousKeyboard() {
+        var imeManager: InputMethodManager? = null
+        try {
+            imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                switchToPreviousInputMethod()
+            } else {
+                window.window?.let { window ->
+                    imeManager.switchToLastInputMethod(window.attributes.token)
+                }
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to switch to the previous IME", e)
+            imeManager?.showInputMethodPicker()
+        }
+    }
+
     override fun onKey(primaryCode: Int, keyCodes: IntArray) {
         val inputConnection = currentInputConnection
 
@@ -192,15 +211,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             playClick(primaryCode)
 
         when (primaryCode) {
-            KEY_BACK_KEYBOARD -> try {
-                val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                if (window.window != null)
-                    imeManager.switchToLastInputMethod(window.window!!.attributes.token) // TODO Deprecated
-            } catch (e: Exception) {
-                Log.e(TAG, "Unable to switch to the previous IME", e)
-                val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imeManager.showInputMethodPicker()
-            }
+            KEY_BACK_KEYBOARD -> switchToPreviousKeyboard()
 
             KEY_CHANGE_KEYBOARD -> {
                 val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
