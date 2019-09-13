@@ -198,7 +198,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             UriUtil.parse(databasePath)?.let { databaseFileUri ->
                 launchPasswordActivityWithPath(databaseFileUri)
             } ?: run {
-                Log.e(TAG, "Unable to launch Password Activity")
+                Log.i(TAG, "Unable to launch Password Activity")
             }
         }
 
