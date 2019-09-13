@@ -205,17 +205,19 @@ class GroupActivity : LockingActivity(),
         Log.i(TAG, "Finished creating tree")
     }
 
-    override fun onNewIntent(intent: Intent) {
+    override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
 
-        Log.d(TAG, "setNewIntent: $intent")
-        setIntent(intent)
-        mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intent.action) {
-            // only one instance of search in backstack
-            openSearchGroup(retrieveCurrentGroup(intent, null))
-            true
-        } else {
-            false
+        intent?.let { intentNotNull ->
+            Log.d(TAG, "setNewIntent: $intentNotNull")
+            setIntent(intentNotNull)
+            mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
+                // only one instance of search in backstack
+                openSearchGroup(retrieveCurrentGroup(intentNotNull, null))
+                true
+            } else {
+                false
+            }
         }
     }
 
@@ -283,6 +285,9 @@ class GroupActivity : LockingActivity(),
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): GroupVersioned? {
 
+        // Force read only if the database is like that
+        mReadOnly = mDatabase?.isReadOnly == true || mReadOnly
+
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
             return mDatabase?.search(intent.getStringExtra(SearchManager.QUERY).trim { it <= ' ' })
@@ -296,8 +301,6 @@ class GroupActivity : LockingActivity(),
                 if (getIntent() != null)
                     pwGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
             }
-
-            mReadOnly = mDatabase?.isReadOnly == true || mReadOnly // Force read only if the database is like that
 
             Log.w(TAG, "Creating tree view")
             val currentGroup: GroupVersioned?
@@ -686,40 +689,6 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    override fun startActivity(intent: Intent) {
-
-        // Get the intent, verify the action and get the query
-        if (Intent.ACTION_SEARCH == intent.action) {
-            val query = intent.getStringExtra(SearchManager.QUERY)
-            // manually launch the real search activity
-            val searchIntent = Intent(applicationContext, GroupActivity::class.java)
-            // add query to the Intent Extras
-            searchIntent.action = Intent.ACTION_SEARCH
-            searchIntent.putExtra(SearchManager.QUERY, query)
-
-            EntrySelectionHelper.doEntrySelectionAction(intent,
-                    {
-                        super@GroupActivity.startActivity(intent)
-                    },
-                    {
-                        EntrySelectionHelper.startActivityForEntrySelection(
-                                this@GroupActivity,
-                                searchIntent)
-                        finish()
-                    },
-                    { assistStructure ->
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            AutofillHelper.startActivityForAutofillResult(
-                                    this@GroupActivity,
-                                    searchIntent,
-                                    assistStructure)
-                        }
-                    })
-        } else {
-            super.startActivity(intent)
-        }
-    }
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
@@ -879,18 +848,25 @@ class GroupActivity : LockingActivity(),
         mListNodesFragment?.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom)
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
+    override fun startActivity(intent: Intent) {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
+        // Get the intent, verify the action and get the query
+        if (Intent.ACTION_SEARCH == intent.action) {
+            // manually launch the real search activity
+            val searchIntent = Intent(applicationContext, GroupActivity::class.java).apply {
+                // Add bundle of current intent
+                putExtras(this@GroupActivity.intent)
+                // add query to the Intent Extras
+                action = Intent.ACTION_SEARCH
+                putExtra(SearchManager.QUERY, intent.getStringExtra(SearchManager.QUERY))
+            }
+
+            super.startActivity(searchIntent)
+        } else {
+            super.startActivity(intent)
         }
-
-        // Not directly get the entry from intent data but from database
-        mListNodesFragment?.rebuildList()
     }
 
-    @SuppressLint("RestrictedApi")
     override fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle?) {
         /*
          * ACTION_SEARCH automatically forces a new task. This occurs when you open a kdb file in
@@ -903,9 +879,18 @@ class GroupActivity : LockingActivity(),
             intent.flags = flags
         }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            super.startActivityForResult(intent, requestCode, options)
+        super.startActivityForResult(intent, requestCode, options)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
+
+        // Not directly get the entry from intent data but from database
+        mListNodesFragment?.rebuildList()
     }
 
     private fun removeSearchInIntent(intent: Intent) {
