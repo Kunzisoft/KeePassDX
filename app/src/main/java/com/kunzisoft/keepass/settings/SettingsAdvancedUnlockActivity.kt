@@ -8,7 +8,7 @@ class SettingsAdvancedUnlockActivity : SettingsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        timeoutEnable = false
+        mTimeoutEnable = false
     }
 
     override fun retrieveMainFragment(): Fragment {

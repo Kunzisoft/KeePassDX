@@ -256,7 +256,7 @@ class EntryEditActivity : LockingHideActivity(),
                                     newEntry,
                                     parent,
                                     afterActionNodeFinishRunnable,
-                                    !readOnly)
+                                    !mReadOnly)
                         }
 
                     } else {
@@ -266,7 +266,7 @@ class EntryEditActivity : LockingHideActivity(),
                                     oldEntry,
                                     newEntry,
                                     afterActionNodeFinishRunnable,
-                                    !readOnly)
+                                    !mReadOnly)
                         }
                     }
                     actionRunnable?.let { runnable ->

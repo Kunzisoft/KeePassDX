@@ -146,7 +146,7 @@ open class SettingsActivity
         supportFragmentManager.beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left,
                         R.anim.slide_in_left, R.anim.slide_out_right)
-                .replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, readOnly), TAG_NESTED)
+                .replace(R.id.fragment_container, NestedSettingsFragment.newInstance(key, mReadOnly), TAG_NESTED)
                 .addToBackStack(TAG_NESTED)
                 .commit()
 
@@ -154,7 +154,7 @@ open class SettingsActivity
     }
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen) {
-        if (timeoutEnable)
+        if (mTimeoutEnable)
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
                 replaceFragment(key)
             }

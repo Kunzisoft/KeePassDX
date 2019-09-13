@@ -76,7 +76,7 @@ class EntryActivity : LockingHideActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         val currentDatabase = Database.getInstance()
-        readOnly = currentDatabase.isReadOnly || readOnly
+        mReadOnly = currentDatabase.isReadOnly || mReadOnly
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this)
 
@@ -289,7 +289,7 @@ class EntryActivity : LockingHideActivity() {
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database_lock, menu)
 
-        if (readOnly) {
+        if (mReadOnly) {
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
 

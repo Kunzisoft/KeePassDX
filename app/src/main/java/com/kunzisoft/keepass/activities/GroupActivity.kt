@@ -176,7 +176,7 @@ class GroupActivity : LockingActivity(),
         // Initialize the fragment with the list
         mListNodesFragment = supportFragmentManager.findFragmentByTag(fragmentTag) as ListNodesFragment?
         if (mListNodesFragment == null)
-            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, readOnly, mCurrentGroupIsASearch)
+            mListNodesFragment = ListNodesFragment.newInstance(mCurrentGroup, mReadOnly, mCurrentGroupIsASearch)
 
         // Attach fragment to content view
         supportFragmentManager.beginTransaction().replace(
@@ -206,6 +206,8 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+
         Log.d(TAG, "setNewIntent: $intent")
         setIntent(intent)
         mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intent.action) {
@@ -237,7 +239,7 @@ class GroupActivity : LockingActivity(),
         // Check TimeoutHelper
         TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
             // Open a group in a new fragment
-            val newListNodeFragment = ListNodesFragment.newInstance(group, readOnly, isASearch)
+            val newListNodeFragment = ListNodesFragment.newInstance(group, mReadOnly, isASearch)
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             // Different animation
             val fragmentTag: String
@@ -295,7 +297,7 @@ class GroupActivity : LockingActivity(),
                     pwGroupId = intent.getParcelableExtra(GROUP_ID_KEY)
             }
 
-            readOnly = mDatabase?.isReadOnly == true || readOnly // Force read only if the database is like that
+            mReadOnly = mDatabase?.isReadOnly == true || mReadOnly // Force read only if the database is like that
 
             Log.w(TAG, "Creating tree view")
             val currentGroup: GroupVersioned?
@@ -355,7 +357,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Show selection mode message if needed
-        if (selectionMode) {
+        if (mSelectionMode) {
             modeTitleView?.visibility = View.VISIBLE
         } else {
             modeTitleView?.visibility = View.GONE
@@ -365,8 +367,8 @@ class GroupActivity : LockingActivity(),
         addNodeButtonView?.apply {
 
             // To enable add button
-            val addGroupEnabled = !readOnly && !mCurrentGroupIsASearch
-            var addEntryEnabled = !readOnly && !mCurrentGroupIsASearch
+            val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
+            var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
             mCurrentGroup?.let {
                 val isRoot = it == mRootGroup
                 if (!it.allowAddEntryIfIsRoot())
@@ -399,7 +401,7 @@ class GroupActivity : LockingActivity(),
                 val entryVersioned = node as EntryVersioned
                 EntrySelectionHelper.doEntrySelectionAction(intent,
                         {
-                            EntryActivity.launch(this@GroupActivity, entryVersioned, readOnly)
+                            EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
                         {
                             // Populate Magikeyboard with entry
@@ -479,7 +481,7 @@ class GroupActivity : LockingActivity(),
                     entryToCopy,
                     newParent,
                     AfterAddNodeRunnable(),
-                    !readOnly)
+                    !mReadOnly)
         }.start()
     }
 
@@ -524,7 +526,7 @@ class GroupActivity : LockingActivity(),
                     groupToMove,
                     newParent,
                     AfterAddNodeRunnable(),
-                    !readOnly)
+                    !mReadOnly)
         }.start()
     }
 
@@ -536,7 +538,7 @@ class GroupActivity : LockingActivity(),
                     entryToMove,
                     newParent,
                     AfterAddNodeRunnable(),
-                    !readOnly)
+                    !mReadOnly)
         }.start()
     }
 
@@ -556,7 +558,7 @@ class GroupActivity : LockingActivity(),
                     Database.getInstance(),
                     group,
                     AfterDeleteNodeRunnable(),
-                    !readOnly)
+                    !mReadOnly)
         }.start()
     }
 
@@ -567,7 +569,7 @@ class GroupActivity : LockingActivity(),
                     Database.getInstance(),
                     entry,
                     AfterDeleteNodeRunnable(),
-                    !readOnly)
+                    !mReadOnly)
         }.start()
     }
 
@@ -584,7 +586,7 @@ class GroupActivity : LockingActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
         inflater.inflate(R.menu.database_lock, menu)
-        if (!selectionMode) {
+        if (!mSelectionMode) {
             inflater.inflate(R.menu.default_menu, menu)
             MenuUtil.contributionMenuInflater(inflater, menu)
         }
@@ -733,7 +735,7 @@ class GroupActivity : LockingActivity(),
             }
             else -> {
                 // Check the time lock before launching settings
-                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, readOnly, true)
+                MenuUtil.onDefaultMenuOptionsItemSelected(this, item, mReadOnly, true)
                 return super.onOptionsItemSelected(item)
             }
         }
@@ -763,7 +765,7 @@ class GroupActivity : LockingActivity(),
                                         newGroup,
                                         currentGroup,
                                         AfterAddNodeRunnable(),
-                                        !readOnly)
+                                        !mReadOnly)
                             }.start()
                         }
                     }
@@ -785,7 +787,7 @@ class GroupActivity : LockingActivity(),
                                         oldGroupToUpdate,
                                         updateGroup,
                                         AfterUpdateNodeRunnable(),
-                                        !readOnly)
+                                        !mReadOnly)
                             }.start()
                         }
                     }
