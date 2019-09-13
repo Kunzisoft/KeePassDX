@@ -149,10 +149,12 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             return
         }
         try {
-            cipher?.init(Cipher.ENCRYPT_MODE, getSecretKey())
+            getSecretKey()?.let { secretKey ->
+                cipher?.init(Cipher.ENCRYPT_MODE, secretKey)
 
-            initBiometricPrompt()
-            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoStoreCredential)
+                initBiometricPrompt()
+                actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoStoreCredential)
+            }
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
@@ -199,10 +201,13 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             // important to restore spec here that was used for decryption
             val iv = Base64.decode(ivSpecValue, Base64.NO_WRAP)
             val spec = IvParameterSpec(iv)
-            cipher?.init(Cipher.DECRYPT_MODE, getSecretKey(), spec)
 
-            initBiometricPrompt()
-            actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoExtractCredential)
+            getSecretKey()?.let { secretKey ->
+                cipher?.init(Cipher.DECRYPT_MODE, secretKey, spec)
+
+                initBiometricPrompt()
+                actionIfCypherInit.invoke(biometricPrompt, cryptoObject, promptInfoExtractCredential)
+            }
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize decrypt data", unrecoverableKeyException)
