@@ -15,8 +15,8 @@ class Field : Parcelable {
     }
 
     constructor(parcel: Parcel) {
-        this.name = parcel.readString()
-        this.protectedValue = parcel.readParcelable(ProtectedString::class.java.classLoader)
+        this.name = parcel.readString() ?: name
+        this.protectedValue = parcel.readParcelable(ProtectedString::class.java.classLoader) ?: protectedValue
     }
 
     override fun describeContents(): Int {
