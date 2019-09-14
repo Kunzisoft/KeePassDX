@@ -59,7 +59,7 @@ class ClipboardEntryNotificationService : NotificationService() {
         //Get settings
         val prefs = PreferenceManager.getDefaultSharedPreferences(this)
         val timeoutClipboardClear = prefs.getString(getString(R.string.clipboard_timeout_key),
-                getString(R.string.clipboard_timeout_default))
+                getString(R.string.clipboard_timeout_default)) ?: "6000"
         notificationTimeoutMilliSecs = java.lang.Long.parseLong(timeoutClipboardClear)
 
         when {

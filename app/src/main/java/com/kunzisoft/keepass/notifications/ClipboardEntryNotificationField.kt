@@ -34,9 +34,9 @@ import java.util.ArrayList
 open class ClipboardEntryNotificationField : Parcelable {
 
     private var id: NotificationFieldId = NotificationFieldId.UNKNOWN
-    var value: String
-    var label: String
-    var copyText: String
+    var value: String = ""
+    var label: String = ""
+    var copyText: String = ""
 
     val actionKey: String
         get() = getActionKey(id)
@@ -60,9 +60,9 @@ open class ClipboardEntryNotificationField : Parcelable {
 
     protected constructor(parcel: Parcel) {
         id = NotificationFieldId.values()[parcel.readInt()]
-        value = parcel.readString()
-        label = parcel.readString()
-        copyText = parcel.readString()
+        value = parcel.readString() ?: value
+        label = parcel.readString() ?: label
+        copyText = parcel.readString() ?: copyText
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
