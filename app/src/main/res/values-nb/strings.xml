@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_feedback">Tilbakemelding</string>
     <string name="about_homepage">Hjemmeside</string>
@@ -177,7 +195,7 @@
     <string name="open_biometric_prompt_unlock_database">Venter på fingeravtrykk</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
     <string name="biometric_invalid_key">Ugyldig fingeravtrykksnøkkelproblem. Gjenopprett passordet ditt.</string>
-    <string name="fingerprint_not_recognized">Fremmed fingeravtrykk</string>
+    <string name="biometric_not_recognized">Fremmed fingeravtrykk</string>
     <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
@@ -354,4 +372,20 @@
     <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
+    <string name="content_description_open_file">Åpne fil</string>
+    <string name="content_description_show_file_link">Vis fillenke</string>
+    <string name="content_description_open_file_link">Åpne fillenke</string>
+    <string name="content_description_add_node">Legg til node</string>
+    <string name="content_description_add_entry">Legg til oppføring</string>
+    <string name="content_description_add_group">Legg til gruppe</string>
+    <string name="content_description_file_information">Filinfo</string>
+    <string name="content_description_password_generator">Passordgenerator</string>
+    <string name="content_description_password_length">Passordslengde</string>
+    <string name="content_description_add_field">Legg til felt</string>
+    <string name="content_description_remove_field">Fjern felt</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Du kan ikke flytte en oppføring hit.</string>
+    <string name="error_copy_entry_here">Du kan ikke kopiere en oppføring hit.</string>
+    <string name="list_groups_show_number_entries_title">Vis antall oppføringer</string>
+    <string name="list_groups_show_number_entries_summary">Vis antall oppføringer i en gruppe</string>
 </resources>

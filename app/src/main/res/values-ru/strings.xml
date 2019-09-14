@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_homepage">Сайт</string>
     <string name="about_description">Android-версия программы управления паролями KeePass</string>
@@ -218,7 +219,7 @@
     <string name="sort_title">Название</string>
     <string name="warning_empty_password">Вы действительно хотите использовать пустой пароль?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
-    <string name="fingerprint_not_recognized">Отпечаток пальца не распознан</string>
+    <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
     <string name="history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2019 Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
@@ -44,7 +44,6 @@
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
-
     <string name="content_description_background">Background</string>
     <string name="content_description_open_file">Open file</string>
     <string name="content_description_show_file_link">Show file link</string>
@@ -235,7 +234,7 @@
     <string name="biometric_prompt_extract_credential_message">Extract database credential with biometric data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="biometric_invalid_key">Could not read biometric key. Restore your credential.</string>
-    <string name="fingerprint_not_recognized">Could not recognize fingerprint</string>
+    <string name="biometric_not_recognized">Could not recognize biometric</string>
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
@@ -316,7 +315,7 @@
     <string name="magic_keyboard_activate_setting_text">Activate \"Magikeyboard\" in the device settings.</string>
     <string name="magic_keyboard_activate_device_keyboard_setting">Device Keyboard Settings</string>
     <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Switch keybaords by long pressing the spacebar of your keyboard, or, if it is not available, with: </string>
+    <string name="keyboards_swicth_magikeyboard_text">Switch keyboards by long pressing the spacebar of your keyboard, or, if it is not available, with:</string>
     <string name="keyboard_select_entry_text">Select your entry with the key.</string>
     <string name="keyboard_fill_field_text">Fill in your fields using the entry elements.</string>
     <string name="keyboard_lock_database_text">Lock the database.</string>
@@ -341,7 +340,6 @@
     <string name="keyboard_keys_category">Keys</string>
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
     <string name="keyboard_key_sound_title">Sound on keypress</string>
-
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="enable_read_only_title">Write-protected</string>

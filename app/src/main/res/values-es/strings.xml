@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2019 Jeremy Jamet / Kunzisoft.
-This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-KeePass DX is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    This file is part of KeePass DX.
 
-KeePass DX is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
---><resources>
+    Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
+-->
+<resources>
     <string name="about_feedback">Commentario</string>
     <string name="about_homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
@@ -202,7 +203,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="open_biometric_prompt_unlock_database">Monitoreando huellas digitales</string>
     <string name="encrypted_value_stored">Contraseña encriptada almacenada</string>
     <string name="biometric_invalid_key">Problema clave de huella digital no válida. Restaure su contraseña.</string>
-    <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
+    <string name="biometric_not_recognized">Huella digital no reconocida</string>
     <string name="biometric_scanning_error">Problema de huella digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa la huella digital para almacenar esta contraseña</string>
     <string name="no_credentials_stored">Aún sin contraseña almacenada para esta base de datos</string>

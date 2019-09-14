@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
-  
-  Portuguese translation by Carlos Schlyter.
-  
---><resources>
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+
+    Portuguese translation by Carlos Schlyter.
+-->
+<resources>
     <string name="about_feedback">Comentários</string>
     <string name="about_homepage">Página inicial</string>
     <string name="about_description">KeePass DX é uma implementação para Android do gerenciador de senhas KeePass</string>
@@ -212,7 +212,7 @@
     <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
     <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Recupere sua senha.</string>
-    <string name="fingerprint_not_recognized">Não pôde reconhecer impressão digital</string>
+    <string name="biometric_not_recognized">Não pôde reconhecer impressão digital</string>
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
@@ -286,8 +286,8 @@
     <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
     <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
     <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
-    <string name="allow_no_password_title">Não permitir senha</string>
-    <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma identificação de senha for selecionada</string>
+    <string name="allow_no_password_title">Não permitir chave mestra</string>
+    <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Apenas leitura</string>
     <string name="enable_read_only_summary">Por padrão, abrir seu banco de dados no modo somente leitura</string>
     <string name="enable_education_screens_title">Telas educacionais</string>
@@ -383,7 +383,7 @@
     <string name="keyboard_key_sound_title">Som ao clicar</string>
     <string name="selection_mode">Modo de seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
-    <string name="lock_database_back_root_title">Trancar ao voltar</string>
+    <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
     <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
     <string name="clear_clipboard_notification_title">Limpar a Área de Transferência ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
@@ -392,4 +392,22 @@
     <string name="keyboard_selection_entry_summary">Mostrar campos de entrada no Magikeyboard quando estiver visualizando uma Entrada</string>
     <string name="delete_entered_password_title">Deletar senha</string>
     <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão</string>
+    <string name="content_description_open_file">Abrir arquivo</string>
+    <string name="content_description_show_file_link">Exibir link do arquivo</string>
+    <string name="content_description_open_file_link">Abrir link do arquivo</string>
+    <string name="content_description_add_node">Inserir nó</string>
+    <string name="content_description_add_entry">Adicionar entrada</string>
+    <string name="content_description_add_group">Adicionar grupo</string>
+    <string name="content_description_file_information">Informações do arquivo</string>
+    <string name="content_description_entry_icon">Ícone da entrada</string>
+    <string name="content_description_password_generator">Gerador de senhas</string>
+    <string name="content_description_password_length">Comprimento da senha</string>
+    <string name="content_description_add_field">Adicionar campo</string>
+    <string name="content_description_remove_field">Remover campo</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
+    <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
+    <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
+    <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
+    <string name="content_description_entry_save">Salvar entrada</string>
 </resources>

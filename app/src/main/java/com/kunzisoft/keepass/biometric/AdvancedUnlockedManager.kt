@@ -117,7 +117,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
         override fun onAuthenticationFailed() {
             Log.e(TAG, "Biometric authentication failed, biometric not recognized")
-            setAdvancedUnlockedMessageView(R.string.fingerprint_not_recognized)
+            setAdvancedUnlockedMessageView(R.string.biometric_not_recognized)
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
