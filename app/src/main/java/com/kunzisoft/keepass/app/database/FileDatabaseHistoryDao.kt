@@ -19,7 +19,7 @@ interface FileDatabaseHistoryDao {
     @Delete
     fun delete(fileDatabaseHistory: FileDatabaseHistoryEntity): Int
 
-    @Query("REPLACE INTO file_database_history(keyfile_uri) VALUES(null)")
+    @Query("UPDATE file_database_history SET keyfile_uri=null")
     fun deleteAllKeyFiles()
 
     @Query("DELETE FROM file_database_history")
