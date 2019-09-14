@@ -369,7 +369,7 @@
     <string name="content_description_add_group">Grup ekle</string>
     <string name="content_description_file_information">Dosya bilgileri</string>
     <string name="content_description_password_checkbox">Parola onay kutusu</string>
-    <string name="content_description_keyfile_checkbox">content_description_keyfile_checkbox</string>
+    <string name="content_description_keyfile_checkbox">Anahtar dosyası onay kutusu</string>
     <string name="content_description_entry_icon">Giriş simgesi</string>
     <string name="content_description_password_generator">Parola üreteci</string>
     <string name="content_description_password_length">Parola uzunluğu</string>
