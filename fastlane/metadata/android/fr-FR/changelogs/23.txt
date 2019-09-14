@@ -1,0 +1,7 @@
+ * Nouveau workflow de création de base de données plus sécurisé
+ * Reconnaissance de plus de fichiers de bases de données
+ * Ajout d'un alias pour les fichiers d'historiques (ATTENTION: l'historique est effacé)
+ * Nouveau déblocage par biométrique (Empreinte digitale avec nouvelle API)
+ * Correction des références d'entrée
+ * Correction de l'OOM avec les fichiers de clé
+ * Correction de petites anomalies

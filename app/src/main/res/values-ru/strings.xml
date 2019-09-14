@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_homepage">Сайт</string>
     <string name="about_description">Android-версия программы управления паролями KeePass</string>
@@ -30,7 +31,7 @@
     <string name="menu_app_settings">Настройки KeePass DX</string>
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
-    <string name="browser_intall_text">Для обзора файлов установите OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Для обзора файлов установите OpenIntents File Manager</string>
     <string name="cancel">Отмена</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
@@ -62,10 +63,6 @@
     <string name="entry_user_name">Логин</string>
     <string name="error_arc4">Потоковый шифр RC4 не поддерживается.</string>
     <string name="error_can_not_handle_uri">Не удалось обработать указанный URI в KeePass DX.</string>
-    <string name="error_could_not_create_parent">Не удалось создать родительскую папку.</string>
-    <string name="error_database_exists">Такой файл уже существует.</string>
-    <string name="error_failed_to_launch_link">Не удалось открыть ссылку.</string>
-    <string name="error_filename_required">Введите имя файла.</string>
     <string name="error_file_not_create">Не удалось создать файл:</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь что путь указан верно.</string>
@@ -107,9 +104,9 @@
     <string name="maskpass_title">Скрыть пароли</string>
     <string name="maskpass_summary">Скрывать пароли по умолчанию</string>
     <string name="menu_about">Сведения</string>
-    <string name="menu_change_key">Изменить мастер-ключ</string>
+    <string name="menu_change_key_settings">Изменить мастер-ключ</string>
     <string name="settings">Настройки</string>
-    <string name="menu_db_settings">Настройки базы</string>
+    <string name="menu_database_settings">Настройки базы</string>
     <string name="menu_delete">Удалить</string>
     <string name="menu_donate">Помочь</string>
     <string name="menu_edit">Правка</string>
@@ -136,7 +133,7 @@
     <string name="recentfile_summary">Хранить имена открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
     <string name="remember_keyfile_title">Хранить файлы ключей</string>
-    <string name="remove_from_filelist">Убрать из списка</string>
+    <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
     <string name="rounds">Раунды шифрования</string>
@@ -153,20 +150,18 @@
     <string name="underline">_Подчёркивание_</string>
     <string name="unsupported_db_version">Неподдерживаемая версия базы.</string>
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
-    <string name="use_saf_summary">Использовать Storage Access Framework для обзора файлов (KitKat и выше)</string>
-    <string name="use_saf_title">Storage access framework</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки Latin-1 в .kbd файлах, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="warning_read_only">Карта помять в режиме только для чтения. Изменения не будут сохранены.</string>
     <string name="warning_unmounted">Карта памяти не подключена. Работа с базой невозможна.</string>
     <string name="version_label">Версия %1$s</string>
-    <string name="configure_fingerprint">Отпечатки пальцев поддерживаются, но не настроены.</string>
-    <string name="scanning_fingerprint">Ожидание отпечатка пальца</string>
+    <string name="configure_biometric">Отпечатки пальцев поддерживаются, но не настроены.</string>
+    <string name="open_biometric_prompt_unlock_database">Ожидание отпечатка пальца</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="fingerprint_invalid_key">Неверный ключ отпечатка пальца. Восстановите пароль.</string>
-    <string name="fingerprint_error">Проблема с отпечатком пальца : %1$s</string>
-    <string name="store_with_fingerprint">Используйте отпечаток пальца, чтобы сохранить пароль</string>
-    <string name="no_password_stored">Для этой базы пароль ещё не сохранён</string>
+    <string name="biometric_invalid_key">Неверный ключ отпечатка пальца. Восстановите пароль.</string>
+    <string name="biometric_scanning_error">Проблема с отпечатком пальца : %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Используйте отпечаток пальца, чтобы сохранить пароль</string>
+    <string name="no_credentials_stored">Для этой базы пароль ещё не сохранён</string>
     <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
 \n
 \nНе забудьте сохранить копию .kdbx файла в безопасном месте после каждого изменения.</string>
@@ -216,7 +211,7 @@
     <string name="menu_move">Переместить</string>
     <string name="menu_paste">Вставить</string>
     <string name="menu_cancel">Отмена</string>
-    <string name="menu_fingerprint_remove_key">Удалить отпечаток</string>
+    <string name="menu_biometric_remove_key">Удалить отпечаток</string>
     <string name="menu_file_selection_read_only">Только чтение</string>
     <string name="menu_open_file_read_and_write">Чтение и запись</string>
     <string name="sort_groups_before">Сначала группы</string>
@@ -224,9 +219,9 @@
     <string name="sort_title">Название</string>
     <string name="warning_empty_password">Вы действительно хотите использовать пустой пароль?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
-    <string name="fingerprint_not_recognized">Отпечаток пальца не распознан</string>
+    <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
     <string name="history">История</string>
-    <string name="appearance">Внешний вид</string>
+    <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
     <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
@@ -244,19 +239,19 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="fingerprint_quick_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
+    <string name="fingerprint_advanced_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
     <string name="fingerprint_setting_text">Установите ваш личный отпечаток пальца для вашего устройства</string>
-    <string name="fingerprint_setting_way_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
-    <string name="fingerprint_type_password_text">Введите ваш пароль в Keepass DX</string>
+    <string name="fingerprint_setting_link_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
+    <string name="fingerprint_type_credentials_text">Введите ваш пароль в Keepass DX</string>
     <string name="fingerprint_scan_to_store">Сканируйте ваш отпечаток пальца для безопасного хранения вашего мастер-пароля</string>
     <string name="fingerprint_scan_to_open">Сканируйте ваш отпечаток пальца, когда поле \"Пароль\" не отмечено, для разблокировки базы</string>
     <string name="usage">Использование</string>
-    <string name="fingerprint">Отпечаток пальца</string>
-    <string name="fingerprint_enable_title">Сканирование отпечатка пальца</string>
-    <string name="fingerprint_enable_summary">Включить разблокировку базы с помощью отпечатка пальца</string>
-    <string name="fingerprint_delete_all_title">Удалить ключи шифрования</string>
-    <string name="fingerprint_delete_all_summary">Удалить все ключи шифрования, связанные с распознаванием отпечатка пальца</string>
-    <string name="fingerprint_delete_all_warning">Вы уверены, что хотите удалить все ключи, связанные с отпечатком пальца?</string>
+    <string name="advanced_unlock">Отпечаток пальца</string>
+    <string name="biometric_unlock_enable_title">Сканирование отпечатка пальца</string>
+    <string name="biometric_unlock_enable_summary">Включить разблокировку базы с помощью отпечатка пальца</string>
+    <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
+    <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием отпечатка пальца</string>
+    <string name="biometric_delete_all_key_warning">Вы уверены, что хотите удалить все ключи, связанные с отпечатком пальца?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s ниже минимально необходимой %2$s.</string>
     <string name="unavailable_feature_hardware">Оборудование не найдено.</string>
@@ -269,10 +264,6 @@
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать Корзину</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в Корзину перед удалением</string>
-    <string name="permission_external_storage_rationale_write_database">Для записи базы KeePass DX необходимо разрешение доступа к внешней памяти</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX необходимо разрешение доступа к внешней памяти для чтения URI не поставщика содержимого</string>
-    <string name="permission_external_storage_denied">Доступ к внешней памяти отказан</string>
-    <string name="permission_external_storage_never_ask">Невозможно выполнить действие без разрешения доступа к внешней памяти</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
     <string name="auto_open_file_uri_title">Автоматически открывать выбранный файл</string>
@@ -280,7 +271,6 @@
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: Буфер обмена доступен всем приложениям. Если чувствительные данные копируются, другие программы могут его перехватить.</string>
-    <string name="warning_disabling_storage_access_framework">ПРЕДУПРЕЖДЕНИЕ: Отключение этой функции может привести к невозможности открывать и сохранять базы</string>
     <string name="open_link_database">Ссылка на файл KDBX</string>
     <string name="database_name_title">Название базы</string>
     <string name="database_description_title">Описание базы</string>
@@ -294,8 +284,7 @@
     <string name="magic_keyboard_preference_title">Настройки Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Как настроить клавиатуру для безопасного заполнения форм?</string>
     <string name="magic_keyboard_activate_setting_text">Активировать Magikeyboard в настройках устройства.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">или (\"Настройки\" → \"Язык и ввод\" → \"Виртуальная клавиатура\" и выбрать.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать.</string>
     <string name="keyboards_choose_magikeyboard_text">Выбрать Magikeyboard, когда вам необходимо заполнить форму.</string>
     <string name="keyboards_swicth_magikeyboard_text">Вы можете легко переключаться с основной клавиатуры на Magikeyboard с помощью кнопки языка клавиатуры, длительного нажатия на пробел клавиатуры или, если она недоступна, с помощью:</string>
     <string name="keyboard_select_entry_text">Выберите запись с помощью кнопки.</string>

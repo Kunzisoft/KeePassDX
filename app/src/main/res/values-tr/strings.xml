@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_feedback">Geri Bildirim</string>
     <string name="about_homepage">Ana sayfa</string>
@@ -16,7 +34,7 @@
     <string name="beta_dontask">Tekrar gösterme</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
-    <string name="browser_intall_text">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
+    <string name="file_manager_install_description">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
     <string name="cancel">İptal</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
@@ -38,10 +56,6 @@
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
-    <string name="error_could_not_create_parent">Ana dizin oluşturulamadı.</string>
-    <string name="error_database_exists">Bu dosya zaten var.</string>
-    <string name="error_failed_to_launch_link">Bağlantı açılamadı.</string>
-    <string name="error_filename_required">Bir dosya adı girin.</string>
     <string name="error_file_not_create">Dosya oluşturulamadı:</string>
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
@@ -52,7 +66,7 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft, KESİNLİKLE HİÇBİR GARANTİ VERMEZ; Bu bir libre yazılımıdır ve bunu GPL sürüm 3 veya üstü koşullarında yeniden dağıtabilirsiniz.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">ARCFOUR akış şifresi desteklenmiyor.</string>
@@ -100,12 +114,12 @@
     <string name="maskpass_title">"Parolaları gizle "</string>
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
-    <string name="menu_change_key">Ana anahtarı değitir</string>
+    <string name="menu_change_key_settings">Ana anahtarı değitir</string>
     <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
     <string name="menu_form_filling_settings">Form doldurma</string>
-    <string name="menu_db_settings">Veritabanı ayarları</string>
+    <string name="menu_database_settings">Veritabanı ayarları</string>
     <string name="menu_donate">Bağış Yap</string>
     <string name="menu_edit">Düzen</string>
     <string name="menu_copy">Kopyala</string>
@@ -118,7 +132,7 @@
     <string name="menu_open">Aç</string>
     <string name="menu_search">Ara</string>
     <string name="menu_showpass">Parolayı göster</string>
-    <string name="menu_fingerprint_remove_key">Kaydedilen parmak izini silin</string>
+    <string name="menu_biometric_remove_key">Kaydedilen parmak izini silin</string>
     <string name="menu_url">URL\'a git</string>
     <string name="menu_file_selection_read_only">Yazma korumalı</string>
     <string name="menu_open_file_read_and_write">Değiştirilebilir</string>
@@ -129,7 +143,7 @@
     <string name="create_keepass_file">Yeni veritabanı oluştur</string>
     <string name="open_recent">Son veritabanları</string>
     <string name="omitbackup_title">Yedek girişleri arama</string>
-    <string name="omitbackup_summary">Arama sonuçlarından \"Yedekleme\" grubunu çıkar (yalnızca .kdb dosyaları için geçerlidir)</string>
+    <string name="omitbackup_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri Dönüşüm Kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veritabanı oluştur…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>
@@ -140,7 +154,7 @@
     <string name="recentfile_summary">Son dosya adlarını hatırla</string>
     <string name="remember_keyfile_summary">Veritaban anahtar dosyaların yerini hatırlar</string>
     <string name="remember_keyfile_title">Anahtar dosya kaydet</string>
-    <string name="remove_from_filelist">Kaldır</string>
+    <string name="content_description_remove_from_list">Kaldır</string>
     <string name="root">Kök</string>
     <string name="encryption_explanation">Tüm veriler için veritabanı şifreleme algoritması kullanılmıştır.</string>
     <string name="kdf_explanation">Şifreleme algoritmasının anahtarını üretmek için ana anahtar, rastgele anahtar türetme işlevi kullanılarak dönüştürülür.</string>
@@ -159,7 +173,7 @@
 \n</string>
     <string name="sort_groups_before">Grup önce</string>
     <string name="sort_recycle_bin_bottom">Alttaki geri dönüşüm kutusu</string>
-    <string name="sort_db">Doğal Veritabanı</string>
+    <string name="sort_db">Doğal sıra</string>
     <string name="sort_title">Başlık</string>
     <string name="sort_username">Kullanıcı adı</string>
     <string name="sort_creation_time">Oluşturma</string>
@@ -172,26 +186,24 @@
     <string name="underline">Altı çizili</string>
     <string name="unsupported_db_version">Desteklenmeyen veritabanı sürümü.</string>
     <string name="uppercase">Büyük harf</string>
-    <string name="use_saf_summary">Dosya taraması için Android depolama erişim yapısını (SAF) kullan (KitKat sonrası)</string>
-    <string name="use_saf_title">Depolama erişim yapısı</string>
     <string name="warning">Uyarı</string>
-    <string name="warning_password_encoding">Tümü aynı harfe dönüştürüldüğünden .kbd dosyalarındaki Latin-1 dışındaki şifre karakterlerinden kaçının.</string>
+    <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
     <string name="warning_read_only">Veri tabanı değişikliklerini kaydetmek için SD karta yazma erişimi verin.</string>
     <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için SD kartı takın.</string>
     <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
     <string name="warning_no_encryption_key">Herhangi bir şifreleme anahtarı kullanmak istemediğinize emin misiniz\?</string>
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
-    <string name="configure_fingerprint">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
-    <string name="scanning_fingerprint">Parmak izi tarama</string>
+    <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
+    <string name="open_biometric_prompt_unlock_database">Parmak izi tarama</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
-    <string name="fingerprint_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
-    <string name="fingerprint_not_recognized">Parmak izi tanınamadı</string>
-    <string name="fingerprint_error">Parmak izi sorunu: %1$s</string>
-    <string name="store_with_fingerprint">Bu şifreyi saklamak için parmak izini kullanın</string>
-    <string name="no_password_stored">Bu veritabanının henüz bir parolası yok.</string>
+    <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
+    <string name="biometric_not_recognized">Parmak izi tanınamadı</string>
+    <string name="biometric_scanning_error">Parmak izi sorunu: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Bu şifreyi saklamak için parmak izini kullanın</string>
+    <string name="no_credentials_stored">Bu veritabanının henüz bir parolası yok.</string>
     <string name="history">Geçmiş</string>
-    <string name="appearance">Görünüm</string>
+    <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
     <string name="autofill_service_name">KeePass DX formu otomatik doldurma</string>
@@ -204,24 +216,24 @@
     <string name="list_password_generator_options_summary">İzin verilen parola üreticisi karakterlerini ayarla</string>
     <string name="clipboard">Pano</string>
     <string name="clipboard_notifications_title">Pano bildirimleri</string>
-    <string name="clipboard_notifications_summary">Giriş alanlarını kopyalamak için pano bildirimlerini etkinleştirin</string>
+    <string name="clipboard_notifications_summary">Bir girişi görüntülerken alanları kopyalamak için pano bildirimlerini etkinleştirin</string>
     <string name="clipboard_warning">Panodaki otomatik silme başarısız olursa, geçmişini elle silin.</string>
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
-    <string name="fingerprint_quick_unlock_title">Hızlı kilit açmak için parmak izi taraması nasıl ayarlanır\?</string>
+    <string name="fingerprint_advanced_unlock_title">Hızlı kilit açmak için parmak izi taraması nasıl ayarlanır\?</string>
     <string name="fingerprint_setting_text">Cihazınız için taranmış parmak izinizi kaydet</string>
-    <string name="fingerprint_setting_way_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
-    <string name="fingerprint_type_password_text">Veritabanı kilitleme parolasını girin</string>
+    <string name="fingerprint_setting_link_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
+    <string name="fingerprint_type_credentials_text">Veritabanı kilitleme parolasını girin</string>
     <string name="fingerprint_scan_to_store">Veritabanı kilit parolanızı güvenli bir şekilde saklamak için parmak izinizi tarayın.</string>
     <string name="fingerprint_scan_to_open">Parola kapatıldığında veritabanını açmak için parmak izinizi tarayın.</string>
     <string name="usage">Kullanım</string>
-    <string name="fingerprint">Parmakizi</string>
-    <string name="fingerprint_enable_title">Parmak izi tarama</string>
-    <string name="fingerprint_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
-    <string name="fingerprint_delete_all_title">Şifreleme anahtarlarını silin</string>
-    <string name="fingerprint_delete_all_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
-    <string name="fingerprint_delete_all_warning">Parmak izi tanıma ile ilgili tüm tuşları silmek istediğinizden emin misiniz\?</string>
+    <string name="advanced_unlock">Parmakizi</string>
+    <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
+    <string name="biometric_unlock_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
+    <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
+    <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
+    <string name="biometric_delete_all_key_warning">Parmak izi tanıma ile ilgili tüm tuşları silmek istediğinizden emin misiniz\?</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
     <string name="unavailable_feature_version">Android sürümünüz %1$s, gerekli minimum %2$s sürümünü karşılamıyor.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>
@@ -233,10 +245,6 @@
     <string name="full_file_path_enable_summary">Tam dosya yolunu görüntüle</string>
     <string name="recycle_bin_title">Geri Dönüşüm Kutusunu kullan</string>
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX\'in bir veritabanına yazmak için harici depolama iznine ihtiyacı var.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX, bir içerik sağlayıcı tarafından sağlanmayan bir URI\'yi okumak için harici depolama iznine ihtiyaç duyar.</string>
-    <string name="permission_external_storage_denied">Harici depolama izni alınamadı.</string>
-    <string name="permission_external_storage_never_ask">Eylem, harici depolama izni olmadan gerçekleştirilemez.</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
     <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>
@@ -244,7 +252,6 @@
     <string name="allow_copy_password_title">Pano güveni</string>
     <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
     <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
-    <string name="warning_disabling_storage_access_framework">UYARI: Bu özelliği kapatmak, veritabanlarını açmayı veya kaydetmeyi engelleyebilir.</string>
     <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
     <string name="database_name_title">Veritabanı adı</string>
     <string name="database_description_title">Veritabanı açıklaması</string>
@@ -258,10 +265,9 @@
     <string name="magic_keyboard_preference_title">Magikeyboard ayarları</string>
     <string name="magic_keyboard_configure_title">Formları güvenli bir şekilde otomatik doldurmak için klavyeyi ayarlayın.</string>
     <string name="magic_keyboard_activate_setting_text">Cihaz ayarlarında \"Magikeyboard\"u etkinleştirin.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">veya (\"Ayarlar\" → \"Dil &amp; giriş\" → \"Sanal klavye\" ve birini seçin.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
     <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Klavyenizdeki boşluk çubuğuna uzun basarak veya mevcut değilse şunu yaparak klavyeleri değiştirin:</string>
+    <string name="keyboards_swicth_magikeyboard_text">Klavyenizin boşluk çubuğuna uzun basarak veya yoksa şununla klavyeleri değiştirin:</string>
     <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>
     <string name="keyboard_fill_field_text">Giriş öğelerini kullanarak alanlarınızı doldurun.</string>
     <string name="keyboard_lock_database_text">Veritabanını kilitle.</string>
@@ -278,14 +284,14 @@
     <string name="keyboard_notification_entry_content_title">Magikeyboard\'da %1$s mevcut</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Kapanışta temizle</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken klavye girişini temizle</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Bildirimi kapatırken veritabanını kapatın</string>
     <string name="keyboard_appearance_category">Görünüm</string>
     <string name="keyboard_theme_title">Klavye teması</string>
     <string name="keyboard_keys_category">Anahtarlar</string>
     <string name="keyboard_key_vibrate_title">Tuşa basıldığında titreştir</string>
     <string name="keyboard_key_sound_title">Tuşa basıldığında ses çıkar</string>
-    <string name="allow_no_password_title">Parola olmamasına izin ver</string>
-    <string name="allow_no_password_summary">Parola tanımlaması seçilmemişse \"Aç\" düğmesini etkinleştir</string>
+    <string name="allow_no_password_title">Ana anahtar olmamasına izin ver</string>
+    <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesini etkinleştirin</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veritabanınızı varsayılan olarak salt okunur açın</string>
     <string name="enable_education_screens_title">Eğitim ekranları</string>
@@ -310,7 +316,7 @@
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Girdiniz için güçlü bir parola oluşturun.</string>
-    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir parola oluşturun, formun ölçütlerine göre kolayca tanımlayın ve şifreyi güvenli hale getirmeyi unutmayın.</string>
+    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
     <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
@@ -338,9 +344,9 @@
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">
-        <strong>Pro</strong> sürümünü satın alarak,</string>
+        <strong>pro</strong> sürümünü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>Katkıda</strong> bulunarak,</string>
+        <strong>katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
     <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
@@ -356,4 +362,37 @@
     <string name="style_choose_summary">Uygulamada kullanılan tema</string>
     <string name="icon_pack_choose_title">Simge paketi</string>
     <string name="icon_pack_choose_summary">Uygulamada kullanılan simge paketi</string>
+    <string name="selection_mode">Seçim modu</string>
+    <string name="do_not_kill_app">Uygulamayı öldürmeyin…</string>
+    <string name="lock_database_back_root_summary">Kullanıcı kök ekranda geri düğmesine tıkladığında veritabanını kilitle</string>
+    <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
+    <string name="clear_clipboard_notification_summary">Bildirimi kapatırken veritabanını kapatın</string>
+    <string name="content_description_open_file">Dosya aç</string>
+    <string name="content_description_show_file_link">Dosya bağlantısını göster</string>
+    <string name="content_description_open_file_link">Dosya bağlantısını aç</string>
+    <string name="content_description_add_node">Düğüm ekle</string>
+    <string name="content_description_add_entry">Girdi Ekle</string>
+    <string name="content_description_add_group">Grup ekle</string>
+    <string name="content_description_file_information">Dosya bilgileri</string>
+    <string name="content_description_password_checkbox">Parola onay kutusu</string>
+    <string name="content_description_keyfile_checkbox">content_description_keyfile_checkbox</string>
+    <string name="content_description_entry_icon">Giriş simgesi</string>
+    <string name="content_description_password_generator">Parola üreteci</string>
+    <string name="content_description_password_length">Parola uzunluğu</string>
+    <string name="content_description_add_field">Alan ekle</string>
+    <string name="content_description_remove_field">Alanı kaldır</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Buraya bir girişi taşıyamazsınız.</string>
+    <string name="error_copy_entry_here">Buraya bir girişi kopyalayamazsınız.</string>
+    <string name="list_groups_show_number_entries_title">Giriş sayısını göster</string>
+    <string name="list_groups_show_number_entries_summary">Bir gruptaki girişlerin sayısını göster</string>
+    <string name="lock_database_back_root_title">Kilitlemek için Root\'a Geri basın</string>
+    <string name="recycle_bin">Geri Dönüşüm Kutusu</string>
+    <string name="keyboard_selection_entry_title">Giriş seçimi</string>
+    <string name="keyboard_selection_entry_summary">Bir girişi görüntülerken Magikeyboard\'da giriş alanlarını göster</string>
+    <string name="delete_entered_password_title">Parolayı sil</string>
+    <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
+    <string name="content_description_node_children">Alt düğüm</string>
+    <string name="content_description_repeat_toggle_password_visibility">Geçiş şifre görünürlüğünü tekrarlayın</string>
+    <string name="content_description_entry_save">Giriş kaydet</string>
 </resources>

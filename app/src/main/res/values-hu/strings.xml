@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2016 Brian Pellin.
-     
- This file is part of KeePassDroid.
-  KeePassDroid is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  KeePassDroid is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
     <string name="about_feedback">Visszajelzés</string>
     <string name="about_homepage">Honlap</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
@@ -27,7 +31,7 @@
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="brackets">Zárójelek</string>
-    <string name="browser_intall_text">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
+    <string name="file_manager_install_description">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
     <string name="cancel">Mégse</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
@@ -58,10 +62,6 @@
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az ARCFOUR adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePass DX-ben.</string>
-    <string name="error_could_not_create_parent">Nem sikerült létrehozni a szülőkönyvtárat.</string>
-    <string name="error_database_exists">Ez a fájl már létezik.</string>
-    <string name="error_failed_to_launch_link">A hivatkozás nem nyitható meg.</string>
-    <string name="error_filename_required">Adjon meg egy fájlnevet.</string>
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
     <string name="error_invalid_path">Győződjön meg róla, hogy az útvonal helyes.</string>
@@ -103,9 +103,9 @@
     <string name="maskpass_title">Jelszavak elrejtése</string>
     <string name="maskpass_summary">Jelszavak alapértelmezett elrejtése (***)</string>
     <string name="menu_about">Névjegy</string>
-    <string name="menu_change_key">Mesterkulcs cseréje</string>
+    <string name="menu_change_key_settings">Mesterkulcs cseréje</string>
     <string name="settings">Beállítások</string>
-    <string name="menu_db_settings">Adatbázis-beállítások</string>
+    <string name="menu_database_settings">Adatbázis-beállítások</string>
     <string name="menu_delete">Törlés</string>
     <string name="menu_donate">Támogatás</string>
     <string name="menu_edit">Szerkesztés</string>
@@ -132,7 +132,7 @@
     <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
     <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>
     <string name="remember_keyfile_title">Kulcsfájl mentése</string>
-    <string name="remove_from_filelist">Eltávolítás</string>
+    <string name="content_description_remove_from_list">Eltávolítás</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>
@@ -149,19 +149,17 @@
     <string name="underline">Aláhúzás</string>
     <string name="unsupported_db_version">Nem támogatott adatbázis-verzió.</string>
     <string name="uppercase">Nagybetűs</string>
-    <string name="use_saf_summary">Az androidos tároló-hozzáférési keretrendszer (SAF) használata a fájlok böngészéséhez (KitKattől kezdve)</string>
-    <string name="use_saf_title">Tároló-hozzáférési keretrendszer</string>
     <string name="warning">Figyelmeztetés</string>
     <string name="warning_password_encoding">Kerülje a Latin-1 karakterkészlettől eltérő jelszókaraktereket a .kbd fájlokban, mert ugyanarra a betűre lesznek átalakítva.</string>
     <string name="warning_unmounted">Csatolja az SD kártyát, hogy adatbázist hozzon létre vagy töltsön be.</string>
     <string name="version_label">Verzió: %1$s</string>
-    <string name="configure_fingerprint">Az ujjlenyomat-leolvasás támogatott, de nincs beállítva.</string>
-    <string name="scanning_fingerprint">Ujjlenyomat-leolvasás</string>
+    <string name="configure_biometric">Az ujjlenyomat-leolvasás támogatott, de nincs beállítva.</string>
+    <string name="open_biometric_prompt_unlock_database">Ujjlenyomat-leolvasás</string>
     <string name="encrypted_value_stored">Titkosított jelszó tárolva</string>
-    <string name="fingerprint_invalid_key">Az ujjlenyomat kulcs nem olvasható. Állítsa vissza a jelszavát.</string>
-    <string name="fingerprint_error">Ujjlenyomat probléma: %1$s</string>
-    <string name="store_with_fingerprint">Használjon ujjlenyomatot a jelszó tárolásához</string>
-    <string name="no_password_stored">Az adatbázisnak még nincs jelszava.</string>
+    <string name="biometric_invalid_key">Az ujjlenyomat kulcs nem olvasható. Állítsa vissza a jelszavát.</string>
+    <string name="biometric_scanning_error">Ujjlenyomat probléma: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Használjon ujjlenyomatot a jelszó tárolásához</string>
+    <string name="no_credentials_stored">Az adatbázisnak még nincs jelszava.</string>
 
     <string name="education_unlock_summary">Adja meg a jelszót és/vagy a kulcsfájlt, hogy kinyithassa az adatbázist.
 \n
@@ -201,7 +199,7 @@
     <string name="menu_move">Áthelyezés</string>
     <string name="menu_paste">Beillesztés</string>
     <string name="menu_cancel">Mégse</string>
-    <string name="menu_fingerprint_remove_key">Mentett ujjlenyomat törlése</string>
+    <string name="menu_biometric_remove_key">Mentett ujjlenyomat törlése</string>
     <string name="menu_file_selection_read_only">Írásvédett</string>
     <string name="menu_open_file_read_and_write">Módosítható</string>
     <string name="create_keepass_file">Új adatbázis létrehozása</string>
@@ -224,9 +222,9 @@
     <string name="warning_empty_password">Biztos, hogy nem akar jelszavas feloldási védelmet\?</string>
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
-    <string name="fingerprint_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
+    <string name="biometric_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
     <string name="history">Előzmények</string>
-    <string name="appearance">Megjelenés</string>
+    <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
     <string name="autofill_service_name">KeePass DX űrlapkitöltés</string>
@@ -244,19 +242,19 @@
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása, ha a képernyő kikapcsol</string>
-    <string name="fingerprint_quick_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
+    <string name="fingerprint_advanced_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
     <string name="fingerprint_setting_text">Mentse a leolvasott ujjlenyomatát az eszközén a</string>
-    <string name="fingerprint_setting_way_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
-    <string name="fingerprint_type_password_text">Adja meg az adatbázis zárolási jelszavát</string>
+    <string name="fingerprint_setting_link_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
+    <string name="fingerprint_type_credentials_text">Adja meg az adatbázis zárolási jelszavát</string>
     <string name="fingerprint_scan_to_store">Olvassa le az ujjlenyomatát, hogy biztonságosan tárolja az adatbázist zároló jelszót.</string>
     <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
     <string name="usage">Használat</string>
-    <string name="fingerprint">Ujjlenyomat</string>
-    <string name="fingerprint_enable_title">Ujjlenyomat-leolvasás</string>
-    <string name="fingerprint_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
-    <string name="fingerprint_delete_all_title">Titkosítási kulcsok törlése</string>
-    <string name="fingerprint_delete_all_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
-    <string name="fingerprint_delete_all_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>
+    <string name="advanced_unlock">Ujjlenyomat</string>
+    <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
+    <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
+    <string name="biometric_delete_all_key_title">Titkosítási kulcsok törlése</string>
+    <string name="biometric_delete_all_key_summary">Az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcs törlése</string>
+    <string name="biometric_delete_all_key_warning">Biztos, hogy törli az összes ujjlenyomat-felismeréssel kapcsolatos titkosítási kulcsot\?</string>
     <string name="unavailable_feature_text">A funkciót nem sikerült elindítani.</string>
     <string name="unavailable_feature_version">Az Android verziója (%1$s) nem éri el a minimálisan szükséges verziót (%2$s).</string>
     <string name="unavailable_feature_hardware">Nem található a megfelelő hardver.</string>
@@ -268,10 +266,6 @@
     <string name="full_file_path_enable_summary">A teljes fájlútvonal megtekintése</string>
     <string name="recycle_bin_title">Kuka használata</string>
     <string name="recycle_bin_summary">A csoportok és bejegyzések „Kukába” helyezése törlés előtt</string>
-    <string name="permission_external_storage_rationale_write_database">A KeePass DX-nek külső tároló jogosultságra van szüksége az adatbázis írásához.</string>
-    <string name="permission_external_storage_rationale_read_database">A KeePass DX-nek külső tároló jogosultságra van szükséges a nem tartalomszolgáltató által biztosított URI olvasásához.</string>
-    <string name="permission_external_storage_denied">Nem sikerült külső tároló jogosultságot szerezni.</string>
-    <string name="permission_external_storage_never_ask">A művelet nem hajtható végre külső tároló jogosultság nélkül.</string>
     <string name="monospace_font_fields_enable_title">Mező betűkészlete</string>
     <string name="monospace_font_fields_enable_summary">A mezőkben használt betűkészlet módosítása a karakterek jobb láthatósága érdekében</string>
     <string name="auto_open_file_uri_title">Fájlok megnyitása kiválasztással</string>
@@ -279,7 +273,6 @@
     <string name="allow_copy_password_title">Megbízás a vágólapban</string>
     <string name="allow_copy_password_summary">Engedélyezés, hogy a jelszó és a védett mezők a vágólapra kerüljenek</string>
     <string name="allow_copy_password_warning">FIGYELMEZTETÉS: A vágólapon osztozik az összes alkalmazás. Ha érzékeny adatokat másol, akkor a többi szoftver is hozzáférhet.</string>
-    <string name="warning_disabling_storage_access_framework">FIGYELMEZTETÉS: A funkció kikapcsolása megakadályozhatja az adatbázisok megnyitását vagy mentését.</string>
     <string name="open_link_database">A megnyitandó adatbázisfájl hivatkozása</string>
     <string name="database_name_title">Adatbázis neve</string>
     <string name="database_description_title">Adatbázis leírása</string>
@@ -293,8 +286,7 @@
     <string name="magic_keyboard_preference_title">Mágikus billentyűzet beállításai</string>
     <string name="magic_keyboard_configure_title">Billentyűzet beállítása az űrlapok biztonságos automatikus kitöltéséhez.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiválja a „Mágikus billentyűzetet” az eszközbeállításokban.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">„Beállítások” → „Nyelvek és bevitel” → „Jelenlegi billentyűzet” és válasszon egyet.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">vagy („Beállítások” → „Nyelv és bevitel” → „Virtuális billentyűzet” és válasszon egyet.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">„Beállítások” → „Nyelvek és bevitel” → „Jelenlegi billentyűzet” és válasszon egyet.</string>
     <string name="keyboards_choose_magikeyboard_text">Válassza a Mágikus billentyűzetet, ha egy űrlapot kell kitöltenie.</string>
     <string name="keyboards_swicth_magikeyboard_text">Válasszon a a billentyűzetek közt a billentyűzet szóközének hosszú nyomásával, vagy ha nem érhető el, akkor így:</string>
     <string name="keyboard_select_entry_text">Válassza ki a bejegyzést a gombbal.</string>

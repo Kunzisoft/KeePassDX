@@ -23,9 +23,9 @@ import android.content.Context
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.support.annotation.StyleRes
-import android.support.v4.app.Fragment
-import android.support.v7.view.ContextThemeWrapper
+import androidx.annotation.StyleRes
+import androidx.fragment.app.Fragment
+import androidx.appcompat.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -36,11 +36,9 @@ abstract class StylishFragment : Fragment() {
     protected var themeId: Int = 0
     protected var contextThemed: Context? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context != null) {
-            this.themeId = Stylish.getThemeId(context)
-        }
+        this.themeId = Stylish.getThemeId(context)
         contextThemed = ContextThemeWrapper(context, themeId)
     }
 

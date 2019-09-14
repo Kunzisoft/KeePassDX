@@ -24,7 +24,7 @@
     android:layout_gravity="center_vertical"
     android:minHeight="32dp"
     android:background="?attr/colorPrimary" >
-    <android.support.v7.widget.AppCompatImageView android:id="@+id/entry_icon"
+    <androidx.appcompat.widget.AppCompatImageView android:id="@+id/entry_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="4dp"

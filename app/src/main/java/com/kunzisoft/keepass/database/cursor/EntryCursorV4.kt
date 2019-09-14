@@ -24,8 +24,8 @@ class EntryCursorV4 : EntryCursor<PwEntryV4>() {
                 entry.notes
         ))
 
-        entry.fields.doActionToAllCustomProtectedField { key, value ->
-            extraFieldCursor.addExtraField(entryId, key, value)
+        for (element in entry.customFields.entries) {
+            extraFieldCursor.addExtraField(entryId, element.key, element.value)
         }
 
         entryId++

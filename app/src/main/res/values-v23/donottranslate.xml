@@ -18,5 +18,5 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <bool name="fingerprint_enable_default" translatable="true">true</bool>
+    <bool name="biometric_unlock_enable_default" translatable="true">true</bool>
 </resources>

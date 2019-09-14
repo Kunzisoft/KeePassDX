@@ -17,41 +17,203 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/file_container"
-    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:paddingEnd="12dp"
-    android:paddingLeft="12dp"
-    android:paddingRight="12dp"
-    android:paddingStart="12dp"
-    android:background="?android:attr/selectableItemBackground">
-    <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/file_filename"
-        android:layout_width="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/colorPrimary"
+    tools:targetApi="lollipop">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?attr/colorPrimaryDark"/>
+
+    <ViewSwitcher
+        android:id="@+id/file_main_switcher"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/file_container_basic_info"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="8dp">
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/file_alias"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_centerVertical="true"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/file_information"
+                android:textColor="?attr/textColorInverse"
+                tools:text="DatabaseAlias" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/file_information"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/file_alias"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_info_white_24dp"
+                android:tint="?android:attr/textColorHintInverse"
+                android:contentDescription="@string/content_description_file_information"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/file_container_alias_register"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?android:attr/selectableItemBackground"
+            app:layout_constraintTop_toTopOf="parent"
+            android:elevation="8dp">
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/file_alias_edit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_centerVertical="true"
+                android:maxLines="2"
+                android:gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/file_alias_save"
+                android:textColor="?attr/textColorInverse"
+                tools:text="DatabaseAlias" />
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/file_alias_save"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/file_alias_edit"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:src="@drawable/ic_save_white_24dp"
+                android:contentDescription="@string/content_description_file_information"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ViewSwitcher>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/file_expand_container"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@+id/file_information"
-        android:layout_toStartOf="@+id/file_information"
-        android:textColor="?attr/textColorInverse"
-        android:paddingEnd="12dp"
-        android:paddingLeft="12dp"
-        android:paddingRight="12dp"
-        android:paddingStart="12dp" />
-    <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/file_information"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/ic_info_white_24dp"
-        android:contentDescription="@string/content_description_file_information"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:tint="?android:attr/textColorHintInverse"/>
-</RelativeLayout>
+        android:background="?attr/colorPrimaryDark"
+        app:layout_constraintTop_toBottomOf="@+id/file_main_switcher">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/file_modify_button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_mode_edit_white_24dp"
+            android:scaleX="-1"
+            android:contentDescription="@string/content_description_update_from_list"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:tint="?android:attr/textColorHintInverse"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/file_path"
+            android:textIsSelectable="true"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:padding="12dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/file_modify_button"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="/path/to/DatabaseName.kdbx"
+            android:textColor="?android:attr/textColorHintInverse"
+            android:gravity="end"
+            android:textStyle="italic"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/file_path"
+            app:layout_constraintStart_toEndOf="@+id/file_modify_button"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/file_precise_info_container"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/file_delete_button">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/file_modification"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    tools:text="3:40:14 PM"
+                    android:textColor="?android:attr/textColorHintInverse"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/file_size"
+                    android:gravity="start|bottom"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/file_size"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="end|bottom"
+                    android:textColor="?android:attr/textColorHintInverse"
+                    android:paddingBottom="12dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/file_modification"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginStart="@dimen/default_margin"
+                    android:layout_marginEnd="@dimen/default_margin"
+                    android:layout_marginLeft="@dimen/default_margin"
+                    android:layout_marginRight="@dimen/default_margin"
+                    tools:text="8 bytes" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/file_delete_button"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:padding="12dp"
+                android:contentDescription="@string/content_description_remove_from_list"
+                android:src="@drawable/ic_content_delete_white_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:tint="?android:attr/textColorHintInverse"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

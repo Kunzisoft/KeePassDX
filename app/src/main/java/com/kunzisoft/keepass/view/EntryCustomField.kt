@@ -20,31 +20,27 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
+import android.graphics.Color
+import android.text.method.PasswordTransformationMethod
+import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
-open class EntryCustomField(context: Context,
-                            attrs: AttributeSet?,
-                            label: String?,
-                            value: ProtectedString?,
-                            showAction: Boolean,
-                            onClickActionListener: OnClickListener?)
-    : LinearLayout(context, attrs) {
+open class EntryCustomField @JvmOverloads constructor(context: Context,
+                                                      attrs: AttributeSet? = null,
+                                                      defStyle: Int = 0)
+    : LinearLayout(context, attrs, defStyle) {
 
-    protected val labelView: TextView
-    protected val valueView: TextView
-    protected val actionImageView: ImageView
+    private val labelView: TextView
+    private val valueView: TextView
+    private val actionImageView: ImageView
+    var isProtected = false
 
-    @JvmOverloads
-    constructor(context: Context, attrs: AttributeSet? = null, title: String? = null, value: ProtectedString? = null)
-            : this(context, attrs, title, value, false, null)
+    private val colorAccent: Int
 
     init {
 
@@ -55,16 +51,10 @@ open class EntryCustomField(context: Context,
         valueView = findViewById(R.id.value)
         actionImageView = findViewById(R.id.action_image)
 
-        setLabel(label)
-        setValue(value)
-
-        if (showAction) {
-            actionImageView.isEnabled = true
-            setAction(onClickActionListener)
-        } else {
-            actionImageView.isEnabled = false
-            actionImageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.grey_dark))
-        }
+        val attrColorAccent = intArrayOf(R.attr.colorAccent)
+        val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
+        colorAccent = taColorAccent.getColor(0, Color.BLACK)
+        taColorAccent.recycle()
     }
 
     fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -73,22 +63,32 @@ open class EntryCustomField(context: Context,
     }
 
     fun setLabel(label: String?) {
-        if (label != null) {
-            labelView.text = label
-        }
+        labelView.text = label ?: ""
     }
 
-    open fun setValue(value: ProtectedString?) {
-        if (value != null) {
-            valueView.text = value.toString()
-        }
+    fun setValue(value: String?, isProtected: Boolean = false) {
+        valueView.text = value ?: ""
+        this.isProtected = isProtected
     }
 
-    fun setAction(onClickListener: OnClickListener?) {
-        if (onClickListener != null) {
-            actionImageView.setOnClickListener(onClickListener)
+    fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
+        if (isProtected && hiddenStyle) {
+            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
         } else {
-            actionImageView.visibility = GONE
+            valueView.transformationMethod = null
         }
+    }
+
+    fun enableActionButton(enable: Boolean) {
+        if (enable) {
+            actionImageView.setColorFilter(colorAccent)
+        } else {
+            actionImageView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
+        }
+    }
+
+    fun assignActionButtonClickListener(onClickActionListener: OnClickListener?) {
+        actionImageView.setOnClickListener(onClickActionListener)
+        actionImageView.visibility = if (onClickActionListener == null) GONE else VISIBLE
     }
 }

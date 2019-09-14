@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2018 Jeremy Jamet / Kunzisoft.
+    Copyright 2018 Jeremy Jamet / Kunzisoft.
 
- This file is part of KeePass DX.
+    This file is part of KeePass DX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_homepage">الصفحة الرئيسية :</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
@@ -46,9 +47,6 @@
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>
-    <string name="error_database_exists">هذا الملف موجود مِن قَبل.</string>
-    <string name="error_failed_to_launch_link">تعذر فتح الرابط.</string>
-    <string name="error_filename_required">ادخل اسمًا للملف.</string>
     <string name="error_file_not_create">تعذر إنشاء الملف :</string>
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
@@ -73,17 +71,17 @@
     <string name="lowercase">حروف صغيرة</string>
     <string name="maskpass_summary">إخفاء كلمات المرور بشكل افتراضي</string>
     <string name="menu_about">عن التطبيق</string>
-    <string name="menu_change_key">تغيير المفتاح الرئيسي</string>
+    <string name="menu_change_key_settings">تغيير المفتاح الرئيسي</string>
     <string name="settings">الإعدادات</string>
     <string name="menu_app_settings">إعدادات التطبيق</string>
-    <string name="menu_db_settings">إعدادات قاعدة البيانات</string>
+    <string name="menu_database_settings">إعدادات قاعدة البيانات</string>
     <string name="menu_delete">حذف</string>
     <string name="menu_donate">التبرع</string>
     <string name="menu_edit">تعديل</string>
     <string name="menu_lock">قفل قاعدة البيانات</string>
     <string name="menu_open">فتح</string>
     <string name="menu_search">البحث</string>
-    <string name="menu_fingerprint_remove_key">إزالة بصمة المفتاح</string>
+    <string name="menu_biometric_remove_key">إزالة بصمة المفتاح</string>
     <string name="minus">ناقص</string>
     <string name="never">أبداً</string>
     <string name="no_results">لا توجد نتائج للبحث</string>
@@ -92,7 +90,7 @@
     <string name="protection">الحماية</string>
     <string name="read_only">للقراءة فقط</string>
     <string name="recentfile_summary">تذكر أسماء الملفات المستخدمة مؤخرا</string>
-    <string name="remove_from_filelist">حذف</string>
+    <string name="content_description_remove_from_list">حذف</string>
     <string name="root">الجذر</string>
     <string name="memory_usage">استخدام الذاكرة</string>
     <string name="parallelism">التَّوازِي</string>
@@ -126,7 +124,7 @@
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال التطبيق</string>
-    <string name="browser_intall_text">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
+    <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
     <string name="clipboard_error">بعض هواتف سامسونغ لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة</string>
@@ -139,7 +137,6 @@
     <string name="entry_keyfile">ملف المفتاح</string>
     <string name="error_arc4">تشفير دفق ARCFOUR غير مدعوم.</string>
     <string name="error_can_not_handle_uri">تعذرت معاملة هذا الرابط في KeePass DX.</string>
-    <string name="error_could_not_create_parent">تعذر إنشاء الدليل الأصل.</string>
     <string name="error_invalid_db">تعذرت قراءة قاعدة البيانات.</string>
     <string name="error_nokeyfile">اختر ملف مفتاح.</string>
     <string name="error_out_of_memory">لا ذاكرة لتحميل قاعدة البيانات كاملة.</string>
@@ -188,8 +185,8 @@
     <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
-    <string name="no_password_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
-    <string name="appearance">مظهر</string>
+    <string name="no_credentials_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>
+    <string name="menu_appearance_settings">مظهر</string>
     <string name="general">عام</string>
     <string name="autofill">ملأ تلقائي</string>
     <string name="autofill_sign_in_prompt">سجل باستخدام KeePass DX</string>
@@ -203,9 +200,9 @@
     <string name="clipboard_warning">اذا فشل الحذف التلقائي من الحافظة ,احذف تأريخه يدويا</string>
     <string name="lock_database_screen_off_title">قفل الشاشة</string>
     <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
-    <string name="fingerprint_type_password_text">ادخل كلمة سر قاعدة البيانات</string>
+    <string name="fingerprint_type_credentials_text">ادخل كلمة سر قاعدة البيانات</string>
     <string name="usage">استخدام</string>
-    <string name="fingerprint_delete_all_title">حذف مفاتيح التشفير</string>
+    <string name="biometric_delete_all_key_title">حذف مفاتيح التشفير</string>
     <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
@@ -213,21 +210,21 @@
     <string name="bytes">بايت</string>
     <string name="full_file_path_enable_title">مسار الملف</string>
     <string name="full_file_path_enable_summary">عرض المسار الكامل للملف</string>
-    <string name="configure_fingerprint">فحص البصمة مدعوم لكنه ليس معد.</string>
-    <string name="scanning_fingerprint">فحص البصمة</string>
-    <string name="fingerprint_invalid_key">لا يمكن قراءة مفتاح البصمة.
+    <string name="configure_biometric">فحص البصمة مدعوم لكنه ليس معد.</string>
+    <string name="open_biometric_prompt_unlock_database">فحص البصمة</string>
+    <string name="biometric_invalid_key">لا يمكن قراءة مفتاح البصمة.
 \nاستعد كلمة السر.</string>
-    <string name="fingerprint_not_recognized">لم يتعرّف على البصمة</string>
-    <string name="store_with_fingerprint">استخدم البصمة لحفظ كلمة السر</string>
+    <string name="biometric_not_recognized">لم يتعرّف على البصمة</string>
+    <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
     <string name="history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
-    <string name="fingerprint_quick_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
+    <string name="fingerprint_advanced_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>
     <string name="fingerprint_scan_to_store">افحص البصمة لتخزين كلمة سر قاعدة البيانات بأمان.</string>
     <string name="fingerprint_scan_to_open">افحص البصمة لفتح قاعدة البيانات عند تعطيل كلمة السر.</string>
-    <string name="fingerprint">البصمة</string>
-    <string name="fingerprint_enable_title">فحص البصمة</string>
-    <string name="fingerprint_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
+    <string name="advanced_unlock">البصمة</string>
+    <string name="biometric_unlock_enable_title">فحص البصمة</string>
+    <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
     <string name="auto_open_file_uri_title">افتح الملفات بالتحديد
 \n</string>
@@ -235,7 +232,6 @@
     <string name="allow_copy_password_title">الوثوق بالحافظة</string>
     <string name="allow_copy_password_summary">اسمح لكلمة السر والحقول المحمية بالدخول للحافظة</string>
     <string name="allow_copy_password_warning">تحذير: الحافظة مشتركة بين التطبيقات وستتمكن التطبيقات الاخرى من الوصول الى المعلومات الحساسة.</string>
-    <string name="warning_disabling_storage_access_framework">تحذير: تعطيل هذه الخاصية سيمنع فتح وحفظ قاعدة البيانات.</string>
     <string name="open_link_database">رابط قاعدة البيانات</string>
     <string name="database_name_title">اسم قاعدة البيانات</string>
     <string name="database_description_title">وصف قاعدة البيانات</string>
@@ -275,13 +271,12 @@
     <string name="sort_db">قاعده بيانات طبيعية</string>
     <string name="sort_last_access_time">الوصول</string>
     <string name="lock">إقفال</string>
-    <string name="fingerprint_setting_way_text">\"الإعدادات\" ← \"الأمان\" ← \"البصمة\"</string>
+    <string name="fingerprint_setting_link_text">\"الإعدادات\" ← \"الأمان\" ← \"البصمة\"</string>
     <string name="assign_master_key">تعيين مفتاح رئيسي</string>
     <string name="recycle_bin_title">استخدم سلة المحذوفات</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_preference_title">إعدادات Magikeyboard</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الحالية\" ثم اختر واحدا.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">أو (\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الافتراضية\" ثم اختر واحدا.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الحالية\" ثم اختر واحدا.</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_notification_entry_content_title">%1$s متوفر على Magikeyboard</string>

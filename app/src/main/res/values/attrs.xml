@@ -28,8 +28,6 @@
 
     <attr name="textColorInverse" format="reference|color" />
 
-    <attr name="whiteFab" format="reference" />
-
     <declare-styleable name="explanationDialog">
         <attr name="explanations" format="string" />
     </declare-styleable>

@@ -22,7 +22,7 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import android.support.v7.widget.Toolbar
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -45,7 +45,9 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 
-class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPickerListener, GeneratePasswordDialogFragment.GeneratePasswordListener {
+class EntryEditActivity : LockingHideActivity(),
+        IconPickerDialogFragment.IconPickerListener,
+        GeneratePasswordDialogFragment.GeneratePasswordListener {
 
     private var mDatabase: Database? = null
 
@@ -150,37 +152,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
 
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowExtraFields() == true) { addNewCustomField() }
+        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) { addNewCustomField() }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
-        entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
-        }
-    }
-
-    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldView
-
-        if (passwordView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                        passwordView,
-                        {
-                            openPasswordGenerator()
-                        },
-                        {
-                            performedNextEducation(entryEditActivityEducation)
-                        }
-                ))
-        else if (mNewEntry != null && mNewEntry!!.allowExtraFields() && !mNewEntry!!.containsCustomFields()
-                && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
-                && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
-                        addNewFieldView,
-                        {
-                            addNewCustomField()
-                        }))
-            ;
     }
 
     private fun populateViewsWithEntry(newEntry: EntryVersioned) {
@@ -197,8 +172,8 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes
-            newEntry.fields.doActionToAllCustomProtectedField { key, value ->
-                addNewCustomField(key, value)
+            for (entry in newEntry.customFields.entries) {
+                addNewCustomField(entry.key, entry.value)
             }
         }
     }
@@ -281,7 +256,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                                     newEntry,
                                     parent,
                                     afterActionNodeFinishRunnable,
-                                    !readOnly)
+                                    !mReadOnly)
                         }
 
                     } else {
@@ -291,7 +266,7 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                                     oldEntry,
                                     newEntry,
                                     afterActionNodeFinishRunnable,
-                                    !readOnly)
+                                    !mReadOnly)
                         }
                     }
                     actionRunnable?.let { runnable ->
@@ -309,7 +284,37 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
 
+        entryEditActivityEducation?.let {
+            Handler().post { performedNextEducation(it) }
+        }
+
         return true
+    }
+
+    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
+        val passwordView = entryEditContentsView?.generatePasswordView
+        val addNewFieldView = entryEditContentsView?.addNewFieldView
+
+        val generatePasswordEducationPerformed = passwordView != null
+                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
+                passwordView,
+                {
+                    openPasswordGenerator()
+                },
+                {
+                    performedNextEducation(entryEditActivityEducation)
+                }
+        )
+        if (!generatePasswordEducationPerformed) {
+            // entryNewFieldEducationPerformed
+            mNewEntry != null && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
+                    && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
+                    && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
+                    addNewFieldView,
+                    {
+                        addNewCustomField()
+                    })
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -319,7 +324,10 @@ class EntryEditActivity : LockingHideActivity(), IconPickerDialogFragment.IconPi
                 return true
             }
 
-            R.id.menu_contribute -> return MenuUtil.onContributionItemSelected(this)
+            R.id.menu_contribute -> {
+                MenuUtil.onContributionItemSelected(this)
+                return true
+            }
 
             android.R.id.home -> finish()
         }

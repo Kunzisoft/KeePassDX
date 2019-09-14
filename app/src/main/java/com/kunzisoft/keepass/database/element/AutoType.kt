@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 
 import java.util.HashMap
 
@@ -47,8 +47,8 @@ class AutoType : Parcelable {
     constructor(parcel: Parcel) {
         this.enabled = parcel.readByte().toInt() != 0
         this.obfuscationOptions = parcel.readLong()
-        this.defaultSequence = parcel.readString()
-        this.windowSeqPairs = MemUtil.readStringParcelableMap(parcel)
+        this.defaultSequence = parcel.readString() ?: defaultSequence
+        this.windowSeqPairs = MemoryUtil.readStringParcelableMap(parcel)
     }
 
     override fun describeContents(): Int {
@@ -59,7 +59,7 @@ class AutoType : Parcelable {
         dest.writeByte((if (enabled) 1 else 0).toByte())
         dest.writeLong(obfuscationOptions)
         dest.writeString(defaultSequence)
-        MemUtil.writeStringParcelableMap(dest, windowSeqPairs)
+        MemoryUtil.writeStringParcelableMap(dest, windowSeqPairs)
     }
 
     fun put(key: String, value: String) {

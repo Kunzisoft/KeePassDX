@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Comentários</string>
     <string name="about_homepage">Página inicial</string>
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
@@ -27,12 +28,12 @@
     <string name="app_timeout">Tempo de espera da app</string>
     <string name="app_timeout_summary">Inatividade antes da app ser bloqueada</string>
     <string name="application">App</string>
-    <string name="menu_app_settings">Definições da aplicação</string>
+    <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
-    <string name="browser_intall_text">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
+    <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
     <string name="cancel">Cancelar</string>
-    <string name="clipboard_cleared">Área de transferência limpa.</string>
+    <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>
     <string name="clipboard_error_clear">Não foi possível limpar a área de transferência</string>
@@ -45,7 +46,7 @@
     <string name="default_checkbox">Utilizar como base de dados predefinida</string>
     <string name="digits">Dígitos</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft é fornecido absolutamente sem nenhuma garantia. Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
-    <string name="select_database_file">Introduza o nome do ficheiro da base de dados</string>
+    <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
     <string name="entry_notes">Notas</string>
@@ -61,11 +62,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de utilizador</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
-    <string name="error_can_not_handle_uri">O KeePass DX não suporta esta URI.</string>
-    <string name="error_could_not_create_parent">Não foi possível criar diretório pai.</string>
-    <string name="error_database_exists">Este ficheiro já existe.</string>
-    <string name="error_failed_to_launch_link">Não foi possível abrir a hiperligação.</string>
-    <string name="error_filename_required">Introduza um nome para o ficheiro.</string>
+    <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePass DX.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>
     <string name="error_invalid_path">Certifique-se que o caminho é válido.</string>
@@ -74,47 +71,47 @@
     <string name="error_out_of_memory">Sem memória para carregar toda a bases de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_not_number">As rondas devem ser um número.</string>
-    <string name="error_rounds_too_large">Rondas muito grandes.  A definir para 2147483648.</string>
-    <string name="error_string_key">É obrigatório introduzir um nome para o campo de cada linha.</string>
+    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
+    <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
+    <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_title_required">Adicione um título.</string>
-    <string name="error_wrong_length">Introduza um número inteiro positivo no campo do comprimento</string>
+    <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found">Ficheiro não encontrado.</string>
-    <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrir a partir do seu fornecedor de conteúdo.</string>
-    <string name="file_browser">Explorador de ficheiros</string>
+    <string name="file_not_found">Não pôde encontrar o ficheiro.</string>
+    <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
+    <string name="file_browser">Localizador de ficheiros</string>
     <string name="generate_password">Gerar palavra-chave</string>
     <string name="hint_conf_pass">confirmar palavra-chave</string>
     <string name="hint_generated_password">palavra-chave gerada</string>
     <string name="hint_group_name">Nome do grupo</string>
-    <string name="hint_keyfile">ficheiro chave</string>
+    <string name="hint_keyfile">ficheiro-chave</string>
     <string name="hint_length">comprimento</string>
     <string name="hint_pass">palavra-chave</string>
     <string name="password">Palavra-chave</string>
     <string name="install_from_play_store">Instalar pela Play Store</string>
     <string name="install_from_f_droid">Instalar pela F-Droid</string>
     <string name="invalid_password">Palavra-chave ou ficheiro chave inválidos.</string>
-    <string name="invalid_algorithm">Algoritmo inválido.</string>
-    <string name="invalid_db_sig">Formato da base de dados não reconhecido.</string>
-    <string name="keyfile_does_not_exist">O ficheiro chave não existe.</string>
-    <string name="keyfile_is_empty">O ficheiro chave está vazio.</string>
+    <string name="invalid_algorithm">Algoritmo errado.</string>
+    <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
+    <string name="keyfile_does_not_exist">Não existem ficheiros-chave.</string>
+    <string name="keyfile_is_empty">O ficheiro-chave está vazio.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">A carregar base de dados…</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="maskpass_title">Mascarar palavra-passe</string>
-    <string name="maskpass_summary">Ocultar as palavras-passe por predefinição</string>
+    <string name="maskpass_title">Esconder palavras-passe</string>
+    <string name="maskpass_summary">Mascarar palavras-passe (***) por padrão</string>
     <string name="menu_about">Sobre</string>
-    <string name="menu_change_key">Alterar chave mestre</string>
+    <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="settings">Definições</string>
-    <string name="menu_db_settings">Definições da base de dados</string>
+    <string name="menu_database_settings">Definições da base de dados</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Fazer donativo</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Ocultar palavra-chave</string>
-    <string name="menu_lock">Bloquear base de dados</string>
+    <string name="menu_lock">Trancar base de dados</string>
     <string name="menu_open">Abrir</string>
     <string name="menu_search">Pesquisar</string>
     <string name="menu_showpass">Mostrar palavra-chave</string>
@@ -122,30 +119,30 @@
     <string name="minus">Menos</string>
     <string name="never">Nunca</string>
     <string name="no_results">A pesquisa não obteve resultados</string>
-    <string name="no_url_handler">Sem suporte para este URL.</string>
-    <string name="open_recent">Abrir base de dados recente :</string>
-    <string name="omitbackup_title">Não pesquisar entradas nas cópias de segurança</string>
-    <string name="omitbackup_summary">Omitir o grupo \"Backup\" dos resultados da pesquisa (aplica-se apenas a ficheiros .kdb)</string>
+    <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
+    <string name="open_recent">Bancos de dados recentes</string>
+    <string name="omitbackup_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">A criar nova base de dados…</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
-    <string name="read_only_warning">O KeePass DX não tem permissão para escrever na localização da base de dados, a sua base de dados será aberta apenas para leitura.</string>
-    <string name="read_only_kitkat_warning">Começando pelo Android KitKat, alguns dispositivos não permitem mais que as aplicações escrevam no cartão SD.</string>
+    <string name="read_only_warning">KeePass DX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
+    <string name="read_only_kitkat_warning">A partir do Android KitKat, alguns dispositivos não permitem mais a escrita para o cartão de memória.</string>
     <string name="recentfile_title">Histórico de ficheiros recentes</string>
-    <string name="recentfile_summary">Relembrar o nome dos ficheiros usados recentemente</string>
-    <string name="remember_keyfile_summary">Relembra a localização dos ficheiros chave</string>
+    <string name="recentfile_summary">Lembrar nomes recentes de ficheiros</string>
+    <string name="remember_keyfile_summary">Lembra o local dos ficheiros-chave dos bancos de dados</string>
     <string name="remember_keyfile_title">Guardar ficheiro chave</string>
-    <string name="remove_from_filelist">Remover</string>
+    <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
-    <string name="rounds">Rondas de encriptação</string>
-    <string name="rounds_explanation">Rondas de encriptação altas providenciam proteção adicional contra ataques de força bruta, mas podem atrasar o tempo de carregamento e armazenamento.</string>
-    <string name="rounds_hint">rondas</string>
+    <string name="rounds">Rodadas de criptografia</string>
+    <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
+    <string name="rounds_hint">rodadas de transformação</string>
     <string name="saving_database">A guardar base de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>
-    <string name="sort_db">Ordenação da BD</string>
+    <string name="sort_db">Ordenação natural</string>
     <string name="special">Especiais</string>
     <string name="search">Título/descrição da entrada</string>
     <string name="search_results">Resultados da pesquisa</string>
@@ -153,13 +150,13 @@
     <string name="underline">Sublinhado</string>
     <string name="unsupported_db_version">Versão da base de dados não suportada.</string>
     <string name="uppercase">Maiúsculas</string>
-    <string name="use_saf_summary">Utilizar o Storage Access Framework (SAF) do Android para explorar os ficheiros (KitKat e superior)</string>
-    <string name="use_saf_title">Storage Access Framework (SAF)</string>
     <string name="warning">Aviso</string>
-    <string name="warning_password_encoding">O formato .kdb apenas suporta o conjunto de caracteres Latin1. A sua palavra-chave pode conter caracteres fora deste conjunto. Todos os caracteres não Latin1 são convertidos para o mesmo carácter, o que reduz a segurança da sua palavra-chave. É recomendável alterar a sua palavra-chave.</string>
-    <string name="warning_unmounted">O cartão SD não se encontra montado no seu dispositivo. Não será possível abrir ou criar a sua base de dados.</string>
+    <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do ficheiro do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
+    <string name="warning_unmounted">Monte o cartão SD para criar ou abrir um banco de dados.</string>
     <string name="version_label">Versão %1$s</string>
-    <string name="education_unlock_summary">Introduza a palavra-passe e/ou o ficheiro chave para desbloquear a base de dados.</string>
+    <string name="education_unlock_summary">Entre com a palavra-passe e/ou com o caminho para o ficheiro-chave do banco de dados. 
+\n 
+\nGuarde uma cópia do seu ficheiro do banco em um lugar mais seguro depois de cada alteração.</string>
     <string-array name="timeout_options">
         <item>5 segundos</item>
         <item>10 segundos</item>
@@ -179,7 +176,7 @@
     <string name="extended_ASCII">ASCII Estendido</string>
     <string name="allow">Permitir</string>
     <string name="error_load_database">Não foi possível abrir a sua base de dados.</string>
-    <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente baixar \"Uso de Memória\" do KDF.</string>
+    <string name="error_load_database_KDF_memory">Não foi possível carregar a chave. Tente descarregar \"Uso de Memória\" do KDF.</string>
     <string name="error_move_folder_in_itself">Não pode mover um grupo para si mesmo.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de utilizador</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -188,7 +185,7 @@
     <string name="menu_move">Mover</string>
     <string name="menu_paste">Colar</string>
     <string name="menu_cancel">Cancelar</string>
-    <string name="menu_fingerprint_remove_key">Apagar de impressão digital gravada</string>
+    <string name="menu_biometric_remove_key">Apagar de impressão digital gravada</string>
     <string name="menu_file_selection_read_only">Protegido contra escrita</string>
     <string name="menu_open_file_read_and_write">Pode ser modificado</string>
     <string name="create_keepass_file">Criar nova base de dados</string>
@@ -209,14 +206,14 @@
     <string name="warning_empty_password">Quer realmente usar uma palavra-chave vazia\?</string>
     <string name="warning_no_encryption_key">Tem a certeza que não quer usar uma chave de encriptação\?</string>
     <string name="build_label">Construir %1$s</string>
-    <string name="configure_fingerprint">Impressão digital suportada, mas não configurada para dispositivo.</string>
+    <string name="configure_biometric">Impressão digital suportada, mas não configurada para dispositivo.</string>
     <string name="encrypted_value_stored">Palavra-chave encriptada armazenada</string>
-    <string name="fingerprint_not_recognized">Impressão digital não reconhecida</string>
-    <string name="fingerprint_error">Problema da Impressão digital: %1$s</string>
-    <string name="store_with_fingerprint">Use a impressão digital para armazenar esta palavra-chave</string>
-    <string name="no_password_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
+    <string name="biometric_not_recognized">Impressão digital não reconhecida</string>
+    <string name="biometric_scanning_error">Problema da Impressão digital: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
+    <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
     <string name="history">Histórico</string>
-    <string name="appearance">Aparência</string>
+    <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePass DX</string>
@@ -228,4 +225,179 @@
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
     <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
+    <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
+    <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
+    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
+    <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>
+    <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
+    <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>
+    <string name="clipboard_notifications_title">Notificações da área de transferência</string>
+    <string name="clipboard_notifications_summary">Habilite notificações da área de transferência para campos copiáveis quando estiver visualizando uma entrada</string>
+    <string name="lock">Bloquear</string>
+    <string name="lock_database_screen_off_title">Bloqueio de tela</string>
+    <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
+    <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
+    <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua palavra-passe da base com segurança.</string>
+    <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a palavra-passe estiber desativada.</string>
+    <string name="usage">Uso</string>
+    <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
+    <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
+    <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
+    <string name="file_name">Nome do ficheiro</string>
+    <string name="path">Caminho</string>
+    <string name="assign_master_key">Defina uma chave mestre</string>
+    <string name="bytes">Bytes</string>
+    <string name="full_file_path_enable_title">Caminho do ficheiro</string>
+    <string name="full_file_path_enable_summary">Veja o caminho inteiro do ficheiro</string>
+    <string name="recycle_bin_title">Usar lixeira</string>
+    <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
+    <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
+    <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
+    <string name="auto_open_file_uri_title">Abrir ficheiros ao selecionar</string>
+    <string name="auto_open_file_uri_summary">Abrir automaticamente ficheiros selecionados no gerenciador de ficheiros</string>
+    <string name="allow_copy_password_title">Confiança da área de transferência</string>
+    <string name="allow_copy_password_summary">Permite a cópia da palavra-passe e de campos protegidos para a área de transferência</string>
+    <string name="open_link_database">Link do ficheiro da base de dados a ser aberto</string>
+    <string name="database_name_title">Nome do banco de dados</string>
+    <string name="database_description_title">Descrição do banco de dados</string>
+    <string name="database_version_title">Versão do banco de dados</string>
+    <string name="text_appearance">Texto</string>
+    <string name="application_appearance">Aplicativo</string>
+    <string name="other">Outros</string>
+    <string name="keyboard">Teclado</string>
+    <string name="magic_keyboard_title">Magikeyboard</string>
+    <string name="magic_keyboard_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
+    <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
+    <string name="reset_education_screens_summary">Exibir todos os itens educacionais denovo</string>
+    <string name="reset_education_screens_text">Telas educacionais redefinidas</string>
+    <string name="education_create_database_title">Crie um ficheiro de banco de dados</string>
+    <string name="education_create_database_summary">Crie seu primeiro ficheiro de gerenciamento de palavras-passe.</string>
+    <string name="education_select_database_title">Abra um banco de dados existente</string>
+    <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de ficheiros.</string>
+    <string name="education_open_link_database_title">Um link para a localização do seu ficheiro é suficiente</string>
+    <string name="education_open_link_database_summary">Você pode também abrir o seu banco com um link físico (com file:// e content:// por exemplo).</string>
+    <string name="education_new_node_title">Adicione itens ao seu banco</string>
+    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
+\n 
+\nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
+    <string name="education_search_title">Pesquise suas entradas</string>
+    <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas palavras-passe.</string>
+    <string name="education_fingerprint_title">Destrave do banco de dados por Impressão digital</string>
+    <string name="education_fingerprint_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
+    <string name="education_entry_edit_title">Modifique a entrada</string>
+    <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
+    <string name="education_generate_password_title">Crie uma palavra-passe forte para sua entrada.</string>
+    <string name="education_generate_password_summary">Gere uma palavra-passe forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e não se esqueça de torná-la segura.</string>
+    <string name="education_entry_new_field_title">Adicione campos customizados</string>
+    <string name="education_entry_new_field_summary">Registre facilmente um campo básico não fornecido que você também pode proteger.</string>
+    <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
+    <string name="education_field_copy_title">Copiar um campo</string>
+    <string name="education_field_copy_summary">Campos copiados podem ser colados em qualquer lugar. 
+\n 
+\nUse a forma de preenchimento de formulário que preferir.</string>
+    <string name="education_lock_title">Bloqueie o banco de dados</string>
+    <string name="education_lock_summary">Bloqueie seu banco de dados rapidamente, você pode parametrizar o aplicativo para bloqueá-lo depois de um tempo, e quando a tela se apaga.</string>
+    <string name="education_sort_title">Ordenação de itens</string>
+    <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
+    <string name="education_donation_title">Participar</string>
+    <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
+    </string>
+    <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
+    </string>
+    <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
+    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Contribuindo </strong>,</string>
+    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
+    <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
+    <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
+    <string name="html_text_dev_feature_upgrade">Lembre-se de manter seu aplicativo atualizado.</string>
+    <string name="download">Baixar</string>
+    <string name="contribute">Contribuir</string>
+    <string name="encryption_chacha20">ChaCha20</string>
+    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_Argon2">Argon2</string>
+    <string name="style_choose_title">Tema do aplicativo</string>
+    <string name="style_choose_summary">Tema usado no aplicativo</string>
+    <string name="icon_pack_choose_title">Pacote de ícones</string>
+    <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
+    <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
+    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
+    <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
+    <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
+    <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
+    <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
+    <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
+    <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>
+    <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
+    <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
+    <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
+    <string name="allow_no_password_title">Não permitir chave mestra</string>
+    <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
+    <string name="enable_education_screens_title">Telas educacionais</string>
+    <string name="enable_education_screens_summary">Destaque os elementos para aprender como o app funciona</string>
+    <string name="enable_read_only_title">Apenas leitura</string>
+    <string name="enable_read_only_summary">Por padrão, abrir seu banco de dados no modo somente leitura</string>
+    <string name="education_read_only_title">Proteja seu banco de modificações</string>
+    <string name="education_read_only_summary">Altere o modo de abertura para a sessão. 
+\n 
+\n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados. 
+\n 
+\n\"Gravação\" permite você a adicionar, excluir ou modificar todos os elementos.</string>
+    <string name="list_entries_show_username_summary">Mostrar nomes de usuário em listas de entrada</string>
+    <string name="clipboard">Área de transferência</string>
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_setting_label">Configurações do Magikeyboard</string>
+    <string name="keyboard_entry_category">Entrada</string>
+    <string name="keyboard_entry_timeout_title">Tempo limite</string>
+    <string name="keyboard_entry_timeout_summary">Tempo limite para limpar a entrada do teclado</string>
+    <string name="keyboard_notification_entry_title">Informação de notificação</string>
+    <string name="keyboard_notification_entry_summary">Mostrar uma notificação quando uma entrada estiver disponível</string>
+    <string name="keyboard_notification_entry_content_title_text">Entrada</string>
+    <string name="keyboard_notification_entry_content_title">%1$s disponível no Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+    <string name="keyboard_notification_entry_clear_close_title">Limpar ao fechar</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Fecha a base de dados ao dispensar a notificação</string>
+    <string name="keyboard_appearance_category">Aparência</string>
+    <string name="keyboard_theme_title">Tema do teclado</string>
+    <string name="keyboard_keys_category">Teclas</string>
+    <string name="keyboard_key_vibrate_title">Vibrar ao clicar</string>
+    <string name="keyboard_key_sound_title">Som ao clicar</string>
+    <string name="selection_mode">Modo de seleção</string>
+    <string name="do_not_kill_app">Não feche o aplicativo…</string>
+    <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
+    <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
+    <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
+    <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
+    <string name="recycle_bin">Lixeira</string>
+    <string name="keyboard_selection_entry_title">Seleção de entrada</string>
+    <string name="keyboard_selection_entry_summary">Mostrar campos de entrada no Magikeyboard quando estiver visualizando uma Entrada</string>
+    <string name="delete_entered_password_title">Deletar palavra-passe</string>
+    <string name="delete_entered_password_summary">Deleta a palavra-passe inserida após uma tentativa de conexão</string>
+    <string name="content_description_open_file">Abrir ficheiro</string>
+    <string name="content_description_show_file_link">Exibir link do ficheiro</string>
+    <string name="content_description_open_file_link">Abrir link do ficheiro</string>
+    <string name="content_description_node_children">Crianças do nó</string>
+    <string name="content_description_add_node">Inserir nó</string>
+    <string name="content_description_add_entry">Adicionar entrada</string>
+    <string name="content_description_add_group">Adicionar grupo</string>
+    <string name="content_description_file_information">Informações do ficheiro</string>
+    <string name="content_description_password_checkbox">Caixa de seleção da palavra-passe</string>
+    <string name="content_description_keyfile_checkbox">Caixa de seleção keyfile</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir alternar a visibilidade da palavra-passe</string>
+    <string name="content_description_entry_icon">Ícone da entrada</string>
+    <string name="content_description_entry_save">Gravação de entrada</string>
+    <string name="content_description_password_generator">Gerador de palavras-passe</string>
+    <string name="content_description_password_length">Comprimento da palavra-passe</string>
+    <string name="content_description_add_field">Adicionar campo</string>
+    <string name="content_description_remove_field">Remover campo</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
+    <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
+    <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
+    <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
 </resources>

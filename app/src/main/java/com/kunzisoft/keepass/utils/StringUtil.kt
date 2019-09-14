@@ -36,10 +36,9 @@ object StringUtil {
         val stringBuilder = StringBuilder()
         var quoted = false
 
-        for (i in 0 until text.length) {
-            val ch = text[i]
+        for (element in text) {
 
-            if ((ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n') && !quoted) {
+            if ((element == ' ' || element == '\t' || element == '\r' || element == '\n') && !quoted) {
 
                 val len = stringBuilder.length
                 when {
@@ -47,8 +46,8 @@ object StringUtil {
                         list.add(stringBuilder.toString())
                         stringBuilder.delete(0, len)
                     }
-                    ch == '\"' -> quoted = !quoted
-                    else -> stringBuilder.append(ch)
+                    element == '\"' -> quoted = !quoted
+                    else -> stringBuilder.append(element)
                 }
             }
         }
@@ -62,7 +61,6 @@ object StringUtil {
 
     fun indexOfIgnoreCase(text: String, search: String, start: Int, locale: Locale): Int {
         return text.toLowerCase(locale).indexOf(search.toLowerCase(locale), start)
-
     }
 
     fun indexOfIgnoreCase(text: String, search: String, locale: Locale): Int {

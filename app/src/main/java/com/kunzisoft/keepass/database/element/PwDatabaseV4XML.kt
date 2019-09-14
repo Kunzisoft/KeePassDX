@@ -122,6 +122,7 @@ object PwDatabaseV4XML {
 
     const val ValFalse = "False"
     const val ValTrue = "True"
+    const val ValNull = "Null"
 
     const val ElemCustomData = "CustomData"
     const val ElemStringDictExItem = "Item"

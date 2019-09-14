@@ -20,13 +20,13 @@
 package com.kunzisoft.keepass.settings
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 
 class SettingsAutofillActivity : SettingsActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        timeoutEnable = false
+        mTimeoutEnable = false
     }
 
     override fun retrieveMainFragment(): Fragment {

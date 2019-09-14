@@ -39,6 +39,9 @@ abstract class Importer<PwDb : PwDatabase<*, *>> {
      * @throws InvalidDBException on database error.
      */
     @Throws(IOException::class, InvalidDBException::class)
-    abstract fun openDatabase(databaseInputStream: InputStream, password: String?, keyInputStream: InputStream?, progressTaskUpdater: ProgressTaskUpdater?): PwDb
+    abstract fun openDatabase(databaseInputStream: InputStream,
+                              password: String?,
+                              keyInputStream: InputStream?,
+                              progressTaskUpdater: ProgressTaskUpdater?): PwDb
 
 }

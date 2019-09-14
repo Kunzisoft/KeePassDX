@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2019 Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
-  
-  Danish translation by Frederik Svarre (fsvarre@gmail.com)
---><resources>
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+
+    Danish translation by Frederik Svarre (fsvarre@gmail.com)
+-->
+<resources>
     <string name="about_feedback">Tilbagemelding</string>
     <string name="about_homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
@@ -32,7 +33,7 @@
     <string name="menu_app_settings">Indstillinger</string>
     <string name="beta_dontask">Vis ikke igen</string>
     <string name="brackets">Parenteser</string>
-    <string name="browser_intall_text">Installer OpenIntents Fil Manager for at gennemse filer</string>
+    <string name="file_manager_install_description">Installer OpenIntents Fil Manager for at gennemse filer</string>
     <string name="cancel">Annuller</string>
     <string name="clipboard_cleared">Udklipsholder ryddet</string>
     <string name="clipboard_error_title">Udklipsfejl</string>
@@ -63,10 +64,6 @@
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">ARCFOUR stream cipher er ikke understøttet.</string>
     <string name="error_can_not_handle_uri">Kunne ikke håndtere URI i KeePass DX.</string>
-    <string name="error_could_not_create_parent">Kunne ikke oprette rodbiblioteket.</string>
-    <string name="error_database_exists">Filen eksisterer allerede.</string>
-    <string name="error_failed_to_launch_link">Kunne ikke åbne linket.</string>
-    <string name="error_filename_required">Indtast et filnavn.</string>
     <string name="error_file_not_create">Kunne ikke oprette fil:</string>
     <string name="error_invalid_db">Kunne ikke læse databasen.</string>
     <string name="error_invalid_path">Sørg for, at stien er korrekt.</string>
@@ -107,9 +104,9 @@
     <string name="maskpass_title">Skjul adgangskoder</string>
     <string name="maskpass_summary">Masker adgangskoder (***) som standard</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Skift hovednøgle</string>
+    <string name="menu_change_key_settings">Skift hovednøgle</string>
     <string name="settings">Indstillinger</string>
-    <string name="menu_db_settings">Database indstillinger</string>
+    <string name="menu_database_settings">Database indstillinger</string>
     <string name="menu_delete">Slet</string>
     <string name="menu_donate">Donér</string>
     <string name="menu_edit">Rediger</string>
@@ -135,7 +132,7 @@
     <string name="recentfile_summary">Husk de seneste filnavne</string>
     <string name="remember_keyfile_summary">Husker placeringen af databasernøglefiler</string>
     <string name="remember_keyfile_title">Gem nøglefil</string>
-    <string name="remove_from_filelist">Fjern</string>
+    <string name="content_description_remove_from_list">Fjern</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rod</string>
     <string name="rounds">Transformationsrunder</string>
@@ -144,7 +141,7 @@
     <string name="saving_database">Gemmer database…</string>
     <string name="space">Mellemrum</string>
     <string name="search_label">Søg</string>
-    <string name="sort_db">Naturlig database</string>
+    <string name="sort_db">Naturlig rækkefølge</string>
     <string name="special">Speciel</string>
     <string name="search">Søg</string>
     <string name="search_results">Søgeresultater</string>
@@ -193,7 +190,7 @@
     <string name="menu_move">Flyt</string>
     <string name="menu_paste">Indsæt</string>
     <string name="menu_cancel">Annuller</string>
-    <string name="menu_fingerprint_remove_key">Slet gemt fingeraftryk</string>
+    <string name="menu_biometric_remove_key">Slet gemt fingeraftryk</string>
     <string name="menu_file_selection_read_only">Skrivebeskyttet</string>
     <string name="menu_open_file_read_and_write">Modificerbar</string>
     <string name="read_only">Skrivebeskyttet</string>
@@ -205,29 +202,27 @@
     <string name="parallelism_explanation">"Grad af parallelitet (dvs. antallet af tråde), som anvendes af  nøgleafledningsfunktion."</string>
     <string name="sort_menu">Sorter</string>
     <string name="sort_ascending">Stigende ↓</string>
-    <string name="sort_groups_before">Grupper før</string>
+    <string name="sort_groups_before">Grupper først</string>
     <string name="sort_recycle_bin_bottom">Papirkurv nederst</string>
     <string name="sort_title">Titel</string>
     <string name="sort_username">Brugernavn</string>
     <string name="sort_creation_time">Oprettelse</string>
     <string name="sort_last_modify_time">Ændring</string>
     <string name="sort_last_access_time">Adgang</string>
-    <string name="use_saf_summary">Brug Android Storage Access (SAF) som filhåndtering (KitKat og senere)</string>
-    <string name="use_saf_title">Storage Access Framework</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Bekræft ingen brug af en krypteringsnøgle?</string>
-    <string name="configure_fingerprint">Fingeraftryksscanning understøttes, men er ikke sat op.</string>
-    <string name="scanning_fingerprint">Fingeraftryks-scanning</string>
+    <string name="configure_biometric">Fingeraftryksscanning understøttes, men er ikke sat op.</string>
+    <string name="open_biometric_prompt_unlock_database">Fingeraftryks-scanning</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
-    <string name="fingerprint_invalid_key">Kunne ikke læse fingeraftryksnøgle. Gendan adgangskode.</string>
-    <string name="fingerprint_not_recognized">Kunne ikke genkende fingeraftryk</string>
-    <string name="fingerprint_error">Problem med fingeraftryk: %1$s</string>
-    <string name="store_with_fingerprint">Brug fingeraftryk til at gemme adgangskoden</string>
-    <string name="no_password_stored">Databasen har endnu ikke en adgangskode.</string>
+    <string name="biometric_invalid_key">Kunne ikke læse fingeraftryksnøgle. Gendan adgangskode.</string>
+    <string name="biometric_not_recognized">Kunne ikke genkende fingeraftryk</string>
+    <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
+    <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="history">Historik</string>
-    <string name="appearance">Udseende</string>
+    <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autoudfyld</string>
     <string name="autofill_service_name">KeePass DX formularudfyldning</string>
@@ -245,19 +240,19 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
-    <string name="fingerprint_quick_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
+    <string name="fingerprint_advanced_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
     <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i</string>
-    <string name="fingerprint_setting_way_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
-    <string name="fingerprint_type_password_text">Indtast adgangskoden til at låse databasen</string>
+    <string name="fingerprint_setting_link_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
+    <string name="fingerprint_type_credentials_text">Indtast adgangskoden til at låse databasen</string>
     <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
     <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
     <string name="usage">Brug</string>
-    <string name="fingerprint">Fingeraftryk</string>
-    <string name="fingerprint_enable_title">Fingeraftryksscanning</string>
-    <string name="fingerprint_enable_summary">Scan fingeraftryk for at åbne databasen</string>
-    <string name="fingerprint_delete_all_title">Slet krypteringsnøgler</string>
-    <string name="fingerprint_delete_all_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
-    <string name="fingerprint_delete_all_warning">Bekræft sletning af alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>
+    <string name="advanced_unlock">Fingeraftryk</string>
+    <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
+    <string name="biometric_unlock_enable_summary">Scan fingeraftryk for at åbne databasen</string>
+    <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>
+    <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
+    <string name="biometric_delete_all_key_warning">Bekræft sletning af alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
     <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>
@@ -270,10 +265,6 @@
     <string name="full_file_path_enable_summary">Se den fulde filsti</string>
     <string name="recycle_bin_title">Brug papirkurven</string>
     <string name="recycle_bin_summary">Flyt grupper og poster til \"Papirkurven\" før den slettes</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX skal have tilladelse til ekstern lagring for at skrive til en database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX skal have tilladelse til ekstern lagring for at læse en URI, der ikke leveres af en indholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilladelse til ekstern lager nægtet.</string>
-    <string name="permission_external_storage_never_ask">Kan ikke udføre handlingen uden ekstern lager tilladelse.</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>
     <string name="monospace_font_fields_enable_summary">Skift skrifttypen, der anvendes i felter, for at forbedre tegnsynlighed</string>
     <string name="auto_open_file_uri_title">Åbn filer ved at vælge</string>
@@ -281,7 +272,6 @@
     <string name="allow_copy_password_title">Udklipsholder tillid</string>
     <string name="allow_copy_password_summary">Tillad at adgangskoden og beskyttede felter kopieres til udklipsholderen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Udklipsholder deles af alle apps. Hvis følsomme data er kopieret, kan andet software gendanne den.</string>
-    <string name="warning_disabling_storage_access_framework">ADVARSEL: Deaktivering af funktionen kan forhindre åbne eller gemme databaser.</string>
     <string name="open_link_database">Link til database-filen der skal åbnes</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Database beskrivelse</string>
@@ -297,16 +287,15 @@
 \n
 \nOpsæt tastaturet til autofyld af formularerne sikkert.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard\" i enhedens indstillinger.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">eller (\"Indstillinger\" → \"Sprog &amp; input\" → \"Virtuelt tastatur\" og vælg et.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
     <string name="keyboards_choose_magikeyboard_text">Vælg Magikeyboard, når der er brug for at udfylde en formular.</string>
     <string name="keyboards_swicth_magikeyboard_text">Skift tastatur med et langt tryk på mellemrumstasten på tastaturet eller -hvis det ikke er tilgængelig - med:</string>
     <string name="keyboard_select_entry_text">Vælg post med nøglen.</string>
     <string name="keyboard_fill_field_text">Udfyld felterne ved hjælp af elementerne i posten.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
     <string name="keyboard_back_main_keyboard_text">Brug standard tastaturet igen.</string>
-    <string name="allow_no_password_title">Tillad ingen adgangskode</string>
-    <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt en adgangskodeidentifikation</string>
+    <string name="allow_no_password_title">Tillad ingen hovednøgle</string>
+    <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn database skrivebeskyttet som standard</string>
     <string name="enable_education_screens_title">Hjælpeskærme</string>
@@ -404,4 +393,24 @@
     <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
+    <string name="content_description_open_file">Åbn fil</string>
+    <string name="content_description_show_file_link">Vis fillink</string>
+    <string name="content_description_open_file_link">Åbn fillink</string>
+    <string name="content_description_node_children">Underknude</string>
+    <string name="content_description_add_node">Tilføj knude</string>
+    <string name="content_description_add_entry">Tilføj post</string>
+    <string name="content_description_add_group">Tilføj gruppe</string>
+    <string name="content_description_file_information">Filoplysninger</string>
+    <string name="content_description_password_checkbox">Afkrydsningsfelt for adgangskode</string>
+    <string name="content_description_keyfile_checkbox">Afkrydsningsfelt for nøglefil</string>
+    <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
+    <string name="content_description_entry_icon">Indtastningsikon</string>
+    <string name="content_description_entry_save">Gem indlæg</string>
+    <string name="content_description_password_generator">Adgangskodegenerator</string>
+    <string name="content_description_password_length">Længde på adgangskode</string>
+    <string name="content_description_add_field">Tilføj felt</string>
+    <string name="content_description_remove_field">Fjern felt</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="list_groups_show_number_entries_title">Vis antal poster</string>
+    <string name="list_groups_show_number_entries_summary">Vise antallet af poster i en gruppe</string>
 </resources>

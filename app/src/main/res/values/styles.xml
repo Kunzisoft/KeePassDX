@@ -79,9 +79,6 @@
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
-
-        <!-- White FAB -->
-        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
@@ -139,9 +136,6 @@
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
-
-        <!-- White FAB -->
-        <item name="whiteFab">@style/KeepassDXStyle.Fab.White</item>
     </style>
 
     <!-- Light Style -->
@@ -213,11 +207,6 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <!-- CardView -->
-    <style name="KeepassDXStyle.CardView.PrimaryColor" parent="CardView">
-        <item name="cardBackgroundColor">?attr/colorPrimary</item>
-    </style>
-
     <!-- CheckBox -->
     <style name="KeepassDXStyle.CheckBox" parent="Widget.AppCompat.CompoundButton.CheckBox">
         <item name="android:textColor">?android:attr/textColor</item>
@@ -231,6 +220,7 @@
         <item name="android:textColor">?attr/textColorInverse</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary" parent="KeepassDXStyle.TextAppearance.Default.TextOnPrimary">
+        <item name="android:textColor">?android:attr/textColorHintInverse</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textStyle">italic</item>
     </style>
@@ -271,6 +261,7 @@
 	</style>
 
     <style name="KeepassDXStyle.TextAppearance.Info" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:background">@drawable/background_text_info</item>
         <item name="backgroundTint">?attr/colorAccent</item>
@@ -299,17 +290,12 @@
     <!-- Icon Style -->
     <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/background_icon</item>
-        <item name="backgroundTint">?attr/colorAccent</item>
+        <item name="backgroundTint">?android:attr/windowBackground</item>
     </style>
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
     <style name="KeepassDXStyle.Fab" parent="KeepassDXStyle.v21.Fab">
-    </style>
-    <style name="KeepassDXStyle.Fab.White" parent="KeepassDXStyle.v21.Fab">
-        <item name="colorAccent">@color/white</item>
-        <item name="tint">?attr/colorAccentLight</item>
-        <item name="android:tint">?attr/colorAccentLight</item>
     </style>
 
     <!-- Menu FAB -->
@@ -330,20 +316,5 @@
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>
 	</style>
-
-    <!-- File Picker Theme -->
-    <style name="KeepassDXStyle.FilePickerStyle" parent="Theme.AppCompat.DialogWhenLarge">
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
-        <item name="colorAccent">@color/orange</item>
-
-        <item name="nnf_toolbarTheme">@style/ThemeOverlay.AppCompat.ActionBar</item>
-        <item name="nnf_separator_color">@color/nnf_dark_separator_color</item>
-        <item name="nnf_save_icon_color">?attr/colorAccent</item>
-        <item name="nnf_dir_icon_color">?attr/colorAccent</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
 
 </resources>

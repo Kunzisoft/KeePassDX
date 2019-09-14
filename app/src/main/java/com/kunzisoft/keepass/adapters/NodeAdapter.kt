@@ -21,10 +21,11 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.support.v7.util.SortedList
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.util.SortedListAdapterCallback
+import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedListAdapterCallback
 import android.util.Log
+import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
@@ -45,10 +46,14 @@ class NodeAdapter
 
     private val nodeSortedList: SortedList<NodeVersioned>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    private var textSize: Float = 0.toFloat()
-    private var subtextSize: Float = 0.toFloat()
-    private var infoTextSize: Float = 0.toFloat()
-    private var iconSize: Float = 0.toFloat()
+
+    private var calculateViewTypeTextSize = Array(2) { true} // number of view type
+    private var textSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
+    private var prefTextSize: Float = 0F
+    private var subtextSize: Float = 0F
+    private var infoTextSize: Float = 0F
+    private var numberChildrenTextSize: Float = 0F
+    private var iconSize: Float = 0F
     private var listSort: SortNodeEnum = SortNodeEnum.DB
     private var ascendingSort: Boolean = true
     private var groupsBeforeSort: Boolean = true
@@ -122,19 +127,21 @@ class NodeAdapter
     }
 
     private fun assignPreferences() {
-        val textSizeDefault = java.lang.Float.parseFloat(context.getString(R.string.list_size_default))
-        this.textSize = PreferencesUtil.getListTextSize(context)
-        this.subtextSize = context.resources.getInteger(R.integer.list_small_size_default) * textSize / textSizeDefault
-        this.infoTextSize = context.resources.getInteger(R.integer.list_tiny_size_default) * textSize / textSizeDefault
-        // Retrieve the icon size
-        val iconDefaultSize = context.resources.getDimension(R.dimen.list_icon_size_default)
-        this.iconSize = iconDefaultSize * textSize / textSizeDefault
+        this.prefTextSize = PreferencesUtil.getListTextSize(context)
+        this.infoTextSize = context.resources.getDimension(R.dimen.list_medium_size_default) * prefTextSize
+        this.subtextSize = context.resources.getDimension(R.dimen.list_small_size_default) * prefTextSize
+        this.numberChildrenTextSize = context.resources.getDimension(R.dimen.list_tiny_size_default) * prefTextSize
+        this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
+
         this.listSort = PreferencesUtil.getListSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
         this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
+
+        // Reinit textSize for all view type
+        calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
     }
 
     /**
@@ -219,9 +226,19 @@ class NodeAdapter
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
-        holder.icon.assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+        holder.icon.apply {
+            assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+            // Relative size of the icon
+            layoutParams?.apply {
+                height = iconSize.toInt()
+                width = iconSize.toInt()
+            }
+        }
         // Assign text
-        holder.text.text = subNode.title
+        holder.text.apply {
+            text = subNode.title
+            setTextSize(textSizeUnit, infoTextSize)
+        }
         // Assign click
         holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
         // Context menu
@@ -230,36 +247,34 @@ class NodeAdapter
                     ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
         }
 
-        // Add username
-        holder.subText.text = ""
-        holder.subText.visibility = View.GONE
-        if (subNode.type == Type.ENTRY) {
-            val entry = subNode as EntryVersioned
+        // Add subText with username
+        holder.subText.apply {
+            text = ""
+            visibility = View.GONE
+            if (subNode.type == Type.ENTRY) {
+                val entry = subNode as EntryVersioned
 
-            mDatabase.startManageEntry(entry)
+                mDatabase.startManageEntry(entry)
 
-            holder.text.text = entry.getVisualTitle()
+                holder.text.text = entry.getVisualTitle()
 
-            val username = entry.username
-            if (showUserNames && username.isNotEmpty()) {
-                holder.subText.visibility = View.VISIBLE
-                holder.subText.text = username
+                val username = entry.username
+                if (showUserNames && username.isNotEmpty()) {
+                    visibility = View.VISIBLE
+                    text = username
+                    setTextSize(textSizeUnit, subtextSize)
+                }
+
+                mDatabase.stopManageEntry(entry)
             }
-
-            mDatabase.stopManageEntry(entry)
         }
 
-        // Assign image and text size
-        // Relative size of the icon
-        holder.icon.layoutParams?.height = iconSize.toInt()
-        holder.icon.layoutParams?.width = iconSize.toInt()
-        holder.text.textSize = textSize
-        holder.subText.textSize = subtextSize
+        // Add number of entries in groups
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
-                    textSize = infoTextSize
+                    setTextSize(textSizeUnit, numberChildrenTextSize)
                     visibility = View.VISIBLE
                 }
             } else {

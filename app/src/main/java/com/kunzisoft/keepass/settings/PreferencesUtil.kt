@@ -28,6 +28,11 @@ import java.util.*
 
 object PreferencesUtil {
 
+    fun showReadOnlyWarning(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_read_only_warning), true)
+    }
+
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.omitbackup_key),
@@ -47,15 +52,17 @@ object PreferencesUtil {
     }
 
     /**
-     * Retrieve the text size in SP, verify the integrity of the size stored in preference
+     * Retrieve the text size in % (1 for 100%)
      */
     fun getListTextSize(context: Context): Float {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val defaultSizeString = context.getString(R.string.list_size_default)
-        var listSize = prefs.getString(context.getString(R.string.list_size_key), defaultSizeString)
-        if (!listOf(*context.resources.getStringArray(R.array.list_size_values)).contains(listSize))
-            listSize = defaultSizeString
-        return java.lang.Float.parseFloat(listSize)
+        val listSizeString = prefs.getString(context.getString(R.string.list_size_key),
+                            context.getString(R.string.list_size_string_medium))
+        val index = context.resources.getStringArray(R.array.list_size_string_values).indexOf(listSizeString)
+        val typedArray = context.resources.obtainTypedArray(R.array.list_size_values)
+        val listSize = typedArray.getFloat(index, 1.0F)
+        typedArray.recycle()
+        return listSize
     }
 
     fun getDefaultPasswordLength(context: Context): Int {
@@ -103,7 +110,7 @@ object PreferencesUtil {
         return try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
             java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.clipboard_timeout_default)))
+                    context.getString(R.string.clipboard_timeout_default)) ?: "60000")
         } catch (e: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }
@@ -121,10 +128,16 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.lock_database_back_root_default))
     }
 
-    fun isFingerprintEnable(context: Context): Boolean {
+    fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.fingerprint_enable_key),
-                context.resources.getBoolean(R.bool.fingerprint_enable_default))
+        return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),
+                context.resources.getBoolean(R.bool.biometric_unlock_enable_default))
+    }
+
+    fun isBiometricPromptAutoOpenEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.biometric_auto_open_prompt_key),
+                context.resources.getBoolean(R.bool.biometric_auto_open_prompt_default))
     }
 
     fun isFullFilePathEnable(context: Context): Boolean {

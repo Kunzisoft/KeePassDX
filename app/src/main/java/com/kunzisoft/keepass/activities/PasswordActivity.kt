@@ -19,56 +19,59 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.Manifest
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
-import android.hardware.fingerprint.FingerprintManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import android.support.annotation.RequiresApi
-import android.support.v7.app.AlertDialog
-import android.support.v7.widget.Toolbar
+import androidx.annotation.RequiresApi
+import com.google.android.material.snackbar.Snackbar
+import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.KeyEvent
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
+import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
-import com.kunzisoft.keepass.activities.helpers.*
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
+import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.fingerprint.FingerPrintHelper
-import com.kunzisoft.keepass.fingerprint.FingerPrintViewsManager
-import com.kunzisoft.keepass.magikeyboard.KeyboardHelper
+import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
-import com.kunzisoft.keepass.view.FingerPrintInfoView
-import permissions.dispatcher.*
-import java.io.File
+import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import com.kunzisoft.keepass.view.asError
+import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 import java.lang.ref.WeakReference
 
-@RuntimePermissions
-class PasswordActivity : StylishActivity(),
-        UriIntentInitTaskCallback {
+class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -80,18 +83,18 @@ class PasswordActivity : StylishActivity(),
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
-    private var fingerPrintInfoView: FingerPrintInfoView? = null
+    private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
     private var prefs: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
-    private var mKeyFileHelper: KeyFileHelper? = null
+    private var mOpenFileHelper: OpenFileHelper? = null
 
     private var readOnly: Boolean = false
 
-    private var fingerPrintViewsManager: FingerPrintViewsManager? = null
+    private var advancedUnlockedManager: AdvancedUnlockedManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -116,13 +119,13 @@ class PasswordActivity : StylishActivity(),
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
-        fingerPrintInfoView = findViewById(R.id.fingerprint_info)
+        advancedUnlockInfoView = findViewById(R.id.fingerprint_info)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.browse_button)
-        mKeyFileHelper = KeyFileHelper(this@PasswordActivity)
-        browseView.setOnClickListener(mKeyFileHelper!!.openFileOnClickViewListener)
+        mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
+        browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
@@ -172,8 +175,7 @@ class PasswordActivity : StylishActivity(),
         // For check shutdown
         super.onResume()
 
-        UriIntentInitTask(WeakReference(this), this, mRememberKeyFile)
-                .execute(intent)
+        initUriFromIntent()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -181,26 +183,51 @@ class PasswordActivity : StylishActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    override fun onPostInitTask(databaseFileUri: Uri?, keyFileUri: Uri?, errorStringId: Int?) {
-        mDatabaseFileUri = databaseFileUri
+    private fun initUriFromIntent() {
 
-        if (errorStringId != null) {
-            Toast.makeText(this@PasswordActivity, errorStringId, Toast.LENGTH_LONG).show()
-            finish()
-            return
+        val databaseUri: Uri?
+        val keyFileUri: Uri?
+
+        // If is a view intent
+        val action = intent.action
+        if (action != null && action == VIEW_INTENT) {
+
+            val databaseUriRetrieve = intent.data
+            // Stop activity here if we can't verify database URI
+            if (!UriUtil.verifyFileUri(databaseUriRetrieve)) {
+                Log.e(TAG, "File URI not validate")
+                finish()
+            }
+            databaseUri = databaseUriRetrieve
+            keyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
+
+        } else {
+            databaseUri = intent.getParcelableExtra(KEY_FILENAME)
+            keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
 
-        // Verify permission to read file
-        if (databaseFileUri != null && !databaseFileUri.scheme!!.contains("content"))
-            doNothingWithPermissionCheck()
+        // Post init uri with KeyFile if needed
+        if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
+            // Retrieve KeyFile in a thread
+            databaseUri?.let { databaseUriNotNull ->
+                FileDatabaseHistoryAction.getInstance(applicationContext)
+                        .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
+                            onPostInitUri(databaseUri, it)
+                        }
+            }
+        } else {
+            onPostInitUri(databaseUri, keyFileUri)
+        }
+    }
+
+    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
+        mDatabaseFileUri = databaseFileUri
 
         // Define title
-        val dbUriString = databaseFileUri?.toString() ?: ""
-        if (dbUriString.isNotEmpty()) {
-            if (PreferencesUtil.isFullFilePathEnable(this))
-                filenameView?.text = dbUriString
-            else
-                filenameView?.text = File(databaseFileUri!!.path!!).name // TODO Encapsulate
+        databaseFileUri?.let {
+            FileDatabaseInfo(this, it).retrieveDatabaseTitle { title ->
+                filenameView?.text = title
+            }
         }
 
         // Define Key File text
@@ -211,14 +238,16 @@ class PasswordActivity : StylishActivity(),
 
         // Define listeners for default database checkbox and validate button
         checkboxDefaultDatabaseView?.setOnCheckedChangeListener { _, isChecked ->
-            var newDefaultFileName = ""
+            var newDefaultFileName: Uri? = null
             if (isChecked) {
-                newDefaultFileName = databaseFileUri?.toString() ?: newDefaultFileName
+                newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply() {
-                putString(KEY_DEFAULT_FILENAME, newDefaultFileName)
-                apply()
+            newDefaultFileName?.let {
+                prefs?.edit()?.apply {
+                    putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
+                    apply()
+                }
             }
 
             val backupManager = BackupManager(this@PasswordActivity)
@@ -227,10 +256,10 @@ class PasswordActivity : StylishActivity(),
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
-        val defaultFilename = prefs?.getString(KEY_DEFAULT_FILENAME, "")
+        val defaultFilename = prefs?.getString(KEY_DEFAULT_DATABASE_PATH, "")
         if (databaseFileUri != null
                 && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
-                && databaseFileUri == UriUtil.parseUriFile(defaultFilename)) {
+                && databaseFileUri == UriUtil.parse(defaultFilename)) {
             checkboxDefaultDatabaseView?.isChecked = true
         }
 
@@ -247,30 +276,42 @@ class PasswordActivity : StylishActivity(),
             // Init FingerPrint elements
             var fingerPrintInit = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (PreferencesUtil.isFingerprintEnable(this)) {
-                    if (fingerPrintViewsManager == null) {
-                        fingerPrintViewsManager = FingerPrintViewsManager(this,
+                if (PreferencesUtil.isBiometricUnlockEnable(this)) {
+
+                    advancedUnlockInfoView?.setOnClickListener {
+                        FingerPrintExplanationDialog().show(supportFragmentManager, "fingerPrintExplanationDialog")
+                    }
+
+                    if (advancedUnlockedManager == null && databaseFileUri != null) {
+                        advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
-                                fingerPrintInfoView,
+                                advancedUnlockInfoView,
                                 checkboxPasswordView,
                                 enableButtonOnCheckedChangeListener,
-                                passwordView) { passwordRetrieve ->
-                                    // Load the database if password is registered or retrieve
-                                    passwordRetrieve?.let {
+                                passwordView,
+                                { passwordEncrypted, ivSpec ->
+                                    // Load the database if password is registered with biometric
+                                    if (passwordEncrypted != null && ivSpec != null) {
+                                        verifyCheckboxesAndLoadDatabase(
+                                                CipherDatabaseEntity(
+                                                    databaseFileUri.toString(),
+                                                    passwordEncrypted,
+                                                    ivSpec)
+                                        )
+                                    }
+                                },
+                                { passwordDecrypted ->
+                                    // Load the database if password is retrieve from biometric
+                                    passwordDecrypted?.let {
                                         // Retrieve from fingerprint
                                         verifyKeyFileCheckboxAndLoadDatabase(it)
-                                    } ?: run {
-                                        // Register with fingerprint
-                                        verifyCheckboxesAndLoadDatabase()
                                     }
-                                }
+                                })
                     }
-                    fingerPrintViewsManager?.initFingerprint()
-                    // checks if fingerprint is available, will also start listening for fingerprints when available
-                    fingerPrintViewsManager?.checkFingerprintAvailability()
+                    advancedUnlockedManager?.initBiometric()
                     fingerPrintInit = true
                 } else {
-                    fingerPrintViewsManager?.destroy()
+                    advancedUnlockedManager?.destroy()
                 }
             }
             if (!fingerPrintInit) {
@@ -328,27 +369,34 @@ class PasswordActivity : StylishActivity(),
 
     override fun onPause() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.stopListening()
+            advancedUnlockedManager?.pause()
         }
         super.onPause()
     }
 
     override fun onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            fingerPrintViewsManager?.destroy()
+            advancedUnlockedManager?.destroy()
         }
         super.onDestroy()
     }
 
-    private fun verifyCheckboxesAndLoadDatabase(password: String? = passwordView?.text?.toString(),
-                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
-        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
-        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
-        loadDatabase(keyPassword, keyFileUri)
+    private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+        val password: String? = passwordView?.text?.toString()
+        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
+        verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
     }
 
-    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String? = passwordView?.text?.toString(),
-                                                keyFile: Uri? = UriUtil.parseUriFile(keyFileView?.text?.toString())) {
+    private fun verifyCheckboxesAndLoadDatabase(password: String?,
+                                                keyFile: Uri?,
+                                                cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+        val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(keyPassword, keyFileUri, cipherDatabaseEntity)
+    }
+
+    private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
+        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
         val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
         loadDatabase(password, keyFileUri)
     }
@@ -358,10 +406,12 @@ class PasswordActivity : StylishActivity(),
         checkboxPasswordView?.isChecked = false
     }
 
-    private fun loadDatabase(password: String?, keyFile: Uri?) {
+    private fun loadDatabase(password: String?, keyFile: Uri?, cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
-        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-            removePassword()
+        runOnUiThread {
+            if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
+                removePassword()
+            }
         }
 
         // Clear before we load
@@ -379,7 +429,7 @@ class PasswordActivity : StylishActivity(),
                                 password,
                                 keyFile,
                                 progressTaskUpdater,
-                                AfterLoadingDatabase(database, password))
+                                AfterLoadingDatabase(database, password, cipherDatabaseEntity))
                     },
                     R.string.loading_database).start()
         }
@@ -388,17 +438,17 @@ class PasswordActivity : StylishActivity(),
     /**
      * Called after verify and try to opening the database
      */
-    private inner class AfterLoadingDatabase internal constructor(var database: Database,
-                                                                  val password: String?)
+    private inner class AfterLoadingDatabase(val database: Database, val password: String?,
+                                             val cipherDatabaseEntity: CipherDatabaseEntity? = null)
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
             runOnUiThread {
                 // Recheck fingerprint if error
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (PreferencesUtil.isFingerprintEnable(this@PasswordActivity)) {
-                        // Stay with the same mode
-                        fingerPrintViewsManager?.reInitWithFingerprintMode()
+                    if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                        // Stay with the same mode and init it
+                        advancedUnlockedManager?.initBiometricMode()
                     }
                 }
 
@@ -406,21 +456,34 @@ class PasswordActivity : StylishActivity(),
                     // Remove the password in view in all cases
                     removePassword()
 
-                    if (database.validatePasswordEncoding(password)) {
-                        launchGroupActivity()
+                    // Register the biometric
+                    if (cipherDatabaseEntity != null) {
+                        CipherDatabaseAction.getInstance(this@PasswordActivity)
+                                .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                                    checkAndLaunchGroupActivity(database, password)
+                                }
                     } else {
-                        PasswordEncodingDialogFragment().apply {
-                            positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                                launchGroupActivity()
-                            }
-                            show(supportFragmentManager, "passwordEncodingTag")
-                        }
+                        checkAndLaunchGroupActivity(database, password)
                     }
+
                 } else {
                     if (result.message != null && result.message!!.isNotEmpty()) {
-                        Toast.makeText(this@PasswordActivity, result.message, Toast.LENGTH_LONG).show()
+                        Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
+            }
+        }
+    }
+
+    private fun checkAndLaunchGroupActivity(database: Database, password: String?) {
+        if (database.validatePasswordEncoding(password)) {
+            launchGroupActivity()
+        } else {
+            PasswordEncodingDialogFragment().apply {
+                positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                    launchGroupActivity()
+                }
+                show(supportFragmentManager, "passwordEncodingTag")
             }
         }
     }
@@ -431,7 +494,7 @@ class PasswordActivity : StylishActivity(),
                     GroupActivity.launch(this@PasswordActivity, readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    GroupActivity.launchForKeyboarSelection(this@PasswordActivity, readOnly)
                     // Do not keep history
                     finish()
                 },
@@ -452,7 +515,7 @@ class PasswordActivity : StylishActivity(),
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // Fingerprint menu
-            fingerPrintViewsManager?.inflateOptionsMenu(inflater, menu)
+            advancedUnlockedManager?.inflateOptionsMenu(inflater, menu)
         }
 
         super.onCreateOptionsMenu(menu)
@@ -465,32 +528,41 @@ class PasswordActivity : StylishActivity(),
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu) {
-        if (toolbar != null
-                && passwordActivityEducation.checkAndPerformedFingerprintUnlockEducation(
+        val unlockEducationPerformed = toolbar != null
+                && passwordActivityEducation.checkAndPerformedUnlockEducation(
                         toolbar!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
                         },
                         {
                             performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (toolbar != null
-                && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
-                && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
-                        toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
-                        {
-                            onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
-                            performedNextEducation(passwordActivityEducation, menu)
-                        },
-                        {
-                            performedNextEducation(passwordActivityEducation, menu)
-                        }))
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
-                && PreferencesUtil.isFingerprintEnable(applicationContext)
-                && FingerPrintHelper.isFingerprintSupported(getSystemService(FingerprintManager::class.java))
-                && fingerPrintInfoView != null && fingerPrintInfoView?.fingerPrintImageView != null
-                && passwordActivityEducation.checkAndPerformedFingerprintEducation(fingerPrintInfoView?.fingerPrintImageView!!))
-        ;
+                        })
+        if (!unlockEducationPerformed) {
+
+            val readOnlyEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+                    && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
+                    toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
+                    {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
+                        performedNextEducation(passwordActivityEducation, menu)
+                    },
+                    {
+                        performedNextEducation(passwordActivityEducation, menu)
+                    })
+
+            if (!readOnlyEducationPerformed) {
+
+                val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
+                // fingerprintEducationPerformed
+                Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                        && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
+                        && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
+                        && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
+                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(advancedUnlockInfoView?.unlockIconImageView!!)
+
+            }
+        }
     }
 
     private fun changeOpenFileReadIcon(togglePassword: MenuItem) {
@@ -512,18 +584,12 @@ class PasswordActivity : StylishActivity(),
                 changeOpenFileReadIcon(item)
             }
             R.id.menu_fingerprint_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                fingerPrintViewsManager?.deleteEntryKey()
+                advancedUnlockedManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)
         }
 
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        // NOTE: delegate the permission handling to generated method
-        onRequestPermissionsResult(requestCode, grantResults)
     }
 
     override fun onActivityResult(
@@ -538,7 +604,7 @@ class PasswordActivity : StylishActivity(),
         }
 
         var keyFileResult = false
-        mKeyFileHelper?.let {
+        mOpenFileHelper?.let {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {
@@ -557,62 +623,26 @@ class PasswordActivity : StylishActivity(),
         }
     }
 
-    @NeedsPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    fun doNothing() {
-    }
-
-    @OnShowRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showRationaleForExternalStorage(request: PermissionRequest) {
-        AlertDialog.Builder(this)
-                .setMessage(R.string.permission_external_storage_rationale_read_database)
-                .setPositiveButton(R.string.allow) { _, _ -> request.proceed() }
-                .setNegativeButton(R.string.cancel) { _, _ -> request.cancel() }
-                .show()
-    }
-
-    @OnPermissionDenied(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showDeniedForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_denied, Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
-    @OnNeverAskAgain(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-    internal fun showNeverAskForExternalStorage() {
-        Toast.makeText(this, R.string.permission_external_storage_never_ask, Toast.LENGTH_SHORT).show()
-        finish()
-    }
-
     companion object {
 
         private val TAG = PasswordActivity::class.java.name
 
-        const val KEY_DEFAULT_FILENAME = "defaultFileName"
+        const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
+
+        private const val KEY_FILENAME = "fileName"
+        private const val KEY_KEYFILE = "keyFile"
+        private const val VIEW_INTENT = "android.intent.action.VIEW"
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
-        private fun buildAndLaunchIntent(activity: Activity, fileName: String, keyFile: String,
+        private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
-            intent.putExtra(UriIntentInitTask.KEY_FILENAME, fileName)
-            intent.putExtra(UriIntentInitTask.KEY_KEYFILE, keyFile)
+            intent.putExtra(KEY_FILENAME, databaseFile)
+            if (keyFile != null)
+                intent.putExtra(KEY_KEYFILE, keyFile)
             intentBuildLauncher.invoke(intent)
-        }
-
-        @Throws(FileNotFoundException::class)
-        private fun verifyFileNameUriFromLaunch(fileName: String) {
-            if (fileName.isEmpty()) {
-                throw FileNotFoundException()
-            }
-
-            val uri = UriUtil.parseUriFile(fileName)
-            val scheme = uri?.scheme
-            if (scheme != null && scheme.isNotEmpty() && scheme.equals("file", ignoreCase = true)) {
-                val dbFile = File(uri.path!!)
-                if (!dbFile.exists()) {
-                    throw FileNotFoundException()
-                }
-            }
         }
 
         /*
@@ -624,10 +654,9 @@ class PasswordActivity : StylishActivity(),
         @Throws(FileNotFoundException::class)
         fun launch(
                 activity: Activity,
-                fileName: String,
-                keyFile: String) {
-            verifyFileNameUriFromLaunch(fileName)
-            buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                databaseFile: Uri,
+                keyFile: Uri?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 activity.startActivity(intent)
             }
         }
@@ -641,12 +670,10 @@ class PasswordActivity : StylishActivity(),
         @Throws(FileNotFoundException::class)
         fun launchForKeyboardResult(
                 activity: Activity,
-                fileName: String,
-                keyFile: String) {
-            verifyFileNameUriFromLaunch(fileName)
-
-            buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
-                KeyboardHelper.startActivityForKeyboardSelection(activity, intent)
+                databaseFile: Uri,
+                keyFile: Uri?) {
+            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
             }
         }
 
@@ -660,20 +687,18 @@ class PasswordActivity : StylishActivity(),
         @Throws(FileNotFoundException::class)
         fun launchForAutofillResult(
                 activity: Activity,
-                fileName: String,
-                keyFile: String,
+                databaseFile: Uri,
+                keyFile: Uri?,
                 assistStructure: AssistStructure?) {
-            verifyFileNameUriFromLaunch(fileName)
-
             if (assistStructure != null) {
-                buildAndLaunchIntent(activity, fileName, keyFile) { intent ->
+                buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                     AutofillHelper.startActivityForAutofillResult(
                             activity,
                             intent,
                             assistStructure)
                 }
             } else {
-                launch(activity, fileName, keyFile)
+                launch(activity, databaseFile, keyFile)
             }
         }
     }

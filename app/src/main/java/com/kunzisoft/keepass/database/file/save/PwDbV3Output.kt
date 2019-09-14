@@ -126,9 +126,9 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         setIVs(header)
 
         // Content checksum
-        var md: MessageDigest? = null
+        val messageDigest: MessageDigest?
         try {
-            md = MessageDigest.getInstance("SHA-256")
+            messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
             throw PwDbOutputException("SHA-256 not implemented here.", e)
         }
@@ -159,7 +159,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
 
         // Output database for the purpose of calculating the content checksum
         nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, md)
+        val dos = DigestOutputStream(nos, messageDigest)
         val bos = BufferedOutputStream(dos)
         try {
             outputPlanGroupAndEntries(bos)
@@ -169,7 +169,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             throw PwDbOutputException("Failed to generate checksum.", e)
         }
 
-        header.contentsHash = md!!.digest()
+        header.contentsHash = messageDigest!!.digest()
 
         // Output header for real output, containing content hash
         pho = PwDbHeaderOutputV3(header, outputStream)

@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_feedback">피드백</string>
     <string name="about_homepage">홈페이지</string>
@@ -16,7 +34,7 @@
     <string name="beta_dontask">다시 보이지 않음</string>
     <string name="brackets">브라켓</string>
     <string name="extended_ASCII">확장 ASCII</string>
-    <string name="browser_intall_text">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
+    <string name="file_manager_install_description">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
     <string name="cancel">취소</string>
     <string name="allow">허가</string>
     <string name="clipboard_cleared">클립보드 비워짐</string>
@@ -41,7 +59,7 @@
     <string name="entry_expires">만료</string>
     <string name="entry_keyfile">키 파일</string>
     <string name="entry_modified">수정</string>
-    <string name="entry_not_found">항목 데이터를 찾을 수 없음</string>
+    <string name="entry_not_found">항목 데이터를 찾을 수 없습니다.</string>
     <string name="entry_password">비밀번호</string>
     <string name="entry_save">저장</string>
     <string name="entry_title">제목</string>
@@ -49,10 +67,6 @@
     <string name="entry_user_name">아이디</string>
     <string name="error_arc4">ARCFOUR 스트림 암호는 지원되지 않습니다.</string>
     <string name="error_can_not_handle_uri">KeePass DX에서는 이 URI를 처리할 수 없습니다.</string>
-    <string name="error_could_not_create_parent">상위 디렉터리를 생성할 수 없습니다.</string>
-    <string name="error_database_exists">파일이 이미 존재합니다.</string>
-    <string name="error_failed_to_launch_link">링크를 열 수 없음</string>
-    <string name="error_filename_required">파일 이름을 입력하십시오.</string>
     <string name="error_file_not_create">파일을 생성할 수 없음:</string>
     <string name="error_invalid_db">데이터베이스를 읽을 수 없음.</string>
     <string name="error_invalid_path">경로가 확실한지 확인하십시오.</string>
@@ -100,12 +114,12 @@
     <string name="maskpass_title">비밀번호 숨기기</string>
     <string name="maskpass_summary">기본 비밀번호를 (***) 로 가리기</string>
     <string name="menu_about">정보</string>
-    <string name="menu_change_key">마스터 키 바꾸기</string>
+    <string name="menu_change_key_settings">마스터 키 바꾸기</string>
     <string name="copy_field">%1$s 복사됨</string>
     <string name="settings">설정</string>
     <string name="menu_app_settings">앱 설정</string>
     <string name="menu_form_filling_settings">폼 채우기</string>
-    <string name="menu_db_settings">데이터베이스 설정</string>
+    <string name="menu_database_settings">데이터베이스 설정</string>
     <string name="menu_donate">기부</string>
     <string name="menu_edit">수정</string>
     <string name="menu_copy">복사</string>
@@ -118,7 +132,7 @@
     <string name="menu_open">열기</string>
     <string name="menu_search">검색</string>
     <string name="menu_showpass">비밀번호 보이기</string>
-    <string name="menu_fingerprint_remove_key">저장된 지문 삭제됨</string>
+    <string name="menu_biometric_remove_key">저장된 지문 삭제됨</string>
     <string name="menu_url">링크로 가기</string>
     <string name="menu_file_selection_read_only">쓰기 보호됨</string>
     <string name="menu_open_file_read_and_write">수정 가능</string>
@@ -140,7 +154,7 @@
     <string name="recentfile_summary">최근 파일 이름 기억하기</string>
     <string name="remember_keyfile_summary">데이터베이스 키 파일 위치 기억하기</string>
     <string name="remember_keyfile_title">키 파일 저장</string>
-    <string name="remove_from_filelist">삭제</string>
+    <string name="content_description_remove_from_list">삭제</string>
     <string name="root">루트</string>
     <string name="encryption_explanation">데이터베이스 암호화 알고리즘이 모든 데이터에 적용됩니다.</string>
     <string name="memory_usage">메모리 사용량</string>
@@ -150,4 +164,21 @@
     <string name="search_label">검색</string>
     <string name="sort_menu">정렬</string>
     <string name="sort_ascending">오름차순 ↓</string>
+    <string name="content_description_open_file">파일 열기</string>
+    <string name="content_description_show_file_link">파일 링크 보기</string>
+    <string name="content_description_open_file_link">파일 링크 열기</string>
+    <string name="content_description_node_children">자식 노드</string>
+    <string name="content_description_add_node">노드 추가</string>
+    <string name="content_description_add_entry">항목 추가</string>
+    <string name="content_description_add_group">그룹 추가</string>
+    <string name="content_description_file_information">파일 정보</string>
+    <string name="content_description_password_checkbox">비밀번호 체크박스</string>
+    <string name="content_description_keyfile_checkbox">내용_설명_키파일_체크박스</string>
+    <string name="content_description_repeat_toggle_password_visibility">토글 비밀번호 가시성 반복</string>
+    <string name="content_description_password_generator">비밀번호 생성</string>
+    <string name="content_description_password_length">비밀번호 길이</string>
+    <string name="content_description_add_field">필드 추가</string>
+    <string name="content_description_remove_field">필드 제거</string>
+    <string name="error_move_entry_here">항목을 여기로 옮길 수 없습니다.</string>
+    <string name="error_copy_entry_here">항목을 여기로 복사할 수 없습니다.</string>
 </resources>

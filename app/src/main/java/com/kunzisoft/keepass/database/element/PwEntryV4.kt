@@ -23,10 +23,10 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import java.util.*
 
-class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
+class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // To decode each field not parcelable
     @Transient
@@ -36,10 +36,10 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
 
     override var icon: PwIcon
         get() {
-            return if (iconCustom.isUnknown)
-                super.icon
-            else
-                iconCustom
+            return when {
+                iconCustom.isUnknown -> super.icon
+                else -> iconCustom
+            }
         }
         set(value) {
             if (value is PwIconStandard)
@@ -48,8 +48,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         }
     var iconCustom = PwIconCustom.UNKNOWN_ICON
     private var customData = HashMap<String, String>()
-    var fields = ExtraFields()
-        private set
+    var fields = HashMap<String, ProtectedString>()
     val binaries = HashMap<String, ProtectedBinary>()
     var foregroundColor = ""
     var backgroundColor = ""
@@ -63,9 +62,9 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         get() {
             var size = FIXED_LENGTH_SIZE
 
-            for ((key, value) in fields.listOfAllFields) {
-                size += key.length.toLong()
-                size += value.length().toLong()
+            for (entry in fields.entries) {
+                size += entry.key.length.toLong()
+                size += entry.value.length().toLong()
             }
 
             for ((key, value) in binaries) {
@@ -92,20 +91,20 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader)
+        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader) ?: iconCustom
         usageCount = parcel.readLong()
-        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader)
-        customData = MemUtil.readStringParcelableMap(parcel)
-        fields = parcel.readParcelable(ExtraFields::class.java.classLoader)
-        // TODO binaries = MemUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
-        foregroundColor = parcel.readString()
-        backgroundColor = parcel.readString()
-        overrideURL = parcel.readString()
-        autoType = parcel.readParcelable(AutoType::class.java.classLoader)
+        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
+        customData = MemoryUtil.readStringParcelableMap(parcel)
+        fields = MemoryUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
+        // TODO binaries = MemoryUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+        foregroundColor = parcel.readString() ?: foregroundColor
+        backgroundColor = parcel.readString() ?: backgroundColor
+        overrideURL = parcel.readString() ?: overrideURL
+        autoType = parcel.readParcelable(AutoType::class.java.classLoader) ?: autoType
         parcel.readTypedList(history, CREATOR)
-        url = parcel.readString()
-        additional = parcel.readString()
-        tags = parcel.readString()
+        url = parcel.readString() ?: url
+        additional = parcel.readString() ?: additional
+        tags = parcel.readString() ?: tags
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -113,9 +112,9 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         dest.writeParcelable(iconCustom, flags)
         dest.writeLong(usageCount)
         dest.writeParcelable(locationChanged, flags)
-        MemUtil.writeStringParcelableMap(dest, customData)
-        dest.writeParcelable(fields, flags)
-        // TODO MemUtil.writeStringParcelableMap(dest, flags, binaries);
+        MemoryUtil.writeStringParcelableMap(dest, customData)
+        MemoryUtil.writeStringParcelableMap(dest, flags, fields)
+        // TODO MemoryUtil.writeStringParcelableMap(dest, flags, binaries);
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)
@@ -137,13 +136,11 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         locationChanged = PwDate(source.locationChanged)
         // Add all custom elements in map
         customData.clear()
-        for ((key, value) in source.customData) {
-            customData[key] = value
-        }
-        fields = ExtraFields(source.fields)
-        for ((key, value) in source.binaries) {
-            binaries[key] = ProtectedBinary(value)
-        }
+        customData.putAll(source.customData)
+        fields.clear()
+        fields.putAll(source.fields)
+        binaries.clear()
+        binaries.putAll(source.binaries)
         foregroundColor = source.foregroundColor
         backgroundColor = source.backgroundColor
         overrideURL = source.overrideURL
@@ -188,17 +185,18 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
      * @return
      */
     private fun decodeRefKey(decodeRef: Boolean, key: String): String {
-        val text = fields.getProtectedStringValue(key)
-        return if (decodeRef) {
-            if (mDatabase == null) text else SprEngineV4().compile(text, this, mDatabase!!)
-        } else text
+        return fields[key]?.toString()?.let { text ->
+            return if (decodeRef) {
+                if (mDatabase == null) text else SprEngineV4().compile(text, this, mDatabase!!)
+            } else text
+        } ?: ""
     }
 
     override var title: String
         get() = decodeRefKey(mDecodeRef, STR_TITLE)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectTitle
-            fields.putProtectedString(STR_TITLE, value, protect)
+            fields[STR_TITLE] = ProtectedString(protect, value)
         }
 
     override val type: Type
@@ -208,28 +206,28 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         get() = decodeRefKey(mDecodeRef, STR_USERNAME)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUserName
-            fields.putProtectedString(STR_USERNAME, value, protect)
+            fields[STR_USERNAME] = ProtectedString(protect, value)
         }
 
     override var password: String
         get() = decodeRefKey(mDecodeRef, STR_PASSWORD)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectPassword
-            fields.putProtectedString(STR_PASSWORD, value, protect)
+            fields[STR_PASSWORD] = ProtectedString(protect, value)
         }
 
     override var url
         get() = decodeRefKey(mDecodeRef, STR_URL)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectUrl
-            fields.putProtectedString(STR_URL, value, protect)
+            fields[STR_URL] = ProtectedString(protect, value)
         }
 
     override var notes: String
         get() = decodeRefKey(mDecodeRef, STR_NOTES)
         set(value) {
             val protect = mDatabase != null && mDatabase!!.memoryProtection.protectNotes
-            fields.putProtectedString(STR_NOTES, value, protect)
+            fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
     override var usageCount: Long = 0
@@ -240,28 +238,33 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         locationChanged = PwDate()
     }
 
-    fun allowExtraFields(): Boolean {
+    private fun isStandardField(key: String): Boolean {
+        return (key == STR_TITLE
+                || key == STR_USERNAME
+                || key == STR_PASSWORD
+                || key == STR_URL
+                || key == STR_NOTES)
+    }
+
+    var customFields = HashMap<String, ProtectedString>()
+        get() {
+            field.clear()
+            for (entry in fields.entries) {
+                val key = entry.key
+                val value = entry.value
+                if (!isStandardField(entry.key)) {
+                    field[key] = ProtectedString(value.isProtected, decodeRefKey(mDecodeRef, key))
+                }
+            }
+            return field
+        }
+
+    fun allowCustomFields(): Boolean {
         return true
     }
 
-    fun containsCustomFields(): Boolean {
-        return fields.containsCustomFields()
-    }
-
-    fun containsCustomFieldsProtected(): Boolean {
-        return fields.containsCustomFieldsProtected()
-    }
-
-    fun containsCustomFieldsNotProtected(): Boolean {
-        return fields.containsCustomFieldsNotProtected()
-    }
-
     fun addExtraField(label: String, value: ProtectedString) {
-        fields.putProtectedString(label, value)
-    }
-
-    fun removeAllCustomFields() {
-        fields.removeAllCustomFields()
+        fields[label] = value
     }
 
     fun putProtectedBinary(key: String, value: ProtectedBinary) {
@@ -272,12 +275,12 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, NodeV4Interface {
         return history.size
     }
 
-    fun putCustomData(key: String, value: String) {
+    override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }
 
-    fun containsCustomData(): Boolean {
-        return customData.size > 0
+    override fun containsCustomData(): Boolean {
+        return customData.isNotEmpty()
     }
 
     fun addEntryToHistory(entry: PwEntryV4) {

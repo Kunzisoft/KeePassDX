@@ -25,7 +25,7 @@ import android.os.Parcelable
 import java.util.HashMap
 import java.util.UUID
 
-class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
+class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // TODO Encapsulate
     override var icon: PwIcon
@@ -63,15 +63,17 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader)
+        iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader) ?: iconCustom
         usageCount = parcel.readLong()
-        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader)
-        // TODO customData = MemUtil.readStringParcelableMap(in);
-        notes = parcel.readString()
+        locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
+        // TODO customData = MemoryUtil.readStringParcelableMap(in);
+        notes = parcel.readString() ?: notes
         isExpanded = parcel.readByte().toInt() != 0
-        defaultAutoTypeSequence = parcel.readString()
-        enableAutoType = parcel.readByte().toInt() != 0
-        enableSearching = parcel.readByte().toInt() != 0
+        defaultAutoTypeSequence = parcel.readString() ?: defaultAutoTypeSequence
+        val isAutoTypeEnabled = parcel.readInt()
+        enableAutoType = if (isAutoTypeEnabled == -1) null else isAutoTypeEnabled == 1
+        val isSearchingEnabled = parcel.readInt()
+        enableSearching = if (isSearchingEnabled == -1) null else isSearchingEnabled == 1
         lastTopVisibleEntry = parcel.readSerializable() as UUID
     }
 
@@ -88,12 +90,12 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
         dest.writeParcelable(iconCustom, flags)
         dest.writeLong(usageCount)
         dest.writeParcelable(locationChanged, flags)
-        // TODO MemUtil.writeStringParcelableMap(dest, customData);
+        // TODO MemoryUtil.writeStringParcelableMap(dest, customData);
         dest.writeString(notes)
         dest.writeByte((if (isExpanded) 1 else 0).toByte())
         dest.writeString(defaultAutoTypeSequence)
-        dest.writeByte((if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0).toByte())
-        dest.writeByte((if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0).toByte())
+        dest.writeInt(if (enableAutoType == null) -1 else if (enableAutoType!!) 1 else 0)
+        dest.writeInt(if (enableSearching == null) -1 else if (enableSearching!!) 1 else 0)
         dest.writeSerializable(lastTopVisibleEntry)
     }
 
@@ -123,12 +125,12 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, NodeV4Interface {
         locationChanged = PwDate()
     }
 
-    fun putCustomData(key: String, value: String) {
+    override fun putCustomData(key: String, value: String) {
         customData[key] = value
     }
 
-    fun containsCustomData(): Boolean {
-        return customData.size > 0
+    override fun containsCustomData(): Boolean {
+        return customData.isNotEmpty()
     }
 
     override fun allowAddEntryIfIsRoot(): Boolean {

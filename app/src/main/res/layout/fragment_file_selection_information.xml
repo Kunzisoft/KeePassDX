@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:padding="@dimen/default_margin">
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/file_filename"
         android:layout_margin="8dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         style="@style/KeepassDXStyle.TextAppearance.LargeTitle"/>
 
-    <android.support.v7.widget.AppCompatTextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/file_path"
         android:textIsSelectable="true"
         android:layout_margin="8dp"
@@ -26,13 +26,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end">
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/file_modification_label"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/entry_modified"/>
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/file_modification"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
@@ -45,7 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp">
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/file_size"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
@@ -54,7 +54,7 @@
             android:layout_toLeftOf="@+id/file_size_unit"
             android:layout_toStartOf="@+id/file_size_unit"
             android:gravity="end" />
-        <android.support.v7.widget.AppCompatTextView
+        <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/file_size_unit"
             android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"

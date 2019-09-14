@@ -19,10 +19,14 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
-import com.kunzisoft.keepass.fileselect.StorageAF
+import android.os.Build
+import android.widget.Toast
+import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
@@ -30,24 +34,6 @@ import java.io.InputStream
 
 
 object UriUtil {
-
-    fun parseUriFile(text: String?): Uri? {
-        if (text == null || text.isEmpty()) {
-            return null
-        }
-        return parseUriFile(Uri.parse(text))
-    }
-
-    fun parseUriFile(uri: Uri?): Uri? {
-        if (uri == null) {
-            return null
-        }
-        var currentUri = uri
-        if (currentUri.scheme == null || currentUri.scheme!!.isEmpty()) {
-            currentUri = currentUri.buildUpon().scheme("file").authority("").build()
-        }
-        return currentUri
-    }
 
     /**
      * Many android apps respond with non-writeable content URIs that correspond to files.
@@ -58,7 +44,7 @@ object UriUtil {
     fun translateUri(ctx: Context, uri: Uri): Uri {
         var currentUri = uri
         // StorageAF provides nice URIs
-        if (StorageAF.useStorageFramework(ctx) || hasWritableContentUri(currentUri)) {
+        if (hasWritableContentUri(currentUri)) {
             return currentUri
         }
 
@@ -144,6 +130,83 @@ object UriUtil {
         } else {
             null
         }
+    }
+
+    fun verifyFileUri(fileUri: Uri?): Boolean {
+
+        if (fileUri == null || fileUri == Uri.EMPTY)
+            return false
+
+        val scheme = fileUri.scheme
+        return when {
+            scheme == null || scheme.isEmpty() -> {
+                false
+            }
+            scheme.equals("file", ignoreCase = true) -> {
+                val filePath = fileUri.path
+                if (filePath == null || filePath.isEmpty())
+                    false
+                else {
+                    File(filePath).exists()
+                }
+            }
+            scheme.equals("content", ignoreCase = true) -> {
+                true
+            }
+            else -> false
+        }
+    }
+
+    fun parse(stringUri: String?): Uri? {
+        return if (stringUri?.isNotEmpty() == true) {
+            val uriParsed = Uri.parse(stringUri)
+             if (verifyFileUri(uriParsed))
+                uriParsed
+            else
+                null
+        } else
+            null
+    }
+
+    fun decode(uri: String?): String {
+        return Uri.decode(uri) ?: ""
+    }
+
+    fun getUriFromIntent(intent: Intent, key: String): Uri? {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                val clipData = intent.clipData
+                if (clipData != null) {
+                    if (clipData.description.label == key) {
+                        if (clipData.itemCount == 1) {
+                            val clipItem = clipData.getItemAt(0)
+                            if (clipItem != null) {
+                                return clipItem.uri
+                            }
+                        }
+                    }
+                }
+            }
+        } catch (e: Exception) {
+            return intent.getParcelableExtra(key)
+        }
+        return null
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, url: String?) {
+        try {
+            if (url != null && url.isNotEmpty()) {
+                context.startActivity(Intent(Intent.ACTION_VIEW, parse(url)))
+            }
+        } catch (e: ActivityNotFoundException) {
+            Toast.makeText(context, R.string.no_url_handler, Toast.LENGTH_LONG).show()
+        }
+    }
+
+    @Throws(ActivityNotFoundException::class)
+    fun gotoUrl(context: Context, resId: Int) {
+        gotoUrl(context, context.getString(resId))
     }
 
 }

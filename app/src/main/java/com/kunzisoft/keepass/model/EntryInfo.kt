@@ -18,12 +18,12 @@ class EntryInfo : Parcelable {
     constructor()
 
     private constructor(parcel: Parcel) {
-        id = parcel.readString()
-        title = parcel.readString()
-        username = parcel.readString()
-        password = parcel.readString()
-        url = parcel.readString()
-        notes = parcel.readString()
+        id = parcel.readString() ?: id
+        title = parcel.readString() ?: title
+        username = parcel.readString() ?: username
+        password = parcel.readString() ?: password
+        url = parcel.readString() ?: url
+        notes = parcel.readString() ?: notes
         parcel.readList(customFields, Field::class.java.classLoader)
     }
 

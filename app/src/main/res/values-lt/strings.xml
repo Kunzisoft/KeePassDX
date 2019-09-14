@@ -44,7 +44,7 @@
     <string name="list_size_title">Grupės sąrašo dydis</string>
     <string name="menu_about">Apie</string>
     <string name="settings">Nustatymai</string>
-    <string name="menu_db_settings">Duomenų bazės nustatymai</string>
+    <string name="menu_database_settings">Duomenų bazės nustatymai</string>
     <string name="menu_delete">Išrinti</string>
     <string name="menu_donate">Aukoti</string>
     <string name="menu_edit">Keisti</string>
@@ -64,7 +64,7 @@
     <string name="recentfile_summary">Atsiminti paskutinius naudotus failų pavadinimus</string>
     <string name="remember_keyfile_title">Saugoti rakto failą</string>
     <string name="remember_keyfile_summary">Atsimena rakto failų vietą</string>
-    <string name="remove_from_filelist">Pašalinti</string>
+    <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
     <string name="read_only">Tik skaitymui</string>
     <string name="error_pass_match">Slaptažodžiai nesutampa</string>
@@ -84,7 +84,7 @@
     <string name="keyfile_does_not_exist">Rakto failas neegzistuoja.</string>
     <string name="entry_keyfile">Rakto failas</string>
     <string name="search">Įrašo pavadinimas/aprašymas</string>
-    <string name="menu_change_key">Pakeisti master raktą</string>
+    <string name="menu_change_key_settings">Pakeisti master raktą</string>
     <string name="entry_accessed">Naudota:</string>
     <string name="maskpass_title">Maskuoti slaptažodį</string>
     <string name="space">Tarpas</string>

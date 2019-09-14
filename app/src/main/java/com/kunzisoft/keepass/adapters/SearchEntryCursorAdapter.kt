@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Color
-import android.support.v4.widget.CursorAdapter
+import androidx.cursoradapter.widget.CursorAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
 class SearchEntryCursorAdapter(context: Context, private val database: Database)
-    : CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
+    : androidx.cursoradapter.widget.CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

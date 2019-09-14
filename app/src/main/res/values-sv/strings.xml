@@ -32,7 +32,7 @@
     <string name="menu_app_settings">Inställningar för applikation</string>
     <string name="beta_dontask">Visa inte igen</string>
     <string name="brackets">Parenteser</string>
-    <string name="browser_intall_text">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
+    <string name="file_manager_install_description">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
     <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Urklippet är rensat.</string>
     <string name="clipboard_error_title">Urklippsfel</string>
@@ -63,10 +63,6 @@
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret ArcFour stöds inte.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan inte hantera denna URI.</string>
-    <string name="error_could_not_create_parent">Kunde inte skapa föräldermapp.</string>
-    <string name="error_database_exists">Filen existerar redan.</string>
-    <string name="error_failed_to_launch_link">Kunde inte öppna länk.</string>
-    <string name="error_filename_required">Ett filnamn krävs.</string>
     <string name="error_file_not_create">Kunde inte skapa filen:</string>
     <string name="error_invalid_db">Ogiltig databas.</string>
     <string name="error_invalid_path">Ogiltig sökväg.</string>
@@ -107,9 +103,9 @@
     <string name="maskpass_title">Maskera lösenord</string>
     <string name="maskpass_summary">Döljer lösenord som standard</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Byt nyckelfil</string>
+    <string name="menu_change_key_settings">Byt nyckelfil</string>
     <string name="settings">Inställningar</string>
-    <string name="menu_db_settings">Databasinställningar</string>
+    <string name="menu_database_settings">Databasinställningar</string>
     <string name="menu_delete">Radera</string>
     <string name="menu_donate">Donera</string>
     <string name="menu_edit">Redigera</string>
@@ -131,7 +127,7 @@
     <string name="protection">Skydd</string>
     <string name="remember_keyfile_summary">Sparar sökvägar till nyckelfiler</string>
     <string name="remember_keyfile_title">Spara nyckelfil</string>
-    <string name="remove_from_filelist">Ta bort</string>
+    <string name="content_description_remove_from_list">Ta bort</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Krypteringsrundor</string>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2018 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePass DX.
+
+  KeePass DX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePass DX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/biometric">
+
+        <SwitchPreference
+            android:key="@string/biometric_unlock_enable_key"
+            android:title="@string/biometric_unlock_enable_title"
+            android:summary="@string/biometric_unlock_enable_summary"
+            android:defaultValue="@bool/biometric_unlock_enable_default"/>
+        <SwitchPreference
+            android:key="@string/biometric_auto_open_prompt_key"
+            android:title="@string/biometric_auto_open_prompt_title"
+            android:summary="@string/biometric_auto_open_prompt_summary"
+            android:dependency="@string/biometric_unlock_enable_key"
+            android:defaultValue="@bool/biometric_auto_open_prompt_default"/>
+        <Preference
+            android:key="@string/biometric_delete_all_key_key"
+            android:title="@string/biometric_delete_all_key_title"
+            android:summary="@string/biometric_delete_all_key_summary" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

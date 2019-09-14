@@ -1,0 +1,7 @@
+ * New, more secure database creation workflow
+ * Recognize more database files
+ * Add alias for history files (WARNING: history is erased)
+ * New Biometric unlock (Fingerprint with new API)
+ * Fix entry references
+ * Fix OOM with KeyFile
+ * Fix small issues

@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-Copyright 2019 Jeremy Jamet / Kunzisoft.
-This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-KeePass DX is free software: you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    This file is part of KeePass DX.
 
-KeePass DX is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-You should have received a copy of the GNU General Public License
-along with KeePass DX. If not, see <http://www.gnu.org/licenses/>.
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
---><resources>
+    Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
+-->
+<resources>
     <string name="about_feedback">Commentario</string>
     <string name="about_homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
@@ -31,7 +32,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="application">Aplicación</string>
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
-    <string name="browser_intall_text">Explora ficheros con OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Explora ficheros con OpenIntents File Manager</string>
     <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
@@ -59,10 +60,6 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="entry_user_name">Nombre de usuario</string>
     <string name="error_arc4">Secuencia de cifrado ARCFOUR no es soportada.</string>
     <string name="error_can_not_handle_uri">KeePass DX no puede manejar este URI.</string>
-    <string name="error_could_not_create_parent">No pudo crearse el directorio padre.</string>
-    <string name="error_database_exists">Este archivo ya existe.</string>
-    <string name="error_failed_to_launch_link">Falló al abrir el enlace.</string>
-    <string name="error_filename_required">Se necesita un nombre de archivo.</string>
     <string name="error_file_not_create">No se pudo crear el archivo:</string>
     <string name="error_invalid_db">Impossible de leer la base de datos.</string>
     <string name="error_invalid_path">Asegúranse que la ruta es correcta.</string>
@@ -97,9 +94,9 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="maskpass_title">Ocultar contraseña</string>
     <string name="maskpass_summary">Ocultar contraseñas por defecto</string>
     <string name="menu_about">Acerca de</string>
-    <string name="menu_change_key">Cambiar Contraseña Maestra</string>
+    <string name="menu_change_key_settings">Cambiar Contraseña Maestra</string>
     <string name="settings">Configuración</string>
-    <string name="menu_db_settings">Configuración de Base de datos</string>
+    <string name="menu_database_settings">Configuración de Base de datos</string>
     <string name="menu_delete">Eliminar</string>
     <string name="menu_donate">Donar</string>
     <string name="menu_edit">Editar</string>
@@ -122,7 +119,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="progress_title">Trabajando…</string>
     <string name="remember_keyfile_summary">Recordar la ubicación de archivos de clave</string>
     <string name="remember_keyfile_title">Guardando archivo de clave</string>
-    <string name="remove_from_filelist">Borrar</string>
+    <string name="content_description_remove_from_list">Borrar</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>
     <string name="rounds">Pasadas de cifrado</string>
@@ -176,7 +173,7 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="keyfile_is_empty">El archivo clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Llenado de formulario</string>
-    <string name="menu_fingerprint_remove_key">Quite la clave de huella dactilar</string>
+    <string name="menu_biometric_remove_key">Quite la clave de huella dactilar</string>
     <string name="protection">Protección</string>
     <string name="read_only">Solo lectura</string>
     <string name="read_only_warning">KeePass DX no tiene permiso de escritura en la ubicación de la base de datos, la base de datos se abrirá como solo lectura.</string>
@@ -197,23 +194,21 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="sort_last_modify_time">Ordenar por Hora de última modificación</string>
     <string name="sort_last_access_time">Ordenar por Hora de último acceso</string>
     <string name="search_results">Resultados de la búsqueda</string>
-    <string name="use_saf_summary">Usar Android Storage Access Framework para examinar archivos (KitKat y posteriores)</string>
-    <string name="use_saf_title">Framework de Acceso al Almacenamiento</string>
     <string name="warning">Advertencia</string>
     <string name="entry_not_found">Datos de entrada no encontrados.</string>
     <string name="warning_password_encoding">El formato .kdb solo admite el juego de caracteres Latin1. Su contraseña puede contener caracteres fuera de este juego de caracteres. Todos los caracteres no-Latin1 se convierten al mismo carácter, lo que reduce la seguridad de su contraseña. Se recomienda cambiar su contraseña.</string>
     <string name="warning_empty_password">¿De verdad quieres usar una cadena vacía como contraseña?</string>
     <string name="warning_no_encryption_key">¿Estás seguro que no quieres usar clave de cifrado?</string>
-    <string name="configure_fingerprint">Huella digital compatible pero no configurada para el dispositivo</string>
-    <string name="scanning_fingerprint">Monitoreando huellas digitales</string>
+    <string name="configure_biometric">Huella digital compatible pero no configurada para el dispositivo</string>
+    <string name="open_biometric_prompt_unlock_database">Monitoreando huellas digitales</string>
     <string name="encrypted_value_stored">Contraseña encriptada almacenada</string>
-    <string name="fingerprint_invalid_key">Problema clave de huella digital no válida. Restaure su contraseña.</string>
-    <string name="fingerprint_not_recognized">Huella digital no reconocida</string>
-    <string name="fingerprint_error">Problema de huella digital: %1$s</string>
-    <string name="store_with_fingerprint">Usa la huella digital para almacenar esta contraseña</string>
-    <string name="no_password_stored">Aún sin contraseña almacenada para esta base de datos</string>
+    <string name="biometric_invalid_key">Problema clave de huella digital no válida. Restaure su contraseña.</string>
+    <string name="biometric_not_recognized">Huella digital no reconocida</string>
+    <string name="biometric_scanning_error">Problema de huella digital: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Usa la huella digital para almacenar esta contraseña</string>
+    <string name="no_credentials_stored">Aún sin contraseña almacenada para esta base de datos</string>
     <string name="history">Historial</string>
-    <string name="appearance">Apariencia</string>
+    <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletar</string>
     <string name="autofill_service_name">Servicio de Autocompletar KeePass DX</string>
@@ -230,19 +225,19 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueo de pantalla</string>
     <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
-    <string name="fingerprint_quick_unlock_title">¿Cómo configurar la huella digital para un desbloqueo rápido?</string>
+    <string name="fingerprint_advanced_unlock_title">¿Cómo configurar la huella digital para un desbloqueo rápido?</string>
     <string name="fingerprint_setting_text">Establezca su huella digital personal para su dispositivo en</string>
-    <string name="fingerprint_setting_way_text">Configuración -&gt; Seguridad -&gt; Huella digital</string>
-    <string name="fingerprint_type_password_text">Escriba su contraseña en Keepass DX</string>
+    <string name="fingerprint_setting_link_text">Configuración -&gt; Seguridad -&gt; Huella digital</string>
+    <string name="fingerprint_type_credentials_text">Escriba su contraseña en Keepass DX</string>
     <string name="fingerprint_scan_to_store">Escanee su huella digital para almacenar su contraseña maestra de forma segura</string>
     <string name="fingerprint_scan_to_open">Escanee su huella digital cuando la casilla de verificación de contraseña esté desmarcada para abrir la base de datos</string>
     <string name="usage">Uso</string>
-    <string name="fingerprint">Huella digital</string>
-    <string name="fingerprint_enable_title">Monitoreando Huella digital</string>
-    <string name="fingerprint_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
-    <string name="fingerprint_delete_all_title">Eliminar claves de cifrado</string>
-    <string name="fingerprint_delete_all_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento de huellas digitales</string>
-    <string name="fingerprint_delete_all_warning">¿Está seguro de que desea borrar todas las claves relacionadas con las huellas digitales?</string>
+    <string name="advanced_unlock">Huella digital</string>
+    <string name="biometric_unlock_enable_title">Monitoreando Huella digital</string>
+    <string name="biometric_unlock_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
+    <string name="biometric_delete_all_key_title">Eliminar claves de cifrado</string>
+    <string name="biometric_delete_all_key_summary">Eliminar todas las claves de cifrado relacionadas con el reconocimiento de huellas digitales</string>
+    <string name="biometric_delete_all_key_warning">¿Está seguro de que desea borrar todas las claves relacionadas con las huellas digitales?</string>
     <string name="unavailable_feature_text">No se puede iniciar esta característica.</string>
     <string name="unavailable_feature_version">Su versión de Android %1$s no es la versión mínima, se requiere %2$s.</string>
     <string name="unavailable_feature_hardware">El hardware no es detectado.</string>
@@ -255,17 +250,12 @@ Spanish translation by José I. Paños. Updated by David García-Abad (23-09-201
     <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la Papelera de reciclaje</string>
     <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX necesita permiso de almacenamiento externo para escribir una base de datos</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX necesita permiso de almacenamiento externo para leer una URI no proporcionada por el proveedor de contenido</string>
-    <string name="permission_external_storage_denied">Permiso de almacenamiento externo denegado</string>
-    <string name="permission_external_storage_never_ask">No se puede realizar la acción sin permiso de almacenamiento externo</string>
     <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
     <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>
     <string name="auto_open_file_uri_summary">Abrir automáticamente un archivo desde la pantalla de selección después de una selección en el explorador de archivos</string>
     <string name="allow_copy_password_title">Copia de contraseña</string>
     <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles.</string>
-    <string name="warning_disabling_storage_access_framework">ADVERTENCIA: deshabilitar esta característica puede dar lugar a una incapacidad para abrir o guardar las bases de datos</string>
     <string name="open_link_database">Enlace del archivo Kdbx para abrir</string>
     <string name="database_name_title">Nombre de la base de datos</string>
     <string name="database_description_title">Descripción de la base de datos</string>

@@ -83,12 +83,12 @@ class PwEntryV3 : PwEntry<PwGroupV3, PwEntryV3> {
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
-        title = parcel.readString()
-        username = parcel.readString()
+        title = parcel.readString() ?: title
+        username = parcel.readString() ?: username
         parcel.readByteArray(passwordBytes)
-        url = parcel.readString()
-        notes = parcel.readString()
-        binaryDesc = parcel.readString()
+        url = parcel.readString() ?: url
+        notes = parcel.readString() ?: notes
+        binaryDesc = parcel.readString() ?: binaryDesc
         parcel.readByteArray(binaryData)
     }
 

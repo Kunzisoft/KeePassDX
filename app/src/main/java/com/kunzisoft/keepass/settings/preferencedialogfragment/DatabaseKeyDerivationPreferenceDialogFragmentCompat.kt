@@ -20,16 +20,18 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import android.support.v7.preference.Preference
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.preference.Preference
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class DatabaseKeyDerivationPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat(), ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
+class DatabaseKeyDerivationPreferenceDialogFragmentCompat
+    : DatabaseSavePreferenceDialogFragmentCompat(),
+        ListRadioItemAdapter.RadioItemSelectedCallback<KdfEngine> {
 
     private var kdfEngineSelected: KdfEngine? = null
     private var roundPreference: Preference? = null
@@ -60,26 +62,26 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat : DatabaseSavePreferen
     override fun onDialogClosed(positiveResult: Boolean) {
         if (database != null && positiveResult && database!!.allowKdfModification()) {
             if (kdfEngineSelected != null) {
-                val newKdfEngine = kdfEngineSelected
+                val newKdfEngine = kdfEngineSelected!!
                 val oldKdfEngine = database!!.kdfEngine
-                database?.assignKdfEngine(newKdfEngine!!)
+                database?.assignKdfEngine(newKdfEngine)
 
-                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine!!, oldKdfEngine)
+                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
             }
         }
 
         super.onDialogClosed(positiveResult)
     }
 
-    fun setRoundPreference(preference: Preference) {
+    fun setRoundPreference(preference: Preference?) {
         this.roundPreference = preference
     }
 
-    fun setMemoryPreference(preference: Preference) {
+    fun setMemoryPreference(preference: Preference?) {
         this.memoryPreference = preference
     }
 
-    fun setParallelismPreference(preference: Preference) {
+    fun setParallelismPreference(preference: Preference?) {
         this.parallelismPreference = preference
     }
 

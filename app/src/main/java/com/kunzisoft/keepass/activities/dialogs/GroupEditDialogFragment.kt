@@ -23,9 +23,9 @@ import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
-import android.support.design.widget.TextInputLayout
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import com.google.android.material.textfield.TextInputLayout
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
@@ -62,15 +62,15 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            editGroupListener = context as EditGroupListener?
+            editGroupListener = context as EditGroupListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context?.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + GroupEditDialogFragment::class.java.name)
         }
 

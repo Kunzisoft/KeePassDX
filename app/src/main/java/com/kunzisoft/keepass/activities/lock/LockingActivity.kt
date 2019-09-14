@@ -51,46 +51,46 @@ abstract class LockingActivity : StylishActivity() {
         const val TIMEOUT_ENABLE_KEY_DEFAULT = true
     }
 
-    protected var timeoutEnable: Boolean = true
+    protected var mTimeoutEnable: Boolean = true
 
-    private var lockReceiver: LockReceiver? = null
-    private var exitLock: Boolean = false
+    private var mLockReceiver: LockReceiver? = null
+    private var mExitLock: Boolean = false
 
     // Force readOnly if Entry Selection mode
-    protected var readOnly: Boolean = false
+    protected var mReadOnly: Boolean = false
         get() {
-            return field || selectionMode
+            return field || mSelectionMode
         }
-    protected var selectionMode: Boolean = false
+    protected var mSelectionMode: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(TIMEOUT_ENABLE_KEY)) {
-            timeoutEnable = savedInstanceState.getBoolean(TIMEOUT_ENABLE_KEY)
+            mTimeoutEnable = savedInstanceState.getBoolean(TIMEOUT_ENABLE_KEY)
         } else {
             if (intent != null)
-                timeoutEnable = intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
+                mTimeoutEnable = intent.getBooleanExtra(TIMEOUT_ENABLE_KEY, TIMEOUT_ENABLE_KEY_DEFAULT)
         }
 
-        if (timeoutEnable) {
-            lockReceiver = LockReceiver()
+        if (mTimeoutEnable) {
+            mLockReceiver = LockReceiver()
             val intentFilter = IntentFilter().apply {
                 addAction(Intent.ACTION_SCREEN_OFF)
                 addAction(LOCK_ACTION)
             }
-            registerReceiver(lockReceiver, intentFilter)
+            registerReceiver(mLockReceiver, intentFilter)
         }
 
-        exitLock = false
-        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
+        mExitLock = false
+        mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_EXIT_LOCK) {
-            exitLock = true
+            mExitLock = true
             if (Database.getInstance().loaded) {
                 lockAndExit()
             }
@@ -101,9 +101,9 @@ abstract class LockingActivity : StylishActivity() {
         super.onResume()
 
         // To refresh when back to normal workflow from selection workflow
-        selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
+        mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
 
-        if (timeoutEnable) {
+        if (mTimeoutEnable) {
             // End activity if database not loaded
             if (!Database.getInstance().loaded) {
                 finish()
@@ -115,7 +115,7 @@ abstract class LockingActivity : StylishActivity() {
             // If the time is out -> close the Activity
             TimeoutHelper.checkTimeAndLockIfTimeout(this)
             // If onCreate already record time
-            if (!exitLock)
+            if (!mExitLock)
                 TimeoutHelper.recordTime(this)
         }
 
@@ -123,15 +123,15 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        outState.putBoolean(TIMEOUT_ENABLE_KEY, timeoutEnable)
+        ReadOnlyHelper.onSaveInstanceState(outState, mReadOnly)
+        outState.putBoolean(TIMEOUT_ENABLE_KEY, mTimeoutEnable)
         super.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
         super.onPause()
 
-        if (timeoutEnable) {
+        if (mTimeoutEnable) {
             // If the time is out during our navigation in activity -> close the Activity
             TimeoutHelper.checkTimeAndLockIfTimeout(this)
         }
@@ -139,8 +139,8 @@ abstract class LockingActivity : StylishActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if (lockReceiver != null)
-            unregisterReceiver(lockReceiver)
+        if (mLockReceiver != null)
+            unregisterReceiver(mLockReceiver)
     }
 
     inner class LockReceiver : BroadcastReceiver() {
@@ -184,7 +184,7 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onBackPressed() {
-        if (timeoutEnable) {
+        if (mTimeoutEnable) {
             TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
                 super.onBackPressed()
             }

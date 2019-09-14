@@ -227,42 +227,18 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         }
 
     /**
-     * Retrieve extra fields to show, key is the label, value is the value of field
+     * Retrieve custom fields to show, key is the label, value is the value of field (protected or not)
      * @return Map of label/value
      */
-    val fields: ExtraFields
-        get() = pwEntryV4?.fields ?: ExtraFields()
+    val customFields: HashMap<String, ProtectedString>
+        get() = pwEntryV4?.customFields ?: HashMap()
 
     /**
-     * To redefine if version of entry allow extra field,
-     * @return true if entry allows extra field
+     * To redefine if version of entry allow custom field,
+     * @return true if entry allows custom field
      */
-    fun allowExtraFields(): Boolean {
-        return pwEntryV4?.allowExtraFields() ?: false
-    }
-
-    /**
-     * If entry contains extra fields
-     * @return true if there is extra fields
-     */
-    fun containsCustomFields(): Boolean {
-        return pwEntryV4?.containsCustomFields() ?: false
-    }
-
-    /**
-     * If entry contains extra fields that are protected
-     * @return true if there is extra fields protected
-     */
-    fun containsCustomFieldsProtected(): Boolean {
-        return pwEntryV4?.containsCustomFieldsProtected() ?: false
-    }
-
-    /**
-     * If entry contains extra fields that are not protected
-     * @return true if there is extra fields not protected
-     */
-    fun containsCustomFieldsNotProtected(): Boolean {
-        return pwEntryV4?.containsCustomFieldsNotProtected() ?: false
+    fun allowCustomFields(): Boolean {
+        return pwEntryV4?.allowCustomFields() ?: false
     }
 
     /**
@@ -272,13 +248,6 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
      */
     fun addExtraField(label: String, value: ProtectedString) {
         pwEntryV4?.addExtraField(label, value)
-    }
-
-    /**
-     * Delete all custom fields
-     */
-    fun removeAllCustomFields() {
-        pwEntryV4?.removeAllCustomFields()
     }
 
     fun startToManageFieldReferences(db: PwDatabaseV4) {
@@ -327,11 +296,9 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         entryInfo.password = password
         entryInfo.url = url
         entryInfo.notes = notes
-        if (containsCustomFields()) {
-            fields.doActionToAllCustomProtectedField { key, value ->
-                        entryInfo.customFields.add(
-                                Field(key, value))
-                    }
+        for (entry in customFields.entries) {
+            entryInfo.customFields.add(
+                    Field(entry.key, entry.value))
         }
         if (!raw)
             database?.stopManageEntry(this)

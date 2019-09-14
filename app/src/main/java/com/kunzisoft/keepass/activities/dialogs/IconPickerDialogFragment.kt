@@ -24,9 +24,9 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v4.widget.ImageViewCompat
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.core.widget.ImageViewCompat
+import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,13 +45,13 @@ class IconPickerDialogFragment : DialogFragment() {
     private var iconPickerListener: IconPickerListener? = null
     private var iconPack: IconPack? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            iconPickerListener = context as IconPickerListener?
+            iconPickerListener = context as IconPickerListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
-            throw ClassCastException(context!!.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + IconPickerListener::class.java.name)
         }
     }
@@ -77,7 +77,7 @@ class IconPickerDialogFragment : DialogFragment() {
                 dismiss()
             }
 
-            builder.setNegativeButton(R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog.cancel() }
+            builder.setNegativeButton(R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog?.cancel() }
 
             return builder.create()
         }

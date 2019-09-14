@@ -17,30 +17,37 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:padding="@dimen/default_margin"
   	android:layout_width="wrap_content"
   	android:layout_height="wrap_content"
   	android:orientation="vertical">
-	<TextView android:id="@+id/text"
+	<TextView
+		android:id="@+id/file_manager_install_description"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
-		android:text="@string/browser_intall_text"
+		android:text="@string/file_manager_install_description"
+		android:gravity="center"
 		android:layout_marginBottom="12dp" />
 	<LinearLayout 
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
 		android:gravity="center_horizontal"
 		android:orientation="vertical">
-		<Button android:id="@+id/install_market"
+		<Button
+			android:id="@+id/file_manager_install_play_store"
 			android:layout_margin="@dimen/button_margin"
 			android:layout_width="200sp"
 			android:layout_height="wrap_content"
+			android:enabled="false"
 			android:text="@string/install_from_play_store" />
-		<Button android:id="@+id/install_web"
+		<Button
+			android:id="@+id/file_manager_install_f_droid"
 			android:layout_margin="@dimen/button_margin"
 			android:layout_width="200sp"
 			android:layout_height="wrap_content"
+			android:enabled="false"
 			android:text="@string/install_from_f_droid" />
 	</LinearLayout>
 </LinearLayout>

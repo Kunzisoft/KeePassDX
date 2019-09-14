@@ -19,18 +19,16 @@
  */
 package com.kunzisoft.keepass.utils
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
-import android.widget.Toast
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper.READ_ONLY_DEFAULT
-import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.settings.SettingsActivity
 
 
 object MenuUtil {
@@ -45,15 +43,8 @@ object MenuUtil {
         inflater.inflate(R.menu.default_menu, menu)
     }
 
-    fun onContributionItemSelected(activity: StylishActivity): Boolean {
-        try {
-            Util.gotoUrl(activity, R.string.contribution_url)
-        } catch (e: ActivityNotFoundException) {
-            Toast.makeText(activity, R.string.error_failed_to_launch_link, Toast.LENGTH_LONG).show()
-            return false
-        }
-
-        return true
+    fun onContributionItemSelected(activity: StylishActivity) {
+        UriUtil.gotoUrl(activity, R.string.contribution_url)
     }
 
     /*
@@ -62,7 +53,10 @@ object MenuUtil {
     @JvmOverloads
     fun onDefaultMenuOptionsItemSelected(activity: StylishActivity, item: MenuItem, readOnly: Boolean = READ_ONLY_DEFAULT, timeoutEnable: Boolean = false): Boolean {
         when (item.itemId) {
-            R.id.menu_contribute -> return onContributionItemSelected(activity)
+            R.id.menu_contribute -> {
+                onContributionItemSelected(activity)
+                return true
+            }
 
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity

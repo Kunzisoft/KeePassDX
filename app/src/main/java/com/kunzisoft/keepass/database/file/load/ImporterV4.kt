@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
-import com.kunzisoft.keepass.utils.MemUtil
+import com.kunzisoft.keepass.utils.MemoryUtil
 import com.kunzisoft.keepass.utils.Types
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
@@ -490,9 +490,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             } else if (name.equals(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, ignoreCase = true)) {
                 ctxGroup?.defaultAutoTypeSequence = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEnableAutoType, ignoreCase = true)) {
-                ctxGroup?.enableAutoType = stringToBoolean(readString(xpp))
+                ctxGroup?.enableAutoType = readOptionalBool(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemEnableSearching, ignoreCase = true)) {
-                ctxGroup?.enableSearching = stringToBoolean(readString(xpp))
+                ctxGroup?.enableSearching = readOptionalBool(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemLastTopVisibleEntry, ignoreCase = true)) {
                 ctxGroup?.lastTopVisibleEntry = readUuid(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemCustomData, ignoreCase = true)) {
@@ -577,12 +577,12 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             }
 
             KdbContext.GroupTimes, KdbContext.EntryTimes -> {
-                val tl: NodeV4Interface?
-                if (ctx == KdbContext.GroupTimes) {
-                    tl = ctxGroup
-                } else {
-                    tl = ctxEntry
-                }
+                val tl: PwNodeV4Interface? =
+                        if (ctx == KdbContext.GroupTimes) {
+                            ctxGroup
+                        } else {
+                            ctxEntry
+                        }
 
                 when {
                     name.equals(PwDatabaseV4XML.ElemLastModTime, ignoreCase = true) -> tl?.lastModificationTime = readPwTime(xpp)
@@ -821,7 +821,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         } else {
 
             try {
-                utcDate = PwDatabaseV4XML.dateFormatter.get().parse(sDate)
+                utcDate = PwDatabaseV4XML.dateFormatter.get()?.parse(sDate)
             } catch (e: ParseException) {
                 // Catch with null test below
             }
@@ -847,7 +847,23 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
     private fun readBool(xpp: XmlPullParser, bDefault: Boolean): Boolean {
         val str = readString(xpp)
 
-        return str.equals("true", ignoreCase = true) || !str.equals("false", ignoreCase = true) && bDefault
+        return when {
+            str.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true) -> true
+            str.equals(PwDatabaseV4XML.ValFalse, ignoreCase = true) -> false
+            else -> bDefault
+        }
+    }
+
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readOptionalBool(xpp: XmlPullParser, bDefault: Boolean? = null): Boolean? {
+        val str = readString(xpp)
+
+        return when {
+            str.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true) -> true
+            str.equals(PwDatabaseV4XML.ValFalse, ignoreCase = true) -> false
+            str.equals(PwDatabaseV4XML.ValNull, ignoreCase = true) -> null
+            else -> bDefault
+        }
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -933,7 +949,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
     @Throws(IOException::class)
     private fun createProtectedBinaryFromData(protection: Boolean, data: ByteArray): ProtectedBinary {
-        return if (data.size > MemUtil.BUFFER_SIZE_BYTES) {
+        return if (data.size > MemoryUtil.BUFFER_SIZE_BYTES) {
             val file = File(streamDir, unusedCacheFileName)
             FileOutputStream(file).use { outputStream -> outputStream.write(data) }
             ProtectedBinary(protection, file, data.size)
@@ -971,7 +987,7 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         var data = Base64Coder.decode(base64)
 
         if (compressed) {
-            data = MemUtil.decompress(data)
+            data = MemoryUtil.decompress(data)
         }
 
         return createProtectedBinaryFromData(false, data)
@@ -1030,22 +1046,6 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
             return ctxCurrent
         }
         return ctxNew
-    }
-
-
-    private fun stringToBoolean(str: String?): Boolean? {
-        if (str == null || str.isEmpty()) {
-            return null
-        }
-
-        val trimmed = str.trim { it <= ' ' }
-        if (trimmed.equals("true", ignoreCase = true)) {
-            return true
-        } else if (trimmed.equals("false", ignoreCase = true)) {
-            return false
-        }
-
-        return null
     }
 
     companion object {

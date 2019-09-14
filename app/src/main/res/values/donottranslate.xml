@@ -35,8 +35,8 @@
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
     <string name="homepage" translatable="false">https://www.keepassdx.com</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
-    <string name="filemanager_play_store" translatable="false">https://play.google.com/store/apps/details?id=org.openintents.filemanager</string>
-    <string name="filemanager_f_droid" translatable="false">https://f-droid.org/packages/org.openintents.filemanager/</string>
+    <string name="file_manager_play_store" translatable="false">TODO file manager</string>
+    <string name="file_manager_f_droid" translatable="false">TODO file manager</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
     <string name="keyboard_switcher_play_store" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keyboard.switcher</string>
     <string name="keyboard_switcher_f_droid" translatable="false">https://f-droid.org/en/packages/com.kunzisoft.keyboard.switcher/</string>
@@ -65,7 +65,7 @@
     -->
 
     <!-- App Settings -->
-    <string name="app_key" translatable="false">app</string>
+    <string name="settings_app_key" translatable="false">settings_app_key</string>
 
     <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
     <bool name="allow_no_password_default" translatable="false">false</bool>
@@ -79,7 +79,7 @@
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
     <string name="lock_database_back_root_key" translatable="false">lock_database_back_root_key</string>
-    <bool name="lock_database_back_root_default" translatable="false">true</bool>
+    <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
     <string name="maskpass_key" translatable="false">maskpass</string>
@@ -90,13 +90,13 @@
     <bool name="recentfile_default" translatable="false">true</bool>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <bool name="keyfile_default" translatable="false">true</bool>
-    <string name="saf_key" translatable="false">storage_access_framework_key</string>
-    <bool name="settings_saf_default" translatable="false">false</bool>
     <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
     <bool name="auto_open_file_uri_default" translatable="false">true</bool>
-    <string name="fingerprint_enable_key" translatable="false">fingerprint_enable_key</string>
-    <bool name="fingerprint_enable_default" translatable="false">false</bool>
-    <string name="fingerprint_delete_all_key" translatable="false">fingerprint_delete_all_key</string>
+    <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
+    <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
+    <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
+    <bool name="biometric_auto_open_prompt_default" translatable="false">false</bool>
+    <string name="biometric_delete_all_key_key" translatable="false">biometric_delete_all_key_key</string>
 
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
@@ -125,6 +125,9 @@
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
 
+    <!-- Advanced Unlock Settings -->
+    <string name="settings_advanced_unlock_key" translatable="false">settings_advanced_unlock_key</string>
+
     <!-- Appearance Settings -->
     <string name="settings_appearance_key" translatable="false">settings_appearance_key</string>
 
@@ -134,7 +137,7 @@
     <bool name="list_entries_show_username_default" translatable="false">true</bool>
     <string name="list_groups_show_number_entries_key" translatable="false">list_groups_show_number_entries_key</string>
     <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
-    <string name="list_size_key" translatable="false">list_size</string>
+    <string name="list_size_key" translatable="false">list_size_key</string>
     <string name="monospace_font_fields_enable_key" translatable="false">monospace_font_extra_fields_enable_key</string>
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
@@ -144,8 +147,8 @@
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
 
     <!-- Database Settings -->
-    <string name="database_main_menu_key" translatable="false">database_main_menu_key</string>
-    <string name="database_change_master_key_key" translatable="false">database_change_master_key_key</string>
+    <string name="settings_database_key" translatable="false">settings_database_key</string>
+    <string name="settings_database_change_credentials_key" translatable="false">settings_database_change_credentials_key</string>
     <string name="database_general_key" translatable="false">database_general_key</string>
 
     <string name="database_name_key" translatable="false">database_name_key</string>
@@ -228,15 +231,23 @@
     </string-array>
 
     <!-- Text Size -->
+    <dimen name="list_tiny_size_default" translatable="false">9dp</dimen>
+    <dimen name="list_small_size_default" translatable="false">14dp</dimen>
+    <dimen name="list_medium_size_default" translatable="false">16dp</dimen>
     <dimen name="list_icon_size_default" translatable="false">32dp</dimen>
-    <integer name="list_tiny_size_default" translatable="false">9</integer>
-    <integer name="list_small_size_default" translatable="false">13</integer>
-    <string name="list_size_default" translatable="false">16</string>
-    <string-array name="list_size_values">
-    	<item translatable="false">14</item>
-    	<item translatable="false">@string/list_size_default</item>
-    	<item translatable="false">22</item>
+    <string name="list_size_string_small" translatable="false">small</string>
+    <string name="list_size_string_medium" translatable="false">medium</string>
+    <string name="list_size_string_large" translatable="false">large</string>
+    <string-array name="list_size_string_values">
+    	<item translatable="false">@string/list_size_string_small</item>
+    	<item translatable="false">@string/list_size_string_medium</item>
+    	<item translatable="false">@string/list_size_string_large</item>
     </string-array>
+    <array name="list_size_values">
+        <item translatable="false">0.8</item>
+        <item translatable="false">1</item>
+        <item translatable="false">1.2</item>
+    </array>
 
     <!-- Style -->
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
@@ -259,7 +270,7 @@
     <!--  Password generator -->
     <string name="min_password_length" translatable="false">1</string>
     <string name="default_password_length" translatable="false">14</string>
-    <string name="max_password_length" translatable="false">64</string>
+    <string name="max_password_length" translatable="false">128</string>
 
     <string name="value_password_uppercase" translatable="false">value_password_uppercase</string>
     <string name="value_password_lowercase" translatable="false">value_password_lowercase</string>

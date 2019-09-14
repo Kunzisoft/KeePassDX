@@ -22,14 +22,18 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import com.google.android.material.textfield.TextInputLayout
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.view.View
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.SeekBar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.password.PasswordGenerator
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.applyFontVisibility
+import com.kunzisoft.keepass.view.applyFontVisibility
 
 class GeneratePasswordDialogFragment : DialogFragment() {
 
@@ -37,6 +41,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
 
     private var root: View? = null
     private var lengthTextView: EditText? = null
+    private var passwordInputLayoutView: TextInputLayout? = null
     private var passwordView: EditText? = null
 
     private var uppercaseBox: CompoundButton? = null
@@ -49,12 +54,12 @@ class GeneratePasswordDialogFragment : DialogFragment() {
     private var bracketsBox: CompoundButton? = null
     private var extendedBox: CompoundButton? = null
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            mListener = context as GeneratePasswordListener?
+            mListener = context as GeneratePasswordListener
         } catch (e: ClassCastException) {
-            throw ClassCastException(context?.toString()
+            throw ClassCastException(context.toString()
                     + " must implement " + GeneratePasswordListener::class.java.name)
         }
     }
@@ -65,6 +70,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
             val inflater = activity.layoutInflater
             root = inflater.inflate(R.layout.fragment_generate_password, null)
 
+            passwordInputLayoutView = root?.findViewById(R.id.password_input_layout)
             passwordView = root?.findViewById(R.id.password)
             passwordView?.applyFontVisibility()
 
@@ -162,8 +168,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
 
-            val generator = PasswordGenerator(resources)
-            password = generator.generatePassword(length,
+            password = PasswordGenerator(resources).generatePassword(length,
                     uppercaseBox?.isChecked == true,
                     lowercaseBox?.isChecked == true,
                     digitsBox?.isChecked == true,
@@ -174,9 +179,9 @@ class GeneratePasswordDialogFragment : DialogFragment() {
                     bracketsBox?.isChecked == true,
                     extendedBox?.isChecked == true)
         } catch (e: NumberFormatException) {
-            Toast.makeText(context, R.string.error_wrong_length, Toast.LENGTH_LONG).show()
+            passwordInputLayoutView?.error = getString(R.string.error_wrong_length)
         } catch (e: IllegalArgumentException) {
-            Toast.makeText(context, e.message, Toast.LENGTH_LONG).show()
+            passwordInputLayoutView?.error = e.message
         }
 
         return password

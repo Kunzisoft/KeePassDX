@@ -3,8 +3,8 @@ package com.kunzisoft.keepass.database.action
 import android.content.Intent
 import android.os.AsyncTask
 import android.os.Build
-import android.support.annotation.StringRes
-import android.support.v4.app.FragmentActivity
+import androidx.annotation.StringRes
+import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.tasks.ActionRunnable

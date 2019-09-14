@@ -119,7 +119,7 @@ class ProtectedBinary : Parcelable {
         var result = 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
-        result = 31 * result + Integer.valueOf(size)!!.hashCode()
+        result = 31 * result + Integer.valueOf(size).hashCode()
         result = 31 * result + Arrays.hashCode(data)
         return result
     }

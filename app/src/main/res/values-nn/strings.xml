@@ -30,7 +30,7 @@
     <string name="application">Program</string>
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
-    <string name="browser_intall_text">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
+    <string name="file_manager_install_description">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
     <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Utklippstavla er tømt.</string>
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
@@ -58,10 +58,6 @@
     <string name="entry_user_name">Brukaramn</string>
     <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikkje bruka denne ressursen.</string>
-    <string name="error_could_not_create_parent">Klarte ikkje å laga foreldrekatalogen.</string>
-    <string name="error_database_exists">Denne fila finst allereie.</string>
-    <string name="error_failed_to_launch_link">Klarte ikkje å lasta lenkja.</string>
-    <string name="error_filename_required">Treng eit filnamn.</string>
     <string name="error_file_not_create">Klarte ikkje å laga fila:</string>
     <string name="error_invalid_db">Ugyldig database.</string>
     <string name="error_invalid_path">Ugyldig stig.</string>
@@ -96,9 +92,9 @@
     <string name="maskpass_title">Masker passord</string>
     <string name="maskpass_summary">Gøym passorda (standardval)</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Endra hovudnøkkelen</string>
+    <string name="menu_change_key_settings">Endra hovudnøkkelen</string>
     <string name="settings">Innstillingar</string>
-    <string name="menu_db_settings">Databaseinnstillingar</string>
+    <string name="menu_database_settings">Databaseinnstillingar</string>
     <string name="menu_delete">Slett</string>
     <string name="menu_donate">Doner</string>
     <string name="menu_edit">Endra</string>
@@ -119,7 +115,7 @@
     <string name="progress_title">Arbeider …</string>
     <string name="remember_keyfile_summary">Hugsar staden til nøkkelfilene</string>
     <string name="remember_keyfile_title">Lagra nøkkelfila</string>
-    <string name="remove_from_filelist">Ta vekk</string>
+    <string name="content_description_remove_from_list">Ta vekk</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rot</string>
     <string name="rounds">Krypteringsomgangar</string>

@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_feedback">Tilbakemelding</string>
     <string name="about_homepage">Hjemmeside</string>
@@ -16,7 +34,7 @@
     <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
-    <string name="browser_intall_text">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
+    <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
     <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
@@ -49,10 +67,6 @@
     <string name="entry_user_name">Brukernavn</string>
     <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
     <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
-    <string name="error_could_not_create_parent">Kunne ikke opprette ovennevnt mappe.</string>
-    <string name="error_database_exists">Denne filen finnes allerede.</string>
-    <string name="error_failed_to_launch_link">Kunne ikke åpne lenke.</string>
-    <string name="error_filename_required">Et filnavn er påkrevd.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil:</string>
     <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
@@ -100,12 +114,12 @@
     <string name="maskpass_title">Masker passord</string>
     <string name="maskpass_summary">Skjul passord som forvalg</string>
     <string name="menu_about">Om</string>
-    <string name="menu_change_key">Endre hovednøkkel</string>
+    <string name="menu_change_key_settings">Endre hovednøkkel</string>
     <string name="copy_field">Kopierte %1$s</string>
     <string name="settings">Innstillinger</string>
     <string name="menu_app_settings">Programinnstillinger</string>
     <string name="menu_form_filling_settings">Skjemautfylling</string>
-    <string name="menu_db_settings">Databaseinnstillinger</string>
+    <string name="menu_database_settings">Databaseinnstillinger</string>
     <string name="menu_donate">Doner</string>
     <string name="menu_edit">Rediger</string>
     <string name="menu_copy">Kopier</string>
@@ -118,7 +132,7 @@
     <string name="menu_open">Åpne</string>
     <string name="menu_search">Søk</string>
     <string name="menu_showpass">Vis passord</string>
-    <string name="menu_fingerprint_remove_key">Fjern fingeravtrykksnøkkelen</string>
+    <string name="menu_biometric_remove_key">Fjern fingeravtrykksnøkkelen</string>
     <string name="menu_url">Gå til nettadresse</string>
     <string name="menu_file_selection_read_only">Skrivebeskyttet</string>
     <string name="menu_open_file_read_and_write">Les og skriv</string>
@@ -140,7 +154,7 @@
     <string name="recentfile_summary">Husk nylig brukte filnavn</string>
     <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>
     <string name="remember_keyfile_title">Lagre nøkkelfil</string>
-    <string name="remove_from_filelist">Fjern</string>
+    <string name="content_description_remove_from_list">Fjern</string>
     <string name="root">Rot</string>
     <string name="encryption_explanation">Algoritme for å kryptere hele databasen. (Passord, brukernavn, merknader og all data i databasen er kryptert med valgt algoritme).</string>
     <string name="kdf_explanation">For å generere en nøkkel for krypteringsalgoritmen, er den komprimerte hovednøkkelen (SHA-256) transformert ved bruk av en tilfeldig saltet nøkkelutledningsfunksjon.</string>
@@ -170,8 +184,6 @@
     <string name="underline">Understrek</string>
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
-    <string name="use_saf_summary">Bruk Android-lagringstilgang (SAF) rammeverk til filutforsking (KitKat og senere)</string>
-    <string name="use_saf_title">Lagringstilgang-rammeverk</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
     <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
@@ -179,16 +191,16 @@
     <string name="warning_empty_password">Ønsker du virkelig å bruke en tom streng som ditt passord?</string>
     <string name="warning_no_encryption_key">Er du sikker på at du ønsker å bruke en krypteringsnøkkel?</string>
     <string name="version_label">Versjon %1$s</string>
-    <string name="configure_fingerprint">Fingeravtrykket er satt støttet, men ikke satt opp på denne enheten.</string>
-    <string name="scanning_fingerprint">Venter på fingeravtrykk</string>
+    <string name="configure_biometric">Fingeravtrykket er satt støttet, men ikke satt opp på denne enheten.</string>
+    <string name="open_biometric_prompt_unlock_database">Venter på fingeravtrykk</string>
     <string name="encrypted_value_stored">Kryptert passord lagret</string>
-    <string name="fingerprint_invalid_key">Ugyldig fingeravtrykksnøkkelproblem. Gjenopprett passordet ditt.</string>
-    <string name="fingerprint_not_recognized">Fremmed fingeravtrykk</string>
-    <string name="fingerprint_error">Fingeravtrykksproblem: %1$s</string>
-    <string name="store_with_fingerprint">Bruk fingeravtrykk til å lagre dette passordet</string>
-    <string name="no_password_stored">Denne databasen har ikke et passord enda.</string>
+    <string name="biometric_invalid_key">Ugyldig fingeravtrykksnøkkelproblem. Gjenopprett passordet ditt.</string>
+    <string name="biometric_not_recognized">Fremmed fingeravtrykk</string>
+    <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
+    <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
     <string name="history">Historikk</string>
-    <string name="appearance">Utseende</string>
+    <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>
     <string name="autofill_service_name">KeePass DX autofyll-tjeneste</string>
@@ -206,19 +218,19 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skjermlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen når skjermen er av</string>
-    <string name="fingerprint_quick_unlock_title">Hvordan sette opp fingeravtrykk for rask opplåsing?</string>
+    <string name="fingerprint_advanced_unlock_title">Hvordan sette opp fingeravtrykk for rask opplåsing?</string>
     <string name="fingerprint_setting_text">Sett ditt personlige fingeravtrykk for din enhet i</string>
-    <string name="fingerprint_setting_way_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
-    <string name="fingerprint_type_password_text">Skriv passordet ditt i KeePass DX</string>
+    <string name="fingerprint_setting_link_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
+    <string name="fingerprint_type_credentials_text">Skriv passordet ditt i KeePass DX</string>
     <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
     <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
-    <string name="fingerprint">Fingeravtrykk</string>
-    <string name="fingerprint_enable_title">Skanner etter fingeravtrykk</string>
-    <string name="fingerprint_enable_summary">Skru på fingeravtrykksåpning av database</string>
-    <string name="fingerprint_delete_all_title">Slett krypteringsnøkler</string>
-    <string name="fingerprint_delete_all_summary">Slett alle fingeravtrykksnøkler som har med fingeravtrykksgjenkjennelse å gjøre</string>
-    <string name="fingerprint_delete_all_warning">Er du sikker på at du vil slette alle nøklene som har med fingeravtrykk å gjøre?</string>
+    <string name="advanced_unlock">Fingeravtrykk</string>
+    <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
+    <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
+    <string name="biometric_delete_all_key_title">Slett krypteringsnøkler</string>
+    <string name="biometric_delete_all_key_summary">Slett alle fingeravtrykksnøkler som har med fingeravtrykksgjenkjennelse å gjøre</string>
+    <string name="biometric_delete_all_key_warning">Er du sikker på at du vil slette alle nøklene som har med fingeravtrykk å gjøre?</string>
     <string name="unavailable_feature_text">Kunne ikke starte denne funksjonen.</string>
     <string name="unavailable_feature_version">Din Androidversjon %1$s oppfyller ikke minimumskravet, %2$s kreves.</string>
     <string name="unavailable_feature_hardware">Fant ikke maskinvaren.</string>
@@ -231,10 +243,6 @@
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
-    <string name="permission_external_storage_rationale_write_database">KeePass DX trenger tilgang til ekstern lagringsmedium for å skrive en database.</string>
-    <string name="permission_external_storage_rationale_read_database">KeePass DX trenger tilgang til eksternt lagringsmedium for å lese en URI som ikke leveres av en innholdsleverandør.</string>
-    <string name="permission_external_storage_denied">Tilgang til eksternt lagringsmedium avvist.</string>
-    <string name="permission_external_storage_never_ask">Kan ikke utføre handlingen uten tilgang til eksternt lagringsmedium.</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
@@ -242,7 +250,6 @@
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
-    <string name="warning_disabling_storage_access_framework">ADVARSEL: Å skru av denne funksjonen kan lede til manglende evne til å åpne eller lagre databaser.</string>
     <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>
@@ -256,8 +263,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard-innstillinger</string>
     <string name="magic_keyboard_configure_title">Sett opp tastaturet for sikker skjemautfylling.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard i enhetsinnstillingene.</string>
-    <string name="magic_keyboard_activate_setting_path_1_text">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
-    <string name="magic_keyboard_activate_setting_path_2_text">eller (\"Innstillinger\" → \"Språk og inndata\" → \"Virtuelt tastatur\" og velg ett.)</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
     <string name="keyboards_choose_magikeyboard_text">Velg Magikeyboard når du trenger å fylle inn et skjema.</string>
     <string name="keyboards_swicth_magikeyboard_text">Du kan enkelt bytte fra ditt hovedtastatur til Magikeyboard med språkknappen på tastaturet ditt, et langt trykk på ditt tastaturs mellomromstast, eller, hvis det ikke er tilgjengelig, med:</string>
     <string name="keyboard_select_entry_text">Velg din oppføring med nøkkelen.</string>
@@ -366,4 +372,20 @@
     <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
+    <string name="content_description_open_file">Åpne fil</string>
+    <string name="content_description_show_file_link">Vis fillenke</string>
+    <string name="content_description_open_file_link">Åpne fillenke</string>
+    <string name="content_description_add_node">Legg til node</string>
+    <string name="content_description_add_entry">Legg til oppføring</string>
+    <string name="content_description_add_group">Legg til gruppe</string>
+    <string name="content_description_file_information">Filinfo</string>
+    <string name="content_description_password_generator">Passordgenerator</string>
+    <string name="content_description_password_length">Passordslengde</string>
+    <string name="content_description_add_field">Legg til felt</string>
+    <string name="content_description_remove_field">Fjern felt</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Du kan ikke flytte en oppføring hit.</string>
+    <string name="error_copy_entry_here">Du kan ikke kopiere en oppføring hit.</string>
+    <string name="list_groups_show_number_entries_title">Vis antall oppføringer</string>
+    <string name="list_groups_show_number_entries_summary">Vis antall oppføringer i en gruppe</string>
 </resources>

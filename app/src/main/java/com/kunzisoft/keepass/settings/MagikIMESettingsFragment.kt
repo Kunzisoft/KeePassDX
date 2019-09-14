@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.settings
 
 import android.os.Bundle
-import android.support.v7.preference.PreferenceFragmentCompat
+import androidx.preference.PreferenceFragmentCompat
 
 import com.kunzisoft.keepass.R
 
@@ -28,6 +28,6 @@ class MagikIMESettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.keyboard_preferences, rootKey)
+        setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
     }
 }

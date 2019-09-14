@@ -2,7 +2,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import android.support.design.widget.TextInputLayout
+import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -17,9 +17,11 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.utils.applyFontVisibility
 
-class EntryEditContentsView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null) : LinearLayout(context, attrs) {
+class EntryEditContentsView @JvmOverloads constructor(context: Context,
+                                                      attrs: AttributeSet? = null,
+                                                      defStyle: Int = 0)
+    : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
 

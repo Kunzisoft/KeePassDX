@@ -24,12 +24,12 @@ import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import android.os.Bundle
 import android.provider.Settings
-import android.support.v4.app.DialogFragment
-import android.support.v7.app.AlertDialog
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.view.View
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.Util
+import com.kunzisoft.keepass.utils.UriUtil
 
 class KeyboardExplanationDialogFragment : DialogFragment() {
 
@@ -40,16 +40,14 @@ class KeyboardExplanationDialogFragment : DialogFragment() {
 
             val rootView = inflater.inflate(R.layout.fragment_keyboard_explanation, null)
 
-            rootView.findViewById<View>(R.id.keyboards_activate_setting_path1_text)
-                    .setOnClickListener { launchActivateKeyboardSetting() }
-            rootView.findViewById<View>(R.id.keyboards_activate_setting_path2_text)
+            rootView.findViewById<View>(R.id.keyboards_activate_device_setting_button)
                     .setOnClickListener { launchActivateKeyboardSetting() }
 
             val containerKeyboardSwitcher = rootView.findViewById<View>(R.id.container_keyboard_switcher)
             if (BuildConfig.CLOSED_STORE) {
-                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context!!, R.string.keyboard_switcher_play_store) }
+                containerKeyboardSwitcher.setOnClickListener { UriUtil.gotoUrl(context!!, R.string.keyboard_switcher_play_store) }
             } else {
-                containerKeyboardSwitcher.setOnClickListener { Util.gotoUrl(context!!, R.string.keyboard_switcher_f_droid) }
+                containerKeyboardSwitcher.setOnClickListener { UriUtil.gotoUrl(context!!, R.string.keyboard_switcher_f_droid) }
             }
 
             builder.setView(rootView)
