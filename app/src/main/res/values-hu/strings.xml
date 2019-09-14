@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2009-2016 Brian Pellin.
-     
- This file is part of KeePassDroid.
-  KeePassDroid is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-  KeePassDroid is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-  You should have received a copy of the GNU General Public License
-  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePass DX.
+
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
     <string name="about_feedback">Visszajelzés</string>
     <string name="about_homepage">Honlap</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
@@ -218,7 +222,7 @@
     <string name="warning_empty_password">Biztos, hogy nem akar jelszavas feloldási védelmet\?</string>
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
-    <string name="fingerprint_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
+    <string name="biometric_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
     <string name="history">Előzmények</string>
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>

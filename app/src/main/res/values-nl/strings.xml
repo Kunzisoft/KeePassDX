@@ -1,26 +1,26 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePass DX.
+    Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-  KeePass DX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePass DX.
 
-  KeePass DX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePass DX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
-  
-  Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
+    KeePass DX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+
+    Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 -->
 <resources>
-    <string name="about_feedback">Feedback</string>
+    <string name="about_feedback">Reacties</string>
     <string name="about_homepage">Website</string>
     <string name="about_description">Android-implementatie van de KeePass-wachtwoordbeheerder</string>
     <string name="accept">Accepteren</string>
@@ -112,7 +112,7 @@
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
     <string name="open_recent">Recente databanken</string>
     <string name="omitbackup_title">Back-upitems niet doorzoeken</string>
-    <string name="omitbackup_summary">\"Back-up\"-groep verbergen uit zoekresultaten (alleen van toepassing op .kdb-bestanden)</string>
+    <string name="omitbackup_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Bezig met creëren van nieuwe databank…</string>
     <string name="progress_title">Bezig met verwerken…</string>
     <string name="remember_keyfile_summary">Locatie van databank-sleutelbestanden onthouden</string>
@@ -126,7 +126,7 @@
     <string name="saving_database">Bezig met opslaan van databank…</string>
     <string name="space">Ruimte</string>
     <string name="search_label">Zoeken</string>
-    <string name="sort_db">Natuurlijke databank</string>
+    <string name="sort_db">Natuurlijke volgorde</string>
     <string name="special">Speciaal</string>
     <string name="search">Zoeken</string>
     <string name="encryption_twofish">Twofish</string>
@@ -139,24 +139,23 @@
     <string name="education_unlock_summary">Geef het wachtwoord en/of sleutelbestand op om je databank te ontgrendelen.
 \n
 \nMaak na elke aanpassing een kopie van je .kdbx-bestand op een veilige locatie.</string>
-
     <string-array name="timeout_options">
         <item>5 seconden</item>
         <item>10 seconden</item>
         <item>20 seconden</item>
         <item>30 seconden</item>
-    	<item>1 minuut</item>
-    	<item>5 minuten</item>
-    	<item>15 minuten</item>
-    	<item>30 minuten</item>
-    	<item>Nooit</item>
+        <item>1 minuut</item>
+        <item>5 minuten</item>
+        <item>15 minuten</item>
+        <item>30 minuten</item>
+        <item>Nooit</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Klein</item>
-    	<item>Medium</item>
-    	<item>Groot</item>
+        <item>Klein</item>
+        <item>Medium</item>
+        <item>Groot</item>
     </string-array>
-<string name="edit_entry">Item bewerken</string>
+    <string name="edit_entry">Item bewerken</string>
     <string name="encryption">Versleuteling</string>
     <string name="key_derivation_function">Sleutelafleidingsfunctie</string>
     <string name="beta_dontask">Niet meer tonen</string>
@@ -212,14 +211,14 @@
     <string name="sort_last_access_time">Geopend om</string>
     <string name="search_results">Zoekresultaten</string>
     <string name="warning">Waarschuwing</string>
-    <string name="warning_password_encoding">Vermijd letters bevatten die niet ondersteund worden door de Latin-1-tekenset van .kdb-bestanden; ze worden allemaal omgezet naar dezelfde letter.</string>
+    <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Weet je zeker dat je geen wachtwoordontgrendelbescherming wilt\?</string>
     <string name="warning_no_encryption_key">Weet je zeker dat je geen sleutel wilt koppelen aan je versleuteling?</string>
     <string name="configure_biometric">Vingerafdruk wordt ondersteund, maar is niet ingesteld.</string>
     <string name="open_biometric_prompt_unlock_database">Vingerafdrukscanning</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
     <string name="biometric_invalid_key">Kan vingerafdruksleutel niet lezen; herstel je wachtwoord.</string>
-    <string name="fingerprint_not_recognized">Vingerafdruk niet herkend</string>
+    <string name="biometric_not_recognized">Vingerafdruk niet herkend</string>
     <string name="biometric_scanning_error">Vingerafdrukprobleem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Vingerafdruk gebruiken om dit wachtwoord op te slaan</string>
     <string name="no_credentials_stored">Deze databank heeft nog geen wachtwoord.</string>
@@ -237,7 +236,7 @@
     <string name="list_password_generator_options_summary">Standaard wachtwoordtekens instellen</string>
     <string name="clipboard">Klembord</string>
     <string name="clipboard_notifications_title">Klembordmeldingen</string>
-    <string name="clipboard_notifications_summary">Schakel klembordmeldingen in om itemvelden te kopiëren</string>
+    <string name="clipboard_notifications_summary">Schakel klembordmeldingen in om velden te kopiëren bij het bekijken van een item</string>
     <string name="clipboard_warning">Als automatisch wissen van het klembord mislukt, doe dit dan handmatig.</string>
     <string name="lock">Vergrendelen</string>
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
@@ -247,17 +246,17 @@
     <string name="fingerprint_setting_link_text">\"Instellingen\" → \"Beveiliging\" → \"Vingerafdruk\"</string>
     <string name="fingerprint_type_credentials_text">Voer het databankwachtwoord in</string>
     <string name="fingerprint_scan_to_store">Scan je vingerafdruk om je databankwachtwoord veilig op te slaan.</string>
-    <string name="fingerprint_scan_to_open">Scan je vingerafdruk om de databank te ontgrendelen als er geen vinkje staat bij wachtwoord</string>
+    <string name="fingerprint_scan_to_open">Scan je vingerafdruk om de databank te openen wanneer het wachtwoord is uitgeschakeld.</string>
     <string name="usage">Gebruik</string>
     <string name="advanced_unlock">Vingerafdruk</string>
-    <string name="biometric_unlock_enable_title">Bezig met vingerafdrukherkenning</string>
-    <string name="biometric_unlock_enable_summary">Databank openen met vingerafdruk</string>
+    <string name="biometric_unlock_enable_title">Vingerafdrukherkenning</string>
+    <string name="biometric_unlock_enable_summary">Hiermee wordt je vingerafdruk gebruikt om de databank te openen</string>
     <string name="biometric_delete_all_key_title">Sleutels voor versleuteling verwijderen</string>
     <string name="biometric_delete_all_key_summary">Alle aan vingerafdrukherkenning gerelateerde sleutels wilt verwijderen</string>
-    <string name="biometric_delete_all_key_warning">Weet je zeker dat je alle aan vingerafdrukherkenning gerelateerde sleutels wilt verwijderen?</string>
+    <string name="biometric_delete_all_key_warning">Weet je zeker dat je alle sleutels van de vingerafdrukherkenning wilt verwijderen\?</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Je Android-versie, %1$s, voldoet niet aan de minimumvereiste %2$s.</string>
-    <string name="unavailable_feature_hardware">De hardware wordt niet herkend.</string>
+    <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
     <string name="file_name">Bestandsnaam</string>
     <string name="path">Pad</string>
     <string name="assign_master_key">Hoofdsleutel toewijzen</string>
@@ -266,68 +265,65 @@
     <string name="full_file_path_enable_title">Bestandspad</string>
     <string name="full_file_path_enable_summary">Volledig bestandspad tonen</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>
-    <string name="recycle_bin_summary">Groep of item naar de \"Prullenbak\" verplaatsen alvorens te verwijderen</string>
+    <string name="recycle_bin_summary">Verplaatst groepen en items naar \"Prullenbak\" voordat ze worden verwijderd</string>
     <string name="monospace_font_fields_enable_title">Veldlettertype</string>
-    <string name="monospace_font_fields_enable_summary">Wijzg het lettertype dat gebruikt wordt in velden voor betere leesbaarheid</string>
-    <string name="auto_open_file_uri_title">Gekozen bestand automatisch openen</string>
-    <string name="auto_open_file_uri_summary">Open een bestand van het keuzescherm automatisch nadat een keuze is gemaakt in de bestandsnavigatie</string>
-    <string name="allow_copy_password_title">Wachtwoord kopiëren toestaan</string>
-    <string name="allow_copy_password_summary">Staat toe dat het wachtwoord en beveiligde velden worden gekopieerd naar het klembord</string>
+    <string name="monospace_font_fields_enable_summary">Wijzig het lettertype dat in velden wordt gebruikt voor een betere leesbaarheid</string>
+    <string name="auto_open_file_uri_title">Open bestanden door te selecteren</string>
+    <string name="auto_open_file_uri_summary">Bestanden automatisch openen wanneer deze worden geselecteerd in de bestandsverkenner</string>
+    <string name="allow_copy_password_title">Klembord vertrouwen</string>
+    <string name="allow_copy_password_summary">Toestaan dat het wachtwoord en beveiligde velden worden gekopieerd naar het klembord</string>
     <string name="allow_copy_password_warning">WAARSCHUWING: het klembord wordt gedeeld door alle apps. Als gevoelige gegevens worden gekopieerd, kan andere software deze opvragen.</string>
-    <string name="open_link_database">Link naar het te openen KDBX-bestand</string>
+    <string name="open_link_database">Koppeling naar het te openen databasebestand</string>
     <string name="database_name_title">Databanknaam</string>
     <string name="database_description_title">Databankomschrijving</string>
     <string name="database_version_title">Databankversie</string>
-    <string name="text_appearance">Tekstuiterlijk</string>
-    <string name="application_appearance">App-uiterlijk</string>
+    <string name="text_appearance">Tekst</string>
+    <string name="application_appearance">App</string>
     <string name="other">Overig</string>
-
     <string name="keyboard">Toetsenbord</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activeert een aangepast toetsenbord dat je wachtwoorden en identiteitsvelden eenvoudig aanvult</string>
+    <string name="magic_keyboard_summary">Aangepast toetsenbord met je wachtwoorden en alle identiteitsvelden activeren</string>
     <string name="magic_keyboard_preference_title">Magikeyboard-instellingen</string>
-    <string name="magic_keyboard_configure_title">Hoe stel ik het toetsenbord in voor het veilig invullen van formulieren?</string>
+    <string name="magic_keyboard_configure_title">Stel het toetsenbord in om formulieren veilig automatisch in te vullen.</string>
     <string name="magic_keyboard_activate_setting_text">Activeer Magikeyboard in de apparaatinstellingen.</string>
     <string name="magic_keyboard_activate_device_keyboard_setting">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\" en kies er een.</string>
     <string name="keyboards_choose_magikeyboard_text">Kies Magikeyboard als je een formulier moet invullen.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Je kunt eenvoudig schakelen tussen je gebruikelijke toetsenbord en Magikeyboard middels de taalknop op je toetsenbord of door de spatiebalk lang ingedrukt te houden. Indien niet beschikbaar kan het ook met:</string>
+    <string name="keyboards_swicth_magikeyboard_text">Schakel tussen toetsenborden door lang op de spatiebalk te drukken of, als deze niet beschikbaar is, met:</string>
     <string name="keyboard_select_entry_text">Kies je iteminvoer met de toets.</string>
     <string name="keyboard_fill_field_text">Voer je velden in met de elementen van het item.</string>
     <string name="keyboard_lock_database_text">Databank vergrendelen.</string>
-    <string name="keyboard_back_main_keyboard_text">Terug naar je gebruikelijke toetsenbord.</string>
-
-    <string name="allow_no_password_title">Geen wachtwoord toestaan</string>
-    <string name="allow_no_password_summary">Schakelt de knop openen in als geen wachtwoordidentificatie wordt opgegeven</string>
+    <string name="keyboard_back_main_keyboard_text">Standaard-toetsenbord gebruiken.</string>
+    <string name="allow_no_password_title">Geen hoofdwachtwoord toestaan</string>
+    <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
     <string name="enable_read_only_title">Alleen-lezen</string>
-    <string name="enable_read_only_summary">Standaard zijn geopende databank alleen-lezen</string>
-
-    <string name="enable_education_screens_title">Educatieve schermen</string>
+    <string name="enable_read_only_summary">Open de databank standaard alleen-lezen</string>
+    <string name="enable_education_screens_title">Educatieve vensters</string>
     <string name="enable_education_screens_summary">Markeert de elementen om te leren hoe de app werkt</string>
     <string name="reset_education_screens_title">Standaardwaarden</string>
-    <string name="reset_education_screens_summary">Stelt het tonen van educatie schermen terug op de standaardwaarden</string>
-    <string name="reset_education_screens_text">Standaardwaarden hersteld</string>
+    <string name="reset_education_screens_summary">Educatieve vensters opnieuw weergeven</string>
+    <string name="reset_education_screens_text">Educatieve vensters hersteld</string>
     <string name="education_create_database_title">Creëer je databankbestand</string>
-    <string name="education_create_database_summary">Je kent KeePass DX nog niet. Creëer je eerste wachtwoordbeheer-bestand.</string>
+    <string name="education_create_database_summary">Maak je eerste wachtwoordbeheerbestand aan.</string>
     <string name="education_select_database_title">Open een bestaande databank</string>
-    <string name="education_select_database_summary">Je hebt al een KeePass-beheerder gebruikt. Open je KDBX-bestand via je bestandsbeheerder.</string>
+    <string name="education_select_database_summary">Open vanuit je bestandsverkenner een bestaande databank om dit verder te gebruiken.</string>
     <string name="education_open_link_database_title">Een link naar de bestandslocatie is voldoende</string>
     <string name="education_open_link_database_summary">Je kunt je databank ook openen middels een fysieke link (bijv. met file:// en content://).</string>
-    <string name="education_new_node_title">Voeg nieuwe items toe</string>
+    <string name="education_new_node_title">Voeg items toe aan de databank</string>
     <string name="education_new_node_summary">Voeg items toe om je digitale identiteiten te beheren.
 \n
 \nVoeg groepen toe (groepen zijn gelijk aan mappen) om items in je databank te organiseren.</string>
-    <string name="education_search_title">Doorzoek eenvoudig al je items</string>
-    <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om je wachtwoorden te vinden.</string>
-    <string name="education_fingerprint_title">Ontgrendel je databank met je vingerafdruk</string>
-    <string name="education_fingerprint_summary">Koppel je wachtwoord en vingerafdruk om je databank snel te ontgrendelen.</string>
-    <string name="education_entry_edit_title">Bewerk het item</string>
+    <string name="education_search_title">"Doorzoek  al je items"</string>
+    <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om wachtwoorden te vinden.</string>
+    <string name="education_fingerprint_title">Ontgrendel de databank met je vingerafdruk</string>
+    <string name="education_fingerprint_summary">Koppel je wachtwoord en vingerafdruk om de databank snel te ontgrendelen.</string>
+    <string name="education_entry_edit_title">Item bewerken</string>
     <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
-    <string name="education_generate_password_title">Creëern een sterk wachtwoord</string>
-    <string name="education_generate_password_summary">Genereer een sterk wachtwoord voor het item. Maak het gelijk aan de criteria van het formulier en vergeet het wachtwoord niet.</string>
+    <string name="education_generate_password_title">Genereer een sterk wachtwoord voor het item.</string>
+    <string name="education_generate_password_summary">Genereer een sterk wachtwoord om aan het item te koppelen, definieer het eenvoudig volgens de criteria van het formulier en vergeet het veilige wachtwoord niet.</string>
     <string name="education_entry_new_field_title">Voeg aangepaste velden toe</string>
-    <string name="education_entry_new_field_summary">Als je een niet-standaard veld wilt toevoegen, vul dan een nieuwe in.</string>
+    <string name="education_entry_new_field_summary">Je kan een nieuw, aanvullend veld aanmaken en tevens beschermen.</string>
     <string name="education_unlock_title">Ontgrendel je databank</string>
-    <string name="education_read_only_title">Alleen-lezen inschakelen</string>
+    <string name="education_read_only_title">Databank alleen-lezen</string>
     <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie.
 \n
 \nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt.
@@ -338,37 +334,83 @@
 \n
 \nJe kunt verschillende formulier-invulmethodes gebruiken; kies je voorkeursmethode.</string>
     <string name="education_lock_title">Databank vergrendelen</string>
-    <string name="education_lock_summary">Vergrendel je databank snel. Je kunt instellen dat de vergrendeling na een bepaalde duur moet plaatsvinden of als het scherm uitgaat.</string>
+    <string name="education_lock_summary">Databank snel vergrendelen. Je kunt de app zo instellen dat deze na een tijdje wordt vergrendeld en wanneer het scherm wordt uitgeschakeld.</string>
     <string name="education_sort_title">Items sorteren</string>
-    <string name="education_sort_summary">Sorteer items en groepen op verschillende manieren.</string>
+    <string name="education_sort_summary">Kies hoe items en groepen worden gesorteerd.</string>
     <string name="education_donation_title">Bijdragen</string>
     <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
-
-    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze <strong>reclamevrij</strong>, <strong>vrije software</strong> en slaat geen persoonlijke gegevens op op de servers, zelfs niet in de gratis versie.</string>
-    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze <strong>visuele functie</strong> en draag je bij aan het <strong>realiseren van gemeenschapsprojecten.</strong></string>
+    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze <strong>reclamevrij</strong>, <strong>vrije software</strong> en slaat geen persoonlijke gegevens op op haar servers, ongeacht de versie die je gebruikt.</string>
+    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze <strong>visuele functie</strong> en draag je bij aan het <strong>realiseren van gemeenschapsprojecten.</strong>
+    </string>
     <string name="html_text_feature_generosity">Deze <strong>visuele functie</strong> is beschikbaar gekomen door jullie gulheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw <strong>bijdrage.</strong></string>
-
+    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw <strong>bijdrage.</strong>
+    </string>
     <string name="html_text_dev_feature">Deze functie <strong>wordt momenteel ontwikkeld</strong> en kan alleen beschikbaar komen middels jouw <strong>bijdrage</strong>.</string>
     <string name="html_text_dev_feature_buy_pro">Door de <strong>pro</strong>-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door <strong>bij te dragen</strong>,</string>
     <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om <strong>nieuwe functies</strong> te creëren en <strong>bugs op te lossen</strong>.</string>
     <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergeet niet om de app bijgewerkt te houden.</string>
-
+    <string name="html_text_dev_feature_upgrade">Vergeet niet om je app up-to-date te houden door nieuwe versies te installeren.</string>
     <string name="download">Downloaden</string>
     <string name="contribute">Bijdragen</string>
-
     <string name="encryption_chacha20">ChaCha20</string>
-
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-
-    <string name="style_choose_title">Kies een thema</string>
-    <string name="style_choose_summary">Wijzig het app-thema door de kleuren te wijzigen</string>
-    <string name="icon_pack_choose_title">Kies een pictogramthema</string>
-    <string name="icon_pack_choose_summary">Wijzig het pictogramthema van de app</string>
-
-<string name="build_label">Bouw %1$s</string>
-    </resources>
+    <string name="style_choose_title">App-thema</string>
+    <string name="style_choose_summary">Thema gebruikt in de app</string>
+    <string name="icon_pack_choose_title">Icoonverzameling</string>
+    <string name="icon_pack_choose_summary">Iconenverzameling gebruikt in de app</string>
+    <string name="build_label">Bouw %1$s</string>
+    <string name="keyboard_name">Magikeyboard</string>
+    <string name="keyboard_label">Magikeyboard (Keepass DX)</string>
+    <string name="keyboard_setting_label">Magikeyboard-instellingen</string>
+    <string name="keyboard_entry_category">Item</string>
+    <string name="keyboard_entry_timeout_title">Time-out</string>
+    <string name="keyboard_entry_timeout_summary">Time-out om de toetsenbordinvoer te wissen</string>
+    <string name="keyboard_notification_entry_title">Kennisgevingsinfo</string>
+    <string name="keyboard_notification_entry_summary">Toon een melding wanneer een item beschikbaar is</string>
+    <string name="keyboard_notification_entry_content_title_text">Invoer</string>
+    <string name="keyboard_notification_entry_content_title">%1$s beschikbaar op Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_text">%1$s</string>
+    <string name="keyboard_notification_entry_clear_close_title">Wissen bij het sluiten</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Sluit de databank tegelijk met de melding</string>
+    <string name="keyboard_appearance_category">Uiterlijk</string>
+    <string name="keyboard_theme_title">Toetsenbordthema</string>
+    <string name="keyboard_keys_category">Toetsen</string>
+    <string name="keyboard_key_vibrate_title">Trillen bij toetsaanslag</string>
+    <string name="keyboard_key_sound_title">Geluid bij toetsaanslag</string>
+    <string name="selection_mode">Selectiemodus</string>
+    <string name="do_not_kill_app">App niet afsluiten…</string>
+    <string name="lock_database_back_root_title">Druk op Terug om te vergrendelen</string>
+    <string name="lock_database_back_root_summary">Vergrendel de databank wanneer de gebruiker op de knop Terug in het hoofdscherm klikt</string>
+    <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
+    <string name="clear_clipboard_notification_summary">Sluit de databank tegelijk met de melding</string>
+    <string name="recycle_bin">Prullenmand</string>
+    <string name="keyboard_selection_entry_title">Itemselectie</string>
+    <string name="keyboard_selection_entry_summary">Invoervelden in Magikeyboard tonen bij het bekijken van een item</string>
+    <string name="delete_entered_password_title">Wachtwoord wissen</string>
+    <string name="delete_entered_password_summary">Wist het ingevoerde wachtwoord na een verbindingspoging</string>
+    <string name="content_description_open_file">Bestand openen</string>
+    <string name="content_description_show_file_link">Bestandskoppeling weergeven</string>
+    <string name="content_description_open_file_link">Bestandskoppeling openen</string>
+    <string name="content_description_node_children">Items onder het knooppunt</string>
+    <string name="content_description_add_node">Knooppunt toevoegen</string>
+    <string name="content_description_add_entry">Item toevoegen</string>
+    <string name="content_description_add_group">Groep toevoegen</string>
+    <string name="content_description_file_information">Bestandsinformatie</string>
+    <string name="content_description_password_checkbox">Wachtwoordcheckbox</string>
+    <string name="content_description_keyfile_checkbox">Sleutelbestandcheckbox</string>
+    <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
+    <string name="content_description_entry_icon">Item-icoon</string>
+    <string name="content_description_entry_save">Item opslaan</string>
+    <string name="content_description_password_generator">Wachtwoordgenerator</string>
+    <string name="content_description_password_length">Wachtwoordlengte</string>
+    <string name="content_description_add_field">Veld toevoegen</string>
+    <string name="content_description_remove_field">Veld verwijderen</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">Je kan hier geen item plaatsen.</string>
+    <string name="error_copy_entry_here">Je kan hier geen item kopiëren.</string>
+    <string name="list_groups_show_number_entries_title">Het aantal items tonen</string>
+    <string name="list_groups_show_number_entries_summary">Toon het aantal items in een groep</string>
+</resources>
