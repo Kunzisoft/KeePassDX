@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
--->
-<resources>
+--><resources>
     <string name="about_feedback">Tilbagemelding</string>
     <string name="about_homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
@@ -213,13 +212,13 @@
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Bekræft ingen brug af en krypteringsnøgle?</string>
-    <string name="configure_biometric">Fingeraftryksscanning understøttes, men er ikke sat op.</string>
-    <string name="open_biometric_prompt_unlock_database">Fingeraftryks-scanning</string>
+    <string name="configure_biometric">Biometrisk prompt understøttes, men er ikke konfigureret.</string>
+    <string name="open_biometric_prompt_unlock_database">Åbn den biometriske prompt for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
     <string name="biometric_invalid_key">Kunne ikke læse fingeraftryksnøgle. Gendan adgangskode.</string>
     <string name="biometric_not_recognized">Kunne ikke genkende fingeraftryk</string>
     <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
+    <string name="open_biometric_prompt_store_credential">Åbn den biometriske prompt for at gemme legitimationsoplysninger</string>
     <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
@@ -241,7 +240,7 @@
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
     <string name="fingerprint_advanced_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
-    <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i</string>
+    <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i enhedsindstillingerne.</string>
     <string name="fingerprint_setting_link_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
     <string name="fingerprint_type_credentials_text">Indtast adgangskoden til at låse databasen</string>
     <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
@@ -287,9 +286,9 @@
 \n
 \nOpsæt tastaturet til autofyld af formularerne sikkert.</string>
     <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard\" i enhedens indstillinger.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Indstillinger for enhedens tastatur</string>
     <string name="keyboards_choose_magikeyboard_text">Vælg Magikeyboard, når der er brug for at udfylde en formular.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Skift tastatur med et langt tryk på mellemrumstasten på tastaturet eller -hvis det ikke er tilgængelig - med:</string>
+    <string name="keyboards_swicth_magikeyboard_text">Skift tastatur med et langt tryk på mellemrumstasten på tastaturet eller hvis det ikke er tilgængelig, med:</string>
     <string name="keyboard_select_entry_text">Vælg post med nøglen.</string>
     <string name="keyboard_fill_field_text">Udfyld felterne ved hjælp af elementerne i posten.</string>
     <string name="keyboard_lock_database_text">Lås databasen.</string>
@@ -405,7 +404,7 @@
     <string name="content_description_keyfile_checkbox">Afkrydsningsfelt for nøglefil</string>
     <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
     <string name="content_description_entry_icon">Indtastningsikon</string>
-    <string name="content_description_entry_save">Gem indlæg</string>
+    <string name="content_description_entry_save">Gem indtastning</string>
     <string name="content_description_password_generator">Adgangskodegenerator</string>
     <string name="content_description_password_length">Længde på adgangskode</string>
     <string name="content_description_add_field">Tilføj felt</string>
@@ -413,4 +412,22 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Vis antal poster</string>
     <string name="list_groups_show_number_entries_summary">Vise antallet af poster i en gruppe</string>
+    <string name="error_move_entry_here">Post kan ikke flyttes her til.</string>
+    <string name="error_copy_entry_here">Post kan ikke kopieres her til.</string>
+    <string name="content_description_background">Baggrund</string>
+    <string name="content_description_update_from_list">Opdater</string>
+    <string name="content_description_keyboard_close_fields">Luk felter</string>
+    <string name="error_create_database_file">Kan ikke oprette database med denne adgangskode og nøglefil.</string>
+    <string name="menu_advanced_unlock_settings">Avanceret oplåsning</string>
+    <string name="biometric_prompt_store_credential_title">Gem biometrisk genkendelse</string>
+    <string name="biometric_prompt_store_credential_message">Gem databasens legitimationsoplysninger med biometriske data</string>
+    <string name="biometric_prompt_extract_credential_title">Åbn database med biometrisk genkendelse</string>
+    <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
+    <string name="biometric">Biometrisk</string>
+    <string name="fingerprint_open_biometric_prompt">Åbn biometrisk prompt ved at klikke på biometrisk knap.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">Ændre præferencen for hurtigt at åbne den biometriske prompt for ikke at gentage trin 1.</string>
+    <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
+    <string name="biometric_auto_open_prompt_summary">Åbn automatisk biometrisk prompt, når der er defineret en biometrisk nøgle for en database</string>
+    <string name="enable">Aktiver</string>
+    <string name="disable">Deaktiver</string>
 </resources>
