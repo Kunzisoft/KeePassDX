@@ -30,7 +30,9 @@ abstract class PwGroup
     protected fun updateWith(source: PwGroup<Id, Group, Entry>) {
         super.updateWith(source)
         titleGroup = source.titleGroup
+        childGroups.clear()
         childGroups.addAll(source.childGroups)
+        childEntries.clear()
         childEntries.addAll(source.childEntries)
     }
 
