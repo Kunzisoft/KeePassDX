@@ -109,7 +109,7 @@
     <string name="no_url_handler">Zainstaluj przeglądarkę internetową, aby otworzyć ten adres URL.</string>
     <string name="open_recent">Ostatnio używana baza danych</string>
     <string name="omitbackup_title">Nie wyszukuj wpisów kopii zapasowej</string>
-    <string name="omitbackup_summary">Pomiń grupę \"Kopia zapasowa\" z wyników wyszukiwania (dotyczy tylko plików .kdb)</string>
+    <string name="omitbackup_summary">Pomija grupy „Kopia zapasowa” i „Kosz” w wynikach wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="recentfile_title">Najnowsza historia plików</string>
@@ -286,7 +286,7 @@
     <string name="magic_keyboard_activate_setting_text">Aktywuj \"Magikeyboard\" w ustawieniach urządzenia.</string>
     <string name="magic_keyboard_activate_device_keyboard_setting">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
     <string name="keyboards_choose_magikeyboard_text">Wybierz Magikeyboard, gdy potrzebujesz wypełnić formularz.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Przełącz klawiaturę naciskając klawisz spacji na klawiaturze lub, jeśli nie jest dostępny, z:</string>
+    <string name="keyboards_swicth_magikeyboard_text">Przełączanie klawiatur poprzez długie naciskanie spacji klawiatury lub, jeśli nie jest ona dostępna, przy użyciu:</string>
     <string name="keyboard_select_entry_text">Wybierz wpis za pomocą klawisza.</string>
     <string name="keyboard_fill_field_text">Wypełnij swoje pola, używając elementów pozycji.</string>
     <string name="keyboard_lock_database_text">Zablokuj bazę danych.</string>
@@ -317,7 +317,7 @@
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
     <string name="education_generate_password_title">Utwórz silne hasło do swojego wpisu.</string>
-    <string name="education_generate_password_summary">Wygeneruj silne hasło do powiązania z wpisem, z łatwością określ je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
+    <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
     <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
     <string name="education_entry_new_field_summary">Zarejestruj podstawowe pole niedostarczone, wypełniając nowe pole, które możesz również chronić.</string>
     <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
@@ -405,4 +405,7 @@
     <string name="list_groups_show_number_entries_summary">Pokaż liczbę wpisów w grupie</string>
     <string name="selection_mode">Tryb wyboru</string>
     <string name="content_description_add_node">Dodaj węzeł</string>
+    <string name="content_description_repeat_toggle_password_visibility">Powtórz przełączanie widoczności hasła</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="error_move_entry_here">W tym miejscu nie można przenieść wpisu.</string>
 </resources>
