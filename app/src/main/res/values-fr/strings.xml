@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Commentaires</string>
     <string name="about_homepage">Site Web</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
@@ -207,7 +206,7 @@
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
     <string name="fingerprint_advanced_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
-    <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans</string>
+    <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans les paramètres de l\'appareil.</string>
     <string name="fingerprint_setting_link_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
     <string name="fingerprint_type_credentials_text">Saisir le mot de passe de verrouillage de la base de données</string>
     <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
@@ -290,7 +289,7 @@
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et de toujours être actifs, nous comptons sur votre <strong>contribution.</strong>
+    <string name="html_text_donation">Afin de garder notre liberté et de rester toujours actifs, nous comptons sur votre <strong>contribution.</strong>
     </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -344,7 +343,7 @@
     <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Configurer le clavier pour le remplissage automatique des formulaires en sécurité.</string>
     <string name="magic_keyboard_activate_setting_text">Activer le « Magikeyboard » dans les paramètres de l’appareil.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Paramètres clavier de l\'appareil</string>
     <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
     <string name="keyboards_swicth_magikeyboard_text">Basculer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
     <string name="keyboard_select_entry_text">Sélectionner votre entrée avec la clé.</string>
@@ -420,4 +419,11 @@
     <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
     <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
     <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
+    <string name="content_description_background">Arrière-plan</string>
+    <string name="content_description_update_from_list">Mise à jour</string>
+    <string name="content_description_keyboard_close_fields">Fermer les champs</string>
+    <string name="error_create_database_file">Impossible de créer une base avec ce mot de passe et ce fichier de clé.</string>
+    <string name="menu_advanced_unlock_settings">Déverrouillage avancé</string>
+    <string name="enable">Activer</string>
+    <string name="disable">Désactiver</string>
 </resources>
