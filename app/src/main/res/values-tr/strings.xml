@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Geri Bildirim</string>
     <string name="about_homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
@@ -222,7 +221,7 @@
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
     <string name="fingerprint_advanced_unlock_title">Hızlı kilit açmak için parmak izi taraması nasıl ayarlanır\?</string>
-    <string name="fingerprint_setting_text">Cihazınız için taranmış parmak izinizi kaydet</string>
+    <string name="fingerprint_setting_text">Cihaz ayarlarında taranmış parmak izinizi cihazınıza kaydedin.</string>
     <string name="fingerprint_setting_link_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
     <string name="fingerprint_type_credentials_text">Veritabanı kilitleme parolasını girin</string>
     <string name="fingerprint_scan_to_store">Veritabanı kilit parolanızı güvenli bir şekilde saklamak için parmak izinizi tarayın.</string>
@@ -265,7 +264,7 @@
     <string name="magic_keyboard_preference_title">Magikeyboard ayarları</string>
     <string name="magic_keyboard_configure_title">Formları güvenli bir şekilde otomatik doldurmak için klavyeyi ayarlayın.</string>
     <string name="magic_keyboard_activate_setting_text">Cihaz ayarlarında \"Magikeyboard\"u etkinleştirin.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Cihaz Klavye Ayarları</string>
     <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
     <string name="keyboards_swicth_magikeyboard_text">Klavyenizin boşluk çubuğuna uzun basarak veya yoksa şununla klavyeleri değiştirin:</string>
     <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>
@@ -344,7 +343,7 @@
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">
-        <strong>pro</strong> sürümünü satın alarak,</string>
+        <strong>pro</strong> sürümü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">
         <strong>katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
@@ -395,4 +394,20 @@
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Geçiş şifre görünürlüğünü tekrarlayın</string>
     <string name="content_description_entry_save">Giriş kaydet</string>
+    <string name="content_description_background">Arka plan</string>
+    <string name="content_description_update_from_list">Güncelleme</string>
+    <string name="content_description_keyboard_close_fields">Alanları kapat</string>
+    <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veritabanı oluşturulamıyor.</string>
+    <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
+    <string name="biometric_prompt_store_credential_title">Biyometrik tanımayı kaydedin</string>
+    <string name="biometric_prompt_store_credential_message">Biyolojik verilerle veritabanı kimlik bilgilerini saklayın</string>
+    <string name="biometric_prompt_extract_credential_title">Biyometrik tanıma ile veritabanı aç</string>
+    <string name="biometric_prompt_extract_credential_message">Biyometrik verilerle veritabanı kimlik bilgilerini çıkar</string>
+    <string name="biometric">Biyometrik</string>
+    <string name="fingerprint_open_biometric_prompt">Biyometrik butona tıklayarak biyometrik istemi açın.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">1. adımı tekrar etmemek için biyometrik komut istemini hızlı bir şekilde açma tercihini değiştirebilirsiniz.</string>
+    <string name="biometric_auto_open_prompt_title">Biyometrik istemi otomatik aç</string>
+    <string name="biometric_auto_open_prompt_summary">Bir veritabanı için bir biyometrik anahtar tanımlandığında biyometrik komut istemini otomatik olarak aç</string>
+    <string name="enable">Etkinleştir</string>
+    <string name="disable">Devre dışı</string>
 </resources>
