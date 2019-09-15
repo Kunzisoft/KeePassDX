@@ -257,6 +257,8 @@ class EntryActivity : LockingHideActivity() {
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)
 
+        entryContentsView?.assignHistory(entry.getHistory())
+
         database.stopManageEntry(entry)
     }
 

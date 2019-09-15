@@ -29,7 +29,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
+import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import java.text.DateFormat
 import java.util.*
@@ -69,6 +73,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val uuidView: TextView
 
+    private val historyView: RecyclerView
+    private val historyAdapter = EntryHistoryAdapter(context)
+
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
 
@@ -102,6 +109,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         expiresDateView = findViewById(R.id.entry_expires)
 
         uuidView = findViewById(R.id.entry_UUID)
+
+        historyView = findViewById(R.id.entry_history_list)
+        historyView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            adapter = historyAdapter
+        }
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -256,6 +269,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
+    }
+
+    fun assignHistory(history: ArrayList<EntryVersioned>) {
+        historyAdapter.clear()
+        historyAdapter.entryHistoryList.addAll(history)
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

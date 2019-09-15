@@ -254,7 +254,7 @@
 			android:layout_margin="@dimen/default_margin"
 			android:orientation="vertical">
 
-			<!-- Expires -->
+			<!-- UUID -->
 			<androidx.appcompat.widget.AppCompatTextView
 				android:id="@+id/entry_UUID_label"
 				android:layout_width="match_parent"
@@ -271,6 +271,37 @@
 					android:textIsSelectable="true"
 					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 			</HorizontalScrollView>
+
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/entry_history_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- History -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_history_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_history"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/entry_history_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
 
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

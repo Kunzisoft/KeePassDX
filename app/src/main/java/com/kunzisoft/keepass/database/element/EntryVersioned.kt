@@ -270,8 +270,17 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.removeOldestEntryFromHistory()
     }
 
-    fun getHistory(): ArrayList<PwEntryV4> {
-        return pwEntryV4?.history ?: ArrayList()
+    fun getHistory(): ArrayList<EntryVersioned> {
+        val history = ArrayList<EntryVersioned>()
+        val entryV4History = pwEntryV4?.history ?: ArrayList()
+        for (entryHistory in entryV4History) {
+            history.add(EntryVersioned(entryHistory))
+        }
+        return history
+    }
+
+    fun getSize(): Long {
+        return pwEntryV4?.size ?: 0L
     }
 
     fun containsCustomData(): Boolean {

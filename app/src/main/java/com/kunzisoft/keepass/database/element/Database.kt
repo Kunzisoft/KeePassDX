@@ -723,7 +723,7 @@ class Database {
                 while (true) {
                     var histSize: Long = 0
                     for (backup in history) {
-                        histSize += backup.size
+                        histSize += backup.getSize()
                     }
 
                     if (histSize > maxSize) {
