@@ -38,7 +38,7 @@
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
-    <string name="select_to_copy">Выберите %1$s для копирования в буфер обмена</string>
+    <string name="select_to_copy">Выберите %1$s для копирования в буфер обмена</string>
     <string name="retrieving_db_key">Создание ключа базы…</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы…</string>
@@ -103,7 +103,7 @@
     <string name="maskpass_title">Скрывать пароли</string>
     <string name="maskpass_summary">Скрывать пароли за (***) по умолчанию</string>
     <string name="menu_about">Сведения</string>
-    <string name="menu_change_key_settings">Изменить мастер-ключ</string>
+    <string name="menu_change_key_settings">Изменить пароль базы</string>
     <string name="settings">Настройки</string>
     <string name="menu_database_settings">Настройки базы</string>
     <string name="menu_delete">Удалить</string>
@@ -129,7 +129,7 @@
     <string name="read_only_warning">KeePass DX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
     <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту.</string>
     <string name="recentfile_title">Недавно открытые</string>
-    <string name="recentfile_summary">Хранить имена открытых файлов</string>
+    <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
     <string name="remember_keyfile_title">Хранить файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
@@ -158,11 +158,11 @@
     <string name="open_biometric_prompt_unlock_database">Ожидание отпечатка пальца</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
     <string name="biometric_invalid_key">Неправильный отпечаток пальца. Восстановите пароль.</string>
-    <string name="biometric_scanning_error">Проблема с отпечатком пальца : %1$s</string>
+    <string name="biometric_scanning_error">Проблема с отпечатком пальца: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Используйте отпечаток пальца, чтобы сохранить пароль</string>
     <string name="no_credentials_stored">Для этой базы пароль ещё не сохранён.</string>
-    <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу. 
-\n 
+    <string name="education_unlock_summary">Введите пароль и/или файл ключа, чтобы разблокировать базу.
+\n
 \nНе забывайте сохранять копию файла базы в безопасном месте после каждого изменения.</string>
     <string-array name="timeout_options">
         <item>5 секунд</item>
@@ -183,21 +183,21 @@
     <string name="encryption">Шифрование</string>
     <string name="key_derivation_function">Функция формирования ключа</string>
     <string name="extended_ASCII">Расширенный набор ASCII</string>
-    <string name="error_autofill_enable_service">"Сервис автозаполнения  не может быть включён."</string>
-    <string name="copy_field">Копия %1$s</string>
-    <string name="menu_form_filling_settings">Заполнение формы</string>
+    <string name="error_autofill_enable_service">Сервис автозаполнения не может быть включён.</string>
+    <string name="copy_field">%1$s скопировано</string>
+    <string name="menu_form_filling_settings">Заполнение форм</string>
     <string name="encryption_explanation">Алгоритм шифрования базы для всех данных.</string>
-    <string name="kdf_explanation">При создании ключа для алгоритма шифрования, мастер-ключ преобразуется при помощи функции формирования ключа со случайной солью.</string>
+    <string name="kdf_explanation">При создании ключа для алгоритма шифрования, пароль базы преобразуется при помощи функции формирования ключа со случайной солью.</string>
     <string name="memory_usage">Использование памяти</string>
     <string name="memory_usage_explanation">Объём памяти (в байтах), которое будет использоваться функцией формирования ключа.</string>
     <string name="parallelism">Уровень параллелизма</string>
     <string name="parallelism_explanation">Уровень параллелизма (т.е. количество потоков), используемый функцией формирования ключа.</string>
     <string name="sort_menu">Сортировка</string>
     <string name="sort_ascending">По возрастанию ↓</string>
-    <string name="sort_username">Имя</string>
-    <string name="sort_creation_time">Создание</string>
-    <string name="sort_last_modify_time">Изменение</string>
-    <string name="sort_last_access_time">Доступ</string>
+    <string name="sort_username">Имя пользователя</string>
+    <string name="sort_creation_time">Время создания</string>
+    <string name="sort_last_modify_time">Время изменения</string>
+    <string name="sort_last_access_time">Время последнего доступа</string>
     <string name="edit_entry">Редактировать запись</string>
     <string name="allow">Разрешить</string>
     <string name="clipboard_swipe_clean">Смахните, чтобы очистить буфер обмена сейчас</string>
@@ -205,7 +205,7 @@
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
     <string name="error_move_folder_in_itself">Нельзя переместить группу в саму себя.</string>
     <string name="list_entries_show_username_title">Показывать имя</string>
-    <string name="list_entries_show_username_summary">Показывать имя в списке записей</string>
+    <string name="list_entries_show_username_summary">Показывать имя пользователя в списке записей</string>
     <string name="menu_copy">Копировать</string>
     <string name="menu_move">Переместить</string>
     <string name="menu_paste">Вставить</string>
@@ -215,7 +215,7 @@
     <string name="menu_open_file_read_and_write">Чтение и запись</string>
     <string name="sort_groups_before">Сначала группы</string>
     <string name="sort_recycle_bin_bottom">\"Корзина\" внизу</string>
-    <string name="sort_title">Название</string>
+    <string name="sort_title">Название записи</string>
     <string name="warning_empty_password">Вы действительно не хотите использовать пароль для защиты базы\?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
     <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
@@ -225,7 +225,7 @@
     <string name="autofill">Автозаполнение</string>
     <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
     <string name="autofill_sign_in_prompt">Войти с помощью KeePass DX</string>
-    <string name="set_autofill_service_title">Установить сервис автозаполнения по умолчанию</string>
+    <string name="set_autofill_service_title">Сервис автозаполнения по умолчанию</string>
     <string name="set_autofill_service_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
     <string name="password_size_summary">Установить длину создаваемых паролей по умолчанию</string>
@@ -256,7 +256,7 @@
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
-    <string name="assign_master_key">Установить мастер-ключ</string>
+    <string name="assign_master_key">Установить пароль базы</string>
     <string name="create_keepass_file">Создать новую базу</string>
     <string name="bytes">Байт</string>
     <string name="full_file_path_enable_title">Путь к файлу</string>
@@ -264,10 +264,10 @@
     <string name="recycle_bin_title">Использовать \"Корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"Корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
-    <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
+    <string name="monospace_font_fields_enable_summary">Изменить используемый в полях шрифт для лучшей читаемости</string>
     <string name="auto_open_file_uri_title">Открывать файл при выборе</string>
     <string name="auto_open_file_uri_summary">Открывать файл автоматически после выбора в файловом менеджере</string>
-    <string name="allow_copy_password_title">Доверие буферу обмена</string>
+    <string name="allow_copy_password_title">Доверять буферу обмена</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищённых полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: буфер обмена доступен всем приложениям. Если копируются чувствительные данные, другие программы могут их перехватить.</string>
     <string name="open_link_database">Ссылка на файл базы</string>
@@ -281,10 +281,10 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_summary">Активировать пользовательскую клавиатуру для простого заполнения паролей и всех ваших идентификаторов</string>
     <string name="magic_keyboard_preference_title">Настройки Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Настройка клавиатуры для безопасного заполнения форм.</string>
+    <string name="magic_keyboard_configure_title">Настройка клавиатуры для безопасного заполнения форм</string>
     <string name="magic_keyboard_activate_setting_text">Активируйте \"Magikeyboard\" в настройках устройства.</string>
     <string name="magic_keyboard_activate_device_keyboard_setting">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать</string>
-    <string name="keyboards_choose_magikeyboard_text">Выбрать Magikeyboard, когда вам необходимо заполнить форму.</string>
+    <string name="keyboards_choose_magikeyboard_text">Выберите Magikeyboard, когда вам необходимо заполнить форму.</string>
     <string name="keyboards_swicth_magikeyboard_text">Переключитесь с основной клавиатуры на Magikeyboard длительным нажатием на кнопку пробела или, если она недоступна, с помощью:</string>
     <string name="keyboard_select_entry_text">Выберите запись с помощью кнопки.</string>
     <string name="keyboard_fill_field_text">Заполните поля, используя элементы записи.</string>
@@ -295,9 +295,9 @@
     <string name="enable_read_only_title">Только чтение</string>
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Экраны обучения</string>
-    <string name="enable_education_screens_summary">Выделять элементы, чтобы узнать, как работает приложение</string>
+    <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
     <string name="reset_education_screens_title">Сбросить экраны обучения</string>
-    <string name="reset_education_screens_summary">Будет включено отображение всех обучающих элементов</string>
+    <string name="reset_education_screens_summary">Будет снова включено отображение всех обучающих элементов</string>
     <string name="reset_education_screens_text">Экраны обучения сброшены</string>
     <string name="education_create_database_title">Создайте файл базы</string>
     <string name="education_create_database_summary">Создайте свой первый файл управления паролями.</string>
@@ -316,36 +316,36 @@
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Возможны перекрёстные ссылки между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надёжный пароль для записи.</string>
-    <string name="education_generate_password_summary">Создайте надёжный пароль, связаный с записью, легко настраиваемый под критерии формы. И не забудьте пароль от базы.</string>
+    <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте пароль от базы.</string>
     <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
     <string name="education_entry_new_field_summary">Если хотите зарегистрировать поле, которого ещё нет, просто заполните его. Оно также будет защищено.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
     <string name="education_read_only_title">База только для чтения</string>
-    <string name="education_read_only_summary">Изменяйте режим открытия для сессии. 
-\n 
-\nВ режиме только для чтения можно предотвратить непреднамеренные изменения в базе. 
-\nВ режиме записи вы можете добавлять, удалять или изменять любые элементы.</string>
+    <string name="education_read_only_summary">Изменяйте режим открытия в сессии.
+\n
+\nВ \"режиме только для чтения\" можно предотвратить непреднамеренные изменения в базе.
+\nВ \"режиме записи\" вы можете добавлять, удалять или изменять любые элементы.</string>
     <string name="education_field_copy_title">Копируйте поля</string>
-    <string name="education_field_copy_summary">Легко скопируйте поле, чтобы вставить его там, где вы хотите .
-\n 
-\nВы можете использовать несколько методов заполнения форм. Используйте тот, который вы предпочитаете.</string>
+    <string name="education_field_copy_summary">Скопированные поля можно вставить в любом месте.
+\n
+\nИспользуйте метод заполнения формы, который вам наиболее удобен.</string>
     <string name="education_lock_title">Заблокируйте базу</string>
     <string name="education_lock_summary">Быстро блокируйте вашу базу. Вы можете настроить приложение так, чтобы заблокировать её через некоторое время и при выключении экрана.</string>
     <string name="education_sort_title">Сортировка записей</string>
     <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
-    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
-    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong>
+    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
+    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong>
     </string>
-    <string name="html_text_feature_generosity">Эти <strong>визуальные функции</strong> доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад.</strong>
+    <string name="html_text_feature_generosity">Эти <strong>визуальные функции</strong> доступны благодаря вашей щедрости.</string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад.</strong>
     </string>
-    <string name="html_text_dev_feature">Эта функция на <strong>в разработке</strong> и требует вашего <strong>участия</strong>, чтобы быть доступной в ближайшее время.</string>
-    <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>-версию,</string>
+    <string name="html_text_dev_feature">Эта функция находится <strong>в разработке</strong> и требует вашего <strong>участия</strong>, чтобы стать доступной в ближайшее время.</string>
+    <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>-версию,</string>
     <string name="html_text_dev_feature_contibute">
         <strong>Участвуя в проекте</strong>,</string>
-    <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять <strong>новые возможности</strong> и <strong>исправлять ошибки</strong> в соответствии с вашими замечаниями.</string>
+    <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять <strong>новые возможности</strong> и <strong>исправлять ошибки</strong> в соответствии с вашими замечаниями.</string>
     <string name="html_text_dev_feature_thanks">Спасибо большое за ваш вклад.</string>
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
@@ -363,8 +363,8 @@
     <string name="keyboard_setting_label">Настройки Magikeyboard</string>
     <string name="build_label">Сборка %1$s</string>
     <string name="keyboard_entry_category">Запись</string>
-    <string name="keyboard_entry_timeout_title">Ожидание</string>
-    <string name="keyboard_entry_timeout_summary">Время ожидания перед очисткой вводимой записи</string>
+    <string name="keyboard_entry_timeout_title">Задержка</string>
+    <string name="keyboard_entry_timeout_summary">Время задержки перед очисткой вводимой записи</string>
     <string name="keyboard_notification_entry_title">Информационное уведомление</string>
     <string name="keyboard_notification_entry_summary">Показывать уведомление, когда запись доступна</string>
     <string name="keyboard_notification_entry_content_title_text">Запись</string>
@@ -378,20 +378,20 @@
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
     <string name="do_not_kill_app">Не убивать приложение…</string>
-    <string name="lock_database_back_root_title">Нажатие \"Назад\" для блокировки</string>
+    <string name="lock_database_back_root_title">\"Назад\" для блокировки</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
-    <string name="clear_clipboard_notification_title">Очистить при закрытии</string>
+    <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
     <string name="clear_clipboard_notification_summary">Закрывать базу при закрытии уведомления</string>
     <string name="recycle_bin">Корзина</string>
     <string name="keyboard_selection_entry_title">Выбор записи</string>
     <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
-    <string name="delete_entered_password_title">Удалить пароль</string>
-    <string name="delete_entered_password_summary">Удалять пароль, введённый после попытки подключения</string>
+    <string name="delete_entered_password_title">Удалять пароль</string>
+    <string name="delete_entered_password_summary">Забывать введённый пароль</string>
     <string name="content_description_open_file">Открыть файл</string>
     <string name="content_description_show_file_link">Показать ссылку на файл</string>
     <string name="content_description_open_file_link">Открыть ссылку на файл</string>
-    <string name="content_description_node_children">Дочерний раздел</string>
-    <string name="content_description_add_node">Добавить раздел</string>
+    <string name="content_description_node_children">Дочерний узел</string>
+    <string name="content_description_add_node">Добавить узел</string>
     <string name="content_description_add_entry">Добавить запись</string>
     <string name="content_description_add_group">Добавить группу</string>
     <string name="content_description_file_information">Информация о файле</string>
@@ -425,4 +425,5 @@
     <string name="biometric_auto_open_prompt_summary">Автоматически открывать запрос отпечатка пальца, если отпечаток установлен для базы</string>
     <string name="enable">Включить</string>
     <string name="disable">Отключить</string>
+    <string name="selection_mode">Режим выбора</string>
 </resources>
