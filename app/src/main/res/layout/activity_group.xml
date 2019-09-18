@@ -112,6 +112,7 @@
                 android:padding="6dp"
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
+                android:textColor="?attr/textColorInverse"
                 android:text="@string/selection_mode"/>
             <FrameLayout
                 android:id="@+id/nodes_list_fragment_container"
