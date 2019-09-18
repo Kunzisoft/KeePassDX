@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginBottom="4dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_last_modified"
@@ -49,5 +51,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:gravity="center"
         android:layout_width="0dp"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -238,18 +238,11 @@ class EntryActivity : LockingHideActivity() {
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
         // Assign dates
-        entry.creationTime.date?.let {
-            entryContentsView?.assignCreationDate(it)
-        }
-        entry.lastModificationTime.date?.let {
-            entryContentsView?.assignModificationDate(it)
-        }
-        entry.lastAccessTime.date?.let {
-            entryContentsView?.assignLastAccessDate(it)
-        }
-        val expires = entry.expiryTime.date
-        if (entry.isExpires && expires != null) {
-            entryContentsView?.assignExpiresDate(expires)
+        entryContentsView?.assignCreationDate(entry.creationTime)
+        entryContentsView?.assignModificationDate(entry.lastModificationTime)
+        entryContentsView?.assignLastAccessDate(entry.lastAccessTime)
+        if (entry.isExpires) {
+            entryContentsView?.assignExpiresDate(entry.expiryTime)
         } else {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }

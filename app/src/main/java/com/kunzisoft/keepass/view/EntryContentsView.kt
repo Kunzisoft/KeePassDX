@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -29,13 +28,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import java.text.DateFormat
 import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -62,9 +62,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val extrasContainerView: View
     private val extrasView: ViewGroup
-
-    private val dateFormat: DateFormat = android.text.format.DateFormat.getDateFormat(context)
-    private val timeFormat: DateFormat = android.text.format.DateFormat.getTimeFormat(context)
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
@@ -243,24 +240,20 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasContainerView.visibility = View.GONE
     }
 
-    private fun getDateTime(date: Date): String {
-        return dateFormat.format(date) + " " + timeFormat.format(date)
+    fun assignCreationDate(date: PwDate) {
+        creationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignCreationDate(date: Date) {
-        creationDateView.text = getDateTime(date)
+    fun assignModificationDate(date: PwDate) {
+        modificationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignModificationDate(date: Date) {
-        modificationDateView.text = getDateTime(date)
+    fun assignLastAccessDate(date: PwDate) {
+        lastAccessDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignLastAccessDate(date: Date) {
-        lastAccessDateView.text = getDateTime(date)
-    }
-
-    fun assignExpiresDate(date: Date) {
-        expiresDateView.text = getDateTime(date)
+    fun assignExpiresDate(date: PwDate) {
+        expiresDateView.text = date.getDateTimeString(resources)
     }
 
     fun assignExpiresDate(constString: String) {

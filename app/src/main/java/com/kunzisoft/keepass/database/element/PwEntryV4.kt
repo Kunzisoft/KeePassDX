@@ -294,7 +294,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         for (i in history.indices) {
             val entry = history[i]
             val lastMod = entry.lastModificationTime.date
-            if (min == null || lastMod == null || lastMod.before(min)) {
+            if (min == null  || lastMod.before(min)) {
                 index = i
                 min = lastMod
             }

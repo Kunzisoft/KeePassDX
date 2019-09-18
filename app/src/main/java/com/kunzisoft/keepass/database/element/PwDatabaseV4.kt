@@ -360,9 +360,7 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
             }
             addGroupTo(recycleBinGroup, rootGroup)
             recycleBinUUID = recycleBinGroup.id
-            recycleBinGroup.lastModificationTime.date?.let {
-                recycleBinChanged = it
-            }
+            recycleBinChanged = recycleBinGroup.lastModificationTime.date
         }
     }
 

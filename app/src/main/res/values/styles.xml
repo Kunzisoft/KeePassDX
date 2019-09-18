@@ -312,6 +312,10 @@
         <item name="android:textColor">?attr/colorAccent</item>
 		<item name="android:textSize">12sp</item>
 	</style>
+    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>

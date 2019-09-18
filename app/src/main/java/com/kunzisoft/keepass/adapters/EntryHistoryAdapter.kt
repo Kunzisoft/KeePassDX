@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.EntryVersioned
 
-class EntryHistoryAdapter(context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
+class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryHistoryList: MutableList<EntryVersioned> = ArrayList()
@@ -22,7 +22,7 @@ class EntryHistoryAdapter(context: Context) : RecyclerView.Adapter<EntryHistoryA
     override fun onBindViewHolder(holder: EntryHistoryViewHolder, position: Int) {
         val entryHistory = entryHistoryList[position]
 
-        holder.lastModifiedView.text = entryHistory.lastModificationTime.date.toString()
+        holder.lastModifiedView.text = entryHistory.lastModificationTime.getDateTimeString(context.resources)
         holder.titleView.text = entryHistory.title
         holder.usernameView.text = entryHistory.username
         holder.urlView.text = entryHistory.url
