@@ -13,7 +13,7 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryHistoryList: MutableList<EntryVersioned> = ArrayList()
-    var onItemClickListener: OnItemClickListener? = null
+    var onItemClickListener: ((item: EntryVersioned, position: Int)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryHistoryViewHolder {
         return EntryHistoryViewHolder(inflater.inflate(R.layout.item_list_entry_history, parent, false))
@@ -27,7 +27,9 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         holder.usernameView.text = entryHistory.username
         holder.urlView.text = entryHistory.url
 
-        holder.bind(entryHistory, onItemClickListener)
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(entryHistory, position)
+        }
     }
 
     override fun getItemCount(): Int {
@@ -38,19 +40,11 @@ class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHist
         entryHistoryList.clear()
     }
 
-    interface OnItemClickListener {
-        fun onItemClick(item: EntryVersioned)
-    }
-
     inner class EntryHistoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         var lastModifiedView: TextView = itemView.findViewById(R.id.entry_history_last_modified)
         var titleView: TextView = itemView.findViewById(R.id.entry_history_title)
         var usernameView: TextView = itemView.findViewById(R.id.entry_history_username)
         var urlView: TextView = itemView.findViewById(R.id.entry_history_url)
-
-        fun bind(item: EntryVersioned, listener: OnItemClickListener?) {
-            itemView.setOnClickListener { listener?.onItemClick(item) }
-        }
     }
 }

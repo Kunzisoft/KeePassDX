@@ -81,7 +81,6 @@
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
     <string name="entry_UUID">UUID</string>
-    <string name="entry_history">History</string>
     <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>

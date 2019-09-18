@@ -70,7 +70,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val uuidView: TextView
 
-    private val historyView: RecyclerView
+    private val historyContainerView: View
+    private val historyListView: RecyclerView
     private val historyAdapter = EntryHistoryAdapter(context)
 
     val isUserNamePresent: Boolean
@@ -107,8 +108,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         uuidView = findViewById(R.id.entry_UUID)
 
-        historyView = findViewById(R.id.entry_history_list)
-        historyView?.apply {
+        historyContainerView = findViewById(R.id.entry_history_container)
+        historyListView = findViewById(R.id.entry_history_list)
+        historyListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
             adapter = historyAdapter
         }
@@ -264,9 +266,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         uuidView.text = uuid.toString()
     }
 
+    fun showHistory(show: Boolean) {
+        historyContainerView.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
     fun assignHistory(history: ArrayList<EntryVersioned>) {
         historyAdapter.clear()
         historyAdapter.entryHistoryList.addAll(history)
+    }
+
+    fun onHistoryClick(action: (historyItem: EntryVersioned, position: Int)->Unit) {
+        historyAdapter.onItemClickListener = { item, position ->
+                action.invoke(item, position)
+            }
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

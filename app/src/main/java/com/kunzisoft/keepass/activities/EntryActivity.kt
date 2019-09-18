@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
 import com.google.android.material.appbar.CollapsingToolbarLayout
@@ -54,10 +55,13 @@ class EntryActivity : LockingHideActivity() {
 
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
+    private var historyView: View? = null
     private var entryContentsView: EntryContentsView? = null
     private var toolbar: Toolbar? = null
 
     private var mEntry: EntryVersioned? = null
+    private var mIsHistory: Boolean = false
+
     private var mShowPassword: Boolean = false
 
     private var clipboardHelper: ClipboardHelper? = null
@@ -88,6 +92,12 @@ class EntryActivity : LockingHideActivity() {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
+        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+        if (historyPosition >= 0) {
+            mIsHistory = true
+            mEntry = mEntry?.getHistory()?.get(historyPosition)
+        }
+
         if (mEntry == null) {
             Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
             finish()
@@ -108,6 +118,7 @@ class EntryActivity : LockingHideActivity() {
         // Get views
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         titleIconView = findViewById(R.id.entry_icon)
+        historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
 
@@ -250,7 +261,23 @@ class EntryActivity : LockingHideActivity() {
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)
 
-        entryContentsView?.assignHistory(entry.getHistory())
+        // Manage history
+        historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
+        if (mIsHistory) {
+            val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+            collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+            taColorAccent.recycle()
+        }
+        val entryHistory = entry.getHistory()
+        // isMainEntry = not an history
+        val isMainEntryAndContainsEntry = !mIsHistory && entryHistory.isNotEmpty()
+        entryContentsView?.showHistory(isMainEntryAndContainsEntry)
+        if (isMainEntryAndContainsEntry) {
+            entryContentsView?.assignHistory(entryHistory)
+            entryContentsView?.onHistoryClick { historyItem, position ->
+                launch(this, historyItem, true, position)
+            }
+        }
 
         database.stopManageEntry(entry)
     }
@@ -407,13 +434,16 @@ class EntryActivity : LockingHideActivity() {
     companion object {
         private val TAG = EntryActivity::class.java.name
 
-        const val KEY_ENTRY = "entry"
+        const val KEY_ENTRY = "KEY_ENTRY"
+        const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"
 
-        fun launch(activity: Activity, pw: EntryVersioned, readOnly: Boolean) {
+        fun launch(activity: Activity, entry: EntryVersioned, readOnly: Boolean, historyPosition: Int? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, pw.nodeId)
+                intent.putExtra(KEY_ENTRY, entry.nodeId)
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+                if (historyPosition != null)
+                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }
