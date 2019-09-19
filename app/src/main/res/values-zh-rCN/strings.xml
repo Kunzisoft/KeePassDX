@@ -209,7 +209,7 @@
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
     <string name="open_biometric_prompt_store_credential">使用指纹保存此密码</string>
-    <string name="history">历史</string>
+    <string name="database_history">历史</string>
     <string name="menu_appearance_settings">外观</string>
     <string name="general">一般设置</string>
     <string name="autofill">自动填充</string>

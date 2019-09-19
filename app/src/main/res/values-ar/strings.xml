@@ -216,7 +216,7 @@
 \nاستعد كلمة السر.</string>
     <string name="biometric_not_recognized">لم يتعرّف على البصمة</string>
     <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
-    <string name="history">تأريخ</string>
+    <string name="database_history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="fingerprint_advanced_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>

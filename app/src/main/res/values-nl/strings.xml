@@ -222,7 +222,7 @@
     <string name="biometric_scanning_error">Vingerafdrukprobleem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Vingerafdruk gebruiken om dit wachtwoord op te slaan</string>
     <string name="no_credentials_stored">Deze databank heeft nog geen wachtwoord.</string>
-    <string name="history">Geschiedenis</string>
+    <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
     <string name="autofill">Auto-aanvullen</string>

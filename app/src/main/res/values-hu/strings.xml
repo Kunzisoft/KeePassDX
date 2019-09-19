@@ -223,7 +223,7 @@
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
     <string name="biometric_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
-    <string name="history">Előzmények</string>
+    <string name="database_history">Előzmények</string>
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>

@@ -295,7 +295,7 @@
 				android:id="@+id/entry_history_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:text="@string/history"
+				android:text="@string/entry_history"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 
 			<androidx.constraintlayout.widget.ConstraintLayout

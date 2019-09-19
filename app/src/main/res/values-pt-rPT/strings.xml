@@ -212,7 +212,7 @@
     <string name="biometric_scanning_error">Problema da Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>

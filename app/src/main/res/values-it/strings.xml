@@ -215,7 +215,7 @@
     <string name="warning_empty_password">Vuoi veramente che non ci sia una password di sblocco\?</string>
     <string name="warning_no_encryption_key">Sei sicuro di non volere usare una chiave di cifratura?</string>
     <string name="biometric_not_recognized">Impronta non riconosciuta</string>
-    <string name="history">Cronologia</string>
+    <string name="database_history">Cronologia</string>
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
     <string name="autofill">Autocompletamento</string>

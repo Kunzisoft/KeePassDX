@@ -207,7 +207,7 @@
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="biometric_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="biometric_scanning_error">Problem mit dem Fingerabdruck: %1$s</string>
-    <string name="history">Verlauf</string>
+    <string name="database_history">Verlauf</string>
     <string name="fingerprint_advanced_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
     <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
     <string name="fingerprint_setting_link_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>

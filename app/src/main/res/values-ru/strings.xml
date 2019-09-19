@@ -220,7 +220,7 @@
     <string name="warning_empty_password">Вы действительно хотите использовать пустой пароль?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
     <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
-    <string name="history">История</string>
+    <string name="database_history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>

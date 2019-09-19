@@ -207,7 +207,7 @@
     <string name="biometric_scanning_error">Problema de huella digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa la huella digital para almacenar esta contraseña</string>
     <string name="no_credentials_stored">Aún sin contraseña almacenada para esta base de datos</string>
-    <string name="history">Historial</string>
+    <string name="database_history">Historial</string>
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletar</string>

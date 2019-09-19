@@ -81,6 +81,7 @@
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
     <string name="entry_UUID">UUID</string>
+    <string name="entry_history">History</string>
     <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
@@ -238,7 +239,7 @@
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="history">History</string>
+    <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
     <string name="general">General</string>

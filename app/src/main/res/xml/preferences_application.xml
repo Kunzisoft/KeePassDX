@@ -108,7 +108,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/history">
+        android:title="@string/database_history">
 
         <SwitchPreference
             android:key="@string/recentfile_key"

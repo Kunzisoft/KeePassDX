@@ -199,7 +199,7 @@
     <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
-    <string name="history">Historikk</string>
+    <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>

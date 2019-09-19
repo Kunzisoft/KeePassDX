@@ -100,7 +100,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     android:textColor="?attr/textColorInverse"
-                    android:text="@string/history"/>
+                    android:text="@string/entry_history"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <com.kunzisoft.keepass.view.EntryContentsView
