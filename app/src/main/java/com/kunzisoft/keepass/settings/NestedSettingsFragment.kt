@@ -74,7 +74,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.settings_autofill_enable_key))
+                val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
                 if (autoFillEnablePreference != null) {
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
@@ -139,7 +139,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         setPreferencesFromResource(R.xml.preferences_form_filling, rootKey)
 
         activity?.let { activity ->
-            val autoFillEnablePreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.settings_autofill_enable_key))
+            val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 val autofillManager = activity.getSystemService(AutofillManager::class.java)
                 if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
@@ -217,7 +217,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
 
         activity?.let { activity ->
-            val biometricUnlockEnablePreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.biometric_unlock_enable_key))
+            val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
             // < M solve verifyError exception
             var biometricUnlockSupported = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -240,7 +240,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 }
             }
 
-            val deleteKeysFingerprints: Preference? = findPreference<Preference>(getString(R.string.biometric_delete_all_key_key))
+            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
             if (!biometricUnlockSupported) {
                 deleteKeysFingerprints?.isEnabled = false
             } else {
@@ -338,10 +338,10 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         if (mDatabase.loaded) {
 
-            val dbGeneralPrefCategory: PreferenceCategory? = findPreference<PreferenceCategory>(getString(R.string.database_general_key))
+            val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_general_key))
 
             // Db name
-            val dbNamePref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_name_key))
+            val dbNamePref: InputTextPreference? = findPreference(getString(R.string.database_name_key))
             if (mDatabase.containsName()) {
                 dbNamePref?.summary = mDatabase.name
             } else {
@@ -349,15 +349,27 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
 
             // Db description
-            val dbDescriptionPref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_description_key))
+            val dbDescriptionPref: InputTextPreference? = findPreference(getString(R.string.database_description_key))
             if (mDatabase.containsDescription()) {
                 dbDescriptionPref?.summary = mDatabase.description
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
+            // Version
+            findPreference<Preference>(getString(R.string.database_version_key))
+                    ?.summary = mDatabase.getVersion()
+
+            // Max history items
+            findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))
+                    ?.summary = mDatabase.historyMaxItems.toString()
+
+            // Max history size
+            findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))
+                    ?.summary = mDatabase.historyMaxSize.toString()
+
             // Recycle bin
-            val recycleBinPref: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.recycle_bin_key))
+            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
             // TODO Recycle
             dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
             if (mDatabase.isRecycleBinAvailable) {
@@ -366,10 +378,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             } else {
                 dbGeneralPrefCategory?.removePreference(recycleBinPref)
             }
-
-            // Version
-            findPreference<Preference>(getString(R.string.database_version_key))
-                    ?.summary = mDatabase.getVersion()
 
             // Encryption Algorithm
             findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
@@ -380,16 +388,16 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     ?.summary = mDatabase.getKeyDerivationName(resources)
 
             // Round encryption
-            mRoundPref = findPreference<InputNumberPreference>(getString(R.string.transform_rounds_key))
-            mRoundPref?.summary = mDatabase.numberKeyEncryptionRoundsAsString
+            mRoundPref = findPreference(getString(R.string.transform_rounds_key))
+            mRoundPref?.summary = mDatabase.numberKeyEncryptionRounds.toString()
 
             // Memory Usage
-            mMemoryPref = findPreference<InputNumberPreference>(getString(R.string.memory_usage_key))
-            mMemoryPref?.summary = mDatabase.memoryUsageAsString
+            mMemoryPref = findPreference(getString(R.string.memory_usage_key))
+            mMemoryPref?.summary = mDatabase.memoryUsage.toString()
 
             // Parallelism
-            mParallelismPref = findPreference<InputNumberPreference>(getString(R.string.parallelism_key))
-            mParallelismPref?.summary = mDatabase.parallelismAsString
+            mParallelismPref = findPreference(getString(R.string.parallelism_key))
+            mParallelismPref?.summary = mDatabase.parallelism.toString()
 
         } else {
             Log.e(javaClass.name, "Database isn't ready")
@@ -397,7 +405,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     }
 
     private fun allowCopyPassword() {
-        val copyPasswordPreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.allow_copy_password_key))
+        val copyPasswordPreference: SwitchPreference? = findPreference(getString(R.string.allow_copy_password_key))
         copyPasswordPreference?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean && context != null) {
                 val message = getString(R.string.allow_copy_password_warning) +
@@ -460,6 +468,12 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_description_key) -> {
                         dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.max_history_items_key) -> {
+                        dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.max_history_size_key) -> {
+                        dialogFragment = MaxHistorySizePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
                     preference.key == getString(R.string.encryption_algorithm_key) -> {
                         dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.key)

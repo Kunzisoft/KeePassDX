@@ -31,15 +31,14 @@ class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
         super.onBindDialogView(view)
 
         setExplanationText(R.string.parallelism_explanation)
-        inputText = database?.parallelismAsString ?: ""
+        inputText = database?.parallelism?.toString() ?: "0"
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (database != null && positiveResult) {
             var parallelism: Int
             try {
-                val stringParallelism = inputText
-                parallelism = Integer.parseInt(stringParallelism)
+                parallelism = inputText.toInt()
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
                 return

@@ -289,6 +289,8 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
+    <string name="max_history_items_title">Max. history items</string>
+    <string name="max_history_size_title">Max. history size</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="auto_open_file_uri_title">Open files by selecting</string>

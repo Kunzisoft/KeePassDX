@@ -112,9 +112,6 @@ class Database {
             return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
         }
 
-    val numberKeyEncryptionRoundsAsString: String
-        get() = numberKeyEncryptionRounds.toString()
-
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
         @Throws(NumberFormatException::class)
@@ -123,9 +120,6 @@ class Database {
             pwDatabaseV4?.numberKeyEncryptionRounds = numberRounds
         }
 
-    val memoryUsageAsString: String
-        get() = memoryUsage.toString()
-
     var memoryUsage: Long
         get() {
             return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
@@ -133,9 +127,6 @@ class Database {
         set(memory) {
             pwDatabaseV4?.memoryUsage = memory
         }
-
-    val parallelismAsString: String
-        get() = parallelism.toString()
 
     var parallelism: Int
         get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOWN_VALUE
@@ -159,6 +150,22 @@ class Database {
                 return GroupVersioned(it)
             }
             return null
+        }
+
+    var historyMaxItems: Int
+        get() {
+            return pwDatabaseV4?.historyMaxItems ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxItems = value
+        }
+
+    var historyMaxSize: Long
+        get() {
+            return pwDatabaseV4?.historyMaxSize ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxSize = value
         }
 
     /**
@@ -708,14 +715,14 @@ class Database {
         pwDatabaseV4?.let {
             val history = entry.getHistory()
 
-            val maxItems = it.historyMaxItems
+            val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (history.size > maxItems) {
                     entry.removeOldestEntryFromHistory()
                 }
             }
 
-            val maxSize = it.historyMaxSize
+            val maxSize = historyMaxSize
             if (maxSize >= 0) {
                 while (true) {
                     var historySize: Long = 0

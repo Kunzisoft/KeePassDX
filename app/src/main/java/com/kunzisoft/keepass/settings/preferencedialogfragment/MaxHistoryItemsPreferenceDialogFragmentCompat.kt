@@ -25,55 +25,55 @@ import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: "0"
+        inputText = database?.historyMaxItems?.toString() ?: "0"
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (database != null && positiveResult) {
-            var memoryUsage: Long
+            var maxHistoryItems: Int
             try {
-                memoryUsage = inputText.toLong()
+                maxHistoryItems = inputText.toInt()
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
                 return
             }
 
-            if (memoryUsage < 1) {
-                memoryUsage = 1
+            if (maxHistoryItems < 1) {
+                maxHistoryItems = 1
             }
 
-            val oldMemoryUsage = database!!.memoryUsage
-            database!!.memoryUsage = memoryUsage
+            val oldMaxHistoryItems = database!!.historyMaxItems
+            database!!.historyMaxItems = maxHistoryItems
 
-            actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
+            actionInUIThreadAfterSaveDatabase = AfterMaxHistoryItemsSave(maxHistoryItems, oldMaxHistoryItems)
         }
 
         super.onDialogClosed(positiveResult)
     }
 
-    private inner class AfterMemorySave(private val mNewMemory: Long,
-                                        private val mOldMemory: Long)
+    private inner class AfterMaxHistoryItemsSave(private val mNewMaxHistoryItems: Int,
+                                                 private val mOldMaxHistoryItems: Int)
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val memoryToShow = mNewMemory
+            var maxHistoryItemsToShow = mOldMaxHistoryItems
             if (!result.isSuccess) {
-                database?.memoryUsage = mOldMemory
+                maxHistoryItemsToShow = mNewMaxHistoryItems
+                database?.historyMaxItems = mNewMaxHistoryItems
             }
-            preference.summary = memoryToShow.toString()
+            preference.summary = maxHistoryItemsToShow.toString()
         }
     }
 
     companion object {
 
-        fun newInstance(key: String): MemoryUsagePreferenceDialogFragmentCompat {
-            val fragment = MemoryUsagePreferenceDialogFragmentCompat()
+        fun newInstance(key: String): MaxHistoryItemsPreferenceDialogFragmentCompat {
+            val fragment = MaxHistoryItemsPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

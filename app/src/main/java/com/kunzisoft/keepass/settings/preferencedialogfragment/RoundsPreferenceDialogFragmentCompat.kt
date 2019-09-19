@@ -31,15 +31,14 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
         super.onBindDialogView(view)
 
         explanationText = getString(R.string.rounds_explanation)
-        inputText = database?.numberKeyEncryptionRoundsAsString ?: ""
+        inputText = database?.numberKeyEncryptionRounds?.toString() ?: "0"
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (database != null && positiveResult) {
             var rounds: Long
             try {
-                val strRounds = inputText
-                rounds = java.lang.Long.parseLong(strRounds)
+                rounds = inputText.toLong()
             } catch (e: NumberFormatException) {
                 Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show()
                 return

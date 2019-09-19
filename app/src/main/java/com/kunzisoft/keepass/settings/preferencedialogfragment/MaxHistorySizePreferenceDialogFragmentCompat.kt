@@ -25,55 +25,57 @@ import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: "0"
+        inputText = database?.historyMaxSize?.toString() ?: "0"
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var memoryUsage: Long
-            try {
-                memoryUsage = inputText.toLong()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
-                return
+        if (positiveResult) {
+            database?.let { database ->
+                var maxHistorySize: Long
+                try {
+                    maxHistorySize = inputText.toLong()
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
+                    return
+                }
+
+                if (maxHistorySize < 1) {
+                    maxHistorySize = 1
+                }
+
+                val oldMaxHistorySize = database.historyMaxSize
+                database.historyMaxSize = maxHistorySize
+
+                actionInUIThreadAfterSaveDatabase = AfterMaxHistorySizeSave(maxHistorySize, oldMaxHistorySize)
             }
-
-            if (memoryUsage < 1) {
-                memoryUsage = 1
-            }
-
-            val oldMemoryUsage = database!!.memoryUsage
-            database!!.memoryUsage = memoryUsage
-
-            actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
         }
 
         super.onDialogClosed(positiveResult)
     }
 
-    private inner class AfterMemorySave(private val mNewMemory: Long,
-                                        private val mOldMemory: Long)
+    private inner class AfterMaxHistorySizeSave(private val mNewMaxHistorySize: Long,
+                                                private val mOldMaxHistorySize: Long)
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val memoryToShow = mNewMemory
+            var maxHistorySizeToShow = mNewMaxHistorySize
             if (!result.isSuccess) {
-                database?.memoryUsage = mOldMemory
+                maxHistorySizeToShow = mOldMaxHistorySize
+                database?.historyMaxSize = mOldMaxHistorySize
             }
-            preference.summary = memoryToShow.toString()
+            preference.summary = maxHistorySizeToShow.toString()
         }
     }
 
     companion object {
 
-        fun newInstance(key: String): MemoryUsagePreferenceDialogFragmentCompat {
-            val fragment = MemoryUsagePreferenceDialogFragmentCompat()
+        fun newInstance(key: String): MaxHistorySizePreferenceDialogFragmentCompat {
+            val fragment = MaxHistorySizePreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle
