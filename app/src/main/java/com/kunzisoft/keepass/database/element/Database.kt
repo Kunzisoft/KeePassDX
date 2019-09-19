@@ -702,12 +702,9 @@ class Database {
         }
     }
 
-    fun addHistoryBackupTo(entry: EntryVersioned): EntryVersioned {
-        val backupEntry = EntryVersioned(entry)
+    fun removeOldestHistory(entry: EntryVersioned) {
 
-        entry.addBackupToHistory()
-
-        // Remove oldest backup if more than max items or max memory
+        // Remove oldest history if more than max items or max memory
         pwDatabaseV4?.let {
             val history = entry.getHistory()
 
@@ -721,12 +718,12 @@ class Database {
             val maxSize = it.historyMaxSize
             if (maxSize >= 0) {
                 while (true) {
-                    var histSize: Long = 0
-                    for (backup in history) {
-                        histSize += backup.getSize()
+                    var historySize: Long = 0
+                    for (entryHistory in history) {
+                        historySize += entryHistory.getSize()
                     }
 
-                    if (histSize > maxSize) {
+                    if (historySize > maxSize) {
                         entry.removeOldestEntryFromHistory()
                     } else {
                         break
@@ -734,8 +731,6 @@ class Database {
                 }
             }
         }
-
-        return backupEntry
     }
 
     companion object : SingletonHolder<Database>(::Database) {

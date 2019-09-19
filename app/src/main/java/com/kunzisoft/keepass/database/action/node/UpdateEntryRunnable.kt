@@ -33,11 +33,17 @@ class UpdateEntryRunnable constructor(
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private var mBackupEntry: EntryVersioned? = null
+    private var mBackupEntryHistory: EntryVersioned? = null
 
     override fun nodeAction() {
-        mBackupEntry = database.addHistoryBackupTo(mOldEntry)
-        mOldEntry.touch(modified = true, touchParents = true)
+        mNewEntry.touch(modified = true, touchParents = true)
+
+        mBackupEntryHistory = EntryVersioned(mOldEntry)
+
+        // Create an entry history (an entry history don't have history)
+        mNewEntry.addEntryToHistory(EntryVersioned(mOldEntry, copyHistory = false))
+
+        database.removeOldestHistory(mNewEntry)
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
     }
@@ -45,7 +51,7 @@ class UpdateEntryRunnable constructor(
     override fun nodeFinish(result: Result): ActionNodeValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
-            mBackupEntry?.let {
+            mBackupEntryHistory?.let {
                 mOldEntry.updateWith(it)
             }
         }
