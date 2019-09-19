@@ -270,9 +270,9 @@ class EntryActivity : LockingHideActivity() {
         }
         val entryHistory = entry.getHistory()
         // isMainEntry = not an history
-        val isMainEntryAndContainsEntry = !mIsHistory && entryHistory.isNotEmpty()
-        entryContentsView?.showHistory(isMainEntryAndContainsEntry)
-        if (isMainEntryAndContainsEntry) {
+        val showHistoryView = entryHistory.isNotEmpty()
+        entryContentsView?.showHistory(showHistoryView)
+        if (showHistoryView) {
             entryContentsView?.assignHistory(entryHistory)
             entryContentsView?.onHistoryClick { historyItem, position ->
                 launch(this, historyItem, true, position)
