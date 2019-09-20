@@ -70,7 +70,6 @@
     <string name="error_out_of_memory">Nincs elég memória a teljes adatbázis betöltéséhez.</string>
     <string name="error_pass_gen_type">Legalább egy jelszóelőállítási típust kell választania.</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>
-    <string name="error_rounds_not_number">A „Transzformációs körök” szám kell legyen.</string>
     <string name="error_rounds_too_large">A „Transzformációs körök” száma túl nagy. Beállítás 2147483648-ra.</string>
     <string name="error_string_key">Minden karakterlánchoz szükséges egy mezőnév.</string>
     <string name="error_title_required">Adjon hozzá egy címet.</string>

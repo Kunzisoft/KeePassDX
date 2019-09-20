@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
@@ -36,14 +34,11 @@ class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreference
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             database?.let { database ->
-                var maxHistorySize: Long
-                try {
-                    maxHistorySize = inputText.toLong()
+                var maxHistorySize: Long = try {
+                    inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
-                    return
+                    1
                 }
-
                 if (maxHistorySize < 1) {
                     maxHistorySize = 1
                 }

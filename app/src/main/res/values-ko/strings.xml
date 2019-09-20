@@ -77,7 +77,6 @@
     <string name="error_load_database_KDF_memory">키를 로드할 수 없습니다. KDF \"메모리 사용량\"을 줄여 보세요.</string>
     <string name="error_pass_gen_type">최소 한 가지의 비밀번호 생성 방식이 선택되어야 합니다.</string>
     <string name="error_pass_match">비밀번호가 일치하지 않습니다.</string>
-    <string name="error_rounds_not_number">\"Transformation rounds\"는 숫자로 입력해 주세요.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" 가 너무 높습니다. 2147483648로 설정합니다.</string>
     <string name="error_string_key">각 항목은 필드 이름을 가져야 합니다.</string>
     <string name="error_title_required">제목을 입력하십시오.</string>

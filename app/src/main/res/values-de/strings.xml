@@ -75,7 +75,6 @@
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_not_number">„Transformationsrunden“ zu einer Zahl machen.</string>
     <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 214748364848 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Titel hinzufügen.</string>

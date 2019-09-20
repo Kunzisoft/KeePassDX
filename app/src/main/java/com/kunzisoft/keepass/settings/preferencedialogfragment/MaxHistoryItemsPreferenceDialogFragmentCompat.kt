@@ -21,8 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
@@ -34,23 +32,22 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenc
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var maxHistoryItems: Int
-            try {
-                maxHistoryItems = inputText.toInt()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
-                return
+        if (positiveResult) {
+            database?.let { database ->
+                var maxHistoryItems: Int = try {
+                    inputText.toInt()
+                } catch (e: NumberFormatException) {
+                    1
+                }
+                if (maxHistoryItems < 1) {
+                    maxHistoryItems = 1
+                }
+
+                val oldMaxHistoryItems = database.historyMaxItems
+                database.historyMaxItems = maxHistoryItems
+
+                actionInUIThreadAfterSaveDatabase = AfterMaxHistoryItemsSave(maxHistoryItems, oldMaxHistoryItems)
             }
-
-            if (maxHistoryItems < 1) {
-                maxHistoryItems = 1
-            }
-
-            val oldMaxHistoryItems = database!!.historyMaxItems
-            database!!.historyMaxItems = maxHistoryItems
-
-            actionInUIThreadAfterSaveDatabase = AfterMaxHistoryItemsSave(maxHistoryItems, oldMaxHistoryItems)
         }
 
         super.onDialogClosed(positiveResult)

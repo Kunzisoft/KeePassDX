@@ -56,17 +56,21 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult && database!!.allowEncryptionAlgorithmModification()) {
 
-            if (algorithmSelected != null) {
-                val newAlgorithm = algorithmSelected
-                val oldAlgorithm = database?.encryptionAlgorithm
-                newAlgorithm?.let {
-                    database?.assignEncryptionAlgorithm(it)
+        if (positiveResult) {
+            database?.let { database ->
+                if (database.allowEncryptionAlgorithmModification()) {
+                    if (algorithmSelected != null) {
+                        val newAlgorithm = algorithmSelected
+                        val oldAlgorithm = database.encryptionAlgorithm
+                        newAlgorithm?.let {
+                            database.assignEncryptionAlgorithm(it)
+                        }
+
+                        if (oldAlgorithm != null && newAlgorithm != null)
+                            actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
+                    }
                 }
-
-                if (oldAlgorithm != null && newAlgorithm != null)
-                    actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
             }
         }
 

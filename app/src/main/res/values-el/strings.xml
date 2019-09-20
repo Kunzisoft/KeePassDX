@@ -71,7 +71,6 @@
     <string name="error_out_of_memory">Το τηλέφωνο ξέμεινε από μνήμη κατά τη διάρκεια προσπέλασης της βάσης δεδομένων σας. Μπορεί να είναι πολύ μεγάλη για το τηλέφωνο σας.</string>
     <string name="error_pass_gen_type">Πρέπει να επιλεγεί τουλάχιστον ένας τύπος δημιουργίας κωδικού πρόσβασης</string>
     <string name="error_pass_match">Οι κωδικοί δεν ταιριάζουν.</string>
-    <string name="error_rounds_not_number">Οι κύκλοι πρέπει να είναι αριθμός.</string>
     <string name="error_rounds_too_large">Οι κύκλοι είναι υπερβολικά πολλοί. Ορισμός σε 2147483648.</string>
     <string name="error_string_key">Ένα όνομα πεδίου απαιτείται για κάθε σειρά.</string>
     <string name="error_title_required">Απαιτείται ένας τίτλος.</string>

@@ -35,28 +35,27 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var rounds: Long
-            try {
-                rounds = inputText.toLong()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show()
-                return
-            }
+        if (positiveResult) {
+            database?.let { database ->
+                var rounds: Long = try {
+                    inputText.toLong()
+                } catch (e: NumberFormatException) {
+                    1
+                }
+                if (rounds < 1) {
+                    rounds = 1
+                }
 
-            if (rounds < 1) {
-                rounds = 1
-            }
+                val oldRounds = database.numberKeyEncryptionRounds
+                try {
+                    database.numberKeyEncryptionRounds = rounds
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
+                    database.numberKeyEncryptionRounds = Integer.MAX_VALUE.toLong()
+                }
 
-            val oldRounds = database!!.numberKeyEncryptionRounds
-            try {
-                database?.numberKeyEncryptionRounds = rounds
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
-                database?.numberKeyEncryptionRounds = Integer.MAX_VALUE.toLong()
+                actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
             }
-
-            actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
         }
 
         super.onDialogClosed(positiveResult)

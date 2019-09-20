@@ -60,13 +60,17 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult && database!!.allowKdfModification()) {
-            if (kdfEngineSelected != null) {
-                val newKdfEngine = kdfEngineSelected!!
-                val oldKdfEngine = database!!.kdfEngine
-                database?.assignKdfEngine(newKdfEngine)
+        if (positiveResult) {
+            database?.let { database ->
+                if (database.allowKdfModification()) {
+                    val newKdfEngine = kdfEngineSelected
+                    if (newKdfEngine != null) {
+                        val oldKdfEngine = database.kdfEngine
+                        database.assignKdfEngine(newKdfEngine)
 
-                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
+                        actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
+                    }
+                }
             }
         }
 

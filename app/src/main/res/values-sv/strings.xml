@@ -71,7 +71,6 @@
     <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your phone.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
     <string name="error_pass_match">Lösenorden matchar inte.</string>
-    <string name="error_rounds_not_number">Antalet rundor måste vara en siffra.</string>
     <string name="error_rounds_too_large">Antalet rundor är för stort. Sätter värdet till 2147483648.</string>
     <string name="error_string_key">Ett fältnamn krävs för varje sträng.</string>
     <string name="error_title_required">En titel krävs.</string>

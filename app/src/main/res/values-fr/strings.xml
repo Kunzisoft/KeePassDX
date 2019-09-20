@@ -76,7 +76,6 @@
     <string name="error_out_of_memory">Mémoire insuffisante pour charger l’ensemble de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_not_number">« Tours de transformation » doit être un nombre.</string>
     <string name="error_rounds_too_large">« Tours de transformation » trop grand. Défini à 2147483648.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
     <string name="error_title_required">Ajoutez un titre.</string>

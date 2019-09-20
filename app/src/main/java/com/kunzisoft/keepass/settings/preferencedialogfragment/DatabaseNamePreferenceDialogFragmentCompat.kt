@@ -32,12 +32,14 @@ class DatabaseNamePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDi
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            val newName = inputText
-            val oldName = database!!.name
-            database?.assignName(newName)
+        if (positiveResult) {
+            database?.let { database ->
+                val newName = inputText
+                val oldName = database.name
+                database.assignName(newName)
 
-            actionInUIThreadAfterSaveDatabase = AfterNameSave(newName, oldName)
+                actionInUIThreadAfterSaveDatabase = AfterNameSave(newName, oldName)
+            }
         }
 
         super.onDialogClosed(positiveResult)

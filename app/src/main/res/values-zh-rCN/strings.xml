@@ -66,7 +66,6 @@
     <string name="error_out_of_memory">因内存不足无法加载数据库。</string>
     <string name="error_pass_gen_type">必须至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
-    <string name="error_rounds_not_number">“变换次数”必须是数字。</string>
     <string name="error_rounds_too_large">“变换次数”过多。已设置为 2147483648。</string>
     <string name="error_title_required">请添加标题。</string>
     <string name="error_wrong_length">请在“长度”字段输入一个正整数。</string>

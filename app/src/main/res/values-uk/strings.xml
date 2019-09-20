@@ -66,7 +66,6 @@
     <string name="error_out_of_memory">Телефону не вистачило пам’яті при аналізі вашої бази даних. Можливо база надто велика для вашог телефона.</string>
     <string name="error_pass_gen_type">Принаймні один тип генерації пароля необхідно вибрати.</string>
     <string name="error_pass_match">Паролі не співпадають.</string>
-    <string name="error_rounds_not_number">Кількість циклів має бути числом.</string>
     <string name="error_rounds_too_large">Надто багато циклів.  Установлено 2147483648.</string>
     <string name="error_title_required">Необхідно вказати заголовок.</string>
     <string name="error_wrong_length">Введіть ціле число на усю довжину поля</string>

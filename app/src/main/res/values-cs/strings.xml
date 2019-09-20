@@ -73,7 +73,6 @@
     <string name="error_out_of_memory">Nedostatek paměti k otevření databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
-    <string name="error_rounds_not_number">„Počet průchodů“ musí být číslo.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
     <string name="error_title_required">Přidejte název.</string>

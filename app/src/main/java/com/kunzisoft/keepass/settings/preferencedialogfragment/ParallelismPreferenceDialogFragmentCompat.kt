@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
@@ -35,23 +34,22 @@ class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var parallelism: Int
-            try {
-                parallelism = inputText.toInt()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
-                return
+        if (positiveResult) {
+            database?.let { database ->
+                var parallelism: Int = try {
+                    inputText.toInt()
+                } catch (e: NumberFormatException) {
+                    1
+                }
+                if (parallelism < 1) {
+                    parallelism = 1
+                }
+
+                val oldParallelism = database.parallelism
+                database.parallelism = parallelism
+
+                actionInUIThreadAfterSaveDatabase = AfterParallelismSave(parallelism, oldParallelism)
             }
-
-            if (parallelism < 1) {
-                parallelism = 1
-            }
-
-            val oldParallelism = database!!.parallelism
-            database?.parallelism = parallelism
-
-            actionInUIThreadAfterSaveDatabase = AfterParallelismSave(parallelism, oldParallelism)
         }
 
         super.onDialogClosed(positiveResult)

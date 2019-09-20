@@ -71,7 +71,6 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
     <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
-    <string name="error_rounds_not_number">Rendi il \"livello\" un numero.</string>
     <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_title_required">Aggiungi un titolo.</string>

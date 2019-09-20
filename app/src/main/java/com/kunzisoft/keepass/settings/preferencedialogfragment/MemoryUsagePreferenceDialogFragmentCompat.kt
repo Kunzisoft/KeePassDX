@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
@@ -35,23 +34,22 @@ class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var memoryUsage: Long
-            try {
-                memoryUsage = inputText.toLong()
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
-                return
+        if (positiveResult) {
+            database?.let { database ->
+                var memoryUsage: Long = try {
+                    inputText.toLong()
+                } catch (e: NumberFormatException) {
+                    1
+                }
+                if (memoryUsage < 1) {
+                    memoryUsage = 1
+                }
+
+                val oldMemoryUsage = database.memoryUsage
+                database.memoryUsage = memoryUsage
+
+                actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
             }
-
-            if (memoryUsage < 1) {
-                memoryUsage = 1
-            }
-
-            val oldMemoryUsage = database!!.memoryUsage
-            database!!.memoryUsage = memoryUsage
-
-            actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
         }
 
         super.onDialogClosed(positiveResult)

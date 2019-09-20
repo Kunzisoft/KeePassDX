@@ -66,7 +66,6 @@
     <string name="error_out_of_memory">Telefonen gjekk tom for minne ved lesinga av databasen din. Databasen er kanskje for stor.</string>
     <string name="error_pass_gen_type">Du må velja minst éin passordlagingstype</string>
     <string name="error_pass_match">Passorda samsvarer ikkje.</string>
-    <string name="error_rounds_not_number">Omgangar må vera eit tal.</string>
     <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
     <string name="error_title_required">Treng ein tittel.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i lengdfeltet</string>
