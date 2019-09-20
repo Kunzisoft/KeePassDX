@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Informacje zwrotne</string>
     <string name="about_homepage">Strona domowa</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
@@ -240,7 +239,7 @@
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
     <string name="fingerprint_advanced_unlock_title">Jak skonfigurować skanowanie linii papilarnych do szybkiego odblokowania\?</string>
-    <string name="fingerprint_setting_text">Zapisz zeskanowany odcisk palca w urządzeniu</string>
+    <string name="fingerprint_setting_text">Zapisz zeskanowany odcisk palca dla swojego urządzenia w ustawieniach urządzenia.</string>
     <string name="fingerprint_setting_link_text">\"Ustawienia\" → \"Bezpieczeństwo\" → \"Odcisk palca\"</string>
     <string name="fingerprint_type_credentials_text">Wprowadź hasło blokady bazy danych</string>
     <string name="fingerprint_scan_to_store">Zeskanuj swój odcisk palca, aby bezpiecznie zapisać hasło blokady bazy danych.</string>
@@ -408,4 +407,21 @@
     <string name="content_description_repeat_toggle_password_visibility">Powtórz przełączanie widoczności hasła</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">W tym miejscu nie można przenieść wpisu.</string>
+    <string name="content_description_password_checkbox">Pole hasła</string>
+    <string name="content_description_keyfile_checkbox">Pole pliku klucza</string>
+    <string name="content_description_background">Tło</string>
+    <string name="content_description_update_from_list">Aktualizuj</string>
+    <string name="content_description_keyboard_close_fields">Zamknij pola</string>
+    <string name="error_create_database_file">Nie można utworzyć bazy danych przy użyciu tego hasła i pliku klucza.</string>
+    <string name="menu_advanced_unlock_settings">Zaawansowane odblokowywanie</string>
+    <string name="biometric_prompt_store_credential_title">Zapisz rozpoznawanie biometryczne</string>
+    <string name="biometric_prompt_store_credential_message">Przechowuj dane biometryczne w bazie danych.</string>
+    <string name="biometric_prompt_extract_credential_title">Otwarta baza danych z rozpoznawaniem biometrycznym</string>
+    <string name="biometric_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z danymi biometrycznymi</string>
+    <string name="biometric">Biometryczne</string>
+    <string name="fingerprint_open_biometric_prompt">Otwórz wpis biometryczny klikając na przycisk biometryczny.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">Możesz zmienić preferencje, aby szybko otworzyć monit biometryczny, aby nie powtarzać kroku 1.</string>
+    <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
+    <string name="enable">Włącz</string>
+    <string name="disable">Wyłącz</string>
 </resources>
