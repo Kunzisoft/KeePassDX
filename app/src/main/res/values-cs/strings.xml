@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Czech translation by Jan Vaněk
--->
-<resources>
+--><resources>
     <string name="about_feedback">Nahlášení problému</string>
     <string name="about_homepage">Domovská stránka</string>
     <string name="about_description">Androidová verze správce hesel KeePass</string>
@@ -214,14 +213,14 @@
     <string name="warning_password_encoding">Nepoužívejte v hesle pro databázový soubor znaky mimo znakovou sadu Latin-1 (nepoužívejte znaky s diakritikou).</string>
     <string name="warning_empty_password">Opravdu chcete ponechat databázi nechráněnou (bez hesla)?</string>
     <string name="warning_no_encryption_key">Opravdu nechcete používat šifrovací klíč?</string>
-    <string name="configure_biometric">Otisk prstu je zařízením podporován, ale není nastavený.</string>
-    <string name="open_biometric_prompt_unlock_database">Snímání otisku prstu</string>
+    <string name="configure_biometric">Biometrická pobídka je zařízením podporována, ale není nastavena.</string>
+    <string name="open_biometric_prompt_unlock_database">Otevři biometrickou pobídku k otevření databáze</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
-    <string name="biometric_invalid_key">Problém s neplatným otiskem prstu. Obnovte své heslo.</string>
-    <string name="biometric_not_recognized">Otisk prstu nerozpoznán</string>
-    <string name="biometric_scanning_error">Problém s otiskem prstu: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Použít pro uložení tohoto hesla otisk prstu</string>
-    <string name="no_credentials_stored">Tato databáze zatím není chráněna heslem.</string>
+    <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Obnovte své heslo.</string>
+    <string name="biometric_not_recognized">Biometrický prvek nerozpoznán</string>
+    <string name="biometric_scanning_error">Chyba s biometrickým prvkem: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Otevři biometrickou pobídku k uložení hesel</string>
+    <string name="no_credentials_stored">Tato databáze zatím nemá uložené heslo.</string>
     <string name="history">Historie</string>
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
@@ -242,18 +241,18 @@
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
     <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
     <string name="fingerprint_advanced_unlock_title">Jak nastavit rychlé odemykání otiskem prstu?</string>
-    <string name="fingerprint_setting_text">Uložte svůj otisk prstu pro své zařízení v</string>
-    <string name="fingerprint_setting_link_text">„Nastavení“ → „Zabezpečení“ → „Otisk prstu“</string>
+    <string name="fingerprint_setting_text">Uložte svůj otisk prstu pro své zařízení v nastavení zařízení.</string>
+    <string name="fingerprint_setting_link_text">Nastavení otisku prstu pro zařízení</string>
     <string name="fingerprint_type_credentials_text">Zadejte heslo pro zamčení databáze</string>
-    <string name="fingerprint_scan_to_store">Přiložte prst na snímač otisku prstu a zabezpečte tak heslo k databázi otiskem.</string>
-    <string name="fingerprint_scan_to_open">Pro otevření databáze s vypnutým heslem přiložte prst na snímač otisku prstu.</string>
+    <string name="fingerprint_scan_to_store">Skenovat otisk prstu k zabezpečení hesla k databázi.</string>
+    <string name="fingerprint_scan_to_open">Skenovat otisk prstu pro otevření databáze s vypnutým heslem.</string>
     <string name="usage">Použítí</string>
-    <string name="advanced_unlock">Otisk</string>
-    <string name="biometric_unlock_enable_title">Snímání otisku prstu</string>
+    <string name="advanced_unlock">Pokročilé odemčení</string>
+    <string name="biometric_unlock_enable_title">Biometrické odemčení</string>
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním otisku prstu</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
-    <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s rozpoznáváním otisku prstu</string>
-    <string name="biometric_delete_all_key_warning">Opravdu chcete smazat všechny klíče přiřazené k otiskům prstů\?</string>
+    <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
+    <string name="biometric_delete_all_key_warning">Opravdu chcete smazat všechny klíče související s biometrickým rozlišením\?</string>
     <string name="unavailable_feature_text">Tuto funkci se nedaří spustit.</string>
     <string name="unavailable_feature_version">Verze %1$s vámi používaného systému Android nevyhovuje minimální verzi %2$s.</string>
     <string name="unavailable_feature_hardware">Hardware nebyl rozpoznán.</string>
@@ -271,8 +270,8 @@
     <string name="auto_open_file_uri_title">Otevírat soubory vybráním</string>
     <string name="auto_open_file_uri_summary">Otevírat soubory automaticky vybráním ve správci souborů</string>
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
-    <string name="allow_copy_password_summary">Povolit kopírovat heslo a chráněné položky do schránky</string>
-    <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, může se k nim dostat další software.</string>
+    <string name="allow_copy_password_summary">Povolit vložit heslo a chráněné položky do schránky</string>
+    <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, mohl by se k nim dostat další software.</string>
     <string name="open_link_database">Odkaz na otevíranou databázi</string>
     <string name="database_name_title">Název databáze</string>
     <string name="database_description_title">Popis databáze</string>
@@ -282,13 +281,13 @@
     <string name="other">Ostatní</string>
     <string name="keyboard">Klávesnice</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky</string>
+    <string name="magic_keyboard_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky identity</string>
     <string name="magic_keyboard_preference_title">Nastavení Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Nastavit klávesnici pro bezpečné vyplňování formulářů.</string>
     <string name="magic_keyboard_activate_setting_text">Zapnout \"Magikeyboard\" v nastavení zařízení.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">„Nastavení“ → „Jazyk a vstup“ → „Stávající klávesnice“ a zvolte některou.</string>
-    <string name="keyboards_choose_magikeyboard_text">Když potřebujete vyplnit formulář, zvolte Magikeyboard.</string>
-    <string name="keyboards_swicth_magikeyboard_text">"Přepínat  klávesnice dlouhým stisknutím mezerníku na klávesnici nebo pokud nejsou k dispozici tak pomocí:"</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Nastavení klávesnice zařízení</string>
+    <string name="keyboards_choose_magikeyboard_text">Potřebujete-li vyplnit formulář, zvolte Magikeyboard.</string>
+    <string name="keyboards_swicth_magikeyboard_text">"Přepínat  klávesnice dlouhým stisknutím mezerníku na klávesnici nebo, pokud nejsou k dispozici, pomocí:"</string>
     <string name="keyboard_select_entry_text">Vyberte položku klávesou.</string>
     <string name="keyboard_fill_field_text">Vyplnit hodnoty pomocí prvků položky.</string>
     <string name="keyboard_lock_database_text">Zamknout databázi.</string>
@@ -386,10 +385,10 @@
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět v hlavním panelu</string>
     <string name="lock_database_back_root_summary">Zamknout obrazovku, pokud uživatel stiskne tlačítko Zpět v hlavním panelu</string>
     <string name="clear_clipboard_notification_title">Vymazat při ukončení</string>
-    <string name="clear_clipboard_notification_summary">Uzavři databázi při uzavření oznámení</string>
+    <string name="clear_clipboard_notification_summary">Uzavřít databázi při uzavření oznámení</string>
     <string name="recycle_bin">Koš</string>
     <string name="keyboard_selection_entry_title">Výběr položky</string>
-    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukaž na Magikeyboard pole položek</string>
+    <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard pole položek</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení</string>
     <string name="content_description_open_file">Otevři soubor</string>
@@ -414,4 +413,20 @@
     <string name="error_copy_entry_here">Sem záznam zkopírovat nelze.</string>
     <string name="list_groups_show_number_entries_title">Ukaž počet záznamů</string>
     <string name="list_groups_show_number_entries_summary">Ukaž počet záznamů ve skupině</string>
+    <string name="content_description_background">Pozadí</string>
+    <string name="content_description_update_from_list">Aktualizovat</string>
+    <string name="content_description_keyboard_close_fields">Zavři kolonky</string>
+    <string name="error_create_database_file">Nelze vytvořit databázi s tímto heslem a klíčem ze souboru.</string>
+    <string name="menu_advanced_unlock_settings">Pokročilé odemčení</string>
+    <string name="biometric_prompt_store_credential_title">Uložit biometrické rozlišení</string>
+    <string name="biometric_prompt_store_credential_message">Uložit hesla databáze s biometrickými daty</string>
+    <string name="biometric_prompt_extract_credential_title">Otevřít databázi skrze biometrické rozlišení</string>
+    <string name="biometric_prompt_extract_credential_message">Vytáhnout heslo databáze biometrickými daty</string>
+    <string name="biometric">Biometrika</string>
+    <string name="fingerprint_open_biometric_prompt">Otevřít biometrickou pobídku stiskem na tlačítko biometriky.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">Vyhněte se opakování kroku 1 změnou volby pro rychlé otevření biometrické pobídky.</string>
+    <string name="biometric_auto_open_prompt_title">Automaticky otevřít biometrickou pobídku</string>
+    <string name="biometric_auto_open_prompt_summary">Automaticky otevřít biometrickou pobídku, je-li biometrický klíč pro databázi definován</string>
+    <string name="enable">Zapnout</string>
+    <string name="disable">Vypnout</string>
 </resources>
