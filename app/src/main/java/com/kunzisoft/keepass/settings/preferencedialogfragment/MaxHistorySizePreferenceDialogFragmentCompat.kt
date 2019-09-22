@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -28,6 +29,7 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
+        setExplanationText(R.string.max_history_size_summary)
         database?.historyMaxSize?.let { maxItemsDatabase ->
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->

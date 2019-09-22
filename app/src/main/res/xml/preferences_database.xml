@@ -69,6 +69,7 @@
             android:key="@string/max_history_size_key"
             android:persistent="false"
             android:title="@string/max_history_size_title"
+            android:summary="@string/max_history_size_summary"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
 
