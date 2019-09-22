@@ -52,9 +52,9 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             recyclerView.adapter = kdfAdapter
 
             database?.let { database ->
-                kdfEngineSelected = database.kdfEngine
-                if (kdfEngineSelected != null)
-                    kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected!!)
+                kdfEngineSelected = database.kdfEngine?.apply {
+                    kdfAdapter.setItems(database.availableKdfEngines, this)
+                }
             }
         }
     }
@@ -64,10 +64,9 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             database?.let { database ->
                 if (database.allowKdfModification()) {
                     val newKdfEngine = kdfEngineSelected
-                    if (newKdfEngine != null) {
-                        val oldKdfEngine = database.kdfEngine
+                    val oldKdfEngine = database.kdfEngine
+                    if (newKdfEngine != null && oldKdfEngine != null) {
                         database.assignKdfEngine(newKdfEngine)
-
                         actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
                     }
                 }

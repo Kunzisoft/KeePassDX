@@ -27,7 +27,6 @@ import android.net.Uri
 import android.util.Log
 import android.webkit.URLUtil
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4
@@ -88,29 +87,17 @@ class Database {
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
-    val encryptionAlgorithm: PwEncryptionAlgorithm?
-        get() {
-            return pwDatabaseV4?.encryptionAlgorithm
-        }
-
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
 
-    val availableKdfEngines: List<KdfEngine>
-        get() {
-            if (pwDatabaseV3 != null) {
-                return KdfFactory.kdfListV3
-            }
-            if (pwDatabaseV4 != null) {
-                return KdfFactory.kdfListV4
-            }
-            return ArrayList()
-        }
+    val encryptionAlgorithm: PwEncryptionAlgorithm?
+        get() = pwDatabaseV3?.encryptionAlgorithm ?: pwDatabaseV4?.encryptionAlgorithm
 
-    val kdfEngine: KdfEngine
-        get() {
-            return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
-        }
+    val availableKdfEngines: List<KdfEngine>
+        get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
+
+    val kdfEngine: KdfEngine?
+        get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -477,7 +464,7 @@ class Database {
     }
 
     fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine.getName(resources)
+        return kdfEngine?.getName(resources) ?: ""
     }
 
     fun validatePasswordEncoding(key: String?): Boolean {

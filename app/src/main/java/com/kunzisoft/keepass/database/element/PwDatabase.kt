@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element
 
 import android.util.Log
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.KeyFileEmptyException
 import com.kunzisoft.keepass.utils.MemoryUtil
@@ -38,6 +39,10 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     // Algorithm used to encrypt the database
     protected var algorithm: PwEncryptionAlgorithm? = null
+
+    abstract val kdfEngine: KdfEngine?
+
+    abstract val kdfAvailableList: List<KdfEngine>
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null

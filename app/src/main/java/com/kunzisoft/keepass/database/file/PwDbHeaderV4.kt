@@ -51,10 +51,10 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
 
     // version < FILE_VERSION_32_4)
     var transformSeed: ByteArray?
-        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.ParamSeed)
+        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.PARAM_SEED)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            databaseV4.kdfParameters?.setByteArray(AesKdf.ParamSeed, seed)
+            databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, seed)
         }
 
     object PwDbHeaderV4Fields {
@@ -229,7 +229,9 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     }
 
     private fun assignAesKdfEngineIfNotExists() {
-        if (databaseV4.kdfParameters == null || databaseV4.kdfParameters!!.uuid != KdfFactory.aesKdf.uuid) {
+        val kdfParams = databaseV4.kdfParameters
+        if (kdfParams == null
+                || kdfParams.uuid != KdfFactory.aesKdf.uuid) {
             databaseV4.kdfParameters = KdfFactory.aesKdf.defaultParameters
         }
     }
@@ -246,7 +248,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
         val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
-        databaseV4.kdfParameters?.setUInt64(AesKdf.ParamRounds, rounds)
+        databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
 
