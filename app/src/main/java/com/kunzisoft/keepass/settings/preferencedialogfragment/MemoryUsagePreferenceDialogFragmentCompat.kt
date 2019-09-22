@@ -24,13 +24,13 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: "0"
+        inputText = database?.memoryUsage?.toString()?: DEFAULT_MEMORY_USAGE.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -39,10 +39,10 @@ class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
                 var memoryUsage: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    1
+                    DEFAULT_MEMORY_USAGE
                 }
-                if (memoryUsage < 1) {
-                    memoryUsage = 1
+                if (memoryUsage < DEFAULT_MEMORY_USAGE) {
+                    memoryUsage = DEFAULT_MEMORY_USAGE
                 }
 
                 val oldMemoryUsage = database.memoryUsage
@@ -60,15 +60,20 @@ class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val memoryToShow = mNewMemory
-            if (!result.isSuccess) {
-                database?.memoryUsage = mOldMemory
-            }
+            val memoryToShow =
+                    if (result.isSuccess) {
+                        mNewMemory
+                    } else {
+                        database?.memoryUsage = mOldMemory
+                        mOldMemory
+                    }
             preference.summary = memoryToShow.toString()
         }
     }
 
     companion object {
+
+        const val DEFAULT_MEMORY_USAGE = 1L
 
         fun newInstance(key: String): MemoryUsagePreferenceDialogFragmentCompat {
             val fragment = MemoryUsagePreferenceDialogFragmentCompat()

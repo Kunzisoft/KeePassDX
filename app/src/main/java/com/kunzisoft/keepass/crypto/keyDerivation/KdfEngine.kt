@@ -66,8 +66,6 @@ abstract class KdfEngine : ObjectNameResource {
     }
 
     companion object {
-
         const val UNKNOWN_VALUE = -1
-        const val UNKNOWN_VALUE_STRING = (-1).toString()
     }
 }

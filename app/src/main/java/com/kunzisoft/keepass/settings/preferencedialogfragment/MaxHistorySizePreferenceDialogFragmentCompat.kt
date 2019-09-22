@@ -23,12 +23,21 @@ import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        inputText = database?.historyMaxSize?.toString() ?: "0"
+        database?.historyMaxSize?.let { maxItemsDatabase ->
+            inputText = maxItemsDatabase.toString()
+            setSwitchAction({ isChecked ->
+                inputText = if (!isChecked) {
+                    INFINITE_MAX_HISTORY_SIZE.toString()
+                } else
+                    DEFAULT_MAX_HISTORY_SIZE.toString()
+                showInputText(isChecked)
+            }, maxItemsDatabase > INFINITE_MAX_HISTORY_SIZE)
+        }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -37,10 +46,10 @@ class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreference
                 var maxHistorySize: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    1
+                    DEFAULT_MAX_HISTORY_SIZE
                 }
-                if (maxHistorySize < 1) {
-                    maxHistorySize = 1
+                if (maxHistorySize < INFINITE_MAX_HISTORY_SIZE) {
+                    maxHistorySize = INFINITE_MAX_HISTORY_SIZE
                 }
 
                 val oldMaxHistorySize = database.historyMaxSize
@@ -58,16 +67,21 @@ class MaxHistorySizePreferenceDialogFragmentCompat : InputDatabaseSavePreference
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            var maxHistorySizeToShow = mNewMaxHistorySize
-            if (!result.isSuccess) {
-                maxHistorySizeToShow = mOldMaxHistorySize
-                database?.historyMaxSize = mOldMaxHistorySize
-            }
+            val maxHistorySizeToShow =
+                    if (result.isSuccess) {
+                        mNewMaxHistorySize
+                    } else {
+                        database?.historyMaxSize = mOldMaxHistorySize
+                        mOldMaxHistorySize
+                    }
             preference.summary = maxHistorySizeToShow.toString()
         }
     }
 
     companion object {
+
+        const val DEFAULT_MAX_HISTORY_SIZE = 134217728L
+        const val INFINITE_MAX_HISTORY_SIZE = -1L
 
         fun newInstance(key: String): MaxHistorySizePreferenceDialogFragmentCompat {
             val fragment = MaxHistorySizePreferenceDialogFragmentCompat()

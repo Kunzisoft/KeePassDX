@@ -48,10 +48,7 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.icons.IconPackChooser
-import com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
-import com.kunzisoft.keepass.settings.preference.IconPackListPreference
-import com.kunzisoft.keepass.settings.preference.InputNumberPreference
-import com.kunzisoft.keepass.settings.preference.InputTextPreference
+import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
@@ -61,9 +58,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
     private var mCount = 0
 
-    private var mRoundPref: InputNumberPreference? = null
-    private var mMemoryPref: InputNumberPreference? = null
-    private var mParallelismPref: InputNumberPreference? = null
+    private var mRoundPref: InputKdfNumberPreference? = null
+    private var mMemoryPref: InputKdfNumberPreference? = null
+    private var mParallelismPref: InputKdfNumberPreference? = null
 
     enum class Screen {
         APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, DATABASE, APPEARANCE

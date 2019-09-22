@@ -25,13 +25,13 @@ import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         explanationText = getString(R.string.rounds_explanation)
-        inputText = database?.numberKeyEncryptionRounds?.toString() ?: "0"
+        inputText = database?.numberKeyEncryptionRounds?.toString() ?: DEFAULT_ITERATIONS.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -40,10 +40,10 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
                 var rounds: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    1
+                    DEFAULT_ITERATIONS
                 }
-                if (rounds < 1) {
-                    rounds = 1
+                if (rounds < DEFAULT_ITERATIONS) {
+                    rounds = DEFAULT_ITERATIONS
                 }
 
                 val oldRounds = database.numberKeyEncryptionRounds
@@ -51,7 +51,7 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
                     database.numberKeyEncryptionRounds = rounds
                 } catch (e: NumberFormatException) {
                     Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
-                    database.numberKeyEncryptionRounds = Integer.MAX_VALUE.toLong()
+                    database.numberKeyEncryptionRounds = Long.MAX_VALUE
                 }
 
                 actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
@@ -65,16 +65,20 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
                                        private val mOldRounds: Long) : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val roundsToShow = mNewRounds
-            if (!result.isSuccess) {
-                database?.numberKeyEncryptionRounds = mOldRounds
-            }
-
+            val roundsToShow =
+                    if (result.isSuccess) {
+                        mNewRounds
+                    } else {
+                        database?.numberKeyEncryptionRounds = mOldRounds
+                        mOldRounds
+                    }
             preference.summary = roundsToShow.toString()
         }
     }
 
     companion object {
+
+        const val DEFAULT_ITERATIONS = 1L
 
         fun newInstance(key: String): RoundsPreferenceDialogFragmentCompat {
             val fragment = RoundsPreferenceDialogFragmentCompat()

@@ -24,13 +24,13 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         setExplanationText(R.string.parallelism_explanation)
-        inputText = database?.parallelism?.toString() ?: "0"
+        inputText = database?.parallelism?.toString() ?: DEFAULT_PARALLELISM.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -39,10 +39,10 @@ class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
                 var parallelism: Int = try {
                     inputText.toInt()
                 } catch (e: NumberFormatException) {
-                    1
+                    DEFAULT_PARALLELISM
                 }
-                if (parallelism < 1) {
-                    parallelism = 1
+                if (parallelism < DEFAULT_PARALLELISM) {
+                    parallelism = DEFAULT_PARALLELISM
                 }
 
                 val oldParallelism = database.parallelism
@@ -60,15 +60,20 @@ class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDia
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val parallelismToShow = mNewParallelism
-            if (!result.isSuccess) {
-                database?.parallelism = mOldParallelism
-            }
+            val parallelismToShow =
+                    if (result.isSuccess) {
+                        mNewParallelism
+                    } else {
+                        database?.parallelism = mOldParallelism
+                        mOldParallelism
+                    }
             preference.summary = parallelismToShow.toString()
         }
     }
 
     companion object {
+
+        const val DEFAULT_PARALLELISM = 1
 
         fun newInstance(key: String): ParallelismPreferenceDialogFragmentCompat {
             val fragment = ParallelismPreferenceDialogFragmentCompat()

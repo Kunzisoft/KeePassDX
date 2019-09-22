@@ -98,11 +98,13 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val kdfEngineToShow = mNewKdfEngine
-
-            if (!result.isSuccess) {
-                database?.assignKdfEngine(mOldKdfEngine)
-            }
+            val kdfEngineToShow =
+                if (result.isSuccess) {
+                    mNewKdfEngine
+                } else {
+                    database?.assignKdfEngine(mOldKdfEngine)
+                    mOldKdfEngine
+                }
             preference.summary = kdfEngineToShow.getName(settingsResources)
 
             roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()

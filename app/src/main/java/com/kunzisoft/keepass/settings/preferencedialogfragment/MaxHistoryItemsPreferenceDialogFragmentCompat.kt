@@ -23,12 +23,21 @@ import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        inputText = database?.historyMaxItems?.toString() ?: "0"
+        database?.historyMaxItems?.let { maxItemsDatabase ->
+            inputText = maxItemsDatabase.toString()
+            setSwitchAction({ isChecked ->
+                inputText = if (!isChecked) {
+                    INFINITE_MAX_HISTORY_ITEMS.toString()
+                } else
+                    DEFAULT_MAX_HISTORY_ITEMS.toString()
+                showInputText(isChecked)
+            }, maxItemsDatabase > INFINITE_MAX_HISTORY_ITEMS)
+        }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -37,10 +46,10 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenc
                 var maxHistoryItems: Int = try {
                     inputText.toInt()
                 } catch (e: NumberFormatException) {
-                    1
+                    DEFAULT_MAX_HISTORY_ITEMS
                 }
-                if (maxHistoryItems < 1) {
-                    maxHistoryItems = 1
+                if (maxHistoryItems < INFINITE_MAX_HISTORY_ITEMS) {
+                    maxHistoryItems = INFINITE_MAX_HISTORY_ITEMS
                 }
 
                 val oldMaxHistoryItems = database.historyMaxItems
@@ -58,16 +67,21 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenc
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            var maxHistoryItemsToShow = mOldMaxHistoryItems
-            if (!result.isSuccess) {
-                maxHistoryItemsToShow = mNewMaxHistoryItems
-                database?.historyMaxItems = mNewMaxHistoryItems
-            }
+            val maxHistoryItemsToShow =
+                    if (result.isSuccess) {
+                        mNewMaxHistoryItems
+                    } else {
+                        database?.historyMaxItems = mOldMaxHistoryItems
+                        mOldMaxHistoryItems
+                    }
             preference.summary = maxHistoryItemsToShow.toString()
         }
     }
 
     companion object {
+
+        const val DEFAULT_MAX_HISTORY_ITEMS = 10
+        const val INFINITE_MAX_HISTORY_ITEMS = -1
 
         fun newInstance(key: String): MaxHistoryItemsPreferenceDialogFragmentCompat {
             val fragment = MaxHistoryItemsPreferenceDialogFragmentCompat()

@@ -86,11 +86,13 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            var algorithmToShow = mNewAlgorithm
-            if (!result.isSuccess) {
-                database?.assignEncryptionAlgorithm(mOldAlgorithm)
-                algorithmToShow = mOldAlgorithm
-            }
+            val algorithmToShow =
+                    if (result.isSuccess) {
+                        mNewAlgorithm
+                    } else {
+                        database?.assignEncryptionAlgorithm(mOldAlgorithm)
+                        mOldAlgorithm
+                    }
             preference.summary = algorithmToShow.getName(settingsResources)
         }
     }
