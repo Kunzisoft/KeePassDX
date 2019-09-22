@@ -353,6 +353,17 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
+            // Recycle bin
+            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
+            // TODO Recycle
+            dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
+            if (mDatabase.isRecycleBinAvailable) {
+                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
+                recycleBinPref?.isEnabled = false
+            } else {
+                dbGeneralPrefCategory?.removePreference(recycleBinPref)
+            }
+
             // Version
             findPreference<Preference>(getString(R.string.database_version_key))
                     ?.summary = mDatabase.getVersion()
@@ -364,17 +375,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             // Max history size
             findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))
                     ?.summary = mDatabase.historyMaxSize.toString()
-
-            // Recycle bin
-            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
-            // TODO Recycle
-            dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
-            if (mDatabase.isRecycleBinAvailable) {
-                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
-                recycleBinPref?.isEnabled = false
-            } else {
-                dbGeneralPrefCategory?.removePreference(recycleBinPref)
-            }
 
             // Encryption Algorithm
             findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
