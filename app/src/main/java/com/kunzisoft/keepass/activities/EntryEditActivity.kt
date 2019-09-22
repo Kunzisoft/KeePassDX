@@ -105,14 +105,12 @@ class EntryEditActivity : LockingHideActivity(),
                 }
             }
 
-            // Retrieve the icon after an orientation change
-            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
-                mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY) as EntryVersioned
-            } else {
+            // Create the new entry from the current one
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = EntryVersioned(entry).also { newEntry ->
-
                         // WARNING Remove the parent to keep memory with parcelable
                         newEntry.parent = null
                     }
@@ -123,12 +121,22 @@ class EntryEditActivity : LockingHideActivity(),
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            mNewEntry = mDatabase?.createEntry()
+            // Create an empty new entry
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+                mNewEntry = mDatabase?.createEntry()
+            }
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
             mDatabase?.drawFactory?.let { iconFactory ->
                 entryEditContentsView?.setDefaultIcon(iconFactory)
             }
+        }
+
+        // Retrieve the new entry after an orientation change
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -342,7 +350,10 @@ class EntryEditActivity : LockingHideActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(KEY_NEW_ENTRY, mNewEntry)
+        mNewEntry?.let {
+            populateEntryWithViews(it)
+            outState.putParcelable(KEY_NEW_ENTRY, it)
+        }
 
         super.onSaveInstanceState(outState)
     }

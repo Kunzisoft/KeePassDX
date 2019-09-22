@@ -17,6 +17,7 @@ import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.Field
+import java.util.HashMap
 
 class EntryEditContentsView @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,
@@ -167,11 +168,14 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Add a new view to fill in the information of the customized field
      */
-    fun addNewCustomField(name: String = "", value:ProtectedString = ProtectedString(false, "")) {
-        val entryEditCustomField = EntryEditCustomField(context)
-        entryEditCustomField.setData(name, value)
-        entryEditCustomField.setFontVisibility(fontInVisibility)
-        entryExtraFieldsContainer.addView(entryEditCustomField)
+    fun addNewCustomField(name: String = "", value: ProtectedString = ProtectedString(false, "")) {
+        val entryEditCustomField = EntryEditCustomField(context).apply {
+            setData(name, value)
+            setFontVisibility(fontInVisibility)
+        }
+        entryExtraFieldsContainer.post {
+            entryExtraFieldsContainer.addView(entryEditCustomField)
+        }
     }
 
     /**
