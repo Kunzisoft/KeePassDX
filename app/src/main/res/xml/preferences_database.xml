@@ -44,6 +44,18 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/recycle_bin">
+
+        <SwitchPreference
+            android:key="@string/recycle_bin_key"
+            android:persistent="false"
+            android:title="@string/recycle_bin_title"
+            android:summary="@string/recycle_bin_summary"
+            android:checked="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:key="@string/database_history_key"
         android:title="@string/entry_history">
 
@@ -59,12 +71,6 @@
             android:title="@string/max_history_size_title"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
-        <SwitchPreference
-            android:key="@string/recycle_bin_key"
-            android:persistent="false"
-            android:title="@string/recycle_bin_title"
-            android:summary="@string/recycle_bin_summary"
-            android:checked="false"/>
 
     </PreferenceCategory>
 
