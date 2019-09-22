@@ -16,10 +16,9 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="about_feedback">Ανατροφοδότηση:</string>
-    <string name="about_homepage">Αρχική Σελίδα:</string>
+--><resources>
+    <string name="about_feedback">Ανατροφοδότηση</string>
+    <string name="about_homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePass DX είναι μία Android εφαρμογή του διαχειριστή συνθηματικών KeePass</string>
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη εγγραφής</string>
@@ -40,9 +39,9 @@
     <string name="clipboard_timeout">Λήξη χρονικού ορίου προχείρου</string>
     <string name="clipboard_timeout_summary">Χρόνος προτού γίνει εκκαθάριση του προχείρου μετά από αντιγραφή ονόματος χρήστη ή κωδικού πρόσβασης</string>
     <string name="select_to_copy">Επιλέξτε για αντιγραφή %1$s στο πρόχειρο</string>
-    <string name="retrieving_db_key">Δημιουργία κλειδιού βάσης δεδομένων&#8230;</string>
+    <string name="retrieving_db_key">Δημιουργία κλειδιού βάσης δεδομένων…</string>
     <string name="database">Βάση Δεδομένων</string>
-    <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένων βάσης δεδομένων&#8230;</string>
+    <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένων βάσης δεδομένων…</string>
     <string name="default_checkbox">Χρήση αυτής της βάσης ως προεπιλεγμένη</string>
     <string name="digits">Ψηφία</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft χωρίς καμια απολυτως εγγυηση. Το παρόν είναι δωρεάν λογισμικό και είστε ευπρόσδεκτοι να το διαμοιράσετε υπό τις συνθήκες της ΙΕΛ έκδοσης 3 ή μεταγενέστερης.</string>
@@ -98,7 +97,7 @@
     <string name="length">Μήκος</string>
     <string name="list_size_title">Μέγεθος λίστας ομάδας</string>
     <string name="list_size_summary">Μέγεθος κειμένου μέσα στη λίστα ομάδας</string>
-    <string name="loading_database">Φόρτωση βάσης δεδομένων&#8230;</string>
+    <string name="loading_database">Φόρτωση βάσης δεδομένων…</string>
     <string name="lowercase">Πεζά</string>
     <string name="maskpass_title">Απόκρυψη κωδικού</string>
     <string name="maskpass_summary">Απόκρυψη κωδικών από προεπιλογή</string>
@@ -122,8 +121,8 @@
     <string name="open_recent">Άνοιγμα πρόσφατης βάσης :</string>
     <string name="omitbackup_title">Να μην γίνει αναζήτηση σε αντίγραφο ασφαλείας εγγραφών</string>
     <string name="omitbackup_summary">Παράληψη ομάδας \'Αντίγραφο Ασφαλείας\' από τα αποτελέσματα αναζήτησης (εφαρμόζεται μόνο σε αρχεία .kdb)</string>
-    <string name="progress_create">Δημιουργία νέας βάσης δεδομένων&#8230;</string>
-    <string name="progress_title">Επεξεργασία&#8230;</string>
+    <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
+    <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
     <string name="read_only_warning">Το KeePass DX δεν έχει δικαίωμα εγγραφής στη τοποθεσία της βάσης, οπότε η βάση σας θ ανοίξει μόνο για ανάγνωση.</string>
     <string name="read_only_kitkat_warning">Ξεκινώντας από το Android KitKat, μερικές συσκευές δεν επιτρέπουν πλέον στις εφαρμογές να γράψουν στην κάρτα SD.</string>
@@ -137,7 +136,7 @@
     <string name="rounds">Κύκλοι Κρυπτογράφησης</string>
     <string name="rounds_explanation">Μεγαλύτεροι κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
     <string name="rounds_hint">κύκλοι</string>
-    <string name="saving_database">Αποθήκευση βάσης&#8230;</string>
+    <string name="saving_database">Αποθήκευση βάσης…</string>
     <string name="space">Κενό</string>
     <string name="search_label">Αναζήτηση</string>
     <string name="sort_db">Σειρά ταξινόμησης βάσης</string>
@@ -150,23 +149,21 @@
     <string name="uppercase">Κεφαλαία</string>
     <string name="warning_unmounted">Η κάρτα SD δεν είναι προσαρμοσμένη αυτή τη στιγμή στη συσκευή σας. Δεν θα μπορείτε να φορτώσετε ή να δημιουργήσετε τη βάση δεδομένων σας.</string>
     <string name="version_label">Έκδοση %1$s</string>
-
     <string name="education_unlock_summary">Εισάγετε έναν κωδικό πρόσβασης και/ή αρχείο κλειδιού για να ξεκλειδώσετε τη βάση δεδομένων σας.</string>
-
     <string-array name="timeout_options">
-    	<item>5 δευτερόλεπτα</item>
-    	<item>10 δευτερόλεπτα</item>
-    	<item>20 δευτερόλεπτα</item>
-    	<item>30 δευτερόλεπτα</item>
-    	<item>1 λεπτό</item>
-    	<item>5 λεπτά</item>
-    	<item>15 λεπτά</item>
-    	<item>30 λεπτά</item>
-    	<item>Ποτέ</item>
+        <item>5 δευτερόλεπτα</item>
+        <item>10 δευτερόλεπτα</item>
+        <item>20 δευτερόλεπτα</item>
+        <item>30 δευτερόλεπτα</item>
+        <item>1 λεπτό</item>
+        <item>5 λεπτά</item>
+        <item>15 λεπτά</item>
+        <item>30 λεπτά</item>
+        <item>Ποτέ</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Μικρά</item>
-    	<item>Μεσαία</item>
-    	<item>Μεγάλα</item>
+        <item>Μικρά</item>
+        <item>Μεσαία</item>
+        <item>Μεγάλα</item>
     </string-array>
 </resources>
