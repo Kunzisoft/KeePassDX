@@ -109,8 +109,8 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
 
             roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()
             // Disable memory and parallelism if not available
-            memoryPreference?.summary = kdfEngineToShow.getDefaultMemoryUsage().toString()
-            parallelismPreference?.summary = kdfEngineToShow.getDefaultParallelism().toString()
+            memoryPreference?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
+            parallelismPreference?.summary = kdfEngineToShow.defaultParallelism.toString()
         }
     }
 

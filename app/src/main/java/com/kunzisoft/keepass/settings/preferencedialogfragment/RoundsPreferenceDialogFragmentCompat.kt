@@ -31,7 +31,7 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
         super.onBindDialogView(view)
 
         explanationText = getString(R.string.rounds_explanation)
-        inputText = database?.numberKeyEncryptionRounds?.toString() ?: DEFAULT_ITERATIONS.toString()
+        inputText = database?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -40,11 +40,12 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
                 var rounds: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    DEFAULT_ITERATIONS
+                    MIN_ITERATIONS
                 }
-                if (rounds < DEFAULT_ITERATIONS) {
-                    rounds = DEFAULT_ITERATIONS
+                if (rounds < MIN_ITERATIONS) {
+                    rounds = MIN_ITERATIONS
                 }
+                // TODO Max iterations
 
                 val oldRounds = database.numberKeyEncryptionRounds
                 try {
@@ -78,7 +79,7 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
 
     companion object {
 
-        const val DEFAULT_ITERATIONS = 1L
+        const val MIN_ITERATIONS = 1L
 
         fun newInstance(key: String): RoundsPreferenceDialogFragmentCompat {
             val fragment = RoundsPreferenceDialogFragmentCompat()

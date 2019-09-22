@@ -469,8 +469,8 @@ class Database {
         if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
             pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
         numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-        memoryUsage = kdfEngine.getDefaultMemoryUsage()
-        parallelism = kdfEngine.getDefaultParallelism()
+        memoryUsage = kdfEngine.defaultMemoryUsage
+        parallelism = kdfEngine.defaultParallelism
     }
 
     fun getKeyDerivationName(resources: Resources): String {

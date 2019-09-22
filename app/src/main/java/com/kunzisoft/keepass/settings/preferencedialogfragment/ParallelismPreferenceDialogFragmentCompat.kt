@@ -30,7 +30,7 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
         super.onBindDialogView(view)
 
         setExplanationText(R.string.parallelism_explanation)
-        inputText = database?.parallelism?.toString() ?: DEFAULT_PARALLELISM.toString()
+        inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -39,11 +39,12 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 var parallelism: Int = try {
                     inputText.toInt()
                 } catch (e: NumberFormatException) {
-                    DEFAULT_PARALLELISM
+                    MIN_PARALLELISM
                 }
-                if (parallelism < DEFAULT_PARALLELISM) {
-                    parallelism = DEFAULT_PARALLELISM
+                if (parallelism < MIN_PARALLELISM) {
+                    parallelism = MIN_PARALLELISM
                 }
+                // TODO Max Parallelism
 
                 val oldParallelism = database.parallelism
                 database.parallelism = parallelism
@@ -73,7 +74,7 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
 
     companion object {
 
-        const val DEFAULT_PARALLELISM = 1
+        const val MIN_PARALLELISM = 1
 
         fun newInstance(key: String): ParallelismPreferenceDialogFragmentCompat {
             val fragment = ParallelismPreferenceDialogFragmentCompat()

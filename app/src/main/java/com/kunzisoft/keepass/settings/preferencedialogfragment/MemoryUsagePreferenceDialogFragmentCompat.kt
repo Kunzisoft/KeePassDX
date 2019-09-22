@@ -30,7 +30,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
         super.onBindDialogView(view)
 
         setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: DEFAULT_MEMORY_USAGE.toString()
+        inputText = database?.memoryUsage?.toString()?: MIN_MEMORY_USAGE.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
@@ -39,11 +39,12 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 var memoryUsage: Long = try {
                     inputText.toLong()
                 } catch (e: NumberFormatException) {
-                    DEFAULT_MEMORY_USAGE
+                    MIN_MEMORY_USAGE
                 }
-                if (memoryUsage < DEFAULT_MEMORY_USAGE) {
-                    memoryUsage = DEFAULT_MEMORY_USAGE
+                if (memoryUsage < MIN_MEMORY_USAGE) {
+                    memoryUsage = MIN_MEMORY_USAGE
                 }
+                // TODO Max Memory
 
                 val oldMemoryUsage = database.memoryUsage
                 database.memoryUsage = memoryUsage
@@ -73,7 +74,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
 
     companion object {
 
-        const val DEFAULT_MEMORY_USAGE = 1L
+        const val MIN_MEMORY_USAGE = 1L
 
         fun newInstance(key: String): MemoryUsagePreferenceDialogFragmentCompat {
             val fragment = MemoryUsagePreferenceDialogFragmentCompat()
