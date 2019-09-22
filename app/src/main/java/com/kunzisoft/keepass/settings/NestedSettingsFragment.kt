@@ -368,6 +368,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             findPreference<Preference>(getString(R.string.database_version_key))
                     ?.summary = mDatabase.getVersion()
 
+            findPreference<PreferenceCategory>(getString(R.string.database_history_key))
+                    ?.isVisible = mDatabase.manageHistory == true
+
             // Max history items
             findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))
                     ?.summary = mDatabase.historyMaxItems.toString()

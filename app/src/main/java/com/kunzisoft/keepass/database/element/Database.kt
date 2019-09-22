@@ -152,6 +152,9 @@ class Database {
             return null
         }
 
+    val manageHistory: Boolean
+        get() = pwDatabaseV4 != null
+
     var historyMaxItems: Int
         get() {
             return pwDatabaseV4?.historyMaxItems ?: 0
