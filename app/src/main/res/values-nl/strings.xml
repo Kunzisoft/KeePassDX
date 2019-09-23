@@ -68,7 +68,6 @@
     <string name="error_out_of_memory">Onvoldoende vrij geheugen om de gehele databank te laden.</string>
     <string name="error_pass_gen_type">Je moet minimaal één soort wachtwoordgenerering kiezen.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
-    <string name="error_rounds_not_number">\"Cycli-waarde\" moet een getal zijn.</string>
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Wordt ingesteld op 2147483648.</string>
     <string name="error_title_required">Voeg een titel toe.</string>
     <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
@@ -222,7 +221,7 @@
     <string name="biometric_scanning_error">Vingerafdrukprobleem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Vingerafdruk gebruiken om dit wachtwoord op te slaan</string>
     <string name="no_credentials_stored">Deze databank heeft nog geen wachtwoord.</string>
-    <string name="history">Geschiedenis</string>
+    <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
     <string name="general">Algemeen</string>
     <string name="autofill">Auto-aanvullen</string>

@@ -51,7 +51,6 @@
     <string name="error_out_of_memory">Darbam ar datu bāzi, tālrunī nepietiek atmiņas.</string>
     <string name="error_pass_gen_type">Ir jāatlasa vismaz viens paroles ģenerēšanas tips</string>
     <string name="error_pass_match">Paroles nesakrīt.</string>
-    <string name="error_rounds_not_number">Ievadiet līmeni no 1 līdz 2147483648</string>
     <string name="error_rounds_too_large">Līmenis pārāk liels. Maksimālais 2147483648</string>
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">Nepieciešams nosaukums.</string>

@@ -19,14 +19,12 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
-
+import androidx.core.os.ConfigurationCompat
 import com.kunzisoft.keepass.utils.Types
-
-import java.util.Arrays
-import java.util.Calendar
-import java.util.Date
+import java.util.*
 
 /**
  * Converting from the C Date format to the Java data format is
@@ -34,14 +32,14 @@ import java.util.Date
  */
 class PwDate : Parcelable {
 
-    private var jDate: Date? = null
+    private var jDate: Date = Date()
     private var jDateBuilt = false
     @Transient
     private var cDate: ByteArray? = null
     @Transient
     private var cDateBuilt = false
 
-    val date: Date?
+    val date: Date
         get() {
             if (!jDateBuilt) {
                 jDate = readTime(cDate, 0, calendar)
@@ -68,9 +66,7 @@ class PwDate : Parcelable {
     }
 
     constructor(source: PwDate) {
-        if (source.jDate != null) {
-            this.jDate = Date(source.jDate!!.time)
-        }
+        this.jDate = Date(source.jDate.time)
         this.jDateBuilt = source.jDateBuilt
 
         if (source.cDate != null) {
@@ -106,6 +102,10 @@ class PwDate : Parcelable {
         return 0
     }
 
+    fun getDateTimeString(resources: Resources): String {
+        return Companion.getDateTimeString(resources, this.date)
+    }
+
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(date)
         dest.writeByte((if (jDateBuilt) 1 else 0).toByte())
@@ -135,7 +135,7 @@ class PwDate : Parcelable {
     }
 
     override fun hashCode(): Int {
-        var result = jDate?.hashCode() ?: 0
+        var result = jDate.hashCode()
         result = 31 * result + jDateBuilt.hashCode()
         result = 31 * result + (cDate?.contentHashCode() ?: 0)
         result = 31 * result + cDateBuilt.hashCode()
@@ -279,6 +279,14 @@ class PwDate : Parcelable {
                     cal1.get(Calendar.MINUTE) == cal2.get(Calendar.MINUTE) &&
                     cal1.get(Calendar.SECOND) == cal2.get(Calendar.SECOND)
 
+        }
+
+        fun getDateTimeString(resources: Resources, date: Date): String {
+            return java.text.DateFormat.getDateTimeInstance(
+                        java.text.DateFormat.MEDIUM,
+                        java.text.DateFormat.MEDIUM,
+                        ConfigurationCompat.getLocales(resources.configuration)[0])
+                            .format(date)
         }
     }
 }

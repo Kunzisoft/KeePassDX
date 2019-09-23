@@ -77,7 +77,6 @@
     <string name="error_load_database_KDF_memory">Kunne ikke laste nøkkelen, prøv å senke minnet brukt av KDF.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
-    <string name="error_rounds_not_number">\"Omganger\" må være et tall.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
     <string name="error_title_required">En tittel er påkrevd.</string>
@@ -199,7 +198,7 @@
     <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
-    <string name="history">Historikk</string>
+    <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>

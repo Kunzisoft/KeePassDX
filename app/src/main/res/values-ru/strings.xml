@@ -71,7 +71,6 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
-    <string name="error_rounds_not_number">Введите число.</string>
     <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_title_required">Введите название.</string>
@@ -220,7 +219,7 @@
     <string name="warning_empty_password">Вы действительно хотите использовать пустой пароль?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
     <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
-    <string name="history">История</string>
+    <string name="database_history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>

@@ -72,7 +72,6 @@
     <string name="error_out_of_memory">Telefonoa memoriarik gabe gelditu da zure datubasea arakatzean. Handiegia izan daiteke zure telefonorako.</string>
     <string name="error_pass_gen_type">Pasahitza sortzeko mota bat gutxienez aukeratu behar da</string>
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
-    <string name="error_rounds_not_number">Rondak zenbaki bat izan behar dira.</string>
     <string name="error_rounds_too_large">Rondak handiegiak.   2147483648 balorean jarrita.</string>
     <string name="error_string_key">Eremu izen bat behar da testu kate bakoitzerako.</string>
     <string name="error_title_required">Izenburu bat behar da.</string>

@@ -68,7 +68,6 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_title_required">Insira um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
@@ -216,7 +215,7 @@
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>

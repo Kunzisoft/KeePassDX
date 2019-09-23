@@ -75,7 +75,6 @@
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
-
     <androidx.core.widget.NestedScrollView
         android:id="@+id/entry_scroll"
         android:layout_width="match_parent"
@@ -86,12 +85,30 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/history_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:background="?attr/colorAccent"
+                android:padding="12dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:textColor="?attr/textColorInverse"
+                    android:text="@string/entry_history"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <com.kunzisoft.keepass.view.EntryContentsView
                 android:id="@+id/entry_contents"
                 android:layout_height="match_parent"
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/history_container"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -68,7 +68,6 @@
     <string name="error_out_of_memory">El dispositivo se quedó sin memory mientras analizada la base de datos. Puede ser demasiado grande para este dispositivo.</string>
     <string name="error_pass_gen_type">Debe seleccionar al menos un tipo de generación de contraseñas</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
-    <string name="error_rounds_not_number">Las pasadas deben ser un número.</string>
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
     <string name="error_title_required">Se necesita un título.</string>
     <string name="error_wrong_length">Introduzca un entero positivo en el campo longitud</string>
@@ -207,7 +206,7 @@
     <string name="biometric_scanning_error">Problema de huella digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa la huella digital para almacenar esta contraseña</string>
     <string name="no_credentials_stored">Aún sin contraseña almacenada para esta base de datos</string>
-    <string name="history">Historial</string>
+    <string name="database_history">Historial</string>
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Autocompletar</string>

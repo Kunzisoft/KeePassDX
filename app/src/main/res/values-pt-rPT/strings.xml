@@ -71,7 +71,6 @@
     <string name="error_out_of_memory">Sem memória para carregar toda a bases de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_title_required">Adicione um título.</string>
@@ -212,7 +211,7 @@
     <string name="biometric_scanning_error">Problema da Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>

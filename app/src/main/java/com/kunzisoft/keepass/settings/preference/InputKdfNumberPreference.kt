@@ -22,26 +22,25 @@ package com.kunzisoft.keepass.settings.preference
 import android.content.Context
 import android.util.AttributeSet
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 
-open class InputNumberPreference @JvmOverloads constructor(context: Context,
-                                                      attrs: AttributeSet? = null,
-                                                      defStyleAttr: Int = R.attr.dialogPreferenceStyle,
-                                                      defStyleRes: Int = defStyleAttr)
+class InputKdfNumberPreference @JvmOverloads constructor(context: Context,
+                                                         attrs: AttributeSet? = null,
+                                                         defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                         defStyleRes: Int = defStyleAttr)
     : InputTextPreference(context, attrs, defStyleAttr, defStyleRes) {
 
-    override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_input_numbers
-    }
-
     override fun setSummary(summary: CharSequence) {
-        if (summary == INFINITE_VALUE_STRING) {
+        if (summary == UNKNOWN_VALUE_STRING) {
+            isEnabled = false
             super.setSummary("")
         } else {
+            isEnabled = true
             super.setSummary(summary)
         }
     }
 
     companion object {
-        const val INFINITE_VALUE_STRING = "-1"
+        const val UNKNOWN_VALUE_STRING = KdfEngine.UNKNOWN_VALUE.toString()
     }
 }

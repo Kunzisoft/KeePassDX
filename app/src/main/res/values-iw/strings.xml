@@ -68,7 +68,6 @@
     <string name="error_out_of_memory">זיכרון המכשיר אזל בזמן ניתוח מסד הנתונים. יתכן והוא גדול מדי למכשירך.</string>
     <string name="error_pass_gen_type">לפחות סוג אחד ליצירת סיסמה צריך להיבחר</string>
     <string name="error_pass_match">הסיסמאות לא תואמות.</string>
-    <string name="error_rounds_not_number">סיבובים חייב להיות מספר.</string>
     <string name="error_rounds_too_large">מספר סיבובים גדול מדי. מגדיר ל-2147483648.</string>
     <string name="error_string_key">שדה שם נדרש לכל מחרוזת.</string>
     <string name="error_title_required">כותרת נדרשת.</string>

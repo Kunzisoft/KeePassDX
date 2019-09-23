@@ -25,39 +25,38 @@ import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         explanationText = getString(R.string.rounds_explanation)
-        inputText = database?.numberKeyEncryptionRoundsAsString ?: ""
+        inputText = database?.numberKeyEncryptionRounds?.toString() ?: MIN_ITERATIONS.toString()
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            var rounds: Long
-            try {
-                val strRounds = inputText
-                rounds = java.lang.Long.parseLong(strRounds)
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show()
-                return
-            }
+        if (positiveResult) {
+            database?.let { database ->
+                var rounds: Long = try {
+                    inputText.toLong()
+                } catch (e: NumberFormatException) {
+                    MIN_ITERATIONS
+                }
+                if (rounds < MIN_ITERATIONS) {
+                    rounds = MIN_ITERATIONS
+                }
+                // TODO Max iterations
 
-            if (rounds < 1) {
-                rounds = 1
-            }
+                val oldRounds = database.numberKeyEncryptionRounds
+                try {
+                    database.numberKeyEncryptionRounds = rounds
+                } catch (e: NumberFormatException) {
+                    Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
+                    database.numberKeyEncryptionRounds = Long.MAX_VALUE
+                }
 
-            val oldRounds = database!!.numberKeyEncryptionRounds
-            try {
-                database?.numberKeyEncryptionRounds = rounds
-            } catch (e: NumberFormatException) {
-                Toast.makeText(context, R.string.error_rounds_too_large, Toast.LENGTH_LONG).show()
-                database?.numberKeyEncryptionRounds = Integer.MAX_VALUE.toLong()
+                actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
             }
-
-            actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
         }
 
         super.onDialogClosed(positiveResult)
@@ -67,16 +66,20 @@ class RoundsPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFr
                                        private val mOldRounds: Long) : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val roundsToShow = mNewRounds
-            if (!result.isSuccess) {
-                database?.numberKeyEncryptionRounds = mOldRounds
-            }
-
+            val roundsToShow =
+                    if (result.isSuccess) {
+                        mNewRounds
+                    } else {
+                        database?.numberKeyEncryptionRounds = mOldRounds
+                        mOldRounds
+                    }
             preference.summary = roundsToShow.toString()
         }
     }
 
     companion object {
+
+        const val MIN_ITERATIONS = 1L
 
         fun newInstance(key: String): RoundsPreferenceDialogFragmentCompat {
             val fragment = RoundsPreferenceDialogFragmentCompat()

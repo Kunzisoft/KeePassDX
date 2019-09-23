@@ -27,7 +27,6 @@ import android.net.Uri
 import android.util.Log
 import android.webkit.URLUtil
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4
@@ -88,32 +87,17 @@ class Database {
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
-    val encryptionAlgorithm: PwEncryptionAlgorithm?
-        get() {
-            return pwDatabaseV4?.encryptionAlgorithm
-        }
-
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
 
+    val encryptionAlgorithm: PwEncryptionAlgorithm?
+        get() = pwDatabaseV3?.encryptionAlgorithm ?: pwDatabaseV4?.encryptionAlgorithm
+
     val availableKdfEngines: List<KdfEngine>
-        get() {
-            if (pwDatabaseV3 != null) {
-                return KdfFactory.kdfListV3
-            }
-            if (pwDatabaseV4 != null) {
-                return KdfFactory.kdfListV4
-            }
-            return ArrayList()
-        }
+        get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
 
-    val kdfEngine: KdfEngine
-        get() {
-            return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
-        }
-
-    val numberKeyEncryptionRoundsAsString: String
-        get() = numberKeyEncryptionRounds.toString()
+    val kdfEngine: KdfEngine?
+        get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -123,9 +107,6 @@ class Database {
             pwDatabaseV4?.numberKeyEncryptionRounds = numberRounds
         }
 
-    val memoryUsageAsString: String
-        get() = memoryUsage.toString()
-
     var memoryUsage: Long
         get() {
             return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
@@ -133,9 +114,6 @@ class Database {
         set(memory) {
             pwDatabaseV4?.memoryUsage = memory
         }
-
-    val parallelismAsString: String
-        get() = parallelism.toString()
 
     var parallelism: Int
         get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOWN_VALUE
@@ -159,6 +137,25 @@ class Database {
                 return GroupVersioned(it)
             }
             return null
+        }
+
+    val manageHistory: Boolean
+        get() = pwDatabaseV4 != null
+
+    var historyMaxItems: Int
+        get() {
+            return pwDatabaseV4?.historyMaxItems ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxItems = value
+        }
+
+    var historyMaxSize: Long
+        get() {
+            return pwDatabaseV4?.historyMaxSize ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxSize = value
         }
 
     /**
@@ -462,12 +459,12 @@ class Database {
         if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
             pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
         numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-        memoryUsage = kdfEngine.getDefaultMemoryUsage()
-        parallelism = kdfEngine.getDefaultParallelism()
+        memoryUsage = kdfEngine.defaultMemoryUsage
+        parallelism = kdfEngine.defaultParallelism
     }
 
     fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine.getName(resources)
+        return kdfEngine?.getName(resources) ?: ""
     }
 
     fun validatePasswordEncoding(key: String?): Boolean {
@@ -702,31 +699,28 @@ class Database {
         }
     }
 
-    fun addHistoryBackupTo(entry: EntryVersioned): EntryVersioned {
-        val backupEntry = EntryVersioned(entry)
+    fun removeOldestHistory(entry: EntryVersioned) {
 
-        entry.addBackupToHistory()
-
-        // Remove oldest backup if more than max items or max memory
+        // Remove oldest history if more than max items or max memory
         pwDatabaseV4?.let {
             val history = entry.getHistory()
 
-            val maxItems = it.historyMaxItems
+            val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (history.size > maxItems) {
                     entry.removeOldestEntryFromHistory()
                 }
             }
 
-            val maxSize = it.historyMaxSize
+            val maxSize = historyMaxSize
             if (maxSize >= 0) {
                 while (true) {
-                    var histSize: Long = 0
-                    for (backup in history) {
-                        histSize += backup.size
+                    var historySize: Long = 0
+                    for (entryHistory in history) {
+                        historySize += entryHistory.getSize()
                     }
 
-                    if (histSize > maxSize) {
+                    if (historySize > maxSize) {
                         entry.removeOldestEntryFromHistory()
                     } else {
                         break
@@ -734,8 +728,6 @@ class Database {
                 }
             }
         }
-
-        return backupEntry
     }
 
     companion object : SingletonHolder<Database>(::Database) {

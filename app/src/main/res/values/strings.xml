@@ -81,6 +81,7 @@
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
     <string name="entry_UUID">UUID</string>
+    <string name="entry_history">History</string>
     <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
@@ -101,7 +102,6 @@
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
     <string name="error_pass_match">The passwords do not match.</string>
-    <string name="error_rounds_not_number">Make \"Transformation rounds\" a number.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_title_required">Add a title.</string>
@@ -238,7 +238,7 @@
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="history">History</string>
+    <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
     <string name="general">General</string>
@@ -288,6 +288,10 @@
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
+    <string name="max_history_items_title">Max. history items</string>
+    <string name="max_history_items_summary">Limit number of history items per entry</string>
+    <string name="max_history_size_title">Max. history size</string>
+    <string name="max_history_size_summary">Limit history size per entry (in binary bytes)</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
     <string name="auto_open_file_uri_title">Open files by selecting</string>

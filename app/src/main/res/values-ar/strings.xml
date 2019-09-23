@@ -143,7 +143,6 @@
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
     <string name="error_load_database_KDF_memory">غير قادر على تحميل المفتاح، في محاولة لتقليل الذاكرة المستخدمة من قبل KDF.</string>
     <string name="error_pass_gen_type">يجب تحديد كلمة مرور واحد على الأقل نوع الجيل</string>
-    <string name="error_rounds_not_number">يجب أن تكون \"جولات\" عددا.</string>
     <string name="error_rounds_too_large">\"جولات\" كبيرة جداً. الإعداد إلى 2147483648.</string>
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
@@ -216,7 +215,7 @@
 \nاستعد كلمة السر.</string>
     <string name="biometric_not_recognized">لم يتعرّف على البصمة</string>
     <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
-    <string name="history">تأريخ</string>
+    <string name="database_history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="fingerprint_advanced_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>

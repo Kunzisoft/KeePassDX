@@ -259,7 +259,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         }
 
         try {
-            val kdf = KdfFactory.getEngineV4(mDatabaseV4.kdfParameters)
+            val kdf = mDatabaseV4.getEngineV4(mDatabaseV4.kdfParameters)
             kdf.randomize(mDatabaseV4.kdfParameters!!)
         } catch (unknownKDF: UnknownKDF) {
             Log.e(TAG, "Unable to retrieve header", unknownKDF)

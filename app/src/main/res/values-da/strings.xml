@@ -72,7 +72,6 @@
     <string name="error_out_of_memory">Ikke nok hukommelse til at indlæse hele databasen.</string>
     <string name="error_pass_gen_type">Der skal vælges mindst én kode for kodeordsgenerering.</string>
     <string name="error_pass_match">Adgangskoderne er ikke ens.</string>
-    <string name="error_rounds_not_number">\"Transformationsrunder\" skal være en talværdi.</string>
     <string name="error_rounds_too_large">\"Transformation Runder\" er for stor. Sættes til 2147483648.</string>
     <string name="error_string_key">Hver streng skal have et feltnavn.</string>
     <string name="error_title_required">Tilføj en titel.</string>
@@ -221,7 +220,7 @@
     <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
     <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
-    <string name="history">Historik</string>
+    <string name="database_history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autoudfyld</string>
