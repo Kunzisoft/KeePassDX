@@ -264,6 +264,10 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         return true
     }
 
+    fun removeAllFields() {
+        fields.clear()
+    }
+
     fun addExtraField(label: String, value: ProtectedString) {
         fields[label] = value
     }

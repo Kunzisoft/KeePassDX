@@ -181,7 +181,9 @@ class EntryEditActivity : LockingHideActivity(),
             password = newEntry.password
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
-                addNewCustomField(entry.key, entry.value)
+                post {
+                    addNewCustomField(entry.key, entry.value)
+                }
             }
         }
     }
@@ -193,6 +195,7 @@ class EntryEditActivity : LockingHideActivity(),
         newEntry.apply {
             // Build info from view
             entryEditContentsView?.let { entryView ->
+                removeAllFields()
                 title = entryView.title
                 username = entryView.username
                 url = entryView.url
@@ -226,8 +229,6 @@ class EntryEditActivity : LockingHideActivity(),
      */
     private fun addNewCustomField() {
         entryEditContentsView?.addNewCustomField()
-        // Scroll bottom
-        scrollView?.post { scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
     /**

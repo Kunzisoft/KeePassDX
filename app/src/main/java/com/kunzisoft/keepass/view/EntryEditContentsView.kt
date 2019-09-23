@@ -172,10 +172,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         val entryEditCustomField = EntryEditCustomField(context).apply {
             setData(name, value)
             setFontVisibility(fontInVisibility)
+            requestFocus()
         }
-        entryExtraFieldsContainer.post {
-            entryExtraFieldsContainer.addView(entryEditCustomField)
-        }
+        entryExtraFieldsContainer.addView(entryEditCustomField)
     }
 
     /**

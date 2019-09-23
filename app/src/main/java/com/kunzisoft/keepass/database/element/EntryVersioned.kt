@@ -241,6 +241,10 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return pwEntryV4?.allowCustomFields() ?: false
     }
 
+    fun removeAllFields() {
+        pwEntryV4?.removeAllFields()
+    }
+
     /**
      * Add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
