@@ -1,0 +1,4 @@
+ * Affiche l'historique de chaque entrée
+ * Correction des paramètres
+ * Correction de l'édition de groupe
+ * Correction de petits bugs

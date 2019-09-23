@@ -1,3 +1,9 @@
+KeepassDX (2.5.0.0beta24)
+ * Show history of each entry
+ * Fix settings
+ * Fix edit group
+ * Fix small bugs
+
 KeepassDX (2.5.0.0beta23)
  * New, more secure database creation workflow
  * Recognize more database files
