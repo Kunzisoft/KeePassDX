@@ -109,7 +109,7 @@
     <string name="clear_clipboard_notification_key" translatable="false">clear_clipboard_notification_key</string>
     <bool name="clear_clipboard_notification_default" translatable="false">true</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
-    <string name="clipboard_timeout_default" translatable="false">60000</string>
+    <string name="clipboard_timeout_default" translatable="false">300000</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
@@ -119,7 +119,7 @@
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
-    <string name="keyboard_entry_timeout_default" translatable="false">60000</string>
+    <string name="keyboard_entry_timeout_default" translatable="false">300000</string>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
