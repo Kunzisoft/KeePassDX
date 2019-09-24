@@ -24,10 +24,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.NodeHandler
-import com.kunzisoft.keepass.database.element.PwNodeV4Interface
-import com.kunzisoft.keepass.database.element.PwDatabaseV4
-import com.kunzisoft.keepass.database.element.PwEntryV4
-import com.kunzisoft.keepass.database.element.PwGroupV4
+import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.InvalidDBVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
@@ -263,7 +260,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Unrecognized compression flag.")
         }
 
-        PwCompressionAlgorithm.fromId(flag)?.let { compression ->
+        getCompressionFromFlag(flag)?.let { compression ->
             databaseV4.compressionAlgorithm =  compression
         }
     }
@@ -300,6 +297,21 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         private const val FILE_VERSION_CRITICAL_MASK: Long = -0x10000
         const val FILE_VERSION_32_3: Long = 0x00030001
         const val FILE_VERSION_32_4: Long = 0x00040000
+
+        fun getCompressionFromFlag(flag: Int): PwCompressionAlgorithm? {
+            return when (flag) {
+                0 -> PwCompressionAlgorithm.None
+                1 -> PwCompressionAlgorithm.Gzip
+                else -> null
+            }
+        }
+
+        fun getFlagFromCompression(compression: PwCompressionAlgorithm): Int {
+            return when (compression) {
+                PwCompressionAlgorithm.Gzip -> 1
+                else -> 0
+            }
+        }
 
         fun matchesHeader(sig1: Int, sig2: Int): Boolean {
             return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)

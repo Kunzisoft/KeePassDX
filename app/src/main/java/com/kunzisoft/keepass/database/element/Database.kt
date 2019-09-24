@@ -87,6 +87,12 @@ class Database {
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
+    val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
+        get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
+
+    val compressionAlgorithm: PwCompressionAlgorithm?
+        get() = pwDatabaseV4?.compressionAlgorithm
+
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
 
@@ -435,6 +441,11 @@ class Database {
     fun assignDescription(description: String) {
         pwDatabaseV4?.description = description
         pwDatabaseV4?.descriptionChanged = PwDate()
+    }
+
+    fun assignCompressionAlgorithm(algorithm: PwCompressionAlgorithm) {
+        pwDatabaseV4?.compressionAlgorithm = algorithm
+        // TODO Compression
     }
 
     fun allowEncryptionAlgorithmModification(): Boolean {

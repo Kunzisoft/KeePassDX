@@ -17,25 +17,24 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file
+package com.kunzisoft.keepass.database.element
+
+import android.content.res.Resources
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.ObjectNameResource
 
 // Note: We can get away with using int's to store unsigned 32-bit ints
 //       since we won't do arithmetic on these values (also unlikely to
 //       reach negative ids).
-enum class PwCompressionAlgorithm constructor(val id: Int) {
+enum class PwCompressionAlgorithm : ObjectNameResource {
 
-    None(0),
-    Gzip(1);
+    None,
+    Gzip;
 
-    companion object {
-
-        fun fromId(num: Int): PwCompressionAlgorithm? {
-            for (e in values()) {
-                if (e.id == num) {
-                    return e
-                }
-            }
-            return null
+    override fun getName(resources: Resources): String {
+        return when (this) {
+            None -> resources.getString(R.string.compression_none)
+            Gzip -> resources.getString(R.string.compression_gzip)
         }
     }
 

@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.ArcFourException
 import com.kunzisoft.keepass.database.exception.InvalidDBException

@@ -29,7 +29,6 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.*
 import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
@@ -135,6 +134,14 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         }
         throw unknownKDFException
     }
+
+    val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
+        get() {
+            val list = ArrayList<PwCompressionAlgorithm>()
+            list.add(PwCompressionAlgorithm.None)
+            list.add(PwCompressionAlgorithm.Gzip)
+            return list
+        }
 
     override val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() {

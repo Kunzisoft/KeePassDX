@@ -86,9 +86,8 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         los.writeUInt(PwDbHeaderV4.DBSIG_2.toLong())
         los.writeUInt(header.version)
 
-
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.dataCipher))
-        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(db.compressionAlgorithm.id))
+        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(PwDbHeaderV4.getFlagFromCompression(db.compressionAlgorithm)))
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
         if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {

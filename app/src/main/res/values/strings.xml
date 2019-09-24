@@ -291,6 +291,7 @@
     <string name="full_file_path_enable_title">File path</string>
     <string name="full_file_path_enable_summary">View the full file path</string>
     <string name="database_data_compression_title">Data compression</string>
+    <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
     <string name="max_history_items_title">Max. history items</string>
@@ -324,6 +325,8 @@
     <string name="application_appearance">App</string>
     <string name="other">Other</string>
     <string name="compression">Compression</string>
+    <string name="compression_none">None</string>
+    <string name="compression_gzip">GZip</string>
     <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>

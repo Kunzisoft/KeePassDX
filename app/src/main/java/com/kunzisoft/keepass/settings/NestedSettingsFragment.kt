@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
@@ -348,13 +349,17 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 dbGeneralPrefCategory?.removePreference(dbNamePref)
             }
 
-            // Db description
+            // Database description
             val dbDescriptionPref: InputTextPreference? = findPreference(getString(R.string.database_description_key))
             if (mDatabase.containsDescription()) {
                 dbDescriptionPref?.summary = mDatabase.description
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
+
+            // Database compression
+            findPreference<Preference>(getString(R.string.database_data_compression_key))
+                    ?.summary = (mDatabase.compressionAlgorithm ?: PwCompressionAlgorithm.None).getName(resources)
 
             // Recycle bin
             val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
@@ -496,6 +501,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_description_key) -> {
                         dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.database_data_compression_key) -> {
+                        dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
                     preference.key == getString(R.string.max_history_items_key) -> {
                         dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)

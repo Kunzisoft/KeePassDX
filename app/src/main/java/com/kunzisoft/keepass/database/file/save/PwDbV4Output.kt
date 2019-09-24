@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.database.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.PwDbOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString

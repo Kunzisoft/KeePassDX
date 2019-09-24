@@ -18,8 +18,7 @@
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="@string/database_general_key"
@@ -64,7 +63,6 @@
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
             android:key="@string/database_data_compression_key"
             android:persistent="false"
-            android:enabled="false"
             android:title="@string/database_data_compression_title"/>
 
     </PreferenceCategory>
