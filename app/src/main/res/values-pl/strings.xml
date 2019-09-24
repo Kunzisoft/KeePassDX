@@ -424,4 +424,5 @@
     <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
     <string name="enable">Włącz</string>
     <string name="disable">Wyłącz</string>
+    <string name="biometric_auto_open_prompt_summary">Automatycznie otwieraj monit biometryczny, gdy klucz biometryczny jest zdefiniowany dla bazy danych</string>
 </resources>
