@@ -173,10 +173,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         }
 
         val isXml: InputStream
-        if (mDatabase.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
-            isXml = GZIPInputStream(isPlain)
-        } else {
-            isXml = isPlain
+        isXml = when(mDatabase.compressionAlgorithm) {
+            PwCompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
+            else -> isPlain
         }
 
         if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {

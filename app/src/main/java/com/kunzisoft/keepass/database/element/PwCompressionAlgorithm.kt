@@ -29,12 +29,12 @@ import com.kunzisoft.keepass.database.ObjectNameResource
 enum class PwCompressionAlgorithm : ObjectNameResource {
 
     None,
-    Gzip;
+    GZip;
 
     override fun getName(resources: Resources): String {
         return when (this) {
             None -> resources.getString(R.string.compression_none)
-            Gzip -> resources.getString(R.string.compression_gzip)
+            GZip -> resources.getString(R.string.compression_gzip)
         }
     }
 

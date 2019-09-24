@@ -46,7 +46,7 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         private set
     var dataCipher = AesEngine.CIPHER_UUID
     private var dataEngine: CipherEngine = AesEngine()
-    var compressionAlgorithm = PwCompressionAlgorithm.Gzip
+    var compressionAlgorithm = PwCompressionAlgorithm.GZip
     var kdfParameters: KdfParameters? = null
     private var kdfV4List: MutableList<KdfEngine> = ArrayList()
     private var numKeyEncRounds: Long = 0
@@ -139,7 +139,7 @@ class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
         get() {
             val list = ArrayList<PwCompressionAlgorithm>()
             list.add(PwCompressionAlgorithm.None)
-            list.add(PwCompressionAlgorithm.Gzip)
+            list.add(PwCompressionAlgorithm.GZip)
             return list
         }
 

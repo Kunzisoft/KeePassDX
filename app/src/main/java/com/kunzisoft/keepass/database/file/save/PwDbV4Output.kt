@@ -91,10 +91,9 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
             val osXml: OutputStream
             try {
-                if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
-                    osXml = GZIPOutputStream(osPlain)
-                } else {
-                    osXml = osPlain
+                osXml = when(mDatabaseV4.compressionAlgorithm) {
+                    PwCompressionAlgorithm.GZip -> GZIPOutputStream(osPlain)
+                    else -> osPlain
                 }
 
                 if (header!!.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
@@ -403,7 +402,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                 }
 
             } else {
-                if (mDatabaseV4.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+                if (mDatabaseV4.getCompressionAlgorithm() == PwCompressionAlgorithm.GZip) {
 
                     xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
 
@@ -445,7 +444,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                     xml.text(String(Base64Coder.encode(encoded)))
 
                 } else {
-                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
+                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
                         xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
                         val compressData = MemoryUtil.compress(buffer)

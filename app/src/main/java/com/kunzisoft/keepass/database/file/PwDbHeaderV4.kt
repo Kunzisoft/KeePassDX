@@ -301,14 +301,14 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         fun getCompressionFromFlag(flag: Int): PwCompressionAlgorithm? {
             return when (flag) {
                 0 -> PwCompressionAlgorithm.None
-                1 -> PwCompressionAlgorithm.Gzip
+                1 -> PwCompressionAlgorithm.GZip
                 else -> null
             }
         }
 
         fun getFlagFromCompression(compression: PwCompressionAlgorithm): Int {
             return when (compression) {
-                PwCompressionAlgorithm.Gzip -> 1
+                PwCompressionAlgorithm.GZip -> 1
                 else -> 0
             }
         }
