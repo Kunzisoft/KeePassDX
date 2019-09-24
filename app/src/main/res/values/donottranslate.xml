@@ -148,23 +148,32 @@
 
     <!-- Database Settings -->
     <string name="settings_database_key" translatable="false">settings_database_key</string>
-    <string name="settings_database_change_credentials_key" translatable="false">settings_database_change_credentials_key</string>
+    <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
+    <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>
 
     <string name="database_general_key" translatable="false">database_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
+    <string name="database_default_username_key" translatable="false">database_default_username_key</string>
+    <string name="database_custom_color_key" translatable="false">database_custom_color_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
 
     <string name="database_history_key" translatable="false">database_history_key</string>
+    <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
+    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
     <string name="max_history_items_key" translatable="false">max_history_items_key</string>
     <string name="max_history_size_key" translatable="false">max_history_size_key</string>
-    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
 
     <string name="encryption_algorithm_key" translatable="false">algorithm</string>
     <string name="key_derivation_function_key" translatable="false">key_derivation_function_key</string>
     <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
     <string name="memory_usage_key" translatable="false">memory_usage_key</string>
     <string name="parallelism_key" translatable="false">parallelism_key</string>
+
+    <string name="settings_database_change_credentials_key" translatable="false">settings_database_change_credentials_key</string>
+    <string name="settings_database_recommend_changing_master_key_key" translatable="false">settings_database_recommend_changing_master_key_key</string>
+    <string name="settings_database_force_changing_master_key_key" translatable="false">settings_database_force_changing_master_key_key</string>
+    <string name="settings_database_force_changing_master_key_next_time_key" translatable="false">settings_database_force_changing_master_key_next_time_key</string>
 
     <!--
     *******************

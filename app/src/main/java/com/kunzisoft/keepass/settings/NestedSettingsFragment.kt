@@ -36,10 +36,7 @@ import androidx.biometric.BiometricManager
 import androidx.preference.*
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.KeyboardExplanationDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
@@ -63,7 +60,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     private var mParallelismPref: InputKdfNumberPreference? = null
 
     enum class Screen {
-        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, DATABASE, APPEARANCE
+        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
     }
 
     override fun onResume() {
@@ -106,6 +103,12 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
             Screen.DATABASE -> {
                 onCreateDatabasePreference(rootKey)
+            }
+            Screen.DATABASE_SECURITY -> {
+                onCreateDatabaseSecurityPreference(rootKey)
+            }
+            Screen.DATABASE_MASTER_KEY -> {
+                onCreateDatabaseMasterKeyPreference(rootKey)
             }
         }
     }
@@ -379,6 +382,15 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))
                     ?.summary = mDatabase.historyMaxSize.toString()
 
+        } else {
+            Log.e(javaClass.name, "Database isn't ready")
+        }
+    }
+
+    private fun onCreateDatabaseSecurityPreference(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_database_security, rootKey)
+
+        if (mDatabase.loaded) {
             // Encryption Algorithm
             findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
                     ?.summary = mDatabase.getEncryptionAlgorithmName(resources)
@@ -398,7 +410,23 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             // Parallelism
             mParallelismPref = findPreference(getString(R.string.parallelism_key))
             mParallelismPref?.summary = mDatabase.parallelism.toString()
+        } else {
+            Log.e(javaClass.name, "Database isn't ready")
+        }
+    }
 
+    private fun onCreateDatabaseMasterKeyPreference(rootKey: String?) {
+        setPreferencesFromResource(R.xml.preferences_database_master_key, rootKey)
+
+        if (mDatabase.loaded) {
+            findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
+                onPreferenceClickListener = Preference.OnPreferenceClickListener {
+                    fragmentManager?.let { fragmentManager ->
+                        AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                    }
+                    false
+                }
+            }
         } else {
             Log.e(javaClass.name, "Database isn't ready")
         }
@@ -543,8 +571,10 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 Screen.APPLICATION -> resources.getString(R.string.menu_app_settings)
                 Screen.FORM_FILLING -> resources.getString(R.string.menu_form_filling_settings)
                 Screen.ADVANCED_UNLOCK -> resources.getString(R.string.menu_advanced_unlock_settings)
-                Screen.DATABASE -> resources.getString(R.string.menu_database_settings)
                 Screen.APPEARANCE -> resources.getString(R.string.menu_appearance_settings)
+                Screen.DATABASE -> resources.getString(R.string.menu_database_settings)
+                Screen.DATABASE_SECURITY -> resources.getString(R.string.menu_security_settings)
+                Screen.DATABASE_MASTER_KEY -> resources.getString(R.string.menu_master_key_settings)
             }
         }
     }
