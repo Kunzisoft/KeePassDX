@@ -1,3 +1,4 @@
+ * Add settings
  * Show history of each entry
  * Fix settings
  * Fix edit group
