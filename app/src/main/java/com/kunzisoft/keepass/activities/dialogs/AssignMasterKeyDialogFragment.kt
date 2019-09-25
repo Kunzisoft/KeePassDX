@@ -116,7 +116,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileView = rootView?.findViewById(R.id.pass_keyfile)
 
             mOpenFileHelper = OpenFileHelper(this)
-            rootView?.findViewById<View>(R.id.browse_button)?.setOnClickListener { view ->
+            rootView?.findViewById<View>(R.id.open_database_button)?.setOnClickListener { view ->
                 mOpenFileHelper?.openFileOnClickViewListener?.onClick(view) }
 
             val dialog = builder.create()

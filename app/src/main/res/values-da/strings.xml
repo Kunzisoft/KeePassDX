@@ -266,12 +266,9 @@
     <string name="recycle_bin_summary">Flyt grupper og poster til \"Papirkurven\" før den slettes</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>
     <string name="monospace_font_fields_enable_summary">Skift skrifttypen, der anvendes i felter, for at forbedre tegnsynlighed</string>
-    <string name="auto_open_file_uri_title">Åbn filer ved at vælge</string>
-    <string name="auto_open_file_uri_summary">Åbn filer automatisk efter valg i filhåndtering</string>
     <string name="allow_copy_password_title">Udklipsholder tillid</string>
     <string name="allow_copy_password_summary">Tillad at adgangskoden og beskyttede felter kopieres til udklipsholderen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Udklipsholder deles af alle apps. Hvis følsomme data er kopieret, kan andet software gendanne den.</string>
-    <string name="open_link_database">Link til database-filen der skal åbnes</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Database beskrivelse</string>
     <string name="database_version_title">Databaseversion</string>
@@ -306,8 +303,6 @@
     <string name="education_create_database_summary">Opret den første adgangskodeadministrationsfil.</string>
     <string name="education_select_database_title">Åbn en eksisterende database</string>
     <string name="education_select_database_summary">Åbn den tidligere database fil fra filhåndtering for at fortsætte med at bruge den.</string>
-    <string name="education_open_link_database_title">Et link til filen er tilstrækkelig</string>
-    <string name="education_open_link_database_summary">Databasen kan også åbnes med en fysisk forbindelse (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Tilføj elementer til databasen</string>
     <string name="education_new_node_summary">Tilføje poster til at styre digitale identiteter.
 \n
@@ -393,8 +388,6 @@
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
     <string name="content_description_open_file">Åbn fil</string>
-    <string name="content_description_show_file_link">Vis fillink</string>
-    <string name="content_description_open_file_link">Åbn fillink</string>
     <string name="content_description_node_children">Underknude</string>
     <string name="content_description_add_node">Tilføj knude</string>
     <string name="content_description_add_entry">Tilføj post</string>

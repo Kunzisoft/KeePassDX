@@ -27,7 +27,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/expandable_toolbar_paste_layout">
+        android:layout_above="@+id/toolbar_paste">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -129,24 +129,14 @@
             app:layout_anchorGravity="right|bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <net.cachapa.expandablelayout.ExpandableLayout
-        android:id="@+id/expandable_toolbar_paste_layout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_paste"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        app:el_duration="300"
-        app:el_expanded="false"
-        app:el_parallax="0.5">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_paste"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            android:theme="?attr/toolbarBottomAppearance"
-            android:background="?attr/colorAccent"
-            tools:targetApi="lollipop" />
-
-    </net.cachapa.expandablelayout.ExpandableLayout>
+        android:elevation="4dp"
+        android:theme="?attr/toolbarBottomAppearance"
+        android:background="?attr/colorAccent"
+        tools:targetApi="lollipop" />
 
 </RelativeLayout>

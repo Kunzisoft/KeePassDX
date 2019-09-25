@@ -164,8 +164,6 @@
     <string name="sort_menu">정렬</string>
     <string name="sort_ascending">오름차순 ↓</string>
     <string name="content_description_open_file">파일 열기</string>
-    <string name="content_description_show_file_link">파일 링크 보기</string>
-    <string name="content_description_open_file_link">파일 링크 열기</string>
     <string name="content_description_node_children">자식 노드</string>
     <string name="content_description_add_node">노드 추가</string>
     <string name="content_description_add_entry">항목 추가</string>

@@ -265,12 +265,9 @@
     <string name="recycle_bin_summary">Перемещать группу или запись в Корзину перед удалением</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
-    <string name="auto_open_file_uri_title">Автоматически открывать выбранный файл</string>
-    <string name="auto_open_file_uri_summary">Открывать файл автоматически после выбора в файловом менеджере</string>
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: Буфер обмена доступен всем приложениям. Если чувствительные данные копируются, другие программы могут его перехватить.</string>
-    <string name="open_link_database">Ссылка на файл KDBX</string>
     <string name="database_name_title">Название базы</string>
     <string name="database_description_title">Описание базы</string>
     <string name="database_version_title">Версия базы</string>
@@ -303,8 +300,6 @@
     <string name="education_create_database_summary">Вы ещё не знаете KeePass DX, создайте свой первый файл управления паролями.</string>
     <string name="education_select_database_title">Откройте существующую базу</string>
     <string name="education_select_database_summary">Вы уже использовали KeePass менеджер. Просто откройте ваш файл KDBX из вашего файлового менеджера.</string>
-    <string name="education_open_link_database_title">Ссылки на местоположение файла достаточно</string>
-    <string name="education_open_link_database_summary">Вы также можете открыть базу с помощью физической ссылки (например, с file:// или content://).</string>
     <string name="education_new_node_title">Добавляйте новые элементы в базу</string>
     <string name="education_new_node_summary">Добавляйте записи для управления цифровыми идентификаторами.
 \n

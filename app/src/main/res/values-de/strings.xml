@@ -258,11 +258,8 @@
     <string name="recycle_bin_summary">Verschiebt Gruppen oder Einträge in den Papierkorb, bevor sie gelöscht werden.</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>
     <string name="monospace_font_fields_enable_summary">Schriftart in Feldern ändern, um Lesbarkeit zu verbessern</string>
-    <string name="auto_open_file_uri_title">Gewählte Datei automatisch öffnen</string>
-    <string name="auto_open_file_uri_summary">Dateien nach Auswahl im Dateimanager automatisch öffnen</string>
     <string name="allow_copy_password_title">Zwischenablage vertrauen</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
-    <string name="open_link_database">Link zu der zu öffnenden Datenbank</string>
     <string name="database_name_title">Datenbankname</string>
     <string name="database_description_title">Datenbankbeschreibung</string>
     <string name="database_version_title">Datenbankversion</string>
@@ -279,8 +276,6 @@
     <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Eine frühere Datenbankdatei über den Dateimanager öffnen, um sie weiter zu verwenden.</string>
-    <string name="education_open_link_database_title">Ein Link zum Speicherort der Datei ist ausreichend</string>
-    <string name="education_open_link_database_summary">Die Datenbank lässt sich auch mit einem physischen Link öffnen (z. B. mit file:// und content://).</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen, die digitalen Identitäten zu verwalten. 
 \n 
@@ -390,8 +385,6 @@
     <string name="delete_entered_password_title">Passwort löschen</string>
     <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch</string>
     <string name="content_description_open_file">Datei öffnen</string>
-    <string name="content_description_show_file_link">Datei-Verknüpfung anzeigen</string>
-    <string name="content_description_open_file_link">Datei-Verknüpfung öffnen</string>
     <string name="content_description_add_entry">Eintrag hinzufügen</string>
     <string name="content_description_add_group">Gruppe hinzufügen</string>
     <string name="content_description_file_information">Datei-Informationen</string>

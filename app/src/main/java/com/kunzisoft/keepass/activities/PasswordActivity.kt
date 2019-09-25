@@ -123,7 +123,7 @@ class PasswordActivity : StylishActivity() {
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
-        val browseView = findViewById<View>(R.id.browse_button)
+        val browseView = findViewById<View>(R.id.open_database_button)
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
         browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
 

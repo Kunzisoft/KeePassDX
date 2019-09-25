@@ -244,12 +244,9 @@
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
-    <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
-    <string name="auto_open_file_uri_summary">Åpne en fil fra utvalgsskjermen automatisk etter at et valg er gjort i filutforskeren</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
-    <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>
     <string name="database_version_title">Databaseversjon</string>
@@ -282,8 +279,6 @@
     <string name="education_create_database_summary">Du kjenner ikke KeePass DX enda, opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
     <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
-    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok</string>
-    <string name="education_open_link_database_summary">Du kan også åpne din database med en fysisk lenke (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
     <string name="education_new_node_summary">Legg til oppføringer for å behandle dine digitale identiteter.
 \n
@@ -372,8 +367,6 @@
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
     <string name="content_description_open_file">Åpne fil</string>
-    <string name="content_description_show_file_link">Vis fillenke</string>
-    <string name="content_description_open_file_link">Åpne fillenke</string>
     <string name="content_description_add_node">Legg til node</string>
     <string name="content_description_add_entry">Legg til oppføring</string>
     <string name="content_description_add_group">Legg til gruppe</string>

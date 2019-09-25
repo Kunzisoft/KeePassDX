@@ -267,12 +267,9 @@
     <string name="recycle_bin_summary">Verplaatst groepen en items naar \"Prullenbak\" voordat ze worden verwijderd</string>
     <string name="monospace_font_fields_enable_title">Veldlettertype</string>
     <string name="monospace_font_fields_enable_summary">Wijzig het lettertype dat in velden wordt gebruikt voor een betere leesbaarheid</string>
-    <string name="auto_open_file_uri_title">Open bestanden door te selecteren</string>
-    <string name="auto_open_file_uri_summary">Bestanden automatisch openen wanneer deze worden geselecteerd in de bestandsverkenner</string>
     <string name="allow_copy_password_title">Klembord vertrouwen</string>
     <string name="allow_copy_password_summary">Toestaan dat het wachtwoord en beveiligde velden worden gekopieerd naar het klembord</string>
     <string name="allow_copy_password_warning">WAARSCHUWING: het klembord wordt gedeeld door alle apps. Als gevoelige gegevens worden gekopieerd, kan andere software deze opvragen.</string>
-    <string name="open_link_database">Koppeling naar het te openen databasebestand</string>
     <string name="database_name_title">Databanknaam</string>
     <string name="database_description_title">Databankomschrijving</string>
     <string name="database_version_title">Databankversie</string>
@@ -305,8 +302,6 @@
     <string name="education_create_database_summary">Maak je eerste wachtwoordbeheerbestand aan.</string>
     <string name="education_select_database_title">Open een bestaande databank</string>
     <string name="education_select_database_summary">Open vanuit je bestandsverkenner een bestaande databank om dit verder te gebruiken.</string>
-    <string name="education_open_link_database_title">Een link naar de bestandslocatie is voldoende</string>
-    <string name="education_open_link_database_summary">Je kunt je databank ook openen middels een fysieke link (bijv. met file:// en content://).</string>
     <string name="education_new_node_title">Voeg items toe aan de databank</string>
     <string name="education_new_node_summary">Voeg items toe om je digitale identiteiten te beheren.
 \n
@@ -391,8 +386,6 @@
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wist het ingevoerde wachtwoord na een verbindingspoging</string>
     <string name="content_description_open_file">Bestand openen</string>
-    <string name="content_description_show_file_link">Bestandskoppeling weergeven</string>
-    <string name="content_description_open_file_link">Bestandskoppeling openen</string>
     <string name="content_description_node_children">Items onder het knooppunt</string>
     <string name="content_description_add_node">Knooppunt toevoegen</string>
     <string name="content_description_add_entry">Item toevoegen</string>

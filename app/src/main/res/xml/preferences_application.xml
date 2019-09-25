@@ -124,15 +124,4 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/file_browser">
-
-        <SwitchPreference
-            android:key="@string/auto_open_file_uri_key"
-            android:title="@string/auto_open_file_uri_title"
-            android:summary="@string/auto_open_file_uri_summary"
-            android:defaultValue="@bool/auto_open_file_uri_default"/>
-
-    </PreferenceCategory>
-
 </PreferenceScreen>

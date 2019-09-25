@@ -185,12 +185,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.monospace_font_fields_enable_default))
     }
 
-    fun autoOpenSelectedFile(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.auto_open_file_uri_key),
-                context.resources.getBoolean(R.bool.auto_open_file_uri_default))
-    }
-
     fun isFirstTimeAskAllowCopyPasswordAndProtectedFields(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.allow_copy_password_first_time_key),

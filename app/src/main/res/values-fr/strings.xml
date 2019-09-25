@@ -232,12 +232,9 @@
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
-    <string name="auto_open_file_uri_title">Ouvrir les fichiers par sélection</string>
-    <string name="auto_open_file_uri_summary">Ouvrir automatiquement les fichiers lorsqu’ils sont sélectionnés dans le gestionnaire de fichiers</string>
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
     <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
-    <string name="open_link_database">Lien du fichier de base de données à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -256,8 +253,6 @@
     <string name="education_create_database_summary">Créer votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrir une base de données existante</string>
     <string name="education_select_database_summary">Ouvrir votre ancien fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
-    <string name="education_open_link_database_title">Un lien vers l’emplacement de votre fichier suffit</string>
-    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base de données avec un lien physique (avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajouter des éléments à votre base de données</string>
     <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques.
 \n
@@ -410,8 +405,6 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
     <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
-    <string name="content_description_show_file_link">Afficher le lien de fichier</string>
-    <string name="content_description_open_file_link">Ouvrir le lien de fichier</string>
     <string name="content_description_node_children">Enfants de noeud</string>
     <string name="content_description_file_information">Information de fichier</string>
     <string name="content_description_password_checkbox">Case à cocher mot de passe</string>

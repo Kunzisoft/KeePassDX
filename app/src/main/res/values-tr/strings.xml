@@ -246,12 +246,9 @@
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
-    <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>
-    <string name="auto_open_file_uri_summary">Dosya tarayıcısında seçildiğinde dosyaları otomatik aç</string>
     <string name="allow_copy_password_title">Pano güveni</string>
     <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
     <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
-    <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
     <string name="database_name_title">Veritabanı adı</string>
     <string name="database_description_title">Veritabanı açıklaması</string>
     <string name="database_version_title">Veritabanı sürümü</string>
@@ -302,8 +299,6 @@
     <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
     <string name="education_select_database_title">Mevcut bir veritabanını aç</string>
     <string name="education_select_database_summary">Kullanmaya devam etmek için önceki veritabanı dosyanızı dosya tarayıcınızdan açın.</string>
-    <string name="education_open_link_database_title">Dosyanızın konumuna bir bağlantı yeterlidir</string>
-    <string name="education_open_link_database_summary">Veritabanınızı fiziksel bir bağlantıyla da açabilirsiniz (örneğin file:// ve content:// ile).</string>
     <string name="education_new_node_title">Veritabanınıza öğe ekleyin</string>
     <string name="education_new_node_summary">Girdiler dijital kimliğinizi yönetmenize yardımcı olur.
 \n
@@ -367,8 +362,6 @@
     <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
     <string name="clear_clipboard_notification_summary">Bildirimi kapatırken veritabanını kapatın</string>
     <string name="content_description_open_file">Dosya aç</string>
-    <string name="content_description_show_file_link">Dosya bağlantısını göster</string>
-    <string name="content_description_open_file_link">Dosya bağlantısını aç</string>
     <string name="content_description_add_node">Düğüm ekle</string>
     <string name="content_description_add_entry">Girdi Ekle</string>
     <string name="content_description_add_group">Grup ekle</string>

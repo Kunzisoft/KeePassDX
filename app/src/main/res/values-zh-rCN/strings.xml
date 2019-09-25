@@ -286,11 +286,8 @@
     <string name="recycle_bin_summary">删除群组和条目前先移至回收站</string>
     <string name="monospace_font_fields_enable_title">字段字体</string>
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
-    <string name="auto_open_file_uri_title">通过选择打开文件</string>
-    <string name="auto_open_file_uri_summary">自动打开在文件浏览器中选中的文件</string>
     <string name="allow_copy_password_summary">让剪切板保存条目密码及保密字段</string>
     <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有应用都可访问剪切板。因此复制密码时，您设备上的其他应用也能看到密码。</string>
-    <string name="open_link_database">打开数据库文件的链接</string>
     <string name="magic_keyboard_summary">激活自定义键盘以填写密码和所有身份字段</string>
     <string name="magic_keyboard_configure_title">配置专用键盘，以安全地自动填写密码。</string>
     <string name="magic_keyboard_activate_setting_text">在设备设置中激活“Magikeyboard键盘”。</string>
@@ -331,8 +328,6 @@
     <string name="education_create_database_summary">创建第一个密码管理数据库。</string>
     <string name="education_select_database_title">打开已有数据库</string>
     <string name="education_select_database_summary">打开您的已有数据库并使用其中的密码。</string>
-    <string name="education_open_link_database_title">一个到您数据库的链接就够了</string>
-    <string name="education_open_link_database_summary">您也可以通过链接打开您的数据库（例如：file:// 和 content://）。</string>
     <string name="education_new_node_title">向数据库添加项目</string>
     <string name="education_new_node_summary">这些条目帮助您管理您的数字化身份。 
 \n
@@ -388,8 +383,6 @@
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">删除尝试连接后输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
-    <string name="content_description_show_file_link">显示文件链接</string>
-    <string name="content_description_open_file_link">打开文件链接</string>
     <string name="content_description_node_children">子节点</string>
     <string name="content_description_add_node">增加节点</string>
     <string name="content_description_add_entry">添加条目</string>

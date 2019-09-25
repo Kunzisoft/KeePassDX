@@ -267,12 +267,9 @@
     <string name="recycle_bin_summary">A csoportok és bejegyzések „Kukába” helyezése törlés előtt</string>
     <string name="monospace_font_fields_enable_title">Mező betűkészlete</string>
     <string name="monospace_font_fields_enable_summary">A mezőkben használt betűkészlet módosítása a karakterek jobb láthatósága érdekében</string>
-    <string name="auto_open_file_uri_title">Fájlok megnyitása kiválasztással</string>
-    <string name="auto_open_file_uri_summary">Fájlok automatikus megnyitása, ha kiválasztásra kerülnek a fájlböngészőben</string>
     <string name="allow_copy_password_title">Megbízás a vágólapban</string>
     <string name="allow_copy_password_summary">Engedélyezés, hogy a jelszó és a védett mezők a vágólapra kerüljenek</string>
     <string name="allow_copy_password_warning">FIGYELMEZTETÉS: A vágólapon osztozik az összes alkalmazás. Ha érzékeny adatokat másol, akkor a többi szoftver is hozzáférhet.</string>
-    <string name="open_link_database">A megnyitandó adatbázisfájl hivatkozása</string>
     <string name="database_name_title">Adatbázis neve</string>
     <string name="database_description_title">Adatbázis leírása</string>
     <string name="database_version_title">Adatbázis verzió</string>
@@ -323,8 +320,6 @@
     <string name="education_create_database_summary">Hozza létre az első jelszókezelő-fájlját.</string>
     <string name="education_select_database_title">Létező adatbázis megnyitása</string>
     <string name="education_select_database_summary">Nyisson meg egy korábbi adatbázisfájlt a fájlböngészőből, hogy folytassa a használatát.</string>
-    <string name="education_open_link_database_title">Egy a fájl helyére mutató hivatkozás is megfelelő</string>
-    <string name="education_open_link_database_summary">Egy fizikai hivatkozással is megnyithatja az adatbázist (például egy file:// vagy content:// hivatkozással).</string>
     <string name="education_new_node_title">Elemek hozzáadása az adatbázishoz</string>
     <string name="education_new_node_summary">A bejegyzések segítenek a digitális személyazonosságai kezelésében.
 \n

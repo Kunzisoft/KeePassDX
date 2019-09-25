@@ -251,11 +251,8 @@
     <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
     <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
-    <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>
-    <string name="auto_open_file_uri_summary">Abrir automáticamente un archivo desde la pantalla de selección después de una selección en el explorador de archivos</string>
     <string name="allow_copy_password_title">Copia de contraseña</string>
     <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles.</string>
-    <string name="open_link_database">Enlace del archivo Kdbx para abrir</string>
     <string name="database_name_title">Nombre de la base de datos</string>
     <string name="database_description_title">Descripción de la base de datos</string>
     <string name="database_version_title">Versión de la base de datos</string>
@@ -272,8 +269,6 @@
     <string name="education_create_database_summary">Aún no conoce KeePass DX, cree su primer archivo de administración de contraseñas.</string>
     <string name="education_select_database_title">Abrir una base de datos existente</string>
     <string name="education_select_database_summary">Ya has usado un administrador de KeePass. Simplemente abre tu archivo Kdbx desde el buscador de archivos.</string>
-    <string name="education_open_link_database_title">Un enlace a la ubicación de su archivo es suficiente</string>
-    <string name="education_open_link_database_summary">También puede abrir su base con un enlace físico (Con file:// y content:// por ejemplo).</string>
     <string name="education_new_node_title">Añadir nuevos elementos a su base</string>
     <string name="education_new_node_summary">Agregar entradas para administrar tus identidades digitales.
 \n

@@ -48,8 +48,6 @@
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
     <string name="content_description_background">Background</string>
     <string name="content_description_open_file">Open file</string>
-    <string name="content_description_show_file_link">Show file link</string>
-    <string name="content_description_open_file_link">Open file link</string>
     <string name="content_description_node_children">Node children</string>
     <string name="content_description_add_node">Add node</string>
     <string name="content_description_add_entry">Add entry</string>
@@ -306,8 +304,6 @@
     <string name="settings_database_force_changing_master_key_next_time_summary">Force changing the master key the next time (once)</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
-    <string name="auto_open_file_uri_title">Open files by selecting</string>
-    <string name="auto_open_file_uri_summary">Auto open files when selected in the file browser</string>
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow the entry password and protected fields to enter the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
@@ -315,7 +311,6 @@
     <string name="disable">Disable</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
-    <string name="open_link_database">Link of database file to open</string>
     <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>
     <string name="database_default_username_title">Default username</string>
@@ -376,8 +371,6 @@
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
     <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
-    <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
-    <string name="education_open_link_database_summary">You can also open your database with a physical link (with file:// and content:// for example).</string>
     <!--both entries and groups are items-->
     <string name="education_new_node_title">Add items to your database</string>
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~ folders) organize entries in your database.</string>

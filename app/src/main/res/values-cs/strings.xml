@@ -267,12 +267,9 @@
     <string name="recycle_bin_summary">Přesune skupiny a položky do „Koše“ před smazáním</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v položkách můžete přizpůsobit změnou písma</string>
-    <string name="auto_open_file_uri_title">Otevírat soubory vybráním</string>
-    <string name="auto_open_file_uri_summary">Otevírat soubory automaticky vybráním ve správci souborů</string>
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
     <string name="allow_copy_password_summary">Povolit kopírovat heslo a chráněné položky do schránky</string>
     <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, může se k nim dostat další software.</string>
-    <string name="open_link_database">Odkaz na otevíranou databázi</string>
     <string name="database_name_title">Název databáze</string>
     <string name="database_description_title">Popis databáze</string>
     <string name="database_version_title">Verze databáze</string>
@@ -305,8 +302,6 @@
     <string name="education_create_database_summary">Vytvořte svůj první soubor pro správu hesel.</string>
     <string name="education_select_database_title">Otevřít existující databázi</string>
     <string name="education_select_database_summary">Otevřete svou dříve používanou databázi ze správce souborů a pokračujte v jejím používání.</string>
-    <string name="education_open_link_database_title">Postačí odkaz na umístění souboru</string>
-    <string name="education_open_link_database_summary">Databázi také můžete otevírat pomocí fyzického odkazu (například s file:// a content://).</string>
     <string name="education_new_node_title">Přidejte položky do databáze</string>
     <string name="education_new_node_summary">Položky pomáhají se správou vašich digitálních identit. 
 \n 
@@ -392,8 +387,6 @@
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení</string>
     <string name="content_description_open_file">Otevři soubor</string>
-    <string name="content_description_show_file_link">Zobraz odkaz na soubor</string>
-    <string name="content_description_open_file_link">Otevři odkaz na soubor</string>
     <string name="content_description_node_children">Potomci uzlu</string>
     <string name="content_description_add_node">Přidej uzel</string>
     <string name="content_description_add_entry">Přidej záznam</string>

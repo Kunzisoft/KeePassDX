@@ -51,7 +51,6 @@
     <string name="chapter_5">V</string>
 
     <!-- File Path -->
-    <string name="database_file_path_default" translatable="false">/keepass/</string>
     <string name="database_file_name_default" translatable="false">keepass</string>
     <string name="database_file_extension_default" translatable="false">.kdbx</string>
     <string-array name="file_types">
@@ -90,8 +89,6 @@
     <bool name="recentfile_default" translatable="false">true</bool>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <bool name="keyfile_default" translatable="false">true</bool>
-    <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
-    <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
@@ -201,8 +198,6 @@
     <bool name="education_create_db_default" translatable="false">false</bool>
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <bool name="education_select_db_default" translatable="false">false</bool>
-    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
-    <bool name="education_open_link_db_default" translatable="false">false</bool>
     <string name="education_unlock_key" translatable="false">education_unlock_key</string>
     <bool name="education_unlock_default" translatable="false">false</bool>
     <string name="education_read_only_key" translatable="false">education_read_only_key</string>

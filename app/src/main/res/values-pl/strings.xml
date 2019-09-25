@@ -265,12 +265,9 @@
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do \"Kosza\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
-    <string name="auto_open_file_uri_title">Otwórz pliki, wybierając</string>
-    <string name="auto_open_file_uri_summary">Automatyczne otwieranie plików po wybraniu w przeglądarce plików</string>
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalaj na zapisywanie hasła dostepu i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">OSTRZEŻENIE: schowek jest udostępniany przez wszystkie aplikacje. Jeśli dane wrażliwe zostaną skopiowane, inne oprogramowanie może je odzyskać.</string>
-    <string name="open_link_database">Link do otwarcia pliku bazy danych</string>
     <string name="database_name_title">Nazwa bazy danych</string>
     <string name="database_description_title">Opis bazy danych</string>
     <string name="database_version_title">Wersja bazy danych</string>
@@ -303,8 +300,6 @@
     <string name="education_create_database_summary">Utwórz swój pierwszy plik zarządzania hasłami.</string>
     <string name="education_select_database_title">Otwórz istniejącą bazę danych</string>
     <string name="education_select_database_summary">Otwórz starszy plik bazy danych w przeglądarce plików, aby nadal z niego korzystać.</string>
-    <string name="education_open_link_database_title">Link do lokalizacji pliku jest wystarczający</string>
-    <string name="education_open_link_database_summary">Możesz także otworzyć swoją bazę danych za pomocą fizycznego linku (with file:// and content:// for example).</string>
     <string name="education_new_node_title">Dodaj elementy do swojej bazy danych</string>
     <string name="education_new_node_summary">"Dodaj wpisy, aby zarządzać swoimi cyfrowymi tożsamościami.
 \n  
@@ -388,8 +383,6 @@
     <string name="delete_entered_password_title">Usuń hasło</string>
     <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia</string>
     <string name="content_description_open_file">Otwórz plik</string>
-    <string name="content_description_show_file_link">Pokaż link do pliku</string>
-    <string name="content_description_open_file_link">Otwórz link do pliku</string>
     <string name="content_description_add_entry">Dodaj wpis</string>
     <string name="content_description_add_group">Dodaj grupę</string>
     <string name="content_description_file_information">Informacje o pliku</string>

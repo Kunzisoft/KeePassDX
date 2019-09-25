@@ -225,13 +225,9 @@
     <string name="biometric_unlock_enable_title">فحص البصمة</string>
     <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
-    <string name="auto_open_file_uri_title">افتح الملفات بالتحديد
-\n</string>
-    <string name="auto_open_file_uri_summary">افتح الملفات تلقائيا عند تحديدها في متصفح الملفات</string>
     <string name="allow_copy_password_title">الوثوق بالحافظة</string>
     <string name="allow_copy_password_summary">اسمح لكلمة السر والحقول المحمية بالدخول للحافظة</string>
     <string name="allow_copy_password_warning">تحذير: الحافظة مشتركة بين التطبيقات وستتمكن التطبيقات الاخرى من الوصول الى المعلومات الحساسة.</string>
-    <string name="open_link_database">رابط قاعدة البيانات</string>
     <string name="database_name_title">اسم قاعدة البيانات</string>
     <string name="database_description_title">وصف قاعدة البيانات</string>
     <string name="database_version_title">نسخة قاعدة البيانات</string>

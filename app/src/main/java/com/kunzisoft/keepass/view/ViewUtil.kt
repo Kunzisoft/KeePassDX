@@ -19,13 +19,17 @@
  */
 package com.kunzisoft.keepass.view
 
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
-import com.google.android.material.snackbar.Snackbar
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 
 /**
@@ -55,4 +59,41 @@ fun Activity.lockScreenOrientation() {
 
 fun Activity.unlockScreenOrientation() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+}
+
+private var actionBarHeight: Int = 0
+
+fun Toolbar.collapse(animate: Boolean = true) {
+
+    if (layoutParams.height > 5)
+        actionBarHeight = layoutParams.height
+
+    val slideAnimator = ValueAnimator
+            .ofInt(height, 0)
+    if (animate)
+        slideAnimator.duration = 300L
+    slideAnimator.addUpdateListener { animation ->
+        layoutParams.height = animation.animatedValue as Int
+        requestLayout()
+    }
+    AnimatorSet().apply {
+        play(slideAnimator)
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
+}
+
+fun Toolbar.expand(animate: Boolean = true)  {
+
+    val slideAnimator = ValueAnimator
+            .ofInt(0, actionBarHeight)
+    if (animate)
+        slideAnimator.duration = 300L
+    slideAnimator.addUpdateListener { animation ->
+        layoutParams.height = animation.animatedValue as Int
+        requestLayout()
+    }
+    AnimatorSet().apply {
+        play(slideAnimator)
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
 }

@@ -39,7 +39,7 @@ class OpenFileHelper {
     private var fragment: Fragment? = null
 
     val openFileOnClickViewListener: OpenFileOnClickViewListener
-        get() = OpenFileOnClickViewListener(null)
+        get() = OpenFileOnClickViewListener()
 
     constructor(context: Activity) {
         this.activity = context
@@ -51,7 +51,7 @@ class OpenFileHelper {
         this.fragment = context
     }
 
-    inner class OpenFileOnClickViewListener(private val dataUri: (() -> Uri?)?) : View.OnClickListener {
+    inner class OpenFileOnClickViewListener : View.OnClickListener {
 
         override fun onClick(v: View) {
             try {
@@ -63,8 +63,8 @@ class OpenFileHelper {
             } catch (e: Exception) {
                 Log.e(TAG, "Enable to start the file picker activity", e)
 
-                // Open File picker if can't open activity
-                if (lookForOpenIntentsFilePicker(dataUri?.invoke()))
+                // Open browser dialog
+                if (lookForOpenIntentsFilePicker())
                     showBrowserDialog()
             }
         }
@@ -97,23 +97,11 @@ class OpenFileHelper {
             activity?.startActivityForResult(i, GET_CONTENT)
     }
 
-    fun getOpenFileOnClickViewListener(dataUri: () -> Uri?): OpenFileOnClickViewListener {
-        return OpenFileOnClickViewListener(dataUri)
-    }
-
-    private fun lookForOpenIntentsFilePicker(dataUri: Uri?): Boolean {
+    private fun lookForOpenIntentsFilePicker(): Boolean {
         var showBrowser = false
         try {
             if (isIntentAvailable(activity!!, OPEN_INTENTS_FILE_BROWSE)) {
                 val intent = Intent(OPEN_INTENTS_FILE_BROWSE)
-                // Get file path parent if possible
-                if (dataUri != null
-                        && dataUri.toString().isNotEmpty()
-                        && dataUri.scheme == "file") {
-                    intent.data = dataUri
-                } else {
-                    Log.w(javaClass.name, "Unable to read the URI")
-                }
                 if (fragment != null)
                     fragment?.startActivityForResult(intent, FILE_BROWSE)
                 else
