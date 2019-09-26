@@ -81,7 +81,6 @@
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found">Datei nicht gefunden.</string>
     <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>

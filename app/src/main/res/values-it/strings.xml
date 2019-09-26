@@ -77,7 +77,6 @@
     <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
     <string name="field_name">Nome campo</string>
     <string name="field_value">Valore campo</string>
-    <string name="file_not_found">File non trovato.</string>
     <string name="file_not_found_content">File non trovato. Prova a riaprirlo dal tuo gestore di file.</string>
     <string name="file_browser">Gestore file</string>
     <string name="generate_password">Genera password</string>

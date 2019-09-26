@@ -85,7 +85,6 @@
     <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>
     <string name="field_name">Alan adı</string>
     <string name="field_value">Alan değeri</string>
-    <string name="file_not_found">Dosya bulunamadı.</string>
     <string name="file_not_found_content">Dosya bulunamadı. Dosya tarayıcınızda yeniden açmayı deneyin.</string>
     <string name="file_browser">Dosya tarayıcı</string>
     <string name="generate_password">Parola üret</string>

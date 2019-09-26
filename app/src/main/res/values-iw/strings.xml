@@ -74,7 +74,6 @@
     <string name="error_wrong_length">הזן מספר חיובי בשדה האורך</string>
     <string name="field_name">שם השדה</string>
     <string name="field_value">ערך השדה</string>
-    <string name="file_not_found">קובץ לא נמצא.</string>
     <string name="file_browser">סייר קבצים</string>
     <string name="generate_password">צור סיסמה</string>
     <string name="hint_conf_pass">אשר סיסמה</string>

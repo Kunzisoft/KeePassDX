@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.InvalidDBVersionException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
@@ -130,9 +130,9 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     /** Assumes the input stream is at the beginning of the .kdbx file
      * @param inputStream
      * @throws IOException
-     * @throws InvalidDBVersionException
+     * @throws LoadDatabaseVersionException
      */
-    @Throws(IOException::class, InvalidDBVersionException::class)
+    @Throws(IOException::class, LoadDatabaseVersionException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
         val messageDigest: MessageDigest
         try {
@@ -150,12 +150,12 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         val sig2 = littleEndianDataInputStream.readInt()
 
         if (!matchesHeader(sig1, sig2)) {
-            throw InvalidDBVersionException()
+            throw LoadDatabaseVersionException()
         }
 
         version = littleEndianDataInputStream.readUInt() // Erase previous value
         if (!validVersion(version)) {
-            throw InvalidDBVersionException()
+            throw LoadDatabaseVersionException()
         }
 
         var done = false

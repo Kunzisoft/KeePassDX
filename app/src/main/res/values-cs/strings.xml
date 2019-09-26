@@ -79,7 +79,6 @@
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
-    <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Vytvoř heslo</string>
     <string name="hint_conf_pass">potvrď heslo</string>

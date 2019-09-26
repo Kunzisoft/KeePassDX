@@ -69,7 +69,6 @@
     <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
     <string name="error_title_required">Treng ein tittel.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i lengdfeltet</string>
-    <string name="file_not_found">Fann ikkje fila.</string>
     <string name="file_browser">Filbehandlar</string>
     <string name="generate_password">Lag passord</string>
     <string name="hint_conf_pass">stadfest passordet</string>

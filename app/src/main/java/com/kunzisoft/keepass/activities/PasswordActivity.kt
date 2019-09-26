@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -69,7 +70,6 @@ import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
-import java.lang.ref.WeakReference
 
 class PasswordActivity : StylishActivity() {
 
@@ -87,6 +87,8 @@ class PasswordActivity : StylishActivity() {
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
+    private var mDatabaseKeyFileUri: Uri? = null
+
     private var prefs: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
@@ -101,8 +103,7 @@ class PasswordActivity : StylishActivity() {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mRememberKeyFile = prefs!!.getBoolean(getString(R.string.keyfile_key),
-                resources.getBoolean(R.bool.keyfile_default))
+        mRememberKeyFile = PreferencesUtil.rememberKeyFiles(this)
 
         setContentView(R.layout.activity_password)
 
@@ -222,6 +223,7 @@ class PasswordActivity : StylishActivity() {
 
     private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
         mDatabaseFileUri = databaseFileUri
+        mDatabaseKeyFileUri = keyFileUri
 
         // Define title
         databaseFileUri?.let {
@@ -391,14 +393,18 @@ class PasswordActivity : StylishActivity() {
                                                 keyFile: Uri?,
                                                 cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
-        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
-        loadDatabase(keyPassword, keyFileUri, cipherDatabaseEntity)
+        verifyKeyFileCheckbox(keyFile)
+        loadDatabase(keyPassword, mDatabaseKeyFileUri, cipherDatabaseEntity)
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
         val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
-        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
-        loadDatabase(password, keyFileUri)
+        verifyKeyFileCheckbox(keyFile)
+        loadDatabase(password, mDatabaseKeyFileUri)
+    }
+
+    private fun verifyKeyFileCheckbox(keyFile: Uri?) {
+        mDatabaseKeyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
     }
 
     private fun removePassword() {
@@ -423,11 +429,13 @@ class PasswordActivity : StylishActivity() {
             ProgressDialogThread(this,
                     { progressTaskUpdater ->
                         LoadDatabaseRunnable(
-                                WeakReference(this@PasswordActivity),
                                 database,
                                 databaseUri,
                                 password,
                                 keyFile,
+                                this@PasswordActivity.contentResolver,
+                                this@PasswordActivity.filesDir,
+                                SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
                                 progressTaskUpdater,
                                 AfterLoadingDatabase(database, password, cipherDatabaseEntity))
                     },
@@ -453,6 +461,15 @@ class PasswordActivity : StylishActivity() {
                 }
 
                 if (result.isSuccess) {
+                    // Save keyFile in app database
+                    if (PreferencesUtil.rememberKeyFiles(this@PasswordActivity)) {
+                        mDatabaseFileUri?.let { databaseUri ->
+                            mDatabaseKeyFileUri?.let { keyFileUri ->
+                                saveKeyFileData(databaseUri, keyFileUri)
+                            }
+                        }
+                    }
+
                     // Remove the password in view in all cases
                     removePassword()
 
@@ -467,12 +484,27 @@ class PasswordActivity : StylishActivity() {
                     }
 
                 } else {
-                    if (result.message != null && result.message!!.isNotEmpty()) {
-                        Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
+                    var errorMessage = result.message
+                    val resultException = result.exception
+
+                    Log.e(TAG, errorMessage)
+
+                    if (errorMessage != null && errorMessage.isNotEmpty()) {
+                        if (resultException != null)
+                            errorMessage = "${resultException.getLocalizedMessage(resources)} $errorMessage"
+                        Snackbar.make(activity_password_coordinator_layout, errorMessage, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }
         }
+    }
+
+    private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {
+        var keyFileUri = keyUri
+        if (!mRememberKeyFile) {
+            keyFileUri = null
+        }
+        FileDatabaseHistoryAction.getInstance(this).addOrUpdateDatabaseUri(databaseUri, keyFileUri)
     }
 
     private fun checkAndLaunchGroupActivity(database: Database, password: String?) {

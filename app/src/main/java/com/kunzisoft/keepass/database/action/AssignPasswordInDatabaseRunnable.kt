@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.IOException
@@ -63,7 +63,7 @@ open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
             // To save the database
             super.run()
             finishRun(true)
-        } catch (e: InvalidKeyFileException) {
+        } catch (e: LoadDatabaseInvalidKeyFileException) {
             erase(mBackupKey)
             finishRun(false, e.message)
         } catch (e: IOException) {

@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.PwDbOutputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.PwDbHeader
 import com.kunzisoft.keepass.database.file.PwDbHeaderV3
 import com.kunzisoft.keepass.stream.LEDataOutputStream
@@ -42,18 +42,18 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
 
     private var headerHashBlock: ByteArray? = null
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     fun getFinalKey(header: PwDbHeader): ByteArray? {
         try {
             val h3 = header as PwDbHeaderV3
             mDatabaseV3.makeFinalKey(h3.masterSeed, h3.transformSeed, mDatabaseV3.numberKeyEncryptionRounds)
             return mDatabaseV3.finalKey
         } catch (e: IOException) {
-            throw PwDbOutputException("Key creation failed.", e)
+            throw DatabaseOutputException("Key creation failed.", e)
         }
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun output() {
         // Before we output the header, we should sort our list of groups
         // and remove any orphaned nodes that are no longer part of the tree hierarchy
@@ -74,7 +74,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
                     throw Exception()
             }
         } catch (e: Exception) {
-            throw PwDbOutputException("Algorithm not supported.", e)
+            throw DatabaseOutputException("Algorithm not supported.", e)
         }
 
         try {
@@ -86,23 +86,23 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             bos.close()
 
         } catch (e: InvalidKeyException) {
-            throw PwDbOutputException("Invalid key", e)
+            throw DatabaseOutputException("Invalid key", e)
         } catch (e: InvalidAlgorithmParameterException) {
-            throw PwDbOutputException("Invalid algorithm parameter.", e)
+            throw DatabaseOutputException("Invalid algorithm parameter.", e)
         } catch (e: IOException) {
-            throw PwDbOutputException("Failed to output final encrypted part.", e)
+            throw DatabaseOutputException("Failed to output final encrypted part.", e)
         }
 
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun setIVs(header: PwDbHeaderV3): SecureRandom {
         val random = super.setIVs(header)
         random.nextBytes(header.transformSeed)
         return random
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun outputHeader(outputStream: OutputStream): PwDbHeaderV3 {
         // Build header
         val header = PwDbHeaderV3()
@@ -115,7 +115,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         } else if (mDatabaseV3.encryptionAlgorithm === PwEncryptionAlgorithm.Twofish) {
             header.flags = header.flags or PwDbHeaderV3.FLAG_TWOFISH
         } else {
-            throw PwDbOutputException("Unsupported algorithm.")
+            throw DatabaseOutputException("Unsupported algorithm.")
         }
 
         header.version = PwDbHeaderV3.DBVER_DW
@@ -130,7 +130,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         try {
             messageDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
-            throw PwDbOutputException("SHA-256 not implemented here.", e)
+            throw DatabaseOutputException("SHA-256 not implemented here.", e)
         }
 
         // Header checksum
@@ -138,7 +138,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         try {
             headerDigest = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
-            throw PwDbOutputException("SHA-256 not implemented here.", e)
+            throw DatabaseOutputException("SHA-256 not implemented here.", e)
         }
 
         var nos = NullOutputStream()
@@ -151,7 +151,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             pho.outputEnd()
             headerDos.flush()
         } catch (e: IOException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         }
 
         val headerHash = headerDigest.digest()
@@ -166,7 +166,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             bos.flush()
             bos.close()
         } catch (e: IOException) {
-            throw PwDbOutputException("Failed to generate checksum.", e)
+            throw DatabaseOutputException("Failed to generate checksum.", e)
         }
 
         header.contentsHash = messageDigest!!.digest()
@@ -181,14 +181,14 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             pho.outputEnd()
             dos.flush()
         } catch (e: IOException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         }
 
         return header
     }
 
     @Suppress("CAST_NEVER_SUCCEEDS")
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     fun outputPlanGroupAndEntries(os: OutputStream) {
         val los = LEDataOutputStream(os)
 
@@ -199,7 +199,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
                 los.writeInt(headerHashBlock!!.size)
                 los.write(headerHashBlock!!)
             } catch (e: IOException) {
-                throw PwDbOutputException("Failed to output header hash.", e)
+                throw DatabaseOutputException("Failed to output header hash.", e)
             }
         }
 
@@ -209,7 +209,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             try {
                 pgo.output()
             } catch (e: IOException) {
-                throw PwDbOutputException("Failed to output a tree", e)
+                throw DatabaseOutputException("Failed to output a tree", e)
             }
         }
         mDatabaseV3.doForEachEntryInIndex { entry ->
@@ -217,7 +217,7 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
             try {
                 peo.output()
             } catch (e: IOException) {
-                throw PwDbOutputException("Failed to output an entry.", e)
+                throw DatabaseOutputException("Failed to output an entry.", e)
             }
         }
     }

@@ -77,7 +77,6 @@
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
     <string name="field_value">Значение поля</string>
-    <string name="file_not_found">Файл не найден.</string>
     <string name="file_not_found_content">Файл не найден. Попробуйте повторно открыть через встроенный поставщик содержимого.</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Генерация пароля</string>

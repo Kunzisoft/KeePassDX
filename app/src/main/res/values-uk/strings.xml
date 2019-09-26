@@ -69,7 +69,6 @@
     <string name="error_rounds_too_large">Надто багато циклів.  Установлено 2147483648.</string>
     <string name="error_title_required">Необхідно вказати заголовок.</string>
     <string name="error_wrong_length">Введіть ціле число на усю довжину поля</string>
-    <string name="file_not_found">Файл не знайдено.</string>
     <string name="file_browser">Перегляд файлів</string>
     <string name="generate_password">Згенерувати пароль</string>
     <string name="hint_conf_pass">підтвердження пароля</string>

@@ -77,7 +77,6 @@
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>
-    <string name="file_not_found">Tiedostoa ei löydetty.</string>
     <string name="file_browser">Tiedostoselain</string>
     <string name="generate_password">Generoi salasana</string>
     <string name="hint_conf_pass">vahvista salasana</string>

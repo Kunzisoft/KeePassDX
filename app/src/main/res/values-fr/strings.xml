@@ -83,7 +83,6 @@
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur du champ</string>
-    <string name="file_not_found">Impossible de trouver le fichier.</string>
     <string name="file_not_found_content">Impossible de trouver le fichier. Essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
     <string name="file_browser">Gestionnaire de fichiers</string>
     <string name="generate_password">Générer un mot de passe</string>

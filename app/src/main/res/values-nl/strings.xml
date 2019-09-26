@@ -71,7 +71,6 @@
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Wordt ingesteld op 2147483648.</string>
     <string name="error_title_required">Voeg een titel toe.</string>
     <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
-    <string name="file_not_found">Bestand niet gevonden.</string>
     <string name="file_browser">Bestandsverkenner</string>
     <string name="generate_password">Wachtwoord genereren</string>
     <string name="hint_conf_pass">wachtwoord bevestigen</string>

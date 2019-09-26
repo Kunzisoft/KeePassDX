@@ -85,7 +85,6 @@
     <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltverdi</string>
-    <string name="file_not_found">Fant ikke filen.</string>
     <string name="file_not_found_content">Fant ikke filen. Prøv å åpne den fra din innholdsleverandør.</string>
     <string name="file_browser">Filutforsker</string>
     <string name="generate_password">Opprett passord</string>

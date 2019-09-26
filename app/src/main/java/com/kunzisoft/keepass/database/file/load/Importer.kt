@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.file.load
 
 import com.kunzisoft.keepass.database.element.PwDatabase
-import com.kunzisoft.keepass.database.exception.InvalidDBException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 
 import java.io.IOException
@@ -36,9 +36,9 @@ abstract class Importer<PwDb : PwDatabase<*, *>> {
      * @return new PwDatabase container.
      *
      * @throws IOException on any file error.
-     * @throws InvalidDBException on database error.
+     * @throws LoadDatabaseException on database error.
      */
-    @Throws(IOException::class, InvalidDBException::class)
+    @Throws(IOException::class, LoadDatabaseException::class)
     abstract fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,

@@ -78,7 +78,6 @@
     <string name="error_wrong_length">Angiv et positivt heltal i feltet \"Længde\".</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltværdi</string>
-    <string name="file_not_found">Kunne ikke finde filen.</string>
     <string name="file_browser">Filhåndtering</string>
     <string name="generate_password">Generer adgangskode</string>
     <string name="hint_conf_pass">bekræft adgangskode</string>

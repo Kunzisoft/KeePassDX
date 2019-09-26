@@ -33,6 +33,12 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.show_read_only_warning), true)
     }
 
+    fun rememberKeyFiles(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyfile_key),
+                context.resources.getBoolean(R.bool.keyfile_default))
+    }
+
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.omitbackup_key),

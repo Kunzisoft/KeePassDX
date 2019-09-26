@@ -19,10 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
-import com.kunzisoft.keepass.database.exception.KeyFileEmptyException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseKeyFileEmptyException
 import com.kunzisoft.keepass.utils.MemoryUtil
 
 import java.io.ByteArrayInputStream
@@ -72,15 +72,15 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
 
     var rootGroup: Group? = null
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         masterKey = getMasterKey(key, keyInputStream)
     }
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     protected fun getCompositeKey(key: String, keyInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyInputStream)
         val passwordKey = getPasswordKey(key)
@@ -120,7 +120,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         return messageDigest.digest()
     }
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
         val keyByteArrayOutputStream = ByteArrayOutputStream()
@@ -134,7 +134,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         }
 
         when (keyData.size.toLong()) {
-            0L -> throw KeyFileEmptyException()
+            0L -> throw LoadDatabaseKeyFileEmptyException()
             32L -> return keyData
             64L -> try {
                 return hexStringToByteArray(String(keyData))
@@ -238,7 +238,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     fun addGroupIndex(group: Group) {
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
-            Log.e(TAG, "Error, a group with the same UUID $groupId already exists")
+            throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
         } else {
             this.groupIndexes[groupId] = group
         }
@@ -273,8 +273,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
-            // TODO History
-            Log.e(TAG, "Error, a group with the same UUID $entryId already exists, change the UUID")
+            throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
         } else {
             this.entryIndexes[entryId] = entry
         }

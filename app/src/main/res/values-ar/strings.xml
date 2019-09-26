@@ -54,7 +54,6 @@
     <string name="error_title_required">اكتب عنوانًا.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
-    <string name="file_not_found">تعذر إيجاد الملف.</string>
     <string name="generate_password">توليد كلمة سر</string>
     <string name="hint_conf_pass">تأكيد كلمة السر</string>
     <string name="hint_group_name">اسم المجموعة</string>

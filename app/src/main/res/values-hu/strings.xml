@@ -76,7 +76,6 @@
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a „Hossz” mezőbe.</string>
     <string name="field_name">Mezőnév</string>
     <string name="field_value">Mezőérték</string>
-    <string name="file_not_found">A fájl nem található.</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni a fájlkezelőben.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó előállítása</string>

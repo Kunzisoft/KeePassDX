@@ -311,7 +311,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                                                   private val keyFileUri: Uri?) : ActionRunnable() {
 
         override fun run() {
-            finishRun(true, null)
+            finishRun(true)
         }
 
         override fun onFinishRun(result: Result) {

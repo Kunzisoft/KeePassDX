@@ -72,7 +72,6 @@
     <string name="error_rounds_too_large">Massa passades. Establint a 2147483648.</string>
     <string name="error_title_required">És necessari un títol.</string>
     <string name="error_wrong_length">Insereix un enter positiu al camp longitud</string>
-    <string name="file_not_found">Arxiu no trobat.</string>
     <string name="file_browser">Explorador d\'arxius</string>
     <string name="generate_password">Generar contrasenya</string>
     <string name="hint_conf_pass">confirma contrasenya</string>

@@ -113,7 +113,6 @@
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
-    <string name="file_not_found">Could not find file.</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
     <string name="file_browser">File browser</string>
     <string name="generate_password">Generate password</string>
