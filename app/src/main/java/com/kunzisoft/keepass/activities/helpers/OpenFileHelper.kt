@@ -177,21 +177,18 @@ class OpenFileHelper {
             GET_CONTENT, OPEN_DOC -> {
                 if (resultCode == RESULT_OK) {
                     if (data != null) {
-                        var uri = data.data
+                        val uri = data.data
                         if (uri != null) {
                             try {
                                 // try to persist read and write permissions
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                                     activity?.contentResolver?.apply {
-                                        takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                                        takePersistableUriPermission(uri!!, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
+                                        takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                                        takePersistableUriPermission(uri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
                                     }
                                 }
                             } catch (e: Exception) {
                                 // nop
-                            }
-                            if (requestCode == GET_CONTENT) {
-                                uri = UriUtil.translateUri(activity!!, uri)
                             }
                             keyFileCallback?.invoke(uri)
                         }
