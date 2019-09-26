@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.utils
 
-import android.content.ActivityNotFoundException
 import android.content.ContentResolver
 import android.content.Context
 import android.content.Intent
@@ -27,7 +26,6 @@ import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
