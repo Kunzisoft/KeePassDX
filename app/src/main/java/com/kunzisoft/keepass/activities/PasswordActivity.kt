@@ -462,11 +462,9 @@ class PasswordActivity : StylishActivity() {
 
                 if (result.isSuccess) {
                     // Save keyFile in app database
-                    if (PreferencesUtil.rememberKeyFiles(this@PasswordActivity)) {
+                    if (mRememberKeyFile) {
                         mDatabaseFileUri?.let { databaseUri ->
-                            mDatabaseKeyFileUri?.let { keyFileUri ->
-                                saveKeyFileData(databaseUri, keyFileUri)
-                            }
+                            saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
                         }
                     }
 
@@ -484,16 +482,20 @@ class PasswordActivity : StylishActivity() {
                     }
 
                 } else {
-                    var errorMessage = result.message
+                    var resultError = ""
                     val resultException = result.exception
+                    val resultMessage = result.message
 
-                    Log.e(TAG, errorMessage)
+                    if (resultException != null)
+                        resultError = resultException.getLocalizedMessage(resources)
 
-                    if (errorMessage != null && errorMessage.isNotEmpty()) {
-                        if (resultException != null)
-                            errorMessage = "${resultException.getLocalizedMessage(resources)} $errorMessage"
-                        Snackbar.make(activity_password_coordinator_layout, errorMessage, Snackbar.LENGTH_LONG).asError().show()
+                    if (resultMessage != null && resultMessage.isNotEmpty()) {
+                        resultError = "$resultError $resultMessage"
                     }
+
+                    Log.e(TAG, resultError, resultException)
+
+                    Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
                 }
             }
         }
