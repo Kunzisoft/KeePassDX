@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">反馈</string>
     <string name="about_homepage">主页</string>
     <string name="about_description">Android平台上的KeePass密码管理器</string>
@@ -268,7 +267,7 @@
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
     <string name="fingerprint_advanced_unlock_title">如何配置指纹以快速解锁？</string>
-    <string name="fingerprint_setting_text">将您设备所扫描的指纹保存在</string>
+    <string name="fingerprint_setting_text">将您设备所扫描的指纹保存在设备设置中。</string>
     <string name="fingerprint_setting_link_text">\"设置\" → \"安全\" → \"指纹\"</string>
     <string name="fingerprint_type_credentials_text">输入数据库密码</string>
     <string name="fingerprint_scan_to_store">扫描你的指纹，以便安全的存储数据库密码。</string>
@@ -295,7 +294,7 @@
     <string name="magic_keyboard_summary">激活自定义键盘以填写密码和所有身份字段</string>
     <string name="magic_keyboard_configure_title">配置专用键盘，以安全地自动填写密码。</string>
     <string name="magic_keyboard_activate_setting_text">在设备设置中激活“Magikeyboard键盘”。</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">“设置”→“语言和输入”→“当前键盘”，并选择所需要用于输入的键盘。</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">设备键盘设置</string>
     <string name="keyboards_choose_magikeyboard_text">当填写表单时，选择输入密码专用键盘。</string>
     <string name="allow_copy_password_title">对剪贴板的信任</string>
     <string name="keyboards_swicth_magikeyboard_text">长时间按住“空格键”以切换键盘，如果不可用，则：</string>
@@ -371,8 +370,7 @@
     </string>
     <string name="html_text_dev_feature">这个特性目前<strong>仍在开发中</strong>，您的<strong>捐助</strong>将使这个特性在未来变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买<strong>专业</strong>版，</string>
-    <string name="html_text_dev_feature_contibute">通过<strong>贡献</strong>
-    </string>
+    <string name="html_text_dev_feature_contibute">通过<strong>贡献</strong> ，</string>
     <string name="html_text_dev_feature_encourage">您的标记备注，鼓励了开发人员开发<strong>新特性</strong>并<strong>修复程序缺陷</strong>。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助/贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
@@ -410,4 +408,20 @@
     <string name="error_copy_entry_here">无法复制条目到此处。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
     <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
+    <string name="content_description_background">背景</string>
+    <string name="content_description_update_from_list">更新</string>
+    <string name="content_description_keyboard_close_fields">关闭字段</string>
+    <string name="error_create_database_file">无法使用此密码和密钥文件创建数据库。</string>
+    <string name="menu_advanced_unlock_settings">高级解锁</string>
+    <string name="biometric_prompt_store_credential_title">保存生物识别信息</string>
+    <string name="biometric_prompt_store_credential_message">使用生物识别数据存储数据库凭据</string>
+    <string name="biometric_prompt_extract_credential_title">使用生物识别功能打开数据库</string>
+    <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
+    <string name="biometric">生物识别</string>
+    <string name="fingerprint_open_biometric_prompt">单击生物识别按钮打开生物识别提示。</string>
+    <string name="fingerprint_auto_open_biometric_prompt">您可以更改首选项以快速打开生物识别提示，以便不重复步骤 1。</string>
+    <string name="biometric_auto_open_prompt_title">自动打开生物识别提示</string>
+    <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
+    <string name="enable">启用</string>
+    <string name="disable">禁用</string>
 </resources>
