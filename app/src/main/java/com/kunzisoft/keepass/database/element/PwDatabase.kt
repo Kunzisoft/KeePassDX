@@ -35,7 +35,11 @@ import java.security.NoSuchAlgorithmException
 import java.util.LinkedHashMap
 import java.util.UUID
 
-abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Group, Entry>> {
+abstract class PwDatabase<
+        GroupId,
+        Group : PwGroup<GroupId, Group, Entry>,
+        Entry : PwEntry<Group, Entry>
+        > {
 
     // Algorithm used to encrypt the database
     protected var algorithm: PwEncryptionAlgorithm? = null
@@ -51,8 +55,10 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
     var iconFactory = PwIconFactory()
         protected set
 
-    private var groupIndexes = LinkedHashMap<PwNodeId<*>, Group>()
-    private var entryIndexes = LinkedHashMap<PwNodeId<*>, Entry>()
+    var changeDuplicateId = false
+
+    private var groupIndexes = LinkedHashMap<PwNodeId<GroupId>, Group>()
+    private var entryIndexes = LinkedHashMap<PwNodeId<UUID>, Entry>()
 
     abstract val version: String
 
@@ -189,9 +195,9 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
      * -------------------------------------
      */
 
-    abstract fun newGroupId(): PwNodeId<*>
+    abstract fun newGroupId(): PwNodeId<GroupId>
 
-    abstract fun newEntryId(): PwNodeId<*>
+    abstract fun newEntryId(): PwNodeId<UUID>
 
     abstract fun createGroup(): Group
 
@@ -216,7 +222,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
      * ID number to check for
      * @return True if the ID is used, false otherwise
      */
-    fun isGroupIdUsed(id: PwNodeId<*>): Boolean {
+    fun isGroupIdUsed(id: PwNodeId<GroupId>): Boolean {
         return groupIndexes.containsKey(id)
     }
 
@@ -231,14 +237,19 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         }
     }
 
-    fun getGroupById(id: PwNodeId<*>): Group? {
+    fun getGroupById(id: PwNodeId<GroupId>): Group? {
         return this.groupIndexes[id]
     }
 
     fun addGroupIndex(group: Group) {
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
-            throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
+            if (changeDuplicateId) {
+                group.nodeId = newGroupId()
+                this.groupIndexes[groupId] = group
+            } else {
+                throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
+            }
         } else {
             this.groupIndexes[groupId] = group
         }
@@ -258,7 +269,7 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         }
     }
 
-    fun isEntryIdUsed(id: PwNodeId<*>): Boolean {
+    fun isEntryIdUsed(id: PwNodeId<UUID>): Boolean {
         return entryIndexes.containsKey(id)
     }
 
@@ -266,14 +277,19 @@ abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Grou
         return entryIndexes.values
     }
 
-    fun getEntryById(id: PwNodeId<*>): Entry? {
+    fun getEntryById(id: PwNodeId<UUID>): Entry? {
         return this.entryIndexes[id]
     }
 
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
-            throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
+            if (changeDuplicateId) {
+                entry.nodeId = newEntryId()
+                this.entryIndexes[entryId] = entry
+            } else {
+                throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
+            }
         } else {
             this.entryIndexes[entryId] = entry
         }

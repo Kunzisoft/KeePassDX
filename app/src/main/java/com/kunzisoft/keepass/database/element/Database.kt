@@ -213,6 +213,7 @@ class Database {
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
                  searchHelper: SearchDbHelper,
+                 fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
         try {
@@ -270,7 +271,9 @@ class Database {
                                 progressTaskUpdater))
 
                 // Header of database V4
-                PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(cacheDirectory)
+                PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
+                        cacheDirectory,
+                        fixDuplicateUUID)
                         .openDatabase(bufferedInputStream,
                                 password,
                                 keyFileInputStream,
@@ -537,7 +540,7 @@ class Database {
         return null
     }
 
-    fun getEntryById(id: PwNodeId<*>): EntryVersioned? {
+    fun getEntryById(id: PwNodeId<UUID>): EntryVersioned? {
         pwDatabaseV3?.getEntryById(id)?.let {
             return EntryVersioned(it)
         }
@@ -548,12 +551,14 @@ class Database {
     }
 
     fun getGroupById(id: PwNodeId<*>): GroupVersioned? {
-        pwDatabaseV3?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
-        pwDatabaseV4?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
+        if (id is PwNodeIdInt)
+            pwDatabaseV3?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
+        else if (id is PwNodeIdUUID)
+            pwDatabaseV4?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
         return null
     }
 

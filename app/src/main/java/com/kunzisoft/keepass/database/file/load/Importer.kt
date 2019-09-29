@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.IOException
 import java.io.InputStream
 
-abstract class Importer<PwDb : PwDatabase<*, *>> {
+abstract class Importer<PwDb : PwDatabase<*, *, *>> {
 
     /**
      * Load a versioned database file, return contents in a new PwDatabase.

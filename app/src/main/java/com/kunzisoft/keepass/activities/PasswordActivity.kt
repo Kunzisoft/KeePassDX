@@ -61,6 +61,7 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
@@ -436,6 +437,7 @@ class PasswordActivity : StylishActivity() {
                                 this@PasswordActivity.contentResolver,
                                 this@PasswordActivity.filesDir,
                                 SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
+                                true,
                                 progressTaskUpdater,
                                 AfterLoadingDatabase(database, password, cipherDatabaseEntity))
                     },
@@ -486,8 +488,11 @@ class PasswordActivity : StylishActivity() {
                     val resultException = result.exception
                     val resultMessage = result.message
 
-                    if (resultException != null)
+                    if (resultException != null) {
                         resultError = resultException.getLocalizedMessage(resources)
+                        if (resultException is LoadDatabaseDuplicateUuidException)
+                            showLoadDatabaseDuplicateUuidMessage()
+                    }
 
                     if (resultMessage != null && resultMessage.isNotEmpty()) {
                         resultError = "$resultError $resultMessage"
@@ -499,6 +504,10 @@ class PasswordActivity : StylishActivity() {
                 }
             }
         }
+    }
+
+    private fun showLoadDatabaseDuplicateUuidMessage() {
+        // TODO duplicate UUID message
     }
 
     private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {

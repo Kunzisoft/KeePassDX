@@ -30,7 +30,7 @@ import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
+class PwDatabaseV3 : PwDatabase<Int, PwGroupV3, PwEntryV3>() {
 
     private var numKeyEncRounds: Int = 0
 

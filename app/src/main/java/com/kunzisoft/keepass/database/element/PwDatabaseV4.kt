@@ -40,7 +40,7 @@ import java.util.*
 import javax.xml.parsers.DocumentBuilderFactory
 
 
-class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
+class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
 
     var hmacKey: ByteArray? = null
         private set

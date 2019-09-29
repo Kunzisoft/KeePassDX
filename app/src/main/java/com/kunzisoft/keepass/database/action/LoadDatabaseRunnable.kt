@@ -35,6 +35,7 @@ class LoadDatabaseRunnable(private val mDatabase: Database,
                            private val contentResolver: ContentResolver,
                            private val cacheDirectory: File,
                            private val mSearchHelper: SearchDbHelper,
+                           private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            nestedAction: ActionRunnable)
     : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
@@ -45,6 +46,7 @@ class LoadDatabaseRunnable(private val mDatabase: Database,
                     contentResolver,
                     cacheDirectory,
                     mSearchHelper,
+                    mFixDuplicateUUID,
                     progressTaskUpdater)
             finishRun(true)
         }

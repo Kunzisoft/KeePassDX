@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
+import java.util.*
 
 class EntryActivity : LockingHideActivity() {
 
@@ -86,7 +87,7 @@ class EntryActivity : LockingHideActivity() {
 
         // Get Entry from UUID
         try {
-            val keyEntry: PwNodeId<*> = intent.getParcelableExtra(KEY_ENTRY)
+            val keyEntry: PwNodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
             mEntry = currentDatabase.getEntryById(keyEntry)
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")

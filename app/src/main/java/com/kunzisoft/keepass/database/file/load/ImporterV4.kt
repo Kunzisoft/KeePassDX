@@ -56,7 +56,8 @@ import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 import kotlin.math.min
 
-class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
+class ImporterV4(private val streamDir: File,
+                 val fixDuplicateUUID: Boolean) : Importer<PwDatabaseV4>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: PwDatabaseV4
@@ -99,6 +100,9 @@ class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
 
         mDatabase = PwDatabaseV4()
+
+        mDatabase.changeDuplicateId = fixDuplicateUUID
+
         val header = PwDbHeaderV4(mDatabase)
 
         val headerAndHash = header.loadFromFile(databaseInputStream)
