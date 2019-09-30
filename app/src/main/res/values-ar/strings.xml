@@ -289,4 +289,27 @@
     <string name="content_description_file_information">معلومات الملف</string>
     <string name="content_description_password_generator">مولد كلمة السر</string>
     <string name="content_description_background">الخلفية</string>
+    <string name="rounds">دورات التحويل</string>
+    <string name="rounds_explanation">توفر الدورات الاضافية ضد هجوم توليد التركيبات ،لكنها تبطئ التحميل والحفظ.</string>
+    <string name="rounds_hint">دورات التحميل</string>
+    <string name="memory_usage_explanation">مقدار الذاكرة (بالبايت) لاستخدامها في دالة اشتقاق المفتاح.</string>
+    <string name="parallelism_explanation">درجة التوازي (عدد العمليات) لدالة اشتقاق المفتاح.</string>
+    <string name="sort_groups_before">مجموعات قبل</string>
+    <string name="selection_mode">نمط التحديد</string>
+    <string name="do_not_kill_app">لا تقتل التطبيق…</string>
+    <string name="content_description_node_children">العقد الفرعية</string>
+    <string name="content_description_add_node">أضف عقدة</string>
+    <string name="content_description_entry_icon">ايقونة المدخل</string>
+    <string name="content_description_entry_save">حفظ المدخل</string>
+    <string name="content_description_password_length">طول كلمة السر</string>
+    <string name="content_description_add_field">أضف حقل</string>
+    <string name="content_description_remove_field">أزل حقل</string>
+    <string name="error_move_entry_here">لا يمكنك نقل مدخل هنا.</string>
+    <string name="error_copy_entry_here">لا يمكنك نسخ مدخل هنا.</string>
+    <string name="list_groups_show_number_entries_title">عرض عدد المدخلات</string>
+    <string name="list_groups_show_number_entries_summary">عرض عدد المدخلات في المجموعة</string>
+    <string name="content_description_update_from_list">تحديث</string>
+    <string name="content_description_keyboard_close_fields">أغلق الحقول</string>
+    <string name="error_create_database_file">لا يمكن انشاء قاعدة بيانات بكلمة السر وملف القفل الحاليين.</string>
+    <string name="menu_advanced_unlock_settings">إلغاء القفل المتقدم</string>
 </resources>
