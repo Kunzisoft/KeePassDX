@@ -183,7 +183,7 @@
     <string name="read_only_warning">KeePass DX needs write permission in order to change anything in your database.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow apps to write to the SD card.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">When closing this dialog, KeePass DX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
+    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePass DX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
     <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
