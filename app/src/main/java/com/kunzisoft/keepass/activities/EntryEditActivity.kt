@@ -177,7 +177,7 @@ class EntryEditActivity : LockingHideActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = newEntry.username
+            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes

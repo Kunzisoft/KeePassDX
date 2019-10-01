@@ -48,6 +48,7 @@ import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
+import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.DatabaseDefaultUsernamePreferenceDialogFragmentCompat
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -357,6 +358,13 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
+            val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
+            if (mDatabase.containsDefaultUsername()) {
+                dbDefaultUsername?.summary = mDatabase.defaultUsername
+            } else {
+                dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
+            }
+
             // Database compression
             findPreference<Preference>(getString(R.string.database_data_compression_key))
                     ?.summary = (mDatabase.compressionAlgorithm ?: PwCompressionAlgorithm.None).getName(resources)
@@ -501,6 +509,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_description_key) -> {
                         dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.database_default_username_key) -> {
+                        dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
                     preference.key == getString(R.string.database_data_compression_key) -> {
                         dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
