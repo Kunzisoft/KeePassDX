@@ -32,7 +32,6 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>
@@ -77,7 +76,6 @@
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found">Não pôde encontrar o ficheiro.</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
     <string name="file_browser">Localizador de ficheiros</string>
     <string name="generate_password">Gerar palavra-chave</string>

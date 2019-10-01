@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
 import com.kunzisoft.keepass.database.file.PwDbHeader
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.database.exception.PwDbOutputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.stream.MacOutputStream
@@ -41,7 +41,7 @@ import java.security.NoSuchAlgorithmException
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
-class PwDbHeaderOutputV4 @Throws(PwDbOutputException::class)
+class PwDbHeaderOutputV4 @Throws(DatabaseOutputException::class)
 constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: OutputStream) : PwDbHeaderOutput() {
     private val los: LEDataOutputStream
     private val mos: MacOutputStream
@@ -54,13 +54,13 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         try {
             md = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
-            throw PwDbOutputException("SHA-256 not implemented here.")
+            throw DatabaseOutputException("SHA-256 not implemented here.")
         }
 
         try {
             db.makeFinalKey(header.masterSeed)
         } catch (e: IOException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         }
 
         val hmac: Mac
@@ -69,9 +69,9 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
             val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, Types.ULONG_MAX_VALUE), "HmacSHA256")
             hmac.init(signingKey)
         } catch (e: NoSuchAlgorithmException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         } catch (e: InvalidKeyException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         }
 
         dos = DigestOutputStream(os, md)

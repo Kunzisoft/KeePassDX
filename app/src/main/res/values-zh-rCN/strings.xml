@@ -31,7 +31,6 @@
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">安装 OpenIntents File Manager 应用来选取文件</string>
-    <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间</string>
@@ -69,7 +68,6 @@
     <string name="error_rounds_too_large">“变换次数”过多。已设置为 2147483648。</string>
     <string name="error_title_required">请添加标题。</string>
     <string name="error_wrong_length">请在“长度”字段输入一个正整数。</string>
-    <string name="file_not_found">找不到文件。</string>
     <string name="file_browser">文件浏览器</string>
     <string name="generate_password">生成密码</string>
     <string name="hint_conf_pass">确认密码</string>

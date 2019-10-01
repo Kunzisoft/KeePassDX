@@ -32,7 +32,6 @@
     <string name="beta_dontask">Να μην ερωτηθώ ξανά</string>
     <string name="brackets">Αγκύλες</string>
     <string name="file_manager_install_description">Η αναζήτηση αρχείων απαιτεί τον Διαχειριστή Αρχείων Open Intents, πατήστε παρακάτω για να τον εγκαταστήσετε. Λόγω μερικών ιδιορρυθμιών στον διαχειριστή αρχείων, η περιήγηση μπορεί να μην λειτουργεί σωστά την πρώτη φορά που θα περιηγηθείτε.</string>
-    <string name="cancel">Ακύρωση</string>
     <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε.</string>
     <string name="clipboard_error_title">Σφάλμα προχείρου</string>
     <string name="clipboard_error">Μερικά Android κινητά τηλέφωνα της Samsung έχουν ένα σφάλμα στην εφαρμογή του προχείρου που προκαλεί την αντιγραφή από εφαρμογές να αποτυγχάνει. Για περισσότερες πληροφορίες πηγαίνετε:</string>
@@ -77,7 +76,6 @@
     <string name="error_wrong_length">Εισάγετε έναν θετικό ακέραιο αριθμό στο πεδίο μήκους</string>
     <string name="field_name">Όνομα Πεδίου</string>
     <string name="field_value">Τιμή πεδίου</string>
-    <string name="file_not_found">Το αρχείο δεν βρέθηκε.</string>
     <string name="file_browser">Διαχείριση Αρχείων</string>
     <string name="generate_password">Δημιουργία Κωδικού</string>
     <string name="hint_conf_pass">επιβεβαίωση κωδικού</string>

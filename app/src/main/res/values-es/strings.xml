@@ -33,7 +33,6 @@
     <string name="menu_app_settings">Configuración de la aplicación</string>
     <string name="brackets">Paréntesis</string>
     <string name="file_manager_install_description">Explora ficheros con OpenIntents File Manager</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Portapapeles limpiado</string>
     <string name="clipboard_timeout">Portapapeles caducado</string>
     <string name="clipboard_timeout_summary">Duración de almacemiento en el portapapeles</string>
@@ -71,7 +70,6 @@
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
     <string name="error_title_required">Se necesita un título.</string>
     <string name="error_wrong_length">Introduzca un entero positivo en el campo longitud</string>
-    <string name="file_not_found">Archivo no encontrado.</string>
     <string name="file_browser">Explorador de Archivos</string>
     <string name="generate_password">Generar Contraseña</string>
     <string name="hint_conf_pass">confirmar contraseña</string>

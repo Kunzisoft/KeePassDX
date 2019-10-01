@@ -36,7 +36,6 @@
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
     <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
-    <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
@@ -83,7 +82,6 @@
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur du champ</string>
-    <string name="file_not_found">Impossible de trouver le fichier.</string>
     <string name="file_not_found_content">Impossible de trouver le fichier. Essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
     <string name="file_browser">Gestionnaire de fichiers</string>
     <string name="generate_password">Générer un mot de passe</string>

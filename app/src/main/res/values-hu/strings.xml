@@ -32,7 +32,6 @@
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
-    <string name="cancel">Mégse</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
     <string name="clipboard_error">Egyes androidos Samsung telefonok nem engedik, hogy az alkalmazások használják a vágólapot.</string>
@@ -76,7 +75,6 @@
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a „Hossz” mezőbe.</string>
     <string name="field_name">Mezőnév</string>
     <string name="field_value">Mezőérték</string>
-    <string name="file_not_found">A fájl nem található.</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni a fájlkezelőben.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó előállítása</string>

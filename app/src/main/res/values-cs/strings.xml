@@ -34,7 +34,6 @@
     <string name="beta_dontask">Znovu neukázat</string>
     <string name="brackets">Závorky</string>
     <string name="file_manager_install_description">Instalace správce souborů OpenIntents k procházení souborů</string>
-    <string name="cancel">Storno</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
     <string name="clipboard_error_title">Chyba schránky</string>
     <string name="clipboard_error">Některé Android telefony od Samsungu nedovolují aplikacím používat schránku.</string>
@@ -79,7 +78,6 @@
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
-    <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Vytvoř heslo</string>
     <string name="hint_conf_pass">potvrď heslo</string>

@@ -19,118 +19,45 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import android.content.Context
+import android.content.ContentResolver
 import android.net.Uri
-import android.preference.PreferenceManager
-import androidx.annotation.StringRes
-import android.util.Log
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.lang.ref.WeakReference
+import java.io.File
 
-class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
-                           private val mDatabase: Database,
+class LoadDatabaseRunnable(private val mDatabase: Database,
                            private val mUri: Uri,
                            private val mPass: String?,
                            private val mKey: Uri?,
+                           private val contentResolver: ContentResolver,
+                           private val cacheDirectory: File,
+                           private val mSearchHelper: SearchDbHelper,
+                           private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            nestedAction: ActionRunnable)
     : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
 
-    private val mRememberKeyFile: Boolean
-        get() {
-            return mWeakContext.get()?.let {
-                PreferenceManager.getDefaultSharedPreferences(it)
-                        .getBoolean(it.getString(R.string.keyfile_key),
-                                it.resources.getBoolean(R.bool.keyfile_default))
-            } ?: true
-        }
-
     override fun run() {
         try {
-            mWeakContext.get()?.let {
-                mDatabase.loadData(it, mUri, mPass, mKey, progressTaskUpdater)
-                saveFileData(mUri, mKey)
-                finishRun(true)
-            } ?: finishRun(false, "Context null")
-        } catch (e: ArcFourException) {
-            catchError(e, R.string.error_arc4)
-            return
-        } catch (e: InvalidPasswordException) {
-            catchError(e, R.string.invalid_password)
-            return
-        } catch (e: ContentFileNotFoundException) {
-            catchError(e, R.string.file_not_found_content)
-            return
-        } catch (e: FileNotFoundException) {
-            catchError(e, R.string.file_not_found)
-            return
-        } catch (e: IOException) {
-            var messageId = R.string.error_load_database
-            e.message?.let {
-                if (it.contains("Hash failed with code"))
-                    messageId = R.string.error_load_database_KDF_memory
-            }
-            catchError(e, messageId, true)
-            return
-        } catch (e: KeyFileEmptyException) {
-            catchError(e, R.string.keyfile_is_empty)
-            return
-        } catch (e: InvalidAlgorithmException) {
-            catchError(e, R.string.invalid_algorithm)
-            return
-        } catch (e: InvalidKeyFileException) {
-            catchError(e, R.string.keyfile_does_not_exist)
-            return
-        } catch (e: InvalidDBSignatureException) {
-            catchError(e, R.string.invalid_db_sig)
-            return
-        } catch (e: InvalidDBVersionException) {
-            catchError(e, R.string.unsupported_db_version)
-            return
-        } catch (e: InvalidDBException) {
-            catchError(e, R.string.error_invalid_db)
-            return
-        } catch (e: OutOfMemoryError) {
-            catchError(e, R.string.error_out_of_memory)
-            return
-        } catch (e: Exception) {
-            catchError(e, R.string.error_load_database, true)
-            return
+            mDatabase.loadData(mUri, mPass, mKey,
+                    contentResolver,
+                    cacheDirectory,
+                    mSearchHelper,
+                    mFixDuplicateUUID,
+                    progressTaskUpdater)
+            finishRun(true)
         }
-    }
-
-    private fun catchError(e: Throwable, @StringRes messageId: Int, addThrowableMessage: Boolean = false) {
-        var errorMessage = mWeakContext.get()?.getString(messageId)
-        Log.e(TAG, errorMessage, e)
-        if (addThrowableMessage)
-            errorMessage = errorMessage + " " + e.localizedMessage
-        finishRun(false, errorMessage)
-    }
-
-    private fun saveFileData(uri: Uri, key: Uri?) {
-        var keyFileUri = key
-        if (!mRememberKeyFile) {
-            keyFileUri = null
-        }
-        mWeakContext.get()?.let {
-            FileDatabaseHistoryAction.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
+        catch (e: LoadDatabaseException) {
+            finishRun(false, e)
         }
     }
 
     override fun onFinishRun(result: Result) {
         if (!result.isSuccess) {
-            mDatabase.closeAndClear(mWeakContext.get()?.filesDir)
+            mDatabase.closeAndClear(cacheDirectory)
         }
-    }
-
-    companion object {
-        private val TAG = LoadDatabaseRunnable::class.java.name
     }
 }

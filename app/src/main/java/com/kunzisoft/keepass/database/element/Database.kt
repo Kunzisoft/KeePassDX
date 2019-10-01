@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
-import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
@@ -39,7 +38,6 @@ import com.kunzisoft.keepass.database.file.save.PwDbV3Output
 import com.kunzisoft.keepass.database.file.save.PwDbV4Output
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -56,7 +54,8 @@ class Database {
     private var pwDatabaseV4: PwDatabaseV4? = null
 
     private var mUri: Uri? = null
-    private var searchHelper: SearchDbHelper? = null
+    private var mSearchHelper: SearchDbHelper? = null
+
     var isReadOnly = false
 
     val drawFactory = IconDrawableFactory()
@@ -209,78 +208,95 @@ class Database {
         this.mUri = databaseUri
     }
 
-    @Throws(IOException::class, InvalidDBException::class)
-    fun loadData(ctx: Context, uri: Uri, password: String?, keyfile: Uri?, progressTaskUpdater: ProgressTaskUpdater?) {
+    @Throws(LoadDatabaseException::class)
+    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+                 contentResolver: ContentResolver,
+                 cacheDirectory: File,
+                 searchHelper: SearchDbHelper,
+                 fixDuplicateUUID: Boolean,
+                 progressTaskUpdater: ProgressTaskUpdater?) {
 
-        mUri = uri
-        isReadOnly = false
-        if (uri.scheme == "file") {
-            val file = File(uri.path!!)
-            isReadOnly = !file.canWrite()
-        }
-
-        // Pass Uris as InputStreams
-        val inputStream: InputStream?
         try {
-            inputStream = UriUtil.getUriInputStream(ctx.contentResolver, uri)
-        } catch (e: Exception) {
-            Log.e("KPD", "Database::loadData", e)
-            throw ContentFileNotFoundException.getInstance(uri)
-        }
 
-        // Pass KeyFile Uri as InputStreams
-        var keyFileInputStream: InputStream? = null
-        keyfile?.let {
+            mUri = uri
+            isReadOnly = false
+            if (uri.scheme == "file") {
+                val file = File(uri.path!!)
+                isReadOnly = !file.canWrite()
+            }
+
+            // Pass Uris as InputStreams
+            val inputStream: InputStream?
             try {
-                keyFileInputStream = UriUtil.getUriInputStream(ctx.contentResolver, keyfile)
+                inputStream = UriUtil.getUriInputStream(contentResolver, uri)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
-                throw ContentFileNotFoundException.getInstance(keyfile)
+                throw LoadDatabaseFileNotFoundException()
             }
-        }
 
-        // Load Data
+            // Pass KeyFile Uri as InputStreams
+            var keyFileInputStream: InputStream? = null
+            keyfile?.let {
+                try {
+                    keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+                } catch (e: Exception) {
+                    Log.e("KPD", "Database::loadData", e)
+                    throw LoadDatabaseFileNotFoundException()
+                }
+            }
 
-        val bufferedInputStream = BufferedInputStream(inputStream)
-        if (!bufferedInputStream.markSupported()) {
-            throw IOException("Input stream does not support mark.")
-        }
+            // Load Data
 
-        // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-        bufferedInputStream.mark(10)
+            val bufferedInputStream = BufferedInputStream(inputStream)
+            if (!bufferedInputStream.markSupported()) {
+                throw IOException("Input stream does not support mark.")
+            }
 
-        // Get the file directory to save the attachments
-        val sig1 = LEDataInputStream.readInt(bufferedInputStream)
-        val sig2 = LEDataInputStream.readInt(bufferedInputStream)
+            // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+            bufferedInputStream.mark(10)
 
-        // Return to the start
-        bufferedInputStream.reset()
+            // Get the file directory to save the attachments
+            val sig1 = LEDataInputStream.readInt(bufferedInputStream)
+            val sig2 = LEDataInputStream.readInt(bufferedInputStream)
 
-        when {
-            // Header of database V3
-            PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
-                    .openDatabase(bufferedInputStream,
-                        password,
-                        keyFileInputStream,
-                        progressTaskUpdater))
+            // Return to the start
+            bufferedInputStream.reset()
 
-            // Header of database V4
-            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(ctx.filesDir)
-                    .openDatabase(bufferedInputStream,
-                        password,
-                        keyFileInputStream,
-                        progressTaskUpdater))
+            when {
+                // Header of database V3
+                PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
+                        .openDatabase(bufferedInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
 
-            // Header not recognized
-            else -> throw InvalidDBSignatureException()
-        }
+                // Header of database V4
+                PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
+                        cacheDirectory,
+                        fixDuplicateUUID)
+                        .openDatabase(bufferedInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
 
-        try {
-            searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
+                // Header not recognized
+                else -> throw LoadDatabaseSignatureException()
+            }
+
+            this.mSearchHelper = searchHelper
             loaded = true
+
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: IOException) {
+            if (e.message?.contains("Hash failed with code") == true)
+                throw LoadDatabaseKDFMemoryException(e)
+            else
+                throw LoadDatabaseIOException(e)
+        } catch (e: OutOfMemoryError) {
+            throw LoadDatabaseNoMemoryException(e)
         } catch (e: Exception) {
-            Log.e(TAG, "Load can't be performed with this Database version", e)
-            loaded = false
+            throw LoadDatabaseException(e)
         }
     }
 
@@ -292,7 +308,7 @@ class Database {
 
     @JvmOverloads
     fun search(str: String, max: Int = Integer.MAX_VALUE): GroupVersioned? {
-        return searchHelper?.search(this, str, max)
+        return mSearchHelper?.search(this, str, max)
     }
 
     fun searchEntries(query: String): Cursor? {
@@ -343,14 +359,14 @@ class Database {
         return entry
     }
 
-    @Throws(IOException::class, PwDbOutputException::class)
+    @Throws(IOException::class, DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
         mUri?.let {
             saveData(contentResolver, it)
         }
     }
 
-    @Throws(IOException::class, PwDbOutputException::class)
+    @Throws(IOException::class, DatabaseOutputException::class)
     private fun saveData(contentResolver: ContentResolver, uri: Uri) {
         val errorMessage = "Failed to store database."
 
@@ -484,7 +500,7 @@ class Database {
                 ?: false
     }
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
@@ -524,7 +540,7 @@ class Database {
         return null
     }
 
-    fun getEntryById(id: PwNodeId<*>): EntryVersioned? {
+    fun getEntryById(id: PwNodeId<UUID>): EntryVersioned? {
         pwDatabaseV3?.getEntryById(id)?.let {
             return EntryVersioned(it)
         }
@@ -535,12 +551,14 @@ class Database {
     }
 
     fun getGroupById(id: PwNodeId<*>): GroupVersioned? {
-        pwDatabaseV3?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
-        pwDatabaseV4?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
+        if (id is PwNodeIdInt)
+            pwDatabaseV3?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
+        else if (id is PwNodeIdUUID)
+            pwDatabaseV4?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
         return null
     }
 

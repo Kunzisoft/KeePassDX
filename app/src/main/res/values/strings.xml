@@ -37,7 +37,6 @@
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
     <string name="file_manager_install_description">Create, Open and Save a database file requires installing a file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT</string>
-    <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
@@ -113,7 +112,6 @@
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
-    <string name="file_not_found">Could not find file.</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
     <string name="file_browser">File browser</string>
     <string name="generate_password">Generate password</string>
@@ -128,6 +126,7 @@
     <string name="install_from_play_store">Install from Play Store</string>
     <string name="invalid_password">Could not read password or keyfile.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
+    <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_does_not_exist">No keyfile exists.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
@@ -183,6 +182,8 @@
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">KeePass DX needs write permission in order to change anything in your database.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow apps to write to the SD card.</string>
+    <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
+    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePass DX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
     <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>

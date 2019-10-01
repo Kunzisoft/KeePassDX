@@ -32,7 +32,6 @@
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="file_manager_install_description">Для обзора файлов установите OpenIntents File Manager</string>
-    <string name="cancel">Отмена</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
     <string name="clipboard_error">Некоторые устройства Samsung не дают приложению использовать буфер обмена.</string>
@@ -77,7 +76,6 @@
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
     <string name="field_value">Значение поля</string>
-    <string name="file_not_found">Файл не найден.</string>
     <string name="file_not_found_content">Файл не найден. Попробуйте повторно открыть через встроенный поставщик содержимого.</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Генерация пароля</string>

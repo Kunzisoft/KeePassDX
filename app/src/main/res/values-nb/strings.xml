@@ -35,7 +35,6 @@
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
     <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
-    <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
@@ -85,7 +84,6 @@
     <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltverdi</string>
-    <string name="file_not_found">Fant ikke filen.</string>
     <string name="file_not_found_content">Fant ikke filen. Prøv å åpne den fra din innholdsleverandør.</string>
     <string name="file_browser">Filutforsker</string>
     <string name="generate_password">Opprett passord</string>

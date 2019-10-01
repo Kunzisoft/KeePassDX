@@ -31,7 +31,6 @@
     <string name="menu_app_settings">Налаштування програми</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
-    <string name="cancel">Відміна</string>
     <string name="clipboard_cleared">Буфер обміну очищено.</string>
     <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
     <string name="clipboard_timeout_summary">Час через який буде очищено буфер обміну після копіювання ім’я користувача чи пароля</string>
@@ -69,7 +68,6 @@
     <string name="error_rounds_too_large">Надто багато циклів.  Установлено 2147483648.</string>
     <string name="error_title_required">Необхідно вказати заголовок.</string>
     <string name="error_wrong_length">Введіть ціле число на усю довжину поля</string>
-    <string name="file_not_found">Файл не знайдено.</string>
     <string name="file_browser">Перегляд файлів</string>
     <string name="generate_password">Згенерувати пароль</string>
     <string name="hint_conf_pass">підтвердження пароля</string>

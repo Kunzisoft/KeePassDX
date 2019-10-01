@@ -35,7 +35,6 @@
     <string name="brackets">브라켓</string>
     <string name="extended_ASCII">확장 ASCII</string>
     <string name="file_manager_install_description">OpenIntents File Manager를 설치하여 파일 찾아보기</string>
-    <string name="cancel">취소</string>
     <string name="allow">허가</string>
     <string name="clipboard_cleared">클립보드 비워짐</string>
     <string name="clipboard_error_title">클립보드 오류</string>
@@ -85,7 +84,6 @@
     <string name="error_move_folder_in_itself">그룹을 자신에게 옮길 수 없습니다.</string>
     <string name="field_name">필드 이름</string>
     <string name="field_value">필드 값</string>
-    <string name="file_not_found">파일을 찾을 수 없습니다.</string>
     <string name="file_not_found_content">파일을 찾을 수 없습니다. 파일 탐색기에서 열리는지 확인해 주세요.</string>
     <string name="file_browser">파일 탐색기</string>
     <string name="generate_password">비밀번호 생성</string>

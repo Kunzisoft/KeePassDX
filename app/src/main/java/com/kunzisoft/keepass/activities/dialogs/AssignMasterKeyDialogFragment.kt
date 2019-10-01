@@ -104,7 +104,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                     .setTitle(R.string.assign_master_key)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
             passwordView = rootView?.findViewById(R.id.pass_password)
@@ -223,7 +223,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                             this@AssignMasterKeyDialogFragment.dismiss()
                         }
                     }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
             builder.create().show()
         }
     }
@@ -238,7 +238,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                                 keyFileCheckBox!!.isChecked, mKeyFile)
                         this@AssignMasterKeyDialogFragment.dismiss()
                     }
-                    .setNegativeButton(R.string.cancel) { _, _ -> }
+                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
             builder.create().show()
         }
     }

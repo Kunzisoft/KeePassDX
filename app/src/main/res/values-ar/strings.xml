@@ -27,7 +27,6 @@
     <string name="beta_dontask">لا تظهر مرة أخرى</string>
     <string name="brackets">أقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
-    <string name="cancel">إلغاء</string>
     <string name="allow">السماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
@@ -54,7 +53,6 @@
     <string name="error_title_required">اكتب عنوانًا.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
-    <string name="file_not_found">تعذر إيجاد الملف.</string>
     <string name="generate_password">توليد كلمة سر</string>
     <string name="hint_conf_pass">تأكيد كلمة السر</string>
     <string name="hint_group_name">اسم المجموعة</string>
