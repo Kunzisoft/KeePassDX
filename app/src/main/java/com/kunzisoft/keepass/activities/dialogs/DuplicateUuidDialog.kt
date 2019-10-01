@@ -46,4 +46,9 @@ class DuplicateUuidDialog : DialogFragment() {
         }
         return super.onCreateDialog(savedInstanceState)
     }
+
+    override fun onPause() {
+        super.onPause()
+        this.dismiss()
+    }
 }
