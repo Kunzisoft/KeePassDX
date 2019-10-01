@@ -245,8 +245,10 @@ abstract class PwDatabase<
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
             if (changeDuplicateId) {
-                group.nodeId = newGroupId()
-                this.groupIndexes[groupId] = group
+                val newGroupId = newGroupId()
+                group.nodeId = newGroupId
+                group.parent?.addChildGroup(group)
+                this.groupIndexes[newGroupId] = group
             } else {
                 throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
             }
@@ -285,8 +287,10 @@ abstract class PwDatabase<
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
             if (changeDuplicateId) {
-                entry.nodeId = newEntryId()
-                this.entryIndexes[entryId] = entry
+                val newEntryId = newEntryId()
+                entry.nodeId = newEntryId
+                entry.parent?.addChildEntry(entry)
+                this.entryIndexes[newEntryId] = entry
             } else {
                 throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
             }
