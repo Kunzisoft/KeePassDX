@@ -36,7 +36,6 @@
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>
-    <string name="cancel">Abbrechen</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Einige Samsung Android-Smartphones lassen keine Nutzung der Zwischenablage durch Apps zu.</string>

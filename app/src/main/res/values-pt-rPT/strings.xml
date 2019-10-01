@@ -32,7 +32,6 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>

@@ -35,7 +35,6 @@
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
     <string name="file_manager_install_description">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
-    <string name="cancel">İptal</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>

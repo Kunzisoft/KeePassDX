@@ -33,7 +33,6 @@
     <string name="beta_dontask">Visa inte igen</string>
     <string name="brackets">Parenteser</string>
     <string name="file_manager_install_description">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
-    <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Urklippet är rensat.</string>
     <string name="clipboard_error_title">Urklippsfel</string>
     <string name="clipboard_error">Vissa Samsung-telefoner har en bugg som gör att applikationer inte kan kopiera till urklipp. För mer detaljer, gå till:</string>

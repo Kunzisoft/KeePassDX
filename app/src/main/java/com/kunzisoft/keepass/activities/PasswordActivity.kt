@@ -44,6 +44,7 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -413,7 +414,8 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
-    private fun loadDatabase(password: String?, keyFile: Uri?, cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+    private fun loadDatabase(password: String?, keyFile: Uri?,
+                             cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
         runOnUiThread {
             if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
@@ -437,7 +439,7 @@ class PasswordActivity : StylishActivity() {
                                 this@PasswordActivity.contentResolver,
                                 this@PasswordActivity.filesDir,
                                 SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
-                                true,
+                                false,
                                 progressTaskUpdater,
                                 AfterLoadingDatabase(database, password, cipherDatabaseEntity))
                     },
@@ -507,7 +509,7 @@ class PasswordActivity : StylishActivity() {
     }
 
     private fun showLoadDatabaseDuplicateUuidMessage() {
-        // TODO duplicate UUID message
+        DuplicateUuidDialog().show(supportFragmentManager, "duplicateUUIDDialog")
     }
 
     private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {

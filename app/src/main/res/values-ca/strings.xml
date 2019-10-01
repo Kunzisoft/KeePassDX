@@ -34,7 +34,6 @@
     <string name="menu_app_settings">Paràmetres de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
     <string name="file_manager_install_description">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
-    <string name="cancel">Cancel·la</string>
     <string name="clipboard_cleared">Porta-retalls netejat.</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>

@@ -32,7 +32,6 @@
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
-    <string name="cancel">Mégse</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
     <string name="clipboard_error">Egyes androidos Samsung telefonok nem engedik, hogy az alkalmazások használják a vágólapot.</string>

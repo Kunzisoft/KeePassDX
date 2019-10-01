@@ -22,37 +22,21 @@ package com.kunzisoft.keepass.activities.dialogs
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
-import android.widget.Button
-import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.UriUtil
 
-class BrowserDialogFragment : DialogFragment() {
+class DuplicateUuidDialog : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
-            val builder = AlertDialog.Builder(activity)
-            // Get the layout inflater
-            val root = activity.layoutInflater.inflate(R.layout.fragment_browser_install, null)
-            builder.setView(root)
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
-
-            val textDescription = root.findViewById<TextView>(R.id.file_manager_install_description)
-            textDescription.text = getString(R.string.file_manager_install_description)
-
-            val market = root.findViewById<Button>(R.id.file_manager_install_play_store)
-            market.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.file_manager_play_store)
-                dismiss()
+            // Use the Builder class for convenient dialog construction
+            val builder = androidx.appcompat.app.AlertDialog.Builder(activity).apply {
+                val message = getString(R.string.contains_duplicate_uuid) +
+                        "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
+                setMessage(message)
+                setPositiveButton(getString(android.R.string.ok)) { _, _ -> dismiss() }
+                setNegativeButton(getString(android.R.string.cancel)) { _, _ -> dismiss() }
             }
-
-            val web = root.findViewById<Button>(R.id.file_manager_install_f_droid)
-            web.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.file_manager_f_droid)
-                dismiss()
-            }
-
+            // Create the AlertDialog object and return it
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)

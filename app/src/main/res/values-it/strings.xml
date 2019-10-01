@@ -33,7 +33,6 @@
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
     <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
-    <string name="cancel">Annulla</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
     <string name="clipboard_error">Alcuni telefoni Android di Samsung non permettono alle app di usare gli appunti.</string>

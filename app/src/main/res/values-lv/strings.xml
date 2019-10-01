@@ -14,7 +14,6 @@
     <string name="beta_dontask">Turpmāk nerādīt</string>
     <string name="brackets">Iekavas</string>
     <string name="file_manager_install_description">Failu pārlūkošanai nepieciešams pārlūks.</string>
-    <string name="cancel">Atcelt</string>
     <string name="clipboard_cleared">Starpliktuve notīrīta</string>
     <string name="clipboard_error_title">Starpliktuves kļūda</string>
     <string name="clipboard_error">Dažiem Samsung tālruņiem ir problēmas ar starpliktuves lietošanu. Lai saņemtu sīkāku informāciju, dodieties uz:</string>

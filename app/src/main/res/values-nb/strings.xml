@@ -35,7 +35,6 @@
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
     <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
-    <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>

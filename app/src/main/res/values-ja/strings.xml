@@ -30,7 +30,6 @@
     <string name="menu_app_settings">アプリケーション設定</string>
     <string name="brackets">カッコ</string>
     <string name="file_manager_install_description">ファイルを検索するには OI File Manager が必要です。</string>
-    <string name="cancel">キャンセル</string>
     <string name="clipboard_cleared">クリップボードを消去しました。</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
     <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>

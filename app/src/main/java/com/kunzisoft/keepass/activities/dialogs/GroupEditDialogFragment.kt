@@ -122,7 +122,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
-                    .setNegativeButton(R.string.cancel) { _, _ ->
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
                         editGroupListener?.cancelEditGroup(
                                 editGroupDialogAction,
                                 nameTextView?.text?.toString(),

@@ -31,7 +31,6 @@
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">安装 OpenIntents File Manager 应用来选取文件</string>
-    <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间</string>

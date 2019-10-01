@@ -31,7 +31,6 @@
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="file_manager_install_description">Przeglądaj pliki, instalując Menedżera plików OpenIntents</string>
-    <string name="cancel">Anuluj</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
     <string name="clipboard_timeout_summary">Czas przechowywania w schowku</string>

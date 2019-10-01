@@ -57,7 +57,7 @@ import javax.crypto.NoSuchPaddingException
 import kotlin.math.min
 
 class ImporterV4(private val streamDir: File,
-                 val fixDuplicateUUID: Boolean) : Importer<PwDatabaseV4>() {
+                 private val fixDuplicateUUID: Boolean = false) : Importer<PwDatabaseV4>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: PwDatabaseV4

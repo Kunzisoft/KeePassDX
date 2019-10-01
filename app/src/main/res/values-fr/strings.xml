@@ -36,7 +36,6 @@
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
     <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
-    <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>

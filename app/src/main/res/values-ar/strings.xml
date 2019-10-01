@@ -27,7 +27,6 @@
     <string name="beta_dontask">لا تظهر مرة أخرى</string>
     <string name="brackets">أقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
-    <string name="cancel">إلغاء</string>
     <string name="allow">السماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>

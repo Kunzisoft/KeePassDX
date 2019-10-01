@@ -30,7 +30,6 @@
     <string name="menu_app_settings">應用程式設定</string>
     <string name="brackets">括弧</string>
     <string name="file_manager_install_description">流覽檔需要安裝Open Intents File Manager軟體，點下面安裝。由於一些檔管理軟體的差異，在你第一次瀏覽時可能無法正常工作。</string>
-    <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪貼板已清除</string>
     <string name="clipboard_timeout">剪貼板超時</string>
     <string name="clipboard_timeout_summary">複製用戶名或密碼到剪貼板後清除的時間</string>
