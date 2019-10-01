@@ -26,6 +26,8 @@ import com.kunzisoft.keepass.R
 
 class DuplicateUuidDialog : DialogFragment() {
 
+    var positiveAction: (() -> Unit)? = null
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             // Use the Builder class for convenient dialog construction
@@ -33,7 +35,10 @@ class DuplicateUuidDialog : DialogFragment() {
                 val message = getString(R.string.contains_duplicate_uuid) +
                         "\n\n" + getString(R.string.contains_duplicate_uuid_procedure)
                 setMessage(message)
-                setPositiveButton(getString(android.R.string.ok)) { _, _ -> dismiss() }
+                setPositiveButton(getString(android.R.string.ok)) { _, _ ->
+                    positiveAction?.invoke()
+                    dismiss()
+                }
                 setNegativeButton(getString(android.R.string.cancel)) { _, _ -> dismiss() }
             }
             // Create the AlertDialog object and return it

@@ -8,40 +8,55 @@ import com.kunzisoft.keepass.database.element.Type
 import java.io.IOException
 
 
-class LoadDatabaseArcFourException : LoadDatabaseException(R.string.error_arc4)
+class LoadDatabaseArcFourException :
+        LoadDatabaseException(R.string.error_arc4)
 
-class LoadDatabaseFileNotFoundException : LoadDatabaseException(R.string.file_not_found_content)
+class LoadDatabaseFileNotFoundException :
+        LoadDatabaseException(R.string.file_not_found_content)
 
-class LoadDatabaseInvalidAlgorithmException : LoadDatabaseException(R.string.invalid_algorithm)
+class LoadDatabaseInvalidAlgorithmException :
+        LoadDatabaseException(R.string.invalid_algorithm)
 
 class LoadDatabaseDuplicateUuidException(type: Type, uuid: PwNodeId<*>):
-        LoadDatabaseException("Error, a $type with the same UUID $uuid already exists")
+        LoadDatabaseException(R.string.invalid_db_same_uuid, type.name, uuid.toString())
 
-class LoadDatabaseIOException(exception: IOException) : LoadDatabaseException(exception, R.string.error_load_database)
+class LoadDatabaseIOException(exception: IOException) :
+        LoadDatabaseException(exception, R.string.error_load_database)
 
-class LoadDatabaseKDFMemoryException(exception: IOException) : LoadDatabaseException(exception, R.string.error_load_database_KDF_memory)
+class LoadDatabaseKDFMemoryException(exception: IOException) :
+        LoadDatabaseException(exception, R.string.error_load_database_KDF_memory)
 
-class LoadDatabaseSignatureException : LoadDatabaseException(R.string.invalid_db_sig)
+class LoadDatabaseSignatureException :
+        LoadDatabaseException(R.string.invalid_db_sig)
 
-class LoadDatabaseVersionException : LoadDatabaseException(R.string.unsupported_db_version)
+class LoadDatabaseVersionException :
+        LoadDatabaseException(R.string.unsupported_db_version)
 
-open class LoadDatabaseInvalidKeyFileException : LoadDatabaseException(R.string.keyfile_does_not_exist)
+open class LoadDatabaseInvalidKeyFileException :
+        LoadDatabaseException(R.string.keyfile_does_not_exist)
 
-class LoadDatabaseInvalidPasswordException : LoadDatabaseException(R.string.invalid_password)
+class LoadDatabaseInvalidPasswordException :
+        LoadDatabaseException(R.string.invalid_password)
 
-class LoadDatabaseKeyFileEmptyException : LoadDatabaseException(R.string.keyfile_is_empty)
+class LoadDatabaseKeyFileEmptyException :
+        LoadDatabaseException(R.string.keyfile_is_empty)
 
-class LoadDatabaseNoMemoryException(exception: OutOfMemoryError) : LoadDatabaseException(exception, R.string.error_out_of_memory)
+class LoadDatabaseNoMemoryException(exception: OutOfMemoryError) :
+        LoadDatabaseException(exception, R.string.error_out_of_memory)
 
 open class LoadDatabaseException : Exception {
 
     @StringRes
     var errorId: Int = R.string.error_load_database
-
-    constructor(errorMessage: String) : super(errorMessage)
+    var parameters: (Array<out String>)? = null
 
     constructor(errorMessageId: Int) : super() {
         errorId = errorMessageId
+    }
+
+    constructor(errorMessageId: Int, vararg params: String) : super() {
+        errorId = errorMessageId
+        parameters = params
     }
 
     constructor(throwable: Throwable, errorMessageId: Int? = null) : super(throwable) {
@@ -52,11 +67,9 @@ open class LoadDatabaseException : Exception {
 
     constructor() : super()
 
-    companion object {
-        private const val serialVersionUID = 5191964825154190923L
-    }
-
     fun getLocalizedMessage(resources: Resources): String {
-        return resources.getString(errorId)
+        parameters?.let {
+            return resources.getString(errorId, *it)
+        } ?: return resources.getString(errorId)
     }
 }

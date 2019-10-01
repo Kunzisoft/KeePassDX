@@ -396,13 +396,13 @@ class PasswordActivity : StylishActivity() {
                                                 cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
         verifyKeyFileCheckbox(keyFile)
-        loadDatabase(keyPassword, mDatabaseKeyFileUri, cipherDatabaseEntity)
+        loadDatabase(mDatabaseFileUri, keyPassword, mDatabaseKeyFileUri, cipherDatabaseEntity)
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
         val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
         verifyKeyFileCheckbox(keyFile)
-        loadDatabase(password, mDatabaseKeyFileUri)
+        loadDatabase(mDatabaseFileUri, password, mDatabaseKeyFileUri)
     }
 
     private fun verifyKeyFileCheckbox(keyFile: Uri?) {
@@ -414,7 +414,9 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
-    private fun loadDatabase(password: String?, keyFile: Uri?,
+    private fun loadDatabase(databaseFileUri: Uri?,
+                             password: String?,
+                             keyFileUri: Uri?,
                              cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
         runOnUiThread {
@@ -427,89 +429,107 @@ class PasswordActivity : StylishActivity() {
         val database = Database.getInstance()
         database.closeAndClear(applicationContext.filesDir)
 
-        mDatabaseFileUri?.let { databaseUri ->
-            // Show the progress dialog and load the database
-            ProgressDialogThread(this,
-                    { progressTaskUpdater ->
-                        LoadDatabaseRunnable(
-                                database,
-                                databaseUri,
-                                password,
-                                keyFile,
-                                this@PasswordActivity.contentResolver,
-                                this@PasswordActivity.filesDir,
-                                SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
-                                false,
-                                progressTaskUpdater,
-                                AfterLoadingDatabase(database, password, cipherDatabaseEntity))
-                    },
-                    R.string.loading_database).start()
-        }
-    }
+        databaseFileUri?.let { databaseUri ->
 
-    /**
-     * Called after verify and try to opening the database
-     */
-    private inner class AfterLoadingDatabase(val database: Database, val password: String?,
-                                             val cipherDatabaseEntity: CipherDatabaseEntity? = null)
-        : ActionRunnable() {
+            val onFinishLoadDatabase = object: ActionRunnable() {
+                override fun onFinishRun(result: Result) {
+                    runOnUiThread {
+                        // Recheck fingerprint if error
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                                // Stay with the same mode and init it
+                                advancedUnlockedManager?.initBiometricMode()
+                            }
+                        }
 
-        override fun onFinishRun(result: Result) {
-            runOnUiThread {
-                // Recheck fingerprint if error
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
-                        // Stay with the same mode and init it
-                        advancedUnlockedManager?.initBiometricMode()
-                    }
-                }
+                        if (result.isSuccess) {
+                            // Save keyFile in app database
+                            if (mRememberKeyFile) {
+                                mDatabaseFileUri?.let { databaseUri ->
+                                    saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
+                                }
+                            }
 
-                if (result.isSuccess) {
-                    // Save keyFile in app database
-                    if (mRememberKeyFile) {
-                        mDatabaseFileUri?.let { databaseUri ->
-                            saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
+                            // Remove the password in view in all cases
+                            removePassword()
+
+                            // Register the biometric
+                            if (cipherDatabaseEntity != null) {
+                                CipherDatabaseAction.getInstance(this@PasswordActivity)
+                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                                            checkAndLaunchGroupActivity(database, password)
+                                        }
+                            } else {
+                                checkAndLaunchGroupActivity(database, password)
+                            }
+
+                        } else {
+                            var resultError = ""
+                            val resultException = result.exception
+                            val resultMessage = result.message
+
+                            if (resultException != null) {
+                                resultError = resultException.getLocalizedMessage(resources)
+                                if (resultException is LoadDatabaseDuplicateUuidException)
+                                    showLoadDatabaseDuplicateUuidMessage {
+                                        showProgressDialogAndLoadDatabase(database,
+                                                databaseUri,
+                                                password,
+                                                keyFileUri,
+                                                true,
+                                                this)
+                                    }
+                            }
+
+                            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                                resultError = "$resultError $resultMessage"
+                            }
+
+                            Log.e(TAG, resultError, resultException)
+
+                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
-
-                    // Remove the password in view in all cases
-                    removePassword()
-
-                    // Register the biometric
-                    if (cipherDatabaseEntity != null) {
-                        CipherDatabaseAction.getInstance(this@PasswordActivity)
-                                .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                    checkAndLaunchGroupActivity(database, password)
-                                }
-                    } else {
-                        checkAndLaunchGroupActivity(database, password)
-                    }
-
-                } else {
-                    var resultError = ""
-                    val resultException = result.exception
-                    val resultMessage = result.message
-
-                    if (resultException != null) {
-                        resultError = resultException.getLocalizedMessage(resources)
-                        if (resultException is LoadDatabaseDuplicateUuidException)
-                            showLoadDatabaseDuplicateUuidMessage()
-                    }
-
-                    if (resultMessage != null && resultMessage.isNotEmpty()) {
-                        resultError = "$resultError $resultMessage"
-                    }
-
-                    Log.e(TAG, resultError, resultException)
-
-                    Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
                 }
             }
+
+            // Show the progress dialog and load the database
+            showProgressDialogAndLoadDatabase(database,
+                    databaseUri,
+                    password,
+                    keyFileUri,
+                    false,
+                    onFinishLoadDatabase)
         }
     }
 
-    private fun showLoadDatabaseDuplicateUuidMessage() {
-        DuplicateUuidDialog().show(supportFragmentManager, "duplicateUUIDDialog")
+    private fun showProgressDialogAndLoadDatabase(database: Database,
+                                                  databaseUri: Uri,
+                                                  password: String?,
+                                                  keyFile: Uri?,
+                                                  fixDuplicateUUID: Boolean,
+                                                  onFinishLoadDatabase: ActionRunnable) {
+        ProgressDialogThread(this,
+                { progressTaskUpdater ->
+                    LoadDatabaseRunnable(
+                            database,
+                            databaseUri,
+                            password,
+                            keyFile,
+                            this@PasswordActivity.contentResolver,
+                            this@PasswordActivity.filesDir,
+                            SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
+                            fixDuplicateUUID,
+                            progressTaskUpdater,
+                            onFinishLoadDatabase)
+                },
+                R.string.loading_database).start()
+    }
+
+    private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {
+        DuplicateUuidDialog().apply {
+            positiveAction = loadDatabaseWithFix
+        }.show(supportFragmentManager, "duplicateUUIDDialog")
     }
 
     private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {
