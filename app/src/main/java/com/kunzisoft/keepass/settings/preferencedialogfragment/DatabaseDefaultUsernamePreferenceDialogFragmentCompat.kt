@@ -17,11 +17,10 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings.preferencedialogfragment.adapter
+package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseSavePreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
