@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat.Companion.DEFAULT_COLOR
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat.Companion.DISABLE_COLOR
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -377,7 +377,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                         color = Color.parseColor(mDatabase.color)
                         summary = mDatabase.color
                     } catch (e: Exception) {
-                        color = DEFAULT_COLOR
+                        color = DISABLE_COLOR
                         summary = ""
                     }
                 }
@@ -540,7 +540,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                                     databaseCustomColorPref?.color = color
                                     databaseCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
                                 } else {
-                                    databaseCustomColorPref?.color = DEFAULT_COLOR
+                                    databaseCustomColorPref?.color = DISABLE_COLOR
                                     databaseCustomColorPref?.summary = ""
                                 }
                             }
