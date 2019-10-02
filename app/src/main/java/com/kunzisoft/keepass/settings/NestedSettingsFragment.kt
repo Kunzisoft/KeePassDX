@@ -22,18 +22,20 @@ package com.kunzisoft.keepass.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.fragment.app.DialogFragment
 import androidx.preference.*
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -41,14 +43,14 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseDefaultUsernamePreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat.Companion.DEFAULT_COLOR
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -57,6 +59,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
     private var mCount = 0
 
+    private var databaseCustomColorPref: DialogColorPreference? = null
     private var mRoundPref: InputKdfNumberPreference? = null
     private var mMemoryPref: InputKdfNumberPreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
@@ -342,7 +345,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
             val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_general_key))
 
-            // Db name
+            // Database name
             val dbNamePref: InputTextPreference? = findPreference(getString(R.string.database_name_key))
             if (mDatabase.containsName()) {
                 dbNamePref?.summary = mDatabase.name
@@ -358,11 +361,28 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
+            // Database default username
             val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
             if (mDatabase.containsDefaultUsername()) {
                 dbDefaultUsername?.summary = mDatabase.defaultUsername
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
+            }
+
+            // Database custom color
+            databaseCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
+            if (mDatabase.containsCustomColor()) {
+                databaseCustomColorPref?.apply {
+                    try {
+                        color = Color.parseColor(mDatabase.color)
+                        summary = mDatabase.color
+                    } catch (e: Exception) {
+                        color = DEFAULT_COLOR
+                        summary = ""
+                    }
+                }
+            } else {
+                dbGeneralPrefCategory?.removePreference(databaseCustomColorPref)
             }
 
             // Database compression
@@ -513,6 +533,19 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     preference.key == getString(R.string.database_default_username_key) -> {
                         dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
+                    preference.key == getString(R.string.database_custom_color_key) -> {
+                        dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
+                            onColorSelectedListener = { enable, color ->
+                                if (enable) {
+                                    databaseCustomColorPref?.color = color
+                                    databaseCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
+                                } else {
+                                    databaseCustomColorPref?.color = DEFAULT_COLOR
+                                    databaseCustomColorPref?.summary = ""
+                                }
+                            }
+                        }
+                    }
                     preference.key == getString(R.string.database_data_compression_key) -> {
                         dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
@@ -547,7 +580,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
                 if (dialogFragment != null && !mDatabaseReadOnly) {
                     dialogFragment.setTargetFragment(this, 0)
-                    dialogFragment.show(fragmentManager, null)
+                    dialogFragment.show(fragmentManager, TAG_PREF_FRAGMENT)
                 }
                 // Could not be handled here. Try with the super method.
                 else if (otherDialogFragment) {
@@ -570,6 +603,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     companion object {
 
         private const val TAG_KEY = "NESTED_KEY"
+
+        private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
 
         private const val REQUEST_CODE_AUTOFILL = 5201
 

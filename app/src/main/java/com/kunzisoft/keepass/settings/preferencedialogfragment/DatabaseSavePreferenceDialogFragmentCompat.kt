@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.content.res.Resources
+import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -36,10 +37,14 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
 
     protected lateinit var settingsResources: Resources
 
-    override fun onBindDialogView(view: View) {
-        super.onBindDialogView(view)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         this.database = Database.getInstance()
+    }
+
+    override fun onBindDialogView(view: View) {
+        super.onBindDialogView(view)
 
         activity?.resources?.let { settingsResources = it }
     }

@@ -94,6 +94,16 @@ class Database {
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
+    // with format "#000000"
+    var color: String
+        get() {
+            return pwDatabaseV4?.color ?: ""
+        }
+        set(value) {
+            // TODO Check color string
+            pwDatabaseV4?.color = value
+        }
+
     val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
         get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
 
@@ -480,6 +490,11 @@ class Database {
     }
 
     fun containsDefaultUsername(): Boolean {
+        pwDatabaseV4?.let { return true }
+        return false
+    }
+
+    fun containsCustomColor(): Boolean {
         pwDatabaseV4?.let { return true }
         return false
     }

@@ -358,7 +358,6 @@ class ImporterV4(private val streamDir: File,
             } else if (name.equals(PwDatabaseV4XML.ElemDbDefaultUserChanged, ignoreCase = true)) {
                 mDatabase.defaultUserNameChanged = readPwTime(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemDbColor, ignoreCase = true)) {
-                // TODO: Add support to interpret the color if we want to allow changing the database color
                 mDatabase.color = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemDbMntncHistoryDays, ignoreCase = true)) {
                 mDatabase.maintenanceHistoryDays = readUInt(xpp, DEFAULT_HISTORY_DAYS)
