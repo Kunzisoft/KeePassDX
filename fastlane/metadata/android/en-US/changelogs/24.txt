@@ -1,5 +1,6 @@
- * Add settings
+ * Add settings (Color, Security, Master Key)
  * Show history of each entry
+ * Auto repair database for nodes with same UUID
  * Fix settings
  * Fix edit group
  * Fix small bugs
