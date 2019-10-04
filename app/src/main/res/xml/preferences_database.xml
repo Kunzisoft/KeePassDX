@@ -21,7 +21,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="@string/database_general_key"
+        android:key="@string/database_category_general_key"
         android:title="@string/general">
 
         <com.kunzisoft.keepass.settings.preference.InputTextPreference
@@ -60,6 +60,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/database_category_compression_key"
         android:title="@string/compression">
 
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
@@ -70,6 +71,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/database_category_recycle_bin_key"
         android:title="@string/recycle_bin">
 
         <SwitchPreference
@@ -82,7 +84,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/database_history_key"
+        android:key="@string/database_category_history_key"
         android:title="@string/entry_history">
 
         <com.kunzisoft.keepass.settings.preference.InputNumberPreference

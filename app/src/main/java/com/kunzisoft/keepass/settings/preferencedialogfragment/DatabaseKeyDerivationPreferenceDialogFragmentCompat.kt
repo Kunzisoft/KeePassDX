@@ -62,7 +62,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             database?.let { database ->
-                if (database.allowKdfModification()) {
+                if (database.allowKdfModification) {
                     val newKdfEngine = kdfEngineSelected
                     val oldKdfEngine = database.kdfEngine
                     if (newKdfEngine != null && oldKdfEngine != null) {

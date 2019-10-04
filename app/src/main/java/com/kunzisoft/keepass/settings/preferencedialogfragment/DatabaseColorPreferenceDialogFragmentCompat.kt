@@ -61,7 +61,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         database?.let { database ->
             val initColor = try {
                 enableSwitchView.isChecked = true
-                Color.parseColor(database.color)
+                Color.parseColor(database.customColor)
             } catch (e: Exception) {
                 enableSwitchView.isChecked = false
                 DEFAULT_COLOR
@@ -86,8 +86,8 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 } else {
                     ""
                 }
-                val oldColor = database.color
-                database.color = newColor
+                val oldColor = database.customColor
+                database.customColor = newColor
 
                 actionInUIThreadAfterSaveDatabase = AfterColorSave(newColor, oldColor)
             }
@@ -143,7 +143,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                     if (result.isSuccess) {
                         mNewColor
                     } else {
-                        database?.color = mOldColor
+                        database?.customColor = mOldColor
                         mOldColor
                     }
             preference.summary = defaultColorToShow

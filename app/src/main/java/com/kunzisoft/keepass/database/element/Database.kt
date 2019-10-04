@@ -67,6 +67,9 @@ class Database {
             return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         }
 
+    val allowName: Boolean
+        get() = pwDatabaseV4 != null
+
     var name: String
         get() {
             return pwDatabaseV4?.name ?: ""
@@ -75,6 +78,9 @@ class Database {
             pwDatabaseV4?.name = name
             pwDatabaseV4?.nameChanged = PwDate()
         }
+
+    val allowDescription: Boolean
+        get() = pwDatabaseV4 != null
 
     var description: String
         get() {
@@ -85,24 +91,36 @@ class Database {
             pwDatabaseV4?.descriptionChanged = PwDate()
         }
 
+    val allowDefaultUsername: Boolean
+        get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+
     var defaultUsername: String
         get() {
-            return pwDatabaseV4?.defaultUserName ?: ""
+            return pwDatabaseV4?.defaultUserName ?: "" // TODO pwDatabaseV3 default username
         }
         set(username) {
             pwDatabaseV4?.defaultUserName = username
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
+    val allowCustomColor: Boolean
+        get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+
     // with format "#000000"
-    var color: String
+    var customColor: String
         get() {
-            return pwDatabaseV4?.color ?: ""
+            return pwDatabaseV4?.color ?: "" // TODO pwDatabaseV3 color
         }
         set(value) {
             // TODO Check color string
             pwDatabaseV4?.color = value
         }
+
+    val version: String
+        get() = pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "-"
+
+    val allowDataCompression: Boolean
+        get() = pwDatabaseV4 != null
 
     val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
         get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
@@ -113,8 +131,19 @@ class Database {
             value?.let {
                 pwDatabaseV4?.compressionAlgorithm = it
             }
-            // TODO Compression
         }
+
+    val allowNoMasterKey: Boolean
+        get() = pwDatabaseV4 != null
+
+    val allowEncryptionAlgorithmModification: Boolean
+        get() = availableEncryptionAlgorithms.size > 1
+
+    fun getEncryptionAlgorithmName(resources: Resources): String {
+        return pwDatabaseV3?.encryptionAlgorithm?.getName(resources)
+                ?: pwDatabaseV4?.encryptionAlgorithm?.getName(resources)
+                ?: ""
+    }
 
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
@@ -132,6 +161,9 @@ class Database {
     val availableKdfEngines: List<KdfEngine>
         get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
 
+    val allowKdfModification: Boolean
+        get() = availableKdfEngines.size > 1
+
     var kdfEngine: KdfEngine?
         get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
         set(kdfEngine) {
@@ -143,6 +175,10 @@ class Database {
                 parallelism = kdfEngine.defaultParallelism
             }
         }
+
+    fun getKeyDerivationName(resources: Resources): String {
+        return kdfEngine?.getName(resources) ?: ""
+    }
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -207,7 +243,7 @@ class Database {
      * Determine if RecycleBin is available or not for this version of database
      * @return true if RecycleBin available
      */
-    val isRecycleBinAvailable: Boolean
+    val allowRecycleBin: Boolean
         get() = pwDatabaseV4 != null
 
     val isRecycleBinEnabled: Boolean
@@ -473,51 +509,6 @@ class Database {
         pwDatabaseV4 = null
         mUri = null
         loaded = false
-    }
-
-    fun getVersion(): String {
-        return pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "unknown"
-    }
-
-    fun containsName(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun containsDescription(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun containsDefaultUsername(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun containsCustomColor(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun allowNoMasterKey(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun allowEncryptionAlgorithmModification(): Boolean {
-        return availableEncryptionAlgorithms.size > 1
-    }
-
-    fun getEncryptionAlgorithmName(resources: Resources): String {
-        return pwDatabaseV3?.encryptionAlgorithm?.getName(resources) ?: pwDatabaseV4?.encryptionAlgorithm?.getName(resources) ?: ""
-    }
-
-    fun allowKdfModification(): Boolean {
-        return availableKdfEngines.size > 1
-    }
-
-    fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine?.getName(resources) ?: ""
     }
 
     fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {

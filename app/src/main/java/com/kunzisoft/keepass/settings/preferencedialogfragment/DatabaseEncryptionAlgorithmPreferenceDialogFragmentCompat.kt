@@ -59,7 +59,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
 
         if (positiveResult) {
             database?.let { database ->
-                if (database.allowEncryptionAlgorithmModification()) {
+                if (database.allowEncryptionAlgorithmModification) {
                     if (algorithmSelected != null) {
                         val newAlgorithm = algorithmSelected
                         val oldAlgorithm = database.encryptionAlgorithm
