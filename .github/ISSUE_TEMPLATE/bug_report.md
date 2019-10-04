@@ -23,11 +23,14 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+**KeePass DX (please complete the following information):**
+ - Version: [e.g. 2.5.0.0beta23]
+ - Build: [e.g. Free]
+
 **Android (please complete the following information):**
  - Device: [e.g. GalaxyS8]
- - OS: [e.g. Android 8]
- - Browser [e.g. stock browser]
- - Version [e.g. 8.0]
+ - Version [e.g. 8.1]
+ - Browser [e.g. Chrome]
 
 **Additional context**
 Add any other context about the problem here.
