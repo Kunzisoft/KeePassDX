@@ -20,7 +20,9 @@
 package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory
-import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
 import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -28,17 +30,24 @@ import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-/**
- * @author Naomaru Itoi <nao></nao>@phoneid.org>
- * @author Bill Zwicky <wrzwicky></wrzwicky>@pobox.com>
- * @author Dominik Reichl <dominik.reichl></dominik.reichl>@t-online.de>
- */
-class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
+class PwDatabaseV3 : PwDatabase<Int, PwGroupV3, PwEntryV3>() {
 
     private var numKeyEncRounds: Int = 0
 
+    private var kdfListV3: MutableList<KdfEngine> = ArrayList()
+
     override val version: String
         get() = "KeePass 1"
+
+    init {
+        kdfListV3.add(KdfFactory.aesKdf)
+    }
+
+    override val kdfEngine: KdfEngine?
+        get() = kdfListV3[0]
+
+    override val kdfAvailableList: List<KdfEngine>
+        get() = kdfListV3
 
     override val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() {
@@ -103,7 +112,7 @@ class PwDatabaseV3 : PwDatabase<PwGroupV3, PwEntryV3>() {
         return newId
     }
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
     override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
         return if (key != null && keyInputStream != null) {

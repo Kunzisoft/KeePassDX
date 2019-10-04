@@ -15,26 +15,26 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     var pwEntryV4: PwEntryV4? = null
         private set
 
-    fun updateWith(entry: EntryVersioned) {
+    fun updateWith(entry: EntryVersioned, copyHistory: Boolean = true) {
         entry.pwEntryV3?.let {
             this.pwEntryV3?.updateWith(it)
         }
         entry.pwEntryV4?.let {
-            this.pwEntryV4?.updateWith(it)
+            this.pwEntryV4?.updateWith(it, copyHistory)
         }
     }
 
     /**
      * Use this constructor to copy an Entry with exact same values
      */
-    constructor(entry: EntryVersioned) {
+    constructor(entry: EntryVersioned, copyHistory: Boolean = true) {
         if (entry.pwEntryV3 != null) {
             this.pwEntryV3 = PwEntryV3()
         }
         if (entry.pwEntryV4 != null) {
             this.pwEntryV4 = PwEntryV4()
         }
-        updateWith(entry)
+        updateWith(entry, copyHistory)
     }
 
     constructor(entry: PwEntryV3) {
@@ -241,6 +241,10 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return pwEntryV4?.allowCustomFields() ?: false
     }
 
+    fun removeAllFields() {
+        pwEntryV4?.removeAllFields()
+    }
+
     /**
      * Add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
@@ -258,20 +262,31 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.stopToManageFieldReferences()
     }
 
-    fun addBackupToHistory() {
-        pwEntryV4?.let {
-            val entryHistory = PwEntryV4()
-            entryHistory.updateWith(it)
-            it.addEntryToHistory(entryHistory)
+    fun getHistory(): ArrayList<EntryVersioned> {
+        val history = ArrayList<EntryVersioned>()
+        val entryV4History = pwEntryV4?.history ?: ArrayList()
+        for (entryHistory in entryV4History) {
+            history.add(EntryVersioned(entryHistory))
         }
+        return history
+    }
+
+    fun addEntryToHistory(entry: EntryVersioned) {
+        entry.pwEntryV4?.let {
+            pwEntryV4?.addEntryToHistory(it)
+        }
+    }
+
+    fun removeAllHistory() {
+        pwEntryV4?.removeAllHistory()
     }
 
     fun removeOldestEntryFromHistory() {
         pwEntryV4?.removeOldestEntryFromHistory()
     }
 
-    fun getHistory(): ArrayList<PwEntryV4> {
-        return pwEntryV4?.history ?: ArrayList()
+    fun getSize(): Long {
+        return pwEntryV4?.size ?: 0L
     }
 
     fun containsCustomData(): Boolean {

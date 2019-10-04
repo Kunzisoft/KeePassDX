@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
         IconPickerDialogFragment.IconPickerListener,
@@ -90,7 +91,7 @@ class EntryEditActivity : LockingHideActivity(),
         mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {
+        intent.getParcelableExtra<PwNodeId<UUID>>(KEY_ENTRY)?.let {
             mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
@@ -105,14 +106,12 @@ class EntryEditActivity : LockingHideActivity(),
                 }
             }
 
-            // Retrieve the icon after an orientation change
-            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
-                mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY) as EntryVersioned
-            } else {
+            // Create the new entry from the current one
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = EntryVersioned(entry).also { newEntry ->
-
                         // WARNING Remove the parent to keep memory with parcelable
                         newEntry.parent = null
                     }
@@ -123,12 +122,22 @@ class EntryEditActivity : LockingHideActivity(),
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            mNewEntry = mDatabase?.createEntry()
+            // Create an empty new entry
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+                mNewEntry = mDatabase?.createEntry()
+            }
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
             mDatabase?.drawFactory?.let { iconFactory ->
                 entryEditContentsView?.setDefaultIcon(iconFactory)
             }
+        }
+
+        // Retrieve the new entry after an orientation change
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -168,12 +177,14 @@ class EntryEditActivity : LockingHideActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = newEntry.username
+            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
-                addNewCustomField(entry.key, entry.value)
+                post {
+                    addNewCustomField(entry.key, entry.value)
+                }
             }
         }
     }
@@ -185,6 +196,7 @@ class EntryEditActivity : LockingHideActivity(),
         newEntry.apply {
             // Build info from view
             entryEditContentsView?.let { entryView ->
+                removeAllFields()
                 title = entryView.title
                 username = entryView.username
                 url = entryView.url
@@ -218,8 +230,6 @@ class EntryEditActivity : LockingHideActivity(),
      */
     private fun addNewCustomField() {
         entryEditContentsView?.addNewCustomField()
-        // Scroll bottom
-        scrollView?.post { scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
     /**
@@ -342,7 +352,10 @@ class EntryEditActivity : LockingHideActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(KEY_NEW_ENTRY, mNewEntry)
+        mNewEntry?.let {
+            populateEntryWithViews(it)
+            outState.putParcelable(KEY_NEW_ENTRY, it)
+        }
 
         super.onSaveInstanceState(outState)
     }

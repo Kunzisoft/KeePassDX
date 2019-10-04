@@ -27,7 +27,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/expandable_toolbar_paste_layout">
+        android:layout_above="@+id/toolbar_paste">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -100,6 +100,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
+            android:id="@+id/node_list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -112,6 +113,7 @@
                 android:padding="6dp"
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
+                android:textColor="?attr/textColorInverse"
                 android:text="@string/selection_mode"/>
             <FrameLayout
                 android:id="@+id/nodes_list_fragment_container"
@@ -124,28 +126,18 @@
             android:id="@+id/add_node_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@+id/nodes_list"
+            app:layout_anchor="@+id/node_list_container"
             app:layout_anchorGravity="right|bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <net.cachapa.expandablelayout.ExpandableLayout
-        android:id="@+id/expandable_toolbar_paste_layout"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_paste"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"
-        app:el_duration="300"
-        app:el_expanded="false"
-        app:el_parallax="0.5">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar_paste"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="4dp"
-            android:theme="?attr/toolbarBottomAppearance"
-            android:background="?attr/colorAccent"
-            tools:targetApi="lollipop" />
-
-    </net.cachapa.expandablelayout.ExpandableLayout>
+        android:elevation="4dp"
+        android:theme="?attr/toolbarBottomAppearance"
+        android:background="?attr/colorAccent"
+        tools:targetApi="lollipop" />
 
 </RelativeLayout>

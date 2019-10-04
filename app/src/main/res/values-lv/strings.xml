@@ -14,7 +14,6 @@
     <string name="beta_dontask">Turpmāk nerādīt</string>
     <string name="brackets">Iekavas</string>
     <string name="file_manager_install_description">Failu pārlūkošanai nepieciešams pārlūks.</string>
-    <string name="cancel">Atcelt</string>
     <string name="clipboard_cleared">Starpliktuve notīrīta</string>
     <string name="clipboard_error_title">Starpliktuves kļūda</string>
     <string name="clipboard_error">Dažiem Samsung tālruņiem ir problēmas ar starpliktuves lietošanu. Lai saņemtu sīkāku informāciju, dodieties uz:</string>
@@ -51,14 +50,12 @@
     <string name="error_out_of_memory">Darbam ar datu bāzi, tālrunī nepietiek atmiņas.</string>
     <string name="error_pass_gen_type">Ir jāatlasa vismaz viens paroles ģenerēšanas tips</string>
     <string name="error_pass_match">Paroles nesakrīt.</string>
-    <string name="error_rounds_not_number">Ievadiet līmeni no 1 līdz 2147483648</string>
     <string name="error_rounds_too_large">Līmenis pārāk liels. Maksimālais 2147483648</string>
     <string name="error_string_key">A field name is required for each string.</string>
     <string name="error_title_required">Nepieciešams nosaukums.</string>
     <string name="error_wrong_length">Norādiet garumu lielāku par nulli</string>
     <string name="field_name">Lauka nosaukums</string>
     <string name="field_value">Lauka vērtība</string>
-    <string name="file_not_found">Fails nav atrasts.</string>
     <string name="file_browser">Failu pārlūks</string>
     <string name="generate_password">Ģenerēt Paroli</string>
     <string name="hint_conf_pass">apstipriniet paroli</string>

@@ -30,16 +30,30 @@ abstract class KdfEngine : ObjectNameResource {
 
     abstract val defaultParameters: KdfParameters
 
-    abstract val defaultKeyRounds: Long
-
     @Throws(IOException::class)
     abstract fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray
 
     abstract fun randomize(p: KdfParameters)
 
+    /*
+     * ITERATIONS
+     */
+
     abstract fun getKeyRounds(p: KdfParameters): Long
 
     abstract fun setKeyRounds(p: KdfParameters, keyRounds: Long)
+
+    abstract val defaultKeyRounds: Long
+
+    open val minKeyRounds: Long
+        get() = 1
+
+    open val maxKeyRounds: Long
+        get() = Int.MAX_VALUE.toLong()
+
+    /*
+     * MEMORY
+     */
 
     open fun getMemoryUsage(p: KdfParameters): Long {
         return UNKNOWN_VALUE.toLong()
@@ -49,9 +63,18 @@ abstract class KdfEngine : ObjectNameResource {
         // Do nothing by default
     }
 
-    open fun getDefaultMemoryUsage(): Long {
-        return UNKNOWN_VALUE.toLong()
-    }
+    open val defaultMemoryUsage: Long
+        get() = UNKNOWN_VALUE.toLong()
+
+    open val minMemoryUsage: Long
+        get() = 1
+
+    open val maxMemoryUsage: Long
+        get() = Int.MAX_VALUE.toLong()
+
+    /*
+     * PARALLELISM
+     */
 
     open fun getParallelism(p: KdfParameters): Int {
         return UNKNOWN_VALUE
@@ -61,13 +84,16 @@ abstract class KdfEngine : ObjectNameResource {
         // Do nothing by default
     }
 
-    open fun getDefaultParallelism(): Int {
-        return UNKNOWN_VALUE
-    }
+    open val defaultParallelism: Int
+        get() = UNKNOWN_VALUE
+
+    open val minParallelism: Int
+        get() = 1
+
+    open val maxParallelism: Int
+        get() = Int.MAX_VALUE
 
     companion object {
-
         const val UNKNOWN_VALUE = -1
-        const val UNKNOWN_VALUE_STRING = (-1).toString()
     }
 }

@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:custom="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="@string/database_general_key"
@@ -36,12 +36,22 @@
             android:title="@string/database_description_title"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
-		<SwitchPreference
-            android:key="@string/recycle_bin_key"
+        <com.kunzisoft.keepass.settings.preference.InputTextPreference
+            android:key="@string/database_default_username_key"
             android:persistent="false"
-            android:title="@string/recycle_bin_title"
-			android:summary="@string/recycle_bin_summary"
-            android:checked="false"/>
+            android:title="@string/database_default_username_title"
+            android:positiveButtonText="@string/entry_save"
+            android:negativeButtonText="@string/entry_cancel"/>
+        <com.kunzisoft.keepass.settings.preference.DialogColorPreference
+            xmlns:chroma="http://schemas.android.com/apk/res-auto"
+            android:key="@string/database_custom_color_key"
+            android:persistent="false"
+            android:enabled="false"
+            android:title="@string/database_custom_color_title"
+            android:summary="[color]"
+            chroma:chromaShapePreview="ROUNDED_SQUARE"
+            chroma:chromaColorMode="RGB"
+            chroma:chromaIndicatorMode="HEX" />
         <Preference
             android:key="@string/database_version_key"
             android:persistent="false"
@@ -50,38 +60,44 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/encryption">
+        android:title="@string/compression">
 
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
-            android:key="@string/encryption_algorithm_key"
+            android:key="@string/database_data_compression_key"
             android:persistent="false"
-            android:title="@string/encryption_algorithm"/>
-        <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
-            android:key="@string/key_derivation_function_key"
+            android:title="@string/database_data_compression_title"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/recycle_bin">
+
+        <SwitchPreference
+            android:key="@string/recycle_bin_key"
             android:persistent="false"
-            android:title="@string/key_derivation_function"/>
+            android:title="@string/recycle_bin_title"
+            android:summary="@string/recycle_bin_summary"
+            android:checked="false"/>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="@string/database_history_key"
+        android:title="@string/entry_history">
+
         <com.kunzisoft.keepass.settings.preference.InputNumberPreference
-            android:key="@string/transform_rounds_key"
+            android:key="@string/max_history_items_key"
             android:persistent="false"
-            android:title="@string/rounds"
-            custom:explanations="@string/rounds_explanation"
+            android:title="@string/max_history_items_title"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
         <com.kunzisoft.keepass.settings.preference.InputNumberPreference
-            android:key="@string/memory_usage_key"
+            android:key="@string/max_history_size_key"
             android:persistent="false"
-            android:title="@string/memory_usage"
-            custom:explanations="@string/memory_usage_explanation"
-            android:positiveButtonText="@string/entry_save"
-            android:negativeButtonText="@string/entry_cancel"/>
-        <com.kunzisoft.keepass.settings.preference.InputNumberPreference
-            android:key="@string/parallelism_key"
-            android:persistent="false"
-            android:title="@string/parallelism"
-            custom:explanations="@string/parallelism_explanation"
+            android:title="@string/max_history_size_title"
+            android:summary="@string/max_history_size_summary"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
 
     </PreferenceCategory>
-
 </PreferenceScreen>

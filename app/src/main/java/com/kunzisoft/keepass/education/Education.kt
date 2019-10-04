@@ -66,7 +66,6 @@ open class Education(val activity: Activity) {
         val educationResourcesKeys = intArrayOf(
                 R.string.education_create_db_key,
                 R.string.education_select_db_key,
-                R.string.education_open_link_db_key,
                 R.string.education_unlock_key,
                 R.string.education_read_only_key,
                 R.string.education_fingerprint_key,
@@ -120,18 +119,6 @@ open class Education(val activity: Activity) {
             val prefs = getEducationSharedPreferences(context)
             return prefs.getBoolean(context.getString(R.string.education_select_db_key),
                     context.resources.getBoolean(R.bool.education_select_db_default))
-        }
-
-        /**
-         * Determines whether the explanatory view of the database selection has already been displayed.
-         *
-         * @param context The context to open the SharedPreferences
-         * @return boolean value of education_select_db_key key
-         */
-        fun isEducationOpenLinkDatabasePerformed(context: Context): Boolean {
-            val prefs = getEducationSharedPreferences(context)
-            return prefs.getBoolean(context.getString(R.string.education_open_link_db_key),
-                    context.resources.getBoolean(R.bool.education_open_link_db_default))
         }
 
         /**

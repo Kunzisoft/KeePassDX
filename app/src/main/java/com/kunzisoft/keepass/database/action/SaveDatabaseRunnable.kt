@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.PwDbOutputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import java.io.IOException
 
@@ -37,7 +37,7 @@ abstract class SaveDatabaseRunnable(protected var context: Context,
                 database.saveData(context.contentResolver)
             } catch (e: IOException) {
                 finishRun(false, e.message)
-            } catch (e: PwDbOutputException) {
+            } catch (e: DatabaseOutputException) {
                 finishRun(false, e.message)
             }
         }

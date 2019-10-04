@@ -51,9 +51,15 @@
             android:icon="@drawable/prefs_data_usage_24dp"
             android:persistent="false" />
 		<Preference
-			android:key="@string/settings_database_change_credentials_key"
-			android:title="@string/menu_change_key_settings"
-			android:icon="@drawable/prefs_key_white_24dp"
+			android:key="@string/settings_database_security_key"
+			android:title="@string/security"
+			android:icon="@drawable/prefs_security_24dp"
+			android:dependency="@string/settings_database_key"
+			android:persistent="false" />
+		<Preference
+			android:key="@string/settings_database_credentials_key"
+			android:title="@string/master_key"
+			android:icon="@drawable/prefs_key_24dp"
 			android:dependency="@string/settings_database_key"
 			android:persistent="false" />
 	</PreferenceCategory>

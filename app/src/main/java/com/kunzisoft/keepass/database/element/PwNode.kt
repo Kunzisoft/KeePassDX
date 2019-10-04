@@ -90,7 +90,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
     final override var isExpires: Boolean
         // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
         get() = expiryTime.date
-                ?.before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate()) ?: true
+                .before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate())
         set(value) {
             if (!value) {
                 expiryTime = PwDate.PW_NEVER_EXPIRE

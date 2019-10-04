@@ -1,6 +1,6 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *
+ *     
  * This file is part of KeePass DX.
  *
  *  KeePass DX is free software: you can redistribute it and/or modify
@@ -19,22 +19,10 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-import android.net.Uri
-import java.io.FileNotFoundException
+class DatabaseOutputException : Exception {
+    constructor(string: String) : super(string)
 
-class ContentFileNotFoundException : FileNotFoundException() {
-    companion object {
-        fun getInstance(uri: Uri?): FileNotFoundException {
-            if (uri == null) {
-                return FileNotFoundException()
-            }
+    constructor(string: String, e: Exception) : super(string, e)
 
-            val scheme = uri.scheme
-            return if (scheme != null
-                    && scheme.isNotEmpty()
-                    && scheme.equals("content", ignoreCase = true)) {
-                ContentFileNotFoundException()
-            } else FileNotFoundException()
-        }
-    }
+    constructor(e: Exception) : super(e)
 }

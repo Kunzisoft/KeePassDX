@@ -114,7 +114,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
 
                         dismiss()
                     }
-                    .setNegativeButton(R.string.cancel) { _, _ ->
+                    .setNegativeButton(android.R.string.cancel) { _, _ ->
                         val bundle = Bundle()
                         mListener?.cancelPassword(bundle)
 

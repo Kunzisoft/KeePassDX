@@ -35,7 +35,6 @@
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
     <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>
-    <string name="cancel">Avbryt</string>
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
@@ -77,7 +76,6 @@
     <string name="error_load_database_KDF_memory">Kunne ikke laste nøkkelen, prøv å senke minnet brukt av KDF.</string>
     <string name="error_pass_gen_type">Minst én passordgenereringstype må velges.</string>
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
-    <string name="error_rounds_not_number">\"Omganger\" må være et tall.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
     <string name="error_title_required">En tittel er påkrevd.</string>
@@ -86,7 +84,6 @@
     <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltverdi</string>
-    <string name="file_not_found">Fant ikke filen.</string>
     <string name="file_not_found_content">Fant ikke filen. Prøv å åpne den fra din innholdsleverandør.</string>
     <string name="file_browser">Filutforsker</string>
     <string name="generate_password">Opprett passord</string>
@@ -199,7 +196,7 @@
     <string name="biometric_scanning_error">Fingeravtrykksproblem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bruk fingeravtrykk til å lagre dette passordet</string>
     <string name="no_credentials_stored">Denne databasen har ikke et passord enda.</string>
-    <string name="history">Historikk</string>
+    <string name="database_history">Historikk</string>
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>
@@ -245,12 +242,9 @@
     <string name="recycle_bin_summary">Flytt en gruppe eller oppføring til \"Papirkurv\" før sletting</string>
     <string name="monospace_font_fields_enable_title">Feltskrift</string>
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
-    <string name="auto_open_file_uri_title">Åpne valgt fil automatisk</string>
-    <string name="auto_open_file_uri_summary">Åpne en fil fra utvalgsskjermen automatisk etter at et valg er gjort i filutforskeren</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
     <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
-    <string name="open_link_database">Lenke til KDBD-filen å åpne</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>
     <string name="database_version_title">Databaseversjon</string>
@@ -283,8 +277,6 @@
     <string name="education_create_database_summary">Du kjenner ikke KeePass DX enda, opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
     <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
-    <string name="education_open_link_database_title">En lenke til plasseringen av filen din er nok</string>
-    <string name="education_open_link_database_summary">Du kan også åpne din database med en fysisk lenke (med file:// og content:// for eksempel).</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
     <string name="education_new_node_summary">Legg til oppføringer for å behandle dine digitale identiteter.
 \n
@@ -373,8 +365,6 @@
     <string name="delete_entered_password_title">Slett passord</string>
     <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
     <string name="content_description_open_file">Åpne fil</string>
-    <string name="content_description_show_file_link">Vis fillenke</string>
-    <string name="content_description_open_file_link">Åpne fillenke</string>
     <string name="content_description_add_node">Legg til node</string>
     <string name="content_description_add_entry">Legg til oppføring</string>
     <string name="content_description_add_group">Legg til gruppe</string>

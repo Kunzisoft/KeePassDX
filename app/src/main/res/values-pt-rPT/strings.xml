@@ -32,7 +32,6 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>
@@ -71,14 +70,12 @@
     <string name="error_out_of_memory">Sem memória para carregar toda a bases de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_title_required">Adicione um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found">Não pôde encontrar o ficheiro.</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
     <string name="file_browser">Localizador de ficheiros</string>
     <string name="generate_password">Gerar palavra-chave</string>
@@ -212,7 +209,7 @@
     <string name="biometric_scanning_error">Problema da Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
@@ -253,11 +250,8 @@
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
-    <string name="auto_open_file_uri_title">Abrir ficheiros ao selecionar</string>
-    <string name="auto_open_file_uri_summary">Abrir automaticamente ficheiros selecionados no gerenciador de ficheiros</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da palavra-passe e de campos protegidos para a área de transferência</string>
-    <string name="open_link_database">Link do ficheiro da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -274,8 +268,6 @@
     <string name="education_create_database_summary">Crie seu primeiro ficheiro de gerenciamento de palavras-passe.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de ficheiros.</string>
-    <string name="education_open_link_database_title">Um link para a localização do seu ficheiro é suficiente</string>
-    <string name="education_open_link_database_summary">Você pode também abrir o seu banco com um link físico (com file:// e content:// por exemplo).</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
     <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
 \n 
@@ -379,8 +371,6 @@
     <string name="delete_entered_password_title">Deletar palavra-passe</string>
     <string name="delete_entered_password_summary">Deleta a palavra-passe inserida após uma tentativa de conexão</string>
     <string name="content_description_open_file">Abrir ficheiro</string>
-    <string name="content_description_show_file_link">Exibir link do ficheiro</string>
-    <string name="content_description_open_file_link">Abrir link do ficheiro</string>
     <string name="content_description_node_children">Crianças do nó</string>
     <string name="content_description_add_node">Inserir nó</string>
     <string name="content_description_add_entry">Adicionar entrada</string>

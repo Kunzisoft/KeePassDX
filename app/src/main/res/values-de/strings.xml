@@ -36,7 +36,6 @@
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>
-    <string name="cancel">Abbrechen</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Einige Samsung Android-Smartphones lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
@@ -75,14 +74,12 @@
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
     <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
-    <string name="error_rounds_not_number">„Transformationsrunden“ zu einer Zahl machen.</string>
     <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 214748364848 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
     <string name="error_title_required">Titel hinzufügen.</string>
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found">Datei nicht gefunden.</string>
     <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>
@@ -207,7 +204,7 @@
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="biometric_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="biometric_scanning_error">Problem mit dem Fingerabdruck: %1$s</string>
-    <string name="history">Verlauf</string>
+    <string name="database_history">Verlauf</string>
     <string name="fingerprint_advanced_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
     <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
     <string name="fingerprint_setting_link_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
@@ -259,11 +256,8 @@
     <string name="recycle_bin_summary">Verschiebt Gruppen oder Einträge in den Papierkorb, bevor sie gelöscht werden.</string>
     <string name="monospace_font_fields_enable_title">Feldschriftart</string>
     <string name="monospace_font_fields_enable_summary">Schriftart in Feldern ändern, um Lesbarkeit zu verbessern</string>
-    <string name="auto_open_file_uri_title">Gewählte Datei automatisch öffnen</string>
-    <string name="auto_open_file_uri_summary">Dateien nach Auswahl im Dateimanager automatisch öffnen</string>
     <string name="allow_copy_password_title">Zwischenablage vertrauen</string>
     <string name="allow_copy_password_summary">Kopieren des Passworts und der geschützten Felder in die Zwischenablage erlauben</string>
-    <string name="open_link_database">Link zu der zu öffnenden Datenbank</string>
     <string name="database_name_title">Datenbankname</string>
     <string name="database_description_title">Datenbankbeschreibung</string>
     <string name="database_version_title">Datenbankversion</string>
@@ -280,8 +274,6 @@
     <string name="education_create_database_summary">Die erste Datei zur Passwortverwaltung erstellen.</string>
     <string name="education_select_database_title">Existierende Datenbank öffnen</string>
     <string name="education_select_database_summary">Eine frühere Datenbankdatei über den Dateimanager öffnen, um sie weiter zu verwenden.</string>
-    <string name="education_open_link_database_title">Ein Link zum Speicherort der Datei ist ausreichend</string>
-    <string name="education_open_link_database_summary">Die Datenbank lässt sich auch mit einem physischen Link öffnen (z. B. mit file:// und content://).</string>
     <string name="education_new_node_title">Datenbankelemente hinzufügen</string>
     <string name="education_new_node_summary">Einträge helfen, die digitalen Identitäten zu verwalten. 
 \n 
@@ -391,8 +383,6 @@
     <string name="delete_entered_password_title">Passwort löschen</string>
     <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch</string>
     <string name="content_description_open_file">Datei öffnen</string>
-    <string name="content_description_show_file_link">Datei-Verknüpfung anzeigen</string>
-    <string name="content_description_open_file_link">Datei-Verknüpfung öffnen</string>
     <string name="content_description_add_entry">Eintrag hinzufügen</string>
     <string name="content_description_add_group">Gruppe hinzufügen</string>
     <string name="content_description_file_information">Datei-Informationen</string>

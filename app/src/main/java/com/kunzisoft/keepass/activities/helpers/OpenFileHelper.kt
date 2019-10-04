@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.activities.helpers
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Activity.RESULT_OK
 import android.content.Context
@@ -26,10 +27,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentActivity
 import android.util.Log
 import android.view.View
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -39,7 +40,7 @@ class OpenFileHelper {
     private var fragment: Fragment? = null
 
     val openFileOnClickViewListener: OpenFileOnClickViewListener
-        get() = OpenFileOnClickViewListener(null)
+        get() = OpenFileOnClickViewListener()
 
     constructor(context: Activity) {
         this.activity = context
@@ -51,7 +52,7 @@ class OpenFileHelper {
         this.fragment = context
     }
 
-    inner class OpenFileOnClickViewListener(private val dataUri: (() -> Uri?)?) : View.OnClickListener {
+    inner class OpenFileOnClickViewListener : View.OnClickListener {
 
         override fun onClick(v: View) {
             try {
@@ -62,58 +63,44 @@ class OpenFileHelper {
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Enable to start the file picker activity", e)
-
-                // Open File picker if can't open activity
-                if (lookForOpenIntentsFilePicker(dataUri?.invoke()))
+                // Open browser dialog
+                if (lookForOpenIntentsFilePicker())
                     showBrowserDialog()
             }
         }
     }
 
+    @SuppressLint("InlinedApi")
     private fun openActivityWithActionOpenDocument() {
-        val i = Intent(ACTION_OPEN_DOCUMENT)
-        i.addCategory(Intent.CATEGORY_OPENABLE)
-        i.type = "*/*"
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            i.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
+        val intentOpenDocument = Intent(APP_ACTION_OPEN_DOCUMENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
                     Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
                     Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
-        } else {
-            i.flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         }
         if (fragment != null)
-            fragment?.startActivityForResult(i, OPEN_DOC)
+            fragment?.startActivityForResult(intentOpenDocument, OPEN_DOC)
         else
-            activity?.startActivityForResult(i, OPEN_DOC)
+            activity?.startActivityForResult(intentOpenDocument, OPEN_DOC)
     }
 
     private fun openActivityWithActionGetContent() {
-        val i = Intent(Intent.ACTION_GET_CONTENT)
-        i.addCategory(Intent.CATEGORY_OPENABLE)
-        i.type = "*/*"
+        val intentGetContent = Intent(Intent.ACTION_GET_CONTENT).apply {
+            addCategory(Intent.CATEGORY_OPENABLE)
+            type = "*/*"
+        }
         if (fragment != null)
-            fragment?.startActivityForResult(i, GET_CONTENT)
+            fragment?.startActivityForResult(intentGetContent, GET_CONTENT)
         else
-            activity?.startActivityForResult(i, GET_CONTENT)
+            activity?.startActivityForResult(intentGetContent, GET_CONTENT)
     }
 
-    fun getOpenFileOnClickViewListener(dataUri: () -> Uri?): OpenFileOnClickViewListener {
-        return OpenFileOnClickViewListener(dataUri)
-    }
-
-    private fun lookForOpenIntentsFilePicker(dataUri: Uri?): Boolean {
+    private fun lookForOpenIntentsFilePicker(): Boolean {
         var showBrowser = false
         try {
             if (isIntentAvailable(activity!!, OPEN_INTENTS_FILE_BROWSE)) {
                 val intent = Intent(OPEN_INTENTS_FILE_BROWSE)
-                // Get file path parent if possible
-                if (dataUri != null
-                        && dataUri.toString().isNotEmpty()
-                        && dataUri.scheme == "file") {
-                    intent.data = dataUri
-                } else {
-                    Log.w(javaClass.name, "Unable to read the URI")
-                }
                 if (fragment != null)
                     fragment?.startActivityForResult(intent, FILE_BROWSE)
                 else
@@ -220,15 +207,10 @@ class OpenFileHelper {
 
         private const val TAG = "OpenFileHelper"
 
-        private var ACTION_OPEN_DOCUMENT: String
-
-        init {
-            ACTION_OPEN_DOCUMENT = try {
-                val openDocument = Intent::class.java.getField("ACTION_OPEN_DOCUMENT")
-                openDocument.get(null) as String
-            } catch (e: Exception) {
-                "android.intent.action.OPEN_DOCUMENT"
-            }
+        private var APP_ACTION_OPEN_DOCUMENT: String = try {
+            Intent::class.java.getField("ACTION_OPEN_DOCUMENT").get(null) as String
+        } catch (e: Exception) {
+            "android.intent.action.OPEN_DOCUMENT"
         }
 
         const val OPEN_INTENTS_FILE_BROWSE = "org.openintents.action.PICK_FILE"

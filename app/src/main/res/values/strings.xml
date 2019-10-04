@@ -25,6 +25,8 @@
     <string name="add_entry">Add entry</string>
     <string name="edit_entry">Edit entry</string>
     <string name="add_group">Add group</string>
+    <string name="master_key">Master Key</string>
+    <string name="security">Security</string>
     <string name="encryption">Encryption</string>
     <string name="encryption_algorithm">Encryption algorithm</string>
     <string name="key_derivation_function">Key derivation function</string>
@@ -35,7 +37,6 @@
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
     <string name="file_manager_install_description">Create, Open and Save a database file requires installing a file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT</string>
-    <string name="cancel">Cancel</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
@@ -46,8 +47,6 @@
     <string name="clipboard_swipe_clean">Swipe to clear clipboard now</string>
     <string name="content_description_background">Background</string>
     <string name="content_description_open_file">Open file</string>
-    <string name="content_description_show_file_link">Show file link</string>
-    <string name="content_description_open_file_link">Open file link</string>
     <string name="content_description_node_children">Node children</string>
     <string name="content_description_add_node">Add node</string>
     <string name="content_description_add_entry">Add entry</string>
@@ -81,6 +80,7 @@
     <string name="entry_created">Created</string>
     <string name="entry_expires">Expires</string>
     <string name="entry_UUID">UUID</string>
+    <string name="entry_history">History</string>
     <string name="entry_keyfile">Keyfile</string>
     <string name="entry_modified">Modified</string>
     <string name="entry_not_found">Could not find entry data.</string>
@@ -100,8 +100,8 @@
     <string name="error_load_database">Could not load your database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
+    <string name="error_disallow_no_credentials">At lest one credential must be set.</string>
     <string name="error_pass_match">The passwords do not match.</string>
-    <string name="error_rounds_not_number">Make \"Transformation rounds\" a number.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
     <string name="error_title_required">Add a title.</string>
@@ -113,7 +113,6 @@
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
-    <string name="file_not_found">Could not find file.</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
     <string name="file_browser">File browser</string>
     <string name="generate_password">Generate password</string>
@@ -128,6 +127,7 @@
     <string name="install_from_play_store">Install from Play Store</string>
     <string name="invalid_password">Could not read password or keyfile.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
+    <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
     <string name="keyfile_does_not_exist">No keyfile exists.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
@@ -150,6 +150,8 @@
     <string name="menu_form_filling_settings">Form filling</string>
     <string name="menu_advanced_unlock_settings">Advanced unlock</string>
     <string name="menu_database_settings">Database settings</string>
+    <string name="menu_security_settings">Security settings</string>
+    <string name="menu_master_key_settings">Master Key settings</string>
     <string name="menu_donate">Donate</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_copy">Copy</string>
@@ -181,6 +183,8 @@
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">KeePass DX needs write permission in order to change anything in your database.</string>
     <string name="read_only_kitkat_warning">Starting with Android KitKat, some devices no longer allow apps to write to the SD card.</string>
+    <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
+    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePass DX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
     <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
@@ -238,7 +242,7 @@
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="history">History</string>
+    <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
     <string name="general">General</string>
@@ -286,12 +290,22 @@
     <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">File path</string>
     <string name="full_file_path_enable_summary">View the full file path</string>
+    <string name="database_data_compression_title">Data compression</string>
+    <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Use recycle bin</string>
     <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
+    <string name="max_history_items_title">Max. history items</string>
+    <string name="max_history_items_summary">Limit number of history items per entry</string>
+    <string name="max_history_size_title">Max. history size</string>
+    <string name="max_history_size_summary">Limit history size per entry (in binary bytes)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Recommend changing</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Recommend changing the master key (days)</string>
+    <string name="settings_database_force_changing_master_key_title">Force changing</string>
+    <string name="settings_database_force_changing_master_key_summary">Force changing the master key (days)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Force changing the next time</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Force changing the master key the next time (once)</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
-    <string name="auto_open_file_uri_title">Open files by selecting</string>
-    <string name="auto_open_file_uri_summary">Auto open files when selected in the file browser</string>
     <string name="allow_copy_password_title">Clipboard trust</string>
     <string name="allow_copy_password_summary">Allow the entry password and protected fields to enter the clipboard</string>
     <string name="allow_copy_password_warning">WARNING: The clipboard is shared by all apps. If sensitive data is copied, other software may recover it.</string>
@@ -299,13 +313,17 @@
     <string name="disable">Disable</string>
     <string name="clear_clipboard_notification_title">Clear at closing</string>
     <string name="clear_clipboard_notification_summary">Close the database when closing the notification</string>
-    <string name="open_link_database">Link of database file to open</string>
     <string name="database_name_title">Database name</string>
     <string name="database_description_title">Database description</string>
+    <string name="database_default_username_title">Default username</string>
+    <string name="database_custom_color_title">Custom database color</string>
     <string name="database_version_title">Database version</string>
     <string name="text_appearance">Text</string>
     <string name="application_appearance">App</string>
     <string name="other">Other</string>
+    <string name="compression">Compression</string>
+    <string name="compression_none">None</string>
+    <string name="compression_gzip">GZip</string>
     <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -355,8 +373,6 @@
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
     <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
-    <string name="education_open_link_database_title">A link to the location of your file is sufficient</string>
-    <string name="education_open_link_database_summary">You can also open your database with a physical link (with file:// and content:// for example).</string>
     <!--both entries and groups are items-->
     <string name="education_new_node_title">Add items to your database</string>
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~ folders) organize entries in your database.</string>

@@ -30,7 +30,6 @@
     <string name="menu_app_settings">應用程式設定</string>
     <string name="brackets">括弧</string>
     <string name="file_manager_install_description">流覽檔需要安裝Open Intents File Manager軟體，點下面安裝。由於一些檔管理軟體的差異，在你第一次瀏覽時可能無法正常工作。</string>
-    <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪貼板已清除</string>
     <string name="clipboard_timeout">剪貼板超時</string>
     <string name="clipboard_timeout_summary">複製用戶名或密碼到剪貼板後清除的時間</string>
@@ -65,11 +64,9 @@
     <string name="error_out_of_memory">這款手機運行記憶體不足而不能解析資料庫。這可能是資料庫太大的緣故。</string>
     <string name="error_pass_gen_type">至少必須選擇一個密碼生成類型</string>
     <string name="error_pass_match">密碼不正確。</string>
-    <string name="error_rounds_not_number">次數必須是數字。</string>
     <string name="error_rounds_too_large">次數太多。最大設置到2147483648。</string>
     <string name="error_title_required">標題為必填。</string>
     <string name="error_wrong_length">長度欄位輸入一個正整數</string>
-    <string name="file_not_found">文件未找到。</string>
     <string name="file_browser">檔案管理器</string>
     <string name="generate_password">生成密碼</string>
     <string name="hint_conf_pass">確認密碼</string>

@@ -254,7 +254,7 @@
 			android:layout_margin="@dimen/default_margin"
 			android:orientation="vertical">
 
-			<!-- Expires -->
+			<!-- UUID -->
 			<androidx.appcompat.widget.AppCompatTextView
 				android:id="@+id/entry_UUID_label"
 				android:layout_width="match_parent"
@@ -271,6 +271,95 @@
 					android:textIsSelectable="true"
 					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 			</HorizontalScrollView>
+
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<androidx.cardview.widget.CardView
+		android:id="@+id/entry_history_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- History -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_history_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_history"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
+			<androidx.constraintlayout.widget.ConstraintLayout
+				xmlns:app="http://schemas.android.com/apk/res-auto"
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="4dp"
+				android:layout_marginBottom="4dp">
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_history_last_modified"
+					android:text="@string/entry_modified"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
+					app:layout_constraintStart_toStartOf="parent"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toStartOf="@+id/entry_history_title"
+					android:gravity="center"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_history_title"
+					android:text="@string/entry_title"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
+					app:layout_constraintStart_toEndOf="@+id/entry_history_last_modified"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toStartOf="@+id/entry_history_username"
+					android:gravity="center"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_history_username"
+					android:text="@string/entry_user_name"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
+					app:layout_constraintStart_toEndOf="@+id/entry_history_title"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toStartOf="@+id/entry_history_url"
+					android:gravity="center"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content" />
+
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_history_url"
+					android:text="@string/entry_url"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTableTextStyle"
+					app:layout_constraintStart_toEndOf="@+id/entry_history_username"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintEnd_toEndOf="parent"
+					android:gravity="center"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:visibility="gone"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/entry_history_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
 
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

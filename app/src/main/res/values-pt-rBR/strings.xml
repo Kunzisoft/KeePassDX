@@ -33,7 +33,6 @@
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Procure arquivos instalando o OpenIntents File Manager</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Duração do armazenamento na área de transferência</string>
@@ -68,11 +67,9 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_title_required">Insira um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="file_not_found">Não pôde encontrar o arquivo.</string>
     <string name="file_browser">Localizador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
     <string name="hint_conf_pass">confirmar senha</string>
@@ -216,7 +213,7 @@
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
@@ -261,12 +258,9 @@
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
-    <string name="auto_open_file_uri_title">Abrir arquivos ao selecionar</string>
-    <string name="auto_open_file_uri_summary">Abrir automaticamente arquivos selecionados no gerenciador de arquivos</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da senha e de campos protegidos para a área de transferência</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="open_link_database">Link do arquivo da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -299,8 +293,6 @@
     <string name="education_create_database_summary">Crie seu primeiro arquivo de gerenciamento de senhas.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de arquivos.</string>
-    <string name="education_open_link_database_title">Um link para a localização do seu arquivo é suficiente</string>
-    <string name="education_open_link_database_summary">Você pode também abrir o seu banco com um link físico (com file:// e content:// por exemplo).</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
     <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais.
 \n
@@ -393,8 +385,6 @@
     <string name="delete_entered_password_title">Deletar senha</string>
     <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão</string>
     <string name="content_description_open_file">Abrir arquivo</string>
-    <string name="content_description_show_file_link">Exibir link do arquivo</string>
-    <string name="content_description_open_file_link">Abrir link do arquivo</string>
     <string name="content_description_add_node">Inserir nó</string>
     <string name="content_description_add_entry">Adicionar entrada</string>
     <string name="content_description_add_group">Adicionar grupo</string>

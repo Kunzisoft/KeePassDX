@@ -34,7 +34,6 @@
     <string name="beta_dontask">Znovu neukázat</string>
     <string name="brackets">Závorky</string>
     <string name="file_manager_install_description">Instalace správce souborů OpenIntents k procházení souborů</string>
-    <string name="cancel">Storno</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
     <string name="clipboard_error_title">Chyba schránky</string>
     <string name="clipboard_error">Některé Android telefony od Samsungu nedovolují aplikacím používat schránku.</string>
@@ -73,14 +72,12 @@
     <string name="error_out_of_memory">Nedostatek paměti k otevření databáze.</string>
     <string name="error_pass_gen_type">Je třeba zvolit alespoň jeden způsob vytváření hesla.</string>
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
-    <string name="error_rounds_not_number">„Počet průchodů“ musí být číslo.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
     <string name="error_title_required">Přidejte název.</string>
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>
-    <string name="file_not_found">Soubor nenalezen.</string>
     <string name="file_browser">Správce souborů</string>
     <string name="generate_password">Vytvoř heslo</string>
     <string name="hint_conf_pass">potvrď heslo</string>
@@ -222,7 +219,7 @@
     <string name="biometric_scanning_error">Problém s otiskem prstu: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Použít pro uložení tohoto hesla otisk prstu</string>
     <string name="no_credentials_stored">Tato databáze zatím není chráněna heslem.</string>
-    <string name="history">Historie</string>
+    <string name="database_history">Historie</string>
     <string name="menu_appearance_settings">Vzhled</string>
     <string name="general">Obecné</string>
     <string name="autofill">Automatické vyplnění</string>
@@ -268,12 +265,9 @@
     <string name="recycle_bin_summary">Přesune skupiny a položky do „Koše“ před smazáním</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v položkách můžete přizpůsobit změnou písma</string>
-    <string name="auto_open_file_uri_title">Otevírat soubory vybráním</string>
-    <string name="auto_open_file_uri_summary">Otevírat soubory automaticky vybráním ve správci souborů</string>
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
     <string name="allow_copy_password_summary">Povolit kopírovat heslo a chráněné položky do schránky</string>
     <string name="allow_copy_password_warning">VAROVÁNÍ: Schránka je sdílena všemi aplikacemi. Pokud jsou do ní zkopírovány citlivé údaje, může se k nim dostat další software.</string>
-    <string name="open_link_database">Odkaz na otevíranou databázi</string>
     <string name="database_name_title">Název databáze</string>
     <string name="database_description_title">Popis databáze</string>
     <string name="database_version_title">Verze databáze</string>
@@ -306,8 +300,6 @@
     <string name="education_create_database_summary">Vytvořte svůj první soubor pro správu hesel.</string>
     <string name="education_select_database_title">Otevřít existující databázi</string>
     <string name="education_select_database_summary">Otevřete svou dříve používanou databázi ze správce souborů a pokračujte v jejím používání.</string>
-    <string name="education_open_link_database_title">Postačí odkaz na umístění souboru</string>
-    <string name="education_open_link_database_summary">Databázi také můžete otevírat pomocí fyzického odkazu (například s file:// a content://).</string>
     <string name="education_new_node_title">Přidejte položky do databáze</string>
     <string name="education_new_node_summary">Položky pomáhají se správou vašich digitálních identit. 
 \n 
@@ -393,8 +385,6 @@
     <string name="delete_entered_password_title">Smazat heslo</string>
     <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení</string>
     <string name="content_description_open_file">Otevři soubor</string>
-    <string name="content_description_show_file_link">Zobraz odkaz na soubor</string>
-    <string name="content_description_open_file_link">Otevři odkaz na soubor</string>
     <string name="content_description_node_children">Potomci uzlu</string>
     <string name="content_description_add_node">Přidej uzel</string>
     <string name="content_description_add_entry">Přidej záznam</string>

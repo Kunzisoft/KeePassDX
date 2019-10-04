@@ -35,7 +35,6 @@
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
     <string name="file_manager_install_description">OpenIntents Dosya Yöneticisi\'ni yükleyerek dosyalara göz atın</string>
-    <string name="cancel">İptal</string>
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>
@@ -77,7 +76,6 @@
     <string name="error_load_database_KDF_memory">Anahtar yüklenemedi. KDF \"Bellek Kullanımı\" nı azaltmaya çalışın.</string>
     <string name="error_pass_gen_type">En az bir parola oluşturma türü seçilmelidir.</string>
     <string name="error_pass_match">Parolalar uyuşmuyor.</string>
-    <string name="error_rounds_not_number">\"Dönüşüm turları\"nı bir sayı yapın.</string>
     <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. 2147483648\'e ayarlayın.</string>
     <string name="error_string_key">Her dizenin bir alan adı olmalıdır.</string>
     <string name="error_title_required">Bir başlık ekle.</string>
@@ -86,7 +84,6 @@
     <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>
     <string name="field_name">Alan adı</string>
     <string name="field_value">Alan değeri</string>
-    <string name="file_not_found">Dosya bulunamadı.</string>
     <string name="file_not_found_content">Dosya bulunamadı. Dosya tarayıcınızda yeniden açmayı deneyin.</string>
     <string name="file_browser">Dosya tarayıcı</string>
     <string name="generate_password">Parola üret</string>
@@ -202,7 +199,7 @@
     <string name="biometric_scanning_error">Parmak izi sorunu: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Bu şifreyi saklamak için parmak izini kullanın</string>
     <string name="no_credentials_stored">Bu veritabanının henüz bir parolası yok.</string>
-    <string name="history">Geçmiş</string>
+    <string name="database_history">Geçmiş</string>
     <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
@@ -247,12 +244,9 @@
     <string name="recycle_bin_summary">Silmeden önce grupları ve girdileri \"Geri Dönüşüm Kutusu\"na taşır</string>
     <string name="monospace_font_fields_enable_title">Yazı tipi alanı</string>
     <string name="monospace_font_fields_enable_summary">Daha iyi karakter görünürlüğü için alanlarda kullanılan yazı tipini değiştirin</string>
-    <string name="auto_open_file_uri_title">Seçerek dosyaları aç</string>
-    <string name="auto_open_file_uri_summary">Dosya tarayıcısında seçildiğinde dosyaları otomatik aç</string>
     <string name="allow_copy_password_title">Pano güveni</string>
     <string name="allow_copy_password_summary">Giriş parolası ve korunan alanların panoya aktarılmasına izin ver</string>
     <string name="allow_copy_password_warning">UYARI: Pano tüm uygulamalar tarafından paylaşılmaktadır. Hassas veriler kopyalanırsa, diğer yazılımlar onu alabilir.</string>
-    <string name="open_link_database">Açılacak veritabanı dosyasının bağlantısı</string>
     <string name="database_name_title">Veritabanı adı</string>
     <string name="database_description_title">Veritabanı açıklaması</string>
     <string name="database_version_title">Veritabanı sürümü</string>
@@ -303,8 +297,6 @@
     <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
     <string name="education_select_database_title">Mevcut bir veritabanını aç</string>
     <string name="education_select_database_summary">Kullanmaya devam etmek için önceki veritabanı dosyanızı dosya tarayıcınızdan açın.</string>
-    <string name="education_open_link_database_title">Dosyanızın konumuna bir bağlantı yeterlidir</string>
-    <string name="education_open_link_database_summary">Veritabanınızı fiziksel bir bağlantıyla da açabilirsiniz (örneğin file:// ve content:// ile).</string>
     <string name="education_new_node_title">Veritabanınıza öğe ekleyin</string>
     <string name="education_new_node_summary">Girdiler dijital kimliğinizi yönetmenize yardımcı olur.
 \n
@@ -368,8 +360,6 @@
     <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
     <string name="clear_clipboard_notification_summary">Bildirimi kapatırken veritabanını kapatın</string>
     <string name="content_description_open_file">Dosya aç</string>
-    <string name="content_description_show_file_link">Dosya bağlantısını göster</string>
-    <string name="content_description_open_file_link">Dosya bağlantısını aç</string>
     <string name="content_description_add_node">Düğüm ekle</string>
     <string name="content_description_add_entry">Girdi Ekle</string>
     <string name="content_description_add_group">Grup ekle</string>

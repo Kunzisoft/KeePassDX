@@ -31,7 +31,6 @@
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="file_manager_install_description">Przeglądaj pliki, instalując Menedżera plików OpenIntents</string>
-    <string name="cancel">Anuluj</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
     <string name="clipboard_timeout_summary">Czas przechowywania w schowku</string>
@@ -65,11 +64,9 @@
     <string name="error_out_of_memory">W urządzeniu zabrakło pamięci do załadowania całej bazy danych.</string>
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
-    <string name="error_rounds_not_number">\"Rundy szyfrowania\" muszą być liczbą.</string>
     <string name="error_rounds_too_large">\"Rundy szyfrowania\" są zbyt wysokie. Ustaw na 2147483648.</string>
     <string name="error_title_required">Dodaj tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\".</string>
-    <string name="file_not_found">Nie znaleziono pliku.</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="hint_conf_pass">potwierdź hasło</string>
@@ -220,7 +217,7 @@
     <string name="biometric_scanning_error">Problem z odciskiem palca: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Użyj odcisku palca, aby zapisać to hasło</string>
     <string name="no_credentials_stored">Baza danych nie ma jeszcze hasła.</string>
-    <string name="history">Historia</string>
+    <string name="database_history">Historia</string>
     <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
     <string name="autofill">Wypełnij automatycznie</string>
@@ -266,12 +263,9 @@
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do \"Kosza\" przed usunięciem</string>
     <string name="monospace_font_fields_enable_title">Pole czcionka</string>
     <string name="monospace_font_fields_enable_summary">Zmień czcionkę użytą w polach, aby poprawić widoczność postaci</string>
-    <string name="auto_open_file_uri_title">Otwórz pliki, wybierając</string>
-    <string name="auto_open_file_uri_summary">Automatyczne otwieranie plików po wybraniu w przeglądarce plików</string>
     <string name="allow_copy_password_title">Zaufanie do schowka</string>
     <string name="allow_copy_password_summary">Zezwalaj na zapisywanie hasła dostepu i chronionych pól do schowka</string>
     <string name="allow_copy_password_warning">OSTRZEŻENIE: schowek jest udostępniany przez wszystkie aplikacje. Jeśli dane wrażliwe zostaną skopiowane, inne oprogramowanie może je odzyskać.</string>
-    <string name="open_link_database">Link do otwarcia pliku bazy danych</string>
     <string name="database_name_title">Nazwa bazy danych</string>
     <string name="database_description_title">Opis bazy danych</string>
     <string name="database_version_title">Wersja bazy danych</string>
@@ -304,8 +298,6 @@
     <string name="education_create_database_summary">Utwórz swój pierwszy plik zarządzania hasłami.</string>
     <string name="education_select_database_title">Otwórz istniejącą bazę danych</string>
     <string name="education_select_database_summary">Otwórz starszy plik bazy danych w przeglądarce plików, aby nadal z niego korzystać.</string>
-    <string name="education_open_link_database_title">Link do lokalizacji pliku jest wystarczający</string>
-    <string name="education_open_link_database_summary">Możesz także otworzyć swoją bazę danych za pomocą fizycznego linku (with file:// and content:// for example).</string>
     <string name="education_new_node_title">Dodaj elementy do swojej bazy danych</string>
     <string name="education_new_node_summary">"Dodaj wpisy, aby zarządzać swoimi cyfrowymi tożsamościami.
 \n  
@@ -389,8 +381,6 @@
     <string name="delete_entered_password_title">Usuń hasło</string>
     <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia</string>
     <string name="content_description_open_file">Otwórz plik</string>
-    <string name="content_description_show_file_link">Pokaż link do pliku</string>
-    <string name="content_description_open_file_link">Otwórz link do pliku</string>
     <string name="content_description_add_entry">Dodaj wpis</string>
     <string name="content_description_add_group">Dodaj grupę</string>
     <string name="content_description_file_information">Informacje o pliku</string>

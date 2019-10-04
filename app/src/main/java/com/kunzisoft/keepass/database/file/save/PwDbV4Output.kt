@@ -29,9 +29,9 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.*
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.PwDbOutputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -63,14 +63,14 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     private var headerHmac: ByteArray? = null
     private var engine: CipherEngine? = null
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun output() {
 
         try {
             try {
                 engine = CipherFactory.getInstance(mDatabaseV4.dataCipher)
             } catch (e: NoSuchAlgorithmException) {
-                throw PwDbOutputException("No such cipher", e)
+                throw DatabaseOutputException("No such cipher", e)
             }
 
             header = outputHeader(mOS)
@@ -91,10 +91,9 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
             val osXml: OutputStream
             try {
-                if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
-                    osXml = GZIPOutputStream(osPlain)
-                } else {
-                    osXml = osPlain
+                osXml = when(mDatabaseV4.compressionAlgorithm) {
+                    PwCompressionAlgorithm.GZip -> GZIPOutputStream(osPlain)
+                    else -> osPlain
                 }
 
                 if (header!!.version >= PwDbHeaderV4.FILE_VERSION_32_4) {
@@ -105,13 +104,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                 outputDatabase(osXml)
                 osXml.close()
             } catch (e: IllegalArgumentException) {
-                throw PwDbOutputException(e)
+                throw DatabaseOutputException(e)
             } catch (e: IllegalStateException) {
-                throw PwDbOutputException(e)
+                throw DatabaseOutputException(e)
             }
 
         } catch (e: IOException) {
-            throw PwDbOutputException(e)
+            throw DatabaseOutputException(e)
         }
     }
 
@@ -229,7 +228,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         xml.endTag(null, PwDatabaseV4XML.ElemMeta)
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     private fun attachStreamEncryptor(header: PwDbHeaderV4, os: OutputStream): CipherOutputStream {
         val cipher: Cipher
         try {
@@ -237,13 +236,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
             cipher = engine!!.getCipher(Cipher.ENCRYPT_MODE, mDatabaseV4.finalKey!!, header.encryptionIV)
         } catch (e: Exception) {
-            throw PwDbOutputException("Invalid algorithm.", e)
+            throw DatabaseOutputException("Invalid algorithm.", e)
         }
 
         return CipherOutputStream(os, cipher)
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun setIVs(header: PwDbHeaderV4): SecureRandom {
         val random = super.setIVs(header)
         random.nextBytes(header.masterSeed)
@@ -259,7 +258,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         }
 
         try {
-            val kdf = KdfFactory.getEngineV4(mDatabaseV4.kdfParameters)
+            val kdf = mDatabaseV4.getEngineV4(mDatabaseV4.kdfParameters)
             kdf.randomize(mDatabaseV4.kdfParameters!!)
         } catch (unknownKDF: UnknownKDF) {
             Log.e(TAG, "Unable to retrieve header", unknownKDF)
@@ -276,7 +275,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
         if (randomStream == null) {
-            throw PwDbOutputException("Invalid random cipher")
+            throw DatabaseOutputException("Invalid random cipher")
         }
 
         if (header.version < PwDbHeaderV4.FILE_VERSION_32_4) {
@@ -286,7 +285,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         return random
     }
 
-    @Throws(PwDbOutputException::class)
+    @Throws(DatabaseOutputException::class)
     override fun outputHeader(outputStream: OutputStream): PwDbHeaderV4 {
 
         val header = PwDbHeaderV4(mDatabaseV4)
@@ -296,7 +295,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         try {
             pho.output()
         } catch (e: IOException) {
-            throw PwDbOutputException("Failed to output the header.", e)
+            throw DatabaseOutputException("Failed to output the header.", e)
         }
 
         hashOfHeader = pho.hashOfHeader
@@ -403,7 +402,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                 }
 
             } else {
-                if (mDatabaseV4.getCompressionAlgorithm() == PwCompressionAlgorithm.Gzip) {
+                if (mDatabaseV4.getCompressionAlgorithm() == PwCompressionAlgorithm.GZip) {
 
                     xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
 
@@ -445,7 +444,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                     xml.text(String(Base64Coder.encode(encoded)))
 
                 } else {
-                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
+                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
                         xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
                         val compressData = MemoryUtil.compress(buffer)

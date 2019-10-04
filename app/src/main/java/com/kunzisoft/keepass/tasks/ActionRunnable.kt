@@ -24,6 +24,7 @@ import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 /**
  * Callback after a task is completed.
@@ -52,8 +53,21 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
      * launch the nested action runnable if exists and finish,
      * else directly finish
      */
-    protected fun finishRun(isSuccess: Boolean, message: String? = null) {
+    protected fun finishRun(isSuccess: Boolean,
+                            message: String? = null) {
+        finishRun(isSuccess, null, message)
+    }
+
+    /**
+     * If [success] or [executeNestedActionIfResultFalse] true,
+     * launch the nested action runnable if exists and finish,
+     * else directly finish
+     */
+    protected fun finishRun(isSuccess: Boolean,
+                            exception: LoadDatabaseException?,
+                            message: String? = null) {
         result.isSuccess = isSuccess
+        result.exception = exception
         result.message = message
         if (isSuccess || executeNestedActionIfResultFalse) {
             execute()
@@ -89,5 +103,8 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
     /**
      * Class to manage result from ActionRunnable
      */
-    data class Result(var isSuccess: Boolean = true, var message: String? = null, var data: Bundle? = null)
+    data class Result(var isSuccess: Boolean = true,
+                      var message: String? = null,
+                      var exception: LoadDatabaseException? = null,
+                      var data: Bundle? = null)
 }

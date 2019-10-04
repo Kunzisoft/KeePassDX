@@ -73,6 +73,8 @@ class DeleteGroupRunnable(context: FragmentActivity,
             result.data = Bundle().apply {
                 putInt(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY, position )
             }
+        } ?: run {
+            result.data?.remove(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY)
         }
 
         // Return a copy of unchanged group as old param

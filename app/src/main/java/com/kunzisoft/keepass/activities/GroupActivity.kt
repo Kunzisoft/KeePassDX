@@ -18,7 +18,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.SearchManager
 import android.app.assist.AssistStructure
@@ -29,16 +28,16 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -62,7 +61,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
-import net.cachapa.expandablelayout.ExpandableLayout
+import com.kunzisoft.keepass.view.collapse
+import com.kunzisoft.keepass.view.expand
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -75,7 +75,6 @@ class GroupActivity : LockingActivity(),
     // Views
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
-    private var toolbarPasteExpandableLayout: ExpandableLayout? = null
     private var toolbarPaste: Toolbar? = null
     private var iconView: ImageView? = null
     private var modeTitleView: TextView? = null
@@ -115,9 +114,20 @@ class GroupActivity : LockingActivity(),
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
-        toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout)
         toolbarPaste = findViewById(R.id.toolbar_paste)
         modeTitleView = findViewById(R.id.mode_title_view)
+
+        toolbar?.title = ""
+        setSupportActionBar(toolbar)
+
+        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
+        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
+        toolbarPaste?.collapse(false)
+        toolbarPaste?.setNavigationOnClickListener {
+            toolbarPaste?.collapse()
+            mNodeToCopy = null
+            mNodeToMove = null
+        }
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
@@ -129,9 +139,11 @@ class GroupActivity : LockingActivity(),
             if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
                 mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
+                toolbarPaste?.expand(false)
             } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
                 mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
+                toolbarPaste?.expand(false)
             }
         }
 
@@ -152,17 +164,6 @@ class GroupActivity : LockingActivity(),
 
         // Update last access time.
         mCurrentGroup?.touch(modified = false, touchParents = false)
-
-        toolbar?.title = ""
-        setSupportActionBar(toolbar)
-
-        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
-        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
-        toolbarPaste?.setNavigationOnClickListener {
-            toolbarPasteExpandableLayout?.collapse()
-            mNodeToCopy = null
-            mNodeToMove = null
-        }
 
         // Retrieve the textColor to tint the icon
         val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
@@ -449,7 +450,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onCopyMenuClick(node: NodeVersioned): Boolean {
-        toolbarPasteExpandableLayout?.expand()
+        toolbarPaste?.expand()
         mNodeToCopy = node
         toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
         return false
@@ -457,7 +458,7 @@ class GroupActivity : LockingActivity(),
 
     private inner class OnCopyMenuItemClickListener : Toolbar.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPasteExpandableLayout?.collapse()
+            toolbarPaste?.collapse()
 
             when (item.itemId) {
                 R.id.menu_paste -> {
@@ -489,7 +490,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onMoveMenuClick(node: NodeVersioned): Boolean {
-        toolbarPasteExpandableLayout?.expand()
+        toolbarPaste?.expand()
         mNodeToMove = node
         toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
         return false
@@ -497,7 +498,7 @@ class GroupActivity : LockingActivity(),
 
     private inner class OnMoveMenuItemClickListener : Toolbar.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPasteExpandableLayout?.collapse()
+            toolbarPaste?.collapse()
 
             when (item.itemId) {
                 R.id.menu_paste -> {

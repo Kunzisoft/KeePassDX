@@ -24,11 +24,8 @@ import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.NodeHandler
-import com.kunzisoft.keepass.database.element.PwNodeV4Interface
-import com.kunzisoft.keepass.database.element.PwDatabaseV4
-import com.kunzisoft.keepass.database.element.PwEntryV4
-import com.kunzisoft.keepass.database.element.PwGroupV4
-import com.kunzisoft.keepass.database.exception.InvalidDBVersionException
+import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.exception.LoadDatabaseVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
@@ -51,10 +48,10 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
 
     // version < FILE_VERSION_32_4)
     var transformSeed: ByteArray?
-        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.ParamSeed)
+        get() = databaseV4.kdfParameters?.getByteArray(AesKdf.PARAM_SEED)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            databaseV4.kdfParameters?.setByteArray(AesKdf.ParamSeed, seed)
+            databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, seed)
         }
 
     object PwDbHeaderV4Fields {
@@ -133,9 +130,9 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     /** Assumes the input stream is at the beginning of the .kdbx file
      * @param inputStream
      * @throws IOException
-     * @throws InvalidDBVersionException
+     * @throws LoadDatabaseVersionException
      */
-    @Throws(IOException::class, InvalidDBVersionException::class)
+    @Throws(IOException::class, LoadDatabaseVersionException::class)
     fun loadFromFile(inputStream: InputStream): HeaderAndHash {
         val messageDigest: MessageDigest
         try {
@@ -153,12 +150,12 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         val sig2 = littleEndianDataInputStream.readInt()
 
         if (!matchesHeader(sig1, sig2)) {
-            throw InvalidDBVersionException()
+            throw LoadDatabaseVersionException()
         }
 
         version = littleEndianDataInputStream.readUInt() // Erase previous value
         if (!validVersion(version)) {
-            throw InvalidDBVersionException()
+            throw LoadDatabaseVersionException()
         }
 
         var done = false
@@ -229,7 +226,9 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     }
 
     private fun assignAesKdfEngineIfNotExists() {
-        if (databaseV4.kdfParameters == null || databaseV4.kdfParameters!!.uuid != KdfFactory.aesKdf.uuid) {
+        val kdfParams = databaseV4.kdfParameters
+        if (kdfParams == null
+                || kdfParams.uuid != KdfFactory.aesKdf.uuid) {
             databaseV4.kdfParameters = KdfFactory.aesKdf.defaultParameters
         }
     }
@@ -246,7 +245,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
         val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
-        databaseV4.kdfParameters?.setUInt64(AesKdf.ParamRounds, rounds)
+        databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
 
@@ -261,7 +260,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Unrecognized compression flag.")
         }
 
-        PwCompressionAlgorithm.fromId(flag)?.let { compression ->
+        getCompressionFromFlag(flag)?.let { compression ->
             databaseV4.compressionAlgorithm =  compression
         }
     }
@@ -298,6 +297,21 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
         private const val FILE_VERSION_CRITICAL_MASK: Long = -0x10000
         const val FILE_VERSION_32_3: Long = 0x00030001
         const val FILE_VERSION_32_4: Long = 0x00040000
+
+        fun getCompressionFromFlag(flag: Int): PwCompressionAlgorithm? {
+            return when (flag) {
+                0 -> PwCompressionAlgorithm.None
+                1 -> PwCompressionAlgorithm.GZip
+                else -> null
+            }
+        }
+
+        fun getFlagFromCompression(compression: PwCompressionAlgorithm): Int {
+            return when (compression) {
+                PwCompressionAlgorithm.GZip -> 1
+                else -> 0
+            }
+        }
 
         fun matchesHeader(sig1: Int, sig2: Int): Boolean {
             return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
