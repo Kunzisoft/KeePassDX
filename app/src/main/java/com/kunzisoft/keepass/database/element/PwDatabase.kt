@@ -167,15 +167,18 @@ abstract class PwDatabase<
 
     protected abstract fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray?
 
-    open fun validatePasswordEncoding(key: String?): Boolean {
-        if (key == null)
+    open fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+        if (password == null && !containsKeyFile)
             return false
+
+        if (password == null)
+            return true
 
         val encoding = passwordEncoding
 
         val bKey: ByteArray
         try {
-            bKey = key.toByteArray(charset(encoding))
+            bKey = password.toByteArray(charset(encoding))
         } catch (e: UnsupportedEncodingException) {
             return false
         }
@@ -186,7 +189,7 @@ abstract class PwDatabase<
         } catch (e: UnsupportedEncodingException) {
             return false
         }
-        return key == reEncoded
+        return password == reEncoded
     }
 
     /*

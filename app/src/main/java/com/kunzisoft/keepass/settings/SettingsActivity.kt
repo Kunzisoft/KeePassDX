@@ -115,7 +115,7 @@ open class SettingsActivity
                         true)
             }
             // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword)) {
+            if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
                 progressDialogThread.start()
             } else {
                 PasswordEncodingDialogFragment().apply {

@@ -457,10 +457,10 @@ class PasswordActivity : StylishActivity() {
                             if (cipherDatabaseEntity != null) {
                                 CipherDatabaseAction.getInstance(this@PasswordActivity)
                                         .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                            checkAndLaunchGroupActivity(database, password)
+                                            checkAndLaunchGroupActivity(database, password, keyFileUri)
                                         }
                             } else {
-                                checkAndLaunchGroupActivity(database, password)
+                                checkAndLaunchGroupActivity(database, password, keyFileUri)
                             }
 
                         } else {
@@ -540,8 +540,8 @@ class PasswordActivity : StylishActivity() {
         FileDatabaseHistoryAction.getInstance(this).addOrUpdateDatabaseUri(databaseUri, keyFileUri)
     }
 
-    private fun checkAndLaunchGroupActivity(database: Database, password: String?) {
-        if (database.validatePasswordEncoding(password)) {
+    private fun checkAndLaunchGroupActivity(database: Database, password: String?, keyFileUri: Uri?) {
+        if (database.validatePasswordEncoding(password, keyFileUri != null)) {
             launchGroupActivity()
         } else {
             PasswordEncodingDialogFragment().apply {

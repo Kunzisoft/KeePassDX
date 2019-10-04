@@ -353,7 +353,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
+                AssignMasterKeyDialogFragment.getInstance(true)
+                        .show(supportFragmentManager, "passwordDialog")
             }
             // else {
                 // TODO Show error

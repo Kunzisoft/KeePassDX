@@ -499,6 +499,11 @@ class Database {
         return false
     }
 
+    fun allowNoMasterKey(): Boolean {
+        pwDatabaseV4?.let { return true }
+        return false
+    }
+
     fun allowEncryptionAlgorithmModification(): Boolean {
         return availableEncryptionAlgorithms.size > 1
     }
@@ -515,9 +520,9 @@ class Database {
         return kdfEngine?.getName(resources) ?: ""
     }
 
-    fun validatePasswordEncoding(key: String?): Boolean {
-        return pwDatabaseV3?.validatePasswordEncoding(key)
-                ?: pwDatabaseV4?.validatePasswordEncoding(key)
+    fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+        return pwDatabaseV3?.validatePasswordEncoding(password, containsKeyFile)
+                ?: pwDatabaseV4?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false
     }
 

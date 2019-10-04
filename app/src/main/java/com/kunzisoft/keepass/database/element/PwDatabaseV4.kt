@@ -461,10 +461,10 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
         return publicCustomData.size() > 0
     }
 
-    override fun validatePasswordEncoding(key: String?): Boolean {
-        if (key == null)
+    override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+        if (password == null)
             return true
-        return super.validatePasswordEncoding(key)
+        return super.validatePasswordEncoding(password, containsKeyFile)
     }
 
     override fun clearCache() {

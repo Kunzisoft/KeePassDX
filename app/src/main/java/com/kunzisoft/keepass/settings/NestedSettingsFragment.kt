@@ -458,7 +458,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {
                     fragmentManager?.let { fragmentManager ->
-                        AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                        AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey())
+                                .show(fragmentManager, "passwordDialog")
                     }
                     false
                 }
