@@ -178,13 +178,13 @@
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais pas configurée.</string>
-    <string name="open_biometric_prompt_unlock_database">Ouvrir l\'invité biométrique pour débloquer la base de données</string>
+    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n\'est pas configurée.</string>
+    <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
     <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
     <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Ouvrir l\'invité biométrique pour stoquer les identifiants</string>
+    <string name="open_biometric_prompt_store_credential">Ouvrir la boite de dialogue biométrique pour stocker les identifiants</string>
     <string name="no_credentials_stored">Cette base de données n’a pas encore enregistré d\'identifiant de connexion.</string>
     <string name="history">Historique</string>
     <string name="menu_appearance_settings">Apparence</string>
@@ -431,8 +431,8 @@
     <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
     <string name="biometric_prompt_extract_credential_message">Extraire les informations d\'identification de la base de données avec des données biométriques</string>
     <string name="biometric">Biométrique</string>
-    <string name="fingerprint_open_biometric_prompt">Ouvrez l\'invité biométrique en cliquant sur le bouton biométrique.</string>
-    <string name="fingerprint_auto_open_biometric_prompt">Vous pouvez modifier la préférence pour ouvrir rapidement l\'invite biométrique afin de ne pas répéter l\'étape 1.</string>
-    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement l\'invité biométrique</string>
-    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement l\'invité biométrique quand une clé biométrique est définie pour une base de données</string>
+    <string name="fingerprint_open_biometric_prompt">Ouvrez la boite de dialogue biométrique en cliquant sur le bouton biométrique.</string>
+    <string name="fingerprint_auto_open_biometric_prompt">Vous pouvez modifier la préférence pour ouvrir rapidement la boite de dialogue biométrique afin de ne pas répéter l\'étape 1.</string>
+    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement la boite de dialogue biométrique</string>
+    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
 </resources>
