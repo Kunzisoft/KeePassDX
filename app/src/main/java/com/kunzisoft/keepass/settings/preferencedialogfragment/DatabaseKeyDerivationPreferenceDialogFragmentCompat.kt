@@ -66,7 +66,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
                     val newKdfEngine = kdfEngineSelected
                     val oldKdfEngine = database.kdfEngine
                     if (newKdfEngine != null && oldKdfEngine != null) {
-                        database.assignKdfEngine(newKdfEngine)
+                        database.kdfEngine = newKdfEngine
                         actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
                     }
                 }
@@ -101,7 +101,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
                 if (result.isSuccess) {
                     mNewKdfEngine
                 } else {
-                    database?.assignKdfEngine(mOldKdfEngine)
+                    database?.kdfEngine = mOldKdfEngine
                     mOldKdfEngine
                 }
             preference.summary = kdfEngineToShow.getName(settingsResources)

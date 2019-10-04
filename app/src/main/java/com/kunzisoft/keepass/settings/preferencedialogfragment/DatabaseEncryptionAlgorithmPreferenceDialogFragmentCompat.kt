@@ -63,9 +63,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
                     if (algorithmSelected != null) {
                         val newAlgorithm = algorithmSelected
                         val oldAlgorithm = database.encryptionAlgorithm
-                        newAlgorithm?.let {
-                            database.assignEncryptionAlgorithm(it)
-                        }
+                        database.encryptionAlgorithm = newAlgorithm
 
                         if (oldAlgorithm != null && newAlgorithm != null)
                             actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
@@ -90,7 +88,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
                     if (result.isSuccess) {
                         mNewAlgorithm
                     } else {
-                        database?.assignEncryptionAlgorithm(mOldAlgorithm)
+                        database?.encryptionAlgorithm = mOldAlgorithm
                         mOldAlgorithm
                     }
             preference.summary = algorithmToShow.getName(settingsResources)

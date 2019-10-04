@@ -67,14 +67,22 @@ class Database {
             return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         }
 
-    val name: String
+    var name: String
         get() {
             return pwDatabaseV4?.name ?: ""
         }
+        set(name) {
+            pwDatabaseV4?.name = name
+            pwDatabaseV4?.nameChanged = PwDate()
+        }
 
-    val description: String
+    var description: String
         get() {
             return pwDatabaseV4?.description ?: ""
+        }
+        set(description) {
+            pwDatabaseV4?.description = description
+            pwDatabaseV4?.descriptionChanged = PwDate()
         }
 
     var defaultUsername: String
@@ -86,23 +94,55 @@ class Database {
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
+    // with format "#000000"
+    var color: String
+        get() {
+            return pwDatabaseV4?.color ?: ""
+        }
+        set(value) {
+            // TODO Check color string
+            pwDatabaseV4?.color = value
+        }
+
     val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
         get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
 
-    val compressionAlgorithm: PwCompressionAlgorithm?
+    var compressionAlgorithm: PwCompressionAlgorithm?
         get() = pwDatabaseV4?.compressionAlgorithm
+        set(value) {
+            value?.let {
+                pwDatabaseV4?.compressionAlgorithm = it
+            }
+            // TODO Compression
+        }
 
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
 
-    val encryptionAlgorithm: PwEncryptionAlgorithm?
+    var encryptionAlgorithm: PwEncryptionAlgorithm?
         get() = pwDatabaseV3?.encryptionAlgorithm ?: pwDatabaseV4?.encryptionAlgorithm
+        set(algorithm) {
+            algorithm?.let {
+                pwDatabaseV4?.encryptionAlgorithm = algorithm
+                pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
+                pwDatabaseV4?.dataCipher = algorithm.dataCipher
+            }
+        }
 
     val availableKdfEngines: List<KdfEngine>
         get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
 
-    val kdfEngine: KdfEngine?
+    var kdfEngine: KdfEngine?
         get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
+        set(kdfEngine) {
+            kdfEngine?.let {
+                if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
+                    pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
+                numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
+                memoryUsage = kdfEngine.defaultMemoryUsage
+                parallelism = kdfEngine.defaultParallelism
+            }
+        }
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -444,34 +484,23 @@ class Database {
         return false
     }
 
-    fun assignName(name: String) {
-        pwDatabaseV4?.name = name
-        pwDatabaseV4?.nameChanged = PwDate()
-    }
-
     fun containsDescription(): Boolean {
         pwDatabaseV4?.let { return true }
         return false
     }
 
-    fun assignDescription(description: String) {
-        pwDatabaseV4?.description = description
-        pwDatabaseV4?.descriptionChanged = PwDate()
+    fun containsDefaultUsername(): Boolean {
+        pwDatabaseV4?.let { return true }
+        return false
     }
 
-    fun assignCompressionAlgorithm(algorithm: PwCompressionAlgorithm) {
-        pwDatabaseV4?.compressionAlgorithm = algorithm
-        // TODO Compression
+    fun containsCustomColor(): Boolean {
+        pwDatabaseV4?.let { return true }
+        return false
     }
 
     fun allowEncryptionAlgorithmModification(): Boolean {
         return availableEncryptionAlgorithms.size > 1
-    }
-
-    fun assignEncryptionAlgorithm(algorithm: PwEncryptionAlgorithm) {
-        pwDatabaseV4?.encryptionAlgorithm = algorithm
-        pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
-        pwDatabaseV4?.dataCipher = algorithm.dataCipher
     }
 
     fun getEncryptionAlgorithmName(resources: Resources): String {
@@ -480,14 +509,6 @@ class Database {
 
     fun allowKdfModification(): Boolean {
         return availableKdfEngines.size > 1
-    }
-
-    fun assignKdfEngine(kdfEngine: KdfEngine) {
-        if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
-            pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
-        numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-        memoryUsage = kdfEngine.defaultMemoryUsage
-        parallelism = kdfEngine.defaultParallelism
     }
 
     fun getKeyDerivationName(resources: Resources): String {
