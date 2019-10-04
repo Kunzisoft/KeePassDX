@@ -283,7 +283,7 @@
     <string name="magic_keyboard_preference_title">Ustawienia Magikeyboard</string>
     <string name="magic_keyboard_configure_title">Skonfiguruj klawiaturę, aby bezpiecznie wypełniać formularze.</string>
     <string name="magic_keyboard_activate_setting_text">Aktywuj \"Magikeyboard\" w ustawieniach urządzenia.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
+    <string name="magic_keyboard_activate_device_keyboard_setting">Ustawienia klawiatury urządzenia</string>
     <string name="keyboards_choose_magikeyboard_text">Wybierz Magikeyboard, gdy potrzebujesz wypełnić formularz.</string>
     <string name="keyboards_swicth_magikeyboard_text">Przełączanie klawiatur poprzez długie naciskanie spacji klawiatury lub, jeśli nie jest ona dostępna, przy użyciu:</string>
     <string name="keyboard_select_entry_text">Wybierz wpis za pomocą klawisza.</string>
@@ -337,7 +337,7 @@
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, jest oprogramowaniem darmowym typu <strong>copylefted libre</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
-    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcja wizualna</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong>
+    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcji wizualnej</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong>
     </string>
     <string name="html_text_feature_generosity">Ta <strong>funkcja wizualna</strong> jest dostępna dzięki Twojej hojności.</string>
     <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong>
@@ -371,7 +371,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s dostępne na Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Wyczyść przy zamykaniu</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Zamknij bazę danych po zamknięciu powiadomienia.</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Zamknij bazę danych podczas zamykania powiadomienia</string>
     <string name="keyboard_appearance_category">Wygląd</string>
     <string name="keyboard_theme_title">Motyw klawiatury</string>
     <string name="keyboard_keys_category">Klawiatura</string>
@@ -406,7 +406,7 @@
     <string name="content_description_add_node">Dodaj węzeł</string>
     <string name="content_description_repeat_toggle_password_visibility">Powtórz przełączanie widoczności hasła</string>
     <string name="entry_UUID">UUID</string>
-    <string name="error_move_entry_here">W tym miejscu nie można przenieść wpisu.</string>
+    <string name="error_move_entry_here">W to miejsce nie można przenieść wpisu.</string>
     <string name="content_description_password_checkbox">Pole hasła</string>
     <string name="content_description_keyfile_checkbox">Pole pliku klucza</string>
     <string name="content_description_background">Tło</string>
@@ -415,11 +415,11 @@
     <string name="error_create_database_file">Nie można utworzyć bazy danych przy użyciu tego hasła i pliku klucza.</string>
     <string name="menu_advanced_unlock_settings">Zaawansowane odblokowywanie</string>
     <string name="biometric_prompt_store_credential_title">Zapisz rozpoznawanie biometryczne</string>
-    <string name="biometric_prompt_store_credential_message">Przechowuj dane biometryczne w bazie danych.</string>
+    <string name="biometric_prompt_store_credential_message">Przechowuj dane biometryczne w bazie danych</string>
     <string name="biometric_prompt_extract_credential_title">Otwarta baza danych z rozpoznawaniem biometrycznym</string>
     <string name="biometric_prompt_extract_credential_message">Wyodrębnij poświadczenia bazy danych z danymi biometrycznymi</string>
     <string name="biometric">Biometryczne</string>
-    <string name="fingerprint_open_biometric_prompt">Otwórz wpis biometryczny klikając na przycisk biometryczny.</string>
+    <string name="fingerprint_open_biometric_prompt">Otwórz wpis biometryczny klikając na przycisk Biometryczne.</string>
     <string name="fingerprint_auto_open_biometric_prompt">Możesz zmienić preferencje, aby szybko otworzyć monit biometryczny, aby nie powtarzać kroku 1.</string>
     <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
     <string name="enable">Włącz</string>
