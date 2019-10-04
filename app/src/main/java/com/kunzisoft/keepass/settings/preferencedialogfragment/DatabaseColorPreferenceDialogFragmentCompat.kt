@@ -154,8 +154,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         private const val TAG_FRAGMENT_COLORS = "TAG_FRAGMENT_COLORS"
 
         @ColorInt
-        const val DISABLE_COLOR: Int = Color.TRANSPARENT
-        @ColorInt
         const val DEFAULT_COLOR: Int = Color.WHITE
 
         fun newInstance(key: String): DatabaseColorPreferenceDialogFragmentCompat {

@@ -47,7 +47,7 @@
             android:key="@string/database_custom_color_key"
             android:persistent="false"
             android:title="@string/database_custom_color_title"
-            android:summary=""
+            android:summary="[color]"
             chroma:chromaShapePreview="ROUNDED_SQUARE"
             chroma:chromaColorMode="RGB"
             chroma:chromaIndicatorMode="HEX" />

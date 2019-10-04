@@ -28,6 +28,9 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.autofill.AutofillManager
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -49,8 +52,8 @@ import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
+import com.kunzisoft.keepass.settings.preference.DialogColorPreference.Companion.DISABLE_COLOR
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
-import com.kunzisoft.keepass.settings.preferencedialogfragment.DatabaseColorPreferenceDialogFragmentCompat.Companion.DISABLE_COLOR
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -516,6 +519,27 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         }
     }
 
+    private val colorSelectedListener: ((Boolean, Int)-> Unit)? = { enable, color ->
+        databaseCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
+        if (enable) {
+            databaseCustomColorPref?.color = color
+        } else {
+            databaseCustomColorPref?.color = DISABLE_COLOR
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        try {
+            // To reassign color listener after orientation change
+            val chromaDialog = fragmentManager?.findFragmentByTag(TAG_PREF_FRAGMENT) as DatabaseColorPreferenceDialogFragmentCompat?
+            chromaDialog?.onColorSelectedListener = colorSelectedListener
+        } catch (e: Exception) {}
+
+        return view
+    }
+
     override fun onDisplayPreferenceDialog(preference: Preference?) {
 
         var otherDialogFragment = false
@@ -535,15 +559,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_custom_color_key) -> {
                         dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
-                            onColorSelectedListener = { enable, color ->
-                                if (enable) {
-                                    databaseCustomColorPref?.color = color
-                                    databaseCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
-                                } else {
-                                    databaseCustomColorPref?.color = DISABLE_COLOR
-                                    databaseCustomColorPref?.summary = ""
-                                }
-                            }
+                            onColorSelectedListener = colorSelectedListener
                         }
                     }
                     preference.key == getString(R.string.database_data_compression_key) -> {
