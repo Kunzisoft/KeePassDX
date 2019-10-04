@@ -247,11 +247,13 @@ class PasswordActivity : StylishActivity() {
                 newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            newDefaultFileName?.let {
-                prefs?.edit()?.apply {
+            prefs?.edit()?.apply {
+                newDefaultFileName?.let {
                     putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
-                    apply()
+                } ?: kotlin.run {
+                    remove(KEY_DEFAULT_DATABASE_PATH)
                 }
+                apply()
             }
 
             val backupManager = BackupManager(this@PasswordActivity)
