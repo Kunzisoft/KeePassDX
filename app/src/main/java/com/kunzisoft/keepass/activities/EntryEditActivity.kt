@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
         IconPickerDialogFragment.IconPickerListener,
@@ -90,7 +91,7 @@ class EntryEditActivity : LockingHideActivity(),
         mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {
+        intent.getParcelableExtra<PwNodeId<UUID>>(KEY_ENTRY)?.let {
             mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
@@ -176,7 +177,7 @@ class EntryEditActivity : LockingHideActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = newEntry.username
+            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes

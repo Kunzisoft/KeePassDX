@@ -31,7 +31,6 @@
     <string name="beta_dontask">אל תציג שוב</string>
     <string name="brackets">סוגריים</string>
     <string name="file_manager_install_description">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
-    <string name="cancel">בטל</string>
     <string name="clipboard_cleared">לוח ההעתקה נוקה.</string>
     <string name="clipboard_error_title">שגיאת לוח ההעתקה</string>
     <string name="clipboard_error">במספר מכשירי אנרואיד מסמסונג קיים באג במימוש לוח ההעתקה שיכול לגרום לבעיות בהעתקה מהיישום. לעוד מידע עבור אל:</string>
@@ -74,7 +73,6 @@
     <string name="error_wrong_length">הזן מספר חיובי בשדה האורך</string>
     <string name="field_name">שם השדה</string>
     <string name="field_value">ערך השדה</string>
-    <string name="file_not_found">קובץ לא נמצא.</string>
     <string name="file_browser">סייר קבצים</string>
     <string name="generate_password">צור סיסמה</string>
     <string name="hint_conf_pass">אשר סיסמה</string>

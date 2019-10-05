@@ -148,16 +148,20 @@
     <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
     <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>
 
-    <string name="database_general_key" translatable="false">database_general_key</string>
+    <string name="database_category_general_key" translatable="false">database_category_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
     <string name="database_default_username_key" translatable="false">database_default_username_key</string>
     <string name="database_custom_color_key" translatable="false">database_custom_color_key</string>
     <string name="database_version_key" translatable="false">database_version_key</string>
 
-    <string name="database_history_key" translatable="false">database_history_key</string>
+    <string name="database_category_compression_key" translatable="false">database_category_compression_key</string>
     <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
+
+    <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
     <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
+
+    <string name="database_category_history_key" translatable="false">database_category_history_key</string>
     <string name="max_history_items_key" translatable="false">max_history_items_key</string>
     <string name="max_history_size_key" translatable="false">max_history_size_key</string>
 

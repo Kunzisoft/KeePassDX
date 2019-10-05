@@ -33,7 +33,6 @@
     <string name="beta_dontask">Ez erakutsi berriro</string>
     <string name="brackets">Brackets</string>
     <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
-    <string name="cancel">Utzi</string>
     <string name="clipboard_cleared">Arbela ezabatuta.</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
     <string name="clipboard_error">Samsung Android telefono batzuek akats bat daukate arbelaren inplementazioan, eta honen ondorioz aplikazioetatik kopiatzeak huts egiten du. Xehetasun gehiagotarako ondokora joan:</string>
@@ -78,7 +77,6 @@
     <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>
-    <string name="file_not_found">Fitxategi ez aurkitua.</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
     <string name="generate_password">Pasahitza sortu</string>
     <string name="hint_conf_pass">pasahitza berretsi</string>

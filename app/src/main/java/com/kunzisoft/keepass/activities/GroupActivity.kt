@@ -28,7 +28,6 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.util.AttributeSet
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -78,6 +77,7 @@ class GroupActivity : LockingActivity(),
     private var searchTitleView: View? = null
     private var toolbarPaste: Toolbar? = null
     private var iconView: ImageView? = null
+    private var numberChildrenView: TextView? = null
     private var modeTitleView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
@@ -110,7 +110,8 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
-        iconView = findViewById(R.id.icon)
+        iconView = findViewById(R.id.group_icon)
+        numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
@@ -358,6 +359,16 @@ class GroupActivity : LockingActivity(),
                         toolbar?.navigationIcon = null
                     }
                 }
+            }
+        }
+
+        // Assign number of children
+        numberChildrenView?.apply {
+            if (PreferencesUtil.showNumberEntries(context)) {
+                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
             }
         }
 

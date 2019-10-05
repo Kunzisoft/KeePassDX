@@ -22,18 +22,23 @@ package com.kunzisoft.keepass.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Resources
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.DialogFragment
-import androidx.appcompat.app.AlertDialog
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.view.autofill.AutofillManager
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
+import androidx.fragment.app.DialogFragment
 import androidx.preference.*
+import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
@@ -41,12 +46,13 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
 import com.kunzisoft.keepass.settings.preference.*
+import com.kunzisoft.keepass.settings.preference.DialogColorPreference.Companion.DISABLE_COLOR
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
@@ -56,6 +62,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
     private var mCount = 0
 
+    private var dbCustomColorPref: DialogColorPreference? = null
     private var mRoundPref: InputKdfNumberPreference? = null
     private var mMemoryPref: InputKdfNumberPreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
@@ -339,11 +346,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         if (mDatabase.loaded) {
 
-            val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_general_key))
+            val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
 
-            // Db name
+            // Database name
             val dbNamePref: InputTextPreference? = findPreference(getString(R.string.database_name_key))
-            if (mDatabase.containsName()) {
+            if (mDatabase.allowName) {
                 dbNamePref?.summary = mDatabase.name
             } else {
                 dbGeneralPrefCategory?.removePreference(dbNamePref)
@@ -351,32 +358,66 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
             // Database description
             val dbDescriptionPref: InputTextPreference? = findPreference(getString(R.string.database_description_key))
-            if (mDatabase.containsDescription()) {
+            if (mDatabase.allowDescription) {
                 dbDescriptionPref?.summary = mDatabase.description
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
-            // Database compression
-            findPreference<Preference>(getString(R.string.database_data_compression_key))
-                    ?.summary = (mDatabase.compressionAlgorithm ?: PwCompressionAlgorithm.None).getName(resources)
-
-            // Recycle bin
-            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
-            // TODO Recycle
-            dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
-            if (mDatabase.isRecycleBinAvailable) {
-                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
-                recycleBinPref?.isEnabled = false
+            // Database default username
+            val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
+            if (mDatabase.allowDefaultUsername) {
+                dbDefaultUsername?.summary = mDatabase.defaultUsername
             } else {
-                dbGeneralPrefCategory?.removePreference(recycleBinPref)
+                dbDefaultUsername?.isEnabled = false
+                // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
+            }
+
+            // Database custom color
+            dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
+            if (mDatabase.allowCustomColor) {
+                dbCustomColorPref?.apply {
+                    try {
+                        color = Color.parseColor(mDatabase.customColor)
+                        summary = mDatabase.customColor
+                    } catch (e: Exception) {
+                        color = DISABLE_COLOR
+                        summary = ""
+                    }
+                }
+            } else {
+                dbCustomColorPref?.isEnabled = false
+                // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
             }
 
             // Version
             findPreference<Preference>(getString(R.string.database_version_key))
-                    ?.summary = mDatabase.getVersion()
+                    ?.summary = mDatabase.version
 
-            findPreference<PreferenceCategory>(getString(R.string.database_history_key))
+            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_compression_key))
+
+            // Database compression
+            val databaseDataCompressionPref = findPreference<Preference>(getString(R.string.database_data_compression_key))
+            if (mDatabase.allowDataCompression) {
+                databaseDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
+                        ?: PwCompressionAlgorithm.None).getName(resources)
+            } else {
+                dbCompressionPrefCategory?.isVisible = false
+            }
+
+            val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
+
+            // Recycle bin
+            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
+            if (mDatabase.allowRecycleBin) {
+                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
+                // TODO Recycle Bin
+                recycleBinPref?.isEnabled = false
+            } else {
+                dbRecycleBinPrefCategory?.isVisible = false
+            }
+
+            findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
                     ?.isVisible = mDatabase.manageHistory == true
 
             // Max history items
@@ -427,7 +468,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
                 onPreferenceClickListener = Preference.OnPreferenceClickListener {
                     fragmentManager?.let { fragmentManager ->
-                        AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                        AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey)
+                                .show(fragmentManager, "passwordDialog")
                     }
                     false
                 }
@@ -488,6 +530,27 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         }
     }
 
+    private val colorSelectedListener: ((Boolean, Int)-> Unit)? = { enable, color ->
+        dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
+        if (enable) {
+            dbCustomColorPref?.color = color
+        } else {
+            dbCustomColorPref?.color = DISABLE_COLOR
+        }
+    }
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        val view = super.onCreateView(inflater, container, savedInstanceState)
+
+        try {
+            // To reassign color listener after orientation change
+            val chromaDialog = fragmentManager?.findFragmentByTag(TAG_PREF_FRAGMENT) as DatabaseColorPreferenceDialogFragmentCompat?
+            chromaDialog?.onColorSelectedListener = colorSelectedListener
+        } catch (e: Exception) {}
+
+        return view
+    }
+
     override fun onDisplayPreferenceDialog(preference: Preference?) {
 
         var otherDialogFragment = false
@@ -501,6 +564,14 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_description_key) -> {
                         dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.database_default_username_key) -> {
+                        dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
+                    }
+                    preference.key == getString(R.string.database_custom_color_key) -> {
+                        dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
+                            onColorSelectedListener = colorSelectedListener
+                        }
                     }
                     preference.key == getString(R.string.database_data_compression_key) -> {
                         dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
@@ -536,7 +607,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
                 if (dialogFragment != null && !mDatabaseReadOnly) {
                     dialogFragment.setTargetFragment(this, 0)
-                    dialogFragment.show(fragmentManager, null)
+                    dialogFragment.show(fragmentManager, TAG_PREF_FRAGMENT)
                 }
                 // Could not be handled here. Try with the super method.
                 else if (otherDialogFragment) {
@@ -559,6 +630,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     companion object {
 
         private const val TAG_KEY = "NESTED_KEY"
+
+        private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
 
         private const val REQUEST_CODE_AUTOFILL = 5201
 

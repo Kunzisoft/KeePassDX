@@ -21,7 +21,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
-        android:key="@string/database_general_key"
+        android:key="@string/database_category_general_key"
         android:title="@string/general">
 
         <com.kunzisoft.keepass.settings.preference.InputTextPreference
@@ -36,20 +36,21 @@
             android:title="@string/database_description_title"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
-        <!-- TODO username preference -->
         <com.kunzisoft.keepass.settings.preference.InputTextPreference
             android:key="@string/database_default_username_key"
             android:persistent="false"
             android:title="@string/database_default_username_title"
-            android:enabled="false"
             android:positiveButtonText="@string/entry_save"
             android:negativeButtonText="@string/entry_cancel"/>
-        <!-- TODO custom color preference -->
-        <Preference
+        <com.kunzisoft.keepass.settings.preference.DialogColorPreference
+            xmlns:chroma="http://schemas.android.com/apk/res-auto"
             android:key="@string/database_custom_color_key"
             android:persistent="false"
-            android:enabled="false"
-            android:title="@string/database_custom_color_title"/>
+            android:title="@string/database_custom_color_title"
+            android:summary="[color]"
+            chroma:chromaShapePreview="ROUNDED_SQUARE"
+            chroma:chromaColorMode="RGB"
+            chroma:chromaIndicatorMode="HEX" />
         <Preference
             android:key="@string/database_version_key"
             android:persistent="false"
@@ -58,6 +59,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/database_category_compression_key"
         android:title="@string/compression">
 
         <com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
@@ -68,6 +70,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/database_category_recycle_bin_key"
         android:title="@string/recycle_bin">
 
         <SwitchPreference
@@ -80,7 +83,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:key="@string/database_history_key"
+        android:key="@string/database_category_history_key"
         android:title="@string/entry_history">
 
         <com.kunzisoft.keepass.settings.preference.InputNumberPreference

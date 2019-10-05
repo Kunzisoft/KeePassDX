@@ -33,7 +33,6 @@
     <string name="menu_app_settings">App-instellingen</string>
     <string name="brackets">Haakjes</string>
     <string name="file_manager_install_description">Zoek een bestand op door het installeren van de OpenIntents File Manager</string>
-    <string name="cancel">Annuleren</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Klembordtime-out</string>
     <string name="clipboard_timeout_summary">Tijd van opslag op het klembord</string>
@@ -71,7 +70,6 @@
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Wordt ingesteld op 2147483648.</string>
     <string name="error_title_required">Voeg een titel toe.</string>
     <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
-    <string name="file_not_found">Bestand niet gevonden.</string>
     <string name="file_browser">Bestandsverkenner</string>
     <string name="generate_password">Wachtwoord genereren</string>
     <string name="hint_conf_pass">wachtwoord bevestigen</string>

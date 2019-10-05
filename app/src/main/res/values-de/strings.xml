@@ -36,7 +36,6 @@
     <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Durchsuchen Sie Ihre Dateien, indem Sie den OpenIntents File Manager installieren</string>
-    <string name="cancel">Abbrechen</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablagefehler</string>
     <string name="clipboard_error">Einige Samsung Android-Smartphones lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
@@ -81,7 +80,6 @@
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
-    <string name="file_not_found">Datei nicht gefunden.</string>
     <string name="file_not_found_content">Datei nicht gefunden. Bitte versuchen, sie über den Dateimanager zu öffnen.</string>
     <string name="file_browser">Dateimanager</string>
     <string name="generate_password">Passwort generieren</string>

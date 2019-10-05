@@ -62,9 +62,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
                 if (compressionSelected != null) {
                     val newAlgorithm = compressionSelected
                     val oldAlgorithm = database.compressionAlgorithm
-                    newAlgorithm?.let {
-                        database.assignCompressionAlgorithm(it)
-                    }
+                    database.compressionAlgorithm = newAlgorithm
 
                     if (oldAlgorithm != null && newAlgorithm != null)
                         actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
@@ -88,7 +86,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
                     if (result.isSuccess) {
                         mNewAlgorithm
                     } else {
-                        database?.assignCompressionAlgorithm(mOldAlgorithm)
+                        database?.compressionAlgorithm = mOldAlgorithm
                         mOldAlgorithm
                     }
             preference.summary = algorithmToShow.getName(settingsResources)

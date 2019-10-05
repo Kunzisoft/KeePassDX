@@ -32,12 +32,14 @@ class DatabaseDescriptionPreferenceDialogFragmentCompat : DatabaseSavePreference
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            val newDescription = inputText
-            val oldDescription = database!!.description
-            database?.assignDescription(newDescription)
+        database?.let { database ->
+            if (positiveResult) {
+                val newDescription = inputText
+                val oldDescription = database.description
+                database.description = newDescription
 
-            actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newDescription, oldDescription)
+                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newDescription, oldDescription)
+            }
         }
 
         super.onDialogClosed(positiveResult)
@@ -52,7 +54,7 @@ class DatabaseDescriptionPreferenceDialogFragmentCompat : DatabaseSavePreference
                     if (result.isSuccess) {
                         mNewDescription
                     } else {
-                        database?.assignDescription(mOldDescription)
+                        database?.description = mOldDescription
                         mOldDescription
                     }
             preference.summary = descriptionToShow

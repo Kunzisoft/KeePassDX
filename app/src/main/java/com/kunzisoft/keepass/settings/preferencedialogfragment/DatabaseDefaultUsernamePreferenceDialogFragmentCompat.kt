@@ -23,49 +23,48 @@ import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        inputText = database?.name ?: ""
+        inputText = database?.defaultUsername?: ""
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            database?.let { database ->
-                val newName = inputText
-                val oldName = database.name
-                database.name = newName
+        database?.let { database ->
+            if (positiveResult) {
+                val newDefaultUsername = inputText
+                val oldDefaultUsername = database.defaultUsername
+                database.defaultUsername = newDefaultUsername
 
-                actionInUIThreadAfterSaveDatabase = AfterNameSave(newName, oldName)
+                actionInUIThreadAfterSaveDatabase = AfterDefaultUsernameSave(newDefaultUsername, oldDefaultUsername)
             }
         }
 
         super.onDialogClosed(positiveResult)
     }
 
-    private inner class AfterNameSave(private val mNewName: String,
-                                      private val mOldName: String)
+    private inner class AfterDefaultUsernameSave(private val mNewDefaultUsername: String,
+                                                 private val mOldDefaultUsername: String)
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val nameToShow =
+            val defaultUsernameToShow =
                     if (result.isSuccess) {
-                        mNewName
+                        mNewDefaultUsername
                     } else {
-                        database?.name = mOldName
-                        mOldName
+                        database?.defaultUsername = mOldDefaultUsername
+                        mOldDefaultUsername
                     }
-            preference.summary = nameToShow
+            preference.summary = defaultUsernameToShow
         }
     }
 
     companion object {
 
-        fun newInstance(
-                key: String): DatabaseNamePreferenceDialogFragmentCompat {
-            val fragment = DatabaseNamePreferenceDialogFragmentCompat()
+        fun newInstance(key: String): DatabaseDefaultUsernamePreferenceDialogFragmentCompat {
+            val fragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

@@ -32,7 +32,6 @@
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="brackets">Hakasulkeet</string>
     <string name="file_manager_install_description">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
-    <string name="cancel">Peruuta</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
 	<string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
@@ -77,7 +76,6 @@
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>
-    <string name="file_not_found">Tiedostoa ei löydetty.</string>
     <string name="file_browser">Tiedostoselain</string>
     <string name="generate_password">Generoi salasana</string>
     <string name="hint_conf_pass">vahvista salasana</string>
