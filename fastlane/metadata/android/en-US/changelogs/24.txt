@@ -1,6 +1,7 @@
  * Add settings (Color, Security, Master Key)
  * Show history of each entry
  * Auto repair database for nodes with same UUID
+ * Management of expired nodes
  * Fix settings
  * Fix edit group
  * Fix small bugs
