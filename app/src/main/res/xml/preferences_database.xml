@@ -46,7 +46,6 @@
             xmlns:chroma="http://schemas.android.com/apk/res-auto"
             android:key="@string/database_custom_color_key"
             android:persistent="false"
-            android:enabled="false"
             android:title="@string/database_custom_color_title"
             android:summary="[color]"
             chroma:chromaShapePreview="ROUNDED_SQUARE"

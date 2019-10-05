@@ -92,7 +92,8 @@ class Database {
         }
 
     val allowDefaultUsername: Boolean
-        get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+        get() = pwDatabaseV4 != null
+        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
 
     var defaultUsername: String
         get() {
@@ -104,7 +105,8 @@ class Database {
         }
 
     val allowCustomColor: Boolean
-        get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+        get() = pwDatabaseV4 != null
+        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
 
     // with format "#000000"
     var customColor: String

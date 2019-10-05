@@ -368,10 +368,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
             if (mDatabase.allowDefaultUsername) {
                 dbDefaultUsername?.summary = mDatabase.defaultUsername
-                // TODO Default Username
-                dbDefaultUsername?.isEnabled = false
             } else {
-                dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
+                dbDefaultUsername?.isEnabled = false
+                // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
             }
 
             // Database custom color
@@ -387,7 +386,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                 }
             } else {
-                dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
+                dbCustomColorPref?.isEnabled = false
+                // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
             }
 
             // Version
