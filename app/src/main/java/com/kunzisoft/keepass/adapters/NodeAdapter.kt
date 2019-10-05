@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.Paint
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -238,6 +239,10 @@ class NodeAdapter
         holder.text.apply {
             text = subNode.title
             setTextSize(textSizeUnit, infoTextSize)
+            paintFlags = if (subNode.isCurrentlyExpires)
+                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            else
+                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
         }
         // Assign click
         holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
@@ -250,6 +255,10 @@ class NodeAdapter
         // Add subText with username
         holder.subText.apply {
             text = ""
+            paintFlags = if (subNode.isCurrentlyExpires)
+                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            else
+                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
             visibility = View.GONE
             if (subNode.type == Type.ENTRY) {
                 val entry = subNode as EntryVersioned
