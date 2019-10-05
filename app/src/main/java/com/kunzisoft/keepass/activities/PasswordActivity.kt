@@ -193,17 +193,10 @@ class PasswordActivity : StylishActivity() {
 
         // If is a view intent
         val action = intent.action
-        if (action != null && action == VIEW_INTENT) {
-
-            val databaseUriRetrieve = intent.data
-            // Stop activity here if we can't verify database URI
-            if (!UriUtil.verifyFileUri(databaseUriRetrieve)) {
-                Log.e(TAG, "File URI not validate")
-                finish()
-            }
-            databaseUri = databaseUriRetrieve
+        if (action != null
+                && action == VIEW_INTENT) {
+            databaseUri = intent.data
             keyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
-
         } else {
             databaseUri = intent.getParcelableExtra(KEY_FILENAME)
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
