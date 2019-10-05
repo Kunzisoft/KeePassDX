@@ -591,7 +591,7 @@ class ImporterV4(private val streamDir: File,
                     name.equals(PwDatabaseV4XML.ElemCreationTime, ignoreCase = true) -> tl?.creationTime = readPwTime(xpp)
                     name.equals(PwDatabaseV4XML.ElemLastAccessTime, ignoreCase = true) -> tl?.lastAccessTime = readPwTime(xpp)
                     name.equals(PwDatabaseV4XML.ElemExpiryTime, ignoreCase = true) -> tl?.expiryTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl?.isExpires = readBool(xpp, false)
+                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl?.expires = readBool(xpp, false)
                     name.equals(PwDatabaseV4XML.ElemUsageCount, ignoreCase = true) -> tl?.usageCount = readULong(xpp, 0)
                     name.equals(PwDatabaseV4XML.ElemLocationChanged, ignoreCase = true) -> tl?.locationChanged = readPwTime(xpp)
                     else -> readUnknown(xpp)

@@ -149,10 +149,6 @@ class PwDate : Parcelable {
         private var mCalendar: Calendar? = null
 
         val NEVER_EXPIRE = neverExpire
-        val DEFAULT_DATE = defaultDate
-
-        val PW_NEVER_EXPIRE = PwDate(NEVER_EXPIRE)
-        val DEFAULT_PWDATE = PwDate(DEFAULT_DATE)
 
         private val calendar: Calendar?
             get() {
@@ -162,20 +158,7 @@ class PwDate : Parcelable {
                 return mCalendar
             }
 
-        private val defaultDate: Date
-            get() {
-                val cal = Calendar.getInstance()
-                cal.set(Calendar.YEAR, 2004)
-                cal.set(Calendar.MONTH, Calendar.JANUARY)
-                cal.set(Calendar.DAY_OF_MONTH, 1)
-                cal.set(Calendar.HOUR, 0)
-                cal.set(Calendar.MINUTE, 0)
-                cal.set(Calendar.SECOND, 0)
-
-                return cal.time
-            }
-
-        private val neverExpire: Date
+        private val neverExpire: PwDate
             get() {
                 val cal = Calendar.getInstance()
                 cal.set(Calendar.YEAR, 2999)
@@ -185,7 +168,7 @@ class PwDate : Parcelable {
                 cal.set(Calendar.MINUTE, 59)
                 cal.set(Calendar.SECOND, 59)
 
-                return cal.time
+                return PwDate(cal.time)
             }
 
         @JvmField

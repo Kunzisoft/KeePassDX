@@ -88,6 +88,8 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
             return size
         }
 
+    override var expires: Boolean = false
+
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {

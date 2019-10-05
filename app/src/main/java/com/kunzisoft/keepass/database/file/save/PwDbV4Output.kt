@@ -661,7 +661,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemCreationTime, it.creationTime.date)
         writeObject(PwDatabaseV4XML.ElemLastAccessTime, it.lastAccessTime.date)
         writeObject(PwDatabaseV4XML.ElemExpiryTime, it.expiryTime.date)
-        writeObject(PwDatabaseV4XML.ElemExpires, it.isExpires)
+        writeObject(PwDatabaseV4XML.ElemExpires, it.expires)
         writeObject(PwDatabaseV4XML.ElemUsageCount, it.usageCount)
         writeObject(PwDatabaseV4XML.ElemLocationChanged, it.locationChanged.date)
 

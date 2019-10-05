@@ -43,11 +43,14 @@ class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
     var iconCustom = PwIconCustom.UNKNOWN_ICON
     private val customData = HashMap<String, String>()
     var notes = ""
+
     var isExpanded = true
     var defaultAutoTypeSequence = ""
     var enableAutoType: Boolean? = null
     var enableSearching: Boolean? = null
     var lastTopVisibleEntry: UUID = PwDatabase.UUID_ZERO
+
+    override var expires: Boolean = false
 
     override val type: Type
         get() = Type.GROUP

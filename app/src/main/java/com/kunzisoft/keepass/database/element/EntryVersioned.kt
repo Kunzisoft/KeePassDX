@@ -154,12 +154,15 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             pwEntryV4?.expiryTime = value
         }
 
-    override var isExpires: Boolean
-        get() =pwEntryV3?.isExpires ?: pwEntryV4?.isExpires ?: false
+    override var expires: Boolean
+        get() = pwEntryV3?.expires ?: pwEntryV4?.expires ?: false
         set(value) {
-            pwEntryV3?.isExpires = value
-            pwEntryV4?.isExpires = value
+            pwEntryV3?.expires = value
+            pwEntryV4?.expires = value
         }
+
+    override val isCurrentlyExpires: Boolean
+        get() = pwEntryV3?.isCurrentlyExpires ?: pwEntryV4?.isCurrentlyExpires ?: false
 
     override var username: String
         get() = pwEntryV3?.username ?: pwEntryV4?.username ?: ""

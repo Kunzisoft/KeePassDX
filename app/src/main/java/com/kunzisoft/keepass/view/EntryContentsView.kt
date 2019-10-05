@@ -66,6 +66,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val creationDateView: TextView
     private val modificationDateView: TextView
     private val lastAccessDateView: TextView
+    private val expiresImageView: ImageView
     private val expiresDateView: TextView
 
     private val uuidView: TextView
@@ -104,7 +105,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
         lastAccessDateView = findViewById(R.id.entry_accessed)
-        expiresDateView = findViewById(R.id.entry_expires)
+        expiresImageView = findViewById(R.id.entry_expires_image)
+        expiresDateView = findViewById(R.id.entry_expires_date)
 
         uuidView = findViewById(R.id.entry_UUID)
 
@@ -254,8 +256,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         lastAccessDateView.text = date.getDateTimeString(resources)
     }
 
+    fun setExpires(isExpires: Boolean) {
+        expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
+    }
+
     fun assignExpiresDate(date: PwDate) {
-        expiresDateView.text = date.getDateTimeString(resources)
+        assignExpiresDate(date.getDateTimeString(resources))
     }
 
     fun assignExpiresDate(constString: String) {

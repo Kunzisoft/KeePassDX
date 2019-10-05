@@ -231,12 +231,23 @@
 				android:layout_height="wrap_content"
 				android:text="@string/entry_expires"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/entry_expires"
+			<LinearLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-
+				android:orientation="horizontal">
+				<androidx.appcompat.widget.AppCompatImageView
+					android:id="@+id/entry_expires_image"
+					android:layout_width="wrap_content"
+					android:layout_height="match_parent"
+					android:layout_gravity="center_vertical"
+					android:src="@drawable/ic_info_white_24dp"
+					android:tint="@color/red"/>
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_expires_date"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</LinearLayout>
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
