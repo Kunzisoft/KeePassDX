@@ -78,6 +78,7 @@ class PasswordActivity : StylishActivity() {
     // Views
     private var toolbar: Toolbar? = null
 
+    private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileView: EditText? = null
@@ -115,6 +116,7 @@ class PasswordActivity : StylishActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
+        containerView = findViewById(R.id.container)
         confirmButtonView = findViewById(R.id.pass_ok)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -565,6 +567,9 @@ class PasswordActivity : StylishActivity() {
                 })
     }
 
+    // To fix multiple view education
+    private var performedEductionInProgress = false
+
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         // Read menu
@@ -580,17 +585,21 @@ class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        // Show education views
-        Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
+        if (!performedEductionInProgress) {
+            performedEductionInProgress = true
+            // Show education views
+            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
+        }
 
         return true
     }
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu) {
-        val unlockEducationPerformed = toolbar != null
+        val educationContainerView = containerView
+        val unlockEducationPerformed = educationContainerView != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
-                        toolbar!!,
+                educationContainerView,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
                         },
@@ -598,11 +607,11 @@ class PasswordActivity : StylishActivity() {
                             performedNextEducation(passwordActivityEducation, menu)
                         })
         if (!unlockEducationPerformed) {
-
-            val readOnlyEducationPerformed = toolbar != null
-                    && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+            val educationToolbar = toolbar
+            val readOnlyEducationPerformed =
+                    educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
                     && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
-                    toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
+                    educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
                         performedNextEducation(passwordActivityEducation, menu)

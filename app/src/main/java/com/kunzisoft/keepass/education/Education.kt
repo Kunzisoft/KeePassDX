@@ -33,11 +33,10 @@ open class Education(val activity: Activity) {
         return doEducation
     }
 
-
     /**
      * Define if educations screens are enabled
      */
-    fun isEducationScreensEnabled(): Boolean {
+    private fun isEducationScreensEnabled(): Boolean {
         return isEducationScreensEnabled(activity)
     }
 
@@ -47,7 +46,7 @@ open class Education(val activity: Activity) {
      * @param context The context to retrieve the key string in XML
      * @param educationKeys Keys to save as boolean 'true'
      */
-    fun saveEducationPreference(context: Context, vararg educationKeys: Int) {
+    private fun saveEducationPreference(context: Context, vararg educationKeys: Int) {
         val sharedPreferences = getEducationSharedPreferences(context)
         val editor = sharedPreferences.edit()
         for (key in educationKeys) {
