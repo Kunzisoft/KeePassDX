@@ -23,14 +23,21 @@ A clear and concise description of what you expected to happen.
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 
+** Keepass Database **
+ - Created with: [e.g Windows KeePass 2.42]
+ - Version: [e.g. 2]
+ - Location: [e.g. Remote file retrieved with GDrive app]
+ - Size: [e.g. 150Mo]
+ - Contains attachment: [e.g. Yes]
+
 **KeePass DX (please complete the following information):**
  - Version: [e.g. 2.5.0.0beta23]
  - Build: [e.g. Free]
 
 **Android (please complete the following information):**
  - Device: [e.g. GalaxyS8]
- - Version [e.g. 8.1]
- - Browser [e.g. Chrome]
+ - Version: [e.g. 8.1]
+ - Browser: [e.g. Chrome]
 
 **Additional context**
 Add any other context about the problem here.
