@@ -37,7 +37,9 @@ import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
+import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.parsers.ParserConfigurationException
 
 
 class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
@@ -290,16 +292,24 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
 
     override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
         try {
-            val dbf = DocumentBuilderFactory.newInstance()
-            val db = dbf.newDocumentBuilder()
-            val doc = db.parse(keyInputStream)
+            val documentBuilderFactory = DocumentBuilderFactory.newInstance()
 
-            val el = doc.documentElement
-            if (el == null || !el.nodeName.equals(RootElementName, ignoreCase = true)) {
+            // Disable certain unsecure XML-Parsing DocumentBuilderFactory features
+            try {
+                documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
+            } catch (e : ParserConfigurationException) {
+                Log.e(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)", e)
+            }
+
+            val documentBuilder = documentBuilderFactory.newDocumentBuilder()
+            val doc = documentBuilder.parse(keyInputStream)
+
+            val docElement = doc.documentElement
+            if (docElement == null || !docElement.nodeName.equals(RootElementName, ignoreCase = true)) {
                 return null
             }
 
-            val children = el.childNodes
+            val children = docElement.childNodes
             if (children.length < 2) {
                 return null
             }
