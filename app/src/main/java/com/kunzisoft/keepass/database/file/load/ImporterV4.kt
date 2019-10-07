@@ -1000,8 +1000,7 @@ class ImporterV4(private val streamDir: File,
 
         }
 
-        //readNextNode = false;
-        return xpp.nextText()
+        return xpp.safeNextText()
 
     }
 
@@ -1009,7 +1008,7 @@ class ImporterV4(private val streamDir: File,
     private fun readBase64String(xpp: XmlPullParser): ByteArray {
 
         //readNextNode = false;
-        Base64Coder.decode(xpp.nextText())?.let { buffer ->
+        Base64Coder.decode(xpp.safeNextText())?.let { buffer ->
             val plainText = ByteArray(buffer.size)
             randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
             return plainText
@@ -1059,4 +1058,13 @@ class ImporterV4(private val streamDir: File,
 
         private const val MAX_UINT = 4294967296L // 2^32
     }
+}
+
+@Throws(IOException::class, XmlPullParserException::class)
+fun XmlPullParser.safeNextText(): String {
+    val result = nextText()
+    if (eventType != XmlPullParser.END_TAG) {
+        nextTag()
+    }
+    return result
 }
