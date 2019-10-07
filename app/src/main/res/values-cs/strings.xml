@@ -89,7 +89,7 @@
     <string name="password">Heslo</string>
     <string name="install_from_play_store">Instalovat z katalogu Play Store</string>
     <string name="install_from_f_droid">Instalovat z katalogu F-Droid</string>
-    <string name="invalid_password">Nesprávné heslo nebo soubor s klíčem.</string>
+    <string name="invalid_credentials">Nesprávné heslo nebo soubor s klíčem.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nedaří se rozpoznat formát databáze.</string>
     <string name="keyfile_does_not_exist">Soubor s klíčem neexistuje.</string>

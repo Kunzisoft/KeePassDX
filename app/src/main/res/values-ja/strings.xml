@@ -78,7 +78,7 @@
     <string name="hint_pass">パスワード</string>
     <string name="install_from_play_store">Play Storeで入手</string>
     <string name="install_from_f_droid">F-Droidで入手</string>
-    <string name="invalid_password">パスワード/キーファイルが違います。</string>
+    <string name="invalid_credentials">パスワード/キーファイルが違います。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>
     <string name="list_size_title">グループ一覧サイズ</string>

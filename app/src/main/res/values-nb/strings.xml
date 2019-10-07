@@ -96,7 +96,7 @@
     <string name="password">Passord</string>
     <string name="install_from_play_store">Installer fra Play-butikken</string>
     <string name="install_from_f_droid">Installer fra F-Droid</string>
-    <string name="invalid_password">Ugyldig passord eller nøkkelfil.</string>
+    <string name="invalid_credentials">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
     <string name="keyfile_does_not_exist">Ingen nøkkelfil finnes.</string>

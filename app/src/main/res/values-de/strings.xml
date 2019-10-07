@@ -92,7 +92,7 @@
     <string name="password">Passwort</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="invalid_password">Passwort oder Schlüsseldatei ist falsch.</string>
+    <string name="invalid_credentials">Passwort oder Schlüsseldatei ist falsch.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_does_not_exist">Es existiert keine Schlüsseldatei.</string>

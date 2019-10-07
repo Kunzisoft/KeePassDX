@@ -148,7 +148,7 @@
     <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسها.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
     <string name="file_browser">متصفح الملفات</string>
-    <string name="invalid_password">تعذرت قراءة كلمة السر أو ملف المفتاح.</string>
+    <string name="invalid_credentials">تعذرت قراءة كلمة السر أو ملف المفتاح.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_does_not_exist">لا يوجد ملف مفتاح.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>

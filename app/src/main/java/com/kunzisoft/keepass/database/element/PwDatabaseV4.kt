@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.*
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
@@ -238,7 +237,7 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
         return getCustomData().isNotEmpty()
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
         var masterKey = byteArrayOf()

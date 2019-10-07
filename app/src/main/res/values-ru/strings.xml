@@ -88,7 +88,7 @@
     <string name="password">Пароль</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="invalid_password">Неверный пароль или файл ключа.</string>
+    <string name="invalid_credentials">Неверный пароль или файл ключа.</string>
     <string name="invalid_algorithm">Неверный алгоритм.</string>
     <string name="invalid_db_sig">Не удалось определить формат базы.</string>
     <string name="keyfile_does_not_exist">Файл ключа не найден.</string>

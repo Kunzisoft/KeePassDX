@@ -88,7 +88,7 @@
     <string name="password">Palavra-chave</string>
     <string name="install_from_play_store">Instalar pela Play Store</string>
     <string name="install_from_f_droid">Instalar pela F-Droid</string>
-    <string name="invalid_password">Palavra-chave ou ficheiro chave inválidos.</string>
+    <string name="invalid_credentials">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="keyfile_does_not_exist">Não existem ficheiros-chave.</string>

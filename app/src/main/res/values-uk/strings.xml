@@ -79,7 +79,7 @@
     <string name="hint_pass">пароль</string>
     <string name="install_from_play_store">Інсталювати із Google Play</string>
     <string name="install_from_f_droid">Інсталювати із F-Droid</string>
-    <string name="invalid_password">Невірний пароль або файл ключа.</string>
+    <string name="invalid_credentials">Невірний пароль або файл ключа.</string>
     <string name="invalid_db_sig">Формат бази даних не розпізнано.</string>
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір списку груп</string>

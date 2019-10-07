@@ -87,7 +87,7 @@
     <string name="password">Salasana</string>
     <string name="install_from_play_store">Asenna Play Storesta</string>
     <string name="install_from_f_droid">Asenna F-Droid</string>
-    <string name="invalid_password">Väärä salasana tai avaintiedosto.</string>
+    <string name="invalid_credentials">Väärä salasana tai avaintiedosto.</string>
     <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
     <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>
     <string name="keyfile_does_not_exist">Avaintiedostoa ei ole olemassa.</string>

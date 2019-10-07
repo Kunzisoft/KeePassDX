@@ -94,7 +94,7 @@
     <string name="password">Mot de passe</string>
     <string name="install_from_play_store">Installer depuis Google Play</string>
     <string name="install_from_f_droid">Installer depuis F-Droid</string>
-    <string name="invalid_password">Impossible de lire le mot de passe ou le fichier clé.</string>
+    <string name="invalid_credentials">Impossible de lire le mot de passe ou le fichier clé.</string>
     <string name="invalid_algorithm">Mauvais algorithme.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_does_not_exist">Aucun fichier de clé n’existe.</string>

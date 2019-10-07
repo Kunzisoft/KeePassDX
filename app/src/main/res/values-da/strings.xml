@@ -88,7 +88,7 @@
     <string name="password">Adgangskode</string>
     <string name="install_from_play_store">Installer fra Google Play</string>
     <string name="install_from_f_droid">Installer fra F-Droid</string>
-    <string name="invalid_password">Ugyldig adgangskode eller nøglefil.</string>
+    <string name="invalid_credentials">Ugyldig adgangskode eller nøglefil.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>
     <string name="keyfile_does_not_exist">Nøglefil eksisterer ikke.</string>

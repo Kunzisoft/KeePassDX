@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.database.element
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
 import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -112,7 +111,7 @@ class PwDatabaseV3 : PwDatabase<Int, PwGroupV3, PwEntryV3>() {
         return newId
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
         return if (key != null && keyInputStream != null) {

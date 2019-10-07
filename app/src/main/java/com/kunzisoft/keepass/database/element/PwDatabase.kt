@@ -21,19 +21,12 @@ package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseKeyFileEmptyException
 import com.kunzisoft.keepass.utils.MemoryUtil
-
-import java.io.ByteArrayInputStream
-import java.io.ByteArrayOutputStream
-import java.io.IOException
-import java.io.InputStream
-import java.io.UnsupportedEncodingException
+import java.io.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.LinkedHashMap
-import java.util.UUID
+import java.util.*
 
 abstract class PwDatabase<
         GroupId,
@@ -78,15 +71,15 @@ abstract class PwDatabase<
 
     var rootGroup: Group? = null
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         masterKey = getMasterKey(key, keyInputStream)
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     protected fun getCompositeKey(key: String, keyInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyInputStream)
         val passwordKey = getPasswordKey(key)
@@ -126,7 +119,7 @@ abstract class PwDatabase<
         return messageDigest.digest()
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
         val keyByteArrayOutputStream = ByteArrayOutputStream()

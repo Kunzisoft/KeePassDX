@@ -87,7 +87,7 @@
     <string name="password">Κωδικός Πρόσβασης</string>
     <string name="install_from_play_store">Εγκατάσταση από το Play Store</string>
     <string name="install_from_f_droid">Εγκατάσταση από το F-Droid</string>
-    <string name="invalid_password">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
+    <string name="invalid_credentials">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
     <string name="invalid_algorithm">Εσφαλμένος αλγόριθμος.</string>
     <string name="invalid_db_sig">Η μορφή της Βάσης Δεδομένων δεν αναγνωρίζεται.</string>
     <string name="keyfile_does_not_exist">Δεν υπάρχει αρχείο κλειδιού.</string>

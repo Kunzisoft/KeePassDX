@@ -73,154 +73,162 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
 
     private lateinit var mDatabaseToOpen: PwDatabaseV3
 
-    @Throws(IOException::class, LoadDatabaseException::class)
+    @Throws(LoadDatabaseException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
                               progressTaskUpdater: ProgressTaskUpdater?): PwDatabaseV3 {
 
-        // Load entire file, most of it's encrypted.
-        val fileSize = databaseInputStream.available()
-        val filebuf = ByteArray(fileSize + 16) // Pad with a blocksize (Twofish uses 128 bits), since Android 4.3 tries to write more to the buffer
-        databaseInputStream.read(filebuf, 0, fileSize) // TODO remove
-        databaseInputStream.close()
-
-        // Parse header (unencrypted)
-        if (fileSize < PwDbHeaderV3.BUF_SIZE)
-            throw IOException("File too short for header")
-        val hdr = PwDbHeaderV3()
-        hdr.loadFromFile(filebuf, 0)
-
-        if (hdr.signature1 != PwDbHeader.PWM_DBSIG_1 || hdr.signature2 != PwDbHeaderV3.DBSIG_2) {
-            throw LoadDatabaseSignatureException()
-        }
-
-        if (!hdr.matchesVersion()) {
-            throw LoadDatabaseVersionException()
-        }
-
-        progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
-        mDatabaseToOpen = PwDatabaseV3()
-        mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
-
-        // Select algorithm
-        if (hdr.flags and PwDbHeaderV3.FLAG_RIJNDAEL != 0) {
-            mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.AESRijndael
-        } else if (hdr.flags and PwDbHeaderV3.FLAG_TWOFISH != 0) {
-            mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.Twofish
-        } else {
-            throw LoadDatabaseInvalidAlgorithmException()
-        }
-
-        mDatabaseToOpen.numberKeyEncryptionRounds = hdr.numKeyEncRounds.toLong()
-
-        // Generate transformedMasterKey from masterKey
-        mDatabaseToOpen.makeFinalKey(hdr.masterSeed, hdr.transformSeed, mDatabaseToOpen.numberKeyEncryptionRounds)
-
-        progressTaskUpdater?.updateMessage(R.string.decrypting_db)
-        // Initialize Rijndael algorithm
-        val cipher: Cipher
         try {
-            if (mDatabaseToOpen.encryptionAlgorithm === PwEncryptionAlgorithm.AESRijndael) {
-                cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding")
-            } else if (mDatabaseToOpen.encryptionAlgorithm === PwEncryptionAlgorithm.Twofish) {
-                cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
-            } else {
-                throw IOException("Encryption algorithm is not supported")
+            // Load entire file, most of it's encrypted.
+            val fileSize = databaseInputStream.available()
+            val filebuf = ByteArray(fileSize + 16) // Pad with a blocksize (Twofish uses 128 bits), since Android 4.3 tries to write more to the buffer
+            databaseInputStream.read(filebuf, 0, fileSize) // TODO remove
+            databaseInputStream.close()
+
+            // Parse header (unencrypted)
+            if (fileSize < PwDbHeaderV3.BUF_SIZE)
+                throw IOException("File too short for header")
+            val hdr = PwDbHeaderV3()
+            hdr.loadFromFile(filebuf, 0)
+
+            if (hdr.signature1 != PwDbHeader.PWM_DBSIG_1 || hdr.signature2 != PwDbHeaderV3.DBSIG_2) {
+                throw LoadDatabaseSignatureException()
             }
 
-        } catch (e1: NoSuchAlgorithmException) {
-            throw IOException("No such algorithm")
-        } catch (e1: NoSuchPaddingException) {
-            throw IOException("No such pdading")
-        }
+            if (!hdr.matchesVersion()) {
+                throw LoadDatabaseVersionException()
+            }
 
-        try {
-            cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(mDatabaseToOpen.finalKey, "AES"), IvParameterSpec(hdr.encryptionIV))
-        } catch (e1: InvalidKeyException) {
-            throw IOException("Invalid key")
-        } catch (e1: InvalidAlgorithmParameterException) {
-            throw IOException("Invalid algorithm parameter.")
-        }
+            progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
+            mDatabaseToOpen = PwDatabaseV3()
+            mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
 
-        // Decrypt! The first bytes aren't encrypted (that's the header)
-        val encryptedPartSize: Int
-        try {
-            encryptedPartSize = cipher.doFinal(filebuf, PwDbHeaderV3.BUF_SIZE, fileSize - PwDbHeaderV3.BUF_SIZE, filebuf, PwDbHeaderV3.BUF_SIZE)
-        } catch (e1: ShortBufferException) {
-            throw IOException("Buffer too short")
-        } catch (e1: IllegalBlockSizeException) {
-            throw IOException("Invalid block size")
-        } catch (e1: BadPaddingException) {
-            throw LoadDatabaseInvalidPasswordException()
-        }
+            // Select algorithm
+            when {
+                hdr.flags and PwDbHeaderV3.FLAG_RIJNDAEL != 0 -> mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.AESRijndael
+                hdr.flags and PwDbHeaderV3.FLAG_TWOFISH != 0 -> mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.Twofish
+                else -> throw LoadDatabaseInvalidAlgorithmException()
+            }
 
-        val md: MessageDigest
-        try {
-            md = MessageDigest.getInstance("SHA-256")
-        } catch (e: NoSuchAlgorithmException) {
-            throw IOException("No SHA-256 algorithm")
-        }
+            mDatabaseToOpen.numberKeyEncryptionRounds = hdr.numKeyEncRounds.toLong()
 
-        val nos = NullOutputStream()
-        val dos = DigestOutputStream(nos, md)
-        dos.write(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize)
-        dos.close()
-        val hash = md.digest()
+            // Generate transformedMasterKey from masterKey
+            mDatabaseToOpen.makeFinalKey(hdr.masterSeed, hdr.transformSeed, mDatabaseToOpen.numberKeyEncryptionRounds)
 
-        if (!Arrays.equals(hash, hdr.contentsHash)) {
+            progressTaskUpdater?.updateMessage(R.string.decrypting_db)
+            // Initialize Rijndael algorithm
+            val cipher: Cipher
+            try {
+                if (mDatabaseToOpen.encryptionAlgorithm === PwEncryptionAlgorithm.AESRijndael) {
+                    cipher = CipherFactory.getInstance("AES/CBC/PKCS5Padding")
+                } else if (mDatabaseToOpen.encryptionAlgorithm === PwEncryptionAlgorithm.Twofish) {
+                    cipher = CipherFactory.getInstance("Twofish/CBC/PKCS7PADDING")
+                } else {
+                    throw IOException("Encryption algorithm is not supported")
+                }
 
-            Log.w(TAG, "Database file did not decrypt correctly. (checksum code is broken)")
-            throw LoadDatabaseInvalidPasswordException()
-        }
+            } catch (e1: NoSuchAlgorithmException) {
+                throw IOException("No such algorithm")
+            } catch (e1: NoSuchPaddingException) {
+                throw IOException("No such pdading")
+            }
 
-        // New manual root because V3 contains multiple root groups (here available with getRootGroups())
-        val newRoot = mDatabaseToOpen.createGroup()
-        newRoot.level = -1
-        mDatabaseToOpen.rootGroup = newRoot
+            try {
+                cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(mDatabaseToOpen.finalKey, "AES"), IvParameterSpec(hdr.encryptionIV))
+            } catch (e1: InvalidKeyException) {
+                throw IOException("Invalid key")
+            } catch (e1: InvalidAlgorithmParameterException) {
+                throw IOException("Invalid algorithm parameter.")
+            }
 
-        // Import all groups
-        var pos = PwDbHeaderV3.BUF_SIZE
-        var newGrp = mDatabaseToOpen.createGroup()
-        run {
+            // Decrypt! The first bytes aren't encrypted (that's the header)
+            val encryptedPartSize: Int
+            try {
+                encryptedPartSize = cipher.doFinal(filebuf, PwDbHeaderV3.BUF_SIZE, fileSize - PwDbHeaderV3.BUF_SIZE, filebuf, PwDbHeaderV3.BUF_SIZE)
+            } catch (e1: ShortBufferException) {
+                throw IOException("Buffer too short")
+            } catch (e1: IllegalBlockSizeException) {
+                throw IOException("Invalid block size")
+            } catch (e1: BadPaddingException) {
+                throw LoadDatabaseInvalidCredentialsException()
+            }
+
+            val md: MessageDigest
+            try {
+                md = MessageDigest.getInstance("SHA-256")
+            } catch (e: NoSuchAlgorithmException) {
+                throw IOException("No SHA-256 algorithm")
+            }
+
+            val nos = NullOutputStream()
+            val dos = DigestOutputStream(nos, md)
+            dos.write(filebuf, PwDbHeaderV3.BUF_SIZE, encryptedPartSize)
+            dos.close()
+            val hash = md.digest()
+
+            if (!Arrays.equals(hash, hdr.contentsHash)) {
+
+                Log.w(TAG, "Database file did not decrypt correctly. (checksum code is broken)")
+                throw LoadDatabaseInvalidCredentialsException()
+            }
+
+            // New manual root because V3 contains multiple root groups (here available with getRootGroups())
+            val newRoot = mDatabaseToOpen.createGroup()
+            newRoot.level = -1
+            mDatabaseToOpen.rootGroup = newRoot
+
+            // Import all groups
+            var pos = PwDbHeaderV3.BUF_SIZE
+            var newGrp = mDatabaseToOpen.createGroup()
+            run {
+                var i = 0
+                while (i < hdr.numGroups) {
+                    val fieldType = LEDataInputStream.readUShort(filebuf, pos)
+                    pos += 2
+                    val fieldSize = LEDataInputStream.readInt(filebuf, pos)
+                    pos += 4
+
+                    if (fieldType == 0xFFFF) {
+                        // End-Group record.  Save group and count it.
+                        mDatabaseToOpen.addGroupIndex(newGrp)
+                        newGrp = mDatabaseToOpen.createGroup()
+                        i++
+                    } else {
+                        readGroupField(mDatabaseToOpen, newGrp, fieldType, filebuf, pos)
+                    }
+                    pos += fieldSize
+                }
+            }
+
+            // Import all entries
+            var newEnt = mDatabaseToOpen.createEntry()
             var i = 0
-            while (i < hdr.numGroups) {
+            while (i < hdr.numEntries) {
                 val fieldType = LEDataInputStream.readUShort(filebuf, pos)
-                pos += 2
-                val fieldSize = LEDataInputStream.readInt(filebuf, pos)
-                pos += 4
+                val fieldSize = LEDataInputStream.readInt(filebuf, pos + 2)
 
                 if (fieldType == 0xFFFF) {
                     // End-Group record.  Save group and count it.
-                    mDatabaseToOpen.addGroupIndex(newGrp)
-                    newGrp = mDatabaseToOpen.createGroup()
+                    mDatabaseToOpen.addEntryIndex(newEnt)
+                    newEnt = mDatabaseToOpen.createEntry()
                     i++
                 } else {
-                    readGroupField(mDatabaseToOpen, newGrp, fieldType, filebuf, pos)
+                    readEntryField(mDatabaseToOpen, newEnt, filebuf, pos)
                 }
-                pos += fieldSize
+                pos += 2 + 4 + fieldSize
             }
+
+            constructTreeFromIndex()
+        } catch (e: LoadDatabaseException) {
+            throw e
+        } catch (e: IOException) {
+            throw LoadDatabaseIOException(e)
+        } catch (e: OutOfMemoryError) {
+            throw LoadDatabaseNoMemoryException(e)
+        } catch (e: Exception) {
+            throw LoadDatabaseException(e)
         }
-
-        // Import all entries
-        var newEnt = mDatabaseToOpen.createEntry()
-        var i = 0
-        while (i < hdr.numEntries) {
-            val fieldType = LEDataInputStream.readUShort(filebuf, pos)
-            val fieldSize = LEDataInputStream.readInt(filebuf, pos + 2)
-
-            if (fieldType == 0xFFFF) {
-                // End-Group record.  Save group and count it.
-                mDatabaseToOpen.addEntryIndex(newEnt)
-                newEnt = mDatabaseToOpen.createEntry()
-                i++
-            } else {
-                readEntryField(mDatabaseToOpen, newEnt, filebuf, pos)
-            }
-            pos += 2 + 4 + fieldSize
-        }
-
-        constructTreeFromIndex()
 
         return mDatabaseToOpen
     }

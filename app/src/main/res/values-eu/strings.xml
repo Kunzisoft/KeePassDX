@@ -88,7 +88,7 @@
     <string name="password">Pasahitza</string>
     <string name="install_from_play_store">Play store-etik Instalatu</string>
     <string name="install_from_f_droid">F-Droid-etik Instalatu</string>
-    <string name="invalid_password">Pasahitz edo gako fitxategi baliogabea.</string>
+    <string name="invalid_credentials">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
     <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>

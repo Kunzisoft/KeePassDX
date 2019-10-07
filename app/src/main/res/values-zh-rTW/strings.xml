@@ -78,7 +78,7 @@
     <string name="hint_pass">密碼</string>
     <string name="install_from_play_store">從 Play 商店安裝</string>
     <string name="install_from_f_droid">從 F-Droid 安裝</string>
-    <string name="invalid_password">無效的密碼或密鑰檔。</string>
+    <string name="invalid_credentials">無效的密碼或密鑰檔。</string>
     <string name="invalid_db_sig">資料庫格式無法識別。</string>
     <string name="length">長度</string>
     <string name="list_size_title">群列表尺寸</string>

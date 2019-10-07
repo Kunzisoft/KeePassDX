@@ -81,7 +81,7 @@
     <string name="hint_pass">contraseña</string>
     <string name="install_from_play_store">Instalar desde Play Store</string>
     <string name="install_from_f_droid">Instalar desde F-Droid</string>
-    <string name="invalid_password">Contraseña o archivo de clave no válido.</string>
+    <string name="invalid_credentials">Contraseña o archivo de clave no válido.</string>
     <string name="invalid_db_sig">Formato de base de datos no reconocido.</string>
     <string name="length">Longitud</string>
     <string name="list_size_title">Tamaño de la lista de Grupo</string>

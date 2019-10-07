@@ -79,7 +79,7 @@
     <string name="hint_pass">密码</string>
     <string name="install_from_play_store">从 Play 商店安装</string>
     <string name="install_from_f_droid">从 F-Droid 安装</string>
-    <string name="invalid_password">无法读取密码或密钥文件。</string>
+    <string name="invalid_credentials">无法读取密码或密钥文件。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
     <string name="list_size_title">列表项目尺寸</string>

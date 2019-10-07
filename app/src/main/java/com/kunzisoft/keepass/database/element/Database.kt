@@ -294,88 +294,73 @@ class Database {
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
+        mUri = uri
+        isReadOnly = false
+        if (uri.scheme == "file") {
+            val file = File(uri.path!!)
+            isReadOnly = !file.canWrite()
+        }
+
+        // Pass Uris as InputStreams
+        val inputStream: InputStream?
         try {
+            inputStream = UriUtil.getUriInputStream(contentResolver, uri)
+        } catch (e: Exception) {
+            Log.e("KPD", "Database::loadData", e)
+            throw LoadDatabaseFileNotFoundException()
+        }
 
-            mUri = uri
-            isReadOnly = false
-            if (uri.scheme == "file") {
-                val file = File(uri.path!!)
-                isReadOnly = !file.canWrite()
-            }
-
-            // Pass Uris as InputStreams
-            val inputStream: InputStream?
+        // Pass KeyFile Uri as InputStreams
+        var keyFileInputStream: InputStream? = null
+        keyfile?.let {
             try {
-                inputStream = UriUtil.getUriInputStream(contentResolver, uri)
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
                 throw LoadDatabaseFileNotFoundException()
             }
-
-            // Pass KeyFile Uri as InputStreams
-            var keyFileInputStream: InputStream? = null
-            keyfile?.let {
-                try {
-                    keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
-                } catch (e: Exception) {
-                    Log.e("KPD", "Database::loadData", e)
-                    throw LoadDatabaseFileNotFoundException()
-                }
-            }
-
-            // Load Data
-
-            val bufferedInputStream = BufferedInputStream(inputStream)
-            if (!bufferedInputStream.markSupported()) {
-                throw IOException("Input stream does not support mark.")
-            }
-
-            // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-            bufferedInputStream.mark(10)
-
-            // Get the file directory to save the attachments
-            val sig1 = LEDataInputStream.readInt(bufferedInputStream)
-            val sig2 = LEDataInputStream.readInt(bufferedInputStream)
-
-            // Return to the start
-            bufferedInputStream.reset()
-
-            when {
-                // Header of database V3
-                PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
-                        .openDatabase(bufferedInputStream,
-                                password,
-                                keyFileInputStream,
-                                progressTaskUpdater))
-
-                // Header of database V4
-                PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
-                        cacheDirectory,
-                        fixDuplicateUUID)
-                        .openDatabase(bufferedInputStream,
-                                password,
-                                keyFileInputStream,
-                                progressTaskUpdater))
-
-                // Header not recognized
-                else -> throw LoadDatabaseSignatureException()
-            }
-
-            this.mSearchHelper = searchHelper
-            loaded = true
-
-        } catch (e: LoadDatabaseException) {
-            throw e
-        } catch (e: IOException) {
-            if (e.message?.contains("Hash failed with code") == true)
-                throw LoadDatabaseKDFMemoryException(e)
-            else
-                throw LoadDatabaseIOException(e)
-        } catch (e: OutOfMemoryError) {
-            throw LoadDatabaseNoMemoryException(e)
-        } catch (e: Exception) {
-            throw LoadDatabaseException(e)
         }
+
+        // Load Data
+
+        val bufferedInputStream = BufferedInputStream(inputStream)
+        if (!bufferedInputStream.markSupported()) {
+            throw IOException("Input stream does not support mark.")
+        }
+
+        // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+        bufferedInputStream.mark(10)
+
+        // Get the file directory to save the attachments
+        val sig1 = LEDataInputStream.readInt(bufferedInputStream)
+        val sig2 = LEDataInputStream.readInt(bufferedInputStream)
+
+        // Return to the start
+        bufferedInputStream.reset()
+
+        when {
+            // Header of database V3
+            PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
+                    .openDatabase(bufferedInputStream,
+                            password,
+                            keyFileInputStream,
+                            progressTaskUpdater))
+
+            // Header of database V4
+            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
+                    cacheDirectory,
+                    fixDuplicateUUID)
+                    .openDatabase(bufferedInputStream,
+                            password,
+                            keyFileInputStream,
+                            progressTaskUpdater))
+
+            // Header not recognized
+            else -> throw LoadDatabaseSignatureException()
+        }
+
+        this.mSearchHelper = searchHelper
+        loaded = true
     }
 
     fun isGroupSearchable(group: GroupVersioned, isOmitBackup: Boolean): Boolean {
@@ -519,7 +504,7 @@ class Database {
                 ?: false
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)

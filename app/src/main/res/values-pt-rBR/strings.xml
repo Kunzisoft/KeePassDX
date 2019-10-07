@@ -81,7 +81,7 @@
     <string name="hint_pass">senha</string>
     <string name="install_from_play_store">Instalar a partir do Google Play</string>
     <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
-    <string name="invalid_password">Senha ou arquivo de chaves inválidos.</string>
+    <string name="invalid_credentials">Senha ou arquivo de chaves inválidos.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
