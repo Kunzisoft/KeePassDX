@@ -1,7 +1,0 @@
- * Ajout de paramètres (Couleurs, Sécurité, Clé maitresse)
- * Affiche l'historique de chaque entrée
- * Auto reparation de la base de données pour même UUID
- * Gestion des noeuds expirés
- * Correction des paramètres
- * Correction de l'édition de groupe
- * Correction de petits bugs

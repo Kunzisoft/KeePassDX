@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
+import androidx.core.content.ContextCompat
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -28,14 +29,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import java.text.DateFormat
 import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -63,17 +59,15 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val extrasContainerView: View
     private val extrasView: ViewGroup
 
+    private val dateFormat: DateFormat = android.text.format.DateFormat.getDateFormat(context)
+    private val timeFormat: DateFormat = android.text.format.DateFormat.getTimeFormat(context)
+
     private val creationDateView: TextView
     private val modificationDateView: TextView
     private val lastAccessDateView: TextView
-    private val expiresImageView: ImageView
     private val expiresDateView: TextView
 
     private val uuidView: TextView
-
-    private val historyContainerView: View
-    private val historyListView: RecyclerView
-    private val historyAdapter = EntryHistoryAdapter(context)
 
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
@@ -105,17 +99,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
         lastAccessDateView = findViewById(R.id.entry_accessed)
-        expiresImageView = findViewById(R.id.entry_expires_image)
-        expiresDateView = findViewById(R.id.entry_expires_date)
+        expiresDateView = findViewById(R.id.entry_expires)
 
         uuidView = findViewById(R.id.entry_UUID)
-
-        historyContainerView = findViewById(R.id.entry_history_container)
-        historyListView = findViewById(R.id.entry_history_list)
-        historyListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
-            adapter = historyAdapter
-        }
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -244,24 +230,24 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasContainerView.visibility = View.GONE
     }
 
-    fun assignCreationDate(date: PwDate) {
-        creationDateView.text = date.getDateTimeString(resources)
+    private fun getDateTime(date: Date): String {
+        return dateFormat.format(date) + " " + timeFormat.format(date)
     }
 
-    fun assignModificationDate(date: PwDate) {
-        modificationDateView.text = date.getDateTimeString(resources)
+    fun assignCreationDate(date: Date) {
+        creationDateView.text = getDateTime(date)
     }
 
-    fun assignLastAccessDate(date: PwDate) {
-        lastAccessDateView.text = date.getDateTimeString(resources)
+    fun assignModificationDate(date: Date) {
+        modificationDateView.text = getDateTime(date)
     }
 
-    fun setExpires(isExpires: Boolean) {
-        expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
+    fun assignLastAccessDate(date: Date) {
+        lastAccessDateView.text = getDateTime(date)
     }
 
-    fun assignExpiresDate(date: PwDate) {
-        assignExpiresDate(date.getDateTimeString(resources))
+    fun assignExpiresDate(date: Date) {
+        expiresDateView.text = getDateTime(date)
     }
 
     fun assignExpiresDate(constString: String) {
@@ -270,21 +256,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
-    }
-
-    fun showHistory(show: Boolean) {
-        historyContainerView.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    fun assignHistory(history: ArrayList<EntryVersioned>) {
-        historyAdapter.clear()
-        historyAdapter.entryHistoryList.addAll(history)
-    }
-
-    fun onHistoryClick(action: (historyItem: EntryVersioned, position: Int)->Unit) {
-        historyAdapter.onItemClickListener = { item, position ->
-                action.invoke(item, position)
-            }
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

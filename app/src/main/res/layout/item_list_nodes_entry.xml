@@ -33,34 +33,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/node_icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="4dp"
-            android:layout_marginLeft="@dimen/image_list_margin"
-            android:layout_marginStart="@dimen/image_list_margin"
-            android:layout_marginRight="@dimen/image_list_margin"
-            android:layout_marginEnd="@dimen/image_list_margin"
-            android:scaleType="fitXY"
-            android:src="@drawable/ic_blank_32dp"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:orientation="vertical"
             android:paddingTop="2dp"
             android:paddingBottom="4dp"
             android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_toRightOf="@+id/node_icon"
-            android:layout_toEndOf="@+id/node_icon">
+            android:paddingLeft="10dp"
+            android:paddingStart="10dp">
             <TextView
                 android:id="@+id/node_text"
+                android:paddingTop="2dp"
+                android:paddingBottom="2dp"
                 android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
                 tools:text="Node Title"

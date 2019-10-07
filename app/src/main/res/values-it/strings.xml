@@ -33,6 +33,7 @@
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
     <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
+    <string name="cancel">Annulla</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
     <string name="clipboard_error">Alcuni telefoni Android di Samsung non permettono alle app di usare gli appunti.</string>
@@ -70,12 +71,14 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
     <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
+    <string name="error_rounds_not_number">Rendi il \"livello\" un numero.</string>
     <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_title_required">Aggiungi un titolo.</string>
     <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
     <string name="field_name">Nome campo</string>
     <string name="field_value">Valore campo</string>
+    <string name="file_not_found">File non trovato.</string>
     <string name="file_not_found_content">File non trovato. Prova a riaprirlo dal tuo gestore di file.</string>
     <string name="file_browser">Gestore file</string>
     <string name="generate_password">Genera password</string>
@@ -212,7 +215,7 @@
     <string name="warning_empty_password">Vuoi veramente che non ci sia una password di sblocco\?</string>
     <string name="warning_no_encryption_key">Sei sicuro di non volere usare una chiave di cifratura?</string>
     <string name="biometric_not_recognized">Impronta non riconosciuta</string>
-    <string name="database_history">Cronologia</string>
+    <string name="history">Cronologia</string>
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
     <string name="autofill">Autocompletamento</string>
@@ -257,9 +260,12 @@
     <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
+    <string name="auto_open_file_uri_title">Apri i file selezionandoli</string>
+    <string name="auto_open_file_uri_summary">Apri automaticamente i file selezionandoli nel gestore di file</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
+    <string name="open_link_database">Link del file database da aprire</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>
     <string name="database_version_title">Versione database</string>
@@ -290,6 +296,8 @@
     <string name="education_create_database_summary">Crea il tuo primo file di gestione password.</string>
     <string name="education_select_database_title">Apri un database esistente</string>
     <string name="education_select_database_summary">Apri il tuo file database precedente dal tuo gestore di file per continuare ad usarlo.</string>
+    <string name="education_open_link_database_title">Un link al percorso del tuo file è sufficiente</string>
+    <string name="education_open_link_database_summary">Puoi anche aprire il tuo database con un link fisico (con file:// e content:// ad esempio).</string>
     <string name="education_new_node_title">Aggiungi elementi al tuo database</string>
     <string name="education_new_node_summary">Gli elementi aiutano a gestire le tue identità digitali. 
 \n 
@@ -384,6 +392,8 @@
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione</string>
     <string name="content_description_open_file">Apri il file</string>
+    <string name="content_description_show_file_link">Mostra il link del file</string>
+    <string name="content_description_open_file_link">Apri il link del file</string>
     <string name="content_description_node_children">Figli del nodo</string>
     <string name="content_description_add_node">Aggiungi un nodo</string>
     <string name="content_description_add_entry">Aggiungi una voce</string>

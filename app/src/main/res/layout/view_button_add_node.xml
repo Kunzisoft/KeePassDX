@@ -27,7 +27,6 @@
         android:layout_alignEnd="@+id/add_button"
         android:layout_alignRight="@+id/add_button"
         android:layout_marginBottom="-12dp"
-        android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
         <TextView
             android:id="@+id/text_add_entry"
@@ -59,7 +58,6 @@
         android:layout_alignEnd="@+id/container_add_entry"
         android:layout_alignRight="@+id/container_add_entry"
         android:layout_marginBottom="-12dp"
-        android:descendantFocusability="blocksDescendants"
         android:visibility="gone">
         <TextView
             android:id="@+id/text_add_group"

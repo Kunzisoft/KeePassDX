@@ -21,36 +21,38 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class ParallelismPreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         setExplanationText(R.string.parallelism_explanation)
-        inputText = database?.parallelism?.toString() ?: MIN_PARALLELISM.toString()
+        inputText = database?.parallelismAsString ?: ""
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            database?.let { database ->
-                var parallelism: Int = try {
-                    inputText.toInt()
-                } catch (e: NumberFormatException) {
-                    MIN_PARALLELISM
-                }
-                if (parallelism < MIN_PARALLELISM) {
-                    parallelism = MIN_PARALLELISM
-                }
-                // TODO Max Parallelism
-
-                val oldParallelism = database.parallelism
-                database.parallelism = parallelism
-
-                actionInUIThreadAfterSaveDatabase = AfterParallelismSave(parallelism, oldParallelism)
+        if (database != null && positiveResult) {
+            var parallelism: Int
+            try {
+                val stringParallelism = inputText
+                parallelism = Integer.parseInt(stringParallelism)
+            } catch (e: NumberFormatException) {
+                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
+                return
             }
+
+            if (parallelism < 1) {
+                parallelism = 1
+            }
+
+            val oldParallelism = database!!.parallelism
+            database?.parallelism = parallelism
+
+            actionInUIThreadAfterSaveDatabase = AfterParallelismSave(parallelism, oldParallelism)
         }
 
         super.onDialogClosed(positiveResult)
@@ -61,20 +63,15 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val parallelismToShow =
-                    if (result.isSuccess) {
-                        mNewParallelism
-                    } else {
-                        database?.parallelism = mOldParallelism
-                        mOldParallelism
-                    }
+            val parallelismToShow = mNewParallelism
+            if (!result.isSuccess) {
+                database?.parallelism = mOldParallelism
+            }
             preference.summary = parallelismToShow.toString()
         }
     }
 
     companion object {
-
-        const val MIN_PARALLELISM = 1
 
         fun newInstance(key: String): ParallelismPreferenceDialogFragmentCompat {
             val fragment = ParallelismPreferenceDialogFragmentCompat()

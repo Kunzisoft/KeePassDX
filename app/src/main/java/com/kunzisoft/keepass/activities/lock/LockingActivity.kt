@@ -33,8 +33,6 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
-import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
@@ -195,10 +193,6 @@ abstract class LockingActivity : StylishActivity() {
 }
 
 fun Activity.lock() {
-    // Stop the Magikeyboard service
-    stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-    MagikIME.removeEntry(this)
-
     Log.i(Activity::class.java.name, "Shutdown " + localClassName +
             " after inactivity or manual lock")
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {

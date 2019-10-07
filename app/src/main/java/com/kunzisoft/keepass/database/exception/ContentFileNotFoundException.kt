@@ -17,17 +17,24 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.settings
+package com.kunzisoft.keepass.database.exception
 
-import android.os.Bundle
-import androidx.preference.PreferenceFragmentCompat
+import android.net.Uri
+import java.io.FileNotFoundException
 
-import com.kunzisoft.keepass.R
+class ContentFileNotFoundException : FileNotFoundException() {
+    companion object {
+        fun getInstance(uri: Uri?): FileNotFoundException {
+            if (uri == null) {
+                return FileNotFoundException()
+            }
 
-class MagikIMESettingsFragment : PreferenceFragmentCompat() {
-
-    override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-        // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
+            val scheme = uri.scheme
+            return if (scheme != null
+                    && scheme.isNotEmpty()
+                    && scheme.equals("content", ignoreCase = true)) {
+                ContentFileNotFoundException()
+            } else FileNotFoundException()
+        }
     }
 }

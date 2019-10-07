@@ -32,6 +32,7 @@
     <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="file_manager_install_description">Для обзора файлов установите OpenIntents File Manager</string>
+    <string name="cancel">Отмена</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
     <string name="clipboard_error">Некоторые устройства Samsung не дают приложению использовать буфер обмена.</string>
@@ -70,12 +71,14 @@
     <string name="error_out_of_memory">Недостаточно памяти для работы с базой.</string>
     <string name="error_pass_gen_type">Выберите один или несколько типов символов.</string>
     <string name="error_pass_match">Пароли не совпадают.</string>
+    <string name="error_rounds_not_number">Введите число.</string>
     <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
     <string name="error_title_required">Введите название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
     <string name="field_value">Значение поля</string>
+    <string name="file_not_found">Файл не найден.</string>
     <string name="file_not_found_content">Файл не найден. Попробуйте повторно открыть через встроенный поставщик содержимого.</string>
     <string name="file_browser">Обзор файлов</string>
     <string name="generate_password">Генерация пароля</string>
@@ -217,7 +220,7 @@
     <string name="warning_empty_password">Вы действительно хотите использовать пустой пароль?</string>
     <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
     <string name="biometric_not_recognized">Отпечаток пальца не распознан</string>
-    <string name="database_history">История</string>
+    <string name="history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
@@ -263,9 +266,12 @@
     <string name="recycle_bin_summary">Перемещать группу или запись в Корзину перед удалением</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить шрифт, используемый в полях, для лучшей видимости</string>
+    <string name="auto_open_file_uri_title">Автоматически открывать выбранный файл</string>
+    <string name="auto_open_file_uri_summary">Открывать файл автоматически после выбора в файловом менеджере</string>
     <string name="allow_copy_password_title">Копирование пароля</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищенных полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: Буфер обмена доступен всем приложениям. Если чувствительные данные копируются, другие программы могут его перехватить.</string>
+    <string name="open_link_database">Ссылка на файл KDBX</string>
     <string name="database_name_title">Название базы</string>
     <string name="database_description_title">Описание базы</string>
     <string name="database_version_title">Версия базы</string>
@@ -298,6 +304,8 @@
     <string name="education_create_database_summary">Вы ещё не знаете KeePass DX, создайте свой первый файл управления паролями.</string>
     <string name="education_select_database_title">Откройте существующую базу</string>
     <string name="education_select_database_summary">Вы уже использовали KeePass менеджер. Просто откройте ваш файл KDBX из вашего файлового менеджера.</string>
+    <string name="education_open_link_database_title">Ссылки на местоположение файла достаточно</string>
+    <string name="education_open_link_database_summary">Вы также можете открыть базу с помощью физической ссылки (например, с file:// или content://).</string>
     <string name="education_new_node_title">Добавляйте новые элементы в базу</string>
     <string name="education_new_node_summary">Добавляйте записи для управления цифровыми идентификаторами.
 \n

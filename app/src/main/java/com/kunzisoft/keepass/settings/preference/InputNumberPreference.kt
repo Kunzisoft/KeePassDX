@@ -20,28 +20,66 @@
 package com.kunzisoft.keepass.settings.preference
 
 import android.content.Context
+import android.content.res.TypedArray
 import android.util.AttributeSet
-import com.kunzisoft.keepass.R
 
-open class InputNumberPreference @JvmOverloads constructor(context: Context,
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+
+class InputNumberPreference @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,
                                                       defStyleAttr: Int = R.attr.dialogPreferenceStyle,
                                                       defStyleRes: Int = defStyleAttr)
-    : InputTextPreference(context, attrs, defStyleAttr, defStyleRes) {
+    : InputTextExplanationPreference(context, attrs, defStyleAttr, defStyleRes) {
+
+    // Save to Shared Preferences
+    var number: Long = 0
+        set(number) {
+            field = number
+            persistLong(number)
+        }
 
     override fun getDialogLayoutResource(): Int {
-        return R.layout.pref_dialog_input_numbers
+        return R.layout.pref_dialog_numbers
     }
 
     override fun setSummary(summary: CharSequence) {
-        if (summary == INFINITE_VALUE_STRING) {
+        if (summary == KdfEngine.UNKNOWN_VALUE_STRING) {
+            isEnabled = false
             super.setSummary("")
         } else {
+            isEnabled = true
             super.setSummary(summary)
         }
     }
 
-    companion object {
-        const val INFINITE_VALUE_STRING = "-1"
+    override fun onGetDefaultValue(a: TypedArray?, index: Int): Any {
+        // Default value from attribute. Fallback value is set to 0.
+        return a?.getInt(index, 0) ?: 0
     }
+
+    override fun onSetInitialValue(restorePersistedValue: Boolean,
+                                   defaultValue: Any?) {
+        // Read the value. Use the default value if it is not possible.
+        var numberValue: Long
+        if (!restorePersistedValue) {
+            numberValue = 100000
+            if (defaultValue is String) {
+                numberValue = java.lang.Long.parseLong(defaultValue)
+            }
+            if (defaultValue is Int) {
+                numberValue = defaultValue.toLong()
+            }
+            try {
+                numberValue = defaultValue as Long
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        } else {
+            numberValue = getPersistedLong(this.number)
+        }
+
+        number = numberValue
+    }
+
 }

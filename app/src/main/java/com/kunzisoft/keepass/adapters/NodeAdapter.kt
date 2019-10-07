@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Paint
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -59,7 +58,7 @@ class NodeAdapter
     private var ascendingSort: Boolean = true
     private var groupsBeforeSort: Boolean = true
     private var recycleBinBottomSort: Boolean = true
-    private var showUserNames: Boolean = true
+    private var showNotes: Boolean = true
     private var showNumberEntries: Boolean = true
 
     private var nodeClickCallback: NodeClickCallback? = null
@@ -138,7 +137,7 @@ class NodeAdapter
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
         this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
         this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
-        this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
+        this.showNotes = PreferencesUtil.showNotesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
 
         // Reinit textSize for all view type
@@ -227,22 +226,20 @@ class NodeAdapter
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
-        holder.icon.apply {
-            assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
-            // Relative size of the icon
-            layoutParams?.apply {
-                height = iconSize.toInt()
-                width = iconSize.toInt()
-            }
-        }
+//        if (subNode.type == Type.GROUP) {
+//            holder.icon.apply {
+//                assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
+//                // Relative size of the icon
+//                layoutParams?.apply {
+//                    height = iconSize.toInt()
+//                    width = iconSize.toInt()
+//                }
+//            }
+//        }
         // Assign text
         holder.text.apply {
             text = subNode.title
             setTextSize(textSizeUnit, infoTextSize)
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
         }
         // Assign click
         holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
@@ -252,13 +249,9 @@ class NodeAdapter
                     ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
         }
 
-        // Add subText with username
+        // Add subText with notes
         holder.subText.apply {
             text = ""
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
             visibility = View.GONE
             if (subNode.type == Type.ENTRY) {
                 val entry = subNode as EntryVersioned
@@ -267,10 +260,10 @@ class NodeAdapter
 
                 holder.text.text = entry.getVisualTitle()
 
-                val username = entry.username
-                if (showUserNames && username.isNotEmpty()) {
+                val notes = entry.notes
+                if (showNotes && notes.isNotEmpty()) {
                     visibility = View.VISIBLE
-                    text = username
+                    text = notes
                     setTextSize(textSizeUnit, subtextSize)
                 }
 
@@ -404,7 +397,7 @@ class NodeAdapter
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var container: View = itemView.findViewById(R.id.node_container)
-        var icon: ImageView = itemView.findViewById(R.id.node_icon)
+//        var icon: ImageView? = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)
         var numberChildren: TextView? = itemView.findViewById(R.id.node_child_numbers)

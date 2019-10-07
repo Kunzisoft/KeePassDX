@@ -6,10 +6,10 @@ import android.util.AttributeSet
 
 import com.kunzisoft.keepass.R
 
-open class InputTextPreference @JvmOverloads constructor(context: Context,
-                                                         attrs: AttributeSet? = null,
-                                                         defStyleAttr: Int = R.attr.dialogPreferenceStyle,
-                                                         defStyleRes: Int = defStyleAttr)
+class InputTextPreference @JvmOverloads constructor(context: Context,
+                                                    attrs: AttributeSet? = null,
+                                                    defStyleAttr: Int = R.attr.dialogPreferenceStyle,
+                                                    defStyleRes: Int = defStyleAttr)
     : DialogPreference(context, attrs, defStyleAttr, defStyleRes) {
 
     override fun getDialogLayoutResource(): Int {

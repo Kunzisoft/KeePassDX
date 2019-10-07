@@ -31,6 +31,7 @@
     <string name="menu_app_settings">Programinnstillingar</string>
     <string name="brackets">Parentesar</string>
     <string name="file_manager_install_description">Du må ha Open Intents filbehandlar for å kunna bla i filer. Klikk nedanfor for å installera han. Grunna nokre småfeil i programmet kan det vera at det ikkje fungerer heilt den første gongen du bruker det.</string>
+    <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Utklippstavla er tømt.</string>
     <string name="clipboard_timeout">Tidsavbrot på utklippstavla</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavla blir tømt etter at brukarnamnet eller passordet er kopiert.</string>
@@ -65,9 +66,11 @@
     <string name="error_out_of_memory">Telefonen gjekk tom for minne ved lesinga av databasen din. Databasen er kanskje for stor.</string>
     <string name="error_pass_gen_type">Du må velja minst éin passordlagingstype</string>
     <string name="error_pass_match">Passorda samsvarer ikkje.</string>
+    <string name="error_rounds_not_number">Omgangar må vera eit tal.</string>
     <string name="error_rounds_too_large">For mange omgangar. Bruker 2147483648.</string>
     <string name="error_title_required">Treng ein tittel.</string>
     <string name="error_wrong_length">Bruk eit positivt heiltal i lengdfeltet</string>
+    <string name="file_not_found">Fann ikkje fila.</string>
     <string name="file_browser">Filbehandlar</string>
     <string name="generate_password">Lag passord</string>
     <string name="hint_conf_pass">stadfest passordet</string>

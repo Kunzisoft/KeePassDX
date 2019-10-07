@@ -32,6 +32,7 @@
     <string name="beta_dontask">"Ne mutassa többet"</string>
     <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Fájlok böngészése az OpenIntents fájlkezelő telepítésével</string>
+    <string name="cancel">Mégse</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
     <string name="clipboard_error_title">Vágólap hiba</string>
     <string name="clipboard_error">Egyes androidos Samsung telefonok nem engedik, hogy az alkalmazások használják a vágólapot.</string>
@@ -69,12 +70,14 @@
     <string name="error_out_of_memory">Nincs elég memória a teljes adatbázis betöltéséhez.</string>
     <string name="error_pass_gen_type">Legalább egy jelszóelőállítási típust kell választania.</string>
     <string name="error_pass_match">A jelszavak nem egyeznek meg.</string>
+    <string name="error_rounds_not_number">A „Transzformációs körök” szám kell legyen.</string>
     <string name="error_rounds_too_large">A „Transzformációs körök” száma túl nagy. Beállítás 2147483648-ra.</string>
     <string name="error_string_key">Minden karakterlánchoz szükséges egy mezőnév.</string>
     <string name="error_title_required">Adjon hozzá egy címet.</string>
     <string name="error_wrong_length">Írjon be egy pozitív egész számot a „Hossz” mezőbe.</string>
     <string name="field_name">Mezőnév</string>
     <string name="field_value">Mezőérték</string>
+    <string name="file_not_found">A fájl nem található.</string>
     <string name="file_not_found_content">A fájl nem található. Próbálja meg újra megnyitni a fájlkezelőben.</string>
     <string name="file_browser">Fájlkezelő</string>
     <string name="generate_password">Jelszó előállítása</string>
@@ -220,7 +223,7 @@
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
     <string name="biometric_not_recognized">Az ujjlenyomat nem ismerhető fel</string>
-    <string name="database_history">Előzmények</string>
+    <string name="history">Előzmények</string>
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
@@ -265,9 +268,12 @@
     <string name="recycle_bin_summary">A csoportok és bejegyzések „Kukába” helyezése törlés előtt</string>
     <string name="monospace_font_fields_enable_title">Mező betűkészlete</string>
     <string name="monospace_font_fields_enable_summary">A mezőkben használt betűkészlet módosítása a karakterek jobb láthatósága érdekében</string>
+    <string name="auto_open_file_uri_title">Fájlok megnyitása kiválasztással</string>
+    <string name="auto_open_file_uri_summary">Fájlok automatikus megnyitása, ha kiválasztásra kerülnek a fájlböngészőben</string>
     <string name="allow_copy_password_title">Megbízás a vágólapban</string>
     <string name="allow_copy_password_summary">Engedélyezés, hogy a jelszó és a védett mezők a vágólapra kerüljenek</string>
     <string name="allow_copy_password_warning">FIGYELMEZTETÉS: A vágólapon osztozik az összes alkalmazás. Ha érzékeny adatokat másol, akkor a többi szoftver is hozzáférhet.</string>
+    <string name="open_link_database">A megnyitandó adatbázisfájl hivatkozása</string>
     <string name="database_name_title">Adatbázis neve</string>
     <string name="database_description_title">Adatbázis leírása</string>
     <string name="database_version_title">Adatbázis verzió</string>
@@ -318,6 +324,8 @@
     <string name="education_create_database_summary">Hozza létre az első jelszókezelő-fájlját.</string>
     <string name="education_select_database_title">Létező adatbázis megnyitása</string>
     <string name="education_select_database_summary">Nyisson meg egy korábbi adatbázisfájlt a fájlböngészőből, hogy folytassa a használatát.</string>
+    <string name="education_open_link_database_title">Egy a fájl helyére mutató hivatkozás is megfelelő</string>
+    <string name="education_open_link_database_summary">Egy fizikai hivatkozással is megnyithatja az adatbázist (például egy file:// vagy content:// hivatkozással).</string>
     <string name="education_new_node_title">Elemek hozzáadása az adatbázishoz</string>
     <string name="education_new_node_summary">A bejegyzések segítenek a digitális személyazonosságai kezelésében.
 \n

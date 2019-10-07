@@ -19,7 +19,37 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation
 
+import com.kunzisoft.keepass.database.exception.UnknownKDF
+
+import java.util.ArrayList
+
 object KdfFactory {
+
     var aesKdf = AesKdf()
     var argon2Kdf = Argon2Kdf()
+
+    var kdfListV3: MutableList<KdfEngine> = ArrayList()
+    var kdfListV4: MutableList<KdfEngine> = ArrayList()
+
+    init {
+        kdfListV3.add(aesKdf)
+
+        kdfListV4.add(aesKdf)
+        kdfListV4.add(argon2Kdf)
+    }
+
+    @Throws(UnknownKDF::class)
+    fun getEngineV4(kdfParameters: KdfParameters?): KdfEngine {
+        val unknownKDFException = UnknownKDF()
+        if (kdfParameters == null) {
+            throw unknownKDFException
+        }
+        for (engine in kdfListV4) {
+            if (engine.uuid == kdfParameters.uuid) {
+                return engine
+            }
+        }
+        throw unknownKDFException
+    }
+
 }

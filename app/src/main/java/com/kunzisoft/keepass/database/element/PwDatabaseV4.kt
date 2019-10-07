@@ -26,9 +26,12 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.*
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
+import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
@@ -37,20 +40,17 @@ import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
-import javax.xml.XMLConstants
 import javax.xml.parsers.DocumentBuilderFactory
-import javax.xml.parsers.ParserConfigurationException
 
 
-class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
+class PwDatabaseV4 : PwDatabase<PwGroupV4, PwEntryV4> {
 
     var hmacKey: ByteArray? = null
         private set
     var dataCipher = AesEngine.CIPHER_UUID
     private var dataEngine: CipherEngine = AesEngine()
-    var compressionAlgorithm = PwCompressionAlgorithm.GZip
+    var compressionAlgorithm = PwCompressionAlgorithm.Gzip
     var kdfParameters: KdfParameters? = null
-    private var kdfV4List: MutableList<KdfEngine> = ArrayList()
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
 
@@ -93,11 +93,6 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
 
     var localizedAppName = "KeePassDX" // TODO resource
 
-    init {
-        kdfV4List.add(KdfFactory.aesKdf)
-        kdfV4List.add(KdfFactory.argon2Kdf)
-    }
-
     constructor()
 
     constructor(databaseName: String) {
@@ -112,39 +107,6 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
     override val version: String
         get() = "KeePass 2"
 
-    override val kdfEngine: KdfEngine?
-        get() = try {
-            getEngineV4(kdfParameters)
-        } catch (unknownKDF: UnknownKDF) {
-            Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
-            null
-        }
-
-    override val kdfAvailableList: List<KdfEngine>
-        get() = kdfV4List
-
-    @Throws(UnknownKDF::class)
-    fun getEngineV4(kdfParameters: KdfParameters?): KdfEngine {
-        val unknownKDFException = UnknownKDF()
-        if (kdfParameters == null) {
-            throw unknownKDFException
-        }
-        for (engine in kdfV4List) {
-            if (engine.uuid == kdfParameters.uuid) {
-                return engine
-            }
-        }
-        throw unknownKDFException
-    }
-
-    val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
-        get() {
-            val list = ArrayList<PwCompressionAlgorithm>()
-            list.add(PwCompressionAlgorithm.None)
-            list.add(PwCompressionAlgorithm.GZip)
-            return list
-        }
-
     override val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() {
             val list = ArrayList<PwEncryptionAlgorithm>()
@@ -154,45 +116,45 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
             return list
         }
 
+    val kdfEngine: KdfEngine?
+        get() {
+            return try {
+                KdfFactory.getEngineV4(kdfParameters)
+            } catch (unknownKDF: UnknownKDF) {
+                Log.i(TAG, "Unable to retrieve KDF engine", unknownKDF)
+                null
+            }
+        }
+
     override var numberKeyEncryptionRounds: Long
         get() {
-            val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
-                numKeyEncRounds = kdfEngine.getKeyRounds(kdfParameters!!)
+                numKeyEncRounds = kdfEngine!!.getKeyRounds(kdfParameters!!)
             return numKeyEncRounds
         }
         @Throws(NumberFormatException::class)
         set(rounds) {
-            val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setKeyRounds(kdfParameters!!, rounds)
+                kdfEngine!!.setKeyRounds(kdfParameters!!, rounds)
             numKeyEncRounds = rounds
         }
 
     var memoryUsage: Long
-        get() {
-            val kdfEngine = kdfEngine
-            return if (kdfEngine != null && kdfParameters != null) {
-                kdfEngine.getMemoryUsage(kdfParameters!!)
-            } else KdfEngine.UNKNOWN_VALUE.toLong()
-        }
+        get() = if (kdfEngine != null && kdfParameters != null) {
+            kdfEngine!!.getMemoryUsage(kdfParameters!!)
+        } else KdfEngine.UNKNOWN_VALUE.toLong()
         set(memory) {
-            val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setMemoryUsage(kdfParameters!!, memory)
+                kdfEngine!!.setMemoryUsage(kdfParameters!!, memory)
         }
 
     var parallelism: Int
-        get() {
-            val kdfEngine = kdfEngine
-            return if (kdfEngine != null && kdfParameters != null) {
-                kdfEngine.getParallelism(kdfParameters!!)
-            } else KdfEngine.UNKNOWN_VALUE
-        }
+        get() = if (kdfEngine != null && kdfParameters != null) {
+            kdfEngine!!.getParallelism(kdfParameters!!)
+        } else KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
-            val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
-                kdfEngine.setParallelism(kdfParameters!!, parallelism)
+                kdfEngine!!.setParallelism(kdfParameters!!, parallelism)
         }
 
     override val passwordEncoding: String
@@ -238,7 +200,7 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
         return getCustomData().isNotEmpty()
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(InvalidKeyFileException::class, IOException::class)
     public override fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray {
 
         var masterKey = byteArrayOf()
@@ -265,7 +227,7 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
     fun makeFinalKey(masterSeed: ByteArray) {
 
         kdfParameters?.let { keyDerivationFunctionParameters ->
-            val kdfEngine = getEngineV4(keyDerivationFunctionParameters)
+            val kdfEngine = KdfFactory.getEngineV4(keyDerivationFunctionParameters)
 
             var transformedMasterKey = kdfEngine.transform(masterKey, keyDerivationFunctionParameters)
             if (transformedMasterKey.size != 32) {
@@ -292,24 +254,16 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
 
     override fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray? {
         try {
-            val documentBuilderFactory = DocumentBuilderFactory.newInstance()
+            val dbf = DocumentBuilderFactory.newInstance()
+            val db = dbf.newDocumentBuilder()
+            val doc = db.parse(keyInputStream)
 
-            // Disable certain unsecure XML-Parsing DocumentBuilderFactory features
-            try {
-                documentBuilderFactory.setFeature(XMLConstants.FEATURE_SECURE_PROCESSING, true)
-            } catch (e : ParserConfigurationException) {
-                Log.e(TAG, "Unable to add FEATURE_SECURE_PROCESSING to prevent XML eXternal Entity injection (XXE)", e)
-            }
-
-            val documentBuilder = documentBuilderFactory.newDocumentBuilder()
-            val doc = documentBuilder.parse(keyInputStream)
-
-            val docElement = doc.documentElement
-            if (docElement == null || !docElement.nodeName.equals(RootElementName, ignoreCase = true)) {
+            val el = doc.documentElement
+            if (el == null || !el.nodeName.equals(RootElementName, ignoreCase = true)) {
                 return null
             }
 
-            val children = docElement.childNodes
+            val children = el.childNodes
             if (children.length < 2) {
                 return null
             }
@@ -406,7 +360,9 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
             }
             addGroupTo(recycleBinGroup, rootGroup)
             recycleBinUUID = recycleBinGroup.id
-            recycleBinChanged = recycleBinGroup.lastModificationTime.date
+            recycleBinGroup.lastModificationTime.date?.let {
+                recycleBinChanged = it
+            }
         }
     }
 
@@ -471,10 +427,10 @@ class PwDatabaseV4 : PwDatabase<UUID, PwGroupV4, PwEntryV4> {
         return publicCustomData.size() > 0
     }
 
-    override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
-        if (password == null)
+    override fun validatePasswordEncoding(key: String?): Boolean {
+        if (key == null)
             return true
-        return super.validatePasswordEncoding(password, containsKeyFile)
+        return super.validatePasswordEncoding(key)
     }
 
     override fun clearCache() {

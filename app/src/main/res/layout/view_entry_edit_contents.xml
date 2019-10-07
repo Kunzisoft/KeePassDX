@@ -32,15 +32,6 @@
 		android:layout_height="wrap_content"
 		app:layout_constraintTop_toTopOf="parent">
 
-		<androidx.appcompat.widget.AppCompatImageButton
-			android:id="@+id/entry_edit_icon_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_margin="4dp"
-			android:src="@drawable/ic_blank_32dp"
-			android:contentDescription="@string/content_description_entry_icon"
-			android:layout_gravity="center"/>
-
 		<!--  Title -->
 		<com.google.android.material.textfield.TextInputLayout
 			android:id="@+id/entry_edit_container_title"
@@ -61,18 +52,7 @@
 		<!-- Username -->
 		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_user_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="text"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:maxLines="1"
-				android:hint="@string/entry_user_name"/>
-		</com.google.android.material.textfield.TextInputLayout>
+			android:layout_height="wrap_content"/>
 
 		<!-- Password -->
 		<RelativeLayout
@@ -86,20 +66,7 @@
 				android:layout_height="wrap_content"
 				app:passwordToggleEnabled="true"
 				android:layout_alignParentLeft="true"
-				android:layout_alignParentStart="true"
-				android:layout_toLeftOf="@+id/entry_edit_generate_button"
-				android:layout_toStartOf="@+id/entry_edit_generate_button">
-
-				<androidx.appcompat.widget.AppCompatEditText
-					android:id="@+id/entry_edit_password"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textPassword"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_password"/>
-			</com.google.android.material.textfield.TextInputLayout>
+				android:layout_alignParentStart="true" />
 
 			<!-- Confirm Password -->
 			<com.google.android.material.textfield.TextInputLayout
@@ -110,67 +77,30 @@
 				android:layout_alignParentStart="true"
 				app:passwordToggleEnabled="true"
 				android:contentDescription="@string/content_description_repeat_toggle_password_visibility"
-				android:layout_toLeftOf="@+id/entry_edit_generate_button"
-				android:layout_toStartOf="@+id/entry_edit_generate_button"
-				android:layout_below="@+id/entry_edit_container_password">
+				android:layout_below="@+id/entry_edit_container_password"/>
 
-				<androidx.appcompat.widget.AppCompatEditText
-					android:id="@+id/entry_edit_confirmation_password"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textPassword"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_confpassword"/>
-			</com.google.android.material.textfield.TextInputLayout>
-
-			<androidx.appcompat.widget.AppCompatImageButton
-				android:id="@+id/entry_edit_generate_button"
-				android:layout_width="48dp"
-				android:layout_height="48dp"
-				android:padding="12dp"
-				android:layout_alignParentEnd="true"
-				android:layout_alignParentRight="true"
-				android:layout_centerVertical="true"
-				android:layout_margin="8dp"
-				android:src="@drawable/ic_key_white_24dp"
-				android:contentDescription="@string/content_description_password_generator"
-				android:tint="?attr/colorAccent"/>
 		</RelativeLayout>
 
 		<!--  URL -->
 		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_url"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textUri"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:maxLines="1"
-				android:hint="@string/entry_url"/>
-		</com.google.android.material.textfield.TextInputLayout>
+			android:layout_height="wrap_content"/>
 
 		<!-- Comment -->
 		<com.google.android.material.textfield.TextInputLayout
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
+			android:layout_height="match_parent">
 
 			<androidx.appcompat.widget.AppCompatEditText
 				android:id="@+id/entry_edit_notes"
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="match_parent"
 				android:gravity="start"
-				android:lines="4"
-				android:maxLines="10"
+				android:hint="@string/entry_notes"
 				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
 				android:inputType="textMultiLine"
-				android:hint="@string/entry_notes"/>
+				android:lines="10"
+				android:maxLines="100" />
 		</com.google.android.material.textfield.TextInputLayout>
 
 		<LinearLayout
@@ -180,14 +110,6 @@
 			android:orientation="vertical">
 		</LinearLayout>
 
-		<androidx.appcompat.widget.AppCompatImageButton
-			android:id="@+id/entry_edit_add_new_field"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:src="@drawable/ic_add_white_24dp"
-            android:contentDescription="@string/content_description_add_field"
-			android:tint="?attr/colorAccent"
-			android:scaleType="centerCrop"/>
 	</LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

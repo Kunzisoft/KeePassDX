@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.database.file.PwDbHeader
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.PwDbOutputException
 
 import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
@@ -28,13 +28,13 @@ import java.security.SecureRandom
 
 abstract class PwDbOutput<Header : PwDbHeader> protected constructor(protected var mOS: OutputStream) {
 
-    @Throws(DatabaseOutputException::class)
+    @Throws(PwDbOutputException::class)
     protected open fun setIVs(header: Header): SecureRandom {
         val random: SecureRandom
         try {
             random = SecureRandom.getInstance("SHA1PRNG")
         } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("Does not support secure random number generation.")
+            throw PwDbOutputException("Does not support secure random number generation.")
         }
 
         random.nextBytes(header.encryptionIV)
@@ -43,10 +43,10 @@ abstract class PwDbOutput<Header : PwDbHeader> protected constructor(protected v
         return random
     }
 
-    @Throws(DatabaseOutputException::class)
+    @Throws(PwDbOutputException::class)
     abstract fun output()
 
-    @Throws(DatabaseOutputException::class)
+    @Throws(PwDbOutputException::class)
     abstract fun outputHeader(outputStream: OutputStream): Header
 
 }

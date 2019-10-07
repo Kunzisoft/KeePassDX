@@ -33,16 +33,16 @@ class Argon2Kdf internal constructor() : KdfEngine() {
             val p = KdfParameters(uuid)
 
             p.setParamUUID()
-            p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
-            p.setUInt64(PARAM_MEMORY, DEFAULT_MEMORY)
-            p.setUInt64(PARAM_ITERATIONS, DEFAULT_ITERATIONS)
-            p.setUInt32(PARAM_VERSION, MAX_VERSION)
+            p.setUInt32(ParamParallelism, DefaultParallelism)
+            p.setUInt64(ParamMemory, DefaultMemory)
+            p.setUInt64(ParamIterations, DefaultIterations)
+            p.setUInt32(ParamVersion, MaxVersion)
 
             return p
         }
 
     override val defaultKeyRounds: Long
-        get() = DEFAULT_ITERATIONS
+        get() = DefaultIterations
 
     init {
         uuid = CIPHER_UUID
@@ -55,13 +55,13 @@ class Argon2Kdf internal constructor() : KdfEngine() {
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray {
 
-        val salt = p.getByteArray(PARAM_SALT)
-        val parallelism = p.getUInt32(PARAM_PARALLELISM).toInt()
-        val memory = p.getUInt64(PARAM_MEMORY)
-        val iterations = p.getUInt64(PARAM_ITERATIONS)
-        val version = p.getUInt32(PARAM_VERSION)
-        val secretKey = p.getByteArray(PARAM_SECRET_KEY)
-        val assocData = p.getByteArray(PARAM_ASSOC_DATA)
+        val salt = p.getByteArray(ParamSalt)
+        val parallelism = p.getUInt32(ParamParallelism).toInt()
+        val memory = p.getUInt64(ParamMemory)
+        val iterations = p.getUInt64(ParamIterations)
+        val version = p.getUInt32(ParamVersion)
+        val secretKey = p.getByteArray(ParamSecretKey)
+        val assocData = p.getByteArray(ParamAssocData)
 
         return Argon2Native.transformKey(masterKey, salt, parallelism, memory, iterations,
                 secretKey, assocData, version)
@@ -73,102 +73,71 @@ class Argon2Kdf internal constructor() : KdfEngine() {
         val salt = ByteArray(32)
         random.nextBytes(salt)
 
-        p.setByteArray(PARAM_SALT, salt)
+        p.setByteArray(ParamSalt, salt)
     }
 
     override fun getKeyRounds(p: KdfParameters): Long {
-        return p.getUInt64(PARAM_ITERATIONS)
+        return p.getUInt64(ParamIterations)
     }
 
     override fun setKeyRounds(p: KdfParameters, keyRounds: Long) {
-        p.setUInt64(PARAM_ITERATIONS, keyRounds)
+        p.setUInt64(ParamIterations, keyRounds)
     }
 
-    override val minKeyRounds: Long
-        get() = MIN_ITERATIONS
-
-    override val maxKeyRounds: Long
-        get() = MAX_ITERATIONS
-
     override fun getMemoryUsage(p: KdfParameters): Long {
-        return p.getUInt64(PARAM_MEMORY)
+        return p.getUInt64(ParamMemory)
     }
 
     override fun setMemoryUsage(p: KdfParameters, memory: Long) {
-        p.setUInt64(PARAM_MEMORY, memory)
+        p.setUInt64(ParamMemory, memory)
     }
 
-    override val defaultMemoryUsage: Long
-        get() = DEFAULT_MEMORY
-
-    override val minMemoryUsage: Long
-        get() = MIN_MEMORY
-
-    override val maxMemoryUsage: Long
-        get() = MAX_MEMORY
+    override fun getDefaultMemoryUsage(): Long {
+        return DefaultMemory
+    }
 
     override fun getParallelism(p: KdfParameters): Int {
-        return p.getUInt32(PARAM_PARALLELISM).toInt() // TODO Verify
+        return p.getUInt32(ParamParallelism).toInt() // TODO Verify
     }
 
     override fun setParallelism(p: KdfParameters, parallelism: Int) {
-        p.setUInt32(PARAM_PARALLELISM, parallelism.toLong())
+        p.setUInt32(ParamParallelism, parallelism.toLong())
     }
 
-    override val defaultParallelism: Int
-        get() = DEFAULT_PARALLELISM.toInt()
-
-    override val minParallelism: Int
-        get() = MIN_PARALLELISM
-
-    override val maxParallelism: Int
-        get() = MAX_PARALLELISM
+    override fun getDefaultParallelism(): Int {
+        return DefaultParallelism.toInt() // TODO Verify
+    }
 
     companion object {
 
         val CIPHER_UUID: UUID = Types.bytestoUUID(
-                byteArrayOf(0xEF.toByte(),
-                        0x63.toByte(),
-                        0x6D.toByte(),
-                        0xDF.toByte(),
-                        0x8C.toByte(),
-                        0x29.toByte(),
-                        0x44.toByte(),
-                        0x4B.toByte(),
-                        0x91.toByte(),
-                        0xF7.toByte(),
-                        0xA9.toByte(),
-                        0xA4.toByte(),
-                        0x03.toByte(),
-                        0xE3.toByte(),
-                        0x0A.toByte(),
-                        0x0C.toByte()))
+                byteArrayOf(0xEF.toByte(), 0x63.toByte(), 0x6D.toByte(), 0xDF.toByte(), 0x8C.toByte(), 0x29.toByte(), 0x44.toByte(), 0x4B.toByte(), 0x91.toByte(), 0xF7.toByte(), 0xA9.toByte(), 0xA4.toByte(), 0x03.toByte(), 0xE3.toByte(), 0x0A.toByte(), 0x0C.toByte()))
 
-        private const val PARAM_SALT = "S" // byte[]
-        private const val PARAM_PARALLELISM = "P" // UInt32
-        private const val PARAM_MEMORY = "M" // UInt64
-        private const val PARAM_ITERATIONS = "I" // UInt64
-        private const val PARAM_VERSION = "V" // UInt32
-        private const val PARAM_SECRET_KEY = "K" // byte[]
-        private const val PARAM_ASSOC_DATA = "A" // byte[]
+        private const val ParamSalt = "S" // byte[]
+        private const  val ParamParallelism = "P" // UInt32
+        private const  val ParamMemory = "M" // UInt64
+        private const  val ParamIterations = "I" // UInt64
+        private const  val ParamVersion = "V" // UInt32
+        private const  val ParamSecretKey = "K" // byte[]
+        private const  val ParamAssocData = "A" // byte[]
 
-        private const val MIN_VERSION: Long = 0x10
-        private const val MAX_VERSION: Long = 0x13
+        private const  val MinVersion: Long = 0x10
+        private const  val MaxVersion: Long = 0x13
 
-        private const val MIN_SALT = 8
-        private const val MAX_SALT = Integer.MAX_VALUE
+        private const  val MinSalt = 8
+        private const  val MaxSalt = Integer.MAX_VALUE
 
-        private const val MIN_ITERATIONS: Long = 1
-        private const val MAX_ITERATIONS = 4294967295L
+        private const  val MinIterations: Long = 1
+        private const  val MaxIterations = 4294967295L
 
-        private const val MIN_MEMORY = (1024 * 8).toLong()
-        private const val MAX_MEMORY = Integer.MAX_VALUE.toLong()
+        private const  val MinMemory = (1024 * 8).toLong()
+        private const  val MaxMemory = Integer.MAX_VALUE.toLong()
 
-        private const val MIN_PARALLELISM = 1
-        private const val MAX_PARALLELISM = (1 shl 24) - 1
+        private const  val MinParallelism = 1
+        private const  val MaxParallelism = (1 shl 24) - 1
 
-        private const val DEFAULT_ITERATIONS: Long = 2
-        private const val DEFAULT_MEMORY = (1024 * 1024).toLong()
-        private const val DEFAULT_PARALLELISM: Long = 2
+        private const  val DefaultIterations: Long = 2
+        private const  val DefaultMemory = (1024 * 1024).toLong()
+        private const  val DefaultParallelism: Long = 2
     }
 }

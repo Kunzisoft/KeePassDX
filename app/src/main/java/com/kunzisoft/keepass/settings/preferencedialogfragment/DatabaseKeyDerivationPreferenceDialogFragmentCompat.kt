@@ -52,24 +52,21 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             recyclerView.adapter = kdfAdapter
 
             database?.let { database ->
-                kdfEngineSelected = database.kdfEngine?.apply {
-                    kdfAdapter.setItems(database.availableKdfEngines, this)
-                }
+                kdfEngineSelected = database.kdfEngine
+                if (kdfEngineSelected != null)
+                    kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected!!)
             }
         }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            database?.let { database ->
-                if (database.allowKdfModification) {
-                    val newKdfEngine = kdfEngineSelected
-                    val oldKdfEngine = database.kdfEngine
-                    if (newKdfEngine != null && oldKdfEngine != null) {
-                        database.kdfEngine = newKdfEngine
-                        actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
-                    }
-                }
+        if (database != null && positiveResult && database!!.allowKdfModification()) {
+            if (kdfEngineSelected != null) {
+                val newKdfEngine = kdfEngineSelected!!
+                val oldKdfEngine = database!!.kdfEngine
+                database?.assignKdfEngine(newKdfEngine)
+
+                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
             }
         }
 
@@ -97,19 +94,17 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val kdfEngineToShow =
-                if (result.isSuccess) {
-                    mNewKdfEngine
-                } else {
-                    database?.kdfEngine = mOldKdfEngine
-                    mOldKdfEngine
-                }
+            val kdfEngineToShow = mNewKdfEngine
+
+            if (!result.isSuccess) {
+                database?.assignKdfEngine(mOldKdfEngine)
+            }
             preference.summary = kdfEngineToShow.getName(settingsResources)
 
             roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()
             // Disable memory and parallelism if not available
-            memoryPreference?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
-            parallelismPreference?.summary = kdfEngineToShow.defaultParallelism.toString()
+            memoryPreference?.summary = kdfEngineToShow.getDefaultMemoryUsage().toString()
+            parallelismPreference?.summary = kdfEngineToShow.getDefaultParallelism().toString()
         }
     }
 

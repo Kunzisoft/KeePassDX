@@ -15,26 +15,26 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     var pwEntryV4: PwEntryV4? = null
         private set
 
-    fun updateWith(entry: EntryVersioned, copyHistory: Boolean = true) {
+    fun updateWith(entry: EntryVersioned) {
         entry.pwEntryV3?.let {
             this.pwEntryV3?.updateWith(it)
         }
         entry.pwEntryV4?.let {
-            this.pwEntryV4?.updateWith(it, copyHistory)
+            this.pwEntryV4?.updateWith(it)
         }
     }
 
     /**
      * Use this constructor to copy an Entry with exact same values
      */
-    constructor(entry: EntryVersioned, copyHistory: Boolean = true) {
+    constructor(entry: EntryVersioned) {
         if (entry.pwEntryV3 != null) {
             this.pwEntryV3 = PwEntryV3()
         }
         if (entry.pwEntryV4 != null) {
             this.pwEntryV4 = PwEntryV4()
         }
-        updateWith(entry, copyHistory)
+        updateWith(entry)
     }
 
     constructor(entry: PwEntryV3) {
@@ -154,15 +154,12 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             pwEntryV4?.expiryTime = value
         }
 
-    override var expires: Boolean
-        get() = pwEntryV3?.expires ?: pwEntryV4?.expires ?: false
+    override var isExpires: Boolean
+        get() =pwEntryV3?.isExpires ?: pwEntryV4?.isExpires ?: false
         set(value) {
-            pwEntryV3?.expires = value
-            pwEntryV4?.expires = value
+            pwEntryV3?.isExpires = value
+            pwEntryV4?.isExpires = value
         }
-
-    override val isCurrentlyExpires: Boolean
-        get() = pwEntryV3?.isCurrentlyExpires ?: pwEntryV4?.isCurrentlyExpires ?: false
 
     override var username: String
         get() = pwEntryV3?.username ?: pwEntryV4?.username ?: ""
@@ -244,10 +241,6 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return pwEntryV4?.allowCustomFields() ?: false
     }
 
-    fun removeAllFields() {
-        pwEntryV4?.removeAllFields()
-    }
-
     /**
      * Add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
@@ -265,31 +258,20 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.stopToManageFieldReferences()
     }
 
-    fun getHistory(): ArrayList<EntryVersioned> {
-        val history = ArrayList<EntryVersioned>()
-        val entryV4History = pwEntryV4?.history ?: ArrayList()
-        for (entryHistory in entryV4History) {
-            history.add(EntryVersioned(entryHistory))
+    fun addBackupToHistory() {
+        pwEntryV4?.let {
+            val entryHistory = PwEntryV4()
+            entryHistory.updateWith(it)
+            it.addEntryToHistory(entryHistory)
         }
-        return history
-    }
-
-    fun addEntryToHistory(entry: EntryVersioned) {
-        entry.pwEntryV4?.let {
-            pwEntryV4?.addEntryToHistory(it)
-        }
-    }
-
-    fun removeAllHistory() {
-        pwEntryV4?.removeAllHistory()
     }
 
     fun removeOldestEntryFromHistory() {
         pwEntryV4?.removeOldestEntryFromHistory()
     }
 
-    fun getSize(): Long {
-        return pwEntryV4?.size ?: 0L
+    fun getHistory(): ArrayList<PwEntryV4> {
+        return pwEntryV4?.history ?: ArrayList()
     }
 
     fun containsCustomData(): Boolean {

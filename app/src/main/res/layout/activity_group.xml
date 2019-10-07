@@ -27,7 +27,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/toolbar_paste">
+        android:layout_above="@+id/expandable_toolbar_paste_layout">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -72,39 +72,22 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:gravity="center_vertical">
-                            <androidx.constraintlayout.widget.ConstraintLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:gravity="center_vertical">
-                                <androidx.appcompat.widget.AppCompatImageView
-                                    android:id="@+id/group_icon"
-                                    android:layout_width="32dp"
-                                    android:layout_height="32dp"
-                                    android:layout_gravity="end|center_vertical"
-                                    android:layout_marginStart="6dp"
-                                    android:layout_marginEnd="6dp"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintBottom_toBottomOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent"
-                                    android:scaleType="fitXY" />
-                                <androidx.appcompat.widget.AppCompatTextView
-                                    android:id="@+id/group_numbers"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    tools:text="3"
-                                    style="@style/KeepassDXStyle.TextAppearance.Info"
-                                    app:layout_constraintTop_toTopOf="parent"
-                                    app:layout_constraintStart_toStartOf="parent" />
-                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:gravity="center_vertical"
+                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp">
+                            <androidx.appcompat.widget.AppCompatImageView
+                                android:id="@+id/icon"
+                                android:layout_width="32dp"
+                                android:layout_height="32dp"
+                                android:layout_gravity="end|center_vertical"
+                                android:layout_marginRight="12dp"
+                                android:layout_marginEnd="12dp"
+                                android:scaleType="fitXY" />
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/group_name"
                                 android:layout_width="0dp"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start|center_vertical"
-                                android:layout_marginLeft="@dimen/image_list_margin"
-                                android:layout_marginStart="@dimen/image_list_margin"
                                 android:layout_weight="1"
                                 android:text="@string/root"
                                 android:maxLines="1"
@@ -117,7 +100,6 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <LinearLayout
-            android:id="@+id/node_list_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
@@ -130,7 +112,6 @@
                 android:padding="6dp"
                 android:gravity="center_horizontal"
                 android:background="?attr/colorAccent"
-                android:textColor="?attr/textColorInverse"
                 android:text="@string/selection_mode"/>
             <FrameLayout
                 android:id="@+id/nodes_list_fragment_container"
@@ -143,18 +124,28 @@
             android:id="@+id/add_node_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@+id/node_list_container"
+            app:layout_anchor="@+id/nodes_list"
             app:layout_anchorGravity="right|bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_paste"
+    <net.cachapa.expandablelayout.ExpandableLayout
+        android:id="@+id/expandable_toolbar_paste_layout"
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:elevation="4dp"
-        android:theme="?attr/toolbarBottomAppearance"
-        android:background="?attr/colorAccent"
-        tools:targetApi="lollipop" />
+        app:el_duration="300"
+        app:el_expanded="false"
+        app:el_parallax="0.5">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar_paste"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:theme="?attr/toolbarBottomAppearance"
+            android:background="?attr/colorAccent"
+            tools:targetApi="lollipop" />
+
+    </net.cachapa.expandablelayout.ExpandableLayout>
 
 </RelativeLayout>

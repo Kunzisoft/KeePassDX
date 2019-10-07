@@ -158,15 +158,12 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
             pwGroupV4?.expiryTime = value
         }
 
-    override var expires: Boolean
-        get() = pwGroupV3?.expires ?: pwGroupV4?.expires ?: false
+    override var isExpires: Boolean
+        get() = pwGroupV3?.isExpires ?: pwGroupV4?.isExpires ?: false
         set(value) {
-            pwGroupV3?.expires = value
-            pwGroupV4?.expires = value
+            pwGroupV3?.isExpires = value
+            pwGroupV4?.isExpires = value
         }
-
-    override val isCurrentlyExpires: Boolean
-        get() = pwGroupV3?.isCurrentlyExpires ?: pwGroupV4?.isCurrentlyExpires ?: false
 
     override fun getChildGroups(): MutableList<GroupVersioned> {
         val children = ArrayList<GroupVersioned>()

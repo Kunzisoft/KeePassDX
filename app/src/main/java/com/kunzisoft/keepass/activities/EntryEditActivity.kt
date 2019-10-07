@@ -44,11 +44,18 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
-import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
         IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener {
+
+    override fun acceptPassword(bundle: Bundle) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun cancelPassword(bundle: Bundle) {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
 
     private var mDatabase: Database? = null
 
@@ -91,7 +98,7 @@ class EntryEditActivity : LockingHideActivity(),
         mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<PwNodeId<UUID>>(KEY_ENTRY)?.let {
+        intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {
             mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
@@ -106,12 +113,14 @@ class EntryEditActivity : LockingHideActivity(),
                 }
             }
 
-            // Create the new entry from the current one
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            // Retrieve the icon after an orientation change
+            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+                mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY) as EntryVersioned
+            } else {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = EntryVersioned(entry).also { newEntry ->
+
                         // WARNING Remove the parent to keep memory with parcelable
                         newEntry.parent = null
                     }
@@ -122,22 +131,12 @@ class EntryEditActivity : LockingHideActivity(),
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            // Create an empty new entry
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
-                mNewEntry = mDatabase?.createEntry()
-            }
+            mNewEntry = mDatabase?.createEntry()
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
             mDatabase?.drawFactory?.let { iconFactory ->
                 entryEditContentsView?.setDefaultIcon(iconFactory)
             }
-        }
-
-        // Retrieve the new entry after an orientation change
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
-            mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -161,8 +160,6 @@ class EntryEditActivity : LockingHideActivity(),
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
 
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) { addNewCustomField() }
-
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
     }
@@ -177,14 +174,9 @@ class EntryEditActivity : LockingHideActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
-            url = newEntry.url
-            password = newEntry.password
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
-                post {
-                    addNewCustomField(entry.key, entry.value)
-                }
+                addNewCustomField(entry.key, entry.value)
             }
         }
     }
@@ -196,11 +188,7 @@ class EntryEditActivity : LockingHideActivity(),
         newEntry.apply {
             // Build info from view
             entryEditContentsView?.let { entryView ->
-                removeAllFields()
                 title = entryView.title
-                username = entryView.username
-                url = entryView.url
-                password = entryView.password
                 notes = entryView.notes
                 entryView.customFields.forEach { customField ->
                     addExtraField(customField.name, customField.protectedValue)
@@ -230,6 +218,8 @@ class EntryEditActivity : LockingHideActivity(),
      */
     private fun addNewCustomField() {
         entryEditContentsView?.addNewCustomField()
+        // Scroll bottom
+        scrollView?.post { scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
     }
 
     /**
@@ -294,37 +284,7 @@ class EntryEditActivity : LockingHideActivity(),
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
 
-        entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
-        }
-
         return true
-    }
-
-    private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldView
-
-        val generatePasswordEducationPerformed = passwordView != null
-                && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                passwordView,
-                {
-                    openPasswordGenerator()
-                },
-                {
-                    performedNextEducation(entryEditActivityEducation)
-                }
-        )
-        if (!generatePasswordEducationPerformed) {
-            // entryNewFieldEducationPerformed
-            mNewEntry != null && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
-                    && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
-                    && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
-                    addNewFieldView,
-                    {
-                        addNewCustomField()
-                    })
-        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -352,26 +312,9 @@ class EntryEditActivity : LockingHideActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        mNewEntry?.let {
-            populateEntryWithViews(it)
-            outState.putParcelable(KEY_NEW_ENTRY, it)
-        }
+        outState.putParcelable(KEY_NEW_ENTRY, mNewEntry)
 
         super.onSaveInstanceState(outState)
-    }
-
-    override fun acceptPassword(bundle: Bundle) {
-        bundle.getString(GeneratePasswordDialogFragment.KEY_PASSWORD_ID)?.let {
-            entryEditContentsView?.password = it
-        }
-
-        entryEditActivityEducation?.let {
-            Handler().post { performedNextEducation(it) }
-        }
-    }
-
-    override fun cancelPassword(bundle: Bundle) {
-        // Do nothing here
     }
 
     override fun finish() {

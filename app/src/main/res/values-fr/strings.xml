@@ -36,6 +36,7 @@
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
     <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
+    <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
@@ -75,6 +76,7 @@
     <string name="error_out_of_memory">Mémoire insuffisante pour charger l’ensemble de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
+    <string name="error_rounds_not_number">« Tours de transformation » doit être un nombre.</string>
     <string name="error_rounds_too_large">« Tours de transformation » trop grand. Défini à 2147483648.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
     <string name="error_title_required">Ajoutez un titre.</string>
@@ -82,6 +84,7 @@
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur du champ</string>
+    <string name="file_not_found">Impossible de trouver le fichier.</string>
     <string name="file_not_found_content">Impossible de trouver le fichier. Essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
     <string name="file_browser">Gestionnaire de fichiers</string>
     <string name="generate_password">Générer un mot de passe</string>
@@ -184,7 +187,7 @@
     <string name="biometric_scanning_error">Problème d’empreinte digitale : %1$s</string>
     <string name="open_biometric_prompt_store_credential">Utiliser l’empreinte digitale pour stocker ce mot de passe</string>
     <string name="no_credentials_stored">Cette base de données n’a pas encore de mot de passe.</string>
-    <string name="database_history">Historique</string>
+    <string name="history">Historique</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
@@ -230,9 +233,12 @@
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
+    <string name="auto_open_file_uri_title">Ouvrir les fichiers par sélection</string>
+    <string name="auto_open_file_uri_summary">Ouvrir automatiquement les fichiers lorsqu’ils sont sélectionnés dans le gestionnaire de fichiers</string>
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
     <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
+    <string name="open_link_database">Lien du fichier de base de données à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -251,6 +257,8 @@
     <string name="education_create_database_summary">Créer votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrir une base de données existante</string>
     <string name="education_select_database_summary">Ouvrir votre ancien fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
+    <string name="education_open_link_database_title">Un lien vers l’emplacement de votre fichier suffit</string>
+    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base de données avec un lien physique (avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajouter des éléments à votre base de données</string>
     <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques.
 \n
@@ -403,6 +411,8 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
     <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
+    <string name="content_description_show_file_link">Afficher le lien de fichier</string>
+    <string name="content_description_open_file_link">Ouvrir le lien de fichier</string>
     <string name="content_description_node_children">Enfants de noeud</string>
     <string name="content_description_file_information">Information de fichier</string>
     <string name="content_description_password_checkbox">Case à cocher mot de passe</string>

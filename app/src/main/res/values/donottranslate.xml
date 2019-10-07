@@ -25,8 +25,8 @@
     *******************
     -->
 
-    <string name="app_name" translatable="false">KeePass DX</string>
-    <string name="app_name_part1" translatable="false">KeePass</string>
+    <string name="app_name" translatable="false">KeeNotes DX</string>
+    <string name="app_name_part1" translatable="false">KeeNotes</string>
     <string name="app_name_part2" translatable="false">DX</string>
     <string name="app_name_part3" translatable="false" />
 
@@ -51,6 +51,7 @@
     <string name="chapter_5">V</string>
 
     <!-- File Path -->
+    <string name="database_file_path_default" translatable="false">/keepass/</string>
     <string name="database_file_name_default" translatable="false">keepass</string>
     <string name="database_file_extension_default" translatable="false">.kdbx</string>
     <string-array name="file_types">
@@ -89,6 +90,8 @@
     <bool name="recentfile_default" translatable="false">true</bool>
     <string name="keyfile_key" translatable="false">keyfile</string>
     <bool name="keyfile_default" translatable="false">true</bool>
+    <string name="auto_open_file_uri_key" translatable="false">auto_open_file_uri_key</string>
+    <bool name="auto_open_file_uri_default" translatable="false">true</bool>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
     <string name="biometric_auto_open_prompt_key" translatable="false">biometric_auto_open_prompt_key</string>
@@ -106,7 +109,7 @@
     <string name="clear_clipboard_notification_key" translatable="false">clear_clipboard_notification_key</string>
     <bool name="clear_clipboard_notification_default" translatable="false">true</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
-    <string name="clipboard_timeout_default" translatable="false">300000</string>
+    <string name="clipboard_timeout_default" translatable="false">60000</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>
     <string name="keyboard_selection_entry_key" translatable="false">keyboard_selection_entry_key</string>
@@ -116,7 +119,7 @@
     <string name="keyboard_notification_entry_clear_close_key" translatable="false">keyboard_notification_entry_clear_close_key</string>
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
-    <string name="keyboard_entry_timeout_default" translatable="false">300000</string>
+    <string name="keyboard_entry_timeout_default" translatable="false">60000</string>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
@@ -131,7 +134,9 @@
     <string name="setting_style_key" translatable="false">setting_style_key</string>
     <string name="setting_icon_pack_choose_key" translatable="false">setting_icon_pack_choose_key</string>
     <string name="list_entries_show_username_key" translatable="false">list_entries_show_username_key</string>
+    <string name="list_entries_show_notes_key" translatable="false">list_entries_show_username_key</string>
     <bool name="list_entries_show_username_default" translatable="false">true</bool>
+    <bool name="list_entries_show_notes_default" translatable="false">true</bool>
     <string name="list_groups_show_number_entries_key" translatable="false">list_groups_show_number_entries_key</string>
     <bool name="list_groups_show_number_entries_default" translatable="false">true</bool>
     <string name="list_size_key" translatable="false">list_size_key</string>
@@ -145,36 +150,18 @@
 
     <!-- Database Settings -->
     <string name="settings_database_key" translatable="false">settings_database_key</string>
-    <string name="settings_database_security_key" translatable="false">settings_database_security_key</string>
-    <string name="settings_database_credentials_key" translatable="false">settings_database_credentials_key</string>
+    <string name="settings_database_change_credentials_key" translatable="false">settings_database_change_credentials_key</string>
+    <string name="database_general_key" translatable="false">database_general_key</string>
 
-    <string name="database_category_general_key" translatable="false">database_category_general_key</string>
     <string name="database_name_key" translatable="false">database_name_key</string>
     <string name="database_description_key" translatable="false">database_description_key</string>
-    <string name="database_default_username_key" translatable="false">database_default_username_key</string>
-    <string name="database_custom_color_key" translatable="false">database_custom_color_key</string>
-    <string name="database_version_key" translatable="false">database_version_key</string>
-
-    <string name="database_category_compression_key" translatable="false">database_category_compression_key</string>
-    <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
-
-    <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
     <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
-
-    <string name="database_category_history_key" translatable="false">database_category_history_key</string>
-    <string name="max_history_items_key" translatable="false">max_history_items_key</string>
-    <string name="max_history_size_key" translatable="false">max_history_size_key</string>
-
+    <string name="database_version_key" translatable="false">database_version_key</string>
     <string name="encryption_algorithm_key" translatable="false">algorithm</string>
     <string name="key_derivation_function_key" translatable="false">key_derivation_function_key</string>
     <string name="transform_rounds_key" translatable="false">transform_rounds_key</string>
     <string name="memory_usage_key" translatable="false">memory_usage_key</string>
     <string name="parallelism_key" translatable="false">parallelism_key</string>
-
-    <string name="settings_database_change_credentials_key" translatable="false">settings_database_change_credentials_key</string>
-    <string name="settings_database_recommend_changing_master_key_key" translatable="false">settings_database_recommend_changing_master_key_key</string>
-    <string name="settings_database_force_changing_master_key_key" translatable="false">settings_database_force_changing_master_key_key</string>
-    <string name="settings_database_force_changing_master_key_next_time_key" translatable="false">settings_database_force_changing_master_key_next_time_key</string>
 
     <!--
     *******************
@@ -202,6 +189,8 @@
     <bool name="education_create_db_default" translatable="false">false</bool>
     <string name="education_select_db_key" translatable="false">education_select_db_key</string>
     <bool name="education_select_db_default" translatable="false">false</bool>
+    <string name="education_open_link_db_key" translatable="false">education_open_link_db_key</string>
+    <bool name="education_open_link_db_default" translatable="false">false</bool>
     <string name="education_unlock_key" translatable="false">education_unlock_key</string>
     <bool name="education_unlock_default" translatable="false">false</bool>
     <string name="education_read_only_key" translatable="false">education_read_only_key</string>

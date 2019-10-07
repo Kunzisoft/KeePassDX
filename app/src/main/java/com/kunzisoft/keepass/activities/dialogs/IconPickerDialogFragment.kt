@@ -77,7 +77,7 @@ class IconPickerDialogFragment : DialogFragment() {
                 dismiss()
             }
 
-            builder.setNegativeButton(android.R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog?.cancel() }
+            builder.setNegativeButton(R.string.cancel) { _, _ -> this@IconPickerDialogFragment.dialog?.cancel() }
 
             return builder.create()
         }

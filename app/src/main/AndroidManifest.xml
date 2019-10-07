@@ -131,8 +131,7 @@
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
-            android:label="@string/keyboard_name"
-            android:exported="true">
+            android:label="@string/keyboard_name">
         </activity>
         <activity android:name="com.kunzisoft.keepass.settings.MagikIMESettings"
             android:label="@string/keyboard_setting_label">

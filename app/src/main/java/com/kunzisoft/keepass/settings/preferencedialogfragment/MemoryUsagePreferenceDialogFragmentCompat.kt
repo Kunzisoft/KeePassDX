@@ -21,36 +21,38 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
+class MemoryUsagePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         setExplanationText(R.string.memory_usage_explanation)
-        inputText = database?.memoryUsage?.toString()?: MIN_MEMORY_USAGE.toString()
+        inputText = database?.memoryUsageAsString ?: ""
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            database?.let { database ->
-                var memoryUsage: Long = try {
-                    inputText.toLong()
-                } catch (e: NumberFormatException) {
-                    MIN_MEMORY_USAGE
-                }
-                if (memoryUsage < MIN_MEMORY_USAGE) {
-                    memoryUsage = MIN_MEMORY_USAGE
-                }
-                // TODO Max Memory
-
-                val oldMemoryUsage = database.memoryUsage
-                database.memoryUsage = memoryUsage
-
-                actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
+        if (database != null && positiveResult) {
+            var memoryUsage: Long
+            try {
+                val stringMemory = inputText
+                memoryUsage = java.lang.Long.parseLong(stringMemory)
+            } catch (e: NumberFormatException) {
+                Toast.makeText(context, R.string.error_rounds_not_number, Toast.LENGTH_LONG).show() // TODO change error
+                return
             }
+
+            if (memoryUsage < 1) {
+                memoryUsage = 1
+            }
+
+            val oldMemoryUsage = database!!.memoryUsage
+            database!!.memoryUsage = memoryUsage
+
+            actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
         }
 
         super.onDialogClosed(positiveResult)
@@ -61,20 +63,15 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val memoryToShow =
-                    if (result.isSuccess) {
-                        mNewMemory
-                    } else {
-                        database?.memoryUsage = mOldMemory
-                        mOldMemory
-                    }
+            val memoryToShow = mNewMemory
+            if (!result.isSuccess) {
+                database?.memoryUsage = mOldMemory
+            }
             preference.summary = memoryToShow.toString()
         }
     }
 
     companion object {
-
-        const val MIN_MEMORY_USAGE = 1L
 
         fun newInstance(key: String): MemoryUsagePreferenceDialogFragmentCompat {
             val fragment = MemoryUsagePreferenceDialogFragmentCompat()

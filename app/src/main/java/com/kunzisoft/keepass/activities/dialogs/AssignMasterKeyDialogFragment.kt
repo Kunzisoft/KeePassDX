@@ -45,8 +45,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private var rootView: View? = null
 
     private var passwordCheckBox: CompoundButton? = null
-
-    private var passwordTextInputLayout: TextInputLayout? = null
     private var passwordView: TextView? = null
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
@@ -98,13 +96,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
-
-            var allowNoMasterKey = false
-            arguments?.apply {
-                if (containsKey(ALLOW_NO_MASTER_KEY_ARG))
-                    allowNoMasterKey = getBoolean(ALLOW_NO_MASTER_KEY_ARG, false)
-            }
-
             val builder = AlertDialog.Builder(activity)
             val inflater = activity.layoutInflater
 
@@ -113,10 +104,9 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                     .setTitle(R.string.assign_master_key)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok) { _, _ -> }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
 
             passwordCheckBox = rootView?.findViewById(R.id.password_checkbox)
-            passwordTextInputLayout = rootView?.findViewById(R.id.password_input_layout)
             passwordView = rootView?.findViewById(R.id.pass_password)
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
@@ -126,7 +116,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             keyFileView = rootView?.findViewById(R.id.pass_keyfile)
 
             mOpenFileHelper = OpenFileHelper(this)
-            rootView?.findViewById<View>(R.id.open_database_button)?.setOnClickListener { view ->
+            rootView?.findViewById<View>(R.id.browse_button)?.setOnClickListener { view ->
                 mOpenFileHelper?.openFileOnClickViewListener?.onClick(view) }
 
             val dialog = builder.create()
@@ -142,11 +132,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                         var error = verifyPassword() || verifyFile()
                         if (!passwordCheckBox!!.isChecked && !keyFileCheckBox!!.isChecked) {
                             error = true
-                            if (allowNoMasterKey)
-                                showNoKeyConfirmationDialog()
-                            else {
-                                passwordTextInputLayout?.error = getString(R.string.error_disallow_no_credentials)
-                            }
+                            showNoKeyConfirmationDialog()
                         }
                         if (!error) {
                             mListener?.onAssignKeyDialogPositiveClick(
@@ -207,7 +193,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                 showEmptyPasswordConfirmationDialog()
             }
         }
-
         return error
     }
 
@@ -238,7 +223,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                             this@AssignMasterKeyDialogFragment.dismiss()
                         }
                     }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
             builder.create().show()
         }
     }
@@ -253,7 +238,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                                 keyFileCheckBox!!.isChecked, mKeyFile)
                         this@AssignMasterKeyDialogFragment.dismiss()
                     }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
             builder.create().show()
         }
     }
@@ -268,19 +253,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
                 keyFileView?.text = pathUri.toString()
 
             }
-        }
-    }
-
-    companion object {
-
-        private const val ALLOW_NO_MASTER_KEY_ARG = "ALLOW_NO_MASTER_KEY_ARG"
-
-        fun getInstance(allowNoMasterKey: Boolean): AssignMasterKeyDialogFragment {
-            val fragment = AssignMasterKeyDialogFragment()
-            val args = Bundle()
-            args.putBoolean(ALLOW_NO_MASTER_KEY_ARG, allowNoMasterKey)
-            fragment.arguments = args
-            return fragment
         }
     }
 }

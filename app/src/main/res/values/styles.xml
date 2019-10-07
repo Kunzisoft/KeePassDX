@@ -21,7 +21,7 @@
 
     <!-- SplashScreen theme -->
     <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/green</item>
+        <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/background_night</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
@@ -42,8 +42,8 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
 
@@ -58,12 +58,12 @@
         <item name="android:textColor">@color/text_color_light</item>
         <item name="android:editTextColor">@color/colorText</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_light</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
@@ -96,8 +96,8 @@
 
         <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
 
-        <item name="colorPrimary">@color/green</item>
-        <item name="colorPrimaryDark">@color/green_dark</item>
+        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/orange</item>
         <item name="colorAccentLight">@color/orange_light</item>
 
@@ -112,12 +112,12 @@
         <item name="android:textColor">@color/text_color_night</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="textColorInverse">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:textColorPrimary">@color/blue_light</item>
         <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
         <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
         <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
         <item name="android:textColorHint">@color/colorTextSecondary</item>
-        <item name="android:textColorHintInverse">@color/green_lighter</item>
+        <item name="android:textColorHintInverse">@color/blue_lighter</item>
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
@@ -160,27 +160,27 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_right</item>
     </style>
 
-    <!-- Toolbar Style Light Green -->
+    <!-- Toolbar Style Light blue -->
     <style name="KeepassDXStyle.Toolbar.Light" parent="KeepassDXStyle.Light.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/blue_lighter</item>
     </style>
 
-    <!-- Toolbar Style Night Green -->
+    <!-- Toolbar Style Night blue -->
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:textColorHint">@color/blue_lighter</item>
     </style>
 
     <!-- Contextual Action Bar -->
     <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/green_dark</item>
+        <item name="background">@color/blue_dark</item>
     </style>
 
     <!-- CollapsingToolbarLayout -->
@@ -195,7 +195,7 @@
     <!-- Dialog -->
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
-        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:textColorPrimary">@color/blue</item>
         <item name="android:background">@color/background_night</item>
         <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
         <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
@@ -312,10 +312,6 @@
         <item name="android:textColor">?attr/colorAccent</item>
 		<item name="android:textSize">12sp</item>
 	</style>
-    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.TextAppearance">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
 	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>

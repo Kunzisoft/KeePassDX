@@ -23,7 +23,7 @@ package com.kunzisoft.keepass.database.element
 import android.os.Parcel
 import android.os.Parcelable
 
-class PwGroupV3 : PwGroup<Int, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
+class PwGroupV3 : PwGroup<Int, PwGroupV3, PwEntryV3> {
 
     var level = 0 // short
     /** Used by KeePass internally, don't use  */

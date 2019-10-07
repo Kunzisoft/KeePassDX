@@ -60,7 +60,8 @@ class ClipboardHelper(private val context: Context) {
         val sClipClear = prefs.getString(context.getString(R.string.clipboard_timeout_key),
                 context.getString(R.string.clipboard_timeout_default))
 
-        val clipClearTime = (sClipClear ?: "300000").toLong()
+        val clipClearTime = java.lang.Long.parseLong(sClipClear ?: "60000")
+
         if (clipClearTime > 0) {
             mTimer.schedule(ClearClipboardTask(context, text), clipClearTime)
         }

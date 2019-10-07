@@ -88,8 +88,6 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
             return size
         }
 
-    override var expires: Boolean = false
-
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
@@ -131,7 +129,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
      * Update with deep copy of each entry element
      * @param source
      */
-    fun updateWith(source: PwEntryV4, copyHistory: Boolean = true) {
+    fun updateWith(source: PwEntryV4) {
         super.updateWith(source)
         iconCustom = PwIconCustom(source.iconCustom)
         usageCount = source.usageCount
@@ -148,8 +146,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         overrideURL = source.overrideURL
         autoType = AutoType(source.autoType)
         history.clear()
-        if (copyHistory)
-            history.addAll(source.history)
+        history.addAll(source.history)
         url = source.url
         additional = source.additional
         tags = source.tags
@@ -266,10 +263,6 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         return true
     }
 
-    fun removeAllFields() {
-        fields.clear()
-    }
-
     fun addExtraField(label: String, value: ProtectedString) {
         fields[label] = value
     }
@@ -294,10 +287,6 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         history.add(entry)
     }
 
-    fun removeAllHistory() {
-        history.clear()
-    }
-
     fun removeOldestEntryFromHistory() {
         var min: Date? = null
         var index = -1
@@ -305,7 +294,7 @@ class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         for (i in history.indices) {
             val entry = history[i]
             val lastMod = entry.lastModificationTime.date
-            if (min == null  || lastMod.before(min)) {
+            if (min == null || lastMod == null || lastMod.before(min)) {
                 index = i
                 min = lastMod
             }

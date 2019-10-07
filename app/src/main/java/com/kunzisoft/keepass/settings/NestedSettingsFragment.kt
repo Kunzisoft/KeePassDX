@@ -22,37 +22,36 @@ package com.kunzisoft.keepass.settings
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.res.Resources
-import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AlertDialog
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.view.autofill.AutofillManager
 import android.widget.Toast
-import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.biometric.BiometricManager
-import androidx.fragment.app.DialogFragment
 import androidx.preference.*
-import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.KeyboardExplanationDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.ProFeatureDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.UnavailableFeatureDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.UnderDevelopmentFeatureDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.education.Education
+import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
 import com.kunzisoft.keepass.icons.IconPackChooser
-import com.kunzisoft.keepass.settings.preference.*
-import com.kunzisoft.keepass.settings.preference.DialogColorPreference.Companion.DISABLE_COLOR
+import com.kunzisoft.keepass.settings.preference.DialogListExplanationPreference
+import com.kunzisoft.keepass.settings.preference.IconPackListPreference
+import com.kunzisoft.keepass.settings.preference.InputNumberPreference
+import com.kunzisoft.keepass.settings.preference.InputTextPreference
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
@@ -62,28 +61,16 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
     private var mCount = 0
 
-    private var dbCustomColorPref: DialogColorPreference? = null
-    private var mRoundPref: InputKdfNumberPreference? = null
-    private var mMemoryPref: InputKdfNumberPreference? = null
-    private var mParallelismPref: InputKdfNumberPreference? = null
+    private var mRoundPref: InputNumberPreference? = null
+    private var mMemoryPref: InputNumberPreference? = null
+    private var mParallelismPref: InputNumberPreference? = null
 
     enum class Screen {
-        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, APPEARANCE, DATABASE, DATABASE_SECURITY, DATABASE_MASTER_KEY
+        APPLICATION, FORM_FILLING, ADVANCED_UNLOCK, DATABASE, APPEARANCE
     }
 
     override fun onResume() {
         super.onResume()
-
-        activity?.let { activity ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
-                if (autoFillEnablePreference != null) {
-                    val autofillManager = activity.getSystemService(AutofillManager::class.java)
-                    autoFillEnablePreference.isChecked = autofillManager != null
-                            && autofillManager.hasEnabledAutofillServices()
-                }
-            }
-        }
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
@@ -100,9 +87,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             Screen.APPLICATION -> {
                 onCreateApplicationPreferences(rootKey)
             }
-            Screen.FORM_FILLING -> {
-                onCreateFormFillingPreference(rootKey)
-            }
             Screen.ADVANCED_UNLOCK -> {
                 onCreateAdvancesUnlockPreferences(rootKey)
             }
@@ -111,12 +95,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
             Screen.DATABASE -> {
                 onCreateDatabasePreference(rootKey)
-            }
-            Screen.DATABASE_SECURITY -> {
-                onCreateDatabaseSecurityPreference(rootKey)
-            }
-            Screen.DATABASE_MASTER_KEY -> {
-                onCreateDatabaseMasterKeyPreference(rootKey)
             }
         }
     }
@@ -143,89 +121,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         }
     }
 
-    private fun onCreateFormFillingPreference(rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_form_filling, rootKey)
-
-        activity?.let { activity ->
-            val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autofillManager = activity.getSystemService(AutofillManager::class.java)
-                if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
-                    autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
-                autoFillEnablePreference?.onPreferenceClickListener = object : Preference.OnPreferenceClickListener {
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    override fun onPreferenceClick(preference: Preference): Boolean {
-                        if ((preference as SwitchPreference).isChecked) {
-                            try {
-                                startEnableService()
-                            } catch (e: ActivityNotFoundException) {
-                                val error = getString(R.string.error_autofill_enable_service)
-                                preference.isChecked = false
-                                Log.d(javaClass.name, error, e)
-                                Toast.makeText(context, error, Toast.LENGTH_SHORT).show()
-                            }
-
-                        } else {
-                            disableService()
-                        }
-                        return false
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    private fun disableService() {
-                        if (autofillManager != null && autofillManager.hasEnabledAutofillServices()) {
-                            autofillManager.disableAutofillServices()
-                        } else {
-                            Log.d(javaClass.name, "Sample service already disabled.")
-                        }
-                    }
-
-                    @RequiresApi(api = Build.VERSION_CODES.O)
-                    @Throws(ActivityNotFoundException::class)
-                    private fun startEnableService() {
-                        if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
-                            val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-                            // TODO Autofill
-                            intent.data = Uri.parse("package:com.example.android.autofill.service")
-                            Log.d(javaClass.name, "enableService(): intent=$intent")
-                            startActivityForResult(intent, REQUEST_CODE_AUTOFILL)
-                        } else {
-                            Log.d(javaClass.name, "Sample service already enabled.")
-                        }
-                    }
-                }
-            } else {
-                autoFillEnablePreference?.setOnPreferenceClickListener { preference ->
-                    (preference as SwitchPreference).isChecked = false
-                    val fragmentManager = fragmentManager!!
-                    UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
-                            .show(fragmentManager, "unavailableFeatureDialog")
-                    false
-                }
-            }
-        }
-
-        findPreference<Preference>(getString(R.string.magic_keyboard_key))?.setOnPreferenceClickListener {
-            if (fragmentManager != null) {
-                KeyboardExplanationDialogFragment().show(fragmentManager!!, "keyboardExplanationDialog")
-            }
-            false
-        }
-
-        findPreference<Preference>(getString(R.string.magic_keyboard_preference_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, MagikIMESettings::class.java))
-            false
-        }
-
-        // Present in two places
-        allowCopyPassword()
-    }
-
     private fun onCreateAdvancesUnlockPreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
 
         activity?.let { activity ->
-            val biometricUnlockEnablePreference: SwitchPreference? = findPreference(getString(R.string.biometric_unlock_enable_key))
+            val biometricUnlockEnablePreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.biometric_unlock_enable_key))
             // < M solve verifyError exception
             var biometricUnlockSupported = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -248,7 +148,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 }
             }
 
-            val deleteKeysFingerprints: Preference? = findPreference(getString(R.string.biometric_delete_all_key_key))
+            val deleteKeysFingerprints: Preference? = findPreference<Preference>(getString(R.string.biometric_delete_all_key_key))
             if (!biometricUnlockSupported) {
                 deleteKeysFingerprints?.isEnabled = false
             } else {
@@ -346,97 +246,39 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         if (mDatabase.loaded) {
 
-            val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
+            val dbGeneralPrefCategory: PreferenceCategory? = findPreference<PreferenceCategory>(getString(R.string.database_general_key))
 
-            // Database name
-            val dbNamePref: InputTextPreference? = findPreference(getString(R.string.database_name_key))
-            if (mDatabase.allowName) {
+            // Db name
+            val dbNamePref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_name_key))
+            if (mDatabase.containsName()) {
                 dbNamePref?.summary = mDatabase.name
             } else {
                 dbGeneralPrefCategory?.removePreference(dbNamePref)
             }
 
-            // Database description
-            val dbDescriptionPref: InputTextPreference? = findPreference(getString(R.string.database_description_key))
-            if (mDatabase.allowDescription) {
+            // Db description
+            val dbDescriptionPref: InputTextPreference? = findPreference<InputTextPreference>(getString(R.string.database_description_key))
+            if (mDatabase.containsDescription()) {
                 dbDescriptionPref?.summary = mDatabase.description
             } else {
                 dbGeneralPrefCategory?.removePreference(dbDescriptionPref)
             }
 
-            // Database default username
-            val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
-            if (mDatabase.allowDefaultUsername) {
-                dbDefaultUsername?.summary = mDatabase.defaultUsername
+            // Recycle bin
+            val recycleBinPref: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.recycle_bin_key))
+            // TODO Recycle
+            dbGeneralPrefCategory?.removePreference(recycleBinPref) // To delete
+            if (mDatabase.isRecycleBinAvailable) {
+                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
+                recycleBinPref?.isEnabled = false
             } else {
-                dbDefaultUsername?.isEnabled = false
-                // TODO dbGeneralPrefCategory?.removePreference(dbDefaultUsername)
-            }
-
-            // Database custom color
-            dbCustomColorPref = findPreference(getString(R.string.database_custom_color_key))
-            if (mDatabase.allowCustomColor) {
-                dbCustomColorPref?.apply {
-                    try {
-                        color = Color.parseColor(mDatabase.customColor)
-                        summary = mDatabase.customColor
-                    } catch (e: Exception) {
-                        color = DISABLE_COLOR
-                        summary = ""
-                    }
-                }
-            } else {
-                dbCustomColorPref?.isEnabled = false
-                // TODO dbGeneralPrefCategory?.removePreference(dbCustomColorPref)
+                dbGeneralPrefCategory?.removePreference(recycleBinPref)
             }
 
             // Version
             findPreference<Preference>(getString(R.string.database_version_key))
-                    ?.summary = mDatabase.version
+                    ?.summary = mDatabase.getVersion()
 
-            val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_compression_key))
-
-            // Database compression
-            val databaseDataCompressionPref = findPreference<Preference>(getString(R.string.database_data_compression_key))
-            if (mDatabase.allowDataCompression) {
-                databaseDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
-                        ?: PwCompressionAlgorithm.None).getName(resources)
-            } else {
-                dbCompressionPrefCategory?.isVisible = false
-            }
-
-            val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
-
-            // Recycle bin
-            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
-            if (mDatabase.allowRecycleBin) {
-                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
-                // TODO Recycle Bin
-                recycleBinPref?.isEnabled = false
-            } else {
-                dbRecycleBinPrefCategory?.isVisible = false
-            }
-
-            findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
-                    ?.isVisible = mDatabase.manageHistory == true
-
-            // Max history items
-            findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))
-                    ?.summary = mDatabase.historyMaxItems.toString()
-
-            // Max history size
-            findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))
-                    ?.summary = mDatabase.historyMaxSize.toString()
-
-        } else {
-            Log.e(javaClass.name, "Database isn't ready")
-        }
-    }
-
-    private fun onCreateDatabaseSecurityPreference(rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_database_security, rootKey)
-
-        if (mDatabase.loaded) {
             // Encryption Algorithm
             findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
                     ?.summary = mDatabase.getEncryptionAlgorithmName(resources)
@@ -446,41 +288,24 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     ?.summary = mDatabase.getKeyDerivationName(resources)
 
             // Round encryption
-            mRoundPref = findPreference(getString(R.string.transform_rounds_key))
-            mRoundPref?.summary = mDatabase.numberKeyEncryptionRounds.toString()
+            mRoundPref = findPreference<InputNumberPreference>(getString(R.string.transform_rounds_key))
+            mRoundPref?.summary = mDatabase.numberKeyEncryptionRoundsAsString
 
             // Memory Usage
-            mMemoryPref = findPreference(getString(R.string.memory_usage_key))
-            mMemoryPref?.summary = mDatabase.memoryUsage.toString()
+            mMemoryPref = findPreference<InputNumberPreference>(getString(R.string.memory_usage_key))
+            mMemoryPref?.summary = mDatabase.memoryUsageAsString
 
             // Parallelism
-            mParallelismPref = findPreference(getString(R.string.parallelism_key))
-            mParallelismPref?.summary = mDatabase.parallelism.toString()
-        } else {
-            Log.e(javaClass.name, "Database isn't ready")
-        }
-    }
+            mParallelismPref = findPreference<InputNumberPreference>(getString(R.string.parallelism_key))
+            mParallelismPref?.summary = mDatabase.parallelismAsString
 
-    private fun onCreateDatabaseMasterKeyPreference(rootKey: String?) {
-        setPreferencesFromResource(R.xml.preferences_database_master_key, rootKey)
-
-        if (mDatabase.loaded) {
-            findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
-                onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                    fragmentManager?.let { fragmentManager ->
-                        AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey)
-                                .show(fragmentManager, "passwordDialog")
-                    }
-                    false
-                }
-            }
         } else {
             Log.e(javaClass.name, "Database isn't ready")
         }
     }
 
     private fun allowCopyPassword() {
-        val copyPasswordPreference: SwitchPreference? = findPreference(getString(R.string.allow_copy_password_key))
+        val copyPasswordPreference: SwitchPreference? = findPreference<SwitchPreference>(getString(R.string.allow_copy_password_key))
         copyPasswordPreference?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean && context != null) {
                 val message = getString(R.string.allow_copy_password_warning) +
@@ -530,27 +355,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         }
     }
 
-    private val colorSelectedListener: ((Boolean, Int)-> Unit)? = { enable, color ->
-        dbCustomColorPref?.summary = ChromaUtil.getFormattedColorString(color, false)
-        if (enable) {
-            dbCustomColorPref?.color = color
-        } else {
-            dbCustomColorPref?.color = DISABLE_COLOR
-        }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val view = super.onCreateView(inflater, container, savedInstanceState)
-
-        try {
-            // To reassign color listener after orientation change
-            val chromaDialog = fragmentManager?.findFragmentByTag(TAG_PREF_FRAGMENT) as DatabaseColorPreferenceDialogFragmentCompat?
-            chromaDialog?.onColorSelectedListener = colorSelectedListener
-        } catch (e: Exception) {}
-
-        return view
-    }
-
     override fun onDisplayPreferenceDialog(preference: Preference?) {
 
         var otherDialogFragment = false
@@ -564,23 +368,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     }
                     preference.key == getString(R.string.database_description_key) -> {
                         dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.database_default_username_key) -> {
-                        dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.database_custom_color_key) -> {
-                        dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
-                            onColorSelectedListener = colorSelectedListener
-                        }
-                    }
-                    preference.key == getString(R.string.database_data_compression_key) -> {
-                        dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.max_history_items_key) -> {
-                        dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.max_history_size_key) -> {
-                        dialogFragment = MaxHistorySizePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
                     preference.key == getString(R.string.encryption_algorithm_key) -> {
                         dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.key)
@@ -607,7 +394,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
                 if (dialogFragment != null && !mDatabaseReadOnly) {
                     dialogFragment.setTargetFragment(this, 0)
-                    dialogFragment.show(fragmentManager, TAG_PREF_FRAGMENT)
+                    dialogFragment.show(fragmentManager, null)
                 }
                 // Could not be handled here. Try with the super method.
                 else if (otherDialogFragment) {
@@ -631,8 +418,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         private const val TAG_KEY = "NESTED_KEY"
 
-        private const val TAG_PREF_FRAGMENT = "TAG_PREF_FRAGMENT"
-
         private const val REQUEST_CODE_AUTOFILL = 5201
 
         @JvmOverloads
@@ -652,10 +437,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 Screen.APPLICATION -> resources.getString(R.string.menu_app_settings)
                 Screen.FORM_FILLING -> resources.getString(R.string.menu_form_filling_settings)
                 Screen.ADVANCED_UNLOCK -> resources.getString(R.string.menu_advanced_unlock_settings)
-                Screen.APPEARANCE -> resources.getString(R.string.menu_appearance_settings)
                 Screen.DATABASE -> resources.getString(R.string.menu_database_settings)
-                Screen.DATABASE_SECURITY -> resources.getString(R.string.menu_security_settings)
-                Screen.DATABASE_MASTER_KEY -> resources.getString(R.string.menu_master_key_settings)
+                Screen.APPEARANCE -> resources.getString(R.string.menu_appearance_settings)
             }
         }
     }

@@ -3,8 +3,6 @@ package com.kunzisoft.keepass.activities.helpers
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.content.Intent
-import android.os.Build
-import com.kunzisoft.keepass.autofill.AutofillHelper
 
 object EntrySelectionHelper {
 
@@ -29,24 +27,7 @@ object EntrySelectionHelper {
         return intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, DEFAULT_ENTRY_SELECTION_MODE)
     }
 
-    fun doEntrySelectionAction(intent: Intent,
-                               standardAction: () -> Unit,
-                               keyboardAction: () -> Unit,
-                               autofillAction: (assistStructure: AssistStructure) -> Unit) {
-        var assistStructureInit = false
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.retrieveAssistStructure(intent)?.let { assistStructure ->
-                autofillAction.invoke(assistStructure)
-                assistStructureInit = true
-            }
-        }
-        if (!assistStructureInit) {
-            if (intent.getBooleanExtra(EXTRA_ENTRY_SELECTION_MODE, DEFAULT_ENTRY_SELECTION_MODE)) {
-                intent.removeExtra(EXTRA_ENTRY_SELECTION_MODE)
-                keyboardAction.invoke()
-            } else {
+    fun doEntrySelectionAction(intent: Intent, standardAction: () -> Unit) {
                 standardAction.invoke()
-            }
-        }
     }
 }

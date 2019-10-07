@@ -18,6 +18,7 @@
  */
 package com.kunzisoft.keepass.activities
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.SearchManager
 import android.app.assist.AssistStructure
@@ -28,16 +29,16 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.RequiresApi
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
-import androidx.fragment.app.FragmentManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -48,7 +49,6 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
-import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.*
@@ -56,13 +56,11 @@ import com.kunzisoft.keepass.database.action.node.ActionNodeDatabaseRunnable.Com
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
+import net.cachapa.expandablelayout.ExpandableLayout
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -75,9 +73,9 @@ class GroupActivity : LockingActivity(),
     // Views
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
+    private var toolbarPasteExpandableLayout: ExpandableLayout? = null
     private var toolbarPaste: Toolbar? = null
     private var iconView: ImageView? = null
-    private var numberChildrenView: TextView? = null
     private var modeTitleView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
@@ -110,26 +108,14 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
-        iconView = findViewById(R.id.group_icon)
-        numberChildrenView = findViewById(R.id.group_numbers)
+        iconView = findViewById(R.id.icon)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
+        toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout)
         toolbarPaste = findViewById(R.id.toolbar_paste)
         modeTitleView = findViewById(R.id.mode_title_view)
-
-        toolbar?.title = ""
-        setSupportActionBar(toolbar)
-
-        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
-        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
-        toolbarPaste?.collapse(false)
-        toolbarPaste?.setNavigationOnClickListener {
-            toolbarPaste?.collapse()
-            mNodeToCopy = null
-            mNodeToMove = null
-        }
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
@@ -141,11 +127,9 @@ class GroupActivity : LockingActivity(),
             if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
                 mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-                toolbarPaste?.expand(false)
             } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
                 mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
                 toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-                toolbarPaste?.expand(false)
             }
         }
 
@@ -166,6 +150,17 @@ class GroupActivity : LockingActivity(),
 
         // Update last access time.
         mCurrentGroup?.touch(modified = false, touchParents = false)
+
+        toolbar?.title = ""
+        setSupportActionBar(toolbar)
+
+        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
+        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
+        toolbarPaste?.setNavigationOnClickListener {
+            toolbarPasteExpandableLayout?.collapse()
+            mNodeToCopy = null
+            mNodeToMove = null
+        }
 
         // Retrieve the textColor to tint the icon
         val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
@@ -362,16 +357,6 @@ class GroupActivity : LockingActivity(),
             }
         }
 
-        // Assign number of children
-        numberChildrenView?.apply {
-            if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
-                visibility = View.VISIBLE
-            } else {
-                visibility = View.GONE
-            }
-        }
-
         // Show selection mode message if needed
         if (mSelectionMode) {
             modeTitleView?.visibility = View.VISIBLE
@@ -417,25 +402,7 @@ class GroupActivity : LockingActivity(),
                 val entryVersioned = node as EntryVersioned
                 EntrySelectionHelper.doEntrySelectionAction(intent,
                         {
-                            EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
-                        },
-                        {
-                            // Populate Magikeyboard with entry
-                            mDatabase?.let { database ->
-                                MagikIME.addEntryAndLaunchNotificationIfAllowed(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(database))
-                            }
-                            // Consume the selection mode
-                            EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                            moveTaskToBack(true)
-                        },
-                        {
-                            // Build response with the entry selected
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
-                                AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(mDatabase!!))
-                            }
-                            finish()
+                            EntryEditActivity.launch(this@GroupActivity, entryVersioned)
                         })
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Entry")
@@ -462,7 +429,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onCopyMenuClick(node: NodeVersioned): Boolean {
-        toolbarPaste?.expand()
+        toolbarPasteExpandableLayout?.expand()
         mNodeToCopy = node
         toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
         return false
@@ -470,7 +437,7 @@ class GroupActivity : LockingActivity(),
 
     private inner class OnCopyMenuItemClickListener : Toolbar.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPaste?.collapse()
+            toolbarPasteExpandableLayout?.collapse()
 
             when (item.itemId) {
                 R.id.menu_paste -> {
@@ -502,7 +469,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onMoveMenuClick(node: NodeVersioned): Boolean {
-        toolbarPaste?.expand()
+        toolbarPasteExpandableLayout?.expand()
         mNodeToMove = node
         toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
         return false
@@ -510,7 +477,7 @@ class GroupActivity : LockingActivity(),
 
     private inner class OnMoveMenuItemClickListener : Toolbar.OnMenuItemClickListener {
         override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPaste?.collapse()
+            toolbarPasteExpandableLayout?.collapse()
 
             when (item.itemId) {
                 R.id.menu_paste -> {
@@ -898,10 +865,6 @@ class GroupActivity : LockingActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
         // Not directly get the entry from intent data but from database
         mListNodesFragment?.rebuildList()
     }
@@ -973,33 +936,5 @@ class GroupActivity : LockingActivity(),
             }
         }
 
-        /*
-         * -------------------------
-         * 		Keyboard Launch
-         * -------------------------
-         */
-        // TODO implement pre search to directly open the direct group
-
-        fun launchForKeyboarSelection(activity: Activity, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Autofill Launch
-         * -------------------------
-         */
-        // TODO implement pre search to directly open the direct group
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure)
-            }
-        }
     }
 }

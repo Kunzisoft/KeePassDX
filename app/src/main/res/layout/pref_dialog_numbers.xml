@@ -17,32 +17,26 @@
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<androidx.constraintlayout.widget.ConstraintLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	xmlns:app="http://schemas.android.com/apk/res-auto"
 	android:id="@+id/edit"
-	android:orientation="vertical"
+	android:padding="20dp"
+    android:orientation="vertical"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:importantForAutofill="noExcludeDescendants"
 	tools:targetApi="o">
-	<FrameLayout
-		android:id="@+id/color_dialog_container"
-		android:layout_width="match_parent"
+    <androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/explanation_text"
 		android:layout_height="wrap_content"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		app:layout_constraintEnd_toEndOf="parent" />
-	<androidx.appcompat.widget.SwitchCompat
-		android:id="@+id/switch_element"
 		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_margin="20dp"
-		android:text="@string/enable"
-		android:background="@drawable/background_button_small"
-		android:textColor="?attr/textColorInverse"
-		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintStart_toStartOf="parent"
-		android:minHeight="48dp"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
+		android:gravity="center"
+        android:layout_marginBottom="8dp"
+        style="@style/KeepassDXStyle.TextAppearance.SmallTitle"/>
+	<androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/input_text"
+	  	android:layout_height="wrap_content"
+	  	android:layout_width="match_parent"
+		android:digits="0123456789"
+		android:inputType="number"/>
+</LinearLayout>

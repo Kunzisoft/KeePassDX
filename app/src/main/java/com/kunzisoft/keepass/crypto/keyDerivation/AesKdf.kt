@@ -32,10 +32,12 @@ class AesKdf internal constructor() : KdfEngine() {
 
     override val defaultParameters: KdfParameters
         get() {
-            return KdfParameters(uuid).apply {
-                setParamUUID()
-                setUInt32(PARAM_ROUNDS, DEFAULT_ROUNDS.toLong())
-            }
+            val p = KdfParameters(uuid)
+
+            p.setParamUUID()
+            p.setUInt32(ParamRounds, DEFAULT_ROUNDS.toLong())
+
+            return p
         }
 
     override val defaultKeyRounds: Long
@@ -52,8 +54,8 @@ class AesKdf internal constructor() : KdfEngine() {
     @Throws(IOException::class)
     override fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray {
         var currentMasterKey = masterKey
-        val rounds = p.getUInt64(PARAM_ROUNDS)
-        var seed = p.getByteArray(PARAM_SEED)
+        val rounds = p.getUInt64(ParamRounds)
+        var seed = p.getByteArray(ParamSeed)
 
         if (currentMasterKey.size != 32) {
             currentMasterKey = CryptoUtil.hashSha256(currentMasterKey)
@@ -73,15 +75,15 @@ class AesKdf internal constructor() : KdfEngine() {
         val seed = ByteArray(32)
         random.nextBytes(seed)
 
-        p.setByteArray(PARAM_SEED, seed)
+        p.setByteArray(ParamSeed, seed)
     }
 
     override fun getKeyRounds(p: KdfParameters): Long {
-        return p.getUInt64(PARAM_ROUNDS)
+        return p.getUInt64(ParamRounds)
     }
 
     override fun setKeyRounds(p: KdfParameters, keyRounds: Long) {
-        p.setUInt64(PARAM_ROUNDS, keyRounds)
+        p.setUInt64(ParamRounds, keyRounds)
     }
 
     companion object {
@@ -89,24 +91,9 @@ class AesKdf internal constructor() : KdfEngine() {
         private const val DEFAULT_ROUNDS = 6000
 
         val CIPHER_UUID: UUID = Types.bytestoUUID(
-                byteArrayOf(0xC9.toByte(),
-                        0xD9.toByte(),
-                        0xF3.toByte(),
-                        0x9A.toByte(),
-                        0x62.toByte(),
-                        0x8A.toByte(),
-                        0x44.toByte(),
-                        0x60.toByte(),
-                        0xBF.toByte(),
-                        0x74.toByte(),
-                        0x0D.toByte(),
-                        0x08.toByte(),
-                        0xC1.toByte(),
-                        0x8A.toByte(),
-                        0x4F.toByte(),
-                        0xEA.toByte()))
+                byteArrayOf(0xC9.toByte(), 0xD9.toByte(), 0xF3.toByte(), 0x9A.toByte(), 0x62.toByte(), 0x8A.toByte(), 0x44.toByte(), 0x60.toByte(), 0xBF.toByte(), 0x74.toByte(), 0x0D.toByte(), 0x08.toByte(), 0xC1.toByte(), 0x8A.toByte(), 0x4F.toByte(), 0xEA.toByte()))
 
-        const val PARAM_ROUNDS = "R"
-        const val PARAM_SEED = "S"
+        const val ParamRounds = "R"
+        const val ParamSeed = "S"
     }
 }

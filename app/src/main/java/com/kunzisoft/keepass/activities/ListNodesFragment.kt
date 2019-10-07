@@ -207,7 +207,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (Database.getInstance().allowRecycleBin
+                            if (Database.getInstance().isRecycleBinAvailable
                                     && Database.getInstance().isRecycleBinEnabled) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),

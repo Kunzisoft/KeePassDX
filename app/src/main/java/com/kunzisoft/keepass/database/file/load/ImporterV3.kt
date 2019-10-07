@@ -73,7 +73,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
 
     private lateinit var mDatabaseToOpen: PwDatabaseV3
 
-    @Throws(IOException::class, LoadDatabaseException::class)
+    @Throws(IOException::class, InvalidDBException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
@@ -92,11 +92,11 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         hdr.loadFromFile(filebuf, 0)
 
         if (hdr.signature1 != PwDbHeader.PWM_DBSIG_1 || hdr.signature2 != PwDbHeaderV3.DBSIG_2) {
-            throw LoadDatabaseSignatureException()
+            throw InvalidDBSignatureException()
         }
 
         if (!hdr.matchesVersion()) {
-            throw LoadDatabaseVersionException()
+            throw InvalidDBVersionException()
         }
 
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
@@ -109,7 +109,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         } else if (hdr.flags and PwDbHeaderV3.FLAG_TWOFISH != 0) {
             mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.Twofish
         } else {
-            throw LoadDatabaseInvalidAlgorithmException()
+            throw InvalidAlgorithmException()
         }
 
         mDatabaseToOpen.numberKeyEncryptionRounds = hdr.numKeyEncRounds.toLong()
@@ -152,7 +152,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         } catch (e1: IllegalBlockSizeException) {
             throw IOException("Invalid block size")
         } catch (e1: BadPaddingException) {
-            throw LoadDatabaseInvalidPasswordException()
+            throw InvalidPasswordException()
         }
 
         val md: MessageDigest
@@ -171,7 +171,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         if (!Arrays.equals(hash, hdr.contentsHash)) {
 
             Log.w(TAG, "Database file did not decrypt correctly. (checksum code is broken)")
-            throw LoadDatabaseInvalidPasswordException()
+            throw InvalidPasswordException()
         }
 
         // New manual root because V3 contains multiple root groups (here available with getRootGroups())

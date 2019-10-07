@@ -56,19 +56,17 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
+        if (database != null && positiveResult && database!!.allowEncryptionAlgorithmModification()) {
 
-        if (positiveResult) {
-            database?.let { database ->
-                if (database.allowEncryptionAlgorithmModification) {
-                    if (algorithmSelected != null) {
-                        val newAlgorithm = algorithmSelected
-                        val oldAlgorithm = database.encryptionAlgorithm
-                        database.encryptionAlgorithm = newAlgorithm
-
-                        if (oldAlgorithm != null && newAlgorithm != null)
-                            actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
-                    }
+            if (algorithmSelected != null) {
+                val newAlgorithm = algorithmSelected
+                val oldAlgorithm = database?.encryptionAlgorithm
+                newAlgorithm?.let {
+                    database?.assignEncryptionAlgorithm(it)
                 }
+
+                if (oldAlgorithm != null && newAlgorithm != null)
+                    actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
             }
         }
 
@@ -84,13 +82,11 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         : ActionRunnable() {
 
         override fun onFinishRun(result: Result) {
-            val algorithmToShow =
-                    if (result.isSuccess) {
-                        mNewAlgorithm
-                    } else {
-                        database?.encryptionAlgorithm = mOldAlgorithm
-                        mOldAlgorithm
-                    }
+            var algorithmToShow = mNewAlgorithm
+            if (!result.isSuccess) {
+                database?.assignEncryptionAlgorithm(mOldAlgorithm)
+                algorithmToShow = mOldAlgorithm
+            }
             preference.summary = algorithmToShow.getName(settingsResources)
         }
     }

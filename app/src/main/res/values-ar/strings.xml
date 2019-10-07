@@ -27,6 +27,7 @@
     <string name="beta_dontask">لا تظهر مرة أخرى</string>
     <string name="brackets">أقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
+    <string name="cancel">إلغاء</string>
     <string name="allow">السماح</string>
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
@@ -53,6 +54,7 @@
     <string name="error_title_required">اكتب عنوانًا.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
+    <string name="file_not_found">تعذر إيجاد الملف.</string>
     <string name="generate_password">توليد كلمة سر</string>
     <string name="hint_conf_pass">تأكيد كلمة السر</string>
     <string name="hint_group_name">اسم المجموعة</string>
@@ -141,6 +143,7 @@
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
     <string name="error_load_database_KDF_memory">غير قادر على تحميل المفتاح، في محاولة لتقليل الذاكرة المستخدمة من قبل KDF.</string>
     <string name="error_pass_gen_type">يجب تحديد كلمة مرور واحد على الأقل نوع الجيل</string>
+    <string name="error_rounds_not_number">يجب أن تكون \"جولات\" عددا.</string>
     <string name="error_rounds_too_large">\"جولات\" كبيرة جداً. الإعداد إلى 2147483648.</string>
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
@@ -213,7 +216,7 @@
 \nاستعد كلمة السر.</string>
     <string name="biometric_not_recognized">لم يتعرّف على البصمة</string>
     <string name="open_biometric_prompt_store_credential">استخدم البصمة لحفظ كلمة السر</string>
-    <string name="database_history">تأريخ</string>
+    <string name="history">تأريخ</string>
     <string name="clipboard_notifications_summary">مكن اشعارات الحافظة لنسخ الحقول</string>
     <string name="fingerprint_advanced_unlock_title">كيف أعد فحص البصمة للفتح السريع \?</string>
     <string name="fingerprint_setting_text">"احفظ البصمات في "</string>
@@ -223,9 +226,13 @@
     <string name="biometric_unlock_enable_title">فحص البصمة</string>
     <string name="biometric_unlock_enable_summary">يسمح بفحص البصمة لفتح قاعدة البيانات</string>
     <string name="monospace_font_fields_enable_summary">غير خط الحقول لتوضيح المحارف</string>
+    <string name="auto_open_file_uri_title">افتح الملفات بالتحديد
+\n</string>
+    <string name="auto_open_file_uri_summary">افتح الملفات تلقائيا عند تحديدها في متصفح الملفات</string>
     <string name="allow_copy_password_title">الوثوق بالحافظة</string>
     <string name="allow_copy_password_summary">اسمح لكلمة السر والحقول المحمية بالدخول للحافظة</string>
     <string name="allow_copy_password_warning">تحذير: الحافظة مشتركة بين التطبيقات وستتمكن التطبيقات الاخرى من الوصول الى المعلومات الحساسة.</string>
+    <string name="open_link_database">رابط قاعدة البيانات</string>
     <string name="database_name_title">اسم قاعدة البيانات</string>
     <string name="database_description_title">وصف قاعدة البيانات</string>
     <string name="database_version_title">نسخة قاعدة البيانات</string>

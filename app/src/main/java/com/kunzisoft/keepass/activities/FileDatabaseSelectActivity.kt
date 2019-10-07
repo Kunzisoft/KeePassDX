@@ -39,6 +39,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
@@ -48,16 +49,17 @@ import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
+import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : StylishActivity(),
@@ -66,7 +68,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
     // Views
     private var fileListContainer: View? = null
     private var createButtonView: View? = null
-    private var openDatabaseButtonView: View? = null
+    private var browseButtonView: View? = null
+    private var openButtonView: View? = null
+    private var fileSelectExpandableButtonView: View? = null
+    private var fileSelectExpandableLayout: ExpandableLayout? = null
+    private var openFileNameView: EditText? = null
 
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
@@ -76,6 +82,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private var mDatabaseFileUri: Uri? = null
 
     private var mOpenFileHelper: OpenFileHelper? = null
+
+    private var mDefaultPath: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -89,8 +97,44 @@ class FileDatabaseSelectActivity : StylishActivity(),
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
+        openFileNameView = findViewById(R.id.file_filename)
+
+        // Set the initial value of the filename
+        mDefaultPath = (Environment.getExternalStorageDirectory().absolutePath
+                + getString(R.string.database_file_path_default)
+                + getString(R.string.database_file_name_default)
+                + getString(R.string.database_file_extension_default))
+        openFileNameView?.setHint(R.string.open_link_database)
+
+        // Button to expand file selection
+        fileSelectExpandableButtonView = findViewById(R.id.file_select_expandable_button)
+        fileSelectExpandableLayout = findViewById(R.id.file_select_expandable)
+        fileSelectExpandableButtonView?.setOnClickListener { _ ->
+            if (fileSelectExpandableLayout?.isExpanded == true)
+                fileSelectExpandableLayout?.collapse()
+            else
+                fileSelectExpandableLayout?.expand()
+        }
+
+        // Open button
+        openButtonView = findViewById(R.id.open_database)
+        openButtonView?.setOnClickListener { _ ->
+            var fileName = openFileNameView?.text?.toString() ?: ""
+            mDefaultPath?.let {
+                if (fileName.isEmpty())
+                    fileName = it
+            }
+            UriUtil.parse(fileName)?.let { fileNameUri ->
+                launchPasswordActivityWithPath(fileNameUri)
+            } ?: run {
+                Log.e(TAG, "Unable to open the database link")
+                Snackbar.make(activity_file_selection_coordinator_layout, getString(R.string.error_can_not_handle_uri), Snackbar.LENGTH_LONG).asError().show()
+                null
+            }
+        }
+
         // Create button
-        createButtonView = findViewById(R.id.create_database_button)
+        createButtonView = findViewById(R.id.create_database)
         if (Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/x-keepass"
@@ -106,8 +150,10 @@ class FileDatabaseSelectActivity : StylishActivity(),
         createButtonView?.setOnClickListener { createNewFile() }
 
         mOpenFileHelper = OpenFileHelper(this)
-        openDatabaseButtonView = findViewById(R.id.open_database_button)
-        openDatabaseButtonView?.setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+        browseButtonView = findViewById(R.id.browse_button)
+        browseButtonView?.setOnClickListener(mOpenFileHelper!!.getOpenFileOnClickViewListener {
+            UriUtil.parse(openFileNameView?.text?.toString())
+        })
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -195,27 +241,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                                 databaseUri, keyFile)
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
-                    }
-                },
-                {
-                    try {
-                        PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
-                                databaseUri, keyFile)
-                        finish()
-                    } catch (e: FileNotFoundException) {
-                        fileNoFoundAction(e)
-                    }
-                },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        try {
-                            PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
-                                    databaseUri, keyFile,
-                                    assistStructure)
-                        } catch (e: FileNotFoundException) {
-                            fileNoFoundAction(e)
-                        }
-
                     }
                 })
     }
@@ -311,7 +336,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                                                   private val keyFileUri: Uri?) : ActionRunnable() {
 
         override fun run() {
-            finishRun(true)
+            finishRun(true, null)
         }
 
         override fun onFinishRun(result: Result) {
@@ -338,14 +363,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
-
         mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
             if (uri != null) {
-                launchPasswordActivityWithPath(uri)
+                if (PreferencesUtil.autoOpenSelectedFile(this@FileDatabaseSelectActivity)) {
+                    launchPasswordActivityWithPath(uri)
+                } else {
+                    fileSelectExpandableLayout?.expand(false)
+                    openFileNameView?.setText(uri.toString())
+                }
             }
         }
 
@@ -353,8 +379,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment.getInstance(true)
-                        .show(supportFragmentManager, "passwordDialog")
+                AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
             }
             // else {
                 // TODO Show error
@@ -387,15 +412,20 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
         if (!createDatabaseEducationPerformed) {
             // selectDatabaseEducationPerformed
-            openDatabaseButtonView != null
+            browseButtonView != null
                     && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                    openDatabaseButtonView!!,
+                    browseButtonView!!,
                     {tapTargetView ->
                         tapTargetView?.let {
                             mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
                         }
                     },
-                    {}
+                    {
+                        fileSelectExpandableButtonView?.let {
+                            fileDatabaseSelectActivityEducation
+                                    .checkAndPerformedOpenLinkDatabaseEducation(it)
+                        }
+                    }
             )
         }
     }
@@ -428,17 +458,5 @@ class FileDatabaseSelectActivity : StylishActivity(),
             EntrySelectionHelper.startActivityForEntrySelection(activity, Intent(activity, FileDatabaseSelectActivity::class.java))
         }
 
-        /*
-         * -------------------------
-         * 		Autofill Launch
-         * -------------------------
-         */
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure) {
-            AutofillHelper.startActivityForAutofillResult(activity,
-                    Intent(activity, FileDatabaseSelectActivity::class.java),
-                    assistStructure)
-        }
     }
 }

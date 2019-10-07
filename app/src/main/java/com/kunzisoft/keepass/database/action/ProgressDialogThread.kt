@@ -5,8 +5,6 @@ import android.os.AsyncTask
 import android.os.Build
 import androidx.annotation.StringRes
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -25,17 +23,12 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
     var actionFinishInUIThread: ActionRunnable? = null
 
-    private var intentDatabaseTask:Intent = Intent(activity, DatabaseTaskNotificationService::class.java)
-
     init {
         actionRunnableAsyncTask = ActionRunnableAsyncTask(progressTaskDialogFragment,
                 {
                     activity.runOnUiThread {
-                        intentDatabaseTask.putExtra(DATABASE_TASK_TITLE_KEY, titleId)
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            activity.startForegroundService(intentDatabaseTask)
                         } else {
-                            activity.startService(intentDatabaseTask)
                         }
                         TimeoutHelper.temporarilyDisableTimeout()
                         // Show the dialog
@@ -47,7 +40,6 @@ open class ProgressDialogThread(private val activity: FragmentActivity,
                         // Remove the progress task
                         ProgressTaskDialogFragment.stop(activity)
                         TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
-                        activity.stopService(intentDatabaseTask)
                     }
                 })
     }

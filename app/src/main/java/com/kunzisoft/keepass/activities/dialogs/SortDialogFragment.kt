@@ -83,7 +83,7 @@ class SortDialogFragment : DialogFragment() {
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok
                     ) { _, _ -> mListener?.onSortSelected(mSortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom) }
-                    .setNegativeButton(android.R.string.cancel) { _, _ -> }
+                    .setNegativeButton(R.string.cancel) { _, _ -> }
 
             val ascendingView = rootView.findViewById<CompoundButton>(R.id.sort_selection_ascending)
             // Check if is ascending or descending

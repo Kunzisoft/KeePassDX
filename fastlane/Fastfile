@@ -45,13 +45,13 @@ platform :android do
     )
   end
 
-  desc "Deploy a new Free Beta version to the Google Play"
+  desc "Deploy a new Pro Beta version to the Google Play"
   lane :deploy_beta_free do
     upload_to_play_store(
       track: "beta",
       skip_upload_metadata: "false",
       skip_upload_images: "true",
-      skip_upload_screenshots: "false",
+      skip_upload_screenshots: "true",
       apk: "./app/build/outputs/apk/free/release/app-free-release.apk",
       validate_only: "false",
     )
@@ -64,7 +64,7 @@ platform :android do
       track: "beta",
       skip_upload_metadata: "false",
       skip_upload_images: "true",
-      skip_upload_screenshots: "false",
+      skip_upload_screenshots: "true",
       apk: "./app/build/outputs/apk/pro/release/app-pro-release.apk",
       validate_only: "false",
     )

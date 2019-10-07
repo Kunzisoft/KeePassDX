@@ -24,11 +24,11 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.file.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.LoadDatabaseArcFourException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidPasswordException
+import com.kunzisoft.keepass.database.exception.ArcFourException
+import com.kunzisoft.keepass.database.exception.InvalidDBException
+import com.kunzisoft.keepass.database.exception.InvalidPasswordException
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
@@ -56,8 +56,7 @@ import javax.crypto.Cipher
 import javax.crypto.NoSuchPaddingException
 import kotlin.math.min
 
-class ImporterV4(private val streamDir: File,
-                 private val fixDuplicateUUID: Boolean = false) : Importer<PwDatabaseV4>() {
+class ImporterV4(private val streamDir: File) : Importer<PwDatabaseV4>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: PwDatabaseV4
@@ -90,7 +89,7 @@ class ImporterV4(private val streamDir: File,
     private var entryCustomDataKey: String? = null
     private var entryCustomDataValue: String? = null
 
-    @Throws(IOException::class, LoadDatabaseException::class)
+    @Throws(IOException::class, InvalidDBException::class)
     override fun openDatabase(databaseInputStream: InputStream,
                               password: String?,
                               keyInputStream: InputStream?,
@@ -100,9 +99,6 @@ class ImporterV4(private val streamDir: File,
         progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
 
         mDatabase = PwDatabaseV4()
-
-        mDatabase.changeDuplicateId = fixDuplicateUUID
-
         val header = PwDbHeaderV4(mDatabase)
 
         val headerAndHash = header.loadFromFile(databaseInputStream)
@@ -142,14 +138,14 @@ class ImporterV4(private val streamDir: File,
             try {
                 storedStartBytes = dataDecrypted.readBytes(32)
                 if (storedStartBytes == null || storedStartBytes.size != 32) {
-                    throw LoadDatabaseInvalidPasswordException()
+                    throw InvalidPasswordException()
                 }
             } catch (e: IOException) {
-                throw LoadDatabaseInvalidPasswordException()
+                throw InvalidPasswordException()
             }
 
             if (!Arrays.equals(storedStartBytes, header.streamStartBytes)) {
-                throw LoadDatabaseInvalidPasswordException()
+                throw InvalidPasswordException()
             }
 
             isPlain = HashedBlockInputStream(dataDecrypted)
@@ -157,18 +153,18 @@ class ImporterV4(private val streamDir: File,
             val isData = LEDataInputStream(databaseInputStream)
             val storedHash = isData.readBytes(32)
             if (!Arrays.equals(storedHash, hashOfHeader)) {
-                throw LoadDatabaseException()
+                throw InvalidDBException()
             }
 
-            val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
+            val hmacKey = mDatabase.hmacKey ?: throw InvalidDBException()
             val headerHmac = PwDbHeaderV4.computeHeaderHmac(pbHeader, hmacKey)
             val storedHmac = isData.readBytes(32)
             if (storedHmac == null || storedHmac.size != 32) {
-                throw LoadDatabaseException()
+                throw InvalidDBException()
             }
             // Mac doesn't match
             if (!Arrays.equals(headerHmac, storedHmac)) {
-                throw LoadDatabaseException()
+                throw InvalidDBException()
             }
 
             val hmIs = HmacBlockInputStream(isData, true, hmacKey)
@@ -177,9 +173,10 @@ class ImporterV4(private val streamDir: File,
         }
 
         val isXml: InputStream
-        isXml = when(mDatabase.compressionAlgorithm) {
-            PwCompressionAlgorithm.GZip -> GZIPInputStream(isPlain)
-            else -> isPlain
+        if (mDatabase.compressionAlgorithm === PwCompressionAlgorithm.Gzip) {
+            isXml = GZIPInputStream(isPlain)
+        } else {
+            isXml = isPlain
         }
 
         if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
@@ -189,7 +186,7 @@ class ImporterV4(private val streamDir: File,
         randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
 
         if (randomStream == null) {
-            throw LoadDatabaseArcFourException()
+            throw ArcFourException()
         }
 
         readXmlStreamed(isXml)
@@ -274,7 +271,7 @@ class ImporterV4(private val streamDir: File,
         Binaries
     }
 
-    @Throws(IOException::class, LoadDatabaseException::class)
+    @Throws(IOException::class, InvalidDBException::class)
     private fun readXmlStreamed(readerStream: InputStream) {
         try {
             readDocumentStreamed(createPullParser(readerStream))
@@ -285,7 +282,7 @@ class ImporterV4(private val streamDir: File,
 
     }
 
-    @Throws(XmlPullParserException::class, IOException::class, LoadDatabaseException::class)
+    @Throws(XmlPullParserException::class, IOException::class, InvalidDBException::class)
     private fun readDocumentStreamed(xpp: XmlPullParser) {
 
         ctxGroups.clear()
@@ -316,7 +313,7 @@ class ImporterV4(private val streamDir: File,
         if (ctxGroups.size != 0) throw IOException("Malformed")
     }
 
-    @Throws(XmlPullParserException::class, IOException::class, LoadDatabaseException::class)
+    @Throws(XmlPullParserException::class, IOException::class, InvalidDBException::class)
     private fun readXmlElement(ctx: KdbContext, xpp: XmlPullParser): KdbContext {
         val name = xpp.name
         when (ctx) {
@@ -340,7 +337,7 @@ class ImporterV4(private val streamDir: File,
                 if (encodedHash.isNotEmpty() && hashOfHeader != null) {
                     val hash = Base64Coder.decode(encodedHash)
                     if (!Arrays.equals(hash, hashOfHeader)) {
-                        throw LoadDatabaseException()
+                        throw InvalidDBException()
                     }
                 }
             } else if (name.equals(PwDatabaseV4XML.ElemSettingsChanged, ignoreCase = true)) {
@@ -358,6 +355,7 @@ class ImporterV4(private val streamDir: File,
             } else if (name.equals(PwDatabaseV4XML.ElemDbDefaultUserChanged, ignoreCase = true)) {
                 mDatabase.defaultUserNameChanged = readPwTime(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemDbColor, ignoreCase = true)) {
+                // TODO: Add support to interpret the color if we want to allow changing the database color
                 mDatabase.color = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemDbMntncHistoryDays, ignoreCase = true)) {
                 mDatabase.maintenanceHistoryDays = readUInt(xpp, DEFAULT_HISTORY_DAYS)
@@ -591,7 +589,7 @@ class ImporterV4(private val streamDir: File,
                     name.equals(PwDatabaseV4XML.ElemCreationTime, ignoreCase = true) -> tl?.creationTime = readPwTime(xpp)
                     name.equals(PwDatabaseV4XML.ElemLastAccessTime, ignoreCase = true) -> tl?.lastAccessTime = readPwTime(xpp)
                     name.equals(PwDatabaseV4XML.ElemExpiryTime, ignoreCase = true) -> tl?.expiryTime = readPwTime(xpp)
-                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl?.expires = readBool(xpp, false)
+                    name.equals(PwDatabaseV4XML.ElemExpires, ignoreCase = true) -> tl?.isExpires = readBool(xpp, false)
                     name.equals(PwDatabaseV4XML.ElemUsageCount, ignoreCase = true) -> tl?.usageCount = readULong(xpp, 0)
                     name.equals(PwDatabaseV4XML.ElemLocationChanged, ignoreCase = true) -> tl?.locationChanged = readPwTime(xpp)
                     else -> readUnknown(xpp)

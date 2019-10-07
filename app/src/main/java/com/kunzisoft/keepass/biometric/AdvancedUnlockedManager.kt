@@ -249,18 +249,11 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         biometricUnlockDatabaseHelper = null
     }
 
-    // Only to fix multiple fingerprint menu #332
-    private var addBiometricMenuInProgress = false
     fun inflateOptionsMenu(menuInflater: MenuInflater, menu: Menu) {
-        if (!addBiometricMenuInProgress) {
-            addBiometricMenuInProgress = true
-            cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
-                if ((biometricMode != Mode.UNAVAILABLE && biometricMode != Mode.NOT_CONFIGURED)
-                        && it) {
-                    menuInflater.inflate(R.menu.advanced_unlock, menu)
-                    addBiometricMenuInProgress = false
-                }
-            }
+        cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
+            if ((biometricMode != Mode.UNAVAILABLE
+                            && biometricMode != Mode.NOT_CONFIGURED) && it)
+                menuInflater.inflate(R.menu.advanced_unlock, menu)
         }
     }
 

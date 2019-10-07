@@ -19,4 +19,9 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-class SamsungClipboardException(e: Exception) : Exception(e)
+class SamsungClipboardException(e: Exception) : Exception(e) {
+    companion object {
+        private const val serialVersionUID = -3168837280393843509L
+    }
+
+}

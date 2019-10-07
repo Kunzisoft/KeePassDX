@@ -19,10 +19,9 @@
  */
 package com.kunzisoft.keepass.database.element
 
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseInvalidKeyFileException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseKeyFileEmptyException
+import android.util.Log
+import com.kunzisoft.keepass.database.exception.InvalidKeyFileException
+import com.kunzisoft.keepass.database.exception.KeyFileEmptyException
 import com.kunzisoft.keepass.utils.MemoryUtil
 
 import java.io.ByteArrayInputStream
@@ -35,18 +34,10 @@ import java.security.NoSuchAlgorithmException
 import java.util.LinkedHashMap
 import java.util.UUID
 
-abstract class PwDatabase<
-        GroupId,
-        Group : PwGroup<GroupId, Group, Entry>,
-        Entry : PwEntry<Group, Entry>
-        > {
+abstract class PwDatabase<Group : PwGroup<*, Group, Entry>, Entry : PwEntry<Group, Entry>> {
 
     // Algorithm used to encrypt the database
     protected var algorithm: PwEncryptionAlgorithm? = null
-
-    abstract val kdfEngine: KdfEngine?
-
-    abstract val kdfAvailableList: List<KdfEngine>
 
     var masterKey = ByteArray(32)
     var finalKey: ByteArray? = null
@@ -55,10 +46,8 @@ abstract class PwDatabase<
     var iconFactory = PwIconFactory()
         protected set
 
-    var changeDuplicateId = false
-
-    private var groupIndexes = LinkedHashMap<PwNodeId<GroupId>, Group>()
-    private var entryIndexes = LinkedHashMap<PwNodeId<UUID>, Entry>()
+    private var groupIndexes = LinkedHashMap<PwNodeId<*>, Group>()
+    private var entryIndexes = LinkedHashMap<PwNodeId<*>, Entry>()
 
     abstract val version: String
 
@@ -78,15 +67,15 @@ abstract class PwDatabase<
 
     var rootGroup: Group? = null
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(InvalidKeyFileException::class, IOException::class)
     protected abstract fun getMasterKey(key: String?, keyInputStream: InputStream?): ByteArray
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(InvalidKeyFileException::class, IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         masterKey = getMasterKey(key, keyInputStream)
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(InvalidKeyFileException::class, IOException::class)
     protected fun getCompositeKey(key: String, keyInputStream: InputStream): ByteArray {
         val fileKey = getFileKey(keyInputStream)
         val passwordKey = getPasswordKey(key)
@@ -126,7 +115,7 @@ abstract class PwDatabase<
         return messageDigest.digest()
     }
 
-    @Throws(LoadDatabaseInvalidKeyFileException::class, IOException::class)
+    @Throws(InvalidKeyFileException::class, IOException::class)
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
         val keyByteArrayOutputStream = ByteArrayOutputStream()
@@ -140,7 +129,7 @@ abstract class PwDatabase<
         }
 
         when (keyData.size.toLong()) {
-            0L -> throw LoadDatabaseKeyFileEmptyException()
+            0L -> throw KeyFileEmptyException()
             32L -> return keyData
             64L -> try {
                 return hexStringToByteArray(String(keyData))
@@ -167,18 +156,15 @@ abstract class PwDatabase<
 
     protected abstract fun loadXmlKeyFile(keyInputStream: InputStream): ByteArray?
 
-    open fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
-        if (password == null && !containsKeyFile)
+    open fun validatePasswordEncoding(key: String?): Boolean {
+        if (key == null)
             return false
-
-        if (password == null)
-            return true
 
         val encoding = passwordEncoding
 
         val bKey: ByteArray
         try {
-            bKey = password.toByteArray(charset(encoding))
+            bKey = key.toByteArray(charset(encoding))
         } catch (e: UnsupportedEncodingException) {
             return false
         }
@@ -189,7 +175,7 @@ abstract class PwDatabase<
         } catch (e: UnsupportedEncodingException) {
             return false
         }
-        return password == reEncoded
+        return key == reEncoded
     }
 
     /*
@@ -198,9 +184,9 @@ abstract class PwDatabase<
      * -------------------------------------
      */
 
-    abstract fun newGroupId(): PwNodeId<GroupId>
+    abstract fun newGroupId(): PwNodeId<*>
 
-    abstract fun newEntryId(): PwNodeId<UUID>
+    abstract fun newEntryId(): PwNodeId<*>
 
     abstract fun createGroup(): Group
 
@@ -225,7 +211,7 @@ abstract class PwDatabase<
      * ID number to check for
      * @return True if the ID is used, false otherwise
      */
-    fun isGroupIdUsed(id: PwNodeId<GroupId>): Boolean {
+    fun isGroupIdUsed(id: PwNodeId<*>): Boolean {
         return groupIndexes.containsKey(id)
     }
 
@@ -240,21 +226,14 @@ abstract class PwDatabase<
         }
     }
 
-    fun getGroupById(id: PwNodeId<GroupId>): Group? {
+    fun getGroupById(id: PwNodeId<*>): Group? {
         return this.groupIndexes[id]
     }
 
     fun addGroupIndex(group: Group) {
         val groupId = group.nodeId
         if (groupIndexes.containsKey(groupId)) {
-            if (changeDuplicateId) {
-                val newGroupId = newGroupId()
-                group.nodeId = newGroupId
-                group.parent?.addChildGroup(group)
-                this.groupIndexes[newGroupId] = group
-            } else {
-                throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
-            }
+            Log.e(TAG, "Error, a group with the same UUID $groupId already exists")
         } else {
             this.groupIndexes[groupId] = group
         }
@@ -274,7 +253,7 @@ abstract class PwDatabase<
         }
     }
 
-    fun isEntryIdUsed(id: PwNodeId<UUID>): Boolean {
+    fun isEntryIdUsed(id: PwNodeId<*>): Boolean {
         return entryIndexes.containsKey(id)
     }
 
@@ -282,21 +261,15 @@ abstract class PwDatabase<
         return entryIndexes.values
     }
 
-    fun getEntryById(id: PwNodeId<UUID>): Entry? {
+    fun getEntryById(id: PwNodeId<*>): Entry? {
         return this.entryIndexes[id]
     }
 
     fun addEntryIndex(entry: Entry) {
         val entryId = entry.nodeId
         if (entryIndexes.containsKey(entryId)) {
-            if (changeDuplicateId) {
-                val newEntryId = newEntryId()
-                entry.nodeId = newEntryId
-                entry.parent?.addChildEntry(entry)
-                this.entryIndexes[newEntryId] = entry
-            } else {
-                throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
-            }
+            // TODO History
+            Log.e(TAG, "Error, a group with the same UUID $entryId already exists, change the UUID")
         } else {
             this.entryIndexes[entryId] = entry
         }

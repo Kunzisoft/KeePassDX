@@ -42,7 +42,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-    private var displayUsername: Boolean = false
+    private var displayNotes: Boolean = false
     private val iconColor: Int
 
     init {
@@ -55,7 +55,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
     }
 
     fun reInit(context: Context) {
-        this.displayUsername = PreferencesUtil.showUsernamesListEntries(context)
+        this.displayNotes = PreferencesUtil.showNotesListEntries(context)
     }
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
@@ -85,7 +85,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
                 icon = iconFactory.keyIcon
         }
         val title = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE))
-        val username = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME))
+        val notes = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_NOTES))
         val url = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_URL))
 
         val viewHolder = view.tag as ViewHolder
@@ -94,10 +94,10 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         viewHolder.imageViewIcon?.assignDatabaseIcon(database.drawFactory, icon, iconColor)
 
         // Assign title
-        val showTitle = EntryVersioned.getVisualTitle(false, title, username, url, uuid.toString())
+        val showTitle = EntryVersioned.getVisualTitle(false, title, notes, url, uuid.toString())
         viewHolder.textViewTitle?.text = showTitle
-        if (displayUsername && username.isNotEmpty()) {
-            viewHolder.textViewSubTitle?.text = String.format("(%s)", username)
+        if (displayNotes && notes.isNotEmpty()) {
+            viewHolder.textViewSubTitle?.text = String.format("(%s)", notes)
         } else {
             viewHolder.textViewSubTitle?.text = ""
         }

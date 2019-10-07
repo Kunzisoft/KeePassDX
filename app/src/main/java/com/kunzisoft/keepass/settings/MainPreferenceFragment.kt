@@ -83,16 +83,11 @@ class MainPreferenceFragment : PreferenceFragmentCompat() {
             }
         }
 
-        findPreference<Preference>(getString(R.string.settings_database_security_key))?.apply {
+        findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
             onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE_SECURITY)
-                false
-            }
-        }
-
-        findPreference<Preference>(getString(R.string.settings_database_credentials_key))?.apply {
-            onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                mCallback?.onNestedPreferenceSelected(NestedSettingsFragment.Screen.DATABASE_MASTER_KEY)
+                fragmentManager?.let { fragmentManager ->
+                    AssignMasterKeyDialogFragment().show(fragmentManager, "passwordDialog")
+                }
                 false
             }
         }

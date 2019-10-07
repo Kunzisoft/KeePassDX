@@ -18,6 +18,7 @@ class PasswordActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),
                         activity.getString(R.string.education_unlock_summary))
+                        .dimColor(R.color.green)
                         .icon(ContextCompat.getDrawable(activity, R.mipmap.ic_launcher_round))
                         .textColorInt(Color.WHITE)
                         .tintTarget(false)

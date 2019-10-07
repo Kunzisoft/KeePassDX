@@ -17,12 +17,26 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.exception
+package com.kunzisoft.keepass.database.file
 
-class DatabaseOutputException : Exception {
-    constructor(string: String) : super(string)
+// Note: We can get away with using int's to store unsigned 32-bit ints
+//       since we won't do arithmetic on these values (also unlikely to
+//       reach negative ids).
+enum class PwCompressionAlgorithm constructor(val id: Int) {
 
-    constructor(string: String, e: Exception) : super(string, e)
+    None(0),
+    Gzip(1);
 
-    constructor(e: Exception) : super(e)
+    companion object {
+
+        fun fromId(num: Int): PwCompressionAlgorithm? {
+            for (e in values()) {
+                if (e.id == num) {
+                    return e
+                }
+            }
+            return null
+        }
+    }
+
 }

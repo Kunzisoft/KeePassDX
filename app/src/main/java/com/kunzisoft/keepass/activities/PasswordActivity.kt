@@ -44,7 +44,6 @@ import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import androidx.biometric.BiometricManager
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -56,14 +55,11 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
-import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -72,13 +68,13 @@ import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
+import java.lang.ref.WeakReference
 
 class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
 
-    private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileView: EditText? = null
@@ -90,8 +86,6 @@ class PasswordActivity : StylishActivity() {
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
-    private var mDatabaseKeyFileUri: Uri? = null
-
     private var prefs: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
@@ -106,7 +100,8 @@ class PasswordActivity : StylishActivity() {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFiles(this)
+        mRememberKeyFile = prefs!!.getBoolean(getString(R.string.keyfile_key),
+                resources.getBoolean(R.bool.keyfile_default))
 
         setContentView(R.layout.activity_password)
 
@@ -116,7 +111,6 @@ class PasswordActivity : StylishActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        containerView = findViewById(R.id.container)
         confirmButtonView = findViewById(R.id.pass_ok)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -128,7 +122,7 @@ class PasswordActivity : StylishActivity() {
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
-        val browseView = findViewById<View>(R.id.open_database_button)
+        val browseView = findViewById<View>(R.id.browse_button)
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
         browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
 
@@ -195,10 +189,17 @@ class PasswordActivity : StylishActivity() {
 
         // If is a view intent
         val action = intent.action
-        if (action != null
-                && action == VIEW_INTENT) {
-            databaseUri = intent.data
+        if (action != null && action == VIEW_INTENT) {
+
+            val databaseUriRetrieve = intent.data
+            // Stop activity here if we can't verify database URI
+            if (!UriUtil.verifyFileUri(databaseUriRetrieve)) {
+                Log.e(TAG, "File URI not validate")
+                finish()
+            }
+            databaseUri = databaseUriRetrieve
             keyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
+
         } else {
             databaseUri = intent.getParcelableExtra(KEY_FILENAME)
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
@@ -220,7 +221,6 @@ class PasswordActivity : StylishActivity() {
 
     private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
         mDatabaseFileUri = databaseFileUri
-        mDatabaseKeyFileUri = keyFileUri
 
         // Define title
         databaseFileUri?.let {
@@ -242,13 +242,11 @@ class PasswordActivity : StylishActivity() {
                 newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply {
-                newDefaultFileName?.let {
+            newDefaultFileName?.let {
+                prefs?.edit()?.apply {
                     putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
-                } ?: kotlin.run {
-                    remove(KEY_DEFAULT_DATABASE_PATH)
+                    apply()
                 }
-                apply()
             }
 
             val backupManager = BackupManager(this@PasswordActivity)
@@ -392,18 +390,14 @@ class PasswordActivity : StylishActivity() {
                                                 keyFile: Uri?,
                                                 cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val keyPassword = if (checkboxPasswordView?.isChecked != true) null else password
-        verifyKeyFileCheckbox(keyFile)
-        loadDatabase(mDatabaseFileUri, keyPassword, mDatabaseKeyFileUri, cipherDatabaseEntity)
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(keyPassword, keyFileUri, cipherDatabaseEntity)
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
         val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
-        verifyKeyFileCheckbox(keyFile)
-        loadDatabase(mDatabaseFileUri, password, mDatabaseKeyFileUri)
-    }
-
-    private fun verifyKeyFileCheckbox(keyFile: Uri?) {
-        mDatabaseKeyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        val keyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
+        loadDatabase(password, keyFileUri)
     }
 
     private fun removePassword() {
@@ -411,10 +405,7 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
-    private fun loadDatabase(databaseFileUri: Uri?,
-                             password: String?,
-                             keyFileUri: Uri?,
-                             cipherDatabaseEntity: CipherDatabaseEntity? = null) {
+    private fun loadDatabase(password: String?, keyFile: Uri?, cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
         runOnUiThread {
             if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
@@ -426,119 +417,65 @@ class PasswordActivity : StylishActivity() {
         val database = Database.getInstance()
         database.closeAndClear(applicationContext.filesDir)
 
-        databaseFileUri?.let { databaseUri ->
+        mDatabaseFileUri?.let { databaseUri ->
+            // Show the progress dialog and load the database
+            ProgressDialogThread(this,
+                    { progressTaskUpdater ->
+                        LoadDatabaseRunnable(
+                                WeakReference(this@PasswordActivity),
+                                database,
+                                databaseUri,
+                                password,
+                                keyFile,
+                                progressTaskUpdater,
+                                AfterLoadingDatabase(database, password, cipherDatabaseEntity))
+                    },
+                    R.string.loading_database).start()
+        }
+    }
 
-            val onFinishLoadDatabase = object: ActionRunnable() {
-                override fun onFinishRun(result: Result) {
-                    runOnUiThread {
-                        // Recheck fingerprint if error
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
-                                // Stay with the same mode and init it
-                                advancedUnlockedManager?.initBiometricMode()
-                            }
-                        }
+    /**
+     * Called after verify and try to opening the database
+     */
+    private inner class AfterLoadingDatabase(val database: Database, val password: String?,
+                                             val cipherDatabaseEntity: CipherDatabaseEntity? = null)
+        : ActionRunnable() {
 
-                        if (result.isSuccess) {
-                            // Save keyFile in app database
-                            if (mRememberKeyFile) {
-                                mDatabaseFileUri?.let { databaseUri ->
-                                    saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
+        override fun onFinishRun(result: Result) {
+            runOnUiThread {
+                // Recheck fingerprint if error
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                        // Stay with the same mode and init it
+                        advancedUnlockedManager?.initBiometricMode()
+                    }
+                }
+
+                if (result.isSuccess) {
+                    // Remove the password in view in all cases
+                    removePassword()
+
+                    // Register the biometric
+                    if (cipherDatabaseEntity != null) {
+                        CipherDatabaseAction.getInstance(this@PasswordActivity)
+                                .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                                    checkAndLaunchGroupActivity(database, password)
                                 }
-                            }
+                    } else {
+                        checkAndLaunchGroupActivity(database, password)
+                    }
 
-                            // Remove the password in view in all cases
-                            removePassword()
-
-                            // Register the biometric
-                            if (cipherDatabaseEntity != null) {
-                                CipherDatabaseAction.getInstance(this@PasswordActivity)
-                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                            checkAndLaunchGroupActivity(database, password, keyFileUri)
-                                        }
-                            } else {
-                                checkAndLaunchGroupActivity(database, password, keyFileUri)
-                            }
-
-                        } else {
-                            var resultError = ""
-                            val resultException = result.exception
-                            val resultMessage = result.message
-
-                            if (resultException != null) {
-                                resultError = resultException.getLocalizedMessage(resources)
-                                if (resultException is LoadDatabaseDuplicateUuidException)
-                                    showLoadDatabaseDuplicateUuidMessage {
-                                        showProgressDialogAndLoadDatabase(database,
-                                                databaseUri,
-                                                password,
-                                                keyFileUri,
-                                                true,
-                                                this)
-                                    }
-                            }
-
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
-                            }
-
-                            Log.e(TAG, resultError, resultException)
-
-                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
-                        }
+                } else {
+                    if (result.message != null && result.message!!.isNotEmpty()) {
+                        Snackbar.make(activity_password_coordinator_layout, result.message!!, Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }
-
-            // Show the progress dialog and load the database
-            showProgressDialogAndLoadDatabase(database,
-                    databaseUri,
-                    password,
-                    keyFileUri,
-                    false,
-                    onFinishLoadDatabase)
         }
     }
 
-    private fun showProgressDialogAndLoadDatabase(database: Database,
-                                                  databaseUri: Uri,
-                                                  password: String?,
-                                                  keyFile: Uri?,
-                                                  fixDuplicateUUID: Boolean,
-                                                  onFinishLoadDatabase: ActionRunnable) {
-        ProgressDialogThread(this,
-                { progressTaskUpdater ->
-                    LoadDatabaseRunnable(
-                            database,
-                            databaseUri,
-                            password,
-                            keyFile,
-                            this@PasswordActivity.contentResolver,
-                            this@PasswordActivity.filesDir,
-                            SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
-                            fixDuplicateUUID,
-                            progressTaskUpdater,
-                            onFinishLoadDatabase)
-                },
-                R.string.loading_database).start()
-    }
-
-    private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {
-        DuplicateUuidDialog().apply {
-            positiveAction = loadDatabaseWithFix
-        }.show(supportFragmentManager, "duplicateUUIDDialog")
-    }
-
-    private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {
-        var keyFileUri = keyUri
-        if (!mRememberKeyFile) {
-            keyFileUri = null
-        }
-        FileDatabaseHistoryAction.getInstance(this).addOrUpdateDatabaseUri(databaseUri, keyFileUri)
-    }
-
-    private fun checkAndLaunchGroupActivity(database: Database, password: String?, keyFileUri: Uri?) {
-        if (database.validatePasswordEncoding(password, keyFileUri != null)) {
+    private fun checkAndLaunchGroupActivity(database: Database, password: String?) {
+        if (database.validatePasswordEncoding(password)) {
             launchGroupActivity()
         } else {
             PasswordEncodingDialogFragment().apply {
@@ -554,21 +491,8 @@ class PasswordActivity : StylishActivity() {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@PasswordActivity, readOnly)
-                },
-                {
-                    GroupActivity.launchForKeyboarSelection(this@PasswordActivity, readOnly)
-                    // Do not keep history
-                    finish()
-                },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
-                    }
                 })
     }
-
-    // To fix multiple view education
-    private var performedEductionInProgress = false
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
@@ -585,21 +509,17 @@ class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        if (!performedEductionInProgress) {
-            performedEductionInProgress = true
-            // Show education views
-            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
-        }
+        // Show education views
+        Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
 
         return true
     }
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu) {
-        val educationContainerView = containerView
-        val unlockEducationPerformed = educationContainerView != null
+        val unlockEducationPerformed = toolbar != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
-                educationContainerView,
+                        toolbar!!,
                         {
                             performedNextEducation(passwordActivityEducation, menu)
                         },
@@ -607,11 +527,11 @@ class PasswordActivity : StylishActivity() {
                             performedNextEducation(passwordActivityEducation, menu)
                         })
         if (!unlockEducationPerformed) {
-            val educationToolbar = toolbar
-            val readOnlyEducationPerformed =
-                    educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
+
+            val readOnlyEducationPerformed = toolbar != null
+                    && toolbar!!.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
                     && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
-                    educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
+                    toolbar!!.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
                         performedNextEducation(passwordActivityEducation, menu)
@@ -666,11 +586,6 @@ class PasswordActivity : StylishActivity() {
             resultCode: Int,
             data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        // To get entry in result
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
-        }
 
         var keyFileResult = false
         mOpenFileHelper?.let {
@@ -727,47 +642,6 @@ class PasswordActivity : StylishActivity() {
                 keyFile: Uri?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                 activity.startActivity(intent)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Keyboard Launch
-         * -------------------------
-         */
-
-        @Throws(FileNotFoundException::class)
-        fun launchForKeyboardResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?) {
-            buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
-            }
-        }
-
-        /*
-         * -------------------------
-         * 		Autofill Launch
-         * -------------------------
-         */
-
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Throws(FileNotFoundException::class)
-        fun launchForAutofillResult(
-                activity: Activity,
-                databaseFile: Uri,
-                keyFile: Uri?,
-                assistStructure: AssistStructure?) {
-            if (assistStructure != null) {
-                buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                    AutofillHelper.startActivityForAutofillResult(
-                            activity,
-                            intent,
-                            assistStructure)
-                }
-            } else {
-                launch(activity, databaseFile, keyFile)
             }
         }
     }
