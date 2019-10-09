@@ -184,6 +184,8 @@ class NodeAdapter
      */
     fun removeNodeAt(position: Int) {
         nodeSortedList.removeItemAt(position)
+        // Refresh all the next items
+        notifyItemRangeChanged(position, nodeSortedList.size() - position)
     }
 
     /**
