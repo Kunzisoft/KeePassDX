@@ -27,7 +27,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/toolbar_paste">
+        android:layout_above="@+id/toolbar_action">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -147,8 +147,8 @@
             app:layout_anchorGravity="right|bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar_paste"
+    <com.kunzisoft.keepass.view.ToolbarAction
+        android:id="@+id/toolbar_action"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="true"

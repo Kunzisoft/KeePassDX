@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.view
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -63,7 +64,7 @@ fun Activity.unlockScreenOrientation() {
 
 private var actionBarHeight: Int = 0
 
-fun Toolbar.collapse(animate: Boolean = true) {
+fun Toolbar.collapse(animate: Boolean = true, listener: Animator.AnimatorListener? = null) {
 
     if (layoutParams.height > 5)
         actionBarHeight = layoutParams.height
@@ -72,6 +73,9 @@ fun Toolbar.collapse(animate: Boolean = true) {
             .ofInt(height, 0)
     if (animate)
         slideAnimator.duration = 300L
+    listener?.let {
+        slideAnimator.addListener(it)
+    }
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()
@@ -82,12 +86,15 @@ fun Toolbar.collapse(animate: Boolean = true) {
     }.start()
 }
 
-fun Toolbar.expand(animate: Boolean = true)  {
+fun Toolbar.expand(animate: Boolean = true, listener: Animator.AnimatorListener? = null)  {
 
     val slideAnimator = ValueAnimator
             .ofInt(0, actionBarHeight)
     if (animate)
         slideAnimator.duration = 300L
+    listener?.let {
+        slideAnimator.addListener(it)
+    }
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()

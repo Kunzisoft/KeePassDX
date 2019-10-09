@@ -40,8 +40,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         private set
     private var mAdapter: NodeAdapter? = null
 
-    private var nodeActionMode = false
-    private val listNodesSelected = LinkedList<NodeVersioned>()
+    private var nodeActionSelectionMode = false
+    private val listActionNodes = LinkedList<NodeVersioned>()
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
@@ -100,38 +100,30 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             mAdapter?.apply {
                 setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
                     override fun onNodeClick(node: NodeVersioned, position: Int) {
-                        if (nodeActionMode) {
-                            if (listNodesSelected.contains(node)) {
+                        if (nodeActionSelectionMode) {
+                            if (listActionNodes.contains(node)) {
                                 // Remove selected item if already selected
-                                listNodesSelected.remove(node)
+                                listActionNodes.remove(node)
                             } else {
-                                // TODO multiple selection
-                                if (listNodesSelected.size == 0) {
                                 // Add selected item if not already selected
-                                listNodesSelected.add(node)
-                                }
+                                listActionNodes.add(node)
                             }
-                            nodeClickListener?.onNodeSelected(listNodesSelected)
-                            setActionNodes(listNodesSelected)
+                            nodeClickListener?.onNodeSelected(listActionNodes)
+                            setActionNodes(listActionNodes)
                             notifyItemChanged(position)
                         } else {
                             nodeClickListener?.onNodeClick(node)
                         }
-
-                        // End the selected mode if no more item selected
-                        if (listNodesSelected.isEmpty())
-                            nodeActionMode = false
                     }
 
                     override fun onNodeLongClick(node: NodeVersioned, position: Int): Boolean {
                         // Select the first item after a long click
-                        nodeActionMode = true
-                        if (!listNodesSelected.contains(node))
-                            listNodesSelected.add(node)
+                        if (!listActionNodes.contains(node))
+                            listActionNodes.add(node)
 
-                        nodeClickListener?.onNodeSelected(listNodesSelected)
+                        nodeClickListener?.onNodeSelected(listActionNodes)
 
-                        setActionNodes(listNodesSelected)
+                        setActionNodes(listActionNodes)
                         notifyItemChanged(position)
                         return true
                     }
@@ -257,40 +249,50 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                             menuListener: NodesActionMenuListener?) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
+
+            private var pasteMode: PasteMode? = null
+
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                nodeActionSelectionMode = false
                 return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
-                activity?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                val database = Database.getInstance()
+                if (pasteMode != null) {
+                    mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
+                } else {
+                    nodeActionSelectionMode = true
+                    mode?.menuInflater?.inflate(R.menu.node_menu, menu)
 
-                // Open and Edit for a single item
-                if (nodes.size == 1) {
-                    // Edition
-                    if (readOnly || nodes[0] == database.recycleBin) {
+                    val database = Database.getInstance()
+
+                    // Open and Edit for a single item
+                    if (nodes.size == 1) {
+                        // Edition
+                        if (readOnly || nodes[0] == database.recycleBin) {
+                            menu?.removeItem(R.id.menu_edit)
+                        }
+                    } else {
+                        menu?.removeItem(R.id.menu_open)
                         menu?.removeItem(R.id.menu_edit)
                     }
-                } else {
-                    menu?.removeItem(R.id.menu_open)
-                    menu?.removeItem(R.id.menu_edit)
-                }
 
-                // Copy and Move (not for groups)
-                if (readOnly
-                        || isASearchResult
-                        || nodes.any { it == database.recycleBin }
-                        || nodes.any { it.type == Type.GROUP }) {
-                    // TODO COPY For Group
-                    menu?.removeItem(R.id.menu_copy)
-                    menu?.removeItem(R.id.menu_move)
-                }
+                    // Copy and Move (not for groups)
+                    if (readOnly
+                            || isASearchResult
+                            || nodes.any { it == database.recycleBin }
+                            || nodes.any { it.type == Type.GROUP }) {
+                        // TODO COPY For Group
+                        menu?.removeItem(R.id.menu_copy)
+                        menu?.removeItem(R.id.menu_move)
+                    }
 
-                // Deletion
-                if (readOnly || nodes.any { it == database.recycleBin }) {
-                    menu?.removeItem(R.id.menu_delete)
+                    // Deletion
+                    if (readOnly || nodes.any { it == database.recycleBin }) {
+                        menu?.removeItem(R.id.menu_delete)
+                    }
                 }
 
                 return true
@@ -302,16 +304,35 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 return when (item?.itemId) {
                     R.id.menu_open -> menuListener.onOpenMenuClick(nodes[0])
                     R.id.menu_edit -> menuListener.onEditMenuClick(nodes[0])
-                    R.id.menu_copy -> menuListener.onCopyMenuClick(nodes)
-                    R.id.menu_move -> menuListener.onMoveMenuClick(nodes)
+                    R.id.menu_copy -> {
+                        pasteMode = PasteMode.PASTE_FROM_COPY
+                        mAdapter?.unselectActionNodes()
+                        val returnValue = menuListener.onCopyMenuClick(nodes)
+                        nodeActionSelectionMode = false
+                        returnValue
+                    }
+                    R.id.menu_move -> {
+                        pasteMode = PasteMode.PASTE_FROM_MOVE
+                        mAdapter?.unselectActionNodes()
+                        val returnValue = menuListener.onMoveMenuClick(nodes)
+                        nodeActionSelectionMode = false
+                        returnValue
+                    }
                     R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
+                    R.id.menu_paste -> {
+                        val returnValue = menuListener.onPasteMenuClick(pasteMode, nodes)
+                        mode?.finish()
+                        pasteMode = null
+                        returnValue
+                    }
                     else -> false
                 }
             }
 
             override fun onDestroyActionMode(mode: ActionMode?) {
-                listNodesSelected.clear()
-                mAdapter?.removeActionNodes()
+                listActionNodes.clear()
+                mAdapter?.unselectActionNodes()
+                nodeActionSelectionMode = false
             }
         }
     }
@@ -375,6 +396,11 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean
         fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean
         fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean
+        fun onPasteMenuClick(pasteMode: PasteMode?, nodes: List<NodeVersioned>): Boolean
+    }
+
+    enum class PasteMode {
+        PASTE_FROM_COPY, PASTE_FROM_MOVE
     }
 
     interface OnScrollListener {

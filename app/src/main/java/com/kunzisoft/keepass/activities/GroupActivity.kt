@@ -61,8 +61,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.collapse
-import com.kunzisoft.keepass.view.expand
+import com.kunzisoft.keepass.view.ToolbarAction
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -75,7 +74,7 @@ class GroupActivity : LockingActivity(),
     // Views
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
-    private var toolbarPaste: Toolbar? = null
+    private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
     private var modeTitleView: TextView? = null
@@ -116,20 +115,19 @@ class GroupActivity : LockingActivity(),
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
-        toolbarPaste = findViewById(R.id.toolbar_paste)
+        toolbarAction = findViewById(R.id.toolbar_action)
         modeTitleView = findViewById(R.id.mode_title_view)
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
 
-        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
-        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
-        toolbarPaste?.collapse(false)
-        toolbarPaste?.setNavigationOnClickListener {
-            toolbarPaste?.collapse()
+        /*
+        toolbarAction?.setNavigationOnClickListener {
+            toolbarAction?.collapse()
             mNodeToCopy = null
             mNodeToMove = null
         }
+        */
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
@@ -139,13 +137,13 @@ class GroupActivity : LockingActivity(),
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
             if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
-                mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
-                toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-                toolbarPaste?.expand(false)
+                // mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
+                // toolbarAction?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
+                // toolbarAction?.expand(false)
             } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
-                mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
-                toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-                toolbarPaste?.expand(false)
+                // mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
+                // toolbarAction?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
+                // toolbarAction?.expand(false)
             }
         }
 
@@ -445,34 +443,29 @@ class GroupActivity : LockingActivity(),
 
     private var actionNodeMode: ActionMode? = null
 
-    private fun closeNodeActionBar() {
-        actionNodeMode?.finish()
-        actionNodeMode = null
-    }
-
     override fun onNodeSelected(nodes: List<NodeVersioned>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null) {
                 mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
-                    actionNodeMode = startSupportActionMode(it)
+                    actionNodeMode = toolbarAction?.startSupportActionMode(it)
                 }
             } else {
                 actionNodeMode?.invalidate()
             }
         } else {
-            closeNodeActionBar()
+            actionNodeMode?.finish()
         }
         return true
     }
 
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
-        closeNodeActionBar()
+        actionNodeMode?.finish()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
-        closeNodeActionBar()
+        actionNodeMode?.finish()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
@@ -486,35 +479,12 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean {
+        actionNodeMode?.invalidate()
+
         val node = nodes[0]
-        closeNodeActionBar()
         // TODO Multiple copy
-        toolbarPaste?.expand()
         mNodeToCopy = node
-        toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-        return false
-    }
-
-    private inner class OnCopyMenuItemClickListener : Toolbar.OnMenuItemClickListener {
-        override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPaste?.collapse()
-
-            when (item.itemId) {
-                R.id.menu_paste -> {
-                    when (mNodeToCopy?.type) {
-                        Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                copyEntry(mNodeToCopy as EntryVersioned, currentGroup)
-                            }
-                        }
-                    }
-                    mNodeToCopy = null
-                    return true
-                }
-            }
-            return true
-        }
+        return true
     }
 
     private fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned) {
@@ -529,39 +499,12 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean {
+        actionNodeMode?.invalidate()
+
         val node = nodes[0]
-        closeNodeActionBar()
         // TODO multiple move
-        toolbarPaste?.expand()
         mNodeToMove = node
-        toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-        return false
-    }
-
-    private inner class OnMoveMenuItemClickListener : Toolbar.OnMenuItemClickListener {
-        override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPaste?.collapse()
-
-            when (item.itemId) {
-                R.id.menu_paste -> {
-                    when (mNodeToMove?.type) {
-                        Type.GROUP -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                moveGroup(mNodeToMove as GroupVersioned, currentGroup)
-                            }
-                        }
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                moveEntry(mNodeToMove as EntryVersioned, currentGroup)
-                            }
-                        }
-                    }
-                    mNodeToMove = null
-                    return true
-                }
-            }
-            return true
-        }
+        return true
     }
 
     private fun moveGroup(groupToMove: GroupVersioned, newParent: GroupVersioned) {
@@ -620,6 +563,42 @@ class GroupActivity : LockingActivity(),
                     AfterDeleteNodeRunnable(),
                     !mReadOnly)
         }.start()
+    }
+
+    override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
+                                  nodes: List<NodeVersioned>): Boolean {
+        when (pasteMode) {
+            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                // COPY
+                when (mNodeToCopy?.type) {
+                    Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
+                    Type.ENTRY -> {
+                        mCurrentGroup?.let { currentGroup ->
+                            copyEntry(mNodeToCopy as EntryVersioned, currentGroup)
+                        }
+                    }
+                }
+                mNodeToCopy = null
+            }
+
+            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                // Move
+                when (mNodeToMove?.type) {
+                    Type.GROUP -> {
+                        mCurrentGroup?.let { currentGroup ->
+                            moveGroup(mNodeToMove as GroupVersioned, currentGroup)
+                        }
+                    }
+                    Type.ENTRY -> {
+                        mCurrentGroup?.let { currentGroup ->
+                            moveEntry(mNodeToMove as EntryVersioned, currentGroup)
+                        }
+                    }
+                }
+                mNodeToMove = null
+            }
+        }
+        return true
     }
 
     override fun onResume() {
@@ -845,7 +824,7 @@ class GroupActivity : LockingActivity(),
                             && positionNode != null) {
                         mListNodesFragment?.removeNodeAt(positionNode)
                     } else {
-                        // else use the old Node that was the entry unchanged with the old parent
+                        // Use the old Node that was the entry unchanged with the old parent
                         actionNodeValues.oldNode?.let { oldNode ->
                             mListNodesFragment?.removeNode(oldNode)
                         }
