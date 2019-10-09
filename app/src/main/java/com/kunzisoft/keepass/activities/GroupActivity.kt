@@ -443,9 +443,14 @@ class GroupActivity : LockingActivity(),
 
     private var actionNodeMode: ActionMode? = null
 
+    private fun finishNodeAction() {
+        actionNodeMode?.finish()
+        actionNodeMode = null
+    }
+
     override fun onNodeSelected(nodes: List<NodeVersioned>): Boolean {
         if (nodes.isNotEmpty()) {
-            if (actionNodeMode == null) {
+            if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
                 mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
                     actionNodeMode = toolbarAction?.startSupportActionMode(it)
                 }
@@ -453,19 +458,19 @@ class GroupActivity : LockingActivity(),
                 actionNodeMode?.invalidate()
             }
         } else {
-            actionNodeMode?.finish()
+            finishNodeAction()
         }
         return true
     }
 
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
-        actionNodeMode?.finish()
+        finishNodeAction()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
-        actionNodeMode?.finish()
+        finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
@@ -532,13 +537,14 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
-        val node = nodes[0]
-        actionNodeMode?.finish()
-        // TODO multiple deletion
-        when (node.type) {
-            Type.GROUP -> deleteGroup(node as GroupVersioned)
-            Type.ENTRY -> deleteEntry(node as EntryVersioned)
+        // TODO multiple copy
+        nodes.forEach {
+            when (it.type) {
+                Type.GROUP -> deleteGroup(it as GroupVersioned)
+                Type.ENTRY -> deleteEntry(it as EntryVersioned)
+            }
         }
+        finishNodeAction()
         return true
     }
 
@@ -598,6 +604,7 @@ class GroupActivity : LockingActivity(),
                 mNodeToMove = null
             }
         }
+        finishNodeAction()
         return true
     }
 

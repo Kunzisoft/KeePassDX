@@ -32,7 +32,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
             mActionModeCallback?.onActionItemClicked(actionMode, it) ?: false
         }
         setNavigationOnClickListener{
-            close()
+            actionMode.finish()
         }
 
         setNavigationIcon(R.drawable.ic_close_white_24dp)
@@ -40,6 +40,14 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
         open()
 
         return actionMode
+    }
+
+    fun getSupportActionModeCallback(): ActionMode.Callback? {
+        return mActionModeCallback
+    }
+
+    fun removeSupportActionModeCallback() {
+        mActionModeCallback = null
     }
 
     fun invalidateMenu() {
@@ -63,6 +71,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
         override fun finish() {
             menu.clear()
             toolbarAction.close()
+            toolbarAction.removeSupportActionModeCallback()
         }
 
         override fun getMenu(): Menu {

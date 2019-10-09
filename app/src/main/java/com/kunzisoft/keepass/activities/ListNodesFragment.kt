@@ -99,7 +99,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             mAdapter = NodeAdapter(context)
             mAdapter?.apply {
                 setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
-                    override fun onNodeClick(node: NodeVersioned, position: Int) {
+                    override fun onNodeClick(node: NodeVersioned) {
                         if (nodeActionSelectionMode) {
                             if (listActionNodes.contains(node)) {
                                 // Remove selected item if already selected
@@ -110,13 +110,13 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                             }
                             nodeClickListener?.onNodeSelected(listActionNodes)
                             setActionNodes(listActionNodes)
-                            notifyItemChanged(position)
+                            notifyNodeChanged(node)
                         } else {
                             nodeClickListener?.onNodeClick(node)
                         }
                     }
 
-                    override fun onNodeLongClick(node: NodeVersioned, position: Int): Boolean {
+                    override fun onNodeLongClick(node: NodeVersioned): Boolean {
                         // Select the first item after a long click
                         if (!listActionNodes.contains(node))
                             listActionNodes.add(node)
@@ -124,7 +124,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                         nodeClickListener?.onNodeSelected(listActionNodes)
 
                         setActionNodes(listActionNodes)
-                        notifyItemChanged(position)
+                        notifyNodeChanged(node)
                         return true
                     }
                 })
@@ -321,7 +321,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
                     R.id.menu_paste -> {
                         val returnValue = menuListener.onPasteMenuClick(pasteMode, nodes)
-                        mode?.finish()
                         pasteMode = null
                         returnValue
                     }

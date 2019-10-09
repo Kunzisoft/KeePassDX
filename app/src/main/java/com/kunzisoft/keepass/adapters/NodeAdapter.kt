@@ -185,6 +185,10 @@ class NodeAdapter
         nodeSortedList.endBatchedUpdates()
     }
 
+    fun notifyNodeChanged(node: NodeVersioned) {
+        notifyItemChanged(nodeSortedList.indexOf(node))
+    }
+
     fun setActionNodes(actionNodes: List<NodeVersioned>) {
         this.actionNodesList.apply {
             clear()
@@ -249,10 +253,10 @@ class NodeAdapter
         }
         // Assign click
         holder.container.setOnClickListener {
-            nodeClickCallback?.onNodeClick(subNode, position)
+            nodeClickCallback?.onNodeClick(subNode)
         }
         holder.container.setOnLongClickListener {
-            nodeClickCallback?.onNodeLongClick(subNode, position) ?: false
+            nodeClickCallback?.onNodeLongClick(subNode) ?: false
         }
 
         holder.container.isSelected = actionNodesList.contains(subNode)
@@ -312,8 +316,8 @@ class NodeAdapter
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(node: NodeVersioned, position: Int)
-        fun onNodeLongClick(node: NodeVersioned, position: Int): Boolean
+        fun onNodeClick(node: NodeVersioned)
+        fun onNodeLongClick(node: NodeVersioned): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
