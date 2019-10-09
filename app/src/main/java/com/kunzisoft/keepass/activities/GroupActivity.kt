@@ -35,6 +35,7 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentManager
@@ -46,7 +47,6 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
@@ -67,9 +67,9 @@ import com.kunzisoft.keepass.view.expand
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
-        NodeAdapter.NodeMenuListener,
+        ListNodesFragment.NodeClickListener,
+        ListNodesFragment.NodesActionMenuListener,
         ListNodesFragment.OnScrollListener,
-        NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
     // Views
@@ -443,12 +443,36 @@ class GroupActivity : LockingActivity(),
         }
     }
 
+    private var actionNodeMode: ActionMode? = null
+
+    private fun closeNodeActionBar() {
+        actionNodeMode?.finish()
+        actionNodeMode = null
+    }
+
+    override fun onNodeSelected(nodes: List<NodeVersioned>): Boolean {
+        if (nodes.isNotEmpty()) {
+            if (actionNodeMode == null) {
+                mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
+                    actionNodeMode = startSupportActionMode(it)
+                }
+            } else {
+                actionNodeMode?.invalidate()
+            }
+        } else {
+            closeNodeActionBar()
+        }
+        return true
+    }
+
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
+        closeNodeActionBar()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
+        closeNodeActionBar()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
@@ -461,7 +485,10 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onCopyMenuClick(node: NodeVersioned): Boolean {
+    override fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean {
+        val node = nodes[0]
+        closeNodeActionBar()
+        // TODO Multiple copy
         toolbarPaste?.expand()
         mNodeToCopy = node
         toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
@@ -501,7 +528,10 @@ class GroupActivity : LockingActivity(),
         }.start()
     }
 
-    override fun onMoveMenuClick(node: NodeVersioned): Boolean {
+    override fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean {
+        val node = nodes[0]
+        closeNodeActionBar()
+        // TODO multiple move
         toolbarPaste?.expand()
         mNodeToMove = node
         toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
@@ -558,7 +588,10 @@ class GroupActivity : LockingActivity(),
         }.start()
     }
 
-    override fun onDeleteMenuClick(node: NodeVersioned): Boolean {
+    override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
+        val node = nodes[0]
+        actionNodeMode?.finish()
+        // TODO multiple deletion
         when (node.type) {
             Type.GROUP -> deleteGroup(node as GroupVersioned)
             Type.ENTRY -> deleteEntry(node as EntryVersioned)

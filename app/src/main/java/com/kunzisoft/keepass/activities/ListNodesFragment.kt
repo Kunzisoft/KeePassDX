@@ -14,6 +14,7 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.ActionMode
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.NodeAdapter
@@ -26,17 +27,21 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Type
+import java.util.*
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
 
-    private var nodeClickCallback: NodeAdapter.NodeClickCallback? = null
-    private var nodeMenuListener: NodeAdapter.NodeMenuListener? = null
+    private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
 
     private var listView: RecyclerView? = null
     var mainGroup: GroupVersioned? = null
         private set
     private var mAdapter: NodeAdapter? = null
+
+    private var nodeActionMode = false
+    private val listNodesSelected = LinkedList<NodeVersioned>()
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
@@ -56,20 +61,11 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     override fun onAttach(context: Context) {
         super.onAttach(context)
         try {
-            nodeClickCallback = context as NodeAdapter.NodeClickCallback
+            nodeClickListener = context as NodeClickListener
         } catch (e: ClassCastException) {
             // The activity doesn't implement the interface, throw exception
             throw ClassCastException(context.toString()
                     + " must implement " + NodeAdapter.NodeClickCallback::class.java.name)
-        }
-
-        try {
-            nodeMenuListener = context as NodeAdapter.NodeMenuListener
-        } catch (e: ClassCastException) {
-            nodeMenuListener = null
-            // Context menu can be omit
-            Log.w(TAG, context.toString()
-                    + " must implement " + NodeAdapter.NodeMenuListener::class.java.name)
         }
 
         try {
@@ -85,33 +81,64 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activity?.let { currentActivity ->
-            setHasOptionsMenu(true)
+        setHasOptionsMenu(true)
 
-            readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
+        readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrArguments(savedInstanceState, arguments)
 
-            arguments?.let { args ->
-                // Contains all the group in element
-                if (args.containsKey(GROUP_KEY)) {
-                    mainGroup = args.getParcelable(GROUP_KEY)
-                }
-                if (args.containsKey(IS_SEARCH)) {
-                    isASearchResult = args.getBoolean(IS_SEARCH)
-                }
+        arguments?.let { args ->
+            // Contains all the group in element
+            if (args.containsKey(GROUP_KEY)) {
+                mainGroup = args.getParcelable(GROUP_KEY)
             }
-
-            contextThemed?.let { context ->
-                mAdapter = NodeAdapter(context, currentActivity.menuInflater)
-                mAdapter?.apply {
-                    setReadOnly(readOnly)
-                    setIsASearchResult(isASearchResult)
-                    setOnNodeClickListener(nodeClickCallback)
-                    setActivateContextMenu(true)
-                    setNodeMenuListener(nodeMenuListener)
-                }
+            if (args.containsKey(IS_SEARCH)) {
+                isASearchResult = args.getBoolean(IS_SEARCH)
             }
-            prefs = PreferenceManager.getDefaultSharedPreferences(context)
         }
+
+        contextThemed?.let { context ->
+            mAdapter = NodeAdapter(context)
+            mAdapter?.apply {
+                setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
+                    override fun onNodeClick(node: NodeVersioned, position: Int) {
+                        if (nodeActionMode) {
+                            if (listNodesSelected.contains(node)) {
+                                // Remove selected item if already selected
+                                listNodesSelected.remove(node)
+                            } else {
+                                // TODO multiple selection
+                                if (listNodesSelected.size == 0) {
+                                // Add selected item if not already selected
+                                listNodesSelected.add(node)
+                                }
+                            }
+                            nodeClickListener?.onNodeSelected(listNodesSelected)
+                            setActionNodes(listNodesSelected)
+                            notifyItemChanged(position)
+                        } else {
+                            nodeClickListener?.onNodeClick(node)
+                        }
+
+                        // End the selected mode if no more item selected
+                        if (listNodesSelected.isEmpty())
+                            nodeActionMode = false
+                    }
+
+                    override fun onNodeLongClick(node: NodeVersioned, position: Int): Boolean {
+                        // Select the first item after a long click
+                        nodeActionMode = true
+                        if (!listNodesSelected.contains(node))
+                            listNodesSelected.add(node)
+
+                        nodeClickListener?.onNodeSelected(listNodesSelected)
+
+                        setActionNodes(listNodesSelected)
+                        notifyItemChanged(position)
+                        return true
+                    }
+                })
+            }
+        }
+        prefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -147,10 +174,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
         activity?.intent?.let {
             selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(it)
-        }
-        // Force read only mode if selection mode
-        mAdapter?.apply {
-            setReadOnly(readOnly)
         }
 
         // Refresh data
@@ -230,6 +253,69 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
+    fun actionNodesCallback(nodes: List<NodeVersioned>,
+                            menuListener: NodesActionMenuListener?) : ActionMode.Callback {
+
+        return object : ActionMode.Callback {
+            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                return true
+            }
+
+            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                menu?.clear()
+                activity?.menuInflater?.inflate(R.menu.node_menu, menu)
+
+                val database = Database.getInstance()
+
+                // Open and Edit for a single item
+                if (nodes.size == 1) {
+                    // Edition
+                    if (readOnly || nodes[0] == database.recycleBin) {
+                        menu?.removeItem(R.id.menu_edit)
+                    }
+                } else {
+                    menu?.removeItem(R.id.menu_open)
+                    menu?.removeItem(R.id.menu_edit)
+                }
+
+                // Copy and Move (not for groups)
+                if (readOnly
+                        || isASearchResult
+                        || nodes.any { it == database.recycleBin }
+                        || nodes.any { it.type == Type.GROUP }) {
+                    // TODO COPY For Group
+                    menu?.removeItem(R.id.menu_copy)
+                    menu?.removeItem(R.id.menu_move)
+                }
+
+                // Deletion
+                if (readOnly || nodes.any { it == database.recycleBin }) {
+                    menu?.removeItem(R.id.menu_delete)
+                }
+
+                return true
+            }
+
+            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                if (menuListener == null)
+                    return false
+                return when (item?.itemId) {
+                    R.id.menu_open -> menuListener.onOpenMenuClick(nodes[0])
+                    R.id.menu_edit -> menuListener.onEditMenuClick(nodes[0])
+                    R.id.menu_copy -> menuListener.onCopyMenuClick(nodes)
+                    R.id.menu_move -> menuListener.onMoveMenuClick(nodes)
+                    R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
+                    else -> false
+                }
+            }
+
+            override fun onDestroyActionMode(mode: ActionMode?) {
+                listNodesSelected.clear()
+                mAdapter?.removeActionNodes()
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -270,6 +356,25 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
     fun removeNodeAt(position: Int) {
         mAdapter?.removeNodeAt(position)
+    }
+
+    /**
+     * Callback listener to redefine to do an action when a node is click
+     */
+    interface NodeClickListener {
+        fun onNodeClick(node: NodeVersioned)
+        fun onNodeSelected(nodes: List<NodeVersioned>): Boolean
+    }
+
+    /**
+     * Menu listener to redefine to do an action in menu
+     */
+    interface NodesActionMenuListener {
+        fun onOpenMenuClick(node: NodeVersioned): Boolean
+        fun onEditMenuClick(node: NodeVersioned): Boolean
+        fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean
+        fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean
+        fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean
     }
 
     interface OnScrollListener {
