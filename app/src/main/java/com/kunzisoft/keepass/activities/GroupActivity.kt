@@ -135,15 +135,6 @@ class GroupActivity : LockingActivity(),
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
-            if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
-                // mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
-                // toolbarAction?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-                // toolbarAction?.expand(false)
-            } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
-                // mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
-                // toolbarAction?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-                // toolbarAction?.expand(false)
-            }
         }
 
         try {
@@ -274,15 +265,6 @@ class GroupActivity : LockingActivity(),
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
-        /*
-        TODO
-        mNodeToCopy?.let {
-            outState.putParcelable(NODE_TO_COPY_KEY, it)
-        }
-        mNodeToMove?.let {
-            outState.putParcelable(NODE_TO_MOVE_KEY, it)
-        }
-         */
         super.onSaveInstanceState(outState)
     }
 
@@ -902,8 +884,6 @@ class GroupActivity : LockingActivity(),
         private const val LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG"
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
-        private const val NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY"
-        private const val NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY"
 
         private fun buildAndLaunchIntent(activity: Activity, group: GroupVersioned?, readOnly: Boolean,
                                          intentBuildLauncher: (Intent) -> Unit) {
