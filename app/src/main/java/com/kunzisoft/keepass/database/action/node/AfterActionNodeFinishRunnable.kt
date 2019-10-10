@@ -24,13 +24,13 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
  * Callback method who return the node(s) modified after an action
- * - Add : @param oldNode NULL, @param newNode CreatedNode
- * - Copy : @param oldNode NodeToCopy, @param newNode NodeCopied
- * - Delete : @param oldNode NodeToDelete, @param NULL
- * - Move : @param oldNode NULL, @param NodeToMove
- * - Update : @param oldNode NodeToUpdate, @param NodeUpdated
+ * - Add : @param oldNodes empty, @param newNodes CreatedNodes
+ * - Copy : @param oldNodes NodesToCopy, @param newNodes NodesCopied
+ * - Delete : @param oldNodes NodesToDelete, @param newNodes empty
+ * - Move : @param oldNodes empty, @param newNodes NodesToMove
+ * - Update : @param oldNodes NodesToUpdate, @param newNodes NodesUpdated
  */
-data class ActionNodeValues(val result: ActionRunnable.Result, val oldNode: NodeVersioned?, val newNode: NodeVersioned?)
+class ActionNodeValues(val result: ActionRunnable.Result, val oldNodes: List<NodeVersioned>, val newNodes: List<NodeVersioned>)
 
 abstract class AfterActionNodeFinishRunnable {
     abstract fun onActionNodeFinish(actionNodeValues: ActionNodeValues)

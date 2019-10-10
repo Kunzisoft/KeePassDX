@@ -366,16 +366,32 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         mAdapter?.addNode(newNode)
     }
 
+    fun addNodes(newNodes: List<NodeVersioned>) {
+        mAdapter?.addNodes(newNodes)
+    }
+
     fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned? = null) {
         mAdapter?.updateNode(oldNode, newNode ?: oldNode)
+    }
+
+    fun updateNodes(oldNodes: List<NodeVersioned>, newNodes: List<NodeVersioned>) {
+        mAdapter?.updateNodes(oldNodes, newNodes)
     }
 
     fun removeNode(pwNode: NodeVersioned) {
         mAdapter?.removeNode(pwNode)
     }
 
+    fun removeNodes(nodes: List<NodeVersioned>) {
+        mAdapter?.removeNodes(nodes)
+    }
+
     fun removeNodeAt(position: Int) {
         mAdapter?.removeNodeAt(position)
+    }
+
+    fun removeNodesAt(positions: IntArray) {
+        mAdapter?.removeNodesAt(positions)
     }
 
     /**

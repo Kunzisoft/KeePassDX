@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateGroupRunnable constructor(
         context: FragmentActivity,
@@ -46,6 +47,11 @@ class UpdateGroupRunnable constructor(
             // If we fail to save, back out changes to global structure
             mOldGroup.updateWith(mBackupGroup)
         }
-        return ActionNodeValues(result, mOldGroup, mNewGroup)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        oldNodesReturn.add(mOldGroup)
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mNewGroup)
+        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
     }
 }

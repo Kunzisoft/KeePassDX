@@ -157,11 +157,29 @@ class NodeAdapter
     }
 
     /**
+     * Add nodes to the list
+     * @param nodes Nodes to add
+     */
+    fun addNodes(nodes: List<NodeVersioned>) {
+        nodeSortedList.addAll(nodes)
+    }
+
+    /**
      * Remove a node in the list
      * @param node Node to delete
      */
     fun removeNode(node: NodeVersioned) {
         nodeSortedList.remove(node)
+    }
+
+    /**
+     * Remove nodes in the list
+     * @param nodes Nodes to delete
+     */
+    fun removeNodes(nodes: List<NodeVersioned>) {
+        nodes.forEach { node ->
+            nodeSortedList.remove(node)
+        }
     }
 
     /**
@@ -174,6 +192,18 @@ class NodeAdapter
     }
 
     /**
+     * Remove nodes in the list by [positions]
+     * Note : algorithm remove the higher position at each iteration
+     */
+    fun removeNodesAt(positions: IntArray) {
+        val positionsSortDescending = positions.toMutableList()
+        positionsSortDescending.sortDescending()
+        positionsSortDescending.forEach {
+            removeNodeAt(it)
+        }
+    }
+
+    /**
      * Update a node in the list
      * @param oldNode Node before the update
      * @param newNode Node after the update
@@ -182,6 +212,20 @@ class NodeAdapter
         nodeSortedList.beginBatchedUpdates()
         nodeSortedList.remove(oldNode)
         nodeSortedList.add(newNode)
+        nodeSortedList.endBatchedUpdates()
+    }
+
+    /**
+     * Update nodes in the list
+     * @param oldNodes Nodes before the update
+     * @param newNodes Node after the update
+     */
+    fun updateNodes(oldNodes: List<NodeVersioned>, newNodes: List<NodeVersioned>) {
+        nodeSortedList.beginBatchedUpdates()
+        oldNodes.forEach { oldNode ->
+            nodeSortedList.remove(oldNode)
+        }
+        nodeSortedList.addAll(newNodes)
         nodeSortedList.endBatchedUpdates()
     }
 

@@ -52,7 +52,6 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
 import com.kunzisoft.keepass.database.action.node.*
-import com.kunzisoft.keepass.database.action.node.ActionNodeDatabaseRunnable.Companion.NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -502,93 +501,47 @@ class GroupActivity : LockingActivity(),
 
     override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
                                   nodes: List<NodeVersioned>): Boolean {
-        // TODO multiple paste
-        nodes.forEach { currentNode ->
-            when (pasteMode) {
-                ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
-                    // COPY
-                    when (currentNode.type) {
-                        Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { newParent ->
-                                ProgressDialogSaveDatabaseThread(this) {
-                                    CopyEntryRunnable(this,
-                                            Database.getInstance(),
-                                            currentNode as EntryVersioned,
-                                            newParent,
-                                            AfterAddNodeRunnable(),
-                                            !mReadOnly)
-                                }.start()
-                            }
-                        }
-                    }
+        when (pasteMode) {
+            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                // Copy
+                mCurrentGroup?.let { newParent ->
+                    ProgressDialogSaveDatabaseThread(this) {
+                        CopyNodesRunnable(this,
+                                Database.getInstance(),
+                                nodes,
+                                newParent,
+                                AfterAddNodeRunnable(),
+                                !mReadOnly)
+                    }.start()
                 }
-
-                ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
-                    // Move
-                    when (currentNode.type) {
-                        Type.GROUP -> {
-                            mCurrentGroup?.let { newParent ->
-                                ProgressDialogSaveDatabaseThread(this) {
-                                    MoveGroupRunnable(
-                                            this,
-                                            Database.getInstance(),
-                                            currentNode as GroupVersioned,
-                                            newParent,
-                                            AfterAddNodeRunnable(),
-                                            !mReadOnly)
-                                }.start()
-                            }
-                        }
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { newParent ->
-                                ProgressDialogSaveDatabaseThread(this) {
-                                    MoveEntryRunnable(
-                                            this,
-                                            Database.getInstance(),
-                                            currentNode as EntryVersioned,
-                                            newParent,
-                                            AfterAddNodeRunnable(),
-                                            !mReadOnly)
-                                }.start()
-                            }
-                        }
-                    }
+            }
+            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                // Move
+                mCurrentGroup?.let { newParent ->
+                    ProgressDialogSaveDatabaseThread(this) {
+                        MoveNodesRunnable(
+                                this,
+                                Database.getInstance(),
+                                nodes,
+                                newParent,
+                                AfterAddNodeRunnable(),
+                                !mReadOnly)
+                    }.start()
                 }
             }
         }
-        finishNodeAction()
         return true
     }
 
     override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
-        // TODO multiple delete
-        nodes.forEach { currentNode ->
-            when (currentNode.type) {
-                Type.GROUP -> {
-                    //TODO Verify trash recycle bin
-                    ProgressDialogSaveDatabaseThread(this) {
-                        DeleteGroupRunnable(
-                                this,
-                                Database.getInstance(),
-                                currentNode as GroupVersioned,
-                                AfterDeleteNodeRunnable(),
-                                !mReadOnly)
-                    }.start()
-                }
-                Type.ENTRY -> {
-                    ProgressDialogSaveDatabaseThread(this) {
-                        DeleteEntryRunnable(
-                                this,
-                                Database.getInstance(),
-                                currentNode as EntryVersioned,
-                                AfterDeleteNodeRunnable(),
-                                !mReadOnly)
-                    }.start()
-                }
-            }
-        }
-        finishNodeAction()
+        ProgressDialogSaveDatabaseThread(this) {
+            DeleteNodesRunnable(
+                    this,
+                    Database.getInstance(),
+                    nodes,
+                    AfterDeleteNodeRunnable(),
+                    !mReadOnly)
+        }.start()
         return true
     }
 
@@ -776,8 +729,7 @@ class GroupActivity : LockingActivity(),
                             }.start()
                         }
                     }
-                else -> {
-                }
+                else -> {}
             }
         }
     }
@@ -786,9 +738,9 @@ class GroupActivity : LockingActivity(),
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.result.isSuccess) {
-                    if (actionNodeValues.newNode != null)
-                        mListNodesFragment?.addNode(actionNodeValues.newNode)
+                    mListNodesFragment?.addNodes(actionNodeValues.newNodes)
                 }
+                finishNodeAction()
             }
         }
     }
@@ -797,9 +749,9 @@ class GroupActivity : LockingActivity(),
         override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
             runOnUiThread {
                 if (actionNodeValues.result.isSuccess) {
-                    if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
-                        mListNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
+                    mListNodesFragment?.updateNodes(actionNodeValues.oldNodes, actionNodeValues.newNodes)
                 }
+                finishNodeAction()
             }
         }
     }
@@ -809,16 +761,12 @@ class GroupActivity : LockingActivity(),
             runOnUiThread {
                 if (actionNodeValues.result.isSuccess) {
 
-                    // If the action register the position, use it to remove the entry view
-                    val positionNode = actionNodeValues.result.data?.getInt(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY)
-                    if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB
-                            && positionNode != null) {
-                        mListNodesFragment?.removeNodeAt(positionNode)
+                    // Rebuold all the list the avoid bug when delete node from db sort
+                    if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
+                        mListNodesFragment?.rebuildList()
                     } else {
-                        // Use the old Node that was the entry unchanged with the old parent
-                        actionNodeValues.oldNode?.let { oldNode ->
-                            mListNodesFragment?.removeNode(oldNode)
-                        }
+                        // Use the old Nodes / entries unchanged with the old parent
+                        mListNodesFragment?.removeNodes(actionNodeValues.oldNodes)
                     }
 
                     // Add trash in views list if it doesn't exists
@@ -835,6 +783,7 @@ class GroupActivity : LockingActivity(),
                         }
                     }
                 }
+                finishNodeAction()
             }
         }
     }

@@ -5,9 +5,9 @@ interface NodeVersioned: PwNodeInterface<GroupVersioned> {
     val nodePositionInParent: Int
         get() {
             parent?.getChildren(true)?.let { children ->
-                for ((i, child) in children.withIndex()) {
-                    if (child == this)
-                        return i
+                children.forEachIndexed { index, nodeVersioned ->
+                    if (nodeVersioned == this)
+                        return index
                 }
             }
             return -1
