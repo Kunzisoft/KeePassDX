@@ -466,13 +466,11 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
-        finishNodeAction()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
-        finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
@@ -551,6 +549,12 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
+    }
+
+    override fun onPause() {
+        super.onPause()
+
+        finishNodeAction()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
