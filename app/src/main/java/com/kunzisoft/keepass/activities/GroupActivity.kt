@@ -466,11 +466,13 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
+        finishNodeAction()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
+        finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
