@@ -295,6 +295,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     }
                 }
 
+                // Add the number of items selected in title
+                mode?.title = nodes.size.toString()
+
                 return true
             }
 
