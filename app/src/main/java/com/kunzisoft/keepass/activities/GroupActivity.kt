@@ -90,8 +90,8 @@ class GroupActivity : LockingActivity(),
     private var mRootGroup: GroupVersioned? = null
     private var mCurrentGroup: GroupVersioned? = null
     private var mOldGroupToUpdate: GroupVersioned? = null
-    private var mNodeToCopy: NodeVersioned? = null
-    private var mNodeToMove: NodeVersioned? = null
+    // TODO private var mNodeToCopy: NodeVersioned? = null
+    // TODO private var mNodeToMove: NodeVersioned? = null
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
 
@@ -275,12 +275,15 @@ class GroupActivity : LockingActivity(),
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
+        /*
+        TODO
         mNodeToCopy?.let {
             outState.putParcelable(NODE_TO_COPY_KEY, it)
         }
         mNodeToMove?.let {
             outState.putParcelable(NODE_TO_MOVE_KEY, it)
         }
+         */
         super.onSaveInstanceState(outState)
     }
 
@@ -486,122 +489,103 @@ class GroupActivity : LockingActivity(),
     override fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean {
         actionNodeMode?.invalidate()
 
-        val node = nodes[0]
-        // TODO Multiple copy
-        mNodeToCopy = node
+        // Nothing here fragment calls onPasteMenuClick internally
         return true
-    }
-
-    private fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            CopyEntryRunnable(this,
-                    Database.getInstance(),
-                    entryToCopy,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
     }
 
     override fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean {
         actionNodeMode?.invalidate()
 
-        val node = nodes[0]
-        // TODO multiple move
-        mNodeToMove = node
+        // Nothing here fragment calls onPasteMenuClick internally
         return true
     }
 
-    private fun moveGroup(groupToMove: GroupVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            MoveGroupRunnable(
-                this,
-                    Database.getInstance(),
-                    groupToMove,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
+    override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
+                                  nodes: List<NodeVersioned>): Boolean {
+        // TODO multiple paste
+        nodes.forEach { currentNode ->
+            when (pasteMode) {
+                ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                    // COPY
+                    when (currentNode.type) {
+                        Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
+                        Type.ENTRY -> {
+                            mCurrentGroup?.let { newParent ->
+                                ProgressDialogSaveDatabaseThread(this) {
+                                    CopyEntryRunnable(this,
+                                            Database.getInstance(),
+                                            currentNode as EntryVersioned,
+                                            newParent,
+                                            AfterAddNodeRunnable(),
+                                            !mReadOnly)
+                                }.start()
+                            }
+                        }
+                    }
+                }
 
-    private fun moveEntry(entryToMove: EntryVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            MoveEntryRunnable(
-                    this,
-                    Database.getInstance(),
-                    entryToMove,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
-        // TODO multiple copy
-        nodes.forEach {
-            when (it.type) {
-                Type.GROUP -> deleteGroup(it as GroupVersioned)
-                Type.ENTRY -> deleteEntry(it as EntryVersioned)
+                ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                    // Move
+                    when (currentNode.type) {
+                        Type.GROUP -> {
+                            mCurrentGroup?.let { newParent ->
+                                ProgressDialogSaveDatabaseThread(this) {
+                                    MoveGroupRunnable(
+                                            this,
+                                            Database.getInstance(),
+                                            currentNode as GroupVersioned,
+                                            newParent,
+                                            AfterAddNodeRunnable(),
+                                            !mReadOnly)
+                                }.start()
+                            }
+                        }
+                        Type.ENTRY -> {
+                            mCurrentGroup?.let { newParent ->
+                                ProgressDialogSaveDatabaseThread(this) {
+                                    MoveEntryRunnable(
+                                            this,
+                                            Database.getInstance(),
+                                            currentNode as EntryVersioned,
+                                            newParent,
+                                            AfterAddNodeRunnable(),
+                                            !mReadOnly)
+                                }.start()
+                            }
+                        }
+                    }
+                }
             }
         }
         finishNodeAction()
         return true
     }
 
-    private fun deleteGroup(group: GroupVersioned) {
-        //TODO Verify trash recycle bin
-        ProgressDialogSaveDatabaseThread(this) {
-            DeleteGroupRunnable(
-                    this,
-                    Database.getInstance(),
-                    group,
-                    AfterDeleteNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    private fun deleteEntry(entry: EntryVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            DeleteEntryRunnable(
-                    this,
-                    Database.getInstance(),
-                    entry,
-                    AfterDeleteNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
-                                  nodes: List<NodeVersioned>): Boolean {
-        when (pasteMode) {
-            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
-                // COPY
-                when (mNodeToCopy?.type) {
-                    Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
-                    Type.ENTRY -> {
-                        mCurrentGroup?.let { currentGroup ->
-                            copyEntry(mNodeToCopy as EntryVersioned, currentGroup)
-                        }
-                    }
+    override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
+        // TODO multiple delete
+        nodes.forEach { currentNode ->
+            when (currentNode.type) {
+                Type.GROUP -> {
+                    //TODO Verify trash recycle bin
+                    ProgressDialogSaveDatabaseThread(this) {
+                        DeleteGroupRunnable(
+                                this,
+                                Database.getInstance(),
+                                currentNode as GroupVersioned,
+                                AfterDeleteNodeRunnable(),
+                                !mReadOnly)
+                    }.start()
                 }
-                mNodeToCopy = null
-            }
-
-            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
-                // Move
-                when (mNodeToMove?.type) {
-                    Type.GROUP -> {
-                        mCurrentGroup?.let { currentGroup ->
-                            moveGroup(mNodeToMove as GroupVersioned, currentGroup)
-                        }
-                    }
-                    Type.ENTRY -> {
-                        mCurrentGroup?.let { currentGroup ->
-                            moveEntry(mNodeToMove as EntryVersioned, currentGroup)
-                        }
-                    }
+                Type.ENTRY -> {
+                    ProgressDialogSaveDatabaseThread(this) {
+                        DeleteEntryRunnable(
+                                this,
+                                Database.getInstance(),
+                                currentNode as EntryVersioned,
+                                AfterDeleteNodeRunnable(),
+                                !mReadOnly)
+                    }.start()
                 }
-                mNodeToMove = null
             }
         }
         finishNodeAction()
