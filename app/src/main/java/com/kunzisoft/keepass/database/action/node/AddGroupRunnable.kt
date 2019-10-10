@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class AddGroupRunnable constructor(
         context: FragmentActivity,
@@ -42,6 +43,10 @@ class AddGroupRunnable constructor(
         if (!result.isSuccess) {
             database.removeGroupFrom(mNewGroup, mParent)
         }
-        return ActionNodeValues(result, null, mNewGroup)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mNewGroup)
+        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
     }
 }

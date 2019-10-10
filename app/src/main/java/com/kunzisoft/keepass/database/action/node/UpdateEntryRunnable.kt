@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateEntryRunnable constructor(
         context: FragmentActivity,
@@ -55,6 +56,11 @@ class UpdateEntryRunnable constructor(
                 mOldEntry.updateWith(it)
             }
         }
-        return ActionNodeValues(result, mOldEntry, mNewEntry)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        oldNodesReturn.add(mOldEntry)
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mNewEntry)
+        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
     }
 }

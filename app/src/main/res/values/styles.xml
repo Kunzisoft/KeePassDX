@@ -180,7 +180,7 @@
 
     <!-- Contextual Action Bar -->
     <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/green_dark</item>
+        <item name="background">@color/orange</item>
     </style>
 
     <!-- CollapsingToolbarLayout -->

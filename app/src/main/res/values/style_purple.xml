@@ -48,6 +48,6 @@
     </style>
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/purple_dark</item>
+        <item name="background">@color/red</item>
     </style>
 </resources>

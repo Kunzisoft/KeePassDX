@@ -22,27 +22,30 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.Paint
-import androidx.recyclerview.widget.SortedList
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SortedListAdapterCallback
 import android.util.Log
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SortedList
+import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import java.util.*
 
 class NodeAdapter
 /**
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-(private val context: Context, private val menuInflater: MenuInflater)
+(private val context: Context)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
     private val nodeSortedList: SortedList<NodeVersioned>
@@ -62,11 +65,8 @@ class NodeAdapter
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
 
+    private var actionNodesList = LinkedList<NodeVersioned>()
     private var nodeClickCallback: NodeClickCallback? = null
-    private var nodeMenuListener: NodeMenuListener? = null
-    private var activateContextMenu: Boolean = false
-    private var readOnly: Boolean = false
-    private var isASearchResult: Boolean = false
 
     private val mDatabase: Database
 
@@ -82,9 +82,6 @@ class NodeAdapter
 
     init {
         assignPreferences()
-        this.activateContextMenu = false
-        this.readOnly = false
-        this.isASearchResult = false
 
         this.nodeSortedList = SortedList(NodeVersioned::class.java, object : SortedListAdapterCallback<NodeVersioned>(this) {
             override fun compare(item1: NodeVersioned, item2: NodeVersioned): Int {
@@ -113,18 +110,6 @@ class NodeAdapter
         val taTextColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         this.iconEntryColor = taTextColor.getColor(0, Color.BLACK)
         taTextColor.recycle()
-    }
-
-    fun setReadOnly(readOnly: Boolean) {
-        this.readOnly = readOnly
-    }
-
-    fun setIsASearchResult(isASearchResult: Boolean) {
-        this.isASearchResult = isASearchResult
-    }
-
-    fun setActivateContextMenu(activate: Boolean) {
-        this.activateContextMenu = activate
     }
 
     private fun assignPreferences() {
@@ -172,11 +157,29 @@ class NodeAdapter
     }
 
     /**
+     * Add nodes to the list
+     * @param nodes Nodes to add
+     */
+    fun addNodes(nodes: List<NodeVersioned>) {
+        nodeSortedList.addAll(nodes)
+    }
+
+    /**
      * Remove a node in the list
      * @param node Node to delete
      */
     fun removeNode(node: NodeVersioned) {
         nodeSortedList.remove(node)
+    }
+
+    /**
+     * Remove nodes in the list
+     * @param nodes Nodes to delete
+     */
+    fun removeNodes(nodes: List<NodeVersioned>) {
+        nodes.forEach { node ->
+            nodeSortedList.remove(node)
+        }
     }
 
     /**
@@ -189,6 +192,18 @@ class NodeAdapter
     }
 
     /**
+     * Remove nodes in the list by [positions]
+     * Note : algorithm remove the higher position at each iteration
+     */
+    fun removeNodesAt(positions: IntArray) {
+        val positionsSortDescending = positions.toMutableList()
+        positionsSortDescending.sortDescending()
+        positionsSortDescending.forEach {
+            removeNodeAt(it)
+        }
+    }
+
+    /**
      * Update a node in the list
      * @param oldNode Node before the update
      * @param newNode Node after the update
@@ -198,6 +213,40 @@ class NodeAdapter
         nodeSortedList.remove(oldNode)
         nodeSortedList.add(newNode)
         nodeSortedList.endBatchedUpdates()
+    }
+
+    /**
+     * Update nodes in the list
+     * @param oldNodes Nodes before the update
+     * @param newNodes Node after the update
+     */
+    fun updateNodes(oldNodes: List<NodeVersioned>, newNodes: List<NodeVersioned>) {
+        nodeSortedList.beginBatchedUpdates()
+        oldNodes.forEach { oldNode ->
+            nodeSortedList.remove(oldNode)
+        }
+        nodeSortedList.addAll(newNodes)
+        nodeSortedList.endBatchedUpdates()
+    }
+
+    fun notifyNodeChanged(node: NodeVersioned) {
+        notifyItemChanged(nodeSortedList.indexOf(node))
+    }
+
+    fun setActionNodes(actionNodes: List<NodeVersioned>) {
+        this.actionNodesList.apply {
+            clear()
+            addAll(actionNodes)
+        }
+    }
+
+    fun unselectActionNodes() {
+        actionNodesList.forEach {
+            notifyItemChanged(nodeSortedList.indexOf(it))
+        }
+        this.actionNodesList.apply {
+            clear()
+        }
     }
 
     /**
@@ -247,12 +296,14 @@ class NodeAdapter
                 paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
         }
         // Assign click
-        holder.container.setOnClickListener { nodeClickCallback?.onNodeClick(subNode) }
-        // Context menu
-        if (activateContextMenu) {
-            holder.container.setOnCreateContextMenuListener(
-                    ContextMenuBuilder(menuInflater, subNode, readOnly, isASearchResult, nodeMenuListener))
+        holder.container.setOnClickListener {
+            nodeClickCallback?.onNodeClick(subNode)
         }
+        holder.container.setOnLongClickListener {
+            nodeClickCallback?.onNodeLongClick(subNode) ?: false
+        }
+
+        holder.container.isSelected = actionNodesList.contains(subNode)
 
         // Add subText with username
         holder.subText.apply {
@@ -306,102 +357,11 @@ class NodeAdapter
     }
 
     /**
-     * Assign a listener when an element of menu is clicked
-     */
-    fun setNodeMenuListener(nodeMenuListener: NodeMenuListener?) {
-        this.nodeMenuListener = nodeMenuListener
-    }
-
-    /**
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
         fun onNodeClick(node: NodeVersioned)
-    }
-
-    /**
-     * Menu listener to redefine to do an action in menu
-     */
-    interface NodeMenuListener {
-        fun onOpenMenuClick(node: NodeVersioned): Boolean
-        fun onEditMenuClick(node: NodeVersioned): Boolean
-        fun onCopyMenuClick(node: NodeVersioned): Boolean
-        fun onMoveMenuClick(node: NodeVersioned): Boolean
-        fun onDeleteMenuClick(node: NodeVersioned): Boolean
-    }
-
-    /**
-     * Utility class for menu listener
-     */
-    private class ContextMenuBuilder(val menuInflater: MenuInflater,
-                                     val node: NodeVersioned,
-                                     val readOnly: Boolean,
-                                     val isASearchResult: Boolean,
-                                     val menuListener: NodeMenuListener?)
-        : View.OnCreateContextMenuListener {
-
-        private val mOnMyActionClickListener = MenuItem.OnMenuItemClickListener { item ->
-            if (menuListener == null)
-                return@OnMenuItemClickListener false
-            when (item.itemId) {
-                R.id.menu_open -> menuListener.onOpenMenuClick(node)
-                R.id.menu_edit -> menuListener.onEditMenuClick(node)
-                R.id.menu_copy -> menuListener.onCopyMenuClick(node)
-                R.id.menu_move -> menuListener.onMoveMenuClick(node)
-                R.id.menu_delete -> menuListener.onDeleteMenuClick(node)
-                else -> false
-            }
-        }
-
-        override fun onCreateContextMenu(contextMenu: ContextMenu?,
-                                         view: View?,
-                                         contextMenuInfo: ContextMenu.ContextMenuInfo?) {
-            menuInflater.inflate(R.menu.node_menu, contextMenu)
-
-            // Opening
-            var menuItem = contextMenu?.findItem(R.id.menu_open)
-            menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
-
-            val database = Database.getInstance()
-
-            // Edition
-            if (readOnly || node == database.recycleBin) {
-                contextMenu?.removeItem(R.id.menu_edit)
-            } else {
-                menuItem = contextMenu?.findItem(R.id.menu_edit)
-                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
-            }
-
-            // Copy (not for group)
-            if (readOnly
-                    || isASearchResult
-                    || node == database.recycleBin
-                    || node.type == Type.GROUP) {
-                // TODO COPY For Group
-                contextMenu?.removeItem(R.id.menu_copy)
-            } else {
-                menuItem = contextMenu?.findItem(R.id.menu_copy)
-                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
-            }
-
-            // Move
-            if (readOnly
-                    || isASearchResult
-                    || node == database.recycleBin) {
-                contextMenu?.removeItem(R.id.menu_move)
-            } else {
-                menuItem = contextMenu?.findItem(R.id.menu_move)
-                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
-            }
-
-            // Deletion
-            if (readOnly || node == database.recycleBin) {
-                contextMenu?.removeItem(R.id.menu_delete)
-            } else {
-                menuItem = contextMenu?.findItem(R.id.menu_delete)
-                menuItem?.setOnMenuItemClickListener(mOnMyActionClickListener)
-            }
-        }
+        fun onNodeLongClick(node: NodeVersioned): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
