@@ -17,6 +17,7 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
 
     private var mActionModeCallback: ActionMode.Callback? = null
     private val actionMode = NodeActionMode(this)
+    private var isOpen = false
 
     init {
         visibility = View.GONE
@@ -56,13 +57,17 @@ class ToolbarAction @JvmOverloads constructor(context: Context,
     }
 
     fun open() {
-        visibility = View.VISIBLE
-        //expand()
+        if (!isOpen) {
+            isOpen = true
+            expand()
+        }
     }
 
     fun close() {
-        //collapse()
-        visibility = View.GONE
+        if (isOpen) {
+            isOpen = false
+            collapse()
+        }
         mActionModeCallback?.onDestroyActionMode(actionMode)
     }
 

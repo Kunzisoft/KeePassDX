@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.view
 
-import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.app.Activity
@@ -27,6 +26,7 @@ import android.content.pm.ActivityInfo
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
+import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
@@ -62,22 +62,17 @@ fun Activity.unlockScreenOrientation() {
     requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
 }
 
-private var actionBarHeight: Int = 0
-
-fun Toolbar.collapse(animate: Boolean = true, listener: Animator.AnimatorListener? = null) {
-
-    if (layoutParams.height > 5)
-        actionBarHeight = layoutParams.height
-
-    val slideAnimator = ValueAnimator
-            .ofInt(height, 0)
+fun Toolbar.collapse(animate: Boolean = true) {
+    val recordBarHeight = layoutParams.height
+    val slideAnimator = ValueAnimator.ofInt(height, 0)
     if (animate)
         slideAnimator.duration = 300L
-    listener?.let {
-        slideAnimator.addListener(it)
-    }
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
+        if (layoutParams.height <= 1) {
+            visibility = View.GONE
+            layoutParams.height = recordBarHeight
+        }
         requestLayout()
     }
     AnimatorSet().apply {
@@ -86,15 +81,13 @@ fun Toolbar.collapse(animate: Boolean = true, listener: Animator.AnimatorListene
     }.start()
 }
 
-fun Toolbar.expand(animate: Boolean = true, listener: Animator.AnimatorListener? = null)  {
-
+fun Toolbar.expand(animate: Boolean = true)  {
+    visibility = View.VISIBLE
+    val actionBarHeight = layoutParams.height
     val slideAnimator = ValueAnimator
             .ofInt(0, actionBarHeight)
     if (animate)
         slideAnimator.duration = 300L
-    listener?.let {
-        slideAnimator.addListener(it)
-    }
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
         requestLayout()
