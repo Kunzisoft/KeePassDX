@@ -39,7 +39,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
         // Check if fingerprint well init (be called the first time the fingerprint is configured
         // and the activity still active)
-        if (biometricUnlockDatabaseHelper == null || !biometricUnlockDatabaseHelper!!.isFingerprintInitialized) {
+        if (biometricUnlockDatabaseHelper == null || !biometricUnlockDatabaseHelper!!.isBiometricInitialized) {
 
             biometricUnlockDatabaseHelper = BiometricUnlockDatabaseHelper(context, this)
             // callback for fingerprint findings
