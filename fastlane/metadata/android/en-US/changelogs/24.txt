@@ -2,6 +2,7 @@
  * Show history of each entry
  * Auto repair database for nodes with same UUID
  * Management of expired nodes
+ * Multi-selection for actions (Cut - Copy - Delete)
  * Fix settings
  * Fix edit group
  * Fix small bugs

@@ -2,6 +2,7 @@
  * Affiche l'historique de chaque entrée
  * Auto reparation de la base de données pour même UUID
  * Gestion des noeuds expirés
+ * Multi-selection des actions (Couper - Coller - Supprimer)
  * Correction des paramètres
  * Correction de l'édition de groupe
  * Correction de petits bugs
