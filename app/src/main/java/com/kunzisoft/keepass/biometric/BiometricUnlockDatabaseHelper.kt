@@ -158,7 +158,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            deleteEntryKey()
+            biometricUnlockCallback?.onInvalidKeyException(unrecoverableKeyException)
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
             biometricUnlockCallback?.onInvalidKeyException(invalidKeyException)
