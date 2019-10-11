@@ -1,12 +1,10 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import androidx.preference.PreferenceManager
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
@@ -14,31 +12,13 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
-class KeyboardEntryNotificationService : NotificationService() {
+class KeyboardEntryNotificationService : EntryNotificationService() {
 
-    private val notificationId = 486
+    override var notificationId = 486
     private var cleanNotificationTimerTask: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
-    private var lockBroadcastReceiver: BroadcastReceiver? = null
     private var pendingDeleteIntent: PendingIntent? = null
-
-    override fun onCreate() {
-        super.onCreate()
-
-        // Register a lock receiver to stop notification service when lock on keyboard is performed
-        lockBroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                // Stop the service in all cases
-                stopSelf()
-            }
-        }
-        registerReceiver(lockBroadcastReceiver,
-                IntentFilter().apply {
-                    addAction(LOCK_ACTION)
-                }
-        )
-    }
 
     private fun stopNotificationAndSendLockIfNeeded() {
         // Remove the entry from the keyboard
@@ -49,7 +29,7 @@ class KeyboardEntryNotificationService : NotificationService() {
                         resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
             sendBroadcast(Intent(LOCK_ACTION))
         }
-        // Stop the notification
+        // Stop the service
         stopSelf()
     }
 
@@ -132,23 +112,11 @@ class KeyboardEntryNotificationService : NotificationService() {
         }
     }
 
-    private fun stopTask(task: Thread?) {
-        if (task != null && task.isAlive)
-            task.interrupt()
-    }
-
-    private fun destroyKeyboardNotification() {
-        stopTask(cleanNotificationTimerTask)
-        cleanNotificationTimerTask = null
-        unregisterReceiver(lockBroadcastReceiver)
-        pendingDeleteIntent?.cancel()
-
-        notificationManager?.cancel(notificationId)
-    }
-
     override fun onDestroy() {
 
-        destroyKeyboardNotification()
+        stopTask(cleanNotificationTimerTask)
+        cleanNotificationTimerTask = null
+        pendingDeleteIntent?.cancel()
 
         super.onDestroy()
     }

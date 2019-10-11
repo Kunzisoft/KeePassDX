@@ -6,7 +6,7 @@ import com.kunzisoft.keepass.R
 
 class DatabaseTaskNotificationService : NotificationService() {
 
-    private val notificationId = 532
+    override var notificationId = 532
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         if (intent == null) {
@@ -25,13 +25,6 @@ class DatabaseTaskNotificationService : NotificationService() {
                 .setAutoCancel(false)
                 .setContentIntent(null)
         startForeground(notificationId, builder.build())
-    }
-
-    override fun onDestroy() {
-
-        notificationManager?.cancel(notificationId)
-
-        super.onDestroy()
     }
 
     companion object {

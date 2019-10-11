@@ -18,6 +18,8 @@ abstract class NotificationService : Service() {
     protected var notificationManager: NotificationManager? = null
     private var colorNotificationAccent: Int = 0
 
+    protected abstract var notificationId: Int
+
     override fun onBind(intent: Intent): IBinder? {
         return null
     }
@@ -52,6 +54,12 @@ abstract class NotificationService : Service() {
                 .setGroup(GROUP_KEEPASS)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
+    }
+
+    override fun onDestroy() {
+        notificationManager?.cancel(notificationId)
+
+        super.onDestroy()
     }
 
     companion object {

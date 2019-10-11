@@ -33,9 +33,9 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
 
-class ClipboardEntryNotificationService : NotificationService() {
+class ClipboardEntryNotificationService : EntryNotificationService() {
 
-    private var notificationId = 485
+    override var notificationId = 485
     private var cleanNotificationTimerTask: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
@@ -53,6 +53,8 @@ class ClipboardEntryNotificationService : NotificationService() {
         if (PreferencesUtil.isClearClipboardNotificationEnable(this)) {
             sendBroadcast(Intent(LOCK_ACTION))
         }
+        // Stop the service
+        stopSelf()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -220,9 +222,14 @@ class ClipboardEntryNotificationService : NotificationService() {
 
     }
 
-    private fun stopTask(task: Thread?) {
-        if (task != null && task.isAlive)
-            task.interrupt()
+    override fun onDestroy() {
+
+        stopTask(cleanCopyNotificationTimerTask)
+        stopTask(cleanNotificationTimerTask)
+        cleanCopyNotificationTimerTask = null
+        cleanNotificationTimerTask = null
+
+        super.onDestroy()
     }
 
     companion object {
