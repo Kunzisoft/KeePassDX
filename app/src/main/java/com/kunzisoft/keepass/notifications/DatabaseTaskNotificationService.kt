@@ -20,7 +20,7 @@ class DatabaseTaskNotificationService : NotificationService() {
     private fun newNotification(title: Int) {
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.ic_data_usage_white_24dp)
+                .setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
                 .setContentTitle(getString(title))
                 .setAutoCancel(false)
                 .setContentIntent(null)

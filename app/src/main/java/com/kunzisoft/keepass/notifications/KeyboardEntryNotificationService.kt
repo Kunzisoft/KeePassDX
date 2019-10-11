@@ -84,7 +84,7 @@ class KeyboardEntryNotificationService : NotificationService() {
         pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.ic_keyboard_key_white_24dp)
+                .setSmallIcon(R.drawable.notification_ic_keyboard_key_24dp)
                 .setContentTitle(getString(R.string.keyboard_notification_entry_content_title, entryTitle))
                 .setContentText(getString(R.string.keyboard_notification_entry_content_text, entryUsername))
                 .setAutoCancel(false)

@@ -114,7 +114,7 @@ class ClipboardEntryNotificationService : NotificationService() {
         stopTask(cleanCopyNotificationTimerTask)
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.ic_clipboard_key_white_24dp)
+                .setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
 
         if (title != null)
             builder.setContentTitle(title)
@@ -129,7 +129,7 @@ class ClipboardEntryNotificationService : NotificationService() {
             fieldsWithoutFirstField.remove(field)
             // Add extra actions
             for (fieldToAdd in fieldsWithoutFirstField) {
-                builder.addAction(R.drawable.ic_clipboard_key_white_24dp, fieldToAdd.label,
+                builder.addAction(R.drawable.notification_ic_clipboard_key_24dp, fieldToAdd.label,
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd))
             }
         }
@@ -161,7 +161,7 @@ class ClipboardEntryNotificationService : NotificationService() {
             clipboardHelper?.copyToClipboard(fieldToCopy.label, fieldToCopy.value)
 
             val builder = buildNewNotification()
-                    .setSmallIcon(R.drawable.ic_clipboard_key_white_24dp)
+                    .setSmallIcon(R.drawable.notification_ic_clipboard_key_24dp)
                     .setContentTitle(fieldToCopy.label)
 
             // New action with next field if click
