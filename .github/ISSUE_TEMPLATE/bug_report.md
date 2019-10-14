@@ -33,6 +33,7 @@ If applicable, add screenshots to help explain your problem.
 **KeePass DX (please complete the following information):**
  - Version: [e.g. 2.5.0.0beta23]
  - Build: [e.g. Free]
+ - Language: [e.g. French]
 
 **Android (please complete the following information):**
  - Device: [e.g. GalaxyS8]
