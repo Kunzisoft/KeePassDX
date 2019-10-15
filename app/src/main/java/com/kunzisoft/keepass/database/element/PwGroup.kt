@@ -60,6 +60,22 @@ abstract class PwGroup
         this.childEntries.add(entry)
     }
 
+    override fun updateChildEntry(entry: Entry) {
+        if (childEntries.contains(entry)) {
+            val index = this.childEntries.indexOf(entry)
+            childEntries.remove(entry)
+            childEntries.add(index, entry)
+        }
+    }
+
+    override fun updateChildGroup(group: Group) {
+        if (childGroups.contains(group)) {
+            val index = this.childGroups.indexOf(group)
+            childGroups.remove(group)
+            childGroups.add(index, group)
+        }
+    }
+
     override fun removeChildGroup(group: Group) {
         this.childGroups.remove(group)
     }

@@ -290,7 +290,7 @@ class Database {
     fun loadData(uri: Uri, password: String?, keyfile: Uri?,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
-                 searchHelper: SearchDbHelper,
+                 omitBackup: Boolean,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -359,7 +359,7 @@ class Database {
             else -> throw LoadDatabaseSignatureException()
         }
 
-        this.mSearchHelper = searchHelper
+        this.mSearchHelper = SearchDbHelper(omitBackup)
         loaded = true
     }
 
@@ -488,7 +488,7 @@ class Database {
         // In all cases, delete all the files in the temp dir
         try {
             FileUtils.cleanDirectory(filesDirectory)
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
@@ -576,6 +576,15 @@ class Database {
         entry.afterAssignNewParent()
     }
 
+    fun updateEntry(entry: EntryVersioned) {
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.updateEntry(entryV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.updateEntry(entryV4)
+        }
+    }
+
     fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
         entry.pwEntryV3?.let { entryV3 ->
             pwDatabaseV3?.removeEntryFrom(entryV3, parent.pwGroupV3)
@@ -594,6 +603,15 @@ class Database {
             pwDatabaseV4?.addGroupTo(groupV4, parent.pwGroupV4)
         }
         group.afterAssignNewParent()
+    }
+
+    fun updateGroup(group: GroupVersioned) {
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.updateGroup(groupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.updateGroup(groupV4)
+        }
     }
 
     fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {

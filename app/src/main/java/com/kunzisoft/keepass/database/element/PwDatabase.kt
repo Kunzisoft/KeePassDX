@@ -253,6 +253,13 @@ abstract class PwDatabase<
         }
     }
 
+    fun updateGroupIndex(group: Group) {
+        val groupId = group.nodeId
+        if (groupIndexes.containsKey(groupId)) {
+            groupIndexes[groupId] = group
+        }
+    }
+
     fun removeGroupIndex(group: Group) {
         this.groupIndexes.remove(group.nodeId)
     }
@@ -295,6 +302,13 @@ abstract class PwDatabase<
         }
     }
 
+    fun updateEntryIndex(entry: Entry) {
+        val entryId = entry.nodeId
+        if (entryIndexes.containsKey(entryId)) {
+            entryIndexes[entryId] = entry
+        }
+    }
+
     fun removeEntryIndex(entry: Entry) {
         this.entryIndexes.remove(entry.nodeId)
     }
@@ -325,6 +339,10 @@ abstract class PwDatabase<
         addGroupIndex(newGroup)
     }
 
+    fun updateGroup(group: Group) {
+        updateGroupIndex(group)
+    }
+
     fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
         // Remove tree from parent tree
         parent?.removeChildGroup(groupToRemove)
@@ -336,6 +354,10 @@ abstract class PwDatabase<
         parent?.addChildEntry(newEntry)
         newEntry.parent = parent
         addEntryIndex(newEntry)
+    }
+
+    fun updateEntry(entry: Entry) {
+        updateEntryIndex(entry)
     }
 
     open fun removeEntryFrom(entryToRemove: Entry, parent: Group?) {

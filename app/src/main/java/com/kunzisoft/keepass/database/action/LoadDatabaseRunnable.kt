@@ -23,7 +23,6 @@ import android.content.ContentResolver
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.File
@@ -34,18 +33,17 @@ class LoadDatabaseRunnable(private val mDatabase: Database,
                            private val mKey: Uri?,
                            private val contentResolver: ContentResolver,
                            private val cacheDirectory: File,
-                           private val mSearchHelper: SearchDbHelper,
+                           private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
-                           private val progressTaskUpdater: ProgressTaskUpdater?,
-                           nestedAction: ActionRunnable)
-    : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
+                           private val progressTaskUpdater: ProgressTaskUpdater?)
+    : ActionRunnable(null, executeNestedActionIfResultFalse = true) {
 
     override fun run() {
         try {
             mDatabase.loadData(mUri, mPass, mKey,
                     contentResolver,
                     cacheDirectory,
-                    mSearchHelper,
+                    mOmitBackup,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
             finishRun(true)

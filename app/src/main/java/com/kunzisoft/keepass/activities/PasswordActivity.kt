@@ -57,13 +57,12 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.search.SearchDbHelper
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -98,6 +97,8 @@ class PasswordActivity : StylishActivity() {
     private var mOpenFileHelper: OpenFileHelper? = null
 
     private var readOnly: Boolean = false
+
+    private var progressDialogThread: ProgressDialogThread? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
 
@@ -158,6 +159,15 @@ class PasswordActivity : StylishActivity() {
         enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, _ ->
             enableOrNotTheConfirmationButton()
         }
+
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_LOAD_TASK -> {
+                    // TODO
+                    onFinishLoadDatabase?.onFinishRun(result)
+                }
+            }
+        }
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
@@ -179,6 +189,8 @@ class PasswordActivity : StylishActivity() {
 
         // For check shutdown
         super.onResume()
+
+        progressDialogThread?.registerProgressTask()
 
         initUriFromIntent()
     }
@@ -372,6 +384,9 @@ class PasswordActivity : StylishActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             advancedUnlockedManager?.pause()
         }
+
+        progressDialogThread?.unregisterProgressTask()
+
         super.onPause()
     }
 
@@ -411,6 +426,8 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
+    private var onFinishLoadDatabase: ActionRunnable? = null
+
     private fun loadDatabase(databaseFileUri: Uri?,
                              password: String?,
                              keyFileUri: Uri?,
@@ -428,7 +445,7 @@ class PasswordActivity : StylishActivity() {
 
         databaseFileUri?.let { databaseUri ->
 
-            val onFinishLoadDatabase = object: ActionRunnable() {
+            onFinishLoadDatabase = object: ActionRunnable() {
                 override fun onFinishRun(result: Result) {
                     runOnUiThread {
                         // Recheck fingerprint if error
@@ -442,9 +459,7 @@ class PasswordActivity : StylishActivity() {
                         if (result.isSuccess) {
                             // Save keyFile in app database
                             if (mRememberKeyFile) {
-                                mDatabaseFileUri?.let { databaseUri ->
-                                    saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
-                                }
+                                saveKeyFileData(databaseFileUri, mDatabaseKeyFileUri)
                             }
 
                             // Remove the password in view in all cases
@@ -469,12 +484,11 @@ class PasswordActivity : StylishActivity() {
                                 resultError = resultException.getLocalizedMessage(resources)
                                 if (resultException is LoadDatabaseDuplicateUuidException)
                                     showLoadDatabaseDuplicateUuidMessage {
-                                        showProgressDialogAndLoadDatabase(database,
+                                        showProgressDialogAndLoadDatabase(
                                                 databaseUri,
                                                 password,
                                                 keyFileUri,
-                                                true,
-                                                this)
+                                                true)
                                     }
                             }
 
@@ -491,36 +505,26 @@ class PasswordActivity : StylishActivity() {
             }
 
             // Show the progress dialog and load the database
-            showProgressDialogAndLoadDatabase(database,
+            showProgressDialogAndLoadDatabase(
                     databaseUri,
                     password,
                     keyFileUri,
-                    false,
-                    onFinishLoadDatabase)
+                    false)
         }
     }
 
-    private fun showProgressDialogAndLoadDatabase(database: Database,
-                                                  databaseUri: Uri,
+    private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
                                                   password: String?,
                                                   keyFile: Uri?,
-                                                  fixDuplicateUUID: Boolean,
-                                                  onFinishLoadDatabase: ActionRunnable) {
-        ProgressDialogThread(this,
-                { progressTaskUpdater ->
-                    LoadDatabaseRunnable(
-                            database,
-                            databaseUri,
-                            password,
-                            keyFile,
-                            this@PasswordActivity.contentResolver,
-                            this@PasswordActivity.filesDir,
-                            SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
-                            fixDuplicateUUID,
-                            progressTaskUpdater,
-                            onFinishLoadDatabase)
-                },
-                R.string.loading_database).start()
+                                                  fixDuplicateUUID: Boolean) {
+        progressDialogThread?.startDatabaseLoad(
+                databaseUri,
+                password,
+                keyFile,
+                filesDir,
+                PreferencesUtil.omitBackup(this@PasswordActivity),
+                fixDuplicateUUID
+        )
     }
 
     private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {

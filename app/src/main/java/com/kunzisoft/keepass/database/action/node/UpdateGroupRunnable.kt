@@ -19,18 +19,18 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateGroupRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mOldGroup: GroupVersioned,
         private val mNewGroup: GroupVersioned,
-        finishRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
+        save: Boolean,
+        finishRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
@@ -38,8 +38,12 @@ class UpdateGroupRunnable constructor(
 
     override fun nodeAction() {
         // Update group with new values
-        mOldGroup.touch(modified = true, touchParents = true)
         mOldGroup.updateWith(mNewGroup)
+        mOldGroup.touch(modified = true, touchParents = true)
+
+        // Only change data un index
+        // TODO
+        database.updateGroup(mOldGroup)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

@@ -49,19 +49,6 @@ fun Snackbar.asError(): Snackbar {
     return this
 }
 
-fun Activity.lockScreenOrientation() {
-    val currentOrientation = resources.configuration.orientation
-    requestedOrientation = if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    } else {
-        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-    }
-}
-
-fun Activity.unlockScreenOrientation() {
-    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-}
-
 fun Toolbar.collapse(animate: Boolean = true) {
     val recordBarHeight = layoutParams.height
     val slideAnimator = ValueAnimator.ofInt(height, 0)

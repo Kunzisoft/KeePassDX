@@ -19,14 +19,16 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.*
 
-class DeleteNodesRunnable(context: FragmentActivity,
+class DeleteNodesRunnable(context: Context,
                           database: Database,
                           private val mNodesToDelete: List<NodeVersioned>,
-                          finish: AfterActionNodeFinishRunnable,
-                          save: Boolean) : ActionNodeDatabaseRunnable(context, database, finish, save) {
+                          save: Boolean,
+                          finish: AfterActionNodeFinishRunnable)
+    : ActionNodeDatabaseRunnable(context, database, finish, save) {
+
     private var mParent: GroupVersioned? = null
     private var mCanRecycle: Boolean = false
 

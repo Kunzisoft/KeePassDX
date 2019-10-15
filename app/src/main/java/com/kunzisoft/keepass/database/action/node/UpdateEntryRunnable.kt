@@ -19,42 +19,42 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateEntryRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mOldEntry: EntryVersioned,
         private val mNewEntry: EntryVersioned,
-        finishRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
+        save: Boolean,
+        finishRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
-    private var mBackupEntryHistory: EntryVersioned? = null
+    private var mBackupEntryHistory: EntryVersioned = EntryVersioned(mOldEntry)
 
     override fun nodeAction() {
-        mNewEntry.touch(modified = true, touchParents = true)
-
-        mBackupEntryHistory = EntryVersioned(mOldEntry)
-
-        // Create an entry history (an entry history don't have history)
-        mNewEntry.addEntryToHistory(EntryVersioned(mOldEntry, copyHistory = false))
-
-        database.removeOldestHistory(mNewEntry)
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
+        mNewEntry.touch(modified = true, touchParents = true)
+
+        // Create an entry history (an entry history don't have history)
+        mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
+
+        database.removeOldestHistory(mOldEntry)
+
+        // Only change data un index
+        // TODO
+        database.updateEntry(mOldEntry)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
-            mBackupEntryHistory?.let {
-                mOldEntry.updateWith(it)
-            }
+            database.updateEntry(mOldEntry)
         }
 
         val oldNodesReturn = ArrayList<NodeVersioned>()

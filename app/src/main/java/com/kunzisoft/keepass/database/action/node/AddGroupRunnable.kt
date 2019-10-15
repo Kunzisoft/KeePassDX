@@ -19,18 +19,18 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class AddGroupRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mNewGroup: GroupVersioned,
         private val mParent: GroupVersioned,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
+        save: Boolean,
+        afterAddNodeRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
 
     override fun nodeAction() {

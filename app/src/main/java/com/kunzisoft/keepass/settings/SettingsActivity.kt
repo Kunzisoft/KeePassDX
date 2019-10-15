@@ -25,17 +25,19 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_TASK
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 open class SettingsActivity
@@ -46,6 +48,8 @@ open class SettingsActivity
     private var backupManager: BackupManager? = null
 
     private var toolbar: Toolbar? = null
+
+    var progressDialogThread: ProgressDialogThread? = null
 
     companion object {
 
@@ -88,6 +92,34 @@ open class SettingsActivity
         }
 
         backupManager = BackupManager(this)
+
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> {
+                    // Nothing here
+                }
+                ACTION_DATABASE_SAVE_TASK -> {
+                    if (!result.isSuccess) {
+                        // TODO Log.e(TAG, result.message)
+                        Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
+                    }
+                    // TODO actionAfterSaveDatabase?.onFinishRun(result)
+                }
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -105,22 +137,23 @@ open class SettingsActivity
 
     override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
         Database.getInstance().let { database ->
-            val progressDialogThread = ProgressDialogSaveDatabaseThread(this) {
-                AssignPasswordInDatabaseRunnable(this,
-                        database,
+            // Show the progress dialog now or after dialog confirmation
+            if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
+                progressDialogThread?.startDatabaseAssignPassword(
                         masterPasswordChecked,
                         masterPassword,
                         keyFileChecked,
-                        keyFile,
-                        true)
-            }
-            // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
-                progressDialogThread.start()
+                        keyFile
+                )
             } else {
                 PasswordEncodingDialogFragment().apply {
                     positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                        progressDialogThread.start()
+                        progressDialogThread?.startDatabaseAssignPassword(
+                                masterPasswordChecked,
+                                masterPassword,
+                                keyFileChecked,
+                                keyFile
+                        )
                     }
                     show(supportFragmentManager, "passwordEncodingTag")
                 }

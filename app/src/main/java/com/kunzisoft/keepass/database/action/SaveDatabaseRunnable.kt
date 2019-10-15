@@ -30,7 +30,6 @@ abstract class SaveDatabaseRunnable(protected var context: Context,
                                 private val save: Boolean,
                                 nestedAction: ActionRunnable? = null) : ActionRunnable(nestedAction) {
 
-    // TODO Service to prevent background thread kill
     override fun run() {
         if (save) {
             try {

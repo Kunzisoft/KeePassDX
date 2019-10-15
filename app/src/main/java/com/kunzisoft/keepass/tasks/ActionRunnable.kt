@@ -106,5 +106,29 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
     data class Result(var isSuccess: Boolean = true,
                       var message: String? = null,
                       var exception: LoadDatabaseException? = null,
-                      var data: Bundle? = null)
+                      var data: Bundle? = null) {
+
+        fun toBundle(): Bundle {
+            return Bundle().apply {
+                putBoolean(IS_SUCCESS_KEY, isSuccess)
+                putString(MESSAGE_KEY, message)
+                putSerializable(EXCEPTION_KEY, exception)
+                putBundle(DATA_KEY, data)
+            }
+        }
+
+        companion object {
+            private const val IS_SUCCESS_KEY = "IS_SUCCESS_KEY"
+            private const val MESSAGE_KEY = "MESSAGE_KEY"
+            private const val EXCEPTION_KEY = "EXCEPTION_KEY"
+            private const val DATA_KEY = "DATA_KEY"
+
+            fun fromBundle(bundle: Bundle): Result {
+                return Result(bundle.getBoolean(IS_SUCCESS_KEY),
+                        bundle.getString(MESSAGE_KEY),
+                        bundle.getSerializable(EXCEPTION_KEY) as LoadDatabaseException?,
+                        bundle.getBundle(DATA_KEY))
+            }
+        }
+    }
 }

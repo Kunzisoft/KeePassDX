@@ -19,21 +19,25 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.res.Resources
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Toast
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.RESULT_KEY
+import com.kunzisoft.keepass.settings.SettingsActivity
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
 
     protected var database: Database? = null
 
     var actionInUIThreadAfterSaveDatabase: ActionRunnable? = null
+    private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
 
     protected lateinit var settingsResources: Resources
 
@@ -51,28 +55,31 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
 
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
-            activity?.let { notNullActivity ->
-                database?.let { notNullDatabase ->
-                    ProgressDialogSaveDatabaseThread(notNullActivity) {
-                        SaveDatabaseActionRunnable(
-                                notNullActivity,
-                                notNullDatabase,
-                                true)
-                    }.apply {
-                        actionFinishInUIThread = object:ActionRunnable() {
-                            override fun onFinishRun(result: Result) {
-                                if (!result.isSuccess) {
-                                    Log.e(TAG, result.message)
-                                    Toast.makeText(notNullActivity, result.message, Toast.LENGTH_SHORT).show()
-                                }
-                                actionInUIThreadAfterSaveDatabase?.onFinishRun(result)
-                            }
-                        }
-                        start()
+            registerProgressTask()
+            (activity as SettingsActivity?)?.progressDialogThread?.startDatabaseSave()
+        }
+    }
+
+    fun registerProgressTask() {
+        // TODO remove receiver
+        // Register a database task receiver to stop loading dialog when service finish the task
+        databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
+            override fun onReceive(context: Context?, intent: Intent?) {
+                when (intent?.action) {
+                    DATABASE_STOP_TASK_ACTION -> {
+                        var result = ActionRunnable.Result(false)
+                        if (intent.hasExtra(RESULT_KEY))
+                            result = ActionRunnable.Result.fromBundle(intent.getBundleExtra(RESULT_KEY))
+                        actionInUIThreadAfterSaveDatabase?.onFinishRun(result)
                     }
                 }
             }
         }
+        activity?.registerReceiver(databaseTaskBroadcastReceiver,
+                IntentFilter().apply {
+                    addAction(DATABASE_STOP_TASK_ACTION)
+                }
+        )
     }
 
     companion object {

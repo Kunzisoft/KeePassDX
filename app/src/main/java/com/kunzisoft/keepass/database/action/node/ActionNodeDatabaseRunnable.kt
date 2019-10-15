@@ -1,12 +1,12 @@
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
 
 abstract class ActionNodeDatabaseRunnable(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val callbackRunnable: AfterActionNodeFinishRunnable?,
         save: Boolean)

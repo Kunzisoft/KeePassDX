@@ -22,22 +22,22 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
+import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.node.*
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
@@ -58,10 +58,11 @@ class EntryEditActivity : LockingHideActivity(),
 
     // Views
     private var scrollView: ScrollView? = null
-
     private var entryEditContentsView: EntryEditContentsView? = null
-
     private var saveView: View? = null
+
+    // Dialog thread
+    private var progressDialogThread: ProgressDialogThread? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -162,6 +163,17 @@ class EntryEditActivity : LockingHideActivity(),
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
+
+        // Create progress dialog
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_ENTRY_TASK,
+                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                    if (result.isSuccess)
+                        finish()
+                }
+            }
+        }
     }
 
     private fun populateViewsWithEntry(newEntry: EntryVersioned) {
@@ -237,51 +249,48 @@ class EntryEditActivity : LockingHideActivity(),
         // Launch a validation and show the error if present
         if (entryEditContentsView?.isValid() == true) {
             // Clone the entry
-            mDatabase?.let { database ->
-                mNewEntry?.let { newEntry ->
+            mNewEntry?.let { newEntry ->
 
-                    // WARNING Add the parent previously deleted
-                    newEntry.parent = mEntry?.parent
-                    // Build info
-                    newEntry.lastAccessTime = PwDate()
-                    newEntry.lastModificationTime = PwDate()
+                // WARNING Add the parent previously deleted
+                newEntry.parent = mEntry?.parent
+                // Build info
+                newEntry.lastAccessTime = PwDate()
+                newEntry.lastModificationTime = PwDate()
 
-                    populateEntryWithViews(newEntry)
+                populateEntryWithViews(newEntry)
 
-                    // Open a progress dialog and save entry
-                    var actionRunnable: ActionRunnable? = null
-                    val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
-                        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-                            if (actionNodeValues.result.isSuccess)
-                                finish()
-                        }
+                // Open a progress dialog and save entry
+                if (mIsNew) {
+                    mParent?.let { parent ->
+                        progressDialogThread?.startDatabaseCreateEntry(
+                                newEntry,
+                                parent,
+                                !mReadOnly
+                        )
                     }
-                    if (mIsNew) {
-                        mParent?.let { parent ->
-                            actionRunnable = AddEntryRunnable(this@EntryEditActivity,
-                                    database,
-                                    newEntry,
-                                    parent,
-                                    afterActionNodeFinishRunnable,
-                                    !mReadOnly)
-                        }
-
-                    } else {
-                        mEntry?.let { oldEntry ->
-                            actionRunnable = UpdateEntryRunnable(this@EntryEditActivity,
-                                    database,
-                                    oldEntry,
-                                    newEntry,
-                                    afterActionNodeFinishRunnable,
-                                    !mReadOnly)
-                        }
-                    }
-                    actionRunnable?.let { runnable ->
-                        ProgressDialogSaveDatabaseThread(this@EntryEditActivity) { runnable }.start()
+                } else {
+                    mEntry?.let { oldEntry ->
+                        progressDialogThread?.startDatabaseUpdateEntry(
+                                oldEntry,
+                                newEntry,
+                                !mReadOnly
+                        )
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

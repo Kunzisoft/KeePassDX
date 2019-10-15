@@ -237,6 +237,24 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         }
     }
 
+    override fun updateChildGroup(group: GroupVersioned) {
+        group.pwGroupV3?.let {
+            pwGroupV3?.updateChildGroup(it)
+        }
+        group.pwGroupV4?.let {
+            pwGroupV4?.updateChildGroup(it)
+        }
+    }
+
+    override fun updateChildEntry(entry: EntryVersioned) {
+        entry.pwEntryV3?.let {
+            pwGroupV3?.updateChildEntry(it)
+        }
+        entry.pwEntryV4?.let {
+            pwGroupV4?.updateChildEntry(it)
+        }
+    }
+
     override fun removeChildGroup(group: GroupVersioned) {
         group.pwGroupV3?.let {
             pwGroupV3?.removeChildGroup(it)
