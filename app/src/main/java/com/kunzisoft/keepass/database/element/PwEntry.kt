@@ -5,10 +5,12 @@ import java.util.*
 
 abstract class PwEntry
         <
-        ParentGroup: PwGroupInterface<ParentGroup, Entry>,
-        Entry: PwEntryInterface<ParentGroup>
+        GroupId,
+        EntryId,
+        ParentGroup: PwGroup<GroupId, EntryId, ParentGroup, Entry>,
+        Entry: PwEntry<GroupId, EntryId, ParentGroup, Entry>
         >
-    : PwNode<UUID, ParentGroup, Entry>, PwEntryInterface<ParentGroup> {
+    : PwNode<EntryId, ParentGroup, Entry>, PwEntryInterface<ParentGroup> {
 
     constructor() : super()
 

@@ -5,7 +5,7 @@ import com.kunzisoft.keepass.database.element.PwIconFactory
 
 import java.util.UUID
 
-class EntryCursorV4 : EntryCursor<PwEntryV4>() {
+class EntryCursorV4 : EntryCursorUUID<PwEntryV4>() {
 
     private val extraFieldCursor: ExtraFieldCursor = ExtraFieldCursor()
 

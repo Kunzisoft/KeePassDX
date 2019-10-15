@@ -30,8 +30,9 @@ import java.util.*
 
 abstract class PwDatabase<
         GroupId,
-        Group : PwGroup<GroupId, Group, Entry>,
-        Entry : PwEntry<Group, Entry>
+        EntryId,
+        Group : PwGroup<GroupId, EntryId, Group, Entry>,
+        Entry : PwEntry<GroupId, EntryId, Group, Entry>
         > {
 
     // Algorithm used to encrypt the database
@@ -51,7 +52,7 @@ abstract class PwDatabase<
     var changeDuplicateId = false
 
     private var groupIndexes = LinkedHashMap<PwNodeId<GroupId>, Group>()
-    private var entryIndexes = LinkedHashMap<PwNodeId<UUID>, Entry>()
+    private var entryIndexes = LinkedHashMap<PwNodeId<EntryId>, Entry>()
 
     abstract val version: String
 
@@ -193,7 +194,7 @@ abstract class PwDatabase<
 
     abstract fun newGroupId(): PwNodeId<GroupId>
 
-    abstract fun newEntryId(): PwNodeId<UUID>
+    abstract fun newEntryId(): PwNodeId<EntryId>
 
     abstract fun createGroup(): Group
 
@@ -274,7 +275,7 @@ abstract class PwDatabase<
         }
     }
 
-    fun isEntryIdUsed(id: PwNodeId<UUID>): Boolean {
+    fun isEntryIdUsed(id: PwNodeId<EntryId>): Boolean {
         return entryIndexes.containsKey(id)
     }
 
@@ -282,7 +283,7 @@ abstract class PwDatabase<
         return entryIndexes.values
     }
 
-    fun getEntryById(id: PwNodeId<UUID>): Entry? {
+    fun getEntryById(id: PwNodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
     }
 
@@ -340,6 +341,7 @@ abstract class PwDatabase<
     }
 
     fun updateGroup(group: Group) {
+        getGroupById(group.nodeId)?.parent?.updateChildGroup(group)
         updateGroupIndex(group)
     }
 
@@ -357,6 +359,7 @@ abstract class PwDatabase<
     }
 
     fun updateEntry(entry: Entry) {
+        getEntryById(entry.nodeId)?.parent?.updateChildEntry(entry)
         updateEntryIndex(entry)
     }
 

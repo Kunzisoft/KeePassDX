@@ -33,22 +33,17 @@ class UpdateEntryRunnable constructor(
         finishRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
-    // Keep backup of original values in case save fails
-    private var mBackupEntryHistory: EntryVersioned = EntryVersioned(mOldEntry)
-
     override fun nodeAction() {
         // Update entry with new values
-        mOldEntry.updateWith(mNewEntry)
         mNewEntry.touch(modified = true, touchParents = true)
 
         // Create an entry history (an entry history don't have history)
-        mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
+        mNewEntry.addEntryToHistory(EntryVersioned(mOldEntry, copyHistory = false))
 
-        database.removeOldestHistory(mOldEntry)
+        database.removeOldestHistory(mNewEntry)
 
         // Only change data un index
-        // TODO
-        database.updateEntry(mOldEntry)
+        database.updateEntry(mNewEntry)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

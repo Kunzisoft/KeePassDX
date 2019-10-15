@@ -142,6 +142,7 @@ class NodeAdapter
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
         }
+        notifyDataSetChanged()
     }
 
     fun contains(node: NodeVersioned): Boolean {

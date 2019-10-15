@@ -38,12 +38,10 @@ class UpdateGroupRunnable constructor(
 
     override fun nodeAction() {
         // Update group with new values
-        mOldGroup.updateWith(mNewGroup)
-        mOldGroup.touch(modified = true, touchParents = true)
+        mNewGroup.touch(modified = true, touchParents = true)
 
         // Only change data un index
-        // TODO
-        database.updateGroup(mOldGroup)
+        database.updateGroup(mNewGroup)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

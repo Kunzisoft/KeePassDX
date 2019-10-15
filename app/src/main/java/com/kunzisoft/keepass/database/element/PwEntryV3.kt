@@ -48,7 +48,7 @@ import java.util.UUID
  * @author Dominik Reichl <dominik.reichl></dominik.reichl>@t-online.de>
  * @author Jeremy Jamet <jeremy.jamet></jeremy.jamet>@kunzisoft.com>
  */
-class PwEntryV3 : PwEntry<PwGroupV3, PwEntryV3>, PwNodeV3Interface {
+class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
 
     /** A string describing what is in pBinaryData  */
     var binaryDesc = ""

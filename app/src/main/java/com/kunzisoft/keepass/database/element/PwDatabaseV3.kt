@@ -28,8 +28,10 @@ import java.io.InputStream
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
+import kotlin.collections.ArrayList
 
-class PwDatabaseV3 : PwDatabase<Int, PwGroupV3, PwEntryV3>() {
+class PwDatabaseV3 : PwDatabase<Int, UUID, PwGroupV3, PwEntryV3>() {
 
     private var numKeyEncRounds: Int = 0
 

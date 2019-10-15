@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.MemoryUtil
 import java.util.*
 
-class PwEntryV4 : PwEntry<PwGroupV4, PwEntryV4>, PwNodeV4Interface {
+class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // To decode each field not parcelable
     @Transient

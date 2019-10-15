@@ -4,11 +4,12 @@ import android.os.Parcel
 
 abstract class PwGroup
         <
-        Id,
-        Group: PwGroupInterface<Group, Entry>,
-        Entry: PwEntryInterface<Group>
+        GroupId,
+        EntryId,
+        Group: PwGroup<GroupId, EntryId, Group, Entry>,
+        Entry: PwEntry<GroupId, EntryId, Group, Entry>
         >
-    : PwNode<Id, Group, Entry>, PwGroupInterface<Group, Entry> {
+    : PwNode<GroupId, Group, Entry>, PwGroupInterface<Group, Entry> {
 
     private var titleGroup = ""
     @Transient
@@ -27,7 +28,7 @@ abstract class PwGroup
         dest.writeString(titleGroup)
     }
 
-    protected fun updateWith(source: PwGroup<Id, Group, Entry>) {
+    protected fun updateWith(source: PwGroup<GroupId, EntryId, Group, Entry>) {
         super.updateWith(source)
         titleGroup = source.titleGroup
         childGroups.clear()
