@@ -183,7 +183,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                                  groupToUpdate: GroupVersioned,
                                  save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.OLD_GROUP_KEY, oldGroup)
+            putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroup.nodeId)
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, groupToUpdate)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
@@ -205,7 +205,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                                  entryToUpdate: EntryVersioned,
                                  save: Boolean) {
         start(Bundle().apply {
-            putParcelable(DatabaseTaskNotificationService.OLD_ENTRY_KEY, oldEntry)
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntry.nodeId)
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, entryToUpdate)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }

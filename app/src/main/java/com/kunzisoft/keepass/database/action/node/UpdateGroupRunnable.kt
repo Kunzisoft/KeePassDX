@@ -38,22 +38,24 @@ class UpdateGroupRunnable constructor(
 
     override fun nodeAction() {
         // Update group with new values
-        mNewGroup.touch(modified = true, touchParents = true)
+        mOldGroup.updateWith(mNewGroup)
+        mOldGroup.touch(modified = true, touchParents = true)
 
         // Only change data un index
-        database.updateGroup(mNewGroup)
+        database.updateGroup(mOldGroup)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
             mOldGroup.updateWith(mBackupGroup)
+            database.updateGroup(mOldGroup)
         }
 
         val oldNodesReturn = ArrayList<NodeVersioned>()
-        oldNodesReturn.add(mOldGroup)
+        oldNodesReturn.add(mBackupGroup)
         val newNodesReturn = ArrayList<NodeVersioned>()
-        newNodesReturn.add(mNewGroup)
+        newNodesReturn.add(mOldGroup)
         return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
     }
 }

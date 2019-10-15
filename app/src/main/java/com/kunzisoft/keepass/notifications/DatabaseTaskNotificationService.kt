@@ -254,16 +254,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     private fun buildDatabaseUpdateGroupActionTask(intent: Intent): ActionRunnable? {
-        return if (intent.hasExtra(OLD_GROUP_KEY)
+        return if (intent.hasExtra(GROUP_ID_KEY)
                 && intent.hasExtra(GROUP_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            UpdateGroupRunnable(this,
-                    Database.getInstance(),
-                    intent.getParcelableExtra(OLD_GROUP_KEY),
-                    intent.getParcelableExtra(GROUP_KEY),
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodeRunnable())
+            val database = Database.getInstance()
+            database.getGroupById(intent.getParcelableExtra(GROUP_ID_KEY))?.let { oldGroup ->
+                UpdateGroupRunnable(this,
+                        database,
+                        oldGroup,
+                        intent.getParcelableExtra(GROUP_KEY),
+                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                        AfterActionNodeRunnable())
+            }
         } else {
             null
         }
@@ -289,16 +292,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     private fun buildDatabaseUpdateEntryActionTask(intent: Intent): ActionRunnable? {
-        return if (intent.hasExtra(OLD_ENTRY_KEY)
+        return if (intent.hasExtra(ENTRY_ID_KEY)
                 && intent.hasExtra(ENTRY_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            UpdateEntryRunnable(this,
-                    Database.getInstance(),
-                    intent.getParcelableExtra(OLD_ENTRY_KEY),
-                    intent.getParcelableExtra(ENTRY_KEY),
-                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                    AfterActionNodeRunnable())
+            val database = Database.getInstance()
+            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { oldEntry ->
+                UpdateEntryRunnable(this,
+                        database,
+                        oldEntry,
+                        intent.getParcelableExtra(ENTRY_KEY),
+                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
+                        AfterActionNodeRunnable())
+            }
         } else {
             null
         }
@@ -430,8 +436,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"
         const val GROUP_KEY = "GROUP_KEY"
         const val ENTRY_KEY = "ENTRY_KEY"
-        const val OLD_GROUP_KEY = "OLD_GROUP_KEY"
-        const val OLD_ENTRY_KEY = "OLD_ENTRY_KEY"
+        const val GROUP_ID_KEY = "GROUP_ID_KEY"
+        const val ENTRY_ID_KEY = "ENTRY_ID_KEY"
         const val GROUPS_ID_KEY = "GROUPS_ID_KEY"
         const val ENTRIES_ID_KEY = "ENTRIES_ID_KEY"
         const val PARENT_ID_KEY = "PARENT_ID_KEY"

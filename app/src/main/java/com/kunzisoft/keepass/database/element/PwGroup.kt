@@ -13,9 +13,9 @@ abstract class PwGroup
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = ArrayList<Group>()
+    private val childGroups = LinkedHashMap<PwNodeId<GroupId>, Group>()
     @Transient
-    private val childEntries = ArrayList<Entry>()
+    private val childEntries = LinkedHashMap<PwNodeId<EntryId>, Entry>()
 
     constructor() : super()
 
@@ -32,9 +32,9 @@ abstract class PwGroup
         super.updateWith(source)
         titleGroup = source.titleGroup
         childGroups.clear()
-        childGroups.addAll(source.childGroups)
+        childGroups.putAll(source.childGroups)
         childEntries.clear()
-        childEntries.addAll(source.childEntries)
+        childEntries.putAll(source.childEntries)
     }
 
     override var title: String
@@ -42,47 +42,35 @@ abstract class PwGroup
         set(value) { titleGroup = value }
 
     override fun getChildGroups(): MutableList<Group> {
-        return childGroups
+        return childGroups.values.toMutableList()
     }
 
     override fun getChildEntries(): MutableList<Entry> {
-        return childEntries
+        return childEntries.values.toMutableList()
     }
 
     override fun addChildGroup(group: Group) {
-        if (childGroups.contains(group))
-            removeChildGroup(group)
-        this.childGroups.add(group)
+        this.childGroups[group.nodeId] = group
     }
 
     override fun addChildEntry(entry: Entry) {
-        if (childEntries.contains(entry))
-            removeChildEntry(entry)
-        this.childEntries.add(entry)
+        this.childEntries[entry.nodeId] = entry
     }
 
     override fun updateChildEntry(entry: Entry) {
-        if (childEntries.contains(entry)) {
-            val index = this.childEntries.indexOf(entry)
-            childEntries.remove(entry)
-            childEntries.add(index, entry)
-        }
+        this.childEntries[entry.nodeId] = entry
     }
 
     override fun updateChildGroup(group: Group) {
-        if (childGroups.contains(group)) {
-            val index = this.childGroups.indexOf(group)
-            childGroups.remove(group)
-            childGroups.add(index, group)
-        }
+        this.childGroups[group.nodeId] = group
     }
 
     override fun removeChildGroup(group: Group) {
-        this.childGroups.remove(group)
+        this.childGroups.remove(group.nodeId)
     }
 
     override fun removeChildEntry(entry: Entry) {
-        this.childEntries.remove(entry)
+        this.childEntries.remove(entry.nodeId)
     }
 
     override fun toString(): String {
