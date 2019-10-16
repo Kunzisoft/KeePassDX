@@ -2,7 +2,10 @@ package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.AsyncTask
+import android.os.Binder
+import android.os.Bundle
+import android.os.IBinder
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -19,7 +22,6 @@ import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
-import android.os.Bundle
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
 
@@ -27,44 +29,40 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
 
-    private var actionStatusHandler = ActionStatusHandler()
-    private var actionMessenger = Messenger(actionStatusHandler)
+    private var mActionTaskBinder = ActionTaskBinder()
+    private var mActionTaskListeners = LinkedList<ActionTaskListener>()
 
-    private class ActionStatusHandler: Handler() {
-        var titleId: Int? = null
-        var messageId: Int? = null
-        var warningId: Int? = null
+    private var mTitleId: Int? = null
+    private var mMessageId: Int? = null
+    private var mWarningId: Int? = null
 
-        override fun handleMessage(message: Message?) {
-            when (message?.what) {
-                CHECK_ACTION -> {
-                    try {
-                        // Incoming data
-                        val response = Message.obtain(null, UPDATE_ACTION_ELEMENTS)
-                        response.data = Bundle().apply {
-                            titleId?.let {
-                                putInt(DATABASE_TASK_TITLE_KEY, it)
-                            }
-                            messageId?.let {
-                                putInt(DATABASE_TASK_MESSAGE_KEY, it)
-                            }
-                            warningId?.let {
-                                putInt(DATABASE_TASK_WARNING_KEY, it)
-                            }
-                        }
-                        message.replyTo?.send(response)
-                    } catch (e: RemoteException) {
-                        e.printStackTrace()
-                    }
+    inner class ActionTaskBinder: Binder() {
 
-                }
-                else -> super.handleMessage(message)
-            }
+        fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
+
+        fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
+            mActionTaskListeners.add(actionTaskListener)
+        }
+
+        fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
+            mActionTaskListeners.remove(actionTaskListener)
+        }
+    }
+
+    interface ActionTaskListener {
+        fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
+        fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
+        fun onStopAction(actionTask: String, result: ActionRunnable.Result)
+    }
+
+    fun checkAction() {
+        mActionTaskListeners.forEach { actionTaskListener ->
+            actionTaskListener.onUpdateAction(mTitleId, mMessageId, mWarningId)
         }
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        return actionMessenger.binder
+        return mActionTaskBinder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -122,25 +120,40 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK,
             ACTION_DATABASE_MOVE_NODES_TASK,
             ACTION_DATABASE_DELETE_NODES_TASK -> {
-                actionStatusHandler.titleId = titleId
-                actionStatusHandler.messageId = messageId
-                actionStatusHandler.warningId = warningId
-                newNotification(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId))
-                actionRunnableAsyncTask = ActionRunnableAsyncTask(this,
-                        {
-                            sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, titleId)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
-                                putExtra(DATABASE_TASK_WARNING_KEY, warningId)
-                            })
 
-                        }, { result ->
-                            sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION).apply {
-                                putExtra(ACTION_TASK_KEY, intent.action)
-                                putExtra(RESULT_KEY, result.toBundle())
-                            })
-                            stopSelf()
+                // Assign elements for updates
+                mTitleId = titleId
+                mMessageId = messageId
+                mWarningId = warningId
+
+                // Create the notification
+                newNotification(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId))
+
+                // Build and launch the action
+                actionRunnableAsyncTask = ActionRunnableAsyncTask(this,
+                    {
+                        mActionTaskListeners.forEach { actionTaskListener ->
+                            actionTaskListener.onStartAction(titleId, messageId, warningId)
                         }
+
+                        sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
+                            putExtra(DATABASE_TASK_TITLE_KEY, titleId)
+                            putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
+                            putExtra(DATABASE_TASK_WARNING_KEY, warningId)
+                        })
+
+                    }, { result ->
+                        mActionTaskListeners.forEach { actionTaskListener ->
+                            actionTaskListener.onStopAction(intent.action!!, result)
+                        }
+
+                        sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION).apply {
+                            putExtra(ACTION_TASK_KEY, intent.action)
+                            putExtra(RESULT_KEY, result.toBundle())
+                        })
+
+                        stopSelf()
+                    }
                 )
                 actionRunnable?.let { actionRunnableNotNull ->
                     actionRunnableAsyncTask?.execute({ actionRunnableNotNull })
@@ -431,10 +444,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
 
-        const val START_ACTION = 42
-        const val STOP_ACTION = 43
-        const val CHECK_ACTION = 44
-        const val UPDATE_ACTION_ELEMENTS = 45
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
         const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"

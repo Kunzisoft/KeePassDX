@@ -115,51 +115,41 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
                   @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
             // Create an instance of the dialog fragment and show it
             val dialog = ProgressTaskDialogFragment()
-            titleId?.let {
-                dialog.updateTitle(it)
-            }
-            messageId?.let {
-                dialog.updateMessage(it)
-            }
-            warningId?.let {
-                dialog.updateWarning(it)
-            }
+            update(dialog, titleId, messageId, warningId)
             return dialog
         }
 
         fun start(activity: FragmentActivity,
                   dialog: ProgressTaskDialogFragment) {
-            dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+            activity.runOnUiThread {
+                dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+            }
         }
 
-        private fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
+        fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
             return activity.supportFragmentManager
                     .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
-        }
-
-        private fun retrieveAndShowProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment {
-            var dialog = retrieveProgressDialog(activity)
-            if (dialog == null) {
-                dialog = build()
-                start(activity, build())
-            }
-            return dialog
         }
 
         fun stop(activity: FragmentActivity) {
             retrieveProgressDialog(activity)?.dismissAllowingStateLoss()
         }
 
-        fun updateTitle(activity: FragmentActivity, titleId: Int) {
-            retrieveAndShowProgressDialog(activity).updateTitle(titleId)
-        }
-
-        fun updateMessage(activity: FragmentActivity, messageId: Int) {
-            retrieveAndShowProgressDialog(activity).updateMessage(messageId)
-        }
-
-        fun updateWarning(activity: FragmentActivity, warningId: Int) {
-            retrieveAndShowProgressDialog(activity).updateWarning(warningId)
+        fun update(dialog: ProgressTaskDialogFragment,
+                   titleId: Int?,
+                   messageId: Int?,
+                   warningId: Int?) {
+            dialog.apply {
+                titleId?.let {
+                    updateTitle(it)
+                }
+                messageId?.let {
+                    updateMessage(it)
+                }
+                warningId?.let {
+                    updateWarning(it)
+                }
+            }
         }
     }
 }
