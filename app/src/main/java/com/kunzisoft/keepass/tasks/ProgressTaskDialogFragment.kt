@@ -110,12 +110,14 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         const val UNDEFINED = -1
 
-        fun build(@StringRes titleId: Int,
+        fun build(@StringRes titleId: Int? = null,
                   @StringRes messageId: Int? = null,
                   @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
             // Create an instance of the dialog fragment and show it
             val dialog = ProgressTaskDialogFragment()
-            dialog.updateTitle(titleId)
+            titleId?.let {
+                dialog.updateTitle(it)
+            }
             messageId?.let {
                 dialog.updateMessage(it)
             }
@@ -130,12 +132,34 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
 
-        fun stop(activity: FragmentActivity) {
-            val fragmentTask = activity.supportFragmentManager.findFragmentByTag(PROGRESS_TASK_DIALOG_TAG)
-            if (fragmentTask != null) {
-                val loadingDatabaseDialog = fragmentTask as ProgressTaskDialogFragment
-                loadingDatabaseDialog.dismissAllowingStateLoss()
+        private fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
+            return activity.supportFragmentManager
+                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
+        }
+
+        private fun retrieveAndShowProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment {
+            var dialog = retrieveProgressDialog(activity)
+            if (dialog == null) {
+                dialog = build()
+                start(activity, build())
             }
+            return dialog
+        }
+
+        fun stop(activity: FragmentActivity) {
+            retrieveProgressDialog(activity)?.dismissAllowingStateLoss()
+        }
+
+        fun updateTitle(activity: FragmentActivity, titleId: Int) {
+            retrieveAndShowProgressDialog(activity).updateTitle(titleId)
+        }
+
+        fun updateMessage(activity: FragmentActivity, messageId: Int) {
+            retrieveAndShowProgressDialog(activity).updateMessage(messageId)
+        }
+
+        fun updateWarning(activity: FragmentActivity, warningId: Int) {
+            retrieveAndShowProgressDialog(activity).updateWarning(warningId)
         }
     }
 }

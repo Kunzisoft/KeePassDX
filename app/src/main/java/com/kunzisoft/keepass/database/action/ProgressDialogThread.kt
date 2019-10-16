@@ -1,12 +1,10 @@
 package com.kunzisoft.keepass.database.action
 
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
+import android.content.Context.BIND_ABOVE_CLIENT
+import android.content.Context.BIND_NOT_FOREGROUND
 import android.net.Uri
-import android.os.Build
-import android.os.Bundle
+import android.os.*
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.*
@@ -23,38 +21,102 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_TASK_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CHECK_ACTION
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_MESSAGE_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_SUBTITLE_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_WARNING_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.RESULT_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.START_ACTION
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.STOP_ACTION
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.UPDATE_ACTION_ELEMENTS
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.UNDEFINED
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.DATABASE_CHECK_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
+
 class ProgressDialogThread(private val activity: FragmentActivity,
                            var onActionFinish: (actionTask: String,
-                                                        result: ActionRunnable.Result) -> Unit) {
+                                                result: ActionRunnable.Result) -> Unit) {
 
     private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
 
-    private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
-
     private var intentDatabaseTask = Intent(activity, DatabaseTaskNotificationService::class.java)
 
-    private fun startDialog(intent: Intent) {
+    private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
+
+    private var actionMessenger: Messenger? = null
+    private var serviceConnection = object: ServiceConnection {
+        override fun onServiceDisconnected(name: ComponentName?) {
+            actionMessenger = null
+        }
+
+        override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
+            actionMessenger = Messenger(serviceBinder)
+            try {
+                val message = Message.obtain(null, CHECK_ACTION)
+                message.replyTo = Messenger(ResponseHandler(activity, onActionFinish))
+                actionMessenger?.send(message)
+            } catch (e: RemoteException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
+    private class ResponseHandler(private val activity: FragmentActivity,
+                                  var onActionFinish: (actionTask: String,
+                                                       result: ActionRunnable.Result) -> Unit) : Handler() {
+        override fun handleMessage(message: Message) {
+            when (message.what) {
+                START_ACTION -> {
+                    TimeoutHelper.temporarilyDisableTimeout()
+                    ProgressTaskDialogFragment.start(activity,
+                            ProgressTaskDialogFragment.build())
+                }
+                STOP_ACTION -> {
+                    ProgressTaskDialogFragment.stop(activity)
+                    TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
+                    val dataBundle = message.data
+                    if (dataBundle != null
+                            && dataBundle.containsKey(ACTION_TASK_KEY)
+                            && dataBundle.containsKey(RESULT_KEY))
+                        onActionFinish.invoke(
+                                dataBundle.getString(ACTION_TASK_KEY)!!,
+                                ActionRunnable.Result.fromBundle(dataBundle.getBundle(RESULT_KEY)!!))
+                }
+                UPDATE_ACTION_ELEMENTS -> {
+                    // TODO better implementation
+                    val dataBundle = message.data
+                    if (dataBundle != null) {
+                        if (dataBundle.containsKey(DATABASE_TASK_TITLE_KEY))
+                            ProgressTaskDialogFragment.updateTitle(activity,
+                                    message.data.getInt(DATABASE_TASK_TITLE_KEY))
+                        if (dataBundle.containsKey(DATABASE_TASK_MESSAGE_KEY))
+                            ProgressTaskDialogFragment.updateMessage(activity,
+                                        message.data.getInt(DATABASE_TASK_MESSAGE_KEY))
+                        if (dataBundle.containsKey(DATABASE_TASK_WARNING_KEY))
+                            ProgressTaskDialogFragment.updateWarning(activity,
+                                    message.data.getInt(DATABASE_TASK_WARNING_KEY))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun startDialog(intent: Intent? = null) {
         TimeoutHelper.temporarilyDisableTimeout()
+
         // Show the dialog
-        progressTaskDialogFragment = ProgressTaskDialogFragment.build(
-                intent.getIntExtra(DATABASE_TASK_TITLE_KEY, R.string.loading_database),
-                intent.getIntExtra(DATABASE_TASK_SUBTITLE_KEY, ProgressTaskDialogFragment.UNDEFINED),
-                intent.getIntExtra(DATABASE_TASK_MESSAGE_KEY, ProgressTaskDialogFragment.UNDEFINED))
+        val title = intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, R.string.loading_database) ?: UNDEFINED
+        val subTitle = intent?.getIntExtra(DATABASE_TASK_WARNING_KEY, UNDEFINED) ?: UNDEFINED
+        val message = intent?.getIntExtra(DATABASE_TASK_MESSAGE_KEY, UNDEFINED) ?: UNDEFINED
+        progressTaskDialogFragment = ProgressTaskDialogFragment.build(title, subTitle, message)
         ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment!!)
     }
 
@@ -62,7 +124,6 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         // Remove the progress task
         ProgressTaskDialogFragment.stop(activity)
         TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
-        activity.stopService(intentDatabaseTask)
         if (intent != null
                 && intent.hasExtra(ACTION_TASK_KEY)
                 && intent.hasExtra(RESULT_KEY))
@@ -97,10 +158,12 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         )
 
         // Check if a service is currently running
-        activity.sendBroadcast(Intent(DATABASE_CHECK_TASK_ACTION))
+        activity.bindService(intentDatabaseTask, serviceConnection, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
     }
 
     fun unregisterProgressTask() {
+        activity.unbindService(serviceConnection)
+
         activity.unregisterReceiver(databaseTaskBroadcastReceiver)
     }
 

@@ -1,12 +1,8 @@
 package com.kunzisoft.keepass.notifications
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Bundle
+import android.os.*
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -18,12 +14,12 @@ import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.DATABASE_CHECK_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
+import android.os.Bundle
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
 
@@ -31,27 +27,44 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
 
-    private var checkBroadcastReceiver: BroadcastReceiver? = null
+    private var actionStatusHandler = ActionStatusHandler()
+    private var actionMessenger = Messenger(actionStatusHandler)
 
-    override fun onCreate() {
-        super.onCreate()
+    private class ActionStatusHandler: Handler() {
+        var titleId: Int? = null
+        var messageId: Int? = null
+        var warningId: Int? = null
 
-        checkBroadcastReceiver = object: BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                sendBroadcast(Intent(DATABASE_START_TASK_ACTION))
+        override fun handleMessage(message: Message?) {
+            when (message?.what) {
+                CHECK_ACTION -> {
+                    try {
+                        // Incoming data
+                        val response = Message.obtain(null, UPDATE_ACTION_ELEMENTS)
+                        response.data = Bundle().apply {
+                            titleId?.let {
+                                putInt(DATABASE_TASK_TITLE_KEY, it)
+                            }
+                            messageId?.let {
+                                putInt(DATABASE_TASK_MESSAGE_KEY, it)
+                            }
+                            warningId?.let {
+                                putInt(DATABASE_TASK_WARNING_KEY, it)
+                            }
+                        }
+                        message.replyTo?.send(response)
+                    } catch (e: RemoteException) {
+                        e.printStackTrace()
+                    }
+
+                }
+                else -> super.handleMessage(message)
             }
         }
-
-        registerReceiver(checkBroadcastReceiver, IntentFilter().apply {
-                    addAction(DATABASE_CHECK_TASK_ACTION)
-                }
-        )
     }
 
-    override fun onDestroy() {
-        unregisterReceiver(checkBroadcastReceiver)
-
-        super.onDestroy()
+    override fun onBind(intent: Intent): IBinder? {
+        return actionMessenger.binder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -72,13 +85,15 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
             else -> R.string.loading_database
         }
-        val subtitleId: Int? = when (intent.action) {
-            else -> null
-        }
         val messageId: Int? = when (intent.action) {
             ACTION_DATABASE_LOAD_TASK -> null
-            else -> R.string.do_not_kill_app
+            else -> null
         }
+        val warningId: Int? =
+                if (intent.action == ACTION_DATABASE_LOAD_TASK)
+                    null
+                else
+                    R.string.do_not_kill_app
 
         val actionRunnable: ActionRunnable? = when (intent.action) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
@@ -107,13 +122,16 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK,
             ACTION_DATABASE_MOVE_NODES_TASK,
             ACTION_DATABASE_DELETE_NODES_TASK -> {
+                actionStatusHandler.titleId = titleId
+                actionStatusHandler.messageId = messageId
+                actionStatusHandler.warningId = warningId
                 newNotification(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId))
                 actionRunnableAsyncTask = ActionRunnableAsyncTask(this,
                         {
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
                                 putExtra(DATABASE_TASK_TITLE_KEY, titleId)
-                                putExtra(DATABASE_TASK_SUBTITLE_KEY, subtitleId)
                                 putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, warningId)
                             })
 
                         }, { result ->
@@ -121,6 +139,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                 putExtra(ACTION_TASK_KEY, intent.action)
                                 putExtra(RESULT_KEY, result.toBundle())
                             })
+                            stopSelf()
                         }
                 )
                 actionRunnable?.let { actionRunnableNotNull ->
@@ -412,9 +431,13 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
 
+        const val START_ACTION = 42
+        const val STOP_ACTION = 43
+        const val CHECK_ACTION = 44
+        const val UPDATE_ACTION_ELEMENTS = 45
         const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
-        const val DATABASE_TASK_SUBTITLE_KEY = "DATABASE_TASK_SUBTITLE_KEY"
         const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
+        const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_SAVE_TASK = "ACTION_DATABASE_SAVE_TASK"
