@@ -114,6 +114,38 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         pwGroupV4?.afterAssignNewParent()
     }
 
+    fun addChildrenFrom(group: GroupVersioned) {
+        group.pwGroupV3?.getChildEntries()?.forEach { entryToAdd ->
+            pwGroupV3?.addChildEntry(entryToAdd)
+        }
+        group.pwGroupV3?.getChildGroups()?.forEach { groupToAdd ->
+            pwGroupV3?.addChildGroup(groupToAdd)
+        }
+
+        group.pwGroupV4?.getChildEntries()?.forEach { entryToAdd ->
+            pwGroupV4?.addChildEntry(entryToAdd)
+        }
+        group.pwGroupV4?.getChildGroups()?.forEach { groupToAdd ->
+            pwGroupV4?.addChildGroup(groupToAdd)
+        }
+    }
+
+    fun removeChildren() {
+        pwGroupV3?.getChildEntries()?.forEach { entryToRemove ->
+            pwGroupV3?.removeChildEntry(entryToRemove)
+        }
+        pwGroupV3?.getChildGroups()?.forEach { groupToRemove ->
+            pwGroupV3?.removeChildGroup(groupToRemove)
+        }
+
+        pwGroupV4?.getChildEntries()?.forEach { entryToRemove ->
+            pwGroupV4?.removeChildEntry(entryToRemove)
+        }
+        pwGroupV4?.getChildGroups()?.forEach { groupToRemove ->
+            pwGroupV4?.removeChildGroup(groupToRemove)
+        }
+    }
+
     override fun touch(modified: Boolean, touchParents: Boolean) {
         pwGroupV3?.touch(modified, touchParents)
         pwGroupV4?.touch(modified, touchParents)

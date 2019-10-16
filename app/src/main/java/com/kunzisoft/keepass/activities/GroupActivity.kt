@@ -749,11 +749,15 @@ class GroupActivity : LockingActivity(),
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
                         GroupVersioned(oldGroupToUpdate).let { updateGroup ->
-                            updateGroup.title = name
-                            // TODO custom icon
-                            updateGroup.icon = icon
+                            updateGroup.apply {
+                                // WARNING remove parent and children to keep memory
+                                removeParent()
+                                removeChildren()
 
-                            mListNodesFragment?.removeNode(oldGroupToUpdate)
+                                title = name
+                                this.icon = icon // TODO custom icon
+                            }
+
                             // If group updated save it in the database
                             progressDialogThread?.startDatabaseUpdateGroup(
                                     oldGroupToUpdate, updateGroup, !mReadOnly)

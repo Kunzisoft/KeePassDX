@@ -14,6 +14,14 @@ interface NodeVersioned: PwNodeInterface<GroupVersioned> {
             }
             return -1
         }
+
+    fun addParentFrom(node: NodeVersioned) {
+        parent = node.parent
+    }
+
+    fun removeParent() {
+        parent = null
+    }
 }
 
 /**

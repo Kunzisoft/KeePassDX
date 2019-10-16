@@ -37,11 +37,15 @@ class UpdateGroupRunnable constructor(
     private val mBackupGroup: GroupVersioned = GroupVersioned(mOldGroup)
 
     override fun nodeAction() {
+        // WARNING : Re attribute parent and children removed in group activity to save memory
+        mNewGroup.addParentFrom(mOldGroup)
+        mNewGroup.addChildrenFrom(mOldGroup)
+
         // Update group with new values
         mOldGroup.updateWith(mNewGroup)
         mOldGroup.touch(modified = true, touchParents = true)
 
-        // Only change data un index
+        // Only change data in index
         database.updateGroup(mOldGroup)
     }
 

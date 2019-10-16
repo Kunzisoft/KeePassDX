@@ -38,7 +38,7 @@ class UpdateEntryRunnable constructor(
 
     override fun nodeAction() {
         // WARNING : Re attribute parent removed in entry edit activity to save memory
-        mNewEntry.parent = mOldEntry.parent
+        mNewEntry.addParentFrom(mOldEntry)
 
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
@@ -46,10 +46,9 @@ class UpdateEntryRunnable constructor(
 
         // Create an entry history (an entry history don't have history)
         mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
-
         database.removeOldestHistory(mOldEntry)
 
-        // Only change data un index
+        // Only change data in index
         database.updateEntry(mOldEntry)
     }
 

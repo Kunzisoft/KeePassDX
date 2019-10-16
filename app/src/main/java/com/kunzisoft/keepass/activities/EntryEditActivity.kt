@@ -111,7 +111,7 @@ class EntryEditActivity : LockingHideActivity(),
                     // Create a copy to modify
                     mNewEntry = EntryVersioned(entry).also { newEntry ->
                         // WARNING Remove the parent to keep memory with parcelable
-                        newEntry.parent = null
+                        newEntry.removeParent()
                     }
                 }
             }
