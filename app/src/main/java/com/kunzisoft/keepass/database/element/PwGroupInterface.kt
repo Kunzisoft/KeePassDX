@@ -12,10 +12,6 @@ interface PwGroupInterface<Group: PwGroupInterface<Group, Entry>, Entry> : PwNod
 
     fun addChildEntry(entry: Entry)
 
-    fun updateChildEntry(entry: Entry)
-
-    fun updateChildGroup(group: Group)
-
     fun removeChildGroup(group: Group)
 
     fun removeChildEntry(entry: Entry)

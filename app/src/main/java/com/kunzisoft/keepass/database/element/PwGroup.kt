@@ -57,14 +57,6 @@ abstract class PwGroup
         this.childEntries[entry.nodeId] = entry
     }
 
-    override fun updateChildEntry(entry: Entry) {
-        this.childEntries[entry.nodeId] = entry
-    }
-
-    override fun updateChildGroup(group: Group) {
-        this.childGroups[group.nodeId] = group
-    }
-
     override fun removeChildGroup(group: Group) {
         this.childGroups.remove(group.nodeId)
     }

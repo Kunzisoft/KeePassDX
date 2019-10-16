@@ -70,7 +70,7 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         dest.writeParcelable(pwGroupV4, flags)
     }
 
-    val nodeId: PwNodeId<*>?
+    override val nodeId: PwNodeId<*>?
         get() = pwGroupV4?.nodeId ?: pwGroupV3?.nodeId
 
     override var title: String
@@ -234,24 +234,6 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         }
         entry.pwEntryV4?.let {
             pwGroupV4?.addChildEntry(it)
-        }
-    }
-
-    override fun updateChildGroup(group: GroupVersioned) {
-        group.pwGroupV3?.let {
-            pwGroupV3?.updateChildGroup(it)
-        }
-        group.pwGroupV4?.let {
-            pwGroupV4?.updateChildGroup(it)
-        }
-    }
-
-    override fun updateChildEntry(entry: EntryVersioned) {
-        entry.pwEntryV3?.let {
-            pwGroupV3?.updateChildEntry(it)
-        }
-        entry.pwEntryV4?.let {
-            pwGroupV4?.updateChildEntry(it)
         }
     }
 

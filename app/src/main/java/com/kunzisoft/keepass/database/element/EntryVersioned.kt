@@ -61,7 +61,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         dest.writeParcelable(pwEntryV4, flags)
     }
 
-    var nodeId: PwNodeId<UUID>
+    override var nodeId: PwNodeId<UUID>
         get() = pwEntryV4?.nodeId ?: pwEntryV3?.nodeId ?: PwNodeIdUUID()
         set(value) {
             pwEntryV3?.nodeId = value

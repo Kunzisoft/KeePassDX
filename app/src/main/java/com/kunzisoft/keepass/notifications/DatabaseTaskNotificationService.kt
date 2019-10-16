@@ -260,10 +260,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getGroupById(intent.getParcelableExtra(GROUP_ID_KEY))?.let { oldGroup ->
+                val newGroup: GroupVersioned = intent.getParcelableExtra(GROUP_KEY)
                 UpdateGroupRunnable(this,
                         database,
                         oldGroup,
-                        intent.getParcelableExtra(GROUP_KEY),
+                        newGroup,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodeRunnable())
             }
@@ -298,10 +299,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { oldEntry ->
+                val newEntry: EntryVersioned = intent.getParcelableExtra(ENTRY_KEY)
                 UpdateEntryRunnable(this,
                         database,
                         oldEntry,
-                        intent.getParcelableExtra(ENTRY_KEY),
+                        newEntry,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodeRunnable())
             }

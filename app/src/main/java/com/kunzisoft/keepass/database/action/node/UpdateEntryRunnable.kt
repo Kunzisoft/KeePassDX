@@ -37,6 +37,9 @@ class UpdateEntryRunnable constructor(
     private var mBackupEntryHistory: EntryVersioned = EntryVersioned(mOldEntry)
 
     override fun nodeAction() {
+        // WARNING : Re attribute parent removed in entry edit activity to save memory
+        mNewEntry.parent = mOldEntry.parent
+
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
         mNewEntry.touch(modified = true, touchParents = true)

@@ -341,7 +341,6 @@ abstract class PwDatabase<
     }
 
     fun updateGroup(group: Group) {
-        getGroupById(group.nodeId)?.parent?.updateChildGroup(group)
         updateGroupIndex(group)
     }
 
@@ -359,7 +358,6 @@ abstract class PwDatabase<
     }
 
     fun updateEntry(entry: Entry) {
-        getEntryById(entry.nodeId)?.parent?.updateChildEntry(entry)
         updateEntryIndex(entry)
     }
 
