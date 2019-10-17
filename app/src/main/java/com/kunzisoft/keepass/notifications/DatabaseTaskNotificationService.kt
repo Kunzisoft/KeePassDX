@@ -16,11 +16,11 @@ import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
 import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -233,23 +233,22 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
                 && intent.hasExtra(CIPHER_ENTITY_KEY)
-                && intent.hasExtra(CACHE_DIR_KEY)
-                && intent.hasExtra(OMIT_BACKUP_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
+            val database = Database.getInstance()
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
             val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
             return LoadDatabaseRunnable(
-                    Database.getInstance(),
+                    this,
+                    database,
                     databaseUri,
                     masterPassword,
                     keyFileUri,
-                    contentResolver,
-                    intent.getSerializableExtra(CACHE_DIR_KEY) as File,
-                    intent.getBooleanExtra(OMIT_BACKUP_KEY, false),
+                    cipherEntity,
+                    PreferencesUtil.omitBackup(this),
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                     this,
                     object: ActionRunnable() {
@@ -485,8 +484,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
         const val KEY_FILE_KEY = "KEY_FILE_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
-        const val CACHE_DIR_KEY = "CACHE_DIR_KEY"
-        const val OMIT_BACKUP_KEY = "OMIT_BACKUP_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"
         const val GROUP_KEY = "GROUP_KEY"
         const val ENTRY_KEY = "ENTRY_KEY"

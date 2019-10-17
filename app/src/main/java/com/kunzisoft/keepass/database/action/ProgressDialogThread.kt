@@ -29,7 +29,6 @@ import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.retrieve
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
-import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -119,6 +118,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     }
 
     fun registerProgressTask() {
+        ProgressTaskDialogFragment.stop(activity)
 
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
@@ -193,16 +193,12 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                           masterPassword: String?,
                           keyFile: Uri?,
                           cipherEntity: CipherDatabaseEntity?,
-                          filesDir: File,
-                          omitBackup: Boolean,
                           fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
             putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
-            putSerializable(DatabaseTaskNotificationService.CACHE_DIR_KEY, filesDir)
-            putBoolean(DatabaseTaskNotificationService.OMIT_BACKUP_KEY, omitBackup)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }
                 , ACTION_DATABASE_LOAD_TASK)

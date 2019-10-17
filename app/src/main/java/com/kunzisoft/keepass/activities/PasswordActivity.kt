@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -49,13 +48,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -64,8 +61,11 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -180,36 +180,31 @@ class PasswordActivity : StylishActivity() {
                     var cipherEntity: CipherDatabaseEntity? = null
 
                     result.data?.let { resultData ->
-                        databaseUri = resultData.getParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY)
-                        masterPassword = resultData.getString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY)
-                        keyFileUri = resultData.getParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY)
-                        cipherEntity = resultData.getParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY)
+                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                        masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
+                        keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
                     }
 
                     databaseUri?.let { databaseFileUri ->
+                        // Remove the password in view in all cases
+                        removePassword()
+
                         if (result.isSuccess) {
-                            // Save keyFile in app database
-                            if (mRememberKeyFile) {
-                                saveKeyFileData(databaseFileUri, mDatabaseKeyFileUri)
-                            }
-
-                            // Remove the password in view in all cases
-                            removePassword()
-
-                            // Register the biometric
-                            cipherEntity?.let { cipherDatabaseEntity ->
-                                CipherDatabaseAction.getInstance(this@PasswordActivity)
-                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                            checkAndLaunchGroupActivity(Database.getInstance(),
-                                                    masterPassword,
-                                                    keyFileUri)
+                            EntrySelectionHelper.doEntrySelectionAction(intent,
+                                    {
+                                        GroupActivity.launch(this@PasswordActivity, readOnly)
+                                    },
+                                    {
+                                        GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                                        // Do not keep history
+                                        finish()
+                                    },
+                                    { assistStructure ->
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
                                         }
-                            } ?: run {
-                                checkAndLaunchGroupActivity(Database.getInstance(),
-                                        masterPassword,
-                                        keyFileUri)
-                            }
-
+                                    })
                         } else {
                             var resultError = ""
                             val resultException = result.exception
@@ -509,10 +504,6 @@ class PasswordActivity : StylishActivity() {
             removePassword()
         }
 
-        // Clear before we load
-        val database = Database.getInstance()
-        database.closeAndClear(applicationContext.filesDir)
-
         databaseFileUri?.let { databaseUri ->
             // Show the progress dialog and load the database
             showProgressDialogAndLoadDatabase(
@@ -534,8 +525,6 @@ class PasswordActivity : StylishActivity() {
                 password,
                 keyFile,
                 cipherDatabaseEntity,
-                filesDir,
-                PreferencesUtil.omitBackup(this@PasswordActivity),
                 fixDuplicateUUID
         )
     }
@@ -544,44 +533,6 @@ class PasswordActivity : StylishActivity() {
         DuplicateUuidDialog().apply {
             positiveAction = loadDatabaseWithFix
         }.show(supportFragmentManager, "duplicateUUIDDialog")
-    }
-
-    private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {
-        var keyFileUri = keyUri
-        if (!mRememberKeyFile) {
-            keyFileUri = null
-        }
-        FileDatabaseHistoryAction.getInstance(this).addOrUpdateDatabaseUri(databaseUri, keyFileUri)
-    }
-
-    private fun checkAndLaunchGroupActivity(database: Database, password: String?, keyFileUri: Uri?) {
-        if (database.validatePasswordEncoding(password, keyFileUri != null)) {
-            launchGroupActivity()
-        } else {
-            PasswordEncodingDialogFragment().apply {
-                positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                    launchGroupActivity()
-                }
-                show(supportFragmentManager, "passwordEncodingTag")
-            }
-        }
-    }
-
-    private fun launchGroupActivity() {
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
-                    GroupActivity.launch(this@PasswordActivity, readOnly)
-                },
-                {
-                    GroupActivity.launchForKeyboarSelection(this@PasswordActivity, readOnly)
-                    // Do not keep history
-                    finish()
-                },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
-                    }
-                })
     }
 
     // To fix multiple view education

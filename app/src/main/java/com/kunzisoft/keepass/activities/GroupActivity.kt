@@ -878,13 +878,18 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildAndLaunchIntent(activity: Activity, group: GroupVersioned?, readOnly: Boolean,
+        private fun buildAndLaunchIntent(context: Context, group: GroupVersioned?, readOnly: Boolean,
                                          intentBuildLauncher: (Intent) -> Unit) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, GroupActivity::class.java)
+            val checkTime = if (context is Activity)
+                TimeoutHelper.checkTimeAndLockIfTimeout(context)
+            else
+                TimeoutHelper.checkTime(context)
+            if (checkTime) {
+                val intent = Intent(context, GroupActivity::class.java)
                 if (group != null) {
                     intent.putExtra(GROUP_ID_KEY, group.nodeId)
                 }
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 intentBuildLauncher.invoke(intent)
             }
@@ -897,10 +902,10 @@ class GroupActivity : LockingActivity(),
          */
 
         @JvmOverloads
-        fun launch(activity: Activity, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                activity.startActivity(intent)
+        fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                context.startActivity(intent)
             }
         }
 
@@ -911,10 +916,10 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboarSelection(activity: Activity, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+        fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
 

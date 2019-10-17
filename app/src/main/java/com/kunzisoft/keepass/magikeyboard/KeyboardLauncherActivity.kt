@@ -12,7 +12,7 @@ class KeyboardLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         if (Database.getInstance().loaded && TimeoutHelper.checkTime(this))
-            GroupActivity.launchForKeyboarSelection(this, PreferencesUtil.enableReadOnlyDatabase(this))
+            GroupActivity.launchForKeyboardSelection(this, PreferencesUtil.enableReadOnlyDatabase(this))
         else {
             // Pass extra to get entry
             FileDatabaseSelectActivity.launchForKeyboardSelection(this)

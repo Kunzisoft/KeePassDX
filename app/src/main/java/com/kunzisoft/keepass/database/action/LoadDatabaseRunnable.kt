@@ -19,35 +19,63 @@
  */
 package com.kunzisoft.keepass.database.action
 
-import android.content.ContentResolver
+import android.content.Context
 import android.net.Uri
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import java.io.File
 
-class LoadDatabaseRunnable(private val mDatabase: Database,
+class LoadDatabaseRunnable(private val context: Context,
+                           private val mDatabase: Database,
                            private val mUri: Uri,
                            private val mPass: String?,
                            private val mKey: Uri?,
-                           private val contentResolver: ContentResolver,
-                           private val cacheDirectory: File,
+                           private val mCipherEntity: CipherDatabaseEntity?,
                            private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            actionFinishRunnable: ActionRunnable?)
     : ActionRunnable(actionFinishRunnable, executeNestedActionIfResultFalse = true) {
 
+    private val cacheDirectory = context.applicationContext.filesDir
+
     override fun run() {
         try {
+            // Clear before we load
+            mDatabase.closeAndClear(cacheDirectory)
+
             mDatabase.loadData(mUri, mPass, mKey,
-                    contentResolver,
+                    context.contentResolver,
                     cacheDirectory,
                     mOmitBackup,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
-            finishRun(true)
+
+            // Save keyFile in app database
+            val rememberKeyFile = PreferencesUtil.rememberKeyFiles(context)
+            if (rememberKeyFile) {
+                var keyUri = mKey
+                if (!rememberKeyFile) {
+                    keyUri = null
+                }
+                FileDatabaseHistoryAction.getInstance(context)
+                        .addOrUpdateDatabaseUri(mUri, keyUri)
+            }
+
+            // Register the biometric
+            mCipherEntity?.let { cipherDatabaseEntity ->
+                CipherDatabaseAction.getInstance(context)
+                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                            finishRun(true)
+                        }
+            } ?: run {
+                finishRun(true)
+            }
         }
         catch (e: LoadDatabaseException) {
             finishRun(false, e)
