@@ -110,13 +110,9 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         const val UNDEFINED = -1
 
-        fun build(@StringRes titleId: Int? = null,
-                  @StringRes messageId: Int? = null,
-                  @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
-            // Create an instance of the dialog fragment and show it
-            val dialog = ProgressTaskDialogFragment()
-            update(dialog, titleId, messageId, warningId)
-            return dialog
+        fun build(): ProgressTaskDialogFragment {
+            // Create an instance of the dialog fragment
+            return ProgressTaskDialogFragment()
         }
 
         fun start(activity: FragmentActivity,
@@ -133,23 +129,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         fun stop(activity: FragmentActivity) {
             retrieveProgressDialog(activity)?.dismissAllowingStateLoss()
-        }
-
-        fun update(dialog: ProgressTaskDialogFragment,
-                   titleId: Int?,
-                   messageId: Int?,
-                   warningId: Int?) {
-            dialog.apply {
-                titleId?.let {
-                    updateTitle(it)
-                }
-                messageId?.let {
-                    updateMessage(it)
-                }
-                warningId?.let {
-                    updateWarning(it)
-                }
-            }
         }
     }
 }

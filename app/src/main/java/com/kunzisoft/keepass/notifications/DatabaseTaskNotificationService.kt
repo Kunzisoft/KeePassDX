@@ -176,7 +176,10 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun updateMessage(resId: Int) {
-        // TODO
+        mMessageId = resId
+        mActionTaskListeners.forEach { actionTaskListener ->
+            actionTaskListener.onUpdateAction(mTitleId, mMessageId, mWarningId)
+        }
     }
 
     private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
