@@ -111,13 +111,17 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         override fun onAuthenticationError(
                 errorCode: Int,
                 errString: CharSequence) {
-            Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
-            setAdvancedUnlockedMessageView(errString.toString())
+            context.runOnUiThread {
+                Log.e(TAG, "Biometric authentication error. Code : $errorCode Error : $errString")
+                setAdvancedUnlockedMessageView(errString.toString())
+            }
         }
 
         override fun onAuthenticationFailed() {
-            Log.e(TAG, "Biometric authentication failed, biometric not recognized")
-            setAdvancedUnlockedMessageView(R.string.biometric_not_recognized)
+            context.runOnUiThread {
+                Log.e(TAG, "Biometric authentication failed, biometric not recognized")
+                setAdvancedUnlockedMessageView(R.string.biometric_not_recognized)
+            }
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
