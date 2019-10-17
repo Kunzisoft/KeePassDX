@@ -55,6 +55,7 @@ import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -165,7 +166,6 @@ class PasswordActivity : StylishActivity() {
         progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_LOAD_TASK -> {
-                    // TODO
                     // Recheck fingerprint if error
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
@@ -177,11 +177,13 @@ class PasswordActivity : StylishActivity() {
                     var databaseUri: Uri? = null
                     var masterPassword: String? = null
                     var keyFileUri: Uri? = null
+                    var cipherEntity: CipherDatabaseEntity? = null
 
                     result.data?.let { resultData ->
                         databaseUri = resultData.getParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY)
                         masterPassword = resultData.getString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY)
                         keyFileUri = resultData.getParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY)
+                        cipherEntity = resultData.getParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY)
                     }
 
                     databaseUri?.let { databaseFileUri ->
@@ -195,22 +197,18 @@ class PasswordActivity : StylishActivity() {
                             removePassword()
 
                             // Register the biometric
-                            // TODO Cipher
-                            /*
-                            if (cipherDatabaseEntity != null) {
+                            cipherEntity?.let { cipherDatabaseEntity ->
                                 CipherDatabaseAction.getInstance(this@PasswordActivity)
                                         .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
                                             checkAndLaunchGroupActivity(Database.getInstance(),
                                                     masterPassword,
                                                     keyFileUri)
                                         }
-                            } else {
-
-                             */
-                            checkAndLaunchGroupActivity(Database.getInstance(),
-                                    masterPassword,
-                                    keyFileUri)
-                            //}
+                            } ?: run {
+                                checkAndLaunchGroupActivity(Database.getInstance(),
+                                        masterPassword,
+                                        keyFileUri)
+                            }
 
                         } else {
                             var resultError = ""
@@ -225,6 +223,7 @@ class PasswordActivity : StylishActivity() {
                                                 databaseFileUri,
                                                 masterPassword,
                                                 keyFileUri,
+                                                cipherEntity,
                                                 true)
                                     }
                             }
@@ -235,7 +234,9 @@ class PasswordActivity : StylishActivity() {
 
                             Log.e(TAG, resultError, resultException)
 
-                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
+                            Snackbar.make(activity_password_coordinator_layout,
+                                    resultError,
+                                    Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
                 }
@@ -518,6 +519,7 @@ class PasswordActivity : StylishActivity() {
                     databaseUri,
                     password,
                     keyFileUri,
+                    cipherDatabaseEntity,
                     false)
         }
     }
@@ -525,11 +527,13 @@ class PasswordActivity : StylishActivity() {
     private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
                                                   password: String?,
                                                   keyFile: Uri?,
+                                                  cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
         progressDialogThread?.startDatabaseLoad(
                 databaseUri,
                 password,
                 keyFile,
+                cipherDatabaseEntity,
                 filesDir,
                 PreferencesUtil.omitBackup(this@PasswordActivity),
                 fixDuplicateUUID

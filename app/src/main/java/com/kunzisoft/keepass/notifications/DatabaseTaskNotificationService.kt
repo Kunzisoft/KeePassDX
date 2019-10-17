@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
@@ -228,6 +229,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
+                && intent.hasExtra(CIPHER_ENTITY_KEY)
                 && intent.hasExtra(CACHE_DIR_KEY)
                 && intent.hasExtra(OMIT_BACKUP_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
@@ -235,6 +237,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
             val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
+            val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
             return LoadDatabaseRunnable(
                     Database.getInstance(),
@@ -252,6 +255,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                 putParcelable(DATABASE_URI_KEY, databaseUri)
                                 putString(MASTER_PASSWORD_KEY, masterPassword)
                                 putParcelable(KEY_FILE_KEY, keyFileUri)
+                                putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
                             }
                         }
                     })
@@ -477,6 +481,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
         const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
         const val KEY_FILE_KEY = "KEY_FILE_KEY"
+        const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val CACHE_DIR_KEY = "CACHE_DIR_KEY"
         const val OMIT_BACKUP_KEY = "OMIT_BACKUP_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"

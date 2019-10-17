@@ -121,20 +121,26 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         }
 
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-            when (biometricMode) {
-                Mode.UNAVAILABLE -> {}
-                Mode.PAUSE -> {}
-                Mode.NOT_CONFIGURED -> {}
-                Mode.WAIT_CREDENTIAL -> {}
-                Mode.STORE -> {
-                    // newly store the entered password in encrypted way
-                    biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
-                }
-                Mode.OPEN -> {
-                    // retrieve the encrypted value from preferences
-                    cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
-                        it?.encryptedValue?.let { value ->
-                            biometricUnlockDatabaseHelper?.decryptData(value)
+            context.runOnUiThread {
+                when (biometricMode) {
+                    Mode.UNAVAILABLE -> {
+                    }
+                    Mode.PAUSE -> {
+                    }
+                    Mode.NOT_CONFIGURED -> {
+                    }
+                    Mode.WAIT_CREDENTIAL -> {
+                    }
+                    Mode.STORE -> {
+                        // newly store the entered password in encrypted way
+                        biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
+                    }
+                    Mode.OPEN -> {
+                        // retrieve the encrypted value from preferences
+                        cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
+                            it?.encryptedValue?.let { value ->
+                                biometricUnlockDatabaseHelper?.decryptData(value)
+                            }
                         }
                     }
                 }

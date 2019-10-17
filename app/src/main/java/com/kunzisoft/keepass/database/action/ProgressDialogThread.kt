@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
@@ -49,20 +50,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
 
-    private var serviceConnection = object: ServiceConnection {
-
-        override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
-            mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder).apply {
-                addActionTaskListener(actionTaskListener)
-                getService().checkAction()
-            }
-        }
-
-        override fun onServiceDisconnected(name: ComponentName?) {
-            mBinder?.removeActionTaskListener(actionTaskListener)
-            mBinder = null
-        }
-    }
+    private var serviceConnection: ServiceConnection? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
@@ -101,7 +89,38 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
     }
 
+    private fun bindService() {
+        serviceConnection?.let {
+            activity.bindService(intentDatabaseTask, it, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+        }
+    }
+
+    /**
+     * Unbind the service and assign null to the service connection to check if already unbind or not
+     */
+    private fun unBindService() {
+        serviceConnection?.let {
+            activity.unbindService(it)
+        }
+        serviceConnection = null
+    }
+
     fun registerProgressTask() {
+
+        serviceConnection = object: ServiceConnection {
+            override fun onServiceConnected(name: ComponentName?, serviceBinder: IBinder?) {
+                mBinder = (serviceBinder as DatabaseTaskNotificationService.ActionTaskBinder).apply {
+                    addActionTaskListener(actionTaskListener)
+                    getService().checkAction()
+                }
+            }
+
+            override fun onServiceDisconnected(name: ComponentName?) {
+                mBinder?.removeActionTaskListener(actionTaskListener)
+                mBinder = null
+            }
+        }
+
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -116,10 +135,10 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                             startDialog(title, message, warning)
 
                             // Bind to the service when is starting
-                            activity.bindService(intentDatabaseTask, serviceConnection, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+                            bindService()
                         }
                         DATABASE_STOP_TASK_ACTION -> {
-                            activity.unbindService(serviceConnection)
+                            unBindService()
 
                             stopDialog()
                         }
@@ -135,14 +154,14 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         )
 
         // Check if a service is currently running else do nothing
-        activity.bindService(intentDatabaseTask, serviceConnection, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
+        bindService()
     }
 
     fun unregisterProgressTask() {
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
 
-        activity.unbindService(serviceConnection)
+        unBindService()
 
         activity.unregisterReceiver(databaseTaskBroadcastReceiver)
     }
@@ -183,6 +202,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     fun startDatabaseLoad(databaseUri: Uri,
                           masterPassword: String?,
                           keyFile: Uri?,
+                          cipherEntity: CipherDatabaseEntity?,
                           filesDir: File,
                           omitBackup: Boolean,
                           fixDuplicateUuid: Boolean) {
@@ -190,6 +210,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
             putSerializable(DatabaseTaskNotificationService.CACHE_DIR_KEY, filesDir)
             putBoolean(DatabaseTaskNotificationService.OMIT_BACKUP_KEY, omitBackup)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
