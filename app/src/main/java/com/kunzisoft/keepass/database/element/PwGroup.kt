@@ -13,9 +13,9 @@ abstract class PwGroup
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = LinkedHashMap<PwNodeId<GroupId>, Group>()
+    private val childGroups = ArrayList<Group>()
     @Transient
-    private val childEntries = LinkedHashMap<PwNodeId<EntryId>, Entry>()
+    private val childEntries = ArrayList<Entry>()
 
     constructor() : super()
 
@@ -32,9 +32,9 @@ abstract class PwGroup
         super.updateWith(source)
         titleGroup = source.titleGroup
         childGroups.clear()
-        childGroups.putAll(source.childGroups)
+        childGroups.addAll(source.childGroups)
         childEntries.clear()
-        childEntries.putAll(source.childEntries)
+        childEntries.addAll(source.childEntries)
     }
 
     override var title: String
@@ -42,27 +42,31 @@ abstract class PwGroup
         set(value) { titleGroup = value }
 
     override fun getChildGroups(): MutableList<Group> {
-        return childGroups.values.toMutableList()
+        return childGroups
     }
 
     override fun getChildEntries(): MutableList<Entry> {
-        return childEntries.values.toMutableList()
+        return childEntries
     }
 
     override fun addChildGroup(group: Group) {
-        this.childGroups[group.nodeId] = group
+        if (childGroups.contains(group))
+            removeChildGroup(group)
+        this.childGroups.add(group)
     }
 
     override fun addChildEntry(entry: Entry) {
-        this.childEntries[entry.nodeId] = entry
+        if (childEntries.contains(entry))
+            removeChildEntry(entry)
+        this.childEntries.add(entry)
     }
 
     override fun removeChildGroup(group: Group) {
-        this.childGroups.remove(group.nodeId)
+        this.childGroups.remove(group)
     }
 
     override fun removeChildEntry(entry: Entry) {
-        this.childEntries.remove(entry.nodeId)
+        this.childEntries.remove(entry)
     }
 
     override fun toString(): String {
