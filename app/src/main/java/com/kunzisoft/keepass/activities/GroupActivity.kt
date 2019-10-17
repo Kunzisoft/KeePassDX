@@ -889,7 +889,6 @@ class GroupActivity : LockingActivity(),
                 if (group != null) {
                     intent.putExtra(GROUP_ID_KEY, group.nodeId)
                 }
-                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
                 intentBuildLauncher.invoke(intent)
             }

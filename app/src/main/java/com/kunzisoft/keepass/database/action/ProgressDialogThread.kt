@@ -118,6 +118,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     }
 
     fun registerProgressTask() {
+        ProgressTaskDialogFragment.stop(activity)
+
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
