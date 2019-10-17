@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -232,6 +233,23 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
     }
 
+    private fun launchGroupActivity(readOnly: Boolean) {
+        EntrySelectionHelper.doEntrySelectionAction(intent,
+                {
+                    GroupActivity.launch(this@FileDatabaseSelectActivity, readOnly)
+                },
+                {
+                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity, readOnly)
+                    // Do not keep history
+                    finish()
+                },
+                { assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity, assistStructure, readOnly)
+                    }
+                })
+    }
+
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null)
         // Delete flickering for kitkat <=
@@ -259,6 +277,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onResume() {
+        val database = Database.getInstance()
+        if (database.loaded) {
+            launchGroupActivity(database.isReadOnly)
+        }
+
         super.onResume()
 
         updateExternalStorageWarning()

@@ -118,8 +118,6 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     }
 
     fun registerProgressTask() {
-        ProgressTaskDialogFragment.stop(activity)
-
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
@@ -148,6 +146,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     }
 
     fun unregisterProgressTask() {
+        ProgressTaskDialogFragment.stop(activity)
+
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
 
@@ -192,12 +192,14 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     fun startDatabaseLoad(databaseUri: Uri,
                           masterPassword: String?,
                           keyFile: Uri?,
+                          readOnly: Boolean,
                           cipherEntity: CipherDatabaseEntity?,
                           fixDuplicateUuid: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putBoolean(DatabaseTaskNotificationService.READ_ONLY_KEY, readOnly)
             putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
         }

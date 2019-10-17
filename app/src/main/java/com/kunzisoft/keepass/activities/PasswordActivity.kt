@@ -66,6 +66,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -177,12 +178,14 @@ class PasswordActivity : StylishActivity() {
                     var databaseUri: Uri? = null
                     var masterPassword: String? = null
                     var keyFileUri: Uri? = null
+                    var readOnly = true
                     var cipherEntity: CipherDatabaseEntity? = null
 
                     result.data?.let { resultData ->
                         databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
                         masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
                         keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
                         cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
                     }
 
@@ -191,20 +194,7 @@ class PasswordActivity : StylishActivity() {
                         removePassword()
 
                         if (result.isSuccess) {
-                            EntrySelectionHelper.doEntrySelectionAction(intent,
-                                    {
-                                        GroupActivity.launch(this@PasswordActivity, readOnly)
-                                    },
-                                    {
-                                        GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
-                                        // Do not keep history
-                                        finish()
-                                    },
-                                    { assistStructure ->
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
-                                        }
-                                    })
+                            launchGroupActivity()
                         } else {
                             var resultError = ""
                             val resultException = result.exception
@@ -218,6 +208,7 @@ class PasswordActivity : StylishActivity() {
                                                 databaseFileUri,
                                                 masterPassword,
                                                 keyFileUri,
+                                                readOnly,
                                                 cipherEntity,
                                                 true)
                                     }
@@ -239,6 +230,23 @@ class PasswordActivity : StylishActivity() {
         }
     }
 
+    private fun launchGroupActivity() {
+        EntrySelectionHelper.doEntrySelectionAction(intent,
+                {
+                    GroupActivity.launch(this@PasswordActivity, readOnly)
+                },
+                {
+                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    // Do not keep history
+                    finish()
+                },
+                { assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
+                    }
+                })
+    }
+
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
         override fun onEditorAction(v: TextView?, actionId: Int, event: KeyEvent?): Boolean {
             if (actionId == IME_ACTION_DONE) {
@@ -250,6 +258,9 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
+        if (Database.getInstance().loaded)
+            launchGroupActivity()
+
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
         if (Database.getInstance().loaded) {
@@ -510,6 +521,7 @@ class PasswordActivity : StylishActivity() {
                     databaseUri,
                     password,
                     keyFileUri,
+                    readOnly,
                     cipherDatabaseEntity,
                     false)
         }
@@ -518,12 +530,14 @@ class PasswordActivity : StylishActivity() {
     private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
                                                   password: String?,
                                                   keyFile: Uri?,
+                                                  readOnly: Boolean,
                                                   cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
         progressDialogThread?.startDatabaseLoad(
                 databaseUri,
                 password,
                 keyFile,
+                readOnly,
                 cipherDatabaseEntity,
                 fixDuplicateUUID
         )

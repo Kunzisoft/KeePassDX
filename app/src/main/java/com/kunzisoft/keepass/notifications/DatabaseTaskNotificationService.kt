@@ -232,6 +232,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
+                && intent.hasExtra(READ_ONLY_KEY)
                 && intent.hasExtra(CIPHER_ENTITY_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
@@ -239,6 +240,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
             val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
+            val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
             return LoadDatabaseRunnable(
@@ -247,6 +249,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     databaseUri,
                     masterPassword,
                     keyFileUri,
+                    readOnly,
                     cipherEntity,
                     PreferencesUtil.omitBackup(this),
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
@@ -257,6 +260,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                 putParcelable(DATABASE_URI_KEY, databaseUri)
                                 putString(MASTER_PASSWORD_KEY, masterPassword)
                                 putParcelable(KEY_FILE_KEY, keyFileUri)
+                                putBoolean(READ_ONLY_KEY, readOnly)
                                 putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
                             }
                         }
@@ -483,6 +487,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
         const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
         const val KEY_FILE_KEY = "KEY_FILE_KEY"
+        const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"
         const val GROUP_KEY = "GROUP_KEY"

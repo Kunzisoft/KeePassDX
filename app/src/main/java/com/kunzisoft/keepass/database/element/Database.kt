@@ -288,6 +288,7 @@ class Database {
 
     @Throws(LoadDatabaseException::class)
     fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+                 readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
                  omitBackup: Boolean,
@@ -295,7 +296,7 @@ class Database {
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
         mUri = uri
-        isReadOnly = false
+        isReadOnly = readOnly
         if (uri.scheme == "file") {
             val file = File(uri.path!!)
             isReadOnly = !file.canWrite()
