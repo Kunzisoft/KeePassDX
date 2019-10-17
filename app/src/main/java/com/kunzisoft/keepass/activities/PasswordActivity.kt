@@ -30,9 +30,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -41,8 +38,14 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
@@ -52,19 +55,18 @@ import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
+import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
@@ -164,7 +166,78 @@ class PasswordActivity : StylishActivity() {
             when (actionTask) {
                 ACTION_DATABASE_LOAD_TASK -> {
                     // TODO
-                    onFinishLoadDatabase?.onFinishRun(result)
+                    // Recheck fingerprint if error
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                            // Stay with the same mode and init it
+                            advancedUnlockedManager?.initBiometricMode()
+                        }
+                    }
+
+                    var databaseUri: Uri? = null
+                    var masterPassword: String? = null
+                    var keyFileUri: Uri? = null
+
+                    result.data?.let { resultData ->
+                        databaseUri = resultData.getParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY)
+                        masterPassword = resultData.getString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY)
+                        keyFileUri = resultData.getParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY)
+                    }
+
+                    databaseUri?.let { databaseFileUri ->
+                        if (result.isSuccess) {
+                            // Save keyFile in app database
+                            if (mRememberKeyFile) {
+                                saveKeyFileData(databaseFileUri, mDatabaseKeyFileUri)
+                            }
+
+                            // Remove the password in view in all cases
+                            removePassword()
+
+                            // Register the biometric
+                            // TODO Cipher
+                            /*
+                            if (cipherDatabaseEntity != null) {
+                                CipherDatabaseAction.getInstance(this@PasswordActivity)
+                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
+                                            checkAndLaunchGroupActivity(Database.getInstance(),
+                                                    masterPassword,
+                                                    keyFileUri)
+                                        }
+                            } else {
+
+                             */
+                            checkAndLaunchGroupActivity(Database.getInstance(),
+                                    masterPassword,
+                                    keyFileUri)
+                            //}
+
+                        } else {
+                            var resultError = ""
+                            val resultException = result.exception
+                            val resultMessage = result.message
+
+                            if (resultException != null) {
+                                resultError = resultException.getLocalizedMessage(resources)
+                                if (resultException is LoadDatabaseDuplicateUuidException)
+                                    showLoadDatabaseDuplicateUuidMessage {
+                                        showProgressDialogAndLoadDatabase(
+                                                databaseFileUri,
+                                                masterPassword,
+                                                keyFileUri,
+                                                true)
+                                    }
+                            }
+
+                            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                                resultError = "$resultError $resultMessage"
+                            }
+
+                            Log.e(TAG, resultError, resultException)
+
+                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
+                        }
+                    }
                 }
             }
         }
@@ -426,17 +499,13 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView?.isChecked = false
     }
 
-    private var onFinishLoadDatabase: ActionRunnable? = null
-
     private fun loadDatabase(databaseFileUri: Uri?,
                              password: String?,
                              keyFileUri: Uri?,
                              cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
-        runOnUiThread {
-            if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-                removePassword()
-            }
+        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
+            removePassword()
         }
 
         // Clear before we load
@@ -444,66 +513,6 @@ class PasswordActivity : StylishActivity() {
         database.closeAndClear(applicationContext.filesDir)
 
         databaseFileUri?.let { databaseUri ->
-
-            onFinishLoadDatabase = object: ActionRunnable() {
-                override fun onFinishRun(result: Result) {
-                    runOnUiThread {
-                        // Recheck fingerprint if error
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
-                                // Stay with the same mode and init it
-                                advancedUnlockedManager?.initBiometricMode()
-                            }
-                        }
-
-                        if (result.isSuccess) {
-                            // Save keyFile in app database
-                            if (mRememberKeyFile) {
-                                saveKeyFileData(databaseFileUri, mDatabaseKeyFileUri)
-                            }
-
-                            // Remove the password in view in all cases
-                            removePassword()
-
-                            // Register the biometric
-                            if (cipherDatabaseEntity != null) {
-                                CipherDatabaseAction.getInstance(this@PasswordActivity)
-                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                            checkAndLaunchGroupActivity(database, password, keyFileUri)
-                                        }
-                            } else {
-                                checkAndLaunchGroupActivity(database, password, keyFileUri)
-                            }
-
-                        } else {
-                            var resultError = ""
-                            val resultException = result.exception
-                            val resultMessage = result.message
-
-                            if (resultException != null) {
-                                resultError = resultException.getLocalizedMessage(resources)
-                                if (resultException is LoadDatabaseDuplicateUuidException)
-                                    showLoadDatabaseDuplicateUuidMessage {
-                                        showProgressDialogAndLoadDatabase(
-                                                databaseUri,
-                                                password,
-                                                keyFileUri,
-                                                true)
-                                    }
-                            }
-
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
-                            }
-
-                            Log.e(TAG, resultError, resultException)
-
-                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
-                        }
-                    }
-                }
-            }
-
             // Show the progress dialog and load the database
             showProgressDialogAndLoadDatabase(
                     databaseUri,

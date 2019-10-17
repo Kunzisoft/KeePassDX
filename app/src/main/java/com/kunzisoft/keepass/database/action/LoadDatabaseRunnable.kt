@@ -35,8 +35,9 @@ class LoadDatabaseRunnable(private val mDatabase: Database,
                            private val cacheDirectory: File,
                            private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
-                           private val progressTaskUpdater: ProgressTaskUpdater?)
-    : ActionRunnable(null, executeNestedActionIfResultFalse = true) {
+                           private val progressTaskUpdater: ProgressTaskUpdater?,
+                           actionFinishRunnable: ActionRunnable?)
+    : ActionRunnable(actionFinishRunnable, executeNestedActionIfResultFalse = true) {
 
     override fun run() {
         try {

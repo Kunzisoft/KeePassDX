@@ -22,11 +22,9 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_TASK_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_MESSAGE_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_TITLE_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_TASK_WARNING_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.RESULT_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
@@ -78,7 +76,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            // stopDialog(actionTask, result)
+            onActionFinish.invoke(actionTask, result)
+            stopDialog()
         }
     }
 
@@ -95,13 +94,11 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         ProgressTaskDialogFragment.start(activity, mProgressTaskDialogFragment!!)
     }
 
-    private fun stopDialog(actionTask: String? = null, result: ActionRunnable.Result? = null) {
+    private fun stopDialog() {
         // Remove the progress task
         ProgressTaskDialogFragment.stop(activity)
-        TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
 
-        if (actionTask != null && result != null)
-            onActionFinish.invoke(actionTask, result)
+        TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
     }
 
     fun registerProgressTask() {
@@ -117,11 +114,14 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                             val message = intent.getIntExtra(DATABASE_TASK_MESSAGE_KEY, UNDEFINED)
                             val warning = intent.getIntExtra(DATABASE_TASK_WARNING_KEY, UNDEFINED)
                             startDialog(title, message, warning)
+
+                            // Bind to the service when is starting
+                            activity.bindService(intentDatabaseTask, serviceConnection, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
                         }
                         DATABASE_STOP_TASK_ACTION -> {
-                            val actionTask = intent.getStringExtra(ACTION_TASK_KEY)
-                            val result = ActionRunnable.Result.fromBundle(intent.getBundleExtra(RESULT_KEY))
-                            stopDialog(actionTask, result)
+                            activity.unbindService(serviceConnection)
+
+                            stopDialog()
                         }
                     }
                 }
@@ -134,11 +134,14 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                 }
         )
 
-        // Check if a service is currently running
+        // Check if a service is currently running else do nothing
         activity.bindService(intentDatabaseTask, serviceConnection, BIND_NOT_FOREGROUND or BIND_ABOVE_CLIENT)
     }
 
     fun unregisterProgressTask() {
+        mBinder?.removeActionTaskListener(actionTaskListener)
+        mBinder = null
+
         activity.unbindService(serviceConnection)
 
         activity.unregisterReceiver(databaseTaskBroadcastReceiver)
