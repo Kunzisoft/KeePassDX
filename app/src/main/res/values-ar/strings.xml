@@ -176,7 +176,7 @@
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePass DX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
     <string name="read_only_kitkat_warning">ابتداءا من اندرويد كيت كات بعض الاجهزة لا تسمح بالكتابة على قاعدة البيانات.</string>
-    <string name="remember_keyfile_summary">تذكر موقع ملف قفل قاعدة البيانات</string>
+    <string name="remember_keyfile_summary">تذكر موقع ملف المفتاح قاعدة البيانات</string>
     <string name="remember_keyfile_title">حفظ الملف المفتاحي</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
     <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
@@ -310,6 +310,6 @@
     <string name="list_groups_show_number_entries_summary">عرض عدد المدخلات في المجموعة</string>
     <string name="content_description_update_from_list">تحديث</string>
     <string name="content_description_keyboard_close_fields">أغلق الحقول</string>
-    <string name="error_create_database_file">لا يمكن انشاء قاعدة بيانات بكلمة السر وملف القفل الحاليين.</string>
+    <string name="error_create_database_file">لا يمكن انشاء قاعدة بيانات بكلمة السر وملف المفتاح الحاليين.</string>
     <string name="menu_advanced_unlock_settings">إلغاء القفل المتقدم</string>
 </resources>
