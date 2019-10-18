@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseDataCompressionPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
@@ -60,37 +59,19 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         if (positiveResult) {
             database?.let { database ->
                 if (compressionSelected != null) {
-                    val newAlgorithm = compressionSelected
-                    val oldAlgorithm = database.compressionAlgorithm
-                    database.compressionAlgorithm = newAlgorithm
+                    val newCompression = compressionSelected
+                    val oldCompression = database.compressionAlgorithm
+                    database.compressionAlgorithm = newCompression
 
-                    if (oldAlgorithm != null && newAlgorithm != null)
-                        actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
+                    if (oldCompression != null && newCompression != null)
+                        progressDialogThread?.startDatabaseSaveCompression(oldCompression, newCompression)
                 }
             }
         }
-
-        super.onDialogClosed(positiveResult)
     }
 
     override fun onItemSelected(item: PwCompressionAlgorithm) {
         this.compressionSelected = item
-    }
-
-    private inner class AfterDescriptionSave(private val mNewAlgorithm: PwCompressionAlgorithm,
-                                             private val mOldAlgorithm: PwCompressionAlgorithm)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val algorithmToShow =
-                    if (result.isSuccess) {
-                        mNewAlgorithm
-                    } else {
-                        database?.compressionAlgorithm = mOldAlgorithm
-                        mOldAlgorithm
-                    }
-            preference.summary = algorithmToShow.getName(settingsResources)
-        }
     }
 
     companion object {

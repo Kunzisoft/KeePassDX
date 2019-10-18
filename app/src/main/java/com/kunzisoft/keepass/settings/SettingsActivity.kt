@@ -26,7 +26,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
@@ -36,8 +35,6 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_TASK
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 open class SettingsActivity
@@ -94,18 +91,10 @@ open class SettingsActivity
         backupManager = BackupManager(this)
 
         progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
-            when (actionTask) {
-                ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> {
-                    // Nothing here
-                }
-                ACTION_DATABASE_SAVE_TASK -> {
-                    if (!result.isSuccess) {
-                        // TODO Log.e(TAG, result.message)
-                        Toast.makeText(this, result.message, Toast.LENGTH_SHORT).show()
-                    }
-                    // TODO actionAfterSaveDatabase?.onFinishRun(result)
-                }
-            }
+            // Call result in fragment
+            (supportFragmentManager
+                    .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
+                    ?.onProgressDialogThreadResult(actionTask, result)
         }
     }
 
@@ -135,7 +124,10 @@ open class SettingsActivity
         super.onStop()
     }
 
-    override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
+    override fun onAssignKeyDialogPositiveClick(masterPasswordChecked: Boolean,
+                                                masterPassword: String?,
+                                                keyFileChecked: Boolean,
+                                                keyFile: Uri?) {
         Database.getInstance().let { database ->
             // Show the progress dialog now or after dialog confirmation
             if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
@@ -161,7 +153,10 @@ open class SettingsActivity
         }
     }
 
-    override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean, masterPassword: String?, keyFileChecked: Boolean, keyFile: Uri?) {
+    override fun onAssignKeyDialogNegativeClick(masterPasswordChecked: Boolean,
+                                                masterPassword: String?,
+                                                keyFileChecked: Boolean,
+                                                keyFile: Uri?) {
 
     }
 

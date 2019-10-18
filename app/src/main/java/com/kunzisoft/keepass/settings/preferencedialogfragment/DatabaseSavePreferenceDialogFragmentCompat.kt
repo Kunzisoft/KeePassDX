@@ -19,20 +19,17 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
-import android.content.res.Resources
+import android.content.Context
 import android.os.Bundle
-import android.view.View
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.SettingsActivity
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
 
     protected var database: Database? = null
 
-    var actionInUIThreadAfterSaveDatabase: ActionRunnable? = null
-
-    protected lateinit var settingsResources: Resources
+    protected var progressDialogThread: ProgressDialogThread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,33 +37,15 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
         this.database = Database.getInstance()
     }
 
-    override fun onBindDialogView(view: View) {
-        super.onBindDialogView(view)
-
-        activity?.resources?.let { settingsResources = it }
-    }
-
-    override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            registerActionFinish()
-            (activity as SettingsActivity?)?.progressDialogThread?.startDatabaseSave()
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Attach dialog thread to start action
+        if (context is SettingsActivity) {
+            progressDialogThread = context.progressDialogThread
         }
-    }
-
-    fun registerActionFinish() {
-        // TODO remove receiver
-        // Register a database task receiver to stop loading dialog when service finish the task
-        /*
-        when (intent?.action) {
-            DATABASE_STOP_TASK_ACTION -> {
-                actionInUIThreadAfterSaveDatabase?.onFinishRun(result)
-            }
-        }
-        */
     }
 
     companion object {
-
         private const val TAG = "DbSavePrefDialog"
     }
 }

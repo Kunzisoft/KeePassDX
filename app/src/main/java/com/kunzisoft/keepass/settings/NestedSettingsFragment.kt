@@ -47,13 +47,30 @@ import com.kunzisoft.keepass.activities.stylish.Stylish
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.biometric.BiometricUnlockDatabaseHelper
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COLOR_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COMPRESSION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DESCRIPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ITERATIONS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_NAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_PARALLELISM_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_ELEMENT_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_ELEMENT_KEY
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preference.DialogColorPreference.Companion.DISABLE_COLOR
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
+import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -62,7 +79,15 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
     private var mCount = 0
 
+    private var dbNamePref: InputTextPreference? = null
+    private var dbDescriptionPref: InputTextPreference? = null
+    private var dbDefaultUsername: InputTextPreference? = null
     private var dbCustomColorPref: DialogColorPreference? = null
+    private var dbDataCompressionPref: Preference? = null
+    private var dbMaxHistoryItemsPref: InputNumberPreference? = null
+    private var dbMaxHistorySizePref: InputNumberPreference? = null
+    private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
+    private var mKeyDerivationPref: DialogListExplanationPreference? = null
     private var mRoundPref: InputKdfNumberPreference? = null
     private var mMemoryPref: InputKdfNumberPreference? = null
     private var mParallelismPref: InputKdfNumberPreference? = null
@@ -349,7 +374,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val dbGeneralPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_general_key))
 
             // Database name
-            val dbNamePref: InputTextPreference? = findPreference(getString(R.string.database_name_key))
+            dbNamePref = findPreference(getString(R.string.database_name_key))
             if (mDatabase.allowName) {
                 dbNamePref?.summary = mDatabase.name
             } else {
@@ -357,7 +382,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
 
             // Database description
-            val dbDescriptionPref: InputTextPreference? = findPreference(getString(R.string.database_description_key))
+            dbDescriptionPref = findPreference(getString(R.string.database_description_key))
             if (mDatabase.allowDescription) {
                 dbDescriptionPref?.summary = mDatabase.description
             } else {
@@ -365,7 +390,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
 
             // Database default username
-            val dbDefaultUsername: InputTextPreference? = findPreference(getString(R.string.database_default_username_key))
+            dbDefaultUsername = findPreference(getString(R.string.database_default_username_key))
             if (mDatabase.allowDefaultUsername) {
                 dbDefaultUsername?.summary = mDatabase.defaultUsername
             } else {
@@ -397,9 +422,9 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             val dbCompressionPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_compression_key))
 
             // Database compression
-            val databaseDataCompressionPref = findPreference<Preference>(getString(R.string.database_data_compression_key))
+            dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
             if (mDatabase.allowDataCompression) {
-                databaseDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
+                dbDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
                         ?: PwCompressionAlgorithm.None).getName(resources)
             } else {
                 dbCompressionPrefCategory?.isVisible = false
@@ -421,12 +446,14 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     ?.isVisible = mDatabase.manageHistory == true
 
             // Max history items
-            findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))
-                    ?.summary = mDatabase.historyMaxItems.toString()
+            dbMaxHistoryItemsPref = findPreference<InputNumberPreference>(getString(R.string.max_history_items_key))?.apply {
+                summary = mDatabase.historyMaxItems.toString()
+            }
 
             // Max history size
-            findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))
-                    ?.summary = mDatabase.historyMaxSize.toString()
+            dbMaxHistorySizePref = findPreference<InputNumberPreference>(getString(R.string.max_history_size_key))?.apply {
+                summary = mDatabase.historyMaxSize.toString()
+            }
 
         } else {
             Log.e(javaClass.name, "Database isn't ready")
@@ -438,24 +465,29 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
 
         if (mDatabase.loaded) {
             // Encryption Algorithm
-            findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))
-                    ?.summary = mDatabase.getEncryptionAlgorithmName(resources)
+            mEncryptionAlgorithmPref = findPreference<DialogListExplanationPreference>(getString(R.string.encryption_algorithm_key))?.apply {
+                summary = mDatabase.getEncryptionAlgorithmName(resources)
+            }
 
             // Key derivation function
-            findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))
-                    ?.summary = mDatabase.getKeyDerivationName(resources)
+            mKeyDerivationPref = findPreference<DialogListExplanationPreference>(getString(R.string.key_derivation_function_key))?.apply {
+                summary = mDatabase.getKeyDerivationName(resources)
+            }
 
             // Round encryption
-            mRoundPref = findPreference(getString(R.string.transform_rounds_key))
-            mRoundPref?.summary = mDatabase.numberKeyEncryptionRounds.toString()
+            mRoundPref = findPreference<InputKdfNumberPreference>(getString(R.string.transform_rounds_key))?.apply {
+                summary = mDatabase.numberKeyEncryptionRounds.toString()
+            }
 
             // Memory Usage
-            mMemoryPref = findPreference(getString(R.string.memory_usage_key))
-            mMemoryPref?.summary = mDatabase.memoryUsage.toString()
+            mMemoryPref = findPreference<InputKdfNumberPreference>(getString(R.string.memory_usage_key))?.apply {
+                summary = mDatabase.memoryUsage.toString()
+            }
 
             // Parallelism
-            mParallelismPref = findPreference(getString(R.string.parallelism_key))
-            mParallelismPref?.summary = mDatabase.parallelism.toString()
+            mParallelismPref = findPreference<InputKdfNumberPreference>(getString(R.string.parallelism_key))?.apply {
+                summary = mDatabase.parallelism.toString()
+            }
         } else {
             Log.e(javaClass.name, "Database isn't ready")
         }
@@ -551,6 +583,178 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
         return view
     }
 
+    fun onProgressDialogThreadResult(actionTask: String,
+                                     result: ActionRunnable.Result) {
+        result.data?.let { data ->
+            if (data.containsKey(OLD_ELEMENT_KEY)
+                    && data.containsKey(NEW_ELEMENT_KEY)) {
+                when (actionTask) {
+                    /*
+                    --------
+                    Main preferences
+                    --------
+                    */
+                    ACTION_DATABASE_SAVE_NAME_TASK -> {
+                        val oldName = data.getString(OLD_ELEMENT_KEY)!!
+                        val newName = data.getString(NEW_ELEMENT_KEY)!!
+                        val nameToShow =
+                                if (result.isSuccess) {
+                                    newName
+                                } else {
+                                    mDatabase.name = oldName
+                                    oldName
+                                }
+                        dbNamePref?.summary = nameToShow
+                    }
+                    ACTION_DATABASE_SAVE_DESCRIPTION_TASK -> {
+                        val oldDescription = data.getString(OLD_ELEMENT_KEY)!!
+                        val newDescription = data.getString(NEW_ELEMENT_KEY)!!
+                        val descriptionToShow =
+                                if (result.isSuccess) {
+                                    newDescription
+                                } else {
+                                    mDatabase.description = oldDescription
+                                    oldDescription
+                                }
+                        dbDescriptionPref?.summary = descriptionToShow
+                    }
+                    ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK -> {
+                        val oldDefaultUsername = data.getString(OLD_ELEMENT_KEY)!!
+                        val newDefaultUsername = data.getString(NEW_ELEMENT_KEY)!!
+                        val defaultUsernameToShow =
+                                if (result.isSuccess) {
+                                    newDefaultUsername
+                                } else {
+                                    mDatabase.defaultUsername = oldDefaultUsername
+                                    oldDefaultUsername
+                                }
+                        dbDefaultUsername?.summary = defaultUsernameToShow
+                    }
+                    ACTION_DATABASE_SAVE_COLOR_TASK -> {
+                        val oldColor = data.getString(OLD_ELEMENT_KEY)!!
+                        val newColor = data.getString(NEW_ELEMENT_KEY)!!
+
+                        val defaultColorToShow =
+                                if (result.isSuccess) {
+                                    newColor
+                                } else {
+                                    mDatabase.customColor = oldColor
+                                    oldColor
+                                }
+                        dbCustomColorPref?.summary = defaultColorToShow
+                    }
+                    ACTION_DATABASE_SAVE_COMPRESSION_TASK -> {
+                        val oldCompression = data.getSerializable(OLD_ELEMENT_KEY) as PwCompressionAlgorithm
+                        val newCompression = data.getSerializable(NEW_ELEMENT_KEY) as PwCompressionAlgorithm
+                        val algorithmToShow =
+                                if (result.isSuccess) {
+                                    newCompression
+                                } else {
+                                    mDatabase.compressionAlgorithm = oldCompression
+                                    oldCompression
+                                }
+                        dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
+                    }
+                    ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK -> {
+                        val oldMaxHistoryItems = data.getInt(OLD_ELEMENT_KEY)
+                        val newMaxHistoryItems = data.getInt(NEW_ELEMENT_KEY)
+                        val maxHistoryItemsToShow =
+                                if (result.isSuccess) {
+                                    newMaxHistoryItems
+                                } else {
+                                    mDatabase.historyMaxItems = oldMaxHistoryItems
+                                    oldMaxHistoryItems
+                                }
+                        dbMaxHistoryItemsPref?.summary = maxHistoryItemsToShow.toString()
+                    }
+                    ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK -> {
+                        val oldMaxHistorySize = data.getLong(OLD_ELEMENT_KEY)
+                        val newMaxHistorySize = data.getLong(NEW_ELEMENT_KEY)
+                        val maxHistorySizeToShow =
+                                if (result.isSuccess) {
+                                    newMaxHistorySize
+                                } else {
+                                    mDatabase.historyMaxSize = oldMaxHistorySize
+                                    oldMaxHistorySize
+                                }
+                        dbMaxHistorySizePref?.summary = maxHistorySizeToShow.toString()
+                    }
+
+                    /*
+                    --------
+                    Security
+                    --------
+                     */
+                    ACTION_DATABASE_SAVE_ENCRYPTION_TASK -> {
+                        val oldEncryption = data.getSerializable(OLD_ELEMENT_KEY) as PwEncryptionAlgorithm
+                        val newEncryption = data.getSerializable(NEW_ELEMENT_KEY) as PwEncryptionAlgorithm
+                        val algorithmToShow =
+                                if (result.isSuccess) {
+                                    newEncryption
+                                } else {
+                                    mDatabase.encryptionAlgorithm = oldEncryption
+                                    oldEncryption
+                                }
+                        mEncryptionAlgorithmPref?.summary = algorithmToShow.getName(resources)
+                    }
+                    ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK -> {
+                        val oldKeyDerivationEngine = data.getSerializable(OLD_ELEMENT_KEY) as KdfEngine
+                        val newKeyDerivationEngine = data.getSerializable(NEW_ELEMENT_KEY) as KdfEngine
+                        val kdfEngineToShow =
+                                if (result.isSuccess) {
+                                    newKeyDerivationEngine
+                                } else {
+                                    mDatabase.kdfEngine = oldKeyDerivationEngine
+                                    oldKeyDerivationEngine
+                                }
+                        mKeyDerivationPref?.summary = kdfEngineToShow.getName(resources)
+
+                        mRoundPref?.summary = kdfEngineToShow.defaultKeyRounds.toString()
+                        // Disable memory and parallelism if not available
+                        mMemoryPref?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
+                        mParallelismPref?.summary = kdfEngineToShow.defaultParallelism.toString()
+                    }
+                    ACTION_DATABASE_SAVE_ITERATIONS_TASK -> {
+                        val oldIterations = data.getLong(OLD_ELEMENT_KEY)
+                        val newIterations = data.getLong(NEW_ELEMENT_KEY)
+                        val roundsToShow =
+                                if (result.isSuccess) {
+                                    newIterations
+                                } else {
+                                    mDatabase.numberKeyEncryptionRounds = oldIterations
+                                    oldIterations
+                                }
+                        mRoundPref?.summary = roundsToShow.toString()
+                    }
+                    ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK -> {
+                        val oldMemoryUsage = data.getLong(OLD_ELEMENT_KEY)
+                        val newMemoryUsage = data.getLong(NEW_ELEMENT_KEY)
+                        val memoryToShow =
+                                if (result.isSuccess) {
+                                    newMemoryUsage
+                                } else {
+                                    mDatabase.memoryUsage = oldMemoryUsage
+                                    oldMemoryUsage
+                                }
+                        mMemoryPref?.summary = memoryToShow.toString()
+                    }
+                    ACTION_DATABASE_SAVE_PARALLELISM_TASK -> {
+                        val oldParallelism = data.getInt(OLD_ELEMENT_KEY)
+                        val newParallelism = data.getInt(NEW_ELEMENT_KEY)
+                        val parallelismToShow =
+                                if (result.isSuccess) {
+                                    newParallelism
+                                } else {
+                                    mDatabase.parallelism = oldParallelism
+                                    oldParallelism
+                                }
+                        mParallelismPref?.summary = parallelismToShow.toString()
+                    }
+                }
+            }
+        }
+    }
+
     override fun onDisplayPreferenceDialog(preference: Preference?) {
 
         var otherDialogFragment = false
@@ -559,6 +763,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             preference?.let { preference ->
                 var dialogFragment: DialogFragment? = null
                 when {
+                    // Main Preferences
                     preference.key == getString(R.string.database_name_key) -> {
                         dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
@@ -582,6 +787,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     preference.key == getString(R.string.max_history_size_key) -> {
                         dialogFragment = MaxHistorySizePreferenceDialogFragmentCompat.newInstance(preference.key)
                     }
+
+                    // Security
                     preference.key == getString(R.string.encryption_algorithm_key) -> {
                         dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.key)
                     }

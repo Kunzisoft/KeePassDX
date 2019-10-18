@@ -26,7 +26,6 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
@@ -66,33 +65,15 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
                         database.encryptionAlgorithm = newAlgorithm
 
                         if (oldAlgorithm != null && newAlgorithm != null)
-                            actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
+                            progressDialogThread?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm)
                     }
                 }
             }
         }
-
-        super.onDialogClosed(positiveResult)
     }
 
     override fun onItemSelected(item: PwEncryptionAlgorithm) {
         this.algorithmSelected = item
-    }
-
-    private inner class AfterDescriptionSave(private val mNewAlgorithm: PwEncryptionAlgorithm,
-                                             private val mOldAlgorithm: PwEncryptionAlgorithm)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val algorithmToShow =
-                    if (result.isSuccess) {
-                        mNewAlgorithm
-                    } else {
-                        database?.encryptionAlgorithm = mOldAlgorithm
-                        mOldAlgorithm
-                    }
-            preference.summary = algorithmToShow.getName(settingsResources)
-        }
     }
 
     companion object {

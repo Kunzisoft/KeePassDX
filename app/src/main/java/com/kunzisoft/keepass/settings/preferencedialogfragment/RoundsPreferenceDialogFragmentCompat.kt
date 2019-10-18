@@ -23,7 +23,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -55,25 +54,8 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
                     database.numberKeyEncryptionRounds = Long.MAX_VALUE
                 }
 
-                actionInUIThreadAfterSaveDatabase = AfterRoundSave(rounds, oldRounds)
+                progressDialogThread?.startDatabaseSaveIterations(oldRounds, rounds)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterRoundSave(private val mNewRounds: Long,
-                                       private val mOldRounds: Long) : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val roundsToShow =
-                    if (result.isSuccess) {
-                        mNewRounds
-                    } else {
-                        database?.numberKeyEncryptionRounds = mOldRounds
-                        mOldRounds
-                    }
-            preference.summary = roundsToShow.toString()
         }
     }
 

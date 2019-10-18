@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -57,26 +56,8 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 val oldMaxHistorySize = database.historyMaxSize
                 database.historyMaxSize = maxHistorySize
 
-                actionInUIThreadAfterSaveDatabase = AfterMaxHistorySizeSave(maxHistorySize, oldMaxHistorySize)
+                progressDialogThread?.startDatabaseSaveMaxHistorySize(oldMaxHistorySize, maxHistorySize)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterMaxHistorySizeSave(private val mNewMaxHistorySize: Long,
-                                                private val mOldMaxHistorySize: Long)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val maxHistorySizeToShow =
-                    if (result.isSuccess) {
-                        mNewMaxHistorySize
-                    } else {
-                        database?.historyMaxSize = mOldMaxHistorySize
-                        mOldMaxHistorySize
-                    }
-            preference.summary = maxHistorySizeToShow.toString()
         }
     }
 

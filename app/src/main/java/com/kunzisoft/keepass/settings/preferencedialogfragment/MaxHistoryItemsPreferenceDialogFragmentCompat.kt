@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -57,26 +56,8 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
                 val oldMaxHistoryItems = database.historyMaxItems
                 database.historyMaxItems = maxHistoryItems
 
-                actionInUIThreadAfterSaveDatabase = AfterMaxHistoryItemsSave(maxHistoryItems, oldMaxHistoryItems)
+                progressDialogThread?.startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterMaxHistoryItemsSave(private val mNewMaxHistoryItems: Int,
-                                                 private val mOldMaxHistoryItems: Int)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val maxHistoryItemsToShow =
-                    if (result.isSuccess) {
-                        mNewMaxHistoryItems
-                    } else {
-                        database?.historyMaxItems = mOldMaxHistoryItems
-                        mOldMaxHistoryItems
-                    }
-            preference.summary = maxHistoryItemsToShow.toString()
         }
     }
 

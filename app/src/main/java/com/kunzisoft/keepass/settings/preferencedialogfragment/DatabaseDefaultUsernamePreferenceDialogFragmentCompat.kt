@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -38,26 +37,8 @@ class DatabaseDefaultUsernamePreferenceDialogFragmentCompat : DatabaseSavePrefer
                 val oldDefaultUsername = database.defaultUsername
                 database.defaultUsername = newDefaultUsername
 
-                actionInUIThreadAfterSaveDatabase = AfterDefaultUsernameSave(newDefaultUsername, oldDefaultUsername)
+                progressDialogThread?.startDatabaseSaveDefaultUsername(oldDefaultUsername, newDefaultUsername)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterDefaultUsernameSave(private val mNewDefaultUsername: String,
-                                                 private val mOldDefaultUsername: String)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val defaultUsernameToShow =
-                    if (result.isSuccess) {
-                        mNewDefaultUsername
-                    } else {
-                        database?.defaultUsername = mOldDefaultUsername
-                        mOldDefaultUsername
-                    }
-            preference.summary = defaultUsernameToShow
         }
     }
 

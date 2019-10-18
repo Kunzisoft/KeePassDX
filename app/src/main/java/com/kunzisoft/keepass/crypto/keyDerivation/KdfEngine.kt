@@ -22,9 +22,11 @@ package com.kunzisoft.keepass.crypto.keyDerivation
 import com.kunzisoft.keepass.database.ObjectNameResource
 
 import java.io.IOException
+import java.io.Serializable
 import java.util.UUID
 
-abstract class KdfEngine : ObjectNameResource {
+// TODO Parcelable
+abstract class KdfEngine : ObjectNameResource, Serializable {
 
     var uuid: UUID? = null
 
