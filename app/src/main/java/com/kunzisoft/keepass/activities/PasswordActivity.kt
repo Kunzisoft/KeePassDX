@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
-import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
@@ -30,9 +29,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.preference.PreferenceManager
-import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.widget.Toolbar
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -41,31 +37,38 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
-import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
+import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.education.PasswordActivityEducation
-import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.search.SearchDbHelper
+import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
@@ -98,6 +101,8 @@ class PasswordActivity : StylishActivity() {
     private var mOpenFileHelper: OpenFileHelper? = null
 
     private var readOnly: Boolean = false
+
+    private var progressDialogThread: ProgressDialogThread? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
 
@@ -158,6 +163,88 @@ class PasswordActivity : StylishActivity() {
         enableButtonOnCheckedChangeListener = CompoundButton.OnCheckedChangeListener { _, _ ->
             enableOrNotTheConfirmationButton()
         }
+
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_LOAD_TASK -> {
+                    // Recheck fingerprint if error
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                            // Stay with the same mode and init it
+                            advancedUnlockedManager?.initBiometricMode()
+                        }
+                    }
+
+                    var databaseUri: Uri? = null
+                    var masterPassword: String? = null
+                    var keyFileUri: Uri? = null
+                    var readOnly = true
+                    var cipherEntity: CipherDatabaseEntity? = null
+
+                    result.data?.let { resultData ->
+                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                        masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
+                        keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
+                    }
+
+                    databaseUri?.let { databaseFileUri ->
+                        // Remove the password in view in all cases
+                        removePassword()
+
+                        if (result.isSuccess) {
+                            launchGroupActivity()
+                        } else {
+                            var resultError = ""
+                            val resultException = result.exception
+                            val resultMessage = result.message
+
+                            if (resultException != null) {
+                                resultError = resultException.getLocalizedMessage(resources)
+                                if (resultException is LoadDatabaseDuplicateUuidException)
+                                    showLoadDatabaseDuplicateUuidMessage {
+                                        showProgressDialogAndLoadDatabase(
+                                                databaseFileUri,
+                                                masterPassword,
+                                                keyFileUri,
+                                                readOnly,
+                                                cipherEntity,
+                                                true)
+                                    }
+                            }
+
+                            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                                resultError = "$resultError $resultMessage"
+                            }
+
+                            Log.e(TAG, resultError, resultException)
+
+                            Snackbar.make(activity_password_coordinator_layout,
+                                    resultError,
+                                    Snackbar.LENGTH_LONG).asError().show()
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun launchGroupActivity() {
+        EntrySelectionHelper.doEntrySelectionAction(intent,
+                {
+                    GroupActivity.launch(this@PasswordActivity, readOnly)
+                },
+                {
+                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    // Do not keep history
+                    finish()
+                },
+                { assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
+                    }
+                })
     }
 
     private val onEditorActionListener = object : TextView.OnEditorActionListener {
@@ -171,6 +258,9 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
+        if (Database.getInstance().loaded)
+            launchGroupActivity()
+
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
         if (Database.getInstance().loaded) {
@@ -179,6 +269,8 @@ class PasswordActivity : StylishActivity() {
 
         // For check shutdown
         super.onResume()
+
+        progressDialogThread?.registerProgressTask()
 
         initUriFromIntent()
     }
@@ -372,6 +464,9 @@ class PasswordActivity : StylishActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             advancedUnlockedManager?.pause()
         }
+
+        progressDialogThread?.unregisterProgressTask()
+
         super.onPause()
     }
 
@@ -416,155 +511,42 @@ class PasswordActivity : StylishActivity() {
                              keyFileUri: Uri?,
                              cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
-        runOnUiThread {
-            if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-                removePassword()
-            }
+        if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
+            removePassword()
         }
 
-        // Clear before we load
-        val database = Database.getInstance()
-        database.closeAndClear(applicationContext.filesDir)
-
         databaseFileUri?.let { databaseUri ->
-
-            val onFinishLoadDatabase = object: ActionRunnable() {
-                override fun onFinishRun(result: Result) {
-                    runOnUiThread {
-                        // Recheck fingerprint if error
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
-                                // Stay with the same mode and init it
-                                advancedUnlockedManager?.initBiometricMode()
-                            }
-                        }
-
-                        if (result.isSuccess) {
-                            // Save keyFile in app database
-                            if (mRememberKeyFile) {
-                                mDatabaseFileUri?.let { databaseUri ->
-                                    saveKeyFileData(databaseUri, mDatabaseKeyFileUri)
-                                }
-                            }
-
-                            // Remove the password in view in all cases
-                            removePassword()
-
-                            // Register the biometric
-                            if (cipherDatabaseEntity != null) {
-                                CipherDatabaseAction.getInstance(this@PasswordActivity)
-                                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                                            checkAndLaunchGroupActivity(database, password, keyFileUri)
-                                        }
-                            } else {
-                                checkAndLaunchGroupActivity(database, password, keyFileUri)
-                            }
-
-                        } else {
-                            var resultError = ""
-                            val resultException = result.exception
-                            val resultMessage = result.message
-
-                            if (resultException != null) {
-                                resultError = resultException.getLocalizedMessage(resources)
-                                if (resultException is LoadDatabaseDuplicateUuidException)
-                                    showLoadDatabaseDuplicateUuidMessage {
-                                        showProgressDialogAndLoadDatabase(database,
-                                                databaseUri,
-                                                password,
-                                                keyFileUri,
-                                                true,
-                                                this)
-                                    }
-                            }
-
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
-                            }
-
-                            Log.e(TAG, resultError, resultException)
-
-                            Snackbar.make(activity_password_coordinator_layout, resultError, Snackbar.LENGTH_LONG).asError().show()
-                        }
-                    }
-                }
-            }
-
             // Show the progress dialog and load the database
-            showProgressDialogAndLoadDatabase(database,
+            showProgressDialogAndLoadDatabase(
                     databaseUri,
                     password,
                     keyFileUri,
-                    false,
-                    onFinishLoadDatabase)
+                    readOnly,
+                    cipherDatabaseEntity,
+                    false)
         }
     }
 
-    private fun showProgressDialogAndLoadDatabase(database: Database,
-                                                  databaseUri: Uri,
+    private fun showProgressDialogAndLoadDatabase(databaseUri: Uri,
                                                   password: String?,
                                                   keyFile: Uri?,
-                                                  fixDuplicateUUID: Boolean,
-                                                  onFinishLoadDatabase: ActionRunnable) {
-        ProgressDialogThread(this,
-                { progressTaskUpdater ->
-                    LoadDatabaseRunnable(
-                            database,
-                            databaseUri,
-                            password,
-                            keyFile,
-                            this@PasswordActivity.contentResolver,
-                            this@PasswordActivity.filesDir,
-                            SearchDbHelper(PreferencesUtil.omitBackup(this@PasswordActivity)),
-                            fixDuplicateUUID,
-                            progressTaskUpdater,
-                            onFinishLoadDatabase)
-                },
-                R.string.loading_database).start()
+                                                  readOnly: Boolean,
+                                                  cipherDatabaseEntity: CipherDatabaseEntity?,
+                                                  fixDuplicateUUID: Boolean) {
+        progressDialogThread?.startDatabaseLoad(
+                databaseUri,
+                password,
+                keyFile,
+                readOnly,
+                cipherDatabaseEntity,
+                fixDuplicateUUID
+        )
     }
 
     private fun showLoadDatabaseDuplicateUuidMessage(loadDatabaseWithFix: (() -> Unit)? = null) {
         DuplicateUuidDialog().apply {
             positiveAction = loadDatabaseWithFix
         }.show(supportFragmentManager, "duplicateUUIDDialog")
-    }
-
-    private fun saveKeyFileData(databaseUri: Uri, keyUri: Uri?) {
-        var keyFileUri = keyUri
-        if (!mRememberKeyFile) {
-            keyFileUri = null
-        }
-        FileDatabaseHistoryAction.getInstance(this).addOrUpdateDatabaseUri(databaseUri, keyFileUri)
-    }
-
-    private fun checkAndLaunchGroupActivity(database: Database, password: String?, keyFileUri: Uri?) {
-        if (database.validatePasswordEncoding(password, keyFileUri != null)) {
-            launchGroupActivity()
-        } else {
-            PasswordEncodingDialogFragment().apply {
-                positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                    launchGroupActivity()
-                }
-                show(supportFragmentManager, "passwordEncodingTag")
-            }
-        }
-    }
-
-    private fun launchGroupActivity() {
-        EntrySelectionHelper.doEntrySelectionAction(intent,
-                {
-                    GroupActivity.launch(this@PasswordActivity, readOnly)
-                },
-                {
-                    GroupActivity.launchForKeyboarSelection(this@PasswordActivity, readOnly)
-                    // Do not keep history
-                    finish()
-                },
-                { assistStructure ->
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
-                    }
-                })
     }
 
     // To fix multiple view education

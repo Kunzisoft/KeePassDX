@@ -29,17 +29,17 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
-import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
@@ -49,11 +49,10 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
@@ -76,6 +75,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private var mDatabaseFileUri: Uri? = null
 
     private var mOpenFileHelper: OpenFileHelper? = null
+
+    private var progressDialogThread: ProgressDialogThread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -160,6 +161,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
             mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
         }
+
+        // Attach the dialog thread to this activity
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK -> {
+                    // TODO Check
+                    // mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    // updateFileListVisibility()
+                    GroupActivity.launch(this)
+                }
+            }
+        }
     }
 
     /**
@@ -220,6 +233,23 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
     }
 
+    private fun launchGroupActivity(readOnly: Boolean) {
+        EntrySelectionHelper.doEntrySelectionAction(intent,
+                {
+                    GroupActivity.launch(this@FileDatabaseSelectActivity, readOnly)
+                },
+                {
+                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity, readOnly)
+                    // Do not keep history
+                    finish()
+                },
+                { assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity, assistStructure, readOnly)
+                    }
+                })
+    }
+
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null)
         // Delete flickering for kitkat <=
@@ -247,6 +277,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onResume() {
+        val database = Database.getInstance()
+        if (database.loaded) {
+            launchGroupActivity(database.isReadOnly)
+        }
+
         super.onResume()
 
         updateExternalStorageWarning()
@@ -259,6 +294,16 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 mAdapterDatabaseHistory?.notifyDataSetChanged()
             }
         }
+
+        // Register progress task
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+        // Unregister progress task
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -284,48 +329,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
             mDatabaseFileUri?.let { databaseUri ->
 
                 // Create the new database
-                ProgressDialogThread(this@FileDatabaseSelectActivity,
-                        {
-                                CreateDatabaseRunnable(this@FileDatabaseSelectActivity,
-                                        databaseUri,
-                                        Database.getInstance(),
-                                        masterPasswordChecked,
-                                        masterPassword,
-                                        keyFileChecked,
-                                        keyFile,
-                                        true, // TODO get readonly
-                                        LaunchGroupActivityFinish(databaseUri, keyFile)
-                                )
-                        },
-                        R.string.progress_create)
-                        .start()
+                progressDialogThread?.startDatabaseCreate(
+                        databaseUri,
+                        masterPasswordChecked,
+                        masterPassword,
+                        keyFileChecked,
+                        keyFile
+                )
             }
         } catch (e: Exception) {
             val error = getString(R.string.error_create_database_file)
             Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
             Log.e(TAG, error, e)
-        }
-    }
-
-    private inner class LaunchGroupActivityFinish(private val databaseFileUri: Uri,
-                                                  private val keyFileUri: Uri?) : ActionRunnable() {
-
-        override fun run() {
-            finishRun(true)
-        }
-
-        override fun onFinishRun(result: Result) {
-            runOnUiThread {
-                if (result.isSuccess) {
-                    // Add database to recent files
-                    mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseFileUri, keyFileUri)
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    updateFileListVisibility()
-                    GroupActivity.launch(this@FileDatabaseSelectActivity)
-                } else {
-                    Log.e(TAG, "Unable to open the database")
-                }
-            }
         }
     }
 

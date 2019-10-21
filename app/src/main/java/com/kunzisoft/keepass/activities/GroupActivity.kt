@@ -50,12 +50,19 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.node.*
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -84,6 +91,8 @@ class GroupActivity : LockingActivity(),
 
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
+
+    private var progressDialogThread: ProgressDialogThread? = null
 
     // Nodes
     private var mRootGroup: GroupVersioned? = null
@@ -188,9 +197,64 @@ class GroupActivity : LockingActivity(),
             }
         })
 
-        // Search suggestion
         mDatabase?.let { database ->
+            // Search suggestion
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
+
+            // Init dialog thread
+            progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+
+                var oldNodes: List<NodeVersioned> = ArrayList()
+                result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
+                    oldNodes = getListNodesFromBundle(database, oldNodesBundle)
+                }
+                var newNodes: List<NodeVersioned> = ArrayList()
+                result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+                    newNodes = getListNodesFromBundle(database, newNodesBundle)
+                }
+
+                when (actionTask) {
+                    ACTION_DATABASE_UPDATE_GROUP_TASK -> {
+                        if (result.isSuccess) {
+                            mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                        }
+                    }
+                    ACTION_DATABASE_CREATE_GROUP_TASK,
+                    ACTION_DATABASE_COPY_NODES_TASK,
+                    ACTION_DATABASE_MOVE_NODES_TASK -> {
+                        if (result.isSuccess) {
+                            mListNodesFragment?.addNodes(newNodes)
+                        }
+                    }
+                    ACTION_DATABASE_DELETE_NODES_TASK -> {
+                        if (result.isSuccess) {
+
+                            // Rebuild all the list the avoid bug when delete node from db sort
+                            if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
+                                mListNodesFragment?.rebuildList()
+                            } else {
+                                // Use the old Nodes / entries unchanged with the old parent
+                                mListNodesFragment?.removeNodes(oldNodes)
+                            }
+
+                            // Add trash in views list if it doesn't exists
+                            if (database.isRecycleBinEnabled) {
+                                val recycleBin = database.recycleBin
+                                if (mCurrentGroup != null && recycleBin != null
+                                        && mCurrentGroup!!.parent == null
+                                        && mCurrentGroup != recycleBin) {
+                                    if (mListNodesFragment?.contains(recycleBin) == true)
+                                        mListNodesFragment?.updateNode(recycleBin)
+                                    else
+                                        mListNodesFragment?.addNode(recycleBin)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                finishNodeAction()
+            }
         }
 
         Log.i(TAG, "Finished creating tree")
@@ -487,28 +551,21 @@ class GroupActivity : LockingActivity(),
             ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mCurrentGroup?.let { newParent ->
-                    ProgressDialogSaveDatabaseThread(this) {
-                        CopyNodesRunnable(this,
-                                Database.getInstance(),
-                                nodes,
-                                newParent,
-                                AfterAddNodeRunnable(),
-                                !mReadOnly)
-                    }.start()
+                    progressDialogThread?.startDatabaseCopyNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly
+                    )
                 }
             }
             ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mCurrentGroup?.let { newParent ->
-                    ProgressDialogSaveDatabaseThread(this) {
-                        MoveNodesRunnable(
-                                this,
-                                Database.getInstance(),
-                                nodes,
-                                newParent,
-                                AfterAddNodeRunnable(),
-                                !mReadOnly)
-                    }.start()
+                    progressDialogThread?.startDatabaseMoveNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly
+                    )
                 }
             }
         }
@@ -516,14 +573,10 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
-        ProgressDialogSaveDatabaseThread(this) {
-            DeleteNodesRunnable(
-                    this,
-                    Database.getInstance(),
-                    nodes,
-                    AfterDeleteNodeRunnable(),
-                    !mReadOnly)
-        }.start()
+        progressDialogThread?.startDatabaseDeleteNodes(
+                nodes,
+                !mReadOnly
+        )
         return true
     }
 
@@ -533,9 +586,13 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
+
+        progressDialogThread?.registerProgressTask()
     }
 
     override fun onPause() {
+        progressDialogThread?.unregisterProgressTask()
+
         super.onPause()
 
         finishNodeAction()
@@ -670,7 +727,6 @@ class GroupActivity : LockingActivity(),
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                   name: String?,
                                   icon: PwIcon?) {
-        val database = Database.getInstance()
 
         if (name != null && name.isNotEmpty() && icon != null) {
             when (action) {
@@ -678,100 +734,37 @@ class GroupActivity : LockingActivity(),
                     // If group creation
                     mCurrentGroup?.let { currentGroup ->
                         // Build the group
-                        database.createGroup()?.let { newGroup ->
+                        mDatabase?.createGroup()?.let { newGroup ->
                             newGroup.title = name
                             newGroup.icon = icon
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
-                            // If group created save it in the database
-                            ProgressDialogSaveDatabaseThread(this) {
-                                AddGroupRunnable(this,
-                                        Database.getInstance(),
-                                        newGroup,
-                                        currentGroup,
-                                        AfterAddNodeRunnable(),
-                                        !mReadOnly)
-                            }.start()
+                            progressDialogThread?.startDatabaseCreateGroup(
+                                    newGroup, currentGroup, !mReadOnly)
                         }
                     }
                 }
-                GroupEditDialogFragment.EditGroupDialogAction.UPDATE ->
+                GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
                         GroupVersioned(oldGroupToUpdate).let { updateGroup ->
-                            updateGroup.title = name
-                            // TODO custom icon
-                            updateGroup.icon = icon
+                            updateGroup.apply {
+                                // WARNING remove parent and children to keep memory
+                                removeParent()
+                                removeChildren()
 
-                            mListNodesFragment?.removeNode(oldGroupToUpdate)
+                                title = name
+                                this.icon = icon // TODO custom icon
+                            }
 
                             // If group updated save it in the database
-                            ProgressDialogSaveDatabaseThread(this) {
-                                UpdateGroupRunnable(this,
-                                        Database.getInstance(),
-                                        oldGroupToUpdate,
-                                        updateGroup,
-                                        AfterUpdateNodeRunnable(),
-                                        !mReadOnly)
-                            }.start()
+                            progressDialogThread?.startDatabaseUpdateGroup(
+                                    oldGroupToUpdate, updateGroup, !mReadOnly)
                         }
                     }
+                }
                 else -> {}
-            }
-        }
-    }
-
-    internal inner class AfterAddNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-                    mListNodesFragment?.addNodes(actionNodeValues.newNodes)
-                }
-                finishNodeAction()
-            }
-        }
-    }
-
-    internal inner class AfterUpdateNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-                    mListNodesFragment?.updateNodes(actionNodeValues.oldNodes, actionNodeValues.newNodes)
-                }
-                finishNodeAction()
-            }
-        }
-    }
-
-    internal inner class AfterDeleteNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-
-                    // Rebuold all the list the avoid bug when delete node from db sort
-                    if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
-                        mListNodesFragment?.rebuildList()
-                    } else {
-                        // Use the old Nodes / entries unchanged with the old parent
-                        mListNodesFragment?.removeNodes(actionNodeValues.oldNodes)
-                    }
-
-                    // Add trash in views list if it doesn't exists
-                    val database = Database.getInstance()
-                    if (database.isRecycleBinEnabled) {
-                        val recycleBin = database.recycleBin
-                        if (mCurrentGroup != null && recycleBin != null
-                                && mCurrentGroup!!.parent == null
-                                && mCurrentGroup != recycleBin) {
-                            if (mListNodesFragment?.contains(recycleBin) == true)
-                                mListNodesFragment?.updateNode(recycleBin)
-                            else
-                                mListNodesFragment?.addNode(recycleBin)
-                        }
-                    }
-                }
-                finishNodeAction()
             }
         }
     }
@@ -885,10 +878,14 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildAndLaunchIntent(activity: Activity, group: GroupVersioned?, readOnly: Boolean,
+        private fun buildAndLaunchIntent(context: Context, group: GroupVersioned?, readOnly: Boolean,
                                          intentBuildLauncher: (Intent) -> Unit) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, GroupActivity::class.java)
+            val checkTime = if (context is Activity)
+                TimeoutHelper.checkTimeAndLockIfTimeout(context)
+            else
+                TimeoutHelper.checkTime(context)
+            if (checkTime) {
+                val intent = Intent(context, GroupActivity::class.java)
                 if (group != null) {
                     intent.putExtra(GROUP_ID_KEY, group.nodeId)
                 }
@@ -904,10 +901,10 @@ class GroupActivity : LockingActivity(),
          */
 
         @JvmOverloads
-        fun launch(activity: Activity, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                activity.startActivity(intent)
+        fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                context.startActivity(intent)
             }
         }
 
@@ -918,10 +915,10 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboarSelection(activity: Activity, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+        fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
 

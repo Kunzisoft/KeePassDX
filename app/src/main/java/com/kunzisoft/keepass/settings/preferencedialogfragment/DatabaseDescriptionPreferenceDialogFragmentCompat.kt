@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseDescriptionPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -38,26 +37,8 @@ class DatabaseDescriptionPreferenceDialogFragmentCompat : DatabaseSavePreference
                 val oldDescription = database.description
                 database.description = newDescription
 
-                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newDescription, oldDescription)
+                progressDialogThread?.startDatabaseSaveDescription(oldDescription, newDescription)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterDescriptionSave(private val mNewDescription: String,
-                                             private val mOldDescription: String)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val descriptionToShow =
-                    if (result.isSuccess) {
-                        mNewDescription
-                    } else {
-                        database?.description = mOldDescription
-                        mOldDescription
-                    }
-            preference.summary = descriptionToShow
         }
     }
 

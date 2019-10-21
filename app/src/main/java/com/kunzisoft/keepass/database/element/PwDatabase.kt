@@ -30,8 +30,9 @@ import java.util.*
 
 abstract class PwDatabase<
         GroupId,
-        Group : PwGroup<GroupId, Group, Entry>,
-        Entry : PwEntry<Group, Entry>
+        EntryId,
+        Group : PwGroup<GroupId, EntryId, Group, Entry>,
+        Entry : PwEntry<GroupId, EntryId, Group, Entry>
         > {
 
     // Algorithm used to encrypt the database
@@ -51,7 +52,7 @@ abstract class PwDatabase<
     var changeDuplicateId = false
 
     private var groupIndexes = LinkedHashMap<PwNodeId<GroupId>, Group>()
-    private var entryIndexes = LinkedHashMap<PwNodeId<UUID>, Entry>()
+    private var entryIndexes = LinkedHashMap<PwNodeId<EntryId>, Entry>()
 
     abstract val version: String
 
@@ -193,7 +194,7 @@ abstract class PwDatabase<
 
     abstract fun newGroupId(): PwNodeId<GroupId>
 
-    abstract fun newEntryId(): PwNodeId<UUID>
+    abstract fun newEntryId(): PwNodeId<EntryId>
 
     abstract fun createGroup(): Group
 
@@ -253,6 +254,13 @@ abstract class PwDatabase<
         }
     }
 
+    fun updateGroupIndex(group: Group) {
+        val groupId = group.nodeId
+        if (groupIndexes.containsKey(groupId)) {
+            groupIndexes[groupId] = group
+        }
+    }
+
     fun removeGroupIndex(group: Group) {
         this.groupIndexes.remove(group.nodeId)
     }
@@ -267,7 +275,7 @@ abstract class PwDatabase<
         }
     }
 
-    fun isEntryIdUsed(id: PwNodeId<UUID>): Boolean {
+    fun isEntryIdUsed(id: PwNodeId<EntryId>): Boolean {
         return entryIndexes.containsKey(id)
     }
 
@@ -275,7 +283,7 @@ abstract class PwDatabase<
         return entryIndexes.values
     }
 
-    fun getEntryById(id: PwNodeId<UUID>): Entry? {
+    fun getEntryById(id: PwNodeId<EntryId>): Entry? {
         return this.entryIndexes[id]
     }
 
@@ -292,6 +300,13 @@ abstract class PwDatabase<
             }
         } else {
             this.entryIndexes[entryId] = entry
+        }
+    }
+
+    fun updateEntryIndex(entry: Entry) {
+        val entryId = entry.nodeId
+        if (entryIndexes.containsKey(entryId)) {
+            entryIndexes[entryId] = entry
         }
     }
 
@@ -325,6 +340,10 @@ abstract class PwDatabase<
         addGroupIndex(newGroup)
     }
 
+    fun updateGroup(group: Group) {
+        updateGroupIndex(group)
+    }
+
     fun removeGroupFrom(groupToRemove: Group, parent: Group?) {
         // Remove tree from parent tree
         parent?.removeChildGroup(groupToRemove)
@@ -336,6 +355,10 @@ abstract class PwDatabase<
         parent?.addChildEntry(newEntry)
         newEntry.parent = parent
         addEntryIndex(newEntry)
+    }
+
+    fun updateEntry(entry: Entry) {
+        updateEntryIndex(entry)
     }
 
     open fun removeEntryFrom(entryToRemove: Entry, parent: Group?) {

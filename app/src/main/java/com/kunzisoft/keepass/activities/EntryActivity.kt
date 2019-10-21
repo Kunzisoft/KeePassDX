@@ -60,6 +60,8 @@ class EntryActivity : LockingHideActivity() {
     private var entryContentsView: EntryContentsView? = null
     private var toolbar: Toolbar? = null
 
+    private var mDatabase: Database? = null
+
     private var mEntry: EntryVersioned? = null
     private var mIsHistory: Boolean = false
 
@@ -80,33 +82,10 @@ class EntryActivity : LockingHideActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val currentDatabase = Database.getInstance()
-        mReadOnly = currentDatabase.isReadOnly || mReadOnly
+        mDatabase = Database.getInstance()
+        mReadOnly = mDatabase!!.isReadOnly || mReadOnly
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this)
-
-        // Get Entry from UUID
-        try {
-            val keyEntry: PwNodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
-            mEntry = currentDatabase.getEntryById(keyEntry)
-        } catch (e: ClassCastException) {
-            Log.e(TAG, "Unable to retrieve the entry key")
-        }
-
-        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
-        if (historyPosition >= 0) {
-            mIsHistory = true
-            mEntry = mEntry?.getHistory()?.get(historyPosition)
-        }
-
-        if (mEntry == null) {
-            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
-        // Update last access time.
-        mEntry?.touch(modified = false, touchParents = false)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
@@ -130,6 +109,29 @@ class EntryActivity : LockingHideActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // Get Entry from UUID
+        try {
+            val keyEntry: PwNodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
+            mEntry = mDatabase?.getEntryById(keyEntry)
+        } catch (e: ClassCastException) {
+            Log.e(TAG, "Unable to retrieve the entry key")
+        }
+
+        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+        if (historyPosition >= 0) {
+            mIsHistory = true
+            mEntry = mEntry?.getHistory()?.get(historyPosition)
+        }
+
+        if (mEntry == null) {
+            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
+        // Update last access time.
+        mEntry?.touch(modified = false, touchParents = false)
 
         mEntry?.let { entry ->
             // Fill data in resume to update from EntryEditActivity

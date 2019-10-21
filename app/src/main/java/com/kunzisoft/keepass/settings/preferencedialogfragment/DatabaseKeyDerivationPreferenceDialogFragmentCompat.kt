@@ -27,7 +27,6 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
@@ -67,13 +66,11 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
                     val oldKdfEngine = database.kdfEngine
                     if (newKdfEngine != null && oldKdfEngine != null) {
                         database.kdfEngine = newKdfEngine
-                        actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
+                        progressDialogThread?.startDatabaseSaveKeyDerivation(oldKdfEngine, newKdfEngine)
                     }
                 }
             }
         }
-
-        super.onDialogClosed(positiveResult)
     }
 
     fun setRoundPreference(preference: Preference?) {
@@ -90,27 +87,6 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
 
     override fun onItemSelected(item: KdfEngine) {
         kdfEngineSelected = item
-    }
-
-    private inner class AfterDescriptionSave(private val mNewKdfEngine: KdfEngine,
-                                             private val mOldKdfEngine: KdfEngine)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val kdfEngineToShow =
-                if (result.isSuccess) {
-                    mNewKdfEngine
-                } else {
-                    database?.kdfEngine = mOldKdfEngine
-                    mOldKdfEngine
-                }
-            preference.summary = kdfEngineToShow.getName(settingsResources)
-
-            roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()
-            // Disable memory and parallelism if not available
-            memoryPreference?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
-            parallelismPreference?.summary = kdfEngineToShow.defaultParallelism.toString()
-        }
     }
 
     companion object {

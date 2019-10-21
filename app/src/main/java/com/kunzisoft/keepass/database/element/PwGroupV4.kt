@@ -25,7 +25,7 @@ import android.os.Parcelable
 import java.util.HashMap
 import java.util.UUID
 
-class PwGroupV4 : PwGroup<UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
+class PwGroupV4 : PwGroup<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
 
     // TODO Encapsulate
     override var icon: PwIcon

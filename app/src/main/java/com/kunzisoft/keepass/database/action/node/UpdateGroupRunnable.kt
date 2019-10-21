@@ -19,39 +19,47 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
 import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateGroupRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mOldGroup: GroupVersioned,
         private val mNewGroup: GroupVersioned,
-        finishRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
+        save: Boolean,
+        finishRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
 
     // Keep backup of original values in case save fails
     private val mBackupGroup: GroupVersioned = GroupVersioned(mOldGroup)
 
     override fun nodeAction() {
+        // WARNING : Re attribute parent and children removed in group activity to save memory
+        mNewGroup.addParentFrom(mOldGroup)
+        mNewGroup.addChildrenFrom(mOldGroup)
+
         // Update group with new values
-        mOldGroup.touch(modified = true, touchParents = true)
         mOldGroup.updateWith(mNewGroup)
+        mOldGroup.touch(modified = true, touchParents = true)
+
+        // Only change data in index
+        database.updateGroup(mOldGroup)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
             mOldGroup.updateWith(mBackupGroup)
+            database.updateGroup(mOldGroup)
         }
 
         val oldNodesReturn = ArrayList<NodeVersioned>()
-        oldNodesReturn.add(mOldGroup)
+        oldNodesReturn.add(mBackupGroup)
         val newNodesReturn = ArrayList<NodeVersioned>()
-        newNodesReturn.add(mNewGroup)
+        newNodesReturn.add(mOldGroup)
         return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
     }
 }

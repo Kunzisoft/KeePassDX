@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -49,26 +48,8 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 val oldMemoryUsage = database.memoryUsage
                 database.memoryUsage = memoryUsage
 
-                actionInUIThreadAfterSaveDatabase = AfterMemorySave(memoryUsage, oldMemoryUsage)
+                progressDialogThread?.startDatabaseSaveMemoryUsage(oldMemoryUsage, memoryUsage)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterMemorySave(private val mNewMemory: Long,
-                                        private val mOldMemory: Long)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val memoryToShow =
-                    if (result.isSuccess) {
-                        mNewMemory
-                    } else {
-                        database?.memoryUsage = mOldMemory
-                        mOldMemory
-                    }
-            preference.summary = memoryToShow.toString()
         }
     }
 

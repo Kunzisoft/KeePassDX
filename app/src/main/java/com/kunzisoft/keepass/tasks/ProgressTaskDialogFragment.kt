@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.tasks
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import androidx.annotation.StringRes
 import androidx.fragment.app.DialogFragment
@@ -31,8 +30,6 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.view.lockScreenOrientation
-import com.kunzisoft.keepass.view.unlockScreenOrientation
 
 open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
@@ -77,11 +74,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onDismiss(dialog: DialogInterface) {
-        activity?.unlockScreenOrientation()
-        super.onDismiss(dialog)
-    }
-
     fun setTitle(@StringRes titleId: Int) {
         this.title = titleId
     }
@@ -116,36 +108,27 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         private const val PROGRESS_TASK_DIALOG_TAG = "progressDialogFragment"
 
-        private const val UNDEFINED = -1
+        const val UNDEFINED = -1
 
-        fun build(@StringRes titleId: Int,
-                  @StringRes messageId: Int? = null,
-                  @StringRes warningId: Int? = null): ProgressTaskDialogFragment {
-            // Create an instance of the dialog fragment and show it
-            val dialog = ProgressTaskDialogFragment()
-            dialog.updateTitle(titleId)
-            messageId?.let {
-                dialog.updateMessage(it)
-            }
-            warningId?.let {
-                dialog.updateWarning(it)
-            }
-            return dialog
+        fun build(): ProgressTaskDialogFragment {
+            // Create an instance of the dialog fragment
+            return ProgressTaskDialogFragment()
         }
 
         fun start(activity: FragmentActivity,
                   dialog: ProgressTaskDialogFragment) {
-            activity.lockScreenOrientation()
-            dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+            activity.runOnUiThread {
+                dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+            }
+        }
+
+        fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
+            return activity.supportFragmentManager
+                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
         }
 
         fun stop(activity: FragmentActivity) {
-            val fragmentTask = activity.supportFragmentManager.findFragmentByTag(PROGRESS_TASK_DIALOG_TAG)
-            if (fragmentTask != null) {
-                val loadingDatabaseDialog = fragmentTask as ProgressTaskDialogFragment
-                loadingDatabaseDialog.dismissAllowingStateLoss()
-                activity.unlockScreenOrientation()
-            }
+            retrieveProgressDialog(activity)?.dismissAllowingStateLoss()
         }
     }
 }

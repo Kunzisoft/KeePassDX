@@ -36,7 +36,6 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.*
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import java.lang.Exception
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
@@ -88,16 +87,15 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 }
                 val oldColor = database.customColor
                 database.customColor = newColor
-
-                actionInUIThreadAfterSaveDatabase = AfterColorSave(newColor, oldColor)
+                progressDialogThread?.startDatabaseSaveColor(oldColor, newColor)
             }
 
-            super.onDialogClosed(true)
+            onDialogClosed(true)
             dismiss()
         }
 
         alertDialogBuilder.setNegativeButton(android.R.string.cancel) { _, _ ->
-            super.onDialogClosed(false)
+            onDialogClosed(false)
             dismiss()
         }
 
@@ -110,6 +108,10 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
         dialog.setOnShowListener { measureLayout(it as Dialog) }
 
         return dialog
+    }
+
+    override fun onDialogClosed(positiveResult: Boolean) {
+        // Nothing here
     }
 
     /**
@@ -132,22 +134,6 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         return rootView
-    }
-
-    private inner class AfterColorSave(private val mNewColor: String,
-                                       private val mOldColor: String)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val defaultColorToShow =
-                    if (result.isSuccess) {
-                        mNewColor
-                    } else {
-                        database?.customColor = mOldColor
-                        mOldColor
-                    }
-            preference.summary = defaultColorToShow
-        }
     }
 
     companion object {

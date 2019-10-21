@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -38,26 +37,8 @@ class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogF
                 val oldName = database.name
                 database.name = newName
 
-                actionInUIThreadAfterSaveDatabase = AfterNameSave(newName, oldName)
+                progressDialogThread?.startDatabaseSaveName(oldName, newName)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterNameSave(private val mNewName: String,
-                                      private val mOldName: String)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val nameToShow =
-                    if (result.isSuccess) {
-                        mNewName
-                    } else {
-                        database?.name = mOldName
-                        mOldName
-                    }
-            preference.summary = nameToShow
         }
     }
 

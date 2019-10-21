@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 import android.os.Bundle
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
@@ -49,26 +48,8 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 val oldParallelism = database.parallelism
                 database.parallelism = parallelism
 
-                actionInUIThreadAfterSaveDatabase = AfterParallelismSave(parallelism, oldParallelism)
+                progressDialogThread?.startDatabaseSaveParallelism(oldParallelism, parallelism)
             }
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterParallelismSave(private val mNewParallelism: Int,
-                                             private val mOldParallelism: Int)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val parallelismToShow =
-                    if (result.isSuccess) {
-                        mNewParallelism
-                    } else {
-                        database?.parallelism = mOldParallelism
-                        mOldParallelism
-                    }
-            preference.summary = parallelismToShow.toString()
         }
     }
 

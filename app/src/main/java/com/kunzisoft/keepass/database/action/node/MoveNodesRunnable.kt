@@ -19,18 +19,18 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.*
 
 class MoveNodesRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mNodesToMove: List<NodeVersioned>,
         private val mNewParent: GroupVersioned,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
+        save: Boolean,
+        afterAddNodeRunnable: AfterActionNodeFinishRunnable?)
     : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
 
     private var mOldParent: GroupVersioned? = null
