@@ -423,8 +423,8 @@
     <string name="biometric">Fingerabdruck</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
-    <string name="biometric_prompt_store_credential_message">Datenbank Anmeldeinformationen biometrisch speichern</string>
-    <string name="biometric_prompt_extract_credential_message">Datenbank Anmeldeinformationen mit biometrischen Daten extrahieren</string>
+    <string name="biometric_prompt_store_credential_message">Datenbank-Anmeldeinformationen biometrisch speichern</string>
+    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
     <string name="fingerprint_open_biometric_prompt">Die Eingabeaufforderung für biometrische Daten mittels Klick auf den biometrischen Button öffnen</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
 </resources>
