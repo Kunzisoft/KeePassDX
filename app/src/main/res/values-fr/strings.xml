@@ -178,7 +178,7 @@
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n\'est pas configurée.</string>
+    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
     <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
