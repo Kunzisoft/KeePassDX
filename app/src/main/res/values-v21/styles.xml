@@ -15,6 +15,7 @@
         <item name="android:gravity">center</item>
         <item name="android:elevation">4dp</item>
     </style>
+
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="Theme.AppCompat">
         <item name="android:elevation">4dp</item>

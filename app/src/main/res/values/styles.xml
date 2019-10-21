@@ -287,6 +287,11 @@
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
 
+    <!-- Item Style -->
+    <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
+        <item name="android:background">@drawable/background_item_selection</item>
+    </style>
+
     <!-- Icon Style -->
     <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/background_icon</item>
