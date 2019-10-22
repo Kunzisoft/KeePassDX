@@ -37,6 +37,8 @@ class AddGroupRunnable constructor(
         mNewGroup.touch(modified = true, touchParents = true)
         mParent.touch(modified = true, touchParents = true)
         database.addGroupTo(mNewGroup, mParent)
+        saveDatabase()
+        finishRun(true)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

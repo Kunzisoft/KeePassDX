@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
-import android.util.Log
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
 
@@ -17,16 +16,12 @@ abstract class ActionNodeDatabaseRunnable(
      */
     abstract fun nodeAction()
 
+    protected fun saveDatabase() {
+        super.run()
+    }
+
     override fun run() {
-        try {
-            nodeAction()
-            // To save the database
-            super.run()
-            finishRun(true)
-        } catch (e: Exception) {
-            Log.e("ActionNodeDBRunnable", e.message)
-            finishRun(false, e.message)
-        }
+        nodeAction()
     }
 
     /**
@@ -38,11 +33,6 @@ abstract class ActionNodeDatabaseRunnable(
         callbackRunnable?.apply {
             onActionNodeFinish(nodeFinish(result))
         }
-
-        if (!result.isSuccess) {
-            displayMessage(context)
-        }
-
         super.onFinishRun(result)
     }
 }

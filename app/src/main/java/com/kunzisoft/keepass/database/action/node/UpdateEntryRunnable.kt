@@ -50,6 +50,9 @@ class UpdateEntryRunnable constructor(
 
         // Only change data in index
         database.updateEntry(mOldEntry)
+
+        saveDatabase()
+        finishRun(true)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

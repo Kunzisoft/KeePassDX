@@ -21,8 +21,9 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import android.util.Log
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.exception.MoveDatabaseEntryException
+import com.kunzisoft.keepass.database.exception.MoveDatabaseGroupException
 
 class MoveNodesRunnable constructor(
         context: Context,
@@ -40,6 +41,7 @@ class MoveNodesRunnable constructor(
         mNodesToMove.forEach { nodeToMove ->
             // Move node in new parent
             mOldParent = nodeToMove.parent
+            nodeToMove.touch(modified = true, touchParents = true)
 
             when (nodeToMove.type) {
                 Type.GROUP -> {
@@ -48,10 +50,9 @@ class MoveNodesRunnable constructor(
                     if (groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
                         database.moveGroupTo(groupToMove, mNewParent)
-                        finishRun(true)
                     } else {
                         // Only finish thread
-                        throw Exception(context.getString(R.string.error_move_folder_in_itself))
+                        finishRun(false, MoveDatabaseGroupException())
                     }
                 }
                 Type.ENTRY -> {
@@ -61,16 +62,15 @@ class MoveNodesRunnable constructor(
                             // and root can contains entry
                             && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
                         database.moveEntryTo(entryToMove, mNewParent)
-                        finishRun(true)
                     } else {
                         // Only finish thread
-                        throw Exception(context.getString(R.string.error_move_entry_here))
+                        finishRun(false, MoveDatabaseEntryException())
                     }
                 }
             }
-
-            nodeToMove.touch(modified = true, touchParents = true)
         }
+        saveDatabase()
+        finishRun(true)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
@@ -78,7 +78,8 @@ class MoveNodesRunnable constructor(
             try {
                 mNodesToMove.forEach { nodeToMove ->
                     // If we fail to save, try to move in the first place
-                    if (mOldParent != null) {
+                    if (mOldParent != null &&
+                            mOldParent != nodeToMove.parent) {
                         when (nodeToMove.type) {
                             Type.GROUP -> database.moveGroupTo(nodeToMove as GroupVersioned, mOldParent!!)
                             Type.ENTRY -> database.moveEntryTo(nodeToMove as EntryVersioned, mOldParent!!)

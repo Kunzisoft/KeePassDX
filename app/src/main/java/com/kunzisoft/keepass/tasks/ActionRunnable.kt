@@ -19,11 +19,7 @@
  */
 package com.kunzisoft.keepass.tasks
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 /**
@@ -81,24 +77,6 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
      * @param result 'true' if success action, 'false' elsewhere, with message
      */
     abstract fun onFinishRun(result: Result)
-
-    /**
-     * Display a message as a Toast only if [context] is an Activity
-     * @param context Context to show the message
-     */
-    protected fun displayMessage(context: Context) {
-        val message = result.message
-        Log.i(ActionRunnable::class.java.name, message)
-        try {
-            (context as Activity).runOnUiThread {
-                message?.let {
-                    if (it.isNotEmpty()) {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        } catch (exception: ClassCastException) {}
-    }
 
     /**
      * Class to manage result from ActionRunnable

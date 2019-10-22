@@ -110,6 +110,7 @@
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>
     <string name="error_move_entry_here">You can not move an entry here.</string>
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
+    <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>

@@ -129,6 +129,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         serviceConnection = null
     }
 
+    @Synchronized
     fun registerProgressTask() {
         ProgressTaskDialogFragment.stop(activity)
 
@@ -159,6 +160,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         bindService()
     }
 
+    @Synchronized
     fun unregisterProgressTask() {
         ProgressTaskDialogFragment.stop(activity)
 

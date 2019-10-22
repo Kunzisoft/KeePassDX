@@ -21,8 +21,9 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import android.util.Log
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.exception.CopyDatabaseEntryException
+import com.kunzisoft.keepass.database.exception.CopyDatabaseGroupException
 
 class CopyNodesRunnable constructor(
         context: Context,
@@ -40,7 +41,10 @@ class CopyNodesRunnable constructor(
         mNodesToCopy.forEach { currentNode ->
 
             when (currentNode.type) {
-                Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
+                Type.GROUP -> {
+                    Log.e(TAG, "Copy not allowed for group")// Only finish thread
+                    finishRun(false, CopyDatabaseGroupException())
+                }
                 Type.ENTRY -> {
                     // Root can contains entry
                     if (mNewParent != database.rootGroup || database.rootCanContainsEntry()) {
@@ -49,14 +53,19 @@ class CopyNodesRunnable constructor(
                         database.copyEntryTo(currentNode as EntryVersioned, mNewParent)?.let { entryCopied ->
                             entryCopied.touch(modified = true, touchParents = true)
                             mEntriesCopied.add(entryCopied)
-                        } ?: Log.e(TAG, "Unable to create a copy of the entry")
+                        } ?: run {
+                            Log.e(TAG, "Unable to create a copy of the entry")
+                            finishRun(false, CopyDatabaseEntryException())
+                        }
                     } else {
                         // Only finish thread
-                        throw Exception(context.getString(R.string.error_copy_entry_here))
+                        finishRun(false, CopyDatabaseEntryException())
                     }
                 }
             }
         }
+        saveDatabase()
+        finishRun(true)
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

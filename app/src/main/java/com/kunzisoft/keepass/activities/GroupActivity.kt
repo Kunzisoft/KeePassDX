@@ -38,7 +38,9 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.view.ActionMode
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -68,6 +70,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -78,6 +81,7 @@ class GroupActivity : LockingActivity(),
         SortDialogFragment.SortSelectionListener {
 
     // Views
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -117,6 +121,7 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        coordinatorLayout = findViewById(R.id.group_coordinator)
         iconView = findViewById(R.id.group_icon)
         numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
@@ -249,6 +254,14 @@ class GroupActivity : LockingActivity(),
                                         mListNodesFragment?.addNode(recycleBin)
                                 }
                             }
+                        }
+                    }
+                }
+
+                if (!result.isSuccess) {
+                    result.exception?.errorId?.let { errorId ->
+                        coordinatorLayout?.let { coordinatorLayout ->
+                            Snackbar.make(coordinatorLayout, errorId, Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
                 }
@@ -752,7 +765,7 @@ class GroupActivity : LockingActivity(),
                             updateGroup.apply {
                                 // WARNING remove parent and children to keep memory
                                 removeParent()
-                                removeChildren()
+                                removeChildren() // TODO concurrent exception
 
                                 title = name
                                 this.icon = icon // TODO custom icon
