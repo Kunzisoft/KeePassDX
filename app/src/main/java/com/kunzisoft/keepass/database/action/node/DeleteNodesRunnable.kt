@@ -65,8 +65,7 @@ class DeleteNodesRunnable(context: Context,
                 }
             }
         }
-        saveDatabase()
-        finishRun(true)
+        saveDatabaseAndFinish()
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

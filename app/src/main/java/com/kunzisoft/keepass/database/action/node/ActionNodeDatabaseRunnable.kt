@@ -16,8 +16,11 @@ abstract class ActionNodeDatabaseRunnable(
      */
     abstract fun nodeAction()
 
-    protected fun saveDatabase() {
-        super.run()
+    protected fun saveDatabaseAndFinish() {
+        if (result.isSuccess) {
+            super.run()
+            finishRun(true)
+        }
     }
 
     override fun run() {

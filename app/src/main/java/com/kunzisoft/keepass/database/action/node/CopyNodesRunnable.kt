@@ -64,8 +64,7 @@ class CopyNodesRunnable constructor(
                 }
             }
         }
-        saveDatabase()
-        finishRun(true)
+        saveDatabaseAndFinish()
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

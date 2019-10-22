@@ -48,8 +48,7 @@ class UpdateGroupRunnable constructor(
         // Only change data in index
         database.updateGroup(mOldGroup)
 
-        saveDatabase()
-        finishRun(true)
+        saveDatabaseAndFinish()
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
