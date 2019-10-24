@@ -94,6 +94,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
     }
 
+    @Synchronized
     private fun initServiceConnection() {
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
@@ -112,6 +113,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
     }
 
+    @Synchronized
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
@@ -122,6 +124,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     /**
      * Unbind the service and assign null to the service connection to check if already unbind or not
      */
+    @Synchronized
     private fun unBindService() {
         serviceConnection?.let {
             activity.unbindService(it)
@@ -172,6 +175,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         activity.unregisterReceiver(databaseTaskBroadcastReceiver)
     }
 
+    @Synchronized
     private fun start(bundle: Bundle? = null, actionTask: String) {
         activity.stopService(intentDatabaseTask)
         if (bundle != null)

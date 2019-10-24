@@ -583,6 +583,7 @@ class GroupActivity : LockingActivity(),
             }
             else -> {}
         }
+        finishNodeAction()
         return true
     }
 
@@ -591,6 +592,7 @@ class GroupActivity : LockingActivity(),
                 nodes,
                 !mReadOnly
         )
+        finishNodeAction()
         return true
     }
 

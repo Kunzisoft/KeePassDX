@@ -25,8 +25,6 @@ abstract class ActionNodeDatabaseRunnable(
     }
 
     protected fun throwErrorAndFinish(throwable: LoadDatabaseException) {
-        saveDatabase = false
-        super.run()
         finishRun(false, throwable)
     }
 
