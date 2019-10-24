@@ -3,6 +3,7 @@
  * Auto reparation de la base de données pour même UUID
  * Gestion des noeuds expirés
  * Multi-selection des actions (Couper - Coller - Supprimer)
+ * Ouvrir/Sauvegarder la base de données comme service
  * Correction des paramètres
  * Correction de l'édition de groupe
  * Correction de petits bugs
