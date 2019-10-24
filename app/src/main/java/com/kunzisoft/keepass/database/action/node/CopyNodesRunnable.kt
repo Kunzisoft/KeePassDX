@@ -43,7 +43,7 @@ class CopyNodesRunnable constructor(
             when (currentNode.type) {
                 Type.GROUP -> {
                     Log.e(TAG, "Copy not allowed for group")// Only finish thread
-                    finishRun(false, CopyDatabaseGroupException())
+                    throwErrorAndFinish(CopyDatabaseGroupException())
                 }
                 Type.ENTRY -> {
                     // Root can contains entry
@@ -55,11 +55,11 @@ class CopyNodesRunnable constructor(
                             mEntriesCopied.add(entryCopied)
                         } ?: run {
                             Log.e(TAG, "Unable to create a copy of the entry")
-                            finishRun(false, CopyDatabaseEntryException())
+                            throwErrorAndFinish(CopyDatabaseEntryException())
                         }
                     } else {
                         // Only finish thread
-                        finishRun(false, CopyDatabaseEntryException())
+                        throwErrorAndFinish(CopyDatabaseEntryException())
                     }
                 }
             }

@@ -26,12 +26,13 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import java.io.IOException
 
 abstract class SaveDatabaseRunnable(protected var context: Context,
-                                protected var database: Database,
-                                private val save: Boolean,
-                                nestedAction: ActionRunnable? = null) : ActionRunnable(nestedAction) {
+                                    protected var database: Database,
+                                    protected var saveDatabase: Boolean,
+                                    nestedAction: ActionRunnable? = null)
+    : ActionRunnable(nestedAction) {
 
     override fun run() {
-        if (save) {
+        if (saveDatabase) {
             try {
                 database.saveData(context.contentResolver)
             } catch (e: IOException) {

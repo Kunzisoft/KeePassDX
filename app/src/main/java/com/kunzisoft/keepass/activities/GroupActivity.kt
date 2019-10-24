@@ -581,6 +581,7 @@ class GroupActivity : LockingActivity(),
                     )
                 }
             }
+            else -> {}
         }
         return true
     }

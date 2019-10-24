@@ -3,6 +3,7 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 abstract class ActionNodeDatabaseRunnable(
         context: Context,
@@ -21,6 +22,12 @@ abstract class ActionNodeDatabaseRunnable(
             super.run()
             finishRun(true)
         }
+    }
+
+    protected fun throwErrorAndFinish(throwable: LoadDatabaseException) {
+        saveDatabase = false
+        super.run()
+        finishRun(false, throwable)
     }
 
     override fun run() {

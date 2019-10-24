@@ -328,6 +328,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     R.id.menu_paste -> {
                         val returnValue = menuListener.onPasteMenuClick(nodeActionPasteMode, nodes)
                         nodeActionPasteMode = PasteMode.UNDEFINED
+                        nodeActionSelectionMode = false
                         returnValue
                     }
                     else -> false

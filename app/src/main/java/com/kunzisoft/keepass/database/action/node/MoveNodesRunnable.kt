@@ -52,7 +52,7 @@ class MoveNodesRunnable constructor(
                         database.moveGroupTo(groupToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        finishRun(false, MoveDatabaseGroupException())
+                        throwErrorAndFinish(MoveDatabaseGroupException())
                     }
                 }
                 Type.ENTRY -> {
@@ -64,7 +64,7 @@ class MoveNodesRunnable constructor(
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        finishRun(false, MoveDatabaseEntryException())
+                        throwErrorAndFinish(MoveDatabaseEntryException())
                     }
                 }
             }
