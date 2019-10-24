@@ -7,6 +7,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
+import android.view.View
 import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
@@ -59,12 +60,16 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
-            startOrUpdateDialog(titleId, messageId, warningId)
+            startOrUpdateDialog(titleId, messageId, warningId, View.OnClickListener {
+                mBinder?.cancelTask()
+            })
         }
 
         override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
-            startOrUpdateDialog(titleId, messageId, warningId)
+            startOrUpdateDialog(titleId, messageId, warningId, View.OnClickListener {
+                mBinder?.cancelTask()
+            })
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
@@ -75,7 +80,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
     }
 
-    private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
+    private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?,
+                                    cancelableListener: View.OnClickListener?) {
         var progressTaskDialogFragment = retrieveProgressDialog(activity)
         if (progressTaskDialogFragment == null) {
             progressTaskDialogFragment = ProgressTaskDialogFragment.build()
@@ -91,6 +97,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
             warningId?.let {
                 updateWarning(it)
             }
+            setCancelButton(cancelableListener)
         }
     }
 

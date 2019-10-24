@@ -27,6 +27,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
 import androidx.appcompat.app.AlertDialog
 import android.view.View
+import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import com.kunzisoft.keepass.R
@@ -44,6 +45,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     private var messageView: TextView? = null
     private var warningView: TextView? = null
     private var progressView: ProgressBar? = null
+    private var cancelButton: Button? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
@@ -62,6 +64,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             messageView = root.findViewById(R.id.progress_dialog_message)
             warningView = root.findViewById(R.id.progress_dialog_warning)
             progressView = root.findViewById(R.id.progress_dialog_bar)
+            cancelButton = root.findViewById(R.id.progress_dialog_cancel_button)
 
             updateTitle(title)
             updateMessage(message)
@@ -102,6 +105,15 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     fun updateWarning(@StringRes resId: Int) {
         this.warning = resId
         updateView(warningView, warning)
+    }
+
+    fun setCancelButton(onClickListener: View.OnClickListener?) {
+        if (onClickListener == null) {
+            cancelButton?.visibility = View.GONE
+        } else {
+            cancelButton?.setOnClickListener(onClickListener)
+            cancelButton?.visibility = View.VISIBLE
+        }
     }
 
     companion object {

@@ -46,4 +46,11 @@
         android:indeterminate="true"
         android:max="100"/>
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/progress_dialog_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:text="@android:string/cancel"/>
+
 </LinearLayout>

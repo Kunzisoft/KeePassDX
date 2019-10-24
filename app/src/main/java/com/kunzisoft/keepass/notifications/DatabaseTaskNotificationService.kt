@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
+import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -47,6 +48,10 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.remove(actionTaskListener)
+        }
+
+        fun cancelTask() {
+            actionRunnableAsyncTask?.cancel(true)
         }
     }
 
