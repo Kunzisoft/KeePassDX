@@ -121,14 +121,16 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     }
 
                     override fun onNodeLongClick(node: NodeVersioned): Boolean {
-                        // Select the first item after a long click
-                        if (!listActionNodes.contains(node))
-                            listActionNodes.add(node)
+                        if (nodeActionPasteMode == PasteMode.UNDEFINED) {
+                            // Select the first item after a long click
+                            if (!listActionNodes.contains(node))
+                                listActionNodes.add(node)
 
-                        nodeClickListener?.onNodeSelected(listActionNodes)
+                            nodeClickListener?.onNodeSelected(listActionNodes)
 
-                        setActionNodes(listActionNodes)
-                        notifyNodeChanged(node)
+                            setActionNodes(listActionNodes)
+                            notifyNodeChanged(node)
+                        }
                         return true
                     }
                 })
