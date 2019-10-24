@@ -40,8 +40,12 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         private set
     private var mAdapter: NodeAdapter? = null
 
-    private var nodeActionSelectionMode = false
+    var nodeActionSelectionMode = false
+        private set
+    var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
+        private set
     private val listActionNodes = LinkedList<NodeVersioned>()
+    private val listPasteNodes = LinkedList<NodeVersioned>()
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
@@ -250,17 +254,16 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
         return object : ActionMode.Callback {
 
-            private var pasteMode: PasteMode? = null
-
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 nodeActionSelectionMode = false
+                nodeActionPasteMode = PasteMode.UNDEFINED
                 return true
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 menu?.clear()
 
-                if (pasteMode != null) {
+                if (nodeActionPasteMode != PasteMode.UNDEFINED) {
                     mode?.menuInflater?.inflate(R.menu.node_paste_menu, menu)
                 } else {
                     nodeActionSelectionMode = true
@@ -308,14 +311,14 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     R.id.menu_open -> menuListener.onOpenMenuClick(nodes[0])
                     R.id.menu_edit -> menuListener.onEditMenuClick(nodes[0])
                     R.id.menu_copy -> {
-                        pasteMode = PasteMode.PASTE_FROM_COPY
+                        nodeActionPasteMode = PasteMode.PASTE_FROM_COPY
                         mAdapter?.unselectActionNodes()
                         val returnValue = menuListener.onCopyMenuClick(nodes)
                         nodeActionSelectionMode = false
                         returnValue
                     }
                     R.id.menu_move -> {
-                        pasteMode = PasteMode.PASTE_FROM_MOVE
+                        nodeActionPasteMode = PasteMode.PASTE_FROM_MOVE
                         mAdapter?.unselectActionNodes()
                         val returnValue = menuListener.onMoveMenuClick(nodes)
                         nodeActionSelectionMode = false
@@ -323,8 +326,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     }
                     R.id.menu_delete -> menuListener.onDeleteMenuClick(nodes)
                     R.id.menu_paste -> {
-                        val returnValue = menuListener.onPasteMenuClick(pasteMode, nodes)
-                        pasteMode = null
+                        val returnValue = menuListener.onPasteMenuClick(nodeActionPasteMode, nodes)
+                        nodeActionPasteMode = PasteMode.UNDEFINED
                         returnValue
                     }
                     else -> false
@@ -333,7 +336,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
 
             override fun onDestroyActionMode(mode: ActionMode?) {
                 listActionNodes.clear()
+                listPasteNodes.clear()
                 mAdapter?.unselectActionNodes()
+                nodeActionPasteMode = PasteMode.UNDEFINED
                 nodeActionSelectionMode = false
             }
         }
@@ -418,7 +423,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     }
 
     enum class PasteMode {
-        PASTE_FROM_COPY, PASTE_FROM_MOVE
+        UNDEFINED, PASTE_FROM_COPY, PASTE_FROM_MOVE
     }
 
     interface OnScrollListener {

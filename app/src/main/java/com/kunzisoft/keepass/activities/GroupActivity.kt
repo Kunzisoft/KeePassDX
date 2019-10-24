@@ -861,25 +861,29 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onBackPressed() {
-        // Normal way when we are not in root
-        if (mRootGroup != null && mRootGroup != mCurrentGroup)
-            super.onBackPressed()
-        // Else lock if needed
-        else {
-            if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                lockAndExit()
+        if (mListNodesFragment?.nodeActionSelectionMode == true) {
+            finishNodeAction()
+        } else {
+            // Normal way when we are not in root
+            if (mRootGroup != null && mRootGroup != mCurrentGroup)
                 super.onBackPressed()
-            } else {
-                moveTaskToBack(true)
+            // Else lock if needed
+            else {
+                if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
+                    lockAndExit()
+                    super.onBackPressed()
+                } else {
+                    moveTaskToBack(true)
+                }
             }
-        }
 
-        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
-        // to refresh fragment
-        mListNodesFragment?.rebuildList()
-        mCurrentGroup = mListNodesFragment?.mainGroup
-        removeSearchInIntent(intent)
-        assignGroupViewElements()
+            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
+            // to refresh fragment
+            mListNodesFragment?.rebuildList()
+            mCurrentGroup = mListNodesFragment?.mainGroup
+            removeSearchInIntent(intent)
+            assignGroupViewElements()
+        }
     }
 
     companion object {
