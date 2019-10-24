@@ -21,9 +21,9 @@
     <string name="about_homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
-    <string name="add_entry">"Girdi Ekle "</string>
-    <string name="edit_entry">"Girdi Düzenle "</string>
-    <string name="add_group">"Grup Ekle "</string>
+    <string name="add_entry">Girdi Ekle</string>
+    <string name="edit_entry">Girdi Düzenle</string>
+    <string name="add_group">Grup Ekle</string>
     <string name="encryption">Şifreleme</string>
     <string name="encryption_algorithm">Şifreleme algoritması</string>
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
@@ -113,7 +113,7 @@
     <string name="maskpass_title">"Parolaları gizle "</string>
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
-    <string name="menu_change_key_settings">Ana anahtarı değitir</string>
+    <string name="menu_change_key_settings">Ana anahtarı değiştir</string>
     <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>
     <string name="menu_app_settings">Uygulama ayarları</string>
@@ -151,7 +151,7 @@
     <string name="read_only_kitkat_warning">Android KitKat ile başlayan bazı cihazlar artık uygulamaların SD karta yazmasına izin vermiyor.</string>
     <string name="recentfile_title">Son dosya geçmişi</string>
     <string name="recentfile_summary">Son dosya adlarını hatırla</string>
-    <string name="remember_keyfile_summary">Veritaban anahtar dosyaların yerini hatırlar</string>
+    <string name="remember_keyfile_summary">Veritabanı anahtar dosyaların yerini hatırlar</string>
     <string name="remember_keyfile_title">Anahtar dosya kaydet</string>
     <string name="content_description_remove_from_list">Kaldır</string>
     <string name="root">Kök</string>
@@ -392,7 +392,7 @@
     <string name="delete_entered_password_title">Parolayı sil</string>
     <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
-    <string name="content_description_repeat_toggle_password_visibility">Geçiş şifre görünürlüğünü tekrarlayın</string>
+    <string name="content_description_repeat_toggle_password_visibility">Geçiş şifresi görünürlüğünü tekrarlayın</string>
     <string name="content_description_entry_save">Giriş kaydet</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelleme</string>
