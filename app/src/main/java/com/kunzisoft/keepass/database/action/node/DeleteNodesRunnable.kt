@@ -36,7 +36,7 @@ class DeleteNodesRunnable(context: Context,
 
     override fun nodeAction() {
 
-        mNodesToDelete.forEach { currentNode ->
+        foreachNode@ for(currentNode in mNodesToDelete) {
             mParent = currentNode.parent
             mParent?.touch(modified = false, touchParents = true)
 

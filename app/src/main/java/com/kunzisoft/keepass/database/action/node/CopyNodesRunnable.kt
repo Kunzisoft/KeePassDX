@@ -24,6 +24,7 @@ import android.util.Log
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.CopyDatabaseEntryException
 import com.kunzisoft.keepass.database.exception.CopyDatabaseGroupException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 class CopyNodesRunnable constructor(
         context: Context,
@@ -38,33 +39,42 @@ class CopyNodesRunnable constructor(
 
     override fun nodeAction() {
 
-        mNodesToCopy.forEach { currentNode ->
+        var error: LoadDatabaseException? = null
+        foreachNode@ for(currentNode in mNodesToCopy) {
 
             when (currentNode.type) {
                 Type.GROUP -> {
                     Log.e(TAG, "Copy not allowed for group")// Only finish thread
-                    throwErrorAndFinish(CopyDatabaseGroupException())
+                    error = CopyDatabaseGroupException()
+                    break@foreachNode
                 }
                 Type.ENTRY -> {
                     // Root can contains entry
                     if (mNewParent != database.rootGroup || database.rootCanContainsEntry()) {
                         // Update entry with new values
                         mNewParent.touch(modified = false, touchParents = true)
-                        database.copyEntryTo(currentNode as EntryVersioned, mNewParent)?.let { entryCopied ->
+
+                        val entryCopied = database.copyEntryTo(currentNode as EntryVersioned, mNewParent)
+                        if (entryCopied != null) {
                             entryCopied.touch(modified = true, touchParents = true)
                             mEntriesCopied.add(entryCopied)
-                        } ?: run {
+                        } else {
                             Log.e(TAG, "Unable to create a copy of the entry")
-                            throwErrorAndFinish(CopyDatabaseEntryException())
+                            error = CopyDatabaseEntryException()
+                            break@foreachNode
                         }
                     } else {
                         // Only finish thread
-                        throwErrorAndFinish(CopyDatabaseEntryException())
+                        error = CopyDatabaseEntryException()
+                        break@foreachNode
                     }
                 }
             }
         }
-        saveDatabaseAndFinish()
+        if (error != null)
+            throwErrorAndFinish(error)
+        else
+            saveDatabaseAndFinish()
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {

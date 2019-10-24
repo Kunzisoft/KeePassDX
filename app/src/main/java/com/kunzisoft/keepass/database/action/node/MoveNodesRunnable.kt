@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.database.exception.MoveDatabaseEntryException
 import com.kunzisoft.keepass.database.exception.MoveDatabaseGroupException
 
@@ -38,10 +39,10 @@ class MoveNodesRunnable constructor(
 
     override fun nodeAction() {
 
-        mNodesToMove.forEach { nodeToMove ->
+        var error: LoadDatabaseException? = null
+        foreachNode@ for(nodeToMove in mNodesToMove) {
             // Move node in new parent
             mOldParent = nodeToMove.parent
-            nodeToMove.touch(modified = true, touchParents = true)
 
             when (nodeToMove.type) {
                 Type.GROUP -> {
@@ -49,10 +50,12 @@ class MoveNodesRunnable constructor(
                     // Move group in new parent if not in the current group
                     if (groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
+                        nodeToMove.touch(modified = true, touchParents = true)
                         database.moveGroupTo(groupToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        throwErrorAndFinish(MoveDatabaseGroupException())
+                        error = MoveDatabaseGroupException()
+                        break@foreachNode
                     }
                 }
                 Type.ENTRY -> {
@@ -61,15 +64,20 @@ class MoveNodesRunnable constructor(
                     if (mOldParent != mNewParent
                             // and root can contains entry
                             && (mNewParent != database.rootGroup || database.rootCanContainsEntry())) {
+                        nodeToMove.touch(modified = true, touchParents = true)
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        throwErrorAndFinish(MoveDatabaseEntryException())
+                        error = MoveDatabaseEntryException()
+                        break@foreachNode
                     }
                 }
             }
         }
-        saveDatabaseAndFinish()
+        if (error != null)
+            throwErrorAndFinish(error)
+        else
+            saveDatabaseAndFinish()
     }
 
     override fun nodeFinish(result: Result): ActionNodeValues {
