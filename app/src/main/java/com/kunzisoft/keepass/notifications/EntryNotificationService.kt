@@ -32,6 +32,12 @@ abstract class EntryNotificationService : NotificationService() {
             task.interrupt()
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        notificationManager?.cancel(notificationId)
+
+        super.onTaskRemoved(rootIntent)
+    }
+
     override fun onDestroy() {
 
         unregisterReceiver(lockBroadcastReceiver)
