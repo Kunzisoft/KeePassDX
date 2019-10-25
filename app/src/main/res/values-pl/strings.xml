@@ -425,4 +425,5 @@
     <string name="enable">Włącz</string>
     <string name="disable">Wyłącz</string>
     <string name="biometric_auto_open_prompt_summary">Automatycznie otwieraj monit biometryczny, gdy klucz biometryczny jest zdefiniowany dla bazy danych</string>
+    <string name="content_description_node_children">Węzły podrzędne</string>
 </resources>
