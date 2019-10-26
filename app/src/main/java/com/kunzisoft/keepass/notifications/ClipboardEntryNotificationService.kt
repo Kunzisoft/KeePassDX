@@ -72,11 +72,7 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
             }
             ACTION_CLEAN_CLIPBOARD == intent.action -> {
                 stopTask(cleanCopyNotificationTimerTask)
-                try {
-                    clipboardHelper?.cleanClipboard()
-                } catch (e: SamsungClipboardException) {
-                    Log.e(TAG, "Clipboard can't be cleaned", e)
-                }
+                cleanClipboard()
                 stopNotificationAndSendLockIfNeeded()
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
@@ -204,11 +200,7 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
                     notificationManager?.cancel(myNotificationId)
                     // Clean password only if no next field
                     if (nextFields.size <= 0)
-                        try {
-                            clipboardHelper?.cleanClipboard()
-                        } catch (e: SamsungClipboardException) {
-                            Log.e(TAG, "Clipboard can't be cleaned", e)
-                        }
+                        cleanClipboard()
                 }
                 cleanCopyNotificationTimerTask?.start()
             } else {
@@ -220,6 +212,20 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
             Log.e(TAG, "Clipboard can't be populate", e)
         }
 
+    }
+
+    private fun cleanClipboard() {
+        try {
+            clipboardHelper?.cleanClipboard()
+        } catch (e: SamsungClipboardException) {
+            Log.e(TAG, "Clipboard can't be cleaned", e)
+        }
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        cleanClipboard()
+
+        super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
