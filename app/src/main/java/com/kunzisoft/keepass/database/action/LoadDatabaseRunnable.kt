@@ -20,12 +20,14 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -82,6 +84,9 @@ class LoadDatabaseRunnable(private val context: Context,
         catch (e: LoadDatabaseException) {
             finishRun(false, e)
         }
+
+        // Start the opening notification
+        context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
     }
 
     override fun onFinishRun(result: Result) {

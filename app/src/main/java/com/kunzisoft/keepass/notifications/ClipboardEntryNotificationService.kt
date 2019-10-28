@@ -33,7 +33,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
 
-class ClipboardEntryNotificationService : EntryNotificationService() {
+class ClipboardEntryNotificationService : LockNotificationService() {
 
     override var notificationId = 485
     private var cleanNotificationTimerTask: Thread? = null

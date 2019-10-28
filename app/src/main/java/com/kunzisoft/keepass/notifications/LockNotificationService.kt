@@ -6,7 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
-abstract class EntryNotificationService : NotificationService() {
+abstract class LockNotificationService : NotificationService() {
 
     private var lockBroadcastReceiver: BroadcastReceiver? = null
 

@@ -12,7 +12,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
-class KeyboardEntryNotificationService : EntryNotificationService() {
+class KeyboardEntryNotificationService : LockNotificationService() {
 
     override var notificationId = 486
     private var cleanNotificationTimerTask: Thread? = null
@@ -73,7 +73,6 @@ class KeyboardEntryNotificationService : EntryNotificationService() {
 
         notificationManager?.cancel(notificationId)
         notificationManager?.notify(notificationId, builder.build())
-
 
         stopTask(cleanNotificationTimerTask)
         // Timeout only if notification clear is available
