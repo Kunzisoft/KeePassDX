@@ -35,11 +35,9 @@ import java.util.*
 
 class ClipboardEntryNotificationService : LockNotificationService() {
 
-    override var notificationId = 485
-    private var cleanNotificationTimerTask: Thread? = null
-    private var notificationTimeoutMilliSecs: Long = 0
-
+    override val notificationId = 485
     private var clipboardHelper: ClipboardHelper? = null
+    private var notificationTimeoutMilliSecs: Long = 0
     private var cleanCopyNotificationTimerTask: Thread? = null
 
     override fun onCreate() {
@@ -131,29 +129,11 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd))
             }
         }
-
-        notificationManager?.cancel(notificationId)
-        notificationManager?.notify(++notificationId, builder.build())
-
-        val myNotificationId = notificationId
-        stopTask(cleanNotificationTimerTask)
-        // If timer
-        if (notificationTimeoutMilliSecs != NEVER) {
-            cleanNotificationTimerTask = Thread {
-                try {
-                    Thread.sleep(notificationTimeoutMilliSecs)
-                } catch (e: InterruptedException) {
-                    cleanNotificationTimerTask = null
-                }
-                notificationManager?.cancel(myNotificationId)
-            }
-            cleanNotificationTimerTask?.start()
-        }
+        notificationManager?.notify(notificationId, builder.build())
     }
 
     private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: ArrayList<ClipboardEntryNotificationField>) {
         stopTask(cleanCopyNotificationTimerTask)
-        stopTask(cleanNotificationTimerTask)
 
         try {
             clipboardHelper?.copyToClipboard(fieldToCopy.label, fieldToCopy.value)
@@ -231,9 +211,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     override fun onDestroy() {
 
         stopTask(cleanCopyNotificationTimerTask)
-        stopTask(cleanNotificationTimerTask)
         cleanCopyNotificationTimerTask = null
-        cleanNotificationTimerTask = null
 
         super.onDestroy()
     }

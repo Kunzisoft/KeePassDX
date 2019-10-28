@@ -10,7 +10,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class DatabaseOpenNotificationService: LockNotificationService() {
 
-    override var notificationId: Int = 340
+    override val notificationId: Int = 340
 
     private fun stopNotificationAndSendLock() {
         // Send lock action

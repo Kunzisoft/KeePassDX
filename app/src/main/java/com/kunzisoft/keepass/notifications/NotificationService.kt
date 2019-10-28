@@ -18,7 +18,7 @@ abstract class NotificationService : Service() {
     protected var notificationManager: NotificationManagerCompat? = null
     private var colorNotificationAccent: Int = 0
 
-    protected abstract var notificationId: Int
+    protected abstract val notificationId: Int
 
     override fun onBind(intent: Intent): IBinder? {
         return null

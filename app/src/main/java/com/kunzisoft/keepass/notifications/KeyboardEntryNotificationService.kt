@@ -14,7 +14,7 @@ import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class KeyboardEntryNotificationService : LockNotificationService() {
 
-    override var notificationId = 486
+    override val notificationId = 486
     private var cleanNotificationTimerTask: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 

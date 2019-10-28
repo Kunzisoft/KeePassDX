@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
 
-    override var notificationId: Int = 575
+    override val notificationId: Int = 575
 
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
 
