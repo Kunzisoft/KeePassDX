@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
@@ -60,6 +61,21 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         super.onBindDialogView(view)
 
         inputTextView = view.findViewById(R.id.input_text)
+        inputTextView?.apply {
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setOnEditorActionListener { _, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE -> {
+                        onDialogClosed(true)
+                        dialog?.dismiss()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }
         textExplanationView = view.findViewById(R.id.explanation_text)
         textExplanationView?.visibility = View.GONE
         switchElementView = view.findViewById(R.id.switch_element)
