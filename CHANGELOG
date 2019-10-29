@@ -4,7 +4,7 @@ KeepassDX (2.5.0.0beta24)
  * Auto repair database for nodes with same UUID
  * Management of expired nodes
  * Multi-selection for actions (Cut - Copy - Delete)
- * Open/Save database as service
+ * Open/Save database as service / Add persistent notification
  * Fix settings
  * Fix edit group
  * Fix small bugs
