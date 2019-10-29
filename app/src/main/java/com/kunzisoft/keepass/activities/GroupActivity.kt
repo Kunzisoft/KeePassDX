@@ -267,6 +267,8 @@ class GroupActivity : LockingActivity(),
                 }
 
                 finishNodeAction()
+
+                refreshNumberOfChildren()
             }
         }
 
@@ -422,14 +424,7 @@ class GroupActivity : LockingActivity(),
         }
 
         // Assign number of children
-        numberChildrenView?.apply {
-            if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
-                visibility = View.VISIBLE
-            } else {
-                visibility = View.GONE
-            }
-        }
+        refreshNumberOfChildren()
 
         // Show selection mode message if needed
         if (mSelectionMode) {
@@ -457,6 +452,17 @@ class GroupActivity : LockingActivity(),
 
             if (isEnable)
                 showButton()
+        }
+    }
+
+    private fun refreshNumberOfChildren() {
+        numberChildrenView?.apply {
+            if (PreferencesUtil.showNumberEntries(context)) {
+                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
+            }
         }
     }
 
