@@ -395,5 +395,5 @@
     <string name="biometric_prompt_store_credential_title">Lagre biometrisk gjenkjennelse</string>
     <string name="biometric_prompt_store_credential_message">Lagre databaseopplysninger med biometriske data</string>
     <string name="enable">Aktiver</string>
-    <string name="disable">Deaktiver</string>
+    <string name="disable">Skru av</string>
 </resources>
