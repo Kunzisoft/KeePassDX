@@ -209,6 +209,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.clear_clipboard_notification_default))
     }
 
+    fun isClearKeyboardNotificationEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_clear_close_key),
+                context.resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))
+    }
+
     fun setAllowCopyPasswordAndProtectedFields(context: Context, allowCopy: Boolean) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs.edit()

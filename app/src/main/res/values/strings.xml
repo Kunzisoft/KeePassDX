@@ -257,6 +257,7 @@
     <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
+    <string name="database_opened">Database opened</string>
     <string name="clipboard">Clipboard</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>

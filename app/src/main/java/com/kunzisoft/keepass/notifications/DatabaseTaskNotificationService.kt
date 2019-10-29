@@ -26,7 +26,7 @@ import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
 
-    override var notificationId: Int = 575
+    override val notificationId: Int = 575
 
     private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
 
@@ -154,7 +154,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     private fun newNotification(title: Int) {
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
+                .setSmallIcon(R.drawable.notification_ic_database_load)
                 .setContentTitle(getString(title))
                 .setAutoCancel(false)
                 .setContentIntent(null)

@@ -29,17 +29,16 @@ import com.kunzisoft.keepass.database.exception.SamsungClipboardException
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
 
-class ClipboardEntryNotificationService : EntryNotificationService() {
+class ClipboardEntryNotificationService : LockNotificationService() {
 
-    override var notificationId = 485
-    private var cleanNotificationTimerTask: Thread? = null
-    private var notificationTimeoutMilliSecs: Long = 0
-
+    override val notificationId = 485
     private var clipboardHelper: ClipboardHelper? = null
+    private var notificationTimeoutMilliSecs: Long = 0
     private var cleanCopyNotificationTimerTask: Thread? = null
 
     override fun onCreate() {
@@ -59,10 +58,9 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //Get settings
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val timeoutClipboardClear = prefs.getString(getString(R.string.clipboard_timeout_key),
-                getString(R.string.clipboard_timeout_default)) ?: "6000"
-        notificationTimeoutMilliSecs = java.lang.Long.parseLong(timeoutClipboardClear)
+        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(getString(R.string.clipboard_timeout_key),
+                getString(R.string.clipboard_timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -72,11 +70,7 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
             }
             ACTION_CLEAN_CLIPBOARD == intent.action -> {
                 stopTask(cleanCopyNotificationTimerTask)
-                try {
-                    clipboardHelper?.cleanClipboard()
-                } catch (e: SamsungClipboardException) {
-                    Log.e(TAG, "Clipboard can't be cleaned", e)
-                }
+                cleanClipboard()
                 stopNotificationAndSendLockIfNeeded()
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
@@ -135,29 +129,11 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
                         getCopyPendingIntent(fieldToAdd, fieldsToAdd))
             }
         }
-
-        notificationManager?.cancel(notificationId)
-        notificationManager?.notify(++notificationId, builder.build())
-
-        val myNotificationId = notificationId
-        stopTask(cleanNotificationTimerTask)
-        // If timer
-        if (notificationTimeoutMilliSecs != NEVER) {
-            cleanNotificationTimerTask = Thread {
-                try {
-                    Thread.sleep(notificationTimeoutMilliSecs)
-                } catch (e: InterruptedException) {
-                    cleanNotificationTimerTask = null
-                }
-                notificationManager?.cancel(myNotificationId)
-            }
-            cleanNotificationTimerTask?.start()
-        }
+        notificationManager?.notify(notificationId, builder.build())
     }
 
     private fun copyField(fieldToCopy: ClipboardEntryNotificationField, nextFields: ArrayList<ClipboardEntryNotificationField>) {
         stopTask(cleanCopyNotificationTimerTask)
-        stopTask(cleanNotificationTimerTask)
 
         try {
             clipboardHelper?.copyToClipboard(fieldToCopy.label, fieldToCopy.value)
@@ -204,11 +180,7 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
                     notificationManager?.cancel(myNotificationId)
                     // Clean password only if no next field
                     if (nextFields.size <= 0)
-                        try {
-                            clipboardHelper?.cleanClipboard()
-                        } catch (e: SamsungClipboardException) {
-                            Log.e(TAG, "Clipboard can't be cleaned", e)
-                        }
+                        cleanClipboard()
                 }
                 cleanCopyNotificationTimerTask?.start()
             } else {
@@ -222,12 +194,25 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
 
     }
 
+    private fun cleanClipboard() {
+        try {
+            clipboardHelper?.cleanClipboard()
+        } catch (e: SamsungClipboardException) {
+            Log.e(TAG, "Clipboard can't be cleaned", e)
+        }
+    }
+
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        cleanClipboard()
+
+        super.onTaskRemoved(rootIntent)
+    }
+
     override fun onDestroy() {
+        cleanClipboard()
 
         stopTask(cleanCopyNotificationTimerTask)
-        stopTask(cleanNotificationTimerTask)
         cleanCopyNotificationTimerTask = null
-        cleanNotificationTimerTask = null
 
         super.onDestroy()
     }
@@ -252,13 +237,15 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
                         (entry.containsCustomFieldsProtected() && PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
                     )
 
+            var startService = false
+            val intent = Intent(context, ClipboardEntryNotificationService::class.java)
+
             // If notifications enabled in settings
             // Don't if application timeout
             if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
                 if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
 
                     // username already copied, waiting for user's action before copy password.
-                    val intent = Intent(context, ClipboardEntryNotificationService::class.java)
                     intent.action = ACTION_NEW_NOTIFICATION
                     intent.putExtra(EXTRA_ENTRY_TITLE, entry.title)
                     // Construct notification fields
@@ -302,10 +289,14 @@ class ClipboardEntryNotificationService : EntryNotificationService() {
 
                     }
                     // Add notifications
+                    startService = true
                     intent.putParcelableArrayListExtra(EXTRA_FIELDS, notificationFields)
                     context.startService(intent)
                 }
             }
+
+            if (!startService)
+                context.stopService(intent)
         }
     }
 }
