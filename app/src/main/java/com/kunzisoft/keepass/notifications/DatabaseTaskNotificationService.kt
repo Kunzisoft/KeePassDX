@@ -154,7 +154,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     private fun newNotification(title: Int) {
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
+                .setSmallIcon(R.drawable.notification_ic_database_load)
                 .setContentTitle(getString(title))
                 .setAutoCancel(false)
                 .setContentIntent(null)

@@ -61,7 +61,7 @@ abstract class NotificationService : Service() {
     // TODO only for > lollipop
     protected fun buildSummaryNotification(): NotificationCompat.Builder {
         return buildNewNotification().apply {
-            setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
+            // TODO Ic setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
             setGroupSummary(true)
         }
     }

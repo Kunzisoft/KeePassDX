@@ -40,7 +40,7 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                 val database = Database.getInstance()
                 if (database.loaded) {
                     notificationManager?.notify(notificationId, buildNewNotification().apply {
-                        setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
+                        setSmallIcon(R.drawable.notification_ic_database_open)
                         setContentTitle(getString(R.string.database_opened))
                         setContentText(database.name + " (" + database.version + ")")
                         setAutoCancel(false)
