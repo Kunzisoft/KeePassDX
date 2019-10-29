@@ -21,12 +21,8 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     private var pendingDeleteIntent: PendingIntent? = null
 
     private fun stopNotificationAndSendLockIfNeeded() {
-        // Remove the entry from the keyboard
-        MagikIME.removeEntry(this)
         // Clear the entry if define in preferences
-        val sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
-                        resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
+        if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             sendBroadcast(Intent(LOCK_ACTION))
         }
         // Stop the service
@@ -34,6 +30,11 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        //Get settings
+        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(getString(R.string.keyboard_entry_timeout_key),
+                getString(R.string.timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+
         when {
             intent == null -> Log.w(TAG, "null intent")
             ACTION_CLEAN_KEYBOARD_ENTRY == intent.action -> {
@@ -76,19 +77,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
         stopTask(cleanNotificationTimerTask)
         // Timeout only if notification clear is available
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
-                        resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
-            val keyboardTimeout = sharedPreferences.getString(getString(R.string.keyboard_entry_timeout_key),
-                    getString(R.string.timeout_default))
-            notificationTimeoutMilliSecs = try {
-                keyboardTimeout?.let {
-                    java.lang.Long.parseLong(keyboardTimeout)
-                } ?: 0
-            } catch (e: NumberFormatException) {
-                TimeoutHelper.DEFAULT_TIMEOUT
-            }
-
+        if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             if (notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
                 cleanNotificationTimerTask = Thread {
                     val maxPos = 100
@@ -111,7 +100,15 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         }
     }
 
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        MagikIME.removeEntry(this)
+
+        super.onTaskRemoved(rootIntent)
+    }
+
     override fun onDestroy() {
+        // Remove the entry from the keyboard
+        MagikIME.removeEntry(this)
 
         stopTask(cleanNotificationTimerTask)
         cleanNotificationTimerTask = null
@@ -129,12 +126,26 @@ class KeyboardEntryNotificationService : LockNotificationService() {
         const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
 
         fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+
+            val containsUsernameToCopy = entry.username.isNotEmpty()
+            val containsPasswordToCopy = entry.password.isNotEmpty()
+            val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
+
+            var startService = false
+            val intent = Intent(context, KeyboardEntryNotificationService::class.java)
+
             // Show the notification if allowed in Preferences
             if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
-                context.startService(Intent(context, KeyboardEntryNotificationService::class.java).apply {
-                    putExtra(ENTRY_INFO_KEY, entry)
-                })
+                if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+                    startService = true
+                    context.startService(intent.apply {
+                        putExtra(ENTRY_INFO_KEY, entry)
+                    })
+                }
             }
+
+            if (!startService)
+                context.stopService(intent)
         }
     }
 

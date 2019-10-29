@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.database.exception.SamsungClipboardException
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
@@ -57,10 +58,9 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         //Get settings
-        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-        val timeoutClipboardClear = prefs.getString(getString(R.string.clipboard_timeout_key),
-                getString(R.string.clipboard_timeout_default)) ?: "6000"
-        notificationTimeoutMilliSecs = java.lang.Long.parseLong(timeoutClipboardClear)
+        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(getString(R.string.clipboard_timeout_key),
+                getString(R.string.clipboard_timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -209,6 +209,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onDestroy() {
+        cleanClipboard()
 
         stopTask(cleanCopyNotificationTimerTask)
         cleanCopyNotificationTimerTask = null
@@ -236,13 +237,15 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                         (entry.containsCustomFieldsProtected() && PreferencesUtil.allowCopyPasswordAndProtectedFields(context))
                     )
 
+            var startService = false
+            val intent = Intent(context, ClipboardEntryNotificationService::class.java)
+
             // If notifications enabled in settings
             // Don't if application timeout
             if (PreferencesUtil.isClipboardNotificationsEnable(context)) {
                 if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
 
                     // username already copied, waiting for user's action before copy password.
-                    val intent = Intent(context, ClipboardEntryNotificationService::class.java)
                     intent.action = ACTION_NEW_NOTIFICATION
                     intent.putExtra(EXTRA_ENTRY_TITLE, entry.title)
                     // Construct notification fields
@@ -286,10 +289,14 @@ class ClipboardEntryNotificationService : LockNotificationService() {
 
                     }
                     // Add notifications
+                    startService = true
                     intent.putParcelableArrayListExtra(EXTRA_FIELDS, notificationFields)
                     context.startService(intent)
                 }
             }
+
+            if (!startService)
+                context.stopService(intent)
         }
     }
 }
