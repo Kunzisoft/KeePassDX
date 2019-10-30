@@ -233,18 +233,16 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     cipherEntity,
                     PreferencesUtil.omitBackup(this),
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
-                    this,
-                    object: ActionRunnable() {
-                        override fun onFinishRun(result: Result) {
-                            result.data = Bundle().apply {
-                                putParcelable(DATABASE_URI_KEY, databaseUri)
-                                putString(MASTER_PASSWORD_KEY, masterPassword)
-                                putParcelable(KEY_FILE_KEY, keyFileUri)
-                                putBoolean(READ_ONLY_KEY, readOnly)
-                                putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
-                            }
-                        }
-                    })
+                    this
+            ) { result ->
+                result.data = Bundle().apply {
+                    putParcelable(DATABASE_URI_KEY, databaseUri)
+                    putString(MASTER_PASSWORD_KEY, masterPassword)
+                    putParcelable(KEY_FILE_KEY, keyFileUri)
+                    putBoolean(READ_ONLY_KEY, readOnly)
+                    putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
+                }
+            }
         } else {
             return null
         }

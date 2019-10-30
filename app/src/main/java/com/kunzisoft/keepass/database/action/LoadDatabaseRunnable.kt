@@ -42,8 +42,8 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
-                           actionFinishRunnable: ActionRunnable?)
-    : ActionRunnable(actionFinishRunnable, executeNestedActionIfResultFalse = true) {
+                           private val mOnFinish: ((Result) -> Unit)?)
+    : ActionRunnable(null, executeNestedActionIfResultFalse = true) {
 
     private val cacheDirectory = context.applicationContext.filesDir
 
@@ -70,6 +70,8 @@ class LoadDatabaseRunnable(private val context: Context,
                 FileDatabaseHistoryAction.getInstance(context)
                         .addOrUpdateDatabaseUri(mUri, keyUri)
             }
+
+            mOnFinish?.invoke(result)
 
             // Register the biometric
             mCipherEntity?.let { cipherDatabaseEntity ->
