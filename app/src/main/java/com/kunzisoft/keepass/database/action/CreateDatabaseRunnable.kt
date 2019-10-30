@@ -26,14 +26,14 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 
 class CreateDatabaseRunnable(context: Context,
-                             private val mDatabaseUri: Uri,
                              private val mDatabase: Database,
+                             databaseUri: Uri,
                              withMasterPassword: Boolean,
                              masterPassword: String?,
                              withKeyFile: Boolean,
                              keyFile: Uri?,
                              save: Boolean)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, withMasterPassword, masterPassword, withKeyFile, keyFile, save) {
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile, save) {
 
     override fun onStartRun() {
         try {

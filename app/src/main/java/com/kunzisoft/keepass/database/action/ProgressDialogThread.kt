@@ -228,12 +228,14 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                 , ACTION_DATABASE_LOAD_TASK)
     }
 
-    fun startDatabaseAssignPassword(masterPasswordChecked: Boolean,
+    fun startDatabaseAssignPassword(databaseUri: Uri,
+                                    masterPasswordChecked: Boolean,
                                     masterPassword: String?,
                                     keyFileChecked: Boolean,
                                     keyFile: Uri?) {
 
         start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)

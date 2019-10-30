@@ -53,7 +53,9 @@ class Database {
     private var pwDatabaseV3: PwDatabaseV3? = null
     private var pwDatabaseV4: PwDatabaseV4? = null
 
-    private var mUri: Uri? = null
+    var fileUri: Uri? = null
+        private set
+
     private var mSearchHelper: SearchDbHelper? = null
 
     var isReadOnly = false
@@ -283,7 +285,7 @@ class Database {
     fun createData(databaseUri: Uri) {
         // Always create a new database with the last version
         setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
-        this.mUri = databaseUri
+        this.fileUri = databaseUri
     }
 
     @Throws(LoadDatabaseException::class)
@@ -295,7 +297,7 @@ class Database {
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
-        mUri = uri
+        this.fileUri = uri
         isReadOnly = readOnly
         if (uri.scheme == "file") {
             val file = File(uri.path!!)
@@ -425,7 +427,7 @@ class Database {
 
     @Throws(IOException::class, DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
-        mUri?.let {
+        this.fileUri?.let {
             saveData(contentResolver, it)
         }
     }
@@ -477,7 +479,7 @@ class Database {
                 outputStream?.close()
             }
         }
-        mUri = uri
+        this.fileUri = uri
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
@@ -493,10 +495,10 @@ class Database {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
-        pwDatabaseV3 = null
-        pwDatabaseV4 = null
-        mUri = null
-        loaded = false
+        this.pwDatabaseV3 = null
+        this.pwDatabaseV4 = null
+        this.fileUri = null
+        this.loaded = false
     }
 
     fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {

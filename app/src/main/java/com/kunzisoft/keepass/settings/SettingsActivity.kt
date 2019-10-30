@@ -129,25 +129,29 @@ open class SettingsActivity
                                                 keyFileChecked: Boolean,
                                                 keyFile: Uri?) {
         Database.getInstance().let { database ->
-            // Show the progress dialog now or after dialog confirmation
-            if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
-                progressDialogThread?.startDatabaseAssignPassword(
-                        masterPasswordChecked,
-                        masterPassword,
-                        keyFileChecked,
-                        keyFile
-                )
-            } else {
-                PasswordEncodingDialogFragment().apply {
-                    positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                        progressDialogThread?.startDatabaseAssignPassword(
-                                masterPasswordChecked,
-                                masterPassword,
-                                keyFileChecked,
-                                keyFile
-                        )
+            database.fileUri?.let { databaseUri ->
+                // Show the progress dialog now or after dialog confirmation
+                if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
+                    progressDialogThread?.startDatabaseAssignPassword(
+                            databaseUri,
+                            masterPasswordChecked,
+                            masterPassword,
+                            keyFileChecked,
+                            keyFile
+                    )
+                } else {
+                    PasswordEncodingDialogFragment().apply {
+                        positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
+                            progressDialogThread?.startDatabaseAssignPassword(
+                                    databaseUri,
+                                    masterPasswordChecked,
+                                    masterPassword,
+                                    keyFileChecked,
+                                    keyFile
+                            )
+                        }
+                        show(supportFragmentManager, "passwordEncodingTag")
                     }
-                    show(supportFragmentManager, "passwordEncodingTag")
                 }
             }
         }
@@ -157,7 +161,6 @@ open class SettingsActivity
                                                 masterPassword: String?,
                                                 keyFileChecked: Boolean,
                                                 keyFile: Uri?) {
-
     }
 
     override fun onBackPressed() {

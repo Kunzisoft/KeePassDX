@@ -21,12 +21,14 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.utils.UriUtil
 
 open class AssignPasswordInDatabaseRunnable (
         context: Context,
         database: Database,
+        protected val mDatabaseUri: Uri,
         withMasterPassword: Boolean,
         masterPassword: String?,
         withKeyFile: Boolean,
@@ -65,6 +67,10 @@ open class AssignPasswordInDatabaseRunnable (
 
     override fun onFinishRun() {
         super.onFinishRun()
+
+        // Erase the biometric
+        CipherDatabaseAction.getInstance(context)
+                .deleteByDatabaseUri(mDatabaseUri)
 
         if (!result.isSuccess) {
             // Erase the current master key

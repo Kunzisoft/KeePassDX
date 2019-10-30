@@ -177,8 +177,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
             return CreateDatabaseRunnable(this,
-                    databaseUri,
                     Database.getInstance(),
+                    databaseUri,
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
@@ -233,13 +233,15 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     private fun buildDatabaseAssignPasswordActionTask(intent: Intent): ActionRunnable? {
-        return if (intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
+        return if (intent.hasExtra(DATABASE_URI_KEY)
+                && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_CHECKED_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
         ) {
             AssignPasswordInDatabaseRunnable(this,
                     Database.getInstance(),
+                    intent.getParcelableExtra<Uri>(DATABASE_URI_KEY),
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
