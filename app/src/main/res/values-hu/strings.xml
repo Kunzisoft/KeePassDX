@@ -239,12 +239,6 @@
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása, ha a képernyő kikapcsol</string>
-    <string name="fingerprint_advanced_unlock_title">Hogyan állítsa be az ujjlenyomat-olvasást a gyors feloldáshoz\?</string>
-    <string name="fingerprint_setting_text">Mentse a leolvasott ujjlenyomatát az eszközén a</string>
-    <string name="fingerprint_setting_link_text">„Beállítások” → „Biztonság” → „Ujjlenyomat” menüpontban</string>
-    <string name="fingerprint_type_credentials_text">Adja meg az adatbázis zárolási jelszavát</string>
-    <string name="fingerprint_scan_to_store">Olvassa le az ujjlenyomatát, hogy biztonságosan tárolja az adatbázist zároló jelszót.</string>
-    <string name="fingerprint_scan_to_open">Olvassa le az ujjlenyomatát, hogy kinyissa az adatbázist, ha a jelszó ki van kapcsolva.</string>
     <string name="usage">Használat</string>
     <string name="advanced_unlock">Ujjlenyomat</string>
     <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
@@ -324,8 +318,8 @@
 \nA csoportok (~ mappák) rendszerezik a bejegyzéseket az adatbázisban.</string>
     <string name="education_search_title">Keresés a bejegyzések között</string>
     <string name="education_search_summary">Adja meg a címet, felhasználónevet vagy más mezők tartalmát, hogy lekérje a jelszavát.</string>
-    <string name="education_fingerprint_title">Adatbázis feloldása ujjlenyomattal</string>
-    <string name="education_fingerprint_summary">Kösse össze a jelszavát a mentett ujjlenyomatával, hogy gyorsan fel tudja oldani az adatbázist.</string>
+    <string name="education_biometric_title">Adatbázis feloldása ujjlenyomattal</string>
+    <string name="education_biometric_summary">Kösse össze a jelszavát a mentett ujjlenyomatával, hogy gyorsan fel tudja oldani az adatbázist.</string>
     <string name="education_entry_edit_title">Bejegyzés szerkesztése</string>
     <string name="education_generate_password_title">Hozzon létre erős jelszót a bejegyzéshez.</string>
     <string name="education_generate_password_summary">Állítson elő egy erős jelszót, és rendelje hozzá a bejegyzéshez, adja meg egyszerűen az űrlap feltételeinek megfelelően, és ne felejtse el biztonságosan tárolni.</string>

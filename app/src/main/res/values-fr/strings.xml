@@ -203,12 +203,6 @@
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
-    <string name="fingerprint_advanced_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
-    <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans</string>
-    <string name="fingerprint_setting_link_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
-    <string name="fingerprint_type_credentials_text">Saisir le mot de passe de verrouillage de la base de données</string>
-    <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
-    <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
     <string name="usage">Utilisation</string>
     <string name="advanced_unlock">Empreinte digitale</string>
     <string name="biometric_unlock_enable_title">Reconnaissance d’empreinte digitale</string>
@@ -257,8 +251,8 @@
 \nLes groupes (~ dossiers) organisent les entrées dans votre base de données.</string>
     <string name="education_search_title">Rechercher dans les entrées</string>
     <string name="education_search_summary">Entrer le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_fingerprint_title">Déverrouillage de la base de données par empreinte digitale</string>
-    <string name="education_fingerprint_summary">Associer votre mot de passe à votre empreinte digitale numérisée pour déverrouiller rapidement votre base de données.</string>
+    <string name="education_biometric_title">Déverrouillage de la base de données par empreinte digitale</string>
+    <string name="education_biometric_summary">Associer votre mot de passe à votre empreinte digitale numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifier votre entrée avec des champs personnalisés. La collection de données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort pour votre entrée.</string>

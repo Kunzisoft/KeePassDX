@@ -193,9 +193,6 @@
     <string name="biometric_unlock_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
     <string name="advanced_unlock">Fingerabdruck</string>
     <string name="biometric_unlock_enable_title">Fingerabdruckscanner</string>
-    <string name="fingerprint_scan_to_open">Fingerabdruck scannen, um die Datenbank zu öffnen, wenn die Passworteingabe ausgeschaltet ist.</string>
-    <string name="fingerprint_scan_to_store">Fingerabdruck scannen, um das Datenbank-Passwort sicher zu speichern.</string>
-    <string name="fingerprint_type_credentials_text">Datenbank-Passwort eingeben</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
@@ -205,9 +202,6 @@
     <string name="biometric_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="biometric_scanning_error">Problem mit dem Fingerabdruck: %1$s</string>
     <string name="database_history">Verlauf</string>
-    <string name="fingerprint_advanced_unlock_title">Wie richte ich den Fingerabdruckscanner für schnelles Entsperren ein?</string>
-    <string name="fingerprint_setting_text">Eingelesenen Fingerabdruck für das Gerät speichern in</string>
-    <string name="fingerprint_setting_link_text">„Einstellungen“ → „Sicherheit“ → „Fingerabdruck“</string>
     <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="open_biometric_prompt_store_credential">Fingerabdruck verwenden, um dieses Passwort zu speichern</string>
@@ -280,8 +274,8 @@
 \nGruppen (wie Ordner) helfen, Einträge in der Datenbank zu ordnen.</string>
     <string name="education_search_title">Einträge durchsuchen</string>
     <string name="education_search_summary">Titel, Benutzernamen oder Inhalte anderer Feldern eingeben, um die Passwörter wiederzufinden.</string>
-    <string name="education_fingerprint_title">Datenbank mit Fingerabdruck entsperren</string>
-    <string name="education_fingerprint_summary">Passwort und eigenen Fingerabdruck verknüpfen, um die Datenbank schnell zu entsperren.</string>
+    <string name="education_biometric_title">Datenbank mit Fingerabdruck entsperren</string>
+    <string name="education_biometric_summary">Passwort und eigenen Fingerabdruck verknüpfen, um die Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Einträge mit benutzerdefinierten Feldern bearbeiten. Pooldaten können zwischen verschiedenen Eingabefeldern referenziert werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>

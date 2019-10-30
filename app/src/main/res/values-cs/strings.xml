@@ -238,12 +238,6 @@
     <string name="lock">Zamknout</string>
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
     <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
-    <string name="fingerprint_advanced_unlock_title">Jak nastavit rychlé odemykání otiskem prstu?</string>
-    <string name="fingerprint_setting_text">Uložte svůj otisk prstu pro své zařízení v</string>
-    <string name="fingerprint_setting_link_text">„Nastavení“ → „Zabezpečení“ → „Otisk prstu“</string>
-    <string name="fingerprint_type_credentials_text">Zadejte heslo pro zamčení databáze</string>
-    <string name="fingerprint_scan_to_store">Přiložte prst na snímač otisku prstu a zabezpečte tak heslo k databázi otiskem.</string>
-    <string name="fingerprint_scan_to_open">Pro otevření databáze s vypnutým heslem přiložte prst na snímač otisku prstu.</string>
     <string name="usage">Použítí</string>
     <string name="advanced_unlock">Otisk</string>
     <string name="biometric_unlock_enable_title">Snímání otisku prstu</string>
@@ -306,8 +300,8 @@
 \nSkupiny (ekvivalent složek) organizují záznamy v databázi.</string>
     <string name="education_search_title">Hledejte v položkách</string>
     <string name="education_search_summary">Zadejte název, uživatelské jméno nebo jiné položky k nalezení svých hesel.</string>
-    <string name="education_fingerprint_title">Odemykání databáze otiskem prstu</string>
-    <string name="education_fingerprint_summary">Propojte své heslo a otisk prstu pro rychlé odemykání databáze.</string>
+    <string name="education_biometric_title">Odemykání databáze otiskem prstu</string>
+    <string name="education_biometric_summary">Propojte své heslo a otisk prstu pro rychlé odemykání databáze.</string>
     <string name="education_entry_edit_title">Upravit položku</string>
     <string name="education_entry_edit_summary">Přidejte ke své položce vlastní kolonky. Společná data mohou být sdílena mezi více různými kolonkami.</string>
     <string name="education_generate_password_title">Vytvořte k záznamu silné heslo.</string>

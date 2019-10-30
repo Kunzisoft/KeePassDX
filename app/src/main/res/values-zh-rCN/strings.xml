@@ -264,12 +264,6 @@
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
-    <string name="fingerprint_advanced_unlock_title">如何配置指纹以快速解锁？</string>
-    <string name="fingerprint_setting_text">将您设备所扫描的指纹保存在</string>
-    <string name="fingerprint_setting_link_text">\"设置\" → \"安全\" → \"指纹\"</string>
-    <string name="fingerprint_type_credentials_text">输入数据库密码</string>
-    <string name="fingerprint_scan_to_store">扫描你的指纹，以便安全的存储数据库密码。</string>
-    <string name="fingerprint_scan_to_open">在密码关闭时使用指纹解锁。</string>
     <string name="usage">用法</string>
     <string name="biometric_unlock_enable_title">指纹扫描</string>
     <string name="biometric_unlock_enable_summary">通过扫描指纹解锁数据库</string>
@@ -332,8 +326,8 @@
 \n您还可以使用群组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_fingerprint_title">通过指纹解锁数据库</string>
-    <string name="education_fingerprint_summary">将主密码与指纹关联，以快速解锁数据库。</string>
+    <string name="education_biometric_title">通过指纹解锁数据库</string>
+    <string name="education_biometric_summary">将主密码与指纹关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">为您的记录创建一个强密码。</string>

@@ -237,12 +237,6 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
-    <string name="fingerprint_advanced_unlock_title">Hvordan konfigureres fingeraftryksscanning til hurtig oplåsning\?</string>
-    <string name="fingerprint_setting_text">Gem scannede fingeraftryk for enhed i</string>
-    <string name="fingerprint_setting_link_text">\"Indstillinger\" → \"Sikkerhed\" → \"Fingeraftryk\"</string>
-    <string name="fingerprint_type_credentials_text">Indtast adgangskoden til at låse databasen</string>
-    <string name="fingerprint_scan_to_store">Scan fingeraftryk for at gemme dataseadgangskode sikkert.</string>
-    <string name="fingerprint_scan_to_open">Scan fingeraftryk til at åbne databasen, når adgangskoden er slået fra.</string>
     <string name="usage">Brug</string>
     <string name="advanced_unlock">Fingeraftryk</string>
     <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
@@ -307,8 +301,8 @@
 \nTilføje grupper (svarende til mapper) for at organisere indtastninger og database.</string>
     <string name="education_search_title">Søg i poster</string>
     <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
-    <string name="education_fingerprint_title">Database oplåsning med fingeraftryk</string>
-    <string name="education_fingerprint_summary">Link adgangskoden til det scannede fingeraftryk for hurtigt at låse databasen op.</string>
+    <string name="education_biometric_title">Database oplåsning med fingeraftryk</string>
+    <string name="education_biometric_summary">Link adgangskoden til det scannede fingeraftryk for hurtigt at låse databasen op.</string>
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool data kan refereres mellem forskellige indtastningsfelter.</string>
     <string name="education_generate_password_title">Opret en stærk adgangskode til posten.</string>

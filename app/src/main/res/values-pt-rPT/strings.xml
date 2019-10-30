@@ -233,9 +233,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
-    <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua palavra-passe da base com segurança.</string>
-    <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a palavra-passe estiber desativada.</string>
     <string name="usage">Uso</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
@@ -274,8 +271,8 @@
 \nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas palavras-passe.</string>
-    <string name="education_fingerprint_title">Destrave do banco de dados por Impressão digital</string>
-    <string name="education_fingerprint_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
+    <string name="education_biometric_title">Destrave do banco de dados por Impressão digital</string>
+    <string name="education_biometric_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Crie uma palavra-passe forte para sua entrada.</string>

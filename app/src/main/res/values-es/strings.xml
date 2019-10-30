@@ -222,12 +222,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueo de pantalla</string>
     <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
-    <string name="fingerprint_advanced_unlock_title">¿Cómo configurar la huella digital para un desbloqueo rápido?</string>
-    <string name="fingerprint_setting_text">Establezca su huella digital personal para su dispositivo en</string>
-    <string name="fingerprint_setting_link_text">Configuración -&gt; Seguridad -&gt; Huella digital</string>
-    <string name="fingerprint_type_credentials_text">Escriba su contraseña en Keepass DX</string>
-    <string name="fingerprint_scan_to_store">Escanee su huella digital para almacenar su contraseña maestra de forma segura</string>
-    <string name="fingerprint_scan_to_open">Escanee su huella digital cuando la casilla de verificación de contraseña esté desmarcada para abrir la base de datos</string>
     <string name="usage">Uso</string>
     <string name="advanced_unlock">Huella digital</string>
     <string name="biometric_unlock_enable_title">Monitoreando Huella digital</string>
@@ -273,8 +267,8 @@
 \nAgregar grupos (el equivalente de carpetas) para organizar tus entradas y tu base de datos.</string>
     <string name="education_search_title">Busque fácilmente tus entradas</string>
     <string name="education_search_summary">Busque entradas por título, nombre de usuario u otros campos para recuperar fácilmente sus contraseñas.</string>
-    <string name="education_fingerprint_title">Desbloquee su base de datos con su huella digital</string>
-    <string name="education_fingerprint_summary">Haga el enlace entre su contraseña y su huella digital para desbloquear fácilmente su base de datos.</string>
+    <string name="education_biometric_title">Desbloquee su base de datos con su huella digital</string>
+    <string name="education_biometric_summary">Haga el enlace entre su contraseña y su huella digital para desbloquear fácilmente su base de datos.</string>
     <string name="education_entry_edit_title">Editar la entrada</string>
     <string name="education_entry_edit_summary">Edite la entrada con campos personalizados, puede agregar referencias a los datos de la agrupación entre campos de diferentes entradas.</string>
     <string name="education_generate_password_title">Crear una contraseña segura</string>

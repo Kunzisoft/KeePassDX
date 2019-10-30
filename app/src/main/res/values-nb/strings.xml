@@ -215,12 +215,6 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skjermlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen når skjermen er av</string>
-    <string name="fingerprint_advanced_unlock_title">Hvordan sette opp fingeravtrykk for rask opplåsing?</string>
-    <string name="fingerprint_setting_text">Sett ditt personlige fingeravtrykk for din enhet i</string>
-    <string name="fingerprint_setting_link_text">\"Innstillinger\" → \"Sikkerhet\" → \"Fingeravtrykk\"</string>
-    <string name="fingerprint_type_credentials_text">Skriv passordet ditt i KeePass DX</string>
-    <string name="fingerprint_scan_to_store">Skann ditt fingeravtrykk for å lagre hovedpassordet ditt sikkert.</string>
-    <string name="fingerprint_scan_to_open">Skann fingeravtrykket ditt for å åpne databasen når passord er avskrudd.</string>
     <string name="usage">Bruk</string>
     <string name="advanced_unlock">Fingeravtrykk</string>
     <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
@@ -283,8 +277,8 @@
 \nLegg til grupper (tilsvarende mapper) for å organisere dine oppføringer og databasen din.</string>
     <string name="education_search_title">Søk i dine oppføringer</string>
     <string name="education_search_summary">Søk etter oppføringer etter tittel, brukernavn eller andre felter for å hente passordene dine.</string>
-    <string name="education_fingerprint_title">Lås opp databasen din med fingeravtrykket ditt</string>
-    <string name="education_fingerprint_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
+    <string name="education_biometric_title">Lås opp databasen din med fingeravtrykket ditt</string>
+    <string name="education_biometric_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
     <string name="education_generate_password_title">Opprett et sterkt passord.</string>

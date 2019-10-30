@@ -47,7 +47,6 @@ import androidx.biometric.BiometricManager
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
-import com.kunzisoft.keepass.activities.dialogs.FingerPrintExplanationDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -129,7 +128,7 @@ class PasswordActivity : StylishActivity() {
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
-        advancedUnlockInfoView = findViewById(R.id.fingerprint_info)
+        advancedUnlockInfoView = findViewById(R.id.biometric_info)
 
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
@@ -167,7 +166,7 @@ class PasswordActivity : StylishActivity() {
         progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_LOAD_TASK -> {
-                    // Recheck fingerprint if error
+                    // Recheck biometric if error
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                         if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
                             // Stay with the same mode and init it
@@ -374,10 +373,6 @@ class PasswordActivity : StylishActivity() {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricUnlockEnable(this)) {
 
-                    advancedUnlockInfoView?.setOnClickListener {
-                        FingerPrintExplanationDialog().show(supportFragmentManager, "fingerPrintExplanationDialog")
-                    }
-
                     if (advancedUnlockedManager == null && databaseFileUri != null) {
                         advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
@@ -399,7 +394,7 @@ class PasswordActivity : StylishActivity() {
                                 { passwordDecrypted ->
                                     // Load the database if password is retrieve from biometric
                                     passwordDecrypted?.let {
-                                        // Retrieve from fingerprint
+                                        // Retrieve from biometric
                                         verifyKeyFileCheckboxAndLoadDatabase(it)
                                     }
                                 })
@@ -560,7 +555,7 @@ class PasswordActivity : StylishActivity() {
         MenuUtil.defaultMenuInflater(inflater, menu)
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            // Fingerprint menu
+            // biometric menu
             advancedUnlockedManager?.inflateOptionsMenu(inflater, menu)
         }
 
@@ -604,12 +599,12 @@ class PasswordActivity : StylishActivity() {
             if (!readOnlyEducationPerformed) {
 
                 val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
-                // fingerprintEducationPerformed
+                // EducationPerformed
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedFingerprintEducation(advancedUnlockInfoView?.unlockIconImageView!!)
+                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!)
 
             }
         }
@@ -633,7 +628,7 @@ class PasswordActivity : StylishActivity() {
                 readOnly = !readOnly
                 changeOpenFileReadIcon(item)
             }
-            R.id.menu_fingerprint_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            R.id.menu_biometric_remove_key -> if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 advancedUnlockedManager?.deleteEntryKey()
             }
             else -> return MenuUtil.onDefaultMenuOptionsItemSelected(this, item)

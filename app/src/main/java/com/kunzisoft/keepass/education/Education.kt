@@ -67,7 +67,7 @@ open class Education(val activity: Activity) {
                 R.string.education_select_db_key,
                 R.string.education_unlock_key,
                 R.string.education_read_only_key,
-                R.string.education_fingerprint_key,
+                R.string.education_biometric_key,
                 R.string.education_search_key,
                 R.string.education_new_node_key,
                 R.string.education_sort_key,
@@ -145,15 +145,15 @@ open class Education(val activity: Activity) {
         }
 
         /**
-         * Determines whether the explanatory view of the fingerprint unlock has already been displayed.
+         * Determines whether the explanatory view of the biometric unlock has already been displayed.
          *
          * @param context The context to open the SharedPreferences
-         * @return boolean value of education_fingerprint_key key
+         * @return boolean value of education_biometric_key key
          */
-        fun isEducationFingerprintPerformed(context: Context): Boolean {
+        fun isEducationBiometricPerformed(context: Context): Boolean {
             val prefs = getEducationSharedPreferences(context)
-            return prefs.getBoolean(context.getString(R.string.education_fingerprint_key),
-                    context.resources.getBoolean(R.bool.education_fingerprint_default))
+            return prefs.getBoolean(context.getString(R.string.education_biometric_key),
+                    context.resources.getBoolean(R.bool.education_biometric_default))
         }
 
         /**

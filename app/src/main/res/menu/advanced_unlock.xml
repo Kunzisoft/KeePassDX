@@ -19,7 +19,7 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_fingerprint_remove_key"
+    <item android:id="@+id/menu_biometric_remove_key"
         android:icon="@drawable/ic_fingerprint_remove_white_24dp"
         android:title="@string/menu_biometric_remove_key"
         android:orderInCategory="85"

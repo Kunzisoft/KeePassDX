@@ -236,12 +236,6 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="fingerprint_advanced_unlock_title">Как настроить отпечаток пальца для быстрой разблокировки?</string>
-    <string name="fingerprint_setting_text">Установите ваш личный отпечаток пальца для вашего устройства</string>
-    <string name="fingerprint_setting_link_text">\"Настройки\" → \"Безопасность\" → \"Отпечаток пальца\"</string>
-    <string name="fingerprint_type_credentials_text">Введите ваш пароль в Keepass DX</string>
-    <string name="fingerprint_scan_to_store">Сканируйте ваш отпечаток пальца для безопасного хранения вашего мастер-пароля</string>
-    <string name="fingerprint_scan_to_open">Сканируйте ваш отпечаток пальца, когда поле \"Пароль\" не отмечено, для разблокировки базы</string>
     <string name="usage">Использование</string>
     <string name="advanced_unlock">Отпечаток пальца</string>
     <string name="biometric_unlock_enable_title">Сканирование отпечатка пальца</string>
@@ -304,8 +298,8 @@
 \nДобавляйте группы (аналог папок) для организации записей и баз.</string>
     <string name="education_search_title">Легко находите ваши записи</string>
     <string name="education_search_summary">Ищите записи по названию, логину или другим полям для быстрого доступа к вашим паролям.</string>
-    <string name="education_fingerprint_title">Разблокируйте базу с помощью отпечатка пальца</string>
-    <string name="education_fingerprint_summary">Установите связь между паролем и отпечатком пальца для быстрой разблокировки базы.</string>
+    <string name="education_biometric_title">Разблокируйте базу с помощью отпечатка пальца</string>
+    <string name="education_biometric_summary">Установите связь между паролем и отпечатком пальца для быстрой разблокировки базы.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Ссылки на пул данных могут быть добавлены между полями разных записей.</string>
     <string name="education_generate_password_title">Создайте надежный пароль</string>

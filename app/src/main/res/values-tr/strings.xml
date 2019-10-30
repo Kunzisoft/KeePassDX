@@ -218,12 +218,6 @@
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
-    <string name="fingerprint_advanced_unlock_title">Hızlı kilit açmak için parmak izi taraması nasıl ayarlanır\?</string>
-    <string name="fingerprint_setting_text">Cihazınız için taranmış parmak izinizi kaydet</string>
-    <string name="fingerprint_setting_link_text">\"Ayarlar\" → \"Güvenlik\" → \"Parmak İzi\"</string>
-    <string name="fingerprint_type_credentials_text">Veritabanı kilitleme parolasını girin</string>
-    <string name="fingerprint_scan_to_store">Veritabanı kilit parolanızı güvenli bir şekilde saklamak için parmak izinizi tarayın.</string>
-    <string name="fingerprint_scan_to_open">Parola kapatıldığında veritabanını açmak için parmak izinizi tarayın.</string>
     <string name="usage">Kullanım</string>
     <string name="advanced_unlock">Parmakizi</string>
     <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
@@ -303,8 +297,8 @@
 \nGruplar (~ klasörler) veritabanınızdaki girdileri düzenler.</string>
     <string name="education_search_title">Girişlerde ara</string>
     <string name="education_search_summary">Parolanızı kurtarmak için başlık, kullanıcı adı veya diğer alanların içeriğini girin.</string>
-    <string name="education_fingerprint_title">Parmak iziyle veritabanı kilidini açma</string>
-    <string name="education_fingerprint_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
+    <string name="education_biometric_title">Parmak iziyle veritabanı kilidini açma</string>
+    <string name="education_biometric_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Girdiniz için güçlü bir parola oluşturun.</string>

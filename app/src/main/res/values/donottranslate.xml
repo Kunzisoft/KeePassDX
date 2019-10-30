@@ -206,8 +206,8 @@
     <bool name="education_unlock_default" translatable="false">false</bool>
     <string name="education_read_only_key" translatable="false">education_read_only_key</string>
     <bool name="education_read_only_default" translatable="false">false</bool>
-    <string name="education_fingerprint_key" translatable="false">education_fingerprint_key</string>
-    <bool name="education_fingerprint_default" translatable="false">false</bool>
+    <string name="education_biometric_key" translatable="false">education_biometric_key</string>
+    <bool name="education_biometric_default" translatable="false">false</bool>
     <string name="education_search_key" translatable="false">education_search_key</string>
     <bool name="education_search_default" translatable="false">false</bool>
     <string name="education_new_node_key" translatable="false">education_new_node_key</string>

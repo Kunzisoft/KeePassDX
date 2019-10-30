@@ -230,12 +230,6 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
-    <string name="fingerprint_advanced_unlock_title">Come impostare la scansione di impronte digitali per sbloccare velocemente\?</string>
-    <string name="fingerprint_setting_text">Salva la tua impronta per il dispositivo in</string>
-    <string name="fingerprint_setting_link_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta digitale\"</string>
-    <string name="fingerprint_type_credentials_text">Digita la password di blocco database</string>
-    <string name="fingerprint_scan_to_store">Scansiona la tua impronta per salvare la password di blocco database in modo sicuro.</string>
-    <string name="fingerprint_scan_to_open">Scansiona la tua impronta per aprire il database quando la password è disattivata.</string>
     <string name="usage">Utilizzo</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
@@ -296,8 +290,8 @@
 \nI gruppi (~ cartelle) organizzano gli elementi nel database.</string>
     <string name="education_search_title">Cerca tra gli elementi</string>
     <string name="education_search_summary">Inserisci il titolo, il nome utente o il contenuto di altri campi per recuperare le tue password.</string>
-    <string name="education_fingerprint_title">Sblocco del database tramite impronta digitale</string>
-    <string name="education_fingerprint_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
+    <string name="education_biometric_title">Sblocco del database tramite impronta digitale</string>
+    <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
     <string name="education_generate_password_title">Crea una password robusta per l\'elemento.</string>
