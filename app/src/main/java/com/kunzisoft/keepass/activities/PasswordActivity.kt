@@ -369,8 +369,8 @@ class PasswordActivity : StylishActivity() {
         if (launchImmediately) {
             verifyCheckboxesAndLoadDatabase(password, keyFileUri)
         } else {
-            // Init FingerPrint elements
-            var fingerPrintInit = false
+            // Init Biometric elements
+            var biometricInitialize = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricUnlockEnable(this)) {
 
@@ -405,12 +405,12 @@ class PasswordActivity : StylishActivity() {
                                 })
                     }
                     advancedUnlockedManager?.initBiometric()
-                    fingerPrintInit = true
+                    biometricInitialize = true
                 } else {
                     advancedUnlockedManager?.destroy()
                 }
             }
-            if (!fingerPrintInit) {
+            if (!biometricInitialize) {
                 checkboxPasswordView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
             }
             checkboxKeyFileView?.setOnCheckedChangeListener(enableButtonOnCheckedChangeListener)
@@ -464,10 +464,6 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onPause() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockedManager?.pause()
-        }
-
         progressDialogThread?.unregisterProgressTask()
 
         super.onPause()

@@ -42,8 +42,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
-                                    private val biometricUnlockCallback: BiometricUnlockCallback) {
+class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
     private var biometricPrompt: BiometricPrompt? = null
 
@@ -54,7 +53,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     private var cryptoObject: BiometricPrompt.CryptoObject? = null
 
     private var isBiometricInit = false
-    private var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
+    var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
+    var biometricUnlockCallback: BiometricUnlockCallback? = null
 
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
@@ -83,7 +83,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     val isBiometricInitialized: Boolean
         get() {
             if (!isBiometricInit) {
-                biometricUnlockCallback.onBiometricException(Exception("Biometric not initialized"))
+                biometricUnlockCallback?.onBiometricException(Exception("Biometric not initialized"))
             }
             return isBiometricInit
         }
@@ -107,7 +107,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to initialize the keystore", e)
                 isBiometricInit = false
-                biometricUnlockCallback.onBiometricException(e)
+                biometricUnlockCallback?.onBiometricException(e)
             }
         }
     }
@@ -139,14 +139,14 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
                     }
                 } catch (e: Exception) {
                     Log.e(TAG, "Unable to create a key in keystore", e)
-                    biometricUnlockCallback.onBiometricException(e)
+                    biometricUnlockCallback?.onBiometricException(e)
                 }
 
                 return keyStore.getKey(BIOMETRIC_KEYSTORE_KEY, null) as SecretKey?
             }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to retrieve the key in keystore", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
         return null
     }
@@ -168,13 +168,13 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            biometricUnlockCallback.onInvalidKeyException(unrecoverableKeyException)
+            biometricUnlockCallback?.onInvalidKeyException(unrecoverableKeyException)
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
-            biometricUnlockCallback.onInvalidKeyException(invalidKeyException)
+            biometricUnlockCallback?.onInvalidKeyException(invalidKeyException)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize encrypt data", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
 
     }
@@ -190,12 +190,12 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             // passes updated iv spec on to callback so this can be stored for decryption
             cipher?.parameters?.getParameterSpec(IvParameterSpec::class.java)?.let{ spec ->
                 val ivSpecValue = Base64.encodeToString(spec.iv, Base64.NO_WRAP)
-                biometricUnlockCallback.handleEncryptedResult(encryptedBase64, ivSpecValue)
+                biometricUnlockCallback?.handleEncryptedResult(encryptedBase64, ivSpecValue)
             }
 
         } catch (e: Exception) {
             Log.e(TAG, "Unable to encrypt data", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
 
     }
@@ -224,10 +224,10 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             deleteEntryKey()
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize decrypt data", invalidKeyException)
-            biometricUnlockCallback.onInvalidKeyException(invalidKeyException)
+            biometricUnlockCallback?.onInvalidKeyException(invalidKeyException)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to initialize decrypt data", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
 
     }
@@ -240,14 +240,14 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             // actual decryption here
             val encrypted = Base64.decode(encryptedValue, Base64.NO_WRAP)
             cipher?.doFinal(encrypted)?.let { decrypted ->
-                biometricUnlockCallback.handleDecryptedResult(String(decrypted))
+                biometricUnlockCallback?.handleDecryptedResult(String(decrypted))
             }
         } catch (badPaddingException: BadPaddingException) {
             Log.e(TAG, "Unable to decrypt data", badPaddingException)
-            biometricUnlockCallback.onInvalidKeyException(badPaddingException)
+            biometricUnlockCallback?.onInvalidKeyException(badPaddingException)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to decrypt data", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
 
     }
@@ -258,12 +258,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             keyStore?.deleteEntry(BIOMETRIC_KEYSTORE_KEY)
         } catch (e: Exception) {
             Log.e(TAG, "Unable to delete entry key in keystore", e)
-            biometricUnlockCallback.onBiometricException(e)
+            biometricUnlockCallback?.onBiometricException(e)
         }
-    }
-
-    fun setAuthenticationCallback(authenticationCallback: BiometricPrompt.AuthenticationCallback) {
-        this.authenticationCallback = authenticationCallback
     }
 
     @Synchronized
@@ -299,22 +295,24 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
          * Remove entry key in keystore
          */
         fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
-                                                 biometricUnlockCallback: BiometricUnlockErrorCallback) {
-            val fingerPrintHelper = BiometricUnlockDatabaseHelper(context, object : BiometricUnlockCallback {
+                                                 biometricCallback: BiometricUnlockErrorCallback) {
+            BiometricUnlockDatabaseHelper(context).apply {
+                biometricUnlockCallback = object : BiometricUnlockCallback {
 
-                override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
+                    override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
 
-                override fun handleDecryptedResult(decryptedValue: String) {}
+                    override fun handleDecryptedResult(decryptedValue: String) {}
 
-                override fun onInvalidKeyException(e: Exception) {
-                    biometricUnlockCallback.onInvalidKeyException(e)
+                    override fun onInvalidKeyException(e: Exception) {
+                        biometricCallback.onInvalidKeyException(e)
+                    }
+
+                    override fun onBiometricException(e: Exception) {
+                        biometricCallback.onBiometricException(e)
+                    }
                 }
-
-                override fun onBiometricException(e: Exception) {
-                    biometricUnlockCallback.onBiometricException(e)
-                }
-            })
-            fingerPrintHelper.deleteEntryKey()
+                deleteEntryKey()
+            }
         }
     }
 
