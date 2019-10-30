@@ -235,7 +235,7 @@
     <string name="autofill_service_name">KeePass DX autom. Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
     <string name="set_autofill_service_title">Standard Autofill-Dienst auswählen</string>
-    <string name="set_autofill_service_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
+    <string name="autofill_explanation_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
     <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel für Fingerabdruckerkennung löschen</string>

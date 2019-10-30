@@ -224,7 +224,7 @@
     <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
     <string name="autofill_sign_in_prompt">Войти с помощью KeePass DX</string>
     <string name="set_autofill_service_title">Установить Сервис автозаполнения по умолчанию</string>
-    <string name="set_autofill_service_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
+    <string name="autofill_explanation_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
     <string name="password_size_title">Длина пароля</string>
     <string name="password_size_summary">Установить длину сгенерированных паролей по умолчанию</string>
     <string name="list_password_generator_options_title">Символы пароля</string>

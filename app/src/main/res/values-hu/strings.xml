@@ -227,7 +227,7 @@
     <string name="autofill_service_name">KeePass DX űrlapkitöltés</string>
     <string name="autofill_sign_in_prompt">Bejelentkezés a KeePass DX-szel</string>
     <string name="set_autofill_service_title">Alapértelmezett automatikus kitöltési szolgáltatás beállítása</string>
-    <string name="set_autofill_service_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
+    <string name="autofill_explanation_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
     <string name="password_size_title">Előállított jelszó mérete</string>
     <string name="password_size_summary">Beállítja az előállított jelszavak alapértelmezett méretét</string>
     <string name="list_password_generator_options_title">Jelszó karakterek</string>

@@ -211,7 +211,7 @@
     <string name="autofill_service_name">Servicio de Autocompletar KeePass DX</string>
     <string name="autofill_sign_in_prompt">Inicia sesión con KeePass DX</string>
     <string name="set_autofill_service_title">Establecer predeterminado el servicio de Autocompletar</string>
-    <string name="set_autofill_service_summary">Habilite el servicio para completar formularios fácilmente desde otras aplicaciones</string>
+    <string name="autofill_explanation_summary">Habilite el servicio para completar formularios fácilmente desde otras aplicaciones</string>
     <string name="password_size_title">Tamaño de la contraseña</string>
     <string name="password_size_summary">Establecer el tamaño predeterminado de la contraseña generada</string>
     <string name="list_password_generator_options_title">Caracteres de contraseña</string>

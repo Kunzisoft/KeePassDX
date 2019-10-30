@@ -226,7 +226,7 @@
     <string name="autofill_service_name">KeePass DX automatické vyplňování formulářů</string>
     <string name="autofill_sign_in_prompt">Přihlásit se pomocí KeePass DX</string>
     <string name="set_autofill_service_title">Nastavit výchozí službu automatického vyplňování</string>
-    <string name="set_autofill_service_summary">Povolit rychlé automatické vyplňování formulářů v ostatních aplikacích</string>
+    <string name="autofill_explanation_summary">Povolit rychlé automatické vyplňování formulářů v ostatních aplikacích</string>
     <string name="password_size_title">Délka generovaného hesla</string>
     <string name="password_size_summary">Nastavení výchozí délky generovaných hesel</string>
     <string name="list_password_generator_options_title">Znaky hesla</string>

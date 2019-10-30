@@ -216,7 +216,7 @@
     <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePass DX</string>
     <string name="autofill_sign_in_prompt">Entrar com KeePass DX</string>
     <string name="set_autofill_service_title">Definir como serviço de preenchimento automático padrão</string>
-    <string name="set_autofill_service_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
+    <string name="autofill_explanation_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
     <string name="password_size_title">Tamanho da palavra-chave gerada</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="encryption">Encriptação</string>

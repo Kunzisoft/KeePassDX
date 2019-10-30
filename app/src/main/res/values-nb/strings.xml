@@ -203,7 +203,7 @@
     <string name="autofill_service_name">KeePass DX autofyll-tjeneste</string>
     <string name="autofill_sign_in_prompt">Logg inn med KeePass DX</string>
     <string name="set_autofill_service_title">Sett forvalgt autofyll-tjeneste</string>
-    <string name="set_autofill_service_summary">Skru på tjenesten for å fylle ut skjema fra andre programmer</string>
+    <string name="autofill_explanation_summary">Skru på tjenesten for å fylle ut skjema fra andre programmer</string>
     <string name="password_size_title">Passordsstørrelse</string>
     <string name="password_size_summary">Sett forvalgt størrelse for generert passord</string>
     <string name="list_password_generator_options_title">Passordtegn</string>

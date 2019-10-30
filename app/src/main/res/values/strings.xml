@@ -251,14 +251,15 @@
     <string name="autofill">Autofill</string>
     <string name="autofill_service_name">KeePass DX form autofilling</string>
     <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
+    <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
-    <string name="set_autofill_service_summary">Enable autofilling to quickly fill out forms in other apps</string>
     <string name="password_size_title">Generated password size</string>
     <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="database_opened">Database opened</string>
     <string name="clipboard">Clipboard</string>
+    <string name="clipboard_explanation_summary">Copy entry fields using the clipboard of your device</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>
     <string name="clipboard_warning">If automatic deletion of clipboard fails, delete its history manually.</string>
@@ -268,6 +269,7 @@
     <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="advanced_unlock">Advanced unlock</string>
+    <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto open biometric prompt</string>

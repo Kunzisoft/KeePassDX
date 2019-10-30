@@ -206,7 +206,7 @@
     <string name="autofill_service_name">KeePass DX formu otomatik doldurma</string>
     <string name="autofill_sign_in_prompt">KeePass DX ile giriş yap</string>
     <string name="set_autofill_service_title">Varsayılan otomatik doldurma hizmetini ayarla</string>
-    <string name="set_autofill_service_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>
+    <string name="autofill_explanation_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>
     <string name="password_size_title">Oluşturulan parola boyutu</string>
     <string name="password_size_summary">Oluşturulan parolaların varsayılan boyutunu ayarlar</string>
     <string name="list_password_generator_options_title">Parola karakterleri</string>

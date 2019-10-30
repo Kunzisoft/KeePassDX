@@ -219,7 +219,7 @@
     <string name="autofill_service_name">Autocompletamento di KeePass DX</string>
     <string name="autofill_sign_in_prompt">Accedi con KeePass DX</string>
     <string name="set_autofill_service_title">Imposta servizio predefinito di autocompletamento</string>
-    <string name="set_autofill_service_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
+    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
     <string name="password_size_summary">Imposta la dimensione predefinita delle password generate</string>
     <string name="list_password_generator_options_title">Caratteri password</string>

@@ -225,7 +225,7 @@
     <string name="autofill_service_name">KeePass DX formularudfyldning</string>
     <string name="autofill_sign_in_prompt">Log ind med KeePass DX</string>
     <string name="set_autofill_service_title">Indstil standard autoudfyldservice</string>
-    <string name="set_autofill_service_summary">Aktiver autofyldning for hurtigt at udfylde formularer i andre programmer</string>
+    <string name="autofill_explanation_summary">Aktiver autofyldning for hurtigt at udfylde formularer i andre programmer</string>
     <string name="password_size_title">Genereret kodeordslængde</string>
     <string name="password_size_summary">Angiver standardlængden for genererede adgangskoder</string>
     <string name="list_password_generator_options_title">Adgangskodetegn</string>

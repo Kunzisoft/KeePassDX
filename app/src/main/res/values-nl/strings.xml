@@ -226,7 +226,7 @@
     <string name="autofill_service_name">KeePass DX auto-aanvullendienst</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePass DX</string>
     <string name="set_autofill_service_title">Standaard aanvuldienst instellen</string>
-    <string name="set_autofill_service_summary">Schakel de dienst in om formulieren in andere apps snel in te vullen</string>
+    <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps snel in te vullen</string>
     <string name="password_size_title">Gegenereerde wachtwoordgrootte</string>
     <string name="password_size_summary">Standaardgrootte instellen van gegenereerd wachtwoord</string>
     <string name="list_password_generator_options_title">Wachtwoordtekens</string>

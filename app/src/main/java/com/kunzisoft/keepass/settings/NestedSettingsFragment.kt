@@ -130,7 +130,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                 onCreateFormFillingPreference(rootKey)
             }
             Screen.ADVANCED_UNLOCK -> {
-                onCreateAdvancesUnlockPreferences(rootKey)
+                onCreateAdvancedUnlockPreferences(rootKey)
             }
             Screen.APPEARANCE -> {
                 onCreateAppearancePreferences(rootKey)
@@ -248,11 +248,21 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             false
         }
 
+        findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
+            UriUtil.gotoUrl(context!!, R.string.clipboard_explanation_url)
+            false
+        }
+
+        findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
+            UriUtil.gotoUrl(context!!, R.string.autofill_explanation_url)
+            false
+        }
+
         // Present in two places
         allowCopyPassword()
     }
 
-    private fun onCreateAdvancesUnlockPreferences(rootKey: String?) {
+    private fun onCreateAdvancedUnlockPreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_advanced_unlock, rootKey)
 
         activity?.let { activity ->
@@ -311,6 +321,11 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
                     false
                 }
             }
+        }
+
+        findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
+            UriUtil.gotoUrl(context!!, R.string.advanced_unlock_explanation_url)
+            false
         }
     }
 

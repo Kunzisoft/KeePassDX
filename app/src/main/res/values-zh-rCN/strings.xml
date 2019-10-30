@@ -254,7 +254,7 @@
     <string name="biometric_scanning_error">指纹识别问题：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认填充服务</string>
-    <string name="set_autofill_service_summary">启用自动填充功能，以便捷地在其他应用中填写信息</string>
+    <string name="autofill_explanation_summary">启用自动填充功能，以便捷地在其他应用中填写信息</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
     <string name="list_password_generator_options_title">密码字符集</string>

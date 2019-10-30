@@ -220,7 +220,7 @@
     <string name="autofill_service_name">Preenchimento Automático KeePass DX</string>
     <string name="autofill_sign_in_prompt">Entre com o KeePass DX</string>
     <string name="set_autofill_service_title">Definir serviço padrão de preenchimento automático</string>
-    <string name="set_autofill_service_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
+    <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
     <string name="password_size_title">Comprimento da senha gerada</string>
     <string name="password_size_summary">Define o tamanho padrão para senhas geradas</string>
     <string name="list_password_generator_options_title">Caracteres da senha</string>
