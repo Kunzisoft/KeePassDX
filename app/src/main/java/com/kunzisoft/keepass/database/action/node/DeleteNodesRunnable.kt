@@ -26,8 +26,8 @@ class DeleteNodesRunnable(context: Context,
                           database: Database,
                           private val mNodesToDelete: List<NodeVersioned>,
                           save: Boolean,
-                          finish: AfterActionNodeFinishRunnable)
-    : ActionNodeDatabaseRunnable(context, database, finish, save) {
+                          afterActionNodesFinish: AfterActionNodesFinish)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     private var mParent: GroupVersioned? = null
     private var mCanRecycle: Boolean = false
@@ -65,10 +65,9 @@ class DeleteNodesRunnable(context: Context,
                 }
             }
         }
-        saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             if (mCanRecycle) {
                 mParent?.let {
@@ -92,6 +91,6 @@ class DeleteNodesRunnable(context: Context,
 
         // Return a copy of unchanged nodes as old param
         // and nodes deleted or moved in recycle bin as new param
-        return ActionNodeValues(result, mNodesToDeleteBackup, mNodesToDelete)
+        return ActionNodesValues(mNodesToDeleteBackup, mNodesToDelete)
     }
 }

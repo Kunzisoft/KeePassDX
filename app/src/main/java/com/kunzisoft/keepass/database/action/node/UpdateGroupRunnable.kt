@@ -30,8 +30,8 @@ class UpdateGroupRunnable constructor(
         private val mOldGroup: GroupVersioned,
         private val mNewGroup: GroupVersioned,
         save: Boolean,
-        finishRunnable: AfterActionNodeFinishRunnable?)
-    : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     // Keep backup of original values in case save fails
     private val mBackupGroup: GroupVersioned = GroupVersioned(mOldGroup)
@@ -47,11 +47,9 @@ class UpdateGroupRunnable constructor(
 
         // Only change data in index
         database.updateGroup(mOldGroup)
-
-        saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             // If we fail to save, back out changes to global structure
             mOldGroup.updateWith(mBackupGroup)
@@ -62,6 +60,6 @@ class UpdateGroupRunnable constructor(
         oldNodesReturn.add(mBackupGroup)
         val newNodesReturn = ArrayList<NodeVersioned>()
         newNodesReturn.add(mOldGroup)
-        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

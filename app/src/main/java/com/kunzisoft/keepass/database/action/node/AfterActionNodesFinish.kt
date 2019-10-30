@@ -30,8 +30,8 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
  * - Move : @param oldNodes empty, @param newNodes NodesToMove
  * - Update : @param oldNodes NodesToUpdate, @param newNodes NodesUpdated
  */
-class ActionNodeValues(val result: ActionRunnable.Result, val oldNodes: List<NodeVersioned>, val newNodes: List<NodeVersioned>)
+class ActionNodesValues(val oldNodes: List<NodeVersioned>, val newNodes: List<NodeVersioned>)
 
-abstract class AfterActionNodeFinishRunnable {
-    abstract fun onActionNodeFinish(actionNodeValues: ActionNodeValues)
+abstract class AfterActionNodesFinish {
+    abstract fun onActionNodesFinish(result: ActionRunnable.Result, actionNodesValues: ActionNodesValues)
 }

@@ -6,14 +6,12 @@ import android.os.AsyncTask
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
-import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
 import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
-import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
+import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -185,22 +183,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
                     keyFileUri,
-                    true, // TODO get readonly
-                    object: ActionRunnable() {
-                        override fun run() {
-                            finishRun(true)
-                        }
-
-                        override fun onFinishRun(result: Result) {
-                            if (result.isSuccess) {
-                                // Add database to recent files
-                                FileDatabaseHistoryAction.getInstance(applicationContext)
-                                        .addOrUpdateDatabaseUri(databaseUri, keyFileUri)
-                            } else {
-                                Log.e(TAG, "Unable to create the database")
-                            }
-                        }
-                    }
+                    true // TODO get readonly
             )
         } else {
             return null
@@ -235,6 +218,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                     this
             ) { result ->
+                // Add each info to reload database after thrown duplicate UUID exception
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
                     putString(MASTER_PASSWORD_KEY, masterPassword)
@@ -266,13 +250,13 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
-    private inner class AfterActionNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            // TODO Encapsulate
-            val bundle = actionNodeValues.result.data ?: Bundle()
-            bundle.putBundle(OLD_NODES_KEY, getBundleFromListNodes(actionNodeValues.oldNodes))
-            bundle.putBundle(NEW_NODES_KEY, getBundleFromListNodes(actionNodeValues.newNodes))
-            actionNodeValues.result.data = bundle
+    private inner class AfterActionNodesRunnable : AfterActionNodesFinish() {
+        override fun onActionNodesFinish(result: ActionRunnable.Result,
+                                         actionNodesValues: ActionNodesValues) {
+            val bundle = result.data ?: Bundle()
+            bundle.putBundle(OLD_NODES_KEY, getBundleFromListNodes(actionNodesValues.oldNodes))
+            bundle.putBundle(NEW_NODES_KEY, getBundleFromListNodes(actionNodesValues.newNodes))
+            result.data = bundle
         }
     }
 
@@ -288,7 +272,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getParcelableExtra(GROUP_KEY),
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
         } else {
             null
@@ -308,7 +292,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         oldGroup,
                         newGroup,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
         } else {
             null
@@ -327,7 +311,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getParcelableExtra(ENTRY_KEY),
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
         } else {
             null
@@ -347,7 +331,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         oldEntry,
                         newEntry,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
         } else {
             null
@@ -367,7 +351,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         getListNodesFromBundle(database, intent.extras!!),
                         newParent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
 
         } else {
@@ -388,7 +372,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         getListNodesFromBundle(database, intent.extras!!),
                         newParent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
             }
 
         } else {
@@ -406,7 +390,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         database,
                         getListNodesFromBundle(database, intent.extras!!),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
-                        AfterActionNodeRunnable())
+                        AfterActionNodesRunnable())
 
         } else {
             null
@@ -414,14 +398,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     private fun buildDatabaseSaveElementActionTask(intent: Intent): ActionRunnable? {
-        return SaveDatabaseActionRunnable(this,
+        return SaveDatabaseRunnable(this,
                 Database.getInstance(),
-                true,
-                object: ActionRunnable() {
-                    override fun onFinishRun(result: Result) {
-                        result.data = intent.extras
-                    }
-                })
+                true
+        ).apply {
+            mAfterSaveDatabase = { result ->
+                result.data = intent.extras
+            }
+        }
     }
 
     private class ActionRunnableAsyncTask(private val progressTaskUpdater: ProgressTaskUpdater,

@@ -175,35 +175,38 @@ class PasswordActivity : StylishActivity() {
                         }
                     }
 
-                    var databaseUri: Uri? = null
-                    var masterPassword: String? = null
-                    var keyFileUri: Uri? = null
-                    var readOnly = true
-                    var cipherEntity: CipherDatabaseEntity? = null
+                    // Remove the password in view in all cases
+                    removePassword()
 
-                    result.data?.let { resultData ->
-                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                        masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
-                        keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
-                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
-                    }
+                    if (result.isSuccess) {
+                        launchGroupActivity()
+                    } else {
+                        var resultError = ""
+                        val resultException = result.exception
+                        val resultMessage = result.message
 
-                    databaseUri?.let { databaseFileUri ->
-                        // Remove the password in view in all cases
-                        removePassword()
+                        if (resultException != null) {
+                            resultError = resultException.getLocalizedMessage(resources)
 
-                        if (result.isSuccess) {
-                            launchGroupActivity()
-                        } else {
-                            var resultError = ""
-                            val resultException = result.exception
-                            val resultMessage = result.message
+                            // Relaunch loading if we need to fix UUID
+                            if (resultException is LoadDatabaseDuplicateUuidException) {
+                                showLoadDatabaseDuplicateUuidMessage {
 
-                            if (resultException != null) {
-                                resultError = resultException.getLocalizedMessage(resources)
-                                if (resultException is LoadDatabaseDuplicateUuidException)
-                                    showLoadDatabaseDuplicateUuidMessage {
+                                    var databaseUri: Uri? = null
+                                    var masterPassword: String? = null
+                                    var keyFileUri: Uri? = null
+                                    var readOnly = true
+                                    var cipherEntity: CipherDatabaseEntity? = null
+
+                                    result.data?.let { resultData ->
+                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                        masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
+                                        keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                    }
+
+                                    databaseUri?.let { databaseFileUri ->
                                         showProgressDialogAndLoadDatabase(
                                                 databaseFileUri,
                                                 masterPassword,
@@ -212,18 +215,18 @@ class PasswordActivity : StylishActivity() {
                                                 cipherEntity,
                                                 true)
                                     }
+                                }
                             }
-
-                            if (resultMessage != null && resultMessage.isNotEmpty()) {
-                                resultError = "$resultError $resultMessage"
-                            }
-
-                            Log.e(TAG, resultError, resultException)
-
-                            Snackbar.make(activity_password_coordinator_layout,
-                                    resultError,
-                                    Snackbar.LENGTH_LONG).asError().show()
                         }
+
+                        // Show error message
+                        if (resultMessage != null && resultMessage.isNotEmpty()) {
+                            resultError = "$resultError $resultMessage"
+                        }
+                        Log.e(TAG, resultError, resultException)
+                        Snackbar.make(activity_password_coordinator_layout,
+                                resultError,
+                                Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }

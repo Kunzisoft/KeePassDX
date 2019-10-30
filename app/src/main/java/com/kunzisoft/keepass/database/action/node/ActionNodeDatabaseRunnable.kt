@@ -3,44 +3,33 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 abstract class ActionNodeDatabaseRunnable(
         context: Context,
         database: Database,
-        private val callbackRunnable: AfterActionNodeFinishRunnable?,
+        private val afterActionNodesFinish: AfterActionNodesFinish?,
         save: Boolean)
     : SaveDatabaseRunnable(context, database, save) {
 
     /**
-     * Function do to a node action, don't implements run() if used this
+     * Function do to a node action
      */
     abstract fun nodeAction()
 
-    protected fun saveDatabaseAndFinish() {
-        if (result.isSuccess) {
-            super.run()
-            finishRun(true)
-        }
-    }
-
-    protected fun throwErrorAndFinish(throwable: LoadDatabaseException) {
-        finishRun(false, throwable)
-    }
-
-    override fun run() {
+    override fun onStartRun() {
         nodeAction()
+        super.onStartRun()
     }
 
     /**
-     * Function do get the finish node action, don't implements onFinishRun() if used this
+     * Function do get the finish node action
      */
-    abstract fun nodeFinish(result: Result): ActionNodeValues
+    abstract fun nodeFinish(): ActionNodesValues
 
-    override fun onFinishRun(result: Result) {
-        callbackRunnable?.apply {
-            onActionNodeFinish(nodeFinish(result))
+    override fun onFinishRun() {
+        super.onFinishRun()
+        afterActionNodesFinish?.apply {
+            onActionNodesFinish(result, nodeFinish())
         }
-        super.onFinishRun(result)
     }
 }

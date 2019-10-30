@@ -31,17 +31,16 @@ class AddEntryRunnable constructor(
         private val mNewEntry: EntryVersioned,
         private val mParent: GroupVersioned,
         save: Boolean,
-        finishRunnable: AfterActionNodeFinishRunnable?)
-    : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     override fun nodeAction() {
         mNewEntry.touch(modified = true, touchParents = true)
         mParent.touch(modified = true, touchParents = true)
         database.addEntryTo(mNewEntry, mParent)
-        saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             mNewEntry.parent?.let {
                 database.removeEntryFrom(mNewEntry, it)
@@ -51,6 +50,6 @@ class AddEntryRunnable constructor(
         val oldNodesReturn = ArrayList<NodeVersioned>()
         val newNodesReturn = ArrayList<NodeVersioned>()
         newNodesReturn.add(mNewEntry)
-        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

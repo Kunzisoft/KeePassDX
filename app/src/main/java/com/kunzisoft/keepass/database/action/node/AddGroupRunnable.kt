@@ -30,17 +30,16 @@ class AddGroupRunnable constructor(
         private val mNewGroup: GroupVersioned,
         private val mParent: GroupVersioned,
         save: Boolean,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?)
-    : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     override fun nodeAction() {
         mNewGroup.touch(modified = true, touchParents = true)
         mParent.touch(modified = true, touchParents = true)
         database.addGroupTo(mNewGroup, mParent)
-        saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             database.removeGroupFrom(mNewGroup, mParent)
         }
@@ -48,6 +47,6 @@ class AddGroupRunnable constructor(
         val oldNodesReturn = ArrayList<NodeVersioned>()
         val newNodesReturn = ArrayList<NodeVersioned>()
         newNodesReturn.add(mNewGroup)
-        return ActionNodeValues(result, oldNodesReturn, newNodesReturn)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

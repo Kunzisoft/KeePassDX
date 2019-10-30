@@ -25,58 +25,37 @@ import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 /**
  * Callback after a task is completed.
  */
-abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? = null,
-                              private var executeNestedActionIfResultFalse: Boolean = false)
-    : Runnable {
+abstract class ActionRunnable: Runnable {
 
     var result: Result = Result()
 
-    private fun execute() {
-        nestedActionRunnable?.let {
-            // Pass on result on call finish
-            it.result = result
-            it.run()
-        }
-        onFinishRun(result)
-    }
-
     override fun run() {
-        execute()
+        onStartRun()
+        onActionRun()
+        onFinishRun()
     }
 
-    /**
-     * If [success] or [executeNestedActionIfResultFalse] true,
-     * launch the nested action runnable if exists and finish,
-     * else directly finish
-     */
-    protected fun finishRun(isSuccess: Boolean,
-                            message: String? = null) {
-        finishRun(isSuccess, null, message)
-    }
+    abstract fun onStartRun()
 
-    /**
-     * If [success] or [executeNestedActionIfResultFalse] true,
-     * launch the nested action runnable if exists and finish,
-     * else directly finish
-     */
-    protected fun finishRun(isSuccess: Boolean,
-                            exception: LoadDatabaseException?,
-                            message: String? = null) {
-        result.isSuccess = isSuccess
-        result.exception = exception
-        result.message = message
-        if (isSuccess || executeNestedActionIfResultFalse) {
-            execute()
-        }
-        else
-            onFinishRun(result)
-    }
+    abstract fun onActionRun()
 
     /**
      * Method called when the action is finished
-     * @param result 'true' if success action, 'false' elsewhere, with message
      */
-    abstract fun onFinishRun(result: Result)
+    abstract fun onFinishRun()
+
+    protected fun setError(message: String? = null) {
+        setError(null, message)
+    }
+
+    protected fun setError(exception: LoadDatabaseException?,
+                           message: String? = null) {
+        result.isSuccess = false
+        result.exception = exception
+        result.message = message
+    }
+
+
 
     /**
      * Class to manage result from ActionRunnable
@@ -84,29 +63,5 @@ abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? 
     data class Result(var isSuccess: Boolean = true,
                       var message: String? = null,
                       var exception: LoadDatabaseException? = null,
-                      var data: Bundle? = null) {
-
-        fun toBundle(): Bundle {
-            return Bundle().apply {
-                putBoolean(IS_SUCCESS_KEY, isSuccess)
-                putString(MESSAGE_KEY, message)
-                putSerializable(EXCEPTION_KEY, exception)
-                putBundle(DATA_KEY, data)
-            }
-        }
-
-        companion object {
-            private const val IS_SUCCESS_KEY = "IS_SUCCESS_KEY"
-            private const val MESSAGE_KEY = "MESSAGE_KEY"
-            private const val EXCEPTION_KEY = "EXCEPTION_KEY"
-            private const val DATA_KEY = "DATA_KEY"
-
-            fun fromBundle(bundle: Bundle): Result {
-                return Result(bundle.getBoolean(IS_SUCCESS_KEY),
-                        bundle.getString(MESSAGE_KEY),
-                        bundle.getSerializable(EXCEPTION_KEY) as LoadDatabaseException?,
-                        bundle.getBundle(DATA_KEY))
-            }
-        }
-    }
+                      var data: Bundle? = null)
 }

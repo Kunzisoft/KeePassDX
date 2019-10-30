@@ -430,7 +430,7 @@ class EntryActivity : LockingHideActivity() {
 		TODO Slowdown when add entry as result
         Intent intent = new Intent();
         intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
-        setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
+        onFinish(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
         */
         super.finish()
     }

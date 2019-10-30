@@ -21,8 +21,9 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabaseUri: Uri,
@@ -31,28 +32,34 @@ class CreateDatabaseRunnable(context: Context,
                              masterPassword: String?,
                              withKeyFile: Boolean,
                              keyFile: Uri?,
-                             save: Boolean,
-                             actionRunnable: ActionRunnable? = null)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, withMasterPassword, masterPassword, withKeyFile, keyFile, save, actionRunnable) {
+                             save: Boolean)
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, withMasterPassword, masterPassword, withKeyFile, keyFile, save) {
 
-    override fun run() {
+    override fun onStartRun() {
         try {
             // Create new database record
             mDatabase.apply {
                 createData(mDatabaseUri)
                 // Set Database state
                 loaded = true
-                // Commit changes
-                super.run()
             }
-
-            finishRun(true)
         } catch (e: Exception) {
-
             mDatabase.closeAndClear()
-            finishRun(false, e.message)
+            setError(e.message)
         }
+
+        super.onStartRun()
     }
 
-    override fun onFinishRun(result: Result) {}
+    override fun onFinishRun() {
+        super.onFinishRun()
+
+        if (result.isSuccess) {
+            // Add database to recent files
+            FileDatabaseHistoryAction.getInstance(context.applicationContext)
+                    .addOrUpdateDatabaseUri(mDatabaseUri, mKeyFile)
+        } else {
+            Log.e("CreateDatabaseRunnable", "Unable to create the database")
+        }
+    }
 }

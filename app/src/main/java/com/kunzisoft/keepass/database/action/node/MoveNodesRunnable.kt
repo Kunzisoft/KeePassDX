@@ -32,14 +32,13 @@ class MoveNodesRunnable constructor(
         private val mNodesToMove: List<NodeVersioned>,
         private val mNewParent: GroupVersioned,
         save: Boolean,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?)
-    : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     private var mOldParent: GroupVersioned? = null
 
     override fun nodeAction() {
 
-        var error: LoadDatabaseException? = null
         foreachNode@ for(nodeToMove in mNodesToMove) {
             // Move node in new parent
             mOldParent = nodeToMove.parent
@@ -54,7 +53,7 @@ class MoveNodesRunnable constructor(
                         database.moveGroupTo(groupToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        error = MoveDatabaseGroupException()
+                        setError(MoveDatabaseGroupException())
                         break@foreachNode
                     }
                 }
@@ -68,19 +67,15 @@ class MoveNodesRunnable constructor(
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        error = MoveDatabaseEntryException()
+                        setError(MoveDatabaseEntryException())
                         break@foreachNode
                     }
                 }
             }
         }
-        if (error != null)
-            throwErrorAndFinish(error)
-        else
-            saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             try {
                 mNodesToMove.forEach { nodeToMove ->
@@ -97,7 +92,7 @@ class MoveNodesRunnable constructor(
                 Log.i(TAG, "Unable to replace the node")
             }
         }
-        return ActionNodeValues(result, ArrayList(), mNodesToMove)
+        return ActionNodesValues(ArrayList(), mNodesToMove)
     }
 
     companion object {

@@ -32,20 +32,18 @@ class CopyNodesRunnable constructor(
         private val mNodesToCopy: List<NodeVersioned>,
         private val mNewParent: GroupVersioned,
         save: Boolean,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?)
-    : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     private var mEntriesCopied = ArrayList<EntryVersioned>()
 
     override fun nodeAction() {
 
-        var error: LoadDatabaseException? = null
         foreachNode@ for(currentNode in mNodesToCopy) {
-
             when (currentNode.type) {
                 Type.GROUP -> {
                     Log.e(TAG, "Copy not allowed for group")// Only finish thread
-                    error = CopyDatabaseGroupException()
+                    setError(CopyDatabaseGroupException())
                     break@foreachNode
                 }
                 Type.ENTRY -> {
@@ -60,24 +58,20 @@ class CopyNodesRunnable constructor(
                             mEntriesCopied.add(entryCopied)
                         } else {
                             Log.e(TAG, "Unable to create a copy of the entry")
-                            error = CopyDatabaseEntryException()
+                            setError(CopyDatabaseEntryException())
                             break@foreachNode
                         }
                     } else {
                         // Only finish thread
-                        error = CopyDatabaseEntryException()
+                        setError(CopyDatabaseEntryException())
                         break@foreachNode
                     }
                 }
             }
         }
-        if (error != null)
-            throwErrorAndFinish(error)
-        else
-            saveDatabaseAndFinish()
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             // If we fail to save, try to delete the copy
             mEntriesCopied.forEach {
@@ -88,7 +82,7 @@ class CopyNodesRunnable constructor(
                 }
             }
         }
-        return ActionNodeValues(result, mNodesToCopy, mEntriesCopied)
+        return ActionNodesValues(mNodesToCopy, mEntriesCopied)
     }
 
     companion object {

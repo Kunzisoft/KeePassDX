@@ -22,22 +22,20 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil
 
-open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
+open class AssignPasswordInDatabaseRunnable (
         context: Context,
         database: Database,
         withMasterPassword: Boolean,
         masterPassword: String?,
         withKeyFile: Boolean,
         keyFile: Uri?,
-        save: Boolean,
-        actionRunnable: ActionRunnable? = null)
-    : SaveDatabaseRunnable(context, database, save, actionRunnable) {
+        save: Boolean)
+    : SaveDatabaseRunnable(context, database, save) {
 
     private var mMasterPassword: String? = null
-    private var mKeyFile: Uri? = null
+    protected var mKeyFile: Uri? = null
 
     private var mBackupKey: ByteArray? = null
 
@@ -48,7 +46,7 @@ open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
             this.mKeyFile = keyFile
     }
 
-    override fun run() {
+    override fun onStartRun() {
         // Set key
         try {
             // TODO move master key methods
@@ -57,17 +55,17 @@ open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
 
             val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mKeyFile)
             database.retrieveMasterKey(mMasterPassword, uriInputStream)
-
-            // To save the database
-            super.run()
-            finishRun(true)
         } catch (e: Exception) {
             erase(mBackupKey)
-            finishRun(false, e.message)
+            setError(e.message)
         }
+
+        super.onStartRun()
     }
 
-    override fun onFinishRun(result: Result) {
+    override fun onFinishRun() {
+        super.onFinishRun()
+
         if (!result.isSuccess) {
             // Erase the current master key
             erase(database.masterKey)
@@ -75,8 +73,6 @@ open class AssignPasswordInDatabaseRunnable @JvmOverloads constructor(
                 database.masterKey = it
             }
         }
-
-        super.onFinishRun(result)
     }
 
     /**

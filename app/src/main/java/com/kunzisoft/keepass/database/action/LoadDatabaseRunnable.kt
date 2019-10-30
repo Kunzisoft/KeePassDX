@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -42,16 +43,18 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
-                           private val mOnFinish: ((Result) -> Unit)?)
-    : ActionRunnable(null, executeNestedActionIfResultFalse = true) {
+                           private val mDuplicateUuidAction: ((Result) -> Unit)?)
+    : ActionRunnable() {
 
     private val cacheDirectory = context.applicationContext.filesDir
 
-    override fun run() {
-        try {
-            // Clear before we load
-            mDatabase.closeAndClear(cacheDirectory)
+    override fun onStartRun() {
+        // Clear before we load
+        mDatabase.closeAndClear(cacheDirectory)
+    }
 
+    override fun onActionRun() {
+        try {
             mDatabase.loadData(mUri, mPass, mKey,
                     mReadonly,
                     context.contentResolver,
@@ -59,7 +62,18 @@ class LoadDatabaseRunnable(private val context: Context,
                     mOmitBackup,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
+        }
+        catch (e: LoadDatabaseDuplicateUuidException) {
+            mDuplicateUuidAction?.invoke(result)
+            setError(e)
+        }
+        catch (e: LoadDatabaseException) {
+            setError(e)
+        }
+    }
 
+    override fun onFinishRun() {
+        if (result.isSuccess) {
             // Save keyFile in app database
             val rememberKeyFile = PreferencesUtil.rememberKeyFiles(context)
             if (rememberKeyFile) {
@@ -71,28 +85,15 @@ class LoadDatabaseRunnable(private val context: Context,
                         .addOrUpdateDatabaseUri(mUri, keyUri)
             }
 
-            mOnFinish?.invoke(result)
-
             // Register the biometric
             mCipherEntity?.let { cipherDatabaseEntity ->
                 CipherDatabaseAction.getInstance(context)
-                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) {
-                            finishRun(true)
-                        }
-            } ?: run {
-                finishRun(true)
+                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) // return value not called
             }
-        }
-        catch (e: LoadDatabaseException) {
-            finishRun(false, e)
-        }
 
-        // Start the opening notification
-        context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
-    }
-
-    override fun onFinishRun(result: Result) {
-        if (!result.isSuccess) {
+            // Start the opening notification
+            context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
+        } else {
             mDatabase.closeAndClear(cacheDirectory)
         }
     }
