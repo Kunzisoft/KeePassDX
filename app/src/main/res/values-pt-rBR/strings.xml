@@ -231,7 +231,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="usage">Uso</string>
     <string name="advanced_unlock">Impressão Digital</string>
     <string name="biometric_unlock_enable_title">Escaneamento de impressão digital</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua impressão digital para a abertura do banco de dados</string>
@@ -263,17 +262,7 @@
     <string name="other">Outros</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
-    <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
-    <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Configurações\" → \"Idioma e Entrada\" → \"Teclado Atual\" → \"Selecionar Teclado\" e escolha um.</string>
-    <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
-    <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>
-    <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
-    <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
-    <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
+    <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Apenas leitura</string>

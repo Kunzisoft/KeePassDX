@@ -218,7 +218,6 @@
     <string name="lock">Kilit</string>
     <string name="lock_database_screen_off_title">Ekran kilidi</string>
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
-    <string name="usage">Kullanım</string>
     <string name="advanced_unlock">Parmakizi</string>
     <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
     <string name="biometric_unlock_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
@@ -249,17 +248,7 @@
     <string name="other">Diğer</string>
     <string name="keyboard">Klavye</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Parolalarınızı ve tüm kimlik alanlarınızı içeren özel bir klavye etkinleştirin</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard ayarları</string>
-    <string name="magic_keyboard_configure_title">Formları güvenli bir şekilde otomatik doldurmak için klavyeyi ayarlayın.</string>
-    <string name="magic_keyboard_activate_setting_text">Cihaz ayarlarında \"Magikeyboard\"u etkinleştirin.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ayarlar\" → \"Dil &amp; giriş\" → \"Geçerli Klavye\" ve birini seçin.</string>
-    <string name="keyboards_choose_magikeyboard_text">Bir formu doldurmanız gerektiğinde Magikeyboard\'u seçin.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Klavyenizin boşluk çubuğuna uzun basarak veya yoksa şununla klavyeleri değiştirin:</string>
-    <string name="keyboard_select_entry_text">Anahtarlı girişinizi seçin.</string>
-    <string name="keyboard_fill_field_text">Giriş öğelerini kullanarak alanlarınızı doldurun.</string>
-    <string name="keyboard_lock_database_text">Veritabanını kilitle.</string>
-    <string name="keyboard_back_main_keyboard_text">Varsayılan klavyeyi tekrar kullan.</string>
+    <string name="magic_keyboard_explanation_summary">Parolalarınızı ve tüm kimlik alanlarınızı içeren özel bir klavye etkinleştirin</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard ayarları</string>

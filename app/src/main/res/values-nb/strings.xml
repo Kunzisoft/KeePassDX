@@ -215,7 +215,6 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skjermlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen når skjermen er av</string>
-    <string name="usage">Bruk</string>
     <string name="advanced_unlock">Fingeravtrykk</string>
     <string name="biometric_unlock_enable_title">Skanner etter fingeravtrykk</string>
     <string name="biometric_unlock_enable_summary">Skru på fingeravtrykksåpning av database</string>
@@ -247,17 +246,7 @@
     <string name="other">Annet</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard-innstillinger</string>
-    <string name="magic_keyboard_configure_title">Sett opp tastaturet for sikker skjemautfylling.</string>
-    <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard i enhetsinnstillingene.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Innstillinger\" → \"Språk og inndata\" → \"Nåværende tastatur\" og velg ett.</string>
-    <string name="keyboards_choose_magikeyboard_text">Velg Magikeyboard når du trenger å fylle inn et skjema.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Du kan enkelt bytte fra ditt hovedtastatur til Magikeyboard med språkknappen på tastaturet ditt, et langt trykk på ditt tastaturs mellomromstast, eller, hvis det ikke er tilgjengelig, med:</string>
-    <string name="keyboard_select_entry_text">Velg din oppføring med nøkkelen.</string>
-    <string name="keyboard_fill_field_text">Fyll inn feltene ved bruk av elementene i oppføringen.</string>
-    <string name="keyboard_lock_database_text">Lås databasen.</string>
-    <string name="keyboard_back_main_keyboard_text">Gå tilbake til ditt hovedtastatur.</string>
+    <string name="magic_keyboard_explanation_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillat inget passord</string>
     <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>

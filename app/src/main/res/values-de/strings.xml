@@ -202,7 +202,6 @@
     <string name="biometric_invalid_key">Fingerabdruckschlüssel nicht lesbar. Bitte das Passwort wiederherstellen.</string>
     <string name="biometric_scanning_error">Problem mit dem Fingerabdruck: %1$s</string>
     <string name="database_history">Verlauf</string>
-    <string name="usage">Verwendung</string>
     <string name="general">Allgemein</string>
     <string name="open_biometric_prompt_store_credential">Fingerabdruck verwenden, um dieses Passwort zu speichern</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
@@ -260,7 +259,7 @@
     <string name="other">Andere</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Eine eigene Tastatur zum einfachen Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
+    <string name="magic_keyboard_explanation_summary">Eine eigene Tastatur zum einfachen Ausfüllen aller Passwort- und Identitätsfelder aktivieren</string>
     <string name="reset_education_screens_title">Hilfe-Anzeige wiederholen</string>
     <string name="reset_education_screens_summary">Alle Hilfethemen noch einmal anzeigen</string>
     <string name="reset_education_screens_text">Hilfe-Anzeige zurückgesetzt</string>
@@ -320,16 +319,6 @@
     <string name="menu_cancel">Abbrechen</string>
     <string name="clipboard_warning">Wenn das automatische Löschen der Zwischenablage fehlschlägt, bitte den Verlauf manuell löschen.</string>
     <string name="allow_copy_password_warning">WARNUNG: Alle Apps teilen sich die Zwischenablage. Wenn sensible Daten kopiert werden, kann andere Software darauf zugreifen.</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard-Einstellungen</string>
-    <string name="magic_keyboard_configure_title">Tastatur zum sicheren Ausfüllen von Formularen einrichten.</string>
-    <string name="magic_keyboard_activate_setting_text">Das „Magikeyboard“ in den Geräteeinstellungen aktivieren.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">„Einstellungen“ → „Sprache &amp; Eingabe“ → „Aktuelle Tastatur“ und auswählen.</string>
-    <string name="keyboards_choose_magikeyboard_text">Das Magikeyboard auswählen, wenn ein Formular ausgefüllt werden soll.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Tastaturen durch langes Drücken auf die Leertaste wechseln oder, wenn das nicht zur Verfügung steht, mit:</string>
-    <string name="keyboard_select_entry_text">Den Eintrag mit dem Schlüssel auswählen.</string>
-    <string name="keyboard_fill_field_text">Die Felder mit den Elementen des Eintrags ausfüllen.</string>
-    <string name="keyboard_lock_database_text">Die Datenbank sperren.</string>
-    <string name="keyboard_back_main_keyboard_text">Zur Standardtastatur zurückkehren.</string>
     <string name="allow_no_password_title">Zulassen, dass kein Master-Passwort verwendet wird.</string>
     <string name="allow_no_password_summary">„Öffnen“-Taste aktivieren, wenn keine Passwort-Identifikation festgelegt ist</string>
     <string name="enable_education_screens_title">Hilfe-Anzeige</string>

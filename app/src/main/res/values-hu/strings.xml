@@ -239,7 +239,6 @@
     <string name="lock">Zárolás</string>
     <string name="lock_database_screen_off_title">Képernyőzár</string>
     <string name="lock_database_screen_off_summary">Az adatbázis zárolása, ha a képernyő kikapcsol</string>
-    <string name="usage">Használat</string>
     <string name="advanced_unlock">Ujjlenyomat</string>
     <string name="biometric_unlock_enable_title">Ujjlenyomat-leolvasás</string>
     <string name="biometric_unlock_enable_summary">Lehetővé teszi, hogy leolvassa az ujjlenyomatát az adatbázis feloldásához</string>
@@ -270,17 +269,7 @@
     <string name="other">Egyéb</string>
     <string name="keyboard">Billentyűzet</string>
     <string name="magic_keyboard_title">Mágikus billentyűzet</string>
-    <string name="magic_keyboard_summary">Egyéni billentyűzet aktiválása, amely kitölti a jelszavakat és az összes azonosító mezőt</string>
-    <string name="magic_keyboard_preference_title">Mágikus billentyűzet beállításai</string>
-    <string name="magic_keyboard_configure_title">Billentyűzet beállítása az űrlapok biztonságos automatikus kitöltéséhez.</string>
-    <string name="magic_keyboard_activate_setting_text">Aktiválja a „Mágikus billentyűzetet” az eszközbeállításokban.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">„Beállítások” → „Nyelvek és bevitel” → „Jelenlegi billentyűzet” és válasszon egyet.</string>
-    <string name="keyboards_choose_magikeyboard_text">Válassza a Mágikus billentyűzetet, ha egy űrlapot kell kitöltenie.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Válasszon a a billentyűzetek közt a billentyűzet szóközének hosszú nyomásával, vagy ha nem érhető el, akkor így:</string>
-    <string name="keyboard_select_entry_text">Válassza ki a bejegyzést a gombbal.</string>
-    <string name="keyboard_fill_field_text">Töltse ki a mezőket a bejegyzés elemeivel.</string>
-    <string name="keyboard_lock_database_text">Zárolja az adatbázist.</string>
-    <string name="keyboard_back_main_keyboard_text">Használja újra az alapértelmezett billentyűzetet.</string>
+    <string name="magic_keyboard_explanation_summary">Egyéni billentyűzet aktiválása, amely kitölti a jelszavakat és az összes azonosító mezőt</string>
     <string name="keyboard_name">Mágikus billentyűzet</string>
     <string name="keyboard_label">Mágikus billentyűzet (KeePass DX)</string>
     <string name="keyboard_setting_label">Mágikus billentyűzet beállításai</string>

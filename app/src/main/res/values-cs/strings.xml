@@ -238,7 +238,6 @@
     <string name="lock">Zamknout</string>
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
     <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
-    <string name="usage">Použítí</string>
     <string name="advanced_unlock">Otisk</string>
     <string name="biometric_unlock_enable_title">Snímání otisku prstu</string>
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním otisku prstu</string>
@@ -270,17 +269,7 @@
     <string name="other">Ostatní</string>
     <string name="keyboard">Klávesnice</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky</string>
-    <string name="magic_keyboard_preference_title">Nastavení Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Nastavit klávesnici pro bezpečné vyplňování formulářů.</string>
-    <string name="magic_keyboard_activate_setting_text">Zapnout \"Magikeyboard\" v nastavení zařízení.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">„Nastavení“ → „Jazyk a vstup“ → „Stávající klávesnice“ a zvolte některou.</string>
-    <string name="keyboards_choose_magikeyboard_text">Když potřebujete vyplnit formulář, zvolte Magikeyboard.</string>
-    <string name="keyboards_swicth_magikeyboard_text">"Přepínat  klávesnice dlouhým stisknutím mezerníku na klávesnici nebo pokud nejsou k dispozici tak pomocí:"</string>
-    <string name="keyboard_select_entry_text">Vyberte položku klávesou.</string>
-    <string name="keyboard_fill_field_text">Vyplnit hodnoty pomocí prvků položky.</string>
-    <string name="keyboard_lock_database_text">Zamknout databázi.</string>
-    <string name="keyboard_back_main_keyboard_text">Vrátit se zpět k obvyklé klávesnici.</string>
+    <string name="magic_keyboard_explanation_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky</string>
     <string name="allow_no_password_title">Umožnit bez hlavního klíče</string>
     <string name="allow_no_password_summary">Povolit tlačítko \"Otevřít\", i když není vybráno žádné heslo</string>
     <string name="enable_read_only_title">Chráněno před zápisem</string>

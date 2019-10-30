@@ -237,7 +237,6 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
-    <string name="usage">Brug</string>
     <string name="advanced_unlock">Fingeraftryk</string>
     <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
     <string name="biometric_unlock_enable_summary">Scan fingeraftryk for at åbne databasen</string>
@@ -269,19 +268,7 @@
     <string name="other">Øvrige</string>
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktiver et brugerdefineret tastatur, der udfylder adgangskoder og alle identitetsfelter</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard indstillinger</string>
-    <string name="magic_keyboard_configure_title">Hvordan konfigureres tastaturet til sikker formularudfyldning\?
-\n
-\nOpsæt tastaturet til autofyld af formularerne sikkert.</string>
-    <string name="magic_keyboard_activate_setting_text">Aktiver Magikeyboard\" i enhedens indstillinger.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Indstillinger\" → \"Sprog &amp; input\" → \"Aktuelt tastatur\" og vælg et.</string>
-    <string name="keyboards_choose_magikeyboard_text">Vælg Magikeyboard, når der er brug for at udfylde en formular.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Skift tastatur med et langt tryk på mellemrumstasten på tastaturet eller -hvis det ikke er tilgængelig - med:</string>
-    <string name="keyboard_select_entry_text">Vælg post med nøglen.</string>
-    <string name="keyboard_fill_field_text">Udfyld felterne ved hjælp af elementerne i posten.</string>
-    <string name="keyboard_lock_database_text">Lås databasen.</string>
-    <string name="keyboard_back_main_keyboard_text">Brug standard tastaturet igen.</string>
+    <string name="magic_keyboard_explanation_summary">Aktiver et brugerdefineret tastatur, der udfylder adgangskoder og alle identitetsfelter</string>
     <string name="allow_no_password_title">Tillad ingen hovednøgle</string>
     <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>

@@ -238,7 +238,6 @@
     <string name="lock">Vergrendelen</string>
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
     <string name="lock_database_screen_off_summary">Databank vergrendelen als het scherm uitgaat</string>
-    <string name="usage">Gebruik</string>
     <string name="advanced_unlock">Vingerafdruk</string>
     <string name="biometric_unlock_enable_title">Vingerafdrukherkenning</string>
     <string name="biometric_unlock_enable_summary">Hiermee wordt je vingerafdruk gebruikt om de databank te openen</string>
@@ -270,17 +269,7 @@
     <string name="other">Overig</string>
     <string name="keyboard">Toetsenbord</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aangepast toetsenbord met je wachtwoorden en alle identiteitsvelden activeren</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard-instellingen</string>
-    <string name="magic_keyboard_configure_title">Stel het toetsenbord in om formulieren veilig automatisch in te vullen.</string>
-    <string name="magic_keyboard_activate_setting_text">Activeer Magikeyboard in de apparaatinstellingen.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Instellingen\" → \"Taal en invoer\" → \"Huidig toetsenbord\" en kies er een.</string>
-    <string name="keyboards_choose_magikeyboard_text">Kies Magikeyboard als je een formulier moet invullen.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Schakel tussen toetsenborden door lang op de spatiebalk te drukken of, als deze niet beschikbaar is, met:</string>
-    <string name="keyboard_select_entry_text">Kies je iteminvoer met de toets.</string>
-    <string name="keyboard_fill_field_text">Voer je velden in met de elementen van het item.</string>
-    <string name="keyboard_lock_database_text">Databank vergrendelen.</string>
-    <string name="keyboard_back_main_keyboard_text">Standaard-toetsenbord gebruiken.</string>
+    <string name="magic_keyboard_explanation_summary">Aangepast toetsenbord met je wachtwoorden en alle identiteitsvelden activeren</string>
     <string name="allow_no_password_title">Geen hoofdwachtwoord toestaan</string>
     <string name="allow_no_password_summary">Schakel de knop \"Openen\" in als er geen referenties zijn geselecteerd</string>
     <string name="enable_read_only_title">Alleen-lezen</string>

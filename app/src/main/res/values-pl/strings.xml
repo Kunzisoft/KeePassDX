@@ -236,7 +236,6 @@
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
-    <string name="usage">Użycie</string>
     <string name="advanced_unlock">Odcisk palca</string>
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
     <string name="biometric_unlock_enable_summary">Umożliwia skanowanie odcisku palca w celu otwarcia bazy danych</string>
@@ -268,17 +267,7 @@
     <string name="other">Inne</string>
     <string name="keyboard">Klawiatura</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
-    <string name="magic_keyboard_preference_title">Ustawienia Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Skonfiguruj klawiaturę, aby bezpiecznie wypełniać formularze.</string>
-    <string name="magic_keyboard_activate_setting_text">Aktywuj \"Magikeyboard\" w ustawieniach urządzenia.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Ustawienia\" → \"Język i wprowadzanie\" → \"Aktualna klawiatura\" i wybierz jedną.</string>
-    <string name="keyboards_choose_magikeyboard_text">Wybierz Magikeyboard, gdy potrzebujesz wypełnić formularz.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Przełącz klawiaturę naciskając klawisz spacji na klawiaturze lub, jeśli nie jest dostępny, z:</string>
-    <string name="keyboard_select_entry_text">Wybierz wpis za pomocą klawisza.</string>
-    <string name="keyboard_fill_field_text">Wypełnij swoje pola, używając elementów pozycji.</string>
-    <string name="keyboard_lock_database_text">Zablokuj bazę danych.</string>
-    <string name="keyboard_back_main_keyboard_text">Użyj ponownie domyślnej klawiatury.</string>
+    <string name="magic_keyboard_explanation_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
     <string name="allow_no_password_title">Zezwalaj na brak klucza głównego</string>
     <string name="allow_no_password_summary">Włącz przycisk \"Otwórz\", jeśli nie wybrano uwierzytelnień</string>
     <string name="enable_read_only_title">Ochrona przed zapisem</string>

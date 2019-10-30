@@ -203,7 +203,6 @@
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
-    <string name="usage">Utilisation</string>
     <string name="advanced_unlock">Empreinte digitale</string>
     <string name="biometric_unlock_enable_title">Reconnaissance d’empreinte digitale</string>
     <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte digitale pour ouvrir la base de données</string>
@@ -235,7 +234,7 @@
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
+    <string name="magic_keyboard_explanation_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
     <string name="enable_education_screens_title">Écrans éducatifs</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
     <string name="reset_education_screens_title">Réinitialiser les écrans éducatifs</string>
@@ -327,16 +326,6 @@
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>
     <string name="menu_cancel">Annuler</string>
-    <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configurer le clavier pour le remplissage automatique des formulaires en sécurité.</string>
-    <string name="magic_keyboard_activate_setting_text">Activer le « Magikeyboard » dans les paramètres de l’appareil.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
-    <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Basculer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
-    <string name="keyboard_select_entry_text">Sélectionner votre entrée avec la clé.</string>
-    <string name="keyboard_fill_field_text">Remplisser vos champs avec les éléments de l’entrée.</string>
-    <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
-    <string name="keyboard_back_main_keyboard_text">Utiliser à nouveau le clavier par défaut.</string>
     <string name="allow_no_password_title">Autoriser aucune clé maîtresse</string>
     <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
     <string name="menu_file_selection_read_only">Protégé en écriture</string>

@@ -22,12 +22,14 @@
     <PreferenceCategory
         android:title="@string/keyboard">
         <Preference
+            android:key="@string/magic_keyboard_explanation_key"
+            android:summary="@string/magic_keyboard_explanation_summary"/>
+        <Preference
             android:key="@string/magic_keyboard_key"
-            android:title="@string/magic_keyboard_title"
-            android:summary="@string/magic_keyboard_summary" />
+            android:title="@string/device_keyboard_setting_title" />
         <Preference
             android:key="@string/magic_keyboard_preference_key"
-            android:title="@string/magic_keyboard_preference_title" />
+            android:title="@string/magic_keyboard_title" />
     </PreferenceCategory>
 
     <PreferenceCategory

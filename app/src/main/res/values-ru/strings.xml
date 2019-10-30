@@ -236,7 +236,6 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="usage">Использование</string>
     <string name="advanced_unlock">Отпечаток пальца</string>
     <string name="biometric_unlock_enable_title">Сканирование отпечатка пальца</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы с помощью отпечатка пальца</string>
@@ -268,17 +267,7 @@
     <string name="other">Прочее</string>
     <string name="keyboard">Клавиатура</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Активировать пользовательскую клавиатуру для простого заполнения паролей и всех ваших идентификаторов</string>
-    <string name="magic_keyboard_preference_title">Настройки Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Как настроить клавиатуру для безопасного заполнения форм?</string>
-    <string name="magic_keyboard_activate_setting_text">Активировать Magikeyboard в настройках устройства.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Настройки\" → \"Язык и ввод\" → \"Текущая клавиатура\" и выбрать.</string>
-    <string name="keyboards_choose_magikeyboard_text">Выбрать Magikeyboard, когда вам необходимо заполнить форму.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Вы можете легко переключаться с основной клавиатуры на Magikeyboard с помощью кнопки языка клавиатуры, длительного нажатия на пробел клавиатуры или, если она недоступна, с помощью:</string>
-    <string name="keyboard_select_entry_text">Выберите запись с помощью кнопки.</string>
-    <string name="keyboard_fill_field_text">Заполните поля, используя элементы записи.</string>
-    <string name="keyboard_lock_database_text">Заблокируйте базу.</string>
-    <string name="keyboard_back_main_keyboard_text">Вернутесь к основной клавиатуре.</string>
+    <string name="magic_keyboard_explanation_summary">Активировать пользовательскую клавиатуру для простого заполнения паролей и всех ваших идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без пароля</string>
     <string name="allow_no_password_summary">Включить кнопку открыть, если не выбрана идентификация паролем</string>
     <string name="enable_read_only_title">Только чтение</string>

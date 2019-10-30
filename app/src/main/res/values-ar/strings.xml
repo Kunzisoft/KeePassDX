@@ -197,7 +197,6 @@
     <string name="clipboard_warning">اذا فشل الحذف التلقائي من الحافظة ,احذف تأريخه يدويا</string>
     <string name="lock_database_screen_off_title">قفل الشاشة</string>
     <string name="lock_database_screen_off_summary">اقفل قاعدة البيانات عند انغلاق الشاشة</string>
-    <string name="usage">استخدام</string>
     <string name="biometric_delete_all_key_title">حذف مفاتيح التشفير</string>
     <string name="unavailable_feature_text">لا يمكن بدأ هذه الميزة .</string>
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
@@ -228,10 +227,6 @@
     <string name="application_appearance">تطبيق</string>
     <string name="other">أخرى</string>
     <string name="keyboard">لوحة مفاتيح</string>
-    <string name="keyboard_select_entry_text">تحديد المدخل مع المفتاح.</string>
-    <string name="keyboard_fill_field_text">إملأ الحقول باستخدام عناصر الادخال.</string>
-    <string name="keyboard_lock_database_text">أغلق قاعدة البيانات.</string>
-    <string name="keyboard_back_main_keyboard_text">العودة للوحة المفاتيح الافتراضية.</string>
     <string name="keyboard_setting_label">إعدادات Magikeyboard</string>
     <string name="keyboard_entry_category">مدخل</string>
     <string name="keyboard_entry_timeout_title">انتهت المهلة</string>
@@ -262,8 +257,6 @@
     <string name="assign_master_key">تعيين مفتاح رئيسي</string>
     <string name="recycle_bin_title">استخدم سلة المحذوفات</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_preference_title">إعدادات Magikeyboard</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"الإعدادات\" ← \"اللغة والإدخال\" ← \"لوحة المفاتيح الحالية\" ثم اختر واحدا.</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_notification_entry_content_title">%1$s متوفر على Magikeyboard</string>

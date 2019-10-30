@@ -230,7 +230,6 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
-    <string name="usage">Utilizzo</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione di impronte per aprire il database</string>
@@ -262,15 +261,7 @@
     <string name="other">Altro</string>
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
-    <string name="magic_keyboard_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
-    <string name="magic_keyboard_preference_title">Impostazioni Magitastiera</string>
-    <string name="magic_keyboard_configure_title">Imposta la tastiera per un\'autocompletamento sicuro dei moduli.</string>
-    <string name="magic_keyboard_activate_setting_text">Attiva la \"Magitastiera\" nelle impostazioni del dispositivo.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera attuale\" e scegline una.</string>
-    <string name="keyboards_choose_magikeyboard_text">Scegli la Magitastiera quando devi compilare un modulo.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Cambia la tastiera premendo a lungo la barra spaziatrice, oppure, se non disponibile, con:</string>
-    <string name="keyboard_lock_database_text">Blocca il database.</string>
-    <string name="keyboard_back_main_keyboard_text">Usa di nuovo la tastiera predefinita.</string>
+    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
     <string name="allow_no_password_title">Non consentire nessuna chiave principale</string>
     <string name="allow_no_password_summary">Abilita il pulsante «Apri» se le credenziali non sono selezionate</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
@@ -339,8 +330,6 @@
     <string name="style_choose_summary">Tema usato nell\'app</string>
     <string name="icon_pack_choose_title">Pacchetto icone</string>
     <string name="icon_pack_choose_summary">Pacchetto icone usato nell\'app</string>
-    <string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
-    <string name="keyboard_fill_field_text">Riempi i campi usando gli elementi giusti.</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
     <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\' \"Utilizzo memoria\" del KDF.</string>

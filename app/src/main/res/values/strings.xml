@@ -267,7 +267,6 @@
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
-    <string name="usage">Usage</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
@@ -322,17 +321,8 @@
     <string name="recycle_bin">Recycle Bin</string>
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
-    <string name="magic_keyboard_preference_title">Magikeyboard settings</string>
-    <string name="magic_keyboard_configure_title">Set up the keyboard to autofill forms securely.</string>
-    <string name="magic_keyboard_activate_setting_text">Activate \"Magikeyboard\" in the device settings.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">Device Keyboard Settings</string>
-    <string name="keyboards_choose_magikeyboard_text">Choose the Magikeyboard when you need to fill a form.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Switch keyboards by long pressing the spacebar of your keyboard, or, if it is not available, with:</string>
-    <string name="keyboard_select_entry_text">Select your entry with the key.</string>
-    <string name="keyboard_fill_field_text">Fill in your fields using the entry elements.</string>
-    <string name="keyboard_lock_database_text">Lock the database.</string>
-    <string name="keyboard_back_main_keyboard_text">Use default keyboard again.</string>
+    <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
+    <string name="device_keyboard_setting_title">Device Keyboard Settings</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>

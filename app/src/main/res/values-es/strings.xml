@@ -222,7 +222,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueo de pantalla</string>
     <string name="lock_database_screen_off_summary">Bloquear la base de datos cuando la pantalla esté apagada</string>
-    <string name="usage">Uso</string>
     <string name="advanced_unlock">Huella digital</string>
     <string name="biometric_unlock_enable_title">Monitoreando Huella digital</string>
     <string name="biometric_unlock_enable_summary">Habilitar la apertura de base de datos por huella digital</string>
@@ -253,7 +252,7 @@
     <string name="other">Otro</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Teclado mágico</string>
-    <string name="magic_keyboard_summary">Active un teclado personalizado que llene sus contraseñas y todos los campos de identidad fácilmente.</string>
+    <string name="magic_keyboard_explanation_summary">Active un teclado personalizado que llene sus contraseñas y todos los campos de identidad fácilmente.</string>
     <string name="reset_education_screens_title">Restablecer pantallas de educación</string>
     <string name="reset_education_screens_summary">Resalta los elementos para aprender cómo funciona la aplicación</string>
     <string name="reset_education_screens_text">Pantallas de educación reiniciadas</string>
@@ -322,5 +321,4 @@
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compila %1$s</string>
     <string name="clipboard_warning">Si la supresión automática del portapapeles falla, borran el historial manualmente.</string>
-    <string name="magic_keyboard_preference_title">Ajustes de Magikeyboard</string>
 </resources>

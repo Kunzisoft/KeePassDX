@@ -38,17 +38,8 @@
     <string name="file_manager_play_store" translatable="false">TODO file manager</string>
     <string name="file_manager_f_droid" translatable="false">TODO file manager</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
-    <string name="keyboard_switcher_play_store" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keyboard.switcher</string>
-    <string name="keyboard_switcher_f_droid" translatable="false">https://f-droid.org/en/packages/com.kunzisoft.keyboard.switcher/</string>
-    <string name="keyboard_switcher_app_title">Keyboard Switcher</string>
+    <string name="magic_keyboard_explanation_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/wiki/Magikeyboard</string>
     <string name="html_rose">--,--`--,{@</string>
-
-    <!-- Tutorial -->
-    <string name="chapter_1">I</string>
-    <string name="chapter_2">II</string>
-    <string name="chapter_3">III</string>
-    <string name="chapter_4">IV</string>
-    <string name="chapter_5">V</string>
 
     <!-- File Path -->
     <string name="database_file_name_default" translatable="false">keepass</string>
@@ -98,6 +89,7 @@
     <!-- Form Filling Settings -->
     <string name="settings_form_filling_key" translatable="false">settings_form_filling_key</string>
 
+    <string name="magic_keyboard_explanation_key" translatable="false">magic_keyboard_explanation_key</string>
     <string name="magic_keyboard_key" translatable="false">magic_keyboard_key</string>
     <bool name="magic_keyboard_default" translatable="false">false</bool>
     <string name="magic_keyboard_preference_key" translatable="false">magic_keyboard_preference_key</string>

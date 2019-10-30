@@ -230,7 +230,6 @@
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
     <string name="magic_keyboard_title">输入密码专用键盘</string>
-    <string name="magic_keyboard_preference_title">输入密码专用键盘设置</string>
     <string name="enable_read_only_title">写保护（只读模式）</string>
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
@@ -264,7 +263,6 @@
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
-    <string name="usage">用法</string>
     <string name="biometric_unlock_enable_title">指纹扫描</string>
     <string name="biometric_unlock_enable_summary">通过扫描指纹解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
@@ -280,17 +278,8 @@
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
     <string name="allow_copy_password_summary">让剪切板保存条目密码及保密字段</string>
     <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有应用都可访问剪切板。因此复制密码时，您设备上的其他应用也能看到密码。</string>
-    <string name="magic_keyboard_summary">激活自定义键盘以填写密码和所有身份字段</string>
-    <string name="magic_keyboard_configure_title">配置专用键盘，以安全地自动填写密码。</string>
-    <string name="magic_keyboard_activate_setting_text">在设备设置中激活“Magikeyboard键盘”。</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">“设置”→“语言和输入”→“当前键盘”，并选择所需要用于输入的键盘。</string>
-    <string name="keyboards_choose_magikeyboard_text">当填写表单时，选择输入密码专用键盘。</string>
+    <string name="magic_keyboard_explanation_summary">激活自定义键盘以填写密码和所有身份字段</string>
     <string name="allow_copy_password_title">对剪贴板的信任</string>
-    <string name="keyboards_swicth_magikeyboard_text">长时间按住“空格键”以切换键盘，如果不可用，则：</string>
-    <string name="keyboard_select_entry_text">点击钥匙图标以选择一个条目。</string>
-    <string name="keyboard_fill_field_text">使用条目中的信息填写字段。</string>
-    <string name="keyboard_lock_database_text">锁定数据库。</string>
-    <string name="keyboard_back_main_keyboard_text">返回默认键盘。</string>
     <string name="keyboard_name">输入密码专用键盘</string>
     <string name="keyboard_label">输入密码专用键盘（KeePass DX）</string>
     <string name="keyboard_setting_label">输入密码专用键盘设置</string>

@@ -233,7 +233,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="usage">Uso</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
@@ -257,7 +256,7 @@
     <string name="other">Outros</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
+    <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
     <string name="reset_education_screens_summary">Exibir todos os itens educacionais denovo</string>
     <string name="reset_education_screens_text">Telas educacionais redefinidas</string>
@@ -315,15 +314,6 @@
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
-    <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
-    <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
-    <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>
-    <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
-    <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
-    <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_education_screens_title">Telas educacionais</string>

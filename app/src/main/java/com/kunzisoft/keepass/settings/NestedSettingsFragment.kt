@@ -71,6 +71,7 @@ import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preference.DialogColorPreference.Companion.DISABLE_COLOR
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.utils.UriUtil
 
 class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
 
@@ -230,10 +231,15 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
             }
         }
 
+        findPreference<Preference>(getString(R.string.magic_keyboard_explanation_key))?.setOnPreferenceClickListener {
+            UriUtil.gotoUrl(context!!, R.string.magic_keyboard_explanation_url)
+            false
+        }
+
         findPreference<Preference>(getString(R.string.magic_keyboard_key))?.setOnPreferenceClickListener {
-            if (fragmentManager != null) {
-                KeyboardExplanationDialogFragment().show(fragmentManager!!, "keyboardExplanationDialog")
-            }
+            startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            })
             false
         }
 
