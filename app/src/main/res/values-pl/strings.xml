@@ -378,7 +378,7 @@
     <string name="keyboard_key_vibrate_title">Wibracja po naciśnięciu klawisza</string>
     <string name="keyboard_key_sound_title">Dźwięk przy naciśnięciu</string>
     <string name="do_not_kill_app">Nie zabijaj aplikacji…</string>
-    <string name="lock_database_back_root_title">Naciśnij Wstecz na głównym, aby zablokować</string>
+    <string name="lock_database_back_root_title">Naciśnij Wstecz na stronie głównej, aby zablokować</string>
     <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk \"Wstecz\" na ekranie głównym</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
     <string name="clear_clipboard_notification_summary">Zamknij bazę danych podczas zamykania powiadomienia</string>
