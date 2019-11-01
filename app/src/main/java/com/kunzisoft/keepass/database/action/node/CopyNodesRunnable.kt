@@ -24,7 +24,6 @@ import android.util.Log
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.CopyDatabaseEntryException
 import com.kunzisoft.keepass.database.exception.CopyDatabaseGroupException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 class CopyNodesRunnable constructor(
         context: Context,
