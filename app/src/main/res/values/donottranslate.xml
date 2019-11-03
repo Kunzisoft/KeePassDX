@@ -71,6 +71,8 @@
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
+    <string name="persistent_notification_key" translatable="false">persistent_notification_key</string>
+    <bool name="persistent_notification_default" translatable="false">true</bool>
     <string name="lock_database_back_root_key" translatable="false">lock_database_back_root_key</string>
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>

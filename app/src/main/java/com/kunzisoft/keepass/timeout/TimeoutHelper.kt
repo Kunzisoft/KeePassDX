@@ -146,7 +146,7 @@ object TimeoutHelper {
         temporarilyDisableTimeout = true
 
         // Stop the opening notification
-        context.stopService(Intent(context, DatabaseOpenNotificationService::class.java))
+        DatabaseOpenNotificationService.stop(context)
     }
 
     /**
@@ -161,7 +161,7 @@ object TimeoutHelper {
         }
         if (inTime) {
             // Start the opening notification
-            context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
+            DatabaseOpenNotificationService.startIfAllowed(context)
         }
         return inTime
     }

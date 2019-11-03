@@ -268,6 +268,8 @@
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press Back on root to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
+    <string name="persistent_notification_title">Persistent notification</string>
+    <string name="persistent_notification_summary">Add a notification when the database is open</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>

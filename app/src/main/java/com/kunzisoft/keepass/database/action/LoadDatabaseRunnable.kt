@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.database.action
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
@@ -92,7 +91,7 @@ class LoadDatabaseRunnable(private val context: Context,
             }
 
             // Start the opening notification
-            context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
+            DatabaseOpenNotificationService.startIfAllowed(context)
         } else {
             mDatabase.closeAndClear(cacheDirectory)
         }

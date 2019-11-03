@@ -1,11 +1,13 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
 class DatabaseOpenNotificationService: LockNotificationService() {
@@ -58,6 +60,18 @@ class DatabaseOpenNotificationService: LockNotificationService() {
 
     companion object {
         const val ACTION_CLOSE_DATABASE = "ACTION_CLOSE_DATABASE"
+
+        fun startIfAllowed(context: Context) {
+            if (PreferencesUtil.isPersistentNotificationEnable(context)) {
+                // Start the opening notification
+                context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
+            }
+        }
+
+        fun stop(context: Context) {
+            // Stop the opening notification
+            context.stopService(Intent(context, DatabaseOpenNotificationService::class.java))
+        }
     }
 
 }
