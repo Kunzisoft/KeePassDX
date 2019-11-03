@@ -29,6 +29,7 @@ import android.util.Log
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
@@ -141,8 +142,11 @@ object TimeoutHelper {
     /**
      * Temporarily disable timeout, checkTime() function always return true
      */
-    fun temporarilyDisableTimeout() {
+    fun temporarilyDisableTimeout(context: Context) {
         temporarilyDisableTimeout = true
+
+        // Stop the opening notification
+        context.stopService(Intent(context, DatabaseOpenNotificationService::class.java))
     }
 
     /**
@@ -150,9 +154,15 @@ object TimeoutHelper {
      */
     fun releaseTemporarilyDisableTimeoutAndLockIfTimeout(context: Context): Boolean {
         temporarilyDisableTimeout = false
-        return if (context is LockingActivity)
+        val inTime =  if (context is LockingActivity) {
             checkTimeAndLockIfTimeout(context)
-        else
+        } else {
             checkTime(context)
+        }
+        if (inTime) {
+            // Start the opening notification
+            context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
+        }
+        return inTime
     }
 }

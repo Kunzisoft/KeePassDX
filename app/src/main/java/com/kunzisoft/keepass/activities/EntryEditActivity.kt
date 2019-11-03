@@ -35,8 +35,10 @@ import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -84,6 +86,9 @@ class EntryEditActivity : LockingHideActivity(),
         entryEditContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
+
+        stopService(Intent(this, ClipboardEntryNotificationService::class.java))
+        stopService(Intent(this, KeyboardEntryNotificationService::class.java))
 
         // Likely the app has been killed exit the activity
         mDatabase = Database.getInstance()

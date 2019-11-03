@@ -58,12 +58,12 @@ class ProgressDialogThread(private val activity: FragmentActivity,
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            TimeoutHelper.temporarilyDisableTimeout()
+            TimeoutHelper.temporarilyDisableTimeout(activity)
             startOrUpdateDialog(titleId, messageId, warningId)
         }
 
         override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            TimeoutHelper.temporarilyDisableTimeout()
+            TimeoutHelper.temporarilyDisableTimeout(activity)
             startOrUpdateDialog(titleId, messageId, warningId)
         }
 
