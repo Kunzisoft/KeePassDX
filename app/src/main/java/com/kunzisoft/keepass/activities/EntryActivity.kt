@@ -50,6 +50,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
+import com.kunzisoft.keepass.totp.TotpSettings
 import java.util.*
 
 class EntryActivity : LockingHideActivity() {
@@ -66,6 +67,7 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
+    private var mTotpSettings: TotpSettings? = null
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -150,6 +152,9 @@ class EntryActivity : LockingHideActivity() {
                     MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
                 }
             }
+
+            // Init TOTP
+            mTotpSettings = TotpSettings(entry)
         }
 
         firstLaunchOfActivity = false
@@ -218,6 +223,15 @@ class EntryActivity : LockingHideActivity() {
             } else {
                 entryContentsView?.assignPasswordCopyListener(null)
             }
+        }
+
+        mTotpSettings?.let { totpSettings ->
+            entryContentsView?.assignTotp(totpSettings, View.OnClickListener {
+                clipboardHelper?.timeoutCopyToClipboard(
+                        totpSettings.token,
+                        getString(R.string.copy_field, getString(R.string.entry_totp))
+                )
+            })
         }
 
         entryContentsView?.assignURL(entry.url)

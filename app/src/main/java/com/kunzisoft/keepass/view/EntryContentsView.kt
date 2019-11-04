@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Handler
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -37,6 +38,7 @@ import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import java.util.*
+import com.kunzisoft.keepass.totp.TotpSettings
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
                                                   var attrs: AttributeSet? = null,
@@ -53,6 +55,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val passwordContainerView: View
     private val passwordView: TextView
     private val passwordActionView: ImageView
+
+    private val totpContainerView: View
+    private val totpView: TextView
+    private val totpActionView: ImageView
+    private var totpCurrentToken: String = ""
 
     private val urlContainerView: View
     private val urlView: TextView
@@ -92,6 +99,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         passwordContainerView = findViewById(R.id.entry_password_container)
         passwordView = findViewById(R.id.entry_password)
         passwordActionView = findViewById(R.id.entry_password_action_image)
+
+        totpContainerView = findViewById(R.id.entry_totp_container);
+        totpView = findViewById(R.id.entry_totp);
+        totpActionView = findViewById(R.id.entry_totp_action_image);
 
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
@@ -197,6 +208,38 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                     childCustomView.setHiddenPasswordStyle(hiddenStyle)
             }
         }
+    }
+
+    fun assignTotp(settings: TotpSettings, onClickListener: OnClickListener) {
+        if (settings.isConfigured) {
+            totpContainerView.visibility = View.VISIBLE
+
+            val totp = settings.token
+            if (totp.isEmpty()) {
+                totpView.text = context.getString(R.string.error_invalid_TOTP)
+                totpActionView
+                        .setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
+                assignTotpCopyListener(null)
+            } else {
+                assignTotpCopyListener(onClickListener)
+                totpCurrentToken = settings.token
+                val totpHandler = Handler()
+                totpHandler.post(object : Runnable {
+                    override fun run() {
+                        if (settings.shouldRefreshToken()) {
+                            totpCurrentToken = settings.token
+                        }
+                        totpView.text = context.getString(R.string.entry_totp_format,
+                                totpCurrentToken, settings.secondsRemaining)
+                        totpHandler.postDelayed(this, 1000)
+                    }
+                })
+            }
+        }
+    }
+
+    fun assignTotpCopyListener(onClickListener: OnClickListener?) {
+        totpActionView.setOnClickListener(onClickListener)
     }
 
     fun assignURL(url: String?) {
