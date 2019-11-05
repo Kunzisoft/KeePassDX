@@ -20,13 +20,18 @@
  */
 package com.kunzisoft.keepass.otp;
 
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Base32;
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.codec.binary.Hex;
+
 import android.net.Uri;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,12 +43,13 @@ public class OtpEntryFields {
 
     private static final String TAG = OtpEntryFields.class.getName();
 
+    // Field from KeePassXC
+    private static final String OTP_FIELD = "otp";
+
+    // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
     private static final String OTP_SCHEME = "otpauth";
-
-    private static final String TOTP = "totp"; // time-based
-    private static final String HOTP = "hotp"; // counter-based
-
-    // URL parameters
+    private static final String TOTP_AUTHORITY = "totp"; // time-based
+    private static final String HOTP_AUTHORITY = "hotp"; // counter-based
     private static final String ISSUER_URL_PARAM = "issuer";
     private static final String SECRET_URL_PARAM = "secret";
     private static final String DIGITS_URL_PARAM = "digits";
@@ -51,13 +57,21 @@ public class OtpEntryFields {
     private static final String ENCODER_URL_PARAM = "encoder";
     private static final String COUNTER_URL_PARAM = "counter";
 
-    // Key-values
+    // Key-values (maybe from plugin or old KeePassXC)
     private static final String SEED_KEY = "key";
     private static final String DIGITS_KEY = "size";
     private static final String STEP_KEY = "step";
 
-    // Default values
-    private static final int DEFAULT_HOTP_COUNTER = 0;
+    // HmacOtp KeePass2 values (https://keepass.info/help/base/placeholders.html#hmacotp)
+    private static final String HMACOTP_SECRET_KEY = "HmacOtp-Secret";
+    private static final String HMACOTP_SECRET_HEX_KEY = "HmacOtp-Secret-Hex";
+    private static final String HMACOTP_SECRET_BASE32_KEY = "HmacOtp-Secret-Base32";
+    private static final String HMACOTP_SECRET_BASE64_KEY = "HmacOtp-Secret-Base64";
+    private static final String HMACOTP_SECRET_COUNTER_KEY = "HmacOtp-Counter";
+
+    // Custom fields (maybe from plugin)
+    private static final String TOTP_SEED_FIELD = "TOTP Seed";
+    private static final String TOTP_SETTING_FIELD = "TOTP Settings";
 
     public enum OtpType {
         UNDEFINED,
@@ -78,8 +92,8 @@ public class OtpEntryFields {
         public static TokenType getFromString(@Nullable String tokenType) {
             if (tokenType == null)
                 return Default;
-            switch (tokenType) {
-                case "S":
+            switch (tokenType.toLowerCase()) {
+                case "s":
                 case "steam":
                     return Steam;
                 default:
@@ -87,7 +101,8 @@ public class OtpEntryFields {
             }
         }
     }
-
+    // Default values
+    private static final int DEFAULT_HOTP_COUNTER = 0;
     private static final int DEFAULT_STEP = 30;
 
     // Logical breakdown of key=value regex. the final string is as follows:
@@ -97,27 +112,31 @@ public class OtpEntryFields {
     private static final String validKeyValueRegex =
             validKeyValuePair + "&(" + validKeyValuePair + ")*";
 
-    private static final String OTP_FIELD = "otp";
-    private static final String TOTP_SEED_FIELD = "TOTP Seed";
-    private static final String TOTP_SETTING_FIELD = "TOTP Settings";
-
     private EntryVersioned entry;
 
     private OtpType type = OtpType.UNDEFINED; // ie : HOTP or TOTP
     private TokenType tokenType = TokenType.Default; // ie : default or Steam
     private String name = ""; // ie : user@email.com
     private String issuer = ""; // ie : Gitlab
-    private String secretString = "";
     private byte[] secret;
     private int counter = DEFAULT_HOTP_COUNTER; // ie : 5 - only for HOTP
-    private int step = 30; // ie : 30 seconds - only for TOTP
+    private int step = DEFAULT_STEP; // ie : 30 seconds - only for TOTP
     private int digits = TokenType.Default.digits; // ie : 6 - number of digits generated
 
     public OtpEntryFields(EntryVersioned entry) {
         this.entry = entry;
-        if (!parseOtpFromUrl()) {
-            parseTOTPFromField();
-        }
+
+        // OTP (HOTP/TOTP) from URL and field from KeePassXC
+        boolean parse = parseOtpUri();
+        // TOTP from key values (maybe plugin or old KeePassXC)
+        if (!parse)
+            parse = parseTotpKeyValues();
+        // TOTP from custom field
+        if (!parse)
+            parse = parseTOTPFromField();
+        // HOTP fields from KeePass 2
+        if (!parse)
+            parseHOTPFromField();
     }
 
     public OtpType getType() {
@@ -162,8 +181,12 @@ public class OtpEntryFields {
         this.issuer = issuer;
     }
 
-    private void setSecret(@NonNull String secret) {
+    private void setBase32Secret(@NonNull String secret) {
         this.secret = new Base32().decode(secret.getBytes());
+    }
+
+    private void setBase64Secret(@NonNull String secret) {
+        this.secret = new Base64().decode(secret.getBytes());
     }
 
     private void setCounter(int counter) {
@@ -200,68 +223,74 @@ public class OtpEntryFields {
      * <p>otpauth://totp/user@example.com?secret=FFF...
      *
      * <p>otpauth://hotp/user@example.com?secret=FFF...&counter=123
-     *
-     * @param uri The URI containing the secret key
      */
-    private boolean parseOtpUri(Uri uri) {
-        if (uri.getScheme() == null
-                || !OTP_SCHEME.equals(uri.getScheme().toLowerCase())) {
-            Log.e(TAG, "Invalid or missing scheme in uri");
-            return false;
-        }
+    private boolean parseOtpUri() {
+        String otpPlainText = getField(OTP_FIELD);
+        if (otpPlainText != null
+                && !otpPlainText.isEmpty()) {
+            Uri uri = Uri.parse(otpPlainText);
 
-        final String authority = uri.getAuthority();
-        if (TOTP.equals(authority)) {
-
-            type = OtpType.TOTP;
-
-        } else if (HOTP.equals(authority)) {
-
-            type = OtpType.HOTP;
-            String counterParameter = uri.getQueryParameter(COUNTER_URL_PARAM);
-            if (counterParameter != null) {
-                try {
-                    counter = Integer.parseInt(counterParameter);
-                } catch (NumberFormatException e) {
-                    Log.e(TAG, "Invalid counter in uri");
-                    return false;
-                }
+            if (uri.getScheme() == null
+                    || !OTP_SCHEME.equals(uri.getScheme().toLowerCase())) {
+                Log.e(TAG, "Invalid or missing scheme in uri");
+                return false;
             }
 
-        } else {
-            Log.e(TAG, "Invalid or missing authority in uri");
-            return false;
+            final String authority = uri.getAuthority();
+            if (TOTP_AUTHORITY.equals(authority)) {
+                type = OtpType.TOTP;
+
+            } else if (HOTP_AUTHORITY.equals(authority)) {
+                type = OtpType.HOTP;
+
+                String counterParameter = uri.getQueryParameter(COUNTER_URL_PARAM);
+                if (counterParameter != null) {
+                    try {
+                        setCounter(Integer.parseInt(counterParameter));
+                    } catch (NumberFormatException e) {
+                        Log.e(TAG, "Invalid counter in uri");
+                        return false;
+                    }
+                }
+
+            } else {
+                Log.e(TAG, "Invalid or missing authority in uri");
+                return false;
+            }
+
+            String nameParam = validateAndGetNameInPath(uri.getPath());
+            if (nameParam != null && !nameParam.isEmpty())
+                setName(nameParam);
+
+            String issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM);
+            if (issuerParam != null && !issuerParam.isEmpty())
+                setIssuer(issuerParam);
+
+            String secretParam = uri.getQueryParameter(SECRET_URL_PARAM);
+            if (secretParam != null && !secretParam.isEmpty())
+                setBase32Secret(secretParam);
+
+            String encoderParam = uri.getQueryParameter(ENCODER_URL_PARAM);
+            if (encoderParam != null && !encoderParam.isEmpty()) {
+                tokenType = TokenType.getFromString(encoderParam);
+                setDigits(tokenType.digits);
+            }
+
+            String digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM);
+            if (digitsParam != null && !digitsParam.isEmpty())
+                setDigits(toInt(digitsParam));
+
+            String counterParam = uri.getQueryParameter(COUNTER_URL_PARAM);
+            if (counterParam != null && !counterParam.isEmpty())
+                setCounter(toInt(counterParam));
+
+            String stepParam = uri.getQueryParameter(PERIOD_URL_PARAM);
+            if (stepParam != null && !stepParam.isEmpty())
+                setStep(toInt(stepParam));
+
+            return true;
         }
-
-        String nameParam = validateAndGetNameInPath(uri.getPath());
-        if (nameParam != null && !nameParam.isEmpty())
-            setName(nameParam);
-
-        String issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM);
-        if (issuerParam != null && !issuerParam.isEmpty())
-            setIssuer(issuerParam);
-
-        String secretParam = uri.getQueryParameter(SECRET_URL_PARAM);
-        if (secretParam != null && !secretParam.isEmpty())
-            setSecret(secretParam);
-
-        String encoderParam = uri.getQueryParameter(ENCODER_URL_PARAM);
-        if (encoderParam != null && !encoderParam.isEmpty())
-            setDigits(TokenType.getFromString(encoderParam).digits);
-
-        String digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM);
-        if (digitsParam != null && !digitsParam.isEmpty())
-            setDigits(toInt(digitsParam));
-
-        String counterParam = uri.getQueryParameter(COUNTER_URL_PARAM);
-        if (counterParam != null && !counterParam.isEmpty())
-            setCounter(toInt(counterParam));
-
-        String stepParam = uri.getQueryParameter(PERIOD_URL_PARAM);
-        if (stepParam != null && !stepParam.isEmpty())
-            setStep(toInt(stepParam));
-
-        return true;
+        return false;
     }
 
     private static String validateAndGetNameInPath(String path) {
@@ -276,58 +305,83 @@ public class OtpEntryFields {
         return name;
     }
 
-    private boolean parseOtpKeyValues(String plainText) {
-        if (Pattern.matches(validKeyValueRegex, plainText)) {
-            // KeeOtp string format
-            HashMap<String, String> query = breakDownKeyValuePairs(plainText);
+    private boolean parseTotpKeyValues() {
+        String plainText = getField(OTP_FIELD);
+        if (plainText != null
+                && !plainText.isEmpty()) {
+            if (Pattern.matches(validKeyValueRegex, plainText)) {
+                // KeeOtp string format
+                HashMap<String, String> query = breakDownKeyValuePairs(plainText);
 
-            String secretString = query.get(SEED_KEY);
-            if (secretString == null)
-                secretString = "";
-            setSecret(secretString);
-            setDigits(toInt(query.get(DIGITS_KEY)));
-            setStep(toInt(query.get(STEP_KEY)));
-            return true;
-        } else {
-            // Malformed
-            return false;
+                String secretString = query.get(SEED_KEY);
+                if (secretString == null)
+                    secretString = "";
+                setBase32Secret(secretString);
+                setDigits(toInt(query.get(DIGITS_KEY)));
+                setStep(toInt(query.get(STEP_KEY)));
+
+                type = OtpType.TOTP;
+                return true;
+            } else {
+                // Malformed
+                return false;
+            }
         }
-    }
-
-    private boolean parseOtpFromUrl() {
-        String otpPlainText = getField(OTP_FIELD);
-        if (otpPlainText == null
-                || otpPlainText.isEmpty()) {
-            return false;
-        }
-
-        return parseOtpUri(Uri.parse(otpPlainText))
-                || parseOtpKeyValues(otpPlainText);
+        return false;
     }
 
     private boolean parseTOTPFromField() {
         String seedField = getField(TOTP_SEED_FIELD);
-        String settingsField = getField(TOTP_SETTING_FIELD);
-        if (seedField == null || settingsField == null) {
+        if (seedField == null) {
             return false;
+        }
+        setBase32Secret(seedField);
+
+        String settingsField = getField(TOTP_SETTING_FIELD);
+        if (settingsField != null) {
+            // Regex match, sync with OtpTokenGenerator.shortNameToEncoder
+            Pattern pattern = Pattern.compile("(\\d+);((?:\\d+)|S)");
+            Matcher matcher = pattern.matcher(settingsField);
+            if (!matcher.matches()) {
+                // malformed
+                return false;
+            }
+            setStep(toInt(matcher.group(1)));
+            setDigits(TokenType.getFromString(matcher.group(2)).digits);
         }
 
         type = OtpType.TOTP;
+        return true;
+    }
 
-        // Regex match, sync with OtpTokenGenerator.shortNameToEncoder
-        Pattern pattern = Pattern.compile("(\\d+);((?:\\d+)|S)");
-        Matcher matcher = pattern.matcher(settingsField);
-        if (!matcher.matches()) {
-            // malformed
+    private boolean parseHOTPFromField() {
+        String secretField = getField(HMACOTP_SECRET_KEY);
+        String secretHexField = getField(HMACOTP_SECRET_HEX_KEY);
+        String secretBase32Field = getField(HMACOTP_SECRET_BASE32_KEY);
+        String secretBase64Field = getField(HMACOTP_SECRET_BASE64_KEY);
+        if (secretField != null)
+            secret = secretField.getBytes(Charset.forName("UTF-8"));
+        else if (secretHexField != null) {
+            try {
+                secret = Hex.decodeHex(secretHexField);
+            } catch (DecoderException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        else if (secretBase32Field != null)
+            setBase32Secret(secretBase32Field);
+        else if (secretBase64Field != null)
+            setBase64Secret(secretBase64Field);
+        else
             return false;
+
+        String secretCounterField = getField(HMACOTP_SECRET_COUNTER_KEY);
+        if (secretCounterField != null) {
+            setCounter(toInt(secretCounterField));
         }
 
-        step = toInt(matcher.group(1));
-
-        String encodingType = matcher.group(2);
-        digits = TokenType.getFromString(encodingType).digits;
-
-        secretString = seedField;
+        type = OtpType.HOTP;
         return true;
     }
 
