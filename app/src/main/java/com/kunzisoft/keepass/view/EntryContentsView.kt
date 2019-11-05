@@ -38,7 +38,7 @@ import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import java.util.*
-import com.kunzisoft.keepass.totp.TotpSettings
+import com.kunzisoft.keepass.otp.OtpEntryFields
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
                                                   var attrs: AttributeSet? = null,
@@ -210,27 +210,27 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun assignTotp(settings: TotpSettings, onClickListener: OnClickListener) {
-        if (settings.isConfigured) {
+    fun assignTotp(otpEntryFields: OtpEntryFields, onClickListener: OnClickListener) {
+        if (otpEntryFields.isConfigured) {
             totpContainerView.visibility = View.VISIBLE
 
-            val totp = settings.token
-            if (totp.isEmpty()) {
+            val totpToken = otpEntryFields.token
+            if (totpToken.isEmpty()) {
                 totpView.text = context.getString(R.string.error_invalid_TOTP)
                 totpActionView
                         .setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
                 assignTotpCopyListener(null)
             } else {
                 assignTotpCopyListener(onClickListener)
-                totpCurrentToken = settings.token
+                totpCurrentToken = otpEntryFields.token
                 val totpHandler = Handler()
                 totpHandler.post(object : Runnable {
                     override fun run() {
-                        if (settings.shouldRefreshToken()) {
-                            totpCurrentToken = settings.token
+                        if (otpEntryFields.shouldRefreshToken()) {
+                            totpCurrentToken = otpEntryFields.token
                         }
                         totpView.text = context.getString(R.string.entry_totp_format,
-                                totpCurrentToken, settings.secondsRemaining)
+                                totpCurrentToken, otpEntryFields.secondsRemaining)
                         totpHandler.postDelayed(this, 1000)
                     }
                 })

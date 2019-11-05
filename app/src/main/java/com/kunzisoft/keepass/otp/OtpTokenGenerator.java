@@ -18,7 +18,7 @@
  * https://github.com/andOTP/andOTP/blob/master/app/src/main/java/org/shadowice/flocke/andotp/
  * Utilities/TokenCalculator.java
  */
-package com.kunzisoft.keepass.totp;
+package com.kunzisoft.keepass.otp;
 
 import java.nio.ByteBuffer;
 import java.security.InvalidKeyException;
@@ -27,7 +27,7 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-public final class TotpGenerator {
+public final class OtpTokenGenerator {
 
     private static final char[] STEAM_CHARS =
             new char[] {'2', '3', '4', '5', '6', '7', '8', '9', 'B', 'C', 'D', 'F', 'G', 'H', 'J',

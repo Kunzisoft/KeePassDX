@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
-import com.kunzisoft.keepass.totp.TotpSettings
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
 
 class EntryActivity : LockingHideActivity() {
@@ -67,7 +67,7 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
-    private var mTotpSettings: TotpSettings? = null
+    private var mOtpEntryFields: OtpEntryFields? = null
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -136,6 +136,9 @@ class EntryActivity : LockingHideActivity() {
         mEntry?.touch(modified = false, touchParents = false)
 
         mEntry?.let { entry ->
+            // Init OTP
+            mOtpEntryFields = OtpEntryFields(entry)
+
             // Fill data in resume to update from EntryEditActivity
             fillEntryDataInContentsView(entry)
             // Refresh Menu
@@ -152,9 +155,6 @@ class EntryActivity : LockingHideActivity() {
                     MagikIME.addEntryAndLaunchNotificationIfAllowed(this, entryInfo)
                 }
             }
-
-            // Init TOTP
-            mTotpSettings = TotpSettings(entry)
         }
 
         firstLaunchOfActivity = false
@@ -225,10 +225,10 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
-        mTotpSettings?.let { totpSettings ->
-            entryContentsView?.assignTotp(totpSettings, View.OnClickListener {
+        mOtpEntryFields?.let { otpEntryFields ->
+            entryContentsView?.assignTotp(otpEntryFields, View.OnClickListener {
                 clipboardHelper?.timeoutCopyToClipboard(
-                        totpSettings.token,
+                        otpEntryFields.token,
                         getString(R.string.copy_field, getString(R.string.entry_totp))
                 )
             })
