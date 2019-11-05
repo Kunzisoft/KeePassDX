@@ -87,8 +87,7 @@
     <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Title</string>
-    <string name="entry_totp">TOTP</string>
-    <string name="entry_totp_format">%1$s (%2$d)</string>
+    <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
@@ -96,7 +95,7 @@
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
-    <string name="error_invalid_TOTP">Invalid TOTP secret.</string>
+    <string name="error_invalid_OTP">Invalid OTP secret.</string>
     <string name="error_no_name">Enter a name.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>

@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import android.os.Handler
 import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -28,6 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -37,8 +37,8 @@ import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import java.util.*
 import com.kunzisoft.keepass.otp.OtpEntryFields
+import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
                                                   var attrs: AttributeSet? = null,
@@ -56,10 +56,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val passwordView: TextView
     private val passwordActionView: ImageView
 
-    private val totpContainerView: View
-    private val totpView: TextView
-    private val totpActionView: ImageView
-    private var totpCurrentToken: String = ""
+    private val otpContainerView: View
+    private val otpLabelView: TextView
+    private val otpView: TextView
+    private val otpActionView: ImageView
 
     private val urlContainerView: View
     private val urlView: TextView
@@ -100,9 +100,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         passwordView = findViewById(R.id.entry_password)
         passwordActionView = findViewById(R.id.entry_password_action_image)
 
-        totpContainerView = findViewById(R.id.entry_totp_container);
-        totpView = findViewById(R.id.entry_totp);
-        totpActionView = findViewById(R.id.entry_totp_action_image);
+        otpContainerView = findViewById(R.id.entry_otp_container)
+        otpLabelView = findViewById(R.id.entry_otp_label)
+        otpView = findViewById(R.id.entry_otp)
+        otpActionView = findViewById(R.id.entry_otp_action_image)
 
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
@@ -210,36 +211,50 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun assignTotp(otpEntryFields: OtpEntryFields, onClickListener: OnClickListener) {
-        if (otpEntryFields.isConfigured) {
-            totpContainerView.visibility = View.VISIBLE
+    fun assignOtp(otpEntryFields: OtpEntryFields,
+                  otpProgressView: ProgressBar?,
+                  onClickListener: OnClickListener) {
+        if (otpEntryFields.type != OtpEntryFields.OtpType.UNDEFINED) {
+            otpContainerView.visibility = View.VISIBLE
 
-            val totpToken = otpEntryFields.token
-            if (totpToken.isEmpty()) {
-                totpView.text = context.getString(R.string.error_invalid_TOTP)
-                totpActionView
-                        .setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-                assignTotpCopyListener(null)
+            if (otpEntryFields.token.isEmpty()) {
+                otpView.text = context.getString(R.string.error_invalid_OTP)
+                otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
+                assignOtpCopyListener(null)
             } else {
-                assignTotpCopyListener(onClickListener)
-                totpCurrentToken = otpEntryFields.token
-                val totpHandler = Handler()
-                totpHandler.post(object : Runnable {
-                    override fun run() {
-                        if (otpEntryFields.shouldRefreshToken()) {
-                            totpCurrentToken = otpEntryFields.token
-                        }
-                        totpView.text = context.getString(R.string.entry_totp_format,
-                                totpCurrentToken, otpEntryFields.secondsRemaining)
-                        totpHandler.postDelayed(this, 1000)
+                assignOtpCopyListener(onClickListener)
+                otpView.text = otpEntryFields.token
+                otpLabelView.text = otpEntryFields.type.name
+
+                when (otpEntryFields.type) {
+                    // Only add token if HOTP
+                    OtpEntryFields.OtpType.HOTP -> {
                     }
-                })
+                    // Refresh view if TOTP
+                    OtpEntryFields.OtpType.TOTP -> {
+                        otpProgressView?.apply {
+                            max = otpEntryFields.step
+                            progress = otpEntryFields.secondsRemaining
+                            visibility = View.VISIBLE
+                        }
+                        otpContainerView.post(object : Runnable {
+                            override fun run() {
+                                if (otpEntryFields.shouldRefreshToken()) {
+                                    otpView.text = otpEntryFields.token
+                                }
+                                otpProgressView?.progress = otpEntryFields.secondsRemaining
+                                otpContainerView.postDelayed(this, 1000)
+                            }
+                        })
+                    }
+                    else -> {}
+                }
             }
         }
     }
 
-    fun assignTotpCopyListener(onClickListener: OnClickListener?) {
-        totpActionView.setOnClickListener(onClickListener)
+    fun assignOtpCopyListener(onClickListener: OnClickListener?) {
+        otpActionView.setOnClickListener(onClickListener)
     }
 
     fun assignURL(url: String?) {

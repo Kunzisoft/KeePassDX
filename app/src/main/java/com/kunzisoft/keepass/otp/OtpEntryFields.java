@@ -120,8 +120,8 @@ public class OtpEntryFields {
         }
     }
 
-    public boolean isConfigured() {
-        return type != OtpType.UNDEFINED;
+    public OtpType getType() {
+        return type;
     }
 
     public String getToken() {
@@ -172,6 +172,10 @@ public class OtpEntryFields {
         } else {
             this.counter = counter;
         }
+    }
+
+    public int getStep() {
+        return step;
     }
 
     private void setStep(int step) {

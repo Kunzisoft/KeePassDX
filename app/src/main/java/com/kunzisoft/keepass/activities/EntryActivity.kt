@@ -32,6 +32,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -59,6 +60,7 @@ class EntryActivity : LockingHideActivity() {
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var entryContentsView: EntryContentsView? = null
+    private var entryProgress: ProgressBar? = null
     private var toolbar: Toolbar? = null
 
     private var mDatabase: Database? = null
@@ -103,6 +105,7 @@ class EntryActivity : LockingHideActivity() {
         historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
+        entryProgress = findViewById(R.id.entry_progress)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
@@ -226,10 +229,11 @@ class EntryActivity : LockingHideActivity() {
         }
 
         mOtpEntryFields?.let { otpEntryFields ->
-            entryContentsView?.assignTotp(otpEntryFields, View.OnClickListener {
+            entryContentsView?.assignOtp(otpEntryFields, entryProgress,
+                    View.OnClickListener {
                 clipboardHelper?.timeoutCopyToClipboard(
                         otpEntryFields.token,
-                        getString(R.string.copy_field, getString(R.string.entry_totp))
+                        getString(R.string.copy_field, getString(R.string.entry_otp))
                 )
             })
         }
