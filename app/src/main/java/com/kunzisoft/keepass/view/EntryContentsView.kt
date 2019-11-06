@@ -37,7 +37,8 @@ import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.otp.OtpEntryFields
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -211,38 +212,39 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun assignOtp(otpEntryFields: OtpEntryFields,
+    fun assignOtp(otpElement: OtpElement,
                   otpProgressView: ProgressBar?,
                   onClickListener: OnClickListener) {
-        if (otpEntryFields.type != OtpEntryFields.OtpType.UNDEFINED) {
+
+        if (otpElement.type != OtpType.UNDEFINED) {
             otpContainerView.visibility = View.VISIBLE
 
-            if (otpEntryFields.token.isEmpty()) {
+            if (otpElement.token.isEmpty()) {
                 otpView.text = context.getString(R.string.error_invalid_OTP)
                 otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
                 assignOtpCopyListener(null)
             } else {
                 assignOtpCopyListener(onClickListener)
-                otpView.text = otpEntryFields.token
-                otpLabelView.text = otpEntryFields.type.name
+                otpView.text = otpElement.token
+                otpLabelView.text = otpElement.type.name
 
-                when (otpEntryFields.type) {
+                when (otpElement.type) {
                     // Only add token if HOTP
-                    OtpEntryFields.OtpType.HOTP -> {
+                    OtpType.HOTP -> {
                     }
                     // Refresh view if TOTP
-                    OtpEntryFields.OtpType.TOTP -> {
+                    OtpType.TOTP -> {
                         otpProgressView?.apply {
-                            max = otpEntryFields.step
-                            progress = otpEntryFields.secondsRemaining
+                            max = otpElement.step
+                            progress = otpElement.secondsRemaining
                             visibility = View.VISIBLE
                         }
                         otpContainerView.post(object : Runnable {
                             override fun run() {
-                                if (otpEntryFields.shouldRefreshToken()) {
-                                    otpView.text = otpEntryFields.token
+                                if (otpElement.shouldRefreshToken()) {
+                                    otpView.text = otpElement.token
                                 }
-                                otpProgressView?.progress = otpEntryFields.secondsRemaining
+                                otpProgressView?.progress = otpElement.secondsRemaining
                                 otpContainerView.postDelayed(this, 1000)
                             }
                         })

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.otp
 
 import android.net.Uri
 import android.util.Log
-import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
 import org.apache.commons.codec.DecoderException
 import org.apache.commons.codec.binary.Base32
@@ -32,88 +32,51 @@ import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
 
-class OtpEntryFields(private val entry: EntryVersioned) {
+class OtpEntryFields(private val getField: (id: String) -> String?) {
 
-    var type = OtpType.UNDEFINED
-        private set // ie : HOTP or TOTP
-    var name = "" // ie : user@email.com
-    var issuer = "" // ie : Gitlab
-    var secret: ByteArray? = null
+    var otpElement: OtpElement = OtpElement()
         private set
-    var counter = HOTP_INITIAL_COUNTER // ie : 5 - only for HOTP
+
+    private var type
+        get() = otpElement.type
         set(value) {
-            field = if (value < 0) HOTP_INITIAL_COUNTER else value
+            otpElement.type = value
         }
-    var step = TOTP_DEFAULT_PERIOD
-        private set(step) = if (step <= 0 || step > 60) {
-            field = TOTP_DEFAULT_PERIOD
-        } else {
-            field = step
-        } // ie : 30 seconds - only for TOTP
-    var digits = TokenType.Default.tokenDigits // ie : 6 - number of digits generated
+
+    private var tokenType
+        get() = otpElement.tokenType
         set(value) {
-            field = if (value <= 0) TokenType.Default.tokenDigits else value
-        }
-    var otpAlgorithm: HashAlgorithm = DEFAULT_ALGORITHM
-
-    val token: String
-        get() {
-            return when (type) {
-                OtpType.HOTP -> HOTP(secret, counter.toLong(), digits, otpAlgorithm)
-                OtpType.TOTP -> when (tokenType) {
-                    TokenType.Steam -> TOTP_Steam(secret, this.step, digits, otpAlgorithm)
-                    TokenType.Default -> TOTP_RFC6238(secret, this.step, digits, otpAlgorithm)
-                }
-                OtpType.UNDEFINED -> ""
-            }
+            otpElement.tokenType = value
         }
 
-    val secondsRemaining: Int
-        get() = this.step - (System.currentTimeMillis() / 1000 % this.step).toInt()
-
-    enum class OtpType {
-        UNDEFINED,
-        HOTP,   // counter based
-        TOTP    // time based
-    }
-
-    private var tokenType = TokenType.Default // ie : default or Steam
-    private enum class TokenType constructor(var tokenDigits: Int) {
-        Default(TOTP_DEFAULT_DIGITS),
-        Steam(STEAM_DEFAULT_DIGITS);
-
-        companion object {
-            fun getFromString(tokenType: String?): TokenType {
-                if (tokenType == null)
-                    return Default
-                return when (tokenType) {
-                    "S", "steam" -> Steam
-                    else -> Default
-                }
-            }
+    private var name
+        get() = otpElement.name
+        set(value) {
+            otpElement.name = value
         }
+
+    private var issuer
+        get() = otpElement.issuer
+        set(value) {
+            otpElement.issuer = value
+        }
+
+    private var secret
+        get() = otpElement.secret
+        set(value) {
+            otpElement.secret = value
+        }
+
+    private fun setUTF8Secret(secret: String) {
+        this.secret = secret.toByteArray(Charset.forName("UTF-8"))
     }
 
-    init {
-        // OTP (HOTP/TOTP) from URL and field from KeePassXC
-        var parse = parseOtpUri()
-        // TOTP from key values (maybe plugin or old KeePassXC)
-        if (!parse)
-            parse = parseTotpKeyValues()
-        // TOTP from custom field
-        if (!parse)
-            parse = parseTOTPFromField()
-        // HOTP fields from KeePass 2
-        if (!parse)
-            parseHOTPFromField()
-    }
-
-    fun shouldRefreshToken(): Boolean {
-        return secondsRemaining == this.step
-    }
-
-    fun setSettings(seed: String, digits: Int, step: Int) {
-        // TODO: Implement a way to set TOTP from device
+    private fun setHexSecret(secret: String) {
+        try {
+            this.secret = Hex.decodeHex(secret)
+        } catch (e: DecoderException) {
+            e.printStackTrace()
+        }
     }
 
     private fun setBase32Secret(secret: String) {
@@ -122,6 +85,44 @@ class OtpEntryFields(private val entry: EntryVersioned) {
 
     private fun setBase64Secret(secret: String) {
         this.secret = Base64().decode(secret.toByteArray())
+    }
+
+    private var counter
+        get() = otpElement.counter
+        set(value) {
+            otpElement.counter = if (value < 0) HOTP_INITIAL_COUNTER else value
+        }
+
+    private var step
+        get() = otpElement.step
+        set(value) {
+            otpElement.step = if (value <= 0 || value > 60) TOTP_DEFAULT_PERIOD else value
+        }
+
+    private var digits
+        get() = otpElement.digits
+        set(value) {
+            otpElement.digits = if (value <= 0) TokenType.Default.tokenDigits else value
+        }
+
+    private var algorithm
+        get() = otpElement.algorithm
+        set(value) {
+            otpElement.algorithm = value
+        }
+
+    init {
+        // OTP (HOTP/TOTP) from URL and field from KeePassXC
+        var parse = parseOTPUri()
+        // TOTP from key values (maybe plugin or old KeePassXC)
+        if (!parse)
+            parse = parseTOTPKeyValues()
+        // TOTP from custom field
+        if (!parse)
+            parse = parseTOTPFromField()
+        // HOTP fields from KeePass 2
+        if (!parse)
+            parseHOTPFromField()
     }
 
     /**
@@ -133,12 +134,12 @@ class OtpEntryFields(private val entry: EntryVersioned) {
      *
      * otpauth://hotp/user@example.com?secret=FFF...&counter=123
      */
-    private fun parseOtpUri(): Boolean {
+    private fun parseOTPUri(): Boolean {
         val otpPlainText = getField(OTP_FIELD)
-        if (otpPlainText != null && !otpPlainText.isEmpty()) {
+        if (otpPlainText != null && otpPlainText.isNotEmpty()) {
             val uri = Uri.parse(otpPlainText)
 
-            if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase()) {
+            if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {
                 Log.e(TAG, "Invalid or missing scheme in uri")
                 return false
             }
@@ -172,7 +173,7 @@ class OtpEntryFields(private val entry: EntryVersioned) {
 
             val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
             if (algorithmParam != null && algorithmParam.isNotEmpty())
-                otpAlgorithm = HashAlgorithm.valueOf(algorithmParam.toUpperCase(Locale.ENGLISH))
+                algorithm = HashAlgorithm.valueOf(algorithmParam.toUpperCase(Locale.ENGLISH))
 
             val issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM)
             if (issuerParam != null && issuerParam.isNotEmpty())
@@ -205,7 +206,7 @@ class OtpEntryFields(private val entry: EntryVersioned) {
         return false
     }
 
-    private fun parseTotpKeyValues(): Boolean {
+    private fun parseTOTPKeyValues(): Boolean {
         val plainText = getField(OTP_FIELD)
         if (plainText != null && plainText.isNotEmpty()) {
             if (Pattern.matches(validKeyValueRegex, plainText)) {
@@ -251,35 +252,25 @@ class OtpEntryFields(private val entry: EntryVersioned) {
     }
 
     private fun parseHOTPFromField(): Boolean {
-        val secretField = getField(HMACOTP_SECRET_KEY)
-        val secretHexField = getField(HMACOTP_SECRET_HEX_KEY)
-        val secretBase32Field = getField(HMACOTP_SECRET_BASE32_KEY)
-        val secretBase64Field = getField(HMACOTP_SECRET_BASE64_KEY)
+        val secretField = getField(HMACOTP_SECRET_FIELD)
+        val secretHexField = getField(HMACOTP_SECRET_HEX_FIELD)
+        val secretBase32Field = getField(HMACOTP_SECRET_BASE32_FIELD)
+        val secretBase64Field = getField(HMACOTP_SECRET_BASE64_FIELD)
         when {
-            secretField != null -> secret = secretField.toByteArray(Charset.forName("UTF-8"))
-            secretHexField != null -> try {
-                secret = Hex.decodeHex(secretHexField)
-            } catch (e: DecoderException) {
-                e.printStackTrace()
-                return false
-            }
+            secretField != null -> setUTF8Secret(secretField)
+            secretHexField != null -> setHexSecret(secretHexField)
             secretBase32Field != null -> setBase32Secret(secretBase32Field)
             secretBase64Field != null -> setBase64Secret(secretBase64Field)
             else -> return false
         }
 
-        val secretCounterField = getField(HMACOTP_SECRET_COUNTER_KEY)
+        val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
         if (secretCounterField != null) {
             counter = secretCounterField.toInt()
         }
 
         type = OtpType.HOTP
         return true
-    }
-
-    private fun getField(id: String): String? {
-        val field = entry.customFields[id]
-        return field?.toString()
     }
 
     companion object {
@@ -307,15 +298,18 @@ class OtpEntryFields(private val entry: EntryVersioned) {
         private const val STEP_KEY = "step"
 
         // HmacOtp KeePass2 values (https://keepass.info/help/base/placeholders.html#hmacotp)
-        private const val HMACOTP_SECRET_KEY = "HmacOtp-Secret"
-        private const val HMACOTP_SECRET_HEX_KEY = "HmacOtp-Secret-Hex"
-        private const val HMACOTP_SECRET_BASE32_KEY = "HmacOtp-Secret-Base32"
-        private const val HMACOTP_SECRET_BASE64_KEY = "HmacOtp-Secret-Base64"
-        private const val HMACOTP_SECRET_COUNTER_KEY = "HmacOtp-Counter"
+        private const val HMACOTP_SECRET_FIELD = "HmacOtp-Secret"
+        private const val HMACOTP_SECRET_HEX_FIELD = "HmacOtp-Secret-Hex"
+        private const val HMACOTP_SECRET_BASE32_FIELD = "HmacOtp-Secret-Base32"
+        private const val HMACOTP_SECRET_BASE64_FIELD = "HmacOtp-Secret-Base64"
+        private const val HMACOTP_SECRET_COUNTER_FIELD = "HmacOtp-Counter"
 
         // Custom fields (maybe from plugin)
         private const val TOTP_SEED_FIELD = "TOTP Seed"
         private const val TOTP_SETTING_FIELD = "TOTP Settings"
+
+        // Token field, use dynamically to generate OTP token
+        const val OTP_TOKEN_FIELD = "OTP Token"
 
         // Logical breakdown of key=value regex. the final string is as follows:
         // [^&=\s]+=[^&=\s]+(&[^&=\s]+=[^&=\s]+)*
@@ -342,6 +336,41 @@ class OtpEntryFields(private val entry: EntryVersioned) {
                 output[pair[0]] = pair[1]
             }
             return output
+        }
+
+        /**
+        Build new generated fields in a new list from [fieldsToParse] in parameter,
+        Remove parameters fields use to generate auto fields
+         */
+        fun generateAutoFields(fieldsToParse: MutableList<Field>): MutableList<Field> {
+            val newCustomFields: MutableList<Field> = ArrayList(fieldsToParse)
+            // Remove parameter fields
+            val otpField = Field(OTP_FIELD)
+            val totpSeedField = Field(TOTP_SEED_FIELD)
+            val totpSettingField = Field(TOTP_SETTING_FIELD)
+            val hmacOtpSecretField = Field(HMACOTP_SECRET_FIELD)
+            val hmacOtpSecretHewField = Field(HMACOTP_SECRET_HEX_FIELD)
+            val hmacOtpSecretBase32Field = Field(HMACOTP_SECRET_BASE32_FIELD)
+            val hmacOtpSecretBase64Field = Field(HMACOTP_SECRET_BASE64_FIELD)
+            val hmacOtpSecretCounterField = Field(HMACOTP_SECRET_COUNTER_FIELD)
+            newCustomFields.remove(otpField)
+            newCustomFields.remove(totpSeedField)
+            newCustomFields.remove(totpSettingField)
+            newCustomFields.remove(hmacOtpSecretField)
+            newCustomFields.remove(hmacOtpSecretHewField)
+            newCustomFields.remove(hmacOtpSecretBase32Field)
+            newCustomFields.remove(hmacOtpSecretBase64Field)
+            newCustomFields.remove(hmacOtpSecretCounterField)
+            // Empty auto generated OTP Token field
+            if (fieldsToParse.contains(otpField)
+                    || fieldsToParse.contains(totpSeedField)
+                    || fieldsToParse.contains(hmacOtpSecretField)
+                    || fieldsToParse.contains(hmacOtpSecretHewField)
+                    || fieldsToParse.contains(hmacOtpSecretBase32Field)
+                    || fieldsToParse.contains(hmacOtpSecretBase64Field)
+                )
+                newCustomFields.add(Field(OTP_TOKEN_FIELD))
+            return newCustomFields
         }
     }
 }

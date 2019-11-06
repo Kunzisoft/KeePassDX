@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -69,7 +70,7 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
-    private var mOtpEntryFields: OtpEntryFields? = null
+    private var mOtpElement: OtpElement? = null
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -140,7 +141,9 @@ class EntryActivity : LockingHideActivity() {
 
         mEntry?.let { entry ->
             // Init OTP
-            mOtpEntryFields = OtpEntryFields(entry)
+            mOtpElement = OtpEntryFields{ id ->
+                entry.customFields[id]?.toString()
+            }.otpElement
 
             // Fill data in resume to update from EntryEditActivity
             fillEntryDataInContentsView(entry)
@@ -228,11 +231,11 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
-        mOtpEntryFields?.let { otpEntryFields ->
-            entryContentsView?.assignOtp(otpEntryFields, entryProgress,
+        mOtpElement?.let { otpElement ->
+            entryContentsView?.assignOtp(otpElement, entryProgress,
                     View.OnClickListener {
                 clipboardHelper?.timeoutCopyToClipboard(
-                        otpEntryFields.token,
+                        otpElement.token,
                         getString(R.string.copy_field, getString(R.string.entry_otp))
                 )
             })
