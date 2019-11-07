@@ -248,23 +248,23 @@
     <string name="full_file_path_enable_title">Ruta de archivo</string>
     <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la papelera de reciclaje</string>
-    <string name="recycle_bin_summary">Mueva un grupo o una entrada a la Papelera de reciclaje antes de eliminar</string>
-    <string name="monospace_font_fields_enable_title">Fuente de los Campos</string>
+    <string name="recycle_bin_summary">Mueva un grupo o una entrada a la papelera de reciclaje antes de eliminar</string>
+    <string name="monospace_font_fields_enable_title">Fuente de los campos</string>
     <string name="monospace_font_fields_enable_summary">Cambiar la fuente de los campos para una mejor visibilidad del carácter</string>
     <string name="auto_open_file_uri_title">Abrir automáticamente el archivo seleccionado</string>
-    <string name="auto_open_file_uri_summary">Abrir automáticamente un archivo desde la pantalla de selección después de una selección en el explorador de archivos</string>
-    <string name="allow_copy_password_title">Copia de contraseña</string>
-    <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles.</string>
-    <string name="open_link_database">Enlace del archivo Kdbx para abrir</string>
+    <string name="auto_open_file_uri_summary">Abrir automáticamente el archivo desde la pantalla de selección después de seleccionarlo</string>
+    <string name="allow_copy_password_title">Portapapeles de confianza</string>
+    <string name="allow_copy_password_summary">Permitir la copia de la contraseña al portapapeles</string>
+    <string name="open_link_database">Dirección del archivo Kdbx para abrir</string>
     <string name="database_name_title">Nombre de la base de datos</string>
     <string name="database_description_title">Descripción de la base de datos</string>
     <string name="database_version_title">Versión de la base de datos</string>
-    <string name="text_appearance">Apariencia del texto</string>
-    <string name="application_appearance">Apariencia de la aplicación</string>
+    <string name="text_appearance">Texto</string>
+    <string name="application_appearance">Aplicación</string>
     <string name="other">Otro</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Teclado mágico</string>
-    <string name="magic_keyboard_summary">Active un teclado personalizado que llene sus contraseñas y todos los campos de identidad fácilmente.</string>
+    <string name="magic_keyboard_summary">Activar teclado personalizado que rellene las contraseñas y todos los campos de identidad fácilmente</string>
     <string name="reset_education_screens_title">Restablecer pantallas didácticas</string>
     <string name="reset_education_screens_summary">Mostrar de nuevo todas las pantallas didácticas</string>
     <string name="reset_education_screens_text">Se restablecieron las pantallas didácticas</string>
@@ -278,14 +278,14 @@
     <string name="education_new_node_summary">Agregar entradas para administrar tus identidades digitales.
 \n
 \nAgregar grupos (el equivalente de carpetas) para organizar tus entradas y tu base de datos.</string>
-    <string name="education_search_title">Busque fácilmente tus entradas</string>
+    <string name="education_search_title">Busque registros fácilmente</string>
     <string name="education_search_summary">Busque entradas por título, nombre de usuario u otros campos para recuperar fácilmente sus contraseñas.</string>
     <string name="education_fingerprint_title">Desbloqueo de base de datos mediante huella dactilar</string>
     <string name="education_fingerprint_summary">Vincule su contraseña y su huella dactilar para desbloquear rápidamente su base de datos.</string>
     <string name="education_entry_edit_title">Editar la entrada</string>
     <string name="education_entry_edit_summary">Edite la entrada con campos personalizados, puede agregar referencias a los datos de la agrupación entre campos de diferentes entradas.</string>
-    <string name="education_generate_password_title">Crear una contraseña segura</string>
-    <string name="education_generate_password_summary">Genere una contraseña segura para asociarla con su entrada, defínala fácilmente según los criterios del formulario y no olvides una contraseña difícil pero segura.</string>
+    <string name="education_generate_password_title">Crear una contraseña segura.</string>
+    <string name="education_generate_password_summary">Genere una contraseña segura para asociarla con su entrada. Defínala fácilmente según los criterios del formulario y no olvides una contraseña poner una contraseña difícil y segura.</string>
     <string name="education_entry_new_field_title">Agregar campos personalizados</string>
     <string name="education_entry_new_field_summary">Si desea registrar un campo básico no suministrado, simplemente complete uno nuevo que también pueda proteger visualmente.</string>
     <string name="education_unlock_title">Desbloquee su base de datos</string>
@@ -294,17 +294,15 @@
 \n 
 \nUtilice el método de relleno de formularios que prefiera.</string>
     <string name="education_lock_title">Bloquear base de datos</string>
-    <string name="education_lock_summary">Bloquee su base de datos rápidamente, puede parametrizar la aplicación para bloquearla después de un tiempo y cuando la pantalla se apague.</string>
+    <string name="education_lock_summary">Bloquee su base de datos rápidamente, puede parametrizar la aplicación para bloquearla después de un tiempo o cuando la pantalla se apague.</string>
     <string name="education_sort_title">Ordenar elementos</string>
-    <string name="education_sort_summary">Ordenar entradas y grupos de acuerdo a parámetros específicos.</string>
+    <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
     <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es <strong>sin publicidad </strong>, <strong>fuente abierta</strong> y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
-    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong>
-    </string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
     <string name="html_text_feature_generosity">Esta <strong>característica visual </strong>está disponible gracias a tu generosidad.</string>
-    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong>
-    </string>
+    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong></string>
     <string name="html_text_dev_feature">Esta función está <strong>en desarrollo</strong> y requiere de tu <strong>contribución</strong> para estar disponible dentro de poco.</string>
     <string name="html_text_dev_feature_buy_pro">Al comprar la versión <strong>pro</strong>,</string>
     <string name="html_text_dev_feature_contibute">Al <strong>contribuir</strong>,</string>
@@ -320,7 +318,7 @@
     <string name="style_choose_title">Tema de aplicación</string>
     <string name="style_choose_summary">Tema utilizado en la aplicación</string>
     <string name="icon_pack_choose_title">Seleccione un paquete de iconos</string>
-    <string name="icon_pack_choose_summary">Cambiar el paquete de íconos de la aplicación</string>
+    <string name="icon_pack_choose_summary">Cambiar el paquete de iconos en la aplicación</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="error_load_database">No se pudo cargar la base de datos.</string>
     <string name="error_load_database_KDF_memory">No se pudo cargar la clave. Intente disminuir el uso de memoria de KDF.</string>
@@ -418,4 +416,11 @@
     <string name="enable">Activar</string>
     <string name="disable">Desactivar</string>
     <string name="magic_keyboard_activate_device_keyboard_setting">Configuración de teclado del dispositivo</string>
+    <string name="education_read_only_summary">Cambiar el modo de apertura de la sesión.
+\n
+\n\"Protegido contra escritura\" evita cambios no deseados en la base de datos.
+\n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos.</string>
+    <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
+    <string name="content_description_entry_save">Guardar entrada</string>
 </resources>
