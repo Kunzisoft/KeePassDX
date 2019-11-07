@@ -42,7 +42,16 @@ public class TokenCalculator {
     };
 
     public enum HashAlgorithm {
-        SHA1, SHA256, SHA512
+        SHA1, SHA256, SHA512;
+
+        static HashAlgorithm fromString(String hashString) {
+            String hash = hashString.replace("[^a-zA-Z0-9]", "").toUpperCase();
+            try {
+                return valueOf(hash);
+            } catch (Exception e) {
+                return SHA1;
+            }
+        }
     }
 
     public static final HashAlgorithm DEFAULT_ALGORITHM = HashAlgorithm.SHA1;

@@ -168,6 +168,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Add a new view to fill in the information of the customized field
      */
+    // TODO replace if name already exists
     fun addNewCustomField(name: String = "", value: ProtectedString = ProtectedString(false, "")) {
         val entryEditCustomField = EntryEditCustomField(context).apply {
             setData(name, value)

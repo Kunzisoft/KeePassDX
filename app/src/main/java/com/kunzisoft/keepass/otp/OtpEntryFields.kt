@@ -25,6 +25,7 @@ import android.util.Log
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
+import java.lang.StringBuilder
 import java.util.*
 import java.util.regex.Pattern
 
@@ -161,48 +162,50 @@ object OtpEntryFields {
                 otpElement.period = stepParam.toInt()
 
             val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
-            if (algorithmParam != null && algorithmParam.isNotEmpty())
-                otpElement.algorithm = HashAlgorithm.valueOf(algorithmParam.toUpperCase(Locale.ENGLISH))
+            if (algorithmParam != null && algorithmParam.isNotEmpty()) {
+                otpElement.algorithm = HashAlgorithm.fromString(algorithmParam)
+            }
 
             return true
         }
         return false
     }
 
-    private fun buildOtpUri(otpElement: OtpElement): Uri {
+    private fun buildOtpUri(otpElement: OtpElement, title: String?, username: String?): Uri {
         val counterOrPeriodLabel: String
         val counterOrPeriodValue: String
-        val otpAuthority = when (otpElement.type) {
+        val otpAuthority: String
+
+        when (otpElement.type) {
             OtpType.TOTP -> {
                 counterOrPeriodLabel = PERIOD_URL_PARAM
                 counterOrPeriodValue = otpElement.period.toString()
-                TOTP_AUTHORITY
+                otpAuthority = TOTP_AUTHORITY
             }
             else -> {
                 counterOrPeriodLabel = COUNTER_URL_PARAM
                 counterOrPeriodValue = otpElement.counter.toString()
-                HOTP_AUTHORITY
+                otpAuthority = HOTP_AUTHORITY
             }
         }
-        val accountName = "OTP"
-        val issuer = "None"
-        val otpLabel = "$issuer:$accountName"
-        val otpSecret = otpElement.getBase32Secret()
-        val otpDigits = otpElement.digits
-        val otpIssuer = otpElement.issuer
-        val otpAlgorithm = otpElement.algorithm.toString()
-
-        val uriString = "otpauth://$otpAuthority/$otpLabel" +
-                "?$SECRET_URL_PARAM=$otpSecret" +
+        val issuer = if (otpElement.issuer.isEmpty()) {
+            if (title == null || title.isEmpty())"None" else title
+        } else {
+            otpElement.issuer
+        }
+        val accountName = if (username == null || username.isEmpty()) "OTP" else username
+        val uriString = StringBuilder("otpauth://$otpAuthority/$issuer:$accountName" +
+                "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
-                "&$DIGITS_URL_PARAM=$otpDigits" +
-                "&$ISSUER_URL_PARAM=$otpIssuer" +
-                "&$ALGORITHM_URL_PARAM=$otpAlgorithm" +
-                "\n"
+                "&$DIGITS_URL_PARAM=${otpElement.digits}" +
+                "&$ISSUER_URL_PARAM=$issuer")
+        if (otpElement.tokenType == OtpTokenType.STEAM) {
+            uriString.append("&$ENCODER_URL_PARAM=${otpElement.tokenType}")
+        } else {
+            uriString.append("&$ALGORITHM_URL_PARAM=${otpElement.algorithm}")
+        }
 
-        // TODO steam with ENCODER_URL_PARAM
-
-        return Uri.parse(uriString)
+        return Uri.parse(uriString.toString())
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
@@ -296,8 +299,9 @@ object OtpEntryFields {
     /**
      * Build Otp field from an OtpElement
      */
-    fun buildOtpField(otpElement: OtpElement): Field {
-        return Field(OTP_FIELD, ProtectedString(true, buildOtpUri(otpElement).toString()))
+    fun buildOtpField(otpElement: OtpElement, title: String?, username: String?): Field {
+        return Field(OTP_FIELD, ProtectedString(true,
+                buildOtpUri(otpElement, title, username).toString()))
     }
 
     /**

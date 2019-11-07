@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
@@ -355,7 +356,10 @@ class EntryEditActivity : LockingHideActivity(),
             R.id.menu_add_otp -> {
                 SetOTPDialogFragment().apply {
                     createOTPElementListener = { otpElement ->
-                        // TODO Add custom field
+                        val otpField = OtpEntryFields.buildOtpField(otpElement,
+                               mEntry?.title, mEntry?.username)
+                        entryEditContentsView?.addNewCustomField(otpField.name, otpField.protectedValue)
+
                     }
                 }.show(supportFragmentManager, "addOTPDialog")
                 return true

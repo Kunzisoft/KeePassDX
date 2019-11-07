@@ -88,6 +88,18 @@
                 android:layout_margin="@dimen/default_margin"
                 android:orientation="vertical">
 
+                <!-- Algorithm -->
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/otp_algorithm"
+                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"/>
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/setup_otp_algorithm"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp" />
+
                 <!-- Period / Counter -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/setup_otp_period_title"
@@ -140,18 +152,6 @@
                         android:maxLength="2"
                         tools:targetApi="jelly_bean" />
                 </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Algorithm -->
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/otp_algorithm"
-                    style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"/>
-                <androidx.appcompat.widget.AppCompatSpinner
-                    android:id="@+id/setup_otp_algorithm"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="48dp" />
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>
