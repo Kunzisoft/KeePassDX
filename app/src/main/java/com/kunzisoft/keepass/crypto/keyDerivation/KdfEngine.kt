@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation
 
-import com.kunzisoft.keepass.database.ObjectNameResource
+import com.kunzisoft.keepass.utils.ObjectNameResource
 
 import java.io.IOException
 import java.io.Serializable

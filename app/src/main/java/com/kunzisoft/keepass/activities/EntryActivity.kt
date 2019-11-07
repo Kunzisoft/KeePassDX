@@ -141,9 +141,9 @@ class EntryActivity : LockingHideActivity() {
 
         mEntry?.let { entry ->
             // Init OTP
-            mOtpElement = OtpEntryFields{ id ->
+            mOtpElement = OtpEntryFields.parseFields{ id ->
                 entry.customFields[id]?.toString()
-            }.otpElement
+            }
 
             // Fill data in resume to update from EntryEditActivity
             fillEntryDataInContentsView(entry)

@@ -22,119 +22,83 @@ package com.kunzisoft.keepass.otp
 
 import android.net.Uri
 import android.util.Log
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
-import org.apache.commons.codec.DecoderException
-import org.apache.commons.codec.binary.Base32
-import org.apache.commons.codec.binary.Base64
-import org.apache.commons.codec.binary.Hex
-import java.nio.charset.Charset
 import java.util.*
 import java.util.regex.Pattern
 
-class OtpEntryFields(private val getField: (id: String) -> String?) {
+object OtpEntryFields {
 
-    var otpElement: OtpElement = OtpElement()
-        private set
+    private val TAG = OtpEntryFields::class.java.name
 
-    private var type
-        get() = otpElement.type
-        set(value) {
-            otpElement.type = value
-        }
+    // Field from KeePassXC
+    private const val OTP_FIELD = "otp"
 
-    private var tokenType
-        get() = otpElement.tokenType
-        set(value) {
-            otpElement.tokenType = value
-        }
+    // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
+    private const val OTP_SCHEME = "otpauth"
+    private const val TOTP_AUTHORITY = "totp" // time-based
+    private const val HOTP_AUTHORITY = "hotp" // counter-based
+    private const val ALGORITHM_URL_PARAM = "algorithm"
+    private const val ISSUER_URL_PARAM = "issuer"
+    private const val SECRET_URL_PARAM = "secret"
+    private const val DIGITS_URL_PARAM = "digits"
+    private const val PERIOD_URL_PARAM = "period"
+    private const val ENCODER_URL_PARAM = "encoder"
+    private const val COUNTER_URL_PARAM = "counter"
 
-    private var name
-        get() = otpElement.name
-        set(value) {
-            otpElement.name = value
-        }
+    // Key-values (maybe from plugin or old KeePassXC)
+    private const val SEED_KEY = "key"
+    private const val DIGITS_KEY = "size"
+    private const val STEP_KEY = "step"
 
-    private var issuer
-        get() = otpElement.issuer
-        set(value) {
-            otpElement.issuer = value
-        }
+    // HmacOtp KeePass2 values (https://keepass.info/help/base/placeholders.html#hmacotp)
+    private const val HMACOTP_SECRET_FIELD = "HmacOtp-Secret"
+    private const val HMACOTP_SECRET_HEX_FIELD = "HmacOtp-Secret-Hex"
+    private const val HMACOTP_SECRET_BASE32_FIELD = "HmacOtp-Secret-Base32"
+    private const val HMACOTP_SECRET_BASE64_FIELD = "HmacOtp-Secret-Base64"
+    private const val HMACOTP_SECRET_COUNTER_FIELD = "HmacOtp-Counter"
 
-    private var secret
-        get() = otpElement.secret
-        set(value) {
-            otpElement.secret = value
-        }
+    // Custom fields (maybe from plugin)
+    private const val TOTP_SEED_FIELD = "TOTP Seed"
+    private const val TOTP_SETTING_FIELD = "TOTP Settings"
 
-    private fun setUTF8Secret(secret: String) {
-        this.secret = secret.toByteArray(Charset.forName("UTF-8"))
-    }
+    // Token field, use dynamically to generate OTP token
+    const val OTP_TOKEN_FIELD = "OTP Token"
 
-    private fun setHexSecret(secret: String) {
-        try {
-            this.secret = Hex.decodeHex(secret)
-        } catch (e: DecoderException) {
-            e.printStackTrace()
-        }
-    }
+    // Logical breakdown of key=value regex. the final string is as follows:
+    // [^&=\s]+=[^&=\s]+(&[^&=\s]+=[^&=\s]+)*
+    private const val validKeyValue = "[^&=\\s]+"
+    private const val validKeyValuePair = "$validKeyValue=$validKeyValue"
+    private const val validKeyValueRegex = "$validKeyValuePair&($validKeyValuePair)*"
 
-    private fun setBase32Secret(secret: String) {
-        this.secret = Base32().decode(secret.toByteArray())
-    }
-
-    private fun setBase64Secret(secret: String) {
-        this.secret = Base64().decode(secret.toByteArray())
-    }
-
-    private var counter
-        get() = otpElement.counter
-        set(value) {
-            otpElement.counter = if (value < 0) HOTP_INITIAL_COUNTER else value
-        }
-
-    private var step
-        get() = otpElement.step
-        set(value) {
-            otpElement.step = if (value <= 0 || value > 60) TOTP_DEFAULT_PERIOD else value
-        }
-
-    private var digits
-        get() = otpElement.digits
-        set(value) {
-            otpElement.digits = if (value <= 0) TokenType.Default.tokenDigits else value
-        }
-
-    private var algorithm
-        get() = otpElement.algorithm
-        set(value) {
-            otpElement.algorithm = value
-        }
-
-    init {
+    /**
+     * Parse fields of an entry to retrieve an OtpElement
+     */
+    fun parseFields(getField: (id: String) -> String?): OtpElement {
+        val otpElement = OtpElement()
         // OTP (HOTP/TOTP) from URL and field from KeePassXC
-        var parse = parseOTPUri()
+        var parse = parseOTPUri(getField, otpElement)
         // TOTP from key values (maybe plugin or old KeePassXC)
         if (!parse)
-            parse = parseTOTPKeyValues()
+            parse = parseTOTPKeyValues(getField, otpElement)
         // TOTP from custom field
         if (!parse)
-            parse = parseTOTPFromField()
+            parse = parseTOTPFromField(getField, otpElement)
         // HOTP fields from KeePass 2
         if (!parse)
-            parseHOTPFromField()
+            parseHOTPFromField(getField, otpElement)
+        return otpElement
     }
 
     /**
      * Parses a secret value from a URI. The format will be:
      *
-     *
      * otpauth://totp/user@example.com?secret=FFF...
-     *
      *
      * otpauth://hotp/user@example.com?secret=FFF...&counter=123
      */
-    private fun parseOTPUri(): Boolean {
+    private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val otpPlainText = getField(OTP_FIELD)
         if (otpPlainText != null && otpPlainText.isNotEmpty()) {
             val uri = Uri.parse(otpPlainText)
@@ -146,15 +110,15 @@ class OtpEntryFields(private val getField: (id: String) -> String?) {
 
             val authority = uri.authority
             if (TOTP_AUTHORITY == authority) {
-                type = OtpType.TOTP
+                otpElement.type = OtpType.TOTP
 
             } else if (HOTP_AUTHORITY == authority) {
-                type = OtpType.HOTP
+                otpElement.type = OtpType.HOTP
 
                 val counterParameter = uri.getQueryParameter(COUNTER_URL_PARAM)
                 if (counterParameter != null) {
                     try {
-                        counter = Integer.parseInt(counterParameter)
+                        otpElement.counter = Integer.parseInt(counterParameter)
                     } catch (e: NumberFormatException) {
                         Log.e(TAG, "Invalid counter in uri")
                         return false
@@ -169,44 +133,79 @@ class OtpEntryFields(private val getField: (id: String) -> String?) {
 
             val nameParam = validateAndGetNameInPath(uri.path)
             if (nameParam != null && nameParam.isNotEmpty())
-                name = nameParam
-
-            val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
-            if (algorithmParam != null && algorithmParam.isNotEmpty())
-                algorithm = HashAlgorithm.valueOf(algorithmParam.toUpperCase(Locale.ENGLISH))
+                otpElement.name = nameParam
 
             val issuerParam = uri.getQueryParameter(ISSUER_URL_PARAM)
             if (issuerParam != null && issuerParam.isNotEmpty())
-                issuer = issuerParam
+                otpElement.issuer = issuerParam
 
             val secretParam = uri.getQueryParameter(SECRET_URL_PARAM)
             if (secretParam != null && secretParam.isNotEmpty())
-                setBase32Secret(secretParam)
+                otpElement.setBase32Secret(secretParam)
 
             val encoderParam = uri.getQueryParameter(ENCODER_URL_PARAM)
             if (encoderParam != null && encoderParam.isNotEmpty()) {
-                tokenType = TokenType.getFromString(encoderParam)
-                digits = tokenType.tokenDigits
+                otpElement.tokenType = OtpTokenType.getFromString(encoderParam)
             }
 
             val digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM)
             if (digitsParam != null && digitsParam.isNotEmpty())
-                digits = digitsParam.toInt()
+                otpElement.digits = digitsParam.toInt()
 
             val counterParam = uri.getQueryParameter(COUNTER_URL_PARAM)
             if (counterParam != null && counterParam.isNotEmpty())
-                counter = counterParam.toInt()
+                otpElement.counter = counterParam.toInt()
 
             val stepParam = uri.getQueryParameter(PERIOD_URL_PARAM)
             if (stepParam != null && stepParam.isNotEmpty())
-                step = stepParam.toInt()
+                otpElement.period = stepParam.toInt()
+
+            val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
+            if (algorithmParam != null && algorithmParam.isNotEmpty())
+                otpElement.algorithm = HashAlgorithm.valueOf(algorithmParam.toUpperCase(Locale.ENGLISH))
 
             return true
         }
         return false
     }
 
-    private fun parseTOTPKeyValues(): Boolean {
+    private fun buildOtpUri(otpElement: OtpElement): Uri {
+        val counterOrPeriodLabel: String
+        val counterOrPeriodValue: String
+        val otpAuthority = when (otpElement.type) {
+            OtpType.TOTP -> {
+                counterOrPeriodLabel = PERIOD_URL_PARAM
+                counterOrPeriodValue = otpElement.period.toString()
+                TOTP_AUTHORITY
+            }
+            else -> {
+                counterOrPeriodLabel = COUNTER_URL_PARAM
+                counterOrPeriodValue = otpElement.counter.toString()
+                HOTP_AUTHORITY
+            }
+        }
+        val accountName = "OTP"
+        val issuer = "None"
+        val otpLabel = "$issuer:$accountName"
+        val otpSecret = otpElement.getBase32Secret()
+        val otpDigits = otpElement.digits
+        val otpIssuer = otpElement.issuer
+        val otpAlgorithm = otpElement.algorithm.toString()
+
+        val uriString = "otpauth://$otpAuthority/$otpLabel" +
+                "?$SECRET_URL_PARAM=$otpSecret" +
+                "&$counterOrPeriodLabel=$counterOrPeriodValue" +
+                "&$DIGITS_URL_PARAM=$otpDigits" +
+                "&$ISSUER_URL_PARAM=$otpIssuer" +
+                "&$ALGORITHM_URL_PARAM=$otpAlgorithm" +
+                "\n"
+
+        // TODO steam with ENCODER_URL_PARAM
+
+        return Uri.parse(uriString)
+    }
+
+    private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val plainText = getField(OTP_FIELD)
         if (plainText != null && plainText.isNotEmpty()) {
             if (Pattern.matches(validKeyValueRegex, plainText)) {
@@ -216,11 +215,11 @@ class OtpEntryFields(private val getField: (id: String) -> String?) {
                 var secretString = query[SEED_KEY]
                 if (secretString == null)
                     secretString = ""
-                setBase32Secret(secretString)
-                digits = query[DIGITS_KEY]?.toInt() ?: TOTP_DEFAULT_DIGITS
-                step = query[STEP_KEY]?.toInt() ?: TOTP_DEFAULT_PERIOD
+                otpElement.setBase32Secret(secretString)
+                otpElement.digits = query[DIGITS_KEY]?.toInt() ?: OTP_DEFAULT_DIGITS
+                otpElement.period = query[STEP_KEY]?.toInt() ?: TOTP_DEFAULT_PERIOD
 
-                type = OtpType.TOTP
+                otpElement.type = OtpType.TOTP
                 return true
             } else {
                 // Malformed
@@ -230,9 +229,9 @@ class OtpEntryFields(private val getField: (id: String) -> String?) {
         return false
     }
 
-    private fun parseTOTPFromField(): Boolean {
+    private fun parseTOTPFromField(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val seedField = getField(TOTP_SEED_FIELD) ?: return false
-        setBase32Secret(seedField)
+        otpElement.setBase32Secret(seedField)
 
         val settingsField = getField(TOTP_SETTING_FIELD)
         if (settingsField != null) {
@@ -243,134 +242,96 @@ class OtpEntryFields(private val getField: (id: String) -> String?) {
                 // malformed
                 return false
             }
-            step = matcher.group(1).toInt()
-            digits = TokenType.getFromString(matcher.group(2)).tokenDigits
+            otpElement.period = matcher.group(1).toInt()
+            otpElement.digits = OtpTokenType.getFromString(matcher.group(2)).tokenDigits
         }
 
-        type = OtpType.TOTP
+        otpElement.type = OtpType.TOTP
         return true
     }
 
-    private fun parseHOTPFromField(): Boolean {
+    private fun parseHOTPFromField(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val secretField = getField(HMACOTP_SECRET_FIELD)
         val secretHexField = getField(HMACOTP_SECRET_HEX_FIELD)
         val secretBase32Field = getField(HMACOTP_SECRET_BASE32_FIELD)
         val secretBase64Field = getField(HMACOTP_SECRET_BASE64_FIELD)
         when {
-            secretField != null -> setUTF8Secret(secretField)
-            secretHexField != null -> setHexSecret(secretHexField)
-            secretBase32Field != null -> setBase32Secret(secretBase32Field)
-            secretBase64Field != null -> setBase64Secret(secretBase64Field)
+            secretField != null -> otpElement.setUTF8Secret(secretField)
+            secretHexField != null -> otpElement.setHexSecret(secretHexField)
+            secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
+            secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
             else -> return false
         }
 
         val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
         if (secretCounterField != null) {
-            counter = secretCounterField.toInt()
+            otpElement.counter = secretCounterField.toInt()
         }
 
-        type = OtpType.HOTP
+        otpElement.type = OtpType.HOTP
         return true
     }
 
-    companion object {
-
-        private val TAG = OtpEntryFields::class.java.name
-
-        // Field from KeePassXC
-        private const val OTP_FIELD = "otp"
-
-        // URL parameters (https://github.com/google/google-authenticator/wiki/Key-Uri-Format)
-        private const val OTP_SCHEME = "otpauth"
-        private const val TOTP_AUTHORITY = "totp" // time-based
-        private const val HOTP_AUTHORITY = "hotp" // counter-based
-        private const val ALGORITHM_URL_PARAM = "algorithm"
-        private const val ISSUER_URL_PARAM = "issuer"
-        private const val SECRET_URL_PARAM = "secret"
-        private const val DIGITS_URL_PARAM = "digits"
-        private const val PERIOD_URL_PARAM = "period"
-        private const val ENCODER_URL_PARAM = "encoder"
-        private const val COUNTER_URL_PARAM = "counter"
-
-        // Key-values (maybe from plugin or old KeePassXC)
-        private const val SEED_KEY = "key"
-        private const val DIGITS_KEY = "size"
-        private const val STEP_KEY = "step"
-
-        // HmacOtp KeePass2 values (https://keepass.info/help/base/placeholders.html#hmacotp)
-        private const val HMACOTP_SECRET_FIELD = "HmacOtp-Secret"
-        private const val HMACOTP_SECRET_HEX_FIELD = "HmacOtp-Secret-Hex"
-        private const val HMACOTP_SECRET_BASE32_FIELD = "HmacOtp-Secret-Base32"
-        private const val HMACOTP_SECRET_BASE64_FIELD = "HmacOtp-Secret-Base64"
-        private const val HMACOTP_SECRET_COUNTER_FIELD = "HmacOtp-Counter"
-
-        // Custom fields (maybe from plugin)
-        private const val TOTP_SEED_FIELD = "TOTP Seed"
-        private const val TOTP_SETTING_FIELD = "TOTP Settings"
-
-        // Token field, use dynamically to generate OTP token
-        const val OTP_TOKEN_FIELD = "OTP Token"
-
-        // Logical breakdown of key=value regex. the final string is as follows:
-        // [^&=\s]+=[^&=\s]+(&[^&=\s]+=[^&=\s]+)*
-        private const val validKeyValue = "[^&=\\s]+"
-        private const val validKeyValuePair = "$validKeyValue=$validKeyValue"
-        private const val validKeyValueRegex = "$validKeyValuePair&($validKeyValuePair)*"
-
-        private fun validateAndGetNameInPath(path: String?): String? {
-            if (path == null || !path.startsWith("/")) {
-                return null
-            }
-            // path is "/name", so remove leading "/", and trailing white spaces
-            val name = path.substring(1).trim { it <= ' ' }
-            return if (name.isEmpty()) {
-                null // only white spaces.
-            } else name
+    private fun validateAndGetNameInPath(path: String?): String? {
+        if (path == null || !path.startsWith("/")) {
+            return null
         }
+        // path is "/name", so remove leading "/", and trailing white spaces
+        val name = path.substring(1).trim { it <= ' ' }
+        return if (name.isEmpty()) {
+            null // only white spaces.
+        } else name
+    }
 
-        private fun breakDownKeyValuePairs(pairs: String): HashMap<String, String> {
-            val elements = pairs.split("&".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-            val output = HashMap<String, String>()
-            for (element in elements) {
-                val pair = element.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
-                output[pair[0]] = pair[1]
-            }
-            return output
+    private fun breakDownKeyValuePairs(pairs: String): HashMap<String, String> {
+        val elements = pairs.split("&".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val output = HashMap<String, String>()
+        for (element in elements) {
+            val pair = element.split("=".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            output[pair[0]] = pair[1]
         }
+        return output
+    }
 
-        /**
-        Build new generated fields in a new list from [fieldsToParse] in parameter,
-        Remove parameters fields use to generate auto fields
-         */
-        fun generateAutoFields(fieldsToParse: MutableList<Field>): MutableList<Field> {
-            val newCustomFields: MutableList<Field> = ArrayList(fieldsToParse)
-            // Remove parameter fields
-            val otpField = Field(OTP_FIELD)
-            val totpSeedField = Field(TOTP_SEED_FIELD)
-            val totpSettingField = Field(TOTP_SETTING_FIELD)
-            val hmacOtpSecretField = Field(HMACOTP_SECRET_FIELD)
-            val hmacOtpSecretHewField = Field(HMACOTP_SECRET_HEX_FIELD)
-            val hmacOtpSecretBase32Field = Field(HMACOTP_SECRET_BASE32_FIELD)
-            val hmacOtpSecretBase64Field = Field(HMACOTP_SECRET_BASE64_FIELD)
-            val hmacOtpSecretCounterField = Field(HMACOTP_SECRET_COUNTER_FIELD)
-            newCustomFields.remove(otpField)
-            newCustomFields.remove(totpSeedField)
-            newCustomFields.remove(totpSettingField)
-            newCustomFields.remove(hmacOtpSecretField)
-            newCustomFields.remove(hmacOtpSecretHewField)
-            newCustomFields.remove(hmacOtpSecretBase32Field)
-            newCustomFields.remove(hmacOtpSecretBase64Field)
-            newCustomFields.remove(hmacOtpSecretCounterField)
-            // Empty auto generated OTP Token field
-            if (fieldsToParse.contains(otpField)
-                    || fieldsToParse.contains(totpSeedField)
-                    || fieldsToParse.contains(hmacOtpSecretField)
-                    || fieldsToParse.contains(hmacOtpSecretHewField)
-                    || fieldsToParse.contains(hmacOtpSecretBase32Field)
-                    || fieldsToParse.contains(hmacOtpSecretBase64Field)
-                )
-                newCustomFields.add(Field(OTP_TOKEN_FIELD))
-            return newCustomFields
-        }
+    /**
+     * Build Otp field from an OtpElement
+     */
+    fun buildOtpField(otpElement: OtpElement): Field {
+        return Field(OTP_FIELD, ProtectedString(true, buildOtpUri(otpElement).toString()))
+    }
+
+    /**
+     * Build new generated fields in a new list from [fieldsToParse] in parameter,
+     * Remove parameters fields use to generate auto fields
+     */
+    fun generateAutoFields(fieldsToParse: MutableList<Field>): MutableList<Field> {
+        val newCustomFields: MutableList<Field> = ArrayList(fieldsToParse)
+        // Remove parameter fields
+        val otpField = Field(OTP_FIELD)
+        val totpSeedField = Field(TOTP_SEED_FIELD)
+        val totpSettingField = Field(TOTP_SETTING_FIELD)
+        val hmacOtpSecretField = Field(HMACOTP_SECRET_FIELD)
+        val hmacOtpSecretHewField = Field(HMACOTP_SECRET_HEX_FIELD)
+        val hmacOtpSecretBase32Field = Field(HMACOTP_SECRET_BASE32_FIELD)
+        val hmacOtpSecretBase64Field = Field(HMACOTP_SECRET_BASE64_FIELD)
+        val hmacOtpSecretCounterField = Field(HMACOTP_SECRET_COUNTER_FIELD)
+        newCustomFields.remove(otpField)
+        newCustomFields.remove(totpSeedField)
+        newCustomFields.remove(totpSettingField)
+        newCustomFields.remove(hmacOtpSecretField)
+        newCustomFields.remove(hmacOtpSecretHewField)
+        newCustomFields.remove(hmacOtpSecretBase32Field)
+        newCustomFields.remove(hmacOtpSecretBase64Field)
+        newCustomFields.remove(hmacOtpSecretCounterField)
+        // Empty auto generated OTP Token field
+        if (fieldsToParse.contains(otpField)
+                || fieldsToParse.contains(totpSeedField)
+                || fieldsToParse.contains(hmacOtpSecretField)
+                || fieldsToParse.contains(hmacOtpSecretHewField)
+                || fieldsToParse.contains(hmacOtpSecretBase32Field)
+                || fieldsToParse.contains(hmacOtpSecretBase64Field)
+        )
+            newCustomFields.add(Field(OTP_TOKEN_FIELD))
+        return newCustomFields
     }
 }

@@ -216,7 +216,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                   otpProgressView: ProgressBar?,
                   onClickListener: OnClickListener) {
 
-        if (otpElement.type != OtpType.UNDEFINED) {
+        if (otpElement.type != null) {
             otpContainerView.visibility = View.VISIBLE
 
             if (otpElement.token.isEmpty()) {
@@ -226,7 +226,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             } else {
                 assignOtpCopyListener(onClickListener)
                 otpView.text = otpElement.token
-                otpLabelView.text = otpElement.type.name
+                otpElement.type?.name?.let {
+                    otpLabelView.text = it
+                }
 
                 when (otpElement.type) {
                     // Only add token if HOTP
@@ -235,7 +237,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                     // Refresh view if TOTP
                     OtpType.TOTP -> {
                         otpProgressView?.apply {
-                            max = otpElement.step
+                            max = otpElement.period
                             progress = otpElement.secondsRemaining
                             visibility = View.VISIBLE
                         }

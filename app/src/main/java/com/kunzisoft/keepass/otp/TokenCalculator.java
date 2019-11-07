@@ -31,8 +31,8 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class TokenCalculator {
     public static final int TOTP_DEFAULT_PERIOD = 30;
-    public static final int TOTP_DEFAULT_DIGITS = 6;
     public static final int HOTP_INITIAL_COUNTER = 1;
+    public static final int OTP_DEFAULT_DIGITS = 6;
     public static final int STEAM_DEFAULT_DIGITS = 5;
 
     private static final char[] STEAMCHARS = new char[] {

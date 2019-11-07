@@ -29,6 +29,7 @@ import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
@@ -304,6 +305,7 @@ class EntryEditActivity : LockingHideActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
+        inflater.inflate(R.menu.edit_entry, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
@@ -347,6 +349,15 @@ class EntryEditActivity : LockingHideActivity(),
 
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
+                return true
+            }
+
+            R.id.menu_add_otp -> {
+                SetOTPDialogFragment().apply {
+                    createOTPElementListener = { otpElement ->
+                        // TODO Add custom field
+                    }
+                }.show(supportFragmentManager, "addOTPDialog")
                 return true
             }
 

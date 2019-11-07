@@ -324,9 +324,9 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
                     Field(entry.key, entry.value))
         }
         // Add otpElement to generate token
-        entryInfo.otpElement = OtpEntryFields { key ->
+        entryInfo.otpModel = OtpEntryFields.parseFields { key ->
             customFields[key]?.toString()
-        }.otpElement
+        }.otpModel
         // Replace parameter fields by generated OTP fields
         entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
         if (!raw)
