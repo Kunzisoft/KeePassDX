@@ -10,7 +10,7 @@ import com.kunzisoft.keepass.otp.TokenCalculator.DEFAULT_ALGORITHM
 
 class OtpModel() : Parcelable {
 
-    var type: OtpType? = null // ie : HOTP or TOTP
+    var type: OtpType = OtpType.HOTP // ie : HOTP or TOTP
     var tokenType: OtpTokenType = OtpTokenType.RFC4226
     var name: String = "" // ie : user@email.com
     var issuer: String = "" // ie : Gitlab
@@ -22,7 +22,7 @@ class OtpModel() : Parcelable {
 
     constructor(parcel: Parcel) : this() {
         val typeRead = parcel.readInt()
-        type = if (typeRead == -1) null else OtpType.values()[typeRead]
+        type = OtpType.values()[typeRead]
         tokenType = OtpTokenType.values()[parcel.readInt()]
         name = parcel.readString() ?: name
         issuer = parcel.readString() ?: issuer
@@ -40,18 +40,15 @@ class OtpModel() : Parcelable {
         other as OtpElement
 
         if (type != other.type) return false
-        // Other values only for defined element
-        if (type != null) {
-            // Token type is important only if it's a TOTP
-            if (type == OtpType.TOTP && tokenType != other.tokenType) return false
-            if (!secret.contentEquals(other.secret)) return false
-            // Counter only for HOTP
-            if (type == OtpType.HOTP && counter != other.counter) return false
-            // Step only for TOTP
-            if (type == OtpType.TOTP && period != other.period) return false
-            if (digits != other.digits) return false
-            if (algorithm != other.algorithm) return false
-        }
+        // Token type is important only if it's a TOTP
+        if (type == OtpType.TOTP && tokenType != other.tokenType) return false
+        if (!secret.contentEquals(other.secret)) return false
+        // Counter only for HOTP
+        if (type == OtpType.HOTP && counter != other.counter) return false
+        // Step only for TOTP
+        if (type == OtpType.TOTP && period != other.period) return false
+        if (digits != other.digits) return false
+        if (algorithm != other.algorithm) return false
 
         return true
     }
@@ -72,7 +69,7 @@ class OtpModel() : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeInt(type?.ordinal ?: -1)
+        parcel.writeInt(type.ordinal)
         parcel.writeInt(tokenType.ordinal)
         parcel.writeString(name)
         parcel.writeString(issuer)

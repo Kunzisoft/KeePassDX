@@ -166,7 +166,9 @@ class EntryEditActivity : LockingHideActivity(),
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
 
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) { addNewCustomField() }
+        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) {
+            addNewCustomField()
+        }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -199,7 +201,7 @@ class EntryEditActivity : LockingHideActivity(),
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
                 post {
-                    addNewCustomField(entry.key, entry.value)
+                    putCustomField(entry.key, entry.value)
                 }
             }
         }
@@ -219,7 +221,7 @@ class EntryEditActivity : LockingHideActivity(),
                 password = entryView.password
                 notes = entryView.notes
                 entryView.customFields.forEach { customField ->
-                    addExtraField(customField.name, customField.protectedValue)
+                    putExtraField(customField.name, customField.protectedValue)
                 }
             }
         }
@@ -245,7 +247,7 @@ class EntryEditActivity : LockingHideActivity(),
      * Add a new customized field view and scroll to bottom
      */
     private fun addNewCustomField() {
-        entryEditContentsView?.addNewCustomField()
+        entryEditContentsView?.addEmptyCustomField()
     }
 
     /**
@@ -317,7 +319,7 @@ class EntryEditActivity : LockingHideActivity(),
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
         val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldView
+        val addNewFieldView = entryEditContentsView?.addNewFieldButton
 
         val generatePasswordEducationPerformed = passwordView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
@@ -354,12 +356,15 @@ class EntryEditActivity : LockingHideActivity(),
             }
 
             R.id.menu_add_otp -> {
-                SetOTPDialogFragment().apply {
+                // Retrieve the current otpElement if exists
+                // and open the dialog to set up the OTP
+                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel).apply {
                     createOTPElementListener = { otpElement ->
+                        // Update the otp field with otpauth:// url
                         val otpField = OtpEntryFields.buildOtpField(otpElement,
                                mEntry?.title, mEntry?.username)
-                        entryEditContentsView?.addNewCustomField(otpField.name, otpField.protectedValue)
-
+                        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+                        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
                     }
                 }.show(supportFragmentManager, "addOTPDialog")
                 return true

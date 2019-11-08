@@ -100,58 +100,80 @@
                     android:layout_height="wrap_content"
                     android:minHeight="48dp" />
 
-                <!-- Period / Counter -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/setup_otp_period_title"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:visibility="visible">
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/setup_otp_period"
-                        android:layout_width="match_parent"
+                    android:orientation="horizontal">
+                    <!-- Period / Counter -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/setup_otp_period_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:importantForAccessibility="no"
-                        android:importantForAutofill="no"
-                        android:hint="@string/otp_period"
-                        tools:text="30"
-                        android:maxLength="2"
-                        tools:targetApi="jelly_bean" />
-                </com.google.android.material.textfield.TextInputLayout>
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/setup_otp_counter_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone">
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/setup_otp_counter"
-                        android:layout_width="match_parent"
+                        android:visibility="visible"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/setup_otp_period"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:importantForAccessibility="no"
+                            android:importantForAutofill="no"
+                            android:hint="@string/otp_period"
+                            tools:text="30"
+                            android:maxLength="2"
+                            tools:targetApi="jelly_bean" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/setup_otp_counter_title"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:importantForAccessibility="no"
-                        android:importantForAutofill="no"
-                        android:hint="@string/otp_counter"
-                        tools:text="1"
-                        tools:targetApi="jelly_bean" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:visibility="gone"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/vertical_guideline">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/setup_otp_counter"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:importantForAccessibility="no"
+                            android:importantForAutofill="no"
+                            android:hint="@string/otp_counter"
+                            tools:text="1"
+                            tools:targetApi="jelly_bean" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Digits -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/setup_otp_digits_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/setup_otp_digits"
-                        android:layout_width="match_parent"
+                    <androidx.constraintlayout.widget.Guideline
+                        android:id="@+id/vertical_guideline"
+                        android:layout_width="1dp"
                         android:layout_height="wrap_content"
-                        android:inputType="numberSigned"
-                        android:importantForAccessibility="no"
-                        android:importantForAutofill="no"
-                        android:hint="@string/otp_digits"
-                        tools:text="6"
-                        android:maxLength="2"
-                        tools:targetApi="jelly_bean" />
-                </com.google.android.material.textfield.TextInputLayout>
+                        android:orientation="vertical"
+                        app:layout_constraintGuide_percent="0.5" />
+
+                    <!-- Digits -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/setup_otp_digits_title"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/vertical_guideline"
+                        app:layout_constraintEnd_toEndOf="parent">
+                        <androidx.appcompat.widget.AppCompatEditText
+                            android:id="@+id/setup_otp_digits"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberSigned"
+                            android:importantForAccessibility="no"
+                            android:importantForAutofill="no"
+                            android:hint="@string/otp_digits"
+                            tools:text="6"
+                            android:maxLength="2"
+                            tools:targetApi="jelly_bean" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             </LinearLayout>
         </androidx.cardview.widget.CardView>

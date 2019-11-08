@@ -24,9 +24,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -34,6 +31,9 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
@@ -44,7 +44,6 @@ import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
-import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -52,7 +51,6 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
-import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
 
 class EntryActivity : LockingHideActivity() {
@@ -70,7 +68,6 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
-    private var mOtpElement: OtpElement? = null
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -140,11 +137,6 @@ class EntryActivity : LockingHideActivity() {
         mEntry?.touch(modified = false, touchParents = false)
 
         mEntry?.let { entry ->
-            // Init OTP
-            mOtpElement = OtpEntryFields.parseFields{ id ->
-                entry.customFields[id]?.toString()
-            }
-
             // Fill data in resume to update from EntryEditActivity
             fillEntryDataInContentsView(entry)
             // Refresh Menu
@@ -231,15 +223,16 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
-        mOtpElement?.let { otpElement ->
-            entryContentsView?.assignOtp(otpElement, entryProgress,
-                    View.OnClickListener {
-                clipboardHelper?.timeoutCopyToClipboard(
-                        otpElement.token,
-                        getString(R.string.copy_field, getString(R.string.entry_otp))
-                )
-            })
-        }
+        //Assign OTP field
+        entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
+                View.OnClickListener {
+                    entry.getOtpElement()?.let { otpElement ->
+                        clipboardHelper?.timeoutCopyToClipboard(
+                                otpElement.token,
+                                getString(R.string.copy_field, getString(R.string.entry_otp))
+                        )
+                    }
+        })
 
         entryContentsView?.assignURL(entry.url)
         entryContentsView?.assignComment(entry.notes)

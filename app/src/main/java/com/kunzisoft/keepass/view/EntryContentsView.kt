@@ -62,6 +62,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val otpView: TextView
     private val otpActionView: ImageView
 
+    private var otpRunnable: Runnable? = null
+
     private val urlContainerView: View
     private val urlView: TextView
 
@@ -212,11 +214,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun assignOtp(otpElement: OtpElement,
+    fun assignOtp(otpElement: OtpElement?,
                   otpProgressView: ProgressBar?,
                   onClickListener: OnClickListener) {
+        otpContainerView.removeCallbacks(otpRunnable)
 
-        if (otpElement.type != null) {
+        if (otpElement != null) {
             otpContainerView.visibility = View.VISIBLE
 
             if (otpElement.token.isEmpty()) {
@@ -226,13 +229,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             } else {
                 assignOtpCopyListener(onClickListener)
                 otpView.text = otpElement.token
-                otpElement.type?.name?.let {
-                    otpLabelView.text = it
-                }
+                otpLabelView.text = otpElement.type.name
 
                 when (otpElement.type) {
                     // Only add token if HOTP
                     OtpType.HOTP -> {
+                        otpProgressView?.visibility = View.GONE
                     }
                     // Refresh view if TOTP
                     OtpType.TOTP -> {
@@ -241,19 +243,20 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                             progress = otpElement.secondsRemaining
                             visibility = View.VISIBLE
                         }
-                        otpContainerView.post(object : Runnable {
-                            override fun run() {
-                                if (otpElement.shouldRefreshToken()) {
-                                    otpView.text = otpElement.token
-                                }
-                                otpProgressView?.progress = otpElement.secondsRemaining
-                                otpContainerView.postDelayed(this, 1000)
+                        otpRunnable = Runnable {
+                            if (otpElement.shouldRefreshToken()) {
+                                otpView.text = otpElement.token
                             }
-                        })
+                            otpProgressView?.progress = otpElement.secondsRemaining
+                            otpContainerView.postDelayed(otpRunnable, 1000)
+                        }
+                        otpContainerView.post(otpRunnable)
                     }
-                    else -> {}
                 }
             }
+        } else {
+            otpContainerView.visibility = View.GONE
+            otpProgressView?.visibility = View.GONE
         }
     }
 

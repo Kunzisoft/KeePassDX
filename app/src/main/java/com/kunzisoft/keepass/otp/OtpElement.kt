@@ -15,12 +15,10 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         set(value) {
             otpModel.type = value
             if (type == OtpType.HOTP) {
-                period = TokenCalculator.TOTP_DEFAULT_PERIOD
                 if (!OtpTokenType.getHotpTokenTypeValues().contains(tokenType))
                     tokenType = OtpTokenType.RFC4226
             }
             if (type == OtpType.TOTP) {
-                counter = TokenCalculator.HOTP_INITIAL_COUNTER
                 if (!OtpTokenType.getTotpTokenTypeValues().contains(tokenType))
                     tokenType = OtpTokenType.RFC6238
             }
@@ -30,7 +28,23 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         get() = otpModel.tokenType
         set(value) {
             otpModel.tokenType = value
-            otpModel.digits = otpModel.tokenType.tokenDigits
+            when (tokenType) {
+                OtpTokenType.RFC4226 -> {
+                    otpModel.algorithm = TokenCalculator.DEFAULT_ALGORITHM
+                    otpModel.digits = TokenCalculator.OTP_DEFAULT_DIGITS
+                    otpModel.counter = TokenCalculator.HOTP_INITIAL_COUNTER
+                }
+                OtpTokenType.RFC6238 -> {
+                    otpModel.algorithm = TokenCalculator.DEFAULT_ALGORITHM
+                    otpModel.digits = TokenCalculator.OTP_DEFAULT_DIGITS
+                    otpModel.period = TokenCalculator.TOTP_DEFAULT_PERIOD
+                }
+                OtpTokenType.STEAM -> {
+                    otpModel.algorithm = TokenCalculator.DEFAULT_ALGORITHM
+                    otpModel.digits = TokenCalculator.STEAM_DEFAULT_DIGITS
+                    otpModel.period = TokenCalculator.TOTP_DEFAULT_PERIOD
+                }
+            }
         }
 
     var name
@@ -66,7 +80,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     var digits
         get() = otpModel.digits
         set(value) {
-            otpModel.digits = if (value <= 0) OtpTokenType.RFC6238.tokenDigits else value
+            otpModel.digits = if (value <= 0) TokenCalculator.OTP_DEFAULT_DIGITS else value
         }
 
     var algorithm
@@ -74,10 +88,6 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         set(value) {
             otpModel.algorithm = value
         }
-
-    fun setSettings(seed: String, digits: Int, step: Int) {
-        // TODO: Implement a way to set TOTP from device
-    }
 
     fun setUTF8Secret(secret: String) {
         otpModel.secret = secret.toByteArray(Charset.forName("UTF-8"))
@@ -105,9 +115,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     val token: String
         get() {
-            if (type == null)
-                return ""
-            return when (type!!) {
+            return when (type) {
                 OtpType.HOTP -> TokenCalculator.HOTP(secret, counter.toLong(), digits, algorithm)
                 OtpType.TOTP -> when (tokenType) {
                     OtpTokenType.STEAM -> TokenCalculator.TOTP_Steam(secret, period, digits, algorithm)
@@ -129,17 +137,17 @@ enum class OtpType {
     TOTP;    // time based
 }
 
-enum class OtpTokenType (var tokenDigits: Int) {
-    RFC4226(TokenCalculator.OTP_DEFAULT_DIGITS),    // HOTP
-    RFC6238(TokenCalculator.OTP_DEFAULT_DIGITS),    // TOTP
+enum class OtpTokenType {
+    RFC4226,    // HOTP
+    RFC6238,    // TOTP
 
     // Proprietary
-    STEAM(TokenCalculator.STEAM_DEFAULT_DIGITS);    // TOTP Steam
+    STEAM;    // TOTP Steam
 
     companion object {
         fun getFromString(tokenType: String): OtpTokenType {
             return when (tokenType.toLowerCase(Locale.ENGLISH)) {
-                "steam" -> STEAM
+                "s", "steam" -> STEAM
                 else -> RFC6238
             }
         }

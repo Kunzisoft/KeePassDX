@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
 import java.lang.StringBuilder
+import java.net.URLEncoder
 import java.util.*
 import java.util.regex.Pattern
 
@@ -76,20 +77,22 @@ object OtpEntryFields {
     /**
      * Parse fields of an entry to retrieve an OtpElement
      */
-    fun parseFields(getField: (id: String) -> String?): OtpElement {
+    fun parseFields(getField: (id: String) -> String?): OtpElement? {
         val otpElement = OtpElement()
         // OTP (HOTP/TOTP) from URL and field from KeePassXC
-        var parse = parseOTPUri(getField, otpElement)
+        if (parseOTPUri(getField, otpElement))
+            return otpElement
         // TOTP from key values (maybe plugin or old KeePassXC)
-        if (!parse)
-            parse = parseTOTPKeyValues(getField, otpElement)
+        if (parseTOTPKeyValues(getField, otpElement))
+            return otpElement
         // TOTP from custom field
-        if (!parse)
-            parse = parseTOTPFromField(getField, otpElement)
+        if (parseTOTPFromField(getField, otpElement))
+            return otpElement
         // HOTP fields from KeePass 2
-        if (!parse)
-            parseHOTPFromField(getField, otpElement)
-        return otpElement
+        if (parseHOTPFromField(getField, otpElement))
+            return otpElement
+
+        return null
     }
 
     /**
@@ -145,21 +148,20 @@ object OtpEntryFields {
                 otpElement.setBase32Secret(secretParam)
 
             val encoderParam = uri.getQueryParameter(ENCODER_URL_PARAM)
-            if (encoderParam != null && encoderParam.isNotEmpty()) {
+            if (encoderParam != null && encoderParam.isNotEmpty())
                 otpElement.tokenType = OtpTokenType.getFromString(encoderParam)
-            }
 
             val digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM)
             if (digitsParam != null && digitsParam.isNotEmpty())
-                otpElement.digits = digitsParam.toInt()
+                otpElement.digits = digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
 
             val counterParam = uri.getQueryParameter(COUNTER_URL_PARAM)
             if (counterParam != null && counterParam.isNotEmpty())
-                otpElement.counter = counterParam.toInt()
+                otpElement.counter = counterParam.toIntOrNull() ?: HOTP_INITIAL_COUNTER
 
             val stepParam = uri.getQueryParameter(PERIOD_URL_PARAM)
             if (stepParam != null && stepParam.isNotEmpty())
-                otpElement.period = stepParam.toInt()
+                otpElement.period = stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
 
             val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
             if (algorithmParam != null && algorithmParam.isNotEmpty()) {
@@ -188,12 +190,19 @@ object OtpEntryFields {
                 otpAuthority = HOTP_AUTHORITY
             }
         }
-        val issuer = if (otpElement.issuer.isEmpty()) {
-            if (title == null || title.isEmpty())"None" else title
-        } else {
-            otpElement.issuer
-        }
-        val accountName = if (username == null || username.isEmpty()) "OTP" else username
+        val issuer =
+                if (otpElement.issuer.isEmpty()) {
+                    if (title == null || title.isEmpty())
+                        "None"
+                    else
+                        URLEncoder.encode(title, "UTF-8")
+                } else
+                    URLEncoder.encode(otpElement.issuer, "UTF-8")
+        val accountName =
+                if (username == null || username.isEmpty())
+                    "OTP"
+                else
+                    URLEncoder.encode(username, "UTF-8")
         val uriString = StringBuilder("otpauth://$otpAuthority/$issuer:$accountName" +
                 "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
@@ -219,8 +228,8 @@ object OtpEntryFields {
                 if (secretString == null)
                     secretString = ""
                 otpElement.setBase32Secret(secretString)
-                otpElement.digits = query[DIGITS_KEY]?.toInt() ?: OTP_DEFAULT_DIGITS
-                otpElement.period = query[STEP_KEY]?.toInt() ?: TOTP_DEFAULT_PERIOD
+                otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
 
                 otpElement.type = OtpType.TOTP
                 return true
@@ -245,8 +254,8 @@ object OtpEntryFields {
                 // malformed
                 return false
             }
-            otpElement.period = matcher.group(1).toInt()
-            otpElement.digits = OtpTokenType.getFromString(matcher.group(2)).tokenDigits
+            otpElement.period = matcher.group(1).toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+            otpElement.tokenType = OtpTokenType.getFromString(matcher.group(2))
         }
 
         otpElement.type = OtpType.TOTP
@@ -268,7 +277,7 @@ object OtpEntryFields {
 
         val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
         if (secretCounterField != null) {
-            otpElement.counter = secretCounterField.toInt()
+            otpElement.counter = secretCounterField.toIntOrNull() ?: HOTP_INITIAL_COUNTER
         }
 
         otpElement.type = OtpType.HOTP

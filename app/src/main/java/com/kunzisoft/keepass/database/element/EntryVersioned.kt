@@ -5,6 +5,7 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
 import kotlin.collections.ArrayList
@@ -250,12 +251,18 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     }
 
     /**
-     * Add an extra field to the list (standard or custom)
+     * Update or add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
      * @param value Value of field
      */
-    fun addExtraField(label: String, value: ProtectedString) {
-        pwEntryV4?.addExtraField(label, value)
+    fun putExtraField(label: String, value: ProtectedString) {
+        pwEntryV4?.putExtraField(label, value)
+    }
+
+    fun getOtpElement(): OtpElement? {
+        return OtpEntryFields.parseFields { key ->
+            customFields[key]?.toString()
+        }
     }
 
     fun startToManageFieldReferences(db: PwDatabaseV4) {
@@ -324,9 +331,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
                     Field(entry.key, entry.value))
         }
         // Add otpElement to generate token
-        entryInfo.otpModel = OtpEntryFields.parseFields { key ->
-            customFields[key]?.toString()
-        }.otpModel
+        entryInfo.otpModel = getOtpElement()?.otpModel
         // Replace parameter fields by generated OTP fields
         entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
         if (!raw)

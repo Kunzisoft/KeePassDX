@@ -90,7 +90,7 @@
     <string name="entry_setup_otp">Setup One-Time Password</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
-    <string name="otp_period">Period</string>
+    <string name="otp_period">Period (seconds)</string>
     <string name="otp_counter">Counter</string>
     <string name="otp_digits">Digits</string>
     <string name="otp_algorithm">Algorithm</string>
