@@ -121,6 +121,10 @@
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
     <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
+    <string name="error_otp_secret_key">Secret key lust be in Base32 format.</string>
+    <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
+    <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
+    <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>

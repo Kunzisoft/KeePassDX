@@ -25,6 +25,7 @@ import android.util.Log
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.TokenCalculator.*
+import java.lang.Exception
 import java.lang.StringBuilder
 import java.net.URLEncoder
 import java.util.*
@@ -105,7 +106,7 @@ object OtpEntryFields {
     private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val otpPlainText = getField(OTP_FIELD)
         if (otpPlainText != null && otpPlainText.isNotEmpty()) {
-            val uri = Uri.parse(otpPlainText)
+            val uri = Uri.parse(replaceChars(otpPlainText))
 
             if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {
                 Log.e(TAG, "Invalid or missing scheme in uri")
@@ -122,12 +123,11 @@ object OtpEntryFields {
                 val counterParameter = uri.getQueryParameter(COUNTER_URL_PARAM)
                 if (counterParameter != null) {
                     try {
-                        otpElement.counter = Integer.parseInt(counterParameter)
+                        otpElement.counter = counterParameter.toLongOrNull() ?: HOTP_INITIAL_COUNTER
                     } catch (e: NumberFormatException) {
                         Log.e(TAG, "Invalid counter in uri")
                         return false
                     }
-
                 }
 
             } else {
@@ -144,8 +144,13 @@ object OtpEntryFields {
                 otpElement.issuer = issuerParam
 
             val secretParam = uri.getQueryParameter(SECRET_URL_PARAM)
-            if (secretParam != null && secretParam.isNotEmpty())
-                otpElement.setBase32Secret(secretParam)
+            if (secretParam != null && secretParam.isNotEmpty()) {
+                try {
+                    otpElement.setBase32Secret(secretParam)
+                } catch (exception: Exception) {
+                    otpElement.setBase32Secret("")
+                }
+            }
 
             val encoderParam = uri.getQueryParameter(ENCODER_URL_PARAM)
             if (encoderParam != null && encoderParam.isNotEmpty())
@@ -153,15 +158,27 @@ object OtpEntryFields {
 
             val digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM)
             if (digitsParam != null && digitsParam.isNotEmpty())
-                otpElement.digits = digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                otpElement.digits = try {
+                     digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                } catch (exception: Exception) {
+                    OTP_DEFAULT_DIGITS
+                }
 
             val counterParam = uri.getQueryParameter(COUNTER_URL_PARAM)
             if (counterParam != null && counterParam.isNotEmpty())
-                otpElement.counter = counterParam.toIntOrNull() ?: HOTP_INITIAL_COUNTER
+                otpElement.counter = try {
+                    counterParam.toLongOrNull() ?: HOTP_INITIAL_COUNTER
+                } catch (exception: Exception) {
+                    HOTP_INITIAL_COUNTER
+                }
 
             val stepParam = uri.getQueryParameter(PERIOD_URL_PARAM)
             if (stepParam != null && stepParam.isNotEmpty())
-                otpElement.period = stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                otpElement.period = try {
+                    stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                } catch (exception: Exception) {
+                    TOTP_DEFAULT_PERIOD
+                }
 
             val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)
             if (algorithmParam != null && algorithmParam.isNotEmpty()) {
@@ -191,18 +208,15 @@ object OtpEntryFields {
             }
         }
         val issuer =
-                if (otpElement.issuer.isEmpty()) {
-                    if (title == null || title.isEmpty())
-                        "None"
-                    else
-                        URLEncoder.encode(title, "UTF-8")
-                } else
-                    URLEncoder.encode(otpElement.issuer, "UTF-8")
-        val accountName =
-                if (username == null || username.isEmpty())
-                    "OTP"
+                if (title != null && title.isNotEmpty())
+                    replaceCharsForUrl(title)
                 else
-                    URLEncoder.encode(username, "UTF-8")
+                    replaceCharsForUrl(otpElement.issuer)
+        val accountName =
+                if (username != null && username.isNotEmpty())
+                    replaceCharsForUrl(username)
+                else
+                    replaceCharsForUrl(otpElement.name)
         val uriString = StringBuilder("otpauth://$otpAuthority/$issuer:$accountName" +
                 "?$SECRET_URL_PARAM=${otpElement.getBase32Secret()}" +
                 "&$counterOrPeriodLabel=$counterOrPeriodValue" +
@@ -217,22 +231,34 @@ object OtpEntryFields {
         return Uri.parse(uriString.toString())
     }
 
+    private fun replaceCharsForUrl(parameter: String): String {
+        return URLEncoder.encode(replaceChars(parameter), "UTF-8")
+    }
+
+    private fun replaceChars(parameter: String): String {
+        return parameter.replace("([\\r|\\n|\\t|\\s|\\u00A0]+)", "")
+    }
+
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val plainText = getField(OTP_FIELD)
         if (plainText != null && plainText.isNotEmpty()) {
             if (Pattern.matches(validKeyValueRegex, plainText)) {
-                // KeeOtp string format
-                val query = breakDownKeyValuePairs(plainText)
+                try {
+                    // KeeOtp string format
+                    val query = breakDownKeyValuePairs(plainText)
 
-                var secretString = query[SEED_KEY]
-                if (secretString == null)
-                    secretString = ""
-                otpElement.setBase32Secret(secretString)
-                otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
-                otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                    var secretString = query[SEED_KEY]
+                    if (secretString == null)
+                        secretString = ""
+                        otpElement.setBase32Secret(secretString)
+                        otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                        otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
 
-                otpElement.type = OtpType.TOTP
-                return true
+                        otpElement.type = OtpType.TOTP
+                        return true
+                } catch (exception: Exception) {
+                    return false
+                }
             } else {
                 // Malformed
                 return false
@@ -243,21 +269,24 @@ object OtpEntryFields {
 
     private fun parseTOTPFromField(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val seedField = getField(TOTP_SEED_FIELD) ?: return false
-        otpElement.setBase32Secret(seedField)
+        try {
+            otpElement.setBase32Secret(seedField)
 
-        val settingsField = getField(TOTP_SETTING_FIELD)
-        if (settingsField != null) {
-            // Regex match, sync with shortNameToEncoder
-            val pattern = Pattern.compile("(\\d+);((?:\\d+)|S)")
-            val matcher = pattern.matcher(settingsField)
-            if (!matcher.matches()) {
-                // malformed
-                return false
+            val settingsField = getField(TOTP_SETTING_FIELD)
+            if (settingsField != null) {
+                // Regex match, sync with shortNameToEncoder
+                val pattern = Pattern.compile("(\\d+);((?:\\d+)|S)")
+                val matcher = pattern.matcher(settingsField)
+                if (!matcher.matches()) {
+                    // malformed
+                    return false
+                }
+                otpElement.period = matcher.group(1).toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                otpElement.tokenType = OtpTokenType.getFromString(matcher.group(2))
             }
-            otpElement.period = matcher.group(1).toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-            otpElement.tokenType = OtpTokenType.getFromString(matcher.group(2))
+        } catch (exception: Exception) {
+            return false
         }
-
         otpElement.type = OtpType.TOTP
         return true
     }
@@ -267,17 +296,21 @@ object OtpEntryFields {
         val secretHexField = getField(HMACOTP_SECRET_HEX_FIELD)
         val secretBase32Field = getField(HMACOTP_SECRET_BASE32_FIELD)
         val secretBase64Field = getField(HMACOTP_SECRET_BASE64_FIELD)
-        when {
-            secretField != null -> otpElement.setUTF8Secret(secretField)
-            secretHexField != null -> otpElement.setHexSecret(secretHexField)
-            secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
-            secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
-            else -> return false
-        }
+        try {
+            when {
+                secretField != null -> otpElement.setUTF8Secret(secretField)
+                secretHexField != null -> otpElement.setHexSecret(secretHexField)
+                secretBase32Field != null -> otpElement.setBase32Secret(secretBase32Field)
+                secretBase64Field != null -> otpElement.setBase64Secret(secretBase64Field)
+                else -> return false
+            }
 
-        val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
-        if (secretCounterField != null) {
-            otpElement.counter = secretCounterField.toIntOrNull() ?: HOTP_INITIAL_COUNTER
+            val secretCounterField = getField(HMACOTP_SECRET_COUNTER_FIELD)
+            if (secretCounterField != null) {
+                otpElement.counter = secretCounterField.toLongOrNull() ?: HOTP_INITIAL_COUNTER
+            }
+        } catch (exception: Exception) {
+            return false
         }
 
         otpElement.type = OtpType.HOTP

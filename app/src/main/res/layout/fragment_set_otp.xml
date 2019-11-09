@@ -56,7 +56,7 @@
 
                 <!-- Secret -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/setup_otp_secret_title"
+                    android:id="@+id/setup_otp_secret_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:passwordToggleEnabled="true"
@@ -106,7 +106,7 @@
                     android:orientation="horizontal">
                     <!-- Period / Counter -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/setup_otp_period_title"
+                        android:id="@+id/setup_otp_period_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="visible"
@@ -123,10 +123,11 @@
                             android:hint="@string/otp_period"
                             tools:text="30"
                             android:maxLength="2"
+                            android:digits="0123456789"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/setup_otp_counter_title"
+                        android:id="@+id/setup_otp_counter_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
@@ -154,7 +155,7 @@
 
                     <!-- Digits -->
                     <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/setup_otp_digits_title"
+                        android:id="@+id/setup_otp_digits_label"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         app:layout_constraintTop_toTopOf="parent"
@@ -170,6 +171,7 @@
                             android:hint="@string/otp_digits"
                             tools:text="6"
                             android:maxLength="2"
+                            android:digits="0123456789"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>

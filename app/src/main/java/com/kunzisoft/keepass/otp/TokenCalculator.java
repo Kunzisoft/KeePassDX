@@ -31,9 +31,10 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class TokenCalculator {
     public static final int TOTP_DEFAULT_PERIOD = 30;
-    public static final int HOTP_INITIAL_COUNTER = 1;
+    public static final long HOTP_INITIAL_COUNTER = 1;
     public static final int OTP_DEFAULT_DIGITS = 6;
     public static final int STEAM_DEFAULT_DIGITS = 5;
+    public static final HashAlgorithm OTP_DEFAULT_ALGORITHM = HashAlgorithm.SHA1;
 
     private static final char[] STEAMCHARS = new char[] {
             '2', '3', '4', '5', '6', '7', '8', '9', 'B', 'C',
@@ -49,12 +50,10 @@ public class TokenCalculator {
             try {
                 return valueOf(hash);
             } catch (Exception e) {
-                return SHA1;
+                return OTP_DEFAULT_ALGORITHM;
             }
         }
     }
-
-    public static final HashAlgorithm DEFAULT_ALGORITHM = HashAlgorithm.SHA1;
 
     private static byte[] generateHash(HashAlgorithm algorithm, byte[] key, byte[] data)
             throws NoSuchAlgorithmException, InvalidKeyException {

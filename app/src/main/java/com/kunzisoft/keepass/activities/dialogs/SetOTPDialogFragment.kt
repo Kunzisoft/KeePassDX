@@ -6,12 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.EditText
-import android.widget.Spinner
+import android.widget.*
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
@@ -28,11 +26,13 @@ class SetOTPDialogFragment : DialogFragment() {
 
     private var otpTypeSpinner: Spinner? = null
     private var otpTokenTypeSpinner: Spinner? = null
+    private var otpSecretContainer: TextInputLayout? = null
     private var otpSecretTextView: EditText? = null
-    private var otpPeriodContainer: View? = null
+    private var otpPeriodContainer: TextInputLayout? = null
     private var otpPeriodTextView: EditText? = null
-    private var otpCounterContainer: View? = null
+    private var otpCounterContainer: TextInputLayout? = null
     private var otpCounterTextView: EditText? = null
+    private var otpDigitsContainer: TextInputLayout? = null
     private var otpDigitsTextView: EditText? = null
     private var otpAlgorithmSpinner: Spinner? = null
 
@@ -65,12 +65,14 @@ class SetOTPDialogFragment : DialogFragment() {
             val root = activity.layoutInflater.inflate(R.layout.fragment_set_otp, null) as ViewGroup?
             otpTypeSpinner = root?.findViewById(R.id.setup_otp_type)
             otpTokenTypeSpinner = root?.findViewById(R.id.setup_otp_token_type)
+            otpSecretContainer = root?.findViewById(R.id.setup_otp_secret_label)
             otpSecretTextView = root?.findViewById(R.id.setup_otp_secret)
             otpAlgorithmSpinner = root?.findViewById(R.id.setup_otp_algorithm)
-            otpPeriodContainer= root?.findViewById(R.id.setup_otp_period_title)
+            otpPeriodContainer= root?.findViewById(R.id.setup_otp_period_label)
             otpPeriodTextView = root?.findViewById(R.id.setup_otp_period)
-            otpCounterContainer= root?.findViewById(R.id.setup_otp_counter_title)
+            otpCounterContainer= root?.findViewById(R.id.setup_otp_counter_label)
             otpCounterTextView = root?.findViewById(R.id.setup_otp_counter)
+            otpDigitsContainer = root?.findViewById(R.id.setup_otp_digits_label)
             otpDigitsTextView = root?.findViewById(R.id.setup_otp_digits)
 
             // HOTP / TOTP Type selection
@@ -116,6 +118,7 @@ class SetOTPDialogFragment : DialogFragment() {
                 setView(root)
                         .setPositiveButton(android.R.string.ok) { _, _ ->
                             createOTPElementListener?.invoke(mOtpElement)
+                            // TODO prevent dismiss if error
                         }
                         .setNegativeButton(android.R.string.cancel) { _, _ ->
                         }
@@ -165,8 +168,13 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set secret in OtpElement
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let {
-                    mOtpElement.setBase32Secret(it)
+                s?.toString()?.let { userString ->
+                    try {
+                        mOtpElement.setBase32Secret(userString)
+                        otpSecretContainer?.error = null
+                    } catch (exception: Exception) {
+                        otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                    }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -176,8 +184,14 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set counter in OtpElement
         otpCounterTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.toIntOrNull()?.let {
-                    mOtpElement.counter = it
+                s?.toString()?.toLongOrNull()?.let {
+                    try {
+                        mOtpElement.counter = it
+                        otpCounterContainer?.error = null
+                    } catch (exception: Exception) {
+                        otpCounterContainer?.error = getString(R.string.error_otp_counter,
+                                0, Long.MAX_VALUE)
+                    }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -188,7 +202,13 @@ class SetOTPDialogFragment : DialogFragment() {
         otpPeriodTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.toIntOrNull()?.let {
-                    mOtpElement.period = it
+                    try {
+                        mOtpElement.period = it
+                        otpPeriodContainer?.error = null
+                    } catch (exception: Exception) {
+                        otpPeriodContainer?.error = getString(R.string.error_otp_period,
+                                0, 60)
+                    }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -199,7 +219,13 @@ class SetOTPDialogFragment : DialogFragment() {
         otpDigitsTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.toIntOrNull()?.let {
-                    mOtpElement.digits = it
+                    try {
+                        mOtpElement.digits = it
+                        otpDigitsContainer?.error = null
+                    } catch (exception: Exception) {
+                        otpDigitsContainer?.error = getString(R.string.error_otp_digits,
+                                6, 10)
+                    }
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
