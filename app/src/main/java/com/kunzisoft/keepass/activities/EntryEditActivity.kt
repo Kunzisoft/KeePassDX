@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -49,7 +50,8 @@ import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
         IconPickerDialogFragment.IconPickerListener,
-        GeneratePasswordDialogFragment.GeneratePasswordListener {
+        GeneratePasswordDialogFragment.GeneratePasswordListener,
+        SetOTPDialogFragment.CreateOtpListener {
 
     private var mDatabase: Database? = null
 
@@ -358,15 +360,8 @@ class EntryEditActivity : LockingHideActivity(),
             R.id.menu_add_otp -> {
                 // Retrieve the current otpElement if exists
                 // and open the dialog to set up the OTP
-                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel).apply {
-                    createOTPElementListener = { otpElement ->
-                        // Update the otp field with otpauth:// url
-                        val otpField = OtpEntryFields.buildOtpField(otpElement,
-                               mEntry?.title, mEntry?.username)
-                        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
-                        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
-                    }
-                }.show(supportFragmentManager, "addOTPDialog")
+                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+                        .show(supportFragmentManager, "addOTPDialog")
                 return true
             }
 
@@ -374,6 +369,14 @@ class EntryEditActivity : LockingHideActivity(),
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onOtpCreated(otpElement: OtpElement) {
+        // Update the otp field with otpauth:// url
+        val otpField = OtpEntryFields.buildOtpField(otpElement,
+                mEntry?.title, mEntry?.username)
+        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 
     override fun iconPicked(bundle: Bundle) {

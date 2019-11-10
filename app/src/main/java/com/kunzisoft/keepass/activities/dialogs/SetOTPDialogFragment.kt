@@ -2,6 +2,7 @@ package com.kunzisoft.keepass.activities.dialogs
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -31,7 +32,7 @@ import com.kunzisoft.keepass.otp.TokenCalculator
 
 class SetOTPDialogFragment : DialogFragment() {
 
-    var createOTPElementListener: ((OtpElement) -> Unit)? = null
+    private var mCreateOTPElementListener: CreateOtpListener? = null
 
     private var mOtpElement: OtpElement = OtpElement()
 
@@ -67,6 +68,19 @@ class SetOTPDialogFragment : DialogFragment() {
     private var mCounterWellFormed = true
     private var mPeriodWellFormed = true
     private var mDigitsWellFormed = true
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Verify that the host activity implements the callback interface
+        try {
+            // Instantiate the NoticeDialogListener so we can send events to the host
+            mCreateOTPElementListener = context as CreateOtpListener
+        } catch (e: ClassCastException) {
+            // The activity doesn't implement the interface, throw exception
+            throw ClassCastException(context.toString()
+                    + " must implement " + CreateOtpListener::class.java.name)
+        }
+    }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -169,7 +183,7 @@ class SetOTPDialogFragment : DialogFragment() {
                     && mCounterWellFormed
                     && mPeriodWellFormed
                     && mDigitsWellFormed) {
-                createOTPElementListener?.invoke(mOtpElement)
+                mCreateOTPElementListener?.onOtpCreated(mOtpElement)
                 dismiss()
             }
         }
@@ -332,6 +346,10 @@ class SetOTPDialogFragment : DialogFragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_OTP, mOtpElement.otpModel)
+    }
+
+    interface CreateOtpListener {
+        fun onOtpCreated(otpElement: OtpElement)
     }
 
     companion object {
