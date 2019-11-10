@@ -1,9 +1,11 @@
 package com.kunzisoft.keepass.activities.dialogs
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
@@ -51,11 +53,22 @@ class SetOTPDialogFragment : DialogFragment() {
     private var hotpTokenTypeAdapter: ArrayAdapter<OtpTokenType>? = null
     private var otpAlgorithmAdapter: ArrayAdapter<TokenCalculator.HashAlgorithm>? = null
 
+    private var mManualEvent = false
+    private var touchListener = View.OnTouchListener { _, event ->
+        when (event.action) {
+            MotionEvent.ACTION_DOWN -> {
+                mManualEvent = true
+            }
+        }
+        false
+    }
+
     private var mSecretWellFormed = true
     private var mCounterWellFormed = true
     private var mPeriodWellFormed = true
     private var mDigitsWellFormed = true
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // Retrieve OTP model from instance state
@@ -88,6 +101,15 @@ class SetOTPDialogFragment : DialogFragment() {
             otpCounterTextView = root?.findViewById(R.id.setup_otp_counter)
             otpDigitsContainer = root?.findViewById(R.id.setup_otp_digits_label)
             otpDigitsTextView = root?.findViewById(R.id.setup_otp_digits)
+
+            // To fix init element
+            otpTypeSpinner?.setOnTouchListener(touchListener)
+            otpTokenTypeSpinner?.setOnTouchListener(touchListener)
+            otpAlgorithmSpinner?.setOnTouchListener(touchListener)
+            otpSecretTextView?.setOnTouchListener(touchListener)
+            otpPeriodTextView?.setOnTouchListener(touchListener)
+            otpCounterTextView?.setOnTouchListener(touchListener)
+            otpDigitsTextView?.setOnTouchListener(touchListener)
 
             // HOTP / TOTP Type selection
             val otpTypeArray = OtpType.values()
@@ -159,9 +181,11 @@ class SetOTPDialogFragment : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                (parent?.selectedItem as OtpType?)?.let {
-                    mOtpElement.type = it
-                    upgradeTokenType()
+                if (mManualEvent) {
+                    (parent?.selectedItem as OtpType?)?.let {
+                        mOtpElement.type = it
+                        upgradeTokenType()
+                    }
                 }
             }
         }
@@ -171,9 +195,11 @@ class SetOTPDialogFragment : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                (parent?.selectedItem as OtpTokenType?)?.let {
-                    mOtpElement.tokenType = it
-                    upgradeParameters()
+                if (mManualEvent) {
+                    (parent?.selectedItem as OtpTokenType?)?.let {
+                        mOtpElement.tokenType = it
+                        upgradeParameters()
+                    }
                 }
             }
         }
@@ -183,8 +209,10 @@ class SetOTPDialogFragment : DialogFragment() {
             override fun onNothingSelected(parent: AdapterView<*>?) {}
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                (parent?.selectedItem as TokenCalculator.HashAlgorithm?)?.let {
-                    mOtpElement.algorithm = it
+                if (mManualEvent) {
+                    (parent?.selectedItem as TokenCalculator.HashAlgorithm?)?.let {
+                        mOtpElement.algorithm = it
+                    }
                 }
             }
         }
@@ -192,14 +220,16 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set secret in OtpElement
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.let { userString ->
-                    try {
-                        mOtpElement.setBase32Secret(userString)
-                        otpSecretContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                if (mManualEvent) {
+                    s?.toString()?.let { userString ->
+                        try {
+                            mOtpElement.setBase32Secret(userString)
+                            otpSecretContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
+                        }
+                        mSecretWellFormed = otpSecretContainer?.error == null
                     }
-                    mSecretWellFormed = otpSecretContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -209,15 +239,17 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set counter in OtpElement
         otpCounterTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.toLongOrNull()?.let {
-                    try {
-                        mOtpElement.counter = it
-                        otpCounterContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpCounterContainer?.error = getString(R.string.error_otp_counter,
-                                MIN_HOTP_COUNTER, MAX_HOTP_COUNTER)
+                if (mManualEvent) {
+                    s?.toString()?.toLongOrNull()?.let {
+                        try {
+                            mOtpElement.counter = it
+                            otpCounterContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpCounterContainer?.error = getString(R.string.error_otp_counter,
+                                    MIN_HOTP_COUNTER, MAX_HOTP_COUNTER)
+                        }
+                        mCounterWellFormed = otpCounterContainer?.error == null
                     }
-                    mCounterWellFormed = otpCounterContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -227,15 +259,17 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set period in OtpElement
         otpPeriodTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.toIntOrNull()?.let {
-                    try {
-                        mOtpElement.period = it
-                        otpPeriodContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpPeriodContainer?.error = getString(R.string.error_otp_period,
-                                MIN_TOTP_PERIOD, MAX_TOTP_PERIOD)
+                if (mManualEvent) {
+                    s?.toString()?.toIntOrNull()?.let {
+                        try {
+                            mOtpElement.period = it
+                            otpPeriodContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpPeriodContainer?.error = getString(R.string.error_otp_period,
+                                    MIN_TOTP_PERIOD, MAX_TOTP_PERIOD)
+                        }
+                        mPeriodWellFormed = otpPeriodContainer?.error == null
                     }
-                    mPeriodWellFormed = otpPeriodContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -245,15 +279,17 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set digits in OtpElement
         otpDigitsTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                s?.toString()?.toIntOrNull()?.let {
-                    try {
-                        mOtpElement.digits = it
-                        otpDigitsContainer?.error = null
-                    } catch (exception: Exception) {
-                        otpDigitsContainer?.error = getString(R.string.error_otp_digits,
-                                MIN_OTP_DIGITS, MAX_OTP_DIGITS)
+                if (mManualEvent) {
+                    s?.toString()?.toIntOrNull()?.let {
+                        try {
+                            mOtpElement.digits = it
+                            otpDigitsContainer?.error = null
+                        } catch (exception: Exception) {
+                            otpDigitsContainer?.error = getString(R.string.error_otp_digits,
+                                    MIN_OTP_DIGITS, MAX_OTP_DIGITS)
+                        }
+                        mDigitsWellFormed = otpDigitsContainer?.error == null
                     }
-                    mDigitsWellFormed = otpDigitsContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
