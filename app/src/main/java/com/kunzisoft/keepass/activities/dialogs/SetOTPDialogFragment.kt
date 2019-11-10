@@ -139,7 +139,9 @@ class SetOTPDialogFragment : DialogFragment() {
                     android.R.layout.simple_spinner_item, hotpTokenTypeArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             }
-            val totpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(BuildConfig.CLOSED_STORE)
+            // Proprietary only on closed and full version
+            val totpTokenTypeArray = OtpTokenType.getTotpTokenTypeValues(
+                    BuildConfig.CLOSED_STORE && BuildConfig.FULL_VERSION)
             totpTokenTypeAdapter = ArrayAdapter(activity,
                     android.R.layout.simple_spinner_item, totpTokenTypeArray).apply {
                 setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
