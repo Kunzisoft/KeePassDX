@@ -20,7 +20,6 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -199,11 +198,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        if (!hiddenStyle) {
-            passwordView.transformationMethod = null
-        } else {
-            passwordView.transformationMethod = PasswordTransformationMethod.getInstance()
-        }
+        passwordView.applyHiddenStyle(hiddenStyle)
         // Hidden style for custom fields
         extrasView.let {
             for (i in 0 until it.childCount) {

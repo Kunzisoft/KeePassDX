@@ -21,11 +21,9 @@ package com.kunzisoft.keepass.view
 
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
-import android.app.Activity
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
@@ -39,6 +37,16 @@ import com.kunzisoft.keepass.R
 fun TextView.applyFontVisibility() {
     val typeFace = Typeface.createFromAsset(context.assets, "fonts/FiraMono-Regular.ttf")
     typeface = typeFace
+}
+
+fun TextView.applyHiddenStyle(hide: Boolean) {
+    if (hide) {
+        transformationMethod = PasswordTransformationMethod.getInstance()
+        maxLines = 1
+    } else {
+        transformationMethod = null
+        maxLines = 800
+    }
 }
 
 fun Snackbar.asError(): Snackbar {

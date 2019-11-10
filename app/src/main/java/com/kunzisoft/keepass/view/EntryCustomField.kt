@@ -21,13 +21,12 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import android.text.method.PasswordTransformationMethod
-import androidx.core.content.ContextCompat
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 
 open class EntryCustomField @JvmOverloads constructor(context: Context,
@@ -72,11 +71,7 @@ open class EntryCustomField @JvmOverloads constructor(context: Context,
     }
 
     fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        if (isProtected && hiddenStyle) {
-            valueView.transformationMethod = PasswordTransformationMethod.getInstance()
-        } else {
-            valueView.transformationMethod = null
-        }
+        valueView.applyHiddenStyle(isProtected && hiddenStyle)
     }
 
     fun enableActionButton(enable: Boolean) {
