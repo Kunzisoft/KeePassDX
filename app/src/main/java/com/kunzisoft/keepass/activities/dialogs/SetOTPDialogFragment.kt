@@ -64,7 +64,7 @@ class SetOTPDialogFragment : DialogFragment() {
         false
     }
 
-    private var mSecretWellFormed = true
+    private var mSecretWellFormed = false
     private var mCounterWellFormed = true
     private var mPeriodWellFormed = true
     private var mDigitsWellFormed = true

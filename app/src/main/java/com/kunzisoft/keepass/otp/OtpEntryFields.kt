@@ -148,7 +148,7 @@ object OtpEntryFields {
                 try {
                     otpElement.setBase32Secret(secretParam)
                 } catch (exception: Exception) {
-                    otpElement.setBase32Secret("")
+                    Log.e(TAG, "Unable to retrieve OTP secret.", exception)
                 }
             }
 
@@ -161,6 +161,7 @@ object OtpEntryFields {
                 otpElement.digits = try {
                      digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                 } catch (exception: Exception) {
+                    Log.e(TAG, "Unable to retrieve OTP digits.", exception)
                     OTP_DEFAULT_DIGITS
                 }
 
@@ -169,6 +170,7 @@ object OtpEntryFields {
                 otpElement.counter = try {
                     counterParam.toLongOrNull() ?: HOTP_INITIAL_COUNTER
                 } catch (exception: Exception) {
+                    Log.e(TAG, "Unable to retrieve HOTP counter.", exception)
                     HOTP_INITIAL_COUNTER
                 }
 
@@ -177,6 +179,7 @@ object OtpEntryFields {
                 otpElement.period = try {
                     stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
                 } catch (exception: Exception) {
+                    Log.e(TAG, "Unable to retrieve TOTP period.", exception)
                     TOTP_DEFAULT_PERIOD
                 }
 
