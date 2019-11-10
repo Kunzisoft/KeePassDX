@@ -9,7 +9,7 @@ class Field : Parcelable {
     var name: String = ""
     var protectedValue: ProtectedString = ProtectedString()
 
-    constructor(name: String, value: ProtectedString) {
+    constructor(name: String, value: ProtectedString = ProtectedString()) {
         this.name = name
         this.protectedValue = value
     }
@@ -26,6 +26,21 @@ class Field : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeString(name)
         dest.writeParcelable(protectedValue, flags)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Field
+
+        if (name != other.name) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return name.hashCode()
     }
 
     companion object {

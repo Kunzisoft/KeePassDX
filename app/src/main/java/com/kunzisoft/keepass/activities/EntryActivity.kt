@@ -24,15 +24,16 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
@@ -58,6 +59,7 @@ class EntryActivity : LockingHideActivity() {
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
     private var entryContentsView: EntryContentsView? = null
+    private var entryProgress: ProgressBar? = null
     private var toolbar: Toolbar? = null
 
     private var mDatabase: Database? = null
@@ -101,6 +103,7 @@ class EntryActivity : LockingHideActivity() {
         historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
+        entryProgress = findViewById(R.id.entry_progress)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
@@ -219,6 +222,17 @@ class EntryActivity : LockingHideActivity() {
                 entryContentsView?.assignPasswordCopyListener(null)
             }
         }
+
+        //Assign OTP field
+        entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
+                View.OnClickListener {
+                    entry.getOtpElement()?.let { otpElement ->
+                        clipboardHelper?.timeoutCopyToClipboard(
+                                otpElement.token,
+                                getString(R.string.copy_field, getString(R.string.entry_otp))
+                        )
+                    }
+        })
 
         entryContentsView?.assignURL(entry.url)
         entryContentsView?.assignComment(entry.notes)

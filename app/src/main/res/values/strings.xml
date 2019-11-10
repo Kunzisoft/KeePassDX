@@ -87,6 +87,14 @@
     <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Title</string>
+    <string name="entry_setup_otp">Setup One-Time Password</string>
+    <string name="otp_type">OTP type</string>
+    <string name="otp_secret">Secret</string>
+    <string name="otp_period">Period (seconds)</string>
+    <string name="otp_counter">Counter</string>
+    <string name="otp_digits">Digits</string>
+    <string name="otp_algorithm">Algorithm</string>
+    <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
@@ -94,6 +102,7 @@
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
+    <string name="error_invalid_OTP">Invalid OTP secret.</string>
     <string name="error_no_name">Enter a name.</string>
     <string name="error_nokeyfile">Select a keyfile.</string>
     <string name="error_out_of_memory">No memory to load your entire database.</string>
@@ -112,6 +121,10 @@
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
     <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
+    <string name="error_otp_secret_key">Secret key lust be in Base32 format.</string>
+    <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
+    <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
+    <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -400,7 +413,7 @@
     <string name="html_text_dev_feature_upgrade">Do not forget to keep your app up to date by installing new versions.</string>
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
-    <!-- Algorithms -->
+    <!-- Encryption Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>

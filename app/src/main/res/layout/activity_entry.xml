@@ -72,6 +72,17 @@
                 tools:targetApi="lollipop">
             </androidx.appcompat.widget.Toolbar>
 
+            <ProgressBar
+                android:visibility="gone"
+                android:id="@+id/entry_progress"
+                style="?android:attr/progressBarStyleHorizontal"
+                android:indeterminate="false"
+                android:progress="10"
+                android:max="30"
+                android:layout_gravity="bottom"
+                android:layout_width="match_parent"
+                android:layout_height="4dp" />
+
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

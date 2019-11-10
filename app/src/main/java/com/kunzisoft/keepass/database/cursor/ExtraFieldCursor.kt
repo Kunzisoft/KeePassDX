@@ -23,7 +23,7 @@ class ExtraFieldCursor : MatrixCursor(arrayOf(
     }
 
     fun populateExtraFieldInEntry(pwEntry: PwEntryV4) {
-        pwEntry.addExtraField(getString(getColumnIndex(COLUMN_LABEL)),
+        pwEntry.putExtraField(getString(getColumnIndex(COLUMN_LABEL)),
                 ProtectedString(getInt(getColumnIndex(COLUMN_PROTECTION)) > 0,
                         getString(getColumnIndex(COLUMN_VALUE))))
     }

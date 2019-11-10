@@ -105,6 +105,38 @@
 					android:tint="?attr/colorAccent" />
 			</RelativeLayout>
 
+			<!-- OTP -->
+			<RelativeLayout
+				android:id="@+id/entry_otp_container"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:visibility="gone">
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_otp_label"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/entry_otp"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_otp"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_below="@+id/entry_otp_label"
+					android:layout_toLeftOf="@+id/entry_otp_action_image"
+					android:layout_toStartOf="@+id/entry_otp_action_image"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+				<androidx.appcompat.widget.AppCompatImageView
+					android:id="@+id/entry_otp_action_image"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_below="@+id/entry_otp_label"
+					android:src="@drawable/ic_content_copy_white_24dp"
+					android:tint="?attr/colorAccent" />
+			</RelativeLayout>
+
 			<!--  URL -->
 			<LinearLayout
 				android:id="@+id/entry_url_container"

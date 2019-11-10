@@ -27,6 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -36,6 +37,8 @@ import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -53,6 +56,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val passwordContainerView: View
     private val passwordView: TextView
     private val passwordActionView: ImageView
+
+    private val otpContainerView: View
+    private val otpLabelView: TextView
+    private val otpView: TextView
+    private val otpActionView: ImageView
+
+    private var otpRunnable: Runnable? = null
 
     private val urlContainerView: View
     private val urlView: TextView
@@ -92,6 +102,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         passwordContainerView = findViewById(R.id.entry_password_container)
         passwordView = findViewById(R.id.entry_password)
         passwordActionView = findViewById(R.id.entry_password_action_image)
+
+        otpContainerView = findViewById(R.id.entry_otp_container)
+        otpLabelView = findViewById(R.id.entry_otp_label)
+        otpView = findViewById(R.id.entry_otp)
+        otpActionView = findViewById(R.id.entry_otp_action_image)
 
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
@@ -197,6 +212,56 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                     childCustomView.setHiddenPasswordStyle(hiddenStyle)
             }
         }
+    }
+
+    fun assignOtp(otpElement: OtpElement?,
+                  otpProgressView: ProgressBar?,
+                  onClickListener: OnClickListener) {
+        otpContainerView.removeCallbacks(otpRunnable)
+
+        if (otpElement != null) {
+            otpContainerView.visibility = View.VISIBLE
+
+            if (otpElement.token.isEmpty()) {
+                otpView.text = context.getString(R.string.error_invalid_OTP)
+                otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
+                assignOtpCopyListener(null)
+            } else {
+                assignOtpCopyListener(onClickListener)
+                otpView.text = otpElement.token
+                otpLabelView.text = otpElement.type.name
+
+                when (otpElement.type) {
+                    // Only add token if HOTP
+                    OtpType.HOTP -> {
+                        otpProgressView?.visibility = View.GONE
+                    }
+                    // Refresh view if TOTP
+                    OtpType.TOTP -> {
+                        otpProgressView?.apply {
+                            max = otpElement.period
+                            progress = otpElement.secondsRemaining
+                            visibility = View.VISIBLE
+                        }
+                        otpRunnable = Runnable {
+                            if (otpElement.shouldRefreshToken()) {
+                                otpView.text = otpElement.token
+                            }
+                            otpProgressView?.progress = otpElement.secondsRemaining
+                            otpContainerView.postDelayed(otpRunnable, 1000)
+                        }
+                        otpContainerView.post(otpRunnable)
+                    }
+                }
+            }
+        } else {
+            otpContainerView.visibility = View.GONE
+            otpProgressView?.visibility = View.GONE
+        }
+    }
+
+    fun assignOtpCopyListener(onClickListener: OnClickListener?) {
+        otpActionView.setOnClickListener(onClickListener)
     }
 
     fun assignURL(url: String?) {

@@ -66,13 +66,14 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
         protectionCheckView = findViewById(R.id.protection)
     }
 
-    fun setData(label: String?, value: ProtectedString?) {
+    fun setData(label: String?, value: ProtectedString?, fontInVisibility: Boolean) {
         if (label != null)
             labelView.text = label
         if (value != null) {
             valueView.setText(value.toString())
             protectionCheckView.isChecked = value.isProtected
         }
+        setFontVisibility(fontInVisibility)
     }
 
     /**

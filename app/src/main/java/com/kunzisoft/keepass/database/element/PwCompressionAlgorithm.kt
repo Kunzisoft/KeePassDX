@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.content.res.Resources
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.ObjectNameResource
+import com.kunzisoft.keepass.utils.ObjectNameResource
 
 // Note: We can get away with using int's to store unsigned 32-bit ints
 //       since we won't do arithmetic on these values (also unlikely to

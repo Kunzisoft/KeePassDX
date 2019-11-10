@@ -270,7 +270,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         fields.clear()
     }
 
-    fun addExtraField(label: String, value: ProtectedString) {
+    fun putExtraField(label: String, value: ProtectedString) {
         fields[label] = value
     }
 

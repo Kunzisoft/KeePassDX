@@ -742,7 +742,7 @@ class ImporterV4(private val streamDir: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryString && name.equals(PwDatabaseV4XML.ElemString, ignoreCase = true)) {
             if (ctxStringName != null && ctxStringValue != null)
-                ctxEntry?.addExtraField(ctxStringName!!, ctxStringValue!!)
+                ctxEntry?.putExtraField(ctxStringName!!, ctxStringValue!!)
             ctxStringName = null
             ctxStringValue = null
 
