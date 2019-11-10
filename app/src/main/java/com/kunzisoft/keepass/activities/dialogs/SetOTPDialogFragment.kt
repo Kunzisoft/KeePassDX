@@ -51,6 +51,11 @@ class SetOTPDialogFragment : DialogFragment() {
     private var hotpTokenTypeAdapter: ArrayAdapter<OtpTokenType>? = null
     private var otpAlgorithmAdapter: ArrayAdapter<TokenCalculator.HashAlgorithm>? = null
 
+    private var mSecretWellFormed = true
+    private var mCounterWellFormed = true
+    private var mPeriodWellFormed = true
+    private var mDigitsWellFormed = true
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         // Retrieve OTP model from instance state
@@ -125,10 +130,7 @@ class SetOTPDialogFragment : DialogFragment() {
             builder.apply {
                 setTitle(R.string.entry_setup_otp)
                 setView(root)
-                        .setPositiveButton(android.R.string.ok) { _, _ ->
-                            createOTPElementListener?.invoke(mOtpElement)
-                            // TODO prevent dismiss if error
-                        }
+                        .setPositiveButton(android.R.string.ok) {_, _ -> }
                         .setNegativeButton(android.R.string.cancel) { _, _ ->
                         }
             }
@@ -136,6 +138,19 @@ class SetOTPDialogFragment : DialogFragment() {
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE).setOnClickListener {
+            if (mSecretWellFormed
+                    && mCounterWellFormed
+                    && mPeriodWellFormed
+                    && mDigitsWellFormed) {
+                createOTPElementListener?.invoke(mOtpElement)
+                dismiss()
+            }
+        }
     }
 
     private fun attachListeners() {
@@ -184,6 +199,7 @@ class SetOTPDialogFragment : DialogFragment() {
                     } catch (exception: Exception) {
                         otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
                     }
+                    mSecretWellFormed = otpSecretContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -201,6 +217,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpCounterContainer?.error = getString(R.string.error_otp_counter,
                                 MIN_HOTP_COUNTER, MAX_HOTP_COUNTER)
                     }
+                    mCounterWellFormed = otpCounterContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -218,6 +235,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpPeriodContainer?.error = getString(R.string.error_otp_period,
                                 MIN_TOTP_PERIOD, MAX_TOTP_PERIOD)
                     }
+                    mPeriodWellFormed = otpPeriodContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -235,6 +253,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpDigitsContainer?.error = getString(R.string.error_otp_digits,
                                 MIN_OTP_DIGITS, MAX_OTP_DIGITS)
                     }
+                    mDigitsWellFormed = otpDigitsContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
