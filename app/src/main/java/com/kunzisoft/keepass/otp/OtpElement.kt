@@ -69,7 +69,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     var counter
         get() = otpModel.counter
         set(value) {
-            otpModel.counter = if (value < 0 && value > Long.MAX_VALUE) {
+            otpModel.counter = if (value < MIN_HOTP_COUNTER || value > MAX_HOTP_COUNTER) {
                 TokenCalculator.HOTP_INITIAL_COUNTER
                 throw NumberFormatException()
             } else value
@@ -78,7 +78,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     var period
         get() = otpModel.period
         set(value) {
-            otpModel.period = if (value <= 0 || value > 60) {
+            otpModel.period = if (value < MIN_TOTP_PERIOD || value > MAX_TOTP_PERIOD) {
                 TokenCalculator.TOTP_DEFAULT_PERIOD
                 throw NumberFormatException()
             } else value
@@ -87,7 +87,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     var digits
         get() = otpModel.digits
         set(value) {
-            otpModel.digits = if (value <= 0|| value > 10) {
+            otpModel.digits = if (value < MIN_OTP_DIGITS|| value > MAX_OTP_DIGITS) {
                 TokenCalculator.OTP_DEFAULT_DIGITS
                 throw NumberFormatException()
             } else value
@@ -154,6 +154,15 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
     }
 
     companion object {
+        const val MIN_HOTP_COUNTER = 1
+        const val MAX_HOTP_COUNTER = Long.MAX_VALUE
+
+        const val MIN_TOTP_PERIOD = 1
+        const val MAX_TOTP_PERIOD = 60
+
+        const val MIN_OTP_DIGITS = 4
+        const val MAX_OTP_DIGITS = 18
+
         fun checkBase32Secret(secret: String): Boolean {
             return (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$", secret))
         }

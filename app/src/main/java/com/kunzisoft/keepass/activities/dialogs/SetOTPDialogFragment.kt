@@ -6,7 +6,10 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.EditText
+import android.widget.Spinner
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputLayout
@@ -14,6 +17,12 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.OtpModel
 import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_HOTP_COUNTER
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_OTP_DIGITS
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MAX_TOTP_PERIOD
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_HOTP_COUNTER
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_OTP_DIGITS
+import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
@@ -190,7 +199,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpCounterContainer?.error = null
                     } catch (exception: Exception) {
                         otpCounterContainer?.error = getString(R.string.error_otp_counter,
-                                0, Long.MAX_VALUE)
+                                MIN_HOTP_COUNTER, MAX_HOTP_COUNTER)
                     }
                 }
             }
@@ -207,7 +216,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpPeriodContainer?.error = null
                     } catch (exception: Exception) {
                         otpPeriodContainer?.error = getString(R.string.error_otp_period,
-                                0, 60)
+                                MIN_TOTP_PERIOD, MAX_TOTP_PERIOD)
                     }
                 }
             }
@@ -224,7 +233,7 @@ class SetOTPDialogFragment : DialogFragment() {
                         otpDigitsContainer?.error = null
                     } catch (exception: Exception) {
                         otpDigitsContainer?.error = getString(R.string.error_otp_digits,
-                                6, 10)
+                                MIN_OTP_DIGITS, MAX_OTP_DIGITS)
                     }
                 }
             }
