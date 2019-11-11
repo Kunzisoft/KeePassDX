@@ -321,7 +321,7 @@
     </string-array>
     <string name="icon_pack_choose_title">Ensemble d’icônes</string>
     <string name="icon_pack_choose_summary">Ensemble d’icônes utilisés dans l’application</string>
-    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
+    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe en lui-même.</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>
@@ -391,6 +391,6 @@
     <string name="content_description_password_checkbox">Case à cocher mot de passe</string>
     <string name="content_description_keyfile_checkbox">Case à cocher fichier de clé</string>
     <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
-    <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
-    <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
+    <string name="error_move_entry_here">Vous ne pouvez pas déplacer d\'entrée ici.</string>
+    <string name="error_copy_entry_here">Vous ne pouvez pas copier d\'entrée ici.</string>
 </resources>
