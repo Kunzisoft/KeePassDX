@@ -163,7 +163,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         // Attach the dialog thread to this activity
-        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+        progressDialogThread = ProgressDialogThread(this) { actionTask, _ ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_TASK -> {
                     // TODO Check

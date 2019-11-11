@@ -20,7 +20,8 @@
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung</string>
     <string name="about_homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -398,8 +399,6 @@
     <string name="disable">Deaktivieren</string>
     <string name="biometric_prompt_store_credential_message">Datenbank-Anmeldeinformationen biometrisch speichern</string>
     <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
-    <string name="fingerprint_open_biometric_prompt">Die Eingabeaufforderung für biometrische Daten mittels Klick auf den biometrischen Button öffnen</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
-    <string name="fingerprint_auto_open_biometric_prompt">Sie können die Einstellung ändern, um die biometrische Eingabeaufforderung schnell zu öffnen und Schritt 1 nicht wiederholen zu müssen.</string>
     <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist</string>
 </resources>
