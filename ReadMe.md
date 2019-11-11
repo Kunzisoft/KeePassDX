@@ -10,7 +10,8 @@
  * Support for **.kdb** and **.kdbx** files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
  * **Compatible** with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
  * Allows **fast copy** of fields and opening of URI / URL
- * **Fingerprint** for fast unlocking
+ * **Biometric recognition** for fast unlocking *(Fingerprint / Face unlock / ...)*
+ * **One-Time Password** management *(HOTP / TOTP)*
  * Material design with **themes**
  * **AutoFill** and Integration
  * Field filling **keyboard**
