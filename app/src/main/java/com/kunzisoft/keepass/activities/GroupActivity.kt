@@ -497,8 +497,10 @@ class GroupActivity : LockingActivity(),
                         {
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
-                                AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(mDatabase!!))
+                                mDatabase?.let { database ->
+                                    AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
+                                            entryVersioned.getEntryInfo(database))
+                                }
                             }
                             finish()
                         })

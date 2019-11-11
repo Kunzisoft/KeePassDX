@@ -19,24 +19,19 @@
  */
 package com.kunzisoft.keepass.notifications
 
-import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
-
-import com.kunzisoft.keepass.R
-
-import java.util.ArrayList
+import com.kunzisoft.keepass.model.EntryInfo
+import java.util.*
 
 /**
  * Utility class to manage fields in Notifications
  */
-open class ClipboardEntryNotificationField : Parcelable {
+class ClipboardEntryNotificationField : Parcelable {
 
     private var id: NotificationFieldId = NotificationFieldId.UNKNOWN
-    var value: String = ""
     var label: String = ""
-    var copyText: String = ""
 
     val actionKey: String
         get() = getActionKey(id)
@@ -44,32 +39,30 @@ open class ClipboardEntryNotificationField : Parcelable {
     val extraKey: String
         get() = getExtraKey(id)
 
-    constructor(id: NotificationFieldId, value: String, resources: Resources) {
+    constructor(id: NotificationFieldId, label: String) {
         this.id = id
-        this.value = value
-        this.label = getLabel(resources)
-        this.copyText = getCopyText(resources)
-    }
-
-    constructor(id: NotificationFieldId, value: String, label: String, resources: Resources) {
-        this.id = id
-        this.value = value
         this.label = label
-        this.copyText = getCopyText(resources)
     }
 
-    protected constructor(parcel: Parcel) {
+    constructor(parcel: Parcel) {
         id = NotificationFieldId.values()[parcel.readInt()]
-        value = parcel.readString() ?: value
         label = parcel.readString() ?: label
-        copyText = parcel.readString() ?: copyText
+    }
+
+    fun getGeneratedValue(entryInfo: EntryInfo?): String {
+        return when (id) {
+            NotificationFieldId.UNKNOWN -> ""
+            NotificationFieldId.USERNAME -> entryInfo?.username ?: ""
+            NotificationFieldId.PASSWORD -> entryInfo?.password ?: ""
+            NotificationFieldId.FIELD_A,
+            NotificationFieldId.FIELD_B,
+            NotificationFieldId.FIELD_C -> entryInfo?.getGeneratedFieldValue(label) ?: ""
+        }
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeInt(id.ordinal)
-        dest.writeString(value)
         dest.writeString(label)
-        dest.writeString(copyText)
     }
 
     override fun describeContents(): Int {
@@ -91,22 +84,9 @@ open class ClipboardEntryNotificationField : Parcelable {
         UNKNOWN, USERNAME, PASSWORD, FIELD_A, FIELD_B, FIELD_C;
 
         companion object {
-
             val anonymousFieldId: Array<NotificationFieldId>
                 get() = arrayOf(FIELD_A, FIELD_B, FIELD_C)
         }
-    }
-
-    private fun getLabel(resources: Resources): String {
-        return when (id) {
-            NotificationFieldId.USERNAME -> resources.getString(R.string.entry_user_name)
-            NotificationFieldId.PASSWORD -> resources.getString(R.string.entry_password)
-            else -> id.name
-        }
-    }
-
-    private fun getCopyText(resources: Resources): String {
-        return resources.getString(R.string.select_to_copy, label)
     }
 
     companion object {
