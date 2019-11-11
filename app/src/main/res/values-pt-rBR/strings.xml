@@ -16,8 +16,6 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
-
-    Portuguese translation by Carlos Schlyter.
 -->
 <resources>
     <string name="about_feedback">Comentários</string>
@@ -308,15 +306,12 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
-    </string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
     <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
-    </string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong></string>
     <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute">
-        <strong>Contribuindo </strong>,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Contribuindo </strong>,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
@@ -360,7 +355,7 @@
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
     <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
     <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
-    <string name="clear_clipboard_notification_title">Limpar a Área de Transferência ao fechar</string>
+    <string name="clear_clipboard_notification_title">Limpar a área de transferência ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
     <string name="recycle_bin">Lixeira</string>
     <string name="keyboard_selection_entry_title">Seleção de entrada</string>
@@ -383,4 +378,22 @@
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
     <string name="content_description_entry_save">Salvar entrada</string>
+    <string name="content_description_node_children">Nó filho</string>
+    <string name="content_description_password_checkbox">Caixa de seleção de senha</string>
+    <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir mudança de visibilidade da senha</string>
+    <string name="content_description_background">Plano de fundo</string>
+    <string name="content_description_update_from_list">Atualizar</string>
+    <string name="content_description_keyboard_close_fields">Campos fechados</string>
+    <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
+    <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
+    <string name="biometric_prompt_store_credential_title">Salvar reconhecimento biométrico</string>
+    <string name="biometric_prompt_store_credential_message">Armazenar credenciais do banco de dados com biometria</string>
+    <string name="biometric_prompt_extract_credential_title">Abrir banco de dados com biometria</string>
+    <string name="biometric_prompt_extract_credential_message">Extrair credenciais do banco de dados com biometria</string>
+    <string name="biometric">Biometria</string>
+    <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt de biometria</string>
+    <string name="biometric_auto_open_prompt_summary">Abrir automaticamente o prompt de biometria quando a chave biométrica for definida para o banco de dados</string>
+    <string name="enable">Habilitado</string>
+    <string name="disable">Desabilitado</string>
 </resources>

@@ -112,7 +112,7 @@
     <string name="maskpass_summary">Skjul passord som forvalg</string>
     <string name="menu_about">Om</string>
     <string name="menu_change_key_settings">Endre hovednøkkel</string>
-    <string name="copy_field">Kopierte %1$s</string>
+    <string name="copy_field">Kopi av%1$s</string>
     <string name="settings">Innstillinger</string>
     <string name="menu_app_settings">Programinnstillinger</string>
     <string name="menu_form_filling_settings">Skjemautfylling</string>
@@ -169,7 +169,7 @@
     <string name="sort_ascending">Laveste først ↓</string>
     <string name="sort_groups_before">Grupper før</string>
     <string name="sort_recycle_bin_bottom">Papirkurv nederst</string>
-    <string name="sort_db">Databasesorteringsrekkefølge</string>
+    <string name="sort_db">Naturlig orden</string>
     <string name="sort_title">Tittel</string>
     <string name="sort_username">Brukernavn</string>
     <string name="sort_creation_time">Opprettelsestidspunkt</string>
@@ -182,7 +182,7 @@
     <string name="unsupported_db_version">Ustøttet databaseversjon.</string>
     <string name="uppercase">Store bokstaver</string>
     <string name="warning">Advarsel</string>
-    <string name="warning_password_encoding">Passordet dit kan inneholde bokstaver som ikke støttes av Latin-1 -tegnsettet brukt av .kdb filer. Siden disse alle konverteres til samme bokstav, anbefales det å endre passordet ditt for å gjøre det sikrere.</string>
+    <string name="warning_password_encoding">Unngå passordtegn utenfor tekstkodingsformat i databasefil (ukjente tegn blir konvertert til samme bokstav).</string>
     <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
     <string name="warning_unmounted">SD-kortet ditt er ikke montert på enheten din. Du vil ikke kunne laste inne eller opprette din database.</string>
     <string name="warning_empty_password">Ønsker du virkelig å bruke en tom streng som ditt passord?</string>
@@ -210,7 +210,7 @@
     <string name="list_password_generator_options_summary">Sett forvalgte passordgenereringstegn</string>
     <string name="clipboard">Utklippstavle</string>
     <string name="clipboard_notifications_title">Utklippstavlemerknader</string>
-    <string name="clipboard_notifications_summary">Skru på utklipstavlemerknader for å kopiering av oppføringsfelter</string>
+    <string name="clipboard_notifications_summary">Aktiver varsler om utklippstavle for å kopiere felt når du viser en oppføring</string>
     <string name="clipboard_warning">Hvis din enhet ikke er i stand til å slette ting fra utklippstavlen automatisk, slett det kopierte elementet fra din utklippshistorikk manuelt.</string>
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skjermlås</string>
@@ -247,7 +247,7 @@
     <string name="keyboard">Tastatur</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktiver et egendefinert tastatur som fyller inn passordene og alle identitetsfelter</string>
-    <string name="allow_no_password_title">Tillat inget passord</string>
+    <string name="allow_no_password_title">Tillat ingen hovednøkkel</string>
     <string name="allow_no_password_summary">Skru på \"Åpne\"-tasten hvis ingen passordidentifikasjon er valgt</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åpne din database skrivebeskyttet som forvalg</string>
@@ -330,7 +330,7 @@
     <string name="keyboard_notification_entry_content_title">%1$s tilgjengelig på Magikeyboard</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Tøm ved lukking</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Tøm tastaturoppføringen ved lukking av merknaden</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Lukk databasen når du lukker varselet</string>
     <string name="keyboard_appearance_category">Utseende</string>
     <string name="keyboard_theme_title">Tastaturdrakt</string>
     <string name="keyboard_keys_category">Taster</string>
@@ -341,7 +341,7 @@
     <string name="lock_database_back_root_title">Tilbakelås</string>
     <string name="lock_database_back_root_summary">Lås databasen når brukeren klikker tilbakeknappen på root-skjermen</string>
     <string name="clear_clipboard_notification_title">Tøm ved lukking</string>
-    <string name="clear_clipboard_notification_summary">Lukk databasen ved lukking av merknaden</string>
+    <string name="clear_clipboard_notification_summary">Lukk databasen når du lukker varselet</string>
     <string name="recycle_bin">Papirkurv</string>
     <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
     <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
@@ -361,4 +361,13 @@
     <string name="error_copy_entry_here">Du kan ikke kopiere en oppføring hit.</string>
     <string name="list_groups_show_number_entries_title">Vis antall oppføringer</string>
     <string name="list_groups_show_number_entries_summary">Vis antall oppføringer i en gruppe</string>
+    <string name="content_description_background">Bakgrunn</string>
+    <string name="content_description_update_from_list">Oppdater</string>
+    <string name="content_description_keyboard_close_fields">Lukk felt</string>
+    <string name="error_create_database_file">Kan ikke opprette database med dette passordet og nøkkelfilen.</string>
+    <string name="menu_advanced_unlock_settings">Avansert opplåsing</string>
+    <string name="biometric_prompt_store_credential_title">Lagre biometrisk gjenkjennelse</string>
+    <string name="biometric_prompt_store_credential_message">Lagre databaseopplysninger med biometriske data</string>
+    <string name="enable">Aktiver</string>
+    <string name="disable">Skru av</string>
 </resources>
