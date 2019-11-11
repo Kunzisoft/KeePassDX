@@ -210,13 +210,13 @@
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Bekræft ingen brug af en krypteringsnøgle?</string>
-    <string name="configure_biometric">Fingeraftryksscanning understøttes, men er ikke sat op.</string>
-    <string name="open_biometric_prompt_unlock_database">Fingeraftryks-scanning</string>
+    <string name="configure_biometric">Biometrisk prompt understøttes, men er ikke konfigureret.</string>
+    <string name="open_biometric_prompt_unlock_database">Åbn den biometriske prompt for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
     <string name="biometric_invalid_key">Kunne ikke læse fingeraftryksnøgle. Gendan adgangskode.</string>
     <string name="biometric_not_recognized">Kunne ikke genkende fingeraftryk</string>
     <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Brug fingeraftryk til at gemme adgangskoden</string>
+    <string name="open_biometric_prompt_store_credential">Åbn den biometriske prompt for at gemme legitimationsoplysninger</string>
     <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="database_history">Historik</string>
     <string name="menu_appearance_settings">Udseende</string>
@@ -376,7 +376,7 @@
     <string name="content_description_keyfile_checkbox">Afkrydsningsfelt for nøglefil</string>
     <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
     <string name="content_description_entry_icon">Indtastningsikon</string>
-    <string name="content_description_entry_save">Gem indlæg</string>
+    <string name="content_description_entry_save">Gem indtastning</string>
     <string name="content_description_password_generator">Adgangskodegenerator</string>
     <string name="content_description_password_length">Længde på adgangskode</string>
     <string name="content_description_add_field">Tilføj felt</string>
@@ -384,4 +384,20 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Vis antal poster</string>
     <string name="list_groups_show_number_entries_summary">Vise antallet af poster i en gruppe</string>
+    <string name="error_move_entry_here">Post kan ikke flyttes her til.</string>
+    <string name="error_copy_entry_here">Post kan ikke kopieres her til.</string>
+    <string name="content_description_background">Baggrund</string>
+    <string name="content_description_update_from_list">Opdater</string>
+    <string name="content_description_keyboard_close_fields">Luk felter</string>
+    <string name="error_create_database_file">Kan ikke oprette database med denne adgangskode og nøglefil.</string>
+    <string name="menu_advanced_unlock_settings">Avanceret oplåsning</string>
+    <string name="biometric_prompt_store_credential_title">Gem biometrisk genkendelse</string>
+    <string name="biometric_prompt_store_credential_message">Gem databasens legitimationsoplysninger med biometriske data</string>
+    <string name="biometric_prompt_extract_credential_title">Åbn database med biometrisk genkendelse</string>
+    <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
+    <string name="biometric">Biometrisk</string>
+    <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
+    <string name="biometric_auto_open_prompt_summary">Åbn automatisk biometrisk prompt, når der er defineret en biometrisk nøgle for en database</string>
+    <string name="enable">Aktiver</string>
+    <string name="disable">Deaktiver</string>
 </resources>

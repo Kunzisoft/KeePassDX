@@ -20,8 +20,7 @@
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung</string>
     <string name="about_homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -191,7 +190,7 @@
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
     <string name="biometric_unlock_enable_summary">Ermöglicht die Datenbanköffnung mit dem Fingerabdruck</string>
-    <string name="advanced_unlock">Fingerabdruck</string>
+    <string name="advanced_unlock">Erweiterte Entsperrung</string>
     <string name="biometric_unlock_enable_title">Fingerabdruckscanner</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
@@ -386,4 +385,21 @@
     <string name="error_move_entry_here">Eintrag kann nicht hierher verschoben werden.</string>
     <string name="error_copy_entry_here">Eintrag kann nicht hierher kopiert werden.</string>
     <string name="content_description_password_checkbox">Passwort-Kontrollkästchen</string>
+    <string name="content_description_repeat_toggle_password_visibility">Umschalten der Kennwortanzeige wiederholen</string>
+    <string name="content_description_background">Hintergrund</string>
+    <string name="content_description_update_from_list">Aktualisieren</string>
+    <string name="content_description_keyboard_close_fields">Fehler schließen</string>
+    <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
+    <string name="menu_advanced_unlock_settings">Erweiterte Entsperrung</string>
+    <string name="biometric_prompt_store_credential_title">Speichern der Fingerabdruck-Erkennung</string>
+    <string name="biometric_prompt_extract_credential_title">Datenbank mit Fingerabdruck-Erkennung öffnen</string>
+    <string name="biometric">Fingerabdruck</string>
+    <string name="enable">Aktivieren</string>
+    <string name="disable">Deaktivieren</string>
+    <string name="biometric_prompt_store_credential_message">Datenbank-Anmeldeinformationen biometrisch speichern</string>
+    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
+    <string name="fingerprint_open_biometric_prompt">Die Eingabeaufforderung für biometrische Daten mittels Klick auf den biometrischen Button öffnen</string>
+    <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
+    <string name="fingerprint_auto_open_biometric_prompt">Sie können die Einstellung ändern, um die biometrische Eingabeaufforderung schnell zu öffnen und Schritt 1 nicht wiederholen zu müssen.</string>
+    <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist</string>
 </resources>

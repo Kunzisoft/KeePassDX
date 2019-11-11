@@ -176,15 +176,15 @@
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance d’empreinte digitale est prise en charge mais pas configurée.</string>
-    <string name="open_biometric_prompt_unlock_database">Reconnaissance d’empreinte digitale</string>
+    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
+    <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
-    <string name="biometric_invalid_key">Impossible de lire la clé de l’empreinte digitale. Restaurer votre mot de passe.</string>
-    <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte digitale</string>
-    <string name="biometric_scanning_error">Problème d’empreinte digitale : %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Utiliser l’empreinte digitale pour stocker ce mot de passe</string>
-    <string name="no_credentials_stored">Cette base de données n’a pas encore de mot de passe.</string>
     <string name="database_history">Historique</string>
+    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
+    <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
+    <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Ouvrir la boite de dialogue biométrique pour stocker les identifiants</string>
+    <string name="no_credentials_stored">Cette base de données n’a pas encore enregistré d\'identifiant de connexion.</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
@@ -275,7 +275,7 @@
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et de toujours être actifs, nous comptons sur votre <strong>contribution.</strong>
+    <string name="html_text_donation">Afin de garder notre liberté et de rester toujours actifs, nous comptons sur votre <strong>contribution.</strong>
     </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -391,6 +391,20 @@
     <string name="content_description_password_checkbox">Case à cocher mot de passe</string>
     <string name="content_description_keyfile_checkbox">Case à cocher fichier de clé</string>
     <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
-    <string name="error_move_entry_here">Vous ne pouvez pas déplacer d\'entrée ici.</string>
-    <string name="error_copy_entry_here">Vous ne pouvez pas copier d\'entrée ici.</string>
+    <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
+    <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
+    <string name="content_description_background">Arrière-plan</string>
+    <string name="content_description_update_from_list">Mise à jour</string>
+    <string name="content_description_keyboard_close_fields">Fermer les champs</string>
+    <string name="error_create_database_file">Impossible de créer une base avec ce mot de passe et ce fichier de clé.</string>
+    <string name="menu_advanced_unlock_settings">Déverrouillage avancé</string>
+    <string name="enable">Activer</string>
+    <string name="disable">Désactiver</string>
+    <string name="biometric_prompt_store_credential_title">Enregistrer la reconnaissance biométrique</string>
+    <string name="biometric_prompt_store_credential_message">Stocker les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
+    <string name="biometric_prompt_extract_credential_message">Extraire les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric">Biométrique</string>
+    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement la boite de dialogue biométrique</string>
+    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
 </resources>
