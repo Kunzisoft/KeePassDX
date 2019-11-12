@@ -219,7 +219,7 @@
     <string name="lock_database_screen_off_summary">Ekran kapalıyken veritabanını kilitle</string>
     <string name="advanced_unlock">Parmakizi</string>
     <string name="biometric_unlock_enable_title">Parmak izi tarama</string>
-    <string name="biometric_unlock_enable_summary">Veritabanını açmak için parmak izinizi taramanızı sağlar</string>
+    <string name="biometric_unlock_enable_summary">Veritabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_warning">Parmak izi tanıma ile ilgili tüm tuşları silmek istediğinizden emin misiniz\?</string>
@@ -318,9 +318,9 @@
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro">
-        <strong>pro</strong> sürümü satın alarak,</string>
+        <strong>Pro</strong> sürümü satın alarak,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>katkıda</strong> bulunarak,</string>
+        <strong>Katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
     <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
@@ -381,4 +381,51 @@
     <string name="biometric_auto_open_prompt_summary">Bir veritabanı için bir biyometrik anahtar tanımlandığında biyometrik komut istemini otomatik olarak aç</string>
     <string name="enable">Etkinleştir</string>
     <string name="disable">Devre dışı</string>
+    <string name="master_key">Ana Anahtar</string>
+    <string name="security">Güvenlik</string>
+    <string name="entry_history">Geçmiş</string>
+    <string name="entry_setup_otp">Tek Seferlik Parola Ayarla</string>
+    <string name="otp_type">OTP türü</string>
+    <string name="otp_secret">Sır</string>
+    <string name="otp_period">Periyot (saniye)</string>
+    <string name="otp_counter">Sayaç</string>
+    <string name="otp_digits">Basamak</string>
+    <string name="otp_algorithm">Algoritma</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Geçersiz OTP sırrı.</string>
+    <string name="error_disallow_no_credentials">En azından bir kimlik bilgisi ayarlanmalıdır.</string>
+    <string name="error_copy_group_here">Bir grubu buraya kopyalayamazsınız.</string>
+    <string name="error_otp_secret_key">Gizli anahtar Base32 formatında olmalıdır.</string>
+    <string name="error_otp_counter">Sayaç %1$d ile %2$d arasında olmalıdır.</string>
+    <string name="error_otp_period">Periyot %1$d ile %2$d saniye arasında olmalıdır.</string>
+    <string name="error_otp_digits">Belirteç %1$d ile %2$d basamak içermelidir.</string>
+    <string name="invalid_db_same_uuid">%1$s aynı UUID değerine sahip %2$s zaten var.</string>
+    <string name="creating_database">Veritabanı oluşturuluyor…</string>
+    <string name="menu_security_settings">Güvenlik ayarları</string>
+    <string name="menu_master_key_settings">Ana Anahtar ayarları</string>
+    <string name="contains_duplicate_uuid">Veritabanı tekrarlanan UUID\'ler içermektedir.</string>
+    <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePass DX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
+    <string name="database_opened">Veritabanı açıldı</string>
+    <string name="clipboard_explanation_summary">Cihazınızın panosunu kullanarak giriş alanlarını kopyala</string>
+    <string name="persistent_notification_title">Kalıcı bildirim</string>
+    <string name="persistent_notification_summary">Veritabanı açıkken bir bildirim ekle</string>
+    <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
+    <string name="database_data_compression_title">Veri sıkıştırma</string>
+    <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>
+    <string name="max_history_items_title">Maks. geçmiş ögeleri</string>
+    <string name="max_history_items_summary">Giriş başına geçmiş öge sayısını sınırla</string>
+    <string name="max_history_size_title">Maks. geçmiş boyutu</string>
+    <string name="max_history_size_summary">Giriş başına geçmiş boyutunu sınırla (ikili bayt olarak)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Değiştirmeyi öner</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Ana anahtarın değiştirilmesini öner (gün)</string>
+    <string name="settings_database_force_changing_master_key_title">Değiştirmeyi zorla</string>
+    <string name="settings_database_force_changing_master_key_summary">Ana anahtarı değiştirmeye zorla (gün)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Bir dahaki sefere değiştirmeye zorla</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Bir dahaki sefere ana anahtarı değiştirmeye zorla (bir kez)</string>
+    <string name="database_default_username_title">Varsayılan kullanıcı adı</string>
+    <string name="database_custom_color_title">Özel veritabanı rengi</string>
+    <string name="compression">Sıkıştırma</string>
+    <string name="compression_none">Yok</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Cihaz Klavye Ayarları</string>
 </resources>
