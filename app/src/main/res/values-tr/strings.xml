@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Geri Bildirim</string>
     <string name="about_homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
@@ -359,7 +358,7 @@
     <string name="error_copy_entry_here">Buraya bir girişi kopyalayamazsınız.</string>
     <string name="list_groups_show_number_entries_title">Giriş sayısını göster</string>
     <string name="list_groups_show_number_entries_summary">Bir gruptaki girişlerin sayısını göster</string>
-    <string name="lock_database_back_root_title">Kilitlemek için Root\'a Geri basın</string>
+    <string name="lock_database_back_root_title">Kilitlemek için \'Geri\'ye basın</string>
     <string name="recycle_bin">Geri Dönüşüm Kutusu</string>
     <string name="keyboard_selection_entry_title">Giriş seçimi</string>
     <string name="keyboard_selection_entry_summary">Bir girişi görüntülerken Magikeyboard\'da giriş alanlarını göster</string>
