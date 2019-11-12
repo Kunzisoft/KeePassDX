@@ -31,7 +31,6 @@
     <string name="menu_app_settings">应用设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">安装 OpenIntents File Manager 应用来选取文件</string>
-    <string name="cancel">取消</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
     <string name="clipboard_timeout_summary">剪贴板保存时间</string>
@@ -66,11 +65,9 @@
     <string name="error_out_of_memory">因内存不足无法加载数据库。</string>
     <string name="error_pass_gen_type">必须至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
-    <string name="error_rounds_not_number">“变换次数”必须是数字。</string>
     <string name="error_rounds_too_large">“变换次数”过多。已设置为 2147483648。</string>
     <string name="error_title_required">请添加标题。</string>
     <string name="error_wrong_length">请在“长度”字段输入一个正整数。</string>
-    <string name="file_not_found">找不到文件。</string>
     <string name="file_browser">文件浏览器</string>
     <string name="generate_password">生成密码</string>
     <string name="hint_conf_pass">确认密码</string>
@@ -82,7 +79,7 @@
     <string name="hint_pass">密码</string>
     <string name="install_from_play_store">从 Play 商店安装</string>
     <string name="install_from_f_droid">从 F-Droid 安装</string>
-    <string name="invalid_password">无法读取密码或密钥文件。</string>
+    <string name="invalid_credentials">无法读取密码或密钥文件。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
     <string name="list_size_title">列表项目尺寸</string>
@@ -209,7 +206,7 @@
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
     <string name="open_biometric_prompt_store_credential">使用指纹保存此密码</string>
-    <string name="history">历史</string>
+    <string name="database_history">历史</string>
     <string name="menu_appearance_settings">外观</string>
     <string name="general">一般设置</string>
     <string name="autofill">自动填充</string>
@@ -233,7 +230,6 @@
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
     <string name="magic_keyboard_title">输入密码专用键盘</string>
-    <string name="magic_keyboard_preference_title">输入密码专用键盘设置</string>
     <string name="enable_read_only_title">写保护（只读模式）</string>
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
@@ -258,7 +254,7 @@
     <string name="biometric_scanning_error">指纹识别问题：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认填充服务</string>
-    <string name="set_autofill_service_summary">启用自动填充功能，以便捷地在其他应用中填写信息</string>
+    <string name="autofill_explanation_summary">启用自动填充功能，以便捷地在其他应用中填写信息</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
     <string name="list_password_generator_options_title">密码字符集</string>
@@ -267,13 +263,6 @@
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
-    <string name="fingerprint_advanced_unlock_title">如何配置指纹以快速解锁？</string>
-    <string name="fingerprint_setting_text">将您设备所扫描的指纹保存在</string>
-    <string name="fingerprint_setting_link_text">\"设置\" → \"安全\" → \"指纹\"</string>
-    <string name="fingerprint_type_credentials_text">输入数据库密码</string>
-    <string name="fingerprint_scan_to_store">扫描你的指纹，以便安全的存储数据库密码。</string>
-    <string name="fingerprint_scan_to_open">在密码关闭时使用指纹解锁。</string>
-    <string name="usage">用法</string>
     <string name="biometric_unlock_enable_title">指纹扫描</string>
     <string name="biometric_unlock_enable_summary">通过扫描指纹解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
@@ -287,22 +276,10 @@
     <string name="recycle_bin_summary">删除群组和条目前先移至回收站</string>
     <string name="monospace_font_fields_enable_title">字段字体</string>
     <string name="monospace_font_fields_enable_summary">更改字段字体，可以使字符更清楚</string>
-    <string name="auto_open_file_uri_title">通过选择打开文件</string>
-    <string name="auto_open_file_uri_summary">自动打开在文件浏览器中选中的文件</string>
     <string name="allow_copy_password_summary">让剪切板保存条目密码及保密字段</string>
     <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有应用都可访问剪切板。因此复制密码时，您设备上的其他应用也能看到密码。</string>
-    <string name="open_link_database">打开数据库文件的链接</string>
-    <string name="magic_keyboard_summary">激活自定义键盘以填写密码和所有身份字段</string>
-    <string name="magic_keyboard_configure_title">配置专用键盘，以安全地自动填写密码。</string>
-    <string name="magic_keyboard_activate_setting_text">在设备设置中激活“Magikeyboard键盘”。</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">“设置”→“语言和输入”→“当前键盘”，并选择所需要用于输入的键盘。</string>
-    <string name="keyboards_choose_magikeyboard_text">当填写表单时，选择输入密码专用键盘。</string>
+    <string name="magic_keyboard_explanation_summary">激活自定义键盘以填写密码和所有身份字段</string>
     <string name="allow_copy_password_title">对剪贴板的信任</string>
-    <string name="keyboards_swicth_magikeyboard_text">长时间按住“空格键”以切换键盘，如果不可用，则：</string>
-    <string name="keyboard_select_entry_text">点击钥匙图标以选择一个条目。</string>
-    <string name="keyboard_fill_field_text">使用条目中的信息填写字段。</string>
-    <string name="keyboard_lock_database_text">锁定数据库。</string>
-    <string name="keyboard_back_main_keyboard_text">返回默认键盘。</string>
     <string name="keyboard_name">输入密码专用键盘</string>
     <string name="keyboard_label">输入密码专用键盘（KeePass DX）</string>
     <string name="keyboard_setting_label">输入密码专用键盘设置</string>
@@ -332,16 +309,14 @@
     <string name="education_create_database_summary">创建第一个密码管理数据库。</string>
     <string name="education_select_database_title">打开已有数据库</string>
     <string name="education_select_database_summary">打开您的已有数据库并使用其中的密码。</string>
-    <string name="education_open_link_database_title">一个到您数据库的链接就够了</string>
-    <string name="education_open_link_database_summary">您也可以通过链接打开您的数据库（例如：file:// 和 content://）。</string>
     <string name="education_new_node_title">向数据库添加项目</string>
     <string name="education_new_node_summary">这些条目帮助您管理您的数字化身份。 
 \n
 \n您还可以使用群组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_fingerprint_title">通过指纹解锁数据库</string>
-    <string name="education_fingerprint_summary">将主密码与指纹关联，以快速解锁数据库。</string>
+    <string name="education_biometric_title">通过指纹解锁数据库</string>
+    <string name="education_biometric_summary">将主密码与指纹关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">为您的记录创建一个强密码。</string>
@@ -371,8 +346,7 @@
     </string>
     <string name="html_text_dev_feature">这个特性目前<strong>仍在开发中</strong>，您的<strong>捐助</strong>将使这个特性在未来变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买<strong>专业</strong>版，</string>
-    <string name="html_text_dev_feature_contibute">通过<strong>贡献</strong>
-    </string>
+    <string name="html_text_dev_feature_contibute">通过<strong>贡献</strong> ，</string>
     <string name="html_text_dev_feature_encourage">您的标记备注，鼓励了开发人员开发<strong>新特性</strong>并<strong>修复程序缺陷</strong>。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助/贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
@@ -389,8 +363,6 @@
     <string name="delete_entered_password_title">删除密码</string>
     <string name="delete_entered_password_summary">删除尝试连接后输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
-    <string name="content_description_show_file_link">显示文件链接</string>
-    <string name="content_description_open_file_link">打开文件链接</string>
     <string name="content_description_node_children">子节点</string>
     <string name="content_description_add_node">增加节点</string>
     <string name="content_description_add_entry">添加条目</string>
@@ -410,4 +382,18 @@
     <string name="error_copy_entry_here">无法复制条目到此处。</string>
     <string name="list_groups_show_number_entries_title">显示条目数量</string>
     <string name="list_groups_show_number_entries_summary">显示群组中的条目数</string>
+    <string name="content_description_background">背景</string>
+    <string name="content_description_update_from_list">更新</string>
+    <string name="content_description_keyboard_close_fields">关闭字段</string>
+    <string name="error_create_database_file">无法使用此密码和密钥文件创建数据库。</string>
+    <string name="menu_advanced_unlock_settings">高级解锁</string>
+    <string name="biometric_prompt_store_credential_title">保存生物识别信息</string>
+    <string name="biometric_prompt_store_credential_message">使用生物识别数据存储数据库凭据</string>
+    <string name="biometric_prompt_extract_credential_title">使用生物识别功能打开数据库</string>
+    <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
+    <string name="biometric">生物识别</string>
+    <string name="biometric_auto_open_prompt_title">自动打开生物识别提示</string>
+    <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
+    <string name="enable">启用</string>
+    <string name="disable">禁用</string>
 </resources>

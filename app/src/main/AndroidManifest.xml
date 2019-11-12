@@ -131,7 +131,8 @@
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsAutofillActivity" />
         <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
-            android:label="@string/keyboard_name">
+            android:label="@string/keyboard_name"
+            android:exported="true">
         </activity>
         <activity android:name="com.kunzisoft.keepass.settings.MagikIMESettings"
             android:label="@string/keyboard_setting_label">
@@ -140,7 +141,10 @@
             </intent-filter>
         </activity>
 
-
+        <service
+            android:name="com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService"
+            android:enabled="true"
+            android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
             android:enabled="true"

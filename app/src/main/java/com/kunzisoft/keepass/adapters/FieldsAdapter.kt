@@ -18,7 +18,6 @@ class FieldsAdapter(context: Context) : RecyclerView.Adapter<FieldsAdapter.Field
     var fields: MutableList<Field> = ArrayList()
     var onItemClickListener: OnItemClickListener? = null
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {
         val view = inflater.inflate(R.layout.keyboard_popup_fields_item, parent, false)
         return FieldViewHolder(view)

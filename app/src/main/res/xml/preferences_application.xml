@@ -73,6 +73,11 @@
             android:title="@string/lock_database_back_root_title"
             android:summary="@string/lock_database_back_root_summary"
             android:defaultValue="@bool/lock_database_back_root_default"/>
+        <SwitchPreference
+            android:key="@string/persistent_notification_key"
+            android:title="@string/persistent_notification_title"
+            android:summary="@string/persistent_notification_summary"
+            android:defaultValue="@bool/persistent_notification_default"/>
 
     </PreferenceCategory>
 
@@ -108,7 +113,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
-        android:title="@string/history">
+        android:title="@string/database_history">
 
         <SwitchPreference
             android:key="@string/recentfile_key"
@@ -121,17 +126,6 @@
             android:summary="@string/remember_keyfile_summary"
             android:dependency="@string/recentfile_key"
             android:defaultValue="@bool/keyfile_default"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:title="@string/file_browser">
-
-        <SwitchPreference
-            android:key="@string/auto_open_file_uri_key"
-            android:title="@string/auto_open_file_uri_title"
-            android:summary="@string/auto_open_file_uri_summary"
-            android:defaultValue="@bool/auto_open_file_uri_default"/>
 
     </PreferenceCategory>
 

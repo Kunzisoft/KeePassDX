@@ -21,116 +21,79 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import android.net.Uri
-import android.preference.PreferenceManager
-import androidx.annotation.StringRes
-import android.util.Log
-import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import java.io.FileNotFoundException
-import java.io.IOException
-import java.lang.ref.WeakReference
 
-class LoadDatabaseRunnable(private val mWeakContext: WeakReference<Context>,
+class LoadDatabaseRunnable(private val context: Context,
                            private val mDatabase: Database,
                            private val mUri: Uri,
                            private val mPass: String?,
                            private val mKey: Uri?,
+                           private val mReadonly: Boolean,
+                           private val mCipherEntity: CipherDatabaseEntity?,
+                           private val mOmitBackup: Boolean,
+                           private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
-                           nestedAction: ActionRunnable)
-    : ActionRunnable(nestedAction, executeNestedActionIfResultFalse = true) {
+                           private val mDuplicateUuidAction: ((Result) -> Unit)?)
+    : ActionRunnable() {
 
-    private val mRememberKeyFile: Boolean
-        get() {
-            return mWeakContext.get()?.let {
-                PreferenceManager.getDefaultSharedPreferences(it)
-                        .getBoolean(it.getString(R.string.keyfile_key),
-                                it.resources.getBoolean(R.bool.keyfile_default))
-            } ?: true
-        }
+    private val cacheDirectory = context.applicationContext.filesDir
 
-    override fun run() {
+    override fun onStartRun() {
+        // Clear before we load
+        mDatabase.closeAndClear(cacheDirectory)
+    }
+
+    override fun onActionRun() {
         try {
-            mWeakContext.get()?.let {
-                mDatabase.loadData(it, mUri, mPass, mKey, progressTaskUpdater)
-                saveFileData(mUri, mKey)
-                finishRun(true)
-            } ?: finishRun(false, "Context null")
-        } catch (e: ArcFourException) {
-            catchError(e, R.string.error_arc4)
-            return
-        } catch (e: InvalidPasswordException) {
-            catchError(e, R.string.invalid_password)
-            return
-        } catch (e: ContentFileNotFoundException) {
-            catchError(e, R.string.file_not_found_content)
-            return
-        } catch (e: FileNotFoundException) {
-            catchError(e, R.string.file_not_found)
-            return
-        } catch (e: IOException) {
-            var messageId = R.string.error_load_database
-            e.message?.let {
-                if (it.contains("Hash failed with code"))
-                    messageId = R.string.error_load_database_KDF_memory
+            mDatabase.loadData(mUri, mPass, mKey,
+                    mReadonly,
+                    context.contentResolver,
+                    cacheDirectory,
+                    mOmitBackup,
+                    mFixDuplicateUUID,
+                    progressTaskUpdater)
+        }
+        catch (e: LoadDatabaseDuplicateUuidException) {
+            mDuplicateUuidAction?.invoke(result)
+            setError(e)
+        }
+        catch (e: LoadDatabaseException) {
+            setError(e)
+        }
+    }
+
+    override fun onFinishRun() {
+        if (result.isSuccess) {
+            // Save keyFile in app database
+            val rememberKeyFile = PreferencesUtil.rememberKeyFiles(context)
+            if (rememberKeyFile) {
+                var keyUri = mKey
+                if (!rememberKeyFile) {
+                    keyUri = null
+                }
+                FileDatabaseHistoryAction.getInstance(context)
+                        .addOrUpdateDatabaseUri(mUri, keyUri)
             }
-            catchError(e, messageId, true)
-            return
-        } catch (e: KeyFileEmptyException) {
-            catchError(e, R.string.keyfile_is_empty)
-            return
-        } catch (e: InvalidAlgorithmException) {
-            catchError(e, R.string.invalid_algorithm)
-            return
-        } catch (e: InvalidKeyFileException) {
-            catchError(e, R.string.keyfile_does_not_exist)
-            return
-        } catch (e: InvalidDBSignatureException) {
-            catchError(e, R.string.invalid_db_sig)
-            return
-        } catch (e: InvalidDBVersionException) {
-            catchError(e, R.string.unsupported_db_version)
-            return
-        } catch (e: InvalidDBException) {
-            catchError(e, R.string.error_invalid_db)
-            return
-        } catch (e: OutOfMemoryError) {
-            catchError(e, R.string.error_out_of_memory)
-            return
-        } catch (e: Exception) {
-            catchError(e, R.string.error_load_database, true)
-            return
-        }
-    }
 
-    private fun catchError(e: Throwable, @StringRes messageId: Int, addThrowableMessage: Boolean = false) {
-        var errorMessage = mWeakContext.get()?.getString(messageId)
-        Log.e(TAG, errorMessage, e)
-        if (addThrowableMessage)
-            errorMessage = errorMessage + " " + e.localizedMessage
-        finishRun(false, errorMessage)
-    }
+            // Register the biometric
+            mCipherEntity?.let { cipherDatabaseEntity ->
+                CipherDatabaseAction.getInstance(context)
+                        .addOrUpdateCipherDatabase(cipherDatabaseEntity) // return value not called
+            }
 
-    private fun saveFileData(uri: Uri, key: Uri?) {
-        var keyFileUri = key
-        if (!mRememberKeyFile) {
-            keyFileUri = null
+            // Start the opening notification
+            DatabaseOpenNotificationService.startIfAllowed(context)
+        } else {
+            mDatabase.closeAndClear(cacheDirectory)
         }
-        mWeakContext.get()?.let {
-            FileDatabaseHistoryAction.getInstance(it).addOrUpdateDatabaseUri(uri, keyFileUri)
-        }
-    }
-
-    override fun onFinishRun(result: Result) {
-        if (!result.isSuccess) {
-            mDatabase.closeAndClear(mWeakContext.get()?.filesDir)
-        }
-    }
-
-    companion object {
-        private val TAG = LoadDatabaseRunnable::class.java.name
     }
 }

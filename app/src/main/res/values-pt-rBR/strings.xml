@@ -16,8 +16,6 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
-
-    Portuguese translation by Carlos Schlyter.
 -->
 <resources>
     <string name="about_feedback">Comentários</string>
@@ -33,7 +31,6 @@
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Procure arquivos instalando o OpenIntents File Manager</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Duração do armazenamento na área de transferência</string>
@@ -68,11 +65,9 @@
     <string name="error_out_of_memory">Falta de memória para abrir todo o banco.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_title_required">Insira um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
-    <string name="file_not_found">Não pôde encontrar o arquivo.</string>
     <string name="file_browser">Localizador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
     <string name="hint_conf_pass">confirmar senha</string>
@@ -84,7 +79,7 @@
     <string name="hint_pass">senha</string>
     <string name="install_from_play_store">Instalar a partir do Google Play</string>
     <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
-    <string name="invalid_password">Senha ou arquivo de chaves inválidos.</string>
+    <string name="invalid_credentials">Senha ou arquivo de chaves inválidos.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -216,14 +211,14 @@
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
     <string name="no_credentials_stored">Ainda não há nenhuma senha armazenada nesse banco de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Preenchimento Automático KeePass DX</string>
     <string name="autofill_sign_in_prompt">Entre com o KeePass DX</string>
     <string name="set_autofill_service_title">Definir serviço padrão de preenchimento automático</string>
-    <string name="set_autofill_service_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
+    <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
     <string name="password_size_title">Comprimento da senha gerada</string>
     <string name="password_size_summary">Define o tamanho padrão para senhas geradas</string>
     <string name="list_password_generator_options_title">Caracteres da senha</string>
@@ -234,13 +229,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="fingerprint_advanced_unlock_title">Como configurar impressões digitais para desbloqueio rápido?</string>
-    <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
-    <string name="fingerprint_setting_link_text">\"Configurações\" → \"Segurança\" → \"Impressão Digital\"</string>
-    <string name="fingerprint_type_credentials_text">Entre com sua senha no banco</string>
-    <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua senha da base com segurança.</string>
-    <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a senha estiber desativada.</string>
-    <string name="usage">Uso</string>
     <string name="advanced_unlock">Impressão Digital</string>
     <string name="biometric_unlock_enable_title">Escaneamento de impressão digital</string>
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua impressão digital para a abertura do banco de dados</string>
@@ -261,12 +249,9 @@
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
-    <string name="auto_open_file_uri_title">Abrir arquivos ao selecionar</string>
-    <string name="auto_open_file_uri_summary">Abrir automaticamente arquivos selecionados no gerenciador de arquivos</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da senha e de campos protegidos para a área de transferência</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="open_link_database">Link do arquivo da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -275,17 +260,7 @@
     <string name="other">Outros</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
-    <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
-    <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Configurações\" → \"Idioma e Entrada\" → \"Teclado Atual\" → \"Selecionar Teclado\" e escolha um.</string>
-    <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
-    <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>
-    <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
-    <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
-    <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
+    <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas senhas e todos os campos de identidade</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_read_only_title">Apenas leitura</string>
@@ -299,16 +274,14 @@
     <string name="education_create_database_summary">Crie seu primeiro arquivo de gerenciamento de senhas.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de arquivos.</string>
-    <string name="education_open_link_database_title">Um link para a localização do seu arquivo é suficiente</string>
-    <string name="education_open_link_database_summary">Você pode também abrir o seu banco com um link físico (com file:// e content:// por exemplo).</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
     <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais.
 \n
 \nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
-    <string name="education_fingerprint_title">Destrave do banco de dados por Impressão digital</string>
-    <string name="education_fingerprint_summary">Faça o link entre sua senha e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
+    <string name="education_biometric_title">Destrave do banco de dados por Impressão digital</string>
+    <string name="education_biometric_summary">Faça o link entre sua senha e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Crie uma senha forte para sua entrada.</string>
@@ -333,15 +306,12 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
-    </string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
     <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
-    </string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong></string>
     <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute">
-        <strong>Contribuindo </strong>,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Contribuindo </strong>,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
@@ -385,7 +355,7 @@
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
     <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
     <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
-    <string name="clear_clipboard_notification_title">Limpar a Área de Transferência ao fechar</string>
+    <string name="clear_clipboard_notification_title">Limpar a área de transferência ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
     <string name="recycle_bin">Lixeira</string>
     <string name="keyboard_selection_entry_title">Seleção de entrada</string>
@@ -393,8 +363,6 @@
     <string name="delete_entered_password_title">Deletar senha</string>
     <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão</string>
     <string name="content_description_open_file">Abrir arquivo</string>
-    <string name="content_description_show_file_link">Exibir link do arquivo</string>
-    <string name="content_description_open_file_link">Abrir link do arquivo</string>
     <string name="content_description_add_node">Inserir nó</string>
     <string name="content_description_add_entry">Adicionar entrada</string>
     <string name="content_description_add_group">Adicionar grupo</string>
@@ -410,4 +378,22 @@
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
     <string name="content_description_entry_save">Salvar entrada</string>
+    <string name="content_description_node_children">Nó filho</string>
+    <string name="content_description_password_checkbox">Caixa de seleção de senha</string>
+    <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetir mudança de visibilidade da senha</string>
+    <string name="content_description_background">Plano de fundo</string>
+    <string name="content_description_update_from_list">Atualizar</string>
+    <string name="content_description_keyboard_close_fields">Campos fechados</string>
+    <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
+    <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
+    <string name="biometric_prompt_store_credential_title">Salvar reconhecimento biométrico</string>
+    <string name="biometric_prompt_store_credential_message">Armazenar credenciais do banco de dados com biometria</string>
+    <string name="biometric_prompt_extract_credential_title">Abrir banco de dados com biometria</string>
+    <string name="biometric_prompt_extract_credential_message">Extrair credenciais do banco de dados com biometria</string>
+    <string name="biometric">Biometria</string>
+    <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt de biometria</string>
+    <string name="biometric_auto_open_prompt_summary">Abrir automaticamente o prompt de biometria quando a chave biométrica for definida para o banco de dados</string>
+    <string name="enable">Habilitado</string>
+    <string name="disable">Desabilitado</string>
 </resources>

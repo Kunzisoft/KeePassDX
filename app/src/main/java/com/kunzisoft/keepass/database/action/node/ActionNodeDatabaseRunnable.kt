@@ -1,52 +1,35 @@
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
-import android.util.Log
+import android.content.Context
 import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
 import com.kunzisoft.keepass.database.element.Database
 
 abstract class ActionNodeDatabaseRunnable(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
-        private val callbackRunnable: AfterActionNodeFinishRunnable?,
+        private val afterActionNodesFinish: AfterActionNodesFinish?,
         save: Boolean)
     : SaveDatabaseRunnable(context, database, save) {
 
     /**
-     * Function do to a node action, don't implements run() if used this
+     * Function do to a node action
      */
     abstract fun nodeAction()
 
-    override fun run() {
-        try {
-            nodeAction()
-            // To save the database
-            super.run()
-            finishRun(true)
-        } catch (e: Exception) {
-            Log.e("ActionNodeDBRunnable", e.message)
-            finishRun(false, e.message)
-        }
+    override fun onStartRun() {
+        nodeAction()
+        super.onStartRun()
     }
 
     /**
-     * Function do get the finish node action, don't implements onFinishRun() if used this
+     * Function do get the finish node action
      */
-    abstract fun nodeFinish(result: Result): ActionNodeValues
+    abstract fun nodeFinish(): ActionNodesValues
 
-    override fun onFinishRun(result: Result) {
-        callbackRunnable?.apply {
-            onActionNodeFinish(nodeFinish(result))
+    override fun onFinishRun() {
+        super.onFinishRun()
+        afterActionNodesFinish?.apply {
+            onActionNodesFinish(result, nodeFinish())
         }
-
-        if (!result.isSuccess) {
-            displayMessage(context)
-        }
-
-        super.onFinishRun(result)
-    }
-
-    companion object {
-        const val NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY = "NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY"
     }
 }

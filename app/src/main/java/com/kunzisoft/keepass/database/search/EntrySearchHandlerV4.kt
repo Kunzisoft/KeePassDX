@@ -24,16 +24,14 @@ import com.kunzisoft.keepass.database.element.PwEntryV4
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV4
 import com.kunzisoft.keepass.utils.StringUtil
 
-import java.util.Date
 import java.util.Locale
 
 class EntrySearchHandlerV4(private val mSearchParametersV4: SearchParametersV4, private val mListStorage: MutableList<PwEntryV4>) : NodeHandler<PwEntryV4>() {
 
-    private var now: Date = Date()
-
     override fun operate(node: PwEntryV4): Boolean {
 
-        if (mSearchParametersV4.excludeExpired && node.isExpires && now.after(node.expiryTime.date)) {
+        if (mSearchParametersV4.excludeExpired
+                && node.isCurrentlyExpires) {
             return true
         }
 

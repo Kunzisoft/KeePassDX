@@ -29,18 +29,17 @@ import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
 import android.preference.PreferenceManager
-import androidx.annotation.RequiresApi
-import com.google.android.material.snackbar.Snackbar
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.EditText
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.widget.Toolbar
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
@@ -50,17 +49,14 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
-import net.cachapa.expandablelayout.ExpandableLayout
 import java.io.FileNotFoundException
 
 class FileDatabaseSelectActivity : StylishActivity(),
@@ -69,11 +65,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
     // Views
     private var fileListContainer: View? = null
     private var createButtonView: View? = null
-    private var browseButtonView: View? = null
-    private var openButtonView: View? = null
-    private var fileSelectExpandableButtonView: View? = null
-    private var fileSelectExpandableLayout: ExpandableLayout? = null
-    private var openFileNameView: EditText? = null
+    private var openDatabaseButtonView: View? = null
 
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
@@ -84,7 +76,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private var mOpenFileHelper: OpenFileHelper? = null
 
-    private var mDefaultPath: String? = null
+    private var progressDialogThread: ProgressDialogThread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,44 +90,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         toolbar.title = ""
         setSupportActionBar(toolbar)
 
-        openFileNameView = findViewById(R.id.file_filename)
-
-        // Set the initial value of the filename
-        mDefaultPath = (Environment.getExternalStorageDirectory().absolutePath
-                + getString(R.string.database_file_path_default)
-                + getString(R.string.database_file_name_default)
-                + getString(R.string.database_file_extension_default))
-        openFileNameView?.setHint(R.string.open_link_database)
-
-        // Button to expand file selection
-        fileSelectExpandableButtonView = findViewById(R.id.file_select_expandable_button)
-        fileSelectExpandableLayout = findViewById(R.id.file_select_expandable)
-        fileSelectExpandableButtonView?.setOnClickListener { _ ->
-            if (fileSelectExpandableLayout?.isExpanded == true)
-                fileSelectExpandableLayout?.collapse()
-            else
-                fileSelectExpandableLayout?.expand()
-        }
-
-        // Open button
-        openButtonView = findViewById(R.id.open_database)
-        openButtonView?.setOnClickListener { _ ->
-            var fileName = openFileNameView?.text?.toString() ?: ""
-            mDefaultPath?.let {
-                if (fileName.isEmpty())
-                    fileName = it
-            }
-            UriUtil.parse(fileName)?.let { fileNameUri ->
-                launchPasswordActivityWithPath(fileNameUri)
-            } ?: run {
-                Log.e(TAG, "Unable to open the database link")
-                Snackbar.make(activity_file_selection_coordinator_layout, getString(R.string.error_can_not_handle_uri), Snackbar.LENGTH_LONG).asError().show()
-                null
-            }
-        }
-
         // Create button
-        createButtonView = findViewById(R.id.create_database)
+        createButtonView = findViewById(R.id.create_database_button)
         if (Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
                     addCategory(Intent.CATEGORY_OPENABLE)
                     type = "application/x-keepass"
@@ -151,10 +107,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         createButtonView?.setOnClickListener { createNewFile() }
 
         mOpenFileHelper = OpenFileHelper(this)
-        browseButtonView = findViewById(R.id.browse_button)
-        browseButtonView?.setOnClickListener(mOpenFileHelper!!.getOpenFileOnClickViewListener {
-            UriUtil.parse(openFileNameView?.text?.toString())
-        })
+        openDatabaseButtonView = findViewById(R.id.open_database_button)
+        openDatabaseButtonView?.setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -206,6 +160,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
         if (savedInstanceState != null
                 && savedInstanceState.containsKey(EXTRA_DATABASE_URI)) {
             mDatabaseFileUri = savedInstanceState.getParcelable(EXTRA_DATABASE_URI)
+        }
+
+        // Attach the dialog thread to this activity
+        progressDialogThread = ProgressDialogThread(this) { actionTask, _ ->
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_TASK -> {
+                    // TODO Check
+                    // mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    // updateFileListVisibility()
+                    GroupActivity.launch(this)
+                }
+            }
         }
     }
 
@@ -267,6 +233,23 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
     }
 
+    private fun launchGroupActivity(readOnly: Boolean) {
+        EntrySelectionHelper.doEntrySelectionAction(intent,
+                {
+                    GroupActivity.launch(this@FileDatabaseSelectActivity, readOnly)
+                },
+                {
+                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity, readOnly)
+                    // Do not keep history
+                    finish()
+                },
+                { assistStructure ->
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity, assistStructure, readOnly)
+                    }
+                })
+    }
+
     private fun launchPasswordActivityWithPath(databaseUri: Uri) {
         launchPasswordActivity(databaseUri, null)
         // Delete flickering for kitkat <=
@@ -294,6 +277,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onResume() {
+        val database = Database.getInstance()
+        if (database.loaded) {
+            launchGroupActivity(database.isReadOnly)
+        }
+
         super.onResume()
 
         updateExternalStorageWarning()
@@ -306,6 +294,16 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 mAdapterDatabaseHistory?.notifyDataSetChanged()
             }
         }
+
+        // Register progress task
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+        // Unregister progress task
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -331,48 +329,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
             mDatabaseFileUri?.let { databaseUri ->
 
                 // Create the new database
-                ProgressDialogThread(this@FileDatabaseSelectActivity,
-                        {
-                                CreateDatabaseRunnable(this@FileDatabaseSelectActivity,
-                                        databaseUri,
-                                        Database.getInstance(),
-                                        masterPasswordChecked,
-                                        masterPassword,
-                                        keyFileChecked,
-                                        keyFile,
-                                        true, // TODO get readonly
-                                        LaunchGroupActivityFinish(databaseUri, keyFile)
-                                )
-                        },
-                        R.string.progress_create)
-                        .start()
+                progressDialogThread?.startDatabaseCreate(
+                        databaseUri,
+                        masterPasswordChecked,
+                        masterPassword,
+                        keyFileChecked,
+                        keyFile
+                )
             }
         } catch (e: Exception) {
             val error = getString(R.string.error_create_database_file)
             Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
             Log.e(TAG, error, e)
-        }
-    }
-
-    private inner class LaunchGroupActivityFinish(private val databaseFileUri: Uri,
-                                                  private val keyFileUri: Uri?) : ActionRunnable() {
-
-        override fun run() {
-            finishRun(true, null)
-        }
-
-        override fun onFinishRun(result: Result) {
-            runOnUiThread {
-                if (result.isSuccess) {
-                    // Add database to recent files
-                    mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseFileUri, keyFileUri)
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    updateFileListVisibility()
-                    GroupActivity.launch(this@FileDatabaseSelectActivity)
-                } else {
-                    Log.e(TAG, "Unable to open the database")
-                }
-            }
         }
     }
 
@@ -392,12 +360,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         mOpenFileHelper?.onActivityResultCallback(requestCode, resultCode, data
         ) { uri ->
             if (uri != null) {
-                if (PreferencesUtil.autoOpenSelectedFile(this@FileDatabaseSelectActivity)) {
-                    launchPasswordActivityWithPath(uri)
-                } else {
-                    fileSelectExpandableLayout?.expand(false)
-                    openFileNameView?.setText(uri.toString())
-                }
+                launchPasswordActivityWithPath(uri)
             }
         }
 
@@ -405,7 +368,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
         if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             mDatabaseFileUri = data?.data
             if (mDatabaseFileUri != null) {
-                AssignMasterKeyDialogFragment().show(supportFragmentManager, "passwordDialog")
+                AssignMasterKeyDialogFragment.getInstance(true)
+                        .show(supportFragmentManager, "passwordDialog")
             }
             // else {
                 // TODO Show error
@@ -438,20 +402,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 })
         if (!createDatabaseEducationPerformed) {
             // selectDatabaseEducationPerformed
-            browseButtonView != null
+            openDatabaseButtonView != null
                     && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                    browseButtonView!!,
+                    openDatabaseButtonView!!,
                     {tapTargetView ->
                         tapTargetView?.let {
                             mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
                         }
                     },
-                    {
-                        fileSelectExpandableButtonView?.let {
-                            fileDatabaseSelectActivityEducation
-                                    .checkAndPerformedOpenLinkDatabaseEducation(it)
-                        }
-                    }
+                    {}
             )
         }
     }

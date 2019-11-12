@@ -33,11 +33,10 @@ open class Education(val activity: Activity) {
         return doEducation
     }
 
-
     /**
      * Define if educations screens are enabled
      */
-    fun isEducationScreensEnabled(): Boolean {
+    private fun isEducationScreensEnabled(): Boolean {
         return isEducationScreensEnabled(activity)
     }
 
@@ -47,7 +46,7 @@ open class Education(val activity: Activity) {
      * @param context The context to retrieve the key string in XML
      * @param educationKeys Keys to save as boolean 'true'
      */
-    fun saveEducationPreference(context: Context, vararg educationKeys: Int) {
+    private fun saveEducationPreference(context: Context, vararg educationKeys: Int) {
         val sharedPreferences = getEducationSharedPreferences(context)
         val editor = sharedPreferences.edit()
         for (key in educationKeys) {
@@ -66,10 +65,9 @@ open class Education(val activity: Activity) {
         val educationResourcesKeys = intArrayOf(
                 R.string.education_create_db_key,
                 R.string.education_select_db_key,
-                R.string.education_open_link_db_key,
                 R.string.education_unlock_key,
                 R.string.education_read_only_key,
-                R.string.education_fingerprint_key,
+                R.string.education_biometric_key,
                 R.string.education_search_key,
                 R.string.education_new_node_key,
                 R.string.education_sort_key,
@@ -123,18 +121,6 @@ open class Education(val activity: Activity) {
         }
 
         /**
-         * Determines whether the explanatory view of the database selection has already been displayed.
-         *
-         * @param context The context to open the SharedPreferences
-         * @return boolean value of education_select_db_key key
-         */
-        fun isEducationOpenLinkDatabasePerformed(context: Context): Boolean {
-            val prefs = getEducationSharedPreferences(context)
-            return prefs.getBoolean(context.getString(R.string.education_open_link_db_key),
-                    context.resources.getBoolean(R.bool.education_open_link_db_default))
-        }
-
-        /**
          * Determines whether the explanatory view of the database unlock has already been displayed.
          *
          * @param context The context to open the SharedPreferences
@@ -159,15 +145,15 @@ open class Education(val activity: Activity) {
         }
 
         /**
-         * Determines whether the explanatory view of the fingerprint unlock has already been displayed.
+         * Determines whether the explanatory view of the biometric unlock has already been displayed.
          *
          * @param context The context to open the SharedPreferences
-         * @return boolean value of education_fingerprint_key key
+         * @return boolean value of education_biometric_key key
          */
-        fun isEducationFingerprintPerformed(context: Context): Boolean {
+        fun isEducationBiometricPerformed(context: Context): Boolean {
             val prefs = getEducationSharedPreferences(context)
-            return prefs.getBoolean(context.getString(R.string.education_fingerprint_key),
-                    context.resources.getBoolean(R.bool.education_fingerprint_default))
+            return prefs.getBoolean(context.getString(R.string.education_biometric_key),
+                    context.resources.getBoolean(R.bool.education_biometric_default))
         }
 
         /**

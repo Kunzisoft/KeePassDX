@@ -19,75 +19,49 @@
  */
 package com.kunzisoft.keepass.tasks
 
-import android.app.Activity
-import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 
 /**
  * Callback after a task is completed.
  */
-abstract class ActionRunnable(private var nestedActionRunnable: ActionRunnable? = null,
-                              private var executeNestedActionIfResultFalse: Boolean = false)
-    : Runnable {
+abstract class ActionRunnable: Runnable {
 
     var result: Result = Result()
 
-    private fun execute() {
-        nestedActionRunnable?.let {
-            // Pass on result on call finish
-            it.result = result
-            it.run()
-        }
-        onFinishRun(result)
-    }
-
     override fun run() {
-        execute()
+        onStartRun()
+        onActionRun()
+        onFinishRun()
     }
 
-    /**
-     * If [success] or [executeNestedActionIfResultFalse] true,
-     * launch the nested action runnable if exists and finish,
-     * else directly finish
-     */
-    protected fun finishRun(isSuccess: Boolean, message: String? = null) {
-        result.isSuccess = isSuccess
-        result.message = message
-        if (isSuccess || executeNestedActionIfResultFalse) {
-            execute()
-        }
-        else
-            onFinishRun(result)
-    }
+    abstract fun onStartRun()
+
+    abstract fun onActionRun()
 
     /**
      * Method called when the action is finished
-     * @param result 'true' if success action, 'false' elsewhere, with message
      */
-    abstract fun onFinishRun(result: Result)
+    abstract fun onFinishRun()
 
-    /**
-     * Display a message as a Toast only if [context] is an Activity
-     * @param context Context to show the message
-     */
-    protected fun displayMessage(context: Context) {
-        val message = result.message
-        Log.i(ActionRunnable::class.java.name, message)
-        try {
-            (context as Activity).runOnUiThread {
-                message?.let {
-                    if (it.isNotEmpty()) {
-                        Toast.makeText(context, message, Toast.LENGTH_LONG).show()
-                    }
-                }
-            }
-        } catch (exception: ClassCastException) {}
+    protected fun setError(message: String? = null) {
+        setError(null, message)
     }
+
+    protected fun setError(exception: LoadDatabaseException?,
+                           message: String? = null) {
+        result.isSuccess = false
+        result.exception = exception
+        result.message = message
+    }
+
+
 
     /**
      * Class to manage result from ActionRunnable
      */
-    data class Result(var isSuccess: Boolean = true, var message: String? = null, var data: Bundle? = null)
+    data class Result(var isSuccess: Boolean = true,
+                      var message: String? = null,
+                      var exception: LoadDatabaseException? = null,
+                      var data: Bundle? = null)
 }

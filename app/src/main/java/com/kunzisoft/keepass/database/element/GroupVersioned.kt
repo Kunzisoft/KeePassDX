@@ -70,7 +70,7 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         dest.writeParcelable(pwGroupV4, flags)
     }
 
-    val nodeId: PwNodeId<*>?
+    override val nodeId: PwNodeId<*>?
         get() = pwGroupV4?.nodeId ?: pwGroupV3?.nodeId
 
     override var title: String
@@ -112,6 +112,38 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
     override fun afterAssignNewParent() {
         pwGroupV3?.afterAssignNewParent()
         pwGroupV4?.afterAssignNewParent()
+    }
+
+    fun addChildrenFrom(group: GroupVersioned) {
+        group.pwGroupV3?.getChildEntries()?.forEach { entryToAdd ->
+            pwGroupV3?.addChildEntry(entryToAdd)
+        }
+        group.pwGroupV3?.getChildGroups()?.forEach { groupToAdd ->
+            pwGroupV3?.addChildGroup(groupToAdd)
+        }
+
+        group.pwGroupV4?.getChildEntries()?.forEach { entryToAdd ->
+            pwGroupV4?.addChildEntry(entryToAdd)
+        }
+        group.pwGroupV4?.getChildGroups()?.forEach { groupToAdd ->
+            pwGroupV4?.addChildGroup(groupToAdd)
+        }
+    }
+
+    fun removeChildren() {
+        pwGroupV3?.getChildEntries()?.forEach { entryToRemove ->
+            pwGroupV3?.removeChildEntry(entryToRemove)
+        }
+        pwGroupV3?.getChildGroups()?.forEach { groupToRemove ->
+            pwGroupV3?.removeChildGroup(groupToRemove)
+        }
+
+        pwGroupV4?.getChildEntries()?.forEach { entryToRemove ->
+            pwGroupV4?.removeChildEntry(entryToRemove)
+        }
+        pwGroupV4?.getChildGroups()?.forEach { groupToRemove ->
+            pwGroupV4?.removeChildGroup(groupToRemove)
+        }
     }
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
@@ -158,12 +190,15 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
             pwGroupV4?.expiryTime = value
         }
 
-    override var isExpires: Boolean
-        get() = pwGroupV3?.isExpires ?: pwGroupV4?.isExpires ?: false
+    override var expires: Boolean
+        get() = pwGroupV3?.expires ?: pwGroupV4?.expires ?: false
         set(value) {
-            pwGroupV3?.isExpires = value
-            pwGroupV4?.isExpires = value
+            pwGroupV3?.expires = value
+            pwGroupV4?.expires = value
         }
+
+    override val isCurrentlyExpires: Boolean
+        get() = pwGroupV3?.isCurrentlyExpires ?: pwGroupV4?.isCurrentlyExpires ?: false
 
     override fun getChildGroups(): MutableList<GroupVersioned> {
         val children = ArrayList<GroupVersioned>()

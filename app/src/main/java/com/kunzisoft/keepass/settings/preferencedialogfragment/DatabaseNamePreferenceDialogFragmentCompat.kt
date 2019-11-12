@@ -21,9 +21,8 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
 import android.view.View
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
-class DatabaseNamePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDialogFragmentCompat() {
+class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -32,27 +31,14 @@ class DatabaseNamePreferenceDialogFragmentCompat : InputDatabaseSavePreferenceDi
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult) {
-            val newName = inputText
-            val oldName = database!!.name
-            database?.assignName(newName)
+        if (positiveResult) {
+            database?.let { database ->
+                val newName = inputText
+                val oldName = database.name
+                database.name = newName
 
-            actionInUIThreadAfterSaveDatabase = AfterNameSave(newName, oldName)
-        }
-
-        super.onDialogClosed(positiveResult)
-    }
-
-    private inner class AfterNameSave(private val mNewName: String,
-                                      private val mOldName: String)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val nameToShow = mNewName
-            if (!result.isSuccess) {
-                database?.assignName(mOldName)
+                progressDialogThread?.startDatabaseSaveName(oldName, newName)
             }
-            preference.summary = nameToShow
         }
     }
 

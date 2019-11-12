@@ -30,7 +30,6 @@
     <string name="menu_app_settings">アプリケーション設定</string>
     <string name="brackets">カッコ</string>
     <string name="file_manager_install_description">ファイルを検索するには OI File Manager が必要です。</string>
-    <string name="cancel">キャンセル</string>
     <string name="clipboard_cleared">クリップボードを消去しました。</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
     <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>
@@ -65,11 +64,9 @@
     <string name="error_out_of_memory">データベース解析中にメモリ不足になりました。</string>
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません</string>
-    <string name="error_rounds_not_number">数値を入力してください。</string>
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
     <string name="error_title_required">タイトルは必須入力です。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
-    <string name="file_not_found">ファイルが見つかりません。</string>
     <string name="file_browser">ファイルブラウザ</string>
     <string name="generate_password">パスワードを生成する</string>
     <string name="hint_conf_pass">パスワードをもう一度入力</string>
@@ -81,7 +78,7 @@
     <string name="hint_pass">パスワード</string>
     <string name="install_from_play_store">Play Storeで入手</string>
     <string name="install_from_f_droid">F-Droidで入手</string>
-    <string name="invalid_password">パスワード/キーファイルが違います。</string>
+    <string name="invalid_credentials">パスワード/キーファイルが違います。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>
     <string name="list_size_title">グループ一覧サイズ</string>

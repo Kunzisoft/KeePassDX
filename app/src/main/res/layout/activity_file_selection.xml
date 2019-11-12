@@ -182,7 +182,7 @@
             app:layout_constraintBottom_toBottomOf="parent">
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/browse_button"
+                android:id="@+id/open_database_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/select_database_file"
@@ -194,72 +194,10 @@
                 android:paddingStart="32dp"
                 android:paddingRight="24dp"
                 android:paddingEnd="24dp"
-                app:layout_constraintBottom_toTopOf="@+id/file_select_expandable"/>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/file_select_expandable_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:elevation="8dp"
-                app:layout_constraintTop_toTopOf="@+id/browse_button"
-                app:layout_constraintBottom_toBottomOf="@+id/browse_button"
-                app:layout_constraintStart_toStartOf="parent"
-                android:focusable="true"
-                android:padding="12dp"
-                android:tint="?attr/textColorInverse"
-                android:src="@drawable/ic_link_white_24dp"
-                android:contentDescription="@string/content_description_show_file_link"/>
-
-            <net.cachapa.expandablelayout.ExpandableLayout
-                android:id="@+id/file_select_expandable"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/create_database"
-                app:el_duration="300"
-                app:el_expanded="false"
-                app:el_parallax="0.5">
-
-                <RelativeLayout
-                    android:id="@+id/file_select"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimaryDark">
-
-                    <androidx.appcompat.widget.AppCompatEditText
-                        android:id="@+id/file_filename"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:minHeight="48dp"
-                        android:inputType="textUri"
-                        android:textColor="?attr/textColorInverse"
-                        android:textColorHint="?android:attr/textColorHintInverse"
-                        android:layout_toLeftOf="@+id/open_database"
-                        android:layout_toStartOf="@+id/open_database"
-                        android:layout_marginLeft="@dimen/default_margin"
-                        android:layout_marginStart="@dimen/default_margin"
-                        android:layout_marginRight="@dimen/default_margin"
-                        android:layout_marginEnd="@dimen/default_margin"
-                        android:maxLines="1"/>
-
-                    <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/open_database"
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:padding="12dp"
-                        android:layout_alignTop="@+id/file_filename"
-                        android:layout_alignBottom="@+id/file_filename"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentEnd="true"
-                        android:focusable="true"
-                        android:src="@drawable/ic_send_white_24dp"
-                        android:contentDescription="@string/content_description_open_file_link"
-                        android:tint="?attr/textColorInverse"/>
-                </RelativeLayout>
-
-            </net.cachapa.expandablelayout.ExpandableLayout>
+                app:layout_constraintBottom_toTopOf="@+id/create_database_button"/>
 
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/create_database"
+                android:id="@+id/create_database_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:focusable="true"

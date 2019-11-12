@@ -20,18 +20,24 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import androidx.core.content.ContextCompat
-import android.text.method.PasswordTransformationMethod
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
+import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import java.text.DateFormat
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -50,6 +56,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val passwordView: TextView
     private val passwordActionView: ImageView
 
+    private val otpContainerView: View
+    private val otpLabelView: TextView
+    private val otpView: TextView
+    private val otpActionView: ImageView
+
+    private var otpRunnable: Runnable? = null
+
     private val urlContainerView: View
     private val urlView: TextView
 
@@ -59,15 +72,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val extrasContainerView: View
     private val extrasView: ViewGroup
 
-    private val dateFormat: DateFormat = android.text.format.DateFormat.getDateFormat(context)
-    private val timeFormat: DateFormat = android.text.format.DateFormat.getTimeFormat(context)
-
     private val creationDateView: TextView
     private val modificationDateView: TextView
     private val lastAccessDateView: TextView
+    private val expiresImageView: ImageView
     private val expiresDateView: TextView
 
     private val uuidView: TextView
+
+    private val historyContainerView: View
+    private val historyListView: RecyclerView
+    private val historyAdapter = EntryHistoryAdapter(context)
 
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
@@ -87,6 +102,11 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         passwordView = findViewById(R.id.entry_password)
         passwordActionView = findViewById(R.id.entry_password_action_image)
 
+        otpContainerView = findViewById(R.id.entry_otp_container)
+        otpLabelView = findViewById(R.id.entry_otp_label)
+        otpView = findViewById(R.id.entry_otp)
+        otpActionView = findViewById(R.id.entry_otp_action_image)
+
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
 
@@ -99,9 +119,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
         lastAccessDateView = findViewById(R.id.entry_accessed)
-        expiresDateView = findViewById(R.id.entry_expires)
+        expiresImageView = findViewById(R.id.entry_expires_image)
+        expiresDateView = findViewById(R.id.entry_expires_date)
 
         uuidView = findViewById(R.id.entry_UUID)
+
+        historyContainerView = findViewById(R.id.entry_history_container)
+        historyListView = findViewById(R.id.entry_history_list)
+        historyListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            adapter = historyAdapter
+        }
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -170,11 +198,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        if (!hiddenStyle) {
-            passwordView.transformationMethod = null
-        } else {
-            passwordView.transformationMethod = PasswordTransformationMethod.getInstance()
-        }
+        passwordView.applyHiddenStyle(hiddenStyle)
         // Hidden style for custom fields
         extrasView.let {
             for (i in 0 until it.childCount) {
@@ -183,6 +207,56 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                     childCustomView.setHiddenPasswordStyle(hiddenStyle)
             }
         }
+    }
+
+    fun assignOtp(otpElement: OtpElement?,
+                  otpProgressView: ProgressBar?,
+                  onClickListener: OnClickListener) {
+        otpContainerView.removeCallbacks(otpRunnable)
+
+        if (otpElement != null) {
+            otpContainerView.visibility = View.VISIBLE
+
+            if (otpElement.token.isEmpty()) {
+                otpView.text = context.getString(R.string.error_invalid_OTP)
+                otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
+                assignOtpCopyListener(null)
+            } else {
+                assignOtpCopyListener(onClickListener)
+                otpView.text = otpElement.token
+                otpLabelView.text = otpElement.type.name
+
+                when (otpElement.type) {
+                    // Only add token if HOTP
+                    OtpType.HOTP -> {
+                        otpProgressView?.visibility = View.GONE
+                    }
+                    // Refresh view if TOTP
+                    OtpType.TOTP -> {
+                        otpProgressView?.apply {
+                            max = otpElement.period
+                            progress = otpElement.secondsRemaining
+                            visibility = View.VISIBLE
+                        }
+                        otpRunnable = Runnable {
+                            if (otpElement.shouldRefreshToken()) {
+                                otpView.text = otpElement.token
+                            }
+                            otpProgressView?.progress = otpElement.secondsRemaining
+                            otpContainerView.postDelayed(otpRunnable, 1000)
+                        }
+                        otpContainerView.post(otpRunnable)
+                    }
+                }
+            }
+        } else {
+            otpContainerView.visibility = View.GONE
+            otpProgressView?.visibility = View.GONE
+        }
+    }
+
+    fun assignOtpCopyListener(onClickListener: OnClickListener?) {
+        otpActionView.setOnClickListener(onClickListener)
     }
 
     fun assignURL(url: String?) {
@@ -230,24 +304,24 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasContainerView.visibility = View.GONE
     }
 
-    private fun getDateTime(date: Date): String {
-        return dateFormat.format(date) + " " + timeFormat.format(date)
+    fun assignCreationDate(date: PwDate) {
+        creationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignCreationDate(date: Date) {
-        creationDateView.text = getDateTime(date)
+    fun assignModificationDate(date: PwDate) {
+        modificationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignModificationDate(date: Date) {
-        modificationDateView.text = getDateTime(date)
+    fun assignLastAccessDate(date: PwDate) {
+        lastAccessDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignLastAccessDate(date: Date) {
-        lastAccessDateView.text = getDateTime(date)
+    fun setExpires(isExpires: Boolean) {
+        expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
     }
 
-    fun assignExpiresDate(date: Date) {
-        expiresDateView.text = getDateTime(date)
+    fun assignExpiresDate(date: PwDate) {
+        assignExpiresDate(date.getDateTimeString(resources))
     }
 
     fun assignExpiresDate(constString: String) {
@@ -256,6 +330,21 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
+    }
+
+    fun showHistory(show: Boolean) {
+        historyContainerView.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    fun assignHistory(history: ArrayList<EntryVersioned>) {
+        historyAdapter.clear()
+        historyAdapter.entryHistoryList.addAll(history)
+    }
+
+    fun onHistoryClick(action: (historyItem: EntryVersioned, position: Int)->Unit) {
+        historyAdapter.onItemClickListener = { item, position ->
+                action.invoke(item, position)
+            }
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {

@@ -19,13 +19,16 @@
  */
 package com.kunzisoft.keepass.view
 
-import android.app.Activity
-import android.content.pm.ActivityInfo
-import android.content.res.Configuration
+import android.animation.AnimatorSet
+import android.animation.ValueAnimator
 import android.graphics.Color
 import android.graphics.Typeface
-import com.google.android.material.snackbar.Snackbar
+import android.text.method.PasswordTransformationMethod
+import android.view.View
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 
 /**
@@ -36,6 +39,16 @@ fun TextView.applyFontVisibility() {
     typeface = typeFace
 }
 
+fun TextView.applyHiddenStyle(hide: Boolean) {
+    if (hide) {
+        transformationMethod = PasswordTransformationMethod.getInstance()
+        maxLines = 1
+    } else {
+        transformationMethod = null
+        maxLines = 800
+    }
+}
+
 fun Snackbar.asError(): Snackbar {
     this.view.apply {
         setBackgroundColor(Color.RED)
@@ -44,15 +57,38 @@ fun Snackbar.asError(): Snackbar {
     return this
 }
 
-fun Activity.lockScreenOrientation() {
-    val currentOrientation = resources.configuration.orientation
-    requestedOrientation = if (currentOrientation == Configuration.ORIENTATION_PORTRAIT) {
-        ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
-    } else {
-        ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+fun Toolbar.collapse(animate: Boolean = true) {
+    val recordBarHeight = layoutParams.height
+    val slideAnimator = ValueAnimator.ofInt(height, 0)
+    if (animate)
+        slideAnimator.duration = 300L
+    slideAnimator.addUpdateListener { animation ->
+        layoutParams.height = animation.animatedValue as Int
+        if (layoutParams.height <= 1) {
+            visibility = View.GONE
+            layoutParams.height = recordBarHeight
+        }
+        requestLayout()
     }
+    AnimatorSet().apply {
+        play(slideAnimator)
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
 }
 
-fun Activity.unlockScreenOrientation() {
-    requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+fun Toolbar.expand(animate: Boolean = true)  {
+    visibility = View.VISIBLE
+    val actionBarHeight = layoutParams.height
+    val slideAnimator = ValueAnimator
+            .ofInt(0, actionBarHeight)
+    if (animate)
+        slideAnimator.duration = 300L
+    slideAnimator.addUpdateListener { animation ->
+        layoutParams.height = animation.animatedValue as Int
+        requestLayout()
+    }
+    AnimatorSet().apply {
+        play(slideAnimator)
+        interpolator = AccelerateDecelerateInterpolator()
+    }.start()
 }

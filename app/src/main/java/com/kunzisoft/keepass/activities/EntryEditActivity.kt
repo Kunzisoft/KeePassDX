@@ -22,32 +22,36 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
+import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.node.ActionNodeValues
-import com.kunzisoft.keepass.database.action.node.AddEntryRunnable
-import com.kunzisoft.keepass.database.action.node.AfterActionNodeFinishRunnable
-import com.kunzisoft.keepass.database.action.node.UpdateEntryRunnable
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
         IconPickerDialogFragment.IconPickerListener,
-        GeneratePasswordDialogFragment.GeneratePasswordListener {
+        GeneratePasswordDialogFragment.GeneratePasswordListener,
+        SetOTPDialogFragment.CreateOtpListener {
 
     private var mDatabase: Database? = null
 
@@ -60,10 +64,11 @@ class EntryEditActivity : LockingHideActivity(),
 
     // Views
     private var scrollView: ScrollView? = null
-
     private var entryEditContentsView: EntryEditContentsView? = null
-
     private var saveView: View? = null
+
+    // Dialog thread
+    private var progressDialogThread: ProgressDialogThread? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -86,11 +91,14 @@ class EntryEditActivity : LockingHideActivity(),
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
+        stopService(Intent(this, ClipboardEntryNotificationService::class.java))
+        stopService(Intent(this, KeyboardEntryNotificationService::class.java))
+
         // Likely the app has been killed exit the activity
         mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<PwNodeId<*>>(KEY_ENTRY)?.let {
+        intent.getParcelableExtra<PwNodeId<UUID>>(KEY_ENTRY)?.let {
             mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
@@ -105,16 +113,14 @@ class EntryEditActivity : LockingHideActivity(),
                 }
             }
 
-            // Retrieve the icon after an orientation change
-            if (savedInstanceState != null && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
-                mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY) as EntryVersioned
-            } else {
+            // Create the new entry from the current one
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = EntryVersioned(entry).also { newEntry ->
-
                         // WARNING Remove the parent to keep memory with parcelable
-                        newEntry.parent = null
+                        newEntry.removeParent()
                     }
                 }
             }
@@ -123,12 +129,22 @@ class EntryEditActivity : LockingHideActivity(),
         // Parent is retrieve, it's a new entry to create
         intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
-            mNewEntry = mDatabase?.createEntry()
+            // Create an empty new entry
+            if (savedInstanceState == null
+                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+                mNewEntry = mDatabase?.createEntry()
+            }
             mParent = mDatabase?.getGroupById(it)
             // Add the default icon
             mDatabase?.drawFactory?.let { iconFactory ->
                 entryEditContentsView?.setDefaultIcon(iconFactory)
             }
+        }
+
+        // Retrieve the new entry after an orientation change
+        if (savedInstanceState != null
+                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -152,10 +168,23 @@ class EntryEditActivity : LockingHideActivity(),
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
 
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) { addNewCustomField() }
+        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) {
+            addNewCustomField()
+        }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
+
+        // Create progress dialog
+        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_CREATE_ENTRY_TASK,
+                ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
+                    if (result.isSuccess)
+                        finish()
+                }
+            }
+        }
     }
 
     private fun populateViewsWithEntry(newEntry: EntryVersioned) {
@@ -168,12 +197,14 @@ class EntryEditActivity : LockingHideActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = newEntry.username
+            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
             url = newEntry.url
             password = newEntry.password
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
-                addNewCustomField(entry.key, entry.value)
+                post {
+                    putCustomField(entry.key, entry.value)
+                }
             }
         }
     }
@@ -185,13 +216,14 @@ class EntryEditActivity : LockingHideActivity(),
         newEntry.apply {
             // Build info from view
             entryEditContentsView?.let { entryView ->
+                removeAllFields()
                 title = entryView.title
                 username = entryView.username
                 url = entryView.url
                 password = entryView.password
                 notes = entryView.notes
                 entryView.customFields.forEach { customField ->
-                    addExtraField(customField.name, customField.protectedValue)
+                    putExtraField(customField.name, customField.protectedValue)
                 }
             }
         }
@@ -217,9 +249,7 @@ class EntryEditActivity : LockingHideActivity(),
      * Add a new customized field view and scroll to bottom
      */
     private fun addNewCustomField() {
-        entryEditContentsView?.addNewCustomField()
-        // Scroll bottom
-        scrollView?.post { scrollView?.fullScroll(ScrollView.FOCUS_DOWN) }
+        entryEditContentsView?.addEmptyCustomField()
     }
 
     /**
@@ -230,51 +260,48 @@ class EntryEditActivity : LockingHideActivity(),
         // Launch a validation and show the error if present
         if (entryEditContentsView?.isValid() == true) {
             // Clone the entry
-            mDatabase?.let { database ->
-                mNewEntry?.let { newEntry ->
+            mNewEntry?.let { newEntry ->
 
-                    // WARNING Add the parent previously deleted
-                    newEntry.parent = mEntry?.parent
-                    // Build info
-                    newEntry.lastAccessTime = PwDate()
-                    newEntry.lastModificationTime = PwDate()
+                // WARNING Add the parent previously deleted
+                newEntry.parent = mEntry?.parent
+                // Build info
+                newEntry.lastAccessTime = PwDate()
+                newEntry.lastModificationTime = PwDate()
 
-                    populateEntryWithViews(newEntry)
+                populateEntryWithViews(newEntry)
 
-                    // Open a progress dialog and save entry
-                    var actionRunnable: ActionRunnable? = null
-                    val afterActionNodeFinishRunnable = object : AfterActionNodeFinishRunnable() {
-                        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-                            if (actionNodeValues.result.isSuccess)
-                                finish()
-                        }
+                // Open a progress dialog and save entry
+                if (mIsNew) {
+                    mParent?.let { parent ->
+                        progressDialogThread?.startDatabaseCreateEntry(
+                                newEntry,
+                                parent,
+                                !mReadOnly
+                        )
                     }
-                    if (mIsNew) {
-                        mParent?.let { parent ->
-                            actionRunnable = AddEntryRunnable(this@EntryEditActivity,
-                                    database,
-                                    newEntry,
-                                    parent,
-                                    afterActionNodeFinishRunnable,
-                                    !mReadOnly)
-                        }
-
-                    } else {
-                        mEntry?.let { oldEntry ->
-                            actionRunnable = UpdateEntryRunnable(this@EntryEditActivity,
-                                    database,
-                                    oldEntry,
-                                    newEntry,
-                                    afterActionNodeFinishRunnable,
-                                    !mReadOnly)
-                        }
-                    }
-                    actionRunnable?.let { runnable ->
-                        ProgressDialogSaveDatabaseThread(this@EntryEditActivity) { runnable }.start()
+                } else {
+                    mEntry?.let { oldEntry ->
+                        progressDialogThread?.startDatabaseUpdateEntry(
+                                oldEntry,
+                                newEntry,
+                                !mReadOnly
+                        )
                     }
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -283,6 +310,7 @@ class EntryEditActivity : LockingHideActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
+        inflater.inflate(R.menu.edit_entry, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
@@ -293,7 +321,7 @@ class EntryEditActivity : LockingHideActivity(),
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
         val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldView
+        val addNewFieldView = entryEditContentsView?.addNewFieldButton
 
         val generatePasswordEducationPerformed = passwordView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
@@ -329,10 +357,26 @@ class EntryEditActivity : LockingHideActivity(),
                 return true
             }
 
+            R.id.menu_add_otp -> {
+                // Retrieve the current otpElement if exists
+                // and open the dialog to set up the OTP
+                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+                        .show(supportFragmentManager, "addOTPDialog")
+                return true
+            }
+
             android.R.id.home -> finish()
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onOtpCreated(otpElement: OtpElement) {
+        // Update the otp field with otpauth:// url
+        val otpField = OtpEntryFields.buildOtpField(otpElement,
+                mEntry?.title, mEntry?.username)
+        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 
     override fun iconPicked(bundle: Bundle) {
@@ -342,7 +386,10 @@ class EntryEditActivity : LockingHideActivity(),
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putParcelable(KEY_NEW_ENTRY, mNewEntry)
+        mNewEntry?.let {
+            populateEntryWithViews(it)
+            outState.putParcelable(KEY_NEW_ENTRY, it)
+        }
 
         super.onSaveInstanceState(outState)
     }

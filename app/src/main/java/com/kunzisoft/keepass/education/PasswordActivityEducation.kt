@@ -18,7 +18,6 @@ class PasswordActivityEducation(activity: Activity)
                 TapTarget.forView(educationView,
                         activity.getString(R.string.education_unlock_title),
                         activity.getString(R.string.education_unlock_summary))
-                        .dimColor(R.color.green)
                         .icon(ContextCompat.getDrawable(activity, R.mipmap.ic_launcher_round))
                         .textColorInt(Color.WHITE)
                         .tintTarget(false)
@@ -63,13 +62,13 @@ class PasswordActivityEducation(activity: Activity)
                 R.string.education_read_only_key)
     }
 
-    fun checkAndPerformedFingerprintEducation(educationView: View,
-                                              onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                              onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationFingerprintPerformed(activity),
+    fun checkAndPerformedBiometricEducation(educationView: View,
+                                            onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                            onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+        return checkAndPerformedEducation(!isEducationBiometricPerformed(activity),
                 TapTarget.forView(educationView,
-                        activity.getString(R.string.education_fingerprint_title),
-                        activity.getString(R.string.education_fingerprint_summary))
+                        activity.getString(R.string.education_biometric_title),
+                        activity.getString(R.string.education_biometric_summary))
                         .textColorInt(Color.WHITE)
                         .tintTarget(false)
                         .cancelable(true),
@@ -85,6 +84,6 @@ class PasswordActivityEducation(activity: Activity)
                         onOuterViewClick?.invoke(view)
                     }
                 },
-                R.string.education_fingerprint_key)
+                R.string.education_biometric_key)
     }
 }

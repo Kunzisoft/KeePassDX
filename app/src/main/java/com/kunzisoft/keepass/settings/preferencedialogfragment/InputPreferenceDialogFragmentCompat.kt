@@ -19,36 +19,87 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceDialogFragmentCompat
-import android.view.View
-import android.widget.TextView
-
 import com.kunzisoft.keepass.R
 
 abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCompat() {
 
+    private var inputTextView: EditText? = null
     private var textExplanationView: TextView? = null
+    private var switchElementView: CompoundButton? = null
+
+    var inputText: String
+        get() = this.inputTextView?.text?.toString() ?: ""
+        set(inputText) {
+            if (inputTextView != null) {
+                this.inputTextView?.setText(inputText)
+                this.inputTextView?.setSelection(this.inputTextView!!.text.length)
+            }
+        }
 
     var explanationText: String?
         get() = textExplanationView?.text?.toString() ?: ""
         set(explanationText) {
-            if (explanationText != null && explanationText.isNotEmpty()) {
-                textExplanationView?.text = explanationText
-                textExplanationView?.visibility = View.VISIBLE
-            } else {
-                textExplanationView?.text = explanationText
-                textExplanationView?.visibility = View.VISIBLE
+            textExplanationView?.apply {
+                if (explanationText != null && explanationText.isNotEmpty()) {
+                    text = explanationText
+                    visibility = View.VISIBLE
+                } else {
+                    text = ""
+                    visibility = View.GONE
+                }
             }
         }
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
+        inputTextView = view.findViewById(R.id.input_text)
+        inputTextView?.apply {
+            imeOptions = EditorInfo.IME_ACTION_DONE
+            setOnEditorActionListener { _, actionId, _ ->
+                when (actionId) {
+                    EditorInfo.IME_ACTION_DONE -> {
+                        onDialogClosed(true)
+                        dialog?.dismiss()
+                        true
+                    }
+                    else -> {
+                        false
+                    }
+                }
+            }
+        }
         textExplanationView = view.findViewById(R.id.explanation_text)
+        textExplanationView?.visibility = View.GONE
+        switchElementView = view.findViewById(R.id.switch_element)
+        switchElementView?.visibility = View.GONE
+    }
+
+    fun setInoutText(@StringRes inputTextId: Int) {
+        inputText = getString(inputTextId)
+    }
+
+    fun showInputText(show: Boolean) {
+        inputTextView?.visibility = if (show) View.VISIBLE else View.GONE
     }
 
     fun setExplanationText(@StringRes explanationTextId: Int) {
         explanationText = getString(explanationTextId)
+    }
+
+    fun setSwitchAction(onCheckedChange: ((isChecked: Boolean)-> Unit)?, defaultChecked: Boolean) {
+        switchElementView?.visibility = if (onCheckedChange == null) View.GONE else View.VISIBLE
+        switchElementView?.isChecked = defaultChecked
+        inputTextView?.visibility = if (defaultChecked) View.VISIBLE else View.GONE
+        switchElementView?.setOnCheckedChangeListener { _, isChecked ->
+            onCheckedChange?.invoke(isChecked)
+        }
     }
 }

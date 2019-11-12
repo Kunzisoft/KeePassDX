@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.activities.helpers
 
-import android.app.Activity
 import android.app.assist.AssistStructure
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -11,10 +11,10 @@ object EntrySelectionHelper {
     private const val EXTRA_ENTRY_SELECTION_MODE = "com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE"
     private const val DEFAULT_ENTRY_SELECTION_MODE = false
 
-    fun startActivityForEntrySelection(activity: Activity, intent: Intent) {
+    fun startActivityForEntrySelection(context: Context, intent: Intent) {
         addEntrySelectionModeExtraInIntent(intent)
         // only to avoid visible flickering when redirecting
-        activity.startActivity(intent)
+        context.startActivity(intent)
     }
 
     fun addEntrySelectionModeExtraInIntent(intent: Intent) {

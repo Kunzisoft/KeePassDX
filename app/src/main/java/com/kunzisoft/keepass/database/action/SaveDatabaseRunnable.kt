@@ -21,43 +21,33 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.PwDbOutputException
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import java.io.IOException
 
-abstract class SaveDatabaseRunnable(protected var context: Context,
+open class SaveDatabaseRunnable(protected var context: Context,
                                 protected var database: Database,
-                                private val save: Boolean,
-                                nestedAction: ActionRunnable? = null) : ActionRunnable(nestedAction) {
+                                private var saveDatabase: Boolean)
+    : ActionRunnable() {
 
-    // TODO Service to prevent background thread kill
-    override fun run() {
-        if (save) {
+    var mAfterSaveDatabase: ((Result) -> Unit)? = null
+
+    override fun onStartRun() {}
+
+    override fun onActionRun() {
+        if (saveDatabase && result.isSuccess) {
             try {
                 database.saveData(context.contentResolver)
             } catch (e: IOException) {
-                finishRun(false, e.message)
-            } catch (e: PwDbOutputException) {
-                finishRun(false, e.message)
+                setError(e.message)
+            } catch (e: DatabaseOutputException) {
+                setError(e.message)
             }
         }
-
-        // Need to call super.run() in child class
     }
 
-    override fun onFinishRun(result: Result) {
-        // Need to call super.onFinishRun(result) in child class
-    }
-}
-
-class SaveDatabaseActionRunnable(context: Context,
-                                 database: Database,
-                                 save: Boolean,
-                                 nestedAction: ActionRunnable? = null)
-    : SaveDatabaseRunnable(context, database, save, nestedAction) {
-
-    override fun run() {
-        super.run()
-        finishRun(true)
+    override fun onFinishRun() {
+        // Need to call super.onFinishRun() in child class
+        mAfterSaveDatabase?.invoke(result)
     }
 }

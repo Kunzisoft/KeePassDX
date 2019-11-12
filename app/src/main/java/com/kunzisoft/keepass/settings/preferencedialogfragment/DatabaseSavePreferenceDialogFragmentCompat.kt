@@ -19,59 +19,33 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
-import android.content.res.Resources
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.SaveDatabaseActionRunnable
+import android.content.Context
+import android.os.Bundle
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.tasks.ActionRunnable
+import com.kunzisoft.keepass.settings.SettingsActivity
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
 
     protected var database: Database? = null
 
-    var actionInUIThreadAfterSaveDatabase: ActionRunnable? = null
+    protected var progressDialogThread: ProgressDialogThread? = null
 
-    protected lateinit var settingsResources: Resources
-
-    override fun onBindDialogView(view: View) {
-        super.onBindDialogView(view)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         this.database = Database.getInstance()
-
-        activity?.resources?.let { settingsResources = it }
     }
 
-    override fun onDialogClosed(positiveResult: Boolean) {
-        if (positiveResult) {
-            activity?.let { notNullActivity ->
-                database?.let { notNullDatabase ->
-                    ProgressDialogSaveDatabaseThread(notNullActivity) {
-                        SaveDatabaseActionRunnable(
-                                notNullActivity,
-                                notNullDatabase,
-                                true)
-                    }.apply {
-                        actionFinishInUIThread = object:ActionRunnable() {
-                            override fun onFinishRun(result: Result) {
-                                if (!result.isSuccess) {
-                                    Log.e(TAG, result.message)
-                                    Toast.makeText(notNullActivity, result.message, Toast.LENGTH_SHORT).show()
-                                }
-                                actionInUIThreadAfterSaveDatabase?.onFinishRun(result)
-                            }
-                        }
-                        start()
-                    }
-                }
-            }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        // Attach dialog thread to start action
+        if (context is SettingsActivity) {
+            progressDialogThread = context.progressDialogThread
         }
     }
 
     companion object {
-
         private const val TAG = "DbSavePrefDialog"
     }
 }

@@ -19,36 +19,50 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class UpdateEntryRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mOldEntry: EntryVersioned,
         private val mNewEntry: EntryVersioned,
-        finishRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
-    : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
+        save: Boolean,
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     // Keep backup of original values in case save fails
-    private var mBackupEntry: EntryVersioned? = null
+    private var mBackupEntryHistory: EntryVersioned = EntryVersioned(mOldEntry)
 
     override fun nodeAction() {
-        mBackupEntry = database.addHistoryBackupTo(mOldEntry)
-        mOldEntry.touch(modified = true, touchParents = true)
+        // WARNING : Re attribute parent removed in entry edit activity to save memory
+        mNewEntry.addParentFrom(mOldEntry)
+
         // Update entry with new values
         mOldEntry.updateWith(mNewEntry)
+        mNewEntry.touch(modified = true, touchParents = true)
+
+        // Create an entry history (an entry history don't have history)
+        mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
+        database.removeOldestHistory(mOldEntry)
+
+        // Only change data in index
+        database.updateEntry(mOldEntry)
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
+            mOldEntry.updateWith(mBackupEntryHistory)
             // If we fail to save, back out changes to global structure
-            mBackupEntry?.let {
-                mOldEntry.updateWith(it)
-            }
+            database.updateEntry(mOldEntry)
         }
-        return ActionNodeValues(result, mOldEntry, mNewEntry)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        oldNodesReturn.add(mBackupEntryHistory)
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mOldEntry)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

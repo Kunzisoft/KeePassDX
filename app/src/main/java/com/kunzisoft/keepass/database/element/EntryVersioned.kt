@@ -5,6 +5,8 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.otp.OtpElement
+import com.kunzisoft.keepass.otp.OtpEntryFields
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -15,26 +17,26 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
     var pwEntryV4: PwEntryV4? = null
         private set
 
-    fun updateWith(entry: EntryVersioned) {
+    fun updateWith(entry: EntryVersioned, copyHistory: Boolean = true) {
         entry.pwEntryV3?.let {
             this.pwEntryV3?.updateWith(it)
         }
         entry.pwEntryV4?.let {
-            this.pwEntryV4?.updateWith(it)
+            this.pwEntryV4?.updateWith(it, copyHistory)
         }
     }
 
     /**
      * Use this constructor to copy an Entry with exact same values
      */
-    constructor(entry: EntryVersioned) {
+    constructor(entry: EntryVersioned, copyHistory: Boolean = true) {
         if (entry.pwEntryV3 != null) {
             this.pwEntryV3 = PwEntryV3()
         }
         if (entry.pwEntryV4 != null) {
             this.pwEntryV4 = PwEntryV4()
         }
-        updateWith(entry)
+        updateWith(entry, copyHistory)
     }
 
     constructor(entry: PwEntryV3) {
@@ -61,7 +63,7 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         dest.writeParcelable(pwEntryV4, flags)
     }
 
-    var nodeId: PwNodeId<UUID>
+    override var nodeId: PwNodeId<UUID>
         get() = pwEntryV4?.nodeId ?: pwEntryV3?.nodeId ?: PwNodeIdUUID()
         set(value) {
             pwEntryV3?.nodeId = value
@@ -154,12 +156,15 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             pwEntryV4?.expiryTime = value
         }
 
-    override var isExpires: Boolean
-        get() =pwEntryV3?.isExpires ?: pwEntryV4?.isExpires ?: false
+    override var expires: Boolean
+        get() = pwEntryV3?.expires ?: pwEntryV4?.expires ?: false
         set(value) {
-            pwEntryV3?.isExpires = value
-            pwEntryV4?.isExpires = value
+            pwEntryV3?.expires = value
+            pwEntryV4?.expires = value
         }
+
+    override val isCurrentlyExpires: Boolean
+        get() = pwEntryV3?.isCurrentlyExpires ?: pwEntryV4?.isCurrentlyExpires ?: false
 
     override var username: String
         get() = pwEntryV3?.username ?: pwEntryV4?.username ?: ""
@@ -241,13 +246,23 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         return pwEntryV4?.allowCustomFields() ?: false
     }
 
+    fun removeAllFields() {
+        pwEntryV4?.removeAllFields()
+    }
+
     /**
-     * Add an extra field to the list (standard or custom)
+     * Update or add an extra field to the list (standard or custom)
      * @param label Label of field, must be unique
      * @param value Value of field
      */
-    fun addExtraField(label: String, value: ProtectedString) {
-        pwEntryV4?.addExtraField(label, value)
+    fun putExtraField(label: String, value: ProtectedString) {
+        pwEntryV4?.putExtraField(label, value)
+    }
+
+    fun getOtpElement(): OtpElement? {
+        return OtpEntryFields.parseFields { key ->
+            customFields[key]?.toString()
+        }
     }
 
     fun startToManageFieldReferences(db: PwDatabaseV4) {
@@ -258,20 +273,31 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
         pwEntryV4?.stopToManageFieldReferences()
     }
 
-    fun addBackupToHistory() {
-        pwEntryV4?.let {
-            val entryHistory = PwEntryV4()
-            entryHistory.updateWith(it)
-            it.addEntryToHistory(entryHistory)
+    fun getHistory(): ArrayList<EntryVersioned> {
+        val history = ArrayList<EntryVersioned>()
+        val entryV4History = pwEntryV4?.history ?: ArrayList()
+        for (entryHistory in entryV4History) {
+            history.add(EntryVersioned(entryHistory))
         }
+        return history
+    }
+
+    fun addEntryToHistory(entry: EntryVersioned) {
+        entry.pwEntryV4?.let {
+            pwEntryV4?.addEntryToHistory(it)
+        }
+    }
+
+    fun removeAllHistory() {
+        pwEntryV4?.removeAllHistory()
     }
 
     fun removeOldestEntryFromHistory() {
         pwEntryV4?.removeOldestEntryFromHistory()
     }
 
-    fun getHistory(): ArrayList<PwEntryV4> {
-        return pwEntryV4?.history ?: ArrayList()
+    fun getSize(): Long {
+        return pwEntryV4?.size ?: 0L
     }
 
     fun containsCustomData(): Boolean {
@@ -284,6 +310,10 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
       ------------
      */
 
+    /**
+     * Retrieve generated entry info,
+     * Remove parameter fields and add auto generated elements in auto custom fields
+     */
     fun getEntryInfo(database: Database?, raw: Boolean = false): EntryInfo {
         val entryInfo = EntryInfo()
         if (raw)
@@ -300,6 +330,10 @@ class EntryVersioned : NodeVersioned, PwEntryInterface<GroupVersioned> {
             entryInfo.customFields.add(
                     Field(entry.key, entry.value))
         }
+        // Add otpElement to generate token
+        entryInfo.otpModel = getOtpElement()?.otpModel
+        // Replace parameter fields by generated OTP fields
+        entryInfo.customFields = OtpEntryFields.generateAutoFields(entryInfo.customFields)
         if (!raw)
             database?.stopManageEntry(this)
         return entryInfo

@@ -33,7 +33,6 @@
     <string name="beta_dontask">Ez erakutsi berriro</string>
     <string name="brackets">Brackets</string>
     <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
-    <string name="cancel">Utzi</string>
     <string name="clipboard_cleared">Arbela ezabatuta.</string>
     <string name="clipboard_error_title">Arbelean errorea</string>
     <string name="clipboard_error">Samsung Android telefono batzuek akats bat daukate arbelaren inplementazioan, eta honen ondorioz aplikazioetatik kopiatzeak huts egiten du. Xehetasun gehiagotarako ondokora joan:</string>
@@ -72,14 +71,12 @@
     <string name="error_out_of_memory">Telefonoa memoriarik gabe gelditu da zure datubasea arakatzean. Handiegia izan daiteke zure telefonorako.</string>
     <string name="error_pass_gen_type">Pasahitza sortzeko mota bat gutxienez aukeratu behar da</string>
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
-    <string name="error_rounds_not_number">Rondak zenbaki bat izan behar dira.</string>
     <string name="error_rounds_too_large">Rondak handiegiak.   2147483648 balorean jarrita.</string>
     <string name="error_string_key">Eremu izen bat behar da testu kate bakoitzerako.</string>
     <string name="error_title_required">Izenburu bat behar da.</string>
     <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>
-    <string name="file_not_found">Fitxategi ez aurkitua.</string>
     <string name="file_browser">Fitxategien nabigatzailea</string>
     <string name="generate_password">Pasahitza sortu</string>
     <string name="hint_conf_pass">pasahitza berretsi</string>
@@ -91,7 +88,7 @@
     <string name="password">Pasahitza</string>
     <string name="install_from_play_store">Play store-etik Instalatu</string>
     <string name="install_from_f_droid">F-Droid-etik Instalatu</string>
-    <string name="invalid_password">Pasahitz edo gako fitxategi baliogabea.</string>
+    <string name="invalid_credentials">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
     <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>

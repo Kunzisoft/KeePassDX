@@ -1,0 +1,8 @@
+ * Add OTP (HOTP / TOTP)
+ * Add settings (Color, Security, Master Key)
+ * Show history of each entry
+ * Auto repair database for nodes with same UUID
+ * Management of expired nodes
+ * Multi-selection for actions (Cut - Copy - Delete)
+ * Open/Save database as service / Add persistent notification
+ * Fix settings / edit group / small bugs

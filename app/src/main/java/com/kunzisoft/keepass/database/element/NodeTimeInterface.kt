@@ -29,5 +29,7 @@ interface NodeTimeInterface {
 
     var expiryTime: PwDate
 
-    var isExpires: Boolean
+    var expires: Boolean
+
+    val isCurrentlyExpires: Boolean
 }

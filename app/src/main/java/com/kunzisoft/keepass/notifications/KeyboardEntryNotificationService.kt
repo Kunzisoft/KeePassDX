@@ -1,12 +1,10 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import androidx.preference.PreferenceManager
 import android.util.Log
+import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
@@ -14,46 +12,29 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
-class KeyboardEntryNotificationService : NotificationService() {
+class KeyboardEntryNotificationService : LockNotificationService() {
 
-    private val notificationId = 486
+    override val notificationId = 486
     private var cleanNotificationTimerTask: Thread? = null
     private var notificationTimeoutMilliSecs: Long = 0
 
-    private var lockBroadcastReceiver: BroadcastReceiver? = null
     private var pendingDeleteIntent: PendingIntent? = null
 
-    override fun onCreate() {
-        super.onCreate()
-
-        // Register a lock receiver to stop notification service when lock on keyboard is performed
-        lockBroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                // Stop the service in all cases
-                stopSelf()
-            }
-        }
-        registerReceiver(lockBroadcastReceiver,
-                IntentFilter().apply {
-                    addAction(LOCK_ACTION)
-                }
-        )
-    }
-
     private fun stopNotificationAndSendLockIfNeeded() {
-        // Remove the entry from the keyboard
-        MagikIME.removeEntry(this)
         // Clear the entry if define in preferences
-        val sharedPreferences = android.preference.PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
-                        resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
+        if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             sendBroadcast(Intent(LOCK_ACTION))
         }
-        // Stop the notification
+        // Stop the service
         stopSelf()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        //Get settings
+        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
+                .getString(getString(R.string.keyboard_entry_timeout_key),
+                getString(R.string.timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+
         when {
             intent == null -> Log.w(TAG, "null intent")
             ACTION_CLEAN_KEYBOARD_ENTRY == intent.action -> {
@@ -84,7 +65,7 @@ class KeyboardEntryNotificationService : NotificationService() {
         pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.ic_keyboard_key_white_24dp)
+                .setSmallIcon(R.drawable.notification_ic_keyboard_key_24dp)
                 .setContentTitle(getString(R.string.keyboard_notification_entry_content_title, entryTitle))
                 .setContentText(getString(R.string.keyboard_notification_entry_content_text, entryUsername))
                 .setAutoCancel(false)
@@ -94,22 +75,9 @@ class KeyboardEntryNotificationService : NotificationService() {
         notificationManager?.cancel(notificationId)
         notificationManager?.notify(notificationId, builder.build())
 
-
         stopTask(cleanNotificationTimerTask)
         // Timeout only if notification clear is available
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
-        if (sharedPreferences.getBoolean(getString(R.string.keyboard_notification_entry_clear_close_key),
-                        resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))) {
-            val keyboardTimeout = sharedPreferences.getString(getString(R.string.keyboard_entry_timeout_key),
-                    getString(R.string.timeout_default))
-            notificationTimeoutMilliSecs = try {
-                keyboardTimeout?.let {
-                    java.lang.Long.parseLong(keyboardTimeout)
-                } ?: 0
-            } catch (e: NumberFormatException) {
-                TimeoutHelper.DEFAULT_TIMEOUT
-            }
-
+        if (PreferencesUtil.isClearKeyboardNotificationEnable(this)) {
             if (notificationTimeoutMilliSecs != TimeoutHelper.NEVER) {
                 cleanNotificationTimerTask = Thread {
                     val maxPos = 100
@@ -132,23 +100,19 @@ class KeyboardEntryNotificationService : NotificationService() {
         }
     }
 
-    private fun stopTask(task: Thread?) {
-        if (task != null && task.isAlive)
-            task.interrupt()
-    }
+    override fun onTaskRemoved(rootIntent: Intent?) {
+        MagikIME.removeEntry(this)
 
-    private fun destroyKeyboardNotification() {
-        stopTask(cleanNotificationTimerTask)
-        cleanNotificationTimerTask = null
-        unregisterReceiver(lockBroadcastReceiver)
-        pendingDeleteIntent?.cancel()
-
-        notificationManager?.cancel(notificationId)
+        super.onTaskRemoved(rootIntent)
     }
 
     override fun onDestroy() {
+        // Remove the entry from the keyboard
+        MagikIME.removeEntry(this)
 
-        destroyKeyboardNotification()
+        stopTask(cleanNotificationTimerTask)
+        cleanNotificationTimerTask = null
+        pendingDeleteIntent?.cancel()
 
         super.onDestroy()
     }
@@ -162,12 +126,26 @@ class KeyboardEntryNotificationService : NotificationService() {
         const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
 
         fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+
+            val containsUsernameToCopy = entry.username.isNotEmpty()
+            val containsPasswordToCopy = entry.password.isNotEmpty()
+            val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
+
+            var startService = false
+            val intent = Intent(context, KeyboardEntryNotificationService::class.java)
+
             // Show the notification if allowed in Preferences
             if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
-                context.startService(Intent(context, KeyboardEntryNotificationService::class.java).apply {
-                    putExtra(ENTRY_INFO_KEY, entry)
-                })
+                if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+                    startService = true
+                    context.startService(intent.apply {
+                        putExtra(ENTRY_INFO_KEY, entry)
+                    })
+                }
             }
+
+            if (!startService)
+                context.stopService(intent)
         }
     }
 

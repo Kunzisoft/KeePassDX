@@ -72,31 +72,4 @@ class FileDatabaseSelectActivityEducation(activity: Activity)
                 },
                 R.string.education_select_db_key)
     }
-
-
-    fun checkAndPerformedOpenLinkDatabaseEducation(educationView: View,
-                                                   onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
-                                                   onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
-        return checkAndPerformedEducation(!isEducationOpenLinkDatabasePerformed(activity),
-                TapTarget.forView(educationView,
-                        activity.getString(R.string.education_open_link_database_title),
-                        activity.getString(R.string.education_open_link_database_summary))
-                        .icon(ContextCompat.getDrawable(activity, R.drawable.ic_link_white_24dp))
-                        .textColorInt(Color.WHITE)
-                        .tintTarget(true)
-                        .cancelable(true),
-                object : TapTargetView.Listener() {
-                    override fun onTargetClick(view: TapTargetView) {
-                        super.onTargetClick(view)
-                        onEducationViewClick?.invoke(view)
-                    }
-
-                    override fun onOuterCircleClick(view: TapTargetView?) {
-                        super.onOuterCircleClick(view)
-                        view?.dismiss(false)
-                        onOuterViewClick?.invoke(view)
-                    }
-                },
-                R.string.education_open_link_db_key)
-    }
 }

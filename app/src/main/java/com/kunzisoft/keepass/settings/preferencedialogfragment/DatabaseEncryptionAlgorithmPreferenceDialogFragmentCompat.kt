@@ -26,7 +26,6 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
@@ -56,39 +55,25 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult && database!!.allowEncryptionAlgorithmModification()) {
 
-            if (algorithmSelected != null) {
-                val newAlgorithm = algorithmSelected
-                val oldAlgorithm = database?.encryptionAlgorithm
-                newAlgorithm?.let {
-                    database?.assignEncryptionAlgorithm(it)
+        if (positiveResult) {
+            database?.let { database ->
+                if (database.allowEncryptionAlgorithmModification) {
+                    if (algorithmSelected != null) {
+                        val newAlgorithm = algorithmSelected
+                        val oldAlgorithm = database.encryptionAlgorithm
+                        database.encryptionAlgorithm = newAlgorithm
+
+                        if (oldAlgorithm != null && newAlgorithm != null)
+                            progressDialogThread?.startDatabaseSaveEncryption(oldAlgorithm, newAlgorithm)
+                    }
                 }
-
-                if (oldAlgorithm != null && newAlgorithm != null)
-                    actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newAlgorithm, oldAlgorithm)
             }
         }
-
-        super.onDialogClosed(positiveResult)
     }
 
     override fun onItemSelected(item: PwEncryptionAlgorithm) {
         this.algorithmSelected = item
-    }
-
-    private inner class AfterDescriptionSave(private val mNewAlgorithm: PwEncryptionAlgorithm,
-                                             private val mOldAlgorithm: PwEncryptionAlgorithm)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            var algorithmToShow = mNewAlgorithm
-            if (!result.isSuccess) {
-                database?.assignEncryptionAlgorithm(mOldAlgorithm)
-                algorithmToShow = mOldAlgorithm
-            }
-            preference.summary = algorithmToShow.getName(settingsResources)
-        }
     }
 
     companion object {

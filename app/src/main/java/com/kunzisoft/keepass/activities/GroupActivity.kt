@@ -18,7 +18,6 @@
  */
 package com.kunzisoft.keepass.activities
 
-import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.SearchManager
 import android.app.assist.AssistStructure
@@ -29,16 +28,19 @@ import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import androidx.annotation.RequiresApi
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.widget.SearchView
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
+import androidx.appcompat.view.ActionMode
+import androidx.appcompat.widget.SearchView
+import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -47,37 +49,44 @@ import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
-import com.kunzisoft.keepass.database.action.ProgressDialogSaveDatabaseThread
-import com.kunzisoft.keepass.database.action.node.*
-import com.kunzisoft.keepass.database.action.node.ActionNodeDatabaseRunnable.Companion.NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_NODES_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_NODES_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
-import net.cachapa.expandablelayout.ExpandableLayout
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
         IconPickerDialogFragment.IconPickerListener,
-        NodeAdapter.NodeMenuListener,
+        ListNodesFragment.NodeClickListener,
+        ListNodesFragment.NodesActionMenuListener,
         ListNodesFragment.OnScrollListener,
-        NodeAdapter.NodeClickCallback,
         SortDialogFragment.SortSelectionListener {
 
     // Views
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
-    private var toolbarPasteExpandableLayout: ExpandableLayout? = null
-    private var toolbarPaste: Toolbar? = null
+    private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
+    private var numberChildrenView: TextView? = null
     private var modeTitleView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
@@ -87,12 +96,14 @@ class GroupActivity : LockingActivity(),
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
 
+    private var progressDialogThread: ProgressDialogThread? = null
+
     // Nodes
     private var mRootGroup: GroupVersioned? = null
     private var mCurrentGroup: GroupVersioned? = null
     private var mOldGroupToUpdate: GroupVersioned? = null
-    private var mNodeToCopy: NodeVersioned? = null
-    private var mNodeToMove: NodeVersioned? = null
+    // TODO private var mNodeToCopy: NodeVersioned? = null
+    // TODO private var mNodeToMove: NodeVersioned? = null
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
 
@@ -110,14 +121,26 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
-        iconView = findViewById(R.id.icon)
+        coordinatorLayout = findViewById(R.id.group_coordinator)
+        iconView = findViewById(R.id.group_icon)
+        numberChildrenView = findViewById(R.id.group_numbers)
         addNodeButtonView = findViewById(R.id.add_node_button)
         toolbar = findViewById(R.id.toolbar)
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
-        toolbarPasteExpandableLayout = findViewById(R.id.expandable_toolbar_paste_layout)
-        toolbarPaste = findViewById(R.id.toolbar_paste)
+        toolbarAction = findViewById(R.id.toolbar_action)
         modeTitleView = findViewById(R.id.mode_title_view)
+
+        toolbar?.title = ""
+        setSupportActionBar(toolbar)
+
+        /*
+        toolbarAction?.setNavigationOnClickListener {
+            toolbarAction?.collapse()
+            mNodeToCopy = null
+            mNodeToMove = null
+        }
+        */
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
@@ -126,13 +149,6 @@ class GroupActivity : LockingActivity(),
         if (savedInstanceState != null) {
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
-            if (savedInstanceState.containsKey(NODE_TO_COPY_KEY)) {
-                mNodeToCopy = savedInstanceState.getParcelable(NODE_TO_COPY_KEY)
-                toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-            } else if (savedInstanceState.containsKey(NODE_TO_MOVE_KEY)) {
-                mNodeToMove = savedInstanceState.getParcelable(NODE_TO_MOVE_KEY)
-                toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-            }
         }
 
         try {
@@ -152,17 +168,6 @@ class GroupActivity : LockingActivity(),
 
         // Update last access time.
         mCurrentGroup?.touch(modified = false, touchParents = false)
-
-        toolbar?.title = ""
-        setSupportActionBar(toolbar)
-
-        toolbarPaste?.inflateMenu(R.menu.node_paste_menu)
-        toolbarPaste?.setNavigationIcon(R.drawable.ic_arrow_left_white_24dp)
-        toolbarPaste?.setNavigationOnClickListener {
-            toolbarPasteExpandableLayout?.collapse()
-            mNodeToCopy = null
-            mNodeToMove = null
-        }
 
         // Retrieve the textColor to tint the icon
         val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
@@ -197,9 +202,74 @@ class GroupActivity : LockingActivity(),
             }
         })
 
-        // Search suggestion
         mDatabase?.let { database ->
+            // Search suggestion
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
+
+            // Init dialog thread
+            progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+
+                var oldNodes: List<NodeVersioned> = ArrayList()
+                result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
+                    oldNodes = getListNodesFromBundle(database, oldNodesBundle)
+                }
+                var newNodes: List<NodeVersioned> = ArrayList()
+                result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
+                    newNodes = getListNodesFromBundle(database, newNodesBundle)
+                }
+
+                when (actionTask) {
+                    ACTION_DATABASE_UPDATE_GROUP_TASK -> {
+                        if (result.isSuccess) {
+                            mListNodesFragment?.updateNodes(oldNodes, newNodes)
+                        }
+                    }
+                    ACTION_DATABASE_CREATE_GROUP_TASK,
+                    ACTION_DATABASE_COPY_NODES_TASK,
+                    ACTION_DATABASE_MOVE_NODES_TASK -> {
+                        if (result.isSuccess) {
+                            mListNodesFragment?.addNodes(newNodes)
+                        }
+                    }
+                    ACTION_DATABASE_DELETE_NODES_TASK -> {
+                        if (result.isSuccess) {
+
+                            // Rebuild all the list the avoid bug when delete node from db sort
+                            if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
+                                mListNodesFragment?.rebuildList()
+                            } else {
+                                // Use the old Nodes / entries unchanged with the old parent
+                                mListNodesFragment?.removeNodes(oldNodes)
+                            }
+
+                            // Add trash in views list if it doesn't exists
+                            if (database.isRecycleBinEnabled) {
+                                val recycleBin = database.recycleBin
+                                if (mCurrentGroup != null && recycleBin != null
+                                        && mCurrentGroup!!.parent == null
+                                        && mCurrentGroup != recycleBin) {
+                                    if (mListNodesFragment?.contains(recycleBin) == true)
+                                        mListNodesFragment?.updateNode(recycleBin)
+                                    else
+                                        mListNodesFragment?.addNode(recycleBin)
+                                }
+                            }
+                        }
+                    }
+                }
+
+                if (!result.isSuccess) {
+                    result.exception?.errorId?.let { errorId ->
+                        coordinatorLayout?.let { coordinatorLayout ->
+                            Snackbar.make(coordinatorLayout, errorId, Snackbar.LENGTH_LONG).asError().show()
+                        }
+                    }
+                }
+
+                finishNodeAction()
+
+                refreshNumberOfChildren()
+            }
         }
 
         Log.i(TAG, "Finished creating tree")
@@ -273,12 +343,6 @@ class GroupActivity : LockingActivity(),
         }
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
-        }
-        mNodeToCopy?.let {
-            outState.putParcelable(NODE_TO_COPY_KEY, it)
-        }
-        mNodeToMove?.let {
-            outState.putParcelable(NODE_TO_MOVE_KEY, it)
         }
         super.onSaveInstanceState(outState)
     }
@@ -359,6 +423,9 @@ class GroupActivity : LockingActivity(),
             }
         }
 
+        // Assign number of children
+        refreshNumberOfChildren()
+
         // Show selection mode message if needed
         if (mSelectionMode) {
             modeTitleView?.visibility = View.VISIBLE
@@ -385,6 +452,17 @@ class GroupActivity : LockingActivity(),
 
             if (isEnable)
                 showButton()
+        }
+    }
+
+    private fun refreshNumberOfChildren() {
+        numberChildrenView?.apply {
+            if (PreferencesUtil.showNumberEntries(context)) {
+                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
+                visibility = View.VISIBLE
+            } else {
+                visibility = View.GONE
+            }
         }
     }
 
@@ -419,8 +497,10 @@ class GroupActivity : LockingActivity(),
                         {
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
-                                AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(mDatabase!!))
+                                mDatabase?.let { database ->
+                                    AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
+                                            entryVersioned.getEntryInfo(database))
+                                }
                             }
                             finish()
                         })
@@ -430,12 +510,36 @@ class GroupActivity : LockingActivity(),
         }
     }
 
+    private var actionNodeMode: ActionMode? = null
+
+    private fun finishNodeAction() {
+        actionNodeMode?.finish()
+        actionNodeMode = null
+    }
+
+    override fun onNodeSelected(nodes: List<NodeVersioned>): Boolean {
+        if (nodes.isNotEmpty()) {
+            if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
+                mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
+                    actionNodeMode = toolbarAction?.startSupportActionMode(it)
+                }
+            } else {
+                actionNodeMode?.invalidate()
+            }
+        } else {
+            finishNodeAction()
+        }
+        return true
+    }
+
     override fun onOpenMenuClick(node: NodeVersioned): Boolean {
+        finishNodeAction()
         onNodeClick(node)
         return true
     }
 
     override fun onEditMenuClick(node: NodeVersioned): Boolean {
+        finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
                 mOldGroupToUpdate = node as GroupVersioned
@@ -448,132 +552,56 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onCopyMenuClick(node: NodeVersioned): Boolean {
-        toolbarPasteExpandableLayout?.expand()
-        mNodeToCopy = node
-        toolbarPaste?.setOnMenuItemClickListener(OnCopyMenuItemClickListener())
-        return false
-    }
+    override fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean {
+        actionNodeMode?.invalidate()
 
-    private inner class OnCopyMenuItemClickListener : Toolbar.OnMenuItemClickListener {
-        override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPasteExpandableLayout?.collapse()
-
-            when (item.itemId) {
-                R.id.menu_paste -> {
-                    when (mNodeToCopy?.type) {
-                        Type.GROUP -> Log.e(TAG, "Copy not allowed for group")
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                copyEntry(mNodeToCopy as EntryVersioned, currentGroup)
-                            }
-                        }
-                    }
-                    mNodeToCopy = null
-                    return true
-                }
-            }
-            return true
-        }
-    }
-
-    private fun copyEntry(entryToCopy: EntryVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            CopyEntryRunnable(this,
-                    Database.getInstance(),
-                    entryToCopy,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    override fun onMoveMenuClick(node: NodeVersioned): Boolean {
-        toolbarPasteExpandableLayout?.expand()
-        mNodeToMove = node
-        toolbarPaste?.setOnMenuItemClickListener(OnMoveMenuItemClickListener())
-        return false
-    }
-
-    private inner class OnMoveMenuItemClickListener : Toolbar.OnMenuItemClickListener {
-        override fun onMenuItemClick(item: MenuItem): Boolean {
-            toolbarPasteExpandableLayout?.collapse()
-
-            when (item.itemId) {
-                R.id.menu_paste -> {
-                    when (mNodeToMove?.type) {
-                        Type.GROUP -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                moveGroup(mNodeToMove as GroupVersioned, currentGroup)
-                            }
-                        }
-                        Type.ENTRY -> {
-                            mCurrentGroup?.let { currentGroup ->
-                                moveEntry(mNodeToMove as EntryVersioned, currentGroup)
-                            }
-                        }
-                    }
-                    mNodeToMove = null
-                    return true
-                }
-            }
-            return true
-        }
-    }
-
-    private fun moveGroup(groupToMove: GroupVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            MoveGroupRunnable(
-                this,
-                    Database.getInstance(),
-                    groupToMove,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    private fun moveEntry(entryToMove: EntryVersioned, newParent: GroupVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            MoveEntryRunnable(
-                    this,
-                    Database.getInstance(),
-                    entryToMove,
-                    newParent,
-                    AfterAddNodeRunnable(),
-                    !mReadOnly)
-        }.start()
-    }
-
-    override fun onDeleteMenuClick(node: NodeVersioned): Boolean {
-        when (node.type) {
-            Type.GROUP -> deleteGroup(node as GroupVersioned)
-            Type.ENTRY -> deleteEntry(node as EntryVersioned)
-        }
+        // Nothing here fragment calls onPasteMenuClick internally
         return true
     }
 
-    private fun deleteGroup(group: GroupVersioned) {
-        //TODO Verify trash recycle bin
-        ProgressDialogSaveDatabaseThread(this) {
-            DeleteGroupRunnable(
-                    this,
-                    Database.getInstance(),
-                    group,
-                    AfterDeleteNodeRunnable(),
-                    !mReadOnly)
-        }.start()
+    override fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean {
+        actionNodeMode?.invalidate()
+
+        // Nothing here fragment calls onPasteMenuClick internally
+        return true
     }
 
-    private fun deleteEntry(entry: EntryVersioned) {
-        ProgressDialogSaveDatabaseThread(this) {
-            DeleteEntryRunnable(
-                    this,
-                    Database.getInstance(),
-                    entry,
-                    AfterDeleteNodeRunnable(),
-                    !mReadOnly)
-        }.start()
+    override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
+                                  nodes: List<NodeVersioned>): Boolean {
+        when (pasteMode) {
+            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                // Copy
+                mCurrentGroup?.let { newParent ->
+                    progressDialogThread?.startDatabaseCopyNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly
+                    )
+                }
+            }
+            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                // Move
+                mCurrentGroup?.let { newParent ->
+                    progressDialogThread?.startDatabaseMoveNodes(
+                            nodes,
+                            newParent,
+                            !mReadOnly
+                    )
+                }
+            }
+            else -> {}
+        }
+        finishNodeAction()
+        return true
+    }
+
+    override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
+        progressDialogThread?.startDatabaseDeleteNodes(
+                nodes,
+                !mReadOnly
+        )
+        finishNodeAction()
+        return true
     }
 
     override fun onResume() {
@@ -582,6 +610,16 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
+
+        progressDialogThread?.registerProgressTask()
+    }
+
+    override fun onPause() {
+        progressDialogThread?.unregisterProgressTask()
+
+        super.onPause()
+
+        finishNodeAction()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -713,7 +751,6 @@ class GroupActivity : LockingActivity(),
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                   name: String?,
                                   icon: PwIcon?) {
-        val database = Database.getInstance()
 
         if (name != null && name.isNotEmpty() && icon != null) {
             when (action) {
@@ -721,104 +758,37 @@ class GroupActivity : LockingActivity(),
                     // If group creation
                     mCurrentGroup?.let { currentGroup ->
                         // Build the group
-                        database.createGroup()?.let { newGroup ->
+                        mDatabase?.createGroup()?.let { newGroup ->
                             newGroup.title = name
                             newGroup.icon = icon
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
-                            // If group created save it in the database
-                            ProgressDialogSaveDatabaseThread(this) {
-                                AddGroupRunnable(this,
-                                        Database.getInstance(),
-                                        newGroup,
-                                        currentGroup,
-                                        AfterAddNodeRunnable(),
-                                        !mReadOnly)
-                            }.start()
+                            progressDialogThread?.startDatabaseCreateGroup(
+                                    newGroup, currentGroup, !mReadOnly)
                         }
                     }
                 }
-                GroupEditDialogFragment.EditGroupDialogAction.UPDATE ->
+                GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
                         GroupVersioned(oldGroupToUpdate).let { updateGroup ->
-                            updateGroup.title = name
-                            // TODO custom icon
-                            updateGroup.icon = icon
+                            updateGroup.apply {
+                                // WARNING remove parent and children to keep memory
+                                removeParent()
+                                removeChildren() // TODO concurrent exception
 
-                            mListNodesFragment?.removeNode(oldGroupToUpdate)
+                                title = name
+                                this.icon = icon // TODO custom icon
+                            }
 
                             // If group updated save it in the database
-                            ProgressDialogSaveDatabaseThread(this) {
-                                UpdateGroupRunnable(this,
-                                        Database.getInstance(),
-                                        oldGroupToUpdate,
-                                        updateGroup,
-                                        AfterUpdateNodeRunnable(),
-                                        !mReadOnly)
-                            }.start()
-                        }
-                    }
-                else -> {
-                }
-            }
-        }
-    }
-
-    internal inner class AfterAddNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-                    if (actionNodeValues.newNode != null)
-                        mListNodesFragment?.addNode(actionNodeValues.newNode)
-                }
-            }
-        }
-    }
-
-    internal inner class AfterUpdateNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-                    if (actionNodeValues.oldNode!= null && actionNodeValues.newNode != null)
-                        mListNodesFragment?.updateNode(actionNodeValues.oldNode, actionNodeValues.newNode)
-                }
-            }
-        }
-    }
-
-    internal inner class AfterDeleteNodeRunnable : AfterActionNodeFinishRunnable() {
-        override fun onActionNodeFinish(actionNodeValues: ActionNodeValues) {
-            runOnUiThread {
-                if (actionNodeValues.result.isSuccess) {
-
-                    // If the action register the position, use it to remove the entry view
-                    val positionNode = actionNodeValues.result.data?.getInt(NODE_POSITION_FOR_ACTION_NATURAL_ORDER_KEY)
-                    if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB
-                            && positionNode != null) {
-                        mListNodesFragment?.removeNodeAt(positionNode)
-                    } else {
-                        // else use the old Node that was the entry unchanged with the old parent
-                        actionNodeValues.oldNode?.let { oldNode ->
-                            mListNodesFragment?.removeNode(oldNode)
-                        }
-                    }
-
-                    // Add trash in views list if it doesn't exists
-                    val database = Database.getInstance()
-                    if (database.isRecycleBinEnabled) {
-                        val recycleBin = database.recycleBin
-                        if (mCurrentGroup != null && recycleBin != null
-                                && mCurrentGroup!!.parent == null
-                                && mCurrentGroup != recycleBin) {
-                            if (mListNodesFragment?.contains(recycleBin) == true)
-                                mListNodesFragment?.updateNode(recycleBin)
-                            else
-                                mListNodesFragment?.addNode(recycleBin)
+                            progressDialogThread?.startDatabaseUpdateGroup(
+                                    oldGroupToUpdate, updateGroup, !mReadOnly)
                         }
                     }
                 }
+                else -> {}
             }
         }
     }
@@ -902,25 +872,29 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onBackPressed() {
-        // Normal way when we are not in root
-        if (mRootGroup != null && mRootGroup != mCurrentGroup)
-            super.onBackPressed()
-        // Else lock if needed
-        else {
-            if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
-                lockAndExit()
+        if (mListNodesFragment?.nodeActionSelectionMode == true) {
+            finishNodeAction()
+        } else {
+            // Normal way when we are not in root
+            if (mRootGroup != null && mRootGroup != mCurrentGroup)
                 super.onBackPressed()
-            } else {
-                moveTaskToBack(true)
+            // Else lock if needed
+            else {
+                if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
+                    lockAndExit()
+                    super.onBackPressed()
+                } else {
+                    moveTaskToBack(true)
+                }
             }
-        }
 
-        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
-        // to refresh fragment
-        mListNodesFragment?.rebuildList()
-        mCurrentGroup = mListNodesFragment?.mainGroup
-        removeSearchInIntent(intent)
-        assignGroupViewElements()
+            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
+            // to refresh fragment
+            mListNodesFragment?.rebuildList()
+            mCurrentGroup = mListNodesFragment?.mainGroup
+            removeSearchInIntent(intent)
+            assignGroupViewElements()
+        }
     }
 
     companion object {
@@ -931,13 +905,15 @@ class GroupActivity : LockingActivity(),
         private const val LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG"
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
-        private const val NODE_TO_COPY_KEY = "NODE_TO_COPY_KEY"
-        private const val NODE_TO_MOVE_KEY = "NODE_TO_MOVE_KEY"
 
-        private fun buildAndLaunchIntent(activity: Activity, group: GroupVersioned?, readOnly: Boolean,
+        private fun buildAndLaunchIntent(context: Context, group: GroupVersioned?, readOnly: Boolean,
                                          intentBuildLauncher: (Intent) -> Unit) {
-            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                val intent = Intent(activity, GroupActivity::class.java)
+            val checkTime = if (context is Activity)
+                TimeoutHelper.checkTimeAndLockIfTimeout(context)
+            else
+                TimeoutHelper.checkTime(context)
+            if (checkTime) {
+                val intent = Intent(context, GroupActivity::class.java)
                 if (group != null) {
                     intent.putExtra(GROUP_ID_KEY, group.nodeId)
                 }
@@ -953,10 +929,10 @@ class GroupActivity : LockingActivity(),
          */
 
         @JvmOverloads
-        fun launch(activity: Activity, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                activity.startActivity(intent)
+        fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                context.startActivity(intent)
             }
         }
 
@@ -967,10 +943,10 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboarSelection(activity: Activity, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+        fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
+            TimeoutHelper.recordTime(context)
+            buildAndLaunchIntent(context, null, readOnly) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
 

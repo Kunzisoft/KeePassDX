@@ -27,7 +27,6 @@ import android.view.View
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
-import com.kunzisoft.keepass.tasks.ActionRunnable
 
 class DatabaseKeyDerivationPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
@@ -52,25 +51,26 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
             recyclerView.adapter = kdfAdapter
 
             database?.let { database ->
-                kdfEngineSelected = database.kdfEngine
-                if (kdfEngineSelected != null)
-                    kdfAdapter.setItems(database.availableKdfEngines, kdfEngineSelected!!)
+                kdfEngineSelected = database.kdfEngine?.apply {
+                    kdfAdapter.setItems(database.availableKdfEngines, this)
+                }
             }
         }
     }
 
     override fun onDialogClosed(positiveResult: Boolean) {
-        if (database != null && positiveResult && database!!.allowKdfModification()) {
-            if (kdfEngineSelected != null) {
-                val newKdfEngine = kdfEngineSelected!!
-                val oldKdfEngine = database!!.kdfEngine
-                database?.assignKdfEngine(newKdfEngine)
-
-                actionInUIThreadAfterSaveDatabase = AfterDescriptionSave(newKdfEngine, oldKdfEngine)
+        if (positiveResult) {
+            database?.let { database ->
+                if (database.allowKdfModification) {
+                    val newKdfEngine = kdfEngineSelected
+                    val oldKdfEngine = database.kdfEngine
+                    if (newKdfEngine != null && oldKdfEngine != null) {
+                        database.kdfEngine = newKdfEngine
+                        progressDialogThread?.startDatabaseSaveKeyDerivation(oldKdfEngine, newKdfEngine)
+                    }
+                }
             }
         }
-
-        super.onDialogClosed(positiveResult)
     }
 
     fun setRoundPreference(preference: Preference?) {
@@ -87,25 +87,6 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
 
     override fun onItemSelected(item: KdfEngine) {
         kdfEngineSelected = item
-    }
-
-    private inner class AfterDescriptionSave(private val mNewKdfEngine: KdfEngine,
-                                             private val mOldKdfEngine: KdfEngine)
-        : ActionRunnable() {
-
-        override fun onFinishRun(result: Result) {
-            val kdfEngineToShow = mNewKdfEngine
-
-            if (!result.isSuccess) {
-                database?.assignKdfEngine(mOldKdfEngine)
-            }
-            preference.summary = kdfEngineToShow.getName(settingsResources)
-
-            roundPreference?.summary = kdfEngineToShow.defaultKeyRounds.toString()
-            // Disable memory and parallelism if not available
-            memoryPreference?.summary = kdfEngineToShow.getDefaultMemoryUsage().toString()
-            parallelismPreference?.summary = kdfEngineToShow.getDefaultParallelism().toString()
-        }
     }
 
     companion object {

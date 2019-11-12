@@ -33,6 +33,12 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.show_read_only_warning), true)
     }
 
+    fun rememberKeyFiles(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyfile_key),
+                context.resources.getBoolean(R.bool.keyfile_default))
+    }
+
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.omitbackup_key),
@@ -109,8 +115,8 @@ object PreferencesUtil {
     fun getAppTimeout(context: Context): Long {
         return try {
             val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-            java.lang.Long.parseLong(prefs.getString(context.getString(R.string.app_timeout_key),
-                    context.getString(R.string.clipboard_timeout_default)) ?: "60000")
+            (prefs.getString(context.getString(R.string.app_timeout_key),
+                    context.getString(R.string.clipboard_timeout_default)) ?: "300000").toLong()
         } catch (e: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }
@@ -126,6 +132,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.lock_database_back_root_key),
                 context.resources.getBoolean(R.bool.lock_database_back_root_default))
+    }
+
+    fun isPersistentNotificationEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.persistent_notification_key),
+                context.resources.getBoolean(R.bool.persistent_notification_default))
     }
 
     fun isBiometricUnlockEnable(context: Context): Boolean {
@@ -185,12 +197,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.monospace_font_fields_enable_default))
     }
 
-    fun autoOpenSelectedFile(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.auto_open_file_uri_key),
-                context.resources.getBoolean(R.bool.auto_open_file_uri_default))
-    }
-
     fun isFirstTimeAskAllowCopyPasswordAndProtectedFields(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.allow_copy_password_first_time_key),
@@ -207,6 +213,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.clear_clipboard_notification_key),
                 context.resources.getBoolean(R.bool.clear_clipboard_notification_default))
+    }
+
+    fun isClearKeyboardNotificationEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_notification_entry_clear_close_key),
+                context.resources.getBoolean(R.bool.keyboard_notification_entry_clear_close_default))
     }
 
     fun setAllowCopyPasswordAndProtectedFields(context: Context, allowCopy: Boolean) {

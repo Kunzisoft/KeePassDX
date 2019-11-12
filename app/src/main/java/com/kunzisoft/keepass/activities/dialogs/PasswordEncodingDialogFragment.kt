@@ -35,7 +35,7 @@ class PasswordEncodingDialogFragment : DialogFragment() {
             val builder = AlertDialog.Builder(activity)
             builder.setMessage(activity.getString(R.string.warning_password_encoding)).setTitle(R.string.warning)
             builder.setPositiveButton(android.R.string.ok, positiveButtonClickListener)
-            builder.setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+            builder.setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.cancel() }
 
             return builder.create()
         }

@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Commenti</string>
     <string name="about_homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>
@@ -33,7 +32,6 @@
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
     <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
-    <string name="cancel">Annulla</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
     <string name="clipboard_error">Alcuni telefoni Android di Samsung non permettono alle app di usare gli appunti.</string>
@@ -71,14 +69,12 @@
     <string name="error_out_of_memory">Memoria insufficiente per caricare l\'intero database.</string>
     <string name="error_pass_gen_type">Deve essere selezionato almeno un tipo di generazione password.</string>
     <string name="error_pass_match">Le password non corrispondono.</string>
-    <string name="error_rounds_not_number">Rendi il \"livello\" un numero.</string>
     <string name="error_rounds_too_large">\"Livello\" troppo alto. Impostato a 2147483648.</string>
     <string name="error_string_key">Ogni stringa deve avere un nome.</string>
     <string name="error_title_required">Aggiungi un titolo.</string>
     <string name="error_wrong_length">Inserisci un numero naturale positivo nel campo \"lunghezza\".</string>
     <string name="field_name">Nome campo</string>
     <string name="field_value">Valore campo</string>
-    <string name="file_not_found">File non trovato.</string>
     <string name="file_not_found_content">File non trovato. Prova a riaprirlo dal tuo gestore di file.</string>
     <string name="file_browser">Gestore file</string>
     <string name="generate_password">Genera password</string>
@@ -91,7 +87,7 @@
     <string name="hint_pass">password</string>
     <string name="install_from_play_store">Installa dal Play Store</string>
     <string name="install_from_f_droid">Installa dal F-Droid</string>
-    <string name="invalid_password">Password o file chiave non validi.</string>
+    <string name="invalid_credentials">Password o file chiave non validi.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
     <string name="keyfile_does_not_exist">Non esiste alcun file chiave.</string>
@@ -215,14 +211,14 @@
     <string name="warning_empty_password">Vuoi veramente che non ci sia una password di sblocco\?</string>
     <string name="warning_no_encryption_key">Sei sicuro di non volere usare una chiave di cifratura?</string>
     <string name="biometric_not_recognized">Impronta non riconosciuta</string>
-    <string name="history">Cronologia</string>
+    <string name="database_history">Cronologia</string>
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
     <string name="autofill">Autocompletamento</string>
     <string name="autofill_service_name">Autocompletamento di KeePass DX</string>
     <string name="autofill_sign_in_prompt">Accedi con KeePass DX</string>
     <string name="set_autofill_service_title">Imposta servizio predefinito di autocompletamento</string>
-    <string name="set_autofill_service_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
+    <string name="autofill_explanation_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
     <string name="password_size_summary">Imposta la dimensione predefinita delle password generate</string>
     <string name="list_password_generator_options_title">Caratteri password</string>
@@ -233,13 +229,6 @@
     <string name="lock">Blocca</string>
     <string name="lock_database_screen_off_title">Blocco schermo</string>
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
-    <string name="fingerprint_advanced_unlock_title">Come impostare la scansione di impronte digitali per sbloccare velocemente\?</string>
-    <string name="fingerprint_setting_text">Salva la tua impronta per il dispositivo in</string>
-    <string name="fingerprint_setting_link_text">\"Impostazioni\" → \"Sicurezza\" → \"Impronta digitale\"</string>
-    <string name="fingerprint_type_credentials_text">Digita la password di blocco database</string>
-    <string name="fingerprint_scan_to_store">Scansiona la tua impronta per salvare la password di blocco database in modo sicuro.</string>
-    <string name="fingerprint_scan_to_open">Scansiona la tua impronta per aprire il database quando la password è disattivata.</string>
-    <string name="usage">Utilizzo</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
     <string name="biometric_unlock_enable_summary">Consente la scansione di impronte per aprire il database</string>
@@ -260,12 +249,9 @@
     <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
-    <string name="auto_open_file_uri_title">Apri i file selezionandoli</string>
-    <string name="auto_open_file_uri_summary">Apri automaticamente i file selezionandoli nel gestore di file</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
     <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
-    <string name="open_link_database">Link del file database da aprire</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>
     <string name="database_version_title">Versione database</string>
@@ -274,15 +260,7 @@
     <string name="other">Altro</string>
     <string name="keyboard">Tastiera</string>
     <string name="magic_keyboard_title">Magitastiera</string>
-    <string name="magic_keyboard_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
-    <string name="magic_keyboard_preference_title">Impostazioni Magitastiera</string>
-    <string name="magic_keyboard_configure_title">Imposta la tastiera per un\'autocompletamento sicuro dei moduli.</string>
-    <string name="magic_keyboard_activate_setting_text">Attiva la \"Magitastiera\" nelle impostazioni del dispositivo.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">\"Impostazioni\" → \"Lingue e immissione\" → \"Tastiera attuale\" e scegline una.</string>
-    <string name="keyboards_choose_magikeyboard_text">Scegli la Magitastiera quando devi compilare un modulo.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Cambia la tastiera premendo a lungo la barra spaziatrice, oppure, se non disponibile, con:</string>
-    <string name="keyboard_lock_database_text">Blocca il database.</string>
-    <string name="keyboard_back_main_keyboard_text">Usa di nuovo la tastiera predefinita.</string>
+    <string name="magic_keyboard_explanation_summary">Attiva una tastiera personale che popola le tue password e i campi di identità</string>
     <string name="allow_no_password_title">Non consentire nessuna chiave principale</string>
     <string name="allow_no_password_summary">Abilita il pulsante «Apri» se le credenziali non sono selezionate</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
@@ -296,16 +274,14 @@
     <string name="education_create_database_summary">Crea il tuo primo file di gestione password.</string>
     <string name="education_select_database_title">Apri un database esistente</string>
     <string name="education_select_database_summary">Apri il tuo file database precedente dal tuo gestore di file per continuare ad usarlo.</string>
-    <string name="education_open_link_database_title">Un link al percorso del tuo file è sufficiente</string>
-    <string name="education_open_link_database_summary">Puoi anche aprire il tuo database con un link fisico (con file:// e content:// ad esempio).</string>
     <string name="education_new_node_title">Aggiungi elementi al tuo database</string>
     <string name="education_new_node_summary">Gli elementi aiutano a gestire le tue identità digitali. 
 \n 
 \nI gruppi (~ cartelle) organizzano gli elementi nel database.</string>
     <string name="education_search_title">Cerca tra gli elementi</string>
     <string name="education_search_summary">Inserisci il titolo, il nome utente o il contenuto di altri campi per recuperare le tue password.</string>
-    <string name="education_fingerprint_title">Sblocco del database tramite impronta digitale</string>
-    <string name="education_fingerprint_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
+    <string name="education_biometric_title">Sblocco del database tramite impronta digitale</string>
+    <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
     <string name="education_generate_password_title">Crea una password robusta per l\'elemento.</string>
@@ -353,8 +329,6 @@
     <string name="style_choose_summary">Tema usato nell\'app</string>
     <string name="icon_pack_choose_title">Pacchetto icone</string>
     <string name="icon_pack_choose_summary">Pacchetto icone usato nell\'app</string>
-    <string name="keyboard_select_entry_text">Seleziona un elemento con la chiave.</string>
-    <string name="keyboard_fill_field_text">Riempi i campi usando gli elementi giusti.</string>
     <string name="edit_entry">Modifica elemento</string>
     <string name="error_load_database">Caricamento del database fallito.</string>
     <string name="error_load_database_KDF_memory">Caricamento della chiave fallito. Prova a diminuire l\' \"Utilizzo memoria\" del KDF.</string>
@@ -392,8 +366,6 @@
     <string name="delete_entered_password_title">Elimina password</string>
     <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione</string>
     <string name="content_description_open_file">Apri il file</string>
-    <string name="content_description_show_file_link">Mostra il link del file</string>
-    <string name="content_description_open_file_link">Apri il link del file</string>
     <string name="content_description_node_children">Figli del nodo</string>
     <string name="content_description_add_node">Aggiungi un nodo</string>
     <string name="content_description_add_entry">Aggiungi una voce</string>
@@ -402,7 +374,7 @@
     <string name="content_description_password_checkbox">Casella di controllo della password</string>
     <string name="content_description_keyfile_checkbox">Casella di controllo Keyfile</string>
     <string name="content_description_repeat_toggle_password_visibility">"Ripeti  attivare / disattivare la visibilità della password"</string>
-    <string name="content_description_entry_icon">Icona d\'ingresso</string>
+    <string name="content_description_entry_icon">Icona</string>
     <string name="content_description_password_generator">Generatore di password</string>
     <string name="content_description_password_length">Lunghezza della password</string>
     <string name="content_description_add_field">Aggiungi un campo</string>
@@ -411,4 +383,7 @@
     <string name="error_copy_entry_here">Non è possibile copiare una voce qui.</string>
     <string name="list_groups_show_number_entries_title">Mostra il numero di voci</string>
     <string name="list_groups_show_number_entries_summary">Mostra il numero di voci in un gruppo</string>
+    <string name="content_description_entry_save">Salva</string>
+    <string name="content_description_update_from_list">Aggiorna</string>
+    <string name="content_description_keyboard_close_fields">Chiudi campi</string>
 </resources>

@@ -33,7 +33,6 @@
     <string name="beta_dontask">Visa inte igen</string>
     <string name="brackets">Parenteser</string>
     <string name="file_manager_install_description">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
-    <string name="cancel">Avbryt</string>
     <string name="clipboard_cleared">Urklippet är rensat.</string>
     <string name="clipboard_error_title">Urklippsfel</string>
     <string name="clipboard_error">Vissa Samsung-telefoner har en bugg som gör att applikationer inte kan kopiera till urklipp. För mer detaljer, gå till:</string>
@@ -71,14 +70,12 @@
     <string name="error_out_of_memory">The phone ran out of memory while parsing your database. It may be too large for your phone.</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected</string>
     <string name="error_pass_match">Lösenorden matchar inte.</string>
-    <string name="error_rounds_not_number">Antalet rundor måste vara en siffra.</string>
     <string name="error_rounds_too_large">Antalet rundor är för stort. Sätter värdet till 2147483648.</string>
     <string name="error_string_key">Ett fältnamn krävs för varje sträng.</string>
     <string name="error_title_required">En titel krävs.</string>
     <string name="error_wrong_length">Ange ett positivt heltal i fältet för längd</string>
     <string name="field_name">Fältnamn</string>
     <string name="field_value">Fältvärde</string>
-    <string name="file_not_found">Filen hittades inte.</string>
     <string name="file_browser">Filhanterare</string>
     <string name="generate_password">Generera lösenord</string>
     <string name="hint_conf_pass">bekräfta lösenord</string>
@@ -90,7 +87,7 @@
     <string name="password">Lösenord</string>
     <string name="install_from_play_store">Installera från Play Store</string>
     <string name="install_from_f_droid">Installera från F-Droid</string>
-    <string name="invalid_password">Ogiltigt lösenord eller nyckelfil.</string>
+    <string name="invalid_credentials">Ogiltigt lösenord eller nyckelfil.</string>
     <string name="invalid_algorithm">Ogiltig algoritm.</string>
     <string name="invalid_db_sig">Databasformatet är okänt.</string>
     <string name="keyfile_does_not_exist">Nyckelfilen existerar inte.</string>

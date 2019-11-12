@@ -19,18 +19,19 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.GroupVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class AddGroupRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mNewGroup: GroupVersioned,
         private val mParent: GroupVersioned,
-        afterAddNodeRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
-    : ActionNodeDatabaseRunnable(context, database, afterAddNodeRunnable, save) {
+        save: Boolean,
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     override fun nodeAction() {
         mNewGroup.touch(modified = true, touchParents = true)
@@ -38,10 +39,14 @@ class AddGroupRunnable constructor(
         database.addGroupTo(mNewGroup, mParent)
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             database.removeGroupFrom(mNewGroup, mParent)
         }
-        return ActionNodeValues(result, null, mNewGroup)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mNewGroup)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

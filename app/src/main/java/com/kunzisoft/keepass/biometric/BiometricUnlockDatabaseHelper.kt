@@ -42,8 +42,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
 
 @RequiresApi(api = Build.VERSION_CODES.M)
-class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
-                                    private val biometricUnlockCallback: BiometricUnlockCallback?) {
+class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
     private var biometricPrompt: BiometricPrompt? = null
 
@@ -54,26 +53,37 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     private var cryptoObject: BiometricPrompt.CryptoObject? = null
 
     private var isBiometricInit = false
-    private var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
+    var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
+    var biometricUnlockCallback: BiometricUnlockCallback? = null
 
-    private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
-            .setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
-            //.setDeviceCredentialAllowed(true) TODO device credential
-            .setNegativeButtonText(context.getString(android.R.string.cancel))
-            .build()
+    private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
+        setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
+        setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+        // TODO device credential
+        /*
+        if (keyguardManager?.isDeviceSecure == true)
+            setDeviceCredentialAllowed(true)
+        else
+        */
+            setNegativeButtonText(context.getString(android.R.string.cancel))
+    }.build()
 
-    private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder()
-            .setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
-            .setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
-            //.setDeviceCredentialAllowed(true)
-            .setNegativeButtonText(context.getString(android.R.string.cancel))
-            .build()
+    private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
+        setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
+        setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
+        // TODO device credential
+        /*
+        if (keyguardManager?.isDeviceSecure == true)
+            setDeviceCredentialAllowed(true)
+        else
+         */
+            setNegativeButtonText(context.getString(android.R.string.cancel))
+    }.build()
 
-    val isFingerprintInitialized: Boolean
+    val isBiometricInitialized: Boolean
         get() {
-            if (!isBiometricInit && biometricUnlockCallback != null) {
-                biometricUnlockCallback.onBiometricException(Exception("FingerPrint not initialized"))
+            if (!isBiometricInit) {
+                biometricUnlockCallback?.onBiometricException(Exception("Biometric not initialized"))
             }
             return isBiometricInit
         }
@@ -103,7 +113,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     }
 
     private fun getSecretKey(): SecretKey? {
-        if (!isFingerprintInitialized) {
+        if (!isBiometricInitialized) {
             return null
         }
         try {
@@ -145,7 +155,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
                         : (biometricPrompt: BiometricPrompt?,
                            cryptoObject: BiometricPrompt.CryptoObject?,
                            promptInfo: BiometricPrompt.PromptInfo)->Unit) {
-        if (!isFingerprintInitialized) {
+        if (!isBiometricInitialized) {
             return
         }
         try {
@@ -158,7 +168,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
 
         } catch (unrecoverableKeyException: UnrecoverableKeyException) {
             Log.e(TAG, "Unable to initialize encrypt data", unrecoverableKeyException)
-            deleteEntryKey()
+            biometricUnlockCallback?.onInvalidKeyException(unrecoverableKeyException)
         } catch (invalidKeyException: KeyPermanentlyInvalidatedException) {
             Log.e(TAG, "Unable to initialize encrypt data", invalidKeyException)
             biometricUnlockCallback?.onInvalidKeyException(invalidKeyException)
@@ -170,7 +180,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     }
 
     fun encryptData(value: String) {
-        if (!isFingerprintInitialized) {
+        if (!isBiometricInitialized) {
             return
         }
         try {
@@ -194,7 +204,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             : (biometricPrompt: BiometricPrompt?,
                cryptoObject: BiometricPrompt.CryptoObject?,
                promptInfo: BiometricPrompt.PromptInfo)->Unit) {
-        if (!isFingerprintInitialized) {
+        if (!isBiometricInitialized) {
             return
         }
         try {
@@ -223,7 +233,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
     }
 
     fun decryptData(encryptedValue: String) {
-        if (!isFingerprintInitialized) {
+        if (!isBiometricInitialized) {
             return
         }
         try {
@@ -250,10 +260,6 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
             Log.e(TAG, "Unable to delete entry key in keystore", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
-    }
-
-    fun setAuthenticationCallback(authenticationCallback: BiometricPrompt.AuthenticationCallback) {
-        this.authenticationCallback = authenticationCallback
     }
 
     @Synchronized
@@ -289,22 +295,24 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity,
          * Remove entry key in keystore
          */
         fun deleteEntryKeyInKeystoreForBiometric(context: FragmentActivity,
-                                                 biometricUnlockCallback: BiometricUnlockErrorCallback) {
-            val fingerPrintHelper = BiometricUnlockDatabaseHelper(context, object : BiometricUnlockCallback {
+                                                 biometricCallback: BiometricUnlockErrorCallback) {
+            BiometricUnlockDatabaseHelper(context).apply {
+                biometricUnlockCallback = object : BiometricUnlockCallback {
 
-                override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
+                    override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {}
 
-                override fun handleDecryptedResult(decryptedValue: String) {}
+                    override fun handleDecryptedResult(decryptedValue: String) {}
 
-                override fun onInvalidKeyException(e: Exception) {
-                    biometricUnlockCallback.onInvalidKeyException(e)
+                    override fun onInvalidKeyException(e: Exception) {
+                        biometricCallback.onInvalidKeyException(e)
+                    }
+
+                    override fun onBiometricException(e: Exception) {
+                        biometricCallback.onBiometricException(e)
+                    }
                 }
-
-                override fun onBiometricException(e: Exception) {
-                    biometricUnlockCallback.onBiometricException(e)
-                }
-            })
-            fingerPrintHelper.deleteEntryKey()
+                deleteEntryKey()
+            }
         }
     }
 

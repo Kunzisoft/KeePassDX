@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import org.joda.time.LocalDate
+import org.joda.time.LocalDateTime
 
 /**
  * Abstract class who manage Groups and Entries
@@ -44,6 +44,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
         this.lastModificationTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: lastModificationTime
         this.lastAccessTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: lastAccessTime
         this.expiryTime = parcel.readParcelable(PwDate::class.java.classLoader) ?: expiryTime
+        this.expires = parcel.readByte().toInt() != 0
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
@@ -54,6 +55,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
         dest.writeParcelable(lastModificationTime, flags)
         dest.writeParcelable(lastAccessTime, flags)
         dest.writeParcelable(expiryTime, flags)
+        dest.writeByte((if (expires) 1 else 0).toByte())
     }
 
     override fun describeContents(): Int {
@@ -68,6 +70,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
         this.lastModificationTime = PwDate(source.lastModificationTime)
         this.lastAccessTime = PwDate(source.lastAccessTime)
         this.expiryTime = PwDate(source.expiryTime)
+        this.expires = source.expires
     }
 
     protected abstract fun initNodeId(): PwNodeId<IdType>
@@ -85,17 +88,11 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     final override var lastAccessTime: PwDate = PwDate()
 
-    final override var expiryTime: PwDate = PwDate.PW_NEVER_EXPIRE
+    final override var expiryTime: PwDate = PwDate()
 
-    final override var isExpires: Boolean
-        // If expireDate is before NEVER_EXPIRE date less 1 month (to be sure)
-        get() = expiryTime.date
-                ?.before(LocalDate.fromDateFields(PwDate.NEVER_EXPIRE).minusMonths(1).toDate()) ?: true
-        set(value) {
-            if (!value) {
-                expiryTime = PwDate.PW_NEVER_EXPIRE
-            }
-        }
+    final override val isCurrentlyExpires: Boolean
+        get() = expires
+                && LocalDateTime.fromDateFields(expiryTime.date).isBefore(LocalDateTime.now())
 
     /**
      * @return true if parent is present (false if not present, can be a root or a detach element)

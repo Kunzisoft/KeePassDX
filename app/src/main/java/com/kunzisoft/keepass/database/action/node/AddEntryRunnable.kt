@@ -19,19 +19,20 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import androidx.fragment.app.FragmentActivity
+import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.EntryVersioned
 import com.kunzisoft.keepass.database.element.GroupVersioned
+import com.kunzisoft.keepass.database.element.NodeVersioned
 
 class AddEntryRunnable constructor(
-        context: FragmentActivity,
+        context: Context,
         database: Database,
         private val mNewEntry: EntryVersioned,
         private val mParent: GroupVersioned,
-        finishRunnable: AfterActionNodeFinishRunnable?,
-        save: Boolean)
-    : ActionNodeDatabaseRunnable(context, database, finishRunnable, save) {
+        save: Boolean,
+        afterActionNodesFinish: AfterActionNodesFinish?)
+    : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     override fun nodeAction() {
         mNewEntry.touch(modified = true, touchParents = true)
@@ -39,12 +40,16 @@ class AddEntryRunnable constructor(
         database.addEntryTo(mNewEntry, mParent)
     }
 
-    override fun nodeFinish(result: Result): ActionNodeValues {
+    override fun nodeFinish(): ActionNodesValues {
         if (!result.isSuccess) {
             mNewEntry.parent?.let {
                 database.removeEntryFrom(mNewEntry, it)
             }
         }
-        return ActionNodeValues(result, null, mNewEntry)
+
+        val oldNodesReturn = ArrayList<NodeVersioned>()
+        val newNodesReturn = ArrayList<NodeVersioned>()
+        newNodesReturn.add(mNewEntry)
+        return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
 }

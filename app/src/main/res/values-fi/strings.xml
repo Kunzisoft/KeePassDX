@@ -32,7 +32,6 @@
     <string name="beta_dontask">Älä näytä enää uudelleen</string>
     <string name="brackets">Hakasulkeet</string>
     <string name="file_manager_install_description">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
-    <string name="cancel">Peruuta</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
 	<string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
@@ -71,14 +70,12 @@
     <string name="error_out_of_memory">Puhelimesta loppui muisti salasanatietokantaa avatessa. Tietokanta voi olla liian suuri tälle puhelinmallille.</string>
     <string name="error_pass_gen_type">Vähintään yksi salasanagenerointitapa täytyy olla valittuna.</string>
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
-    <string name="error_rounds_not_number">Kierroksia täytyy olla numero.</string>
     <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
     <string name="error_string_key">Kentän nimi on pakollinen joka tekstille.</string>
     <string name="error_title_required">Otsikko on pakollinen.</string>
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>
-    <string name="file_not_found">Tiedostoa ei löydetty.</string>
     <string name="file_browser">Tiedostoselain</string>
     <string name="generate_password">Generoi salasana</string>
     <string name="hint_conf_pass">vahvista salasana</string>
@@ -90,7 +87,7 @@
     <string name="password">Salasana</string>
     <string name="install_from_play_store">Asenna Play Storesta</string>
     <string name="install_from_f_droid">Asenna F-Droid</string>
-    <string name="invalid_password">Väärä salasana tai avaintiedosto.</string>
+    <string name="invalid_credentials">Väärä salasana tai avaintiedosto.</string>
     <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
     <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>
     <string name="keyfile_does_not_exist">Avaintiedostoa ei ole olemassa.</string>

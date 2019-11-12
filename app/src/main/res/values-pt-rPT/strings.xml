@@ -32,7 +32,6 @@
     <string name="beta_dontask">Não mostrar novamente</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
-    <string name="cancel">Cancelar</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
     <string name="clipboard_error">Alguns dispositivos Samsung Android não deixam as apps usarem a área de transferência.</string>
@@ -71,14 +70,12 @@
     <string name="error_out_of_memory">Sem memória para carregar toda a bases de dados.</string>
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de palavra-chave deve ser selecionado.</string>
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
-    <string name="error_rounds_not_number">\"Número de rodadas\" deve ser um número.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
     <string name="error_title_required">Adicione um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found">Não pôde encontrar o ficheiro.</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
     <string name="file_browser">Localizador de ficheiros</string>
     <string name="generate_password">Gerar palavra-chave</string>
@@ -91,7 +88,7 @@
     <string name="password">Palavra-chave</string>
     <string name="install_from_play_store">Instalar pela Play Store</string>
     <string name="install_from_f_droid">Instalar pela F-Droid</string>
-    <string name="invalid_password">Palavra-chave ou ficheiro chave inválidos.</string>
+    <string name="invalid_credentials">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="keyfile_does_not_exist">Não existem ficheiros-chave.</string>
@@ -212,14 +209,14 @@
     <string name="biometric_scanning_error">Problema da Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use a impressão digital para armazenar esta palavra-chave</string>
     <string name="no_credentials_stored">Ainda não há nenhuma palavra-chave armazenada nesta base de dados.</string>
-    <string name="history">Histórico</string>
+    <string name="database_history">Histórico</string>
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
     <string name="autofill_service_name">Serviço de Preenchimento Automático do KeePass DX</string>
     <string name="autofill_sign_in_prompt">Entrar com KeePass DX</string>
     <string name="set_autofill_service_title">Definir como serviço de preenchimento automático padrão</string>
-    <string name="set_autofill_service_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
+    <string name="autofill_explanation_summary">Ativar o serviço para preencher formulários em outras aplicações</string>
     <string name="password_size_title">Tamanho da palavra-chave gerada</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="encryption">Encriptação</string>
@@ -236,10 +233,6 @@
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
-    <string name="fingerprint_setting_text">Salvar sua impressão digital esconeada para seu dispositivo em</string>
-    <string name="fingerprint_scan_to_store">Escaneie sua impressão digital para armazenar sua palavra-passe da base com segurança.</string>
-    <string name="fingerprint_scan_to_open">Escaneie sua impressão digital para abrir o banco de dados quando a palavra-passe estiber desativada.</string>
-    <string name="usage">Uso</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
@@ -253,11 +246,8 @@
     <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
-    <string name="auto_open_file_uri_title">Abrir ficheiros ao selecionar</string>
-    <string name="auto_open_file_uri_summary">Abrir automaticamente ficheiros selecionados no gerenciador de ficheiros</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
     <string name="allow_copy_password_summary">Permite a cópia da palavra-passe e de campos protegidos para a área de transferência</string>
-    <string name="open_link_database">Link do ficheiro da base de dados a ser aberto</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -266,7 +256,7 @@
     <string name="other">Outros</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
+    <string name="magic_keyboard_explanation_summary">Ative um teclado customizado, populando suas palavras-passe e todos os campos de identidade</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
     <string name="reset_education_screens_summary">Exibir todos os itens educacionais denovo</string>
     <string name="reset_education_screens_text">Telas educacionais redefinidas</string>
@@ -274,16 +264,14 @@
     <string name="education_create_database_summary">Crie seu primeiro ficheiro de gerenciamento de palavras-passe.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de ficheiros.</string>
-    <string name="education_open_link_database_title">Um link para a localização do seu ficheiro é suficiente</string>
-    <string name="education_open_link_database_summary">Você pode também abrir o seu banco com um link físico (com file:// e content:// por exemplo).</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
     <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
 \n 
 \nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas palavras-passe.</string>
-    <string name="education_fingerprint_title">Destrave do banco de dados por Impressão digital</string>
-    <string name="education_fingerprint_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
+    <string name="education_biometric_title">Destrave do banco de dados por Impressão digital</string>
+    <string name="education_biometric_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
     <string name="education_generate_password_title">Crie uma palavra-passe forte para sua entrada.</string>
@@ -326,15 +314,6 @@
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
     <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
-    <string name="magic_keyboard_preference_title">Configurações do Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configure o teclado para automaticamente preencher formulários seguramente.</string>
-    <string name="magic_keyboard_activate_setting_text">Ative \"Magikeyboard\" nas configurações do dispositivo.</string>
-    <string name="keyboards_choose_magikeyboard_text">Escolha o Magikeyboard quando precisar preencher um formulário.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Troque teclados ao pressionar e segurar a barra de espaço de seu teclado, ou, se não estiver disponível, com:</string>
-    <string name="keyboard_select_entry_text">Selecione uma entrada com a chave.</string>
-    <string name="keyboard_fill_field_text">Preencha seus campos usando os elementos da entrada.</string>
-    <string name="keyboard_lock_database_text">Bloqueie o banco de dados.</string>
-    <string name="keyboard_back_main_keyboard_text">Voltar ao seu teclado principal.</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_education_screens_title">Telas educacionais</string>
@@ -379,8 +358,6 @@
     <string name="delete_entered_password_title">Deletar palavra-passe</string>
     <string name="delete_entered_password_summary">Deleta a palavra-passe inserida após uma tentativa de conexão</string>
     <string name="content_description_open_file">Abrir ficheiro</string>
-    <string name="content_description_show_file_link">Exibir link do ficheiro</string>
-    <string name="content_description_open_file_link">Abrir link do ficheiro</string>
     <string name="content_description_node_children">Crianças do nó</string>
     <string name="content_description_add_node">Inserir nó</string>
     <string name="content_description_add_entry">Adicionar entrada</string>

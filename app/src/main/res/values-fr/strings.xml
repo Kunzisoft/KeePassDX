@@ -36,7 +36,6 @@
     <string name="brackets">Crochets</string>
     <string name="extended_ASCII">ASCII étendu</string>
     <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
-    <string name="cancel">Annuler</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
@@ -76,7 +75,6 @@
     <string name="error_out_of_memory">Mémoire insuffisante pour charger l’ensemble de votre base de données.</string>
     <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_not_number">« Tours de transformation » doit être un nombre.</string>
     <string name="error_rounds_too_large">« Tours de transformation » trop grand. Défini à 2147483648.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
     <string name="error_title_required">Ajoutez un titre.</string>
@@ -84,7 +82,6 @@
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur du champ</string>
-    <string name="file_not_found">Impossible de trouver le fichier.</string>
     <string name="file_not_found_content">Impossible de trouver le fichier. Essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
     <string name="file_browser">Gestionnaire de fichiers</string>
     <string name="generate_password">Générer un mot de passe</string>
@@ -97,7 +94,7 @@
     <string name="password">Mot de passe</string>
     <string name="install_from_play_store">Installer depuis Google Play</string>
     <string name="install_from_f_droid">Installer depuis F-Droid</string>
-    <string name="invalid_password">Impossible de lire le mot de passe ou le fichier clé.</string>
+    <string name="invalid_credentials">Impossible de lire le mot de passe ou le fichier clé.</string>
     <string name="invalid_algorithm">Mauvais algorithme.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_does_not_exist">Aucun fichier de clé n’existe.</string>
@@ -179,22 +176,22 @@
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
-    <string name="configure_biometric">La reconnaissance d’empreinte digitale est prise en charge mais pas configurée.</string>
-    <string name="open_biometric_prompt_unlock_database">Reconnaissance d’empreinte digitale</string>
+    <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
+    <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
-    <string name="biometric_invalid_key">Impossible de lire la clé de l’empreinte digitale. Restaurer votre mot de passe.</string>
-    <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte digitale</string>
-    <string name="biometric_scanning_error">Problème d’empreinte digitale : %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Utiliser l’empreinte digitale pour stocker ce mot de passe</string>
-    <string name="no_credentials_stored">Cette base de données n’a pas encore de mot de passe.</string>
-    <string name="history">Historique</string>
+    <string name="database_history">Historique</string>
+    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
+    <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
+    <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Ouvrir la boite de dialogue biométrique pour stocker les identifiants</string>
+    <string name="no_credentials_stored">Cette base de données n’a pas encore enregistré d\'identifiant de connexion.</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
     <string name="autofill_service_name">Remplissage automatique des formulaires KeePass DX</string>
     <string name="autofill_sign_in_prompt">Se connecter avec KeePass DX</string>
     <string name="set_autofill_service_title">Définir le service de remplissage automatique par défaut</string>
-    <string name="set_autofill_service_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
+    <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="password_size_title">Taille du mot de passe généré</string>
     <string name="password_size_summary">Définir la taille par défaut des mots de passe générés</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
@@ -206,13 +203,6 @@
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
     <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
-    <string name="fingerprint_advanced_unlock_title">Comment configurer la reconaissance de l’empreinte digitale pour un déverrouillage rapide \?</string>
-    <string name="fingerprint_setting_text">Enregistrer votre empreinte digitale pour votre appareil dans</string>
-    <string name="fingerprint_setting_link_text">« Paramètres » → « Sécurité » → « Empreinte digitale »</string>
-    <string name="fingerprint_type_credentials_text">Saisir le mot de passe de verrouillage de la base de données</string>
-    <string name="fingerprint_scan_to_store">Numériser votre empreinte digitale pour stocker le mot de passe de verrouillage de votre base de données en sécurité.</string>
-    <string name="fingerprint_scan_to_open">Numériser votre empreinte digitale pour ouvrir la base de données lorsque le mot de passe est désactivé.</string>
-    <string name="usage">Utilisation</string>
     <string name="advanced_unlock">Empreinte digitale</string>
     <string name="biometric_unlock_enable_title">Reconnaissance d’empreinte digitale</string>
     <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte digitale pour ouvrir la base de données</string>
@@ -233,12 +223,9 @@
     <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
-    <string name="auto_open_file_uri_title">Ouvrir les fichiers par sélection</string>
-    <string name="auto_open_file_uri_summary">Ouvrir automatiquement les fichiers lorsqu’ils sont sélectionnés dans le gestionnaire de fichiers</string>
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
     <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
-    <string name="open_link_database">Lien du fichier de base de données à ouvrir</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -247,7 +234,7 @@
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
+    <string name="magic_keyboard_explanation_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
     <string name="enable_education_screens_title">Écrans éducatifs</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
     <string name="reset_education_screens_title">Réinitialiser les écrans éducatifs</string>
@@ -257,16 +244,14 @@
     <string name="education_create_database_summary">Créer votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrir une base de données existante</string>
     <string name="education_select_database_summary">Ouvrir votre ancien fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
-    <string name="education_open_link_database_title">Un lien vers l’emplacement de votre fichier suffit</string>
-    <string name="education_open_link_database_summary">Vous pouvez aussi ouvrir votre base de données avec un lien physique (avec file:// et content:// par exemple).</string>
     <string name="education_new_node_title">Ajouter des éléments à votre base de données</string>
     <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques.
 \n
 \nLes groupes (~ dossiers) organisent les entrées dans votre base de données.</string>
     <string name="education_search_title">Rechercher dans les entrées</string>
     <string name="education_search_summary">Entrer le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_fingerprint_title">Déverrouillage de la base de données par empreinte digitale</string>
-    <string name="education_fingerprint_summary">Associer votre mot de passe à votre empreinte digitale numérisée pour déverrouiller rapidement votre base de données.</string>
+    <string name="education_biometric_title">Déverrouillage de la base de données par empreinte digitale</string>
+    <string name="education_biometric_summary">Associer votre mot de passe à votre empreinte digitale numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifier votre entrée avec des champs personnalisés. La collection de données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort pour votre entrée.</string>
@@ -290,7 +275,7 @@
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
     <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et de toujours être actifs, nous comptons sur votre <strong>contribution.</strong>
+    <string name="html_text_donation">Afin de garder notre liberté et de rester toujours actifs, nous comptons sur votre <strong>contribution.</strong>
     </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -336,21 +321,11 @@
     </string-array>
     <string name="icon_pack_choose_title">Ensemble d’icônes</string>
     <string name="icon_pack_choose_summary">Ensemble d’icônes utilisés dans l’application</string>
-    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
+    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe en lui-même.</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>
     <string name="menu_cancel">Annuler</string>
-    <string name="magic_keyboard_preference_title">Paramètres du Magikeyboard</string>
-    <string name="magic_keyboard_configure_title">Configurer le clavier pour le remplissage automatique des formulaires en sécurité.</string>
-    <string name="magic_keyboard_activate_setting_text">Activer le « Magikeyboard » dans les paramètres de l’appareil.</string>
-    <string name="magic_keyboard_activate_device_keyboard_setting">« Paramètres » → « Langues et saisie » → « Clavier actuel » et en choisir un.</string>
-    <string name="keyboards_choose_magikeyboard_text">Choisir le Magikeyboard lorsque vous avez besoin de remplir un formulaire.</string>
-    <string name="keyboards_swicth_magikeyboard_text">Basculer de clavier en appuyant longuement sur la barre d’espace de votre clavier ou, si ce n’est pas disponible, avec :</string>
-    <string name="keyboard_select_entry_text">Sélectionner votre entrée avec la clé.</string>
-    <string name="keyboard_fill_field_text">Remplisser vos champs avec les éléments de l’entrée.</string>
-    <string name="keyboard_lock_database_text">Verrouiller la base de données.</string>
-    <string name="keyboard_back_main_keyboard_text">Utiliser à nouveau le clavier par défaut.</string>
     <string name="allow_no_password_title">Autoriser aucune clé maîtresse</string>
     <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
     <string name="menu_file_selection_read_only">Protégé en écriture</string>
@@ -411,8 +386,6 @@
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
     <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
-    <string name="content_description_show_file_link">Afficher le lien de fichier</string>
-    <string name="content_description_open_file_link">Ouvrir le lien de fichier</string>
     <string name="content_description_node_children">Enfants de noeud</string>
     <string name="content_description_file_information">Information de fichier</string>
     <string name="content_description_password_checkbox">Case à cocher mot de passe</string>
@@ -420,4 +393,18 @@
     <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
     <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
     <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
+    <string name="content_description_background">Arrière-plan</string>
+    <string name="content_description_update_from_list">Mise à jour</string>
+    <string name="content_description_keyboard_close_fields">Fermer les champs</string>
+    <string name="error_create_database_file">Impossible de créer une base avec ce mot de passe et ce fichier de clé.</string>
+    <string name="menu_advanced_unlock_settings">Déverrouillage avancé</string>
+    <string name="enable">Activer</string>
+    <string name="disable">Désactiver</string>
+    <string name="biometric_prompt_store_credential_title">Enregistrer la reconnaissance biométrique</string>
+    <string name="biometric_prompt_store_credential_message">Stocker les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
+    <string name="biometric_prompt_extract_credential_message">Extraire les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric">Biométrique</string>
+    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement la boite de dialogue biométrique</string>
+    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
 </resources>

@@ -140,7 +140,7 @@ enum class SortNodeEnum {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.creationTime.date
-                    ?.compareTo(object2.creationTime.date) ?: 0
+                    .compareTo(object2.creationTime.date)
         }
     }
 
@@ -152,7 +152,7 @@ enum class SortNodeEnum {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.lastModificationTime.date
-                    ?.compareTo(object2.lastModificationTime.date) ?: 0
+                    .compareTo(object2.lastModificationTime.date)
         }
     }
 
@@ -164,7 +164,7 @@ enum class SortNodeEnum {
 
         override fun compareBySpecificOrder(object1: NodeVersioned, object2: NodeVersioned): Int {
             return object1.lastAccessTime.date
-                    ?.compareTo(object2.lastAccessTime.date) ?: 0
+                    .compareTo(object2.lastAccessTime.date)
         }
     }
 }

@@ -36,7 +36,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     val generatePasswordView: View
     private val entryCommentView: EditText
     private val entryExtraFieldsContainer: ViewGroup
-    val addNewFieldView: View
+    val addNewFieldButton: View
 
     private var iconColor: Int = 0
 
@@ -55,7 +55,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         generatePasswordView = findViewById(R.id.entry_edit_generate_button)
         entryCommentView = findViewById(R.id.entry_edit_notes)
         entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
-        addNewFieldView = findViewById(R.id.entry_edit_add_new_field)
+        addNewFieldButton = findViewById(R.id.entry_edit_add_new_field)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -137,7 +137,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
 
     fun allowCustomField(allow: Boolean, action: () -> Unit) {
-        addNewFieldView.apply {
+        addNewFieldButton.apply {
             if (allow) {
                 visibility = View.VISIBLE
                 setOnClickListener { action.invoke() }
@@ -165,13 +165,40 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
 
     /**
-     * Add a new view to fill in the information of the customized field
+     * Add a new view to fill in the information of the customized field and focus it
      */
-    fun addNewCustomField(name: String = "", value:ProtectedString = ProtectedString(false, "")) {
-        val entryEditCustomField = EntryEditCustomField(context)
-        entryEditCustomField.setData(name, value)
-        entryEditCustomField.setFontVisibility(fontInVisibility)
+    fun addEmptyCustomField() {
+        val entryEditCustomField = EntryEditCustomField(context).apply {
+            setFontVisibility(fontInVisibility)
+            requestFocus()
+        }
         entryExtraFieldsContainer.addView(entryEditCustomField)
+    }
+
+    /**
+     * Update a custom field or create a new one if doesn't exists
+     */
+    fun putCustomField(name: String,
+                       value: ProtectedString = ProtectedString()) {
+        var updateField = false
+        for (i in 0..entryExtraFieldsContainer.childCount) {
+            try {
+                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
+                if (extraFieldView?.label == name) {
+                    extraFieldView.setData(name, value, fontInVisibility)
+                    updateField = true
+                    break
+                }
+            } catch(e: Exception) {
+                // Simply ignore when child view is not a custom field
+            }
+        }
+        if (!updateField) {
+            val entryEditCustomField = EntryEditCustomField(context).apply {
+                setData(name, value, fontInVisibility)
+            }
+            entryExtraFieldsContainer.addView(entryEditCustomField)
+        }
     }
 
     /**

@@ -21,17 +21,19 @@ package com.kunzisoft.keepass.activities
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.appbar.CollapsingToolbarLayout
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.Toolbar
+import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
@@ -49,15 +51,22 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryContentsView
+import java.util.*
 
 class EntryActivity : LockingHideActivity() {
 
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
+    private var historyView: View? = null
     private var entryContentsView: EntryContentsView? = null
+    private var entryProgress: ProgressBar? = null
     private var toolbar: Toolbar? = null
 
+    private var mDatabase: Database? = null
+
     private var mEntry: EntryVersioned? = null
+    private var mIsHistory: Boolean = false
+
     private var mShowPassword: Boolean = false
 
     private var clipboardHelper: ClipboardHelper? = null
@@ -75,27 +84,10 @@ class EntryActivity : LockingHideActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        val currentDatabase = Database.getInstance()
-        mReadOnly = currentDatabase.isReadOnly || mReadOnly
+        mDatabase = Database.getInstance()
+        mReadOnly = mDatabase!!.isReadOnly || mReadOnly
 
         mShowPassword = !PreferencesUtil.isPasswordMask(this)
-
-        // Get Entry from UUID
-        try {
-            val keyEntry: PwNodeId<*> = intent.getParcelableExtra(KEY_ENTRY)
-            mEntry = currentDatabase.getEntryById(keyEntry)
-        } catch (e: ClassCastException) {
-            Log.e(TAG, "Unable to retrieve the entry key")
-        }
-
-        if (mEntry == null) {
-            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
-            finish()
-            return
-        }
-
-        // Update last access time.
-        mEntry?.touch(modified = false, touchParents = false)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
@@ -108,8 +100,10 @@ class EntryActivity : LockingHideActivity() {
         // Get views
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         titleIconView = findViewById(R.id.entry_icon)
+        historyView = findViewById(R.id.history_container)
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
+        entryProgress = findViewById(R.id.entry_progress)
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
@@ -118,6 +112,29 @@ class EntryActivity : LockingHideActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // Get Entry from UUID
+        try {
+            val keyEntry: PwNodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
+            mEntry = mDatabase?.getEntryById(keyEntry)
+        } catch (e: ClassCastException) {
+            Log.e(TAG, "Unable to retrieve the entry key")
+        }
+
+        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+        if (historyPosition >= 0) {
+            mIsHistory = true
+            mEntry = mEntry?.getHistory()?.get(historyPosition)
+        }
+
+        if (mEntry == null) {
+            Toast.makeText(this, R.string.entry_not_found, Toast.LENGTH_LONG).show()
+            finish()
+            return
+        }
+
+        // Update last access time.
+        mEntry?.touch(modified = false, touchParents = false)
 
         mEntry?.let { entry ->
             // Fill data in resume to update from EntryEditActivity
@@ -206,6 +223,17 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
+        //Assign OTP field
+        entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
+                View.OnClickListener {
+                    entry.getOtpElement()?.let { otpElement ->
+                        clipboardHelper?.timeoutCopyToClipboard(
+                                otpElement.token,
+                                getString(R.string.copy_field, getString(R.string.entry_otp))
+                        )
+                    }
+        })
+
         entryContentsView?.assignURL(entry.url)
         entryContentsView?.assignComment(entry.notes)
 
@@ -238,24 +266,36 @@ class EntryActivity : LockingHideActivity() {
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
         // Assign dates
-        entry.creationTime.date?.let {
-            entryContentsView?.assignCreationDate(it)
-        }
-        entry.lastModificationTime.date?.let {
-            entryContentsView?.assignModificationDate(it)
-        }
-        entry.lastAccessTime.date?.let {
-            entryContentsView?.assignLastAccessDate(it)
-        }
-        val expires = entry.expiryTime.date
-        if (entry.isExpires && expires != null) {
-            entryContentsView?.assignExpiresDate(expires)
+        entryContentsView?.assignCreationDate(entry.creationTime)
+        entryContentsView?.assignModificationDate(entry.lastModificationTime)
+        entryContentsView?.assignLastAccessDate(entry.lastAccessTime)
+        entryContentsView?.setExpires(entry.isCurrentlyExpires)
+        if (entry.expires) {
+            entryContentsView?.assignExpiresDate(entry.expiryTime)
         } else {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
 
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)
+
+        // Manage history
+        historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
+        if (mIsHistory) {
+            val taColorAccent = theme.obtainStyledAttributes(intArrayOf(R.attr.colorAccent))
+            collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
+            taColorAccent.recycle()
+        }
+        val entryHistory = entry.getHistory()
+        // isMainEntry = not an history
+        val showHistoryView = entryHistory.isNotEmpty()
+        entryContentsView?.showHistory(showHistoryView)
+        if (showHistoryView) {
+            entryContentsView?.assignHistory(entryHistory)
+            entryContentsView?.onHistoryClick { historyItem, position ->
+                launch(this, historyItem, true, position)
+            }
+        }
 
         database.stopManageEntry(entry)
     }
@@ -404,7 +444,7 @@ class EntryActivity : LockingHideActivity() {
 		TODO Slowdown when add entry as result
         Intent intent = new Intent();
         intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
-        setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
+        onFinish(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
         */
         super.finish()
     }
@@ -412,13 +452,16 @@ class EntryActivity : LockingHideActivity() {
     companion object {
         private val TAG = EntryActivity::class.java.name
 
-        const val KEY_ENTRY = "entry"
+        const val KEY_ENTRY = "KEY_ENTRY"
+        const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"
 
-        fun launch(activity: Activity, pw: EntryVersioned, readOnly: Boolean) {
+        fun launch(activity: Activity, entry: EntryVersioned, readOnly: Boolean, historyPosition: Int? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
-                intent.putExtra(KEY_ENTRY, pw.nodeId)
+                intent.putExtra(KEY_ENTRY, entry.nodeId)
                 ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+                if (historyPosition != null)
+                    intent.putExtra(KEY_ENTRY_HISTORY_POSITION, historyPosition)
                 activity.startActivityForResult(intent, EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE)
             }
         }

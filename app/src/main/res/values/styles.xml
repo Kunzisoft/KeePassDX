@@ -180,7 +180,7 @@
 
     <!-- Contextual Action Bar -->
     <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
-        <item name="background">@color/green_dark</item>
+        <item name="background">@color/orange</item>
     </style>
 
     <!-- CollapsingToolbarLayout -->
@@ -287,6 +287,11 @@
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
 
+    <!-- Item Style -->
+    <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
+        <item name="android:background">@drawable/background_item_selection</item>
+    </style>
+
     <!-- Icon Style -->
     <style name="KeepassDXStyle.Icon" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/background_icon</item>
@@ -311,7 +316,13 @@
 	<style name="KeepassDXStyle.TextAppearance.LabelTextStyle" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textColor">?attr/colorAccent</item>
 		<item name="android:textSize">12sp</item>
+        <item name="android:paddingLeft">4dp</item>
+        <item name="android:paddingRight">4dp</item>
 	</style>
+    <style name="KeepassDXStyle.TextAppearance.LabelTableTextStyle" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 	<style name="KeepassDXStyle.TextAppearance.TextEntryItem" parent="KeepassDXStyle.TextAppearance">
 		<item name="android:padding">5sp</item>
         <item name="android:textSize">16sp</item>

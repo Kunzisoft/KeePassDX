@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.engine.TwofishEngine
-import com.kunzisoft.keepass.database.ObjectNameResource
+import com.kunzisoft.keepass.utils.ObjectNameResource
 
 import java.util.UUID
 

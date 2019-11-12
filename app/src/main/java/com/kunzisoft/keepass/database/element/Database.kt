@@ -20,14 +20,12 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
-import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import android.webkit.URLUtil
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3
 import com.kunzisoft.keepass.database.cursor.EntryCursorV4
@@ -40,7 +38,6 @@ import com.kunzisoft.keepass.database.file.save.PwDbV3Output
 import com.kunzisoft.keepass.database.file.save.PwDbV4Output
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -56,8 +53,11 @@ class Database {
     private var pwDatabaseV3: PwDatabaseV3? = null
     private var pwDatabaseV4: PwDatabaseV4? = null
 
-    private var mUri: Uri? = null
-    private var searchHelper: SearchDbHelper? = null
+    var fileUri: Uri? = null
+        private set
+
+    private var mSearchHelper: SearchDbHelper? = null
+
     var isReadOnly = false
 
     val drawFactory = IconDrawableFactory()
@@ -69,51 +69,120 @@ class Database {
             return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
         }
 
-    val name: String
+    val allowName: Boolean
+        get() = pwDatabaseV4 != null
+
+    var name: String
         get() {
             return pwDatabaseV4?.name ?: ""
         }
+        set(name) {
+            pwDatabaseV4?.name = name
+            pwDatabaseV4?.nameChanged = PwDate()
+        }
 
-    val description: String
+    val allowDescription: Boolean
+        get() = pwDatabaseV4 != null
+
+    var description: String
         get() {
             return pwDatabaseV4?.description ?: ""
         }
+        set(description) {
+            pwDatabaseV4?.description = description
+            pwDatabaseV4?.descriptionChanged = PwDate()
+        }
+
+    val allowDefaultUsername: Boolean
+        get() = pwDatabaseV4 != null
+        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
 
     var defaultUsername: String
         get() {
-            return pwDatabaseV4?.defaultUserName ?: ""
+            return pwDatabaseV4?.defaultUserName ?: "" // TODO pwDatabaseV3 default username
         }
         set(username) {
             pwDatabaseV4?.defaultUserName = username
             pwDatabaseV4?.defaultUserNameChanged = PwDate()
         }
 
-    val encryptionAlgorithm: PwEncryptionAlgorithm?
+    val allowCustomColor: Boolean
+        get() = pwDatabaseV4 != null
+        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+
+    // with format "#000000"
+    var customColor: String
         get() {
-            return pwDatabaseV4?.encryptionAlgorithm
+            return pwDatabaseV4?.color ?: "" // TODO pwDatabaseV3 color
         }
+        set(value) {
+            // TODO Check color string
+            pwDatabaseV4?.color = value
+        }
+
+    val version: String
+        get() = pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "-"
+
+    val allowDataCompression: Boolean
+        get() = pwDatabaseV4 != null
+
+    val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
+        get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
+
+    var compressionAlgorithm: PwCompressionAlgorithm?
+        get() = pwDatabaseV4?.compressionAlgorithm
+        set(value) {
+            value?.let {
+                pwDatabaseV4?.compressionAlgorithm = it
+            }
+        }
+
+    val allowNoMasterKey: Boolean
+        get() = pwDatabaseV4 != null
+
+    val allowEncryptionAlgorithmModification: Boolean
+        get() = availableEncryptionAlgorithms.size > 1
+
+    fun getEncryptionAlgorithmName(resources: Resources): String {
+        return pwDatabaseV3?.encryptionAlgorithm?.getName(resources)
+                ?: pwDatabaseV4?.encryptionAlgorithm?.getName(resources)
+                ?: ""
+    }
 
     val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
 
+    var encryptionAlgorithm: PwEncryptionAlgorithm?
+        get() = pwDatabaseV3?.encryptionAlgorithm ?: pwDatabaseV4?.encryptionAlgorithm
+        set(algorithm) {
+            algorithm?.let {
+                pwDatabaseV4?.encryptionAlgorithm = algorithm
+                pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
+                pwDatabaseV4?.dataCipher = algorithm.dataCipher
+            }
+        }
+
     val availableKdfEngines: List<KdfEngine>
-        get() {
-            if (pwDatabaseV3 != null) {
-                return KdfFactory.kdfListV3
+        get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
+
+    val allowKdfModification: Boolean
+        get() = availableKdfEngines.size > 1
+
+    var kdfEngine: KdfEngine?
+        get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
+        set(kdfEngine) {
+            kdfEngine?.let {
+                if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
+                    pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
+                numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
+                memoryUsage = kdfEngine.defaultMemoryUsage
+                parallelism = kdfEngine.defaultParallelism
             }
-            if (pwDatabaseV4 != null) {
-                return KdfFactory.kdfListV4
-            }
-            return ArrayList()
         }
 
-    val kdfEngine: KdfEngine
-        get() {
-            return pwDatabaseV4?.kdfEngine ?: return KdfFactory.aesKdf
-        }
-
-    val numberKeyEncryptionRoundsAsString: String
-        get() = numberKeyEncryptionRounds.toString()
+    fun getKeyDerivationName(resources: Resources): String {
+        return kdfEngine?.getName(resources) ?: ""
+    }
 
     var numberKeyEncryptionRounds: Long
         get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
@@ -123,9 +192,6 @@ class Database {
             pwDatabaseV4?.numberKeyEncryptionRounds = numberRounds
         }
 
-    val memoryUsageAsString: String
-        get() = memoryUsage.toString()
-
     var memoryUsage: Long
         get() {
             return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
@@ -133,9 +199,6 @@ class Database {
         set(memory) {
             pwDatabaseV4?.memoryUsage = memory
         }
-
-    val parallelismAsString: String
-        get() = parallelism.toString()
 
     var parallelism: Int
         get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOWN_VALUE
@@ -161,11 +224,30 @@ class Database {
             return null
         }
 
+    val manageHistory: Boolean
+        get() = pwDatabaseV4 != null
+
+    var historyMaxItems: Int
+        get() {
+            return pwDatabaseV4?.historyMaxItems ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxItems = value
+        }
+
+    var historyMaxSize: Long
+        get() {
+            return pwDatabaseV4?.historyMaxSize ?: 0
+        }
+        set(value) {
+            pwDatabaseV4?.historyMaxSize = value
+        }
+
     /**
      * Determine if RecycleBin is available or not for this version of database
      * @return true if RecycleBin available
      */
-    val isRecycleBinAvailable: Boolean
+    val allowRecycleBin: Boolean
         get() = pwDatabaseV4 != null
 
     val isRecycleBinEnabled: Boolean
@@ -203,14 +285,20 @@ class Database {
     fun createData(databaseUri: Uri) {
         // Always create a new database with the last version
         setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
-        this.mUri = databaseUri
+        this.fileUri = databaseUri
     }
 
-    @Throws(IOException::class, InvalidDBException::class)
-    fun loadData(ctx: Context, uri: Uri, password: String?, keyfile: Uri?, progressTaskUpdater: ProgressTaskUpdater?) {
+    @Throws(LoadDatabaseException::class)
+    fun loadData(uri: Uri, password: String?, keyfile: Uri?,
+                 readOnly: Boolean,
+                 contentResolver: ContentResolver,
+                 cacheDirectory: File,
+                 omitBackup: Boolean,
+                 fixDuplicateUUID: Boolean,
+                 progressTaskUpdater: ProgressTaskUpdater?) {
 
-        mUri = uri
-        isReadOnly = false
+        this.fileUri = uri
+        isReadOnly = readOnly
         if (uri.scheme == "file") {
             val file = File(uri.path!!)
             isReadOnly = !file.canWrite()
@@ -219,20 +307,20 @@ class Database {
         // Pass Uris as InputStreams
         val inputStream: InputStream?
         try {
-            inputStream = UriUtil.getUriInputStream(ctx.contentResolver, uri)
+            inputStream = UriUtil.getUriInputStream(contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
-            throw ContentFileNotFoundException.getInstance(uri)
+            throw LoadDatabaseFileNotFoundException()
         }
 
         // Pass KeyFile Uri as InputStreams
         var keyFileInputStream: InputStream? = null
         keyfile?.let {
             try {
-                keyFileInputStream = UriUtil.getUriInputStream(ctx.contentResolver, keyfile)
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
-                throw ContentFileNotFoundException.getInstance(keyfile)
+                throw LoadDatabaseFileNotFoundException()
             }
         }
 
@@ -257,28 +345,25 @@ class Database {
             // Header of database V3
             PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
                     .openDatabase(bufferedInputStream,
-                        password,
-                        keyFileInputStream,
-                        progressTaskUpdater))
+                            password,
+                            keyFileInputStream,
+                            progressTaskUpdater))
 
             // Header of database V4
-            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(ctx.filesDir)
+            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
+                    cacheDirectory,
+                    fixDuplicateUUID)
                     .openDatabase(bufferedInputStream,
-                        password,
-                        keyFileInputStream,
-                        progressTaskUpdater))
+                            password,
+                            keyFileInputStream,
+                            progressTaskUpdater))
 
             // Header not recognized
-            else -> throw InvalidDBSignatureException()
+            else -> throw LoadDatabaseSignatureException()
         }
 
-        try {
-            searchHelper = SearchDbHelper(PreferencesUtil.omitBackup(ctx))
-            loaded = true
-        } catch (e: Exception) {
-            Log.e(TAG, "Load can't be performed with this Database version", e)
-            loaded = false
-        }
+        this.mSearchHelper = SearchDbHelper(omitBackup)
+        loaded = true
     }
 
     fun isGroupSearchable(group: GroupVersioned, isOmitBackup: Boolean): Boolean {
@@ -289,7 +374,7 @@ class Database {
 
     @JvmOverloads
     fun search(str: String, max: Int = Integer.MAX_VALUE): GroupVersioned? {
-        return searchHelper?.search(this, str, max)
+        return mSearchHelper?.search(this, str, max)
     }
 
     fun searchEntries(query: String): Cursor? {
@@ -340,14 +425,14 @@ class Database {
         return entry
     }
 
-    @Throws(IOException::class, PwDbOutputException::class)
+    @Throws(IOException::class, DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
-        mUri?.let {
+        this.fileUri?.let {
             saveData(contentResolver, it)
         }
     }
 
-    @Throws(IOException::class, PwDbOutputException::class)
+    @Throws(IOException::class, DatabaseOutputException::class)
     private fun saveData(contentResolver: ContentResolver, uri: Uri) {
         val errorMessage = "Failed to store database."
 
@@ -394,7 +479,7 @@ class Database {
                 outputStream?.close()
             }
         }
-        mUri = uri
+        this.fileUri = uri
     }
 
     // TODO Clear database when lock broadcast is receive in backstage
@@ -406,77 +491,23 @@ class Database {
         // In all cases, delete all the files in the temp dir
         try {
             FileUtils.cleanDirectory(filesDirectory)
-        } catch (e: IOException) {
+        } catch (e: Exception) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
-        pwDatabaseV3 = null
-        pwDatabaseV4 = null
-        mUri = null
-        loaded = false
+        this.pwDatabaseV3 = null
+        this.pwDatabaseV4 = null
+        this.fileUri = null
+        this.loaded = false
     }
 
-    fun getVersion(): String {
-        return pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "unknown"
-    }
-
-    fun containsName(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun assignName(name: String) {
-        pwDatabaseV4?.name = name
-        pwDatabaseV4?.nameChanged = PwDate()
-    }
-
-    fun containsDescription(): Boolean {
-        pwDatabaseV4?.let { return true }
-        return false
-    }
-
-    fun assignDescription(description: String) {
-        pwDatabaseV4?.description = description
-        pwDatabaseV4?.descriptionChanged = PwDate()
-    }
-
-    fun allowEncryptionAlgorithmModification(): Boolean {
-        return availableEncryptionAlgorithms.size > 1
-    }
-
-    fun assignEncryptionAlgorithm(algorithm: PwEncryptionAlgorithm) {
-        pwDatabaseV4?.encryptionAlgorithm = algorithm
-        pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
-        pwDatabaseV4?.dataCipher = algorithm.dataCipher
-    }
-
-    fun getEncryptionAlgorithmName(resources: Resources): String {
-        return pwDatabaseV3?.encryptionAlgorithm?.getName(resources) ?: pwDatabaseV4?.encryptionAlgorithm?.getName(resources) ?: ""
-    }
-
-    fun allowKdfModification(): Boolean {
-        return availableKdfEngines.size > 1
-    }
-
-    fun assignKdfEngine(kdfEngine: KdfEngine) {
-        if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
-            pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
-        numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
-        memoryUsage = kdfEngine.getDefaultMemoryUsage()
-        parallelism = kdfEngine.getDefaultParallelism()
-    }
-
-    fun getKeyDerivationName(resources: Resources): String {
-        return kdfEngine.getName(resources)
-    }
-
-    fun validatePasswordEncoding(key: String?): Boolean {
-        return pwDatabaseV3?.validatePasswordEncoding(key)
-                ?: pwDatabaseV4?.validatePasswordEncoding(key)
+    fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
+        return pwDatabaseV3?.validatePasswordEncoding(password, containsKeyFile)
+                ?: pwDatabaseV4?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false
     }
 
-    @Throws(InvalidKeyFileException::class, IOException::class)
+    @Throws(IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
         pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
         pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
@@ -516,7 +547,7 @@ class Database {
         return null
     }
 
-    fun getEntryById(id: PwNodeId<*>): EntryVersioned? {
+    fun getEntryById(id: PwNodeId<UUID>): EntryVersioned? {
         pwDatabaseV3?.getEntryById(id)?.let {
             return EntryVersioned(it)
         }
@@ -527,12 +558,14 @@ class Database {
     }
 
     fun getGroupById(id: PwNodeId<*>): GroupVersioned? {
-        pwDatabaseV3?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
-        pwDatabaseV4?.getGroupById(id)?.let {
-            return GroupVersioned(it)
-        }
+        if (id is PwNodeIdInt)
+            pwDatabaseV3?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
+        else if (id is PwNodeIdUUID)
+            pwDatabaseV4?.getGroupById(id)?.let {
+                return GroupVersioned(it)
+            }
         return null
     }
 
@@ -544,6 +577,15 @@ class Database {
             pwDatabaseV4?.addEntryTo(entryV4, parent.pwGroupV4)
         }
         entry.afterAssignNewParent()
+    }
+
+    fun updateEntry(entry: EntryVersioned) {
+        entry.pwEntryV3?.let { entryV3 ->
+            pwDatabaseV3?.updateEntry(entryV3)
+        }
+        entry.pwEntryV4?.let { entryV4 ->
+            pwDatabaseV4?.updateEntry(entryV4)
+        }
     }
 
     fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
@@ -566,6 +608,15 @@ class Database {
         group.afterAssignNewParent()
     }
 
+    fun updateGroup(group: GroupVersioned) {
+        group.pwGroupV3?.let { groupV3 ->
+            pwDatabaseV3?.updateGroup(groupV3)
+        }
+        group.pwGroupV4?.let { groupV4 ->
+            pwDatabaseV4?.updateGroup(groupV4)
+        }
+    }
+
     fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {
         group.pwGroupV3?.let { groupV3 ->
             pwDatabaseV3?.removeGroupFrom(groupV3, parent.pwGroupV3)
@@ -582,7 +633,7 @@ class Database {
      * @param newParent
      */
     fun copyEntryTo(entryToCopy: EntryVersioned, newParent: GroupVersioned): EntryVersioned? {
-        val entryCopied = EntryVersioned(entryToCopy)
+        val entryCopied = EntryVersioned(entryToCopy, false)
         entryCopied.nodeId = pwDatabaseV3?.newEntryId() ?: pwDatabaseV4?.newEntryId() ?: PwNodeIdUUID()
         entryCopied.parent = newParent
         entryCopied.title += " (~)"
@@ -702,31 +753,28 @@ class Database {
         }
     }
 
-    fun addHistoryBackupTo(entry: EntryVersioned): EntryVersioned {
-        val backupEntry = EntryVersioned(entry)
+    fun removeOldestHistory(entry: EntryVersioned) {
 
-        entry.addBackupToHistory()
-
-        // Remove oldest backup if more than max items or max memory
+        // Remove oldest history if more than max items or max memory
         pwDatabaseV4?.let {
             val history = entry.getHistory()
 
-            val maxItems = it.historyMaxItems
+            val maxItems = historyMaxItems
             if (maxItems >= 0) {
                 while (history.size > maxItems) {
                     entry.removeOldestEntryFromHistory()
                 }
             }
 
-            val maxSize = it.historyMaxSize
+            val maxSize = historyMaxSize
             if (maxSize >= 0) {
                 while (true) {
-                    var histSize: Long = 0
-                    for (backup in history) {
-                        histSize += backup.size
+                    var historySize: Long = 0
+                    for (entryHistory in history) {
+                        historySize += entryHistory.getSize()
                     }
 
-                    if (histSize > maxSize) {
+                    if (historySize > maxSize) {
                         entry.removeOldestEntryFromHistory()
                     } else {
                         break
@@ -734,8 +782,6 @@ class Database {
                 }
             }
         }
-
-        return backupEntry
     }
 
     companion object : SingletonHolder<Database>(::Database) {

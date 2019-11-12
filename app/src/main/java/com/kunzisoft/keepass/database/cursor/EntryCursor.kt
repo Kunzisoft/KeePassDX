@@ -2,12 +2,11 @@ package com.kunzisoft.keepass.database.cursor
 
 import android.database.MatrixCursor
 import android.provider.BaseColumns
+import com.kunzisoft.keepass.database.element.PwEntry
+import com.kunzisoft.keepass.database.element.PwIconFactory
+import com.kunzisoft.keepass.database.element.PwNodeId
 
-import com.kunzisoft.keepass.database.element.*
-
-import java.util.UUID
-
-abstract class EntryCursor<PwEntryV : PwEntry<*, *>> : MatrixCursor(arrayOf(
+abstract class EntryCursor<EntryId, PwEntryV : PwEntry<*, EntryId, *, *>> : MatrixCursor(arrayOf(
         _ID,
         COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS,
         COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS,
@@ -25,10 +24,10 @@ abstract class EntryCursor<PwEntryV : PwEntry<*, *>> : MatrixCursor(arrayOf(
 
     abstract fun addEntry(entry: PwEntryV)
 
+    abstract fun getPwNodeId(): PwNodeId<EntryId>
+
     open fun populateEntry(pwEntry: PwEntryV, iconFactory: PwIconFactory) {
-        pwEntry.nodeId = PwNodeIdUUID(
-                UUID(getLong(getColumnIndex(COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
-                        getLong(getColumnIndex(COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS))))
+        pwEntry.nodeId = getPwNodeId()
         pwEntry.title = getString(getColumnIndex(COLUMN_INDEX_TITLE))
 
         val iconStandard = iconFactory.getIcon(getInt(getColumnIndex(COLUMN_INDEX_ICON_STANDARD)))
@@ -53,5 +52,4 @@ abstract class EntryCursor<PwEntryV : PwEntry<*, *>> : MatrixCursor(arrayOf(
         const val COLUMN_INDEX_URL = "URL"
         const val COLUMN_INDEX_NOTES = "notes"
     }
-
 }

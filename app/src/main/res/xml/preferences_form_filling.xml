@@ -22,16 +22,23 @@
     <PreferenceCategory
         android:title="@string/keyboard">
         <Preference
+            android:key="@string/magic_keyboard_explanation_key"
+            android:icon="@drawable/prefs_info_24dp"
+            android:summary="@string/magic_keyboard_explanation_summary"/>
+        <Preference
             android:key="@string/magic_keyboard_key"
-            android:title="@string/magic_keyboard_title"
-            android:summary="@string/magic_keyboard_summary" />
+            android:title="@string/device_keyboard_setting_title" />
         <Preference
             android:key="@string/magic_keyboard_preference_key"
-            android:title="@string/magic_keyboard_preference_title" />
+            android:title="@string/magic_keyboard_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/clipboard">
+        <Preference
+            android:key="@string/clipboard_explanation_key"
+            android:icon="@drawable/prefs_info_24dp"
+            android:summary="@string/clipboard_explanation_summary"/>
         <SwitchPreference
             android:key="@string/clipboard_notifications_key"
             android:title="@string/clipboard_notifications_title"
@@ -60,10 +67,13 @@
 
     <PreferenceCategory
         android:title="@string/autofill">
+        <Preference
+            android:key="@string/autofill_explanation_key"
+            android:icon="@drawable/prefs_info_24dp"
+            android:summary="@string/autofill_explanation_summary"/>
         <SwitchPreference
             android:key="@string/settings_autofill_enable_key"
             android:title="@string/set_autofill_service_title"
-            android:summary="@string/set_autofill_service_summary"
             android:defaultValue="@bool/settings_autofill_enable_default"/>
     </PreferenceCategory>
 
