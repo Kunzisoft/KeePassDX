@@ -245,12 +245,14 @@
 
 			<!-- Accessed -->
 			<androidx.appcompat.widget.AppCompatTextView
+				android:visibility="gone"
 				android:id="@+id/entry_accessed_label"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:text="@string/entry_accessed"
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 			<androidx.appcompat.widget.AppCompatTextView
+				android:visibility="gone"
 				android:id="@+id/entry_accessed"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
