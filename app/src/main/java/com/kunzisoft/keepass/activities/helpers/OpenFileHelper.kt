@@ -75,9 +75,10 @@ class OpenFileHelper {
         val intentOpenDocument = Intent(APP_ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
-            flags = Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION or
-                    Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION
+            flags = Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         }
         if (fragment != null)
             fragment?.startActivityForResult(intentOpenDocument, OPEN_DOC)
@@ -85,10 +86,15 @@ class OpenFileHelper {
             activity?.startActivityForResult(intentOpenDocument, OPEN_DOC)
     }
 
+    @SuppressLint("InlinedApi")
     private fun openActivityWithActionGetContent() {
         val intentGetContent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
+            flags = Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
+                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
+                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
+                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
         }
         if (fragment != null)
             fragment?.startActivityForResult(intentGetContent, GET_CONTENT)
