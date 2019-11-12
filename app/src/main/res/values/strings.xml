@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
@@ -64,7 +63,6 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
-
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -121,7 +119,7 @@
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
     <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
-    <string name="error_otp_secret_key">Secret key lust be in Base32 format.</string>
+    <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
@@ -279,7 +277,7 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
-    <string name="lock_database_back_root_title">Press Back on root to lock</string>
+    <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="persistent_notification_title">Persistent notification</string>
     <string name="persistent_notification_summary">Add a notification when the database is open</string>
