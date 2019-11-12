@@ -125,8 +125,9 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     @Throws(IllegalArgumentException::class)
     fun setBase32Secret(secret: String) {
-        if (secret.isNotEmpty() && checkBase32Secret(secret))
-            otpModel.secret = Base32().decode(secret.toByteArray())
+        val secretUppercase = secret.toUpperCase(Locale.ENGLISH)
+        if (secret.isNotEmpty() && checkBase32Secret(secretUppercase))
+            otpModel.secret = Base32().decode(secretUppercase.toByteArray())
         else
             throw IllegalArgumentException()
     }
