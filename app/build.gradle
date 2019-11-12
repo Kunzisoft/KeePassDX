@@ -12,8 +12,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode = 24
-        versionName = "2.5.0.0beta24"
+        versionCode = 25
+        versionName = "2.5.0.0beta25"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -27,7 +27,6 @@ android {
             path "src/main/jni/CMakeLists.txt"
         }
     }
-
 
     buildTypes {
         release {
