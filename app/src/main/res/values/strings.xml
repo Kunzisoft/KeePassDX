@@ -121,7 +121,7 @@
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
     <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
-    <string name="error_otp_secret_key">Secret key lust be in Base32 format.</string>
+    <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
@@ -279,7 +279,7 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
-    <string name="lock_database_back_root_title">Press Back on root to lock</string>
+    <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="persistent_notification_title">Persistent notification</string>
     <string name="persistent_notification_summary">Add a notification when the database is open</string>
