@@ -158,29 +158,29 @@ object OtpEntryFields {
 
             val digitsParam = uri.getQueryParameter(DIGITS_URL_PARAM)
             if (digitsParam != null && digitsParam.isNotEmpty())
-                otpElement.digits = try {
-                     digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                try {
+                    otpElement.digits = digitsParam.toIntOrNull() ?: OTP_DEFAULT_DIGITS
                 } catch (exception: Exception) {
                     Log.e(TAG, "Unable to retrieve OTP digits.", exception)
-                    OTP_DEFAULT_DIGITS
+                    otpElement.digits = OTP_DEFAULT_DIGITS
                 }
 
             val counterParam = uri.getQueryParameter(COUNTER_URL_PARAM)
             if (counterParam != null && counterParam.isNotEmpty())
-                otpElement.counter = try {
-                    counterParam.toLongOrNull() ?: HOTP_INITIAL_COUNTER
+                try {
+                    otpElement.counter = counterParam.toLongOrNull() ?: HOTP_INITIAL_COUNTER
                 } catch (exception: Exception) {
                     Log.e(TAG, "Unable to retrieve HOTP counter.", exception)
-                    HOTP_INITIAL_COUNTER
+                    otpElement.counter = HOTP_INITIAL_COUNTER
                 }
 
             val stepParam = uri.getQueryParameter(PERIOD_URL_PARAM)
             if (stepParam != null && stepParam.isNotEmpty())
-                otpElement.period = try {
-                    stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                try {
+                    otpElement.period = stepParam.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
                 } catch (exception: Exception) {
                     Log.e(TAG, "Unable to retrieve TOTP period.", exception)
-                    TOTP_DEFAULT_PERIOD
+                    otpElement.period = TOTP_DEFAULT_PERIOD
                 }
 
             val algorithmParam = uri.getQueryParameter(ALGORITHM_URL_PARAM)

@@ -55,7 +55,7 @@ You can contribute in different ways to help us on our work.
 	
 ## F.A.Q.
 
-Other questions? You can read the [F.A.Q.](https://www.keepassdx.com/FAQ) 
+Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassDX/wiki/F.A.Q.) 
 	
 ## Other devices
 

@@ -62,16 +62,10 @@ class LoadDatabaseInvalidAlgorithmException : LoadDatabaseException {
 
 class LoadDatabaseDuplicateUuidException: LoadDatabaseException {
     @StringRes
-    override var errorId: Int = R.string.invalid_algorithm
+    override var errorId: Int = R.string.invalid_db_same_uuid
 
     constructor(type: Type, uuid: PwNodeId<*>) : super() {
-        parameters = Array(2) {
-            when(it) {
-                1 -> type.name
-                2 -> uuid.toString()
-                else -> {""}
-            }
-        }
+        parameters = arrayOf(type.name, uuid.toString())
     }
     constructor(exception: Throwable) : super(exception)
 }
