@@ -8,7 +8,8 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
  - Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2
  - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePass XC...)
  - Permet la copie rapide de champs et l'ouverture d'URI /URL
- - Empreintes digitales pour un déblocage rapide des bases
+ - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / ...)
+ - Gestion de One-Time Password (HOTP / TOTP)
  - Material design avec thèmes
  - Remplissage automatique de champs
  - Clavier de remplissage de champs
@@ -17,6 +18,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
 
 <b>Fonctionnalités Pro</b> :
  - Accès aux thèmes personnalisés (y compris le thème noir profond classique)
+ - Création de TOTP Steam
  - Suppression des boutons de don
 
 Keepass DX est <b>opensource</b> et <b>sans publicité</b>.
