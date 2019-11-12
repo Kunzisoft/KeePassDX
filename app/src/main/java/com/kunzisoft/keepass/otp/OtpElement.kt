@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.otp
 
 import com.kunzisoft.keepass.model.OtpModel
-import org.apache.commons.codec.DecoderException
 import org.apache.commons.codec.binary.Base32
 import org.apache.commons.codec.binary.Base64
 import org.apache.commons.codec.binary.Hex
@@ -68,15 +67,17 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     var counter
         get() = otpModel.counter
+        @Throws(NumberFormatException::class)
         set(value) {
             otpModel.counter = if (value < MIN_HOTP_COUNTER || value > MAX_HOTP_COUNTER) {
                 TokenCalculator.HOTP_INITIAL_COUNTER
-                throw NumberFormatException()
+                throw IllegalArgumentException()
             } else value
         }
 
     var period
         get() = otpModel.period
+        @Throws(NumberFormatException::class)
         set(value) {
             otpModel.period = if (value < MIN_TOTP_PERIOD || value > MAX_TOTP_PERIOD) {
                 TokenCalculator.TOTP_DEFAULT_PERIOD
@@ -86,6 +87,7 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     var digits
         get() = otpModel.digits
+        @Throws(NumberFormatException::class)
         set(value) {
             otpModel.digits = if (value < MIN_OTP_DIGITS|| value > MAX_OTP_DIGITS) {
                 TokenCalculator.OTP_DEFAULT_DIGITS
@@ -99,18 +101,20 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
             otpModel.algorithm = value
         }
 
+    @Throws(IllegalArgumentException::class)
     fun setUTF8Secret(secret: String) {
         if (secret.isNotEmpty())
             otpModel.secret = secret.toByteArray(Charset.forName("UTF-8"))
         else
-            throw DecoderException()
+            throw IllegalArgumentException()
     }
 
+    @Throws(IllegalArgumentException::class)
     fun setHexSecret(secret: String) {
         if (secret.isNotEmpty())
             otpModel.secret = Hex.decodeHex(secret)
         else
-            throw DecoderException()
+            throw IllegalArgumentException()
     }
 
     fun getBase32Secret(): String {
@@ -119,18 +123,20 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         } ?: ""
     }
 
+    @Throws(IllegalArgumentException::class)
     fun setBase32Secret(secret: String) {
         if (secret.isNotEmpty() && checkBase32Secret(secret))
             otpModel.secret = Base32().decode(secret.toByteArray())
         else
-            throw DecoderException()
+            throw IllegalArgumentException()
     }
 
+    @Throws(IllegalArgumentException::class)
     fun setBase64Secret(secret: String) {
         if (secret.isNotEmpty() && checkBase64Secret(secret))
             otpModel.secret = Base64().decode(secret.toByteArray())
         else
-            throw DecoderException()
+            throw IllegalArgumentException()
     }
 
     val token: String

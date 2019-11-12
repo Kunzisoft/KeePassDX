@@ -55,7 +55,11 @@ class SetOTPDialogFragment : DialogFragment() {
     private var otpAlgorithmAdapter: ArrayAdapter<TokenCalculator.HashAlgorithm>? = null
 
     private var mManualEvent = false
-    private var touchListener = View.OnTouchListener { _, event ->
+    private var mOnFocusChangeListener = View.OnFocusChangeListener { _, isFocus ->
+        if (!isFocus)
+            mManualEvent = true
+    }
+    private var mOnTouchListener = View.OnTouchListener { _, event ->
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
                 mManualEvent = true
@@ -117,13 +121,17 @@ class SetOTPDialogFragment : DialogFragment() {
             otpDigitsTextView = root?.findViewById(R.id.setup_otp_digits)
 
             // To fix init element
-            otpTypeSpinner?.setOnTouchListener(touchListener)
-            otpTokenTypeSpinner?.setOnTouchListener(touchListener)
-            otpAlgorithmSpinner?.setOnTouchListener(touchListener)
-            otpSecretTextView?.setOnTouchListener(touchListener)
-            otpPeriodTextView?.setOnTouchListener(touchListener)
-            otpCounterTextView?.setOnTouchListener(touchListener)
-            otpDigitsTextView?.setOnTouchListener(touchListener)
+            // With tab keyboard selection
+            otpSecretTextView?.onFocusChangeListener = mOnFocusChangeListener
+            // With finger selection
+            otpTypeSpinner?.setOnTouchListener(mOnTouchListener)
+            otpTokenTypeSpinner?.setOnTouchListener(mOnTouchListener)
+            otpSecretTextView?.setOnTouchListener(mOnTouchListener)
+            otpAlgorithmSpinner?.setOnTouchListener(mOnTouchListener)
+            otpPeriodTextView?.setOnTouchListener(mOnTouchListener)
+            otpCounterTextView?.setOnTouchListener(mOnTouchListener)
+            otpDigitsTextView?.setOnTouchListener(mOnTouchListener)
+
 
             // HOTP / TOTP Type selection
             val otpTypeArray = OtpType.values()
@@ -178,8 +186,8 @@ class SetOTPDialogFragment : DialogFragment() {
         return super.onCreateDialog(savedInstanceState)
     }
 
-    override fun onStart() {
-        super.onStart()
+    override fun onResume() {
+        super.onResume()
         (dialog as AlertDialog).getButton(Dialog.BUTTON_POSITIVE).setOnClickListener {
             if (mSecretWellFormed
                     && mCounterWellFormed
@@ -236,16 +244,14 @@ class SetOTPDialogFragment : DialogFragment() {
         // Set secret in OtpElement
         otpSecretTextView?.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(s: Editable?) {
-                if (mManualEvent) {
-                    s?.toString()?.let { userString ->
-                        try {
-                            mOtpElement.setBase32Secret(userString)
-                            otpSecretContainer?.error = null
-                        } catch (exception: Exception) {
-                            otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
-                        }
-                        mSecretWellFormed = otpSecretContainer?.error == null
+                s?.toString()?.let { userString ->
+                    try {
+                        mOtpElement.setBase32Secret(userString)
+                        otpSecretContainer?.error = null
+                    } catch (exception: Exception) {
+                        otpSecretContainer?.error = getString(R.string.error_otp_secret_key)
                     }
+                    mSecretWellFormed = otpSecretContainer?.error == null
                 }
             }
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
@@ -339,7 +345,11 @@ class SetOTPDialogFragment : DialogFragment() {
     private fun upgradeParameters() {
         otpAlgorithmSpinner?.setSelection(TokenCalculator.HashAlgorithm.values()
                 .indexOf(mOtpElement.algorithm))
-        otpSecretTextView?.setText(mOtpElement.getBase32Secret())
+        otpSecretTextView?.apply {
+            setText(mOtpElement.getBase32Secret())
+            // Cursor at end
+            setSelection(this.text.length)
+        }
         otpCounterTextView?.setText(mOtpElement.counter.toString())
         otpPeriodTextView?.setText(mOtpElement.period.toString())
         otpDigitsTextView?.setText(mOtpElement.digits.toString())
