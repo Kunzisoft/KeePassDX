@@ -33,7 +33,6 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->
                 inputText = if (!isChecked) {
-                    database?.removeEachEntryHistory()
                     NONE_MAX_HISTORY_ITEMS.toString()
                 } else {
                     DEFAULT_MAX_HISTORY_ITEMS.toString()
