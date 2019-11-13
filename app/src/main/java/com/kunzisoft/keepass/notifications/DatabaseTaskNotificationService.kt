@@ -179,6 +179,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             return CreateDatabaseRunnable(this,
                     Database.getInstance(),
                     databaseUri,
+                    getString(R.string.database_default_name),
+                    getString(R.string.database),
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),

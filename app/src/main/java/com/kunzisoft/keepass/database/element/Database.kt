@@ -274,20 +274,8 @@ class Database {
         this.pwDatabaseV4 = pwDatabaseV4
     }
 
-    private fun dbNameFromUri(databaseUri: Uri): String {
-        val filename = URLUtil.guessFileName(databaseUri.path, null, null)
-        if (filename == null || filename.isEmpty()) {
-            return "KeePass Database"
-        }
-        val lastExtDot = filename.lastIndexOf(".")
-        return if (lastExtDot == -1) {
-            filename
-        } else filename.substring(0, lastExtDot)
-    }
-
-    fun createData(databaseUri: Uri) {
-        // Always create a new database with the last version
-        setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
+    fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
+        setDatabaseV4(PwDatabaseV4(databaseName, rootName))
         this.fileUri = databaseUri
     }
 

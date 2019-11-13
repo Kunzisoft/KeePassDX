@@ -53,7 +53,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
 
-    var name = "KeePass DX database"
+    var name = ""
     var nameChanged = PwDate()
     // TODO change setting date
     var settingsChanged = PwDate()
@@ -90,7 +90,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
 
     var binPool = BinaryPool()
 
-    var localizedAppName = "KeePassDX" // TODO resource
+    var localizedAppName = "KeePassDX"
 
     init {
         kdfV4List.add(KdfFactory.aesKdf)
@@ -99,9 +99,13 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
 
     constructor()
 
-    constructor(databaseName: String) {
+    /**
+     * Create a new database with a root group
+     */
+    constructor(databaseName: String, rootName: String) {
+        name = databaseName
         val groupV4 = createGroup().apply {
-            title = databaseName
+            title = rootName
             icon = iconFactory.folderIcon
         }
         rootGroup = groupV4

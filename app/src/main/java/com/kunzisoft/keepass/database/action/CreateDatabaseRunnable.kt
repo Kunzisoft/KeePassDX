@@ -28,6 +28,8 @@ import com.kunzisoft.keepass.database.element.Database
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabase: Database,
                              databaseUri: Uri,
+                             private val databaseName: String,
+                             private val rootName: String,
                              withMasterPassword: Boolean,
                              masterPassword: String?,
                              withKeyFile: Boolean,
@@ -39,7 +41,7 @@ class CreateDatabaseRunnable(context: Context,
         try {
             // Create new database record
             mDatabase.apply {
-                createData(mDatabaseUri)
+                createData(mDatabaseUri, databaseName, rootName)
                 // Set Database state
                 loaded = true
             }

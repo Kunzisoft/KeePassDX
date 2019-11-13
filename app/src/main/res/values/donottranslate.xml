@@ -50,6 +50,7 @@
     <string-array name="file_types">
         <item translatable="false">@string/database_file_extension_default</item>
     </string-array>
+    <string name="database_default_name" translatable="false">KeePass DX Database</string>
 
     <!--
     *******************
