@@ -120,6 +120,9 @@ class Database {
             pwDatabaseV4?.color = value
         }
 
+    val allowOTP: Boolean
+        get() = pwDatabaseV4 != null
+
     val version: String
         get() = pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "-"
 

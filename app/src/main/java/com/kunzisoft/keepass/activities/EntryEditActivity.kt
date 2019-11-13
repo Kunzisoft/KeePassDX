@@ -310,7 +310,8 @@ class EntryEditActivity : LockingHideActivity(),
         val inflater = menuInflater
         inflater.inflate(R.menu.database_lock, menu)
         MenuUtil.contributionMenuInflater(inflater, menu)
-        inflater.inflate(R.menu.edit_entry, menu)
+        if (mDatabase?.allowOTP == true)
+            inflater.inflate(R.menu.entry_otp, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
