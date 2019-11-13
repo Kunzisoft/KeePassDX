@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.stream.LEDataOutputStream;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.UUID;
 
 
@@ -55,20 +55,24 @@ import java.util.UUID;
  *
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
-public class Types {
+public class DatabaseInputOutputUtils {
 
     public static long ULONG_MAX_VALUE = -1;
+
+    private static Charset defaultCharset = Charset.forName("UTF-8");
+
+    private static final byte[] CRLFbuf = { 0x0D, 0x0A };
+    private static final String CRLF = new String(CRLFbuf);
+    private static final String SEP = System.getProperty("line.separator");
+    private static final boolean REPLACE = !SEP.equals(CRLF);
 
     /** Read an unsigned byte */
     public static int readUByte( byte[] buf, int offset ) {
         return ((int)buf[offset] & 0xFF);
     }
 
-    /** Write an unsigned byte
-     *
-     * @param val
-     * @param buf
-     * @param offset
+    /**
+     * Write an unsigned byte
      */
     public static void writeUByte(int val, byte[] buf, int offset) {
         buf[offset] = (byte)(val & 0xFF);
@@ -85,42 +89,16 @@ public class Types {
     /**
      * Return len of null-terminated string (i.e. distance to null)
      * within a byte buffer.
-     *
-     * @param buf
-     * @param offset
-     * @return
      */
-    public static int strlen( byte[] buf, int offset ) {
+    private static int strlen( byte[] buf, int offset ) {
         int len = 0;
         while( buf[offset + len] != 0 )
             len++;
         return len;
     }
 
-
-
-    /**
-     * Copy a sequence of bytes into a new array.
-     *
-     * @param b - source array
-     * @param offset - first byte
-     * @param len - number of bytes
-     * @return new byte[len]
-     */
-    public static byte[] extract( byte[] b, int offset, int len ) {
-        byte[] b2 = new byte[len];
-        System.arraycopy( b, offset, b2, 0, len );
-        return b2;
-    }
-
-
-    private static final byte[] CRLFbuf = { 0x0D, 0x0A };
-    private static final String CRLF = new String(CRLFbuf);
-    private static final String SEP = System.getProperty("line.separator");
-    private static final boolean REPLACE = ! SEP.equals(CRLF);
-
-    public static String readCString(byte[] buf, int offset) throws UnsupportedEncodingException {
-        String jstring = new String(buf, offset, strlen(buf, offset), "UTF-8");
+    public static String readCString(byte[] buf, int offset) {
+        String jstring = new String(buf, offset, strlen(buf, offset), defaultCharset);
 
         if ( REPLACE ) {
             jstring = jstring.replace(CRLF, SEP);
@@ -141,7 +119,7 @@ public class Types {
             str = str.replace(SEP, CRLF);
         }
 
-        byte[] initial = str.getBytes("UTF-8");
+        byte[] initial = str.getBytes(defaultCharset);
 
         int length = initial.length+1;
         os.write(LEDataOutputStream.writeIntBuf(length));
@@ -149,6 +127,33 @@ public class Types {
         os.write(0x00);
 
         return length;
+    }
+
+    public static String readPassword(byte[] buf, int offset) {
+        return new String(buf, offset, strlen(buf, offset), defaultCharset);
+    }
+
+    public static int writePassword(String str, OutputStream os) throws IOException {
+        byte[] initial = str.getBytes(defaultCharset);
+        int length = initial.length+1;
+        os.write(LEDataOutputStream.writeIntBuf(length));
+        os.write(initial);
+        os.write(0x00);
+        return length;
+    }
+
+    public static byte[] readBytes(byte[] buf, int offset, int len) {
+        byte[] binaryData = new byte[len];
+        System.arraycopy(buf, offset, binaryData, 0, len);
+        return binaryData;
+    }
+
+    public static int writeBytes(byte[] data, int dataLen, OutputStream os ) throws IOException  {
+        os.write(LEDataOutputStream.writeIntBuf(dataLen));
+        if (data != null) {
+            os.write(data);
+        }
+        return dataLen;
     }
 
     public static UUID bytestoUUID(byte[] buf) {
@@ -167,15 +172,12 @@ public class Types {
         }
 
         return new UUID(msb, lsb);
-
     }
 
     public static byte[] UUIDtoBytes(UUID uuid) {
         byte[] buf = new byte[16];
-
         LEDataOutputStream.writeLong(uuid.getMostSignificantBits(), buf, 0);
         LEDataOutputStream.writeLong(uuid.getLeastSignificantBits(), buf, 8);
-
         return buf;
     }
 

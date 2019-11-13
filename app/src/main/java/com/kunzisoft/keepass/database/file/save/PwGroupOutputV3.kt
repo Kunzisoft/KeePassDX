@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.database.element.PwGroupV3
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.io.IOException
 import java.io.OutputStream
@@ -44,7 +44,7 @@ class PwGroupOutputV3
 
         // Name
         mOS.write(NAME_FIELD_TYPE)
-        Types.writeCString(mPG.title, mOS)
+        DatabaseInputOutputUtils.writeCString(mPG.title, mOS)
 
         // Create date
         mOS.write(CREATE_FIELD_TYPE)

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.crypto.keyDerivation;
 import com.kunzisoft.keepass.utils.VariantDictionary;
 import com.kunzisoft.keepass.stream.LEDataInputStream;
 import com.kunzisoft.keepass.stream.LEDataOutputStream;
-import com.kunzisoft.keepass.utils.Types;
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -44,7 +44,7 @@ public class KdfParameters extends VariantDictionary {
     }
 
     protected void setParamUUID() {
-        setByteArray(ParamUUID, Types.UUIDtoBytes(kdfUUID));
+        setByteArray(ParamUUID, DatabaseInputOutputUtils.UUIDtoBytes(kdfUUID));
     }
 
     public static KdfParameters deserialize(byte[] data) throws IOException {
@@ -56,7 +56,7 @@ public class KdfParameters extends VariantDictionary {
             return null;
         }
 
-        UUID uuid = Types.bytestoUUID(d.getByteArray(ParamUUID));
+        UUID uuid = DatabaseInputOutputUtils.bytestoUUID(d.getByteArray(ParamUUID));
 
         KdfParameters kdfP = new KdfParameters(uuid);
         kdfP.copyTo(d);

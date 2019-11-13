@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.stream;
 
-import com.kunzisoft.keepass.utils.Types;
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -56,7 +56,7 @@ public class HmacBlockInputStream extends InputStream {
             if (!readSafeBlock()) return -1;
         }
 
-        int output = Types.readUByte(buffer, bufferPos);
+        int output = DatabaseInputOutputUtils.readUByte(buffer, bufferPos);
         bufferPos++;
 
         return output;

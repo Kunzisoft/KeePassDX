@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.search;
 
-import com.kunzisoft.keepass.utils.Types;
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils;
 
 import java.util.UUID;
 
@@ -27,7 +27,7 @@ public class UuidUtil {
     public static String toHexString(UUID uuid) {
         if (uuid == null) { return null; }
 
-        byte[] buf = Types.UUIDtoBytes(uuid);
+        byte[] buf = DatabaseInputOutputUtils.UUIDtoBytes(uuid);
         if (buf == null) { return null; }
 
         int len = buf.length;

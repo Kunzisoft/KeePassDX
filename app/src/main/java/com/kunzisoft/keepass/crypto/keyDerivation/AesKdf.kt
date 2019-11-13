@@ -23,7 +23,7 @@ import android.content.res.Resources
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -88,7 +88,7 @@ class AesKdf internal constructor() : KdfEngine() {
 
         private const val DEFAULT_ROUNDS = 6000
 
-        val CIPHER_UUID: UUID = Types.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytestoUUID(
                 byteArrayOf(0xC9.toByte(),
                         0xD9.toByte(),
                         0xF3.toByte(),

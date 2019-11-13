@@ -30,9 +30,9 @@ import junit.framework.TestCase
 import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
-class TypesTest : TestCase() {
+class DatabaseInputOutputUtilsTest : TestCase() {
 
     fun testReadWriteLongZero() {
         testReadWriteLong(0.toByte())
@@ -155,8 +155,8 @@ class TypesTest : TestCase() {
 
         setArray(orig, value, 0, 1)
 
-        val one = Types.readUByte(orig, 0)
-        Types.writeUByte(one, dest, 0)
+        val one = DatabaseInputOutputUtils.readUByte(orig, 0)
+        DatabaseInputOutputUtils.writeUByte(one, dest, 0)
 
         assertArrayEquals(orig, dest)
 
@@ -185,8 +185,8 @@ class TypesTest : TestCase() {
         val bUUID = ByteArray(16)
         rnd.nextBytes(bUUID)
 
-        val uuid = Types.bytestoUUID(bUUID)
-        val eUUID = Types.UUIDtoBytes(uuid)
+        val uuid = DatabaseInputOutputUtils.bytestoUUID(bUUID)
+        val eUUID = DatabaseInputOutputUtils.UUIDtoBytes(uuid)
 
         assertArrayEquals("UUID match failed", bUUID, eUUID)
     }
@@ -200,7 +200,7 @@ class TypesTest : TestCase() {
 
         val bos = ByteArrayOutputStream()
         val leos = LEDataOutputStream(bos)
-        leos.writeLong(Types.ULONG_MAX_VALUE)
+        leos.writeLong(DatabaseInputOutputUtils.ULONG_MAX_VALUE)
         leos.close()
 
         val uLongMax = bos.toByteArray()

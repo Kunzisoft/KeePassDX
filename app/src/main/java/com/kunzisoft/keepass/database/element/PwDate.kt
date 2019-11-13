@@ -23,7 +23,7 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.util.*
 
 /**
@@ -188,11 +188,11 @@ class PwDate : Parcelable {
          */
         fun readTime(buf: ByteArray?, offset: Int, calendar: Calendar?): Date {
             var time = calendar
-            val dw1 = Types.readUByte(buf!!, offset)
-            val dw2 = Types.readUByte(buf, offset + 1)
-            val dw3 = Types.readUByte(buf, offset + 2)
-            val dw4 = Types.readUByte(buf, offset + 3)
-            val dw5 = Types.readUByte(buf, offset + 4)
+            val dw1 = DatabaseInputOutputUtils.readUByte(buf!!, offset)
+            val dw2 = DatabaseInputOutputUtils.readUByte(buf, offset + 1)
+            val dw3 = DatabaseInputOutputUtils.readUByte(buf, offset + 2)
+            val dw4 = DatabaseInputOutputUtils.readUByte(buf, offset + 3)
+            val dw5 = DatabaseInputOutputUtils.readUByte(buf, offset + 4)
 
             // Unpack 5 byte structure to date and time
             val year = dw1 shl 6 or (dw2 shr 2)
@@ -236,8 +236,8 @@ class PwDate : Parcelable {
             val minute = cal.get(Calendar.MINUTE)
             val second = cal.get(Calendar.SECOND)
 
-            buf[0] = Types.writeUByte(year shr 6 and 0x0000003F)
-            buf[1] = Types.writeUByte(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003))
+            buf[0] = DatabaseInputOutputUtils.writeUByte(year shr 6 and 0x0000003F)
+            buf[1] = DatabaseInputOutputUtils.writeUByte(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003))
             buf[2] = (month and 0x00000003 shl 6
                     or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
             buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.crypto.engine
 
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
@@ -47,7 +47,7 @@ class AesEngine : CipherEngine() {
 
     companion object {
 
-        val CIPHER_UUID: UUID = Types.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytestoUUID(
                 byteArrayOf(0x31.toByte(), 0xC1.toByte(), 0xF2.toByte(), 0xE6.toByte(), 0xBF.toByte(), 0x71.toByte(), 0x43.toByte(), 0x50.toByte(), 0xBE.toByte(), 0x58.toByte(), 0x05.toByte(), 0x21.toByte(), 0x6A.toByte(), 0xFC.toByte(), 0x5A.toByte(), 0xFF.toByte()))
     }
 }
