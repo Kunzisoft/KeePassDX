@@ -336,6 +336,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         historyContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
+    fun refreshHistory() {
+        historyAdapter.notifyDataSetChanged()
+    }
+
     fun assignHistory(history: ArrayList<EntryVersioned>) {
         historyAdapter.clear()
         historyAdapter.entryHistoryList.addAll(history)

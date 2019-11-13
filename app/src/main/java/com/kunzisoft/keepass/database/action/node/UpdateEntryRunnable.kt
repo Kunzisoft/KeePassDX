@@ -46,7 +46,7 @@ class UpdateEntryRunnable constructor(
 
         // Create an entry history (an entry history don't have history)
         mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
-        database.removeOldestHistory(mOldEntry)
+        database.removeOldestEntryHistory(mOldEntry)
 
         // Only change data in index
         database.updateEntry(mOldEntry)

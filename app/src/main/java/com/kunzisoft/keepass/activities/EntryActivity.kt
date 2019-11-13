@@ -298,6 +298,8 @@ class EntryActivity : LockingHideActivity() {
         }
 
         database.stopManageEntry(entry)
+
+        entryContentsView?.refreshHistory()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

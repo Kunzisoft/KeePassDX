@@ -485,7 +485,6 @@ class Database {
         this.fileUri = uri
     }
 
-    // TODO Clear database when lock broadcast is receive in backstage
     fun closeAndClear(filesDirectory: File? = null) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
@@ -756,15 +755,48 @@ class Database {
         }
     }
 
-    fun removeOldestHistory(entry: EntryVersioned) {
+    /**
+     * Remove oldest history for each entry if more than max items or max memory
+     */
+    fun removeOldestHistoryForEachEntry() {
+        rootGroup?.doForEachChildAndForIt(
+                object : NodeHandler<EntryVersioned>() {
+                    override fun operate(node: EntryVersioned): Boolean {
+                        removeOldestEntryHistory(node)
+                        return true
+                    }
+                },
+                object : NodeHandler<GroupVersioned>() {
+                    override fun operate(node: GroupVersioned): Boolean {
+                        return true
+                    }
+                })
+    }
 
-        // Remove oldest history if more than max items or max memory
+    fun removeEachEntryHistory() {
+        rootGroup?.doForEachChildAndForIt(
+                object : NodeHandler<EntryVersioned>() {
+                    override fun operate(node: EntryVersioned): Boolean {
+                        node.removeAllHistory()
+                        return true
+                    }
+                },
+                object : NodeHandler<GroupVersioned>() {
+                    override fun operate(node: GroupVersioned): Boolean {
+                        return true
+                    }
+                })
+    }
+
+    /**
+     * Remove oldest history if more than max items or max memory
+     */
+    fun removeOldestEntryHistory(entry: EntryVersioned) {
         pwDatabaseV4?.let {
-            val history = entry.getHistory()
 
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
-                while (history.size > maxItems) {
+                while (entry.getHistory().size > maxItems) {
                     entry.removeOldestEntryFromHistory()
                 }
             }
@@ -773,7 +805,7 @@ class Database {
             if (maxSize >= 0) {
                 while (true) {
                     var historySize: Long = 0
-                    for (entryHistory in history) {
+                    for (entryHistory in entry.getHistory()) {
                         historySize += entryHistory.getSize()
                     }
 
