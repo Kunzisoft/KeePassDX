@@ -55,7 +55,7 @@ import java.util.UUID;
  *
  * @author Bill Zwicky <wrzwicky@pobox.com>
  */
-public class Types {
+public class DatabaseInputOutputUtils {
 
     public static long ULONG_MAX_VALUE = -1;
 

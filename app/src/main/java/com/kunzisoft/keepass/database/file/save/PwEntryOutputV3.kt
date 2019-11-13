@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.database.element.PwEntryV3
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.io.IOException
 import java.io.OutputStream
@@ -47,7 +47,7 @@ class PwEntryOutputV3
         // UUID
         mOutputStream.write(UUID_FIELD_TYPE)
         mOutputStream.write(UUID_FIELD_SIZE)
-        mOutputStream.write(Types.UUIDtoBytes(mEntry.id))
+        mOutputStream.write(DatabaseInputOutputUtils.UUIDtoBytes(mEntry.id))
 
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
@@ -62,23 +62,23 @@ class PwEntryOutputV3
         // Title
         //byte[] title = mEntry.title.getBytes("UTF-8");
         mOutputStream.write(TITLE_FIELD_TYPE)
-        length += Types.writeCString(mEntry.title, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writeCString(mEntry.title, mOutputStream).toLong()
 
         // URL
         mOutputStream.write(URL_FIELD_TYPE)
-        length += Types.writeCString(mEntry.url, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writeCString(mEntry.url, mOutputStream).toLong()
 
         // Username
         mOutputStream.write(USERNAME_FIELD_TYPE)
-        length += Types.writeCString(mEntry.username, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writeCString(mEntry.username, mOutputStream).toLong()
 
         // Password
         mOutputStream.write(PASSWORD_FIELD_TYPE)
-        length += Types.writePassword(mEntry.password, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writePassword(mEntry.password, mOutputStream).toLong()
 
         // Additional
         mOutputStream.write(ADDITIONAL_FIELD_TYPE)
-        length += Types.writeCString(mEntry.notes, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writeCString(mEntry.notes, mOutputStream).toLong()
 
         // Create date
         writeDate(CREATE_FIELD_TYPE, mEntry.creationTime.byteArrayDate)
@@ -114,11 +114,11 @@ class PwEntryOutputV3
     @Throws(IOException::class)
     private fun writeBinary(data: ByteArray?) {
         mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-        length += Types.writeCString(mEntry.binaryDesc, mOutputStream).toLong()
+        length += DatabaseInputOutputUtils.writeCString(mEntry.binaryDesc, mOutputStream).toLong()
 
         val dataLen: Int = data?.size ?: 0
         mOutputStream.write(BINARY_DATA_FIELD_TYPE)
-        length += Types.writeBytes(data, dataLen, mOutputStream)
+        length += DatabaseInputOutputUtils.writeBytes(data, dataLen, mOutputStream)
     }
 
     companion object {

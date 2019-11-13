@@ -55,7 +55,7 @@ import com.kunzisoft.keepass.database.file.PwDbHeaderV3
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import javax.crypto.*
 import javax.crypto.spec.IvParameterSpec
@@ -287,7 +287,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             0x0000 -> {
             }
             0x0001 -> grp.setGroupId(LEDataInputStream.readInt(buf, offset))
-            0x0002 -> grp.title = Types.readCString(buf, offset)
+            0x0002 -> grp.title = DatabaseInputOutputUtils.readCString(buf, offset)
             0x0003 -> grp.creationTime = PwDate(buf, offset)
             0x0004 -> grp.lastModificationTime = PwDate(buf, offset)
             0x0005 -> grp.lastAccessTime = PwDate(buf, offset)
@@ -309,7 +309,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         when (fieldType) {
             0x0000 -> {
             }
-            0x0001 -> ent.nodeId = PwNodeIdUUID(Types.bytestoUUID(buf, offsetMutable))
+            0x0001 -> ent.nodeId = PwNodeIdUUID(DatabaseInputOutputUtils.bytestoUUID(buf, offsetMutable))
             0x0002 -> {
                 val pwGroupV3 = mDatabaseToOpen.createGroup()
                 pwGroupV3.nodeId = PwNodeIdInt(LEDataInputStream.readInt(buf, offsetMutable))
@@ -325,17 +325,17 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
 
                 ent.icon = db.iconFactory.getIcon(iconId)
             }
-            0x0004 -> ent.title = Types.readCString(buf, offsetMutable)
-            0x0005 -> ent.url = Types.readCString(buf, offsetMutable)
-            0x0006 -> ent.username = Types.readCString(buf, offsetMutable)
-            0x0007 -> ent.password = Types.readPassword(buf, offsetMutable)
-            0x0008 -> ent.notes = Types.readCString(buf, offsetMutable)
+            0x0004 -> ent.title = DatabaseInputOutputUtils.readCString(buf, offsetMutable)
+            0x0005 -> ent.url = DatabaseInputOutputUtils.readCString(buf, offsetMutable)
+            0x0006 -> ent.username = DatabaseInputOutputUtils.readCString(buf, offsetMutable)
+            0x0007 -> ent.password = DatabaseInputOutputUtils.readPassword(buf, offsetMutable)
+            0x0008 -> ent.notes = DatabaseInputOutputUtils.readCString(buf, offsetMutable)
             0x0009 -> ent.creationTime = PwDate(buf, offsetMutable)
             0x000A -> ent.lastModificationTime = PwDate(buf, offsetMutable)
             0x000B -> ent.lastAccessTime = PwDate(buf, offsetMutable)
             0x000C -> ent.expiryTime = PwDate(buf, offsetMutable)
-            0x000D -> ent.binaryDesc = Types.readCString(buf, offsetMutable)
-            0x000E -> ent.binaryData = Types.readBytes(buf, offsetMutable, fieldSize)
+            0x000D -> ent.binaryDesc = DatabaseInputOutputUtils.readCString(buf, offsetMutable)
+            0x000E -> ent.binaryData = DatabaseInputOutputUtils.readBytes(buf, offsetMutable, fieldSize)
         }// Ignore field
     }
 

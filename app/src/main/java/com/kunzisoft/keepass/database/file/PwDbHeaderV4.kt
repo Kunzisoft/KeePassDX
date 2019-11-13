@@ -29,7 +29,7 @@ import com.kunzisoft.keepass.database.exception.LoadDatabaseVersionException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -239,7 +239,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = Types.bytestoUUID(pbId)
+        databaseV4.dataCipher = DatabaseInputOutputUtils.bytestoUUID(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray?) {
@@ -319,7 +319,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.GetHmacKey64(key, Types.ULONG_MAX_VALUE)
+            val blockKey = HmacBlockStream.GetHmacKey64(key, DatabaseInputOutputUtils.ULONG_MAX_VALUE)
 
             val hmac: Mac
             try {

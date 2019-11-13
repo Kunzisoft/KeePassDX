@@ -28,7 +28,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.stream.HmacBlockStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.stream.MacOutputStream
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -66,7 +66,7 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         val hmac: Mac
         try {
             hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, Types.ULONG_MAX_VALUE), "HmacSHA256")
+            val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, DatabaseInputOutputUtils.ULONG_MAX_VALUE), "HmacSHA256")
             hmac.init(signingKey)
         } catch (e: NoSuchAlgorithmException) {
             throw DatabaseOutputException(e)
@@ -86,7 +86,7 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         los.writeUInt(PwDbHeaderV4.DBSIG_2.toLong())
         los.writeUInt(header.version)
 
-        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, Types.UUIDtoBytes(db.dataCipher))
+        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, DatabaseInputOutputUtils.UUIDtoBytes(db.dataCipher))
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(PwDbHeaderV4.getFlagFromCompression(db.compressionAlgorithm)))
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 

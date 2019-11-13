@@ -40,7 +40,7 @@ import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
 import com.kunzisoft.keepass.utils.MemoryUtil
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
@@ -505,7 +505,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, uuid: UUID) {
-        val data = Types.UUIDtoBytes(uuid)
+        val data = DatabaseInputOutputUtils.UUIDtoBytes(uuid)
         writeObject(name, String(Base64Coder.encode(data)))
     }
 

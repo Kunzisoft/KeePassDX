@@ -36,7 +36,7 @@ import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.MemoryUtil
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -876,7 +876,7 @@ class ImporterV4(private val streamDir: File,
         // TODO: Switch to framework Base64 once API level 8 is the minimum
         val buf = Base64Coder.decode(encoded)
 
-        return Types.bytestoUUID(buf)
+        return DatabaseInputOutputUtils.bytestoUUID(buf)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
