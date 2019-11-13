@@ -21,11 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-
-import java.io.UnsupportedEncodingException
-import java.util.Arrays
-import java.util.UUID
-
+import java.util.*
 
 /**
  * Structure containing information about one entry.
@@ -56,12 +52,11 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
      * @return the actual binaryData byte array.
      */
     var binaryData: ByteArray = ByteArray(0)
-        private set
 
     // Determine if this is a MetaStream entry
     val isMetaStream: Boolean
         get() {
-            if (Arrays.equals(binaryData, ByteArray(0))) return false
+            if (binaryData.contentEquals(ByteArray(0))) return false
             if (notes.isEmpty()) return false
             if (binaryDesc != PMS_ID_BINDESC) return false
             if (title.isEmpty()) return false
@@ -85,10 +80,11 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
     constructor(parcel: Parcel) : super(parcel) {
         title = parcel.readString() ?: title
         username = parcel.readString() ?: username
-        parcel.readByteArray(passwordBytes)
+        password = parcel.readString() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
         binaryDesc = parcel.readString() ?: binaryDesc
+        binaryData = ByteArray(parcel.readInt())
         parcel.readByteArray(binaryData)
     }
 
@@ -104,10 +100,11 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
         super.writeToParcel(dest, flags)
         dest.writeString(title)
         dest.writeString(username)
-        dest.writeByteArray(passwordBytes)
+        dest.writeString(password)
         dest.writeString(url)
         dest.writeString(notes)
         dest.writeString(binaryDesc)
+        dest.writeInt(binaryData.size)
         dest.writeByteArray(binaryData)
     }
 
@@ -115,11 +112,7 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
         super.updateWith(source)
         title = source.title
         username = source.username
-
-        val passLen = source.passwordBytes.size
-        passwordBytes = ByteArray(passLen)
-        System.arraycopy(source.passwordBytes, 0, passwordBytes, 0, passLen)
-
+        password = source.password
         url = source.url
         notes = source.notes
         binaryDesc = source.binaryDesc
@@ -131,32 +124,10 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
 
     override var username = ""
 
-    var passwordBytes: ByteArray = ByteArray(0)
-        private set
-
-    /** Securely erase old password before copying new.  */
-    fun setPassword(buf: ByteArray, offset: Int, len: Int) {
-        fill(passwordBytes, 0.toByte())
-        passwordBytes = ByteArray(len)
-        System.arraycopy(buf, offset, passwordBytes, 0, len)
-    }
-
     /**
      * @return the actual password byte array.
      */
-    override var password: String
-        get() = String(passwordBytes)
-        set(pass) {
-            var password: ByteArray
-            try {
-                password = pass.toByteArray(charset("UTF-8"))
-                setPassword(password, 0, password.size)
-            } catch (e: UnsupportedEncodingException) {
-                password = pass.toByteArray()
-                setPassword(password, 0, password.size)
-            }
-
-        }
+    override var password = ""
 
     override var url = ""
 
@@ -166,13 +137,6 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
 
     override val type: Type
         get() = Type.ENTRY
-
-    fun setBinaryData(buf: ByteArray, offset: Int, len: Int) {
-        /** Securely erase old data before copying new.  */
-        fill(binaryData, 0.toByte())
-        binaryData = ByteArray(len)
-        System.arraycopy(buf, offset, binaryData, 0, len)
-    }
 
     companion object {
 
@@ -184,21 +148,13 @@ class PwEntryV3 : PwEntry<Int, UUID, PwGroupV3, PwEntryV3>, PwNodeV3Interface {
 
         @JvmField
         val CREATOR: Parcelable.Creator<PwEntryV3> = object : Parcelable.Creator<PwEntryV3> {
-            override fun createFromParcel(`in`: Parcel): PwEntryV3 {
-                return PwEntryV3(`in`)
+            override fun createFromParcel(parcel: Parcel): PwEntryV3 {
+                return PwEntryV3(parcel)
             }
 
             override fun newArray(size: Int): Array<PwEntryV3?> {
                 return arrayOfNulls(size)
             }
-        }
-
-        /**
-         * fill byte array
-         */
-        private fun fill(array: ByteArray, value: Byte) {
-            for (i in array.indices)
-                array[i] = value
         }
     }
 }

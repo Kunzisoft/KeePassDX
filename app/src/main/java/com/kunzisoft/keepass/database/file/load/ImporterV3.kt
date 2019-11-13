@@ -328,14 +328,14 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             0x0004 -> ent.title = Types.readCString(buf, offsetMutable)
             0x0005 -> ent.url = Types.readCString(buf, offsetMutable)
             0x0006 -> ent.username = Types.readCString(buf, offsetMutable)
-            0x0007 -> ent.setPassword(buf, offsetMutable, Types.strlen(buf, offsetMutable))
+            0x0007 -> ent.password = Types.readPassword(buf, offsetMutable)
             0x0008 -> ent.notes = Types.readCString(buf, offsetMutable)
             0x0009 -> ent.creationTime = PwDate(buf, offsetMutable)
             0x000A -> ent.lastModificationTime = PwDate(buf, offsetMutable)
             0x000B -> ent.lastAccessTime = PwDate(buf, offsetMutable)
             0x000C -> ent.expiryTime = PwDate(buf, offsetMutable)
             0x000D -> ent.binaryDesc = Types.readCString(buf, offsetMutable)
-            0x000E -> ent.setBinaryData(buf, offsetMutable, fieldSize)
+            0x000E -> ent.binaryData = Types.readBytes(buf, offsetMutable, fieldSize)
         }// Ignore field
     }
 

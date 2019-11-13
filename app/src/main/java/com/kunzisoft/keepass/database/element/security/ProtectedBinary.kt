@@ -80,6 +80,7 @@ class ProtectedBinary : Parcelable {
 
     private constructor(parcel: Parcel) {
         isProtected = parcel.readByte().toInt() != 0
+        data = ByteArray(parcel.readInt())
         parcel.readByteArray(data)
         dataFile = File(parcel.readString())
         size = parcel.readInt()
@@ -130,8 +131,9 @@ class ProtectedBinary : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (isProtected) 1 else 0).toByte())
+        dest.writeInt(data?.size ?: 0)
         dest.writeByteArray(data)
-        dest.writeString(dataFile!!.absolutePath)
+        dest.writeString(dataFile?.absolutePath)
         dest.writeInt(size)
     }
 

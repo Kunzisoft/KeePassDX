@@ -30,7 +30,7 @@ class PwEntryOutputV3
 /**
  * Output the PwGroupV3 to the stream
  */
-(private val mPE: PwEntryV3, private val mOS: OutputStream) {
+(private val mEntry: PwEntryV3, private val mOutputStream: OutputStream) {
     /**
      * Returns the number of bytes written by the stream
      * @return Number of bytes written
@@ -45,96 +45,80 @@ class PwEntryOutputV3
         length += 134  // Length of fixed size fields
 
         // UUID
-        mOS.write(UUID_FIELD_TYPE)
-        mOS.write(UUID_FIELD_SIZE)
-        mOS.write(Types.UUIDtoBytes(mPE.id))
+        mOutputStream.write(UUID_FIELD_TYPE)
+        mOutputStream.write(UUID_FIELD_SIZE)
+        mOutputStream.write(Types.UUIDtoBytes(mEntry.id))
 
         // Group ID
-        mOS.write(GROUPID_FIELD_TYPE)
-        mOS.write(LONG_FOUR)
-        mOS.write(LEDataOutputStream.writeIntBuf(mPE.parent!!.id))
+        mOutputStream.write(GROUPID_FIELD_TYPE)
+        mOutputStream.write(LONG_FOUR)
+        mOutputStream.write(LEDataOutputStream.writeIntBuf(mEntry.parent!!.id))
 
         // Image ID
-        mOS.write(IMAGEID_FIELD_TYPE)
-        mOS.write(LONG_FOUR)
-        mOS.write(LEDataOutputStream.writeIntBuf(mPE.icon.iconId))
+        mOutputStream.write(IMAGEID_FIELD_TYPE)
+        mOutputStream.write(LONG_FOUR)
+        mOutputStream.write(LEDataOutputStream.writeIntBuf(mEntry.icon.iconId))
 
         // Title
-        //byte[] title = mPE.title.getBytes("UTF-8");
-        mOS.write(TITLE_FIELD_TYPE)
-        val titleLen = Types.writeCString(mPE.title, mOS)
-        length += titleLen.toLong()
+        //byte[] title = mEntry.title.getBytes("UTF-8");
+        mOutputStream.write(TITLE_FIELD_TYPE)
+        length += Types.writeCString(mEntry.title, mOutputStream).toLong()
 
         // URL
-        mOS.write(URL_FIELD_TYPE)
-        val urlLen = Types.writeCString(mPE.url, mOS)
-        length += urlLen.toLong()
+        mOutputStream.write(URL_FIELD_TYPE)
+        length += Types.writeCString(mEntry.url, mOutputStream).toLong()
 
         // Username
-        mOS.write(USERNAME_FIELD_TYPE)
-        val userLen = Types.writeCString(mPE.username, mOS)
-        length += userLen.toLong()
+        mOutputStream.write(USERNAME_FIELD_TYPE)
+        length += Types.writeCString(mEntry.username, mOutputStream).toLong()
 
         // Password
-        val password = mPE.passwordBytes
-        mOS.write(PASSWORD_FIELD_TYPE)
-        mOS.write(LEDataOutputStream.writeIntBuf(password.size + 1))
-        mOS.write(password)
-        mOS.write(0)
-        length += (password.size + 1).toLong()
+        mOutputStream.write(PASSWORD_FIELD_TYPE)
+        length += Types.writePassword(mEntry.password, mOutputStream).toLong()
 
         // Additional
-        mOS.write(ADDITIONAL_FIELD_TYPE)
-        val addlLen = Types.writeCString(mPE.notes, mOS)
-        length += addlLen.toLong()
+        mOutputStream.write(ADDITIONAL_FIELD_TYPE)
+        length += Types.writeCString(mEntry.notes, mOutputStream).toLong()
 
         // Create date
-        writeDate(CREATE_FIELD_TYPE, mPE.creationTime.byteArrayDate)
+        writeDate(CREATE_FIELD_TYPE, mEntry.creationTime.byteArrayDate)
 
         // Modification date
-        writeDate(MOD_FIELD_TYPE, mPE.lastModificationTime.byteArrayDate)
+        writeDate(MOD_FIELD_TYPE, mEntry.lastModificationTime.byteArrayDate)
 
         // Access date
-        writeDate(ACCESS_FIELD_TYPE, mPE.lastAccessTime.byteArrayDate)
+        writeDate(ACCESS_FIELD_TYPE, mEntry.lastAccessTime.byteArrayDate)
 
         // Expiration date
-        writeDate(EXPIRE_FIELD_TYPE, mPE.expiryTime.byteArrayDate)
+        writeDate(EXPIRE_FIELD_TYPE, mEntry.expiryTime.byteArrayDate)
 
-        // Binary desc
-        mOS.write(BINARY_DESC_FIELD_TYPE)
-        val descLen = Types.writeCString(mPE.binaryDesc, mOS)
-        length += descLen.toLong()
-
-        // Binary data
-        val dataLen = writeByteArray(mPE.binaryData)
-        length += dataLen.toLong()
+        // Binary
+        writeBinary(mEntry.binaryData)
 
         // End
-        mOS.write(END_FIELD_TYPE)
-        mOS.write(ZERO_FIELD_SIZE)
-    }
-
-    @Throws(IOException::class)
-    private fun writeByteArray(data: ByteArray?): Int {
-        val dataLen: Int = data?.size ?: 0
-        mOS.write(BINARY_DATA_FIELD_TYPE)
-        mOS.write(LEDataOutputStream.writeIntBuf(dataLen))
-        if (data != null) {
-            mOS.write(data)
-        }
-
-        return dataLen
+        mOutputStream.write(END_FIELD_TYPE)
+        mOutputStream.write(ZERO_FIELD_SIZE)
     }
 
     @Throws(IOException::class)
     private fun writeDate(type: ByteArray, date: ByteArray?) {
-        mOS.write(type)
-        mOS.write(DATE_FIELD_SIZE)
+        mOutputStream.write(type)
+        mOutputStream.write(DATE_FIELD_SIZE)
         if (date != null) {
-            mOS.write(date)
+            mOutputStream.write(date)
         } else {
-            mOS.write(ZERO_FIVE)
+            mOutputStream.write(ZERO_FIVE)
         }
+    }
+
+    @Throws(IOException::class)
+    private fun writeBinary(data: ByteArray?) {
+        mOutputStream.write(BINARY_DESC_FIELD_TYPE)
+        length += Types.writeCString(mEntry.binaryDesc, mOutputStream).toLong()
+
+        val dataLen: Int = data?.size ?: 0
+        mOutputStream.write(BINARY_DATA_FIELD_TYPE)
+        length += Types.writeBytes(data, dataLen, mOutputStream)
     }
 
     companion object {
