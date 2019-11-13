@@ -26,64 +26,62 @@ import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.IOException
 import java.io.OutputStream
 
-class PwGroupOutputV3
-/** Output the PwGroupV3 to the stream
- * @param pg
- * @param os
+/**
+ * Output the PwGroupV3 to the stream
  */
-(private val mPG: PwGroupV3, private val mOS: OutputStream) {
+class PwGroupOutputV3 (private val mGroup: PwGroupV3, private val mOutputStream: OutputStream) {
 
     @Throws(IOException::class)
     fun output() {
         //NOTE: Need be to careful about using ints.  The actual type written to file is a unsigned int, but most values can't be greater than 2^31, so it probably doesn't matter.
 
         // Group ID
-        mOS.write(GROUPID_FIELD_TYPE)
-        mOS.write(GROUPID_FIELD_SIZE)
-        mOS.write(LEDataOutputStream.writeIntBuf(mPG.id))
+        mOutputStream.write(GROUPID_FIELD_TYPE)
+        mOutputStream.write(GROUPID_FIELD_SIZE)
+        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.id))
 
         // Name
-        mOS.write(NAME_FIELD_TYPE)
-        DatabaseInputOutputUtils.writeCString(mPG.title, mOS)
+        mOutputStream.write(NAME_FIELD_TYPE)
+        DatabaseInputOutputUtils.writeCString(mGroup.title, mOutputStream)
 
         // Create date
-        mOS.write(CREATE_FIELD_TYPE)
-        mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.creationTime.byteArrayDate)
+        mOutputStream.write(CREATE_FIELD_TYPE)
+        mOutputStream.write(DATE_FIELD_SIZE)
+        mOutputStream.write(mGroup.creationTime.byteArrayDate)
 
         // Modification date
-        mOS.write(MOD_FIELD_TYPE)
-        mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.lastModificationTime.byteArrayDate)
+        mOutputStream.write(MOD_FIELD_TYPE)
+        mOutputStream.write(DATE_FIELD_SIZE)
+        mOutputStream.write(mGroup.lastModificationTime.byteArrayDate)
 
         // Access date
-        mOS.write(ACCESS_FIELD_TYPE)
-        mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.lastAccessTime.byteArrayDate)
+        mOutputStream.write(ACCESS_FIELD_TYPE)
+        mOutputStream.write(DATE_FIELD_SIZE)
+        mOutputStream.write(mGroup.lastAccessTime.byteArrayDate)
 
         // Expiration date
-        mOS.write(EXPIRE_FIELD_TYPE)
-        mOS.write(DATE_FIELD_SIZE)
-        mOS.write(mPG.expiryTime.byteArrayDate)
+        mOutputStream.write(EXPIRE_FIELD_TYPE)
+        mOutputStream.write(DATE_FIELD_SIZE)
+        mOutputStream.write(mGroup.expiryTime.byteArrayDate)
 
         // Image ID
-        mOS.write(IMAGEID_FIELD_TYPE)
-        mOS.write(IMAGEID_FIELD_SIZE)
-        mOS.write(LEDataOutputStream.writeIntBuf(mPG.icon.iconId))
+        mOutputStream.write(IMAGEID_FIELD_TYPE)
+        mOutputStream.write(IMAGEID_FIELD_SIZE)
+        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.icon.iconId))
 
         // Level
-        mOS.write(LEVEL_FIELD_TYPE)
-        mOS.write(LEVEL_FIELD_SIZE)
-        mOS.write(LEDataOutputStream.writeUShortBuf(mPG.level))
+        mOutputStream.write(LEVEL_FIELD_TYPE)
+        mOutputStream.write(LEVEL_FIELD_SIZE)
+        mOutputStream.write(LEDataOutputStream.writeUShortBuf(mGroup.level))
 
         // Flags
-        mOS.write(FLAGS_FIELD_TYPE)
-        mOS.write(FLAGS_FIELD_SIZE)
-        mOS.write(LEDataOutputStream.writeIntBuf(mPG.flags))
+        mOutputStream.write(FLAGS_FIELD_TYPE)
+        mOutputStream.write(FLAGS_FIELD_SIZE)
+        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.flags))
 
         // End
-        mOS.write(END_FIELD_TYPE)
-        mOS.write(ZERO_FIELD_SIZE)
+        mOutputStream.write(END_FIELD_TYPE)
+        mOutputStream.write(ZERO_FIELD_SIZE)
     }
 
     companion object {
