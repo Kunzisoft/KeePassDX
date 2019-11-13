@@ -20,8 +20,7 @@
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Rückmeldung</string>
     <string name="about_homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
@@ -48,7 +47,7 @@
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank benutzen</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Anwendung ist freie Software, die Sie unter den Bedingungen der GNU GPL Version 3 (oder später) gerne weiter verteilen dürfen.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -58,7 +57,7 @@
     <string name="entry_expires">Ablaufdatum</string>
     <string name="entry_keyfile">Schlüsseldatei</string>
     <string name="entry_modified">Änderungsdatum</string>
-    <string name="entry_not_found">Eintrag wurde nicht gefunden.</string>
+    <string name="entry_not_found">Zugriffsdaten wurden nicht gefunden.</string>
     <string name="entry_password">Passwort</string>
     <string name="entry_save">Speichern</string>
     <string name="entry_title">Titel</string>
@@ -72,7 +71,7 @@
     <string name="error_no_name">Namen eingeben.</string>
     <string name="error_nokeyfile">Schlüsseldatei wählen.</string>
     <string name="error_out_of_memory">Zu wenig Speicherplatz, um die ganze Datenbank zu laden.</string>
-    <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt werden.</string>
+    <string name="error_pass_gen_type">Mindestens eine Art der Passwortgenerierung muss ausgewählt sein.</string>
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 214748364848 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
@@ -293,11 +292,9 @@
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern – unabhängig von der verwendeten Version.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
-    </string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
-    </string>
+    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
     <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong>, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr <strong>Mitwirken</strong>,</string>
@@ -401,4 +398,51 @@
     <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
     <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist</string>
+    <string name="master_key">Generalschlüssel</string>
+    <string name="security">Sicherheit</string>
+    <string name="entry_history">Verlauf</string>
+    <string name="entry_setup_otp">Einmal-Passwort (OTP) einrichten</string>
+    <string name="otp_type">OTP-Typ</string>
+    <string name="otp_secret">Geheimnis</string>
+    <string name="otp_period">Zeitraum (Sekunden)</string>
+    <string name="otp_counter">Zähler</string>
+    <string name="otp_digits">Stellen</string>
+    <string name="otp_algorithm">Algorithmus</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Ungültiges OTP-Geheimnis.</string>
+    <string name="error_disallow_no_credentials">Mindestens eine Anmeldeinformation muss festgelegt sein.</string>
+    <string name="error_copy_group_here">Eine Gruppe kann nicht hierher kopiert werden.</string>
+    <string name="error_otp_secret_key">Geheimschlüssel muss im Base32-Format vorliegen.</string>
+    <string name="error_otp_counter">Zähler muss zwischen %1$d und %2$d eingestellt sein.</string>
+    <string name="error_otp_period">Zeitraum muss zwischen %1$d und %2$d Sekunden liegen.</string>
+    <string name="error_otp_digits">Token muss %1$d bis %2$d Stellen enthalten.</string>
+    <string name="invalid_db_same_uuid">%1$s mit derselben UUID %2$s existiert bereits.</string>
+    <string name="creating_database">Datenbank wird erstellt…</string>
+    <string name="menu_security_settings">Sicherheitseinstellungen</string>
+    <string name="menu_master_key_settings">Generalschlüsseleinstellungen</string>
+    <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
+    <string name="contains_duplicate_uuid_procedure">Durch Quittierung dieses Dialogs wird KeePass DX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="database_opened">Datenbank geöffnet</string>
+    <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
+    <string name="persistent_notification_title">Dauerhafte Benachrichtigung</string>
+    <string name="persistent_notification_summary">Bei geöffneter Datenbank eine Benachrichtigung hinzufügen</string>
+    <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen</string>
+    <string name="database_data_compression_title">Datenkompression</string>
+    <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße.</string>
+    <string name="max_history_items_title">Max. Verlaufseinträge</string>
+    <string name="max_history_items_summary">Anzahl der Verlaufseinträge pro Zugriff begrenzen</string>
+    <string name="max_history_size_title">Max. Verlaufsumfang</string>
+    <string name="max_history_size_summary">Verlaufsumfang pro Zugriff (in binären Bytes) begrenzen</string>
+    <string name="settings_database_recommend_changing_master_key_title">Änderung empfehlen</string>
+    <string name="settings_database_recommend_changing_master_key_summary">(Nach Tagen) Änderung des Generalschlüssels empfehlen</string>
+    <string name="settings_database_force_changing_master_key_title">Änderung erzwingen</string>
+    <string name="settings_database_force_changing_master_key_summary">(Nach Tagen) Änderung des Generalschlüssels erzwingen</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Änderung beim nächsten Mal erzwingen</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Änderung des Generalschlüssels beim nächsten Mal erzwingen (einmalig)</string>
+    <string name="database_default_username_title">Vorgegebener Benutzername</string>
+    <string name="database_custom_color_title">Benutzerdefinierte Datenbankfarbe</string>
+    <string name="compression">Kompression</string>
+    <string name="compression_none">Keine</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Gerätetastatur-Einstellungen</string>
 </resources>
