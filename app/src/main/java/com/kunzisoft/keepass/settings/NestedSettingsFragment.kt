@@ -73,7 +73,7 @@ import com.kunzisoft.keepass.settings.preferencedialogfragment.*
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.utils.UriUtil
 
-class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferenceClickListener {
+class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     private var mDatabase: Database = Database.getInstance()
     private var mDatabaseReadOnly: Boolean = false
@@ -848,11 +848,6 @@ class NestedSettingsFragment : PreferenceFragmentCompat(), Preference.OnPreferen
     override fun onSaveInstanceState(outState: Bundle) {
         ReadOnlyHelper.onSaveInstanceState(outState, mDatabaseReadOnly)
         super.onSaveInstanceState(outState)
-    }
-
-    override fun onPreferenceClick(preference: Preference?): Boolean {
-        // TODO encapsulate
-        return false
     }
 
     companion object {
