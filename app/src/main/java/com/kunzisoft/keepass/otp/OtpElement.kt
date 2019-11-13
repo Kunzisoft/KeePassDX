@@ -125,9 +125,9 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     @Throws(IllegalArgumentException::class)
     fun setBase32Secret(secret: String) {
-        val secretUppercase = secret.toUpperCase(Locale.ENGLISH)
-        if (secret.isNotEmpty() && checkBase32Secret(secretUppercase))
-            otpModel.secret = Base32().decode(secretUppercase.toByteArray())
+        val secretChars = replaceBase32Chars(secret)
+        if (secretChars.isNotEmpty() && checkBase32Secret(secretChars))
+            otpModel.secret = Base32().decode(secretChars.toByteArray())
         else
             throw IllegalArgumentException()
     }
@@ -169,6 +169,19 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
         const val MIN_OTP_DIGITS = 4
         const val MAX_OTP_DIGITS = 18
+
+        fun replaceSpaceChars(parameter: String): String {
+            return parameter.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
+        }
+
+        fun replaceBase32Chars(parameter: String): String {
+            // Add 'A' at end if not Base32 length
+            var parameterNewSize = replaceSpaceChars(parameter.toUpperCase(Locale.ENGLISH))
+            while (parameterNewSize.length % 8 != 0) {
+                parameterNewSize += 'A'
+            }
+            return parameterNewSize
+        }
 
         fun checkBase32Secret(secret: String): Boolean {
             return (Pattern.matches("^(?:[A-Z2-7]{8})*(?:[A-Z2-7]{2}={6}|[A-Z2-7]{4}={4}|[A-Z2-7]{5}={3}|[A-Z2-7]{7}=)?$", secret))
