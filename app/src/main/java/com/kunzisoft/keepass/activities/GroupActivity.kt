@@ -646,6 +646,12 @@ class GroupActivity : LockingActivity(),
             MenuUtil.contributionMenuInflater(inflater, menu)
         }
 
+        // Menu for recycle bin
+        if (mDatabase?.isRecycleBinEnabled == true
+                && mDatabase?.recycleBin == mCurrentGroup) {
+            inflater.inflate(R.menu.recycle_bin, menu)
+        }
+
         // Get the SearchView and set the searchable configuration
         val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
 
@@ -752,6 +758,13 @@ class GroupActivity : LockingActivity(),
                 return true
             R.id.menu_lock -> {
                 lockAndExit()
+                return true
+            }
+            R.id.menu_empty_recycle_bin -> {
+                mCurrentGroup?.getChildren()?.let { listChildren ->
+                    // Automatically delete all elements
+                    onDeleteMenuClick(listChildren)
+                }
                 return true
             }
             else -> {

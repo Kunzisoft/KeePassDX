@@ -183,6 +183,7 @@
     <string name="menu_url">Go to URL</string>
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
+    <string name="menu_empty_recycle_bin">Empty Recycle Bin</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
