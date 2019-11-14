@@ -509,23 +509,23 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
 
         fun getBundleFromListNodes(nodes: List<NodeVersioned>): Bundle {
-            val groupsIdToCopy = ArrayList<PwNodeId<*>>()
-            val entriesIdToCopy = ArrayList<PwNodeId<UUID>>()
+            val groupsId = ArrayList<PwNodeId<*>>()
+            val entriesId = ArrayList<PwNodeId<UUID>>()
             nodes.forEach { nodeVersioned ->
                 when (nodeVersioned.type) {
                     Type.GROUP -> {
                         (nodeVersioned as GroupVersioned).nodeId?.let { groupId ->
-                            groupsIdToCopy.add(groupId)
+                            groupsId.add(groupId)
                         }
                     }
                     Type.ENTRY -> {
-                        entriesIdToCopy.add((nodeVersioned as EntryVersioned).nodeId)
+                        entriesId.add((nodeVersioned as EntryVersioned).nodeId)
                     }
                 }
             }
             return Bundle().apply {
-                putParcelableArrayList(GROUPS_ID_KEY, groupsIdToCopy)
-                putParcelableArrayList(ENTRIES_ID_KEY, entriesIdToCopy)
+                putParcelableArrayList(GROUPS_ID_KEY, groupsId)
+                putParcelableArrayList(ENTRIES_ID_KEY, entriesId)
             }
         }
     }

@@ -422,7 +422,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         if (!isRecycleBinEnabled)
             return false
         if (recycleBin == null)
-            return true
+            return true // TODO Create recycle bin
         if (!node.isContainedIn(recycleBin!!))
             return true
         return false

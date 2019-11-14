@@ -242,6 +242,7 @@
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
+    <string name="warning_permanently_delete_nodes">Are you sure you want to permanently delete the selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
