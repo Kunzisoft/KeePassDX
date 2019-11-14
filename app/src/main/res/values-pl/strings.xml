@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Informacje zwrotne</string>
     <string name="about_homepage">Strona domowa</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
@@ -238,7 +237,7 @@
     <string name="lock_database_screen_off_summary">Zablokuj bazę danych, gdy ekran jest wyłączony</string>
     <string name="advanced_unlock">Odcisk palca</string>
     <string name="biometric_unlock_enable_title">Skanowanie odcisków palców</string>
-    <string name="biometric_unlock_enable_summary">Umożliwia skanowanie odcisku palca w celu otwarcia bazy danych</string>
+    <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
     <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
     <string name="biometric_delete_all_key_warning">Czy na pewno chcesz usunąć wszystkie klucze związane z rozpoznawaniem linii papilarnych\?</string>
@@ -354,7 +353,7 @@
     <string name="keyboard_key_vibrate_title">Wibracja po naciśnięciu klawisza</string>
     <string name="keyboard_key_sound_title">Dźwięk przy naciśnięciu</string>
     <string name="do_not_kill_app">Nie zabijaj aplikacji…</string>
-    <string name="lock_database_back_root_title">Naciśnij Wstecz na stronie głównej, aby zablokować</string>
+    <string name="lock_database_back_root_title">Wciśnij \'Powrót\', aby zablokować.</string>
     <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk \"Wstecz\" na ekranie głównym</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
     <string name="clear_clipboard_notification_summary">Zamknij bazę danych podczas zamykania powiadomienia</string>
@@ -398,4 +397,35 @@
     <string name="disable">Wyłącz</string>
     <string name="biometric_auto_open_prompt_summary">Automatycznie otwieraj monit biometryczny, gdy klucz biometryczny jest zdefiniowany dla bazy danych</string>
     <string name="content_description_node_children">Węzły podrzędne</string>
+    <string name="master_key">Klucz główny</string>
+    <string name="security">Zabezpieczenia</string>
+    <string name="entry_history">Historia</string>
+    <string name="entry_setup_otp">Ustaw hasło jednorazowe</string>
+    <string name="otp_type">Typ OTP</string>
+    <string name="otp_secret">Tajne</string>
+    <string name="otp_period">Okres (w sekundach)</string>
+    <string name="otp_counter">Licznik</string>
+    <string name="otp_digits">Cyfry</string>
+    <string name="otp_algorithm">Algorytm</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_copy_group_here">Nie można tutaj skopiować wpisu.</string>
+    <string name="creating_database">Tworzenie bazy danych…</string>
+    <string name="menu_security_settings">Ustawienia zabezpieczeń</string>
+    <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
+    <string name="contains_duplicate_uuid">Baza danych zawiera zduplikowane identyfikatory UUID.</string>
+    <string name="database_opened">Baza danych otwarta</string>
+    <string name="persistent_notification_title">Stałe powiadamianie</string>
+    <string name="persistent_notification_summary">Dodaj powiadomienie, gdy baza danych jest otwarta</string>
+    <string name="database_data_compression_title">Kompresja danych</string>
+    <string name="max_history_items_summary">Ogranicz liczbę elementów historii na wpis</string>
+    <string name="max_history_size_title">Max. rozmiar historii</string>
+    <string name="settings_database_recommend_changing_master_key_title">Zalecane zmiany</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Zaleca się zmianę klucza głównego (dni)</string>
+    <string name="settings_database_force_changing_master_key_summary">Wymuś zmianę klucza głównego (dni)</string>
+    <string name="database_default_username_title">Domyślna nazwa użytkownika</string>
+    <string name="database_custom_color_title">Niestandardowy kolor bazy danych</string>
+    <string name="compression">Kompresja</string>
+    <string name="compression_none">Żaden</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
 </resources>
