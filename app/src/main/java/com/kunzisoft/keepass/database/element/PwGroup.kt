@@ -69,6 +69,11 @@ abstract class PwGroup
         this.childEntries.remove(entry)
     }
 
+    override fun removeChildren() {
+        this.childGroups.clear()
+        this.childEntries.clear()
+    }
+
     override fun toString(): String {
         return titleGroup
     }

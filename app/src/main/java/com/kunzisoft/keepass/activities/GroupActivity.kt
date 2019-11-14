@@ -799,20 +799,19 @@ class GroupActivity : LockingActivity(),
                 GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
-                        GroupVersioned(oldGroupToUpdate).let { updateGroup ->
+                        val updateGroup = GroupVersioned(oldGroupToUpdate).let { updateGroup ->
                             updateGroup.apply {
                                 // WARNING remove parent and children to keep memory
                                 removeParent()
-                                removeChildren() // TODO concurrent exception
+                                removeChildren()
 
                                 title = name
                                 this.icon = icon // TODO custom icon
                             }
-
-                            // If group updated save it in the database
-                            progressDialogThread?.startDatabaseUpdateGroup(
-                                    oldGroupToUpdate, updateGroup, !mReadOnly)
                         }
+                        // If group updated save it in the database
+                        progressDialogThread?.startDatabaseUpdateGroup(
+                                oldGroupToUpdate, updateGroup, !mReadOnly)
                     }
                 }
                 else -> {}

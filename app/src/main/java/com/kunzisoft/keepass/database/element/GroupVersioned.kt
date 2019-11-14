@@ -130,22 +130,6 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         }
     }
 
-    fun removeChildren() {
-        pwGroupV3?.getChildEntries()?.forEach { entryToRemove ->
-            pwGroupV3?.removeChildEntry(entryToRemove)
-        }
-        pwGroupV3?.getChildGroups()?.forEach { groupToRemove ->
-            pwGroupV3?.removeChildGroup(groupToRemove)
-        }
-
-        pwGroupV4?.getChildEntries()?.forEach { entryToRemove ->
-            pwGroupV4?.removeChildEntry(entryToRemove)
-        }
-        pwGroupV4?.getChildGroups()?.forEach { groupToRemove ->
-            pwGroupV4?.removeChildGroup(groupToRemove)
-        }
-    }
-
     override fun touch(modified: Boolean, touchParents: Boolean) {
         pwGroupV3?.touch(modified, touchParents)
         pwGroupV4?.touch(modified, touchParents)
@@ -285,6 +269,11 @@ class GroupVersioned : NodeVersioned, PwGroupInterface<GroupVersioned, EntryVers
         entry.pwEntryV4?.let {
             pwGroupV4?.removeChildEntry(it)
         }
+    }
+
+    override fun removeChildren() {
+        pwGroupV3?.removeChildren()
+        pwGroupV4?.removeChildren()
     }
 
     override fun allowAddEntryIfIsRoot(): Boolean {

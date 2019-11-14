@@ -16,6 +16,8 @@ interface PwGroupInterface<Group: PwGroupInterface<Group, Entry>, Entry> : PwNod
 
     fun removeChildEntry(entry: Entry)
 
+    fun removeChildren()
+
     fun allowAddEntryIfIsRoot(): Boolean
 
     fun doForEachChildAndForIt(entryHandler: NodeHandler<Entry>,
