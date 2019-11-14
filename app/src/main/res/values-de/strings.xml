@@ -195,14 +195,14 @@
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
-    <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, aber ist nicht eingerichtet.</string>
-    <string name="open_biometric_prompt_unlock_database">Öffne die biometrische Abfrage, um die Datenbank zu entsperren</string>
+    <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
+    <string name="open_biometric_prompt_unlock_database">Biometrische Abfrage öffnen, um die Datenbank zu entsperren</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="biometric_invalid_key">Biometrischer Schlüssel konnte nicht gelesen werden. Stellen Sie Ihre Berechtigung wieder her.</string>
+    <string name="biometric_invalid_key">Biometrischer Schlüssel konnte nicht gelesen werden. Stellen Sie Ihre Anmeldedaten wieder her.</string>
     <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="open_biometric_prompt_store_credential">Öffne die biometrische Abfrage, um Anmeldedaten zu speichern</string>
+    <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
     <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
@@ -233,7 +233,7 @@
     <string name="autofill">Autofill</string>
     <string name="autofill_service_name">KeePass DX autom. Formularausfüllung</string>
     <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
-    <string name="set_autofill_service_title">Standard Autofill-Dienst festlegen</string>
+    <string name="set_autofill_service_title">Autofill-Dienstvorgabe festlegen</string>
     <string name="autofill_explanation_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
@@ -277,7 +277,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
-    <string name="education_generate_password_summary">Generiere ein sicheres Passwort, um es mit dem Eintrag zu verknüpfen, definiere es einfach nach den Kriterien des Formulars und vergesse das sichere Passwort nicht.</string>
+    <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Ein wichtiges, nicht mitgeliefertes Feld erfassen, indem ein neues Feld ausgefüllt wird, das sich auch schützen lässt.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
@@ -292,9 +292,11 @@
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern – unabhängig von der verwendeten Version.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
+    </string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
+    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong>, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr <strong>Mitwirken</strong>,</string>
@@ -333,7 +335,7 @@
     <string name="error_load_database">Datenbank kann nicht geladen werden.</string>
     <string name="error_load_database_KDF_memory">Laden des Schlüssels fehlgeschlagen. Bitte versuchen, die „Speicherplatznutzung“ von KDF zu verringern.</string>
     <string name="list_entries_show_username_title">Benutzernamen anzeigen</string>
-    <string name="list_entries_show_username_summary">Zeige die Benutzernamen in Eintragslisten</string>
+    <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
@@ -355,7 +357,7 @@
     <string name="keyboard_key_sound_title">Ton bei Tastendruck</string>
     <string name="selection_mode">Auswahlmodus</string>
     <string name="do_not_kill_app">Nicht die App beenden …</string>
-    <string name="lock_database_back_root_summary">Schließe die Datenbank wenn auf der Startseite der Zurück-Button gedrückt wird</string>
+    <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm der Zurück-Button gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
@@ -374,9 +376,9 @@
     <string name="content_description_remove_field">Feld entfernen</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Anzahl der Einträge anzeigen</string>
-    <string name="list_groups_show_number_entries_summary">Zeige die Anzahl der Einträge in einer Gruppe</string>
+    <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
-    <string name="lock_database_back_root_title">Drücke \"Zurück\", um zu sperren</string>
+    <string name="lock_database_back_root_title">\"Zurück\" drücken, um zu sperren</string>
     <string name="clear_clipboard_notification_summary">Die Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
