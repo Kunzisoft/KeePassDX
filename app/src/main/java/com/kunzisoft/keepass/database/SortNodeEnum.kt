@@ -59,13 +59,13 @@ enum class SortNodeEnum {
             if (object1.type == Type.GROUP) {
                 return if (object2.type == Type.GROUP) {
                     // RecycleBin at end of groups
-                    if (recycleBinBottom) {
-                        if (Database.getInstance().recycleBin == object1)
+                    val database = Database.getInstance()
+                    if (database.isRecycleBinEnabled && recycleBinBottom) {
+                        if (database.recycleBin == object1)
                             return 1
-                        if (Database.getInstance().recycleBin == object2)
+                        if (database.recycleBin == object2)
                             return -1
                     }
-
                     specificOrderOrHashIfEquals(object1, object2)
                 } else if (object2.type == Type.ENTRY) {
                     if (groupsBefore)

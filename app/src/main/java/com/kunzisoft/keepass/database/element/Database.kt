@@ -24,7 +24,6 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import android.webkit.URLUtil
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorV3
@@ -253,8 +252,11 @@ class Database {
     val allowRecycleBin: Boolean
         get() = pwDatabaseV4 != null
 
-    val isRecycleBinEnabled: Boolean
+    var isRecycleBinEnabled: Boolean
         get() = pwDatabaseV4?.isRecycleBinEnabled ?: false
+        set(value) {
+            pwDatabaseV4?.isRecycleBinEnabled = value
+        }
 
     val recycleBin: GroupVersioned?
         get() {
@@ -263,6 +265,14 @@ class Database {
             }
             return null
         }
+
+    fun ensureRecycleBinExists(resources: Resources) {
+        pwDatabaseV4?.ensureRecycleBinExists(resources)
+    }
+
+    fun removeRecycleBin() {
+        pwDatabaseV4?.removeRecycleBin()
+    }
 
     private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
         this.pwDatabaseV3 = pwDatabaseV3

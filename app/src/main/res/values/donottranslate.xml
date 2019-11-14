@@ -160,7 +160,8 @@
     <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
 
     <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
-    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
+    <string name="recycle_bin_enable_key" translatable="false">recycle_bin_enable_key</string>
+    <string name="recycle_bin_group_key" translatable="false">recycle_bin_group_key</string>
 
     <string name="database_category_history_key" translatable="false">database_category_history_key</string>
     <string name="max_history_items_key" translatable="false">max_history_items_key</string>

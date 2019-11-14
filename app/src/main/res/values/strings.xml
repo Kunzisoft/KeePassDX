@@ -183,6 +183,7 @@
     <string name="menu_url">Go to URL</string>
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
+    <string name="menu_empty_recycle_bin">Empty Recycle Bin</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
@@ -242,6 +243,7 @@
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
+    <string name="warning_permanently_delete_nodes">Are you sure you want to permanently delete the selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
@@ -304,7 +306,8 @@
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Use recycle bin</string>
-    <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
+    <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
+    <string name="recycle_bin_group_title">Recycle bin group</string>
     <string name="max_history_items_title">Max. history items</string>
     <string name="max_history_items_summary">Limit number of history items per entry</string>
     <string name="max_history_size_title">Max. history size</string>

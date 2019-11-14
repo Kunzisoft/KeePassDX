@@ -20,6 +20,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COLOR_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COMPRESSION_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK
@@ -460,5 +461,15 @@ class ProgressDialogThread(private val activity: FragmentActivity,
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
         }
                 , ACTION_DATABASE_SAVE_PARALLELISM_TASK)
+    }
+
+    /**
+     * Save Database without parameter
+     */
+    fun startDatabaseSave(save: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+                , ACTION_DATABASE_SAVE)
     }
 }

@@ -42,10 +42,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.ReadOnlyDialog
-import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -77,6 +74,7 @@ class GroupActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
         ListNodesFragment.NodeClickListener,
         ListNodesFragment.NodesActionMenuListener,
+        DeleteNodesDialogFragment.DeleteNodeListener,
         ListNodesFragment.OnScrollListener,
         SortDialogFragment.SortSelectionListener {
 
@@ -234,24 +232,23 @@ class GroupActivity : LockingActivity(),
                     ACTION_DATABASE_DELETE_NODES_TASK -> {
                         if (result.isSuccess) {
 
-                            // Rebuild all the list the avoid bug when delete node from db sort
-                            if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
-                                mListNodesFragment?.rebuildList()
-                            } else {
-                                // Use the old Nodes / entries unchanged with the old parent
-                                mListNodesFragment?.removeNodes(oldNodes)
-                            }
+                            // Rebuild all the list the avoid bug when delete node from sort
+                            mListNodesFragment?.rebuildList()
 
                             // Add trash in views list if it doesn't exists
                             if (database.isRecycleBinEnabled) {
                                 val recycleBin = database.recycleBin
-                                if (mCurrentGroup != null && recycleBin != null
-                                        && mCurrentGroup!!.parent == null
-                                        && mCurrentGroup != recycleBin) {
-                                    if (mListNodesFragment?.contains(recycleBin) == true)
+                                val currentGroup = mCurrentGroup
+                                if (currentGroup != null && recycleBin != null
+                                        && currentGroup != recycleBin) {
+                                    // Recycle bin already here, simply update it
+                                    if (mListNodesFragment?.contains(recycleBin) == true) {
                                         mListNodesFragment?.updateNode(recycleBin)
-                                    else
+                                    }
+                                    // Recycle bin not here, verify if parents are similar to add it
+                                    else if (currentGroup.parent == recycleBin.parent) {
                                         mListNodesFragment?.addNode(recycleBin)
+                                    }
                                 }
                             }
                         }
@@ -596,12 +593,29 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
+        val database = mDatabase
+        if (database != null
+                && database.isRecycleBinEnabled
+                && database.recycleBin != mCurrentGroup) {
+            // If recycle bin enabled and not in recycle bin, move in recycle bin
+            progressDialogThread?.startDatabaseDeleteNodes(
+                    nodes,
+                    !mReadOnly
+            )
+        } else {
+            // open the dialog to confirm deletion
+            DeleteNodesDialogFragment.getInstance(nodes)
+                    .show(supportFragmentManager, "deleteNodesDialogFragment")
+        }
+        finishNodeAction()
+        return true
+    }
+
+    override fun permanentlyDeleteNodes(nodes: List<NodeVersioned>) {
         progressDialogThread?.startDatabaseDeleteNodes(
                 nodes,
                 !mReadOnly
         )
-        finishNodeAction()
-        return true
     }
 
     override fun onResume() {
@@ -630,6 +644,12 @@ class GroupActivity : LockingActivity(),
         if (!mSelectionMode) {
             inflater.inflate(R.menu.default_menu, menu)
             MenuUtil.contributionMenuInflater(inflater, menu)
+        }
+
+        // Menu for recycle bin
+        if (mDatabase?.isRecycleBinEnabled == true
+                && mDatabase?.recycleBin == mCurrentGroup) {
+            inflater.inflate(R.menu.recycle_bin, menu)
         }
 
         // Get the SearchView and set the searchable configuration
@@ -738,6 +758,13 @@ class GroupActivity : LockingActivity(),
                 return true
             R.id.menu_lock -> {
                 lockAndExit()
+                return true
+            }
+            R.id.menu_empty_recycle_bin -> {
+                mCurrentGroup?.getChildren()?.let { listChildren ->
+                    // Automatically delete all elements
+                    onDeleteMenuClick(listChildren)
+                }
                 return true
             }
             else -> {

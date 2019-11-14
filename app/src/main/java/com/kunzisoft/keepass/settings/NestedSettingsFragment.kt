@@ -85,6 +85,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
     private var dbDefaultUsername: InputTextPreference? = null
     private var dbCustomColorPref: DialogColorPreference? = null
     private var dbDataCompressionPref: Preference? = null
+    private var recycleBinGroupPref: Preference? = null
     private var dbMaxHistoryItemsPref: InputNumberPreference? = null
     private var dbMaxHistorySizePref: InputNumberPreference? = null
     private var mEncryptionAlgorithmPref: DialogListExplanationPreference? = null
@@ -452,17 +453,35 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
             }
 
             val dbRecycleBinPrefCategory: PreferenceCategory? = findPreference(getString(R.string.database_category_recycle_bin_key))
+            recycleBinGroupPref = findPreference(getString(R.string.recycle_bin_group_key))
 
             // Recycle bin
-            val recycleBinPref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_key))
             if (mDatabase.allowRecycleBin) {
-                recycleBinPref?.isChecked = mDatabase.isRecycleBinEnabled
-                // TODO Recycle Bin
-                recycleBinPref?.isEnabled = false
+                val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
+                recycleBinEnablePref?.apply {
+                    isChecked = mDatabase.isRecycleBinEnabled
+                    setOnPreferenceChangeListener { _, newValue ->
+                        val recycleBinEnabled = newValue as Boolean
+                        mDatabase.isRecycleBinEnabled = recycleBinEnabled
+                        if (recycleBinEnabled) {
+                            mDatabase.ensureRecycleBinExists(resources)
+                        } else {
+                            mDatabase.removeRecycleBin()
+                        }
+                        refreshRecycleBinGroup()
+                        // Save the database
+                        // TODO manual save
+                        (context as SettingsActivity?)?.progressDialogThread?.startDatabaseSave(true)
+                        true
+                    }
+                }
+                // Recycle Bin group
+                refreshRecycleBinGroup()
             } else {
                 dbRecycleBinPrefCategory?.isVisible = false
             }
 
+            // History
             findPreference<PreferenceCategory>(getString(R.string.database_category_history_key))
                     ?.isVisible = mDatabase.manageHistory == true
 
@@ -478,6 +497,18 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
 
         } else {
             Log.e(javaClass.name, "Database isn't ready")
+        }
+    }
+
+    private fun refreshRecycleBinGroup() {
+        recycleBinGroupPref?.apply {
+            if (mDatabase.isRecycleBinEnabled) {
+                summary = mDatabase.recycleBin?.title
+                isEnabled = true
+            } else {
+                summary = null
+                isEnabled = false
+            }
         }
     }
 

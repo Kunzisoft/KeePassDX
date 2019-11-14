@@ -220,7 +220,7 @@
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
-    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans la « Corbeille » avant suppression</string>
+    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans le groupe \"Corbeille\" avant suppression</string>
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
