@@ -74,11 +74,15 @@
         android:title="@string/recycle_bin">
 
         <SwitchPreference
-            android:key="@string/recycle_bin_key"
+            android:key="@string/recycle_bin_enable_key"
             android:persistent="false"
             android:title="@string/recycle_bin_title"
             android:summary="@string/recycle_bin_summary"
             android:checked="false"/>
+        <Preference
+            android:key="@string/recycle_bin_group_key"
+            android:persistent="false"
+            android:title="@string/recycle_bin_group_title"/>
 
     </PreferenceCategory>
 

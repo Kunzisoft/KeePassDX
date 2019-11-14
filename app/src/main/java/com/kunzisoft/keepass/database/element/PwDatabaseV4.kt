@@ -209,7 +209,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
 
     // Retrieve recycle bin in index
     val recycleBin: PwGroupV4?
-        get() = getGroupByUUID(recycleBinUUID)
+        get() = if (recycleBinUUID == UUID_ZERO) null else getGroupByUUID(recycleBinUUID)
 
     val lastSelectedGroup: PwGroupV4?
         get() = getGroupByUUID(lastSelectedGroupUUID)
@@ -397,7 +397,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
      * Ensure that the recycle bin tree exists, if enabled and create it
      * if it doesn't exist
      */
-    private fun ensureRecycleBin(resources: Resources) {
+    fun ensureRecycleBinExists(resources: Resources) {
         if (recycleBin == null) {
             // Create recycle bin
             val recycleBinGroup = createGroup().apply {
@@ -413,6 +413,13 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         }
     }
 
+    fun removeRecycleBin() {
+        if (recycleBin != null) {
+            recycleBinUUID = UUID_ZERO
+            recycleBinChanged = PwDate().date
+        }
+    }
+
     /**
      * Define if a Node must be delete or recycle when remove action is called
      * @param node Node to remove
@@ -422,21 +429,21 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         if (!isRecycleBinEnabled)
             return false
         if (recycleBin == null)
-            return true // TODO Create recycle bin
+            return false
         if (!node.isContainedIn(recycleBin!!))
             return true
         return false
     }
 
     fun recycle(group: PwGroupV4, resources: Resources) {
-        ensureRecycleBin(resources)
+        ensureRecycleBinExists(resources)
         removeGroupFrom(group, group.parent)
         addGroupTo(group, recycleBin)
         group.afterAssignNewParent()
     }
 
     fun recycle(entry: PwEntryV4, resources: Resources) {
-        ensureRecycleBin(resources)
+        ensureRecycleBinExists(resources)
         removeEntryFrom(entry, entry.parent)
         addEntryTo(entry, recycleBin)
         entry.afterAssignNewParent()

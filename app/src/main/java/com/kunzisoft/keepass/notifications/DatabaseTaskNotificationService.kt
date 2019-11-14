@@ -108,7 +108,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK,
             ACTION_DATABASE_SAVE_PARALLELISM_TASK,
             ACTION_DATABASE_SAVE_ITERATIONS_TASK -> buildDatabaseSaveElementActionTask(intent)
-            else -> null
+            else -> buildDatabaseSave(intent)
         }
 
         actionRunnable?.let { actionRunnableNotNull ->
@@ -412,6 +412,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
+    /**
+     * Save database without parameter
+     */
+    private fun buildDatabaseSave(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            SaveDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+        } else {
+            null
+        }
+    }
+
     private class ActionRunnableAsyncTask(private val progressTaskUpdater: ProgressTaskUpdater,
                                           private val onPreExecute: () -> Unit,
                                           private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
@@ -471,6 +484,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK = "ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK"
         const val ACTION_DATABASE_SAVE_PARALLELISM_TASK = "ACTION_DATABASE_SAVE_PARALLELISM_TASK"
         const val ACTION_DATABASE_SAVE_ITERATIONS_TASK = "ACTION_DATABASE_SAVE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"

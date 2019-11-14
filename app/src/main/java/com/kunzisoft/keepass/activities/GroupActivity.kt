@@ -232,13 +232,8 @@ class GroupActivity : LockingActivity(),
                     ACTION_DATABASE_DELETE_NODES_TASK -> {
                         if (result.isSuccess) {
 
-                            // Rebuild all the list the avoid bug when delete node from db sort
-                            if (PreferencesUtil.getListSort(this@GroupActivity) == SortNodeEnum.DB) {
-                                mListNodesFragment?.rebuildList()
-                            } else {
-                                // Use the old Nodes / entries unchanged with the old parent
-                                mListNodesFragment?.removeNodes(oldNodes)
-                            }
+                            // Rebuild all the list the avoid bug when delete node from sort
+                            mListNodesFragment?.rebuildList()
 
                             // Add trash in views list if it doesn't exists
                             if (database.isRecycleBinEnabled) {

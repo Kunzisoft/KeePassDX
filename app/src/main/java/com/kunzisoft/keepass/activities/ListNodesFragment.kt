@@ -228,8 +228,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (Database.getInstance().allowRecycleBin
-                                    && Database.getInstance().isRecycleBinEnabled) {
+                            if (Database.getInstance().isRecycleBinEnabled) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),
                                         PreferencesUtil.getAscendingSort(context),
@@ -276,7 +275,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (readOnly || nodes[0] == database.recycleBin) {
+                        if (readOnly
+                                || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
                     } else {
@@ -287,7 +287,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     // Copy and Move (not for groups)
                     if (readOnly
                             || isASearchResult
-                            || nodes.any { it == database.recycleBin }
                             || nodes.any { it.type == Type.GROUP }) {
                         // TODO COPY For Group
                         menu?.removeItem(R.id.menu_copy)
@@ -295,7 +294,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     }
 
                     // Deletion
-                    if (readOnly || nodes.any { it == database.recycleBin }) {
+                    if (readOnly
+                            || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
                         menu?.removeItem(R.id.menu_delete)
                     }
                 }
