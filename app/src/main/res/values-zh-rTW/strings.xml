@@ -148,7 +148,7 @@
     <string name="clipboard_error_title">剪貼簿錯誤</string>
     <string name="clipboard_error">部份 Samsung 手機不容許其他程式使用剪貼簿。</string>
     <string name="clipboard_error_clear">無法清除剪貼簿</string>
-    <string name="clipboard_swipe_clean">現在清除剪貼簿</string>
+    <string name="clipboard_swipe_clean">滑动即可清除剪贴板</string>
     <string name="error_autofill_enable_service">自動填入服務無法啟用。</string>
     <string name="error_move_folder_in_itself">無法移動一個群組至自己本身。</string>
     <string name="invalid_algorithm">無效的演算法。</string>
@@ -179,4 +179,28 @@
     <string name="content_description_keyboard_close_fields"></string>
     <string name="security">安全</string>
     <string name="entry_history">歷史</string>
+    <string name="kdf_explanation">為生成加密演算法的金鑰，主金鑰使用隨機跳轉金鑰派生函數進行轉換。</string>
+    <string name="assign_master_key">分配主金鑰</string>
+    <string name="allow_no_password_title">允許沒有主金鑰</string>
+    <string name="content_description_node_children">子節點</string>
+    <string name="content_description_add_node">添加節點</string>
+    <string name="content_description_add_entry">添加條目</string>
+    <string name="content_description_add_group">添加群组</string>
+    <string name="content_description_file_information">檔案資訊</string>
+    <string name="content_description_password_checkbox">密碼核取方塊</string>
+    <string name="content_description_keyfile_checkbox">金鑰檔案核取方塊</string>
+    <string name="content_description_repeat_toggle_password_visibility">重複切換密碼可見性</string>
+    <string name="content_description_entry_icon">條目圖示</string>
+    <string name="content_description_entry_save">條目保存</string>
+    <string name="content_description_password_length">密碼長度</string>
+    <string name="content_description_add_field">添加欄位</string>
+    <string name="content_description_remove_field">刪除欄位</string>
+    <string name="master_key">主密鑰</string>
+    <string name="menu_master_key_settings">主密鑰設定</string>
+    <string name="settings_database_recommend_changing_master_key_title">建議更換</string>
+    <string name="settings_database_recommend_changing_master_key_summary">建議更改主金鑰（天）</string>
+    <string name="settings_database_force_changing_master_key_title">強制更改</string>
+    <string name="settings_database_force_changing_master_key_summary">強制更改主金鑰（天）</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">下次強制更改</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">下次強制更改主金鑰（一次）</string>
 </resources>
