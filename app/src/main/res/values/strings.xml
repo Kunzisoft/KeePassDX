@@ -365,10 +365,12 @@
     <string name="keyboard_key_sound_title">Sound on keypress</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
-    <string name="enable_read_only_title">Write-protected</string>
-    <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
+    <string name="enable_read_only_title">Write-protected</string>
+    <string name="enable_read_only_summary">Open your database read-only by default</string>
+    <string name="enable_auto_save_database_title">Auto save database</string>
+    <string name="enable_auto_save_database_summary">Automatically save the database after an important action (only in \"Modifiable\" mode)</string>
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational screens</string>

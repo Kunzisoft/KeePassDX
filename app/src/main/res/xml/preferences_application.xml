@@ -29,15 +29,20 @@
             android:summary="@string/allow_no_password_summary"
             android:defaultValue="@bool/allow_no_password_default"/>
         <SwitchPreference
+            android:key="@string/delete_entered_password_key"
+            android:title="@string/delete_entered_password_title"
+            android:summary="@string/delete_entered_password_summary"
+            android:defaultValue="@bool/delete_entered_password_default"/>
+        <SwitchPreference
             android:key="@string/enable_read_only_key"
             android:title="@string/enable_read_only_title"
             android:summary="@string/enable_read_only_summary"
             android:defaultValue="@bool/enable_read_only_default"/>
         <SwitchPreference
-            android:key="@string/delete_entered_password_key"
-            android:title="@string/delete_entered_password_title"
-            android:summary="@string/delete_entered_password_summary"
-            android:defaultValue="@bool/delete_entered_password_default"/>
+            android:key="@string/enable_auto_save_database_key"
+            android:title="@string/enable_auto_save_database_title"
+            android:summary="@string/enable_auto_save_database_summary"
+            android:defaultValue="@bool/enable_auto_save_database_default"/>
 
     </PreferenceCategory>
 
