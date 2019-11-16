@@ -460,19 +460,23 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                 val recycleBinEnablePref: SwitchPreference? = findPreference(getString(R.string.recycle_bin_enable_key))
                 recycleBinEnablePref?.apply {
                     isChecked = mDatabase.isRecycleBinEnabled
-                    setOnPreferenceChangeListener { _, newValue ->
-                        val recycleBinEnabled = newValue as Boolean
-                        mDatabase.isRecycleBinEnabled = recycleBinEnabled
-                        if (recycleBinEnabled) {
-                            mDatabase.ensureRecycleBinExists(resources)
-                        } else {
-                            mDatabase.removeRecycleBin()
+                    isEnabled = if (!mDatabaseReadOnly) {
+                        setOnPreferenceChangeListener { _, newValue ->
+                            val recycleBinEnabled = newValue as Boolean
+                            mDatabase.isRecycleBinEnabled = recycleBinEnabled
+                            if (recycleBinEnabled) {
+                                mDatabase.ensureRecycleBinExists(resources)
+                            } else {
+                                mDatabase.removeRecycleBin()
+                            }
+                            refreshRecycleBinGroup()
+                            // Save the database if not in readonly mode
+                            (context as SettingsActivity?)?.progressDialogThread?.startDatabaseSave(true)
+                            true
                         }
-                        refreshRecycleBinGroup()
-                        // Save the database
-                        // TODO manual save
-                        (context as SettingsActivity?)?.progressDialogThread?.startDatabaseSave(true)
                         true
+                    } else {
+                        false
                     }
                 }
                 // Recycle Bin group
