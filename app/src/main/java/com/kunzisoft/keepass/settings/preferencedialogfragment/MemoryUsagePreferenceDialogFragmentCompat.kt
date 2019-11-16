@@ -48,7 +48,7 @@ class MemoryUsagePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 val oldMemoryUsage = database.memoryUsage
                 database.memoryUsage = memoryUsage
 
-                progressDialogThread?.startDatabaseSaveMemoryUsage(oldMemoryUsage, memoryUsage)
+                progressDialogThread?.startDatabaseSaveMemoryUsage(oldMemoryUsage, memoryUsage, true)
             }
         }
     }

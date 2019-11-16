@@ -33,9 +33,8 @@ class CreateDatabaseRunnable(context: Context,
                              withMasterPassword: Boolean,
                              masterPassword: String?,
                              withKeyFile: Boolean,
-                             keyFile: Uri?,
-                             save: Boolean)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile, save) {
+                             keyFile: Uri?)
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile) {
 
     override fun onStartRun() {
         try {

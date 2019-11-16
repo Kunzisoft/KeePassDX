@@ -54,7 +54,7 @@ class RoundsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmen
                     database.numberKeyEncryptionRounds = Long.MAX_VALUE
                 }
 
-                progressDialogThread?.startDatabaseSaveIterations(oldRounds, rounds)
+                progressDialogThread?.startDatabaseSaveIterations(oldRounds, rounds, true)
             }
         }
     }

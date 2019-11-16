@@ -350,64 +350,78 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     */
 
     fun startDatabaseSaveName(oldName: String,
-                              newName: String) {
+                              newName: String,
+                              save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldName)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newName)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_NAME_TASK)
     }
 
     fun startDatabaseSaveDescription(oldDescription: String,
-                                     newDescription: String) {
+                                     newDescription: String,
+                                     save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldDescription)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDescription)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_DESCRIPTION_TASK)
     }
 
     fun startDatabaseSaveDefaultUsername(oldDefaultUsername: String,
-                                         newDefaultUsername: String) {
+                                         newDefaultUsername: String,
+                                         save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldDefaultUsername)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDefaultUsername)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK)
     }
 
     fun startDatabaseSaveColor(oldColor: String,
-                               newColor: String) {
+                               newColor: String,
+                               save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldColor)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newColor)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_COLOR_TASK)
     }
 
     fun startDatabaseSaveCompression(oldCompression: PwCompressionAlgorithm,
-                                     newCompression: PwCompressionAlgorithm) {
+                                     newCompression: PwCompressionAlgorithm,
+                                     save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldCompression)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newCompression)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_COMPRESSION_TASK)
     }
 
     fun startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems: Int,
-                                         newMaxHistoryItems: Int) {
+                                         newMaxHistoryItems: Int,
+                                         save: Boolean) {
         start(Bundle().apply {
             putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMaxHistoryItems)
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistoryItems)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK)
     }
 
     fun startDatabaseSaveMaxHistorySize(oldMaxHistorySize: Long,
-                                        newMaxHistorySize: Long) {
+                                        newMaxHistorySize: Long,
+                                        save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMaxHistorySize)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistorySize)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK)
     }
@@ -419,46 +433,56 @@ class ProgressDialogThread(private val activity: FragmentActivity,
      */
 
     fun startDatabaseSaveEncryption(oldEncryption: PwEncryptionAlgorithm,
-                                    newEncryption: PwEncryptionAlgorithm) {
+                                    newEncryption: PwEncryptionAlgorithm,
+                                    save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldEncryption)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newEncryption)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_ENCRYPTION_TASK)
     }
 
     fun startDatabaseSaveKeyDerivation(oldKeyDerivation: KdfEngine,
-                                       newKeyDerivation: KdfEngine) {
+                                       newKeyDerivation: KdfEngine,
+                                       save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldKeyDerivation)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newKeyDerivation)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK)
     }
 
     fun startDatabaseSaveIterations(oldIterations: Long,
-                                    newIterations: Long) {
+                                    newIterations: Long,
+                                    save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldIterations)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newIterations)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_ITERATIONS_TASK)
     }
 
     fun startDatabaseSaveMemoryUsage(oldMemoryUsage: Long,
-                                     newMemoryUsage: Long) {
+                                     newMemoryUsage: Long,
+                                     save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMemoryUsage)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMemoryUsage)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK)
     }
 
     fun startDatabaseSaveParallelism(oldParallelism: Int,
-                                     newParallelism: Int) {
+                                     newParallelism: Int,
+                                     save: Boolean) {
         start(Bundle().apply {
             putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_SAVE_PARALLELISM_TASK)
     }

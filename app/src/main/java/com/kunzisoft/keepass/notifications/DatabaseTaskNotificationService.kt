@@ -184,8 +184,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    keyFileUri,
-                    true // TODO get readonly
+                    keyFileUri
             )
         } else {
             return null
@@ -243,12 +242,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             AssignPasswordInDatabaseRunnable(this,
                     Database.getInstance(),
-                    intent.getParcelableExtra<Uri>(DATABASE_URI_KEY),
+                    intent.getParcelableExtra(DATABASE_URI_KEY),
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    intent.getParcelableExtra(KEY_FILE_KEY),
-                    true)
+                    intent.getParcelableExtra(KEY_FILE_KEY)
+            )
         } else {
             null
         }
@@ -357,7 +356,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
             }
-
         } else {
             null
         }
@@ -378,7 +376,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
             }
-
         } else {
             null
         }
@@ -395,20 +392,23 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         getListNodesFromBundle(database, intent.extras!!),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
-
         } else {
             null
         }
     }
 
     private fun buildDatabaseSaveElementActionTask(intent: Intent): ActionRunnable? {
-        return SaveDatabaseRunnable(this,
-                Database.getInstance(),
-                true
-        ).apply {
-            mAfterSaveDatabase = { result ->
-                result.data = intent.extras
+        return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            return SaveDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            ).apply {
+                mAfterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
             }
+        } else {
+            null
         }
     }
 
