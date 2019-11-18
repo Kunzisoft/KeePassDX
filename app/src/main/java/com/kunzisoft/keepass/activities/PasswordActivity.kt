@@ -163,69 +163,71 @@ class PasswordActivity : StylishActivity() {
             enableOrNotTheConfirmationButton()
         }
 
-        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
-            when (actionTask) {
-                ACTION_DATABASE_LOAD_TASK -> {
-                    // Recheck biometric if error
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
-                            // Stay with the same mode and init it
-                            advancedUnlockedManager?.initBiometricMode()
-                        }
-                    }
-
-                    // Remove the password in view in all cases
-                    removePassword()
-
-                    if (result.isSuccess) {
-                        launchGroupActivity()
-                    } else {
-                        var resultError = ""
-                        val resultException = result.exception
-                        val resultMessage = result.message
-
-                        if (resultException != null) {
-                            resultError = resultException.getLocalizedMessage(resources)
-
-                            // Relaunch loading if we need to fix UUID
-                            if (resultException is LoadDatabaseDuplicateUuidException) {
-                                showLoadDatabaseDuplicateUuidMessage {
-
-                                    var databaseUri: Uri? = null
-                                    var masterPassword: String? = null
-                                    var keyFileUri: Uri? = null
-                                    var readOnly = true
-                                    var cipherEntity: CipherDatabaseEntity? = null
-
-                                    result.data?.let { resultData ->
-                                        databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
-                                        masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
-                                        keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
-                                        readOnly = resultData.getBoolean(READ_ONLY_KEY)
-                                        cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
-                                    }
-
-                                    databaseUri?.let { databaseFileUri ->
-                                        showProgressDialogAndLoadDatabase(
-                                                databaseFileUri,
-                                                masterPassword,
-                                                keyFileUri,
-                                                readOnly,
-                                                cipherEntity,
-                                                true)
-                                    }
-                                }
+        progressDialogThread = ProgressDialogThread(this).apply {
+            onActionFinish = { actionTask, result ->
+                when (actionTask) {
+                    ACTION_DATABASE_LOAD_TASK -> {
+                        // Recheck biometric if error
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (PreferencesUtil.isBiometricUnlockEnable(this@PasswordActivity)) {
+                                // Stay with the same mode and init it
+                                advancedUnlockedManager?.initBiometricMode()
                             }
                         }
 
-                        // Show error message
-                        if (resultMessage != null && resultMessage.isNotEmpty()) {
-                            resultError = "$resultError $resultMessage"
+                        // Remove the password in view in all cases
+                        removePassword()
+
+                        if (result.isSuccess) {
+                            launchGroupActivity()
+                        } else {
+                            var resultError = ""
+                            val resultException = result.exception
+                            val resultMessage = result.message
+
+                            if (resultException != null) {
+                                resultError = resultException.getLocalizedMessage(resources)
+
+                                // Relaunch loading if we need to fix UUID
+                                if (resultException is LoadDatabaseDuplicateUuidException) {
+                                    showLoadDatabaseDuplicateUuidMessage {
+
+                                        var databaseUri: Uri? = null
+                                        var masterPassword: String? = null
+                                        var keyFileUri: Uri? = null
+                                        var readOnly = true
+                                        var cipherEntity: CipherDatabaseEntity? = null
+
+                                        result.data?.let { resultData ->
+                                            databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
+                                            masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
+                                            keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                                            readOnly = resultData.getBoolean(READ_ONLY_KEY)
+                                            cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
+                                        }
+
+                                        databaseUri?.let { databaseFileUri ->
+                                            showProgressDialogAndLoadDatabase(
+                                                    databaseFileUri,
+                                                    masterPassword,
+                                                    keyFileUri,
+                                                    readOnly,
+                                                    cipherEntity,
+                                                    true)
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Show error message
+                            if (resultMessage != null && resultMessage.isNotEmpty()) {
+                                resultError = "$resultError $resultMessage"
+                            }
+                            Log.e(TAG, resultError, resultException)
+                            Snackbar.make(activity_password_coordinator_layout,
+                                    resultError,
+                                    Snackbar.LENGTH_LONG).asError().show()
                         }
-                        Log.e(TAG, resultError, resultException)
-                        Snackbar.make(activity_password_coordinator_layout,
-                                resultError,
-                                Snackbar.LENGTH_LONG).asError().show()
                     }
                 }
             }

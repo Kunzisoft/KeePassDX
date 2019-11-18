@@ -45,10 +45,10 @@ import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
 import kotlin.collections.ArrayList
 
+class ProgressDialogThread(private val activity: FragmentActivity) {
 
-class ProgressDialogThread(private val activity: FragmentActivity,
-                           var onActionFinish: (actionTask: String,
-                                                result: ActionRunnable.Result) -> Unit) {
+    var onActionFinish: ((actionTask: String,
+                          result: ActionRunnable.Result) -> Unit)? = null
 
     private var intentDatabaseTask = Intent(activity, DatabaseTaskNotificationService::class.java)
 
@@ -69,7 +69,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            onActionFinish.invoke(actionTask, result)
+            onActionFinish?.invoke(actionTask, result)
             // Remove the progress task
             ProgressTaskDialogFragment.stop(activity)
             TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)

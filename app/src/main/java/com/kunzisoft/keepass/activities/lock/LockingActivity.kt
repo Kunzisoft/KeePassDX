@@ -32,6 +32,7 @@ import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -63,6 +64,10 @@ abstract class LockingActivity : StylishActivity() {
             return field || mSelectionMode
         }
     protected var mSelectionMode: Boolean = false
+    protected var mAutoSaveEnable: Boolean = true
+
+    var mProgressDialogThread: ProgressDialogThread? = null
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +91,9 @@ abstract class LockingActivity : StylishActivity() {
 
         mExitLock = false
         mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
+        mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
+
+        mProgressDialogThread = ProgressDialogThread(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -120,6 +128,8 @@ abstract class LockingActivity : StylishActivity() {
                 TimeoutHelper.recordTime(this)
         }
 
+        mProgressDialogThread?.registerProgressTask()
+
         invalidateOptionsMenu()
     }
 
@@ -130,6 +140,8 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onPause() {
+        mProgressDialogThread?.unregisterProgressTask()
+
         super.onPause()
 
         if (mTimeoutEnable) {

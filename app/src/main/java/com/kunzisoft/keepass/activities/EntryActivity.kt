@@ -329,9 +329,9 @@ class EntryActivity : LockingHideActivity() {
         val inflater = menuInflater
         MenuUtil.contributionMenuInflater(inflater, menu)
         inflater.inflate(R.menu.entry, menu)
-        inflater.inflate(R.menu.database_lock, menu)
-
+        inflater.inflate(R.menu.database, menu)
         if (mReadOnly) {
+            menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
 
@@ -400,21 +400,18 @@ class EntryActivity : LockingHideActivity() {
                 MenuUtil.onContributionItemSelected(this)
                 return true
             }
-
             R.id.menu_toggle_pass -> {
                 mShowPassword = !mShowPassword
                 changeShowPasswordIcon(item)
                 entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
                 return true
             }
-
             R.id.menu_edit -> {
                 mEntry?.let {
                     EntryEditActivity.launch(this@EntryActivity, it)
                 }
                 return true
             }
-
             R.id.menu_goto_url -> {
                 var url: String = mEntry?.url ?: ""
 
@@ -424,18 +421,17 @@ class EntryActivity : LockingHideActivity() {
                 }
 
                 UriUtil.gotoUrl(this, url)
-
                 return true
             }
-
             R.id.menu_lock -> {
                 lockAndExit()
                 return true
             }
-
+            R.id.menu_save_database -> {
+                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+            }
             android.R.id.home -> finish() // close this activity and return to preview activity (if there is any)
         }
-
         return super.onOptionsItemSelected(item)
     }
 

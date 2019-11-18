@@ -76,7 +76,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private var mOpenFileHelper: OpenFileHelper? = null
 
-    private var progressDialogThread: ProgressDialogThread? = null
+    private var mProgressDialogThread: ProgressDialogThread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -163,7 +163,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         // Attach the dialog thread to this activity
-        progressDialogThread = ProgressDialogThread(this) { actionTask, _ ->
+        mProgressDialogThread?.onActionFinish = { actionTask, _ ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_TASK -> {
                     // TODO Check
@@ -296,12 +296,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         // Register progress task
-        progressDialogThread?.registerProgressTask()
+        mProgressDialogThread?.registerProgressTask()
     }
 
     override fun onPause() {
         // Unregister progress task
-        progressDialogThread?.unregisterProgressTask()
+        mProgressDialogThread?.unregisterProgressTask()
 
         super.onPause()
     }
@@ -329,7 +329,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             mDatabaseFileUri?.let { databaseUri ->
 
                 // Create the new database
-                progressDialogThread?.startDatabaseCreate(
+                mProgressDialogThread?.startDatabaseCreate(
                         databaseUri,
                         masterPasswordChecked,
                         masterPassword,

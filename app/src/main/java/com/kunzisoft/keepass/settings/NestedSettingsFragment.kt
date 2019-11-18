@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.ActivityNotFoundException
+import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -77,6 +78,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     private var mDatabase: Database = Database.getInstance()
     private var mDatabaseReadOnly: Boolean = false
+    private var mDatabaseAutoSaveEnabled: Boolean = true
 
     private var mCount = 0
 
@@ -110,6 +112,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                             && autofillManager.hasEnabledAutofillServices()
                 }
             }
+            mDatabaseAutoSaveEnabled = PreferencesUtil.isAutoSaveDatabaseEnabled(activity)
         }
     }
 
@@ -471,7 +474,8 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                             }
                             refreshRecycleBinGroup()
                             // Save the database if not in readonly mode
-                            (context as SettingsActivity?)?.progressDialogThread?.startDatabaseSave(true)
+                            (context as SettingsActivity?)?.
+                                    mProgressDialogThread?.startDatabaseSave(mDatabaseAutoSaveEnabled)
                             true
                         }
                         true

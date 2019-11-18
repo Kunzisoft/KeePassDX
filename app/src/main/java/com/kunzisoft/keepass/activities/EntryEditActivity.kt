@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
@@ -66,9 +65,6 @@ class EntryEditActivity : LockingHideActivity(),
     private var scrollView: ScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
     private var saveView: View? = null
-
-    // Dialog thread
-    private var progressDialogThread: ProgressDialogThread? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -176,7 +172,7 @@ class EntryEditActivity : LockingHideActivity(),
         entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Create progress dialog
-        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+        mProgressDialogThread?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK,
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -273,18 +269,18 @@ class EntryEditActivity : LockingHideActivity(),
                 // Open a progress dialog and save entry
                 if (mIsNew) {
                     mParent?.let { parent ->
-                        progressDialogThread?.startDatabaseCreateEntry(
+                        mProgressDialogThread?.startDatabaseCreateEntry(
                                 newEntry,
                                 parent,
-                                !mReadOnly
+                                !mReadOnly && mAutoSaveEnable
                         )
                     }
                 } else {
                     mEntry?.let { oldEntry ->
-                        progressDialogThread?.startDatabaseUpdateEntry(
+                        mProgressDialogThread?.startDatabaseUpdateEntry(
                                 oldEntry,
                                 newEntry,
-                                !mReadOnly
+                                !mReadOnly && mAutoSaveEnable
                         )
                     }
                 }
@@ -292,23 +288,13 @@ class EntryEditActivity : LockingHideActivity(),
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        progressDialogThread?.registerProgressTask()
-    }
-
-    override fun onPause() {
-        progressDialogThread?.unregisterProgressTask()
-
-        super.onPause()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
         val inflater = menuInflater
-        inflater.inflate(R.menu.database_lock, menu)
+        inflater.inflate(R.menu.database, menu)
+        // Save database not needed here
+        menu.findItem(R.id.menu_save_database)?.isVisible = false
         MenuUtil.contributionMenuInflater(inflater, menu)
         if (mDatabase?.allowOTP == true)
             inflater.inflate(R.menu.entry_otp, menu)
@@ -352,12 +338,13 @@ class EntryEditActivity : LockingHideActivity(),
                 lockAndExit()
                 return true
             }
-
+            R.id.menu_save_database -> {
+                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+            }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
                 return true
             }
-
             R.id.menu_add_otp -> {
                 // Retrieve the current otpElement if exists
                 // and open the dialog to set up the OTP
@@ -365,7 +352,6 @@ class EntryEditActivity : LockingHideActivity(),
                         .show(supportFragmentManager, "addOTPDialog")
                 return true
             }
-
             android.R.id.home -> finish()
         }
 

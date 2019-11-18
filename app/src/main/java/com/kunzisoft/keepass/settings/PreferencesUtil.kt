@@ -134,6 +134,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.lock_database_back_root_default))
     }
 
+    fun isAutoSaveDatabaseEnabled(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.enable_auto_save_database_key),
+                context.resources.getBoolean(R.bool.enable_auto_save_database_default))
+    }
+
     fun isPersistentNotificationEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.persistent_notification_key),

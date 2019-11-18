@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.PasswordEncodingDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -45,8 +44,6 @@ open class SettingsActivity
     private var backupManager: BackupManager? = null
 
     private var toolbar: Toolbar? = null
-
-    var progressDialogThread: ProgressDialogThread? = null
 
     companion object {
 
@@ -90,25 +87,12 @@ open class SettingsActivity
 
         backupManager = BackupManager(this)
 
-        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+        mProgressDialogThread?.onActionFinish = { actionTask, result ->
             // Call result in fragment
             (supportFragmentManager
                     .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
                     ?.onProgressDialogThreadResult(actionTask, result)
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        progressDialogThread?.registerProgressTask()
-    }
-
-    override fun onPause() {
-
-        progressDialogThread?.unregisterProgressTask()
-
-        super.onPause()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -132,7 +116,7 @@ open class SettingsActivity
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
-                    progressDialogThread?.startDatabaseAssignPassword(
+                    mProgressDialogThread?.startDatabaseAssignPassword(
                             databaseUri,
                             masterPasswordChecked,
                             masterPassword,
@@ -142,7 +126,7 @@ open class SettingsActivity
                 } else {
                     PasswordEncodingDialogFragment().apply {
                         positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                            progressDialogThread?.startDatabaseAssignPassword(
+                            mProgressDialogThread?.startDatabaseAssignPassword(
                                     databaseUri,
                                     masterPasswordChecked,
                                     masterPassword,

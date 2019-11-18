@@ -36,7 +36,7 @@ class DatabaseNamePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogF
                 val newName = inputText
                 val oldName = database.name
                 database.name = newName
-                progressDialogThread?.startDatabaseSaveName(oldName, newName, true)
+                mProgressDialogThread?.startDatabaseSaveName(oldName, newName, mDatabaseAutoSaveEnable)
             }
         }
     }
