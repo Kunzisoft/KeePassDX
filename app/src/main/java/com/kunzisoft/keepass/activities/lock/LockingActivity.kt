@@ -108,9 +108,13 @@ abstract class LockingActivity : StylishActivity() {
     override fun onResume() {
         super.onResume()
 
+        mProgressDialogThread?.registerProgressTask()
+
         // To refresh when back to normal workflow from selection workflow
         mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
+
+        invalidateOptionsMenu()
 
         if (mTimeoutEnable) {
             // End activity if database not loaded
@@ -127,10 +131,6 @@ abstract class LockingActivity : StylishActivity() {
             if (!mExitLock)
                 TimeoutHelper.recordTime(this)
         }
-
-        mProgressDialogThread?.registerProgressTask()
-
-        invalidateOptionsMenu()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
