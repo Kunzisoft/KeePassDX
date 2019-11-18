@@ -91,7 +91,6 @@ abstract class LockingActivity : StylishActivity() {
 
         mExitLock = false
         mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
-        mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
         mProgressDialogThread = ProgressDialogThread(this)
     }
@@ -111,6 +110,7 @@ abstract class LockingActivity : StylishActivity() {
 
         // To refresh when back to normal workflow from selection workflow
         mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
+        mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
         if (mTimeoutEnable) {
             // End activity if database not loaded
