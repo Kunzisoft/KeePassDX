@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.ActivityNotFoundException
-import android.content.Context
 import android.content.Intent
 import android.content.res.Resources
 import android.graphics.Color
@@ -54,18 +53,18 @@ import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
 import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
 import com.kunzisoft.keepass.education.Education
 import com.kunzisoft.keepass.icons.IconPackChooser
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COLOR_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COMPRESSION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DESCRIPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ENCRYPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ITERATIONS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_NAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_PARALLELISM_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.NEW_ELEMENT_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.OLD_ELEMENT_KEY
 import com.kunzisoft.keepass.settings.preference.*
@@ -659,7 +658,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                     Main preferences
                     --------
                     */
-                    ACTION_DATABASE_SAVE_NAME_TASK -> {
+                    ACTION_DATABASE_UPDATE_NAME_TASK -> {
                         val oldName = data.getString(OLD_ELEMENT_KEY)!!
                         val newName = data.getString(NEW_ELEMENT_KEY)!!
                         val nameToShow =
@@ -671,7 +670,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbNamePref?.summary = nameToShow
                     }
-                    ACTION_DATABASE_SAVE_DESCRIPTION_TASK -> {
+                    ACTION_DATABASE_UPDATE_DESCRIPTION_TASK -> {
                         val oldDescription = data.getString(OLD_ELEMENT_KEY)!!
                         val newDescription = data.getString(NEW_ELEMENT_KEY)!!
                         val descriptionToShow =
@@ -683,7 +682,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbDescriptionPref?.summary = descriptionToShow
                     }
-                    ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK -> {
+                    ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK -> {
                         val oldDefaultUsername = data.getString(OLD_ELEMENT_KEY)!!
                         val newDefaultUsername = data.getString(NEW_ELEMENT_KEY)!!
                         val defaultUsernameToShow =
@@ -695,7 +694,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbDefaultUsername?.summary = defaultUsernameToShow
                     }
-                    ACTION_DATABASE_SAVE_COLOR_TASK -> {
+                    ACTION_DATABASE_UPDATE_COLOR_TASK -> {
                         val oldColor = data.getString(OLD_ELEMENT_KEY)!!
                         val newColor = data.getString(NEW_ELEMENT_KEY)!!
 
@@ -708,7 +707,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
-                    ACTION_DATABASE_SAVE_COMPRESSION_TASK -> {
+                    ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
                         val oldCompression = data.getSerializable(OLD_ELEMENT_KEY) as PwCompressionAlgorithm
                         val newCompression = data.getSerializable(NEW_ELEMENT_KEY) as PwCompressionAlgorithm
                         val algorithmToShow =
@@ -720,7 +719,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbDataCompressionPref?.summary = algorithmToShow.getName(resources)
                     }
-                    ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK -> {
+                    ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK -> {
                         val oldMaxHistoryItems = data.getInt(OLD_ELEMENT_KEY)
                         val newMaxHistoryItems = data.getInt(NEW_ELEMENT_KEY)
                         val maxHistoryItemsToShow =
@@ -732,7 +731,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         dbMaxHistoryItemsPref?.summary = maxHistoryItemsToShow.toString()
                     }
-                    ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK -> {
+                    ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK -> {
                         val oldMaxHistorySize = data.getLong(OLD_ELEMENT_KEY)
                         val newMaxHistorySize = data.getLong(NEW_ELEMENT_KEY)
                         val maxHistorySizeToShow =
@@ -750,7 +749,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                     Security
                     --------
                      */
-                    ACTION_DATABASE_SAVE_ENCRYPTION_TASK -> {
+                    ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
                         val oldEncryption = data.getSerializable(OLD_ELEMENT_KEY) as PwEncryptionAlgorithm
                         val newEncryption = data.getSerializable(NEW_ELEMENT_KEY) as PwEncryptionAlgorithm
                         val algorithmToShow =
@@ -762,7 +761,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         mEncryptionAlgorithmPref?.summary = algorithmToShow.getName(resources)
                     }
-                    ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK -> {
+                    ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK -> {
                         val oldKeyDerivationEngine = data.getSerializable(OLD_ELEMENT_KEY) as KdfEngine
                         val newKeyDerivationEngine = data.getSerializable(NEW_ELEMENT_KEY) as KdfEngine
                         val kdfEngineToShow =
@@ -779,7 +778,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                         mMemoryPref?.summary = kdfEngineToShow.defaultMemoryUsage.toString()
                         mParallelismPref?.summary = kdfEngineToShow.defaultParallelism.toString()
                     }
-                    ACTION_DATABASE_SAVE_ITERATIONS_TASK -> {
+                    ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> {
                         val oldIterations = data.getLong(OLD_ELEMENT_KEY)
                         val newIterations = data.getLong(NEW_ELEMENT_KEY)
                         val roundsToShow =
@@ -791,7 +790,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         mRoundPref?.summary = roundsToShow.toString()
                     }
-                    ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK -> {
+                    ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK -> {
                         val oldMemoryUsage = data.getLong(OLD_ELEMENT_KEY)
                         val newMemoryUsage = data.getLong(NEW_ELEMENT_KEY)
                         val memoryToShow =
@@ -803,7 +802,7 @@ class NestedSettingsFragment : PreferenceFragmentCompat() {
                                 }
                         mMemoryPref?.summary = memoryToShow.toString()
                     }
-                    ACTION_DATABASE_SAVE_PARALLELISM_TASK -> {
+                    ACTION_DATABASE_UPDATE_PARALLELISM_TASK -> {
                         val oldParallelism = data.getInt(OLD_ELEMENT_KEY)
                         val newParallelism = data.getInt(NEW_ELEMENT_KEY)
                         val parallelismToShow =
