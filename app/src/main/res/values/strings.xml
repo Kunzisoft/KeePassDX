@@ -176,6 +176,7 @@
     <string name="menu_cancel">Cancel</string>
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
+    <string name="menu_save_database">Save database</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -217,6 +218,7 @@
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
+    <string name="command_execution">Executing the command…</string>
     <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
@@ -365,10 +367,12 @@
     <string name="keyboard_key_sound_title">Sound on keypress</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
-    <string name="enable_read_only_title">Write-protected</string>
-    <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
+    <string name="enable_read_only_title">Write-protected</string>
+    <string name="enable_read_only_summary">Open your database read-only by default</string>
+    <string name="enable_auto_save_database_title">Auto save database</string>
+    <string name="enable_auto_save_database_summary">Automatically save the database after an important action (only in \"Modifiable\" mode)</string>
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational screens</string>

@@ -49,7 +49,6 @@ import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -93,8 +92,6 @@ class GroupActivity : LockingActivity(),
 
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
-
-    private var progressDialogThread: ProgressDialogThread? = null
 
     // Nodes
     private var mRootGroup: GroupVersioned? = null
@@ -205,7 +202,7 @@ class GroupActivity : LockingActivity(),
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
 
             // Init dialog thread
-            progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+            mProgressDialogThread?.onActionFinish = { actionTask, result ->
 
                 var oldNodes: List<NodeVersioned> = ArrayList()
                 result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
@@ -569,20 +566,20 @@ class GroupActivity : LockingActivity(),
             ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
                 // Copy
                 mCurrentGroup?.let { newParent ->
-                    progressDialogThread?.startDatabaseCopyNodes(
+                    mProgressDialogThread?.startDatabaseCopyNodes(
                             nodes,
                             newParent,
-                            !mReadOnly
+                            !mReadOnly && mAutoSaveEnable
                     )
                 }
             }
             ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
                 // Move
                 mCurrentGroup?.let { newParent ->
-                    progressDialogThread?.startDatabaseMoveNodes(
+                    mProgressDialogThread?.startDatabaseMoveNodes(
                             nodes,
                             newParent,
-                            !mReadOnly
+                            !mReadOnly && mAutoSaveEnable
                     )
                 }
             }
@@ -598,9 +595,9 @@ class GroupActivity : LockingActivity(),
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
             // If recycle bin enabled and not in recycle bin, move in recycle bin
-            progressDialogThread?.startDatabaseDeleteNodes(
+            mProgressDialogThread?.startDatabaseDeleteNodes(
                     nodes,
-                    !mReadOnly
+                    !mReadOnly && mAutoSaveEnable
             )
         } else {
             // open the dialog to confirm deletion
@@ -612,9 +609,9 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun permanentlyDeleteNodes(nodes: List<NodeVersioned>) {
-        progressDialogThread?.startDatabaseDeleteNodes(
+        mProgressDialogThread?.startDatabaseDeleteNodes(
                 nodes,
-                !mReadOnly
+                !mReadOnly && mAutoSaveEnable
         )
     }
 
@@ -624,13 +621,9 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
-
-        progressDialogThread?.registerProgressTask()
     }
 
     override fun onPause() {
-        progressDialogThread?.unregisterProgressTask()
-
         super.onPause()
 
         finishNodeAction()
@@ -640,7 +633,10 @@ class GroupActivity : LockingActivity(),
 
         val inflater = menuInflater
         inflater.inflate(R.menu.search, menu)
-        inflater.inflate(R.menu.database_lock, menu)
+        inflater.inflate(R.menu.database, menu)
+        if (mReadOnly) {
+            menu.findItem(R.id.menu_save_database)?.isVisible = false
+        }
         if (!mSelectionMode) {
             inflater.inflate(R.menu.default_menu, menu)
             MenuUtil.contributionMenuInflater(inflater, menu)
@@ -760,6 +756,10 @@ class GroupActivity : LockingActivity(),
                 lockAndExit()
                 return true
             }
+            R.id.menu_save_database -> {
+                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                return true
+            }
             R.id.menu_empty_recycle_bin -> {
                 mCurrentGroup?.getChildren()?.let { listChildren ->
                     // Automatically delete all elements
@@ -791,8 +791,11 @@ class GroupActivity : LockingActivity(),
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
-                            progressDialogThread?.startDatabaseCreateGroup(
-                                    newGroup, currentGroup, !mReadOnly)
+                            mProgressDialogThread?.startDatabaseCreateGroup(
+                                    newGroup,
+                                    currentGroup,
+                                    !mReadOnly && mAutoSaveEnable
+                            )
                         }
                     }
                 }
@@ -810,8 +813,11 @@ class GroupActivity : LockingActivity(),
                             }
                         }
                         // If group updated save it in the database
-                        progressDialogThread?.startDatabaseUpdateGroup(
-                                oldGroupToUpdate, updateGroup, !mReadOnly)
+                        mProgressDialogThread?.startDatabaseUpdateGroup(
+                                oldGroupToUpdate,
+                                updateGroup,
+                                !mReadOnly && mAutoSaveEnable
+                        )
                     }
                 }
                 else -> {}

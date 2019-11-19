@@ -24,4 +24,9 @@
         android:title="@string/menu_lock"
         android:orderInCategory="81"
         app:showAsAction="always" />
+    <item android:id="@+id/menu_save_database"
+        android:icon="@drawable/ic_save_white_24dp"
+        android:title="@string/menu_save_database"
+        android:orderInCategory="95"
+        app:showAsAction="ifRoom" />
 </menu>

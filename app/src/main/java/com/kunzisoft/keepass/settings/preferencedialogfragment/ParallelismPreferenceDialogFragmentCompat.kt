@@ -48,7 +48,7 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
                 val oldParallelism = database.parallelism
                 database.parallelism = parallelism
 
-                progressDialogThread?.startDatabaseSaveParallelism(oldParallelism, parallelism, true)
+                mProgressDialogThread?.startDatabaseSaveParallelism(oldParallelism, parallelism, mDatabaseAutoSaveEnable)
             }
         }
     }

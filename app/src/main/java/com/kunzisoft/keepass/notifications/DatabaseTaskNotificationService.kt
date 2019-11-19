@@ -70,17 +70,28 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         val intentAction = intent.action
 
+        var saveAction = true
+        if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
+        }
+
         val titleId: Int = when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
             ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
-            else -> R.string.saving_database
+            else -> {
+                if (saveAction)
+                    R.string.saving_database
+                else
+                    R.string.command_execution
+            }
         }
         val messageId: Int? = when (intentAction) {
             ACTION_DATABASE_LOAD_TASK -> null
             else -> null
         }
         val warningId: Int? =
-                if (intentAction == ACTION_DATABASE_LOAD_TASK)
+                if (!saveAction
+                        || intentAction == ACTION_DATABASE_LOAD_TASK)
                     null
                 else
                     R.string.do_not_kill_app
@@ -96,19 +107,20 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent)
             ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent)
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent)
-            ACTION_DATABASE_SAVE_NAME_TASK,
-            ACTION_DATABASE_SAVE_DESCRIPTION_TASK,
-            ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK,
-            ACTION_DATABASE_SAVE_COLOR_TASK,
-            ACTION_DATABASE_SAVE_COMPRESSION_TASK,
-            ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK,
-            ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK,
-            ACTION_DATABASE_SAVE_ENCRYPTION_TASK,
-            ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK,
-            ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK,
-            ACTION_DATABASE_SAVE_PARALLELISM_TASK,
-            ACTION_DATABASE_SAVE_ITERATIONS_TASK -> buildDatabaseSaveElementActionTask(intent)
-            else -> buildDatabaseSave(intent)
+            ACTION_DATABASE_UPDATE_NAME_TASK,
+            ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
+            ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
+            ACTION_DATABASE_UPDATE_COLOR_TASK,
+            ACTION_DATABASE_UPDATE_COMPRESSION_TASK,
+            ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
+            ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
+            ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
+            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK,
+            ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
+            ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
+            ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent)
+            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent)
+            else -> null
         }
 
         actionRunnable?.let { actionRunnableNotNull ->
@@ -397,7 +409,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
-    private fun buildDatabaseSaveElementActionTask(intent: Intent): ActionRunnable? {
+    private fun buildDatabaseUpdateElementActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
                     Database.getInstance(),
@@ -472,18 +484,18 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val ACTION_DATABASE_COPY_NODES_TASK = "ACTION_DATABASE_COPY_NODES_TASK"
         const val ACTION_DATABASE_MOVE_NODES_TASK = "ACTION_DATABASE_MOVE_NODES_TASK"
         const val ACTION_DATABASE_DELETE_NODES_TASK = "ACTION_DATABASE_DELETE_NODES_TASK"
-        const val ACTION_DATABASE_SAVE_NAME_TASK = "ACTION_DATABASE_SAVE_NAME_TASK"
-        const val ACTION_DATABASE_SAVE_DESCRIPTION_TASK = "ACTION_DATABASE_SAVE_DESCRIPTION_TASK"
-        const val ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK"
-        const val ACTION_DATABASE_SAVE_COLOR_TASK = "ACTION_DATABASE_SAVE_COLOR_TASK"
-        const val ACTION_DATABASE_SAVE_COMPRESSION_TASK = "ACTION_DATABASE_SAVE_COMPRESSION_TASK"
-        const val ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK"
-        const val ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK"
-        const val ACTION_DATABASE_SAVE_ENCRYPTION_TASK = "ACTION_DATABASE_SAVE_ENCRYPTION_TASK"
-        const val ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK = "ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK"
-        const val ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK = "ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK"
-        const val ACTION_DATABASE_SAVE_PARALLELISM_TASK = "ACTION_DATABASE_SAVE_PARALLELISM_TASK"
-        const val ACTION_DATABASE_SAVE_ITERATIONS_TASK = "ACTION_DATABASE_SAVE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_UPDATE_NAME_TASK = "ACTION_DATABASE_UPDATE_NAME_TASK"
+        const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK = "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
+        const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
+        const val ACTION_DATABASE_UPDATE_COLOR_TASK = "ACTION_DATABASE_UPDATE_COLOR_TASK"
+        const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK = "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
+        const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"
+        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK = "ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
+        const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK = "ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
+        const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
+        const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"

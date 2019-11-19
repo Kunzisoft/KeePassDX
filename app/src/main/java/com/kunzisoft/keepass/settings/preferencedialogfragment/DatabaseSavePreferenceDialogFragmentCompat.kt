@@ -23,13 +23,14 @@ import android.content.Context
 import android.os.Bundle
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsActivity
 
 abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialogFragmentCompat() {
 
     protected var database: Database? = null
-
-    protected var progressDialogThread: ProgressDialogThread? = null
+    protected var mDatabaseAutoSaveEnable = true
+    protected var mProgressDialogThread: ProgressDialogThread? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,8 +42,10 @@ abstract class DatabaseSavePreferenceDialogFragmentCompat : InputPreferenceDialo
         super.onAttach(context)
         // Attach dialog thread to start action
         if (context is SettingsActivity) {
-            progressDialogThread = context.progressDialogThread
+            mProgressDialogThread = context.mProgressDialogThread
         }
+
+        this.mDatabaseAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(context)
     }
 
     companion object {
