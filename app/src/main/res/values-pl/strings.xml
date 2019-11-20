@@ -312,11 +312,9 @@
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, jest oprogramowaniem darmowym typu <strong>copylefted libre</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
-    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcji wizualnej</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe. </strong>
-    </string>
+    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcji wizualnej</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe.</strong></string>
     <string name="html_text_feature_generosity">Ta <strong>funkcja wizualna</strong> jest dostępna dzięki Twojej hojności.</string>
-    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong>
-    </string>
+    <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
     <string name="html_text_dev_feature">Ta funkcja jest <strong>rozwojowa</strong> i wymaga twojego <strong>wkładu</strong> aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję <strong>pro</strong> wersja,</string>
     <string name="html_text_dev_feature_contibute">Przez <strong>przyczynianie się</strong>,</string>
@@ -353,7 +351,7 @@
     <string name="keyboard_key_vibrate_title">Wibracja po naciśnięciu klawisza</string>
     <string name="keyboard_key_sound_title">Dźwięk przy naciśnięciu</string>
     <string name="do_not_kill_app">Nie zabijaj aplikacji…</string>
-    <string name="lock_database_back_root_title">Wciśnij \'Powrót\', aby zablokować.</string>
+    <string name="lock_database_back_root_title">Wciśnij \'Powrót\', aby zablokować</string>
     <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk \"Wstecz\" na ekranie głównym</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
     <string name="clear_clipboard_notification_summary">Zamknij bazę danych podczas zamykania powiadomienia</string>
@@ -428,4 +426,20 @@
     <string name="compression_none">Żaden</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Ustawienia klawiatury urządzenia</string>
+    <string name="error_invalid_OTP">Nieprawidłowy klucz tajny OTP.</string>
+    <string name="error_disallow_no_credentials">Należy ustawić co najmniej jedno poświadczenie.</string>
+    <string name="error_otp_secret_key">Klucz tajny musi być w formacie Base32.</string>
+    <string name="error_otp_counter">Licznik musi być między %1$d a %2$d.</string>
+    <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
+    <string name="error_otp_digits">Token musi zawierać %1$d do %2$d cyfr.</string>
+    <string name="invalid_db_same_uuid">%1$s o tym samym identyfikatorze UUID %2$s już istnieje.</string>
+    <string name="contains_duplicate_uuid_procedure">Weryfikując to okno dialogowe, KeePass DX rozwiąże problem (poprzez wygenerowanie nowych UUID dla duplikatów) i będzie kontynuował.</string>
+    <string name="clipboard_explanation_summary">Skopiuj pola wprowadzania danych za pomocą schowka urządzenia</string>
+    <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
+    <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych.</string>
+    <string name="max_history_items_title">Maksymalne pozycje historii</string>
+    <string name="max_history_size_summary">Zmień rozmiar historii na wpis (w bajtach binarnych)</string>
+    <string name="settings_database_force_changing_master_key_title">Wymuś zmianę</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Wymuś zmianę następnym razem</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Wymuś zmianę klucza głównego następnym razem (raz)</string>
 </resources>
