@@ -216,7 +216,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
 
             PwDbHeaderV4Fields.PublicCustomData -> {
-                databaseV4.publicCustomData = KdfParameters.deserialize(fieldData) // TODO verify
+                databaseV4.publicCustomData = KdfParameters.deserialize(fieldData)!! // TODO verify
                 throw IOException("Invalid header type: $fieldID")
             }
             else -> throw IOException("Invalid header type: $fieldID")
@@ -239,7 +239,7 @@ class PwDbHeaderV4(private val databaseV4: PwDatabaseV4) : PwDbHeader() {
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = DatabaseInputOutputUtils.bytestoUUID(pbId)
+        databaseV4.dataCipher = DatabaseInputOutputUtils.bytesToUuid(pbId)
     }
 
     private fun setTransformRound(roundsByte: ByteArray?) {

@@ -24,11 +24,11 @@ import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils;
 import java.util.UUID;
 
 public class UuidUtil {
+
     public static String toHexString(UUID uuid) {
         if (uuid == null) { return null; }
 
-        byte[] buf = DatabaseInputOutputUtils.UUIDtoBytes(uuid);
-        if (buf == null) { return null; }
+        byte[] buf = DatabaseInputOutputUtils.INSTANCE.uuidToBytes(uuid);
 
         int len = buf.length;
         if (len == 0) { return ""; }
@@ -37,17 +37,10 @@ public class UuidUtil {
 
         short bt;
         char high, low;
-        for (int i = 0; i < len; i++) {
-            bt = (short)(buf[i] & 0xFF);
-            high = (char)(bt >>> 4);
-
-
-            low = (char)(bt & 0x0F);
-
-            char h,l;
-            h = byteToChar(high);
-            l = byteToChar(low);
-
+        for (byte b : buf) {
+            bt = (short) (b & 0xFF);
+            high = (char) (bt >>> 4);
+            low = (char) (bt & 0x0F);
             sb.append(byteToChar(high));
             sb.append(byteToChar(low));
         }

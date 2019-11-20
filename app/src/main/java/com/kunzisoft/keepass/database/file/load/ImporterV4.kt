@@ -876,7 +876,7 @@ class ImporterV4(private val streamDir: File,
         // TODO: Switch to framework Base64 once API level 8 is the minimum
         val buf = Base64Coder.decode(encoded)
 
-        return DatabaseInputOutputUtils.bytestoUUID(buf)
+        return DatabaseInputOutputUtils.bytesToUuid(buf)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)

@@ -47,7 +47,7 @@ class PwEntryOutputV3
         // UUID
         mOutputStream.write(UUID_FIELD_TYPE)
         mOutputStream.write(UUID_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.UUIDtoBytes(mEntry.id))
+        mOutputStream.write(DatabaseInputOutputUtils.uuidToBytes(mEntry.id))
 
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
@@ -81,16 +81,16 @@ class PwEntryOutputV3
         length += DatabaseInputOutputUtils.writeCString(mEntry.notes, mOutputStream).toLong()
 
         // Create date
-        writeDate(CREATE_FIELD_TYPE, mEntry.creationTime.byteArrayDate)
+        writeDate(CREATE_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.creationTime.date))
 
         // Modification date
-        writeDate(MOD_FIELD_TYPE, mEntry.lastModificationTime.byteArrayDate)
+        writeDate(MOD_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.lastModificationTime.date))
 
         // Access date
-        writeDate(ACCESS_FIELD_TYPE, mEntry.lastAccessTime.byteArrayDate)
+        writeDate(ACCESS_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.lastAccessTime.date))
 
         // Expiration date
-        writeDate(EXPIRE_FIELD_TYPE, mEntry.expiryTime.byteArrayDate)
+        writeDate(EXPIRE_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.expiryTime.date))
 
         // Binary
         writeBinary(mEntry.binaryData)

@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.stream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.UUID;
 
 
 /** Little endian version of the DataInputStream
@@ -210,4 +211,17 @@ public class LEDataInputStream extends InputStream {
                 + ((buf[offset + 3] & 0xFF) << 24);
     }
 
+    public static UUID readUuid( byte[] buf, int offset ) {
+        long lsb = 0;
+        for (int i = 15; i >= 8; i--) {
+            lsb = (lsb << 8) | (buf[i + offset] & 0xff);
+        }
+
+        long msb = 0;
+        for (int i = 7; i >= 0; i--) {
+            msb = (msb << 8) | (buf[i + offset] & 0xff);
+        }
+
+        return new UUID(msb, lsb);
+    }
 }

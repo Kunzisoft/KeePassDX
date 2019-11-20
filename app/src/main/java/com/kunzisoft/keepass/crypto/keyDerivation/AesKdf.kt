@@ -32,7 +32,7 @@ class AesKdf internal constructor() : KdfEngine() {
 
     override val defaultParameters: KdfParameters
         get() {
-            return KdfParameters(uuid).apply {
+            return KdfParameters(uuid!!).apply {
                 setParamUUID()
                 setUInt32(PARAM_ROUNDS, DEFAULT_ROUNDS.toLong())
             }
@@ -88,7 +88,7 @@ class AesKdf internal constructor() : KdfEngine() {
 
         private const val DEFAULT_ROUNDS = 6000
 
-        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
                 byteArrayOf(0xC9.toByte(),
                         0xD9.toByte(),
                         0xF3.toByte(),

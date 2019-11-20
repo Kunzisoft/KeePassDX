@@ -27,7 +27,6 @@ import java.util.Random
 
 import junit.framework.TestCase
 
-import com.kunzisoft.keepass.database.element.PwDate
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
@@ -168,27 +167,31 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         val expected = Calendar.getInstance()
         expected.set(2008, 1, 2, 3, 4, 5)
 
-        val buf = PwDate.writeTime(expected.time, cal)
         val actual = Calendar.getInstance()
-        actual.time = PwDate.readTime(buf, 0, cal)
+        DatabaseInputOutputUtils.writeCDate(expected.time, cal)?.let { buf ->
+            actual.time = DatabaseInputOutputUtils.readCDate(buf, 0, cal).date
+        }
 
         assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
         assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH))
-        assertEquals("Day mismatch: ", 1, actual.get(Calendar.DAY_OF_MONTH))
+        assertEquals("Day mismatch: ", 2, actual.get(Calendar.DAY_OF_MONTH))
         assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY))
         assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE))
         assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND))
     }
 
     fun testUUID() {
-        val rnd = Random()
         val bUUID = ByteArray(16)
-        rnd.nextBytes(bUUID)
+        Random().nextBytes(bUUID)
 
-        val uuid = DatabaseInputOutputUtils.bytestoUUID(bUUID)
-        val eUUID = DatabaseInputOutputUtils.UUIDtoBytes(uuid)
+        val uuid = DatabaseInputOutputUtils.bytesToUuid(bUUID)
+        val eUUID = DatabaseInputOutputUtils.uuidToBytes(uuid)
+
+        val lUUID = LEDataInputStream.readUuid(bUUID, 0)
+        val leUUID = DatabaseInputOutputUtils.uuidToBytes(lUUID)
 
         assertArrayEquals("UUID match failed", bUUID, eUUID)
+        assertArrayEquals("UUID match failed", bUUID, leUUID)
     }
 
     @Throws(Exception::class)

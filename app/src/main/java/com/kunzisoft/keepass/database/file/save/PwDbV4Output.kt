@@ -505,7 +505,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, uuid: UUID) {
-        val data = DatabaseInputOutputUtils.UUIDtoBytes(uuid)
+        val data = DatabaseInputOutputUtils.uuidToBytes(uuid)
         writeObject(name, String(Base64Coder.encode(data)))
     }
 

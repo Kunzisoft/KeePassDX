@@ -30,7 +30,7 @@ class Argon2Kdf internal constructor() : KdfEngine() {
 
     override val defaultParameters: KdfParameters
         get() {
-            val p = KdfParameters(uuid)
+            val p = KdfParameters(uuid!!)
 
             p.setParamUUID()
             p.setUInt32(PARAM_PARALLELISM, DEFAULT_PARALLELISM)
@@ -126,7 +126,7 @@ class Argon2Kdf internal constructor() : KdfEngine() {
 
     companion object {
 
-        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
                 byteArrayOf(0xEF.toByte(),
                         0x63.toByte(),
                         0x6D.toByte(),

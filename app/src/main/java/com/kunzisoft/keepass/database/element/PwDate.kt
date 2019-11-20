@@ -33,69 +33,28 @@ import java.util.*
 class PwDate : Parcelable {
 
     private var jDate: Date = Date()
-    private var jDateBuilt = false
-    @Transient
-    private var cDate: ByteArray? = null
-    @Transient
-    private var cDateBuilt = false
 
     val date: Date
-        get() {
-            if (!jDateBuilt) {
-                jDate = readTime(cDate, 0, calendar)
-                jDateBuilt = true
-            }
-
-            return jDate
-        }
-
-    val byteArrayDate: ByteArray?
-        get() {
-            if (!cDateBuilt) {
-                cDate = writeTime(jDate, calendar)
-                cDateBuilt = true
-            }
-
-            return cDate
-        }
-
-    constructor(buf: ByteArray, offset: Int) {
-        cDate = ByteArray(DATE_SIZE)
-        System.arraycopy(buf, offset, cDate!!, 0, DATE_SIZE)
-        cDateBuilt = true
-    }
+        get() = jDate
 
     constructor(source: PwDate) {
         this.jDate = Date(source.jDate.time)
-        this.jDateBuilt = source.jDateBuilt
-
-        if (source.cDate != null) {
-            val dateLength = source.cDate!!.size
-            this.cDate = ByteArray(dateLength)
-            System.arraycopy(source.cDate!!, 0, this.cDate!!, 0, dateLength)
-        }
-        this.cDateBuilt = source.cDateBuilt
     }
 
     constructor(date: Date) {
         jDate = Date(date.time)
-        jDateBuilt = true
     }
 
     constructor(millis: Long) {
         jDate = Date(millis)
-        jDateBuilt = true
     }
 
     constructor() {
         jDate = Date()
-        jDateBuilt = true
     }
 
     protected constructor(parcel: Parcel) {
         jDate = parcel.readSerializable() as Date
-        jDateBuilt = parcel.readByte().toInt() != 0
-        cDateBuilt = false
     }
 
     override fun describeContents(): Int {
@@ -108,7 +67,6 @@ class PwDate : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeSerializable(date)
-        dest.writeByte((if (jDateBuilt) 1 else 0).toByte())
     }
 
     override fun equals(other: Any?): Boolean {
@@ -122,41 +80,21 @@ class PwDate : Parcelable {
             return false
         }
 
-        val date = other as PwDate?
-        return if (cDateBuilt && date!!.cDateBuilt) {
-            Arrays.equals(cDate, date.cDate)
-        } else if (jDateBuilt && date!!.jDateBuilt) {
-            isSameDate(jDate, date.jDate)
-        } else if (cDateBuilt && date!!.jDateBuilt) {
-            Arrays.equals(date.byteArrayDate, cDate)
-        } else {
-            isSameDate(date!!.date, jDate)
-        }
+        val date = other as PwDate
+        return isSameDate(jDate, date.jDate)
     }
 
     override fun hashCode(): Int {
-        var result = jDate.hashCode()
-        result = 31 * result + jDateBuilt.hashCode()
-        result = 31 * result + (cDate?.contentHashCode() ?: 0)
-        result = 31 * result + cDateBuilt.hashCode()
-        return result
+        return jDate.hashCode()
+    }
+
+    override fun toString(): String {
+        return jDate.toString()
     }
 
     companion object {
 
-        private const val DATE_SIZE = 5
-
-        private var mCalendar: Calendar? = null
-
         val NEVER_EXPIRE = neverExpire
-
-        private val calendar: Calendar?
-            get() {
-                if (mCalendar == null) {
-                    mCalendar = Calendar.getInstance()
-                }
-                return mCalendar
-            }
 
         private val neverExpire: PwDate
             get() {
@@ -180,70 +118,6 @@ class PwDate : Parcelable {
             override fun newArray(size: Int): Array<PwDate?> {
                 return arrayOfNulls(size)
             }
-        }
-
-        /**
-         * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
-         * to a java.util.Date instance.
-         */
-        fun readTime(buf: ByteArray?, offset: Int, calendar: Calendar?): Date {
-            var time = calendar
-            val dw1 = DatabaseInputOutputUtils.readUByte(buf!!, offset)
-            val dw2 = DatabaseInputOutputUtils.readUByte(buf, offset + 1)
-            val dw3 = DatabaseInputOutputUtils.readUByte(buf, offset + 2)
-            val dw4 = DatabaseInputOutputUtils.readUByte(buf, offset + 3)
-            val dw5 = DatabaseInputOutputUtils.readUByte(buf, offset + 4)
-
-            // Unpack 5 byte structure to date and time
-            val year = dw1 shl 6 or (dw2 shr 2)
-            val month = dw2 and 0x00000003 shl 2 or (dw3 shr 6)
-
-            val day = dw3 shr 1 and 0x0000001F
-            val hour = dw3 and 0x00000001 shl 4 or (dw4 shr 4)
-            val minute = dw4 and 0x0000000F shl 2 or (dw5 shr 6)
-            val second = dw5 and 0x0000003F
-
-            if (time == null) {
-                time = Calendar.getInstance()
-            }
-            // File format is a 1 based month, java Calendar uses a zero based month
-            // File format is a 1 based day, java Calendar uses a 1 based day
-            time!!.set(year, month - 1, day, hour, minute, second)
-
-            return time.time
-
-        }
-
-        @JvmOverloads
-        fun writeTime(date: Date?, calendar: Calendar? = null): ByteArray? {
-            var cal = calendar
-            if (date == null) {
-                return null
-            }
-
-            val buf = ByteArray(5)
-            if (cal == null) {
-                cal = Calendar.getInstance()
-            }
-            cal!!.time = date
-
-            val year = cal.get(Calendar.YEAR)
-            // File format is a 1 based month, java Calendar uses a zero based month
-            val month = cal.get(Calendar.MONTH) + 1
-            // File format is a 0 based day, java Calendar uses a 1 based day
-            val day = cal.get(Calendar.DAY_OF_MONTH) - 1
-            val hour = cal.get(Calendar.HOUR_OF_DAY)
-            val minute = cal.get(Calendar.MINUTE)
-            val second = cal.get(Calendar.SECOND)
-
-            buf[0] = DatabaseInputOutputUtils.writeUByte(year shr 6 and 0x0000003F)
-            buf[1] = DatabaseInputOutputUtils.writeUByte(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003))
-            buf[2] = (month and 0x00000003 shl 6
-                    or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
-            buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()
-            buf[4] = (minute and 0x00000003 shl 6 or (second and 0x0000003F)).toByte()
-
-            return buf
         }
 
         private fun isSameDate(d1: Date?, d2: Date?): Boolean {

@@ -86,7 +86,7 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         los.writeUInt(PwDbHeaderV4.DBSIG_2.toLong())
         los.writeUInt(header.version)
 
-        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, DatabaseInputOutputUtils.UUIDtoBytes(db.dataCipher))
+        writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CipherID, DatabaseInputOutputUtils.uuidToBytes(db.dataCipher))
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(PwDbHeaderV4.getFlagFromCompression(db.compressionAlgorithm)))
         writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
@@ -94,7 +94,7 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
             writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformSeed, header.transformSeed)
             writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.numberKeyEncryptionRounds))
         } else {
-            writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.kdfParameters))
+            writeHeaderField(PwDbHeaderV4.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.kdfParameters!!))
         }
 
         if (header.encryptionIV.isNotEmpty()) {

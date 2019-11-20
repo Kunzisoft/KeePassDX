@@ -47,22 +47,22 @@ class PwGroupOutputV3 (private val mGroup: PwGroupV3, private val mOutputStream:
         // Create date
         mOutputStream.write(CREATE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(mGroup.creationTime.byteArrayDate)
+        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.creationTime.date))
 
         // Modification date
         mOutputStream.write(MOD_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(mGroup.lastModificationTime.byteArrayDate)
+        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastModificationTime.date))
 
         // Access date
         mOutputStream.write(ACCESS_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(mGroup.lastAccessTime.byteArrayDate)
+        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastAccessTime.date))
 
         // Expiration date
         mOutputStream.write(EXPIRE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(mGroup.expiryTime.byteArrayDate)
+        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.expiryTime.date))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)

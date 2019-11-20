@@ -50,7 +50,7 @@ class ChaCha20Engine : CipherEngine() {
 
     companion object {
 
-        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
                 byteArrayOf(0xD6.toByte(), 0x03.toByte(), 0x8A.toByte(), 0x2B.toByte(), 0x8B.toByte(), 0x6F.toByte(), 0x4C.toByte(), 0xB5.toByte(), 0xA5.toByte(), 0x24.toByte(), 0x33.toByte(), 0x9A.toByte(), 0x31.toByte(), 0xDB.toByte(), 0xB5.toByte(), 0x9A.toByte()))
     }
 }
