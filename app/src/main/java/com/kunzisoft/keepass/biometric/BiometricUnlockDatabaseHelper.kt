@@ -59,6 +59,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
         setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+        setConfirmationRequired(true)
         // TODO device credential
         /*
         if (keyguardManager?.isDeviceSecure == true)
@@ -71,6 +72,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
         setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
+        setConfirmationRequired(false)
         // TODO device credential
         /*
         if (keyguardManager?.isDeviceSecure == true)
