@@ -6,7 +6,6 @@ apply plugin: 'kotlin-kapt'
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
-    ndkVersion "20.1.5948944"
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
