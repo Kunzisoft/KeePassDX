@@ -220,33 +220,36 @@ class ImporterV4(private val streamDir: File,
         val size = lis.readInt()
         if (size < 0) throw IOException("Corrupted file")
 
-        var data = ByteArray(0)
-        if (size > 0) {
-            if (fieldId != PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary)
-                data = lis.readBytes(size)
-        }
-
-        var result = true
         when (fieldId) {
-            PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader -> result = false
-            PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> header.setRandomStreamID(data)
-            PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> header.innerRandomStreamKey = data
+            PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader -> {
+                return false
+            }
+            PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
+                val data = if (size > 0) lis.readBytes(size) else ByteArray(0)
+                header.setRandomStreamID(data)
+            }
+            PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
+                val data = if (size > 0) lis.readBytes(size) else ByteArray(0)
+                header.innerRandomStreamKey = data
+            }
             PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary -> {
                 val flag = lis.readBytes(1)[0].toInt() != 0
                 val protectedFlag = flag && PwDbHeaderV4.KdbxBinaryFlags.Protected.toInt() != PwDbHeaderV4.KdbxBinaryFlags.None.toInt()
                 val byteLength = size - 1
                 // Read in a file
                 val file = File(streamDir, unusedCacheFileName)
-                FileOutputStream(file).use { outputStream -> lis.readBytes(byteLength) { outputStream.write(it) } }
+                FileOutputStream(file).use { outputStream ->
+                    lis.readBytes(byteLength) { outputStream.write(it) }
+                }
                 val protectedBinary = ProtectedBinary(protectedFlag, file, byteLength)
                 mDatabase.binPool.add(protectedBinary)
             }
-
             else -> {
+                return false
             }
         }
 
-        return result
+        return true
     }
 
     private enum class KdbContext {
@@ -969,7 +972,6 @@ class ImporterV4(private val streamDir: File,
         }
 
         val buf = processNode(xpp)
-
         if (buf != null) {
             createProtectedBinaryFromData(true, buf)
         }
@@ -1001,7 +1003,6 @@ class ImporterV4(private val streamDir: File,
         }
 
         return xpp.safeNextText()
-
     }
 
     @Throws(XmlPullParserException::class, IOException::class)

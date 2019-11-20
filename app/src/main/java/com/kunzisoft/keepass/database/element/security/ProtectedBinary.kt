@@ -108,11 +108,19 @@ class ProtectedBinary : Parcelable {
             return false
         if (other !is ProtectedBinary)
             return false
+
+        var sameData = false
+        if (data != null && Arrays.equals(data, other.data))
+            sameData = true
+        else if (dataFile != null && dataFile == other.dataFile)
+            sameData = true
+        else if (data == null && other.data == null
+                && dataFile == null && other.dataFile == null)
+            sameData = true
+
         return isProtected == other.isProtected &&
                 size == other.size &&
-                Arrays.equals(data, other.data) &&
-                dataFile != null &&
-                dataFile == other.dataFile
+                sameData
     }
 
     override fun hashCode(): Int {
