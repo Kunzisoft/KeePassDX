@@ -27,7 +27,8 @@ import org.joda.time.LocalDateTime
 /**
  * Abstract class who manage Groups and Entries
  */
-abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : PwEntryInterface<Parent>> : PwNodeInterface<Parent>, Parcelable {
+abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : PwEntryInterface<Parent>>
+    : PwNodeInterface<Parent>, NodeTimeInterface, Parcelable {
 
     var nodeId: PwNodeId<IdType> = this.initNodeId()
 
@@ -88,7 +89,7 @@ abstract class PwNode<IdType, Parent : PwGroupInterface<Parent, Entry>, Entry : 
 
     final override var lastAccessTime: PwDate = PwDate()
 
-    final override var expiryTime: PwDate = PwDate()
+    final override var expiryTime: PwDate = PwDate.NEVER_EXPIRE
 
     final override val isCurrentlyExpires: Boolean
         get() = expires
