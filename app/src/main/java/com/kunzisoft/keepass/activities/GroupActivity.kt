@@ -97,8 +97,6 @@ class GroupActivity : LockingActivity(),
     private var mRootGroup: GroupVersioned? = null
     private var mCurrentGroup: GroupVersioned? = null
     private var mOldGroupToUpdate: GroupVersioned? = null
-    // TODO private var mNodeToCopy: NodeVersioned? = null
-    // TODO private var mNodeToMove: NodeVersioned? = null
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
 
@@ -128,14 +126,6 @@ class GroupActivity : LockingActivity(),
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
-
-        /*
-        toolbarAction?.setNavigationOnClickListener {
-            toolbarAction?.collapse()
-            mNodeToCopy = null
-            mNodeToMove = null
-        }
-        */
 
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
