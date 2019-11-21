@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
@@ -155,7 +156,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private fun initNotAvailable() {
         showFingerPrintViews(false)
 
-        advancedUnlockInfoView?.setIconViewClickListener(null)
+        advancedUnlockInfoView?.setIconViewClickListener(false, null)
     }
 
     private fun initNotConfigured() {
@@ -173,7 +174,11 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
         setAdvancedUnlockedMessageView("")
 
-        advancedUnlockInfoView?.setIconViewClickListener(null)
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
+            biometricAuthenticationCallback.onAuthenticationError(
+                    BiometricConstants.ERROR_UNABLE_TO_PROCESS
+                    , context.getString(R.string.credential_before_click_biometric_button))
+        }
     }
 
     private fun openBiometricPrompt(biometricPrompt: BiometricPrompt?,
