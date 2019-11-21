@@ -401,7 +401,7 @@ class PasswordActivity : StylishActivity() {
                                     }
                                 })
                     }
-                    advancedUnlockedManager?.initBiometric()
+                    advancedUnlockedManager?.checkBiometricAvailability()
                     biometricInitialize = true
                 } else {
                     advancedUnlockedManager?.destroy()

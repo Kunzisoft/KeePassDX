@@ -249,6 +249,7 @@
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
+    <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
     <string name="biometric_prompt_store_credential_title">Save biometric recognition</string>
