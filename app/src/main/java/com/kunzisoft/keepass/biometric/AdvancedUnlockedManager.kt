@@ -37,6 +37,14 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
+    init {
+        // Add a check listener to change fingerprint mode
+        checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
+            checkBiometricAvailability()
+            // Add old listener to enable the button, only be call here because of onCheckedChange bug
+            onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
+        }
+    }
 
     /**
      * Check biometric availability and change the current mode depending of device's state
@@ -68,13 +76,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                 if (biometricUnlockDatabaseHelper?.isKeyManagerInitialized != true) {
                     toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
                 } else {
-                    // Add a check listener to change fingerprint mode
-                    checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-                        checkBiometricAvailability()
-                        // Add old listener to enable the button, only be call here because of onCheckedChange bug
-                        onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
-                    }
-
                     if (checkboxPasswordView?.isChecked == true) {
                         // listen for encryption
                         toggleMode(Mode.STORE_CREDENTIAL)
