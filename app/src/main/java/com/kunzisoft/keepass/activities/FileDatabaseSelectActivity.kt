@@ -163,13 +163,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         // Attach the dialog thread to this activity
-        mProgressDialogThread?.onActionFinish = { actionTask, _ ->
-            when (actionTask) {
-                ACTION_DATABASE_CREATE_TASK -> {
-                    // TODO Check
-                    // mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    // updateFileListVisibility()
-                    GroupActivity.launch(this)
+        mProgressDialogThread = ProgressDialogThread(this).apply {
+            onActionFinish = { actionTask, _ ->
+                when (actionTask) {
+                    ACTION_DATABASE_CREATE_TASK -> {
+                        // TODO Check
+                        // mAdapterDatabaseHistory?.notifyDataSetChanged()
+                        // updateFileListVisibility()
+                        GroupActivity.launch(this@FileDatabaseSelectActivity)
+                    }
                 }
             }
         }

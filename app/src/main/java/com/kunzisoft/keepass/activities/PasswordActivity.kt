@@ -101,7 +101,7 @@ class PasswordActivity : StylishActivity() {
 
     private var readOnly: Boolean = false
 
-    private var progressDialogThread: ProgressDialogThread? = null
+    private var mProgressDialogThread: ProgressDialogThread? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
 
@@ -163,7 +163,7 @@ class PasswordActivity : StylishActivity() {
             enableOrNotTheConfirmationButton()
         }
 
-        progressDialogThread = ProgressDialogThread(this).apply {
+        mProgressDialogThread = ProgressDialogThread(this).apply {
             onActionFinish = { actionTask, result ->
                 when (actionTask) {
                     ACTION_DATABASE_LOAD_TASK -> {
@@ -274,7 +274,7 @@ class PasswordActivity : StylishActivity() {
         // For check shutdown
         super.onResume()
 
-        progressDialogThread?.registerProgressTask()
+        mProgressDialogThread?.registerProgressTask()
 
         initUriFromIntent()
     }
@@ -461,7 +461,7 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onPause() {
-        progressDialogThread?.unregisterProgressTask()
+        mProgressDialogThread?.unregisterProgressTask()
 
         super.onPause()
     }
@@ -529,7 +529,7 @@ class PasswordActivity : StylishActivity() {
                                                   readOnly: Boolean,
                                                   cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
-        progressDialogThread?.startDatabaseLoad(
+        mProgressDialogThread?.startDatabaseLoad(
                 databaseUri,
                 password,
                 keyFile,
