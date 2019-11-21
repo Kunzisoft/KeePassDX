@@ -256,7 +256,7 @@
     <string name="biometric_prompt_extract_credential_title">Open database with biometric recognition</string>
     <string name="biometric_prompt_extract_credential_message">Extract database credential with biometric data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="biometric_invalid_key">Could not read biometric key. Restore your credential.</string>
+    <string name="biometric_invalid_key">Can not read the biometric key. Please delete it and repeat the biometric recognition procedure.</string>
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
