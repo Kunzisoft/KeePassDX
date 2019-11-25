@@ -47,8 +47,9 @@ class BinaryPool {
     }
 
     fun add(protectedBinary: ProtectedBinary) {
-        if (findKey(protectedBinary) != -1) return
-        pool.put(findUnusedKey(), protectedBinary)
+        if (findKey(protectedBinary) == null) {
+            pool.put(findUnusedKey(), protectedBinary)
+        }
     }
 
     fun findUnusedKey(): Int {
@@ -58,10 +59,10 @@ class BinaryPool {
         return unusedKey
     }
 
-    fun findKey(pb: ProtectedBinary): Int {
+    fun findKey(pb: ProtectedBinary): Int? {
         for (i in 0 until pool.size()) {
             if (pool.get(pool.keyAt(i)) == pb) return i
         }
-        return -1
+        return null
     }
 }

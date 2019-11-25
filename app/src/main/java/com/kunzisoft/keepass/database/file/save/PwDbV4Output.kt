@@ -176,7 +176,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         endGroup()
 
-        writeList(PwDatabaseV4XML.ElemDeletedObjects, mDatabaseV4.deletedObjects)
+        writeDeletedObjects(mDatabaseV4.deletedObjects)
 
         xml.endTag(null, PwDatabaseV4XML.ElemRoot)
 
@@ -206,7 +206,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemDbKeyChangeRec, mDatabaseV4.keyChangeRecDays)
         writeObject(PwDatabaseV4XML.ElemDbKeyChangeForce, mDatabaseV4.keyChangeForceDays)
 
-        writeList(PwDatabaseV4XML.ElemMemoryProt, mDatabaseV4.memoryProtection)
+        writeMemoryProtection(mDatabaseV4.memoryProtection)
 
         writeCustomIconList()
 
@@ -223,7 +223,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
             writeBinPool()
         }
-        writeList(PwDatabaseV4XML.ElemCustomData, mDatabaseV4.customData)
+        writeCustomData(mDatabaseV4.customData)
 
         xml.endTag(null, PwDatabaseV4XML.ElemMeta)
     }
@@ -316,7 +316,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             writeObject(PwDatabaseV4XML.ElemCustomIconID, group.iconCustom.uuid)
         }
 
-        writeList(PwDatabaseV4XML.ElemTimes, group)
+        writeTimes(group)
         writeObject(PwDatabaseV4XML.ElemIsExpanded, group.isExpanded)
         writeObject(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
         writeObject(PwDatabaseV4XML.ElemEnableAutoType, group.enableAutoType)
@@ -346,16 +346,15 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemOverrideUrl, entry.overrideURL)
         writeObject(PwDatabaseV4XML.ElemTags, entry.tags)
 
-        writeList(PwDatabaseV4XML.ElemTimes, entry)
+        writeTimes(entry)
 
-        writeList(entry.fields, true)
+        writeFields(entry.fields)
         writeList(entry.binaries)
-        writeList(PwDatabaseV4XML.ElemAutoType, entry.autoType)
+        writeAutoType(entry.autoType)
 
         if (!isHistory) {
-            writeList(PwDatabaseV4XML.ElemHistory, entry.history, true)
+            writeEntryHistory(entry.history)
         }
-        // else entry.sizeOfHistory() == 0
 
         xml.endTag(null, PwDatabaseV4XML.ElemEntry)
     }
@@ -371,10 +370,8 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         xml.startTag(null, PwDatabaseV4XML.ElemValue)
         val ref = mDatabaseV4.binPool.findKey(value)
-        val strRef = Integer.toString(ref)
-
-        if (strRef != null) {
-            xml.attribute(null, PwDatabaseV4XML.AttrRef, strRef)
+        if (ref != null) {
+            xml.attribute(null, PwDatabaseV4XML.AttrRef, ref.toString())
         } else {
             subWriteValue(value)
         }
@@ -525,8 +522,8 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String, autoType: AutoType) {
-        xml.startTag(null, name)
+    private fun writeAutoType(autoType: AutoType) {
+        xml.startTag(null, PwDatabaseV4XML.ElemAutoType)
 
         writeObject(PwDatabaseV4XML.ElemAutoTypeEnabled, autoType.enabled)
         writeObject(PwDatabaseV4XML.ElemAutoTypeObfuscation, autoType.obfuscationOptions)
@@ -539,19 +536,19 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             writeObject(PwDatabaseV4XML.ElemAutoTypeItem, PwDatabaseV4XML.ElemWindow, key, PwDatabaseV4XML.ElemKeystrokeSequence, value)
         }
 
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemAutoType)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(strings: Map<String, ProtectedString>, isEntryString: Boolean) {
+    private fun writeFields(fields: Map<String, ProtectedString>) {
 
-        for ((key, value) in strings) {
-            writeObject(key, value, isEntryString)
+        for ((key, value) in fields) {
+            writeField(key, value)
         }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(key: String, value: ProtectedString, isEntryString: Boolean) {
+    private fun writeField(key: String, value: ProtectedString) {
 
         xml.startTag(null, PwDatabaseV4XML.ElemString)
         xml.startTag(null, PwDatabaseV4XML.ElemKey)
@@ -560,14 +557,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         xml.startTag(null, PwDatabaseV4XML.ElemValue)
         var protect = value.isProtected
-        if (isEntryString) {
-            when (key) {
-                MemoryProtectionConfig.ProtectDefinition.TITLE_FIELD -> protect = mDatabaseV4.memoryProtection.protectTitle
-                MemoryProtectionConfig.ProtectDefinition.USERNAME_FIELD -> protect = mDatabaseV4.memoryProtection.protectUserName
-                MemoryProtectionConfig.ProtectDefinition.PASSWORD_FIELD -> protect = mDatabaseV4.memoryProtection.protectPassword
-                MemoryProtectionConfig.ProtectDefinition.URL_FIELD -> protect = mDatabaseV4.memoryProtection.protectUrl
-                MemoryProtectionConfig.ProtectDefinition.NOTES_FIELD -> protect = mDatabaseV4.memoryProtection.protectNotes
-            }
+
+        when (key) {
+            MemoryProtectionConfig.ProtectDefinition.TITLE_FIELD -> protect = mDatabaseV4.memoryProtection.protectTitle
+            MemoryProtectionConfig.ProtectDefinition.USERNAME_FIELD -> protect = mDatabaseV4.memoryProtection.protectUserName
+            MemoryProtectionConfig.ProtectDefinition.PASSWORD_FIELD -> protect = mDatabaseV4.memoryProtection.protectPassword
+            MemoryProtectionConfig.ProtectDefinition.URL_FIELD -> protect = mDatabaseV4.memoryProtection.protectUrl
+            MemoryProtectionConfig.ProtectDefinition.NOTES_FIELD -> protect = mDatabaseV4.memoryProtection.protectNotes
         }
 
         if (protect) {
@@ -590,15 +586,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String?, value: PwDeletedObject) {
-        assert(name != null)
-
-        xml.startTag(null, name)
+    private fun writeDeletedObject(value: PwDeletedObject) {
+        xml.startTag(null, PwDatabaseV4XML.ElemDeletedObject)
 
         writeObject(PwDatabaseV4XML.ElemUuid, value.uuid)
         writeObject(PwDatabaseV4XML.ElemDeletionTime, value.deletionTime)
 
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemDeletedObject)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -610,23 +604,19 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, value: List<PwDeletedObject>) {
-        assert(name != null)
-
-        xml.startTag(null, name)
+    private fun writeDeletedObjects(value: List<PwDeletedObject>) {
+        xml.startTag(null, PwDatabaseV4XML.ElemDeletedObjects)
 
         for (pdo in value) {
-            writeObject(PwDatabaseV4XML.ElemDeletedObject, pdo)
+            writeDeletedObject(pdo)
         }
 
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemDeletedObjects)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, value: MemoryProtectionConfig) {
-        assert(name != null)
-
-        xml.startTag(null, name)
+    private fun writeMemoryProtection(value: MemoryProtectionConfig) {
+        xml.startTag(null, PwDatabaseV4XML.ElemMemoryProt)
 
         writeObject(PwDatabaseV4XML.ElemProtTitle, value.protectTitle)
         writeObject(PwDatabaseV4XML.ElemProtUserName, value.protectUserName)
@@ -634,51 +624,52 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemProtURL, value.protectUrl)
         writeObject(PwDatabaseV4XML.ElemProtNotes, value.protectNotes)
 
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemMemoryProt)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, customData: Map<String, String>) {
-        assert(name != null)
-
-        xml.startTag(null, name)
+    private fun writeCustomData(customData: Map<String, String>) {
+        xml.startTag(null, PwDatabaseV4XML.ElemCustomData)
 
         for ((key, value) in customData) {
-            writeObject(PwDatabaseV4XML.ElemStringDictExItem, PwDatabaseV4XML.ElemKey, key, PwDatabaseV4XML.ElemValue, value)
-
+            writeObject(
+                    PwDatabaseV4XML.ElemStringDictExItem,
+                    PwDatabaseV4XML.ElemKey,
+                    key,
+                    PwDatabaseV4XML.ElemValue,
+                    value
+            )
         }
 
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemCustomData)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, it: PwNodeV4Interface) {
-        assert(name != null)
+    private fun writeTimes(node: PwNodeV4Interface) {
+        xml.startTag(null, PwDatabaseV4XML.ElemTimes)
 
-        xml.startTag(null, name)
+        writeObject(PwDatabaseV4XML.ElemLastModTime, node.lastModificationTime.date)
+        writeObject(PwDatabaseV4XML.ElemCreationTime, node.creationTime.date)
+        writeObject(PwDatabaseV4XML.ElemLastAccessTime, node.lastAccessTime.date)
+        writeObject(PwDatabaseV4XML.ElemExpiryTime, node.expiryTime.date)
+        writeObject(PwDatabaseV4XML.ElemExpires, node.expires)
+        writeObject(PwDatabaseV4XML.ElemUsageCount, node.usageCount)
+        writeObject(PwDatabaseV4XML.ElemLocationChanged, node.locationChanged.date)
 
-        writeObject(PwDatabaseV4XML.ElemLastModTime, it.lastModificationTime.date)
-        writeObject(PwDatabaseV4XML.ElemCreationTime, it.creationTime.date)
-        writeObject(PwDatabaseV4XML.ElemLastAccessTime, it.lastAccessTime.date)
-        writeObject(PwDatabaseV4XML.ElemExpiryTime, it.expiryTime.date)
-        writeObject(PwDatabaseV4XML.ElemExpires, it.expires)
-        writeObject(PwDatabaseV4XML.ElemUsageCount, it.usageCount)
-        writeObject(PwDatabaseV4XML.ElemLocationChanged, it.locationChanged.date)
-
-        xml.endTag(null, name)
+        xml.endTag(null, PwDatabaseV4XML.ElemTimes)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(name: String?, value: List<PwEntryV4>, isHistory: Boolean) {
-        assert(name != null)
+    private fun writeEntryHistory(value: List<PwEntryV4>) {
+        val element = PwDatabaseV4XML.ElemHistory
 
-        xml.startTag(null, name)
+        xml.startTag(null, element)
 
         for (entry in value) {
-            writeEntry(entry, isHistory)
+            writeEntry(entry, true)
         }
 
-        xml.endTag(null, name)
+        xml.endTag(null, element)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -706,7 +697,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         mDatabaseV4.binPool.doForEachBinary { key, binary ->
             xml.startTag(null, PwDatabaseV4XML.ElemBinary)
-            xml.attribute(null, PwDatabaseV4XML.AttrId, Integer.toString(key))
+            xml.attribute(null, PwDatabaseV4XML.AttrId, key.toString())
 
             subWriteValue(binary)
 
@@ -723,8 +714,8 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         val stringBuilder = StringBuilder()
         var ch: Char
-        for (i in 0 until text.length) {
-            ch = text[i]
+        for (element in text) {
+            ch = element
             if (
                 ch.toInt() in 0x20..0xD7FF ||
                 ch.toInt() == 0x9 || ch.toInt() == 0xA || ch.toInt() == 0xD ||
