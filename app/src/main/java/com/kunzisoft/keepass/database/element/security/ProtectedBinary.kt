@@ -36,12 +36,13 @@ class ProtectedBinary : Parcelable {
         private set
     private var data: ByteArray? = null
     private var dataFile: File? = null
-    private var size: Int = 0
 
     fun length(): Long {
         if (data != null)
             return data!!.size.toLong()
-        return if (dataFile != null) size.toLong() else 0
+        if (dataFile != null)
+            return dataFile!!.length()
+        return 0
     }
 
     /**
@@ -51,31 +52,24 @@ class ProtectedBinary : Parcelable {
         this.isProtected = false
         this.data = null
         this.dataFile = null
-        this.size = 0
     }
 
     constructor(protectedBinary: ProtectedBinary) {
         this.isProtected = protectedBinary.isProtected
         this.data = protectedBinary.data
         this.dataFile = protectedBinary.dataFile
-        this.size = protectedBinary.size
     }
 
     constructor(enableProtection: Boolean, data: ByteArray?) {
         this.isProtected = enableProtection
         this.data = data
         this.dataFile = null
-        if (data != null)
-            this.size = data.size
-        else
-            this.size = 0
     }
 
-    constructor(enableProtection: Boolean, dataFile: File, size: Int) {
+    constructor(enableProtection: Boolean, dataFile: File) {
         this.isProtected = enableProtection
         this.data = null
         this.dataFile = dataFile
-        this.size = size
     }
 
     private constructor(parcel: Parcel) {
@@ -83,7 +77,6 @@ class ProtectedBinary : Parcelable {
         data = ByteArray(parcel.readInt())
         parcel.readByteArray(data)
         dataFile = File(parcel.readString())
-        size = parcel.readInt()
     }
 
     @Throws(IOException::class)
@@ -118,9 +111,7 @@ class ProtectedBinary : Parcelable {
                 && dataFile == null && other.dataFile == null)
             sameData = true
 
-        return isProtected == other.isProtected &&
-                size == other.size &&
-                sameData
+        return isProtected == other.isProtected && sameData
     }
 
     override fun hashCode(): Int {
@@ -128,7 +119,6 @@ class ProtectedBinary : Parcelable {
         var result = 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
-        result = 31 * result + Integer.valueOf(size).hashCode()
         result = 31 * result + Arrays.hashCode(data)
         return result
     }
@@ -142,7 +132,6 @@ class ProtectedBinary : Parcelable {
         dest.writeInt(data?.size ?: 0)
         dest.writeByteArray(data)
         dest.writeString(dataFile?.absolutePath)
-        dest.writeInt(size)
     }
 
     companion object {

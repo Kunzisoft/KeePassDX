@@ -45,6 +45,7 @@ import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
+import java.io.InputStream
 import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
@@ -52,6 +53,7 @@ import java.util.*
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
+
 
 class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputStream) : PwDbOutput<PwDbHeaderV4>(outputStream) {
 
@@ -380,49 +382,52 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     /*
-	TODO Make with pipe
-	private void subWriteValue(ProtectedBinary value) throws IllegalArgumentException, IllegalStateException, IOException {
-        try (InputStream inputStream = value.getData()) {
+    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+	private fun subWriteValue(value: ProtectedBinary) {
+        try {
+            val inputStream = value.getData()
             if (inputStream == null) {
-                Log.e(TAG, "Can't write a null input stream.");
-                return;
+                Log.e(TAG, "Can't write a null input stream.")
+                return
             }
 
-            if (value.isProtected()) {
-                xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue);
+            if (value.isProtected) {
+                xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue)
 
-                try (InputStream cypherInputStream =
-                             IOUtil.pipe(inputStream,
-                                     o -> new org.spongycastle.crypto.io.CipherOutputStream(o, randomStream))) {
-                    writeInputStreamInBase64(cypherInputStream);
-                }
+                try {
+                    val cypherInputStream =
+                    IOUtil.pipe(inputStream,
+                            o -> new org.spongycastle.crypto.io.CipherOutputStream(o, randomStream))
+                    writeInputStreamInBase64(cypherInputStream)
+                } catch (e: Exception) {}
 
             } else {
-                if (mDatabaseV4.getCompressionAlgorithm() == PwCompressionAlgorithm.GZip) {
+                if (mDatabaseV4.compressionAlgorithm == PwCompressionAlgorithm.GZip) {
+                    xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
-                    xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue);
-
-                    try (InputStream gZipInputStream =
-                                 IOUtil.pipe(inputStream, GZIPOutputStream::new, (int) value.length())) {
-                        writeInputStreamInBase64(gZipInputStream);
-                    }
+                    try {
+                        val gZipInputStream =
+                        IOUtil.pipe(inputStream, GZIPOutputStream::new, (int) value.length())
+                        writeInputStreamInBase64(gZipInputStream)
+                    } catch (e: Exception) {}
 
                 } else {
                     writeInputStreamInBase64(inputStream);
                 }
             }
-        }
+        } catch (e: Exception) {}
 	}
 
-	private void writeInputStreamInBase64(InputStream inputStream) throws IOException {
-        try (InputStream base64InputStream =
-                     IOUtil.pipe(inputStream,
-                             o -> new Base64OutputStream(o, DEFAULT))) {
+    @Throws(IOException::class)
+	private fun writeInputStreamInBase64(inputStream: InputStream) {
+        try {
+            val base64InputStream = pipe(inputStream, Base64OutputStream(o, Base64OutputStream.DEFAULT))
             MemoryUtil.readBytes(base64InputStream,
-                    buffer -> xml.text(Arrays.toString(buffer)));
-        }
+                    ActionReadBytes { buffer -> xml.text(Arrays.toString(buffer)) })
+
+        } catch (e: Exception) {}
     }
-    */
+     */
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun subWriteValue(value: ProtectedBinary) {
@@ -728,5 +733,16 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
     companion object {
         private val TAG = PwDbV4Output::class.java.name
+
+        @Throws(IOException::class)
+        fun pipe(inputStream: InputStream, outputStream: OutputStream, buf: ByteArray) {
+            while (true) {
+                val amt = inputStream.read(buf)
+                if (amt < 0) {
+                    break
+                }
+                outputStream.write(buf, 0, amt)
+            }
+        }
     }
 }

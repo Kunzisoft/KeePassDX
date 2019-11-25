@@ -38,6 +38,7 @@ import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import com.kunzisoft.keepass.utils.MemoryUtil
+import org.apache.commons.io.IOUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -215,10 +216,10 @@ class ImporterV4(private val streamDir: File,
     }
 
     @Throws(IOException::class)
-    private fun readInnerHeader(lis: LEDataInputStream, header: PwDbHeaderV4): Boolean {
-        val fieldId = lis.read().toByte()
+    private fun readInnerHeader(dataInputStream: LEDataInputStream, header: PwDbHeaderV4): Boolean {
+        val fieldId = dataInputStream.read().toByte()
 
-        val size = lis.readInt()
+        val size = dataInputStream.readInt()
         if (size < 0) throw IOException("Corrupted file")
 
         when (fieldId) {
@@ -226,23 +227,23 @@ class ImporterV4(private val streamDir: File,
                 return false
             }
             PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
-                val data = if (size > 0) lis.readBytes(size) else ByteArray(0)
+                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.setRandomStreamID(data)
             }
             PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
-                val data = if (size > 0) lis.readBytes(size) else ByteArray(0)
+                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.innerRandomStreamKey = data
             }
             PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary -> {
-                val flag = lis.readBytes(1)[0].toInt() != 0
+                val flag = dataInputStream.readBytes(1)[0].toInt() != 0
                 val protectedFlag = flag && PwDbHeaderV4.KdbxBinaryFlags.Protected.toInt() != PwDbHeaderV4.KdbxBinaryFlags.None.toInt()
                 val byteLength = size - 1
                 // Read in a file
                 val file = File(streamDir, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
-                    lis.readBytes(byteLength) { outputStream.write(it) }
+                    dataInputStream.readBytes(byteLength) { outputStream.write(it) }
                 }
-                val protectedBinary = ProtectedBinary(protectedFlag, file, byteLength)
+                val protectedBinary = ProtectedBinary(protectedFlag, file)
                 mDatabase.binPool.add(protectedBinary)
             }
             else -> {
@@ -832,7 +833,7 @@ class ImporterV4(private val streamDir: File,
     private fun readUnknown(xpp: XmlPullParser) {
         if (xpp.isEmptyElementTag) return
 
-        processNode(xpp)
+        readProtectedBase64String(xpp)
         while (xpp.next() != XmlPullParser.END_DOCUMENT) {
             if (xpp.eventType == XmlPullParser.END_TAG) break
             if (xpp.eventType == XmlPullParser.START_TAG) continue
@@ -923,7 +924,7 @@ class ImporterV4(private val streamDir: File,
 
     @Throws(XmlPullParserException::class, IOException::class)
     private fun readProtectedString(xpp: XmlPullParser): ProtectedString {
-        val buf = processNode(xpp)
+        val buf = readProtectedBase64String(xpp)
 
         if (buf != null) {
             try {
@@ -932,21 +933,9 @@ class ImporterV4(private val streamDir: File,
                 e.printStackTrace()
                 throw IOException(e.localizedMessage)
             }
-
         }
 
         return ProtectedString(false, readString(xpp))
-    }
-
-    @Throws(IOException::class)
-    private fun createProtectedBinaryFromData(protection: Boolean, data: ByteArray): ProtectedBinary {
-        return if (data.size > MemoryUtil.BUFFER_SIZE_BYTES) {
-            val file = File(streamDir, unusedCacheFileName)
-            FileOutputStream(file).use { outputStream -> outputStream.write(data) }
-            ProtectedBinary(protection, file, data.size)
-        } else {
-            ProtectedBinary(protection, data)
-        }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -960,32 +949,46 @@ class ImporterV4(private val streamDir: File,
         }
 
         var compressed = false
-        val comp = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrCompressed)
-        if (comp != null) {
-            compressed = comp.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
-        }
+        var protected = false
 
-        val buf = processNode(xpp)
-        if (buf != null) {
-            createProtectedBinaryFromData(true, buf)
+        if (xpp.attributeCount > 0) {
+            val compress = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrCompressed)
+            if (compress != null) {
+                compressed = compress.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
+            }
+
+            val protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected)
+            if (protect != null) {
+                protected = protect.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
+            }
         }
 
         val base64 = readString(xpp)
         if (base64.isEmpty())
             return ProtectedBinary()
+        val data = Base64.decode(base64, BASE_64_FLAG)
 
-        var data = Base64.decode(base64, BASE_64_FLAG)
-
-        if (compressed) {
-            data = MemoryUtil.decompress(data)
+        return if (!compressed && data.size <= MemoryUtil.BUFFER_SIZE_BYTES) {
+            // Small data, don't need a file
+            ProtectedBinary(protected, data)
+        } else {
+            val file = File(streamDir, unusedCacheFileName)
+            if (compressed) {
+                FileOutputStream(file).use { outputStream ->
+                    IOUtils.copy(GZIPInputStream(ByteArrayInputStream(data)), outputStream)
+                }
+            } else {
+                FileOutputStream(file).use { outputStream ->
+                    outputStream.write(data)
+                }
+            }
+            ProtectedBinary(protected, file)
         }
-
-        return createProtectedBinaryFromData(false, data)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
     private fun readString(xpp: XmlPullParser): String {
-        val buf = processNode(xpp)
+        val buf = readProtectedBase64String(xpp)
 
         if (buf != null) {
             try {
@@ -993,7 +996,6 @@ class ImporterV4(private val streamDir: File,
             } catch (e: UnsupportedEncodingException) {
                 throw IOException(e)
             }
-
         }
 
         return xpp.safeNextText()
@@ -1003,16 +1005,16 @@ class ImporterV4(private val streamDir: File,
     private fun readBase64String(xpp: XmlPullParser): ByteArray {
 
         //readNextNode = false;
-        Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { buffer ->
-            val plainText = ByteArray(buffer.size)
-            randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
+        Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { data ->
+            val plainText = ByteArray(data.size)
+            randomStream?.processBytes(data, 0, data.size, plainText, 0)
             return plainText
         }
         return ByteArray(0)
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun processNode(xpp: XmlPullParser): ByteArray? {
+    private fun readProtectedBase64String(xpp: XmlPullParser): ByteArray? {
         //(xpp.getEventType() == XmlPullParser.START_TAG);
 
         if (xpp.attributeCount > 0) {

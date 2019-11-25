@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseKeyFileEmptyException
-import com.kunzisoft.keepass.utils.MemoryUtil
+import org.apache.commons.io.IOUtils
 import java.io.*
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
@@ -124,7 +124,7 @@ abstract class PwDatabase<
     protected fun getFileKey(keyInputStream: InputStream): ByteArray {
 
         val keyByteArrayOutputStream = ByteArrayOutputStream()
-        MemoryUtil.copyStream(keyInputStream, keyByteArrayOutputStream)
+        IOUtils.copy(keyInputStream, keyByteArrayOutputStream)
         val keyData = keyByteArrayOutputStream.toByteArray()
 
         val keyByteArrayInputStream = ByteArrayInputStream(keyData)
