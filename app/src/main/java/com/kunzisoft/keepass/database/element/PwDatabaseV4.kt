@@ -27,6 +27,7 @@ import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.*
+import com.kunzisoft.keepass.database.element.PwDatabaseV3.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
@@ -201,7 +202,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     override val passwordEncoding: String
         get() = "UTF-8"
 
-    fun getGroupByUUID(groupUUID: UUID): PwGroupV4? {
+    private fun getGroupByUUID(groupUUID: UUID): PwGroupV4? {
         if (groupUUID == UUID_ZERO)
             return null
         return getGroupById(PwNodeIdUUID(groupUUID))
@@ -374,12 +375,12 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         return true
     }
 
-    override fun isBackup(group: PwGroupV4): Boolean {
+    override fun isInRecycleBin(group: PwGroupV4): Boolean {
         // To keep compatibility with old V1 databases
         var currentGroup: PwGroupV4? = group
         while (currentGroup != null) {
             if (currentGroup.parent == rootGroup
-                    && currentGroup.title.equals("Backup", ignoreCase = true)) {
+                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
                 return true
             }
             currentGroup = currentGroup.parent

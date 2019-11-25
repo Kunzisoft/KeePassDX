@@ -35,6 +35,8 @@ class PwDatabaseV3 : PwDatabase<Int, UUID, PwGroupV3, PwEntryV3>() {
 
     private var numKeyEncRounds: Int = 0
 
+    var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
+
     private var kdfListV3: MutableList<KdfEngine> = ArrayList()
 
     override val version: String
@@ -43,6 +45,16 @@ class PwDatabaseV3 : PwDatabase<Int, UUID, PwGroupV3, PwEntryV3>() {
     init {
         kdfListV3.add(KdfFactory.aesKdf)
     }
+
+    private fun getGroupById(groupId: Int): PwGroupV3? {
+        if (groupId == -1)
+            return null
+        return getGroupById(PwNodeIdInt(groupId))
+    }
+
+    // Retrieve backup group in index
+    val backupGroup: PwGroupV3?
+        get() = if (backupGroupId == BACKUP_FOLDER_UNDEFINED_ID) null else getGroupById(backupGroupId)
 
     override val kdfEngine: KdfEngine?
         get() = kdfListV3[0]
@@ -168,10 +180,16 @@ class PwDatabaseV3 : PwDatabase<Int, UUID, PwGroupV3, PwEntryV3>() {
         return false
     }
 
-    override fun isBackup(group: PwGroupV3): Boolean {
+    override fun isInRecycleBin(group: PwGroupV3): Boolean {
         var currentGroup: PwGroupV3? = group
+
+        if (currentGroup == backupGroup)
+            return true
+
         while (currentGroup != null) {
-            if (currentGroup.level == 0 && currentGroup.title.equals("Backup", ignoreCase = true)) {
+            if (currentGroup.level == 0
+                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
+                backupGroupId = currentGroup.id
                 return true
             }
             currentGroup = currentGroup.parent
@@ -179,7 +197,67 @@ class PwDatabaseV3 : PwDatabase<Int, UUID, PwGroupV3, PwEntryV3>() {
         return false
     }
 
+    /**
+     * Ensure that the recycle bin tree exists, if enabled and create it
+     * if it doesn't exist
+     */
+    fun ensureRecycleBinExists() {
+        rootGroups.forEach { currentGroup ->
+            if (currentGroup.level == 0
+                    && currentGroup.title.equals(BACKUP_FOLDER_TITLE, ignoreCase = true)) {
+                backupGroupId = currentGroup.id
+            }
+        }
+
+        if (backupGroup == null) {
+            // Create recycle bin
+            val recycleBinGroup = createGroup().apply {
+                title = BACKUP_FOLDER_TITLE
+                icon = iconFactory.trashIcon
+            }
+            addGroupTo(recycleBinGroup, rootGroup)
+            backupGroupId = recycleBinGroup.id
+        }
+    }
+
+    /**
+     * Define if a Node must be delete or recycle when remove action is called
+     * @param node Node to remove
+     * @return true if node can be recycle, false elsewhere
+     */
+    fun canRecycle(node: PwNode<*, PwGroupV3, PwEntryV3>): Boolean {
+        // TODO #394 Backup pw3
+        return true
+    }
+
+    fun recycle(group: PwGroupV3) {
+        ensureRecycleBinExists()
+        removeGroupFrom(group, group.parent)
+        addGroupTo(group, backupGroup)
+        group.afterAssignNewParent()
+    }
+
+    fun recycle(entry: PwEntryV3) {
+        ensureRecycleBinExists()
+        removeEntryFrom(entry, entry.parent)
+        addEntryTo(entry, backupGroup)
+        entry.afterAssignNewParent()
+    }
+
+    fun undoRecycle(group: PwGroupV3, origParent: PwGroupV3) {
+        removeGroupFrom(group, backupGroup)
+        addGroupTo(group, origParent)
+    }
+
+    fun undoRecycle(entry: PwEntryV3, origParent: PwGroupV3) {
+        removeEntryFrom(entry, backupGroup)
+        addEntryTo(entry, origParent)
+    }
+
     companion object {
+
+        const val BACKUP_FOLDER_TITLE = "Backup"
+        private const val BACKUP_FOLDER_UNDEFINED_ID = -1
 
         private const val DEFAULT_ENCRYPTION_ROUNDS = 300
 

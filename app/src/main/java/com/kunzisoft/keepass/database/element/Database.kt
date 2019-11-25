@@ -253,13 +253,17 @@ class Database {
         get() = pwDatabaseV4 != null
 
     var isRecycleBinEnabled: Boolean
-        get() = pwDatabaseV4?.isRecycleBinEnabled ?: false
+        // TODO #394 isRecycleBinEnabled pwDatabaseV3
+        get() = pwDatabaseV3 != null || pwDatabaseV4?.isRecycleBinEnabled ?: false
         set(value) {
             pwDatabaseV4?.isRecycleBinEnabled = value
         }
 
     val recycleBin: GroupVersioned?
         get() {
+            pwDatabaseV3?.backupGroup?.let {
+                return GroupVersioned(it)
+            }
             pwDatabaseV4?.recycleBin?.let {
                 return GroupVersioned(it)
             }
@@ -267,10 +271,12 @@ class Database {
         }
 
     fun ensureRecycleBinExists(resources: Resources) {
+        pwDatabaseV3?.ensureRecycleBinExists()
         pwDatabaseV4?.ensureRecycleBinExists(resources)
     }
 
     fun removeRecycleBin() {
+        // TODO #394 delete backup pwDatabaseV3?.removeRecycleBin()
         pwDatabaseV4?.removeRecycleBin()
     }
 
@@ -699,6 +705,9 @@ class Database {
 
     fun canRecycle(entry: EntryVersioned): Boolean {
         var canRecycle: Boolean? = null
+        entry.pwEntryV3?.let { entryV3 ->
+            canRecycle = pwDatabaseV3?.canRecycle(entryV3)
+        }
         entry.pwEntryV4?.let { entryV4 ->
             canRecycle = pwDatabaseV4?.canRecycle(entryV4)
         }
@@ -707,6 +716,9 @@ class Database {
 
     fun canRecycle(group: GroupVersioned): Boolean {
         var canRecycle: Boolean? = null
+        group.pwGroupV3?.let { groupV3 ->
+            canRecycle = pwDatabaseV3?.canRecycle(groupV3)
+        }
         group.pwGroupV4?.let { groupV4 ->
             canRecycle = pwDatabaseV4?.canRecycle(groupV4)
         }
@@ -714,18 +726,29 @@ class Database {
     }
 
     fun recycle(entry: EntryVersioned, resources: Resources) {
+        entry.pwEntryV3?.let {
+            pwDatabaseV3?.recycle(it)
+        }
         entry.pwEntryV4?.let {
             pwDatabaseV4?.recycle(it, resources)
         }
     }
 
     fun recycle(group: GroupVersioned, resources: Resources) {
+        group.pwGroupV3?.let {
+            pwDatabaseV3?.recycle(it)
+        }
         group.pwGroupV4?.let {
             pwDatabaseV4?.recycle(it, resources)
         }
     }
 
     fun undoRecycle(entry: EntryVersioned, parent: GroupVersioned) {
+        entry.pwEntryV3?.let { entryV3 ->
+            parent.pwGroupV3?.let { parentV3 ->
+                pwDatabaseV3?.undoRecycle(entryV3, parentV3)
+            }
+        }
         entry.pwEntryV4?.let { entryV4 ->
             parent.pwGroupV4?.let { parentV4 ->
                 pwDatabaseV4?.undoRecycle(entryV4, parentV4)
@@ -734,6 +757,11 @@ class Database {
     }
 
     fun undoRecycle(group: GroupVersioned, parent: GroupVersioned) {
+        group.pwGroupV3?.let { groupV3 ->
+            parent.pwGroupV3?.let { parentV3 ->
+                pwDatabaseV3?.undoRecycle(groupV3, parentV3)
+            }
+        }
         group.pwGroupV4?.let { groupV4 ->
             parent.pwGroupV4?.let { parentV4 ->
                 pwDatabaseV4?.undoRecycle(groupV4, parentV4)

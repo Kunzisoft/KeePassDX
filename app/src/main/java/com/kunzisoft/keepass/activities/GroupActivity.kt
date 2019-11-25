@@ -219,7 +219,7 @@ class GroupActivity : LockingActivity(),
                     ACTION_DATABASE_DELETE_NODES_TASK -> {
                         if (result.isSuccess) {
 
-                            // Rebuild all the list the avoid bug when delete node from sort
+                            // Rebuild all the list to avoid bug when delete node from sort
                             mListNodesFragment?.rebuildList()
 
                             // Add trash in views list if it doesn't exists
@@ -233,7 +233,7 @@ class GroupActivity : LockingActivity(),
                                         mListNodesFragment?.updateNode(recycleBin)
                                     }
                                     // Recycle bin not here, verify if parents are similar to add it
-                                    else if (currentGroup.parent == recycleBin.parent) {
+                                    else if (currentGroup == recycleBin.parent) {
                                         mListNodesFragment?.addNode(recycleBin)
                                     }
                                 }
@@ -581,16 +581,23 @@ class GroupActivity : LockingActivity(),
 
     override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
         val database = mDatabase
+
+        // If recycle bin enabled, ensure it exists
+        if (database != null && database.isRecycleBinEnabled) {
+            database.ensureRecycleBinExists(resources)
+        }
+
+        // If recycle bin enabled and not in recycle bin, move in recycle bin
         if (database != null
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
-            // If recycle bin enabled and not in recycle bin, move in recycle bin
             mProgressDialogThread?.startDatabaseDeleteNodes(
                     nodes,
                     !mReadOnly && mAutoSaveEnable
             )
-        } else {
-            // open the dialog to confirm deletion
+        }
+        // else open the dialog to confirm deletion
+        else {
             DeleteNodesDialogFragment.getInstance(nodes)
                     .show(supportFragmentManager, "deleteNodesDialogFragment")
         }

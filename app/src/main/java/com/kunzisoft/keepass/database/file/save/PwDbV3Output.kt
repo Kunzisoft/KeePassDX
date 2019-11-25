@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.crypto.CipherFactory
+import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.PwDbHeader
@@ -78,7 +79,9 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         }
 
         try {
-            cipher.init(Cipher.ENCRYPT_MODE, SecretKeySpec(finalKey, "AES"), IvParameterSpec(header.encryptionIV))
+            cipher.init(Cipher.ENCRYPT_MODE,
+                    SecretKeySpec(finalKey, "AES"),
+                    IvParameterSpec(header.encryptionIV))
             val cos = CipherOutputStream(mOS, cipher)
             val bos = BufferedOutputStream(cos)
             outputPlanGroupAndEntries(bos)
@@ -110,12 +113,14 @@ class PwDbV3Output(private val mDatabaseV3: PwDatabaseV3, os: OutputStream) : Pw
         header.signature2 = PwDbHeaderV3.DBSIG_2
         header.flags = PwDbHeaderV3.FLAG_SHA2
 
-        if (mDatabaseV3.encryptionAlgorithm === PwEncryptionAlgorithm.AESRijndael) {
-            header.flags = header.flags or PwDbHeaderV3.FLAG_RIJNDAEL
-        } else if (mDatabaseV3.encryptionAlgorithm === PwEncryptionAlgorithm.Twofish) {
-            header.flags = header.flags or PwDbHeaderV3.FLAG_TWOFISH
-        } else {
-            throw DatabaseOutputException("Unsupported algorithm.")
+        when {
+            mDatabaseV3.encryptionAlgorithm === PwEncryptionAlgorithm.AESRijndael -> {
+                header.flags = header.flags or PwDbHeaderV3.FLAG_RIJNDAEL
+            }
+            mDatabaseV3.encryptionAlgorithm === PwEncryptionAlgorithm.Twofish -> {
+                header.flags = header.flags or PwDbHeaderV3.FLAG_TWOFISH
+            }
+            else -> throw DatabaseOutputException("Unsupported algorithm.")
         }
 
         header.version = PwDbHeaderV3.DBVER_DW

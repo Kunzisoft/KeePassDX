@@ -376,12 +376,12 @@ abstract class PwDatabase<
         addEntryTo(entry, origParent)
     }
 
-    abstract fun isBackup(group: Group): Boolean
+    abstract fun isInRecycleBin(group: Group): Boolean
 
     fun isGroupSearchable(group: Group?, omitBackup: Boolean): Boolean {
         if (group == null)
             return false
-        if (omitBackup && isBackup(group))
+        if (omitBackup && isInRecycleBin(group))
             return false
         return true
     }
