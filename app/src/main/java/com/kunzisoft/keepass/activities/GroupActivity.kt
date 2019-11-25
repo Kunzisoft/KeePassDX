@@ -552,28 +552,40 @@ class GroupActivity : LockingActivity(),
 
     override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
                                   nodes: List<NodeVersioned>): Boolean {
-        when (pasteMode) {
-            ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
-                // Copy
-                mCurrentGroup?.let { newParent ->
-                    mProgressDialogThread?.startDatabaseCopyNodes(
-                            nodes,
-                            newParent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
+        // Move or copy only if allowed (in root if allowed)
+        if (mCurrentGroup != mDatabase?.rootGroup
+                || mDatabase?.rootCanContainsEntry() == true) {
+
+            when (pasteMode) {
+                ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
+                    // Copy
+                    mCurrentGroup?.let { newParent ->
+                        mProgressDialogThread?.startDatabaseCopyNodes(
+                                nodes,
+                                newParent,
+                                !mReadOnly && mAutoSaveEnable
+                        )
+                    }
+                }
+                ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
+                    // Move
+                    mCurrentGroup?.let { newParent ->
+                        mProgressDialogThread?.startDatabaseMoveNodes(
+                                nodes,
+                                newParent,
+                                !mReadOnly && mAutoSaveEnable
+                        )
+                    }
+                }
+                else -> {
                 }
             }
-            ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
-                // Move
-                mCurrentGroup?.let { newParent ->
-                    mProgressDialogThread?.startDatabaseMoveNodes(
-                            nodes,
-                            newParent,
-                            !mReadOnly && mAutoSaveEnable
-                    )
-                }
+        } else {
+            coordinatorLayout?.let { coordinatorLayout ->
+                Snackbar.make(coordinatorLayout,
+                        R.string.error_copy_entry_here,
+                        Snackbar.LENGTH_LONG).asError().show()
             }
-            else -> {}
         }
         finishNodeAction()
         return true
