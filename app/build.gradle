@@ -107,8 +107,6 @@ dependencies {
     implementation 'org.apache.commons:commons-io:1.3.2'
     // Apache Commons Codec
     implementation 'commons-codec:commons-codec:1.11'
-    // Base64
-    implementation 'biz.source_code:base64coder:2010-12-19'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')

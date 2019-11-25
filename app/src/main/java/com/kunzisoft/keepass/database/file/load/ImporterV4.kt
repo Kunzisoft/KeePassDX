@@ -19,12 +19,13 @@
  */
 package com.kunzisoft.keepass.database.file.load
 
-import biz.source_code.base64Coder.Base64Coder
+import android.util.Base64
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
@@ -35,8 +36,8 @@ import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.MemoryUtil
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.utils.MemoryUtil
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -333,7 +334,7 @@ class ImporterV4(private val streamDir: File,
             } else if (name.equals(PwDatabaseV4XML.ElemHeaderHash, ignoreCase = true)) {
                 val encodedHash = readString(xpp)
                 if (encodedHash.isNotEmpty() && hashOfHeader != null) {
-                    val hash = Base64Coder.decode(encodedHash)
+                    val hash = Base64.decode(encodedHash, BASE_64_FLAG)
                     if (!Arrays.equals(hash, hashOfHeader)) {
                         throw LoadDatabaseException()
                     }
@@ -419,7 +420,7 @@ class ImporterV4(private val streamDir: File,
             } else if (name.equals(PwDatabaseV4XML.ElemCustomIconItemData, ignoreCase = true)) {
                 val strData = readString(xpp)
                 if (strData.isNotEmpty()) {
-                    customIconData = Base64Coder.decode(strData)
+                    customIconData = Base64.decode(strData, BASE_64_FLAG)
                 } else {
                     assert(false)
                 }
@@ -805,7 +806,7 @@ class ImporterV4(private val streamDir: File,
         var utcDate: Date? = null
 
         if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
-            var buf = Base64Coder.decode(sDate)
+            var buf = Base64.decode(sDate, BASE_64_FLAG)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)
                 System.arraycopy(buf, 0, buf8, 0, min(buf.size, 8))
@@ -864,20 +865,13 @@ class ImporterV4(private val streamDir: File,
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readPwNodeIdUuid(xpp: XmlPullParser): PwNodeIdUUID {
-        return PwNodeIdUUID(readUuid(xpp))
-    }
-
-    @Throws(IOException::class, XmlPullParserException::class)
     private fun readUuid(xpp: XmlPullParser): UUID {
         val encoded = readString(xpp)
 
         if (encoded.isEmpty()) {
             return PwDatabase.UUID_ZERO
         }
-
-        // TODO: Switch to framework Base64 once API level 8 is the minimum
-        val buf = Base64Coder.decode(encoded)
+        val buf = Base64.decode(encoded, BASE_64_FLAG)
 
         return DatabaseInputOutputUtils.bytesToUuid(buf)
     }
@@ -980,7 +974,7 @@ class ImporterV4(private val streamDir: File,
         if (base64.isEmpty())
             return ProtectedBinary()
 
-        var data = Base64Coder.decode(base64)
+        var data = Base64.decode(base64, BASE_64_FLAG)
 
         if (compressed) {
             data = MemoryUtil.decompress(data)
@@ -1009,7 +1003,7 @@ class ImporterV4(private val streamDir: File,
     private fun readBase64String(xpp: XmlPullParser): ByteArray {
 
         //readNextNode = false;
-        Base64Coder.decode(xpp.safeNextText())?.let { buffer ->
+        Base64.decode(xpp.safeNextText(), BASE_64_FLAG)?.let { buffer ->
             val plainText = ByteArray(buffer.size)
             randomStream?.processBytes(buffer, 0, buffer.size, plainText, 0)
             return plainText

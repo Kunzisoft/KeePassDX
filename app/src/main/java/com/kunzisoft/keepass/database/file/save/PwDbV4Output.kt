@@ -19,40 +19,39 @@
  */
 package com.kunzisoft.keepass.database.file.save
 
+import android.util.Base64
 import android.util.Log
 import android.util.Xml
-import biz.source_code.base64Coder.Base64Coder
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
-import com.kunzisoft.keepass.database.*
+import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
-import com.kunzisoft.keepass.database.file.PwDbHeaderV4
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.UnknownKDF
+import com.kunzisoft.keepass.database.file.KDBX4DateUtil
+import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.database.file.KDBX4DateUtil
-import com.kunzisoft.keepass.utils.MemoryUtil
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.utils.MemoryUtil
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
-
-import javax.crypto.Cipher
-import javax.crypto.CipherOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
 import java.util.zip.GZIPOutputStream
+import javax.crypto.Cipher
+import javax.crypto.CipherOutputStream
 
 class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputStream) : PwDbOutput<PwDbHeaderV4>(outputStream) {
 
@@ -191,7 +190,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemGenerator, mDatabaseV4.localizedAppName)
 
         if (hashOfHeader != null) {
-            writeObject(PwDatabaseV4XML.ElemHeaderHash, String(Base64Coder.encode(hashOfHeader!!)))
+            writeObject(PwDatabaseV4XML.ElemHeaderHash, String(Base64.encode(hashOfHeader!!, BASE_64_FLAG)))
         }
 
         writeObject(PwDatabaseV4XML.ElemDbName, mDatabaseV4.name, true)
@@ -438,17 +437,17 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
                     val encoded = ByteArray(valLength)
                     randomStream!!.processBytes(buffer, 0, valLength, encoded, 0)
-                    xml.text(String(Base64Coder.encode(encoded)))
+                    xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
 
                 } else {
                     if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
                         xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
                         val compressData = MemoryUtil.compress(buffer)
-                        xml.text(String(Base64Coder.encode(compressData)))
+                        xml.text(String(Base64.encode(compressData, BASE_64_FLAG)))
 
                     } else {
-                        xml.text(String(Base64Coder.encode(buffer)))
+                        xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
                     }
                 }
             } else {
@@ -479,7 +478,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             val dt = DateTime(value)
             val seconds = KDBX4DateUtil.convertDateToKDBX4Time(dt)
             val buf = LEDataOutputStream.writeLongBuf(seconds)
-            val b64 = String(Base64Coder.encode(buf))
+            val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeObject(name, b64)
         }
     }
@@ -503,7 +502,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, uuid: UUID) {
         val data = DatabaseInputOutputUtils.uuidToBytes(uuid)
-        writeObject(name, String(Base64Coder.encode(data)))
+        writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -575,7 +574,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             if (valLength > 0) {
                 val encoded = ByteArray(valLength)
                 randomStream!!.processBytes(data, 0, valLength, encoded, 0)
-                xml.text(String(Base64Coder.encode(encoded)))
+                xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
             }
         } else {
             xml.text(safeXmlString(value.toString()))
@@ -683,7 +682,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             xml.startTag(null, PwDatabaseV4XML.ElemCustomIconItem)
 
             writeObject(PwDatabaseV4XML.ElemCustomIconItemID, icon.uuid)
-            writeObject(PwDatabaseV4XML.ElemCustomIconItemData, String(Base64Coder.encode(icon.imageData)))
+            writeObject(PwDatabaseV4XML.ElemCustomIconItemData, String(Base64.encode(icon.imageData, BASE_64_FLAG)))
 
             xml.endTag(null, PwDatabaseV4XML.ElemCustomIconItem)
         }

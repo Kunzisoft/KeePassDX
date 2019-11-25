@@ -20,13 +20,15 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.res.Resources
+import android.util.Base64
 import android.util.Log
-import biz.source_code.base64Coder.Base64Coder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.crypto.keyDerivation.*
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
+import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.PwDatabaseV3.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.utils.VariantDictionary
@@ -331,7 +333,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
                                 val text = children2.item(k)
                                 if (text.nodeType == Node.TEXT_NODE) {
                                     val txt = text as Text
-                                    return Base64Coder.decode(txt.nodeValue)
+                                    return Base64.decode(txt.nodeValue, BASE_64_FLAG)
                                 }
                             }
                         }
@@ -504,5 +506,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         //private const val VersionElementName = "Version";
         private const val KeyElementName = "Key"
         private const val KeyDataElementName = "Data"
+
+        const val BASE_64_FLAG = Base64.DEFAULT
     }
 }
