@@ -19,4 +19,4 @@
  */
 package com.kunzisoft.keepass.database.exception
 
-class SamsungClipboardException(e: Exception) : Exception(e)
+class ClipboardException(e: Exception) : Exception(e)

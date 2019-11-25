@@ -40,7 +40,7 @@
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
-    <string name="clipboard_error">Some Samsung Android phones won\'t let apps use the clipboard.</string>
+    <string name="clipboard_error">Some devices won\'t let apps use the clipboard.</string>
     <string name="clipboard_error_clear">Could not clear clipboard</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
