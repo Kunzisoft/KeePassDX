@@ -32,13 +32,9 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.stream.BetterCipherInputStream
-import com.kunzisoft.keepass.stream.HashedBlockInputStream
-import com.kunzisoft.keepass.stream.HmacBlockInputStream
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-import org.apache.commons.io.IOUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -58,7 +54,6 @@ class ImporterV4(private val streamDir: File,
     private lateinit var mDatabase: PwDatabaseV4
 
     private var hashOfHeader: ByteArray? = null
-    private var version: Long = 0
 
     private val unusedCacheFileName: String
         get() = mDatabase.binPool.findUnusedKey().toString()
@@ -102,7 +97,7 @@ class ImporterV4(private val streamDir: File,
             val header = PwDbHeaderV4(mDatabase)
 
             val headerAndHash = header.loadFromFile(databaseInputStream)
-            version = header.version
+            mDatabase.kdbxVersion = header.version
 
             hashOfHeader = headerAndHash.hash
             val pbHeader = headerAndHash.header
@@ -124,7 +119,7 @@ class ImporterV4(private val streamDir: File,
             }
 
             val isPlain: InputStream
-            if (version < PwDbHeaderV4.FILE_VERSION_32_4) {
+            if (mDatabase.kdbxVersion < PwDbHeaderV4.FILE_VERSION_32_4) {
 
                 val decrypted = attachCipherStream(databaseInputStream, cipher)
                 val dataDecrypted = LEDataInputStream(decrypted)
@@ -172,7 +167,7 @@ class ImporterV4(private val streamDir: File,
                 else -> isPlain
             }
 
-            if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
+            if (mDatabase.kdbxVersion >= PwDbHeaderV4.FILE_VERSION_32_4) {
                 loadInnerHeader(inputStreamXml, header)
             }
 
@@ -241,9 +236,13 @@ class ImporterV4(private val streamDir: File,
                 // Read in a file
                 val file = File(streamDir, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
-                    dataInputStream.readBytes(byteLength) { outputStream.write(it) }
+                    dataInputStream.readBytes(byteLength, object : ReadBytes {
+                        override fun read(buffer: ByteArray) {
+                            outputStream.write(buffer)
+                        }
+                    })
                 }
-                val protectedBinary = ProtectedBinary(protectedFlag, file)
+                val protectedBinary = ProtectedBinary(file, protectedFlag)
                 mDatabase.binPool.add(protectedBinary)
             }
             else -> {
@@ -432,7 +431,7 @@ class ImporterV4(private val streamDir: File,
             KdbContext.Binaries -> if (name.equals(PwDatabaseV4XML.ElemBinary, ignoreCase = true)) {
                 val key = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrId)
                 if (key != null) {
-                    val pbData = readProtectedBinary(xpp)
+                    val pbData = readBinary(xpp)
                     val id = Integer.parseInt(key)
                     mDatabase.binPool.put(id, pbData!!)
                 } else {
@@ -606,7 +605,7 @@ class ImporterV4(private val streamDir: File,
             KdbContext.EntryBinary -> if (name.equals(PwDatabaseV4XML.ElemKey, ignoreCase = true)) {
                 ctxBinaryName = readString(xpp)
             } else if (name.equals(PwDatabaseV4XML.ElemValue, ignoreCase = true)) {
-                ctxBinaryValue = readProtectedBinary(xpp)
+                ctxBinaryValue = readBinary(xpp)
             }
 
             KdbContext.EntryAutoType -> if (name.equals(PwDatabaseV4XML.ElemAutoTypeEnabled, ignoreCase = true)) {
@@ -806,7 +805,7 @@ class ImporterV4(private val streamDir: File,
         val sDate = readString(xpp)
         var utcDate: Date? = null
 
-        if (version >= PwDbHeaderV4.FILE_VERSION_32_4) {
+        if (mDatabase.kdbxVersion >= PwDbHeaderV4.FILE_VERSION_32_4) {
             var buf = Base64.decode(sDate, BASE_64_FLAG)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)
@@ -939,7 +938,9 @@ class ImporterV4(private val streamDir: File,
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readProtectedBinary(xpp: XmlPullParser): ProtectedBinary? {
+    private fun readBinary(xpp: XmlPullParser): ProtectedBinary? {
+
+        // Reference Id to a binary already present in binary pool
         val ref = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrRef)
         if (ref != null) {
             xpp.next() // Consume end tag
@@ -948,41 +949,38 @@ class ImporterV4(private val streamDir: File,
             return mDatabase.binPool[id]
         }
 
-        var compressed = false
-        var protected = false
+        // New binary to retrieve
+        else {
+            var compressed: Boolean? = null
+            var protected = false
 
-        if (xpp.attributeCount > 0) {
-            val compress = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrCompressed)
-            if (compress != null) {
-                compressed = compress.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
-            }
-
-            val protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected)
-            if (protect != null) {
-                protected = protect.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
-            }
-        }
-
-        val base64 = readString(xpp)
-        if (base64.isEmpty())
-            return ProtectedBinary()
-        val data = Base64.decode(base64, BASE_64_FLAG)
-
-        return if (!compressed && data.size <= BUFFER_SIZE_BYTES) {
-            // Small data, don't need a file
-            ProtectedBinary(protected, data)
-        } else {
-            val file = File(streamDir, unusedCacheFileName)
-            if (compressed) {
-                FileOutputStream(file).use { outputStream ->
-                    IOUtils.copy(GZIPInputStream(ByteArrayInputStream(data)), outputStream)
+            if (xpp.attributeCount > 0) {
+                val compress = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrCompressed)
+                if (compress != null) {
+                    compressed = compress.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
                 }
+
+                val protect = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrProtected)
+                if (protect != null) {
+                    protected = protect.equals(PwDatabaseV4XML.ValTrue, ignoreCase = true)
+                }
+            }
+
+            val base64 = readString(xpp)
+            if (base64.isEmpty())
+                return ProtectedBinary()
+            val data = Base64.decode(base64, BASE_64_FLAG)
+
+            return if (data.size <= BUFFER_SIZE_BYTES) {
+                // Small data, don't need a file
+                ProtectedBinary(data, protected, compressed)
             } else {
+                val file = File(streamDir, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
                     outputStream.write(data)
                 }
+                ProtectedBinary(file, protected, compressed)
             }
-            ProtectedBinary(protected, file)
         }
     }
 

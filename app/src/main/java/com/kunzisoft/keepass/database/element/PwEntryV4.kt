@@ -49,7 +49,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
     var iconCustom = PwIconCustom.UNKNOWN_ICON
     private var customData = HashMap<String, String>()
     var fields = HashMap<String, ProtectedString>()
-    val binaries = HashMap<String, ProtectedBinary>()
+    var binaries = HashMap<String, ProtectedBinary>()
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -98,7 +98,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
         customData = ParcelableUtil.readStringParcelableMap(parcel)
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        // TODO binaries = ParcelableUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+        binaries = ParcelableUtil.readStringParcelableMap(parcel, ProtectedBinary::class.java)
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
@@ -116,7 +116,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         dest.writeParcelable(locationChanged, flags)
         ParcelableUtil.writeStringParcelableMap(dest, customData)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
-        // TODO ParcelableUtil.writeStringParcelableMap(dest, flags, binaries);
+        ParcelableUtil.writeStringParcelableMap(dest, flags, binaries)
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)

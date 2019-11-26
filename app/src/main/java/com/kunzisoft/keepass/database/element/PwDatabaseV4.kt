@@ -31,6 +31,8 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.PwDatabaseV3.Companion.BACKUP_FOLDER_TITLE
 import com.kunzisoft.keepass.database.exception.UnknownKDF
+import com.kunzisoft.keepass.database.file.PwDbHeaderV4.Companion.FILE_VERSION_32_3
+import com.kunzisoft.keepass.database.file.PwDbHeaderV4.Companion.FILE_VERSION_32_4
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
@@ -56,6 +58,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
 
+    var kdbxVersion: Long = 0
     var name = ""
     var nameChanged = PwDate()
     // TODO change setting date
@@ -116,7 +119,14 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     }
 
     override val version: String
-        get() = "KeePass 2"
+        get() {
+            val kdbxStringVersion = when(kdbxVersion) {
+                FILE_VERSION_32_3 -> "3.1"
+                FILE_VERSION_32_4 -> "4.0"
+                else -> "UNKNOWN"
+            }
+            return "KeePass 2 - KDBX$kdbxStringVersion"
+        }
 
     override val kdfEngine: KdfEngine?
         get() = try {

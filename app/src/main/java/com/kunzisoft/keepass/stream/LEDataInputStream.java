@@ -124,7 +124,7 @@ public class LEDataInputStream extends InputStream {
         return buf;
     }
 
-    public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
+    public void readBytes(int length, ReadBytes readBytes) throws IOException {
         int bufferSize = 256 * 3; // TODO Buffer size
         byte[] buffer = new byte[bufferSize];
 
@@ -146,7 +146,7 @@ public class LEDataInputStream extends InputStream {
             } else {
                 optimizedBuffer = buffer;
             }
-            actionReadBytes.doAction(optimizedBuffer);
+            readBytes.read(optimizedBuffer);
             offset += read;
         }
     }

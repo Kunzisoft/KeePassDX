@@ -37,9 +37,7 @@ import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.stream.HashedBlockOutputStream
-import com.kunzisoft.keepass.stream.HmacBlockOutputStream
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
@@ -53,7 +51,8 @@ import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
 
 
-class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputStream) : PwDbOutput<PwDbHeaderV4>(outputStream) {
+class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
+                   outputStream: OutputStream) : PwDbOutput<PwDbHeaderV4>(outputStream) {
 
     private var randomStream: StreamCipher? = null
     private lateinit var xml: XmlSerializer
@@ -75,17 +74,16 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             header = outputHeader(mOS)
 
             val osPlain: OutputStream
-            if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
+            osPlain = if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
                 val cos = attachStreamEncryptor(header!!, mOS)
                 cos.write(header!!.streamStartBytes)
 
-                osPlain = HashedBlockOutputStream(cos)
+                HashedBlockOutputStream(cos)
             } else {
                 mOS.write(hashOfHeader!!)
                 mOS.write(headerHmac!!)
 
-                val hbos = HmacBlockOutputStream(mOS, mDatabaseV4.hmacKey)
-                osPlain = attachStreamEncryptor(header!!, hbos)
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOS, mDatabaseV4.hmacKey))
             }
 
             val osXml: OutputStream
@@ -114,11 +112,11 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun outputDatabase(os: OutputStream) {
+    private fun outputDatabase(outputStream: OutputStream) {
 
         xml = Xml.newSerializer()
 
-        xml.setOutput(os, "UTF-8")
+        xml.setOutput(outputStream, "UTF-8")
         xml.startDocument("UTF-8", true)
 
         xml.startTag(null, PwDatabaseV4XML.ElemDocNode)
@@ -210,17 +208,17 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeCustomIconList()
 
         writeObject(PwDatabaseV4XML.ElemRecycleBinEnabled, mDatabaseV4.isRecycleBinEnabled)
-        writeObject(PwDatabaseV4XML.ElemRecycleBinUuid, mDatabaseV4.recycleBinUUID)
+        writeUuid(PwDatabaseV4XML.ElemRecycleBinUuid, mDatabaseV4.recycleBinUUID)
         writeObject(PwDatabaseV4XML.ElemRecycleBinChanged, mDatabaseV4.recycleBinChanged)
-        writeObject(PwDatabaseV4XML.ElemEntryTemplatesGroup, mDatabaseV4.entryTemplatesGroup)
+        writeUuid(PwDatabaseV4XML.ElemEntryTemplatesGroup, mDatabaseV4.entryTemplatesGroup)
         writeObject(PwDatabaseV4XML.ElemEntryTemplatesGroupChanged, mDatabaseV4.entryTemplatesGroupChanged.date)
         writeObject(PwDatabaseV4XML.ElemHistoryMaxItems, mDatabaseV4.historyMaxItems.toLong())
         writeObject(PwDatabaseV4XML.ElemHistoryMaxSize, mDatabaseV4.historyMaxSize)
-        writeObject(PwDatabaseV4XML.ElemLastSelectedGroup, mDatabaseV4.lastSelectedGroupUUID)
-        writeObject(PwDatabaseV4XML.ElemLastTopVisibleGroup, mDatabaseV4.lastTopVisibleGroupUUID)
+        writeUuid(PwDatabaseV4XML.ElemLastSelectedGroup, mDatabaseV4.lastSelectedGroupUUID)
+        writeUuid(PwDatabaseV4XML.ElemLastTopVisibleGroup, mDatabaseV4.lastTopVisibleGroupUUID)
 
         if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-            writeBinPool()
+            writeBinariesKDBX31()
         }
         writeCustomData(mDatabaseV4.customData)
 
@@ -306,13 +304,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun startGroup(group: PwGroupV4) {
         xml.startTag(null, PwDatabaseV4XML.ElemGroup)
-        writeObject(PwDatabaseV4XML.ElemUuid, group.id)
+        writeUuid(PwDatabaseV4XML.ElemUuid, group.id)
         writeObject(PwDatabaseV4XML.ElemName, group.title)
         writeObject(PwDatabaseV4XML.ElemNotes, group.notes)
         writeObject(PwDatabaseV4XML.ElemIcon, group.icon.iconId.toLong())
 
         if (group.iconCustom != PwIconCustom.UNKNOWN_ICON) {
-            writeObject(PwDatabaseV4XML.ElemCustomIconID, group.iconCustom.uuid)
+            writeUuid(PwDatabaseV4XML.ElemCustomIconID, group.iconCustom.uuid)
         }
 
         writeTimes(group)
@@ -320,7 +318,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeObject(PwDatabaseV4XML.ElemGroupDefaultAutoTypeSeq, group.defaultAutoTypeSequence)
         writeObject(PwDatabaseV4XML.ElemEnableAutoType, group.enableAutoType)
         writeObject(PwDatabaseV4XML.ElemEnableSearching, group.enableSearching)
-        writeObject(PwDatabaseV4XML.ElemLastTopVisibleEntry, group.lastTopVisibleEntry)
+        writeUuid(PwDatabaseV4XML.ElemLastTopVisibleEntry, group.lastTopVisibleEntry)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -333,11 +331,11 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
         xml.startTag(null, PwDatabaseV4XML.ElemEntry)
 
-        writeObject(PwDatabaseV4XML.ElemUuid, entry.id)
+        writeUuid(PwDatabaseV4XML.ElemUuid, entry.id)
         writeObject(PwDatabaseV4XML.ElemIcon, entry.icon.iconId.toLong())
 
         if (entry.iconCustom != PwIconCustom.UNKNOWN_ICON) {
-            writeObject(PwDatabaseV4XML.ElemCustomIconID, entry.iconCustom.uuid)
+            writeUuid(PwDatabaseV4XML.ElemCustomIconID, entry.iconCustom.uuid)
         }
 
         writeObject(PwDatabaseV4XML.ElemFgColor, entry.foregroundColor)
@@ -348,7 +346,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         writeTimes(entry)
 
         writeFields(entry.fields)
-        writeList(entry.binaries)
+        writeEntryBinaries(entry.binaries)
         writeAutoType(entry.autoType)
 
         if (!isHistory) {
@@ -356,81 +354,6 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         }
 
         xml.endTag(null, PwDatabaseV4XML.ElemEntry)
-    }
-
-
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(key: String, binary: ProtectedBinary) {
-
-        xml.startTag(null, PwDatabaseV4XML.ElemBinary)
-        xml.startTag(null, PwDatabaseV4XML.ElemKey)
-        xml.text(safeXmlString(key))
-        xml.endTag(null, PwDatabaseV4XML.ElemKey)
-
-        xml.startTag(null, PwDatabaseV4XML.ElemValue)
-        val ref = mDatabaseV4.binPool.findKey(binary)
-        if (ref != null) {
-            xml.attribute(null, PwDatabaseV4XML.AttrRef, ref.toString())
-        } else {
-            writeBinary(binary)
-        }
-        xml.endTag(null, PwDatabaseV4XML.ElemValue)
-
-        xml.endTag(null, PwDatabaseV4XML.ElemBinary)
-    }
-
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeBinary(value: ProtectedBinary) {
-
-        val valLength = value.length().toInt()
-        if (valLength > 0) {
-            val buffer = ByteArray(valLength)
-            if (valLength == value.getData()!!.read(buffer, 0, valLength)) {
-
-                if (value.isProtected) {
-                    xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue)
-
-                    val encoded = ByteArray(valLength)
-                    randomStream!!.processBytes(buffer, 0, valLength, encoded, 0)
-                    xml.text(String(Base64.encode(encoded, BASE_64_FLAG)))
-
-                } else {
-                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
-                        xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
-
-                        val byteArrayOutputStream = ByteArrayOutputStream()
-                        val gzipOutputStream = GZIPOutputStream(byteArrayOutputStream)
-                        copyStream(ByteArrayInputStream(buffer), gzipOutputStream)
-                        // IOUtils.copy(ByteArrayInputStream(ByteArrayInputStream(buffer)), gzipOutputStream)
-                        gzipOutputStream.close()
-
-                        xml.text(String(Base64.encode(byteArrayOutputStream.toByteArray(), BASE_64_FLAG)))
-
-                    } else {
-                        xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
-                    }
-                }
-            } else {
-                Log.e(TAG, "Unable to read the stream of the protected binary")
-            }
-        }
-    }
-
-    @Throws(IOException::class)
-    fun copyStream(inputStream: InputStream, out: OutputStream) {
-        val buffer = ByteArray(BUFFER_SIZE_BYTES)
-        try {
-            var read = inputStream.read(buffer)
-            while (read != -1) {
-                out.write(buffer, 0, read)
-                read = inputStream.read(buffer)
-                if (Thread.interrupted()) {
-                    throw InterruptedException()
-                }
-            }
-        } catch (error: OutOfMemoryError) {
-            throw IOException(error)
-        }
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -477,9 +400,55 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(name: String, uuid: UUID) {
+    private fun writeUuid(name: String, uuid: UUID) {
         val data = DatabaseInputOutputUtils.uuidToBytes(uuid)
         writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
+    }
+
+    // Only for KDBX3.1-
+    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+    private fun writeBinariesKDBX31() {
+        xml.startTag(null, PwDatabaseV4XML.ElemBinaries)
+
+        mDatabaseV4.binPool.doForEachBinary { key, binary ->
+            xml.startTag(null, PwDatabaseV4XML.ElemBinary)
+            xml.attribute(null, PwDatabaseV4XML.AttrId, key.toString())
+            xml.attribute(null, PwDatabaseV4XML.AttrCompressed,
+                    if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
+                        PwDatabaseV4XML.ValTrue
+                    } else {
+                        PwDatabaseV4XML.ValFalse
+                    }
+            )
+            /*
+            // TODO compression needed here ?
+                // Binary need to be compressed before storage
+                val byteArrayOutputStream = ByteArrayOutputStream()
+                val gzipOutputStream = GZIPOutputStream(byteArrayOutputStream)
+                IOUtils.copy(binary.getInputDataStream(), gzipOutputStream)
+                gzipOutputStream.close()
+                readFromStream(ByteArrayInputStream(byteArrayOutputStream.toByteArray()), BUFFER_SIZE_BYTES,
+                        object : ReadBytes {
+                            override fun read(buffer: ByteArray) {
+                                xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
+                            }
+                        }
+                )
+            }*/
+
+            readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
+                    object : ReadBytes {
+                        override fun read(buffer: ByteArray) {
+                            val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
+                            xml.text(charArray, 0, charArray.size)
+                        }
+                    }
+            )
+
+            xml.endTag(null, PwDatabaseV4XML.ElemBinary)
+        }
+
+        xml.endTag(null, PwDatabaseV4XML.ElemBinaries)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
@@ -565,19 +534,57 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
     private fun writeDeletedObject(value: PwDeletedObject) {
         xml.startTag(null, PwDatabaseV4XML.ElemDeletedObject)
 
-        writeObject(PwDatabaseV4XML.ElemUuid, value.uuid)
+        writeUuid(PwDatabaseV4XML.ElemUuid, value.uuid)
         writeObject(PwDatabaseV4XML.ElemDeletionTime, value.deletionTime)
 
         xml.endTag(null, PwDatabaseV4XML.ElemDeletedObject)
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeList(binaries: Map<String, ProtectedBinary>) {
-        for ((key, value) in binaries) {
-            writeObject(key, value)
+    private fun writeEntryBinaries(binaries: Map<String, ProtectedBinary>) {
+        for ((key, binary) in binaries) {
+            xml.startTag(null, PwDatabaseV4XML.ElemBinary)
+            xml.startTag(null, PwDatabaseV4XML.ElemKey)
+            xml.text(safeXmlString(key))
+            xml.endTag(null, PwDatabaseV4XML.ElemKey)
+
+            xml.startTag(null, PwDatabaseV4XML.ElemValue)
+            val ref = mDatabaseV4.binPool.findKey(binary)
+            if (ref != null) {
+                xml.attribute(null, PwDatabaseV4XML.AttrRef, ref.toString())
+            } else {
+                val binaryLength = binary.length()
+                if (binaryLength > 0) {
+
+                    if (binary.isProtected) {
+                        xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue)
+
+                        readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
+                                object : ReadBytes {
+                                    override fun read(buffer: ByteArray) {
+                                        val encoded = ByteArray(buffer.size)
+                                        randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
+                                        val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
+                                        xml.text(charArray, 0, charArray.size)
+                                    }
+                                })
+                    } else {
+                        readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
+                                object : ReadBytes {
+                                    override fun read(buffer: ByteArray) {
+                                        val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
+                                        xml.text(charArray, 0, charArray.size)
+                                    }
+                                }
+                        )
+                    }
+                }
+            }
+            xml.endTag(null, PwDatabaseV4XML.ElemValue)
+
+            xml.endTag(null, PwDatabaseV4XML.ElemBinary)
         }
     }
-
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeDeletedObjects(value: List<PwDeletedObject>) {
@@ -658,29 +665,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         for (icon in customIcons) {
             xml.startTag(null, PwDatabaseV4XML.ElemCustomIconItem)
 
-            writeObject(PwDatabaseV4XML.ElemCustomIconItemID, icon.uuid)
+            writeUuid(PwDatabaseV4XML.ElemCustomIconItemID, icon.uuid)
             writeObject(PwDatabaseV4XML.ElemCustomIconItemData, String(Base64.encode(icon.imageData, BASE_64_FLAG)))
 
             xml.endTag(null, PwDatabaseV4XML.ElemCustomIconItem)
         }
 
         xml.endTag(null, PwDatabaseV4XML.ElemCustomIcons)
-    }
-
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeBinPool() {
-        xml.startTag(null, PwDatabaseV4XML.ElemBinaries)
-
-        mDatabaseV4.binPool.doForEachBinary { key, binary ->
-            xml.startTag(null, PwDatabaseV4XML.ElemBinary)
-            xml.attribute(null, PwDatabaseV4XML.AttrId, key.toString())
-
-            writeBinary(binary)
-
-            xml.endTag(null, PwDatabaseV4XML.ElemBinary)
-        }
-
-        xml.endTag(null, PwDatabaseV4XML.ElemBinaries)
     }
 
     private fun safeXmlString(text: String): String {

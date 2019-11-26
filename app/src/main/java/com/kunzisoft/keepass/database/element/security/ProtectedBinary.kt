@@ -22,18 +22,14 @@ package com.kunzisoft.keepass.database.element.security
 import android.os.Parcel
 import android.os.Parcelable
 import android.util.Log
+import java.io.*
 
-import java.io.ByteArrayInputStream
-import java.io.File
-import java.io.FileInputStream
-import java.io.IOException
-import java.io.InputStream
 import java.util.Arrays
 
 class ProtectedBinary : Parcelable {
 
+    var isCompressed: Boolean? = null // Only for KDBX3.1-
     var isProtected: Boolean = false
-        private set
     private var data: ByteArray? = null
     private var dataFile: File? = null
 
@@ -49,30 +45,36 @@ class ProtectedBinary : Parcelable {
      * Empty protected binary
      */
     constructor() {
+        this.isCompressed = null
         this.isProtected = false
         this.data = null
         this.dataFile = null
     }
 
     constructor(protectedBinary: ProtectedBinary) {
+        this.isCompressed = protectedBinary.isCompressed
         this.isProtected = protectedBinary.isProtected
         this.data = protectedBinary.data
         this.dataFile = protectedBinary.dataFile
     }
 
-    constructor(enableProtection: Boolean, data: ByteArray?) {
+    constructor(data: ByteArray?, enableProtection: Boolean = false, compressed: Boolean? = null) {
+        this.isCompressed = compressed
         this.isProtected = enableProtection
         this.data = data
         this.dataFile = null
     }
 
-    constructor(enableProtection: Boolean, dataFile: File) {
+    constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean? = null) {
+        this.isCompressed = compressed
         this.isProtected = enableProtection
         this.data = null
         this.dataFile = dataFile
     }
 
     private constructor(parcel: Parcel) {
+        val compressedByte = parcel.readByte().toInt()
+        isCompressed = if (compressedByte == 2) null else compressedByte != 0
         isProtected = parcel.readByte().toInt() != 0
         data = ByteArray(parcel.readInt())
         parcel.readByteArray(data)
@@ -80,11 +82,11 @@ class ProtectedBinary : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun getData(): InputStream? {
+    fun getInputDataStream(): InputStream {
         return when {
             data != null -> ByteArrayInputStream(data)
             dataFile != null -> FileInputStream(dataFile!!)
-            else -> null
+            else -> throw IOException("Unable to get binary data")
         }
     }
 
@@ -111,12 +113,15 @@ class ProtectedBinary : Parcelable {
                 && dataFile == null && other.dataFile == null)
             sameData = true
 
-        return isProtected == other.isProtected && sameData
+        return isCompressed == other.isCompressed
+                && isProtected == other.isProtected
+                && sameData
     }
 
     override fun hashCode(): Int {
 
         var result = 0
+        result = 31 * result + if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
         result = 31 * result + Arrays.hashCode(data)
@@ -128,6 +133,7 @@ class ProtectedBinary : Parcelable {
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
+        dest.writeByte((if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
         dest.writeInt(data?.size ?: 0)
         dest.writeByteArray(data)

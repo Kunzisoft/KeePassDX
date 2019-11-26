@@ -20,6 +20,7 @@
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
+        android:largeHeap="true"
         android:theme="@style/KeepassDXStyle.Night">
         <!-- TODO backup API Key -->
         <meta-data
