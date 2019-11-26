@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
@@ -37,7 +38,6 @@ import com.kunzisoft.keepass.stream.HmacBlockInputStream
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-import com.kunzisoft.keepass.utils.MemoryUtil
 import org.apache.commons.io.IOUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
@@ -968,7 +968,7 @@ class ImporterV4(private val streamDir: File,
             return ProtectedBinary()
         val data = Base64.decode(base64, BASE_64_FLAG)
 
-        return if (!compressed && data.size <= MemoryUtil.BUFFER_SIZE_BYTES) {
+        return if (!compressed && data.size <= BUFFER_SIZE_BYTES) {
             // Small data, don't need a file
             ProtectedBinary(protected, data)
         } else {

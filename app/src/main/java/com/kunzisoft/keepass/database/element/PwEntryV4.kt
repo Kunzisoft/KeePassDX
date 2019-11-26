@@ -23,7 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.utils.MemoryUtil
+import com.kunzisoft.keepass.utils.ParcelableUtil
 import java.util.*
 
 class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
@@ -96,9 +96,9 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         iconCustom = parcel.readParcelable(PwIconCustom::class.java.classLoader) ?: iconCustom
         usageCount = parcel.readLong()
         locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
-        customData = MemoryUtil.readStringParcelableMap(parcel)
-        fields = MemoryUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        // TODO binaries = MemoryUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
+        customData = ParcelableUtil.readStringParcelableMap(parcel)
+        fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
+        // TODO binaries = ParcelableUtil.readStringParcelableMap(parcel, ProtectedBinary.class);
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
@@ -114,9 +114,9 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         dest.writeParcelable(iconCustom, flags)
         dest.writeLong(usageCount)
         dest.writeParcelable(locationChanged, flags)
-        MemoryUtil.writeStringParcelableMap(dest, customData)
-        MemoryUtil.writeStringParcelableMap(dest, flags, fields)
-        // TODO MemoryUtil.writeStringParcelableMap(dest, flags, binaries);
+        ParcelableUtil.writeStringParcelableMap(dest, customData)
+        ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
+        // TODO ParcelableUtil.writeStringParcelableMap(dest, flags, binaries);
         dest.writeString(foregroundColor)
         dest.writeString(backgroundColor)
         dest.writeString(overrideURL)

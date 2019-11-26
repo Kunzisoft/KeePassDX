@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -20,50 +20,70 @@
 package com.kunzisoft.keepass.database.file.save
 
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
 import com.kunzisoft.keepass.stream.ActionReadBytes
 import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.MemoryUtil
 import java.io.IOException
+import java.io.InputStream
 import java.io.OutputStream
 import kotlin.experimental.or
 
-class PwDbInnerHeaderOutputV4(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: OutputStream) {
+class PwDbInnerHeaderOutputV4(private val database: PwDatabaseV4,
+                              private val header: PwDbHeaderV4,
+                              outputStream: OutputStream) {
 
-    private val los: LEDataOutputStream = LEDataOutputStream(os)
+    private val dataOutputStream: LEDataOutputStream = LEDataOutputStream(outputStream)
 
     @Throws(IOException::class)
     fun output() {
-        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID.toInt())
-        los.writeInt(4)
+        dataOutputStream.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomStreamID.toInt())
+        dataOutputStream.writeInt(4)
         if (header.innerRandomStream == null)
             throw IOException("Can't write innerRandomStream")
-        los.writeInt(header.innerRandomStream!!.id)
+        dataOutputStream.writeInt(header.innerRandomStream!!.id)
 
         val streamKeySize = header.innerRandomStreamKey.size
-        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey.toInt())
-        los.writeInt(streamKeySize)
-        los.write(header.innerRandomStreamKey)
+        dataOutputStream.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.InnerRandomstreamKey.toInt())
+        dataOutputStream.writeInt(streamKeySize)
+        dataOutputStream.write(header.innerRandomStreamKey)
 
-        db.binPool.doForEachBinary { _, protectedBinary ->
+        database.binPool.doForEachBinary { _, protectedBinary ->
             var flag = PwDbHeaderV4.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or PwDbHeaderV4.KdbxBinaryFlags.Protected
             }
 
-            los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary.toInt())
-            los.writeInt(protectedBinary.length().toInt() + 1) // TODO verify
-            los.write(flag.toInt())
+            dataOutputStream.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.Binary.toInt())
+            dataOutputStream.writeInt(protectedBinary.length().toInt() + 1) // TODO verify
+            dataOutputStream.write(flag.toInt())
 
             protectedBinary.getData()?.let {
-                MemoryUtil.readBytes(it, ActionReadBytes { buffer ->
-                    los.write(buffer)
+                readBytes(it, ActionReadBytes { buffer ->
+                    dataOutputStream.write(buffer)
                 })
             } ?: throw IOException("Can't write protected binary")
         }
 
-        los.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader.toInt())
-        los.writeInt(0)
+        dataOutputStream.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader.toInt())
+        dataOutputStream.writeInt(0)
+    }
+
+    @Throws(IOException::class)
+    fun readBytes(inputStream: InputStream, actionReadBytes: ActionReadBytes) {
+        val buffer = ByteArray(BUFFER_SIZE_BYTES)
+        var read = 0
+        while (read != -1) {
+            read = inputStream.read(buffer, 0, buffer.size)
+            if (read != -1) {
+                val optimizedBuffer: ByteArray = if (buffer.size == read) {
+                    buffer
+                } else {
+                    buffer.copyOf(read)
+                }
+                actionReadBytes.doAction(optimizedBuffer)
+            }
+        }
     }
 
 }

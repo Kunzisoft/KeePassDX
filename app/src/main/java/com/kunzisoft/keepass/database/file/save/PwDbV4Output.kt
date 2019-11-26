@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.element.security.ProtectedBinary
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
@@ -40,13 +41,10 @@ import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 import com.kunzisoft.keepass.stream.HmacBlockOutputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-import com.kunzisoft.keepass.utils.MemoryUtil
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
-import java.io.IOException
-import java.io.InputStream
-import java.io.OutputStream
+import java.io.*
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
@@ -362,7 +360,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeObject(key: String, value: ProtectedBinary) {
+    private fun writeObject(key: String, binary: ProtectedBinary) {
 
         xml.startTag(null, PwDatabaseV4XML.ElemBinary)
         xml.startTag(null, PwDatabaseV4XML.ElemKey)
@@ -370,67 +368,19 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
         xml.endTag(null, PwDatabaseV4XML.ElemKey)
 
         xml.startTag(null, PwDatabaseV4XML.ElemValue)
-        val ref = mDatabaseV4.binPool.findKey(value)
+        val ref = mDatabaseV4.binPool.findKey(binary)
         if (ref != null) {
             xml.attribute(null, PwDatabaseV4XML.AttrRef, ref.toString())
         } else {
-            subWriteValue(value)
+            writeBinary(binary)
         }
         xml.endTag(null, PwDatabaseV4XML.ElemValue)
 
         xml.endTag(null, PwDatabaseV4XML.ElemBinary)
     }
 
-    /*
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-	private fun subWriteValue(value: ProtectedBinary) {
-        try {
-            val inputStream = value.getData()
-            if (inputStream == null) {
-                Log.e(TAG, "Can't write a null input stream.")
-                return
-            }
-
-            if (value.isProtected) {
-                xml.attribute(null, PwDatabaseV4XML.AttrProtected, PwDatabaseV4XML.ValTrue)
-
-                try {
-                    val cypherInputStream =
-                    IOUtil.pipe(inputStream,
-                            o -> new org.spongycastle.crypto.io.CipherOutputStream(o, randomStream))
-                    writeInputStreamInBase64(cypherInputStream)
-                } catch (e: Exception) {}
-
-            } else {
-                if (mDatabaseV4.compressionAlgorithm == PwCompressionAlgorithm.GZip) {
-                    xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
-
-                    try {
-                        val gZipInputStream =
-                        IOUtil.pipe(inputStream, GZIPOutputStream::new, (int) value.length())
-                        writeInputStreamInBase64(gZipInputStream)
-                    } catch (e: Exception) {}
-
-                } else {
-                    writeInputStreamInBase64(inputStream);
-                }
-            }
-        } catch (e: Exception) {}
-	}
-
-    @Throws(IOException::class)
-	private fun writeInputStreamInBase64(inputStream: InputStream) {
-        try {
-            val base64InputStream = pipe(inputStream, Base64OutputStream(o, Base64OutputStream.DEFAULT))
-            MemoryUtil.readBytes(base64InputStream,
-                    ActionReadBytes { buffer -> xml.text(Arrays.toString(buffer)) })
-
-        } catch (e: Exception) {}
-    }
-     */
-
-    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun subWriteValue(value: ProtectedBinary) {
+    private fun writeBinary(value: ProtectedBinary) {
 
         val valLength = value.length().toInt()
         if (valLength > 0) {
@@ -448,8 +398,13 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
                     if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
                         xml.attribute(null, PwDatabaseV4XML.AttrCompressed, PwDatabaseV4XML.ValTrue)
 
-                        val compressData = MemoryUtil.compress(buffer)
-                        xml.text(String(Base64.encode(compressData, BASE_64_FLAG)))
+                        val byteArrayOutputStream = ByteArrayOutputStream()
+                        val gzipOutputStream = GZIPOutputStream(byteArrayOutputStream)
+                        copyStream(ByteArrayInputStream(buffer), gzipOutputStream)
+                        // IOUtils.copy(ByteArrayInputStream(ByteArrayInputStream(buffer)), gzipOutputStream)
+                        gzipOutputStream.close()
+
+                        xml.text(String(Base64.encode(byteArrayOutputStream.toByteArray(), BASE_64_FLAG)))
 
                     } else {
                         xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
@@ -458,6 +413,23 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             } else {
                 Log.e(TAG, "Unable to read the stream of the protected binary")
             }
+        }
+    }
+
+    @Throws(IOException::class)
+    fun copyStream(inputStream: InputStream, out: OutputStream) {
+        val buffer = ByteArray(BUFFER_SIZE_BYTES)
+        try {
+            var read = inputStream.read(buffer)
+            while (read != -1) {
+                out.write(buffer, 0, read)
+                read = inputStream.read(buffer)
+                if (Thread.interrupted()) {
+                    throw InterruptedException()
+                }
+            }
+        } catch (error: OutOfMemoryError) {
+            throw IOException(error)
         }
     }
 
@@ -703,7 +675,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
             xml.startTag(null, PwDatabaseV4XML.ElemBinary)
             xml.attribute(null, PwDatabaseV4XML.AttrId, key.toString())
 
-            subWriteValue(binary)
+            writeBinary(binary)
 
             xml.endTag(null, PwDatabaseV4XML.ElemBinary)
         }
@@ -733,16 +705,5 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4, outputStream: OutputSt
 
     companion object {
         private val TAG = PwDbV4Output::class.java.name
-
-        @Throws(IOException::class)
-        fun pipe(inputStream: InputStream, outputStream: OutputStream, buf: ByteArray) {
-            while (true) {
-                val amt = inputStream.read(buf)
-                if (amt < 0) {
-                    break
-                }
-                outputStream.write(buf, 0, amt)
-            }
-        }
     }
 }

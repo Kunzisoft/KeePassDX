@@ -508,5 +508,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
         private const val KeyDataElementName = "Data"
 
         const val BASE_64_FLAG = Base64.DEFAULT
+
+        const val BUFFER_SIZE_BYTES = 3 * 128
     }
 }
