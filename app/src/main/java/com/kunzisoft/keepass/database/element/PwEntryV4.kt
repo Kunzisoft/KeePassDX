@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import java.util.*
@@ -49,7 +49,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
     var iconCustom = PwIconCustom.UNKNOWN_ICON
     private var customData = HashMap<String, String>()
     var fields = HashMap<String, ProtectedString>()
-    var binaries = HashMap<String, ProtectedBinary>()
+    var binaries = HashMap<String, BinaryAttachment>()
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -98,7 +98,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         locationChanged = parcel.readParcelable(PwDate::class.java.classLoader) ?: locationChanged
         customData = ParcelableUtil.readStringParcelableMap(parcel)
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
-        binaries = ParcelableUtil.readStringParcelableMap(parcel, ProtectedBinary::class.java)
+        binaries = ParcelableUtil.readStringParcelableMap(parcel, BinaryAttachment::class.java)
         foregroundColor = parcel.readString() ?: foregroundColor
         backgroundColor = parcel.readString() ?: backgroundColor
         overrideURL = parcel.readString() ?: overrideURL
@@ -274,7 +274,7 @@ class PwEntryV4 : PwEntry<UUID, UUID, PwGroupV4, PwEntryV4>, PwNodeV4Interface {
         fields[label] = value
     }
 
-    fun putProtectedBinary(key: String, value: ProtectedBinary) {
+    fun putProtectedBinary(key: String, value: BinaryAttachment) {
         binaries[key] = value
     }
 

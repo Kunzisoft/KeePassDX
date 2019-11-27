@@ -48,7 +48,7 @@ class PwDbInnerHeaderOutputV4(private val database: PwDatabaseV4,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binPool.doForEachBinary { _, protectedBinary ->
+        database.binaryPool.doForEachBinary { _, protectedBinary ->
             var flag = PwDbHeaderV4.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or PwDbHeaderV4.KdbxBinaryFlags.Protected

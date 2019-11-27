@@ -26,8 +26,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
-import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
-import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.KDBX4DateUtil
@@ -44,6 +43,7 @@ import java.nio.charset.Charset
 import java.text.ParseException
 import java.util.*
 import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import kotlin.math.min
 
@@ -56,7 +56,7 @@ class ImporterV4(private val streamDir: File,
     private var hashOfHeader: ByteArray? = null
 
     private val unusedCacheFileName: String
-        get() = mDatabase.binPool.findUnusedKey().toString()
+        get() = mDatabase.binaryPool.findUnusedKey().toString()
 
     private var readNextNode = true
     private val ctxGroups = Stack<PwGroupV4>()
@@ -65,7 +65,7 @@ class ImporterV4(private val streamDir: File,
     private var ctxStringName: String? = null
     private var ctxStringValue: ProtectedString? = null
     private var ctxBinaryName: String? = null
-    private var ctxBinaryValue: ProtectedBinary? = null
+    private var ctxBinaryValue: BinaryAttachment? = null
     private var ctxATName: String? = null
     private var ctxATSeq: String? = null
     private var entryInHistory = false
@@ -242,8 +242,8 @@ class ImporterV4(private val streamDir: File,
                         }
                     })
                 }
-                val protectedBinary = ProtectedBinary(file, protectedFlag)
-                mDatabase.binPool.add(protectedBinary)
+                val protectedBinary = BinaryAttachment(file, protectedFlag)
+                mDatabase.binaryPool.add(protectedBinary)
             }
             else -> {
                 return false
@@ -433,7 +433,7 @@ class ImporterV4(private val streamDir: File,
                 if (key != null) {
                     val pbData = readBinary(xpp)
                     val id = Integer.parseInt(key)
-                    mDatabase.binPool.put(id, pbData!!)
+                    mDatabase.binaryPool.put(id, pbData!!)
                 } else {
                     readUnknown(xpp)
                 }
@@ -938,7 +938,7 @@ class ImporterV4(private val streamDir: File,
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
-    private fun readBinary(xpp: XmlPullParser): ProtectedBinary? {
+    private fun readBinary(xpp: XmlPullParser): BinaryAttachment? {
 
         // Reference Id to a binary already present in binary pool
         val ref = xpp.getAttributeValue(null, PwDatabaseV4XML.AttrRef)
@@ -946,7 +946,7 @@ class ImporterV4(private val streamDir: File,
             xpp.next() // Consume end tag
 
             val id = Integer.parseInt(ref)
-            return mDatabase.binPool[id]
+            return mDatabase.binaryPool[id]
         }
 
         // New binary to retrieve
@@ -968,18 +968,20 @@ class ImporterV4(private val streamDir: File,
 
             val base64 = readString(xpp)
             if (base64.isEmpty())
-                return ProtectedBinary()
+                return BinaryAttachment()
             val data = Base64.decode(base64, BASE_64_FLAG)
 
-            return if (data.size <= BUFFER_SIZE_BYTES) {
-                // Small data, don't need a file
-                ProtectedBinary(data, protected, compressed)
-            } else {
-                val file = File(streamDir, unusedCacheFileName)
-                FileOutputStream(file).use { outputStream ->
+            val file = File(streamDir, unusedCacheFileName)
+            return FileOutputStream(file).use { outputStream ->
+                // Force compression in this specific case
+                if (mDatabase.compressionAlgorithm == PwCompressionAlgorithm.GZip
+                        && compressed == false) {
+                    GZIPOutputStream(outputStream).write(data)
+                    BinaryAttachment(file, protected, true)
+                } else {
                     outputStream.write(data)
+                    BinaryAttachment(file, protected)
                 }
-                ProtectedBinary(file, protected, compressed)
             }
         }
     }

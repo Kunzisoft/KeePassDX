@@ -21,21 +21,22 @@ package com.kunzisoft.keepass.database.element.security
 
 import android.os.Parcel
 import android.os.Parcelable
-import android.util.Log
+import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
+import com.kunzisoft.keepass.stream.ReadBytes
+import com.kunzisoft.keepass.stream.readFromStream
 import java.io.*
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 
-import java.util.Arrays
+class BinaryAttachment : Parcelable {
 
-class ProtectedBinary : Parcelable {
-
-    var isCompressed: Boolean? = null // Only for KDBX3.1-
+    var isCompressed: Boolean? = null
+        private set
     var isProtected: Boolean = false
-    private var data: ByteArray? = null
+        private set
     private var dataFile: File? = null
 
     fun length(): Long {
-        if (data != null)
-            return data!!.size.toLong()
         if (dataFile != null)
             return dataFile!!.length()
         return 0
@@ -47,28 +48,12 @@ class ProtectedBinary : Parcelable {
     constructor() {
         this.isCompressed = null
         this.isProtected = false
-        this.data = null
-        this.dataFile = null
-    }
-
-    constructor(protectedBinary: ProtectedBinary) {
-        this.isCompressed = protectedBinary.isCompressed
-        this.isProtected = protectedBinary.isProtected
-        this.data = protectedBinary.data
-        this.dataFile = protectedBinary.dataFile
-    }
-
-    constructor(data: ByteArray?, enableProtection: Boolean = false, compressed: Boolean? = null) {
-        this.isCompressed = compressed
-        this.isProtected = enableProtection
-        this.data = data
         this.dataFile = null
     }
 
     constructor(dataFile: File, enableProtection: Boolean = false, compressed: Boolean? = null) {
         this.isCompressed = compressed
         this.isProtected = enableProtection
-        this.data = null
         this.dataFile = dataFile
     }
 
@@ -76,24 +61,74 @@ class ProtectedBinary : Parcelable {
         val compressedByte = parcel.readByte().toInt()
         isCompressed = if (compressedByte == 2) null else compressedByte != 0
         isProtected = parcel.readByte().toInt() != 0
-        data = ByteArray(parcel.readInt())
-        parcel.readByteArray(data)
         dataFile = File(parcel.readString())
     }
 
     @Throws(IOException::class)
     fun getInputDataStream(): InputStream {
         return when {
-            data != null -> ByteArrayInputStream(data)
             dataFile != null -> FileInputStream(dataFile!!)
-            else -> throw IOException("Unable to get binary data")
+            // TODO
+            // else -> throw IOException("Unable to get binary data")
+            else -> ByteArrayInputStream(ByteArray(0))
         }
     }
 
+    @Throws(IOException::class)
+    fun compress() {
+        if (dataFile != null) {
+            // To compress, create a new binary with file
+            if (isCompressed != true) {
+                val fileBinaryCompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
+                val outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
+                readFromStream(getInputDataStream(), BUFFER_SIZE_BYTES,
+                        object : ReadBytes {
+                            override fun read(buffer: ByteArray) {
+                                outputStream.write(buffer)
+                            }
+                        })
+                outputStream.close()
+
+                // Remove unGzip file
+                if (dataFile!!.delete()) {
+                    if (fileBinaryCompress.renameTo(dataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = true
+                    }
+                }
+            }
+        }
+    }
+
+    @Throws(IOException::class)
+    fun decompress() {
+        if (dataFile != null) {
+            if (isCompressed != false) {
+                val fileBinaryDecompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
+                val outputStream = FileOutputStream(fileBinaryDecompress)
+                readFromStream(GZIPInputStream(getInputDataStream()), BUFFER_SIZE_BYTES,
+                        object : ReadBytes {
+                            override fun read(buffer: ByteArray) {
+                                outputStream.write(buffer)
+                            }
+                        })
+                outputStream.close()
+
+                // Remove gzip file
+                if (dataFile!!.delete()) {
+                    if (fileBinaryDecompress.renameTo(dataFile)) {
+                        // Harmonize with database compression
+                        isCompressed = false
+                    }
+                }
+            }
+        }
+    }
+
+    @Throws(IOException::class)
     fun clear() {
-        data = null
         if (dataFile != null && !dataFile!!.delete())
-            Log.e(TAG, "Unable to delete temp file " + dataFile!!.absolutePath)
+            throw IOException("Unable to delete temp file " + dataFile!!.absolutePath)
     }
 
     override fun equals(other: Any?): Boolean {
@@ -101,16 +136,11 @@ class ProtectedBinary : Parcelable {
             return true
         if (other == null || javaClass != other.javaClass)
             return false
-        if (other !is ProtectedBinary)
+        if (other !is BinaryAttachment)
             return false
 
         var sameData = false
-        if (data != null && Arrays.equals(data, other.data))
-            sameData = true
-        else if (dataFile != null && dataFile == other.dataFile)
-            sameData = true
-        else if (data == null && other.data == null
-                && dataFile == null && other.dataFile == null)
+        if (dataFile != null && dataFile == other.dataFile)
             sameData = true
 
         return isCompressed == other.isCompressed
@@ -124,7 +154,6 @@ class ProtectedBinary : Parcelable {
         result = 31 * result + if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0
         result = 31 * result + if (isProtected) 1 else 0
         result = 31 * result + dataFile!!.hashCode()
-        result = 31 * result + Arrays.hashCode(data)
         return result
     }
 
@@ -135,22 +164,20 @@ class ProtectedBinary : Parcelable {
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (isCompressed == null) 2 else if (isCompressed!!) 1 else 0).toByte())
         dest.writeByte((if (isProtected) 1 else 0).toByte())
-        dest.writeInt(data?.size ?: 0)
-        dest.writeByteArray(data)
         dest.writeString(dataFile?.absolutePath)
     }
 
     companion object {
 
-        private val TAG = ProtectedBinary::class.java.name
+        private val TAG = BinaryAttachment::class.java.name
 
         @JvmField
-        val CREATOR: Parcelable.Creator<ProtectedBinary> = object : Parcelable.Creator<ProtectedBinary> {
-            override fun createFromParcel(parcel: Parcel): ProtectedBinary {
-                return ProtectedBinary(parcel)
+        val CREATOR: Parcelable.Creator<BinaryAttachment> = object : Parcelable.Creator<BinaryAttachment> {
+            override fun createFromParcel(parcel: Parcel): BinaryAttachment {
+                return BinaryAttachment(parcel)
             }
 
-            override fun newArray(size: Int): Array<ProtectedBinary?> {
+            override fun newArray(size: Int): Array<BinaryAttachment?> {
                 return arrayOfNulls(size)
             }
         }

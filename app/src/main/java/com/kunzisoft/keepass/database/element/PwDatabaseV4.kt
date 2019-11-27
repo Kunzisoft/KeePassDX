@@ -94,7 +94,7 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     val customIcons = ArrayList<PwIconCustom>()
     val customData = HashMap<String, String>()
 
-    var binPool = BinaryPool()
+    var binaryPool = BinaryPool()
 
     var localizedAppName = "KeePassDX"
 
@@ -160,6 +160,39 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
             list.add(PwCompressionAlgorithm.GZip)
             return list
         }
+
+    fun changeBinaryCompression(oldCompression: PwCompressionAlgorithm,
+                                newCompression: PwCompressionAlgorithm) {
+        binaryPool.doForEachBinary { key, binary ->
+
+            try {
+                when (oldCompression) {
+                    PwCompressionAlgorithm.None -> {
+                        when (newCompression) {
+                            PwCompressionAlgorithm.None -> {
+                            }
+                            PwCompressionAlgorithm.GZip -> {
+                                // To compress, create a new binary with file
+                                binary.compress()
+                            }
+                        }
+                    }
+                    PwCompressionAlgorithm.GZip -> {
+                        when (newCompression) {
+                            PwCompressionAlgorithm.None -> {
+                                // To decompress, create a new binary with file
+                                binary.decompress()
+                            }
+                            PwCompressionAlgorithm.GZip -> {
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to change compression for $key")
+            }
+        }
+    }
 
     override val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
         get() {
@@ -501,8 +534,12 @@ class PwDatabaseV4 : PwDatabase<UUID, UUID, PwGroupV4, PwEntryV4> {
     }
 
     override fun clearCache() {
-        super.clearCache()
-        binPool.clear()
+        try {
+            super.clearCache()
+            binaryPool.clear()
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to clear cache", e)
+        }
     }
 
     companion object {

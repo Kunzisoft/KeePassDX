@@ -21,9 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import java.io.IOException
 
 open class SaveDatabaseRunnable(protected var context: Context,
                                 protected var database: Database,
@@ -38,9 +36,7 @@ open class SaveDatabaseRunnable(protected var context: Context,
         if (saveDatabase && result.isSuccess) {
             try {
                 database.saveData(context.contentResolver)
-            } catch (e: IOException) {
-                setError(e.message)
-            } catch (e: DatabaseOutputException) {
+            } catch (e: Exception) {
                 setError(e.message)
             }
         }

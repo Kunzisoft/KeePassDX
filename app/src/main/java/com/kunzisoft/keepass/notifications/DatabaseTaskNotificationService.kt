@@ -8,10 +8,7 @@ import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
-import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
-import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
-import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
+import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -107,11 +104,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent)
             ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent)
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent)
+            ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent)
             ACTION_DATABASE_UPDATE_NAME_TASK,
             ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
             ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
             ACTION_DATABASE_UPDATE_COLOR_TASK,
-            ACTION_DATABASE_UPDATE_COMPRESSION_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
             ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
             ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
@@ -404,6 +401,25 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         getListNodesFromBundle(database, intent.extras!!),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseUpdateCompressionActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(OLD_ELEMENT_KEY)
+                && intent.hasExtra(NEW_ELEMENT_KEY)
+                && intent.hasExtra(SAVE_DATABASE_KEY)) {
+            return UpdateCompressionBinariesDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getParcelableExtra(OLD_ELEMENT_KEY),
+                    intent.getParcelableExtra(NEW_ELEMENT_KEY),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            ).apply {
+                mAfterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
+            }
         } else {
             null
         }

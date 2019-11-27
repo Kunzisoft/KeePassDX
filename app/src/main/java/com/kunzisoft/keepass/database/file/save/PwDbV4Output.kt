@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BASE_64_FLAG
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
-import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
@@ -46,6 +46,7 @@ import java.io.*
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
+import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import javax.crypto.CipherOutputStream
@@ -217,9 +218,10 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
         writeUuid(PwDatabaseV4XML.ElemLastSelectedGroup, mDatabaseV4.lastSelectedGroupUUID)
         writeUuid(PwDatabaseV4XML.ElemLastTopVisibleGroup, mDatabaseV4.lastTopVisibleGroupUUID)
 
-        if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4) {
-            writeBinariesKDBX31()
-        }
+        // Seem to work properly if always in meta
+        // if (header!!.version < PwDbHeaderV4.FILE_VERSION_32_4)
+            writeMetaBinaries()
+
         writeCustomData(mDatabaseV4.customData)
 
         xml.endTag(null, PwDatabaseV4XML.ElemMeta)
@@ -405,14 +407,15 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
         writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
     }
 
-    // Only for KDBX3.1-
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeBinariesKDBX31() {
+    private fun writeMetaBinaries() {
         xml.startTag(null, PwDatabaseV4XML.ElemBinaries)
 
-        mDatabaseV4.binPool.doForEachBinary { key, binary ->
+        mDatabaseV4.binaryPool.doForEachBinary { key, binary ->
             xml.startTag(null, PwDatabaseV4XML.ElemBinary)
             xml.attribute(null, PwDatabaseV4XML.AttrId, key.toString())
+
+            // Force binary compression from database (compression was harmonized during import)
             xml.attribute(null, PwDatabaseV4XML.AttrCompressed,
                     if (mDatabaseV4.compressionAlgorithm === PwCompressionAlgorithm.GZip) {
                         PwDatabaseV4XML.ValTrue
@@ -420,23 +423,17 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
                         PwDatabaseV4XML.ValFalse
                     }
             )
-            /*
-            // TODO compression needed here ?
-                // Binary need to be compressed before storage
-                val byteArrayOutputStream = ByteArrayOutputStream()
-                val gzipOutputStream = GZIPOutputStream(byteArrayOutputStream)
-                IOUtils.copy(binary.getInputDataStream(), gzipOutputStream)
-                gzipOutputStream.close()
-                readFromStream(ByteArrayInputStream(byteArrayOutputStream.toByteArray()), BUFFER_SIZE_BYTES,
-                        object : ReadBytes {
-                            override fun read(buffer: ByteArray) {
-                                xml.text(String(Base64.encode(buffer, BASE_64_FLAG)))
-                            }
-                        }
-                )
-            }*/
 
-            readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
+            // Force decompression in this specific case
+            val binaryInputStream = if (mDatabaseV4.compressionAlgorithm == PwCompressionAlgorithm.None
+                    && binary.isCompressed == true) {
+                GZIPInputStream(binary.getInputDataStream())
+            } else {
+                binary.getInputDataStream()
+            }
+
+            // Write the XML
+            readFromStream(binaryInputStream, BUFFER_SIZE_BYTES,
                     object : ReadBytes {
                         override fun read(buffer: ByteArray) {
                             val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
@@ -541,7 +538,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeEntryBinaries(binaries: Map<String, ProtectedBinary>) {
+    private fun writeEntryBinaries(binaries: Map<String, BinaryAttachment>) {
         for ((key, binary) in binaries) {
             xml.startTag(null, PwDatabaseV4XML.ElemBinary)
             xml.startTag(null, PwDatabaseV4XML.ElemKey)
@@ -549,7 +546,7 @@ class PwDbV4Output(private val mDatabaseV4: PwDatabaseV4,
             xml.endTag(null, PwDatabaseV4XML.ElemKey)
 
             xml.startTag(null, PwDatabaseV4XML.ElemValue)
-            val ref = mDatabaseV4.binPool.findKey(binary)
+            val ref = mDatabaseV4.binaryPool.findKey(binary)
             if (ref != null) {
                 xml.attribute(null, PwDatabaseV4XML.AttrRef, ref.toString())
             } else {

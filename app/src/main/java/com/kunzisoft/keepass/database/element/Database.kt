@@ -139,6 +139,11 @@ class Database {
             }
         }
 
+    fun updateDataBinaryCompression(oldCompression: PwCompressionAlgorithm,
+                                    newCompression: PwCompressionAlgorithm) {
+        pwDatabaseV4?.changeBinaryCompression(oldCompression, newCompression)
+    }
+
     val allowNoMasterKey: Boolean
         get() = pwDatabaseV4 != null
 
