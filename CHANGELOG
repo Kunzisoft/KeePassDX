@@ -4,6 +4,7 @@ KeepassDX (2.5.0.0beta25)
  * Fix TOTP
  * Fix infinite save
  * Fix update group
+ * Fix OOM
 
 KeepassDX (2.5.0.0beta24)
  * Add OTP (HOTP / TOTP)

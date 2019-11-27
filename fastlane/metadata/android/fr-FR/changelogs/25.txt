@@ -3,3 +3,4 @@
  * Correction TOTP
  * Correction sauvegarde infinie
  * Correction lors de la mise à jour d'un groupe
+ * Correction OOM
