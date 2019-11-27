@@ -20,7 +20,8 @@
 package com.kunzisoft.keepass.tasks
 
 import android.os.Bundle
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.DatabaseException
+import java.lang.Exception
 
 /**
  * Callback after a task is completed.
@@ -44,24 +45,29 @@ abstract class ActionRunnable: Runnable {
      */
     abstract fun onFinishRun()
 
-    protected fun setError(message: String? = null) {
-        setError(null, message)
-    }
-
-    protected fun setError(exception: LoadDatabaseException?,
-                           message: String? = null) {
+    protected fun setError(message: String) {
         result.isSuccess = false
-        result.exception = exception
+        result.exception = null
         result.message = message
     }
 
+    protected fun setError(exception: Exception) {
+        result.isSuccess = false
+        result.exception = null
+        result.message = exception.message
+    }
 
+    protected fun setError(exception: DatabaseException) {
+        result.isSuccess = false
+        result.exception = exception
+        result.message = exception.message
+    }
 
     /**
      * Class to manage result from ActionRunnable
      */
     data class Result(var isSuccess: Boolean = true,
                       var message: String? = null,
-                      var exception: LoadDatabaseException? = null,
+                      var exception: DatabaseException? = null,
                       var data: Bundle? = null)
 }

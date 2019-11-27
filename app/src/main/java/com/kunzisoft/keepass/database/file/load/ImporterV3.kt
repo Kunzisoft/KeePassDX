@@ -93,11 +93,11 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             hdr.loadFromFile(filebuf, 0)
 
             if (hdr.signature1 != PwDbHeader.PWM_DBSIG_1 || hdr.signature2 != PwDbHeaderV3.DBSIG_2) {
-                throw LoadDatabaseSignatureException()
+                throw SignatureDatabaseException()
             }
 
             if (!hdr.matchesVersion()) {
-                throw LoadDatabaseVersionException()
+                throw VersionDatabaseException()
             }
 
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
@@ -108,7 +108,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             when {
                 hdr.flags and PwDbHeaderV3.FLAG_RIJNDAEL != 0 -> mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.AESRijndael
                 hdr.flags and PwDbHeaderV3.FLAG_TWOFISH != 0 -> mDatabaseToOpen.encryptionAlgorithm = PwEncryptionAlgorithm.Twofish
-                else -> throw LoadDatabaseInvalidAlgorithmException()
+                else -> throw InvalidAlgorithmDatabaseException()
             }
 
             mDatabaseToOpen.numberKeyEncryptionRounds = hdr.numKeyEncRounds.toLong()
@@ -151,7 +151,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             } catch (e1: IllegalBlockSizeException) {
                 throw IOException("Invalid block size")
             } catch (e1: BadPaddingException) {
-                throw LoadDatabaseInvalidCredentialsException()
+                throw InvalidCredentialsDatabaseException()
             }
 
             val md: MessageDigest
@@ -170,7 +170,7 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
             if (!Arrays.equals(hash, hdr.contentsHash)) {
 
                 Log.w(TAG, "Database file did not decrypt correctly. (checksum code is broken)")
-                throw LoadDatabaseInvalidCredentialsException()
+                throw InvalidCredentialsDatabaseException()
             }
 
             // New manual root because V3 contains multiple root groups (here available with getRootGroups())
@@ -223,9 +223,9 @@ class ImporterV3 : Importer<PwDatabaseV3>() {
         } catch (e: LoadDatabaseException) {
             throw e
         } catch (e: IOException) {
-            throw LoadDatabaseIOException(e)
+            throw IODatabaseException(e)
         } catch (e: OutOfMemoryError) {
-            throw LoadDatabaseNoMemoryException(e)
+            throw NoMemoryDatabaseException(e)
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         }

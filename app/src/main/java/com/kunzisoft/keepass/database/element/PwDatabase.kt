@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.database.element
 
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
-import com.kunzisoft.keepass.database.exception.LoadDatabaseKeyFileEmptyException
+import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.exception.KeyFileEmptyDatabaseException
 import org.apache.commons.io.IOUtils
 import java.io.*
 import java.security.MessageDigest
@@ -134,7 +134,7 @@ abstract class PwDatabase<
         }
 
         when (keyData.size.toLong()) {
-            0L -> throw LoadDatabaseKeyFileEmptyException()
+            0L -> throw KeyFileEmptyDatabaseException()
             32L -> return keyData
             64L -> try {
                 return hexStringToByteArray(String(keyData))
@@ -247,7 +247,7 @@ abstract class PwDatabase<
                 group.parent?.addChildGroup(group)
                 this.groupIndexes[newGroupId] = group
             } else {
-                throw LoadDatabaseDuplicateUuidException(Type.GROUP, groupId)
+                throw DuplicateUuidDatabaseException(Type.GROUP, groupId)
             }
         } else {
             this.groupIndexes[groupId] = group
@@ -296,7 +296,7 @@ abstract class PwDatabase<
                 entry.parent?.addChildEntry(entry)
                 this.entryIndexes[newEntryId] = entry
             } else {
-                throw LoadDatabaseDuplicateUuidException(Type.ENTRY, entryId)
+                throw DuplicateUuidDatabaseException(Type.ENTRY, entryId)
             }
         } else {
             this.entryIndexes[entryId] = entry

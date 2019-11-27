@@ -25,7 +25,7 @@ import com.kunzisoft.keepass.app.database.CipherDatabaseAction
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
+import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -62,7 +62,7 @@ class LoadDatabaseRunnable(private val context: Context,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
-        catch (e: LoadDatabaseDuplicateUuidException) {
+        catch (e: DuplicateUuidDatabaseException) {
             mDuplicateUuidAction?.invoke(result)
             setError(e)
         }

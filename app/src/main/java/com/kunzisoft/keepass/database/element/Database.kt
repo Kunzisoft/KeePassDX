@@ -322,7 +322,7 @@ class Database {
             inputStream = UriUtil.getUriInputStream(contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
-            throw LoadDatabaseFileNotFoundException()
+            throw FileNotFoundDatabaseException()
         }
 
         // Pass KeyFile Uri as InputStreams
@@ -332,7 +332,7 @@ class Database {
                 keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
-                throw LoadDatabaseFileNotFoundException()
+                throw FileNotFoundDatabaseException()
             }
         }
 
@@ -371,7 +371,7 @@ class Database {
                             progressTaskUpdater))
 
             // Header not recognized
-            else -> throw LoadDatabaseSignatureException()
+            else -> throw SignatureDatabaseException()
         }
 
         this.mSearchHelper = SearchDbHelper(omitBackup)
@@ -437,16 +437,20 @@ class Database {
         return entry
     }
 
-    @Throws(IOException::class, DatabaseOutputException::class)
+    @Throws(DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
-        this.fileUri?.let {
-            saveData(contentResolver, it)
+        try {
+            this.fileUri?.let {
+                saveData(contentResolver, it)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to save database", e)
+            throw DatabaseOutputException(e)
         }
     }
 
     @Throws(IOException::class, DatabaseOutputException::class)
     private fun saveData(contentResolver: ContentResolver, uri: Uri) {
-        val errorMessage = "Failed to store database."
 
         if (uri.scheme == "file") {
             uri.path?.let { filename ->
@@ -459,8 +463,7 @@ class Database {
                             ?: pwDatabaseV4?.let { PwDbV4Output(it, fileOutputStream) }
                     pmo?.output()
                 } catch (e: Exception) {
-                    Log.e(TAG, errorMessage, e)
-                    throw IOException(errorMessage, e)
+                    throw IOException(e)
                 } finally {
                     fileOutputStream?.close()
                 }
@@ -473,7 +476,7 @@ class Database {
                 }
     
                 if (!tempFile.renameTo(File(filename))) {
-                    throw IOException(errorMessage)
+                    throw IOException()
                 }
             }
         } else {
@@ -485,8 +488,7 @@ class Database {
                         ?: pwDatabaseV4?.let { PwDbV4Output(it, outputStream) }
                 pmo?.output()
             } catch (e: Exception) {
-                Log.e(TAG, errorMessage, e)
-                throw IOException(errorMessage, e)
+                throw IOException(e)
             } finally {
                 outputStream?.close()
             }

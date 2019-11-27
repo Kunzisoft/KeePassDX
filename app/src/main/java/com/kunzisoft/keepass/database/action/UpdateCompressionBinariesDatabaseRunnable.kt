@@ -40,7 +40,7 @@ class UpdateCompressionBinariesDatabaseRunnable (
                     compressionAlgorithm = newCompressionAlgorithm
                 }
             } catch (e: Exception) {
-                setError(e.message)
+                setError(e)
             }
         }
 
@@ -58,7 +58,7 @@ class UpdateCompressionBinariesDatabaseRunnable (
                         updateDataBinaryCompression(newCompressionAlgorithm, oldCompressionAlgorithm)
                     }
                 } catch (e: Exception) {
-                    setError(e.message)
+                    setError(e)
                 }
             }
         }

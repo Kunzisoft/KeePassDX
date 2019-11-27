@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.CopyDatabaseEntryException
-import com.kunzisoft.keepass.database.exception.CopyDatabaseGroupException
+import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
+import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 
 class CopyNodesRunnable constructor(
         context: Context,
@@ -42,7 +42,7 @@ class CopyNodesRunnable constructor(
             when (currentNode.type) {
                 Type.GROUP -> {
                     Log.e(TAG, "Copy not allowed for group")// Only finish thread
-                    setError(CopyDatabaseGroupException())
+                    setError(CopyGroupDatabaseException())
                     break@foreachNode
                 }
                 Type.ENTRY -> {
@@ -57,12 +57,12 @@ class CopyNodesRunnable constructor(
                             mEntriesCopied.add(entryCopied)
                         } else {
                             Log.e(TAG, "Unable to create a copy of the entry")
-                            setError(CopyDatabaseEntryException())
+                            setError(CopyEntryDatabaseException())
                             break@foreachNode
                         }
                     } else {
                         // Only finish thread
-                        setError(CopyDatabaseEntryException())
+                        setError(CopyEntryDatabaseException())
                         break@foreachNode
                     }
                 }

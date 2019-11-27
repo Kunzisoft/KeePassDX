@@ -68,8 +68,6 @@ class BinaryAttachment : Parcelable {
     fun getInputDataStream(): InputStream {
         return when {
             dataFile != null -> FileInputStream(dataFile!!)
-            // TODO
-            // else -> throw IOException("Unable to get binary data")
             else -> ByteArrayInputStream(ByteArray(0))
         }
     }

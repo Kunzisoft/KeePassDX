@@ -115,7 +115,7 @@ class ImporterV4(private val streamDir: File,
                 mDatabase.encryptionAlgorithm = engine.getPwEncryptionAlgorithm()
                 cipher = engine.getCipher(Cipher.DECRYPT_MODE, mDatabase.finalKey!!, header.encryptionIV)
             } catch (e: Exception) {
-                throw LoadDatabaseInvalidAlgorithmException(e)
+                throw InvalidAlgorithmDatabaseException(e)
             }
 
             val isPlain: InputStream
@@ -127,14 +127,14 @@ class ImporterV4(private val streamDir: File,
                 try {
                     storedStartBytes = dataDecrypted.readBytes(32)
                     if (storedStartBytes == null || storedStartBytes.size != 32) {
-                        throw LoadDatabaseInvalidCredentialsException()
+                        throw InvalidCredentialsDatabaseException()
                     }
                 } catch (e: IOException) {
-                    throw LoadDatabaseInvalidCredentialsException()
+                    throw InvalidCredentialsDatabaseException()
                 }
 
                 if (!Arrays.equals(storedStartBytes, header.streamStartBytes)) {
-                    throw LoadDatabaseInvalidCredentialsException()
+                    throw InvalidCredentialsDatabaseException()
                 }
 
                 isPlain = HashedBlockInputStream(dataDecrypted)
@@ -142,18 +142,18 @@ class ImporterV4(private val streamDir: File,
                 val isData = LEDataInputStream(databaseInputStream)
                 val storedHash = isData.readBytes(32)
                 if (!Arrays.equals(storedHash, hashOfHeader)) {
-                    throw LoadDatabaseInvalidCredentialsException()
+                    throw InvalidCredentialsDatabaseException()
                 }
 
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
                 val headerHmac = PwDbHeaderV4.computeHeaderHmac(pbHeader, hmacKey)
                 val storedHmac = isData.readBytes(32)
                 if (storedHmac == null || storedHmac.size != 32) {
-                    throw LoadDatabaseInvalidCredentialsException()
+                    throw InvalidCredentialsDatabaseException()
                 }
                 // Mac doesn't match
                 if (!Arrays.equals(headerHmac, storedHmac)) {
-                    throw LoadDatabaseInvalidCredentialsException()
+                    throw InvalidCredentialsDatabaseException()
                 }
 
                 val hmIs = HmacBlockInputStream(isData, true, hmacKey)
@@ -174,7 +174,7 @@ class ImporterV4(private val streamDir: File,
             randomStream = StreamCipherFactory.getInstance(header.innerRandomStream, header.innerRandomStreamKey)
 
             if (randomStream == null) {
-                throw LoadDatabaseArcFourException()
+                throw ArcFourDatabaseException()
             }
 
             readDocumentStreamed(createPullParser(inputStreamXml))
@@ -182,14 +182,14 @@ class ImporterV4(private val streamDir: File,
         } catch (e: LoadDatabaseException) {
             throw e
         } catch (e: XmlPullParserException) {
-            throw LoadDatabaseIOException(e)
+            throw IODatabaseException(e)
         } catch (e: IOException) {
             if (e.message?.contains("Hash failed with code") == true)
-                throw LoadDatabaseKDFMemoryException(e)
+                throw KDFMemoryDatabaseException(e)
             else
-                throw LoadDatabaseIOException(e)
+                throw IODatabaseException(e)
         } catch (e: OutOfMemoryError) {
-            throw LoadDatabaseNoMemoryException(e)
+            throw NoMemoryDatabaseException(e)
         } catch (e: Exception) {
             throw LoadDatabaseException(e)
         }

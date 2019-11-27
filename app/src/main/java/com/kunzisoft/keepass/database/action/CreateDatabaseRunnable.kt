@@ -46,7 +46,7 @@ class CreateDatabaseRunnable(context: Context,
             }
         } catch (e: Exception) {
             mDatabase.closeAndClear()
-            setError(e.message)
+            setError(e)
         }
 
         super.onStartRun()
