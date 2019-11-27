@@ -54,7 +54,7 @@ constructor(private val db: PwDatabaseV4, private val header: PwDbHeaderV4, os: 
         try {
             md = MessageDigest.getInstance("SHA-256")
         } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("SHA-256 not implemented here.")
+            throw DatabaseOutputException("SHA-256 not implemented here.", e)
         }
 
         try {

@@ -34,7 +34,7 @@ abstract class PwDbOutput<Header : PwDbHeader> protected constructor(protected v
         try {
             random = SecureRandom.getInstance("SHA1PRNG")
         } catch (e: NoSuchAlgorithmException) {
-            throw DatabaseOutputException("Does not support secure random number generation.")
+            throw DatabaseOutputException("Does not support secure random number generation.", e)
         }
 
         random.nextBytes(header.encryptionIV)

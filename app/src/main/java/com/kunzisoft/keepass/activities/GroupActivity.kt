@@ -243,9 +243,11 @@ class GroupActivity : LockingActivity(),
                 }
 
                 if (!result.isSuccess) {
-                    result.exception?.errorId?.let { errorId ->
-                        coordinatorLayout?.let { coordinatorLayout ->
+                    coordinatorLayout?.let { coordinatorLayout ->
+                        result.exception?.errorId?.let { errorId ->
                             Snackbar.make(coordinatorLayout, errorId, Snackbar.LENGTH_LONG).asError().show()
+                        } ?: result.message?.let { message ->
+                            Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
                 }

@@ -22,10 +22,10 @@ package com.kunzisoft.keepass.database.file.save
 import com.kunzisoft.keepass.database.element.PwDatabaseV4
 import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.stream.ActionReadBytes
+import com.kunzisoft.keepass.stream.ReadBytes
 import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.readFromStream
 import java.io.IOException
-import java.io.InputStream
 import java.io.OutputStream
 import kotlin.experimental.or
 
@@ -48,7 +48,7 @@ class PwDbInnerHeaderOutputV4(private val database: PwDatabaseV4,
         dataOutputStream.writeInt(streamKeySize)
         dataOutputStream.write(header.innerRandomStreamKey)
 
-        database.binPool.doForEachBinary { _, protectedBinary ->
+        database.binaryPool.doForEachBinary { _, protectedBinary ->
             var flag = PwDbHeaderV4.KdbxBinaryFlags.None
             if (protectedBinary.isProtected) {
                 flag = flag or PwDbHeaderV4.KdbxBinaryFlags.Protected
@@ -58,32 +58,16 @@ class PwDbInnerHeaderOutputV4(private val database: PwDatabaseV4,
             dataOutputStream.writeInt(protectedBinary.length().toInt() + 1) // TODO verify
             dataOutputStream.write(flag.toInt())
 
-            protectedBinary.getData()?.let {
-                readBytes(it, ActionReadBytes { buffer ->
-                    dataOutputStream.write(buffer)
-                })
-            } ?: throw IOException("Can't write protected binary")
+            readFromStream(protectedBinary.getInputDataStream(), BUFFER_SIZE_BYTES,
+                object : ReadBytes {
+                    override fun read(buffer: ByteArray) {
+                        dataOutputStream.write(buffer)
+                    }
+                }
+            )
         }
 
         dataOutputStream.write(PwDbHeaderV4.PwDbInnerHeaderV4Fields.EndOfHeader.toInt())
         dataOutputStream.writeInt(0)
     }
-
-    @Throws(IOException::class)
-    fun readBytes(inputStream: InputStream, actionReadBytes: ActionReadBytes) {
-        val buffer = ByteArray(BUFFER_SIZE_BYTES)
-        var read = 0
-        while (read != -1) {
-            read = inputStream.read(buffer, 0, buffer.size)
-            if (read != -1) {
-                val optimizedBuffer: ByteArray = if (buffer.size == read) {
-                    buffer
-                } else {
-                    buffer.copyOf(read)
-                }
-                actionReadBytes.doAction(optimizedBuffer)
-            }
-        }
-    }
-
 }

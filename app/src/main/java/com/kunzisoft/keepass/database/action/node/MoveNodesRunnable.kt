@@ -22,9 +22,8 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.exception.MoveDatabaseEntryException
-import com.kunzisoft.keepass.database.exception.MoveDatabaseGroupException
+import com.kunzisoft.keepass.database.exception.EntryDatabaseException
+import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 
 class MoveNodesRunnable constructor(
         context: Context,
@@ -53,7 +52,7 @@ class MoveNodesRunnable constructor(
                         database.moveGroupTo(groupToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        setError(MoveDatabaseGroupException())
+                        setError(MoveGroupDatabaseException())
                         break@foreachNode
                     }
                 }
@@ -67,7 +66,7 @@ class MoveNodesRunnable constructor(
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        setError(MoveDatabaseEntryException())
+                        setError(EntryDatabaseException())
                         break@foreachNode
                     }
                 }

@@ -58,7 +58,7 @@ open class AssignPasswordInDatabaseRunnable (
             database.retrieveMasterKey(mMasterPassword, uriInputStream)
         } catch (e: Exception) {
             erase(mBackupKey)
-            setError(e.message)
+            setError(e)
         }
 
         super.onStartRun()

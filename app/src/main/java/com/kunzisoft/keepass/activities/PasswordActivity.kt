@@ -58,7 +58,7 @@ import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.exception.LoadDatabaseDuplicateUuidException
+import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
@@ -189,7 +189,7 @@ class PasswordActivity : StylishActivity() {
                                 resultError = resultException.getLocalizedMessage(resources)
 
                                 // Relaunch loading if we need to fix UUID
-                                if (resultException is LoadDatabaseDuplicateUuidException) {
+                                if (resultException is DuplicateUuidDatabaseException) {
                                     showLoadDatabaseDuplicateUuidMessage {
 
                                         var databaseUri: Uri? = null

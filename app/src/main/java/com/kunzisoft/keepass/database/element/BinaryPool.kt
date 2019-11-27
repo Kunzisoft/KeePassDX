@@ -20,25 +20,27 @@
 package com.kunzisoft.keepass.database.element
 
 import android.util.SparseArray
-import com.kunzisoft.keepass.database.element.security.ProtectedBinary
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import java.io.IOException
 
 class BinaryPool {
-    private val pool = SparseArray<ProtectedBinary>()
+    private val pool = SparseArray<BinaryAttachment>()
 
-    operator fun get(key: Int): ProtectedBinary? {
+    operator fun get(key: Int): BinaryAttachment? {
         return pool[key]
     }
 
-    fun put(key: Int, value: ProtectedBinary) {
+    fun put(key: Int, value: BinaryAttachment) {
         pool.put(key, value)
     }
 
-    fun doForEachBinary(action: (key: Int, binary: ProtectedBinary) -> Unit) {
+    fun doForEachBinary(action: (key: Int, binary: BinaryAttachment) -> Unit) {
         for (i in 0 until pool.size()) {
             action.invoke(i, pool.get(pool.keyAt(i)))
         }
     }
 
+    @Throws(IOException::class)
     fun clear() {
         doForEachBinary { _, binary ->
             binary.clear()
@@ -46,9 +48,9 @@ class BinaryPool {
         pool.clear()
     }
 
-    fun add(protectedBinary: ProtectedBinary) {
-        if (findKey(protectedBinary) == null) {
-            pool.put(findUnusedKey(), protectedBinary)
+    fun add(fileBinary: BinaryAttachment) {
+        if (findKey(fileBinary) == null) {
+            pool.put(findUnusedKey(), fileBinary)
         }
     }
 
@@ -59,7 +61,7 @@ class BinaryPool {
         return unusedKey
     }
 
-    fun findKey(pb: ProtectedBinary): Int? {
+    fun findKey(pb: BinaryAttachment): Int? {
         for (i in 0 until pool.size()) {
             if (pool.get(pool.keyAt(i)) == pb) return i
         }
