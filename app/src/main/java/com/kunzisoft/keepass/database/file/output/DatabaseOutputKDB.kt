@@ -20,9 +20,9 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.DatabaseKDB
-import com.kunzisoft.keepass.database.element.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.element.GroupKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB

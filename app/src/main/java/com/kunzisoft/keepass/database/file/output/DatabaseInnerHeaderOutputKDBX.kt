@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.database.element.DatabaseKDBX
-import com.kunzisoft.keepass.database.element.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.stream.ReadBytes
 import com.kunzisoft.keepass.stream.LEDataOutputStream

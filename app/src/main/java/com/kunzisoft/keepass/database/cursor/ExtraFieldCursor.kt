@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.database.cursor
 import android.database.MatrixCursor
 import android.provider.BaseColumns
 
-import com.kunzisoft.keepass.database.element.EntryKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
 class ExtraFieldCursor : MatrixCursor(arrayOf(

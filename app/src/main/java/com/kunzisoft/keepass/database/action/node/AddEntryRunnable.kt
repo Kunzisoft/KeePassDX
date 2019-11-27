@@ -23,7 +23,7 @@ import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.Node
+import com.kunzisoft.keepass.database.element.node.Node
 
 class AddEntryRunnable constructor(
         context: Context,

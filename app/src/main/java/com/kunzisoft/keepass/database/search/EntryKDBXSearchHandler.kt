@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.database.search
 
-import com.kunzisoft.keepass.database.NodeHandler
-import com.kunzisoft.keepass.database.element.EntryKDBX
+import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import com.kunzisoft.keepass.utils.StringUtil
 

@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGrou
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
 class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {

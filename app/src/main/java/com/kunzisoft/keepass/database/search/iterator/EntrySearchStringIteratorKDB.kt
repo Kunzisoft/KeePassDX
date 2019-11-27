@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.search.iterator
 
-import com.kunzisoft.keepass.database.element.EntryKDB
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.search.SearchParameters
 
 import java.util.NoSuchElementException

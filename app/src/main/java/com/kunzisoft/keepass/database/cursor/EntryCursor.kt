@@ -2,9 +2,9 @@ package com.kunzisoft.keepass.database.cursor
 
 import android.database.MatrixCursor
 import android.provider.BaseColumns
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.IconImageFactory
-import com.kunzisoft.keepass.database.element.NodeId
+import com.kunzisoft.keepass.database.element.entry.EntryVersioned
+import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.node.NodeId
 
 abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>> : MatrixCursor(arrayOf(
         _ID,

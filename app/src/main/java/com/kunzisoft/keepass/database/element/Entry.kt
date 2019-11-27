@@ -2,6 +2,17 @@ package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryVersionedInterface
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field

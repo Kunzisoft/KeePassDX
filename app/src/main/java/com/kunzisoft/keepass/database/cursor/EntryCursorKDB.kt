@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.database.cursor
 
-import com.kunzisoft.keepass.database.element.DatabaseVersioned
-import com.kunzisoft.keepass.database.element.EntryKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
 
 class EntryCursorKDB : EntryCursorUUID<EntryKDB>() {
 

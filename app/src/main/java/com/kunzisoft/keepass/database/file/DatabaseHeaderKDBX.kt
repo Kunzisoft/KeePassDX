@@ -23,8 +23,12 @@ import com.kunzisoft.keepass.crypto.CrsAlgorithm
 import com.kunzisoft.keepass.crypto.keyDerivation.AesKdf
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
-import com.kunzisoft.keepass.database.NodeHandler
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.group.GroupKDBX
+import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
@@ -89,7 +93,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         this.masterSeed = ByteArray(32)
     }
 
-    private inner class NodeHasCustomData<T:NodeKDBXInterface> : NodeHandler<T>() {
+    private inner class NodeHasCustomData<T: NodeKDBXInterface> : NodeHandler<T>() {
 
         internal var containsCustomData = false
 

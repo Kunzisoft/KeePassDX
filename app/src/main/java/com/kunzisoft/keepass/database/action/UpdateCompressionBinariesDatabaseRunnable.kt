@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 
 class UpdateCompressionBinariesDatabaseRunnable (
         context: Context,

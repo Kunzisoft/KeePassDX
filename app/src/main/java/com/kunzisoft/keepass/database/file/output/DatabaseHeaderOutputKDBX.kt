@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.utils.VariantDictionary
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
-import com.kunzisoft.keepass.database.element.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException

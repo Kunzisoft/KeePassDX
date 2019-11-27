@@ -25,9 +25,17 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.NodeHandler
+import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.cursor.EntryCursorKDB
 import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
@@ -35,7 +43,7 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
-import com.kunzisoft.keepass.database.search.SearchDbHelper
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -55,7 +63,7 @@ class Database {
     var fileUri: Uri? = null
         private set
 
-    private var mSearchHelper: SearchDbHelper? = null
+    private var mSearchHelper: SearchHelper? = null
 
     var isReadOnly = false
 
@@ -374,7 +382,7 @@ class Database {
             else -> throw SignatureDatabaseException()
         }
 
-        this.mSearchHelper = SearchDbHelper(omitBackup)
+        this.mSearchHelper = SearchHelper(omitBackup)
         loaded = true
     }
 
@@ -399,7 +407,7 @@ class Database {
         if (mDatabaseKDBX != null)
             cursorKDBX = EntryCursorKDBX()
 
-        val searchResult = search(query, SearchDbHelper.MAX_SEARCH_ENTRY)
+        val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
             for (entry in searchResult.getChildEntries(true)) {
                 entry.entryKDB?.let {

@@ -48,7 +48,12 @@ package com.kunzisoft.keepass.database.file.input
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
+import com.kunzisoft.keepass.database.element.group.GroupKDB
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB

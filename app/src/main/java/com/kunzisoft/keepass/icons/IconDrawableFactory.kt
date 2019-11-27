@@ -33,9 +33,9 @@ import androidx.core.widget.ImageViewCompat
 import android.util.Log
 import android.widget.ImageView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.IconImage
-import com.kunzisoft.keepass.database.element.IconImageCustom
-import com.kunzisoft.keepass.database.element.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import org.apache.commons.collections.map.AbstractReferenceMap
 import org.apache.commons.collections.map.ReferenceMap
 

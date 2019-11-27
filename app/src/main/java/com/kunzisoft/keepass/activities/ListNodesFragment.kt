@@ -20,14 +20,14 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.NodeAdapter
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.element.Node
+import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Type
+import com.kunzisoft.keepass.database.element.node.Type
 import java.util.*
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {

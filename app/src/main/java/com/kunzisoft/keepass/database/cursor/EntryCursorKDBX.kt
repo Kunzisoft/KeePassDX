@@ -1,7 +1,7 @@
 package com.kunzisoft.keepass.database.cursor
 
-import com.kunzisoft.keepass.database.element.EntryKDBX
-import com.kunzisoft.keepass.database.element.IconImageFactory
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 
 import java.util.UUID
 

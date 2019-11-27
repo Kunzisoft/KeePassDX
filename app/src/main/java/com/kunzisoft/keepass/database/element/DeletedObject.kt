@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import java.util.Date
 import java.util.UUID
 

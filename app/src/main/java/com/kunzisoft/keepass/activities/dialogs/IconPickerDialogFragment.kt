@@ -35,7 +35,7 @@ import android.widget.GridView
 import android.widget.ImageView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.database.element.IconImageStandard
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconPack
 import com.kunzisoft.keepass.icons.IconPackChooser
 

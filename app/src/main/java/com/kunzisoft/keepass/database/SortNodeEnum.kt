@@ -22,8 +22,8 @@ package com.kunzisoft.keepass.database
 
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Node
-import com.kunzisoft.keepass.database.element.Type
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
 import java.util.*
 
 enum class SortNodeEnum {

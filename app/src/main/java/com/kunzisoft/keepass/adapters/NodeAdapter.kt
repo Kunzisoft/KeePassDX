@@ -36,6 +36,8 @@ import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*

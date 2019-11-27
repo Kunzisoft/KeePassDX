@@ -31,7 +31,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.cursor.EntryCursor
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*

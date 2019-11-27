@@ -1,8 +1,8 @@
 package com.kunzisoft.keepass.database.cursor
 
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.NodeId
-import com.kunzisoft.keepass.database.element.NodeIdUUID
+import com.kunzisoft.keepass.database.element.entry.EntryVersioned
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import java.util.*
 
 abstract class EntryCursorUUID<EntryV: EntryVersioned<*, UUID, *, *>>: EntryCursor<UUID, EntryV>() {

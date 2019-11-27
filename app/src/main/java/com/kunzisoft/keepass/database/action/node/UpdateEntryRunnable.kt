@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.Node
+import com.kunzisoft.keepass.database.element.node.Node
 
 class UpdateEntryRunnable constructor(
         context: Context,

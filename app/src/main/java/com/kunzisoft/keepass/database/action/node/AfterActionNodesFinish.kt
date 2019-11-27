@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.element.Node
+import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**

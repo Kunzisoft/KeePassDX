@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.input
 
-import com.kunzisoft.keepass.database.element.DatabaseVersioned
+import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.InputStream

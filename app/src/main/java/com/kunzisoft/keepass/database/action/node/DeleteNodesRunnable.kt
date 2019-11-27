@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
 
 class DeleteNodesRunnable(context: Context,
                           database: Database,

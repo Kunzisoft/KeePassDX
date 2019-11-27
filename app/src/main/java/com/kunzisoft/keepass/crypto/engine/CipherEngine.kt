@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto.engine
 
-import com.kunzisoft.keepass.database.element.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException

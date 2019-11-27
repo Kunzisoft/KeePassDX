@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon

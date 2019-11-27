@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.database.element.EntryKDB
+import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 

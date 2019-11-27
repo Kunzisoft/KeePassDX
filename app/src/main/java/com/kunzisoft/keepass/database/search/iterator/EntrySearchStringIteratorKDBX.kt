@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.search.iterator
 
-import com.kunzisoft.keepass.database.element.EntryKDBX
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.search.SearchParametersKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import java.util.*
