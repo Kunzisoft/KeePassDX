@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.save
+package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.GroupKDB
 import com.kunzisoft.keepass.stream.LEDataOutputStream

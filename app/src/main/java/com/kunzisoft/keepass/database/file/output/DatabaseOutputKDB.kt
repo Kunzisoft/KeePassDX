@@ -17,28 +17,31 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.save
+package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DatabaseKDB
+import com.kunzisoft.keepass.database.element.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
-
-import javax.crypto.Cipher
-import javax.crypto.CipherOutputStream
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.security.*
-import java.util.ArrayList
+import java.util.*
+import javax.crypto.Cipher
+import javax.crypto.CipherOutputStream
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
-class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB, os: OutputStream) : DatabaseOutput<DatabaseHeaderKDB>(os) {
+class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
+                        outputStream: OutputStream)
+    : DatabaseOutput<DatabaseHeaderKDB>(outputStream) {
 
     private var headerHashBlock: ByteArray? = null
 

@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.save
+package com.kunzisoft.keepass.database.file.output
 
 import android.util.Base64
 import android.util.Log
@@ -35,14 +35,15 @@ import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.UnknownKDF
-import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
-import java.io.*
+import java.io.IOException
+import java.io.OutputStream
 import java.security.NoSuchAlgorithmException
 import java.security.SecureRandom
 import java.util.*
@@ -53,7 +54,8 @@ import javax.crypto.CipherOutputStream
 
 
 class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
-                         outputStream: OutputStream) : DatabaseOutput<DatabaseHeaderKDBX>(outputStream) {
+                         outputStream: OutputStream)
+    : DatabaseOutput<DatabaseHeaderKDBX>(outputStream) {
 
     private var randomStream: StreamCipher? = null
     private lateinit var xml: XmlSerializer

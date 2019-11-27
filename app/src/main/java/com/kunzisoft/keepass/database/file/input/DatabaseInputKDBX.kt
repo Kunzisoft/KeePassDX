@@ -17,7 +17,7 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.load
+package com.kunzisoft.keepass.database.file.input
 
 import android.util.Base64
 import com.kunzisoft.keepass.R
@@ -47,8 +47,8 @@ import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import kotlin.math.min
 
-class ImporterKDBX(private val streamDir: File,
-                   private val fixDuplicateUUID: Boolean = false) : Importer<DatabaseKDBX>() {
+class DatabaseInputKDBX(private val streamDir: File,
+                        private val fixDuplicateUUID: Boolean = false) : DatabaseInput<DatabaseKDBX>() {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: DatabaseKDBX

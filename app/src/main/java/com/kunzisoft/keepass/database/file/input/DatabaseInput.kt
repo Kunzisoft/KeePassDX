@@ -17,14 +17,14 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.load
+package com.kunzisoft.keepass.database.file.input
 
 import com.kunzisoft.keepass.database.element.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.InputStream
 
-abstract class Importer<PwDb : DatabaseVersioned<*, *, *, *>> {
+abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>> {
 
     /**
      * Load a versioned database file, return contents in a new DatabaseVersioned.

@@ -31,10 +31,10 @@ import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.database.file.load.ImporterKDB
-import com.kunzisoft.keepass.database.file.load.ImporterKDBX
-import com.kunzisoft.keepass.database.file.save.DatabaseOutputKDB
-import com.kunzisoft.keepass.database.file.save.DatabaseOutputKDBX
+import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
+import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
+import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
+import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchDbHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.stream.LEDataInputStream
@@ -355,14 +355,14 @@ class Database {
 
         when {
             // Header of database KDB
-            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(ImporterKDB()
+            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
                     .openDatabase(bufferedInputStream,
                             password,
                             keyFileInputStream,
                             progressTaskUpdater))
 
             // Header of database KDBX
-            DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(ImporterKDBX(
+            DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
                     cacheDirectory,
                     fixDuplicateUUID)
                     .openDatabase(bufferedInputStream,

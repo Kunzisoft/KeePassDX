@@ -17,7 +17,7 @@
  *  along with KeePassDroid.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.file.save
+package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES

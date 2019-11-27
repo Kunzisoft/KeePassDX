@@ -43,7 +43,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package com.kunzisoft.keepass.database.file.load
+package com.kunzisoft.keepass.database.file.input
 
 import android.util.Log
 import com.kunzisoft.keepass.R
@@ -69,7 +69,7 @@ import java.util.Arrays
 /**
  * Load a KDB database file.
  */
-class ImporterKDB : Importer<DatabaseKDB>() {
+class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
 
     private lateinit var mDatabaseToOpen: DatabaseKDB
 
@@ -340,6 +340,6 @@ class ImporterKDB : Importer<DatabaseKDB>() {
     }
 
     companion object {
-        private val TAG = ImporterKDB::class.java.name
+        private val TAG = DatabaseInputKDB::class.java.name
     }
 }
