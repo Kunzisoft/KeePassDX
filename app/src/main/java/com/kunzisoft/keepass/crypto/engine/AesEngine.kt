@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.crypto.engine
 
 
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.EncryptionAlgorithm
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -41,8 +41,8 @@ class AesEngine : CipherEngine() {
         return cipher
     }
 
-    override fun getPwEncryptionAlgorithm(): PwEncryptionAlgorithm {
-        return PwEncryptionAlgorithm.AESRijndael
+    override fun getPwEncryptionAlgorithm(): EncryptionAlgorithm {
+        return EncryptionAlgorithm.AESRijndael
     }
 
     companion object {

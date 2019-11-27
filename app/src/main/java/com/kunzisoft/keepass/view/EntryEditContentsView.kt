@@ -11,7 +11,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.database.element.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -81,7 +81,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryIconView.assignDefaultDatabaseIcon(iconFactory, iconColor)
     }
 
-    fun setIcon(iconFactory: IconDrawableFactory, icon: PwIcon) {
+    fun setIcon(iconFactory: IconDrawableFactory, icon: IconImage) {
         entryIconView.assignDatabaseIcon(iconFactory, icon, iconColor)
     }
 

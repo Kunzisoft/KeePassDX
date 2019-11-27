@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.database.action
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.CompressionAlgorithm
 
 class UpdateCompressionBinariesDatabaseRunnable (
         context: Context,
         database: Database,
-        private val oldCompressionAlgorithm: PwCompressionAlgorithm,
-        private val newCompressionAlgorithm: PwCompressionAlgorithm,
+        private val oldCompressionAlgorithm: CompressionAlgorithm,
+        private val newCompressionAlgorithm: CompressionAlgorithm,
         saveDatabase: Boolean)
     : SaveDatabaseRunnable(context, database, saveDatabase) {
 

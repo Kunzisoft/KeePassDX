@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.database.action.node
 
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.Node
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
@@ -30,7 +30,7 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
  * - Move : @param oldNodes empty, @param newNodes NodesToMove
  * - Update : @param oldNodes NodesToUpdate, @param newNodes NodesUpdated
  */
-class ActionNodesValues(val oldNodes: List<NodeVersioned>, val newNodes: List<NodeVersioned>)
+class ActionNodesValues(val oldNodes: List<Node>, val newNodes: List<Node>)
 
 abstract class AfterActionNodesFinish {
     abstract fun onActionNodesFinish(result: ActionRunnable.Result, actionNodesValues: ActionNodesValues)

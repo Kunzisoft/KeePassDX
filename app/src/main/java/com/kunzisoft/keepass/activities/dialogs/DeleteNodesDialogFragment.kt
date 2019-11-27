@@ -26,14 +26,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.Node
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getListNodesFromBundle
 
 class DeleteNodesDialogFragment : DialogFragment() {
 
-    private var mNodesToDelete: List<NodeVersioned> = ArrayList()
+    private var mNodesToDelete: List<Node> = ArrayList()
     private var mListener: DeleteNodeListener? = null
 
     override fun onAttach(context: Context) {
@@ -80,11 +80,11 @@ class DeleteNodesDialogFragment : DialogFragment() {
     }
 
     interface DeleteNodeListener {
-        fun permanentlyDeleteNodes(nodes: List<NodeVersioned>)
+        fun permanentlyDeleteNodes(nodes: List<Node>)
     }
 
     companion object {
-        fun getInstance(nodesToDelete: List<NodeVersioned>): DeleteNodesDialogFragment {
+        fun getInstance(nodesToDelete: List<Node>): DeleteNodesDialogFragment {
             return DeleteNodesDialogFragment().apply {
                 arguments = getBundleFromListNodes(nodesToDelete)
             }

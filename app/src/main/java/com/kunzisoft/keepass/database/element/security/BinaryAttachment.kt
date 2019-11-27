@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.database.element.security
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.PwDatabaseV4.Companion.BUFFER_SIZE_BYTES
+import com.kunzisoft.keepass.database.element.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.stream.ReadBytes
 import com.kunzisoft.keepass.stream.readFromStream
 import java.io.*

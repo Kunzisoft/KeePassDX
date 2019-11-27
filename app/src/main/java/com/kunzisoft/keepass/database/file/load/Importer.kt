@@ -19,19 +19,19 @@
  */
 package com.kunzisoft.keepass.database.file.load
 
-import com.kunzisoft.keepass.database.element.PwDatabase
+import com.kunzisoft.keepass.database.element.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import java.io.InputStream
 
-abstract class Importer<PwDb : PwDatabase<*, *, *, *>> {
+abstract class Importer<PwDb : DatabaseVersioned<*, *, *, *>> {
 
     /**
-     * Load a versioned database file, return contents in a new PwDatabase.
+     * Load a versioned database file, return contents in a new DatabaseVersioned.
      *
      * @param databaseInputStream  Existing file to load.
      * @param password Pass phrase for infile.
-     * @return new PwDatabase container.
+     * @return new DatabaseVersioned container.
      *
      * @throws LoadDatabaseException on database error (contains IO exceptions)
      */

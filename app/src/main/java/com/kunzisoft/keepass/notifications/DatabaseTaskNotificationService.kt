@@ -298,7 +298,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getGroupById(intent.getParcelableExtra(GROUP_ID_KEY))?.let { oldGroup ->
-                val newGroup: GroupVersioned = intent.getParcelableExtra(GROUP_KEY)
+                val newGroup: Group = intent.getParcelableExtra(GROUP_KEY)
                 UpdateGroupRunnable(this,
                         database,
                         oldGroup,
@@ -337,7 +337,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { oldEntry ->
-                val newEntry: EntryVersioned = intent.getParcelableExtra(ENTRY_KEY)
+                val newEntry: Entry = intent.getParcelableExtra(ENTRY_KEY)
                 UpdateEntryRunnable(this,
                         database,
                         oldEntry,
@@ -535,14 +535,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
 
-        fun getListNodesFromBundle(database: Database, bundle: Bundle): List<NodeVersioned> {
-            val nodesAction = ArrayList<NodeVersioned>()
-            bundle.getParcelableArrayList<PwNodeId<*>>(GROUPS_ID_KEY)?.forEach {
+        fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
+            val nodesAction = ArrayList<Node>()
+            bundle.getParcelableArrayList<NodeId<*>>(GROUPS_ID_KEY)?.forEach {
                 database.getGroupById(it)?.let { groupRetrieve ->
                     nodesAction.add(groupRetrieve)
                 }
             }
-            bundle.getParcelableArrayList<PwNodeId<UUID>>(ENTRIES_ID_KEY)?.forEach {
+            bundle.getParcelableArrayList<NodeId<UUID>>(ENTRIES_ID_KEY)?.forEach {
                 database.getEntryById(it)?.let { entryRetrieve ->
                     nodesAction.add(entryRetrieve)
                 }
@@ -550,18 +550,18 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             return nodesAction
         }
 
-        fun getBundleFromListNodes(nodes: List<NodeVersioned>): Bundle {
-            val groupsId = ArrayList<PwNodeId<*>>()
-            val entriesId = ArrayList<PwNodeId<UUID>>()
+        fun getBundleFromListNodes(nodes: List<Node>): Bundle {
+            val groupsId = ArrayList<NodeId<*>>()
+            val entriesId = ArrayList<NodeId<UUID>>()
             nodes.forEach { nodeVersioned ->
                 when (nodeVersioned.type) {
                     Type.GROUP -> {
-                        (nodeVersioned as GroupVersioned).nodeId?.let { groupId ->
+                        (nodeVersioned as Group).nodeId?.let { groupId ->
                             groupsId.add(groupId)
                         }
                     }
                     Type.ENTRY -> {
-                        entriesId.add((nodeVersioned as EntryVersioned).nodeId)
+                        entriesId.add((nodeVersioned as Entry).nodeId)
                     }
                 }
             }

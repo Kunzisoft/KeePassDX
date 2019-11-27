@@ -33,8 +33,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.CREATION
 import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment.EditGroupDialogAction.UPDATE
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 
 class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconPickerListener {
@@ -45,7 +45,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
 
     private var editGroupDialogAction: EditGroupDialogAction? = null
     private var nameGroup: String? = null
-    private var iconGroup: PwIcon? = null
+    private var iconGroup: IconImage? = null
 
     private var nameTextLayoutView: TextInputLayout? = null
     private var nameTextView: TextView? = null
@@ -186,8 +186,8 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
     }
 
     interface EditGroupListener {
-        fun approveEditGroup(action: EditGroupDialogAction?, name: String?, icon: PwIcon?)
-        fun cancelEditGroup(action: EditGroupDialogAction?, name: String?, icon: PwIcon?)
+        fun approveEditGroup(action: EditGroupDialogAction?, name: String?, icon: IconImage?)
+        fun cancelEditGroup(action: EditGroupDialogAction?, name: String?, icon: IconImage?)
     }
 
     companion object {
@@ -206,7 +206,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
             return fragment
         }
 
-        fun build(group: GroupVersioned): GroupEditDialogFragment {
+        fun build(group: Group): GroupEditDialogFragment {
             val bundle = Bundle()
             bundle.putString(KEY_NAME, group.title)
             bundle.putParcelable(KEY_ICON, group.icon)

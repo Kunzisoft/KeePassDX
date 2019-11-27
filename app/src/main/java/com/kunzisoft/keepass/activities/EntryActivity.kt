@@ -38,8 +38,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -64,7 +64,7 @@ class EntryActivity : LockingHideActivity() {
 
     private var mDatabase: Database? = null
 
-    private var mEntry: EntryVersioned? = null
+    private var mEntry: Entry? = null
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
@@ -115,7 +115,7 @@ class EntryActivity : LockingHideActivity() {
 
         // Get Entry from UUID
         try {
-            val keyEntry: PwNodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
+            val keyEntry: NodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
             mEntry = mDatabase?.getEntryById(keyEntry)
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
@@ -158,7 +158,7 @@ class EntryActivity : LockingHideActivity() {
         firstLaunchOfActivity = false
     }
 
-    private fun fillEntryDataInContentsView(entry: EntryVersioned) {
+    private fun fillEntryDataInContentsView(entry: Entry) {
 
         val database = Database.getInstance()
         database.startManageEntry(entry)
@@ -453,7 +453,7 @@ class EntryActivity : LockingHideActivity() {
         const val KEY_ENTRY = "KEY_ENTRY"
         const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"
 
-        fun launch(activity: Activity, entry: EntryVersioned, readOnly: Boolean, historyPosition: Int? = null) {
+        fun launch(activity: Activity, entry: Entry, readOnly: Boolean, historyPosition: Int? = null) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryActivity::class.java)
                 intent.putExtra(KEY_ENTRY, entry.nodeId)

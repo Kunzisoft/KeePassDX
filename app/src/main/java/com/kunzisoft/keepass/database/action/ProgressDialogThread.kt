@@ -251,8 +251,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
       ----
     */
 
-    fun startDatabaseCreateGroup(newGroup: GroupVersioned,
-                                 parent: GroupVersioned,
+    fun startDatabaseCreateGroup(newGroup: Group,
+                                 parent: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, newGroup)
@@ -262,8 +262,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_CREATE_GROUP_TASK)
     }
 
-    fun startDatabaseUpdateGroup(oldGroup: GroupVersioned,
-                                 groupToUpdate: GroupVersioned,
+    fun startDatabaseUpdateGroup(oldGroup: Group,
+                                 groupToUpdate: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroup.nodeId)
@@ -273,8 +273,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_UPDATE_GROUP_TASK)
     }
 
-    fun startDatabaseCreateEntry(newEntry: EntryVersioned,
-                                 parent: GroupVersioned,
+    fun startDatabaseCreateEntry(newEntry: Entry,
+                                 parent: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, newEntry)
@@ -284,8 +284,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_CREATE_ENTRY_TASK)
     }
 
-    fun startDatabaseUpdateEntry(oldEntry: EntryVersioned,
-                                 entryToUpdate: EntryVersioned,
+    fun startDatabaseUpdateEntry(oldEntry: Entry,
+                                 entryToUpdate: Entry,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntry.nodeId)
@@ -296,20 +296,20 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     private fun startDatabaseActionListNodes(actionTask: String,
-                                             nodesPaste: List<NodeVersioned>,
-                                             newParent: GroupVersioned?,
+                                             nodesPaste: List<Node>,
+                                             newParent: Group?,
                                              save: Boolean) {
-        val groupsIdToCopy = ArrayList<PwNodeId<*>>()
-        val entriesIdToCopy = ArrayList<PwNodeId<UUID>>()
+        val groupsIdToCopy = ArrayList<NodeId<*>>()
+        val entriesIdToCopy = ArrayList<NodeId<UUID>>()
         nodesPaste.forEach { nodeVersioned ->
             when (nodeVersioned.type) {
                 Type.GROUP -> {
-                    (nodeVersioned as GroupVersioned).nodeId?.let { groupId ->
+                    (nodeVersioned as Group).nodeId?.let { groupId ->
                         groupsIdToCopy.add(groupId)
                     }
                 }
                 Type.ENTRY -> {
-                    entriesIdToCopy.add((nodeVersioned as EntryVersioned).nodeId)
+                    entriesIdToCopy.add((nodeVersioned as Entry).nodeId)
                 }
             }
         }
@@ -326,19 +326,19 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         , actionTask)
     }
 
-    fun startDatabaseCopyNodes(nodesToCopy: List<NodeVersioned>,
-                               newParent: GroupVersioned,
+    fun startDatabaseCopyNodes(nodesToCopy: List<Node>,
+                               newParent: Group,
                                save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_COPY_NODES_TASK, nodesToCopy, newParent, save)
     }
 
-    fun startDatabaseMoveNodes(nodesToMove: List<NodeVersioned>,
-                               newParent: GroupVersioned,
+    fun startDatabaseMoveNodes(nodesToMove: List<Node>,
+                               newParent: Group,
                                save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_MOVE_NODES_TASK, nodesToMove, newParent, save)
     }
 
-    fun startDatabaseDeleteNodes(nodesToDelete: List<NodeVersioned>,
+    fun startDatabaseDeleteNodes(nodesToDelete: List<Node>,
                                  save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_DELETE_NODES_TASK, nodesToDelete, null, save)
     }
@@ -393,8 +393,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_UPDATE_COLOR_TASK)
     }
 
-    fun startDatabaseSaveCompression(oldCompression: PwCompressionAlgorithm,
-                                     newCompression: PwCompressionAlgorithm,
+    fun startDatabaseSaveCompression(oldCompression: CompressionAlgorithm,
+                                     newCompression: CompressionAlgorithm,
                                      save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldCompression)
@@ -432,8 +432,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
       -------------------
      */
 
-    fun startDatabaseSaveEncryption(oldEncryption: PwEncryptionAlgorithm,
-                                    newEncryption: PwEncryptionAlgorithm,
+    fun startDatabaseSaveEncryption(oldEncryption: EncryptionAlgorithm,
+                                    newEncryption: EncryptionAlgorithm,
                                     save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldEncryption)

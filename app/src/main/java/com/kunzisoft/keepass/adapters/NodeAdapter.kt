@@ -48,7 +48,7 @@ class NodeAdapter
 (private val context: Context)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
-    private val nodeSortedList: SortedList<NodeVersioned>
+    private val nodeSortedList: SortedList<Node>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private var calculateViewTypeTextSize = Array(2) { true} // number of view type
@@ -65,7 +65,7 @@ class NodeAdapter
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
 
-    private var actionNodesList = LinkedList<NodeVersioned>()
+    private var actionNodesList = LinkedList<Node>()
     private var nodeClickCallback: NodeClickCallback? = null
 
     private val mDatabase: Database
@@ -83,18 +83,18 @@ class NodeAdapter
     init {
         assignPreferences()
 
-        this.nodeSortedList = SortedList(NodeVersioned::class.java, object : SortedListAdapterCallback<NodeVersioned>(this) {
-            override fun compare(item1: NodeVersioned, item2: NodeVersioned): Int {
+        this.nodeSortedList = SortedList(Node::class.java, object : SortedListAdapterCallback<Node>(this) {
+            override fun compare(item1: Node, item2: Node): Int {
                 return listSort.getNodeComparator(ascendingSort, groupsBeforeSort, recycleBinBottomSort).compare(item1, item2)
             }
 
-            override fun areContentsTheSame(oldItem: NodeVersioned, newItem: NodeVersioned): Boolean {
+            override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
                 return oldItem.type == newItem.type
                         && oldItem.title == newItem.title
                         && oldItem.icon == newItem.icon
             }
 
-            override fun areItemsTheSame(item1: NodeVersioned, item2: NodeVersioned): Boolean {
+            override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
                 return item1 == item2
             }
         })
@@ -133,7 +133,7 @@ class NodeAdapter
     /**
      * Rebuild the list by clear and build children from the group
      */
-    fun rebuildList(group: GroupVersioned) {
+    fun rebuildList(group: Group) {
         this.nodeSortedList.clear()
         assignPreferences()
         try {
@@ -145,7 +145,7 @@ class NodeAdapter
         notifyDataSetChanged()
     }
 
-    fun contains(node: NodeVersioned): Boolean {
+    fun contains(node: Node): Boolean {
         return nodeSortedList.indexOf(node) != SortedList.INVALID_POSITION
     }
 
@@ -153,7 +153,7 @@ class NodeAdapter
      * Add a node to the list
      * @param node Node to add
      */
-    fun addNode(node: NodeVersioned) {
+    fun addNode(node: Node) {
         nodeSortedList.add(node)
     }
 
@@ -161,7 +161,7 @@ class NodeAdapter
      * Add nodes to the list
      * @param nodes Nodes to add
      */
-    fun addNodes(nodes: List<NodeVersioned>) {
+    fun addNodes(nodes: List<Node>) {
         nodeSortedList.addAll(nodes)
     }
 
@@ -169,7 +169,7 @@ class NodeAdapter
      * Remove a node in the list
      * @param node Node to delete
      */
-    fun removeNode(node: NodeVersioned) {
+    fun removeNode(node: Node) {
         nodeSortedList.remove(node)
     }
 
@@ -177,7 +177,7 @@ class NodeAdapter
      * Remove nodes in the list
      * @param nodes Nodes to delete
      */
-    fun removeNodes(nodes: List<NodeVersioned>) {
+    fun removeNodes(nodes: List<Node>) {
         nodes.forEach { node ->
             nodeSortedList.remove(node)
         }
@@ -209,7 +209,7 @@ class NodeAdapter
      * @param oldNode Node before the update
      * @param newNode Node after the update
      */
-    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned) {
+    fun updateNode(oldNode: Node, newNode: Node) {
         nodeSortedList.beginBatchedUpdates()
         nodeSortedList.remove(oldNode)
         nodeSortedList.add(newNode)
@@ -221,7 +221,7 @@ class NodeAdapter
      * @param oldNodes Nodes before the update
      * @param newNodes Node after the update
      */
-    fun updateNodes(oldNodes: List<NodeVersioned>, newNodes: List<NodeVersioned>) {
+    fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
         nodeSortedList.beginBatchedUpdates()
         oldNodes.forEach { oldNode ->
             nodeSortedList.remove(oldNode)
@@ -230,11 +230,11 @@ class NodeAdapter
         nodeSortedList.endBatchedUpdates()
     }
 
-    fun notifyNodeChanged(node: NodeVersioned) {
+    fun notifyNodeChanged(node: Node) {
         notifyItemChanged(nodeSortedList.indexOf(node))
     }
 
-    fun setActionNodes(actionNodes: List<NodeVersioned>) {
+    fun setActionNodes(actionNodes: List<Node>) {
         this.actionNodesList.apply {
             clear()
             addAll(actionNodes)
@@ -315,7 +315,7 @@ class NodeAdapter
                 paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
             visibility = View.GONE
             if (subNode.type == Type.ENTRY) {
-                val entry = subNode as EntryVersioned
+                val entry = subNode as Entry
 
                 mDatabase.startManageEntry(entry)
 
@@ -336,7 +336,7 @@ class NodeAdapter
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as GroupVersioned).getChildEntries(true).size.toString()
+                    text = (subNode as Group).getChildEntries(true).size.toString()
                     setTextSize(textSizeUnit, numberChildrenTextSize)
                     visibility = View.VISIBLE
                 }
@@ -361,8 +361,8 @@ class NodeAdapter
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickCallback {
-        fun onNodeClick(node: NodeVersioned)
-        fun onNodeLongClick(node: NodeVersioned): Boolean
+        fun onNodeClick(node: Node)
+        fun onNodeLongClick(node: Node): Boolean
     }
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

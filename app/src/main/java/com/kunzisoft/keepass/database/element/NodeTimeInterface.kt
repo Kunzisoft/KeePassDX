@@ -21,13 +21,13 @@ package com.kunzisoft.keepass.database.element
 
 interface NodeTimeInterface {
 
-    var creationTime: PwDate
+    var creationTime: DateInstant
 
-    var lastModificationTime: PwDate
+    var lastModificationTime: DateInstant
 
-    var lastAccessTime: PwDate
+    var lastAccessTime: DateInstant
 
-    var expiryTime: PwDate
+    var expiryTime: DateInstant
 
     var expires: Boolean
 

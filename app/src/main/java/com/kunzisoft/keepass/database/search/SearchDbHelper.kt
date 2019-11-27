@@ -21,11 +21,11 @@ package com.kunzisoft.keepass.database.search
 
 import com.kunzisoft.keepass.database.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.GroupVersioned
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIterator
-import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV3
-import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorV4
+import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDB
+import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import java.util.*
 
 class SearchDbHelper(private val isOmitBackup: Boolean) {
@@ -36,7 +36,7 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
 
     private var incrementEntry = 0
 
-    fun search(database: Database, qStr: String, max: Int): GroupVersioned? {
+    fun search(database: Database, qStr: String, max: Int): Group? {
 
         val searchGroup = database.createGroup()
         searchGroup?.title = "\"" + qStr + "\""
@@ -47,8 +47,8 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
 
         incrementEntry = 0
         database.rootGroup?.doForEachChild(
-                object : NodeHandler<EntryVersioned>() {
-                    override fun operate(node: EntryVersioned): Boolean {
+                object : NodeHandler<Entry>() {
+                    override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
                             return false
                         if (entryContainsString(node, finalQStr, loc)) {
@@ -59,8 +59,8 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
                         return incrementEntry < max
                     }
                 },
-                object : NodeHandler<GroupVersioned>() {
-                    override fun operate(node: GroupVersioned): Boolean {
+                object : NodeHandler<Group>() {
+                    override fun operate(node: Group): Boolean {
                         return when {
                             incrementEntry >= max -> false
                             database.isGroupSearchable(node, isOmitBackup) -> true
@@ -73,7 +73,7 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
         return searchGroup
     }
 
-    private fun entryContainsString(entry: EntryVersioned, searchString: String, locale: Locale): Boolean {
+    private fun entryContainsString(entry: Entry, searchString: String, locale: Locale): Boolean {
 
         // Entry don't contains string if the search string is empty
         if (searchString.isEmpty())
@@ -81,11 +81,11 @@ class SearchDbHelper(private val isOmitBackup: Boolean) {
 
         // Search all strings in the entry
         var iterator: EntrySearchStringIterator? = null
-        entry.pwEntryV3?.let {
-            iterator = EntrySearchStringIteratorV3(it)
+        entry.entryKDB?.let {
+            iterator = EntrySearchStringIteratorKDB(it)
         }
-        entry.pwEntryV4?.let {
-            iterator = EntrySearchStringIteratorV4(it)
+        entry.entryKDBX?.let {
+            iterator = EntrySearchStringIteratorKDBX(it)
         }
 
         iterator?.let {

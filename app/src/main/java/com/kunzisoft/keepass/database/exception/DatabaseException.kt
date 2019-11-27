@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.database.exception
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.database.element.NodeId
 import com.kunzisoft.keepass.database.element.Type
 
 abstract class DatabaseException : Exception {
@@ -56,7 +56,7 @@ class InvalidAlgorithmDatabaseException : LoadDatabaseException {
 class DuplicateUuidDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_db_same_uuid
-    constructor(type: Type, uuid: PwNodeId<*>) : super() {
+    constructor(type: Type, uuid: NodeId<*>) : super() {
         parameters = arrayOf(type.name, uuid.toString())
     }
     constructor(exception: Throwable) : super(exception)

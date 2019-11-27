@@ -33,8 +33,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.PwDate
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
@@ -304,15 +304,15 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasContainerView.visibility = View.GONE
     }
 
-    fun assignCreationDate(date: PwDate) {
+    fun assignCreationDate(date: DateInstant) {
         creationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignModificationDate(date: PwDate) {
+    fun assignModificationDate(date: DateInstant) {
         modificationDateView.text = date.getDateTimeString(resources)
     }
 
-    fun assignLastAccessDate(date: PwDate) {
+    fun assignLastAccessDate(date: DateInstant) {
         lastAccessDateView.text = date.getDateTimeString(resources)
     }
 
@@ -320,7 +320,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         expiresImageView.visibility = if (isExpires) View.VISIBLE else View.GONE
     }
 
-    fun assignExpiresDate(date: PwDate) {
+    fun assignExpiresDate(date: DateInstant) {
         assignExpiresDate(date.getDateTimeString(resources))
     }
 
@@ -340,12 +340,12 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         historyAdapter.notifyDataSetChanged()
     }
 
-    fun assignHistory(history: ArrayList<EntryVersioned>) {
+    fun assignHistory(history: ArrayList<Entry>) {
         historyAdapter.clear()
         historyAdapter.entryHistoryList.addAll(history)
     }
 
-    fun onHistoryClick(action: (historyItem: EntryVersioned, position: Int)->Unit) {
+    fun onHistoryClick(action: (historyItem: Entry, position: Int)->Unit) {
         historyAdapter.onItemClickListener = { item, position ->
                 action.invoke(item, position)
             }
