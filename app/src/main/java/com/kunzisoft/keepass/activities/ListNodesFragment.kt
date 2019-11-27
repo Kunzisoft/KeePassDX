@@ -18,7 +18,7 @@ import androidx.appcompat.view.ActionMode
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.NodeAdapter
-import com.kunzisoft.keepass.database.SortNodeEnum
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment

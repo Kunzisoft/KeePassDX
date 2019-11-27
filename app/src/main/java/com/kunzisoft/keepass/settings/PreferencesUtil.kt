@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.settings
 import android.content.Context
 import android.preference.PreferenceManager
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.SortNodeEnum
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
 

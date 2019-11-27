@@ -18,10 +18,8 @@
  *
  */
 
-package com.kunzisoft.keepass.database
+package com.kunzisoft.keepass.database.element
 
-import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import java.util.*
