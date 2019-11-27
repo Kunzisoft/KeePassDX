@@ -21,20 +21,20 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.node.Node
 
 class UpdateEntryRunnable constructor(
         context: Context,
         database: Database,
-        private val mOldEntry: EntryVersioned,
-        private val mNewEntry: EntryVersioned,
+        private val mOldEntry: Entry,
+        private val mNewEntry: Entry,
         save: Boolean,
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     // Keep backup of original values in case save fails
-    private var mBackupEntryHistory: EntryVersioned = EntryVersioned(mOldEntry)
+    private var mBackupEntryHistory: Entry = Entry(mOldEntry)
 
     override fun nodeAction() {
         // WARNING : Re attribute parent removed in entry edit activity to save memory
@@ -45,7 +45,7 @@ class UpdateEntryRunnable constructor(
         mNewEntry.touch(modified = true, touchParents = true)
 
         // Create an entry history (an entry history don't have history)
-        mOldEntry.addEntryToHistory(EntryVersioned(mBackupEntryHistory, copyHistory = false))
+        mOldEntry.addEntryToHistory(Entry(mBackupEntryHistory, copyHistory = false))
         database.removeOldestEntryHistory(mOldEntry)
 
         // Only change data in index
@@ -59,9 +59,9 @@ class UpdateEntryRunnable constructor(
             database.updateEntry(mOldEntry)
         }
 
-        val oldNodesReturn = ArrayList<NodeVersioned>()
+        val oldNodesReturn = ArrayList<Node>()
         oldNodesReturn.add(mBackupEntryHistory)
-        val newNodesReturn = ArrayList<NodeVersioned>()
+        val newNodesReturn = ArrayList<Node>()
         newNodesReturn.add(mOldEntry)
         return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }

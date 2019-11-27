@@ -42,7 +42,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.keepass.database.element.PwDate
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.stream.LEDataOutputStream
 import java.io.IOException
@@ -136,7 +136,7 @@ object DatabaseInputOutputUtils {
      * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
      * to a java.util.Date instance.
      */
-    fun readCDate(buf: ByteArray, offset: Int, calendar: Calendar = Calendar.getInstance()): PwDate {
+    fun readCDate(buf: ByteArray, offset: Int, calendar: Calendar = Calendar.getInstance()): DateInstant {
         val dateSize = 5
         val cDate = ByteArray(dateSize)
         System.arraycopy(buf, offset, cDate, 0, dateSize)
@@ -161,7 +161,7 @@ object DatabaseInputOutputUtils {
         // File format is a 1 based day, java Calendar uses a 1 based day
         calendar.set(year, month - 1, day, hour, minute, second)
 
-        return PwDate(calendar.time)
+        return DateInstant(calendar.time)
     }
 
     fun writeCDate(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {

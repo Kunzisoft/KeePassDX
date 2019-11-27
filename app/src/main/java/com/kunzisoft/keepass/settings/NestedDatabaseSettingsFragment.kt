@@ -1,6 +1,5 @@
 package com.kunzisoft.keepass.settings
 
-import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -15,10 +14,9 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.settings.preference.*
 import com.kunzisoft.keepass.settings.preferencedialogfragment.*
@@ -125,7 +123,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             dbDataCompressionPref = findPreference(getString(R.string.database_data_compression_key))
             if (mDatabase.allowDataCompression) {
                 dbDataCompressionPref?.summary = (mDatabase.compressionAlgorithm
-                        ?: PwCompressionAlgorithm.None).getName(resources)
+                        ?: CompressionAlgorithm.None).getName(resources)
             } else {
                 dbCompressionPrefCategory?.isVisible = false
             }
@@ -333,8 +331,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                         dbCustomColorPref?.summary = defaultColorToShow
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> {
-                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as PwCompressionAlgorithm
-                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as PwCompressionAlgorithm
+                        val oldCompression = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as CompressionAlgorithm
+                        val newCompression = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as CompressionAlgorithm
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newCompression
@@ -375,8 +373,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                     --------
                      */
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK -> {
-                        val oldEncryption = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as PwEncryptionAlgorithm
-                        val newEncryption = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as PwEncryptionAlgorithm
+                        val oldEncryption = data.getSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY) as EncryptionAlgorithm
+                        val newEncryption = data.getSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY) as EncryptionAlgorithm
                         val algorithmToShow =
                                 if (result.isSuccess) {
                                     newEncryption

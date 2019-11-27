@@ -24,14 +24,14 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwCompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseDataCompressionPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
-        ListRadioItemAdapter.RadioItemSelectedCallback<PwCompressionAlgorithm> {
+        ListRadioItemAdapter.RadioItemSelectedCallback<CompressionAlgorithm> {
 
-    private var compressionSelected: PwCompressionAlgorithm? = null
+    private var compressionSelected: CompressionAlgorithm? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -42,7 +42,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val compressionAdapter = ListRadioItemAdapter<PwCompressionAlgorithm>(activity)
+            val compressionAdapter = ListRadioItemAdapter<CompressionAlgorithm>(activity)
             compressionAdapter.setRadioItemSelectedCallback(this)
             recyclerView.adapter = compressionAdapter
 
@@ -70,7 +70,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onItemSelected(item: PwCompressionAlgorithm) {
+    override fun onItemSelected(item: CompressionAlgorithm) {
         this.compressionSelected = item
     }
 

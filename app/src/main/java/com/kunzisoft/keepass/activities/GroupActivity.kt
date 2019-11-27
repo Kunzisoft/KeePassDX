@@ -50,6 +50,10 @@ import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.SortNodeEnum
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -94,9 +98,9 @@ class GroupActivity : LockingActivity(),
     private var mCurrentGroupIsASearch: Boolean = false
 
     // Nodes
-    private var mRootGroup: GroupVersioned? = null
-    private var mCurrentGroup: GroupVersioned? = null
-    private var mOldGroupToUpdate: GroupVersioned? = null
+    private var mRootGroup: Group? = null
+    private var mCurrentGroup: Group? = null
+    private var mOldGroupToUpdate: Group? = null
 
     private var mSearchSuggestionAdapter: SearchEntryCursorAdapter? = null
 
@@ -194,11 +198,11 @@ class GroupActivity : LockingActivity(),
             // Init dialog thread
             mProgressDialogThread?.onActionFinish = { actionTask, result ->
 
-                var oldNodes: List<NodeVersioned> = ArrayList()
+                var oldNodes: List<Node> = ArrayList()
                 result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
                     oldNodes = getListNodesFromBundle(database, oldNodesBundle)
                 }
-                var newNodes: List<NodeVersioned> = ArrayList()
+                var newNodes: List<Node> = ArrayList()
                 result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
                     newNodes = getListNodesFromBundle(database, newNodesBundle)
                 }
@@ -277,7 +281,7 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private fun openSearchGroup(group: GroupVersioned?) {
+    private fun openSearchGroup(group: Group?) {
         // Delete the previous search fragment
         val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
         if (searchFragment != null) {
@@ -289,11 +293,11 @@ class GroupActivity : LockingActivity(),
         openGroup(group, true)
     }
 
-    private fun openChildGroup(group: GroupVersioned) {
+    private fun openChildGroup(group: Group) {
         openGroup(group, false)
     }
 
-    private fun openGroup(group: GroupVersioned?, isASearch: Boolean) {
+    private fun openGroup(group: Group?, isASearch: Boolean) {
         // Check TimeoutHelper
         TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this) {
             // Open a group in a new fragment
@@ -333,7 +337,7 @@ class GroupActivity : LockingActivity(),
         super.onSaveInstanceState(outState)
     }
 
-    private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): GroupVersioned? {
+    private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
 
         // Force read only if the database is like that
         mReadOnly = mDatabase?.isReadOnly == true || mReadOnly
@@ -344,7 +348,7 @@ class GroupActivity : LockingActivity(),
         }
         // else a real group
         else {
-            var pwGroupId: PwNodeId<*>? = null
+            var pwGroupId: NodeId<*>? = null
             if (savedInstanceState != null && savedInstanceState.containsKey(GROUP_ID_KEY)) {
                 pwGroupId = savedInstanceState.getParcelable(GROUP_ID_KEY)
             } else {
@@ -353,7 +357,7 @@ class GroupActivity : LockingActivity(),
             }
 
             Log.w(TAG, "Creating tree view")
-            val currentGroup: GroupVersioned?
+            val currentGroup: Group?
             currentGroup = if (pwGroupId == null) {
                 mRootGroup
             } else {
@@ -456,16 +460,16 @@ class GroupActivity : LockingActivity(),
         addNodeButtonView?.hideButtonOnScrollListener(dy)
     }
 
-    override fun onNodeClick(node: NodeVersioned) {
+    override fun onNodeClick(node: Node) {
         when (node.type) {
             Type.GROUP -> try {
-                openChildGroup(node as GroupVersioned)
+                openChildGroup(node as Group)
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
 
             Type.ENTRY -> try {
-                val entryVersioned = node as EntryVersioned
+                val entryVersioned = node as Entry
                 EntrySelectionHelper.doEntrySelectionAction(intent,
                         {
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
@@ -503,7 +507,7 @@ class GroupActivity : LockingActivity(),
         actionNodeMode = null
     }
 
-    override fun onNodeSelected(nodes: List<NodeVersioned>): Boolean {
+    override fun onNodeSelected(nodes: List<Node>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
                 mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
@@ -518,34 +522,34 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onOpenMenuClick(node: NodeVersioned): Boolean {
+    override fun onOpenMenuClick(node: Node): Boolean {
         finishNodeAction()
         onNodeClick(node)
         return true
     }
 
-    override fun onEditMenuClick(node: NodeVersioned): Boolean {
+    override fun onEditMenuClick(node: Node): Boolean {
         finishNodeAction()
         when (node.type) {
             Type.GROUP -> {
-                mOldGroupToUpdate = node as GroupVersioned
+                mOldGroupToUpdate = node as Group
                 GroupEditDialogFragment.build(mOldGroupToUpdate!!)
                         .show(supportFragmentManager,
                                 GroupEditDialogFragment.TAG_CREATE_GROUP)
             }
-            Type.ENTRY -> EntryEditActivity.launch(this@GroupActivity, node as EntryVersioned)
+            Type.ENTRY -> EntryEditActivity.launch(this@GroupActivity, node as Entry)
         }
         return true
     }
 
-    override fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean {
+    override fun onCopyMenuClick(nodes: List<Node>): Boolean {
         actionNodeMode?.invalidate()
 
         // Nothing here fragment calls onPasteMenuClick internally
         return true
     }
 
-    override fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean {
+    override fun onMoveMenuClick(nodes: List<Node>): Boolean {
         actionNodeMode?.invalidate()
 
         // Nothing here fragment calls onPasteMenuClick internally
@@ -553,7 +557,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onPasteMenuClick(pasteMode: ListNodesFragment.PasteMode?,
-                                  nodes: List<NodeVersioned>): Boolean {
+                                  nodes: List<Node>): Boolean {
         // Move or copy only if allowed (in root if allowed)
         if (mCurrentGroup != mDatabase?.rootGroup
                 || mDatabase?.rootCanContainsEntry() == true) {
@@ -593,7 +597,7 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean {
+    override fun onDeleteMenuClick(nodes: List<Node>): Boolean {
         val database = mDatabase
 
         // If recycle bin enabled, ensure it exists
@@ -619,7 +623,7 @@ class GroupActivity : LockingActivity(),
         return true
     }
 
-    override fun permanentlyDeleteNodes(nodes: List<NodeVersioned>) {
+    override fun permanentlyDeleteNodes(nodes: List<Node>) {
         mProgressDialogThread?.startDatabaseDeleteNodes(
                 nodes,
                 !mReadOnly && mAutoSaveEnable
@@ -788,7 +792,7 @@ class GroupActivity : LockingActivity(),
 
     override fun approveEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                   name: String?,
-                                  icon: PwIcon?) {
+                                  icon: IconImage?) {
 
         if (name != null && name.isNotEmpty() && icon != null) {
             when (action) {
@@ -813,7 +817,7 @@ class GroupActivity : LockingActivity(),
                 GroupEditDialogFragment.EditGroupDialogAction.UPDATE -> {
                     // If update add new elements
                     mOldGroupToUpdate?.let { oldGroupToUpdate ->
-                        val updateGroup = GroupVersioned(oldGroupToUpdate).let { updateGroup ->
+                        val updateGroup = Group(oldGroupToUpdate).let { updateGroup ->
                             updateGroup.apply {
                                 // WARNING remove parent and children to keep memory
                                 removeParent()
@@ -838,7 +842,7 @@ class GroupActivity : LockingActivity(),
 
     override fun cancelEditGroup(action: GroupEditDialogFragment.EditGroupDialogAction?,
                                  name: String?,
-                                 icon: PwIcon?) {
+                                 icon: IconImage?) {
         // Do nothing here
     }
 
@@ -949,7 +953,7 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildAndLaunchIntent(context: Context, group: GroupVersioned?, readOnly: Boolean,
+        private fun buildAndLaunchIntent(context: Context, group: Group?, readOnly: Boolean,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val checkTime = if (context is Activity)
                 TimeoutHelper.checkTimeAndLockIfTimeout(context)

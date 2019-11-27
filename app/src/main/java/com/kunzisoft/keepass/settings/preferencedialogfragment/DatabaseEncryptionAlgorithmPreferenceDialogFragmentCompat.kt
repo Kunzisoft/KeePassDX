@@ -24,14 +24,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.view.View
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.ListRadioItemAdapter
 
 class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
     : DatabaseSavePreferenceDialogFragmentCompat(),
-        ListRadioItemAdapter.RadioItemSelectedCallback<PwEncryptionAlgorithm> {
+        ListRadioItemAdapter.RadioItemSelectedCallback<EncryptionAlgorithm> {
 
-    private var algorithmSelected: PwEncryptionAlgorithm? = null
+    private var algorithmSelected: EncryptionAlgorithm? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
@@ -42,7 +42,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            val encryptionAlgorithmAdapter = ListRadioItemAdapter<PwEncryptionAlgorithm>(activity)
+            val encryptionAlgorithmAdapter = ListRadioItemAdapter<EncryptionAlgorithm>(activity)
             encryptionAlgorithmAdapter.setRadioItemSelectedCallback(this)
             recyclerView.adapter = encryptionAlgorithmAdapter
 
@@ -72,7 +72,7 @@ class DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat
         }
     }
 
-    override fun onItemSelected(item: PwEncryptionAlgorithm) {
+    override fun onItemSelected(item: EncryptionAlgorithm) {
         this.algorithmSelected = item
     }
 

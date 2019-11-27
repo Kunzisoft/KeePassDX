@@ -21,18 +21,20 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
 
 class DeleteNodesRunnable(context: Context,
                           database: Database,
-                          private val mNodesToDelete: List<NodeVersioned>,
+                          private val mNodesToDelete: List<Node>,
                           save: Boolean,
                           afterActionNodesFinish: AfterActionNodesFinish)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
-    private var mParent: GroupVersioned? = null
+    private var mParent: Group? = null
     private var mCanRecycle: Boolean = false
 
-    private var mNodesToDeleteBackup = ArrayList<NodeVersioned>()
+    private var mNodesToDeleteBackup = ArrayList<Node>()
 
     override fun nodeAction() {
 
@@ -43,7 +45,7 @@ class DeleteNodesRunnable(context: Context,
             when (currentNode.type) {
                 Type.GROUP -> {
                     // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(GroupVersioned(currentNode as GroupVersioned))
+                    mNodesToDeleteBackup.add(Group(currentNode as Group))
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(currentNode)
                     if (mCanRecycle) {
@@ -54,7 +56,7 @@ class DeleteNodesRunnable(context: Context,
                 }
                 Type.ENTRY -> {
                     // Create a copy to keep the old ref and remove it visually
-                    mNodesToDeleteBackup.add(EntryVersioned(currentNode as EntryVersioned))
+                    mNodesToDeleteBackup.add(Entry(currentNode as Entry))
                     // Remove Node from parent
                     mCanRecycle = database.canRecycle(currentNode)
                     if (mCanRecycle) {
@@ -74,10 +76,10 @@ class DeleteNodesRunnable(context: Context,
                     mNodesToDeleteBackup.forEach { backupNode ->
                         when (backupNode.type) {
                             Type.GROUP -> {
-                                database.undoRecycle(backupNode as GroupVersioned, it)
+                                database.undoRecycle(backupNode as Group, it)
                             }
                             Type.ENTRY -> {
-                                database.undoRecycle(backupNode as EntryVersioned, it)
+                                database.undoRecycle(backupNode as Entry, it)
                             }
                         }
                     }

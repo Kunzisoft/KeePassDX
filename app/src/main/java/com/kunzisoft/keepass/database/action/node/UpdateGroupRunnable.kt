@@ -21,20 +21,20 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.Node
 
 class UpdateGroupRunnable constructor(
         context: Context,
         database: Database,
-        private val mOldGroup: GroupVersioned,
-        private val mNewGroup: GroupVersioned,
+        private val mOldGroup: Group,
+        private val mNewGroup: Group,
         save: Boolean,
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
     // Keep backup of original values in case save fails
-    private val mBackupGroup: GroupVersioned = GroupVersioned(mOldGroup)
+    private val mBackupGroup: Group = Group(mOldGroup)
 
     override fun nodeAction() {
         // WARNING : Re attribute parent and children removed in group activity to save memory
@@ -56,9 +56,9 @@ class UpdateGroupRunnable constructor(
             database.updateGroup(mOldGroup)
         }
 
-        val oldNodesReturn = ArrayList<NodeVersioned>()
+        val oldNodesReturn = ArrayList<Node>()
         oldNodesReturn.add(mBackupGroup)
-        val newNodesReturn = ArrayList<NodeVersioned>()
+        val newNodesReturn = ArrayList<Node>()
         newNodesReturn.add(mOldGroup)
         return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }

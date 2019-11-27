@@ -2,11 +2,11 @@ package com.kunzisoft.keepass.database.cursor
 
 import android.database.MatrixCursor
 import android.provider.BaseColumns
-import com.kunzisoft.keepass.database.element.PwEntry
-import com.kunzisoft.keepass.database.element.PwIconFactory
-import com.kunzisoft.keepass.database.element.PwNodeId
+import com.kunzisoft.keepass.database.element.entry.EntryVersioned
+import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.node.NodeId
 
-abstract class EntryCursor<EntryId, PwEntryV : PwEntry<*, EntryId, *, *>> : MatrixCursor(arrayOf(
+abstract class EntryCursor<EntryId, PwEntryV : EntryVersioned<*, EntryId, *, *>> : MatrixCursor(arrayOf(
         _ID,
         COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS,
         COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS,
@@ -24,9 +24,9 @@ abstract class EntryCursor<EntryId, PwEntryV : PwEntry<*, EntryId, *, *>> : Matr
 
     abstract fun addEntry(entry: PwEntryV)
 
-    abstract fun getPwNodeId(): PwNodeId<EntryId>
+    abstract fun getPwNodeId(): NodeId<EntryId>
 
-    open fun populateEntry(pwEntry: PwEntryV, iconFactory: PwIconFactory) {
+    open fun populateEntry(pwEntry: PwEntryV, iconFactory: IconImageFactory) {
         pwEntry.nodeId = getPwNodeId()
         pwEntry.title = getString(getColumnIndex(COLUMN_INDEX_TITLE))
 

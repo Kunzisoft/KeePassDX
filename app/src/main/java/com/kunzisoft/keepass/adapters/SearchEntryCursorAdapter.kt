@@ -22,7 +22,6 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.database.Cursor
 import android.graphics.Color
-import androidx.cursoradapter.widget.CursorAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +30,8 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.cursor.EntryCursor
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.EntryVersioned
-import com.kunzisoft.keepass.database.element.PwIcon
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
@@ -76,7 +75,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         val uuid = UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
                 cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)))
         val iconFactory = database.iconFactory
-        var icon: PwIcon = iconFactory.getIcon(
+        var icon: IconImage = iconFactory.getIcon(
                 UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
                         cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
         if (icon.isUnknown) {
@@ -94,7 +93,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         viewHolder.imageViewIcon?.assignDatabaseIcon(database.drawFactory, icon, iconColor)
 
         // Assign title
-        val showTitle = EntryVersioned.getVisualTitle(false, title, username, url, uuid.toString())
+        val showTitle = Entry.getVisualTitle(false, title, username, url, uuid.toString())
         viewHolder.textViewTitle?.text = showTitle
         if (displayUsername && username.isNotEmpty()) {
             viewHolder.textViewSubTitle?.text = String.format("(%s)", username)
@@ -113,8 +112,8 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
         return database.searchEntries(constraint.toString())
     }
 
-    fun getEntryFromPosition(position: Int): EntryVersioned? {
-        var pwEntry: EntryVersioned? = null
+    fun getEntryFromPosition(position: Int): Entry? {
+        var pwEntry: Entry? = null
 
         val cursor = this.cursor
         if (cursor.moveToFirst() && cursor.move(position)) {
