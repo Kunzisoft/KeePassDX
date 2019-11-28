@@ -43,8 +43,8 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.kunzisoft.keepass.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.stream.LEDataInputStream
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
@@ -113,7 +113,7 @@ object DatabaseInputOutputUtils {
         var str = string
         if (str == null) {
             // Write out a null character
-            os.write(LEDataOutputStream.writeIntBuf(1))
+            os.write(LittleEndianDataOutputStream.writeIntBuf(1))
             os.write(0x00)
             return 0
         }
@@ -125,7 +125,7 @@ object DatabaseInputOutputUtils {
         val initial = str.toByteArray(defaultCharset)
 
         val length = initial.size + 1
-        os.write(LEDataOutputStream.writeIntBuf(length))
+        os.write(LittleEndianDataOutputStream.writeIntBuf(length))
         os.write(initial)
         os.write(0x00)
 
@@ -199,7 +199,7 @@ object DatabaseInputOutputUtils {
     fun writePassword(str: String, os: OutputStream): Int {
         val initial = str.toByteArray(defaultCharset)
         val length = initial.size + 1
-        os.write(LEDataOutputStream.writeIntBuf(length))
+        os.write(LittleEndianDataOutputStream.writeIntBuf(length))
         os.write(initial)
         os.write(0x00)
         return length
@@ -213,7 +213,7 @@ object DatabaseInputOutputUtils {
 
     @Throws(IOException::class)
     fun writeBytes(data: ByteArray?, dataLen: Int, os: OutputStream): Int {
-        os.write(LEDataOutputStream.writeIntBuf(dataLen))
+        os.write(LittleEndianDataOutputStream.writeIntBuf(dataLen))
         if (data != null) {
             os.write(data)
         }
@@ -221,13 +221,13 @@ object DatabaseInputOutputUtils {
     }
 
     fun bytesToUuid(buf: ByteArray): UUID {
-        return LEDataInputStream.readUuid(buf, 0)
+        return LittleEndianDataInputStream.readUuid(buf, 0)
     }
 
     fun uuidToBytes(uuid: UUID): ByteArray {
         val buf = ByteArray(16)
-        LEDataOutputStream.writeLong(uuid.mostSignificantBits, buf, 0)
-        LEDataOutputStream.writeLong(uuid.leastSignificantBits, buf, 8)
+        LittleEndianDataOutputStream.writeLong(uuid.mostSignificantBits, buf, 0)
+        LittleEndianDataOutputStream.writeLong(uuid.leastSignificantBits, buf, 8)
         return buf
     }
 }

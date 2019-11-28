@@ -32,7 +32,7 @@ import javax.crypto.spec.SecretKeySpec
 
 class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
 
-    private val baseStream: LEDataInputStream = LEDataInputStream(baseStream)
+    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(baseStream)
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
     private var blockIndex: Long = 0
@@ -95,12 +95,12 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = LEDataOutputStream.writeLongBuf(blockIndex)
+        val pbBlockIndex = LittleEndianDataOutputStream.writeLongBuf(blockIndex)
         val pbBlockSize = baseStream.readBytes(4)
         if (pbBlockSize == null || pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = LEDataInputStream.readInt(pbBlockSize, 0)
+        val blockSize = LittleEndianDataInputStream.readInt(pbBlockSize, 0)
         bufferPos = 0
 
         buffer = baseStream.readBytes(blockSize)

@@ -45,7 +45,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -355,8 +355,8 @@ class Database {
         bufferedInputStream.mark(10)
 
         // Get the file directory to save the attachments
-        val sig1 = LEDataInputStream.readInt(bufferedInputStream)
-        val sig2 = LEDataInputStream.readInt(bufferedInputStream)
+        val sig1 = LittleEndianDataInputStream.readInt(bufferedInputStream)
+        val sig2 = LittleEndianDataInputStream.readInt(bufferedInputStream)
 
         // Return to the start
         bufferedInputStream.reset()

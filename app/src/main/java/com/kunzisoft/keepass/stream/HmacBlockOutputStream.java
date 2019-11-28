@@ -29,7 +29,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class HmacBlockOutputStream extends OutputStream {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
-    private LEDataOutputStream baseStream;
+    private LittleEndianDataOutputStream baseStream;
     private byte[] key;
 
     private byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
@@ -37,7 +37,7 @@ public class HmacBlockOutputStream extends OutputStream {
     private long blockIndex = 0;
 
     public HmacBlockOutputStream(OutputStream os, byte[] key) {
-        this.baseStream = new LEDataOutputStream(os);
+        this.baseStream = new LittleEndianDataOutputStream(os);
         this.key = key;
     }
 
@@ -89,8 +89,8 @@ public class HmacBlockOutputStream extends OutputStream {
     }
 
     private void WriteSafeBlock() throws IOException {
-        byte[] bufBlockIndex = LEDataOutputStream.writeLongBuf(blockIndex);
-        byte[] blockSizeBuf = LEDataOutputStream.writeIntBuf(bufferPos);
+        byte[] bufBlockIndex = LittleEndianDataOutputStream.writeLongBuf(blockIndex);
+        byte[] blockSizeBuf = LittleEndianDataOutputStream.writeIntBuf(bufferPos);
 
         byte[] blockHmac;
         byte[] blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex);

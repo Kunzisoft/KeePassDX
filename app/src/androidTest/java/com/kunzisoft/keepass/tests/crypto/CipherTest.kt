@@ -39,9 +39,8 @@ import junit.framework.TestCase
 
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.engine.AesEngine
-import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.stream.BetterCipherInputStream
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 
 class CipherTest : TestCase() {
     private val rand = Random()
@@ -93,7 +92,7 @@ class CipherTest : TestCase() {
 
         val bis = ByteArrayInputStream(secrettext)
         val cis = BetterCipherInputStream(bis, decrypt)
-        val lis = LEDataInputStream(cis)
+        val lis = LittleEndianDataInputStream(cis)
 
         val decrypttext = lis.readBytes(MESSAGE_LENGTH)
 

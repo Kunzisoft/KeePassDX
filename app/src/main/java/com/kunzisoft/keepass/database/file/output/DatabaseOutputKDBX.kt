@@ -390,7 +390,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         } else {
             val dt = DateTime(value)
             val seconds = DateKDBXUtil.convertDateToKDBX4Time(dt)
-            val buf = LEDataOutputStream.writeLongBuf(seconds)
+            val buf = LittleEndianDataOutputStream.writeLongBuf(seconds)
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeObject(name, b64)
         }
@@ -444,15 +444,10 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             }
 
             // Write the XML
-            readFromStream(binaryInputStream, BUFFER_SIZE_BYTES,
-                    object : ReadBytes {
-                        override fun read(buffer: ByteArray) {
-                            val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
-                            xml.text(charArray, 0, charArray.size)
-                        }
-                    }
-            )
-
+            binaryInputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
+                xml.text(charArray, 0, charArray.size)
+            }
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
 
@@ -567,24 +562,17 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     if (binary.isProtected) {
                         xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
 
-                        readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
-                                object : ReadBytes {
-                                    override fun read(buffer: ByteArray) {
-                                        val encoded = ByteArray(buffer.size)
-                                        randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
-                                        val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
-                                        xml.text(charArray, 0, charArray.size)
-                                    }
-                                })
+                        binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                            val encoded = ByteArray(buffer.size)
+                            randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
+                            val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
+                            xml.text(charArray, 0, charArray.size)
+                        }
                     } else {
-                        readFromStream(binary.getInputDataStream(), BUFFER_SIZE_BYTES,
-                                object : ReadBytes {
-                                    override fun read(buffer: ByteArray) {
-                                        val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
-                                        xml.text(charArray, 0, charArray.size)
-                                    }
-                                }
-                        )
+                        binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                            val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
+                            xml.text(charArray, 0, charArray.size)
+                        }
                     }
                 }
             }

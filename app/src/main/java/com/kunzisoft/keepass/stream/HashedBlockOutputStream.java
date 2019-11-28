@@ -28,7 +28,7 @@ public class HashedBlockOutputStream extends OutputStream {
 
     private final static int DEFAULT_BUFFER_SIZE = 1024 * 1024;
 
-    private LEDataOutputStream baseStream;
+    private LittleEndianDataOutputStream baseStream;
     private int bufferPos = 0;
     private byte[] buffer;
     private long bufferIndex = 0;
@@ -46,7 +46,7 @@ public class HashedBlockOutputStream extends OutputStream {
     }
 
     private void init(OutputStream os, int bufferSize) {
-        baseStream = new LEDataOutputStream(os);
+        baseStream = new LittleEndianDataOutputStream(os);
         buffer = new byte[bufferSize];
 
     }

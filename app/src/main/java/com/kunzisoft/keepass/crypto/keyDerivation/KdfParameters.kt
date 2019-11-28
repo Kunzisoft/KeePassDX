@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.crypto.keyDerivation
 
 import com.kunzisoft.keepass.utils.VariantDictionary
-import com.kunzisoft.keepass.stream.LEDataInputStream
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.io.ByteArrayInputStream
@@ -42,7 +42,7 @@ class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): KdfParameters? {
             val bis = ByteArrayInputStream(data)
-            val lis = LEDataInputStream(bis)
+            val lis = LittleEndianDataInputStream(bis)
 
             val d = deserialize(lis) ?: return null
 
@@ -56,7 +56,7 @@ class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
         @Throws(IOException::class)
         fun serialize(kdf: KdfParameters): ByteArray {
             val bos = ByteArrayOutputStream()
-            val los = LEDataOutputStream(bos)
+            val los = LittleEndianDataOutputStream(bos)
 
             serialize(kdf, los)
 

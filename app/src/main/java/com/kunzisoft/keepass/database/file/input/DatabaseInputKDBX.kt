@@ -131,7 +131,7 @@ class DatabaseInputKDBX(private val streamDir: File,
             if (mDatabase.kdbxVersion < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
 
                 val decrypted = attachCipherStream(databaseInputStream, cipher)
-                val dataDecrypted = LEDataInputStream(decrypted)
+                val dataDecrypted = LittleEndianDataInputStream(decrypted)
                 val storedStartBytes: ByteArray?
                 try {
                     storedStartBytes = dataDecrypted.readBytes(32)
@@ -148,7 +148,7 @@ class DatabaseInputKDBX(private val streamDir: File,
 
                 isPlain = HashedBlockInputStream(dataDecrypted)
             } else { // KDBX 4
-                val isData = LEDataInputStream(databaseInputStream)
+                val isData = LittleEndianDataInputStream(databaseInputStream)
                 val storedHash = isData.readBytes(32)
                 if (!Arrays.equals(storedHash, hashOfHeader)) {
                     throw InvalidCredentialsDatabaseException()
@@ -212,7 +212,7 @@ class DatabaseInputKDBX(private val streamDir: File,
 
     @Throws(IOException::class)
     private fun loadInnerHeader(inputStream: InputStream, header: DatabaseHeaderKDBX) {
-        val lis = LEDataInputStream(inputStream)
+        val lis = LittleEndianDataInputStream(inputStream)
 
         while (true) {
             if (!readInnerHeader(lis, header)) break
@@ -220,7 +220,8 @@ class DatabaseInputKDBX(private val streamDir: File,
     }
 
     @Throws(IOException::class)
-    private fun readInnerHeader(dataInputStream: LEDataInputStream, header: DatabaseHeaderKDBX): Boolean {
+    private fun readInnerHeader(dataInputStream: LittleEndianDataInputStream,
+                                header: DatabaseHeaderKDBX): Boolean {
         val fieldId = dataInputStream.read().toByte()
 
         val size = dataInputStream.readInt()
@@ -245,11 +246,9 @@ class DatabaseInputKDBX(private val streamDir: File,
                 // Read in a file
                 val file = File(streamDir, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
-                    dataInputStream.readBytes(byteLength, object : ReadBytes {
-                        override fun read(buffer: ByteArray) {
-                            outputStream.write(buffer)
-                        }
-                    })
+                    dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
+                        outputStream.write(buffer)
+                    }
                 }
                 val protectedBinary = BinaryAttachment(file, protectedFlag)
                 mDatabase.binaryPool.add(protectedBinary)
@@ -822,7 +821,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 buf = buf8
             }
 
-            val seconds = LEDataInputStream.readLong(buf, 0)
+            val seconds = LittleEndianDataInputStream.readLong(buf, 0)
             utcDate = DateKDBXUtil.convertKDBX4Time(seconds)
 
         } else {

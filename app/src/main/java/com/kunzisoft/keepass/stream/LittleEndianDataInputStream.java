@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.stream;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.UUID;
 
 
@@ -29,13 +28,13 @@ import java.util.UUID;
  * Little endian version of the DataInputStream
  * @author bpellin
  */
-public class LEDataInputStream extends InputStream {
+public class LittleEndianDataInputStream extends InputStream {
 
     private static final long INT_TO_LONG_MASK = 0xffffffffL;
 
     private InputStream baseStream;
 
-    public LEDataInputStream(InputStream inputStream) {
+    public LittleEndianDataInputStream(InputStream inputStream) {
         baseStream = inputStream;
     }
 
@@ -88,8 +87,7 @@ public class LEDataInputStream extends InputStream {
 
     @Override
     public int read(byte[] b) throws IOException {
-        // TODO Auto-generated method stub
-        return super.read(b);
+        return baseStream.read(b);
     }
 
     @Override
@@ -122,33 +120,6 @@ public class LEDataInputStream extends InputStream {
         }
 
         return buf;
-    }
-
-    public void readBytes(int length, ReadBytes readBytes) throws IOException {
-        int bufferSize = 256 * 3; // TODO Buffer size
-        byte[] buffer = new byte[bufferSize];
-
-        int offset = 0;
-        int read = 0;
-        while ( offset < length && read != -1) {
-
-            // To reduce the buffer for the last bytes reads
-            if (length - offset < bufferSize) {
-                bufferSize = length - offset;
-                buffer = new byte[bufferSize];
-            }
-            read = read(buffer, 0, bufferSize);
-
-            // To get only the bytes read
-            byte[] optimizedBuffer;
-            if (read >= 0 && buffer.length > read) {
-                optimizedBuffer = Arrays.copyOf(buffer, read);
-            } else {
-                optimizedBuffer = buffer;
-            }
-            readBytes.read(optimizedBuffer);
-            offset += read;
-        }
     }
 
     public int readUShort() throws IOException {

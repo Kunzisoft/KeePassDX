@@ -22,8 +22,7 @@ package com.kunzisoft.keepass.database.element.security
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
-import com.kunzisoft.keepass.stream.ReadBytes
-import com.kunzisoft.keepass.stream.readFromStream
+import com.kunzisoft.keepass.stream.readBytes
 import java.io.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
@@ -79,12 +78,9 @@ class BinaryAttachment : Parcelable {
             if (isCompressed != true) {
                 val fileBinaryCompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
                 val outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
-                readFromStream(getInputDataStream(), BUFFER_SIZE_BYTES,
-                        object : ReadBytes {
-                            override fun read(buffer: ByteArray) {
-                                outputStream.write(buffer)
-                            }
-                        })
+                getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    outputStream.write(buffer)
+                }
                 outputStream.close()
 
                 // Remove unGzip file
@@ -104,12 +100,9 @@ class BinaryAttachment : Parcelable {
             if (isCompressed != false) {
                 val fileBinaryDecompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
                 val outputStream = FileOutputStream(fileBinaryDecompress)
-                readFromStream(GZIPInputStream(getInputDataStream()), BUFFER_SIZE_BYTES,
-                        object : ReadBytes {
-                            override fun read(buffer: ByteArray) {
-                                outputStream.write(buffer)
-                            }
-                        })
+                GZIPInputStream(getInputDataStream()).readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    outputStream.write(buffer)
+                }
                 outputStream.close()
 
                 // Remove gzip file

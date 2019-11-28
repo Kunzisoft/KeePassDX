@@ -35,7 +35,7 @@ public class HmacBlockStream {
 
         NullOutputStream nos = new NullOutputStream();
         DigestOutputStream dos = new DigestOutputStream(nos, hash);
-        LEDataOutputStream leos = new LEDataOutputStream(dos);
+        LittleEndianDataOutputStream leos = new LittleEndianDataOutputStream(dos);
 
         try {
             leos.writeLong(blockIndex);

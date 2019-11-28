@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.io.IOException
@@ -52,12 +52,12 @@ class EntryOutputKDB
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
         mOutputStream.write(LONG_FOUR)
-        mOutputStream.write(LEDataOutputStream.writeIntBuf(mEntry.parent!!.id))
+        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mEntry.parent!!.id))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)
         mOutputStream.write(LONG_FOUR)
-        mOutputStream.write(LEDataOutputStream.writeIntBuf(mEntry.icon.iconId))
+        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mEntry.icon.iconId))
 
         // Title
         //byte[] title = mEntry.title.getBytes("UTF-8");
@@ -123,28 +123,28 @@ class EntryOutputKDB
 
     companion object {
         // Constants
-        val UUID_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(1)
-        val GROUPID_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(2)
-        val IMAGEID_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(3)
-        val TITLE_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(4)
-        val URL_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(5)
-        val USERNAME_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(6)
-        val PASSWORD_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(7)
-        val ADDITIONAL_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(8)
-        val CREATE_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(9)
-        val MOD_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(10)
-        val ACCESS_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(11)
-        val EXPIRE_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(12)
-        val BINARY_DESC_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(13)
-        val BINARY_DATA_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(14)
-        val END_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(0xFFFF)
-        val LONG_FOUR:ByteArray = LEDataOutputStream.writeIntBuf(4)
-        val UUID_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(16)
-        val DATE_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(5)
+        val UUID_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(1)
+        val GROUPID_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(2)
+        val IMAGEID_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(3)
+        val TITLE_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(4)
+        val URL_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(5)
+        val USERNAME_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(6)
+        val PASSWORD_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(7)
+        val ADDITIONAL_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(8)
+        val CREATE_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(9)
+        val MOD_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(10)
+        val ACCESS_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(11)
+        val EXPIRE_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(12)
+        val BINARY_DESC_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(13)
+        val BINARY_DATA_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(14)
+        val END_FIELD_TYPE:ByteArray = LittleEndianDataOutputStream.writeUShortBuf(0xFFFF)
+        val LONG_FOUR:ByteArray = LittleEndianDataOutputStream.writeIntBuf(4)
+        val UUID_FIELD_SIZE:ByteArray = LittleEndianDataOutputStream.writeIntBuf(16)
+        val DATE_FIELD_SIZE:ByteArray = LittleEndianDataOutputStream.writeIntBuf(5)
         val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
         val LEVEL_FIELD_SIZE:ByteArray = LONG_FOUR
         val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
-        val ZERO_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(0)
+        val ZERO_FIELD_SIZE:ByteArray = LittleEndianDataOutputStream.writeIntBuf(0)
         val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
 }

@@ -21,7 +21,7 @@
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 
 import java.io.IOException
 
@@ -47,6 +47,7 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     var contentsHash = ByteArray(32)
 
+    // As UInt
     var numKeyEncRounds: Int = 0
 
     /**
@@ -56,21 +57,21 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     @Throws(IOException::class)
     fun loadFromFile(buf: ByteArray, offset: Int) {
-        signature1 = LEDataInputStream.readInt(buf, offset)
-        signature2 = LEDataInputStream.readInt(buf, offset + 4)
-        flags = LEDataInputStream.readInt(buf, offset + 8)
-        version = LEDataInputStream.readInt(buf, offset + 12)
+        signature1 = LittleEndianDataInputStream.readInt(buf, offset)
+        signature2 = LittleEndianDataInputStream.readInt(buf, offset + 4)
+        flags = LittleEndianDataInputStream.readInt(buf, offset + 8)
+        version = LittleEndianDataInputStream.readInt(buf, offset + 12)
 
         System.arraycopy(buf, offset + 16, masterSeed, 0, 16)
         System.arraycopy(buf, offset + 32, encryptionIV, 0, 16)
 
-        numGroups = LEDataInputStream.readInt(buf, offset + 48)
-        numEntries = LEDataInputStream.readInt(buf, offset + 52)
+        numGroups = LittleEndianDataInputStream.readInt(buf, offset + 48)
+        numEntries = LittleEndianDataInputStream.readInt(buf, offset + 52)
 
         System.arraycopy(buf, offset + 56, contentsHash, 0, 32)
 
         System.arraycopy(buf, offset + 88, transformSeed, 0, 32)
-        numKeyEncRounds = LEDataInputStream.readInt(buf, offset + 120)
+        numKeyEncRounds = LittleEndianDataInputStream.readInt(buf, offset + 120)
         if (numKeyEncRounds < 0) {
             // TODO: Really treat this like an unsigned integer
             throw IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.")

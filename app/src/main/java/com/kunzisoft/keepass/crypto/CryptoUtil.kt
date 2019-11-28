@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto
 
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
 
 import java.io.IOException
@@ -60,7 +60,7 @@ object CryptoUtil {
                     throw RuntimeException(e)
                 }
 
-                val pbR = LEDataOutputStream.writeLongBuf(r)
+                val pbR = LittleEndianDataOutputStream.writeLongBuf(r)
                 val part = hmac.doFinal(pbR)
 
                 val copy = min(cbOut - pos, part.size)

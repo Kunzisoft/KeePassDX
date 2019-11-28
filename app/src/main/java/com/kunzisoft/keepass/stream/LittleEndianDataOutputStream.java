@@ -27,16 +27,16 @@ import java.io.OutputStream;
  * @author bpellin
  *
  */
-public class LEDataOutputStream extends OutputStream {
+public class LittleEndianDataOutputStream extends OutputStream {
 
     private OutputStream baseStream;
 
-    public LEDataOutputStream(OutputStream out) {
+    public LittleEndianDataOutputStream(OutputStream out) {
         baseStream = out;
     }
 
     public void writeUInt(long uint) throws IOException {
-        baseStream.write(LEDataOutputStream.writeIntBuf((int) uint));
+        baseStream.write(LittleEndianDataOutputStream.writeIntBuf((int) uint));
     }
 
     @Override

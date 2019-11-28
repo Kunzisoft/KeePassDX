@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.CopyInputStream
 import com.kunzisoft.keepass.stream.HmacBlockStream
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -148,7 +148,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
-        val littleEndianDataInputStream = LEDataInputStream(digestInputStream)
+        val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
         val sig1 = littleEndianDataInputStream.readInt()
         val sig2 = littleEndianDataInputStream.readInt()
@@ -172,7 +172,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     @Throws(IOException::class)
-    private fun readHeaderField(dis: LEDataInputStream): Boolean {
+    private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
         val fieldID = dis.read().toByte()
 
         val fieldSize: Int = if (version < FILE_VERSION_32_4) {
@@ -248,7 +248,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
-        val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
+        val rounds = LittleEndianDataInputStream.readLong(roundsByte!!, 0)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
@@ -259,7 +259,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = LEDataInputStream.readInt(pbFlags, 0)
+        val flag = LittleEndianDataInputStream.readInt(pbFlags, 0)
         if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
@@ -275,7 +275,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = LEDataInputStream.readInt(streamID, 0)
+        val id = LittleEndianDataInputStream.readInt(streamID, 0)
         if (id < 0 || id >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }

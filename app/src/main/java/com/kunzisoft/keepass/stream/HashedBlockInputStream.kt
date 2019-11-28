@@ -30,7 +30,7 @@ import java.util.Arrays
 
 class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
 
-    private val baseStream: LEDataInputStream = LEDataInputStream(inputStream)
+    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(inputStream)
     private var bufferPos = 0
     private var buffer: ByteArray = ByteArray(0)
     private var bufferIndex: Long = 0
@@ -92,7 +92,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = LEDataInputStream.readInt(baseStream)
+        val bufferSize = LittleEndianDataInputStream.readInt(baseStream)
         if (bufferSize < 0) {
             throw IOException("Invalid data format")
         }

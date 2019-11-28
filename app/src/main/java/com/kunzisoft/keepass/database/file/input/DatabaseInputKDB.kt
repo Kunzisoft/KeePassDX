@@ -57,7 +57,7 @@ import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
@@ -94,14 +94,14 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             // Parse header (unencrypted)
             if (fileSize < DatabaseHeaderKDB.BUF_SIZE)
                 throw IOException("File too short for header")
-            val hdr = DatabaseHeaderKDB()
-            hdr.loadFromFile(filebuf, 0)
+            val header = DatabaseHeaderKDB()
+            header.loadFromFile(filebuf, 0)
 
-            if (hdr.signature1 != DatabaseHeader.PWM_DBSIG_1 || hdr.signature2 != DatabaseHeaderKDB.DBSIG_2) {
+            if (header.signature1 != DatabaseHeader.PWM_DBSIG_1 || header.signature2 != DatabaseHeaderKDB.DBSIG_2) {
                 throw SignatureDatabaseException()
             }
 
-            if (!hdr.matchesVersion()) {
+            if (!header.matchesVersion()) {
                 throw VersionDatabaseException()
             }
 
@@ -111,15 +111,15 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
 
             // Select algorithm
             when {
-                hdr.flags and DatabaseHeaderKDB.FLAG_RIJNDAEL != 0 -> mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
-                hdr.flags and DatabaseHeaderKDB.FLAG_TWOFISH != 0 -> mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.Twofish
+                header.flags and DatabaseHeaderKDB.FLAG_RIJNDAEL != 0 -> mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
+                header.flags and DatabaseHeaderKDB.FLAG_TWOFISH != 0 -> mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.Twofish
                 else -> throw InvalidAlgorithmDatabaseException()
             }
 
-            mDatabaseToOpen.numberKeyEncryptionRounds = hdr.numKeyEncRounds.toLong()
+            mDatabaseToOpen.numberKeyEncryptionRounds = header.numKeyEncRounds.toLong()
 
             // Generate transformedMasterKey from masterKey
-            mDatabaseToOpen.makeFinalKey(hdr.masterSeed, hdr.transformSeed, mDatabaseToOpen.numberKeyEncryptionRounds)
+            mDatabaseToOpen.makeFinalKey(header.masterSeed, header.transformSeed, mDatabaseToOpen.numberKeyEncryptionRounds)
 
             progressTaskUpdater?.updateMessage(R.string.decrypting_db)
             // Initialize Rijndael algorithm
@@ -140,7 +140,7 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             }
 
             try {
-                cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(mDatabaseToOpen.finalKey, "AES"), IvParameterSpec(hdr.encryptionIV))
+                cipher.init(Cipher.DECRYPT_MODE, SecretKeySpec(mDatabaseToOpen.finalKey, "AES"), IvParameterSpec(header.encryptionIV))
             } catch (e1: InvalidKeyException) {
                 throw IOException("Invalid key")
             } catch (e1: InvalidAlgorithmParameterException) {
@@ -172,7 +172,7 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             dos.close()
             val hash = md.digest()
 
-            if (!Arrays.equals(hash, hdr.contentsHash)) {
+            if (!Arrays.equals(hash, header.contentsHash)) {
 
                 Log.w(TAG, "Database file did not decrypt correctly. (checksum code is broken)")
                 throw InvalidCredentialsDatabaseException()
@@ -188,10 +188,10 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             var newGrp = mDatabaseToOpen.createGroup()
             run {
                 var i = 0
-                while (i < hdr.numGroups) {
-                    val fieldType = LEDataInputStream.readUShort(filebuf, pos)
+                while (i < header.numGroups) {
+                    val fieldType = LittleEndianDataInputStream.readUShort(filebuf, pos)
                     pos += 2
-                    val fieldSize = LEDataInputStream.readInt(filebuf, pos)
+                    val fieldSize = LittleEndianDataInputStream.readInt(filebuf, pos)
                     pos += 4
 
                     if (fieldType == 0xFFFF) {
@@ -209,9 +209,9 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             // Import all entries
             var newEnt = mDatabaseToOpen.createEntry()
             var i = 0
-            while (i < hdr.numEntries) {
-                val fieldType = LEDataInputStream.readUShort(filebuf, pos)
-                val fieldSize = LEDataInputStream.readInt(filebuf, pos + 2)
+            while (i < header.numEntries) {
+                val fieldType = LittleEndianDataInputStream.readUShort(filebuf, pos)
+                val fieldSize = LittleEndianDataInputStream.readInt(filebuf, pos + 2)
 
                 if (fieldType == 0xFFFF) {
                     // End-Group record.  Save group and count it.
@@ -291,37 +291,37 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
         when (fieldType) {
             0x0000 -> {
             }
-            0x0001 -> grp.setGroupId(LEDataInputStream.readInt(buf, offset))
+            0x0001 -> grp.setGroupId(LittleEndianDataInputStream.readInt(buf, offset))
             0x0002 -> grp.title = DatabaseInputOutputUtils.readCString(buf, offset)
             0x0003 -> grp.creationTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0004 -> grp.lastModificationTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0005 -> grp.lastAccessTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0006 -> grp.expiryTime = DatabaseInputOutputUtils.readCDate(buf, offset)
-            0x0007 -> grp.icon = db.iconFactory.getIcon(LEDataInputStream.readInt(buf, offset))
-            0x0008 -> grp.level = LEDataInputStream.readUShort(buf, offset)
-            0x0009 -> grp.flags = LEDataInputStream.readInt(buf, offset)
+            0x0007 -> grp.icon = db.iconFactory.getIcon(LittleEndianDataInputStream.readInt(buf, offset))
+            0x0008 -> grp.level = LittleEndianDataInputStream.readUShort(buf, offset)
+            0x0009 -> grp.flags = LittleEndianDataInputStream.readInt(buf, offset)
         }// Ignore field
     }
 
     @Throws(UnsupportedEncodingException::class)
     private fun readEntryField(db: DatabaseKDB, ent: EntryKDB, buf: ByteArray, offset: Int) {
         var offsetMutable = offset
-        val fieldType = LEDataInputStream.readUShort(buf, offsetMutable)
+        val fieldType = LittleEndianDataInputStream.readUShort(buf, offsetMutable)
         offsetMutable += 2
-        val fieldSize = LEDataInputStream.readInt(buf, offsetMutable)
+        val fieldSize = LittleEndianDataInputStream.readInt(buf, offsetMutable)
         offsetMutable += 4
 
         when (fieldType) {
             0x0000 -> {
             }
-            0x0001 -> ent.nodeId = NodeIdUUID(LEDataInputStream.readUuid(buf, offsetMutable))
+            0x0001 -> ent.nodeId = NodeIdUUID(LittleEndianDataInputStream.readUuid(buf, offsetMutable))
             0x0002 -> {
                 val groupKDB = mDatabaseToOpen.createGroup()
-                groupKDB.nodeId = NodeIdInt(LEDataInputStream.readInt(buf, offsetMutable))
+                groupKDB.nodeId = NodeIdInt(LittleEndianDataInputStream.readInt(buf, offsetMutable))
                 ent.parent = groupKDB
             }
             0x0003 -> {
-                var iconId = LEDataInputStream.readInt(buf, offsetMutable)
+                var iconId = LittleEndianDataInputStream.readInt(buf, offsetMutable)
 
                 // Clean up after bug that set icon ids to -1
                 if (iconId == -1) {
