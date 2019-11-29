@@ -20,12 +20,11 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
+import java.util.*
 
 
 class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
@@ -92,7 +91,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = LittleEndianDataInputStream.readInt(baseStream)
+        val bufferSize = readInt(baseStream)
         if (bufferSize < 0) {
             throw IOException("Invalid data format")
         }

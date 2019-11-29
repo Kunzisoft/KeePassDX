@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.tests
 
+import com.kunzisoft.keepass.stream.*
 import org.junit.Assert.assertArrayEquals
 
 import java.io.ByteArrayOutputStream
@@ -27,8 +28,6 @@ import java.util.Random
 
 import junit.framework.TestCase
 
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 class DatabaseInputOutputUtilsTest : TestCase() {
@@ -59,8 +58,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 8)
 
-        val one = LittleEndianDataInputStream.readLong(orig, 0)
-        LittleEndianDataOutputStream.writeLong(one, dest, 0)
+        val one = readLong(orig, 0)
+        writeLong(one, dest, 0)
 
         assertArrayEquals(orig, dest)
 
@@ -88,9 +87,9 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 4)
 
-        val one = LittleEndianDataInputStream.readInt(orig, 0)
+        val one = readInt(orig, 0)
 
-        LittleEndianDataOutputStream.writeInt(one, dest, 0)
+        writeInt(one, dest, 0)
 
         assertArrayEquals(orig, dest)
 
@@ -108,8 +107,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         orig[0] = 0
         orig[1] = 1
 
-        val one = LittleEndianDataInputStream.readUShort(orig, 0)
-        val dest = LittleEndianDataOutputStream.writeUShortBuf(one)
+        val one = readUShort(orig, 0)
+        val dest = writeUShortBuf(one)
 
         assertArrayEquals(orig, dest)
 
@@ -129,8 +128,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 2)
 
-        val one = LittleEndianDataInputStream.readUShort(orig, 0)
-        LittleEndianDataOutputStream.writeUShort(one, dest, 0)
+        val one = readUShort(orig, 0)
+        writeUShort(one, dest, 0)
 
         assertArrayEquals(orig, dest)
 
@@ -187,7 +186,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         val uuid = DatabaseInputOutputUtils.bytesToUuid(bUUID)
         val eUUID = DatabaseInputOutputUtils.uuidToBytes(uuid)
 
-        val lUUID = LittleEndianDataInputStream.readUuid(bUUID, 0)
+        val lUUID = readUuid(bUUID, 0)
         val leUUID = DatabaseInputOutputUtils.uuidToBytes(lUUID)
 
         assertArrayEquals("UUID match failed", bUUID, eUUID)

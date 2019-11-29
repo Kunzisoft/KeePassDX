@@ -30,9 +30,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
-import com.kunzisoft.keepass.stream.CopyInputStream
-import com.kunzisoft.keepass.stream.HmacBlockStream
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
+import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -248,7 +246,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
-        val rounds = LittleEndianDataInputStream.readLong(roundsByte!!, 0)
+        val rounds = readLong(roundsByte!!, 0)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
@@ -259,7 +257,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = LittleEndianDataInputStream.readInt(pbFlags, 0)
+        val flag = readInt(pbFlags, 0)
         if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
@@ -275,7 +273,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = LittleEndianDataInputStream.readInt(streamID, 0)
+        val id = readInt(streamID, 0)
         if (id < 0 || id >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }

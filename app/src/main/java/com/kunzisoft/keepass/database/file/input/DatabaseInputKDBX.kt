@@ -24,7 +24,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -37,9 +38,9 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
+import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
@@ -821,7 +822,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 buf = buf8
             }
 
-            val seconds = LittleEndianDataInputStream.readLong(buf, 0)
+            val seconds = readLong(buf, 0)
             utcDate = DateKDBXUtil.convertKDBX4Time(seconds)
 
         } else {

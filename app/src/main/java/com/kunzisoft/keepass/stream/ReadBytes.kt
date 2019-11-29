@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.stream
 
 import java.io.IOException
 import java.io.InputStream
+import java.util.*
+import kotlin.experimental.and
 
 /**
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
@@ -70,4 +72,114 @@ fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: B
         readBytes.invoke(optimizedBuffer)
         offset += read
     }
+}
+
+/**
+ * Read an unsigned 16-bit value.
+ */
+fun readUShort(buf: ByteArray, offset: Int): Int {
+    return ((buf[offset].toInt() and 0xFF)
+            + (buf[offset + 1].toInt() and 0xFF shl 8))
+}
+
+fun readLong(buf: ByteArray, offset: Int): Long {
+    return ((buf[offset].toLong() and 0xFF) + (buf[offset + 1].toLong() and 0xFF shl 8)
+            + (buf[offset + 2].toLong() and 0xFF shl 16) + (buf[offset + 3].toLong() and 0xFF shl 24)
+            + (buf[offset + 4].toLong() and 0xFF shl 32) + (buf[offset + 5].toLong() and 0xFF shl 40)
+            + (buf[offset + 6].toLong() and 0xFF shl 48) + (buf[offset + 7].toLong() and 0xFF shl 56))
+}
+
+
+private const val INT_TO_LONG_MASK: Long = 0xffffffffL
+
+fun readUInt(buf: ByteArray, offset: Int): Long {
+    return readInt(buf, offset).toLong()// and INT_TO_LONG_MASK // TODO
+}
+
+/**
+ *  Read a 32-bit value and return it as a long, so that it can
+ *  be interpreted as an unsigned integer.
+ */
+@Throws(IOException::class)
+fun readUInt(inputStream: InputStream): Long {
+    return readInt(inputStream).toLong()// and INT_TO_LONG_MASK // TODO
+}
+
+@Throws(IOException::class)
+fun readInt(inputStream: InputStream): Int {
+    val buf = ByteArray(4)
+    if (inputStream.read(buf, 0, 4) != 4)
+        throw IOException("Unable to read int value")
+    return readInt(buf, 0)
+}
+
+/**
+ * Read a 32-bit value.
+ */
+fun readInt(buf: ByteArray, offset: Int): Int {
+    return ((buf[offset].toInt() and 0xFF)
+            + (buf[offset + 1].toInt() and 0xFF shl 8)
+            + (buf[offset + 2].toInt() and 0xFF shl 16)
+            + (buf[offset + 3].toInt() and 0xFF shl 24))
+}
+
+fun readUuid(buf: ByteArray, offset: Int): UUID {
+    var lsb: Long = 0
+    for (i in 15 downTo 8) {
+        lsb = lsb shl 8 or (buf[i + offset].toLong() and 0xff)
+    }
+
+    var msb: Long = 0
+    for (i in 7 downTo 0) {
+        msb = msb shl 8 or (buf[i + offset].toLong() and 0xff)
+    }
+
+    return UUID(msb, lsb)
+}
+
+fun writeIntBuf(value: Int): ByteArray {
+    val buf = ByteArray(4)
+    writeInt(value, buf, 0)
+    return buf
+}
+
+fun writeUShortBuf(value: Int): ByteArray {
+    val buf = ByteArray(2)
+    writeUShort(value, buf, 0)
+    return buf
+}
+
+/**
+ * Write an unsigned 16-bit value
+ */
+fun writeUShort(value: Int, buf: ByteArray, offset: Int) {
+    buf[offset + 0] = (value and 0x00FF).toByte()
+    buf[offset + 1] = (value and 0xFF00 shr 8).toByte()
+}
+
+/**
+ * Write a 32-bit value.
+ */
+fun writeInt(value: Int, buf: ByteArray, offset: Int) {
+    buf[offset + 0] = (value and 0xFF).toByte()
+    buf[offset + 1] = (value.ushr(8) and 0xFF).toByte()
+    buf[offset + 2] = (value.ushr(16) and 0xFF).toByte()
+    buf[offset + 3] = (value.ushr(24) and 0xFF).toByte()
+}
+
+fun writeLongBuf(value: Long): ByteArray {
+    val buf = ByteArray(8)
+    writeLong(value, buf, 0)
+    return buf
+}
+
+fun writeLong(value: Long, buf: ByteArray, offset: Int) {
+    buf[offset + 0] = (value and 0xFF).toByte()
+    buf[offset + 1] = (value.ushr(8) and 0xFF).toByte()
+    buf[offset + 2] = (value.ushr(16) and 0xFF).toByte()
+    buf[offset + 3] = (value.ushr(24) and 0xFF).toByte()
+    buf[offset + 4] = (value.ushr(32) and 0xFF).toByte()
+    buf[offset + 5] = (value.ushr(40) and 0xFF).toByte()
+    buf[offset + 6] = (value.ushr(48) and 0xFF).toByte()
+    buf[offset + 7] = (value.ushr(56) and 0xFF).toByte()
 }

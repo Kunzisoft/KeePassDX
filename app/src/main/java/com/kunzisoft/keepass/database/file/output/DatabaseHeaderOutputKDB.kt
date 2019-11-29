@@ -20,8 +20,7 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
-
+import com.kunzisoft.keepass.stream.writeIntBuf
 import java.io.IOException
 import java.io.OutputStream
 
@@ -30,14 +29,14 @@ class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB,
 
     @Throws(IOException::class)
     fun outputStart() {
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.signature1))
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.signature2))
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.flags))
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.version))
+        mOutputStream.write(writeIntBuf(mHeader.signature1))
+        mOutputStream.write(writeIntBuf(mHeader.signature2))
+        mOutputStream.write(writeIntBuf(mHeader.flags))
+        mOutputStream.write(writeIntBuf(mHeader.version))
         mOutputStream.write(mHeader.masterSeed)
         mOutputStream.write(mHeader.encryptionIV)
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.numGroups))
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.numEntries))
+        mOutputStream.write(writeIntBuf(mHeader.numGroups))
+        mOutputStream.write(writeIntBuf(mHeader.numEntries))
     }
 
     @Throws(IOException::class)
@@ -48,7 +47,7 @@ class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB,
     @Throws(IOException::class)
     fun outputEnd() {
         mOutputStream.write(mHeader.transformSeed)
-        mOutputStream.write(LittleEndianDataOutputStream.writeIntBuf(mHeader.numKeyEncRounds))
+        mOutputStream.write(writeIntBuf(mHeader.numKeyEncRounds))
     }
 
     @Throws(IOException::class)

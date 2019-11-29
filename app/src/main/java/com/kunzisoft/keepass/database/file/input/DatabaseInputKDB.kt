@@ -57,19 +57,20 @@ import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
+import com.kunzisoft.keepass.stream.readInt
+import com.kunzisoft.keepass.stream.readUShort
+import com.kunzisoft.keepass.stream.readUuid
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
-import javax.crypto.*
-import javax.crypto.spec.IvParameterSpec
-import javax.crypto.spec.SecretKeySpec
 import java.io.IOException
 import java.io.InputStream
 import java.io.UnsupportedEncodingException
 import java.security.*
-import java.util.Arrays
+import java.util.*
+import javax.crypto.*
+import javax.crypto.spec.IvParameterSpec
+import javax.crypto.spec.SecretKeySpec
 
 /**
  * Load a KDB database file.
@@ -189,9 +190,9 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             run {
                 var i = 0
                 while (i < header.numGroups) {
-                    val fieldType = LittleEndianDataInputStream.readUShort(filebuf, pos)
+                    val fieldType = readUShort(filebuf, pos)
                     pos += 2
-                    val fieldSize = LittleEndianDataInputStream.readInt(filebuf, pos)
+                    val fieldSize = readInt(filebuf, pos)
                     pos += 4
 
                     if (fieldType == 0xFFFF) {
@@ -210,8 +211,8 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
             var newEnt = mDatabaseToOpen.createEntry()
             var i = 0
             while (i < header.numEntries) {
-                val fieldType = LittleEndianDataInputStream.readUShort(filebuf, pos)
-                val fieldSize = LittleEndianDataInputStream.readInt(filebuf, pos + 2)
+                val fieldType = readUShort(filebuf, pos)
+                val fieldSize = readInt(filebuf, pos + 2)
 
                 if (fieldType == 0xFFFF) {
                     // End-Group record.  Save group and count it.
@@ -291,37 +292,37 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
         when (fieldType) {
             0x0000 -> {
             }
-            0x0001 -> grp.setGroupId(LittleEndianDataInputStream.readInt(buf, offset))
+            0x0001 -> grp.setGroupId(readInt(buf, offset))
             0x0002 -> grp.title = DatabaseInputOutputUtils.readCString(buf, offset)
             0x0003 -> grp.creationTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0004 -> grp.lastModificationTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0005 -> grp.lastAccessTime = DatabaseInputOutputUtils.readCDate(buf, offset)
             0x0006 -> grp.expiryTime = DatabaseInputOutputUtils.readCDate(buf, offset)
-            0x0007 -> grp.icon = db.iconFactory.getIcon(LittleEndianDataInputStream.readInt(buf, offset))
-            0x0008 -> grp.level = LittleEndianDataInputStream.readUShort(buf, offset)
-            0x0009 -> grp.flags = LittleEndianDataInputStream.readInt(buf, offset)
+            0x0007 -> grp.icon = db.iconFactory.getIcon(readInt(buf, offset))
+            0x0008 -> grp.level = readUShort(buf, offset)
+            0x0009 -> grp.flags = readInt(buf, offset)
         }// Ignore field
     }
 
     @Throws(UnsupportedEncodingException::class)
     private fun readEntryField(db: DatabaseKDB, ent: EntryKDB, buf: ByteArray, offset: Int) {
         var offsetMutable = offset
-        val fieldType = LittleEndianDataInputStream.readUShort(buf, offsetMutable)
+        val fieldType = readUShort(buf, offsetMutable)
         offsetMutable += 2
-        val fieldSize = LittleEndianDataInputStream.readInt(buf, offsetMutable)
+        val fieldSize = readInt(buf, offsetMutable)
         offsetMutable += 4
 
         when (fieldType) {
             0x0000 -> {
             }
-            0x0001 -> ent.nodeId = NodeIdUUID(LittleEndianDataInputStream.readUuid(buf, offsetMutable))
+            0x0001 -> ent.nodeId = NodeIdUUID(readUuid(buf, offsetMutable))
             0x0002 -> {
                 val groupKDB = mDatabaseToOpen.createGroup()
-                groupKDB.nodeId = NodeIdInt(LittleEndianDataInputStream.readInt(buf, offsetMutable))
+                groupKDB.nodeId = NodeIdInt(readInt(buf, offsetMutable))
                 ent.parent = groupKDB
             }
             0x0003 -> {
-                var iconId = LittleEndianDataInputStream.readInt(buf, offsetMutable)
+                var iconId = readInt(buf, offsetMutable)
 
                 // Clean up after bug that set icon ids to -1
                 if (iconId == -1) {

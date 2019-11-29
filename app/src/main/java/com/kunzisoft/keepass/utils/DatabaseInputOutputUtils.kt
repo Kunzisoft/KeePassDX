@@ -43,8 +43,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.kunzisoft.keepass.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
-import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
+import com.kunzisoft.keepass.stream.readUuid
+import com.kunzisoft.keepass.stream.writeIntBuf
+import com.kunzisoft.keepass.stream.writeLong
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
@@ -75,14 +76,14 @@ object DatabaseInputOutputUtils {
     /**
      * Write an unsigned byte
      */
-    fun writeUByte(`val`: Int, buf: ByteArray, offset: Int) {
-        buf[offset] = (`val` and 0xFF).toByte()
+    fun writeUByte(value: Int, buf: ByteArray, offset: Int) {
+        buf[offset] = (value and 0xFF).toByte()
     }
 
-    fun writeUByte(`val`: Int): Byte {
+    fun writeUByte(value: Int): Byte {
         val buf = ByteArray(1)
 
-        writeUByte(`val`, buf, 0)
+        writeUByte(value, buf, 0)
 
         return buf[0]
     }
@@ -113,7 +114,7 @@ object DatabaseInputOutputUtils {
         var str = string
         if (str == null) {
             // Write out a null character
-            os.write(LittleEndianDataOutputStream.writeIntBuf(1))
+            os.write(writeIntBuf(1))
             os.write(0x00)
             return 0
         }
@@ -125,7 +126,7 @@ object DatabaseInputOutputUtils {
         val initial = str.toByteArray(defaultCharset)
 
         val length = initial.size + 1
-        os.write(LittleEndianDataOutputStream.writeIntBuf(length))
+        os.write(writeIntBuf(length))
         os.write(initial)
         os.write(0x00)
 
@@ -199,7 +200,7 @@ object DatabaseInputOutputUtils {
     fun writePassword(str: String, os: OutputStream): Int {
         val initial = str.toByteArray(defaultCharset)
         val length = initial.size + 1
-        os.write(LittleEndianDataOutputStream.writeIntBuf(length))
+        os.write(writeIntBuf(length))
         os.write(initial)
         os.write(0x00)
         return length
@@ -213,7 +214,7 @@ object DatabaseInputOutputUtils {
 
     @Throws(IOException::class)
     fun writeBytes(data: ByteArray?, dataLen: Int, os: OutputStream): Int {
-        os.write(LittleEndianDataOutputStream.writeIntBuf(dataLen))
+        os.write(writeIntBuf(dataLen))
         if (data != null) {
             os.write(data)
         }
@@ -221,13 +222,13 @@ object DatabaseInputOutputUtils {
     }
 
     fun bytesToUuid(buf: ByteArray): UUID {
-        return LittleEndianDataInputStream.readUuid(buf, 0)
+        return readUuid(buf, 0)
     }
 
     fun uuidToBytes(uuid: UUID): ByteArray {
         val buf = ByteArray(16)
-        LittleEndianDataOutputStream.writeLong(uuid.mostSignificantBits, buf, 0)
-        LittleEndianDataOutputStream.writeLong(uuid.leastSignificantBits, buf, 8)
+        writeLong(uuid.mostSignificantBits, buf, 0)
+        writeLong(uuid.leastSignificantBits, buf, 8)
         return buf
     }
 }

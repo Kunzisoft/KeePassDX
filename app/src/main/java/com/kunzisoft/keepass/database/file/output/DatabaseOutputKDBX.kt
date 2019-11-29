@@ -28,7 +28,7 @@ import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -46,7 +46,10 @@ import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.stream.HashedBlockOutputStream
+import com.kunzisoft.keepass.stream.HmacBlockOutputStream
+import com.kunzisoft.keepass.stream.readBytes
+import com.kunzisoft.keepass.stream.writeLongBuf
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
@@ -390,7 +393,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         } else {
             val dt = DateTime(value)
             val seconds = DateKDBXUtil.convertDateToKDBX4Time(dt)
-            val buf = LittleEndianDataOutputStream.writeLongBuf(seconds)
+            val buf = writeLongBuf(seconds)
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeObject(name, b64)
         }

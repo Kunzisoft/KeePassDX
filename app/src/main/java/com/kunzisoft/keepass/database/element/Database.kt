@@ -36,7 +36,10 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
@@ -45,7 +48,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
+import com.kunzisoft.keepass.stream.readInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -355,8 +358,8 @@ class Database {
         bufferedInputStream.mark(10)
 
         // Get the file directory to save the attachments
-        val sig1 = LittleEndianDataInputStream.readInt(bufferedInputStream)
-        val sig2 = LittleEndianDataInputStream.readInt(bufferedInputStream)
+        val sig1 = readInt(bufferedInputStream)
+        val sig2 = readInt(bufferedInputStream)
 
         // Return to the start
         bufferedInputStream.reset()

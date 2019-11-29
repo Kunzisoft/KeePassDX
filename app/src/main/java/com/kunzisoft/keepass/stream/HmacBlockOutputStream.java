@@ -27,6 +27,9 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import static com.kunzisoft.keepass.stream.ReadBytesKt.writeIntBuf;
+import static com.kunzisoft.keepass.stream.ReadBytesKt.writeLongBuf;
+
 public class HmacBlockOutputStream extends OutputStream {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
     private LittleEndianDataOutputStream baseStream;
@@ -89,8 +92,8 @@ public class HmacBlockOutputStream extends OutputStream {
     }
 
     private void WriteSafeBlock() throws IOException {
-        byte[] bufBlockIndex = LittleEndianDataOutputStream.writeLongBuf(blockIndex);
-        byte[] blockSizeBuf = LittleEndianDataOutputStream.writeIntBuf(bufferPos);
+        byte[] bufBlockIndex = writeLongBuf(blockIndex);
+        byte[] blockSizeBuf = writeIntBuf(bufferPos);
 
         byte[] blockHmac;
         byte[] blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex);

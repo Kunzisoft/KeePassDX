@@ -20,13 +20,11 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
-
+import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
@@ -95,12 +93,12 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = LittleEndianDataOutputStream.writeLongBuf(blockIndex)
+        val pbBlockIndex = writeLongBuf(blockIndex)
         val pbBlockSize = baseStream.readBytes(4)
         if (pbBlockSize == null || pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = LittleEndianDataInputStream.readInt(pbBlockSize, 0)
+        val blockSize = readInt(pbBlockSize, 0)
         bufferPos = 0
 
         buffer = baseStream.readBytes(blockSize)
