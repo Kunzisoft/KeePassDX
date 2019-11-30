@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Comentários</string>
     <string name="about_homepage">Página inicial</string>
     <string name="about_description">KeePass DX é uma implementação para Android do gerenciador de senhas KeePass</string>
@@ -164,7 +163,7 @@
     <string name="error_move_folder_in_itself">Você não pode mover um grupo para dentro de si mesmo.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
+    <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu provedor de conteúdo.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_does_not_exist">Não existem arquivos-chave.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
@@ -231,7 +230,7 @@
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
     <string name="advanced_unlock">Impressão Digital</string>
     <string name="biometric_unlock_enable_title">Escaneamento de impressão digital</string>
-    <string name="biometric_unlock_enable_summary">Permite que você escaneie sua impressão digital para a abertura do banco de dados</string>
+    <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
     <string name="biometric_delete_all_key_title">Apague chaves de encriptação</string>
     <string name="biometric_delete_all_key_summary">Apague todas as chaves de encriptação relacionadas ao reconhecimento de Impressões digitais</string>
     <string name="biometric_delete_all_key_warning">Tem certeza que você quer apagar todas as chaves relacionadas ao reconhecimento de Impressões digitais\?</string>
@@ -306,12 +305,15 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
+    </string>
     <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong></string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
+    </string>
     <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Contribuindo </strong>,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Contribuindo </strong>,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
@@ -353,7 +355,7 @@
     <string name="keyboard_key_sound_title">Som ao clicar</string>
     <string name="selection_mode">Modo de seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
-    <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
+    <string name="lock_database_back_root_title">Pressione \'Voltar\' para trancar</string>
     <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
     <string name="clear_clipboard_notification_title">Limpar a área de transferência ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
@@ -396,4 +398,51 @@
     <string name="biometric_auto_open_prompt_summary">Abrir automaticamente o prompt de biometria quando a chave biométrica for definida para o banco de dados</string>
     <string name="enable">Habilitado</string>
     <string name="disable">Desabilitado</string>
+    <string name="master_key">Chave mestre</string>
+    <string name="security">Segurança</string>
+    <string name="entry_history">Histórico</string>
+    <string name="entry_setup_otp">Configurar TOTP</string>
+    <string name="otp_type">Tipo OTP</string>
+    <string name="otp_secret">Segredo</string>
+    <string name="otp_period">Período (segundos)</string>
+    <string name="otp_counter">Contador</string>
+    <string name="otp_digits">Dígitos</string>
+    <string name="otp_algorithm">Algorítimo</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Segredo OTP inválido.</string>
+    <string name="error_disallow_no_credentials">Ao menos uma credencial deve ser definida.</string>
+    <string name="error_copy_group_here">Você não pode copiar um grupo aqui.</string>
+    <string name="error_otp_secret_key">A chave secreta deve estar em formato Base32.</string>
+    <string name="error_otp_counter">O contador deve estar entre %1$d e %2$d.</string>
+    <string name="error_otp_period">O período deve estar entre %1$d e %2$d segundos.</string>
+    <string name="error_otp_digits">O token deve conter de %1$d até %2$d digitos.</string>
+    <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
+    <string name="creating_database">Criando banco de dados…</string>
+    <string name="menu_security_settings">Configurações de segurança</string>
+    <string name="menu_master_key_settings">Configurações da chave mestre</string>
+    <string name="contains_duplicate_uuid">O banco de dados contém UUIDs duplicados.</string>
+    <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePass DX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
+    <string name="database_opened">Banco de dados aberto</string>
+    <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
+    <string name="persistent_notification_title">Notificação persistente</string>
+    <string name="persistent_notification_summary">Adicionar uma notificação quando o banco de dados for aberto</string>
+    <string name="advanced_unlock_explanation_summary">Usar destravamento avançado para abrir o banco de dados mais facilmente</string>
+    <string name="database_data_compression_title">Compressão dos dados</string>
+    <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados.</string>
+    <string name="max_history_items_title">Máx. itens no histórico</string>
+    <string name="max_history_items_summary">Limitar o número de itens do histórico por entrada</string>
+    <string name="max_history_size_title">Máx. tamanho do histórico</string>
+    <string name="max_history_size_summary">Limite de tamanho do histórico por entrada (em bytes binários)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Mudança recomendada</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Recomendar mudança da chave mestre (em dias)</string>
+    <string name="settings_database_force_changing_master_key_title">Forçar mudança</string>
+    <string name="settings_database_force_changing_master_key_summary">Forçar mudança da chave metre (em dias)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Forçar mudança na próxima vez</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Forçar mudança da chave mestre na próxima vez (uma vez)</string>
+    <string name="database_default_username_title">Usuário padrão</string>
+    <string name="database_custom_color_title">Cor personalizada do banco de dados</string>
+    <string name="compression">Compressão</string>
+    <string name="compression_none">Nada</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
 </resources>
