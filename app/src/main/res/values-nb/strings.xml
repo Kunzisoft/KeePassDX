@@ -294,11 +294,9 @@
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
-    </string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong></string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
-    </string>
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong></string>
     <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>

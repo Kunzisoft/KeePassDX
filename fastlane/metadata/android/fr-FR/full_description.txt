@@ -6,7 +6,7 @@
  - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePass XC...)
  - Permet la copie rapide de champs et l'ouverture d'URI /URL
  - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / ...)
- - Gestion One-Time Password (HOTP / TOTP)
+ - Gestion des mots de passe à usage unique (One-Time Password HOTP / TOTP) pour l'authentification à deux facteurs (2FA)
  - Material design avec thèmes
  - Remplissage automatique de champs
  - Clavier de remplissage de champs

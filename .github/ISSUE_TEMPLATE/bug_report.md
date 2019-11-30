@@ -38,7 +38,7 @@ If applicable, add screenshots to help explain your problem.
 **Android (please complete the following information):**
  - Device: [e.g. GalaxyS8]
  - Version: [e.g. 8.1]
- - Browser: [e.g. Chrome]
 
 **Additional context**
 Add any other context about the problem here.
+ - Browser for Autofill: [e.g. Chrome version X]

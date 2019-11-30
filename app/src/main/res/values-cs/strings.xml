@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Czech translation by Jan Vaněk
--->
-<resources>
+--><resources>
     <string name="about_feedback">Nahlášení problému</string>
     <string name="about_homepage">Domovská stránka</string>
     <string name="about_description">Androidová verze správce hesel KeePass</string>
@@ -240,7 +239,7 @@
     <string name="lock_database_screen_off_summary">Při zhasnutí obrazovky uzamknout databázi</string>
     <string name="advanced_unlock">Pokročilé odemčení</string>
     <string name="biometric_unlock_enable_title">Biometrické odemčení</string>
-    <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním otisku prstu</string>
+    <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
     <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
     <string name="biometric_delete_all_key_warning">Opravdu chcete smazat všechny klíče související s biometrickým rozlišením\?</string>
@@ -315,15 +314,12 @@
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, bezpečnost a přidávání dalších funkcí.</string>
     <string name="html_text_ad_free">Narozdíl od mnoha aplikací pro správu hesel, tato je <strong>bez reklam</strong>, je <strong>svobodným softwarem</strong> a neodesílá nikam žádné osobní údaje, bez ohledu na to, jakou verzi používáte.</string>
-    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k této <strong>vizuální funkci</strong> a hlavně pomůžete <strong>uskutečnění komunitních projektů.</strong>
-    </string>
+    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k této <strong>vizuální funkci</strong> a hlavně pomůžete <strong>uskutečnění komunitních projektů.</strong></string>
     <string name="html_text_feature_generosity">Tato <strong>vizuální funkce</strong> je k dispozici díky vaší štědrosti.</string>
-    <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity, počítáme s vaším <strong>přispěním.</strong>
-    </string>
+    <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity, počítáme s vaším <strong>přispěním.</strong></string>
     <string name="html_text_dev_feature">Tato funkce je <strong>ve vývoji</strong> a potřebuje váš <strong>příspěvek</strong>, aby byla brzy k dispozici.</string>
     <string name="html_text_dev_feature_buy_pro">Zakoupením <strong>pro</strong> varianty,</string>
-    <string name="html_text_dev_feature_contibute">
-        <strong>Zapojením se</strong>,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Zapojením se</strong>,</string>
     <string name="html_text_dev_feature_encourage">povzbudíte vývojáře k přidávání <strong>nových funkcí</strong> a <strong>opravování chyb</strong> dle vašich připomínek.</string>
     <string name="html_text_dev_feature_thanks">Mnohé díky za vaše přispění.</string>
     <string name="html_text_dev_feature_work_hard">Tvrdě pracujeme na brzkém vydání této funkce.</string>
@@ -358,7 +354,7 @@
     <string name="keyboard_key_sound_title">Vydat zvuk při stisku klávesy</string>
     <string name="selection_mode">Režim výběru</string>
     <string name="do_not_kill_app">Neshoďte aplikaci…</string>
-    <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět v hlavním panelu</string>
+    <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
     <string name="lock_database_back_root_summary">Zamknout obrazovku, pokud uživatel stiskne tlačítko Zpět v hlavním panelu</string>
     <string name="clear_clipboard_notification_title">Vymazat při ukončení</string>
     <string name="clear_clipboard_notification_summary">Uzavřít databázi při uzavření oznámení</string>
@@ -401,4 +397,51 @@
     <string name="biometric_auto_open_prompt_summary">Automaticky otevřít biometrickou pobídku, je-li biometrický klíč pro databázi definován</string>
     <string name="enable">Zapnout</string>
     <string name="disable">Vypnout</string>
+    <string name="master_key">Hlavní klíč</string>
+    <string name="security">Zabezpečení</string>
+    <string name="entry_history">Historie</string>
+    <string name="entry_setup_otp">Nastavit heslo na jedno použití (OTP)</string>
+    <string name="otp_type">Typ OTP</string>
+    <string name="otp_secret">Tajnost</string>
+    <string name="otp_period">Interval (vteřiny)</string>
+    <string name="otp_counter">Čítač</string>
+    <string name="otp_digits">Číslice</string>
+    <string name="otp_algorithm">Algoritmus</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Neplatná OTP tajnost.</string>
+    <string name="error_disallow_no_credentials">Nejméně jeden přihlašovací údaj musí být zadán.</string>
+    <string name="error_copy_group_here">Sem skupinu kopírovat nemůžete.</string>
+    <string name="error_otp_secret_key">Tajný klíč musí mít formát Base32.</string>
+    <string name="error_otp_counter">Čítač musít být mezi %1$d a %2$d.</string>
+    <string name="error_otp_period">Interval musít být mezi %1$d a %2$d vteřinami.</string>
+    <string name="error_otp_digits">Token musí obsahovat mezi %1$d a %2$d číslicemi.</string>
+    <string name="invalid_db_same_uuid">%1$s s totožným UUID %2$s již existuje.</string>
+    <string name="creating_database">Zakládám databázi…</string>
+    <string name="menu_security_settings">Nastavení zabezpečení</string>
+    <string name="menu_master_key_settings">Nastavení hlavního klíče</string>
+    <string name="contains_duplicate_uuid">Databáze obsahuje duplikátní UUID.</string>
+    <string name="contains_duplicate_uuid_procedure">Prověřením toho dialogu opraví KeePassDX chybu (založením nového UUID pro duplikáty) a bude pokračovat.</string>
+    <string name="database_opened">Databáze otevřena</string>
+    <string name="clipboard_explanation_summary">Kopírujte pole záznamů pomocí schránky Vašeho zařízení</string>
+    <string name="persistent_notification_title">Trvalé oznámení</string>
+    <string name="persistent_notification_summary">Přidat oznámení, když je databáze otevřena</string>
+    <string name="advanced_unlock_explanation_summary">K snadnějšímu otevření databáze použijte pokročilé odemknutí</string>
+    <string name="database_data_compression_title">Komprese dat</string>
+    <string name="database_data_compression_summary">Komprese dat snižuje velikost databáze.</string>
+    <string name="max_history_items_title">Max. položek v historii</string>
+    <string name="max_history_items_summary">Omezit počet položek v historii záznamu</string>
+    <string name="max_history_size_title">Max. velikost historie</string>
+    <string name="max_history_size_summary">Omezit velikost historie na záznam (v binárních bajtech)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Doporučit změnu</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Dporučit změnu hlavního klíče (dny)</string>
+    <string name="settings_database_force_changing_master_key_title">Vynutit změnu</string>
+    <string name="settings_database_force_changing_master_key_summary">Vynutit změnu hlavního klíče (dny)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Vynutit změnu příště</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Vynutit změnu hlavního klíče příště (jednou)</string>
+    <string name="database_default_username_title">Výchozí uživatelské jméno</string>
+    <string name="database_custom_color_title">Vlastní barva databáze</string>
+    <string name="compression">Komprese</string>
+    <string name="compression_none">Žádná</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Nastavení klávesnice zařízení</string>
 </resources>
