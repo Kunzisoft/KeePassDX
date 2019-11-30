@@ -28,24 +28,25 @@ import com.kunzisoft.keepass.database.element.Database
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabase: Database,
                              databaseUri: Uri,
+                             private val databaseName: String,
+                             private val rootName: String,
                              withMasterPassword: Boolean,
                              masterPassword: String?,
                              withKeyFile: Boolean,
-                             keyFile: Uri?,
-                             save: Boolean)
-    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile, save) {
+                             keyFile: Uri?)
+    : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile) {
 
     override fun onStartRun() {
         try {
             // Create new database record
             mDatabase.apply {
-                createData(mDatabaseUri)
+                createData(mDatabaseUri, databaseName, rootName)
                 // Set Database state
                 loaded = true
             }
         } catch (e: Exception) {
             mDatabase.closeAndClear()
-            setError(e.message)
+            setError(e)
         }
 
         super.onStartRun()

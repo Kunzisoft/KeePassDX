@@ -18,16 +18,16 @@ import androidx.appcompat.view.ActionMode
 
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.NodeAdapter
-import com.kunzisoft.keepass.database.SortNodeEnum
-import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.SortNodeEnum
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.activities.stylish.StylishFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.Type
+import com.kunzisoft.keepass.database.element.node.Type
 import java.util.*
 
 class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionListener {
@@ -36,7 +36,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     private var onScrollListener: OnScrollListener? = null
 
     private var listView: RecyclerView? = null
-    var mainGroup: GroupVersioned? = null
+    var mainGroup: Group? = null
         private set
     private var mAdapter: NodeAdapter? = null
 
@@ -44,8 +44,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         private set
     var nodeActionPasteMode: PasteMode = PasteMode.UNDEFINED
         private set
-    private val listActionNodes = LinkedList<NodeVersioned>()
-    private val listPasteNodes = LinkedList<NodeVersioned>()
+    private val listActionNodes = LinkedList<Node>()
+    private val listPasteNodes = LinkedList<Node>()
 
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
@@ -103,7 +103,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             mAdapter = NodeAdapter(context)
             mAdapter?.apply {
                 setOnNodeClickListener(object : NodeAdapter.NodeClickCallback {
-                    override fun onNodeClick(node: NodeVersioned) {
+                    override fun onNodeClick(node: Node) {
                         if (nodeActionSelectionMode) {
                             if (listActionNodes.contains(node)) {
                                 // Remove selected item if already selected
@@ -120,7 +120,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                         }
                     }
 
-                    override fun onNodeLongClick(node: NodeVersioned): Boolean {
+                    override fun onNodeLongClick(node: Node): Boolean {
                         if (nodeActionPasteMode == PasteMode.UNDEFINED) {
                             // Select the first item after a long click
                             if (!listActionNodes.contains(node))
@@ -228,8 +228,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             R.id.menu_sort -> {
                 context?.let { context ->
                     val sortDialogFragment: SortDialogFragment =
-                            if (Database.getInstance().allowRecycleBin
-                                    && Database.getInstance().isRecycleBinEnabled) {
+                            if (Database.getInstance().isRecycleBinEnabled) {
                                 SortDialogFragment.getInstance(
                                         PreferencesUtil.getListSort(context),
                                         PreferencesUtil.getAscendingSort(context),
@@ -251,7 +250,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
-    fun actionNodesCallback(nodes: List<NodeVersioned>,
+    fun actionNodesCallback(nodes: List<Node>,
                             menuListener: NodesActionMenuListener?) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
@@ -276,7 +275,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     // Open and Edit for a single item
                     if (nodes.size == 1) {
                         // Edition
-                        if (readOnly || nodes[0] == database.recycleBin) {
+                        if (readOnly
+                                || (database.isRecycleBinEnabled && nodes[0] == database.recycleBin)) {
                             menu?.removeItem(R.id.menu_edit)
                         }
                     } else {
@@ -287,7 +287,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     // Copy and Move (not for groups)
                     if (readOnly
                             || isASearchResult
-                            || nodes.any { it == database.recycleBin }
                             || nodes.any { it.type == Type.GROUP }) {
                         // TODO COPY For Group
                         menu?.removeItem(R.id.menu_copy)
@@ -295,7 +294,8 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     }
 
                     // Deletion
-                    if (readOnly || nodes.any { it == database.recycleBin }) {
+                    if (readOnly
+                            || (database.isRecycleBinEnabled && nodes.any { it == database.recycleBin })) {
                         menu?.removeItem(R.id.menu_delete)
                     }
                 }
@@ -354,7 +354,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
                         || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<NodeVersioned>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { newNode ->
+                    data?.getParcelableExtra<Node>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { newNode ->
                         if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
                             mAdapter?.addNode(newNode)
                         if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
@@ -369,31 +369,31 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
     }
 
-    fun contains(node: NodeVersioned): Boolean {
+    fun contains(node: Node): Boolean {
         return mAdapter?.contains(node) ?: false
     }
 
-    fun addNode(newNode: NodeVersioned) {
+    fun addNode(newNode: Node) {
         mAdapter?.addNode(newNode)
     }
 
-    fun addNodes(newNodes: List<NodeVersioned>) {
+    fun addNodes(newNodes: List<Node>) {
         mAdapter?.addNodes(newNodes)
     }
 
-    fun updateNode(oldNode: NodeVersioned, newNode: NodeVersioned? = null) {
+    fun updateNode(oldNode: Node, newNode: Node? = null) {
         mAdapter?.updateNode(oldNode, newNode ?: oldNode)
     }
 
-    fun updateNodes(oldNodes: List<NodeVersioned>, newNodes: List<NodeVersioned>) {
+    fun updateNodes(oldNodes: List<Node>, newNodes: List<Node>) {
         mAdapter?.updateNodes(oldNodes, newNodes)
     }
 
-    fun removeNode(pwNode: NodeVersioned) {
+    fun removeNode(pwNode: Node) {
         mAdapter?.removeNode(pwNode)
     }
 
-    fun removeNodes(nodes: List<NodeVersioned>) {
+    fun removeNodes(nodes: List<Node>) {
         mAdapter?.removeNodes(nodes)
     }
 
@@ -409,20 +409,20 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
      * Callback listener to redefine to do an action when a node is click
      */
     interface NodeClickListener {
-        fun onNodeClick(node: NodeVersioned)
-        fun onNodeSelected(nodes: List<NodeVersioned>): Boolean
+        fun onNodeClick(node: Node)
+        fun onNodeSelected(nodes: List<Node>): Boolean
     }
 
     /**
      * Menu listener to redefine to do an action in menu
      */
     interface NodesActionMenuListener {
-        fun onOpenMenuClick(node: NodeVersioned): Boolean
-        fun onEditMenuClick(node: NodeVersioned): Boolean
-        fun onCopyMenuClick(nodes: List<NodeVersioned>): Boolean
-        fun onMoveMenuClick(nodes: List<NodeVersioned>): Boolean
-        fun onDeleteMenuClick(nodes: List<NodeVersioned>): Boolean
-        fun onPasteMenuClick(pasteMode: PasteMode?, nodes: List<NodeVersioned>): Boolean
+        fun onOpenMenuClick(node: Node): Boolean
+        fun onEditMenuClick(node: Node): Boolean
+        fun onCopyMenuClick(nodes: List<Node>): Boolean
+        fun onMoveMenuClick(nodes: List<Node>): Boolean
+        fun onDeleteMenuClick(nodes: List<Node>): Boolean
+        fun onPasteMenuClick(pasteMode: PasteMode?, nodes: List<Node>): Boolean
     }
 
     enum class PasteMode {
@@ -447,7 +447,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         private const val GROUP_KEY = "GROUP_KEY"
         private const val IS_SEARCH = "IS_SEARCH"
 
-        fun newInstance(group: GroupVersioned?, readOnly: Boolean, isASearch: Boolean): ListNodesFragment {
+        fun newInstance(group: Group?, readOnly: Boolean, isASearch: Boolean): ListNodesFragment {
             val bundle = Bundle()
             if (group != null) {
                 bundle.putParcelable(GROUP_KEY, group)

@@ -31,7 +31,6 @@
     <string name="app_name_part3" translatable="false" />
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
-    <string name="clipboard_error_url" translatable="false">http://code.google.com/p/android/issues/detail?id=35732</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
     <string name="homepage" translatable="false">https://www.keepassdx.com</string>
     <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
@@ -50,6 +49,7 @@
     <string-array name="file_types">
         <item translatable="false">@string/database_file_extension_default</item>
     </string-array>
+    <string name="database_default_name" translatable="false">KeePass DX Database</string>
 
     <!--
     *******************
@@ -62,10 +62,12 @@
 
     <string name="allow_no_password_key" translatable="false">allow_no_password_key</string>
     <bool name="allow_no_password_default" translatable="false">false</bool>
-    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
-    <bool name="enable_read_only_default" translatable="false">false</bool>
     <string name="delete_entered_password_key" translatable="false">delete_entered_password_key</string>
     <bool name="delete_entered_password_default" translatable="false">true</bool>
+    <string name="enable_read_only_key" translatable="false">enable_read_only_key</string>
+    <bool name="enable_read_only_default" translatable="false">false</bool>
+    <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
+    <bool name="enable_auto_save_database_default" translatable="false">true</bool>
     <string name="omitbackup_key" translatable="false">omitbackup</string>
     <bool name="omitbackup_default" translatable="false">true</bool>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
@@ -159,7 +161,8 @@
     <string name="database_data_compression_key" translatable="false">database_data_compression_key</string>
 
     <string name="database_category_recycle_bin_key" translatable="false">database_category_recycle_bin_key</string>
-    <string name="recycle_bin_key" translatable="false">recycle_bin_key</string>
+    <string name="recycle_bin_enable_key" translatable="false">recycle_bin_enable_key</string>
+    <string name="recycle_bin_group_key" translatable="false">recycle_bin_group_key</string>
 
     <string name="database_category_history_key" translatable="false">database_category_history_key</string>
     <string name="max_history_items_key" translatable="false">max_history_items_key</string>

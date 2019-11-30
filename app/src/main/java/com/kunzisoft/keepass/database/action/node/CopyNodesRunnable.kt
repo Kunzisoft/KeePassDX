@@ -22,19 +22,21 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.CopyDatabaseEntryException
-import com.kunzisoft.keepass.database.exception.CopyDatabaseGroupException
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.CopyEntryDatabaseException
+import com.kunzisoft.keepass.database.exception.CopyGroupDatabaseException
 
 class CopyNodesRunnable constructor(
         context: Context,
         database: Database,
-        private val mNodesToCopy: List<NodeVersioned>,
-        private val mNewParent: GroupVersioned,
+        private val mNodesToCopy: List<Node>,
+        private val mNewParent: Group,
         save: Boolean,
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
-    private var mEntriesCopied = ArrayList<EntryVersioned>()
+    private var mEntriesCopied = ArrayList<Entry>()
 
     override fun nodeAction() {
 
@@ -42,7 +44,7 @@ class CopyNodesRunnable constructor(
             when (currentNode.type) {
                 Type.GROUP -> {
                     Log.e(TAG, "Copy not allowed for group")// Only finish thread
-                    setError(CopyDatabaseGroupException())
+                    setError(CopyGroupDatabaseException())
                     break@foreachNode
                 }
                 Type.ENTRY -> {
@@ -51,18 +53,18 @@ class CopyNodesRunnable constructor(
                         // Update entry with new values
                         mNewParent.touch(modified = false, touchParents = true)
 
-                        val entryCopied = database.copyEntryTo(currentNode as EntryVersioned, mNewParent)
+                        val entryCopied = database.copyEntryTo(currentNode as Entry, mNewParent)
                         if (entryCopied != null) {
                             entryCopied.touch(modified = true, touchParents = true)
                             mEntriesCopied.add(entryCopied)
                         } else {
                             Log.e(TAG, "Unable to create a copy of the entry")
-                            setError(CopyDatabaseEntryException())
+                            setError(CopyEntryDatabaseException())
                             break@foreachNode
                         }
                     } else {
                         // Only finish thread
-                        setError(CopyDatabaseEntryException())
+                        setError(CopyEntryDatabaseException())
                         break@foreachNode
                     }
                 }

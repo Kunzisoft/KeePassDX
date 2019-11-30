@@ -19,8 +19,8 @@
  */
 package com.kunzisoft.keepass.crypto.engine
 
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.spongycastle.jce.provider.BouncyCastleProvider
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -44,13 +44,13 @@ class ChaCha20Engine : CipherEngine() {
         return cipher
     }
 
-    override fun getPwEncryptionAlgorithm(): PwEncryptionAlgorithm {
-        return PwEncryptionAlgorithm.ChaCha20
+    override fun getPwEncryptionAlgorithm(): EncryptionAlgorithm {
+        return EncryptionAlgorithm.ChaCha20
     }
 
     companion object {
 
-        val CIPHER_UUID: UUID = Types.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
                 byteArrayOf(0xD6.toByte(), 0x03.toByte(), 0x8A.toByte(), 0x2B.toByte(), 0x8B.toByte(), 0x6F.toByte(), 0x4C.toByte(), 0xB5.toByte(), 0xA5.toByte(), 0x24.toByte(), 0x33.toByte(), 0x9A.toByte(), 0x31.toByte(), 0xDB.toByte(), 0xB5.toByte(), 0x9A.toByte()))
     }
 }

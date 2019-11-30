@@ -51,12 +51,18 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun setIconViewClickListener(listener: ((view: View)->Unit)?) {
+    fun setIconViewClickListener(animation: Boolean = true,
+                                 listener: ((view: View)->Unit)?) {
+        var animateButton = animation
         if (listener == null)
-            stopIconViewAnimation()
-        else
+            animateButton = false
+        if (animateButton) {
             startIconViewAnimation()
-        unlockContainerView.alpha = if (listener == null) 0.8f else 1f
+            unlockContainerView.alpha = 1f
+        } else {
+            stopIconViewAnimation()
+            unlockContainerView.alpha = 0.8f
+        }
         unlockIconImageView?.setOnClickListener(listener)
     }
 

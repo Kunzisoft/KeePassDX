@@ -24,16 +24,15 @@ import android.app.AlertDialog
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.os.Handler
+import android.os.Build
 import android.preference.PreferenceManager
-import androidx.annotation.IntegerRes
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
 import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.SamsungClipboardException
+import com.kunzisoft.keepass.database.exception.ClipboardException
 import java.util.*
 
 class ClipboardHelper(private val context: Context) {
@@ -42,17 +41,15 @@ class ClipboardHelper(private val context: Context) {
             context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     private val mTimer = Timer()
 
-    // Setup to allow the toast to happen in the foreground
-    private val uiThreadCallback = Handler()
-
     @JvmOverloads
     fun timeoutCopyToClipboard(text: String, toastString: String = "") {
         if (toastString.isNotEmpty())
             Toast.makeText(context, toastString, Toast.LENGTH_LONG).show()
+
         try {
             copyToClipboard(text)
-        } catch (e: SamsungClipboardException) {
-            showSamsungDialog()
+        } catch (e: ClipboardException) {
+            showClipboardErrorDialog()
             return
         }
 
@@ -79,53 +76,49 @@ class ClipboardHelper(private val context: Context) {
         return ""
     }
 
-    @Throws(SamsungClipboardException::class)
+    @Throws(ClipboardException::class)
     fun copyToClipboard(value: String) {
         copyToClipboard("", value)
     }
 
-    @Throws(SamsungClipboardException::class)
+    @Throws(ClipboardException::class)
     fun copyToClipboard(label: String, value: String) {
         try {
             clipboardManager.primaryClip = ClipData.newPlainText(label, value)
         } catch (e: Exception) {
-            throw SamsungClipboardException(e)
+            throw ClipboardException(e)
         }
 
     }
 
-    @Throws(SamsungClipboardException::class)
+    @Throws(ClipboardException::class)
     @JvmOverloads
     fun cleanClipboard(label: String = "") {
-        copyToClipboard(label, "")
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            clipboardManager.clearPrimaryClip()
+        } else {
+            copyToClipboard(label, "")
+        }
     }
 
     // Task which clears the clipboard, and sends a toast to the foreground.
     private inner class ClearClipboardTask (private val mCtx: Context,
                                             private val mClearText: String) : TimerTask() {
-
         override fun run() {
             val currentClip = getClipboard(mCtx).toString()
             if (currentClip == mClearText) {
-
-                @IntegerRes
-                val stringErrorId = try {
+                try {
                     cleanClipboard()
                     R.string.clipboard_cleared
-                } catch (e: SamsungClipboardException) {
+                } catch (e: ClipboardException) {
                     R.string.clipboard_error_clear
-                }
-                uiThreadCallback.post {
-                    Toast.makeText(mCtx, stringErrorId, Toast.LENGTH_LONG).show()
                 }
             }
         }
     }
 
-    private fun showSamsungDialog() {
-        val textDescription = context.getString(R.string.clipboard_error)+
-                System.getProperty("line.separator") +
-                context.getString(R.string.clipboard_error_url)
+    private fun showClipboardErrorDialog() {
+        val textDescription = context.getString(R.string.clipboard_error)
         val spannableString = SpannableString(textDescription)
         val textView = TextView(context).apply {
             text = spannableString

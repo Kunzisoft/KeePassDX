@@ -32,9 +32,8 @@ open class AssignPasswordInDatabaseRunnable (
         withMasterPassword: Boolean,
         masterPassword: String?,
         withKeyFile: Boolean,
-        keyFile: Uri?,
-        save: Boolean)
-    : SaveDatabaseRunnable(context, database, save) {
+        keyFile: Uri?)
+    : SaveDatabaseRunnable(context, database, true) {
 
     private var mMasterPassword: String? = null
     protected var mKeyFile: Uri? = null
@@ -59,7 +58,7 @@ open class AssignPasswordInDatabaseRunnable (
             database.retrieveMasterKey(mMasterPassword, uriInputStream)
         } catch (e: Exception) {
             erase(mBackupKey)
-            setError(e.message)
+            setError(e)
         }
 
         super.onStartRun()

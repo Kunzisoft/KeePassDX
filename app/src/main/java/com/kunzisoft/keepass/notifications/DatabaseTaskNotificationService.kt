@@ -8,12 +8,12 @@ import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.database.action.AssignPasswordInDatabaseRunnable
-import com.kunzisoft.keepass.database.action.CreateDatabaseRunnable
-import com.kunzisoft.keepass.database.action.LoadDatabaseRunnable
-import com.kunzisoft.keepass.database.action.SaveDatabaseRunnable
+import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -70,17 +70,28 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         val intentAction = intent.action
 
+        var saveAction = true
+        if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
+        }
+
         val titleId: Int = when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
             ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
-            else -> R.string.saving_database
+            else -> {
+                if (saveAction)
+                    R.string.saving_database
+                else
+                    R.string.command_execution
+            }
         }
         val messageId: Int? = when (intentAction) {
             ACTION_DATABASE_LOAD_TASK -> null
             else -> null
         }
         val warningId: Int? =
-                if (intentAction == ACTION_DATABASE_LOAD_TASK)
+                if (!saveAction
+                        || intentAction == ACTION_DATABASE_LOAD_TASK)
                     null
                 else
                     R.string.do_not_kill_app
@@ -96,18 +107,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent)
             ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent)
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent)
-            ACTION_DATABASE_SAVE_NAME_TASK,
-            ACTION_DATABASE_SAVE_DESCRIPTION_TASK,
-            ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK,
-            ACTION_DATABASE_SAVE_COLOR_TASK,
-            ACTION_DATABASE_SAVE_COMPRESSION_TASK,
-            ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK,
-            ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK,
-            ACTION_DATABASE_SAVE_ENCRYPTION_TASK,
-            ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK,
-            ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK,
-            ACTION_DATABASE_SAVE_PARALLELISM_TASK,
-            ACTION_DATABASE_SAVE_ITERATIONS_TASK -> buildDatabaseSaveElementActionTask(intent)
+            ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent)
+            ACTION_DATABASE_UPDATE_NAME_TASK,
+            ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
+            ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK,
+            ACTION_DATABASE_UPDATE_COLOR_TASK,
+            ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK,
+            ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK,
+            ACTION_DATABASE_UPDATE_ENCRYPTION_TASK,
+            ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK,
+            ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK,
+            ACTION_DATABASE_UPDATE_PARALLELISM_TASK,
+            ACTION_DATABASE_UPDATE_ITERATIONS_TASK -> buildDatabaseUpdateElementActionTask(intent)
+            ACTION_DATABASE_SAVE -> buildDatabaseSave(intent)
             else -> null
         }
 
@@ -179,11 +191,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             return CreateDatabaseRunnable(this,
                     Database.getInstance(),
                     databaseUri,
+                    getString(R.string.database_default_name),
+                    getString(R.string.database),
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    keyFileUri,
-                    true // TODO get readonly
+                    keyFileUri
             )
         } else {
             return null
@@ -241,12 +254,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             AssignPasswordInDatabaseRunnable(this,
                     Database.getInstance(),
-                    intent.getParcelableExtra<Uri>(DATABASE_URI_KEY),
+                    intent.getParcelableExtra(DATABASE_URI_KEY),
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    intent.getParcelableExtra(KEY_FILE_KEY),
-                    true)
+                    intent.getParcelableExtra(KEY_FILE_KEY)
+            )
         } else {
             null
         }
@@ -288,7 +301,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getGroupById(intent.getParcelableExtra(GROUP_ID_KEY))?.let { oldGroup ->
-                val newGroup: GroupVersioned = intent.getParcelableExtra(GROUP_KEY)
+                val newGroup: Group = intent.getParcelableExtra(GROUP_KEY)
                 UpdateGroupRunnable(this,
                         database,
                         oldGroup,
@@ -327,7 +340,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         ) {
             val database = Database.getInstance()
             database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { oldEntry ->
-                val newEntry: EntryVersioned = intent.getParcelableExtra(ENTRY_KEY)
+                val newEntry: Entry = intent.getParcelableExtra(ENTRY_KEY)
                 UpdateEntryRunnable(this,
                         database,
                         oldEntry,
@@ -355,7 +368,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
             }
-
         } else {
             null
         }
@@ -376,7 +388,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
             }
-
         } else {
             null
         }
@@ -393,20 +404,55 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                         getListNodesFromBundle(database, intent.extras!!),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
-
         } else {
             null
         }
     }
 
-    private fun buildDatabaseSaveElementActionTask(intent: Intent): ActionRunnable? {
-        return SaveDatabaseRunnable(this,
-                Database.getInstance(),
-                true
-        ).apply {
-            mAfterSaveDatabase = { result ->
-                result.data = intent.extras
+    private fun buildDatabaseUpdateCompressionActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(OLD_ELEMENT_KEY)
+                && intent.hasExtra(NEW_ELEMENT_KEY)
+                && intent.hasExtra(SAVE_DATABASE_KEY)) {
+            return UpdateCompressionBinariesDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getParcelableExtra(OLD_ELEMENT_KEY),
+                    intent.getParcelableExtra(NEW_ELEMENT_KEY),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            ).apply {
+                mAfterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
             }
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseUpdateElementActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            return SaveDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
+            ).apply {
+                mAfterSaveDatabase = { result ->
+                    result.data = intent.extras
+                }
+            }
+        } else {
+            null
+        }
+    }
+
+    /**
+     * Save database without parameter
+     */
+    private fun buildDatabaseSave(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+            SaveDatabaseRunnable(this,
+                    Database.getInstance(),
+                    intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+        } else {
+            null
         }
     }
 
@@ -457,18 +503,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val ACTION_DATABASE_COPY_NODES_TASK = "ACTION_DATABASE_COPY_NODES_TASK"
         const val ACTION_DATABASE_MOVE_NODES_TASK = "ACTION_DATABASE_MOVE_NODES_TASK"
         const val ACTION_DATABASE_DELETE_NODES_TASK = "ACTION_DATABASE_DELETE_NODES_TASK"
-        const val ACTION_DATABASE_SAVE_NAME_TASK = "ACTION_DATABASE_SAVE_NAME_TASK"
-        const val ACTION_DATABASE_SAVE_DESCRIPTION_TASK = "ACTION_DATABASE_SAVE_DESCRIPTION_TASK"
-        const val ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK"
-        const val ACTION_DATABASE_SAVE_COLOR_TASK = "ACTION_DATABASE_SAVE_COLOR_TASK"
-        const val ACTION_DATABASE_SAVE_COMPRESSION_TASK = "ACTION_DATABASE_SAVE_COMPRESSION_TASK"
-        const val ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK"
-        const val ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK"
-        const val ACTION_DATABASE_SAVE_ENCRYPTION_TASK = "ACTION_DATABASE_SAVE_ENCRYPTION_TASK"
-        const val ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK = "ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK"
-        const val ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK = "ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK"
-        const val ACTION_DATABASE_SAVE_PARALLELISM_TASK = "ACTION_DATABASE_SAVE_PARALLELISM_TASK"
-        const val ACTION_DATABASE_SAVE_ITERATIONS_TASK = "ACTION_DATABASE_SAVE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_UPDATE_NAME_TASK = "ACTION_DATABASE_UPDATE_NAME_TASK"
+        const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK = "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
+        const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
+        const val ACTION_DATABASE_UPDATE_COLOR_TASK = "ACTION_DATABASE_UPDATE_COLOR_TASK"
+        const val ACTION_DATABASE_UPDATE_COMPRESSION_TASK = "ACTION_DATABASE_UPDATE_COMPRESSION_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK"
+        const val ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK = "ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK"
+        const val ACTION_DATABASE_UPDATE_ENCRYPTION_TASK = "ACTION_DATABASE_UPDATE_ENCRYPTION_TASK"
+        const val ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK = "ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK"
+        const val ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK = "ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK"
+        const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
+        const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
+        const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
@@ -491,14 +538,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val OLD_ELEMENT_KEY = "OLD_ELEMENT_KEY" // Warning type of this thing change every time
         const val NEW_ELEMENT_KEY = "NEW_ELEMENT_KEY" // Warning type of this thing change every time
 
-        fun getListNodesFromBundle(database: Database, bundle: Bundle): List<NodeVersioned> {
-            val nodesAction = ArrayList<NodeVersioned>()
-            bundle.getParcelableArrayList<PwNodeId<*>>(GROUPS_ID_KEY)?.forEach {
+        fun getListNodesFromBundle(database: Database, bundle: Bundle): List<Node> {
+            val nodesAction = ArrayList<Node>()
+            bundle.getParcelableArrayList<NodeId<*>>(GROUPS_ID_KEY)?.forEach {
                 database.getGroupById(it)?.let { groupRetrieve ->
                     nodesAction.add(groupRetrieve)
                 }
             }
-            bundle.getParcelableArrayList<PwNodeId<UUID>>(ENTRIES_ID_KEY)?.forEach {
+            bundle.getParcelableArrayList<NodeId<UUID>>(ENTRIES_ID_KEY)?.forEach {
                 database.getEntryById(it)?.let { entryRetrieve ->
                     nodesAction.add(entryRetrieve)
                 }
@@ -506,24 +553,24 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             return nodesAction
         }
 
-        fun getBundleFromListNodes(nodes: List<NodeVersioned>): Bundle {
-            val groupsIdToCopy = ArrayList<PwNodeId<*>>()
-            val entriesIdToCopy = ArrayList<PwNodeId<UUID>>()
+        fun getBundleFromListNodes(nodes: List<Node>): Bundle {
+            val groupsId = ArrayList<NodeId<*>>()
+            val entriesId = ArrayList<NodeId<UUID>>()
             nodes.forEach { nodeVersioned ->
                 when (nodeVersioned.type) {
                     Type.GROUP -> {
-                        (nodeVersioned as GroupVersioned).nodeId?.let { groupId ->
-                            groupsIdToCopy.add(groupId)
+                        (nodeVersioned as Group).nodeId?.let { groupId ->
+                            groupsId.add(groupId)
                         }
                     }
                     Type.ENTRY -> {
-                        entriesIdToCopy.add((nodeVersioned as EntryVersioned).nodeId)
+                        entriesId.add((nodeVersioned as Entry).nodeId)
                     }
                 }
             }
             return Bundle().apply {
-                putParcelableArrayList(GROUPS_ID_KEY, groupsIdToCopy)
-                putParcelableArrayList(ENTRIES_ID_KEY, entriesIdToCopy)
+                putParcelableArrayList(GROUPS_ID_KEY, groupsId)
+                putParcelableArrayList(ENTRIES_ID_KEY, entriesId)
             }
         }
     }

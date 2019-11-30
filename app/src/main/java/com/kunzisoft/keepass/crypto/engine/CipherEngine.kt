@@ -19,7 +19,7 @@
  */
 package com.kunzisoft.keepass.crypto.engine
 
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -46,6 +46,6 @@ abstract class CipherEngine {
         return getCipher(opmode, key, IV, false)
     }
 
-    abstract fun getPwEncryptionAlgorithm(): PwEncryptionAlgorithm
+    abstract fun getPwEncryptionAlgorithm(): EncryptionAlgorithm
 
 }

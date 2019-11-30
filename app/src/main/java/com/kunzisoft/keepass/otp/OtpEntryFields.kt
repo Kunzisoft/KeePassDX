@@ -24,6 +24,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.otp.OtpElement.Companion.replaceSpaceChars
 import com.kunzisoft.keepass.otp.TokenCalculator.*
 import java.lang.Exception
 import java.lang.StringBuilder
@@ -106,7 +107,7 @@ object OtpEntryFields {
     private fun parseOTPUri(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {
         val otpPlainText = getField(OTP_FIELD)
         if (otpPlainText != null && otpPlainText.isNotEmpty()) {
-            val uri = Uri.parse(replaceChars(otpPlainText))
+            val uri = Uri.parse(replaceSpaceChars(otpPlainText))
 
             if (uri.scheme == null || OTP_SCHEME != uri.scheme!!.toLowerCase(Locale.ENGLISH)) {
                 Log.e(TAG, "Invalid or missing scheme in uri")
@@ -235,11 +236,7 @@ object OtpEntryFields {
     }
 
     private fun replaceCharsForUrl(parameter: String): String {
-        return URLEncoder.encode(replaceChars(parameter), "UTF-8")
-    }
-
-    private fun replaceChars(parameter: String): String {
-        return parameter.replace("([\\r|\\n|\\t|\\s|\\u00A0]+)", "")
+        return URLEncoder.encode(replaceSpaceChars(parameter), "UTF-8")
     }
 
     private fun parseTOTPKeyValues(getField: (id: String) -> String?, otpElement: OtpElement): Boolean {

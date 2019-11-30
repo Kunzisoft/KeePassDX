@@ -25,7 +25,7 @@ import android.content.Intent
 import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.SamsungClipboardException
+import com.kunzisoft.keepass.database.exception.ClipboardException
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
@@ -208,7 +208,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     private fun cleanClipboard() {
         try {
             clipboardHelper?.cleanClipboard()
-        } catch (e: SamsungClipboardException) {
+        } catch (e: ClipboardException) {
             Log.e(TAG, "Clipboard can't be cleaned", e)
         }
     }

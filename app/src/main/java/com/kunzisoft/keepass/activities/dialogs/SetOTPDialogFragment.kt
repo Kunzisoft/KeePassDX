@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.otp.OtpElement.Companion.MIN_TOTP_PERIOD
 import com.kunzisoft.keepass.otp.OtpTokenType
 import com.kunzisoft.keepass.otp.OtpType
 import com.kunzisoft.keepass.otp.TokenCalculator
+import java.util.*
 
 class SetOTPDialogFragment : DialogFragment() {
 
@@ -246,7 +247,7 @@ class SetOTPDialogFragment : DialogFragment() {
             override fun afterTextChanged(s: Editable?) {
                 s?.toString()?.let { userString ->
                     try {
-                        mOtpElement.setBase32Secret(userString)
+                        mOtpElement.setBase32Secret(userString.toUpperCase(Locale.ENGLISH))
                         otpSecretContainer?.error = null
                     } catch (exception: Exception) {
                         otpSecretContainer?.error = getString(R.string.error_otp_secret_key)

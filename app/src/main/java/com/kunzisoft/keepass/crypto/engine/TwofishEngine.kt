@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.crypto.engine
 
 import com.kunzisoft.keepass.crypto.CipherFactory
-import com.kunzisoft.keepass.database.element.PwEncryptionAlgorithm
-import com.kunzisoft.keepass.utils.Types
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 
 import java.security.InvalidAlgorithmParameterException
 import java.security.InvalidKeyException
@@ -47,13 +47,13 @@ class TwofishEngine : CipherEngine() {
         return cipher
     }
 
-    override fun getPwEncryptionAlgorithm(): PwEncryptionAlgorithm {
-        return PwEncryptionAlgorithm.Twofish
+    override fun getPwEncryptionAlgorithm(): EncryptionAlgorithm {
+        return EncryptionAlgorithm.Twofish
     }
 
     companion object {
 
-        val CIPHER_UUID: UUID = Types.bytestoUUID(
+        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
                 byteArrayOf(0xAD.toByte(), 0x68.toByte(), 0xF2.toByte(), 0x9F.toByte(), 0x57.toByte(), 0x6F.toByte(), 0x4B.toByte(), 0xB9.toByte(), 0xA3.toByte(), 0x6A.toByte(), 0xD4.toByte(), 0x7A.toByte(), 0xF9.toByte(), 0x65.toByte(), 0x34.toByte(), 0x6C.toByte()))
     }
 }

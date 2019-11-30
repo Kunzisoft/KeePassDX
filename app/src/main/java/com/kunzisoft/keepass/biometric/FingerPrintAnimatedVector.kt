@@ -20,43 +20,44 @@
 package com.kunzisoft.keepass.biometric
 
 import android.content.Context
-import android.graphics.drawable.Animatable2
-import android.graphics.drawable.AnimatedVectorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Build
 import androidx.annotation.RequiresApi
 import android.widget.ImageView
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat
 
 import com.kunzisoft.keepass.R
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 class FingerPrintAnimatedVector(context: Context, imageView: ImageView) {
 
-    private val scanFingerprint: AnimatedVectorDrawable =
-            context.getDrawable(R.drawable.scan_fingerprint) as AnimatedVectorDrawable
+    private val scanFingerprint: AnimatedVectorDrawableCompat? =
+            AnimatedVectorDrawableCompat.create(context, R.drawable.scan_fingerprint)
 
     init {
         imageView.setImageDrawable(scanFingerprint)
     }
 
-    private var animationCallback = object : Animatable2.AnimationCallback() {
+    private var animationCallback = object : Animatable2Compat.AnimationCallback() {
         override fun onAnimationEnd(drawable: Drawable) {
-            if (!scanFingerprint.isRunning)
-                scanFingerprint.start()
+            imageView.post {
+                scanFingerprint?.start()
+            }
         }
     }
 
     fun startScan() {
-        scanFingerprint.registerAnimationCallback(animationCallback)
+        scanFingerprint?.registerAnimationCallback(animationCallback)
 
-        if (!scanFingerprint.isRunning)
-            scanFingerprint.start()
+        if (scanFingerprint?.isRunning != true)
+            scanFingerprint?.start()
     }
 
     fun stopScan() {
-        scanFingerprint.unregisterAnimationCallback(animationCallback)
+        scanFingerprint?.unregisterAnimationCallback(animationCallback)
 
-        if (scanFingerprint.isRunning)
+        if (scanFingerprint?.isRunning == true)
             scanFingerprint.stop()
     }
 }

@@ -29,7 +29,7 @@ import android.view.View
 import android.widget.CompoundButton
 import android.widget.RadioGroup
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.SortNodeEnum
+import com.kunzisoft.keepass.database.element.SortNodeEnum
 
 class SortDialogFragment : DialogFragment() {
 

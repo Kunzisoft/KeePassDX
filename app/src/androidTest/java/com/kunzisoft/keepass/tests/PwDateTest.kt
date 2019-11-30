@@ -21,17 +21,18 @@ package com.kunzisoft.keepass.tests
 
 import junit.framework.TestCase
 
-import com.kunzisoft.keepass.database.element.PwDate
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.junit.Assert
 
 class PwDateTest : TestCase() {
 
     fun testDate() {
-        val jDate = PwDate(System.currentTimeMillis())
-        val intermediate = PwDate(jDate)
-        val cDate = PwDate(intermediate.byteArrayDate!!, 0)
+        val jDate = DateInstant(System.currentTimeMillis())
+        val intermediate = DateInstant(jDate)
+        val cDate = DatabaseInputOutputUtils.readCDate(DatabaseInputOutputUtils.writeCDate(intermediate.date)!!, 0)
 
         Assert.assertTrue("jDate and intermediate not equal", jDate == intermediate)
-        Assert.assertTrue("jDate and cDate not equal", cDate == jDate)
+        Assert.assertTrue("jDate $jDate and cDate $cDate not equal", cDate == jDate)
     }
 }

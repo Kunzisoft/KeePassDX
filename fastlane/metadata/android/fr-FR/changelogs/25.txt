@@ -1,0 +1,6 @@
+ * Paramètre pour la corbeille
+ * Correction de bug pour la corbeille
+ * Correction TOTP
+ * Correction sauvegarde infinie
+ * Correction lors de la mise à jour d'un groupe
+ * Correction OOM

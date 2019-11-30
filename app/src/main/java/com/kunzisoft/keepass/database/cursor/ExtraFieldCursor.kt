@@ -3,7 +3,7 @@ package com.kunzisoft.keepass.database.cursor
 import android.database.MatrixCursor
 import android.provider.BaseColumns
 
-import com.kunzisoft.keepass.database.element.PwEntryV4
+import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
 class ExtraFieldCursor : MatrixCursor(arrayOf(
@@ -22,7 +22,7 @@ class ExtraFieldCursor : MatrixCursor(arrayOf(
         fieldId++
     }
 
-    fun populateExtraFieldInEntry(pwEntry: PwEntryV4) {
+    fun populateExtraFieldInEntry(pwEntry: EntryKDBX) {
         pwEntry.putExtraField(getString(getColumnIndex(COLUMN_LABEL)),
                 ProtectedString(getInt(getColumnIndex(COLUMN_PROTECTION)) > 0,
                         getString(getColumnIndex(COLUMN_VALUE))))

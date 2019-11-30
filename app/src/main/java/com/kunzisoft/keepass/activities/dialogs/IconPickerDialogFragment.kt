@@ -35,7 +35,7 @@ import android.widget.GridView
 import android.widget.ImageView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-import com.kunzisoft.keepass.database.element.PwIconStandard
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconPack
 import com.kunzisoft.keepass.icons.IconPackChooser
 
@@ -72,7 +72,7 @@ class IconPickerDialogFragment : DialogFragment() {
 
             currIconGridView.setOnItemClickListener { _, _, position, _ ->
                 val bundle = Bundle()
-                bundle.putParcelable(KEY_ICON_STANDARD, PwIconStandard(position))
+                bundle.putParcelable(KEY_ICON_STANDARD, IconImageStandard(position))
                 iconPickerListener?.iconPicked(bundle)
                 dismiss()
             }
@@ -128,7 +128,7 @@ class IconPickerDialogFragment : DialogFragment() {
 
         private const val KEY_ICON_STANDARD = "KEY_ICON_STANDARD"
 
-        fun getIconStandardFromBundle(bundle: Bundle): PwIconStandard? {
+        fun getIconStandardFromBundle(bundle: Bundle): IconImageStandard? {
             return bundle.getParcelable(KEY_ICON_STANDARD)
         }
 

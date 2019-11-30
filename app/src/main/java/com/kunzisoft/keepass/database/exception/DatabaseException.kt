@@ -3,8 +3,8 @@ package com.kunzisoft.keepass.database.exception
 import android.content.res.Resources
 import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwNodeId
-import com.kunzisoft.keepass.database.element.Type
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.Type
 
 abstract class DatabaseException : Exception {
 
@@ -12,7 +12,8 @@ abstract class DatabaseException : Exception {
     var parameters: (Array<out String>)? = null
 
     constructor() : super()
-
+    constructor(message: String) : super(message)
+    constructor(message: String, throwable: Throwable) : super(message, throwable)
     constructor(throwable: Throwable) : super(throwable)
 
     fun getLocalizedMessage(resources: Resources): String {
@@ -26,33 +27,25 @@ open class LoadDatabaseException : DatabaseException {
 
     @StringRes
     override var errorId: Int = R.string.error_load_database
-
     constructor() : super()
-
-    constructor(vararg params: String) : super() {
-        parameters = params
-    }
-
     constructor(throwable: Throwable) : super(throwable)
 }
 
-class LoadDatabaseArcFourException : LoadDatabaseException {
+class ArcFourDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_arc4
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseFileNotFoundException : LoadDatabaseException {
+class FileNotFoundDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.file_not_found_content
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseInvalidAlgorithmException : LoadDatabaseException {
+class InvalidAlgorithmDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_algorithm
 
@@ -60,102 +53,97 @@ class LoadDatabaseInvalidAlgorithmException : LoadDatabaseException {
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseDuplicateUuidException: LoadDatabaseException {
+class DuplicateUuidDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_db_same_uuid
-
-    constructor(type: Type, uuid: PwNodeId<*>) : super() {
+    constructor(type: Type, uuid: NodeId<*>) : super() {
         parameters = arrayOf(type.name, uuid.toString())
     }
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseIOException : LoadDatabaseException {
+class IODatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_load_database
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseKDFMemoryException : LoadDatabaseException {
+class KDFMemoryDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_load_database_KDF_memory
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseSignatureException : LoadDatabaseException {
+class SignatureDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_db_sig
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseVersionException : LoadDatabaseException {
+class VersionDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.unsupported_db_version
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseInvalidCredentialsException : LoadDatabaseException {
+class InvalidCredentialsDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.invalid_credentials
-
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseKeyFileEmptyException : LoadDatabaseException {
+class KeyFileEmptyDatabaseException : LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.keyfile_is_empty
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class LoadDatabaseNoMemoryException: LoadDatabaseException {
+class NoMemoryDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_out_of_memory
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class MoveDatabaseEntryException: LoadDatabaseException {
+class EntryDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_move_entry_here
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class MoveDatabaseGroupException: LoadDatabaseException {
+class MoveGroupDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_move_folder_in_itself
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class CopyDatabaseEntryException: LoadDatabaseException {
+class CopyEntryDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_copy_entry_here
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class CopyDatabaseGroupException: LoadDatabaseException {
+class CopyGroupDatabaseException: LoadDatabaseException {
     @StringRes
     override var errorId: Int = R.string.error_copy_group_here
     constructor() : super()
     constructor(exception: Throwable) : super(exception)
 }
 
-class DatabaseOutputException : Exception {
+// TODO Output Exception
+open class DatabaseOutputException : DatabaseException {
+    @StringRes
+    override var errorId: Int = R.string.error_save_database
     constructor(string: String) : super(string)
-
     constructor(string: String, e: Exception) : super(string, e)
-
     constructor(e: Exception) : super(e)
 }

@@ -24,19 +24,26 @@ import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import android.webkit.URLUtil
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.NodeHandler
-import com.kunzisoft.keepass.database.cursor.EntryCursorV3
-import com.kunzisoft.keepass.database.cursor.EntryCursorV4
+import com.kunzisoft.keepass.database.action.node.NodeHandler
+import com.kunzisoft.keepass.database.cursor.EntryCursorKDB
+import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.element.icon.IconImageFactory
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.NodeIdInt
+import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.PwDbHeaderV3
-import com.kunzisoft.keepass.database.file.PwDbHeaderV4
-import com.kunzisoft.keepass.database.file.load.ImporterV3
-import com.kunzisoft.keepass.database.file.load.ImporterV4
-import com.kunzisoft.keepass.database.file.save.PwDbV3Output
-import com.kunzisoft.keepass.database.file.save.PwDbV4Output
-import com.kunzisoft.keepass.database.search.SearchDbHelper
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
+import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
+import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
+import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.stream.LEDataInputStream
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -50,13 +57,13 @@ import java.util.*
 class Database {
 
     // To keep a reference for specific methods provided by version
-    private var pwDatabaseV3: PwDatabaseV3? = null
-    private var pwDatabaseV4: PwDatabaseV4? = null
+    private var mDatabaseKDB: DatabaseKDB? = null
+    private var mDatabaseKDBX: DatabaseKDBX? = null
 
     var fileUri: Uri? = null
         private set
 
-    private var mSearchHelper: SearchDbHelper? = null
+    private var mSearchHelper: SearchHelper? = null
 
     var isReadOnly = false
 
@@ -64,116 +71,124 @@ class Database {
 
     var loaded = false
 
-    val iconFactory: PwIconFactory
+    val iconFactory: IconImageFactory
         get() {
-            return pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
+            return mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
         }
 
     val allowName: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
     var name: String
         get() {
-            return pwDatabaseV4?.name ?: ""
+            return mDatabaseKDBX?.name ?: ""
         }
         set(name) {
-            pwDatabaseV4?.name = name
-            pwDatabaseV4?.nameChanged = PwDate()
+            mDatabaseKDBX?.name = name
+            mDatabaseKDBX?.nameChanged = DateInstant()
         }
 
     val allowDescription: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
     var description: String
         get() {
-            return pwDatabaseV4?.description ?: ""
+            return mDatabaseKDBX?.description ?: ""
         }
         set(description) {
-            pwDatabaseV4?.description = description
-            pwDatabaseV4?.descriptionChanged = PwDate()
+            mDatabaseKDBX?.description = description
+            mDatabaseKDBX?.descriptionChanged = DateInstant()
         }
 
     val allowDefaultUsername: Boolean
-        get() = pwDatabaseV4 != null
-        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
+        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
 
     var defaultUsername: String
         get() {
-            return pwDatabaseV4?.defaultUserName ?: "" // TODO pwDatabaseV3 default username
+            return mDatabaseKDBX?.defaultUserName ?: "" // TODO mDatabaseKDB default username
         }
         set(username) {
-            pwDatabaseV4?.defaultUserName = username
-            pwDatabaseV4?.defaultUserNameChanged = PwDate()
+            mDatabaseKDBX?.defaultUserName = username
+            mDatabaseKDBX?.defaultUserNameChanged = DateInstant()
         }
 
     val allowCustomColor: Boolean
-        get() = pwDatabaseV4 != null
-        // TODO get() = pwDatabaseV3 != null || pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
+        // TODO get() = mDatabaseKDB != null || mDatabaseKDBX != null
 
     // with format "#000000"
     var customColor: String
         get() {
-            return pwDatabaseV4?.color ?: "" // TODO pwDatabaseV3 color
+            return mDatabaseKDBX?.color ?: "" // TODO mDatabaseKDB color
         }
         set(value) {
             // TODO Check color string
-            pwDatabaseV4?.color = value
+            mDatabaseKDBX?.color = value
         }
 
+    val allowOTP: Boolean
+        get() = mDatabaseKDBX != null
+
     val version: String
-        get() = pwDatabaseV3?.version ?: pwDatabaseV4?.version ?: "-"
+        get() = mDatabaseKDB?.version ?: mDatabaseKDBX?.version ?: "-"
 
     val allowDataCompression: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
-    val availableCompressionAlgorithms: List<PwCompressionAlgorithm>
-        get() = pwDatabaseV4?.availableCompressionAlgorithms ?: ArrayList()
+    val availableCompressionAlgorithms: List<CompressionAlgorithm>
+        get() = mDatabaseKDBX?.availableCompressionAlgorithms ?: ArrayList()
 
-    var compressionAlgorithm: PwCompressionAlgorithm?
-        get() = pwDatabaseV4?.compressionAlgorithm
+    var compressionAlgorithm: CompressionAlgorithm?
+        get() = mDatabaseKDBX?.compressionAlgorithm
         set(value) {
             value?.let {
-                pwDatabaseV4?.compressionAlgorithm = it
+                mDatabaseKDBX?.compressionAlgorithm = it
             }
         }
 
+    fun updateDataBinaryCompression(oldCompression: CompressionAlgorithm,
+                                    newCompression: CompressionAlgorithm) {
+        mDatabaseKDBX?.changeBinaryCompression(oldCompression, newCompression)
+    }
+
     val allowNoMasterKey: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
     val allowEncryptionAlgorithmModification: Boolean
         get() = availableEncryptionAlgorithms.size > 1
 
     fun getEncryptionAlgorithmName(resources: Resources): String {
-        return pwDatabaseV3?.encryptionAlgorithm?.getName(resources)
-                ?: pwDatabaseV4?.encryptionAlgorithm?.getName(resources)
+        return mDatabaseKDB?.encryptionAlgorithm?.getName(resources)
+                ?: mDatabaseKDBX?.encryptionAlgorithm?.getName(resources)
                 ?: ""
     }
 
-    val availableEncryptionAlgorithms: List<PwEncryptionAlgorithm>
-        get() = pwDatabaseV3?.availableEncryptionAlgorithms ?: pwDatabaseV4?.availableEncryptionAlgorithms ?: ArrayList()
+    val availableEncryptionAlgorithms: List<EncryptionAlgorithm>
+        get() = mDatabaseKDB?.availableEncryptionAlgorithms ?: mDatabaseKDBX?.availableEncryptionAlgorithms ?: ArrayList()
 
-    var encryptionAlgorithm: PwEncryptionAlgorithm?
-        get() = pwDatabaseV3?.encryptionAlgorithm ?: pwDatabaseV4?.encryptionAlgorithm
+    var encryptionAlgorithm: EncryptionAlgorithm?
+        get() = mDatabaseKDB?.encryptionAlgorithm ?: mDatabaseKDBX?.encryptionAlgorithm
         set(algorithm) {
             algorithm?.let {
-                pwDatabaseV4?.encryptionAlgorithm = algorithm
-                pwDatabaseV4?.setDataEngine(algorithm.cipherEngine)
-                pwDatabaseV4?.dataCipher = algorithm.dataCipher
+                mDatabaseKDBX?.encryptionAlgorithm = algorithm
+                mDatabaseKDBX?.setDataEngine(algorithm.cipherEngine)
+                mDatabaseKDBX?.dataCipher = algorithm.dataCipher
             }
         }
 
     val availableKdfEngines: List<KdfEngine>
-        get() = pwDatabaseV3?.kdfAvailableList ?: pwDatabaseV4?.kdfAvailableList ?: ArrayList()
+        get() = mDatabaseKDB?.kdfAvailableList ?: mDatabaseKDBX?.kdfAvailableList ?: ArrayList()
 
     val allowKdfModification: Boolean
         get() = availableKdfEngines.size > 1
 
     var kdfEngine: KdfEngine?
-        get() = pwDatabaseV3?.kdfEngine ?: pwDatabaseV4?.kdfEngine
+        get() = mDatabaseKDB?.kdfEngine ?: mDatabaseKDBX?.kdfEngine
         set(kdfEngine) {
             kdfEngine?.let {
-                if (pwDatabaseV4?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
-                    pwDatabaseV4?.kdfParameters = kdfEngine.defaultParameters
+                if (mDatabaseKDBX?.kdfParameters?.uuid != kdfEngine.defaultParameters.uuid)
+                    mDatabaseKDBX?.kdfParameters = kdfEngine.defaultParameters
                 numberKeyEncryptionRounds = kdfEngine.defaultKeyRounds
                 memoryUsage = kdfEngine.defaultMemoryUsage
                 parallelism = kdfEngine.defaultParallelism
@@ -185,62 +200,62 @@ class Database {
     }
 
     var numberKeyEncryptionRounds: Long
-        get() = pwDatabaseV3?.numberKeyEncryptionRounds ?: pwDatabaseV4?.numberKeyEncryptionRounds ?: 0
+        get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
         @Throws(NumberFormatException::class)
         set(numberRounds) {
-            pwDatabaseV3?.numberKeyEncryptionRounds = numberRounds
-            pwDatabaseV4?.numberKeyEncryptionRounds = numberRounds
+            mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
+            mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
         }
 
     var memoryUsage: Long
         get() {
-            return pwDatabaseV4?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
+            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
         }
         set(memory) {
-            pwDatabaseV4?.memoryUsage = memory
+            mDatabaseKDBX?.memoryUsage = memory
         }
 
     var parallelism: Int
-        get() = pwDatabaseV4?.parallelism ?: KdfEngine.UNKNOWN_VALUE
+        get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
-            pwDatabaseV4?.parallelism = parallelism
+            mDatabaseKDBX?.parallelism = parallelism
         }
 
     var masterKey: ByteArray
-        get() = pwDatabaseV3?.masterKey ?: pwDatabaseV4?.masterKey ?: ByteArray(32)
+        get() = mDatabaseKDB?.masterKey ?: mDatabaseKDBX?.masterKey ?: ByteArray(32)
         set(masterKey) {
-            pwDatabaseV3?.masterKey = masterKey
-            pwDatabaseV4?.masterKey = masterKey
+            mDatabaseKDB?.masterKey = masterKey
+            mDatabaseKDBX?.masterKey = masterKey
         }
 
-    val rootGroup: GroupVersioned?
+    val rootGroup: Group?
         get() {
-            pwDatabaseV3?.rootGroup?.let {
-                return GroupVersioned(it)
+            mDatabaseKDB?.rootGroup?.let {
+                return Group(it)
             }
-            pwDatabaseV4?.rootGroup?.let {
-                return GroupVersioned(it)
+            mDatabaseKDBX?.rootGroup?.let {
+                return Group(it)
             }
             return null
         }
 
     val manageHistory: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
     var historyMaxItems: Int
         get() {
-            return pwDatabaseV4?.historyMaxItems ?: 0
+            return mDatabaseKDBX?.historyMaxItems ?: 0
         }
         set(value) {
-            pwDatabaseV4?.historyMaxItems = value
+            mDatabaseKDBX?.historyMaxItems = value
         }
 
     var historyMaxSize: Long
         get() {
-            return pwDatabaseV4?.historyMaxSize ?: 0
+            return mDatabaseKDBX?.historyMaxSize ?: 0
         }
         set(value) {
-            pwDatabaseV4?.historyMaxSize = value
+            mDatabaseKDBX?.historyMaxSize = value
         }
 
     /**
@@ -248,43 +263,48 @@ class Database {
      * @return true if RecycleBin available
      */
     val allowRecycleBin: Boolean
-        get() = pwDatabaseV4 != null
+        get() = mDatabaseKDBX != null
 
-    val isRecycleBinEnabled: Boolean
-        get() = pwDatabaseV4?.isRecycleBinEnabled ?: false
+    var isRecycleBinEnabled: Boolean
+        // TODO #394 isRecycleBinEnabled mDatabaseKDB
+        get() = mDatabaseKDB != null || mDatabaseKDBX?.isRecycleBinEnabled ?: false
+        set(value) {
+            mDatabaseKDBX?.isRecycleBinEnabled = value
+        }
 
-    val recycleBin: GroupVersioned?
+    val recycleBin: Group?
         get() {
-            pwDatabaseV4?.recycleBin?.let {
-                return GroupVersioned(it)
+            mDatabaseKDB?.backupGroup?.let {
+                return Group(it)
+            }
+            mDatabaseKDBX?.recycleBin?.let {
+                return Group(it)
             }
             return null
         }
 
-    private fun setDatabaseV3(pwDatabaseV3: PwDatabaseV3) {
-        this.pwDatabaseV3 = pwDatabaseV3
-        this.pwDatabaseV4 = null
+    fun ensureRecycleBinExists(resources: Resources) {
+        mDatabaseKDB?.ensureRecycleBinExists()
+        mDatabaseKDBX?.ensureRecycleBinExists(resources)
     }
 
-    private fun setDatabaseV4(pwDatabaseV4: PwDatabaseV4) {
-        this.pwDatabaseV3 = null
-        this.pwDatabaseV4 = pwDatabaseV4
+    fun removeRecycleBin() {
+        // TODO #394 delete backup mDatabaseKDB?.removeRecycleBin()
+        mDatabaseKDBX?.removeRecycleBin()
     }
 
-    private fun dbNameFromUri(databaseUri: Uri): String {
-        val filename = URLUtil.guessFileName(databaseUri.path, null, null)
-        if (filename == null || filename.isEmpty()) {
-            return "KeePass Database"
-        }
-        val lastExtDot = filename.lastIndexOf(".")
-        return if (lastExtDot == -1) {
-            filename
-        } else filename.substring(0, lastExtDot)
+    private fun setDatabaseKDB(databaseKDB: DatabaseKDB) {
+        this.mDatabaseKDB = databaseKDB
+        this.mDatabaseKDBX = null
     }
 
-    fun createData(databaseUri: Uri) {
-        // Always create a new database with the last version
-        setDatabaseV4(PwDatabaseV4(dbNameFromUri(databaseUri)))
+    private fun setDatabaseKDBX(databaseKDBX: DatabaseKDBX) {
+        this.mDatabaseKDB = null
+        this.mDatabaseKDBX = databaseKDBX
+    }
+
+    fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
+        setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
         this.fileUri = databaseUri
     }
 
@@ -310,7 +330,7 @@ class Database {
             inputStream = UriUtil.getUriInputStream(contentResolver, uri)
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
-            throw LoadDatabaseFileNotFoundException()
+            throw FileNotFoundDatabaseException()
         }
 
         // Pass KeyFile Uri as InputStreams
@@ -320,7 +340,7 @@ class Database {
                 keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
             } catch (e: Exception) {
                 Log.e("KPD", "Database::loadData", e)
-                throw LoadDatabaseFileNotFoundException()
+                throw FileNotFoundDatabaseException()
             }
         }
 
@@ -342,15 +362,15 @@ class Database {
         bufferedInputStream.reset()
 
         when {
-            // Header of database V3
-            PwDbHeaderV3.matchesHeader(sig1, sig2) -> setDatabaseV3(ImporterV3()
+            // Header of database KDB
+            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
                     .openDatabase(bufferedInputStream,
                             password,
                             keyFileInputStream,
                             progressTaskUpdater))
 
-            // Header of database V4
-            PwDbHeaderV4.matchesHeader(sig1, sig2) -> setDatabaseV4(ImporterV4(
+            // Header of database KDBX
+            DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
                     cacheDirectory,
                     fixDuplicateUUID)
                     .openDatabase(bufferedInputStream,
@@ -359,64 +379,64 @@ class Database {
                             progressTaskUpdater))
 
             // Header not recognized
-            else -> throw LoadDatabaseSignatureException()
+            else -> throw SignatureDatabaseException()
         }
 
-        this.mSearchHelper = SearchDbHelper(omitBackup)
+        this.mSearchHelper = SearchHelper(omitBackup)
         loaded = true
     }
 
-    fun isGroupSearchable(group: GroupVersioned, isOmitBackup: Boolean): Boolean {
-        return pwDatabaseV3?.isGroupSearchable(group.pwGroupV3, isOmitBackup) ?:
-        pwDatabaseV4?.isGroupSearchable(group.pwGroupV4, isOmitBackup) ?:
+    fun isGroupSearchable(group: Group, isOmitBackup: Boolean): Boolean {
+        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, isOmitBackup) ?:
+        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, isOmitBackup) ?:
         false
     }
 
     @JvmOverloads
-    fun search(str: String, max: Int = Integer.MAX_VALUE): GroupVersioned? {
+    fun search(str: String, max: Int = Integer.MAX_VALUE): Group? {
         return mSearchHelper?.search(this, str, max)
     }
 
     fun searchEntries(query: String): Cursor? {
 
-        var cursorV3: EntryCursorV3? = null
-        var cursorV4: EntryCursorV4? = null
+        var cursorKDB: EntryCursorKDB? = null
+        var cursorKDBX: EntryCursorKDBX? = null
 
-        if (pwDatabaseV3 != null)
-            cursorV3 = EntryCursorV3()
-        if (pwDatabaseV4 != null)
-            cursorV4 = EntryCursorV4()
+        if (mDatabaseKDB != null)
+            cursorKDB = EntryCursorKDB()
+        if (mDatabaseKDBX != null)
+            cursorKDBX = EntryCursorKDBX()
 
-        val searchResult = search(query, SearchDbHelper.MAX_SEARCH_ENTRY)
+        val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
             for (entry in searchResult.getChildEntries(true)) {
-                entry.pwEntryV3?.let {
-                    cursorV3?.addEntry(it)
+                entry.entryKDB?.let {
+                    cursorKDB?.addEntry(it)
                 }
-                entry.pwEntryV4?.let {
-                    cursorV4?.addEntry(it)
+                entry.entryKDBX?.let {
+                    cursorKDBX?.addEntry(it)
                 }
             }
         }
 
-        return cursorV3 ?: cursorV4
+        return cursorKDB ?: cursorKDBX
     }
 
-    fun getEntryFrom(cursor: Cursor): EntryVersioned? {
-        val iconFactory = pwDatabaseV3?.iconFactory ?: pwDatabaseV4?.iconFactory ?: PwIconFactory()
+    fun getEntryFrom(cursor: Cursor): Entry? {
+        val iconFactory = mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
         val entry = createEntry()
 
         // TODO invert field reference manager
         entry?.let { entryVersioned ->
             startManageEntry(entryVersioned)
-            pwDatabaseV3?.let {
-                entryVersioned.pwEntryV3?.let { entryV3 ->
-                    (cursor as EntryCursorV3).populateEntry(entryV3, iconFactory)
+            mDatabaseKDB?.let {
+                entryVersioned.entryKDB?.let { entryKDB ->
+                    (cursor as EntryCursorKDB).populateEntry(entryKDB, iconFactory)
                 }
             }
-            pwDatabaseV4?.let {
-                entryVersioned.pwEntryV4?.let { entryV4 ->
-                    (cursor as EntryCursorV4).populateEntry(entryV4, iconFactory)
+            mDatabaseKDBX?.let {
+                entryVersioned.entryKDBX?.let { entryKDBX ->
+                    (cursor as EntryCursorKDBX).populateEntry(entryKDBX, iconFactory)
                 }
             }
             stopManageEntry(entryVersioned)
@@ -425,16 +445,20 @@ class Database {
         return entry
     }
 
-    @Throws(IOException::class, DatabaseOutputException::class)
+    @Throws(DatabaseOutputException::class)
     fun saveData(contentResolver: ContentResolver) {
-        this.fileUri?.let {
-            saveData(contentResolver, it)
+        try {
+            this.fileUri?.let {
+                saveData(contentResolver, it)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Unable to save database", e)
+            throw DatabaseOutputException(e)
         }
     }
 
     @Throws(IOException::class, DatabaseOutputException::class)
     private fun saveData(contentResolver: ContentResolver, uri: Uri) {
-        val errorMessage = "Failed to store database."
 
         if (uri.scheme == "file") {
             uri.path?.let { filename ->
@@ -443,12 +467,11 @@ class Database {
                 var fileOutputStream: FileOutputStream? = null
                 try {
                     fileOutputStream = FileOutputStream(tempFile)
-                    val pmo = pwDatabaseV3?.let { PwDbV3Output(it, fileOutputStream) }
-                            ?: pwDatabaseV4?.let { PwDbV4Output(it, fileOutputStream) }
+                    val pmo = mDatabaseKDB?.let { DatabaseOutputKDB(it, fileOutputStream) }
+                            ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, fileOutputStream) }
                     pmo?.output()
                 } catch (e: Exception) {
-                    Log.e(TAG, errorMessage, e)
-                    throw IOException(errorMessage, e)
+                    throw IOException(e)
                 } finally {
                     fileOutputStream?.close()
                 }
@@ -461,7 +484,7 @@ class Database {
                 }
     
                 if (!tempFile.renameTo(File(filename))) {
-                    throw IOException(errorMessage)
+                    throw IOException()
                 }
             }
         } else {
@@ -469,12 +492,11 @@ class Database {
             try {
                 outputStream = contentResolver.openOutputStream(uri)
                 val pmo =
-                        pwDatabaseV3?.let { PwDbV3Output(it, outputStream) }
-                        ?: pwDatabaseV4?.let { PwDbV4Output(it, outputStream) }
+                        mDatabaseKDB?.let { DatabaseOutputKDB(it, outputStream) }
+                        ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, outputStream) }
                 pmo?.output()
             } catch (e: Exception) {
-                Log.e(TAG, errorMessage, e)
-                throw IOException(errorMessage, e)
+                throw IOException(e)
             } finally {
                 outputStream?.close()
             }
@@ -482,12 +504,11 @@ class Database {
         this.fileUri = uri
     }
 
-    // TODO Clear database when lock broadcast is receive in backstage
     fun closeAndClear(filesDirectory: File? = null) {
         drawFactory.clearCache()
         // Delete the cache of the database if present
-        pwDatabaseV3?.clearCache()
-        pwDatabaseV4?.clearCache()
+        mDatabaseKDB?.clearCache()
+        mDatabaseKDBX?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
             FileUtils.cleanDirectory(filesDirectory)
@@ -495,36 +516,36 @@ class Database {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
 
-        this.pwDatabaseV3 = null
-        this.pwDatabaseV4 = null
+        this.mDatabaseKDB = null
+        this.mDatabaseKDBX = null
         this.fileUri = null
         this.loaded = false
     }
 
     fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
-        return pwDatabaseV3?.validatePasswordEncoding(password, containsKeyFile)
-                ?: pwDatabaseV4?.validatePasswordEncoding(password, containsKeyFile)
+        return mDatabaseKDB?.validatePasswordEncoding(password, containsKeyFile)
+                ?: mDatabaseKDBX?.validatePasswordEncoding(password, containsKeyFile)
                 ?: false
     }
 
     @Throws(IOException::class)
     fun retrieveMasterKey(key: String?, keyInputStream: InputStream?) {
-        pwDatabaseV3?.retrieveMasterKey(key, keyInputStream)
-        pwDatabaseV4?.retrieveMasterKey(key, keyInputStream)
+        mDatabaseKDB?.retrieveMasterKey(key, keyInputStream)
+        mDatabaseKDBX?.retrieveMasterKey(key, keyInputStream)
     }
 
     fun rootCanContainsEntry(): Boolean {
-        return pwDatabaseV3?.rootCanContainsEntry() ?: pwDatabaseV4?.rootCanContainsEntry() ?: false
+        return mDatabaseKDB?.rootCanContainsEntry() ?: mDatabaseKDBX?.rootCanContainsEntry() ?: false
     }
 
-    fun createEntry(): EntryVersioned? {
-        pwDatabaseV3?.let { database ->
-            return EntryVersioned(database.createEntry()).apply {
+    fun createEntry(): Entry? {
+        mDatabaseKDB?.let { database ->
+            return Entry(database.createEntry()).apply {
                 nodeId = database.newEntryId()
             }
         }
-        pwDatabaseV4?.let { database ->
-            return EntryVersioned(database.createEntry()).apply {
+        mDatabaseKDBX?.let { database ->
+            return Entry(database.createEntry()).apply {
                 nodeId = database.newEntryId()
             }
         }
@@ -532,14 +553,14 @@ class Database {
         return null
     }
 
-    fun createGroup(): GroupVersioned? {
-        pwDatabaseV3?.let { database ->
-            return GroupVersioned(database.createGroup()).apply {
+    fun createGroup(): Group? {
+        mDatabaseKDB?.let { database ->
+            return Group(database.createGroup()).apply {
                 setNodeId(database.newGroupId())
             }
         }
-        pwDatabaseV4?.let { database ->
-            return GroupVersioned(database.createGroup()).apply {
+        mDatabaseKDBX?.let { database ->
+            return Group(database.createGroup()).apply {
                 setNodeId(database.newGroupId())
             }
         }
@@ -547,82 +568,82 @@ class Database {
         return null
     }
 
-    fun getEntryById(id: PwNodeId<UUID>): EntryVersioned? {
-        pwDatabaseV3?.getEntryById(id)?.let {
-            return EntryVersioned(it)
+    fun getEntryById(id: NodeId<UUID>): Entry? {
+        mDatabaseKDB?.getEntryById(id)?.let {
+            return Entry(it)
         }
-        pwDatabaseV4?.getEntryById(id)?.let {
-            return EntryVersioned(it)
+        mDatabaseKDBX?.getEntryById(id)?.let {
+            return Entry(it)
         }
         return null
     }
 
-    fun getGroupById(id: PwNodeId<*>): GroupVersioned? {
-        if (id is PwNodeIdInt)
-            pwDatabaseV3?.getGroupById(id)?.let {
-                return GroupVersioned(it)
+    fun getGroupById(id: NodeId<*>): Group? {
+        if (id is NodeIdInt)
+            mDatabaseKDB?.getGroupById(id)?.let {
+                return Group(it)
             }
-        else if (id is PwNodeIdUUID)
-            pwDatabaseV4?.getGroupById(id)?.let {
-                return GroupVersioned(it)
+        else if (id is NodeIdUUID)
+            mDatabaseKDBX?.getGroupById(id)?.let {
+                return Group(it)
             }
         return null
     }
 
-    fun addEntryTo(entry: EntryVersioned, parent: GroupVersioned) {
-        entry.pwEntryV3?.let { entryV3 ->
-            pwDatabaseV3?.addEntryTo(entryV3, parent.pwGroupV3)
+    fun addEntryTo(entry: Entry, parent: Group) {
+        entry.entryKDB?.let { entryKDB ->
+            mDatabaseKDB?.addEntryTo(entryKDB, parent.groupKDB)
         }
-        entry.pwEntryV4?.let { entryV4 ->
-            pwDatabaseV4?.addEntryTo(entryV4, parent.pwGroupV4)
+        entry.entryKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.addEntryTo(entryKDBX, parent.groupKDBX)
         }
         entry.afterAssignNewParent()
     }
 
-    fun updateEntry(entry: EntryVersioned) {
-        entry.pwEntryV3?.let { entryV3 ->
-            pwDatabaseV3?.updateEntry(entryV3)
+    fun updateEntry(entry: Entry) {
+        entry.entryKDB?.let { entryKDB ->
+            mDatabaseKDB?.updateEntry(entryKDB)
         }
-        entry.pwEntryV4?.let { entryV4 ->
-            pwDatabaseV4?.updateEntry(entryV4)
+        entry.entryKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.updateEntry(entryKDBX)
         }
     }
 
-    fun removeEntryFrom(entry: EntryVersioned, parent: GroupVersioned) {
-        entry.pwEntryV3?.let { entryV3 ->
-            pwDatabaseV3?.removeEntryFrom(entryV3, parent.pwGroupV3)
+    fun removeEntryFrom(entry: Entry, parent: Group) {
+        entry.entryKDB?.let { entryKDB ->
+            mDatabaseKDB?.removeEntryFrom(entryKDB, parent.groupKDB)
         }
-        entry.pwEntryV4?.let { entryV4 ->
-            pwDatabaseV4?.removeEntryFrom(entryV4, parent.pwGroupV4)
+        entry.entryKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.removeEntryFrom(entryKDBX, parent.groupKDBX)
         }
         entry.afterAssignNewParent()
     }
 
-    fun addGroupTo(group: GroupVersioned, parent: GroupVersioned) {
-        group.pwGroupV3?.let { groupV3 ->
-            pwDatabaseV3?.addGroupTo(groupV3, parent.pwGroupV3)
+    fun addGroupTo(group: Group, parent: Group) {
+        group.groupKDB?.let { entryKDB ->
+            mDatabaseKDB?.addGroupTo(entryKDB, parent.groupKDB)
         }
-        group.pwGroupV4?.let { groupV4 ->
-            pwDatabaseV4?.addGroupTo(groupV4, parent.pwGroupV4)
+        group.groupKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.addGroupTo(entryKDBX, parent.groupKDBX)
         }
         group.afterAssignNewParent()
     }
 
-    fun updateGroup(group: GroupVersioned) {
-        group.pwGroupV3?.let { groupV3 ->
-            pwDatabaseV3?.updateGroup(groupV3)
+    fun updateGroup(group: Group) {
+        group.groupKDB?.let { entryKDB ->
+            mDatabaseKDB?.updateGroup(entryKDB)
         }
-        group.pwGroupV4?.let { groupV4 ->
-            pwDatabaseV4?.updateGroup(groupV4)
+        group.groupKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.updateGroup(entryKDBX)
         }
     }
 
-    fun removeGroupFrom(group: GroupVersioned, parent: GroupVersioned) {
-        group.pwGroupV3?.let { groupV3 ->
-            pwDatabaseV3?.removeGroupFrom(groupV3, parent.pwGroupV3)
+    fun removeGroupFrom(group: Group, parent: Group) {
+        group.groupKDB?.let { entryKDB ->
+            mDatabaseKDB?.removeGroupFrom(entryKDB, parent.groupKDB)
         }
-        group.pwGroupV4?.let { groupV4 ->
-            pwDatabaseV4?.removeGroupFrom(groupV4, parent.pwGroupV4)
+        group.groupKDBX?.let { entryKDBX ->
+            mDatabaseKDBX?.removeGroupFrom(entryKDBX, parent.groupKDBX)
         }
         group.afterAssignNewParent()
     }
@@ -632,45 +653,45 @@ class Database {
      * @param entryToCopy
      * @param newParent
      */
-    fun copyEntryTo(entryToCopy: EntryVersioned, newParent: GroupVersioned): EntryVersioned? {
-        val entryCopied = EntryVersioned(entryToCopy, false)
-        entryCopied.nodeId = pwDatabaseV3?.newEntryId() ?: pwDatabaseV4?.newEntryId() ?: PwNodeIdUUID()
+    fun copyEntryTo(entryToCopy: Entry, newParent: Group): Entry? {
+        val entryCopied = Entry(entryToCopy, false)
+        entryCopied.nodeId = mDatabaseKDB?.newEntryId() ?: mDatabaseKDBX?.newEntryId() ?: NodeIdUUID()
         entryCopied.parent = newParent
         entryCopied.title += " (~)"
         addEntryTo(entryCopied, newParent)
         return entryCopied
     }
 
-    fun moveEntryTo(entryToMove: EntryVersioned, newParent: GroupVersioned) {
+    fun moveEntryTo(entryToMove: Entry, newParent: Group) {
         entryToMove.parent?.let {
             removeEntryFrom(entryToMove, it)
         }
         addEntryTo(entryToMove, newParent)
     }
 
-    fun moveGroupTo(groupToMove: GroupVersioned, newParent: GroupVersioned) {
+    fun moveGroupTo(groupToMove: Group, newParent: Group) {
         groupToMove.parent?.let {
             removeGroupFrom(groupToMove, it)
         }
         addGroupTo(groupToMove, newParent)
     }
 
-    fun deleteEntry(entry: EntryVersioned) {
+    fun deleteEntry(entry: Entry) {
         entry.parent?.let {
             removeEntryFrom(entry, it)
         }
     }
 
-    fun deleteGroup(group: GroupVersioned) {
+    fun deleteGroup(group: Group) {
         group.doForEachChildAndForIt(
-                object : NodeHandler<EntryVersioned>() {
-                    override fun operate(node: EntryVersioned): Boolean {
+                object : NodeHandler<Entry>() {
+                    override fun operate(node: Entry): Boolean {
                         deleteEntry(node)
                         return true
                     }
                 },
-                object : NodeHandler<GroupVersioned>() {
-                    override fun operate(node: GroupVersioned): Boolean {
+                object : NodeHandler<Group>() {
+                    override fun operate(node: Group): Boolean {
                         node.parent?.let {
                             removeGroupFrom(node, it)
                         }
@@ -679,89 +700,144 @@ class Database {
                 })
     }
 
-    fun undoDeleteEntry(entry: EntryVersioned, parent: GroupVersioned) {
-        entry.pwEntryV3?.let { entryV3 ->
-            pwDatabaseV3?.undoDeleteEntryFrom(entryV3, parent.pwGroupV3)
+    fun undoDeleteEntry(entry: Entry, parent: Group) {
+        entry.entryKDB?.let {
+            mDatabaseKDB?.undoDeleteEntryFrom(it, parent.groupKDB)
         }
-        entry.pwEntryV4?.let { entryV4 ->
-            pwDatabaseV4?.undoDeleteEntryFrom(entryV4, parent.pwGroupV4)
-        }
-    }
-
-    fun undoDeleteGroup(group: GroupVersioned, parent: GroupVersioned) {
-        group.pwGroupV3?.let { groupV3 ->
-            pwDatabaseV3?.undoDeleteGroupFrom(groupV3, parent.pwGroupV3)
-        }
-        group.pwGroupV4?.let { groupV4 ->
-            pwDatabaseV4?.undoDeleteGroupFrom(groupV4, parent.pwGroupV4)
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.undoDeleteEntryFrom(it, parent.groupKDBX)
         }
     }
 
-    fun canRecycle(entry: EntryVersioned): Boolean {
+    fun undoDeleteGroup(group: Group, parent: Group) {
+        group.groupKDB?.let {
+            mDatabaseKDB?.undoDeleteGroupFrom(it, parent.groupKDB)
+        }
+        group.groupKDBX?.let {
+            mDatabaseKDBX?.undoDeleteGroupFrom(it, parent.groupKDBX)
+        }
+    }
+
+    fun canRecycle(entry: Entry): Boolean {
         var canRecycle: Boolean? = null
-        entry.pwEntryV4?.let { entryV4 ->
-            canRecycle = pwDatabaseV4?.canRecycle(entryV4)
+        entry.entryKDB?.let {
+            canRecycle = mDatabaseKDB?.canRecycle(it)
+        }
+        entry.entryKDBX?.let {
+            canRecycle = mDatabaseKDBX?.canRecycle(it)
         }
         return canRecycle ?: false
     }
 
-    fun canRecycle(group: GroupVersioned): Boolean {
+    fun canRecycle(group: Group): Boolean {
         var canRecycle: Boolean? = null
-        group.pwGroupV4?.let { groupV4 ->
-            canRecycle = pwDatabaseV4?.canRecycle(groupV4)
+        group.groupKDB?.let {
+            canRecycle = mDatabaseKDB?.canRecycle(it)
+        }
+        group.groupKDBX?.let {
+            canRecycle = mDatabaseKDBX?.canRecycle(it)
         }
         return canRecycle ?: false
     }
 
-    fun recycle(entry: EntryVersioned, resources: Resources) {
-        entry.pwEntryV4?.let {
-            pwDatabaseV4?.recycle(it, resources)
+    fun recycle(entry: Entry, resources: Resources) {
+        entry.entryKDB?.let {
+            mDatabaseKDB?.recycle(it)
+        }
+        entry.entryKDBX?.let {
+            mDatabaseKDBX?.recycle(it, resources)
         }
     }
 
-    fun recycle(group: GroupVersioned, resources: Resources) {
-        group.pwGroupV4?.let {
-            pwDatabaseV4?.recycle(it, resources)
+    fun recycle(group: Group, resources: Resources) {
+        group.groupKDB?.let {
+            mDatabaseKDB?.recycle(it)
+        }
+        group.groupKDBX?.let {
+            mDatabaseKDBX?.recycle(it, resources)
         }
     }
 
-    fun undoRecycle(entry: EntryVersioned, parent: GroupVersioned) {
-        entry.pwEntryV4?.let { entryV4 ->
-            parent.pwGroupV4?.let { parentV4 ->
-                pwDatabaseV4?.undoRecycle(entryV4, parentV4)
+    fun undoRecycle(entry: Entry, parent: Group) {
+        entry.entryKDB?.let { entryKDB ->
+            parent.groupKDB?.let { parentKDB ->
+                mDatabaseKDB?.undoRecycle(entryKDB, parentKDB)
+            }
+        }
+        entry.entryKDBX?.let { entryKDBX ->
+            parent.groupKDBX?.let { parentKDBX ->
+                mDatabaseKDBX?.undoRecycle(entryKDBX, parentKDBX)
             }
         }
     }
 
-    fun undoRecycle(group: GroupVersioned, parent: GroupVersioned) {
-        group.pwGroupV4?.let { groupV4 ->
-            parent.pwGroupV4?.let { parentV4 ->
-                pwDatabaseV4?.undoRecycle(groupV4, parentV4)
+    fun undoRecycle(group: Group, parent: Group) {
+        group.groupKDB?.let { groupKDB ->
+            parent.groupKDB?.let { parentKDB ->
+                mDatabaseKDB?.undoRecycle(groupKDB, parentKDB)
+            }
+        }
+        group.groupKDBX?.let { entryKDBX ->
+            parent.groupKDBX?.let { parentKDBX ->
+                mDatabaseKDBX?.undoRecycle(entryKDBX, parentKDBX)
             }
         }
     }
 
-    fun startManageEntry(entry: EntryVersioned) {
-        pwDatabaseV4?.let {
+    fun startManageEntry(entry: Entry) {
+        mDatabaseKDBX?.let {
             entry.startToManageFieldReferences(it)
         }
     }
 
-    fun stopManageEntry(entry: EntryVersioned) {
-        pwDatabaseV4?.let {
+    fun stopManageEntry(entry: Entry) {
+        mDatabaseKDBX?.let {
             entry.stopToManageFieldReferences()
         }
     }
 
-    fun removeOldestHistory(entry: EntryVersioned) {
+    /**
+     * Remove oldest history for each entry if more than max items or max memory
+     */
+    fun removeOldestHistoryForEachEntry() {
+        rootGroup?.doForEachChildAndForIt(
+                object : NodeHandler<Entry>() {
+                    override fun operate(node: Entry): Boolean {
+                        removeOldestEntryHistory(node)
+                        return true
+                    }
+                },
+                object : NodeHandler<Group>() {
+                    override fun operate(node: Group): Boolean {
+                        return true
+                    }
+                })
+    }
 
-        // Remove oldest history if more than max items or max memory
-        pwDatabaseV4?.let {
-            val history = entry.getHistory()
+    fun removeEachEntryHistory() {
+        rootGroup?.doForEachChildAndForIt(
+                object : NodeHandler<Entry>() {
+                    override fun operate(node: Entry): Boolean {
+                        node.removeAllHistory()
+                        return true
+                    }
+                },
+                object : NodeHandler<Group>() {
+                    override fun operate(node: Group): Boolean {
+                        return true
+                    }
+                })
+    }
+
+    /**
+     * Remove oldest history if more than max items or max memory
+     */
+    fun removeOldestEntryHistory(entry: Entry) {
+        mDatabaseKDBX?.let {
 
             val maxItems = historyMaxItems
             if (maxItems >= 0) {
-                while (history.size > maxItems) {
+                while (entry.getHistory().size > maxItems) {
                     entry.removeOldestEntryFromHistory()
                 }
             }
@@ -770,7 +846,7 @@ class Database {
             if (maxSize >= 0) {
                 while (true) {
                     var historySize: Long = 0
-                    for (entryHistory in history) {
+                    for (entryHistory in entry.getHistory()) {
                         historySize += entryHistory.getSize()
                     }
 

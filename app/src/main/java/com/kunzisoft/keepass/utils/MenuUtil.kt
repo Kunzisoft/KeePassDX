@@ -19,6 +19,8 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.view.Menu
 import android.view.MenuInflater
@@ -27,9 +29,7 @@ import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.AboutActivity
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper.READ_ONLY_DEFAULT
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.settings.SettingsActivity
-
 
 object MenuUtil {
 
@@ -43,33 +43,33 @@ object MenuUtil {
         inflater.inflate(R.menu.default_menu, menu)
     }
 
-    fun onContributionItemSelected(activity: StylishActivity) {
-        UriUtil.gotoUrl(activity, R.string.contribution_url)
+    fun onContributionItemSelected(context: Context) {
+        UriUtil.gotoUrl(context, R.string.contribution_url)
     }
 
     /*
      * @param checkLock Check the time lock before launch settings in LockingActivity
      */
     @JvmOverloads
-    fun onDefaultMenuOptionsItemSelected(activity: StylishActivity, item: MenuItem, readOnly: Boolean = READ_ONLY_DEFAULT, timeoutEnable: Boolean = false): Boolean {
+    fun onDefaultMenuOptionsItemSelected(activity: Activity,
+                                         item: MenuItem,
+                                         readOnly: Boolean = READ_ONLY_DEFAULT,
+                                         timeoutEnable: Boolean = false): Boolean {
         when (item.itemId) {
             R.id.menu_contribute -> {
                 onContributionItemSelected(activity)
                 return true
             }
-
             R.id.menu_app_settings -> {
                 // To avoid flickering when launch settings in a LockingActivity
                 SettingsActivity.launch(activity, readOnly, timeoutEnable)
                 return true
             }
-
             R.id.menu_about -> {
                 val intent = Intent(activity, AboutActivity::class.java)
                 activity.startActivity(intent)
                 return true
             }
-
             else -> return true
         }
     }

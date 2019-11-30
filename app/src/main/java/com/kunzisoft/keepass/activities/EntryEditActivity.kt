@@ -33,8 +33,9 @@ import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingHideActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -56,19 +57,16 @@ class EntryEditActivity : LockingHideActivity(),
     private var mDatabase: Database? = null
 
     // Refs of an entry and group in database, are not modifiable
-    private var mEntry: EntryVersioned? = null
-    private var mParent: GroupVersioned? = null
+    private var mEntry: Entry? = null
+    private var mParent: Group? = null
     // New or copy of mEntry in the database to be modifiable
-    private var mNewEntry: EntryVersioned? = null
+    private var mNewEntry: Entry? = null
     private var mIsNew: Boolean = false
 
     // Views
     private var scrollView: ScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
     private var saveView: View? = null
-
-    // Dialog thread
-    private var progressDialogThread: ProgressDialogThread? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -98,7 +96,7 @@ class EntryEditActivity : LockingHideActivity(),
         mDatabase = Database.getInstance()
 
         // Entry is retrieve, it's an entry to update
-        intent.getParcelableExtra<PwNodeId<UUID>>(KEY_ENTRY)?.let {
+        intent.getParcelableExtra<NodeId<UUID>>(KEY_ENTRY)?.let {
             mIsNew = false
             // Create an Entry copy to modify from the database entry
             mEntry = mDatabase?.getEntryById(it)
@@ -118,7 +116,7 @@ class EntryEditActivity : LockingHideActivity(),
                     || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
-                    mNewEntry = EntryVersioned(entry).also { newEntry ->
+                    mNewEntry = Entry(entry).also { newEntry ->
                         // WARNING Remove the parent to keep memory with parcelable
                         newEntry.removeParent()
                     }
@@ -127,7 +125,7 @@ class EntryEditActivity : LockingHideActivity(),
         }
 
         // Parent is retrieve, it's a new entry to create
-        intent.getParcelableExtra<PwNodeId<*>>(KEY_PARENT)?.let {
+        intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
             // Create an empty new entry
             if (savedInstanceState == null
@@ -176,7 +174,7 @@ class EntryEditActivity : LockingHideActivity(),
         entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Create progress dialog
-        progressDialogThread = ProgressDialogThread(this) { actionTask, result ->
+        mProgressDialogThread?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK,
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -187,7 +185,7 @@ class EntryEditActivity : LockingHideActivity(),
         }
     }
 
-    private fun populateViewsWithEntry(newEntry: EntryVersioned) {
+    private fun populateViewsWithEntry(newEntry: Entry) {
         // Don't start the field reference manager, we want to see the raw ref
         mDatabase?.stopManageEntry(newEntry)
 
@@ -209,7 +207,7 @@ class EntryEditActivity : LockingHideActivity(),
         }
     }
 
-    private fun populateEntryWithViews(newEntry: EntryVersioned) {
+    private fun populateEntryWithViews(newEntry: Entry) {
 
         mDatabase?.startManageEntry(newEntry)
 
@@ -231,7 +229,7 @@ class EntryEditActivity : LockingHideActivity(),
         mDatabase?.stopManageEntry(newEntry)
     }
 
-    private fun temporarilySaveAndShowSelectedIcon(icon: PwIcon) {
+    private fun temporarilySaveAndShowSelectedIcon(icon: IconImage) {
         mNewEntry?.icon = icon
         mDatabase?.drawFactory?.let { iconDrawFactory ->
             entryEditContentsView?.setIcon(iconDrawFactory, icon)
@@ -265,26 +263,26 @@ class EntryEditActivity : LockingHideActivity(),
                 // WARNING Add the parent previously deleted
                 newEntry.parent = mEntry?.parent
                 // Build info
-                newEntry.lastAccessTime = PwDate()
-                newEntry.lastModificationTime = PwDate()
+                newEntry.lastAccessTime = DateInstant()
+                newEntry.lastModificationTime = DateInstant()
 
                 populateEntryWithViews(newEntry)
 
                 // Open a progress dialog and save entry
                 if (mIsNew) {
                     mParent?.let { parent ->
-                        progressDialogThread?.startDatabaseCreateEntry(
+                        mProgressDialogThread?.startDatabaseCreateEntry(
                                 newEntry,
                                 parent,
-                                !mReadOnly
+                                !mReadOnly && mAutoSaveEnable
                         )
                     }
                 } else {
                     mEntry?.let { oldEntry ->
-                        progressDialogThread?.startDatabaseUpdateEntry(
+                        mProgressDialogThread?.startDatabaseUpdateEntry(
                                 oldEntry,
                                 newEntry,
-                                !mReadOnly
+                                !mReadOnly && mAutoSaveEnable
                         )
                     }
                 }
@@ -292,25 +290,16 @@ class EntryEditActivity : LockingHideActivity(),
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-
-        progressDialogThread?.registerProgressTask()
-    }
-
-    override fun onPause() {
-        progressDialogThread?.unregisterProgressTask()
-
-        super.onPause()
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
         val inflater = menuInflater
-        inflater.inflate(R.menu.database_lock, menu)
+        inflater.inflate(R.menu.database, menu)
+        // Save database not needed here
+        menu.findItem(R.id.menu_save_database)?.isVisible = false
         MenuUtil.contributionMenuInflater(inflater, menu)
-        inflater.inflate(R.menu.edit_entry, menu)
+        if (mDatabase?.allowOTP == true)
+            inflater.inflate(R.menu.entry_otp, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
@@ -351,12 +340,13 @@ class EntryEditActivity : LockingHideActivity(),
                 lockAndExit()
                 return true
             }
-
+            R.id.menu_save_database -> {
+                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+            }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
                 return true
             }
-
             R.id.menu_add_otp -> {
                 // Retrieve the current otpElement if exists
                 // and open the dialog to set up the OTP
@@ -364,7 +354,6 @@ class EntryEditActivity : LockingHideActivity(),
                         .show(supportFragmentManager, "addOTPDialog")
                 return true
             }
-
             android.R.id.home -> finish()
         }
 
@@ -452,7 +441,7 @@ class EntryEditActivity : LockingHideActivity(),
          * @param activity from activity
          * @param pwEntry Entry to update
          */
-        fun launch(activity: Activity, pwEntry: EntryVersioned) {
+        fun launch(activity: Activity, pwEntry: Entry) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
                 intent.putExtra(KEY_ENTRY, pwEntry.nodeId)
@@ -466,7 +455,7 @@ class EntryEditActivity : LockingHideActivity(),
          * @param activity from activity
          * @param pwGroup Group who will contains new entry
          */
-        fun launch(activity: Activity, pwGroup: GroupVersioned) {
+        fun launch(activity: Activity, pwGroup: Group) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
                 val intent = Intent(activity, EntryEditActivity::class.java)
                 intent.putExtra(KEY_PARENT, pwGroup.nodeId)

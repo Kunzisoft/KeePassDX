@@ -10,6 +10,7 @@ import android.view.MenuInflater
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.RequiresApi
+import androidx.biometric.BiometricConstants
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.fragment.app.FragmentActivity
@@ -36,65 +37,59 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
-    // fingerprint related code here
-    fun initBiometric() {
-
-        // Check if fingerprint well init (be called the first time the fingerprint is configured
-        // and the activity still active)
-        if (biometricUnlockDatabaseHelper == null || !biometricUnlockDatabaseHelper!!.isBiometricInitialized) {
-            biometricUnlockDatabaseHelper = BiometricUnlockDatabaseHelper(context)
-            // callback for fingerprint findings
-            biometricUnlockDatabaseHelper?.biometricUnlockCallback = this
-            biometricUnlockDatabaseHelper?.authenticationCallback = biometricAuthenticationCallback
-        }
-
+    init {
         // Add a check listener to change fingerprint mode
         checkboxPasswordView?.setOnCheckedChangeListener { compoundButton, checked ->
-
             checkBiometricAvailability()
-
             // Add old listener to enable the button, only be call here because of onCheckedChange bug
             onCheckedPasswordChangeListener?.onCheckedChanged(compoundButton, checked)
         }
-
-        checkBiometricAvailability()
     }
 
-    @Synchronized
-    private fun checkBiometricAvailability() {
+    /**
+     * Check biometric availability and change the current mode depending of device's state
+     */
+    fun checkBiometricAvailability() {
 
-        // fingerprint not supported (by API level or hardware) so keep option hidden
+        // biometric not supported (by API level or hardware) so keep option hidden
         // or manually disable
         val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
 
         if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE) {
-
             toggleMode(Mode.UNAVAILABLE)
-
         } else {
-
-            // fingerprint is available but not configured, show icon but in disabled state with some information
+            // biometric is available but not configured, show icon but in disabled state with some information
             if (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED) {
-
-                toggleMode(Mode.NOT_CONFIGURED)
-
+                toggleMode(Mode.BIOMETRIC_NOT_CONFIGURED)
             } else {
-                if (checkboxPasswordView?.isChecked == true) {
-                    // listen for encryption
-                    toggleMode(Mode.STORE)
+                // Check if fingerprint well init (be called the first time the fingerprint is configured
+                // and the activity still active)
+                if (biometricUnlockDatabaseHelper?.isKeyManagerInitialized != true) {
+                    biometricUnlockDatabaseHelper = BiometricUnlockDatabaseHelper(context)
+                    // callback for fingerprint findings
+                    biometricUnlockDatabaseHelper?.biometricUnlockCallback = this
+                    biometricUnlockDatabaseHelper?.authenticationCallback = biometricAuthenticationCallback
+                }
+                // Recheck to change the mode
+                if (biometricUnlockDatabaseHelper?.isKeyManagerInitialized != true) {
+                    toggleMode(Mode.KEY_MANAGER_UNAVAILABLE)
                 } else {
-                    cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
-
-                        // fingerprint available but no stored password found yet for this DB so show info don't listen
-                        toggleMode( if (containsCipher) {
-                            // listen for decryption
-                            Mode.OPEN
-                        } else {
-                            // wait for typing
-                            Mode.WAIT_CREDENTIAL
-                        })
+                    if (checkboxPasswordView?.isChecked == true) {
+                        // listen for encryption
+                        toggleMode(Mode.STORE_CREDENTIAL)
+                    } else {
+                        cipherDatabaseAction.containsCipherDatabase(databaseFileUri) { containsCipher ->
+                            // biometric available but no stored password found yet for this DB so show info don't listen
+                            toggleMode( if (containsCipher) {
+                                // listen for decryption
+                                Mode.EXTRACT_CREDENTIAL
+                            } else {
+                                // wait for typing
+                                Mode.WAIT_CREDENTIAL
+                            })
+                        }
                     }
                 }
             }
@@ -129,17 +124,15 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
             context.runOnUiThread {
                 when (biometricMode) {
-                    Mode.UNAVAILABLE -> {
-                    }
-                    Mode.NOT_CONFIGURED -> {
-                    }
-                    Mode.WAIT_CREDENTIAL -> {
-                    }
-                    Mode.STORE -> {
+                    Mode.UNAVAILABLE -> {}
+                    Mode.BIOMETRIC_NOT_CONFIGURED -> {}
+                    Mode.KEY_MANAGER_UNAVAILABLE -> {}
+                    Mode.WAIT_CREDENTIAL -> {}
+                    Mode.STORE_CREDENTIAL -> {
                         // newly store the entered password in encrypted way
                         biometricUnlockDatabaseHelper?.encryptData(passwordView?.text.toString())
                     }
-                    Mode.OPEN -> {
+                    Mode.EXTRACT_CREDENTIAL -> {
                         // retrieve the encrypted value from preferences
                         cipherDatabaseAction.getCipherDatabase(databaseFileUri) {
                             it?.encryptedValue?.let { value ->
@@ -155,7 +148,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private fun initNotAvailable() {
         showFingerPrintViews(false)
 
-        advancedUnlockInfoView?.setIconViewClickListener(null)
+        advancedUnlockInfoView?.setIconViewClickListener(false, null)
     }
 
     private fun initNotConfigured() {
@@ -163,7 +156,17 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.configure_biometric)
         setAdvancedUnlockedMessageView("")
 
-        advancedUnlockInfoView?.setIconViewClickListener {
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
+            context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
+        }
+    }
+
+    private fun initKeyManagerNotAvailable() {
+        showFingerPrintViews(true)
+        setAdvancedUnlockedTitleView(R.string.keystore_not_accessible)
+        setAdvancedUnlockedMessageView("")
+
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
             context.startActivity(Intent(Settings.ACTION_SECURITY_SETTINGS))
         }
     }
@@ -173,7 +176,11 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         setAdvancedUnlockedTitleView(R.string.no_credentials_stored)
         setAdvancedUnlockedMessageView("")
 
-        advancedUnlockInfoView?.setIconViewClickListener(null)
+        advancedUnlockInfoView?.setIconViewClickListener(false) {
+            biometricAuthenticationCallback.onAuthenticationError(
+                    BiometricConstants.ERROR_UNABLE_TO_PROCESS
+                    , context.getString(R.string.credential_before_click_biometric_button))
+        }
     }
 
     private fun openBiometricPrompt(biometricPrompt: BiometricPrompt?,
@@ -235,10 +242,11 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     fun initBiometricMode() {
         when (biometricMode) {
             Mode.UNAVAILABLE -> initNotAvailable()
-            Mode.NOT_CONFIGURED -> initNotConfigured()
+            Mode.BIOMETRIC_NOT_CONFIGURED -> initNotConfigured()
+            Mode.KEY_MANAGER_UNAVAILABLE -> initKeyManagerNotAvailable()
             Mode.WAIT_CREDENTIAL -> initWaitData()
-            Mode.STORE -> initEncryptData()
-            Mode.OPEN -> initDecryptData()
+            Mode.STORE_CREDENTIAL -> initEncryptData()
+            Mode.EXTRACT_CREDENTIAL -> initDecryptData()
         }
         // Show fingerprint key deletion
         context.invalidateOptionsMenu()
@@ -255,7 +263,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         if (!addBiometricMenuInProgress) {
             addBiometricMenuInProgress = true
             cipherDatabaseAction.containsCipherDatabase(databaseFileUri) {
-                if ((biometricMode != Mode.UNAVAILABLE && biometricMode != Mode.NOT_CONFIGURED)
+                if ((biometricMode != Mode.UNAVAILABLE && biometricMode != Mode.BIOMETRIC_NOT_CONFIGURED)
                         && it) {
                     menuInflater.inflate(R.menu.advanced_unlock, menu)
                     addBiometricMenuInProgress = false
@@ -267,7 +275,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     fun deleteEntryKey() {
         biometricUnlockDatabaseHelper?.deleteEntryKey()
         cipherDatabaseAction.deleteByDatabaseUri(databaseFileUri)
-        biometricMode = Mode.NOT_CONFIGURED
+        biometricMode = Mode.BIOMETRIC_NOT_CONFIGURED
         checkBiometricAvailability()
     }
 
@@ -313,7 +321,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     enum class Mode {
-        UNAVAILABLE, NOT_CONFIGURED, WAIT_CREDENTIAL, STORE, OPEN
+        UNAVAILABLE, BIOMETRIC_NOT_CONFIGURED, KEY_MANAGER_UNAVAILABLE, WAIT_CREDENTIAL, STORE_CREDENTIAL, EXTRACT_CREDENTIAL
     }
 
     companion object {

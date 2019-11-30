@@ -33,11 +33,12 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
             inputText = maxItemsDatabase.toString()
             setSwitchAction({ isChecked ->
                 inputText = if (!isChecked) {
-                    INFINITE_MAX_HISTORY_ITEMS.toString()
-                } else
+                    NONE_MAX_HISTORY_ITEMS.toString()
+                } else {
                     DEFAULT_MAX_HISTORY_ITEMS.toString()
+                }
                 showInputText(isChecked)
-            }, maxItemsDatabase > INFINITE_MAX_HISTORY_ITEMS)
+            }, maxItemsDatabase > NONE_MAX_HISTORY_ITEMS)
         }
     }
 
@@ -49,14 +50,17 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
                 } catch (e: NumberFormatException) {
                     DEFAULT_MAX_HISTORY_ITEMS
                 }
-                if (maxHistoryItems < INFINITE_MAX_HISTORY_ITEMS) {
-                    maxHistoryItems = INFINITE_MAX_HISTORY_ITEMS
+                if (maxHistoryItems < NONE_MAX_HISTORY_ITEMS) {
+                    maxHistoryItems = NONE_MAX_HISTORY_ITEMS
                 }
 
                 val oldMaxHistoryItems = database.historyMaxItems
                 database.historyMaxItems = maxHistoryItems
 
-                progressDialogThread?.startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems)
+                // Remove all history items
+                database.removeOldestHistoryForEachEntry()
+
+                mProgressDialogThread?.startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems, maxHistoryItems, mDatabaseAutoSaveEnable)
             }
         }
     }
@@ -64,7 +68,7 @@ class MaxHistoryItemsPreferenceDialogFragmentCompat : DatabaseSavePreferenceDial
     companion object {
 
         const val DEFAULT_MAX_HISTORY_ITEMS = 10
-        const val INFINITE_MAX_HISTORY_ITEMS = -1
+        const val NONE_MAX_HISTORY_ITEMS = -1
 
         fun newInstance(key: String): MaxHistoryItemsPreferenceDialogFragmentCompat {
             val fragment = MaxHistoryItemsPreferenceDialogFragmentCompat()

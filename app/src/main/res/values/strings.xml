@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
@@ -40,7 +39,7 @@
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
-    <string name="clipboard_error">Some Samsung Android phones won\'t let apps use the clipboard.</string>
+    <string name="clipboard_error">Some devices won\'t let apps use the clipboard.</string>
     <string name="clipboard_error_clear">Could not clear clipboard</string>
     <string name="clipboard_timeout">Clipboard timeout</string>
     <string name="clipboard_timeout_summary">Duration of storage in the clipboard</string>
@@ -64,7 +63,6 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
-
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -109,7 +107,7 @@
     <string name="error_load_database">Could not load your database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
-    <string name="error_disallow_no_credentials">At lest one credential must be set.</string>
+    <string name="error_disallow_no_credentials">At least one credential must be set.</string>
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
@@ -121,7 +119,8 @@
     <string name="error_copy_entry_here">You can not copy an entry here.</string>
     <string name="error_copy_group_here">You can not copy a group here.</string>
     <string name="error_create_database_file">Unable to create database with this password and key file.</string>
-    <string name="error_otp_secret_key">Secret key lust be in Base32 format.</string>
+    <string name="error_save_database">Could not save database.</string>
+    <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
@@ -139,7 +138,7 @@
     <string name="password">Password</string>
     <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="install_from_play_store">Install from Play Store</string>
-    <string name="invalid_credentials">Could not read credentials.</string>
+    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupt.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
@@ -176,6 +175,7 @@
     <string name="menu_cancel">Cancel</string>
     <string name="menu_hide_password">Hide password</string>
     <string name="menu_lock">Lock database</string>
+    <string name="menu_save_database">Save database</string>
     <string name="menu_open">Open</string>
     <string name="menu_search">Search</string>
     <string name="menu_showpass">Show password</string>
@@ -183,6 +183,7 @@
     <string name="menu_url">Go to URL</string>
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
+    <string name="menu_empty_recycle_bin">Empty Recycle Bin</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>
@@ -216,6 +217,7 @@
     <string name="parallelism">Parallelism</string>
     <string name="parallelism_explanation">Degree of parallelism (i.e. number of threads) used by the key derivation function.</string>
     <string name="saving_database">Saving database…</string>
+    <string name="command_execution">Executing the command…</string>
     <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
@@ -242,21 +244,24 @@
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
+    <string name="warning_permanently_delete_nodes">Are you sure you want to permanently delete the selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
+    <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
     <string name="biometric_prompt_store_credential_title">Save biometric recognition</string>
-    <string name="biometric_prompt_store_credential_message">Store database credentials with biometric data</string>
+    <string name="biometric_prompt_store_credential_message">WARNING: The use of biometric recognition does not exempt you from knowing your master password.</string>
     <string name="biometric_prompt_extract_credential_title">Open database with biometric recognition</string>
     <string name="biometric_prompt_extract_credential_message">Extract database credential with biometric data</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="biometric_invalid_key">Could not read biometric key. Restore your credential.</string>
+    <string name="biometric_invalid_key">Can not read the biometric key. Please delete it and repeat the biometric recognition procedure.</string>
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
+    <string name="credential_before_click_biometric_button">Type the password before clicking the biometric button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
@@ -279,7 +284,7 @@
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
-    <string name="lock_database_back_root_title">Press Back on root to lock</string>
+    <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="persistent_notification_title">Persistent notification</string>
     <string name="persistent_notification_summary">Add a notification when the database is open</string>
@@ -304,7 +309,8 @@
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Use recycle bin</string>
-    <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" before deleting</string>
+    <string name="recycle_bin_summary">Moves groups and entries to \"Recycle bin\" group before deleting</string>
+    <string name="recycle_bin_group_title">Recycle bin group</string>
     <string name="max_history_items_title">Max. history items</string>
     <string name="max_history_items_summary">Limit number of history items per entry</string>
     <string name="max_history_size_title">Max. history size</string>
@@ -362,10 +368,12 @@
     <string name="keyboard_key_sound_title">Sound on keypress</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
-    <string name="enable_read_only_title">Write-protected</string>
-    <string name="enable_read_only_summary">Open your database read-only by default</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
+    <string name="enable_read_only_title">Write-protected</string>
+    <string name="enable_read_only_summary">Open your database read-only by default</string>
+    <string name="enable_auto_save_database_title">Auto save database</string>
+    <string name="enable_auto_save_database_summary">Automatically save the database after an important action (only in \"Modifiable\" mode)</string>
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational screens</string>

@@ -19,31 +19,31 @@
   
   Swedish translation by Niclas Burgren (burgren@gmail.com)
 --><resources>
-    <string name="about_feedback">Feedback:</string>
-    <string name="about_homepage">Hemsida:</string>
-    <string name="about_description">KeePass DX är en Android-implementation av KeePass password manager.</string>
+    <string name="about_feedback">Feedback</string>
+    <string name="about_homepage">Hemsida</string>
+    <string name="about_description">Android-implementation av KeePass password manager</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
     <string name="add_group">Ny grupp</string>
     <string name="encryption_algorithm">Krypterings algoritm</string>
-    <string name="app_timeout">Tidsgräns för applikation</string>
-    <string name="app_timeout_summary">Tid innan låsning när applikationen är inaktiv.</string>
-    <string name="application">Applikation</string>
+    <string name="app_timeout">Tidsgräns för app</string>
+    <string name="app_timeout_summary">Inaktivitet innan appen låses</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">Inställningar för applikation</string>
     <string name="beta_dontask">Visa inte igen</string>
     <string name="brackets">Parenteser</string>
-    <string name="file_manager_install_description">Filhantering kräver Open Intents File Manager, klicka nedan för att installera. Filhanteraren kanske inte fungerar korrekt vid första användningen.</string>
-    <string name="clipboard_cleared">Urklippet är rensat.</string>
+    <string name="file_manager_install_description">Skapa, öppna och spara en databasfil kräver att du installerar en filhanterare som accepterar avsiktlig åtgärd ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT</string>
+    <string name="clipboard_cleared">Urklipp har rensats</string>
     <string name="clipboard_error_title">Urklippsfel</string>
-    <string name="clipboard_error">Vissa Samsung-telefoner har en bugg som gör att applikationer inte kan kopiera till urklipp. För mer detaljer, gå till:</string>
-    <string name="clipboard_error_clear">Urklippet kunde inte rensas</string>
+    <string name="clipboard_error">Vissa Samsung Android-telefoner låter inte appar använda Urklipp.</string>
+    <string name="clipboard_error_clear">Det gick inte att rensa urklipp</string>
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
-    <string name="clipboard_timeout_summary">Tiden innan användarnamn och lösenord rensas från urklipp</string>
+    <string name="clipboard_timeout_summary">Lagringens varaktighet i urklippet</string>
     <string name="select_to_copy">Kopiera %1$s till urklipp</string>
     <string name="retrieving_db_key">Skapar databasnyckel…</string>
     <string name="database">Databas</string>
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
-    <string name="default_checkbox">Använda denna databasen som standard</string>
+    <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
     <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn</string>
@@ -160,6 +160,29 @@
         <item>Medium</item>
         <item>Stor</item>
     </string-array>
-    <string name="edit_entry">Uppdatera post</string>
+    <string name="edit_entry">Redigera post</string>
     <string name="encryption">Kryptering</string>
+    <string name="key_derivation_function">Nyckelhärledningsfunktion</string>
+    <string name="extended_ASCII">Utökad ASCII</string>
+    <string name="allow">Tillåt</string>
+    <string name="clipboard_swipe_clean">Svep för att rensa urklipp nu</string>
+    <string name="content_description_open_file">Öppna fil</string>
+    <string name="content_description_add_node">Lägg till nod</string>
+    <string name="content_description_add_entry">Lägg till post</string>
+    <string name="content_description_add_group">Lägg till grupp</string>
+    <string name="content_description_file_information">Filinformation</string>
+    <string name="content_description_password_checkbox">Lösenord kryssruta</string>
+    <string name="content_description_keyfile_checkbox">Nyckelfil kryssruta</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
+    <string name="content_description_entry_icon">Post ikon</string>
+    <string name="content_description_entry_save">Post spara</string>
+    <string name="content_description_password_generator">Lösenordsgenerator</string>
+    <string name="content_description_password_length">Lösenords längd</string>
+    <string name="content_description_add_field">Lägg till fält</string>
+    <string name="content_description_remove_field">Ta bort fält</string>
+    <string name="content_description_background">Bakgrund</string>
+    <string name="content_description_update_from_list">Uppdatera</string>
+    <string name="content_description_keyboard_close_fields">Stäng fält</string>
+    <string name="master_key">Huvudnyckel</string>
+    <string name="security">Säkerhet</string>
 </resources>

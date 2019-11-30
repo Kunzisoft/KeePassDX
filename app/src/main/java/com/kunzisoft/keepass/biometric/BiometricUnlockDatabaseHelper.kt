@@ -52,13 +52,14 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
     private var keyguardManager: KeyguardManager? = null
     private var cryptoObject: BiometricPrompt.CryptoObject? = null
 
-    private var isBiometricInit = false
+    private var isKeyManagerInit = false
     var authenticationCallback: BiometricPrompt.AuthenticationCallback? = null
     var biometricUnlockCallback: BiometricUnlockCallback? = null
 
     private val promptInfoStoreCredential = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(context.getString(R.string.biometric_prompt_store_credential_title))
         setDescription(context.getString(R.string.biometric_prompt_store_credential_message))
+        setConfirmationRequired(true)
         // TODO device credential
         /*
         if (keyguardManager?.isDeviceSecure == true)
@@ -70,7 +71,8 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
 
     private val promptInfoExtractCredential = BiometricPrompt.PromptInfo.Builder().apply {
         setTitle(context.getString(R.string.biometric_prompt_extract_credential_title))
-        setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
+        //setDescription(context.getString(R.string.biometric_prompt_extract_credential_message))
+        setConfirmationRequired(false)
         // TODO device credential
         /*
         if (keyguardManager?.isDeviceSecure == true)
@@ -80,18 +82,18 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             setNegativeButtonText(context.getString(android.R.string.cancel))
     }.build()
 
-    val isBiometricInitialized: Boolean
+    val isKeyManagerInitialized: Boolean
         get() {
-            if (!isBiometricInit) {
+            if (!isKeyManagerInit) {
                 biometricUnlockCallback?.onBiometricException(Exception("Biometric not initialized"))
             }
-            return isBiometricInit
+            return isKeyManagerInit
         }
 
     init {
         if (BiometricManager.from(context).canAuthenticate() != BiometricManager.BIOMETRIC_SUCCESS) {
             // really not much to do when no fingerprint support found
-            isBiometricInit = false
+            isKeyManagerInit = false
         } else {
             this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
 
@@ -103,17 +105,19 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                                 + BIOMETRIC_BLOCKS_MODES + "/"
                                 + BIOMETRIC_ENCRYPTION_PADDING)
                 this.cryptoObject = BiometricPrompt.CryptoObject(cipher!!)
-                isBiometricInit = true
+                isKeyManagerInit = (keyStore != null
+                        && keyGenerator != null
+                        && cipher != null)
             } catch (e: Exception) {
                 Log.e(TAG, "Unable to initialize the keystore", e)
-                isBiometricInit = false
+                isKeyManagerInit = false
                 biometricUnlockCallback?.onBiometricException(e)
             }
         }
     }
 
     private fun getSecretKey(): SecretKey? {
-        if (!isBiometricInitialized) {
+        if (!isKeyManagerInitialized) {
             return null
         }
         try {
@@ -155,7 +159,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
                         : (biometricPrompt: BiometricPrompt?,
                            cryptoObject: BiometricPrompt.CryptoObject?,
                            promptInfo: BiometricPrompt.PromptInfo)->Unit) {
-        if (!isBiometricInitialized) {
+        if (!isKeyManagerInitialized) {
             return
         }
         try {
@@ -176,11 +180,10 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to initialize encrypt data", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
-
     }
 
     fun encryptData(value: String) {
-        if (!isBiometricInitialized) {
+        if (!isKeyManagerInitialized) {
             return
         }
         try {
@@ -197,14 +200,13 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to encrypt data", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
-
     }
 
     fun initDecryptData(ivSpecValue: String, actionIfCypherInit
             : (biometricPrompt: BiometricPrompt?,
                cryptoObject: BiometricPrompt.CryptoObject?,
                promptInfo: BiometricPrompt.PromptInfo)->Unit) {
-        if (!isBiometricInitialized) {
+        if (!isKeyManagerInitialized) {
             return
         }
         try {
@@ -229,11 +231,10 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to initialize decrypt data", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
-
     }
 
     fun decryptData(encryptedValue: String) {
-        if (!isBiometricInitialized) {
+        if (!isKeyManagerInitialized) {
             return
         }
         try {
@@ -249,7 +250,6 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             Log.e(TAG, "Unable to decrypt data", e)
             biometricUnlockCallback?.onBiometricException(e)
         }
-
     }
 
     fun deleteEntryKey() {

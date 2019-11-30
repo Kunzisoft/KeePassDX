@@ -32,6 +32,7 @@ import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -63,6 +64,10 @@ abstract class LockingActivity : StylishActivity() {
             return field || mSelectionMode
         }
     protected var mSelectionMode: Boolean = false
+    protected var mAutoSaveEnable: Boolean = true
+
+    var mProgressDialogThread: ProgressDialogThread? = null
+        private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,6 +91,8 @@ abstract class LockingActivity : StylishActivity() {
 
         mExitLock = false
         mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
+
+        mProgressDialogThread = ProgressDialogThread(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -101,8 +108,13 @@ abstract class LockingActivity : StylishActivity() {
     override fun onResume() {
         super.onResume()
 
+        mProgressDialogThread?.registerProgressTask()
+
         // To refresh when back to normal workflow from selection workflow
         mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
+        mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
+
+        invalidateOptionsMenu()
 
         if (mTimeoutEnable) {
             // End activity if database not loaded
@@ -119,8 +131,6 @@ abstract class LockingActivity : StylishActivity() {
             if (!mExitLock)
                 TimeoutHelper.recordTime(this)
         }
-
-        invalidateOptionsMenu()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -130,6 +140,8 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onPause() {
+        mProgressDialogThread?.unregisterProgressTask()
+
         super.onPause()
 
         if (mTimeoutEnable) {

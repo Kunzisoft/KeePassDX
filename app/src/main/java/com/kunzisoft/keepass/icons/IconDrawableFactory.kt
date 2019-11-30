@@ -33,9 +33,9 @@ import androidx.core.widget.ImageViewCompat
 import android.util.Log
 import android.widget.ImageView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.PwIcon
-import com.kunzisoft.keepass.database.element.PwIconCustom
-import com.kunzisoft.keepass.database.element.PwIconStandard
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageCustom
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import org.apache.commons.collections.map.AbstractReferenceMap
 import org.apache.commons.collections.map.ReferenceMap
 
@@ -73,13 +73,13 @@ class IconDrawableFactory {
     /**
      * Get the [SuperDrawable] [icon] (from cache, or build it and add it to the cache if not exists yet), then [tint] it with [tintColor] if needed
      */
-    fun getIconSuperDrawable(context: Context, icon: PwIcon, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
+    fun getIconSuperDrawable(context: Context, icon: IconImage, width: Int, tint: Boolean = false, tintColor: Int = Color.WHITE): SuperDrawable {
         return when (icon) {
-            is PwIconStandard -> {
+            is IconImageStandard -> {
                 val resId = IconPackChooser.getSelectedIconPack(context)?.iconToResId(icon.iconId) ?: R.drawable.ic_blank_32dp
                 getIconSuperDrawable(context, resId, width, tint, tintColor)
             }
-            is PwIconCustom -> {
+            is IconImageCustom -> {
                 SuperDrawable(getIconDrawable(context.resources, icon), true)
             }
             else -> {
@@ -89,7 +89,7 @@ class IconDrawableFactory {
     }
 
     /**
-     * Get the [SuperDrawable] PwIconStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
+     * Get the [SuperDrawable] IconImageStandard from [iconId] (cache, or build it and add it to the cache if not exists yet)
      * , then [tint] it with [tintColor] if needed
      */
     fun getIconSuperDrawable(context: Context, iconId: Int, width: Int, tint: Boolean, tintColor: Int): SuperDrawable {
@@ -128,7 +128,7 @@ class IconDrawableFactory {
     /**
      * Build a custom [Drawable] from custom [icon]
      */
-    private fun getIconDrawable(resources: Resources, icon: PwIconCustom): Drawable {
+    private fun getIconDrawable(resources: Resources, icon: IconImageCustom): Drawable {
         val patternIcon = PatternIcon(resources)
 
         var draw: Drawable? = customIconMap[icon.uuid] as Drawable?
@@ -249,7 +249,7 @@ fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintCo
 /**
  * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
  */
-fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: PwIcon, tintColor: Int = Color.WHITE) {
+fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: IconImage, tintColor: Int = Color.WHITE) {
     IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
 
         iconFactory.assignDrawableToImageView(

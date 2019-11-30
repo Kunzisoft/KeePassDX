@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.EntryVersioned
+import com.kunzisoft.keepass.database.element.Entry
 
 class EntryHistoryAdapter(val context: Context) : RecyclerView.Adapter<EntryHistoryAdapter.EntryHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var entryHistoryList: MutableList<EntryVersioned> = ArrayList()
-    var onItemClickListener: ((item: EntryVersioned, position: Int)->Unit)? = null
+    var entryHistoryList: MutableList<Entry> = ArrayList()
+    var onItemClickListener: ((item: Entry, position: Int)->Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryHistoryViewHolder {
         return EntryHistoryViewHolder(inflater.inflate(R.layout.item_list_entry_history, parent, false))

@@ -22,11 +22,12 @@ package com.kunzisoft.keepass.stream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
+import java.util.UUID;
 
 
-/** Little endian version of the DataInputStream
+/**
+ * Little endian version of the DataInputStream
  * @author bpellin
- *
  */
 public class LEDataInputStream extends InputStream {
 
@@ -34,17 +35,16 @@ public class LEDataInputStream extends InputStream {
 
     private InputStream baseStream;
 
-    public LEDataInputStream(InputStream in) {
-        baseStream = in;
+    public LEDataInputStream(InputStream inputStream) {
+        baseStream = inputStream;
     }
 
-    /** Read a 32-bit value and return it as a long, so that it can
+    /**
+     *  Read a 32-bit value and return it as a long, so that it can
      *  be interpreted as an unsigned integer.
-     * @return
-     * @throws IOException
      */
     public long readUInt() throws IOException {
-        return readUInt(baseStream);
+        return readInt(baseStream) & INT_TO_LONG_MASK;
     }
 
     public int readInt() throws IOException {
@@ -53,7 +53,6 @@ public class LEDataInputStream extends InputStream {
 
     public long readLong() throws IOException {
         byte[] buf = readBytes(8);
-
         return readLong(buf, 0);
     }
 
@@ -125,7 +124,7 @@ public class LEDataInputStream extends InputStream {
         return buf;
     }
 
-    public void readBytes(int length, ActionReadBytes actionReadBytes) throws IOException {
+    public void readBytes(int length, ReadBytes readBytes) throws IOException {
         int bufferSize = 256 * 3; // TODO Buffer size
         byte[] buffer = new byte[bufferSize];
 
@@ -147,67 +146,60 @@ public class LEDataInputStream extends InputStream {
             } else {
                 optimizedBuffer = buffer;
             }
-            actionReadBytes.doAction(optimizedBuffer);
+            readBytes.read(optimizedBuffer);
             offset += read;
         }
     }
 
-    public static int readUShort(InputStream is) throws IOException {
-        byte[] buf = new byte[2];
-
-        is.read(buf, 0, 2);
-
-        return readUShort(buf, 0);
-    }
-
     public int readUShort() throws IOException {
-        return readUShort(baseStream);
+        byte[] buf = new byte[2];
+        baseStream.read(buf, 0, 2);
+        return readUShort(buf, 0);
     }
 
     /**
      * Read an unsigned 16-bit value.
-     *
-     * @param buf
-     * @param offset
-     * @return
      */
     public static int readUShort( byte[] buf, int offset ) {
         return (buf[offset] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8);
     }
 
-    public static long readLong( byte buf[], int offset ) {
+    public static long readLong(byte[] buf, int offset ) {
         return ((long)buf[offset] & 0xFF) + (((long)buf[offset + 1] & 0xFF) << 8)
                 + (((long)buf[offset + 2] & 0xFF) << 16) + (((long)buf[offset + 3] & 0xFF) << 24)
                 + (((long)buf[offset + 4] & 0xFF) << 32) + (((long)buf[offset + 5] & 0xFF) << 40)
                 + (((long)buf[offset + 6] & 0xFF) << 48) + (((long)buf[offset + 7] & 0xFF) << 56);
     }
 
-    public static long readUInt( byte buf[], int offset ) {
+    public static long readUInt(byte[] buf, int offset ) {
         return (readInt(buf, offset) & INT_TO_LONG_MASK);
     }
 
     public static int readInt(InputStream is) throws IOException {
         byte[] buf = new byte[4];
-
         is.read(buf, 0, 4);
-
         return readInt(buf, 0);
-    }
-
-    public static long readUInt(InputStream is) throws IOException {
-        return (readInt(is) & INT_TO_LONG_MASK);
     }
 
     /**
      * Read a 32-bit value.
-     *
-     * @param buf
-     * @param offset
-     * @return
      */
-    public static int readInt( byte buf[], int offset ) {
+    public static int readInt(byte[] buf, int offset ) {
         return (buf[offset] & 0xFF) + ((buf[offset + 1] & 0xFF) << 8) + ((buf[offset + 2] & 0xFF) << 16)
                 + ((buf[offset + 3] & 0xFF) << 24);
     }
 
+    public static UUID readUuid( byte[] buf, int offset ) {
+        long lsb = 0;
+        for (int i = 15; i >= 8; i--) {
+            lsb = (lsb << 8) | (buf[i + offset] & 0xff);
+        }
+
+        long msb = 0;
+        for (int i = 7; i >= 0; i--) {
+            msb = (msb << 8) | (buf[i + offset] & 0xff);
+        }
+
+        return new UUID(msb, lsb);
+    }
 }

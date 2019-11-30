@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
--->
-<resources>
+--><resources>
     <string name="about_feedback">Reacties</string>
     <string name="about_homepage">Website</string>
     <string name="about_description">Android-implementatie van de KeePass-wachtwoordbeheerder</string>
@@ -240,7 +239,7 @@
     <string name="lock_database_screen_off_summary">Databank vergrendelen als het scherm uitgaat</string>
     <string name="advanced_unlock">Vingerafdruk</string>
     <string name="biometric_unlock_enable_title">Vingerafdrukherkenning</string>
-    <string name="biometric_unlock_enable_summary">Hiermee wordt je vingerafdruk gebruikt om de databank te openen</string>
+    <string name="biometric_unlock_enable_summary">Laat u uw biometrische gegevens scannen om de database te openen</string>
     <string name="biometric_delete_all_key_title">Sleutels voor versleuteling verwijderen</string>
     <string name="biometric_delete_all_key_summary">Alle aan vingerafdrukherkenning gerelateerde sleutels wilt verwijderen</string>
     <string name="biometric_delete_all_key_warning">Weet je zeker dat je alle sleutels van de vingerafdrukherkenning wilt verwijderen\?</string>
@@ -296,7 +295,7 @@
     <string name="education_generate_password_title">Genereer een sterk wachtwoord voor het item.</string>
     <string name="education_generate_password_summary">Genereer een sterk wachtwoord om aan het item te koppelen, definieer het eenvoudig volgens de criteria van het formulier en vergeet het veilige wachtwoord niet.</string>
     <string name="education_entry_new_field_title">Voeg aangepaste velden toe</string>
-    <string name="education_entry_new_field_summary">Je kan een nieuw, aanvullend veld aanmaken en tevens beschermen.</string>
+    <string name="education_entry_new_field_summary">Registreer een aanvullend veld door een nieuw aan te maken en dit tevens te beschermen.</string>
     <string name="education_unlock_title">Ontgrendel je databank</string>
     <string name="education_read_only_title">Databank alleen-lezen</string>
     <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie.
@@ -357,7 +356,7 @@
     <string name="keyboard_key_sound_title">Geluid bij toetsaanslag</string>
     <string name="selection_mode">Selectiemodus</string>
     <string name="do_not_kill_app">App niet afsluiten…</string>
-    <string name="lock_database_back_root_title">Druk op Terug om te vergrendelen</string>
+    <string name="lock_database_back_root_title">Druk op \'Terug\' om te vergrendelen</string>
     <string name="lock_database_back_root_summary">Vergrendel de databank wanneer de gebruiker op de knop Terug in het hoofdscherm klikt</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
     <string name="clear_clipboard_notification_summary">Sluit de databank tegelijk met de melding</string>
@@ -367,7 +366,7 @@
     <string name="delete_entered_password_title">Wachtwoord wissen</string>
     <string name="delete_entered_password_summary">Wist het ingevoerde wachtwoord na een verbindingspoging</string>
     <string name="content_description_open_file">Bestand openen</string>
-    <string name="content_description_node_children">Items onder het knooppunt</string>
+    <string name="content_description_node_children">Onderliggende items</string>
     <string name="content_description_add_node">Knooppunt toevoegen</string>
     <string name="content_description_add_entry">Item toevoegen</string>
     <string name="content_description_add_group">Groep toevoegen</string>
@@ -386,4 +385,65 @@
     <string name="error_copy_entry_here">Je kan hier geen item kopiëren.</string>
     <string name="list_groups_show_number_entries_title">Het aantal items tonen</string>
     <string name="list_groups_show_number_entries_summary">Toon het aantal items in een groep</string>
+    <string name="content_description_background">Achtergrond</string>
+    <string name="content_description_update_from_list">Update</string>
+    <string name="content_description_keyboard_close_fields">Velden sluiten</string>
+    <string name="error_create_database_file">Kan geen database aanmaken met dit wachtwoord en sleutelbestand.</string>
+    <string name="menu_advanced_unlock_settings">Geavanceerd ontgrendelen</string>
+    <string name="biometric_prompt_store_credential_title">Biometrische herkenning opslaan</string>
+    <string name="biometric_prompt_store_credential_message">Databasereferenties opslaan met biometrische gegevens</string>
+    <string name="biometric_prompt_extract_credential_title">Database met biometrische herkenning openen</string>
+    <string name="biometric_prompt_extract_credential_message">Database-referenties uitpakken met biometrische gegevens</string>
+    <string name="biometric">Biometrisch</string>
+    <string name="biometric_auto_open_prompt_title">Automatisch biometrische prompt openen</string>
+    <string name="biometric_auto_open_prompt_summary">Biometrische prompt automatisch openen wanneer een biometrische sleutel is gedefinieerd voor een database</string>
+    <string name="enable">Inschakelen</string>
+    <string name="disable">Uitschakelen</string>
+    <string name="master_key">Hoofdsleutel</string>
+    <string name="security">Beveiliging</string>
+    <string name="entry_history">Geschiedenis</string>
+    <string name="entry_setup_otp">Eenmalig wachtwoord (OTP) instellen</string>
+    <string name="otp_type">OTP-type</string>
+    <string name="otp_secret">Geheim</string>
+    <string name="otp_period">Duur (seconden)</string>
+    <string name="otp_counter">Teller</string>
+    <string name="otp_digits">Cijfers</string>
+    <string name="otp_algorithm">Algoritme</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Ongeldig OTP-geheim.</string>
+    <string name="error_disallow_no_credentials">Tenminste één referentie moet worden ingesteld.</string>
+    <string name="error_copy_group_here">Je kunt hier geen groep kopiëren.</string>
+    <string name="error_otp_secret_key">Geheime sleutel moet in Base32-indeling zijn.</string>
+    <string name="error_otp_counter">Teller moet tussen %1$d en %2$d liggen.</string>
+    <string name="error_otp_period">De duur moet tussen %1$d en %2$d seconden liggen.</string>
+    <string name="error_otp_digits">Token moet %1$d tot %2$d cijfers bevatten.</string>
+    <string name="invalid_db_same_uuid">%1$s met dezelfde UUID %2$s bestaat al.</string>
+    <string name="creating_database">Database aanmaken …</string>
+    <string name="menu_security_settings">Beveiligingsinstellingen</string>
+    <string name="menu_master_key_settings">Instellingen hoofdsleutel</string>
+    <string name="contains_duplicate_uuid">De database bevat dubbele UUID\'s.</string>
+    <string name="contains_duplicate_uuid_procedure">Door dit dialoogvenster te valideren, zal KeePassDX het probleem oplossen (door nieuwe UUID\'s voor duplicaten te genereren) en doorgaan.</string>
+    <string name="database_opened">Database geopend</string>
+    <string name="clipboard_explanation_summary">Kopieer invoervelden met behulp van het klembord van uw apparaat</string>
+    <string name="persistent_notification_title">Aanhoudende melding</string>
+    <string name="persistent_notification_summary">Voeg een melding toe wanneer de database is geopend</string>
+    <string name="advanced_unlock_explanation_summary">Geavanceerde ontgrendeling gebruiken om een database gemakkelijker te openen</string>
+    <string name="database_data_compression_title">Gegevenscompressie</string>
+    <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database.</string>
+    <string name="max_history_items_title">Max. geschiedenis items</string>
+    <string name="max_history_items_summary">Beperk het aantal geschiedenisitems per item</string>
+    <string name="max_history_size_title">Max. grootte van de geschiedenis</string>
+    <string name="max_history_size_summary">Grootte van geschiedenis beperken per invoer (in binaire bytes)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Aanbevolen wijzigen</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Aanbeveling de hoofdsleutel te wijzigen (dagen)</string>
+    <string name="settings_database_force_changing_master_key_title">Wijziging afdwingen</string>
+    <string name="settings_database_force_changing_master_key_summary">De hoofdsleutel verplicht wijzigen (dagen)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Volgende keer verplicht wijzigen</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Het hoofdwachtwoord de volgende keer verplicht wijzigen (eenmalig)</string>
+    <string name="database_default_username_title">Standaard gebruikersnaam</string>
+    <string name="database_custom_color_title">Aangepaste databasekleur</string>
+    <string name="compression">Compressie</string>
+    <string name="compression_none">Geen</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="device_keyboard_setting_title">Toetsenbordinstellingen voor apparaat</string>
 </resources>

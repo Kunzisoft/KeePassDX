@@ -22,20 +22,21 @@ package com.kunzisoft.keepass.database.action.node
 import android.content.Context
 import android.util.Log
 import com.kunzisoft.keepass.database.element.*
-import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.database.exception.MoveDatabaseEntryException
-import com.kunzisoft.keepass.database.exception.MoveDatabaseGroupException
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.exception.EntryDatabaseException
+import com.kunzisoft.keepass.database.exception.MoveGroupDatabaseException
 
 class MoveNodesRunnable constructor(
         context: Context,
         database: Database,
-        private val mNodesToMove: List<NodeVersioned>,
-        private val mNewParent: GroupVersioned,
+        private val mNodesToMove: List<Node>,
+        private val mNewParent: Group,
         save: Boolean,
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
 
-    private var mOldParent: GroupVersioned? = null
+    private var mOldParent: Group? = null
 
     override fun nodeAction() {
 
@@ -45,7 +46,7 @@ class MoveNodesRunnable constructor(
 
             when (nodeToMove.type) {
                 Type.GROUP -> {
-                    val groupToMove = nodeToMove as GroupVersioned
+                    val groupToMove = nodeToMove as Group
                     // Move group in new parent if not in the current group
                     if (groupToMove != mNewParent
                             && !mNewParent.isContainedIn(groupToMove)) {
@@ -53,12 +54,12 @@ class MoveNodesRunnable constructor(
                         database.moveGroupTo(groupToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        setError(MoveDatabaseGroupException())
+                        setError(MoveGroupDatabaseException())
                         break@foreachNode
                     }
                 }
                 Type.ENTRY -> {
-                    val entryToMove = nodeToMove as EntryVersioned
+                    val entryToMove = nodeToMove as Entry
                     // Move only if the parent change
                     if (mOldParent != mNewParent
                             // and root can contains entry
@@ -67,7 +68,7 @@ class MoveNodesRunnable constructor(
                         database.moveEntryTo(entryToMove, mNewParent)
                     } else {
                         // Only finish thread
-                        setError(MoveDatabaseEntryException())
+                        setError(EntryDatabaseException())
                         break@foreachNode
                     }
                 }
@@ -83,8 +84,8 @@ class MoveNodesRunnable constructor(
                     if (mOldParent != null &&
                             mOldParent != nodeToMove.parent) {
                         when (nodeToMove.type) {
-                            Type.GROUP -> database.moveGroupTo(nodeToMove as GroupVersioned, mOldParent!!)
-                            Type.ENTRY -> database.moveEntryTo(nodeToMove as EntryVersioned, mOldParent!!)
+                            Type.GROUP -> database.moveGroupTo(nodeToMove as Group, mOldParent!!)
+                            Type.ENTRY -> database.moveEntryTo(nodeToMove as Entry, mOldParent!!)
                         }
                     }
                 }

@@ -11,6 +11,11 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
+import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -20,18 +25,19 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COLOR_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_COMPRESSION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_DESCRIPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ENCRYPTION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_ITERATIONS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_NAME_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE_PARALLELISM_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
@@ -44,10 +50,10 @@ import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
 import kotlin.collections.ArrayList
 
+class ProgressDialogThread(private val activity: FragmentActivity) {
 
-class ProgressDialogThread(private val activity: FragmentActivity,
-                           var onActionFinish: (actionTask: String,
-                                                result: ActionRunnable.Result) -> Unit) {
+    var onActionFinish: ((actionTask: String,
+                          result: ActionRunnable.Result) -> Unit)? = null
 
     private var intentDatabaseTask = Intent(activity, DatabaseTaskNotificationService::class.java)
 
@@ -68,7 +74,7 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            onActionFinish.invoke(actionTask, result)
+            onActionFinish?.invoke(actionTask, result)
             // Remove the progress task
             ProgressTaskDialogFragment.stop(activity)
             TimeoutHelper.releaseTemporarilyDisableTimeoutAndLockIfTimeout(activity)
@@ -250,8 +256,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
       ----
     */
 
-    fun startDatabaseCreateGroup(newGroup: GroupVersioned,
-                                 parent: GroupVersioned,
+    fun startDatabaseCreateGroup(newGroup: Group,
+                                 parent: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_KEY, newGroup)
@@ -261,8 +267,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                 , ACTION_DATABASE_CREATE_GROUP_TASK)
     }
 
-    fun startDatabaseUpdateGroup(oldGroup: GroupVersioned,
-                                 groupToUpdate: GroupVersioned,
+    fun startDatabaseUpdateGroup(oldGroup: Group,
+                                 groupToUpdate: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.GROUP_ID_KEY, oldGroup.nodeId)
@@ -272,8 +278,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                 , ACTION_DATABASE_UPDATE_GROUP_TASK)
     }
 
-    fun startDatabaseCreateEntry(newEntry: EntryVersioned,
-                                 parent: GroupVersioned,
+    fun startDatabaseCreateEntry(newEntry: Entry,
+                                 parent: Group,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.ENTRY_KEY, newEntry)
@@ -283,8 +289,8 @@ class ProgressDialogThread(private val activity: FragmentActivity,
                 , ACTION_DATABASE_CREATE_ENTRY_TASK)
     }
 
-    fun startDatabaseUpdateEntry(oldEntry: EntryVersioned,
-                                 entryToUpdate: EntryVersioned,
+    fun startDatabaseUpdateEntry(oldEntry: Entry,
+                                 entryToUpdate: Entry,
                                  save: Boolean) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, oldEntry.nodeId)
@@ -295,20 +301,20 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     }
 
     private fun startDatabaseActionListNodes(actionTask: String,
-                                             nodesPaste: List<NodeVersioned>,
-                                             newParent: GroupVersioned?,
+                                             nodesPaste: List<Node>,
+                                             newParent: Group?,
                                              save: Boolean) {
-        val groupsIdToCopy = ArrayList<PwNodeId<*>>()
-        val entriesIdToCopy = ArrayList<PwNodeId<UUID>>()
+        val groupsIdToCopy = ArrayList<NodeId<*>>()
+        val entriesIdToCopy = ArrayList<NodeId<UUID>>()
         nodesPaste.forEach { nodeVersioned ->
             when (nodeVersioned.type) {
                 Type.GROUP -> {
-                    (nodeVersioned as GroupVersioned).nodeId?.let { groupId ->
+                    (nodeVersioned as Group).nodeId?.let { groupId ->
                         groupsIdToCopy.add(groupId)
                     }
                 }
                 Type.ENTRY -> {
-                    entriesIdToCopy.add((nodeVersioned as EntryVersioned).nodeId)
+                    entriesIdToCopy.add((nodeVersioned as Entry).nodeId)
                 }
             }
         }
@@ -325,19 +331,19 @@ class ProgressDialogThread(private val activity: FragmentActivity,
         , actionTask)
     }
 
-    fun startDatabaseCopyNodes(nodesToCopy: List<NodeVersioned>,
-                               newParent: GroupVersioned,
+    fun startDatabaseCopyNodes(nodesToCopy: List<Node>,
+                               newParent: Group,
                                save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_COPY_NODES_TASK, nodesToCopy, newParent, save)
     }
 
-    fun startDatabaseMoveNodes(nodesToMove: List<NodeVersioned>,
-                               newParent: GroupVersioned,
+    fun startDatabaseMoveNodes(nodesToMove: List<Node>,
+                               newParent: Group,
                                save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_MOVE_NODES_TASK, nodesToMove, newParent, save)
     }
 
-    fun startDatabaseDeleteNodes(nodesToDelete: List<NodeVersioned>,
+    fun startDatabaseDeleteNodes(nodesToDelete: List<Node>,
                                  save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_DELETE_NODES_TASK, nodesToDelete, null, save)
     }
@@ -349,66 +355,80 @@ class ProgressDialogThread(private val activity: FragmentActivity,
     */
 
     fun startDatabaseSaveName(oldName: String,
-                              newName: String) {
+                              newName: String,
+                              save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldName)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newName)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_NAME_TASK)
+                , ACTION_DATABASE_UPDATE_NAME_TASK)
     }
 
     fun startDatabaseSaveDescription(oldDescription: String,
-                                     newDescription: String) {
+                                     newDescription: String,
+                                     save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldDescription)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDescription)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_DESCRIPTION_TASK)
+                , ACTION_DATABASE_UPDATE_DESCRIPTION_TASK)
     }
 
     fun startDatabaseSaveDefaultUsername(oldDefaultUsername: String,
-                                         newDefaultUsername: String) {
+                                         newDefaultUsername: String,
+                                         save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldDefaultUsername)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newDefaultUsername)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_DEFAULT_USERNAME_TASK)
+                , ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK)
     }
 
     fun startDatabaseSaveColor(oldColor: String,
-                               newColor: String) {
+                               newColor: String,
+                               save: Boolean) {
         start(Bundle().apply {
             putString(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldColor)
             putString(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newColor)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_COLOR_TASK)
+                , ACTION_DATABASE_UPDATE_COLOR_TASK)
     }
 
-    fun startDatabaseSaveCompression(oldCompression: PwCompressionAlgorithm,
-                                     newCompression: PwCompressionAlgorithm) {
+    fun startDatabaseSaveCompression(oldCompression: CompressionAlgorithm,
+                                     newCompression: CompressionAlgorithm,
+                                     save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldCompression)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newCompression)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_COMPRESSION_TASK)
+                , ACTION_DATABASE_UPDATE_COMPRESSION_TASK)
     }
 
     fun startDatabaseSaveMaxHistoryItems(oldMaxHistoryItems: Int,
-                                         newMaxHistoryItems: Int) {
+                                         newMaxHistoryItems: Int,
+                                         save: Boolean) {
         start(Bundle().apply {
             putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMaxHistoryItems)
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistoryItems)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_MAX_HISTORY_ITEMS_TASK)
+                , ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK)
     }
 
     fun startDatabaseSaveMaxHistorySize(oldMaxHistorySize: Long,
-                                        newMaxHistorySize: Long) {
+                                        newMaxHistorySize: Long,
+                                        save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMaxHistorySize)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMaxHistorySize)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_MAX_HISTORY_SIZE_TASK)
+                , ACTION_DATABASE_UPDATE_MAX_HISTORY_SIZE_TASK)
     }
 
     /*
@@ -417,48 +437,68 @@ class ProgressDialogThread(private val activity: FragmentActivity,
       -------------------
      */
 
-    fun startDatabaseSaveEncryption(oldEncryption: PwEncryptionAlgorithm,
-                                    newEncryption: PwEncryptionAlgorithm) {
+    fun startDatabaseSaveEncryption(oldEncryption: EncryptionAlgorithm,
+                                    newEncryption: EncryptionAlgorithm,
+                                    save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldEncryption)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newEncryption)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_ENCRYPTION_TASK)
+                , ACTION_DATABASE_UPDATE_ENCRYPTION_TASK)
     }
 
     fun startDatabaseSaveKeyDerivation(oldKeyDerivation: KdfEngine,
-                                       newKeyDerivation: KdfEngine) {
+                                       newKeyDerivation: KdfEngine,
+                                       save: Boolean) {
         start(Bundle().apply {
             putSerializable(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldKeyDerivation)
             putSerializable(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newKeyDerivation)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_KEY_DERIVATION_TASK)
+                , ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK)
     }
 
     fun startDatabaseSaveIterations(oldIterations: Long,
-                                    newIterations: Long) {
+                                    newIterations: Long,
+                                    save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldIterations)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newIterations)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_ITERATIONS_TASK)
+                , ACTION_DATABASE_UPDATE_ITERATIONS_TASK)
     }
 
     fun startDatabaseSaveMemoryUsage(oldMemoryUsage: Long,
-                                     newMemoryUsage: Long) {
+                                     newMemoryUsage: Long,
+                                     save: Boolean) {
         start(Bundle().apply {
             putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldMemoryUsage)
             putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newMemoryUsage)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_MEMORY_USAGE_TASK)
+                , ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK)
     }
 
     fun startDatabaseSaveParallelism(oldParallelism: Int,
-                                     newParallelism: Int) {
+                                     newParallelism: Int,
+                                     save: Boolean) {
         start(Bundle().apply {
             putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
             putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
-                , ACTION_DATABASE_SAVE_PARALLELISM_TASK)
+                , ACTION_DATABASE_UPDATE_PARALLELISM_TASK)
+    }
+
+    /**
+     * Save Database without parameter
+     */
+    fun startDatabaseSave(save: Boolean) {
+        start(Bundle().apply {
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+                , ACTION_DATABASE_SAVE)
     }
 }

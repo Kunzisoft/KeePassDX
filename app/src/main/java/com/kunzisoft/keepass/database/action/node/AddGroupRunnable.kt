@@ -21,14 +21,14 @@ package com.kunzisoft.keepass.database.action.node
 
 import android.content.Context
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.database.element.GroupVersioned
-import com.kunzisoft.keepass.database.element.NodeVersioned
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.node.Node
 
 class AddGroupRunnable constructor(
         context: Context,
         database: Database,
-        private val mNewGroup: GroupVersioned,
-        private val mParent: GroupVersioned,
+        private val mNewGroup: Group,
+        private val mParent: Group,
         save: Boolean,
         afterActionNodesFinish: AfterActionNodesFinish?)
     : ActionNodeDatabaseRunnable(context, database, afterActionNodesFinish, save) {
@@ -44,8 +44,8 @@ class AddGroupRunnable constructor(
             database.removeGroupFrom(mNewGroup, mParent)
         }
 
-        val oldNodesReturn = ArrayList<NodeVersioned>()
-        val newNodesReturn = ArrayList<NodeVersioned>()
+        val oldNodesReturn = ArrayList<Node>()
+        val newNodesReturn = ArrayList<Node>()
         newNodesReturn.add(mNewGroup)
         return ActionNodesValues(oldNodesReturn, newNodesReturn)
     }
