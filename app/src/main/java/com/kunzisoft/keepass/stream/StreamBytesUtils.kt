@@ -82,7 +82,7 @@ fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: B
  */
 @Throws(IOException::class)
 fun InputStream.readBytes4ToUInt(): Long {
-    return readBytes4ToInt().toLong()// and INT_TO_LONG_MASK // TODO
+    return readBytes4ToInt().toLong() and INT_TO_LONG_MASK
 }
 
 @Throws(IOException::class)
@@ -146,7 +146,7 @@ fun bytes64ToLong(buf: ByteArray, offset: Int): Long {
 private const val INT_TO_LONG_MASK: Long = 0xffffffffL
 
 fun bytes4ToUInt(buf: ByteArray, offset: Int): Long {
-    return bytes4ToInt(buf, offset).toLong()// and INT_TO_LONG_MASK // TODO
+    return bytes4ToInt(buf, offset).toLong() and INT_TO_LONG_MASK
 }
 
 /**
