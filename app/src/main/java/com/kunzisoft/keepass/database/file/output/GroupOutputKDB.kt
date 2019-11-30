@@ -47,22 +47,22 @@ class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: O
         // Create date
         mOutputStream.write(CREATE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.creationTime.date))
+        mOutputStream.write(DatabaseInputOutputUtils.dateToBytes(mGroup.creationTime.date))
 
         // Modification date
         mOutputStream.write(MOD_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastModificationTime.date))
+        mOutputStream.write(DatabaseInputOutputUtils.dateToBytes(mGroup.lastModificationTime.date))
 
         // Access date
         mOutputStream.write(ACCESS_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastAccessTime.date))
+        mOutputStream.write(DatabaseInputOutputUtils.dateToBytes(mGroup.lastAccessTime.date))
 
         // Expiration date
         mOutputStream.write(EXPIRE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.expiryTime.date))
+        mOutputStream.write(DatabaseInputOutputUtils.dateToBytes(mGroup.expiryTime.date))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)

@@ -19,10 +19,12 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils.bytes5ToDate
+import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils.bytesToString
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
-import kotlin.experimental.and
 
 /**
  * Read all data of stream and invoke [readBytes] each time the buffer is full or no more data to read.
@@ -75,55 +77,89 @@ fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: B
 }
 
 /**
+ *  Read a 32-bit value and return it as a long, so that it can
+ *  be interpreted as an unsigned integer.
+ */
+@Throws(IOException::class)
+fun InputStream.readBytes4ToUInt(): Long {
+    return readBytes4ToInt().toLong()// and INT_TO_LONG_MASK // TODO
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytes4ToInt(): Int {
+    return bytes4ToInt(readBytesLength(4), 0)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytes2ToUShort(): Int {
+    return bytes2ToUShort(readBytesLength(2), 0)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytes5ToDate(): DateInstant {
+    return bytes5ToDate(readBytesLength(5), 0)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytes16ToUuid(): UUID {
+    return bytes16ToUuid(readBytesLength(16), 0)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytesToString(length: Int, replaceCRLF: Boolean = true): String {
+    return bytesToString(this.readBytesLength(length), 0, replaceCRLF)
+}
+
+@Throws(IOException::class)
+fun InputStream.readBytesLength(length: Int): ByteArray {
+    val buf = ByteArray(length)
+    // WARNING this.read(buf, 0, length) Doesn't work
+    for (i in 0 until length) {
+        buf[i] = this.read().toByte()
+    }
+    return buf
+}
+
+/**
  * Read an unsigned 16-bit value.
  */
-fun readUShort(buf: ByteArray, offset: Int): Int {
+fun bytes2ToUShort(buf: ByteArray, offset: Int): Int {
     return ((buf[offset].toInt() and 0xFF)
             + (buf[offset + 1].toInt() and 0xFF shl 8))
 }
 
-fun readLong(buf: ByteArray, offset: Int): Long {
-    return ((buf[offset].toLong() and 0xFF) + (buf[offset + 1].toLong() and 0xFF shl 8)
-            + (buf[offset + 2].toLong() and 0xFF shl 16) + (buf[offset + 3].toLong() and 0xFF shl 24)
-            + (buf[offset + 4].toLong() and 0xFF shl 32) + (buf[offset + 5].toLong() and 0xFF shl 40)
-            + (buf[offset + 6].toLong() and 0xFF shl 48) + (buf[offset + 7].toLong() and 0xFF shl 56))
+/**
+ * Read a 64 bit long
+ */
+fun bytes64ToLong(buf: ByteArray, offset: Int): Long {
+    return ((buf[offset].toLong() and 0xFF)
+            + (buf[offset + 1].toLong() and 0xFF shl 8)
+            + (buf[offset + 2].toLong() and 0xFF shl 16)
+            + (buf[offset + 3].toLong() and 0xFF shl 24)
+            + (buf[offset + 4].toLong() and 0xFF shl 32)
+            + (buf[offset + 5].toLong() and 0xFF shl 40)
+            + (buf[offset + 6].toLong() and 0xFF shl 48)
+            + (buf[offset + 7].toLong() and 0xFF shl 56))
 }
 
 
 private const val INT_TO_LONG_MASK: Long = 0xffffffffL
 
-fun readUInt(buf: ByteArray, offset: Int): Long {
-    return readInt(buf, offset).toLong()// and INT_TO_LONG_MASK // TODO
-}
-
-/**
- *  Read a 32-bit value and return it as a long, so that it can
- *  be interpreted as an unsigned integer.
- */
-@Throws(IOException::class)
-fun readUInt(inputStream: InputStream): Long {
-    return readInt(inputStream).toLong()// and INT_TO_LONG_MASK // TODO
-}
-
-@Throws(IOException::class)
-fun readInt(inputStream: InputStream): Int {
-    val buf = ByteArray(4)
-    if (inputStream.read(buf, 0, 4) != 4)
-        throw IOException("Unable to read int value")
-    return readInt(buf, 0)
+fun bytes4ToUInt(buf: ByteArray, offset: Int): Long {
+    return bytes4ToInt(buf, offset).toLong()// and INT_TO_LONG_MASK // TODO
 }
 
 /**
  * Read a 32-bit value.
  */
-fun readInt(buf: ByteArray, offset: Int): Int {
+fun bytes4ToInt(buf: ByteArray, offset: Int): Int {
     return ((buf[offset].toInt() and 0xFF)
             + (buf[offset + 1].toInt() and 0xFF shl 8)
             + (buf[offset + 2].toInt() and 0xFF shl 16)
             + (buf[offset + 3].toInt() and 0xFF shl 24))
 }
 
-fun readUuid(buf: ByteArray, offset: Int): UUID {
+fun bytes16ToUuid(buf: ByteArray, offset: Int): UUID {
     var lsb: Long = 0
     for (i in 15 downTo 8) {
         lsb = lsb shl 8 or (buf[i + offset].toLong() and 0xff)

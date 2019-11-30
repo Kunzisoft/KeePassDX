@@ -81,16 +81,16 @@ class EntryOutputKDB
         length += DatabaseInputOutputUtils.writeCString(mEntry.notes, mOutputStream).toLong()
 
         // Create date
-        writeDate(CREATE_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.creationTime.date))
+        writeDate(CREATE_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.creationTime.date))
 
         // Modification date
-        writeDate(MOD_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.lastModificationTime.date))
+        writeDate(MOD_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.lastModificationTime.date))
 
         // Access date
-        writeDate(ACCESS_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.lastAccessTime.date))
+        writeDate(ACCESS_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.lastAccessTime.date))
 
         // Expiration date
-        writeDate(EXPIRE_FIELD_TYPE, DatabaseInputOutputUtils.writeCDate(mEntry.expiryTime.date))
+        writeDate(EXPIRE_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.expiryTime.date))
 
         // Binary
         writeBinary(mEntry.binaryData)

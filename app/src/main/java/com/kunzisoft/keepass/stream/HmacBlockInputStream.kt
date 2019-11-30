@@ -89,16 +89,16 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
         if (endOfStream) return false
 
         val storedHmac = baseStream.readBytes(32)
-        if (storedHmac == null || storedHmac.size != 32) {
+        if (storedHmac.size != 32) {
             throw IOException("File corrupted")
         }
 
         val pbBlockIndex = writeLongBuf(blockIndex)
         val pbBlockSize = baseStream.readBytes(4)
-        if (pbBlockSize == null || pbBlockSize.size != 4) {
+        if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = readInt(pbBlockSize, 0)
+        val blockSize = bytes4ToInt(pbBlockSize, 0)
         bufferPos = 0
 
         buffer = baseStream.readBytes(blockSize)

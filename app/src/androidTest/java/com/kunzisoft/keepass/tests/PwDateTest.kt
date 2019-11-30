@@ -30,7 +30,7 @@ class PwDateTest : TestCase() {
     fun testDate() {
         val jDate = DateInstant(System.currentTimeMillis())
         val intermediate = DateInstant(jDate)
-        val cDate = DatabaseInputOutputUtils.readCDate(DatabaseInputOutputUtils.writeCDate(intermediate.date)!!, 0)
+        val cDate = DatabaseInputOutputUtils.bytes5ToDate(DatabaseInputOutputUtils.dateToBytes(intermediate.date)!!, 0)
 
         Assert.assertTrue("jDate and intermediate not equal", jDate == intermediate)
         Assert.assertTrue("jDate $jDate and cDate $cDate not equal", cDate == jDate)

@@ -136,7 +136,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 val storedStartBytes: ByteArray?
                 try {
                     storedStartBytes = dataDecrypted.readBytes(32)
-                    if (storedStartBytes == null || storedStartBytes.size != 32) {
+                    if (storedStartBytes.size != 32) {
                         throw InvalidCredentialsDatabaseException()
                     }
                 } catch (e: IOException) {
@@ -158,7 +158,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
                 val headerHmac = DatabaseHeaderKDBX.computeHeaderHmac(pbHeader, hmacKey)
                 val storedHmac = isData.readBytes(32)
-                if (storedHmac == null || storedHmac.size != 32) {
+                if (storedHmac.size != 32) {
                     throw InvalidCredentialsDatabaseException()
                 }
                 // Mac doesn't match
@@ -822,7 +822,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 buf = buf8
             }
 
-            val seconds = readLong(buf, 0)
+            val seconds = bytes64ToLong(buf, 0)
             utcDate = DateKDBXUtil.convertKDBX4Time(seconds)
 
         } else {

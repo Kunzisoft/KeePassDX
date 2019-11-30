@@ -34,18 +34,18 @@ class LittleEndianDataInputStream(private val baseStream: InputStream) : InputSt
      */
     @Throws(IOException::class)
     fun readUInt(): Long {
-        return readUInt(baseStream)
+        return baseStream.readBytes4ToUInt()
     }
 
     @Throws(IOException::class)
     fun readInt(): Int {
-        return readInt(baseStream)
+        return baseStream.readBytes4ToInt()
     }
 
     @Throws(IOException::class)
     fun readLong(): Long {
         val buf = readBytes(8)
-        return readLong(buf, 0)
+        return bytes64ToLong(buf, 0)
     }
 
     @Throws(IOException::class)
@@ -53,7 +53,7 @@ class LittleEndianDataInputStream(private val baseStream: InputStream) : InputSt
         val buf = ByteArray(2)
         if (baseStream.read(buf, 0, 2) != 2)
             throw IOException("Unable to read UShort value")
-        return readUShort(buf, 0)
+        return bytes2ToUShort(buf, 0)
     }
 
     @Throws(IOException::class)

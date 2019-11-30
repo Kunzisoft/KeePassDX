@@ -43,7 +43,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.kunzisoft.keepass.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.stream.readUuid
+import com.kunzisoft.keepass.stream.bytes16ToUuid
 import com.kunzisoft.keepass.stream.writeIntBuf
 import com.kunzisoft.keepass.stream.writeLong
 import java.io.IOException
@@ -92,20 +92,18 @@ object DatabaseInputOutputUtils {
      * Return len of null-terminated string (i.e. distance to null)
      * within a byte buffer.
      */
-    private fun strlen(buf: ByteArray, offset: Int): Int {
+    fun bytesStringLength(buf: ByteArray, offset: Int): Int {
         var len = 0
         while (buf[offset + len].toInt() != 0)
             len++
         return len
     }
 
-    fun readCString(buf: ByteArray, offset: Int): String {
-        var jstring = String(buf, offset, strlen(buf, offset), defaultCharset)
-
-        if (REPLACE) {
+    fun bytesToString(buf: ByteArray, offset: Int, replaceCRLF: Boolean = true): String {
+        var jstring = String(buf, offset, bytesStringLength(buf, offset), defaultCharset)
+        if (replaceCRLF && REPLACE) {
             jstring = jstring.replace(CRLF, SEP!!)
         }
-
         return jstring
     }
 
@@ -137,7 +135,7 @@ object DatabaseInputOutputUtils {
      * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
      * to a java.util.Date instance.
      */
-    fun readCDate(buf: ByteArray, offset: Int, calendar: Calendar = Calendar.getInstance()): DateInstant {
+    fun bytes5ToDate(buf: ByteArray, offset: Int, calendar: Calendar = Calendar.getInstance()): DateInstant {
         val dateSize = 5
         val cDate = ByteArray(dateSize)
         System.arraycopy(buf, offset, cDate, 0, dateSize)
@@ -165,7 +163,7 @@ object DatabaseInputOutputUtils {
         return DateInstant(calendar.time)
     }
 
-    fun writeCDate(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {
+    fun dateToBytes(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {
         if (date == null) {
             return null
         }
@@ -190,10 +188,6 @@ object DatabaseInputOutputUtils {
         buf[4] = (minute and 0x00000003 shl 6 or (second and 0x0000003F)).toByte()
 
         return buf
-    }
-
-    fun readPassword(buf: ByteArray, offset: Int): String {
-        return String(buf, offset, strlen(buf, offset), defaultCharset)
     }
 
     @Throws(IOException::class)
@@ -222,7 +216,7 @@ object DatabaseInputOutputUtils {
     }
 
     fun bytesToUuid(buf: ByteArray): UUID {
-        return readUuid(buf, 0)
+        return bytes16ToUuid(buf, 0)
     }
 
     fun uuidToBytes(uuid: UUID): ByteArray {

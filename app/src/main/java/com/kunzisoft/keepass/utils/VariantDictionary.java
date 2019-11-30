@@ -21,15 +21,14 @@ package com.kunzisoft.keepass.utils;
 
 import com.kunzisoft.keepass.stream.LittleEndianDataInputStream;
 import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream;
-import com.kunzisoft.keepass.stream.ReadBytesKt;
+import com.kunzisoft.keepass.stream.StreamBytesUtilsKt;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kunzisoft.keepass.stream.ReadBytesKt.readLong;
-import static com.kunzisoft.keepass.stream.ReadBytesKt.readUInt;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes64ToLong;
 
 public class VariantDictionary {
     private static final int VdVersion = 0x0100;
@@ -125,12 +124,12 @@ public class VariantDictionary {
             switch (bType) {
                 case VdType.UInt32:
                     if (valueLen == 4) {
-                        d.setUInt32(name, readUInt(valueBuf, 0));
+                        d.setUInt32(name, StreamBytesUtilsKt.bytes4ToUInt(valueBuf, 0));
                     }
                     break;
                 case VdType.UInt64:
                     if (valueLen == 8) {
-                        d.setUInt64(name, readLong(valueBuf, 0));
+                        d.setUInt64(name, bytes64ToLong(valueBuf, 0));
                     }
                     break;
                 case VdType.Bool:
@@ -140,12 +139,12 @@ public class VariantDictionary {
                     break;
                 case VdType.Int32:
                     if (valueLen == 4) {
-                        d.setInt32(name, ReadBytesKt.readInt(valueBuf, 0));
+                        d.setInt32(name, StreamBytesUtilsKt.bytes4ToInt(valueBuf, 0));
                     }
                     break;
                 case VdType.Int64:
                     if (valueLen == 8) {
-                        d.setInt64(name, readLong(valueBuf, 0));
+                        d.setInt64(name, bytes64ToLong(valueBuf, 0));
                     }
                     break;
                 case VdType.String:

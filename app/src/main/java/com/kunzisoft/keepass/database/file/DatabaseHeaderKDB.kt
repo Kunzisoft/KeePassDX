@@ -21,8 +21,11 @@
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.stream.readInt
+import com.kunzisoft.keepass.stream.bytes4ToInt
+import com.kunzisoft.keepass.stream.readBytesLength
+import com.kunzisoft.keepass.stream.readBytes4ToInt
 import java.io.IOException
+import java.io.InputStream
 
 class DatabaseHeaderKDB : DatabaseHeader() {
 
@@ -51,26 +54,20 @@ class DatabaseHeaderKDB : DatabaseHeader() {
 
     /**
      * Parse given buf, as read from file.
-     * @param buf
-     * @throws IOException
      */
     @Throws(IOException::class)
-    fun loadFromFile(buf: ByteArray, offset: Int) {
-        signature1 = readInt(buf, offset)
-        signature2 = readInt(buf, offset + 4)
-        flags = readInt(buf, offset + 8)
-        version = readInt(buf, offset + 12)
-
-        System.arraycopy(buf, offset + 16, masterSeed, 0, 16)
-        System.arraycopy(buf, offset + 32, encryptionIV, 0, 16)
-
-        numGroups = readInt(buf, offset + 48)
-        numEntries = readInt(buf, offset + 52)
-
-        System.arraycopy(buf, offset + 56, contentsHash, 0, 32)
-
-        System.arraycopy(buf, offset + 88, transformSeed, 0, 32)
-        numKeyEncRounds = readInt(buf, offset + 120)
+    fun loadFromFile(inputStream: InputStream) {
+        signature1 = inputStream.readBytes4ToInt() // 4 bytes
+        signature2 = inputStream.readBytes4ToInt() // 4 bytes
+        flags = inputStream.readBytes4ToInt() // 4 bytes
+        version = inputStream.readBytes4ToInt() // 4 bytes
+        masterSeed = inputStream.readBytesLength(16) // 16 bytes
+        encryptionIV = inputStream.readBytesLength(16) // 16 bytes
+        numGroups = inputStream.readBytes4ToInt() // 4 bytes
+        numEntries = inputStream.readBytes4ToInt() // 4 bytes
+        contentsHash = inputStream.readBytesLength(32) // 32 bytes
+        transformSeed = inputStream.readBytesLength(32) // 32 bytes
+        numKeyEncRounds = inputStream.readBytes4ToInt()
         if (numKeyEncRounds < 0) {
             // TODO: Really treat this like an unsigned integer
             throw IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.")

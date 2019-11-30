@@ -87,11 +87,11 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
         bufferIndex++
 
         val storedHash = baseStream.readBytes(32)
-        if (storedHash == null || storedHash.size != HASH_SIZE) {
+        if (storedHash.size != HASH_SIZE) {
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = readInt(baseStream)
+        val bufferSize = baseStream.readBytes4ToInt()
         if (bufferSize < 0) {
             throw IOException("Invalid data format")
         }

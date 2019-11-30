@@ -246,7 +246,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
     private fun setTransformRound(roundsByte: ByteArray?) {
         assignAesKdfEngineIfNotExists()
-        val rounds = readLong(roundsByte!!, 0)
+        val rounds = bytes64ToLong(roundsByte!!, 0)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
@@ -257,7 +257,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = readInt(pbFlags, 0)
+        val flag = bytes4ToInt(pbFlags, 0)
         if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
@@ -273,7 +273,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = readInt(streamID, 0)
+        val id = bytes4ToInt(streamID, 0)
         if (id < 0 || id >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }

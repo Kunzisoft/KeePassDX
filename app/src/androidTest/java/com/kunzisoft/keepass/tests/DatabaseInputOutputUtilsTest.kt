@@ -58,7 +58,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 8)
 
-        val one = readLong(orig, 0)
+        val one = bytes64ToLong(orig, 0)
         writeLong(one, dest, 0)
 
         assertArrayEquals(orig, dest)
@@ -87,7 +87,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 4)
 
-        val one = readInt(orig, 0)
+        val one = bytes4ToInt(orig, 0)
 
         writeInt(one, dest, 0)
 
@@ -107,7 +107,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         orig[0] = 0
         orig[1] = 1
 
-        val one = readUShort(orig, 0)
+        val one = bytes2ToUShort(orig, 0)
         val dest = writeUShortBuf(one)
 
         assertArrayEquals(orig, dest)
@@ -128,7 +128,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
         setArray(orig, value, 0, 2)
 
-        val one = readUShort(orig, 0)
+        val one = bytes2ToUShort(orig, 0)
         writeUShort(one, dest, 0)
 
         assertArrayEquals(orig, dest)
@@ -167,8 +167,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         expected.set(2008, 1, 2, 3, 4, 5)
 
         val actual = Calendar.getInstance()
-        DatabaseInputOutputUtils.writeCDate(expected.time, cal)?.let { buf ->
-            actual.time = DatabaseInputOutputUtils.readCDate(buf, 0, cal).date
+        DatabaseInputOutputUtils.dateToBytes(expected.time, cal)?.let { buf ->
+            actual.time = DatabaseInputOutputUtils.bytes5ToDate(buf, 0, cal).date
         }
 
         assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
@@ -186,7 +186,7 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         val uuid = DatabaseInputOutputUtils.bytesToUuid(bUUID)
         val eUUID = DatabaseInputOutputUtils.uuidToBytes(uuid)
 
-        val lUUID = readUuid(bUUID, 0)
+        val lUUID = bytes16ToUuid(bUUID, 0)
         val leUUID = DatabaseInputOutputUtils.uuidToBytes(lUUID)
 
         assertArrayEquals("UUID match failed", bUUID, eUUID)

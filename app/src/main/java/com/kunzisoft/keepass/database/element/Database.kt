@@ -48,7 +48,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.stream.readInt
+import com.kunzisoft.keepass.stream.readBytes4ToInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -327,66 +327,65 @@ class Database {
             isReadOnly = !file.canWrite()
         }
 
-        // Pass Uris as InputStreams
-        val inputStream: InputStream?
+        // Pass KeyFile Uri as InputStreams
+        var databaseInputStream: InputStream? = null
+        var keyFileInputStream: InputStream? = null
         try {
-            inputStream = UriUtil.getUriInputStream(contentResolver, uri)
+            // Get keyFile inputStream
+            keyfile?.let {
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+            }
+
+            // Load Data, pass Uris as InputStreams
+            databaseInputStream = BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri))
+            if (!databaseInputStream.markSupported()) {
+                throw IOException("Input stream does not support mark.")
+            }
+
+            // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+            databaseInputStream.mark(10)
+
+            // Get the file directory to save the attachments
+            val sig1 = databaseInputStream.readBytes4ToInt()
+            val sig2 = databaseInputStream.readBytes4ToInt()
+
+            // Return to the start
+            databaseInputStream.reset()
+
+            when {
+                // Header of database KDB
+                DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
+                        .openDatabase(databaseInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
+
+                // Header of database KDBX
+                DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
+                        cacheDirectory,
+                        fixDuplicateUUID)
+                        .openDatabase(databaseInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
+
+                // Header not recognized
+                else -> throw SignatureDatabaseException()
+            }
+
+            this.mSearchHelper = SearchHelper(omitBackup)
+            loaded = true
+
+        } catch (e: LoadDatabaseException) {
+            Log.e("KPD", "Database::loadData", e)
+            throw e
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
             throw FileNotFoundDatabaseException()
+        } finally {
+            keyFileInputStream?.close()
+            databaseInputStream?.close()
         }
-
-        // Pass KeyFile Uri as InputStreams
-        var keyFileInputStream: InputStream? = null
-        keyfile?.let {
-            try {
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
-            } catch (e: Exception) {
-                Log.e("KPD", "Database::loadData", e)
-                throw FileNotFoundDatabaseException()
-            }
-        }
-
-        // Load Data
-
-        val bufferedInputStream = BufferedInputStream(inputStream)
-        if (!bufferedInputStream.markSupported()) {
-            throw IOException("Input stream does not support mark.")
-        }
-
-        // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-        bufferedInputStream.mark(10)
-
-        // Get the file directory to save the attachments
-        val sig1 = readInt(bufferedInputStream)
-        val sig2 = readInt(bufferedInputStream)
-
-        // Return to the start
-        bufferedInputStream.reset()
-
-        when {
-            // Header of database KDB
-            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
-                    .openDatabase(bufferedInputStream,
-                            password,
-                            keyFileInputStream,
-                            progressTaskUpdater))
-
-            // Header of database KDBX
-            DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
-                    cacheDirectory,
-                    fixDuplicateUUID)
-                    .openDatabase(bufferedInputStream,
-                            password,
-                            keyFileInputStream,
-                            progressTaskUpdater))
-
-            // Header not recognized
-            else -> throw SignatureDatabaseException()
-        }
-
-        this.mSearchHelper = SearchHelper(omitBackup)
-        loaded = true
     }
 
     fun isGroupSearchable(group: Group, isOmitBackup: Boolean): Boolean {
