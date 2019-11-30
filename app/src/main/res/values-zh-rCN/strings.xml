@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">反馈</string>
     <string name="about_homepage">主页</string>
     <string name="about_description">Android平台上的KeePass密码管理器</string>
@@ -179,7 +178,7 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_biometric_remove_key">删除保存的指纹</string>
+    <string name="menu_biometric_remove_key">删除保存的生物识别密钥</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="omitbackup_title">搜索时忽略备份条目</string>
@@ -205,7 +204,7 @@
     <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
     <string name="version_label">版本 %1$s</string>
-    <string name="open_biometric_prompt_store_credential">使用指纹保存此密码</string>
+    <string name="open_biometric_prompt_store_credential">使用生物识别保存此密码</string>
     <string name="database_history">历史</string>
     <string name="menu_appearance_settings">外观</string>
     <string name="general">一般设置</string>
@@ -215,7 +214,7 @@
     <string name="clipboard">剪贴板</string>
     <string name="clipboard_notifications_title">剪贴板通知</string>
     <string name="lock">锁定</string>
-    <string name="advanced_unlock">指纹</string>
+    <string name="advanced_unlock">高级解锁</string>
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
     <string name="create_keepass_file">创建新数据库</string>
@@ -246,12 +245,12 @@
     <string name="warning_empty_password">确定不用密码解锁保护？</string>
     <string name="warning_no_encryption_key">确认使用空密钥吗？</string>
     <string name="build_label">版本 %1$s</string>
-    <string name="configure_biometric">支持但未配置指纹解锁。</string>
-    <string name="open_biometric_prompt_unlock_database">指纹扫描</string>
+    <string name="configure_biometric">支持但未配置生物识别。</string>
+    <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
-    <string name="biometric_invalid_key">不能读取指纹密码，请恢复你的密码。</string>
-    <string name="biometric_not_recognized">无法识别指纹</string>
-    <string name="biometric_scanning_error">指纹识别问题：%1$s</string>
+    <string name="biometric_invalid_key">不能读取生物识别密钥，还原你的凭据。</string>
+    <string name="biometric_not_recognized">无法识别生物识别信息</string>
+    <string name="biometric_scanning_error">生物识别错误：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认填充服务</string>
     <string name="autofill_explanation_summary">启用自动填充功能，以便捷地在其他应用中填写信息</string>
@@ -263,11 +262,11 @@
     <string name="clipboard_warning">如自动清空剪切板失败，则请手动清空。</string>
     <string name="lock_database_screen_off_title">锁定屏幕</string>
     <string name="lock_database_screen_off_summary">当屏幕熄灭时锁定数据库</string>
-    <string name="biometric_unlock_enable_title">指纹扫描</string>
-    <string name="biometric_unlock_enable_summary">通过扫描指纹解锁数据库</string>
+    <string name="biometric_unlock_enable_title">生物识别解锁</string>
+    <string name="biometric_unlock_enable_summary">通过生物识别解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
-    <string name="biometric_delete_all_key_summary">删除所有与指纹相关的加密密钥</string>
-    <string name="biometric_delete_all_key_warning">要删除所有指纹密钥吗？</string>
+    <string name="biometric_delete_all_key_summary">删除所有与生物相关的加密密钥</string>
+    <string name="biometric_delete_all_key_warning">要删除所有生物识别密钥吗？</string>
     <string name="unavailable_feature_text">无法启动此功能。</string>
     <string name="unavailable_feature_version">你的Android版本 %1$s 无法满足软件对系统版本 %2$s 的要求。</string>
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>
@@ -279,7 +278,7 @@
     <string name="allow_copy_password_summary">让剪切板保存条目密码及保密字段</string>
     <string name="allow_copy_password_warning">警告：复制密码时密码在剪贴板中，而所有应用都可访问剪切板。因此复制密码时，您设备上的其他应用也能看到密码。</string>
     <string name="magic_keyboard_explanation_summary">激活自定义键盘以填写密码和所有身份字段</string>
-    <string name="allow_copy_password_title">对剪贴板的信任</string>
+    <string name="allow_copy_password_title">信任剪贴板</string>
     <string name="keyboard_name">输入密码专用键盘</string>
     <string name="keyboard_label">输入密码专用键盘（KeePass DX）</string>
     <string name="keyboard_setting_label">输入密码专用键盘设置</string>
@@ -298,7 +297,7 @@
     <string name="keyboard_keys_category">按键</string>
     <string name="keyboard_key_vibrate_title">点击按键时震动</string>
     <string name="keyboard_key_sound_title">点击按键时的声音</string>
-    <string name="allow_no_password_title">允许空主密码</string>
+    <string name="allow_no_password_title">允许主密钥为空</string>
     <string name="allow_no_password_summary">未选择验证方式也启用“打开”按钮</string>
     <string name="enable_education_screens_title">新手引导</string>
     <string name="enable_education_screens_summary">突出界面元素来学习如何使用本应用</string>
@@ -315,8 +314,8 @@
 \n您还可以使用群组来管理数据库中的条目。</string>
     <string name="education_search_title">搜索条目</string>
     <string name="education_search_summary">输入标题、用户名或其他字段的内容来搜索密码。</string>
-    <string name="education_biometric_title">通过指纹解锁数据库</string>
-    <string name="education_biometric_summary">将主密码与指纹关联，以快速解锁数据库。</string>
+    <string name="education_biometric_title">通过生物识别解锁数据库</string>
+    <string name="education_biometric_summary">将主密钥与生物识别信息关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">为您的记录创建一个强密码。</string>
@@ -342,7 +341,7 @@
     <string name="html_text_ad_free">不同于大多数的密码管理软件，不论您使用哪个版本的KeePass DX，都没有<strong>广告</strong>，并且<strong>免费开源</strong>，也不收集任何用户的个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部<strong>主题样式</strong>，重要的是，您会为<strong>社区项目的实现</strong>提供的帮助</string>
     <string name="html_text_feature_generosity">此<strong>主题样式</strong>现在已经可用，感谢您的慷慨相助。</string>
-    <string name="html_text_donation">为继续建设此免费项目，我们需要您的<strong>捐助。</strong>
+    <string name="html_text_donation">为继续建设此自由项目，我们需要您的<strong>捐助。</strong>
     </string>
     <string name="html_text_dev_feature">这个特性目前<strong>仍在开发中</strong>，您的<strong>捐助</strong>将使这个特性在未来变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买<strong>专业</strong>版，</string>
@@ -353,7 +352,7 @@
     <string name="html_text_dev_feature_upgrade">别忘了更新应用。</string>
     <string name="selection_mode">选择模式</string>
     <string name="do_not_kill_app">不要终止应用程序…</string>
-    <string name="lock_database_back_root_title">在根目录返回以锁定</string>
+    <string name="lock_database_back_root_title">按返回键以锁定</string>
     <string name="lock_database_back_root_summary">在点按根屏幕上的后退按钮时锁定数据库</string>
     <string name="clear_clipboard_notification_title">关闭应用时清空剪贴板</string>
     <string name="clear_clipboard_notification_summary">关闭通知时关闭数据库</string>
@@ -396,4 +395,51 @@
     <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
     <string name="enable">启用</string>
     <string name="disable">禁用</string>
+    <string name="master_key">主密钥</string>
+    <string name="security">安全</string>
+    <string name="entry_history">历史</string>
+    <string name="entry_setup_otp">设置一次性密码</string>
+    <string name="otp_type">一次性密码类型</string>
+    <string name="otp_secret">密钥</string>
+    <string name="otp_period">时长（秒）</string>
+    <string name="otp_counter">计数器</string>
+    <string name="otp_digits">数字位数</string>
+    <string name="otp_algorithm">算法</string>
+    <string name="entry_otp">一次性密码</string>
+    <string name="error_invalid_OTP">一次性密码密钥错误。</string>
+    <string name="error_disallow_no_credentials">至少需要设置一个凭据。</string>
+    <string name="error_copy_group_here">不能将群组复制到这里。</string>
+    <string name="error_otp_secret_key">密钥必须是BASE32格式。</string>
+    <string name="error_otp_counter">计数器必须在%1$d和%2$d之间。</string>
+    <string name="error_otp_period">时长必须在%1$d秒到%2$d秒之间。</string>
+    <string name="error_otp_digits">令牌必须包括%1$d到%2$d个数字。</string>
+    <string name="invalid_db_same_uuid">与%1$s的UUID相同的%2$s已经存在。</string>
+    <string name="creating_database">创建数据库…</string>
+    <string name="menu_security_settings">安全设置</string>
+    <string name="menu_master_key_settings">主密钥设置</string>
+    <string name="contains_duplicate_uuid">数据库包含了重复的UUID。</string>
+    <string name="contains_duplicate_uuid_procedure">通过验证此对话框，KeePass DX将解决这个问题（通过给重复项生成新的UUID）并继续。</string>
+    <string name="database_opened">数据库开启</string>
+    <string name="clipboard_explanation_summary">使用您设备的剪贴板来复制输入字段</string>
+    <string name="persistent_notification_title">保持通知</string>
+    <string name="persistent_notification_summary">当数据库打开时产生一条通知</string>
+    <string name="advanced_unlock_explanation_summary">使用高级解锁轻松打开数据库</string>
+    <string name="database_data_compression_title">数据压缩</string>
+    <string name="database_data_compression_summary">数据压缩可降低数据库大小。</string>
+    <string name="max_history_items_title">最大历史记录条数</string>
+    <string name="max_history_items_summary">限制每个条目的历史记录条数</string>
+    <string name="max_history_size_title">最大历史记录大小</string>
+    <string name="max_history_size_summary">限制每个条目的历史记录大小（以字节为单位）</string>
+    <string name="settings_database_recommend_changing_master_key_title">建议修改</string>
+    <string name="settings_database_recommend_changing_master_key_summary">建议修改主密钥（以天为单位）</string>
+    <string name="settings_database_force_changing_master_key_title">强制修改</string>
+    <string name="settings_database_force_changing_master_key_summary">强制修改主密钥（以天为单位）</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">下次强制修改</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">下次强制修改主密钥（一次）</string>
+    <string name="database_default_username_title">默认用户名</string>
+    <string name="database_custom_color_title">自定义数据库颜色</string>
+    <string name="compression">压缩</string>
+    <string name="compression_none">无</string>
+    <string name="compression_gzip">GZip压缩</string>
+    <string name="device_keyboard_setting_title">设备键盘设置</string>
 </resources>

@@ -18,8 +18,7 @@
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
 
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
--->
-<resources>
+--><resources>
     <string name="about_feedback">Tilbagemelding</string>
     <string name="about_homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
@@ -357,7 +356,7 @@
     <string name="entry_notes">Noter</string>
     <string name="selection_mode">Valgstilstand</string>
     <string name="do_not_kill_app">Luk ikke programmet…</string>
-    <string name="lock_database_back_root_title">Lås ved retur</string>
+    <string name="lock_database_back_root_title">Tryk på \'Tilbage\' for at låse</string>
     <string name="lock_database_back_root_summary">Lås databasen, når brugeren klikker på tilbage-knappen fra startskærmen</string>
     <string name="clear_clipboard_notification_title">Ryd ved lukning</string>
     <string name="clear_clipboard_notification_summary">Luk databasen ved lukning af underretning</string>
@@ -400,4 +399,51 @@
     <string name="biometric_auto_open_prompt_summary">Åbn automatisk biometrisk prompt, når der er defineret en biometrisk nøgle for en database</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Deaktiver</string>
+    <string name="master_key">Hovednøgle</string>
+    <string name="security">Sikkerhed</string>
+    <string name="entry_history">Historik</string>
+    <string name="entry_setup_otp">Indstilling af engangsadgangskode</string>
+    <string name="otp_type">OTP-type</string>
+    <string name="otp_secret">Hemmelig</string>
+    <string name="otp_period">Periode (sekunder)</string>
+    <string name="otp_counter">Tæller</string>
+    <string name="otp_digits">Cifre</string>
+    <string name="otp_algorithm">Algoritme</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Ugyldig OTP-hemmelighed.</string>
+    <string name="error_disallow_no_credentials">Der skal angives mindst en legitimationsoplysning.</string>
+    <string name="error_copy_group_here">En gruppe kan ikke kopieres her.</string>
+    <string name="error_otp_secret_key">Den hemmelige nøgle skal være i Base32-format.</string>
+    <string name="error_otp_counter">Tæller skal være mellem %1$d og %2$d.</string>
+    <string name="error_otp_period">Perioden skal være mellem %1$d og %2$d sekunder.</string>
+    <string name="error_otp_digits">Token skal indeholder %1$d til %2$d cifre.</string>
+    <string name="invalid_db_same_uuid">%1$s med det samme UUID %2$s findes allerede.</string>
+    <string name="creating_database">Opretter database…</string>
+    <string name="menu_security_settings">Sikkerhedsindstillinger</string>
+    <string name="menu_master_key_settings">Indstillinger for hovednøgle</string>
+    <string name="contains_duplicate_uuid">Databasen indeholder dublerede UUID\'er.</string>
+    <string name="contains_duplicate_uuid_procedure">Ved at godkende dialogboksen, vil KeePass DX løse problemet (ved at generere nye UUID\'er for dubletter) og fortsætte.</string>
+    <string name="database_opened">Database åbnet</string>
+    <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
+    <string name="persistent_notification_title">Vedvarende meddelelse</string>
+    <string name="persistent_notification_summary">Tilføj en meddelelse, når databasen er åben</string>
+    <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
+    <string name="database_data_compression_title">Datakomprimering</string>
+    <string name="database_data_compression_summary">Datakomprimering reducerer størrelsen på databasen.</string>
+    <string name="max_history_items_title">Maks. historikposter</string>
+    <string name="max_history_items_summary">Begræns antallet af historikposter pr. indtastning</string>
+    <string name="max_history_size_title">Maks. historiestørrelse</string>
+    <string name="max_history_size_summary">Begræns historikstørrelse pr. post (i binære bytes)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Anbefalet ændring</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Anbefal ændring af hovednøglen (dage)</string>
+    <string name="settings_database_force_changing_master_key_title">Gennemtving ændring</string>
+    <string name="settings_database_force_changing_master_key_summary">Gennemtving ændring af hovednøglen (dage)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Gennemtving ændring næste gang</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Gennemtving ændring af hovednøglen næste gang (én gang)</string>
+    <string name="database_default_username_title">Standard brugernavn</string>
+    <string name="database_custom_color_title">Brugerdefineret databasefarve</string>
+    <string name="compression">Komprimering</string>
+    <string name="compression_none">Ingen</string>
+    <string name="compression_gzip">Gzip</string>
+    <string name="device_keyboard_setting_title">Indstillinger for enhedens tastatur</string>
 </resources>

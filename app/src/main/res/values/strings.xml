@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
@@ -64,7 +63,6 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
-
     <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
@@ -109,7 +107,7 @@
     <string name="error_load_database">Could not load your database.</string>
     <string name="error_load_database_KDF_memory">Could not load the key. Try to lower the KDF \"Memory Usage\".</string>
     <string name="error_pass_gen_type">At least one password generation type must be selected.</string>
-    <string name="error_disallow_no_credentials">At lest one credential must be set.</string>
+    <string name="error_disallow_no_credentials">At least one credential must be set.</string>
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
