@@ -198,7 +198,7 @@
     <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
     <string name="open_biometric_prompt_unlock_database">Biometrische Abfrage öffnen, um die Datenbank zu entsperren.</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie es und wiederholen Sie den biometrischen Erkennungsprozess.</string>
+    <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
     <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
@@ -237,8 +237,8 @@
     <string name="autofill_explanation_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
-    <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel für biometrischen Erkennung löschen.</string>
-    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle Schlüssel zur biometrischen Erkennung löschen möchten\?</string>
+    <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verbundenen Verschlüsselungsschlüssel löschen.</string>
+    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle mit der biometrischen Erkennung verknüpften Schlüssel löschen möchten\?</string>
     <string name="unavailable_feature_version">Die Android-Version, %1$s, erfüllt nicht die Mindestanforderung für Version %2$s.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
     <string name="bytes">Bytes</string>
@@ -380,8 +380,8 @@
     <string name="clear_clipboard_notification_summary">Die Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
-    <string name="error_move_entry_here">Du kannst keinen Eintrag hierher verschieben.</string>
-    <string name="error_copy_entry_here">Du kannst keinen Eintrag hierher kopieren.</string>
+    <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
+    <string name="error_copy_entry_here">Hierher kann kein Eintrag kopiert werden.</string>
     <string name="content_description_password_checkbox">Passwort-Kontrollkästchen</string>
     <string name="content_description_repeat_toggle_password_visibility">Umschalten der Passwort-Sichtbarkeit wiederholen</string>
     <string name="content_description_background">Hintergrund</string>
@@ -390,13 +390,13 @@
     <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
     <string name="menu_advanced_unlock_settings">Erweiterte Entsperrung</string>
     <string name="biometric_prompt_store_credential_title">Biometrische Erkennung speichern</string>
-    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrische Erkennung öffnen</string>
+    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrischer Erkennung öffnen</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
     <string name="biometric_prompt_store_credential_message">ACHTUNG: Die Verwendung der biometrischen Erkennung befreit Sie nicht von der Kenntnis Ihres Hauptpassworts.</string>
-    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
-    <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
+    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
+    <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
     <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist.</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
@@ -451,7 +451,7 @@
     <string name="command_execution">Befehl ausführen …</string>
     <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
-    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf die Biometrie-Button klicken.</string>
+    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
