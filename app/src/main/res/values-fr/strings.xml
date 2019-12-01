@@ -38,7 +38,7 @@
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
-    <string name="clipboard_error">Certains appareils Android Samsung ne permettent pas aux applications d’utiliser le presse-papier.</string>
+    <string name="clipboard_error">Certains appareils ne permettent pas aux applications d’utiliser le presse-papier.</string>
     <string name="clipboard_error_clear">Impossible de vider le presse-papier</string>
     <string name="clipboard_timeout">Expiration du presse-papier</string>
     <string name="clipboard_timeout_summary">Durée de stockage dans le presse-papier</string>
@@ -93,7 +93,7 @@
     <string name="password">Mot de passe</string>
     <string name="install_from_play_store">Installer depuis Google Play</string>
     <string name="install_from_f_droid">Installer depuis F-Droid</string>
-    <string name="invalid_credentials">Impossible de lire le mot de passe ou le fichier clé.</string>
+    <string name="invalid_credentials">Impossible de lire les identifiants. Si cela se reproduit, votre fichier de base de données est peut-être corrompu.</string>
     <string name="invalid_algorithm">Mauvais algorithme.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_does_not_exist">Aucun fichier de clé n’existe.</string>
@@ -104,7 +104,7 @@
     <string name="loading_database">Chargement de la base de données…</string>
     <string name="lowercase">Minuscule</string>
     <string name="maskpass_title">Masquer les mots de passe</string>
-    <string name="maskpass_summary">Masquer les mots de passe (***) par défaut</string>
+    <string name="maskpass_summary">Masque les mots de passe (***) par défaut</string>
     <string name="menu_about">À propos</string>
     <string name="menu_change_key_settings">Modifier la clé maîtresse</string>
     <string name="copy_field">%1$s copié</string>
@@ -135,8 +135,8 @@
     <string name="read_only_warning">KeePass DX a besoin de la permission d’écriture afin modifier la base de données.</string>
     <string name="read_only_kitkat_warning">À partir d’Android KitKat, certains appareils n’autorisent plus les applications à écrire sur la carte microSD.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
-    <string name="recentfile_summary">Mémoriser les noms des fichiers récents</string>
-    <string name="remember_keyfile_summary">Mémoriser l’emplacement des fichiers clé des bases de données</string>
+    <string name="recentfile_summary">Mémorise les noms des fichiers récents</string>
+    <string name="remember_keyfile_summary">Mémorise l’emplacement des fichiers clé des bases de données</string>
     <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
     <string name="content_description_remove_from_list">Effacer</string>
     <string name="root">Racine</string>
@@ -179,7 +179,7 @@
     <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
-    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
+    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Veuillez la supprimer et répéter la procédure de reconnaissance biométrique.</string>
     <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
     <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
     <string name="open_biometric_prompt_store_credential">Ouvrir la boite de dialogue biométrique pour stocker les identifiants</string>
@@ -192,7 +192,7 @@
     <string name="set_autofill_service_title">Définir le service de remplissage automatique par défaut</string>
     <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="password_size_title">Taille du mot de passe généré</string>
-    <string name="password_size_summary">Définir la taille par défaut des mots de passe générés</string>
+    <string name="password_size_summary">Défini la taille par défaut des mots de passe générés</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
     <string name="list_password_generator_options_summary">Définir les caractères autorisés du générateur de mot de passe</string>
     <string name="clipboard">Presse-papier</string>
@@ -201,7 +201,7 @@
     <string name="clipboard_warning">Si la suppression automatique du presse-papier échoue, supprimer son historique manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
-    <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
+    <string name="lock_database_screen_off_summary">Verrouille la base de données lorsque l’écran est éteint</string>
     <string name="advanced_unlock">Déverouillage avancée</string>
     <string name="biometric_unlock_enable_title">Déverouillage biométrique</string>
     <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
@@ -223,7 +223,7 @@
     <string name="monospace_font_fields_enable_title">Police de champ</string>
     <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
     <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
-    <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
+    <string name="allow_copy_password_summary">Autorise le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
     <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
@@ -326,11 +326,11 @@
     <string name="menu_paste">Coller</string>
     <string name="menu_cancel">Annuler</string>
     <string name="allow_no_password_title">Autoriser aucune clé maîtresse</string>
-    <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
+    <string name="allow_no_password_summary">Active le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
     <string name="menu_file_selection_read_only">Protégé en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
-    <string name="enable_read_only_summary">Ouvrir votre base de données en lecture seule par défaut</string>
+    <string name="enable_read_only_summary">Ouvre votre base de données en lecture seule par défaut</string>
     <string name="education_read_only_title">Protéger en écriture votre base de données</string>
     <string name="education_read_only_summary">Changer le mode d’ouverture pour la session. 
 \n 
@@ -399,12 +399,12 @@
     <string name="enable">Activer</string>
     <string name="disable">Désactiver</string>
     <string name="biometric_prompt_store_credential_title">Enregistrer la reconnaissance biométrique</string>
-    <string name="biometric_prompt_store_credential_message">Stocker les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric_prompt_store_credential_message">ATTENTION: L’utilisation de la reconnaissance biométrique ne vous dispense pas de connaître votre mot de passe principal.</string>
     <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
     <string name="biometric_prompt_extract_credential_message">Extraire les informations d\'identification de la base de données avec des données biométriques</string>
     <string name="biometric">Biométrique</string>
     <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement la boite de dialogue biométrique</string>
-    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
+    <string name="biometric_auto_open_prompt_summary">Ouvre automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
     <string name="master_key">Clé Maîtresse</string>
     <string name="security">Sécurité</string>
     <string name="entry_history">Historique</string>
@@ -432,7 +432,7 @@
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copier les champs de saisie à l\'aide du presse-papiers de votre appareil</string>
     <string name="persistent_notification_title">Notification persistante</string>
-    <string name="persistent_notification_summary">Ajouter une notification lorsque la base de données est ouverte</string>
+    <string name="persistent_notification_summary">Ajoute une notification lorsque la base de données est ouverte</string>
     <string name="advanced_unlock_explanation_summary">Utilisez le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>
@@ -452,4 +452,14 @@
     <string name="compression_none">Aucune</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Paramètres clavier de l\'appareil</string>
+    <string name="error_save_database">Impossible d\'enregistrer la base de données.</string>
+    <string name="menu_save_database">Sauvegarder la base de données</string>
+    <string name="menu_empty_recycle_bin">Vider la corbeille</string>
+    <string name="command_execution">Execution de la commande…</string>
+    <string name="warning_permanently_delete_nodes">Êtes-vous sûr de vouloir supprimer définitivement les nœuds sélectionnés\?</string>
+    <string name="keystore_not_accessible">Le magasin de clés n\'est pas correctement initialisé.</string>
+    <string name="credential_before_click_biometric_button">Tapez le mot de passe avant de cliquer sur le bouton biométrique.</string>
+    <string name="recycle_bin_group_title">Groupe de corbeille</string>
+    <string name="enable_auto_save_database_title">Sauvegarde automatique de la base de données</string>
+    <string name="enable_auto_save_database_summary">Sauvegarde automatiquement la base de données après une action importante (uniquement en mode \"Modifiable\")</string>
 </resources>
