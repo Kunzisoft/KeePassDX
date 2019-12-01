@@ -38,7 +38,7 @@
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>
     <string name="clipboard_error">Bazı Samsung Android telefonları, uygulamaların panoya kullanılmasına izin vermez.</string>
-    <string name="clipboard_error_clear">"Pano temizlenemedi "</string>
+    <string name="clipboard_error_clear">Pano temizlenemedi</string>
     <string name="clipboard_timeout">Pano zaman aşımı</string>
     <string name="clipboard_timeout_summary">Panodaki depolama süresi</string>
     <string name="database">Veritabanı</string>
@@ -94,7 +94,7 @@
     <string name="hint_pass">parola</string>
     <string name="password">Parola</string>
     <string name="install_from_f_droid">F-Droid\'den yükleyin</string>
-    <string name="install_from_play_store">"Play Store\'dan yükleyin "</string>
+    <string name="install_from_play_store">Play Store\'dan yükleyin</string>
     <string name="invalid_credentials">Parola veya anahtar dosya okunamadı.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veritabanı biçimi tanımlanamadı.</string>
@@ -107,7 +107,7 @@
     <string name="list_size_summary">Öğe listesindeki metin boyutu</string>
     <string name="loading_database">Veritabanı yükleniyor…</string>
     <string name="lowercase">Küçük harf</string>
-    <string name="maskpass_title">"Parolaları gizle "</string>
+    <string name="maskpass_title">Parolaları gizle</string>
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="menu_about">Hakkında</string>
     <string name="menu_change_key_settings">Ana anahtarı değiştir</string>
@@ -123,7 +123,7 @@
     <string name="menu_paste">Yapıştır</string>
     <string name="menu_delete">Sil</string>
     <string name="menu_cancel">İptal</string>
-    <string name="menu_hide_password">"Parolayı gizle "</string>
+    <string name="menu_hide_password">Parolayı gizle</string>
     <string name="menu_lock">Veritabanını kilitle</string>
     <string name="menu_open">Aç</string>
     <string name="menu_search">Ara</string>
@@ -165,8 +165,7 @@
     <string name="space">Boşluk</string>
     <string name="search_label">Ara</string>
     <string name="sort_menu">Sırala</string>
-    <string name="sort_ascending">En düşük önce 
-\n</string>
+    <string name="sort_ascending">Önce en düşük ↓</string>
     <string name="sort_groups_before">Grup önce</string>
     <string name="sort_recycle_bin_bottom">Alttaki geri dönüşüm kutusu</string>
     <string name="sort_db">Doğal sıra</string>
@@ -317,10 +316,8 @@
     <string name="html_text_feature_generosity">Bu <strong>görsel özellik</strong>, cömertliğiniz sayesinde kullanılabilir.</string>
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
-    <string name="html_text_dev_feature_buy_pro">
-        <strong>Pro</strong> sürümü satın alarak,</string>
-    <string name="html_text_dev_feature_contibute">
-        <strong>Katkıda</strong> bulunarak,</string>
+    <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong> sürümü satın alarak,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Katkıda</strong> bulunarak,</string>
     <string name="html_text_dev_feature_encourage">Geliştiricilerin <strong>yeni özellikler</strong> oluşturmasını ve söz konusu hatalara göre <strong>hataları düzeltmesini</strong> teşvik ediyorsunuz.</string>
     <string name="html_text_dev_feature_thanks">Katkınız için çok teşekkür ederim.</string>
     <string name="html_text_dev_feature_work_hard">Bu özelliği çabucak yayınlamak için çok çalışıyoruz.</string>
@@ -373,7 +370,7 @@
     <string name="error_create_database_file">Bu parola ve anahtar dosyası ile veritabanı oluşturulamıyor.</string>
     <string name="menu_advanced_unlock_settings">Gelişmiş kilit açma</string>
     <string name="biometric_prompt_store_credential_title">Biyometrik tanımayı kaydedin</string>
-    <string name="biometric_prompt_store_credential_message">Biyolojik verilerle veritabanı kimlik bilgilerini saklayın</string>
+    <string name="biometric_prompt_store_credential_message">UYARI: Biyometrik tanıma kullanımı sizi ana şifrenizi bilmekten muaf tutmaz.</string>
     <string name="biometric_prompt_extract_credential_title">Biyometrik tanıma ile veritabanı aç</string>
     <string name="biometric_prompt_extract_credential_message">Biyometrik verilerle veritabanı kimlik bilgilerini çıkar</string>
     <string name="biometric">Biyometrik</string>
@@ -384,7 +381,7 @@
     <string name="master_key">Ana Anahtar</string>
     <string name="security">Güvenlik</string>
     <string name="entry_history">Geçmiş</string>
-    <string name="entry_setup_otp">Tek Seferlik Parola Ayarla</string>
+    <string name="entry_setup_otp">Tek seferlik parola ayarla</string>
     <string name="otp_type">OTP türü</string>
     <string name="otp_secret">Sır</string>
     <string name="otp_period">Periyot (saniye)</string>
@@ -428,4 +425,14 @@
     <string name="compression_none">Yok</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Cihaz Klavye Ayarları</string>
+    <string name="error_save_database">Veritabanı kaydedilemedi.</string>
+    <string name="menu_save_database">Veritabanını kaydet</string>
+    <string name="menu_empty_recycle_bin">Geri Dönüşüm Kutusunu Boşalt</string>
+    <string name="command_execution">Komut çalıştırılıyor…</string>
+    <string name="warning_permanently_delete_nodes">Seçili düğümleri kalıcı olarak silmek istediğinizden emin misiniz\?</string>
+    <string name="keystore_not_accessible">Anahtar deposu düzgün bir şekilde başlatılmadı.</string>
+    <string name="credential_before_click_biometric_button">Biyometrik butona tıklamadan önce şifreyi yazın.</string>
+    <string name="recycle_bin_group_title">Geri dönüşüm kutusu grubu</string>
+    <string name="enable_auto_save_database_title">Veritabanını otomatik kaydet</string>
+    <string name="enable_auto_save_database_summary">Önemli bir işlemden sonra veritabanını otomatik olarak kaydet (yalnızca \"Değiştirilebilir\" modunda)</string>
 </resources>
