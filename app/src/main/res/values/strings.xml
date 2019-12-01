@@ -85,7 +85,7 @@
     <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Title</string>
-    <string name="entry_setup_otp">Setup One-Time Password</string>
+    <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Period (seconds)</string>
@@ -123,7 +123,7 @@
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
-    <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
+    <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
