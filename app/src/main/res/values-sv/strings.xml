@@ -35,7 +35,7 @@
     <string name="file_manager_install_description">Skapa, öppna och spara en databasfil kräver att du installerar en filhanterare som accepterar avsiktlig åtgärd ACTION_CREATE_DOCUMENT och ACTION_OPEN_DOCUMENT</string>
     <string name="clipboard_cleared">Urklipp har rensats</string>
     <string name="clipboard_error_title">Urklippsfel</string>
-    <string name="clipboard_error">Vissa Samsung Android-telefoner låter inte appar använda Urklipp.</string>
+    <string name="clipboard_error">Vissa enheter låter inte appar använda urklipp.</string>
     <string name="clipboard_error_clear">Det gick inte att rensa urklipp</string>
     <string name="clipboard_timeout">Tidsgräns för urklipp</string>
     <string name="clipboard_timeout_summary">Lagringens varaktighet i urklippet</string>
