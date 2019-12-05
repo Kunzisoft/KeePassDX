@@ -77,17 +77,24 @@ class BinaryAttachment : Parcelable {
             // To compress, create a new binary with file
             if (isCompressed != true) {
                 val fileBinaryCompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
-                val outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
-                getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                    outputStream.write(buffer)
-                }
-                outputStream.close()
+                var outputStream: GZIPOutputStream? = null
+                var inputStream: InputStream? = null
+                try {
+                    outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
+                    inputStream = getInputDataStream()
+                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                        outputStream.write(buffer)
+                    }
+                } finally {
+                    inputStream?.close()
+                    outputStream?.close()
 
-                // Remove unGzip file
-                if (dataFile!!.delete()) {
-                    if (fileBinaryCompress.renameTo(dataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = true
+                    // Remove unGzip file
+                    if (dataFile!!.delete()) {
+                        if (fileBinaryCompress.renameTo(dataFile)) {
+                            // Harmonize with database compression
+                            isCompressed = true
+                        }
                     }
                 }
             }
@@ -99,17 +106,24 @@ class BinaryAttachment : Parcelable {
         if (dataFile != null) {
             if (isCompressed != false) {
                 val fileBinaryDecompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
-                val outputStream = FileOutputStream(fileBinaryDecompress)
-                GZIPInputStream(getInputDataStream()).readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                    outputStream.write(buffer)
-                }
-                outputStream.close()
+                var outputStream: FileOutputStream? = null
+                var inputStream: GZIPInputStream? = null
+                try {
+                    outputStream = FileOutputStream(fileBinaryDecompress)
+                    inputStream = GZIPInputStream(getInputDataStream())
+                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                        outputStream.write(buffer)
+                    }
+                } finally {
+                    inputStream?.close()
+                    outputStream?.close()
 
-                // Remove gzip file
-                if (dataFile!!.delete()) {
-                    if (fileBinaryDecompress.renameTo(dataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = false
+                    // Remove gzip file
+                    if (dataFile!!.delete()) {
+                        if (fileBinaryDecompress.renameTo(dataFile)) {
+                            // Harmonize with database compression
+                            isCompressed = false
+                        }
                     }
                 }
             }
