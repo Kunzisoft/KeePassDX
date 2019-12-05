@@ -401,7 +401,7 @@
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
-    <string name="entry_setup_otp">Einmal-Passwort (OTP) einrichten</string>
+    <string name="entry_setup_otp">Einmalpasswort einrichten</string>
     <string name="otp_type">OTP-Typ</string>
     <string name="otp_secret">Geheimnis</string>
     <string name="otp_period">Zeitraum (Sekunden)</string>
