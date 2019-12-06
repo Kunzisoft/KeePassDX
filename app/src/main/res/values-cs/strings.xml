@@ -19,7 +19,7 @@
 
     Czech translation by Jan Vaněk
 --><resources>
-    <string name="about_feedback">Nahlášení problému</string>
+    <string name="about_feedback">Zpětná vazba</string>
     <string name="about_homepage">Domovská stránka</string>
     <string name="about_description">Androidová verze správce hesel KeePass</string>
     <string name="accept">Přijmout</string>
@@ -35,7 +35,7 @@
     <string name="file_manager_install_description">Instalace správce souborů OpenIntents k procházení souborů</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
     <string name="clipboard_error_title">Chyba schránky</string>
-    <string name="clipboard_error">Některé Android telefony od Samsungu nedovolují aplikacím používat schránku.</string>
+    <string name="clipboard_error">Některá zařízení nedovolují aplikacím používat schránku.</string>
     <string name="clipboard_error_clear">Nelze vyprázdnit schránku</string>
     <string name="clipboard_timeout">Časový limit schránky</string>
     <string name="clipboard_timeout_summary">Doba uchování ve schránce</string>
@@ -88,7 +88,7 @@
     <string name="password">Heslo</string>
     <string name="install_from_play_store">Instalovat z katalogu Play Store</string>
     <string name="install_from_f_droid">Instalovat z katalogu F-Droid</string>
-    <string name="invalid_credentials">Nesprávné heslo nebo soubor s klíčem.</string>
+    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje. Pokud se chyba opakuje, databázový soubor může být poškozen.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nedaří se rozpoznat formát databáze.</string>
     <string name="keyfile_does_not_exist">Soubor s klíčem neexistuje.</string>
@@ -119,7 +119,7 @@
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
     <string name="open_recent">Nedávno otevřené databáze</string>
     <string name="omitbackup_title">Neprohledávat položky v záloze</string>
-    <string name="omitbackup_summary">"Vynechat skupiny „Záloha“  a \"Koš\" z výsledků vyhledávání"</string>
+    <string name="omitbackup_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
     <string name="progress_create">Vytvářím novou databázi…</string>
     <string name="progress_title">Zpracování…</string>
     <string name="protection">Ochrana</string>
@@ -213,7 +213,7 @@
     <string name="configure_biometric">Biometrická pobídka je zařízením podporována, ale není nastavena.</string>
     <string name="open_biometric_prompt_unlock_database">Otevři biometrickou pobídku k otevření databáze</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
-    <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Obnovte své heslo.</string>
+    <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Prosím, smažte jej a opakujte proceduru biometrického rozpoznání.</string>
     <string name="biometric_not_recognized">Biometrický prvek nerozpoznán</string>
     <string name="biometric_scanning_error">Chyba s biometrickým prvkem: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Otevři biometrickou pobídku k uložení hesel</string>
@@ -254,7 +254,7 @@
     <string name="full_file_path_enable_title">Cesta k souboru</string>
     <string name="full_file_path_enable_summary">Zobrazit úplnou cestu k souboru</string>
     <string name="recycle_bin_title">Použít koš</string>
-    <string name="recycle_bin_summary">Přesune skupiny a položky do „Koše“ před smazáním</string>
+    <string name="recycle_bin_summary">Před smazáním přesune skupiny a položky do skupiny „Koš“</string>
     <string name="monospace_font_fields_enable_title">Písmo položek</string>
     <string name="monospace_font_fields_enable_summary">Čitelnost znaků v položkách můžete přizpůsobit změnou písma</string>
     <string name="allow_copy_password_title">Důvěřovat schránce</string>
@@ -389,7 +389,7 @@
     <string name="error_create_database_file">Nelze vytvořit databázi s tímto heslem a klíčem ze souboru.</string>
     <string name="menu_advanced_unlock_settings">Pokročilé odemčení</string>
     <string name="biometric_prompt_store_credential_title">Uložit biometrické rozlišení</string>
-    <string name="biometric_prompt_store_credential_message">Uložit hesla databáze s biometrickými daty</string>
+    <string name="biometric_prompt_store_credential_message">VAROVÁNÍ: Použití biometrického rozlišení Vás nezprošťuje znalosti hlavního hesla.</string>
     <string name="biometric_prompt_extract_credential_title">Otevřít databázi skrze biometrické rozlišení</string>
     <string name="biometric_prompt_extract_credential_message">Vytáhnout heslo databáze biometrickými daty</string>
     <string name="biometric">Biometrika</string>
@@ -444,4 +444,14 @@
     <string name="compression_none">Žádná</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Nastavení klávesnice zařízení</string>
+    <string name="error_save_database">Nebylo možno uložit databázi.</string>
+    <string name="menu_save_database">Uložit databázi</string>
+    <string name="menu_empty_recycle_bin">Vysypat koš</string>
+    <string name="command_execution">Provádím příkaz…</string>
+    <string name="warning_permanently_delete_nodes">Jste si jisti, že chcete natrvalo smazat vybrané uzly\?</string>
+    <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
+    <string name="credential_before_click_biometric_button">Zadejte heslo než kliknete na tlačítko biometriky.</string>
+    <string name="recycle_bin_group_title">Skupina Koš</string>
+    <string name="enable_auto_save_database_title">Auto-uložit databázi</string>
+    <string name="enable_auto_save_database_summary">Automaticky uloží databázi po důležité akci (pouze v režimu \"Zápis\")</string>
 </resources>
