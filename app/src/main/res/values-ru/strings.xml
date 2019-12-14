@@ -33,7 +33,7 @@
     <string name="file_manager_install_description">Создание, открытие и сохранение файла базы требует установки файлового менеджера, который принимает действия Intent ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
-    <string name="clipboard_error">Некоторые устройства Samsung не дают приложению использовать буфер обмена.</string>
+    <string name="clipboard_error">Некоторые устройства не позволяют приложению использовать буфер обмена.</string>
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
@@ -87,7 +87,7 @@
     <string name="password">Пароль</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="invalid_credentials">Неправильный главный пароль или файл ключа.</string>
+    <string name="invalid_credentials">Неправильный главный пароль или файл ключа. Если это сообщение повторяется, файл базы, возможно, повреждён.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
     <string name="keyfile_does_not_exist">Файл ключа не найден.</string>
@@ -118,7 +118,7 @@
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
     <string name="open_recent">Недавно открытые</string>
     <string name="omitbackup_title">Не искать в резервных копиях</string>
-    <string name="omitbackup_summary">Не искать в \"Резервировании\" и \"Корзине\"</string>
+    <string name="omitbackup_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
@@ -128,7 +128,7 @@
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
-    <string name="remember_keyfile_title">Хранить файлы ключей</string>
+    <string name="remember_keyfile_title">Помнить файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
@@ -154,7 +154,7 @@
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>
     <string name="open_biometric_prompt_unlock_database">Ожидание биометрического ключа для разблокировки базы</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="biometric_invalid_key">Неправильный биометрический ключ. Восстановите главный пароль.</string>
+    <string name="biometric_invalid_key">Невозможно распознать биометрический ключ. Пожалуйста, удалите его и повторите процедуру настройки биометрического распознавания.</string>
     <string name="biometric_scanning_error">Проблема с биометрическим ключом: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Используйте биометрический ключ, чтобы сохранить главный пароль</string>
     <string name="no_credentials_stored">Для этой базы главный пароль ещё не сохранён.</string>
@@ -225,9 +225,9 @@
     <string name="autofill_explanation_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
     <string name="set_autofill_service_title">Сервис автозаполнения по умолчанию</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
-    <string name="password_size_summary">Установить длину создаваемых паролей по умолчанию</string>
+    <string name="password_size_summary">Настройка длины создаваемых паролей по умолчанию</string>
     <string name="list_password_generator_options_title">Символы пароля</string>
-    <string name="list_password_generator_options_summary">Установить набор разрешённых символов для создания пароля</string>
+    <string name="list_password_generator_options_summary">Настройка набора разрешённых символов для создания пароля</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="clipboard_notifications_title">Уведомления буфера обмена</string>
     <string name="clipboard_notifications_summary">Включить уведомления буфера обмена для копирования полей при просмотре записи</string>
@@ -251,8 +251,8 @@
     <string name="bytes">Байт</string>
     <string name="full_file_path_enable_title">Путь к файлу</string>
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
-    <string name="recycle_bin_title">Использовать \"Корзину\"</string>
-    <string name="recycle_bin_summary">Перемещать группу или запись в \"Корзину\" вместо удаления</string>
+    <string name="recycle_bin_title">Использовать \"корзину\"</string>
+    <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
     <string name="monospace_font_fields_enable_title">Шрифт полей</string>
     <string name="monospace_font_fields_enable_summary">Изменить используемый в полях шрифт для лучшей читаемости</string>
     <string name="allow_copy_password_title">Доверять буферу обмена</string>
@@ -350,7 +350,7 @@
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
     <string name="do_not_kill_app">Не убивать приложение…</string>
-    <string name="lock_database_back_root_title">Нажмите \"Назад\" для блокировки</string>
+    <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
     <string name="clear_clipboard_notification_summary">Закрывать базу при закрытии уведомления</string>
@@ -385,7 +385,7 @@
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
     <string name="menu_advanced_unlock_settings">Дополнительная разблокировка</string>
     <string name="biometric_prompt_store_credential_title">Сохранение биометрического ключа</string>
-    <string name="biometric_prompt_store_credential_message">Сохранять главный пароль биометрическим ключом</string>
+    <string name="biometric_prompt_store_credential_message">ВНИМАНИЕ: использование функции биометрического распознавания не освобождает пользователя от необходимости знать главный пароль.</string>
     <string name="biometric_prompt_extract_credential_title">Открывать базу биометрическим ключом</string>
     <string name="biometric_prompt_extract_credential_message">Извлекать главный пароль биометрическим ключом</string>
     <string name="biometric">Биометрический ключ</string>
@@ -424,7 +424,7 @@
     <string name="persistent_notification_summary">Показывать уведомление, пока открыта база</string>
     <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
     <string name="database_data_compression_title">Сжатие данных</string>
-    <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы</string>
+    <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы.</string>
     <string name="max_history_items_title">Максимум записей в истории</string>
     <string name="max_history_items_summary">Ограничение числа элементов истории каждой записи</string>
     <string name="max_history_size_title">Максимальный размер истории</string>
@@ -441,4 +441,14 @@
     <string name="compression_none">Нет</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Настройки клавиатуры устройства</string>
+    <string name="error_save_database">Невозможно сохранить базу.</string>
+    <string name="menu_save_database">Сохранить базу</string>
+    <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
+    <string name="command_execution">Выполнение команды…</string>
+    <string name="warning_permanently_delete_nodes">Вы уверены, что хотите навсегда удалить выбранные узлы\?</string>
+    <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
+    <string name="credential_before_click_biometric_button">Введите пароль перед нажатием кнопки биометрии.</string>
+    <string name="recycle_bin_group_title">Группа \"корзины\"</string>
+    <string name="enable_auto_save_database_title">Автосохранение базы</string>
+    <string name="enable_auto_save_database_summary">Автоматическое сохранение базы после каждого важного действия (только в \"режиме записи\")</string>
 </resources>
