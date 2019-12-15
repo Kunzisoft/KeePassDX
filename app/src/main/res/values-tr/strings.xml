@@ -95,7 +95,7 @@
     <string name="password">Parola</string>
     <string name="install_from_f_droid">F-Droid\'den yükleyin</string>
     <string name="install_from_play_store">Play Store\'dan yükleyin</string>
-    <string name="invalid_credentials">Parola veya anahtar dosya okunamadı.</string>
+    <string name="invalid_credentials">Kimlik bilgileri okunamadı. Bu tekrar ederse, veritabanı dosyanız bozuk olabilir.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veritabanı biçimi tanımlanamadı.</string>
     <string name="keyfile_does_not_exist">Hiç anahtar dosya yok.</string>
