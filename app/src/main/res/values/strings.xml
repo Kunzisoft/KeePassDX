@@ -138,7 +138,7 @@
     <string name="password">Password</string>
     <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="install_from_play_store">Install from Play Store</string>
-    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupt.</string>
+    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupted.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
