@@ -77,7 +77,7 @@
     <string name="hint_pass">hasło</string>
     <string name="install_from_play_store">Zainstaluj z Play-Store</string>
     <string name="install_from_f_droid">Zainstaluj z F-Droid</string>
-    <string name="invalid_credentials">Nie można odczytać poświadczeń. Jeśli to się powtórzy, plik bazy danych może być uszkodzony.</string>
+    <string name="invalid_credentials">Nie można odczytać uwierzytelnień. Jeśli to się powtórzy, plik bazy danych może być uszkodzony.</string>
     <string name="invalid_db_sig">Nie można rozpoznać formatu bazy danych.</string>
     <string name="length">Długość</string>
     <string name="list_size_title">Wielkość listy grup</string>
