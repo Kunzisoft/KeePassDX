@@ -101,9 +101,14 @@ class EntryOutputKDB
         // Binary
         mOutputStream.write(BINARY_DATA_FIELD_TYPE)
         val binaryData = mEntry.binaryData
-        val binaryDataLength = (binaryData?.length()?.toInt() ?: 0) // TODO if length > long show exception UInt
+        val binaryDataLength = binaryData?.length() ?: 0
+        val binaryDataLengthRightSize = if (binaryDataLength <= Int.MAX_VALUE) {
+            binaryDataLength.toInt()
+        } else {
+            0 // TODO if length > UInt.maxvalue show exception
+        }
         // Write data length
-        mOutputStream.write(writeIntBuf(binaryDataLength))
+        mOutputStream.write(writeIntBuf(binaryDataLengthRightSize))
         // Write data
         if (binaryDataLength > 0) {
             binaryData?.getInputDataStream().use { inputStream ->
