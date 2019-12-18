@@ -19,7 +19,9 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
+import com.kunzisoft.keepass.stream.readBytes
 import com.kunzisoft.keepass.stream.writeIntBuf
 import com.kunzisoft.keepass.stream.writeUShortBuf
 import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
@@ -92,8 +94,26 @@ class EntryOutputKDB
         // Expiration date
         writeDate(EXPIRE_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.expiryTime.date))
 
+        // Binary description
+        mOutputStream.write(BINARY_DESC_FIELD_TYPE)
+        length += DatabaseInputOutputUtils.writeCString(mEntry.binaryDescription, mOutputStream).toLong()
+
         // Binary
-        writeBinary(mEntry.binaryData)
+        mOutputStream.write(BINARY_DATA_FIELD_TYPE)
+        val binaryData = mEntry.binaryData
+        val binaryDataLength = (binaryData?.length()?.toInt() ?: 0) // TODO if length > long show exception UInt
+        // Write data length
+        mOutputStream.write(writeIntBuf(binaryDataLength))
+        // Write data
+        if (binaryDataLength > 0) {
+            binaryData?.getInputDataStream().use { inputStream ->
+                inputStream?.readBytes(DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                    length += buffer.size
+                    mOutputStream.write(buffer)
+                }
+                inputStream?.close()
+            }
+        }
 
         // End
         mOutputStream.write(END_FIELD_TYPE)
@@ -109,16 +129,6 @@ class EntryOutputKDB
         } else {
             mOutputStream.write(ZERO_FIVE)
         }
-    }
-
-    @Throws(IOException::class)
-    private fun writeBinary(data: ByteArray?) {
-        mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.binaryDesc, mOutputStream).toLong()
-
-        val dataLen: Int = data?.size ?: 0
-        mOutputStream.write(BINARY_DATA_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeBytes(data, dataLen, mOutputStream)
     }
 
     companion object {

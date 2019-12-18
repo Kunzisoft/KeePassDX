@@ -57,8 +57,9 @@ import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
 import kotlin.math.min
 
-class DatabaseInputKDBX(private val streamDir: File,
-                        private val fixDuplicateUUID: Boolean = false) : DatabaseInput<DatabaseKDBX>() {
+class DatabaseInputKDBX(cacheDirectory: File,
+                        private val fixDuplicateUUID: Boolean = false)
+    : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: DatabaseKDBX
@@ -245,7 +246,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 val protectedFlag = flag && DatabaseHeaderKDBX.KdbxBinaryFlags.Protected.toInt() != DatabaseHeaderKDBX.KdbxBinaryFlags.None.toInt()
                 val byteLength = size - 1
                 // Read in a file
-                val file = File(streamDir, unusedCacheFileName)
+                val file = File(cacheDirectory, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
@@ -980,7 +981,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 return BinaryAttachment()
             val data = Base64.decode(base64, BASE_64_FLAG)
 
-            val file = File(streamDir, unusedCacheFileName)
+            val file = File(cacheDirectory, unusedCacheFileName)
             return FileOutputStream(file).use { outputStream ->
                 // Force compression in this specific case
                 if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip

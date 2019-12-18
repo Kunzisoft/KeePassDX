@@ -206,15 +206,6 @@ object DatabaseInputOutputUtils {
         return binaryData
     }
 
-    @Throws(IOException::class)
-    fun writeBytes(data: ByteArray?, dataLen: Int, os: OutputStream): Int {
-        os.write(writeIntBuf(dataLen))
-        if (data != null) {
-            os.write(data)
-        }
-        return dataLen
-    }
-
     fun bytesToUuid(buf: ByteArray): UUID {
         return bytes16ToUuid(buf, 0)
     }

@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import java.util.*
 
 /**
@@ -51,19 +52,15 @@ import java.util.*
  */
 class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface {
 
-    /** A string describing what is in pBinaryData  */
-    var binaryDesc = ""
-    /**
-     * @return the actual binaryData byte array.
-     */
-    var binaryData: ByteArray = ByteArray(0)
+    /** A string describing what is in binaryData  */
+    var binaryDescription = ""
+    var binaryData: BinaryAttachment? = null
 
     // Determine if this is a MetaStream entry
     val isMetaStream: Boolean
         get() {
-            if (binaryData.contentEquals(ByteArray(0))) return false
             if (notes.isEmpty()) return false
-            if (binaryDesc != PMS_ID_BINDESC) return false
+            if (binaryDescription != PMS_ID_BINDESC) return false
             if (title.isEmpty()) return false
             if (title != PMS_ID_TITLE) return false
             if (username.isEmpty()) return false
@@ -88,9 +85,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        binaryDesc = parcel.readString() ?: binaryDesc
-        binaryData = ByteArray(parcel.readInt())
-        parcel.readByteArray(binaryData)
+        binaryDescription = parcel.readString() ?: binaryDescription
+        binaryData = parcel.readParcelable(BinaryAttachment::class.java.classLoader)
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -108,9 +104,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         dest.writeString(password)
         dest.writeString(url)
         dest.writeString(notes)
-        dest.writeString(binaryDesc)
-        dest.writeInt(binaryData.size)
-        dest.writeByteArray(binaryData)
+        dest.writeString(binaryDescription)
+        dest.writeParcelable(binaryData, flags)
     }
 
     fun updateWith(source: EntryKDB) {
@@ -120,11 +115,8 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
         password = source.password
         url = source.url
         notes = source.notes
-        binaryDesc = source.binaryDesc
-
-        val descLen = source.binaryData.size
-        binaryData = ByteArray(descLen)
-        System.arraycopy(source.binaryData, 0, binaryData, 0, descLen)
+        binaryDescription = source.binaryDescription
+        binaryData = source.binaryData
     }
 
     override var username = ""

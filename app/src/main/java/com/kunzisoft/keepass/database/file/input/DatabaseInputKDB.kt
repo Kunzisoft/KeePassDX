@@ -52,12 +52,14 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import org.joda.time.Instant
 import java.io.*
 import java.security.*
 import java.util.*
@@ -71,7 +73,7 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
+class DatabaseInputKDB(cacheDirectory: File) : DatabaseInput<DatabaseKDB>(cacheDirectory) {
 
     private lateinit var mDatabaseToOpen: DatabaseKDB
 
@@ -169,8 +171,8 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
                             messageDigest
                     )
             ).use { cipherInputStream ->
-                /*
-                TODO
+
+                /* TODO checksum
                 // Add a mark to the content start
                 if (!cipherInputStream.markSupported()) {
                     throw IOException("Input stream does not support mark.")
@@ -316,12 +318,23 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
                         }
                         0x000D -> {
                             newEntry?.let { entry ->
-                                entry.binaryDesc = cipherInputStream.readBytesToString(fieldSize)
+                                entry.binaryDescription = cipherInputStream.readBytesToString(fieldSize)
                             }
                         }
                         0x000E -> {
                             newEntry?.let { entry ->
-                                entry.binaryData = cipherInputStream.readBytesLength(fieldSize)
+                                if (fieldSize > 0) {
+                                    // Generate an unique new file with timestamp
+                                    val binaryFile = File(cacheDirectory,
+                                            Instant.now().millis.toString())
+                                    entry.binaryData = BinaryAttachment(binaryFile)
+                                    BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
+                                        cipherInputStream.readBytes(fieldSize,
+                                                DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                                            outputStream.write(buffer)
+                                        }
+                                    }
+                                }
                             }
                         }
                         0xFFFF -> {
@@ -348,7 +361,6 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
                 if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
                     throw InvalidCredentialsDatabaseException()
                 }
-
                 constructTreeFromIndex()
             }
 
