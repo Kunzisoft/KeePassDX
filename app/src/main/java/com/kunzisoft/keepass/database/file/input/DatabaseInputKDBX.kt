@@ -961,7 +961,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
         // New binary to retrieve
         else {
-            var compressed: Boolean? = null
+            var compressed = false
             var protected = false
 
             if (xpp.attributeCount > 0) {
@@ -985,12 +985,12 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return FileOutputStream(file).use { outputStream ->
                 // Force compression in this specific case
                 if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                        && compressed == false) {
+                        && !compressed) {
                     GZIPOutputStream(outputStream).write(data)
                     BinaryAttachment(file, protected, true)
                 } else {
                     outputStream.write(data)
-                    BinaryAttachment(file, protected)
+                    BinaryAttachment(file, protected, compressed)
                 }
             }
         }

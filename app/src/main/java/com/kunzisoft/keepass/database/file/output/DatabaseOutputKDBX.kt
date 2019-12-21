@@ -233,7 +233,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleGroup, mDatabaseKDBX.lastTopVisibleGroupUUID)
 
         // Seem to work properly if always in meta
-        // if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4)
+        if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4)
             writeMetaBinaries()
 
         writeCustomData(mDatabaseKDBX.customData)
@@ -422,35 +422,50 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
+    private fun writeBinary(binary : BinaryAttachment) {
+        val binaryLength = binary.length()
+        if (binaryLength > 0) {
+
+            if (binary.isProtected) {
+                xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
+
+                binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    val encoded = ByteArray(buffer.size)
+                    randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
+                    val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
+                    xml.text(charArray, 0, charArray.size)
+                }
+            } else {
+                // Force binary compression from database (compression was harmonized during import)
+                if (mDatabaseKDBX.compressionAlgorithm === CompressionAlgorithm.GZip) {
+                    xml.attribute(null, DatabaseKDBXXML.AttrCompressed, DatabaseKDBXXML.ValTrue)
+                }
+
+                // Force decompression in this specific case
+                val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
+                                && binary.isCompressed == true) {
+                    GZIPInputStream(binary.getInputDataStream())
+                } else {
+                    binary.getInputDataStream()
+                }
+
+                // Write the XML
+                binaryInputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
+                    xml.text(charArray, 0, charArray.size)
+                }
+            }
+        }
+    }
+
+    @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeMetaBinaries() {
         xml.startTag(null, DatabaseKDBXXML.ElemBinaries)
 
         mDatabaseKDBX.binaryPool.doForEachBinary { key, binary ->
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.attribute(null, DatabaseKDBXXML.AttrId, key.toString())
-
-            // Force binary compression from database (compression was harmonized during import)
-            xml.attribute(null, DatabaseKDBXXML.AttrCompressed,
-                    if (mDatabaseKDBX.compressionAlgorithm === CompressionAlgorithm.GZip) {
-                        DatabaseKDBXXML.ValTrue
-                    } else {
-                        DatabaseKDBXXML.ValFalse
-                    }
-            )
-
-            // Force decompression in this specific case
-            val binaryInputStream = if (mDatabaseKDBX.compressionAlgorithm == CompressionAlgorithm.None
-                    && binary.isCompressed == true) {
-                GZIPInputStream(binary.getInputDataStream())
-            } else {
-                binary.getInputDataStream()
-            }
-
-            // Write the XML
-            binaryInputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
-                xml.text(charArray, 0, charArray.size)
-            }
+            writeBinary(binary)
             xml.endTag(null, DatabaseKDBXXML.ElemBinary)
         }
 
@@ -559,25 +574,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             if (ref != null) {
                 xml.attribute(null, DatabaseKDBXXML.AttrRef, ref.toString())
             } else {
-                val binaryLength = binary.length()
-                if (binaryLength > 0) {
-
-                    if (binary.isProtected) {
-                        xml.attribute(null, DatabaseKDBXXML.AttrProtected, DatabaseKDBXXML.ValTrue)
-
-                        binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                            val encoded = ByteArray(buffer.size)
-                            randomStream!!.processBytes(buffer, 0, encoded.size, encoded, 0)
-                            val charArray = String(Base64.encode(encoded, BASE_64_FLAG)).toCharArray()
-                            xml.text(charArray, 0, charArray.size)
-                        }
-                    } else {
-                        binary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
-                            val charArray = String(Base64.encode(buffer, BASE_64_FLAG)).toCharArray()
-                            xml.text(charArray, 0, charArray.size)
-                        }
-                    }
-                }
+                writeBinary(binary)
             }
             xml.endTag(null, DatabaseKDBXXML.ElemValue)
 

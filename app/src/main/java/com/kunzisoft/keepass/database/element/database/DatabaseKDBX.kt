@@ -562,7 +562,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val KeyElementName = "Key"
         private const val KeyDataElementName = "Data"
 
-        const val BASE_64_FLAG = Base64.DEFAULT
+        const val BASE_64_FLAG = Base64.NO_WRAP
 
         const val BUFFER_SIZE_BYTES = 3 * 128
     }
