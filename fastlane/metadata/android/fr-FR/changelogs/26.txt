@@ -1,0 +1,1 @@
+ * Correction du crash pendant le vidage du presse-papiers
