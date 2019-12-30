@@ -37,9 +37,15 @@ import java.util.*
 
 class ClipboardHelper(private val context: Context) {
 
-    private val clipboardManager: ClipboardManager =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private var mClipboardManager: ClipboardManager? = null
+
     private val mTimer = Timer()
+
+    private fun getClipboardManager(): ClipboardManager? {
+        if (mClipboardManager == null)
+            mClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        return mClipboardManager
+    }
 
     @JvmOverloads
     fun timeoutCopyToClipboard(text: String, toastString: String = "") {
@@ -64,8 +70,8 @@ class ClipboardHelper(private val context: Context) {
     }
 
     fun getClipboard(context: Context): CharSequence {
-        if (clipboardManager.hasPrimaryClip()) {
-            val data = clipboardManager.primaryClip
+        if (getClipboardManager()?.hasPrimaryClip() == true) {
+            val data = getClipboardManager()?.primaryClip
             if (data!!.itemCount > 0) {
                 val text = data.getItemAt(0).coerceToText(context)
                 if (text != null) {
@@ -84,7 +90,7 @@ class ClipboardHelper(private val context: Context) {
     @Throws(ClipboardException::class)
     fun copyToClipboard(label: String, value: String) {
         try {
-            clipboardManager.primaryClip = ClipData.newPlainText(label, value)
+            getClipboardManager()?.primaryClip = ClipData.newPlainText(label, value)
         } catch (e: Exception) {
             throw ClipboardException(e)
         }
@@ -95,7 +101,7 @@ class ClipboardHelper(private val context: Context) {
     @JvmOverloads
     fun cleanClipboard(label: String = "") {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            clipboardManager.clearPrimaryClip()
+            getClipboardManager()?.clearPrimaryClip()
         } else {
             copyToClipboard(label, "")
         }

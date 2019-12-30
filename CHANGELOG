@@ -1,3 +1,6 @@
+KeepassDX (2.5.0.0beta26)
+ * Fix crash when clearing clipboard
+
 KeepassDX (2.5.0.0beta25)
  * Setting for Recycle Bin
  * Fix Recycle bin issues
