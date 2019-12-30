@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -24,7 +24,6 @@ import java.io.InputStream
 
 /**
  * Little endian version of the DataInputStream
- * @author bpellin
  */
 class LittleEndianDataInputStream(private val baseStream: InputStream) : InputStream() {
 
@@ -43,17 +42,11 @@ class LittleEndianDataInputStream(private val baseStream: InputStream) : InputSt
     }
 
     @Throws(IOException::class)
-    fun readLong(): Long {
-        val buf = readBytes(8)
-        return bytes64ToLong(buf, 0)
-    }
-
-    @Throws(IOException::class)
     fun readUShort(): Int {
         val buf = ByteArray(2)
         if (baseStream.read(buf, 0, 2) != 2)
             throw IOException("Unable to read UShort value")
-        return bytes2ToUShort(buf, 0)
+        return bytes2ToUShort(buf)
     }
 
     @Throws(IOException::class)

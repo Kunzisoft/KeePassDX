@@ -21,13 +21,14 @@ package com.kunzisoft.keepass.utils;
 
 import com.kunzisoft.keepass.stream.LittleEndianDataInputStream;
 import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream;
-import com.kunzisoft.keepass.stream.StreamBytesUtilsKt;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToInt;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToUInt;
 import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes64ToLong;
 
 public class VariantDictionary {
@@ -124,12 +125,12 @@ public class VariantDictionary {
             switch (bType) {
                 case VdType.UInt32:
                     if (valueLen == 4) {
-                        d.setUInt32(name, StreamBytesUtilsKt.bytes4ToUInt(valueBuf, 0));
+                        d.setUInt32(name, bytes4ToUInt(valueBuf));
                     }
                     break;
                 case VdType.UInt64:
                     if (valueLen == 8) {
-                        d.setUInt64(name, bytes64ToLong(valueBuf, 0));
+                        d.setUInt64(name, bytes64ToLong(valueBuf));
                     }
                     break;
                 case VdType.Bool:
@@ -139,12 +140,12 @@ public class VariantDictionary {
                     break;
                 case VdType.Int32:
                     if (valueLen == 4) {
-                        d.setInt32(name, StreamBytesUtilsKt.bytes4ToInt(valueBuf, 0));
+                        d.setInt32(name, bytes4ToInt(valueBuf));
                     }
                     break;
                 case VdType.Int64:
                     if (valueLen == 8) {
-                        d.setInt64(name, bytes64ToLong(valueBuf, 0));
+                        d.setInt64(name, bytes64ToLong(valueBuf));
                     }
                     break;
                 case VdType.String:
@@ -161,7 +162,8 @@ public class VariantDictionary {
         return d;
     }
 
-    public static void serialize(VariantDictionary d, LittleEndianDataOutputStream los) throws IOException{
+    public static void serialize(VariantDictionary d,
+                                 LittleEndianDataOutputStream los) throws IOException{
         if (los == null) {
             return;
         }

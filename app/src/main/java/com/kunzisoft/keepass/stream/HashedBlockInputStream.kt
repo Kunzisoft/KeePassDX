@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -145,7 +144,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             if (!readHashedBlock()) return -1
         }
 
-        val output = DatabaseInputOutputUtils.readUByte(buffer, bufferPos)
+        val output = byteToUInt(buffer[bufferPos])
         bufferPos++
 
         return output

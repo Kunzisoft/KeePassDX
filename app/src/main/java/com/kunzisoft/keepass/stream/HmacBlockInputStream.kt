@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
@@ -44,7 +43,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = DatabaseInputOutputUtils.readUByte(buffer, bufferPos)
+        val output = byteToUInt(buffer[bufferPos])
         bufferPos++
 
         return output
@@ -93,12 +92,12 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = writeLongBuf(blockIndex)
+        val pbBlockIndex = longTo8Bytes(blockIndex)
         val pbBlockSize = baseStream.readBytes(4)
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = bytes4ToInt(pbBlockSize, 0)
+        val blockSize = bytes4ToInt(pbBlockSize)
         bufferPos = 0
 
         buffer = baseStream.readBytes(blockSize)

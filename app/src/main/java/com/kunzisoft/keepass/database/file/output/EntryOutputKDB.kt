@@ -21,12 +21,11 @@ package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
-import com.kunzisoft.keepass.stream.readBytes
-import com.kunzisoft.keepass.stream.writeIntBuf
-import com.kunzisoft.keepass.stream.writeUShortBuf
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
 import java.io.IOException
 import java.io.OutputStream
+import java.nio.charset.Charset
 
 class EntryOutputKDB
 /**
@@ -49,54 +48,54 @@ class EntryOutputKDB
         // UUID
         mOutputStream.write(UUID_FIELD_TYPE)
         mOutputStream.write(UUID_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.uuidToBytes(mEntry.id))
+        mOutputStream.write(uuidTo16Bytes(mEntry.id))
 
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
         mOutputStream.write(LONG_FOUR)
-        mOutputStream.write(writeIntBuf(mEntry.parent!!.id))
+        mOutputStream.write(intTo4Bytes(mEntry.parent!!.id))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)
         mOutputStream.write(LONG_FOUR)
-        mOutputStream.write(writeIntBuf(mEntry.icon.iconId))
+        mOutputStream.write(intTo4Bytes(mEntry.icon.iconId))
 
         // Title
         //byte[] title = mEntry.title.getBytes("UTF-8");
         mOutputStream.write(TITLE_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.title, mOutputStream).toLong()
+        length += StringDatabaseKDBUtils.writeStringToBytes(mEntry.title, mOutputStream).toLong()
 
         // URL
         mOutputStream.write(URL_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.url, mOutputStream).toLong()
+        length += StringDatabaseKDBUtils.writeStringToBytes(mEntry.url, mOutputStream).toLong()
 
         // Username
         mOutputStream.write(USERNAME_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.username, mOutputStream).toLong()
+        length += StringDatabaseKDBUtils.writeStringToBytes(mEntry.username, mOutputStream).toLong()
 
         // Password
         mOutputStream.write(PASSWORD_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writePassword(mEntry.password, mOutputStream).toLong()
+        length += writePassword(mEntry.password, mOutputStream).toLong()
 
         // Additional
         mOutputStream.write(ADDITIONAL_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.notes, mOutputStream).toLong()
+        length += StringDatabaseKDBUtils.writeStringToBytes(mEntry.notes, mOutputStream).toLong()
 
         // Create date
-        writeDate(CREATE_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.creationTime.date))
+        writeDate(CREATE_FIELD_TYPE, dateTo5Bytes(mEntry.creationTime.date))
 
         // Modification date
-        writeDate(MOD_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.lastModificationTime.date))
+        writeDate(MOD_FIELD_TYPE, dateTo5Bytes(mEntry.lastModificationTime.date))
 
         // Access date
-        writeDate(ACCESS_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.lastAccessTime.date))
+        writeDate(ACCESS_FIELD_TYPE, dateTo5Bytes(mEntry.lastAccessTime.date))
 
         // Expiration date
-        writeDate(EXPIRE_FIELD_TYPE, DatabaseInputOutputUtils.dateToBytes(mEntry.expiryTime.date))
+        writeDate(EXPIRE_FIELD_TYPE, dateTo5Bytes(mEntry.expiryTime.date))
 
         // Binary description
         mOutputStream.write(BINARY_DESC_FIELD_TYPE)
-        length += DatabaseInputOutputUtils.writeCString(mEntry.binaryDescription, mOutputStream).toLong()
+        length += StringDatabaseKDBUtils.writeStringToBytes(mEntry.binaryDescription, mOutputStream).toLong()
 
         // Binary
         mOutputStream.write(BINARY_DATA_FIELD_TYPE)
@@ -108,7 +107,7 @@ class EntryOutputKDB
             0 // TODO if length > UInt.maxvalue show exception
         }
         // Write data length
-        mOutputStream.write(writeIntBuf(binaryDataLengthRightSize))
+        mOutputStream.write(intTo4Bytes(binaryDataLengthRightSize))
         // Write data
         if (binaryDataLength > 0) {
             binaryData?.getInputDataStream().use { inputStream ->
@@ -136,30 +135,40 @@ class EntryOutputKDB
         }
     }
 
+    @Throws(IOException::class)
+    private fun writePassword(str: String, os: OutputStream): Int {
+        val initial = str.toByteArray(Charset.forName("UTF-8"))
+        val length = initial.size + 1
+        os.write(intTo4Bytes(length))
+        os.write(initial)
+        os.write(0x00)
+        return length
+    }
+
     companion object {
         // Constants
-        val UUID_FIELD_TYPE:ByteArray = writeUShortBuf(1)
-        val GROUPID_FIELD_TYPE:ByteArray = writeUShortBuf(2)
-        val IMAGEID_FIELD_TYPE:ByteArray = writeUShortBuf(3)
-        val TITLE_FIELD_TYPE:ByteArray = writeUShortBuf(4)
-        val URL_FIELD_TYPE:ByteArray = writeUShortBuf(5)
-        val USERNAME_FIELD_TYPE:ByteArray = writeUShortBuf(6)
-        val PASSWORD_FIELD_TYPE:ByteArray = writeUShortBuf(7)
-        val ADDITIONAL_FIELD_TYPE:ByteArray = writeUShortBuf(8)
-        val CREATE_FIELD_TYPE:ByteArray = writeUShortBuf(9)
-        val MOD_FIELD_TYPE:ByteArray = writeUShortBuf(10)
-        val ACCESS_FIELD_TYPE:ByteArray = writeUShortBuf(11)
-        val EXPIRE_FIELD_TYPE:ByteArray = writeUShortBuf(12)
-        val BINARY_DESC_FIELD_TYPE:ByteArray = writeUShortBuf(13)
-        val BINARY_DATA_FIELD_TYPE:ByteArray = writeUShortBuf(14)
-        val END_FIELD_TYPE:ByteArray = writeUShortBuf(0xFFFF)
-        val LONG_FOUR:ByteArray = writeIntBuf(4)
-        val UUID_FIELD_SIZE:ByteArray = writeIntBuf(16)
-        val DATE_FIELD_SIZE:ByteArray = writeIntBuf(5)
+        val UUID_FIELD_TYPE:ByteArray = uShortTo2Bytes(1)
+        val GROUPID_FIELD_TYPE:ByteArray = uShortTo2Bytes(2)
+        val IMAGEID_FIELD_TYPE:ByteArray = uShortTo2Bytes(3)
+        val TITLE_FIELD_TYPE:ByteArray = uShortTo2Bytes(4)
+        val URL_FIELD_TYPE:ByteArray = uShortTo2Bytes(5)
+        val USERNAME_FIELD_TYPE:ByteArray = uShortTo2Bytes(6)
+        val PASSWORD_FIELD_TYPE:ByteArray = uShortTo2Bytes(7)
+        val ADDITIONAL_FIELD_TYPE:ByteArray = uShortTo2Bytes(8)
+        val CREATE_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
+        val MOD_FIELD_TYPE:ByteArray = uShortTo2Bytes(10)
+        val ACCESS_FIELD_TYPE:ByteArray = uShortTo2Bytes(11)
+        val EXPIRE_FIELD_TYPE:ByteArray = uShortTo2Bytes(12)
+        val BINARY_DESC_FIELD_TYPE:ByteArray = uShortTo2Bytes(13)
+        val BINARY_DATA_FIELD_TYPE:ByteArray = uShortTo2Bytes(14)
+        val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
+        val LONG_FOUR:ByteArray = intTo4Bytes(4)
+        val UUID_FIELD_SIZE:ByteArray = intTo4Bytes(16)
+        val DATE_FIELD_SIZE:ByteArray = intTo4Bytes(5)
         val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
         val LEVEL_FIELD_SIZE:ByteArray = LONG_FOUR
         val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
-        val ZERO_FIELD_SIZE:ByteArray = writeIntBuf(0)
+        val ZERO_FIELD_SIZE:ByteArray = intTo4Bytes(0)
         val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
 }

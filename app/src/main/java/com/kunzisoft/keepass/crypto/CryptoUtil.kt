@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.crypto
 
 import com.kunzisoft.keepass.stream.NullOutputStream
-import com.kunzisoft.keepass.stream.writeLongBuf
+import com.kunzisoft.keepass.stream.longTo8Bytes
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest
@@ -58,7 +58,7 @@ object CryptoUtil {
                     throw RuntimeException(e)
                 }
 
-                val pbR = writeLongBuf(r)
+                val pbR = longTo8Bytes(r)
                 val part = hmac.doFinal(pbR)
 
                 val copy = min(cbOut - pos, part.size)

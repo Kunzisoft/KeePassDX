@@ -24,8 +24,8 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.ULONG_MAX_VALUE
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import com.kunzisoft.keepass.utils.VariantDictionary
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -62,7 +62,7 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         val hmac: Mac
         try {
             hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, DatabaseInputOutputUtils.ULONG_MAX_VALUE), "HmacSHA256")
+            val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, ULONG_MAX_VALUE), "HmacSHA256")
             hmac.init(signingKey)
         } catch (e: NoSuchAlgorithmException) {
             throw DatabaseOutputException(e)
@@ -82,13 +82,13 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         los.writeUInt(DatabaseHeaderKDBX.DBSIG_2.toLong())
         los.writeUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, DatabaseInputOutputUtils.uuidToBytes(db.dataCipher))
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, writeIntBuf(DatabaseHeaderKDBX.getFlagFromCompression(db.compressionAlgorithm)))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(db.dataCipher))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, intTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(db.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
         if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, header.transformSeed)
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, writeLongBuf(db.numberKeyEncryptionRounds))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(db.numberKeyEncryptionRounds))
         } else {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.kdfParameters!!))
         }
@@ -100,7 +100,7 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes)
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, writeIntBuf(header.innerRandomStream!!.id))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, intTo4Bytes(header.innerRandomStream!!.id))
         }
 
         if (db.containsPublicCustomData()) {

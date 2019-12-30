@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.stream
 import java.io.IOException
 import java.io.OutputStream
 
-import com.kunzisoft.keepass.stream.writeIntBuf
-
 
 /**
  * Little Endian version of the DataOutputStream
@@ -32,8 +30,8 @@ import com.kunzisoft.keepass.stream.writeIntBuf
 class LittleEndianDataOutputStream(private val baseStream: OutputStream) : OutputStream() {
 
     @Throws(IOException::class)
-    fun writeUInt(uint: Long) {
-        baseStream.write(writeIntBuf(uint.toInt()))
+    fun writeUInt(uint: Long) { // TODO UInt
+        baseStream.write(intTo4Bytes(uint.toInt()))
     }
 
     @Throws(IOException::class)
@@ -63,24 +61,16 @@ class LittleEndianDataOutputStream(private val baseStream: OutputStream) : Outpu
 
     @Throws(IOException::class)
     fun writeLong(value: Long) {
-        val buf = ByteArray(8)
-
-        writeLong(value, buf, 0)
-        baseStream.write(buf)
+        baseStream.write(longTo8Bytes(value))
     }
 
     @Throws(IOException::class)
     fun writeInt(value: Int) {
-        val buf = ByteArray(4)
-        writeInt(value, buf, 0)
-
-        baseStream.write(buf)
+        baseStream.write(intTo4Bytes(value))
     }
 
     @Throws(IOException::class)
     fun writeUShort(value: Int) {
-        val buf = ByteArray(2)
-        writeUShort(value, buf, 0)
-        baseStream.write(buf)
+        baseStream.write(uShortTo2Bytes(value))
     }
 }

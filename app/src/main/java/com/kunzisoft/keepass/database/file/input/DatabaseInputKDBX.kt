@@ -43,7 +43,6 @@ import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -823,7 +822,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 buf = buf8
             }
 
-            val seconds = bytes64ToLong(buf, 0)
+            val seconds = bytes64ToLong(buf)
             utcDate = DateKDBXUtil.convertKDBX4Time(seconds)
 
         } else {
@@ -883,7 +882,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         }
         val buf = Base64.decode(encoded, BASE_64_FLAG)
 
-        return DatabaseInputOutputUtils.bytesToUuid(buf)
+        return bytes16ToUuid(buf)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)

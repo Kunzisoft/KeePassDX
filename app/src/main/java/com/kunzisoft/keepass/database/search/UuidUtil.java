@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -19,16 +19,16 @@
  */
 package com.kunzisoft.keepass.database.search;
 
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils;
-
 import java.util.UUID;
+
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.uuidTo16Bytes;
 
 public class UuidUtil {
 
     public static String toHexString(UUID uuid) {
         if (uuid == null) { return null; }
 
-        byte[] buf = DatabaseInputOutputUtils.INSTANCE.uuidToBytes(uuid);
+        byte[] buf = uuidTo16Bytes(uuid);
 
         int len = buf.length;
         if (len == 0) { return ""; }

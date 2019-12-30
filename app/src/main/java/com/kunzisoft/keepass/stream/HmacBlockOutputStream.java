@@ -27,8 +27,8 @@ import java.security.NoSuchAlgorithmException;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
-import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.writeIntBuf;
-import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.writeLongBuf;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.intTo4Bytes;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.longTo8Bytes;
 
 public class HmacBlockOutputStream extends OutputStream {
     private static final int DEFAULT_BUFFER_SIZE = 1024 * 1024;
@@ -92,8 +92,8 @@ public class HmacBlockOutputStream extends OutputStream {
     }
 
     private void WriteSafeBlock() throws IOException {
-        byte[] bufBlockIndex = writeLongBuf(blockIndex);
-        byte[] blockSizeBuf = writeIntBuf(bufferPos);
+        byte[] bufBlockIndex = longTo8Bytes(blockIndex);
+        byte[] blockSizeBuf = intTo4Bytes(bufferPos);
 
         byte[] blockHmac;
         byte[] blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex);

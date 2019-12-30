@@ -20,8 +20,7 @@
 package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils.bytes5ToDate
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils.bytesToString
+import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
@@ -87,27 +86,27 @@ fun InputStream.readBytes4ToUInt(): Long {
 
 @Throws(IOException::class)
 fun InputStream.readBytes4ToInt(): Int {
-    return bytes4ToInt(readBytesLength(4), 0)
+    return bytes4ToInt(readBytesLength(4))
 }
 
 @Throws(IOException::class)
 fun InputStream.readBytes2ToUShort(): Int {
-    return bytes2ToUShort(readBytesLength(2), 0)
+    return bytes2ToUShort(readBytesLength(2))
 }
 
 @Throws(IOException::class)
 fun InputStream.readBytes5ToDate(): DateInstant {
-    return bytes5ToDate(readBytesLength(5), 0)
+    return bytes5ToDate(readBytesLength(5))
 }
 
 @Throws(IOException::class)
 fun InputStream.readBytes16ToUuid(): UUID {
-    return bytes16ToUuid(readBytesLength(16), 0)
+    return bytes16ToUuid(readBytesLength(16))
 }
 
 @Throws(IOException::class)
 fun InputStream.readBytesToString(length: Int, replaceCRLF: Boolean = true): String {
-    return bytesToString(this.readBytesLength(length), 0, replaceCRLF)
+    return bytesToString(this.readBytesLength(length), replaceCRLF)
 }
 
 @Throws(IOException::class)
@@ -123,99 +122,164 @@ fun InputStream.readBytesLength(length: Int): ByteArray {
 /**
  * Read an unsigned 16-bit value.
  */
-fun bytes2ToUShort(buf: ByteArray, offset: Int): Int {
-    return ((buf[offset].toInt() and 0xFF)
-            + (buf[offset + 1].toInt() and 0xFF shl 8))
+fun bytes2ToUShort(buf: ByteArray): Int {
+    return ((buf[0].toInt() and 0xFF)
+            + (buf[1].toInt() and 0xFF shl 8))
 }
 
 /**
  * Read a 64 bit long
  */
-fun bytes64ToLong(buf: ByteArray, offset: Int): Long {
-    return ((buf[offset].toLong() and 0xFF)
-            + (buf[offset + 1].toLong() and 0xFF shl 8)
-            + (buf[offset + 2].toLong() and 0xFF shl 16)
-            + (buf[offset + 3].toLong() and 0xFF shl 24)
-            + (buf[offset + 4].toLong() and 0xFF shl 32)
-            + (buf[offset + 5].toLong() and 0xFF shl 40)
-            + (buf[offset + 6].toLong() and 0xFF shl 48)
-            + (buf[offset + 7].toLong() and 0xFF shl 56))
+fun bytes64ToLong(buf: ByteArray): Long {
+    return ((buf[0].toLong() and 0xFF)
+            + (buf[1].toLong() and 0xFF shl 8)
+            + (buf[2].toLong() and 0xFF shl 16)
+            + (buf[3].toLong() and 0xFF shl 24)
+            + (buf[4].toLong() and 0xFF shl 32)
+            + (buf[5].toLong() and 0xFF shl 40)
+            + (buf[6].toLong() and 0xFF shl 48)
+            + (buf[7].toLong() and 0xFF shl 56))
 }
 
 
 private const val INT_TO_LONG_MASK: Long = 0xffffffffL
 
-fun bytes4ToUInt(buf: ByteArray, offset: Int): Long {
-    return bytes4ToInt(buf, offset).toLong() and INT_TO_LONG_MASK
+fun bytes4ToUInt(buf: ByteArray): Long {
+    return bytes4ToInt(buf).toLong() and INT_TO_LONG_MASK
 }
 
 /**
  * Read a 32-bit value.
  */
-fun bytes4ToInt(buf: ByteArray, offset: Int): Int {
-    return ((buf[offset].toInt() and 0xFF)
-            + (buf[offset + 1].toInt() and 0xFF shl 8)
-            + (buf[offset + 2].toInt() and 0xFF shl 16)
-            + (buf[offset + 3].toInt() and 0xFF shl 24))
+fun bytes4ToInt(buf: ByteArray): Int {
+    return ((buf[0].toInt() and 0xFF)
+            + (buf[1].toInt() and 0xFF shl 8)
+            + (buf[2].toInt() and 0xFF shl 16)
+            + (buf[3].toInt() and 0xFF shl 24))
 }
 
-fun bytes16ToUuid(buf: ByteArray, offset: Int): UUID {
+fun bytes16ToUuid(buf: ByteArray): UUID {
     var lsb: Long = 0
     for (i in 15 downTo 8) {
-        lsb = lsb shl 8 or (buf[i + offset].toLong() and 0xff)
+        lsb = lsb shl 8 or (buf[i].toLong() and 0xff)
     }
 
     var msb: Long = 0
     for (i in 7 downTo 0) {
-        msb = msb shl 8 or (buf[i + offset].toLong() and 0xff)
+        msb = msb shl 8 or (buf[i].toLong() and 0xff)
     }
 
     return UUID(msb, lsb)
 }
 
-fun writeIntBuf(value: Int): ByteArray {
-    val buf = ByteArray(4)
-    writeInt(value, buf, 0)
-    return buf
+/**
+ * Unpack date from 5 byte format. The five bytes at 'offset' are unpacked
+ * to a java.util.Date instance.
+ */
+fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): DateInstant {
+    val dateSize = 5
+    val cDate = ByteArray(dateSize)
+    System.arraycopy(buf, 0, cDate, 0, dateSize)
+
+    val readOffset = 0
+    val dw1 = byteToUInt(cDate[readOffset])
+    val dw2 = byteToUInt(cDate[readOffset + 1])
+    val dw3 = byteToUInt(cDate[readOffset + 2])
+    val dw4 = byteToUInt(cDate[readOffset + 3])
+    val dw5 = byteToUInt(cDate[readOffset + 4])
+
+    // Unpack 5 byte structure to date and time
+    val year = dw1 shl 6 or (dw2 shr 2)
+    val month = dw2 and 0x00000003 shl 2 or (dw3 shr 6)
+
+    val day = dw3 shr 1 and 0x0000001F
+    val hour = dw3 and 0x00000001 shl 4 or (dw4 shr 4)
+    val minute = dw4 and 0x0000000F shl 2 or (dw5 shr 6)
+    val second = dw5 and 0x0000003F
+
+    // File format is a 1 based month, java Calendar uses a zero based month
+    // File format is a 1 based day, java Calendar uses a 1 based day
+    calendar.set(year, month - 1, day, hour, minute, second)
+
+    return DateInstant(calendar.time)
 }
 
-fun writeUShortBuf(value: Int): ByteArray {
-    val buf = ByteArray(2)
-    writeUShort(value, buf, 0)
+/**
+ * Convert an unsigned Integer to byte
+ */
+fun uIntToByte(value: Int): Byte {
+    return (value and 0xFF).toByte()
+}
+
+/**
+ * Write a 32-bit value.
+ */
+fun intTo4Bytes(value: Int): ByteArray {
+    val buf = ByteArray(4)
+    for (i in 0 until 4) {
+        buf[i] = (value.ushr(8 * i) and 0xFF).toByte()
+    }
     return buf
 }
 
 /**
  * Write an unsigned 16-bit value
  */
-fun writeUShort(value: Int, buf: ByteArray, offset: Int) {
-    buf[offset + 0] = (value and 0x00FF).toByte()
-    buf[offset + 1] = (value and 0xFF00 shr 8).toByte()
-}
-
-/**
- * Write a 32-bit value.
- */
-fun writeInt(value: Int, buf: ByteArray, offset: Int) {
-    buf[offset + 0] = (value and 0xFF).toByte()
-    buf[offset + 1] = (value.ushr(8) and 0xFF).toByte()
-    buf[offset + 2] = (value.ushr(16) and 0xFF).toByte()
-    buf[offset + 3] = (value.ushr(24) and 0xFF).toByte()
-}
-
-fun writeLongBuf(value: Long): ByteArray {
-    val buf = ByteArray(8)
-    writeLong(value, buf, 0)
+fun uShortTo2Bytes(value: Int): ByteArray {
+    val buf = ByteArray(2)
+    buf[0] = (value and 0x00FF).toByte()
+    buf[1] = (value and 0xFF00 shr 8).toByte()
     return buf
 }
 
-fun writeLong(value: Long, buf: ByteArray, offset: Int) {
-    buf[offset + 0] = (value and 0xFF).toByte()
-    buf[offset + 1] = (value.ushr(8) and 0xFF).toByte()
-    buf[offset + 2] = (value.ushr(16) and 0xFF).toByte()
-    buf[offset + 3] = (value.ushr(24) and 0xFF).toByte()
-    buf[offset + 4] = (value.ushr(32) and 0xFF).toByte()
-    buf[offset + 5] = (value.ushr(40) and 0xFF).toByte()
-    buf[offset + 6] = (value.ushr(48) and 0xFF).toByte()
-    buf[offset + 7] = (value.ushr(56) and 0xFF).toByte()
+fun longTo8Bytes(value: Long): ByteArray {
+    val buf = ByteArray(8)
+    for (i in 0 until 8) {
+        buf[i] = (value.ushr(8 * i) and 0xFF).toByte()
+    }
+    return buf
+}
+
+fun uuidTo16Bytes(uuid: UUID): ByteArray {
+    val buf = ByteArray(16)
+    for (i in 0 until 8) {
+        buf[i] = (uuid.mostSignificantBits.ushr(8 * i) and 0xFF).toByte()
+    }
+    for (i in 8 until 16) {
+        buf[i] = (uuid.leastSignificantBits.ushr(8 * i) and 0xFF).toByte()
+    }
+    return buf
+}
+
+fun dateTo5Bytes(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {
+    if (date == null) {
+        return null
+    }
+
+    val buf = ByteArray(5)
+    calendar.time = date
+
+    val year = calendar.get(Calendar.YEAR)
+    // File format is a 1 based month, java Calendar uses a zero based month
+    val month = calendar.get(Calendar.MONTH) + 1
+    // File format is a 1 based day, java Calendar uses a 1 based day
+    val day = calendar.get(Calendar.DAY_OF_MONTH)
+    val hour = calendar.get(Calendar.HOUR_OF_DAY)
+    val minute = calendar.get(Calendar.MINUTE)
+    val second = calendar.get(Calendar.SECOND)
+
+    buf[0] = uIntToByte(year shr 6 and 0x0000003F)
+    buf[1] = uIntToByte(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003))
+    buf[2] = (month and 0x00000003 shl 6
+            or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
+    buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()
+    buf[4] = (minute and 0x00000003 shl 6 or (second and 0x0000003F)).toByte()
+
+    return buf
+}
+
+
+/** Convert a byte to an unsigned byte  */
+fun byteToUInt(byte: Byte): Int {
+    return byte.toInt() and 0xFF
 }

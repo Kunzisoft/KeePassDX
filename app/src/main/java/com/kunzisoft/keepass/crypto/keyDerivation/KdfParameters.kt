@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePass DX.
  *
@@ -19,20 +19,20 @@
  */
 package com.kunzisoft.keepass.crypto.keyDerivation
 
-import com.kunzisoft.keepass.utils.VariantDictionary
 import com.kunzisoft.keepass.stream.LittleEndianDataInputStream
 import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
+import com.kunzisoft.keepass.stream.bytes16ToUuid
+import com.kunzisoft.keepass.stream.uuidTo16Bytes
+import com.kunzisoft.keepass.utils.VariantDictionary
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
-import java.util.UUID
+import java.util.*
 
 class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
 
     fun setParamUUID() {
-        setByteArray(PARAM_UUID, DatabaseInputOutputUtils.uuidToBytes(uuid))
+        setByteArray(PARAM_UUID, uuidTo16Bytes(uuid))
     }
 
     companion object {
@@ -46,7 +46,7 @@ class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
 
             val d = deserialize(lis) ?: return null
 
-            val uuid = DatabaseInputOutputUtils.bytesToUuid(d.getByteArray(PARAM_UUID))
+            val uuid = bytes16ToUuid(d.getByteArray(PARAM_UUID))
 
             val kdfP = KdfParameters(uuid)
             kdfP.copyTo(d)

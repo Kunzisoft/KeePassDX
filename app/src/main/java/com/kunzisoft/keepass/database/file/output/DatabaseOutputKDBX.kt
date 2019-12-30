@@ -46,11 +46,7 @@ import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
-import com.kunzisoft.keepass.stream.HashedBlockOutputStream
-import com.kunzisoft.keepass.stream.HmacBlockOutputStream
-import com.kunzisoft.keepass.stream.readBytes
-import com.kunzisoft.keepass.stream.writeLongBuf
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.stream.*
 import org.joda.time.DateTime
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
@@ -393,7 +389,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         } else {
             val dt = DateTime(value)
             val seconds = DateKDBXUtil.convertDateToKDBX4Time(dt)
-            val buf = writeLongBuf(seconds)
+            val buf = longTo8Bytes(seconds)
             val b64 = String(Base64.encode(buf, BASE_64_FLAG))
             writeObject(name, b64)
         }
@@ -417,7 +413,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeUuid(name: String, uuid: UUID) {
-        val data = DatabaseInputOutputUtils.uuidToBytes(uuid)
+        val data = uuidTo16Bytes(uuid)
         writeObject(name, String(Base64.encode(data, BASE_64_FLAG)))
     }
 

@@ -31,7 +31,6 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.*
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -241,12 +240,12 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = DatabaseInputOutputUtils.bytesToUuid(pbId)
+        databaseV4.dataCipher = bytes16ToUuid(pbId)
     }
 
-    private fun setTransformRound(roundsByte: ByteArray?) {
+    private fun setTransformRound(roundsByte: ByteArray) {
         assignAesKdfEngineIfNotExists()
-        val rounds = bytes64ToLong(roundsByte!!, 0)
+        val rounds = bytes64ToLong(roundsByte)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
@@ -257,7 +256,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = bytes4ToInt(pbFlags, 0)
+        val flag = bytes4ToInt(pbFlags)
         if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
@@ -273,7 +272,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = bytes4ToInt(streamID, 0)
+        val id = bytes4ToInt(streamID)
         if (id < 0 || id >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }
@@ -293,6 +292,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     companion object {
+
+        var ULONG_MAX_VALUE: Long = -1
+
         const val DBSIG_PRE2 = -0x4ab4049a
         const val DBSIG_2 = -0x4ab40499
 
@@ -321,7 +323,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.GetHmacKey64(key, DatabaseInputOutputUtils.ULONG_MAX_VALUE)
+            val blockKey = HmacBlockStream.GetHmacKey64(key, ULONG_MAX_VALUE)
 
             val hmac: Mac
             try {
