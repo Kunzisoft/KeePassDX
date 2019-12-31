@@ -97,13 +97,12 @@ class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: O
         val LEVEL_FIELD_TYPE:ByteArray = uShortTo2Bytes(8)
         val FLAGS_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
         val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
-        val LONG_FOUR:ByteArray = intTo4Bytes(4)
-        val GROUPID_FIELD_SIZE:ByteArray = LONG_FOUR
+
+        val GROUPID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
         val DATE_FIELD_SIZE:ByteArray = intTo4Bytes(5)
-        val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
+        val IMAGEID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
         val LEVEL_FIELD_SIZE:ByteArray = intTo4Bytes(2)
-        val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
+        val FLAGS_FIELD_SIZE:ByteArray = intTo4Bytes(4)
         val ZERO_FIELD_SIZE:ByteArray = intTo4Bytes(0)
     }
-
 }

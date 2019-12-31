@@ -16,31 +16,6 @@
  *  You should have received a copy of the GNU General Public License
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
- *
-
-Derived from
-
-KeePass for J2ME
-
-Copyright 2007 Naomaru Itoi <nao@phoneid.org>
-
-This file was derived from 
-
-Java clone of KeePass - A KeePass file viewer for Java
-Copyright 2006 Bill Zwicky <billzwicky@users.sourceforge.net>
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; version 2
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 package com.kunzisoft.keepass.database.file.input
@@ -72,7 +47,9 @@ import javax.crypto.spec.SecretKeySpec
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB(cacheDirectory: File) : DatabaseInput<DatabaseKDB>(cacheDirectory) {
+class DatabaseInputKDB(cacheDirectory: File,
+                        private val fixDuplicateUUID: Boolean = false)
+    : DatabaseInput<DatabaseKDB>(cacheDirectory) {
 
     private lateinit var mDatabaseToOpen: DatabaseKDB
 
@@ -107,6 +84,8 @@ class DatabaseInputKDB(cacheDirectory: File) : DatabaseInput<DatabaseKDB>(cacheD
 
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabaseToOpen = DatabaseKDB()
+
+            mDatabaseToOpen.changeDuplicateId = fixDuplicateUUID
             mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
 
             // Select algorithm

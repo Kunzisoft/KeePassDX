@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
+import com.kunzisoft.keepass.database.file.output.GroupOutputKDB.Companion.GROUPID_FIELD_SIZE
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
 import java.io.IOException
@@ -52,12 +53,12 @@ class EntryOutputKDB
 
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
-        mOutputStream.write(LONG_FOUR)
+        mOutputStream.write(GROUPID_FIELD_SIZE)
         mOutputStream.write(intTo4Bytes(mEntry.parent!!.id))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)
-        mOutputStream.write(LONG_FOUR)
+        mOutputStream.write(IMAGEID_FIELD_SIZE)
         mOutputStream.write(intTo4Bytes(mEntry.icon.iconId))
 
         // Title
@@ -162,12 +163,13 @@ class EntryOutputKDB
         val BINARY_DESC_FIELD_TYPE:ByteArray = uShortTo2Bytes(13)
         val BINARY_DATA_FIELD_TYPE:ByteArray = uShortTo2Bytes(14)
         val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
+
         val LONG_FOUR:ByteArray = intTo4Bytes(4)
         val UUID_FIELD_SIZE:ByteArray = intTo4Bytes(16)
         val DATE_FIELD_SIZE:ByteArray = intTo4Bytes(5)
-        val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
-        val LEVEL_FIELD_SIZE:ByteArray = LONG_FOUR
-        val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
+        val IMAGEID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
+        val LEVEL_FIELD_SIZE:ByteArray = intTo4Bytes(4)
+        val FLAGS_FIELD_SIZE:ByteArray = intTo4Bytes(4)
         val ZERO_FIELD_SIZE:ByteArray = intTo4Bytes(0)
         val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
