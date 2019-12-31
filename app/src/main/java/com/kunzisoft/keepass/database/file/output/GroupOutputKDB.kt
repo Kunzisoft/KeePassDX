@@ -96,12 +96,12 @@ class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: O
         val LEVEL_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(8)
         val FLAGS_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(9)
         val END_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(0xFFFF)
-        val LONG_FOUR:ByteArray = LEDataOutputStream.writeIntBuf(4)
-        val GROUPID_FIELD_SIZE:ByteArray = LONG_FOUR
+
+        val GROUPID_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(4)
         val DATE_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(5)
-        val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
+        val IMAGEID_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(4)
         val LEVEL_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(2)
-        val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
+        val FLAGS_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(4)
         val ZERO_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(0)
     }
 

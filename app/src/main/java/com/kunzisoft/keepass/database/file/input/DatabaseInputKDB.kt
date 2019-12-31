@@ -74,7 +74,7 @@ import java.util.Arrays
 /**
  * Load a KDB database file.
  */
-class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
+class DatabaseInputKDB(private val fixDuplicateUUID: Boolean = false) : DatabaseInput<DatabaseKDB>() {
 
     private lateinit var mDatabaseToOpen: DatabaseKDB
 
@@ -107,6 +107,8 @@ class DatabaseInputKDB : DatabaseInput<DatabaseKDB>() {
 
             progressTaskUpdater?.updateMessage(R.string.retrieving_db_key)
             mDatabaseToOpen = DatabaseKDB()
+
+            mDatabaseToOpen.changeDuplicateId = fixDuplicateUUID
             mDatabaseToOpen.retrieveMasterKey(password, keyInputStream)
 
             // Select algorithm

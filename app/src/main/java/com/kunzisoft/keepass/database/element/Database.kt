@@ -363,7 +363,7 @@ class Database {
 
         when {
             // Header of database KDB
-            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
+            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB(fixDuplicateUUID)
                     .openDatabase(bufferedInputStream,
                             password,
                             keyFileInputStream,
