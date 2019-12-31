@@ -54,6 +54,7 @@ import java.util.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
 import kotlin.math.min
 
 class DatabaseInputKDBX(cacheDirectory: File,
@@ -208,7 +209,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
-        return BetterCipherInputStream(inputStream, cipher, 50 * 1024)
+        return CipherInputStream(inputStream, cipher)
     }
 
     @Throws(IOException::class)

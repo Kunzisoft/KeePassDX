@@ -104,7 +104,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
 
         if (verify) {
             val cmpHmac: ByteArray
-            val blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex)
+            val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)
             val hmac: Mac
             try {
                 hmac = Mac.getInstance("HmacSHA256")

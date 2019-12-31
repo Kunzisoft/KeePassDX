@@ -64,7 +64,6 @@ import java.io.*
 import java.security.*
 import java.util.*
 import javax.crypto.Cipher
-import javax.crypto.CipherInputStream
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.spec.IvParameterSpec
 import javax.crypto.spec.SecretKeySpec
@@ -165,204 +164,202 @@ class DatabaseInputKDB(cacheDirectory: File) : DatabaseInput<DatabaseKDB>(cacheD
             }
 
             // Decrypt content
-            BufferedInputStream(
+            val cipherInputStream = BufferedInputStream(
                     DigestInputStream(
-                            CipherInputStream(databaseInputStream, cipher),
+                            BetterCipherInputStream(databaseInputStream, cipher),
                             messageDigest
                     )
-            ).use { cipherInputStream ->
+            )
 
-                /* TODO checksum
-                // Add a mark to the content start
-                if (!cipherInputStream.markSupported()) {
-                    throw IOException("Input stream does not support mark.")
-                }
-                cipherInputStream.mark(cipherInputStream.available() +1)
-                // Consume all data to get the digest
-                var numberRead = 0
-                while (numberRead > -1) {
-                    numberRead = cipherInputStream.read(ByteArray(1024))
-                }
+            /* TODO checksum
+            // Add a mark to the content start
+            if (!cipherInputStream.markSupported()) {
+                throw IOException("Input stream does not support mark.")
+            }
+            cipherInputStream.mark(cipherInputStream.available() +1)
+            // Consume all data to get the digest
+            var numberRead = 0
+            while (numberRead > -1) {
+                numberRead = cipherInputStream.read(ByteArray(1024))
+            }
 
-                // Check sum
-                if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
-                    throw InvalidCredentialsDatabaseException()
-                }
-                // Back to the content start
-                cipherInputStream.reset()
-                */
+            // Check sum
+            if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
+                throw InvalidCredentialsDatabaseException()
+            }
+            // Back to the content start
+            cipherInputStream.reset()
+            */
 
-                // New manual root because KDB contains multiple root groups (here available with getRootGroups())
-                val newRoot = mDatabaseToOpen.createGroup()
-                newRoot.level = -1
-                mDatabaseToOpen.rootGroup = newRoot
+            // New manual root because KDB contains multiple root groups (here available with getRootGroups())
+            val newRoot = mDatabaseToOpen.createGroup()
+            newRoot.level = -1
+            mDatabaseToOpen.rootGroup = newRoot
 
-                // Import all nodes
-                var newGroup: GroupKDB? = null
-                var newEntry: EntryKDB? = null
-                var currentGroupNumber = 0
-                var currentEntryNumber = 0
-                while (currentGroupNumber < header.numGroups
-                        || currentEntryNumber < header.numEntries) {
+            // Import all nodes
+            var newGroup: GroupKDB? = null
+            var newEntry: EntryKDB? = null
+            var currentGroupNumber = 0
+            var currentEntryNumber = 0
+            while (currentGroupNumber < header.numGroups
+                    || currentEntryNumber < header.numEntries) {
 
-                    val fieldType = cipherInputStream.readBytes2ToUShort()
-                    val fieldSize = cipherInputStream.readBytes4ToUInt().toInt()
+                val fieldType = cipherInputStream.readBytes2ToUShort()
+                val fieldSize = cipherInputStream.readBytes4ToUInt().toInt()
 
-                    when (fieldType) {
-                        0x0000 -> {
-                            cipherInputStream.readBytesLength(fieldSize)
-                        }
-                        0x0001 -> {
-                            // Create new node depending on byte number
-                            when (fieldSize) {
-                                4 -> {
-                                    newGroup = mDatabaseToOpen.createGroup().apply {
-                                        setGroupId(cipherInputStream.readBytes4ToInt())
-                                    }
-                                }
-                                16 -> {
-                                    newEntry = mDatabaseToOpen.createEntry().apply {
-                                        nodeId = NodeIdUUID(cipherInputStream.readBytes16ToUuid())
-                                    }
-                                }
-                                else -> {
-                                    throw UnsupportedEncodingException("Field type $fieldType")
+                when (fieldType) {
+                    0x0000 -> {
+                        cipherInputStream.readBytesLength(fieldSize)
+                    }
+                    0x0001 -> {
+                        // Create new node depending on byte number
+                        when (fieldSize) {
+                            4 -> {
+                                newGroup = mDatabaseToOpen.createGroup().apply {
+                                    setGroupId(cipherInputStream.readBytes4ToInt())
                                 }
                             }
-                        }
-                        0x0002 -> {
-                            newGroup?.let { group ->
-                                group.title = cipherInputStream.readBytesToString(fieldSize)
-                            } ?:
-                            newEntry?.let { entry ->
-                                val groupKDB = mDatabaseToOpen.createGroup()
-                                groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToInt())
-                                entry.parent = groupKDB
-                            }
-                        }
-                        0x0003 -> {
-                            newGroup?.let { group ->
-                                group.creationTime = cipherInputStream.readBytes5ToDate()
-                            } ?:
-                            newEntry?.let { entry ->
-                                var iconId = cipherInputStream.readBytes4ToInt()
-                                // Clean up after bug that set icon ids to -1
-                                if (iconId == -1) {
-                                    iconId = 0
-                                }
-                                entry.icon = mDatabaseToOpen.iconFactory.getIcon(iconId)
-                            }
-                        }
-                        0x0004 -> {
-                            newGroup?.let { group ->
-                                group.lastModificationTime = cipherInputStream.readBytes5ToDate()
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.title = cipherInputStream.readBytesToString(fieldSize)
-                            }
-                        }
-                        0x0005 -> {
-                            newGroup?.let { group ->
-                                group.lastAccessTime = cipherInputStream.readBytes5ToDate()
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.url = cipherInputStream.readBytesToString(fieldSize)
-                            }
-                        }
-                        0x0006 -> {
-                            newGroup?.let { group ->
-                                group.expiryTime = cipherInputStream.readBytes5ToDate()
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.username = cipherInputStream.readBytesToString(fieldSize)
-                            }
-                        }
-                        0x0007 -> {
-                            newGroup?.let { group ->
-                                group.icon = mDatabaseToOpen.iconFactory.getIcon(cipherInputStream.readBytes4ToInt())
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.password = cipherInputStream.readBytesToString(fieldSize,false)
-                            }
-                        }
-                        0x0008 -> {
-                            newGroup?.let { group ->
-                                group.level = cipherInputStream.readBytes2ToUShort()
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.notes = cipherInputStream.readBytesToString(fieldSize)
-                            }
-                        }
-                        0x0009 -> {
-                            newGroup?.let { group ->
-                                group.flags = cipherInputStream.readBytes4ToInt()
-                            } ?:
-                            newEntry?.let { entry ->
-                                entry.creationTime = cipherInputStream.readBytes5ToDate()
-                            }
-                        }
-                        0x000A -> {
-                            newEntry?.let { entry ->
-                                entry.lastModificationTime = cipherInputStream.readBytes5ToDate()
-                            }
-                        }
-                        0x000B -> {
-                            newEntry?.let { entry ->
-                                entry.lastAccessTime = cipherInputStream.readBytes5ToDate()
-                            }
-                        }
-                        0x000C -> {
-                            newEntry?.let { entry ->
-                                entry.expiryTime = cipherInputStream.readBytes5ToDate()
-                            }
-                        }
-                        0x000D -> {
-                            newEntry?.let { entry ->
-                                entry.binaryDescription = cipherInputStream.readBytesToString(fieldSize)
-                            }
-                        }
-                        0x000E -> {
-                            newEntry?.let { entry ->
-                                if (fieldSize > 0) {
-                                    // Generate an unique new file with timestamp
-                                    val binaryFile = File(cacheDirectory,
-                                            Instant.now().millis.toString())
-                                    entry.binaryData = BinaryAttachment(binaryFile)
-                                    BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
-                                        cipherInputStream.readBytes(fieldSize,
-                                                DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
-                                            outputStream.write(buffer)
-                                        }
-                                    }
+                            16 -> {
+                                newEntry = mDatabaseToOpen.createEntry().apply {
+                                    nodeId = NodeIdUUID(cipherInputStream.readBytes16ToUuid())
                                 }
                             }
-                        }
-                        0xFFFF -> {
-                            // End record.  Save node and count it.
-                            newGroup?.let { group ->
-                                mDatabaseToOpen.addGroupIndex(group)
-                                currentGroupNumber++
-                                newGroup = null
+                            else -> {
+                                throw UnsupportedEncodingException("Field type $fieldType")
                             }
-                            newEntry?.let { entry ->
-                                mDatabaseToOpen.addEntryIndex(entry)
-                                currentEntryNumber++
-                                newEntry = null
-                            }
-                            cipherInputStream.readBytesLength(fieldSize)
-                        }
-                        else -> {
-                            throw UnsupportedEncodingException("Field type $fieldType")
                         }
                     }
+                    0x0002 -> {
+                        newGroup?.let { group ->
+                            group.title = cipherInputStream.readBytesToString(fieldSize)
+                        } ?:
+                        newEntry?.let { entry ->
+                            val groupKDB = mDatabaseToOpen.createGroup()
+                            groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToInt())
+                            entry.parent = groupKDB
+                        }
+                    }
+                    0x0003 -> {
+                        newGroup?.let { group ->
+                            group.creationTime = cipherInputStream.readBytes5ToDate()
+                        } ?:
+                        newEntry?.let { entry ->
+                            var iconId = cipherInputStream.readBytes4ToInt()
+                            // Clean up after bug that set icon ids to -1
+                            if (iconId == -1) {
+                                iconId = 0
+                            }
+                            entry.icon = mDatabaseToOpen.iconFactory.getIcon(iconId)
+                        }
+                    }
+                    0x0004 -> {
+                        newGroup?.let { group ->
+                            group.lastModificationTime = cipherInputStream.readBytes5ToDate()
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.title = cipherInputStream.readBytesToString(fieldSize)
+                        }
+                    }
+                    0x0005 -> {
+                        newGroup?.let { group ->
+                            group.lastAccessTime = cipherInputStream.readBytes5ToDate()
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.url = cipherInputStream.readBytesToString(fieldSize)
+                        }
+                    }
+                    0x0006 -> {
+                        newGroup?.let { group ->
+                            group.expiryTime = cipherInputStream.readBytes5ToDate()
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.username = cipherInputStream.readBytesToString(fieldSize)
+                        }
+                    }
+                    0x0007 -> {
+                        newGroup?.let { group ->
+                            group.icon = mDatabaseToOpen.iconFactory.getIcon(cipherInputStream.readBytes4ToInt())
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.password = cipherInputStream.readBytesToString(fieldSize,false)
+                        }
+                    }
+                    0x0008 -> {
+                        newGroup?.let { group ->
+                            group.level = cipherInputStream.readBytes2ToUShort()
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.notes = cipherInputStream.readBytesToString(fieldSize)
+                        }
+                    }
+                    0x0009 -> {
+                        newGroup?.let { group ->
+                            group.flags = cipherInputStream.readBytes4ToInt()
+                        } ?:
+                        newEntry?.let { entry ->
+                            entry.creationTime = cipherInputStream.readBytes5ToDate()
+                        }
+                    }
+                    0x000A -> {
+                        newEntry?.let { entry ->
+                            entry.lastModificationTime = cipherInputStream.readBytes5ToDate()
+                        }
+                    }
+                    0x000B -> {
+                        newEntry?.let { entry ->
+                            entry.lastAccessTime = cipherInputStream.readBytes5ToDate()
+                        }
+                    }
+                    0x000C -> {
+                        newEntry?.let { entry ->
+                            entry.expiryTime = cipherInputStream.readBytes5ToDate()
+                        }
+                    }
+                    0x000D -> {
+                        newEntry?.let { entry ->
+                            entry.binaryDescription = cipherInputStream.readBytesToString(fieldSize)
+                        }
+                    }
+                    0x000E -> {
+                        newEntry?.let { entry ->
+                            if (fieldSize > 0) {
+                                // Generate an unique new file with timestamp
+                                val binaryFile = File(cacheDirectory,
+                                        Instant.now().millis.toString())
+                                entry.binaryData = BinaryAttachment(binaryFile)
+                                BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
+                                    cipherInputStream.readBytes(fieldSize,
+                                            DatabaseKDB.BUFFER_SIZE_BYTES) { buffer ->
+                                        outputStream.write(buffer)
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    0xFFFF -> {
+                        // End record.  Save node and count it.
+                        newGroup?.let { group ->
+                            mDatabaseToOpen.addGroupIndex(group)
+                            currentGroupNumber++
+                            newGroup = null
+                        }
+                        newEntry?.let { entry ->
+                            mDatabaseToOpen.addEntryIndex(entry)
+                            currentEntryNumber++
+                            newEntry = null
+                        }
+                        cipherInputStream.readBytesLength(fieldSize)
+                    }
+                    else -> {
+                        throw UnsupportedEncodingException("Field type $fieldType")
+                    }
                 }
-                cipherInputStream.close()
-                // Check sum
-                if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
-                    throw InvalidCredentialsDatabaseException()
-                }
-                constructTreeFromIndex()
             }
+            // Check sum
+            if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
+                throw InvalidCredentialsDatabaseException()
+            }
+            constructTreeFromIndex()
 
         } catch (e: LoadDatabaseException) {
             mDatabaseToOpen.clearCache()

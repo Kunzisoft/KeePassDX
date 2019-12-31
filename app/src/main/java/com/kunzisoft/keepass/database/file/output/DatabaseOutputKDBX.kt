@@ -94,7 +94,8 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                 mOS.write(hashOfHeader!!)
                 mOS.write(headerHmac!!)
 
-                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOS, mDatabaseKDBX.hmacKey))
+
+                attachStreamEncryptor(header!!, HmacBlockOutputStream(mOS, mDatabaseKDBX.hmacKey!!))
             }
 
             val osXml: OutputStream

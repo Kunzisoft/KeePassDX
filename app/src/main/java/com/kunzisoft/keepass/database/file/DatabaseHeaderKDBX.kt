@@ -323,7 +323,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.GetHmacKey64(key, ULONG_MAX_VALUE)
+            val blockKey = HmacBlockStream.getHmacKey64(key, ULONG_MAX_VALUE)
 
             val hmac: Mac
             try {

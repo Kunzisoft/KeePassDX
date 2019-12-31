@@ -17,35 +17,35 @@
  *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.stream;
+package com.kunzisoft.keepass.stream
 
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.IOException
+import java.io.OutputStream
 
-public class NullOutputStream extends OutputStream {
+class NullOutputStream : OutputStream() {
 
-    @Override
-    public void close() throws IOException {
-        super.close();
+    @Throws(IOException::class)
+    override fun close() {
+        super.close()
     }
 
-    @Override
-    public void flush() throws IOException {
-        super.flush();
+    @Throws(IOException::class)
+    override fun flush() {
+        super.flush()
     }
 
-    @Override
-    public void write(byte[] buffer, int offset, int count) throws IOException {
-        super.write(buffer, offset, count);
+    @Throws(IOException::class)
+    override fun write(buffer: ByteArray, offset: Int, count: Int) {
+        super.write(buffer, offset, count)
     }
 
-    @Override
-    public void write(byte[] buffer) throws IOException {
-        super.write(buffer);
+    @Throws(IOException::class)
+    override fun write(buffer: ByteArray) {
+        super.write(buffer)
     }
 
-    @Override
-    public void write(int oneByte) throws IOException {
+    @Throws(IOException::class)
+    override fun write(oneByte: Int) {
     }
 
 }
