@@ -265,6 +265,18 @@ class EntryActivity : LockingHideActivity() {
         }
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
+        // Manage attachments
+        val attachments = entry.getAttachments()
+        val showAttachmentsView = attachments.isNotEmpty()
+        entryContentsView?.showAttachments(showAttachmentsView)
+        if (showAttachmentsView) {
+            entryContentsView?.assignAttachments(attachments)
+            entryContentsView?.onAttachmentClick { attachmentItem, position ->
+                // TODO Download File Attachment
+            }
+        }
+        entryContentsView?.refreshAttachments()
+
         // Assign dates
         entryContentsView?.assignCreationDate(entry.creationTime)
         entryContentsView?.assignModificationDate(entry.lastModificationTime)
@@ -276,9 +288,6 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
 
-        // Assign special data
-        entryContentsView?.assignUUID(entry.nodeId.id)
-
         // Manage history
         historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
         if (mIsHistory) {
@@ -287,7 +296,7 @@ class EntryActivity : LockingHideActivity() {
             taColorAccent.recycle()
         }
         val entryHistory = entry.getHistory()
-        // isMainEntry = not an history
+        // TODO isMainEntry = not an history
         val showHistoryView = entryHistory.isNotEmpty()
         entryContentsView?.showHistory(showHistoryView)
         if (showHistoryView) {
@@ -296,10 +305,12 @@ class EntryActivity : LockingHideActivity() {
                 launch(this, historyItem, true, position)
             }
         }
+        entryContentsView?.refreshHistory()
+
+        // Assign special data
+        entryContentsView?.assignUUID(entry.nodeId.id)
 
         database.stopManageEntry(entry)
-
-        entryContentsView?.refreshHistory()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

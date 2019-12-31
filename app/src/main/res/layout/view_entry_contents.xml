@@ -204,6 +204,37 @@
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
+		android:id="@+id/entry_attachments_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- Binary files -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_attachments_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_attachments"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/entry_attachments_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/default_margin"
@@ -282,41 +313,6 @@
 					android:layout_height="wrap_content"
 					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 			</LinearLayout>
-		</LinearLayout>
-	</androidx.cardview.widget.CardView>
-
-	<androidx.cardview.widget.CardView
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
-		android:layout_marginBottom="@dimen/default_margin">
-		<LinearLayout
-			android:layout_height="wrap_content"
-			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
-			android:orientation="vertical">
-
-			<!-- UUID -->
-			<androidx.appcompat.widget.AppCompatTextView
-				android:id="@+id/entry_UUID_label"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/entry_UUID"
-				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-			<HorizontalScrollView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_UUID"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</HorizontalScrollView>
-
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
@@ -405,6 +401,41 @@
 				android:id="@+id/entry_history_list"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content" />
+
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<androidx.cardview.widget.CardView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin">
+		<LinearLayout
+			android:layout_height="wrap_content"
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/default_margin"
+			android:orientation="vertical">
+
+			<!-- UUID -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_UUID_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_UUID"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+			<HorizontalScrollView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_UUID"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
+			</HorizontalScrollView>
 
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
