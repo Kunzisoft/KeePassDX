@@ -16,8 +16,7 @@
 
   You should have received a copy of the GNU General Public License
   along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_feedback">Σχόλια</string>
     <string name="about_homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePass DX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
@@ -34,7 +33,7 @@
     <string name="file_manager_install_description">H Δημιουργία, το Άνοιγμα και η Αποθήκευση αρχείου βάσης δεδομένων απαιτεί την εγκατάσταση ενός διαχειριστή αρχείων που δέχεται την ενεργό δράση ACTION_CREATE_DOCUMENT και ACTION_OPEN_DOCUMENT</string>
     <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε</string>
     <string name="clipboard_error_title">Σφάλμα προχείρου</string>
-    <string name="clipboard_error">Ορισμένα τηλέφωνα Android της Samsung δεν θα επιτρέψουν στις εφαρμογές να χρησιμοποιούν το πρόχειρο.</string>
+    <string name="clipboard_error">Ορισμένες συσκευές δεν επιτρέπουν στις εφαρμογές να χρησιμοποιούν το πρόχειρο.</string>
     <string name="clipboard_error_clear">Δεν ήταν δυνατή η διαγραφή του προχείρου</string>
     <string name="clipboard_timeout">Χρονικό όριο του προχείρου</string>
     <string name="clipboard_timeout_summary">Διάρκεια αποθήκευσης στο πρόχειρο</string>
@@ -87,7 +86,7 @@
     <string name="password">Κωδικός Πρόσβασης</string>
     <string name="install_from_play_store">Εγκατάσταση από το Play Store</string>
     <string name="install_from_f_droid">Εγκατάσταση από το F-Droid</string>
-    <string name="invalid_credentials">Εσφαλμένος κωδικός ή αρχείο κλειδιού.</string>
+    <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων. Εάν αυτό επαναληφθεί, το αρχείο της βάσης δεδομένων ενδέχεται να είναι κατεστραμμένο.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
     <string name="keyfile_does_not_exist">Δεν υπάρχει αρχείο-κλειδϊ.</string>
@@ -222,7 +221,7 @@
     <string name="full_file_path_enable_title">Διαδρομή αρχείου</string>
     <string name="full_file_path_enable_summary">Προβολή ολόκληρης της διαδρομής αρχείου</string>
     <string name="recycle_bin_title">Χρησιμοποιήστε κάδο ανακύκλωσης</string>
-    <string name="recycle_bin_summary">Μετακίνηση ομάδων και καταχωρίσεων στο \"Κάδο ανακύκλωσης\" πριν την διαγραφή</string>
+    <string name="recycle_bin_summary">Μετακίνηση ομάδων και καταχωρίσεων στην ομάδα \"Κάδο ανακύκλωσης\" πριν την διαγραφή</string>
     <string name="monospace_font_fields_enable_title">Γραμματοσειρά πεδίου</string>
     <string name="monospace_font_fields_enable_summary">Αλλαγή γραμματοσειράς που χρησιμοποιείται σε πεδία για καλύτερη ορατότητα χαρακτήρων</string>
     <string name="allow_copy_password_title">Πρόχειρο εμπιστοσύνης</string>
@@ -313,7 +312,7 @@
     <string name="list_entries_show_username_title">Εμφάνιση ονομάτων χρηστών</string>
     <string name="list_entries_show_username_summary">Εμφάνιση ονομάτων χρηστών σε λίστες καταχώρησης</string>
     <string name="clipboard">Πρόχειρο</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Κατασκευή %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
     <string name="keyboard_setting_label">Ρυθμίσεις Magikeyboard</string>
@@ -334,7 +333,7 @@
     <string name="keyboard_key_sound_title">Ήχος στο πάτημα πλήκτρων</string>
     <string name="selection_mode">Λειτουργία επιλογής</string>
     <string name="do_not_kill_app">Μη κλείσιμο της εφαρμογής …</string>
-    <string name="lock_database_back_root_title">Πατήστε Πίσω στη ρίζα καταλόγου για κλείδωμα</string>
+    <string name="lock_database_back_root_title">Πατήστε \'Πίσω\' για να κλειδώσετε</string>
     <string name="lock_database_back_root_summary">Κλείδωμα της βάσης δεδομένων όταν ο χρήστης κάνει κλικ στο κουμπί \"πίσω\" στη αρχική οθόνη</string>
     <string name="clear_clipboard_notification_title">Καθαρισμός στο κλείσιμο</string>
     <string name="clear_clipboard_notification_summary">Κλείσιμο της βάση δεδομένων κατά το κλείσιμο της ειδοποίησης</string>
@@ -350,7 +349,7 @@
     <string name="content_description_add_group">Προσθήκη ομάδας</string>
     <string name="content_description_file_information">Πληροφορίες αρχείου</string>
     <string name="content_description_password_checkbox">Έλεγχος κωδικού πρόσβασης</string>
-    <string name="content_description_keyfile_checkbox">Έλεγχος κλειδιού-αρχείου</string>
+    <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου κλειδιού-αρχείου</string>
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
     <string name="content_description_entry_save">Αποθήκευση καταχώρησης</string>
@@ -373,10 +372,10 @@
     <string name="open_biometric_prompt_unlock_database">Ανοίξτε τη βιομετρική προτροπή για να ξεκλειδώσετε τη βάση δεδομένων</string>
     <string name="open_biometric_prompt_store_credential">Ανοίξτε τη βιομετρική προτροπή για την αποθήκευση διαπιστευτηρίων</string>
     <string name="biometric_prompt_store_credential_title">Αποθήκευση βιομετρικής αναγνώρισης</string>
-    <string name="biometric_prompt_store_credential_message">Αποθήκευση διαπιστευτηρίων βάσης δεδομένων με βιομετρικά δεδομένα</string>
+    <string name="biometric_prompt_store_credential_message">ΠΡΟΕΙΔΟΠΟΙΗΣΗ: Η χρήση της βιομετρικής αναγνώρισης δεν σας απαλλάσσει από το να γνωρίζετε τον κύριο κωδικό πρόσβασης.</string>
     <string name="biometric_prompt_extract_credential_title">Άνοιγμα βάσης δεδομένων με βιομετρική αναγνώριση</string>
     <string name="biometric_prompt_extract_credential_message">Εξαγωγή της πιστοποίησης βάσης δεδομένων με βιομετρικά δεδομένα</string>
-    <string name="biometric_invalid_key">Δεν ήταν δυνατή η ανάγνωση του βιομετρικού κλειδιού. Επαναφέρετε τα διαπιστευτήριά σας.</string>
+    <string name="biometric_invalid_key">Δεν είναι δυνατή η ανάγνωση του βιομετρικού κλειδιού. Διαγράψτε το και επαναλάβετε τη διαδικασία βιομετρικής αναγνώρισης.</string>
     <string name="biometric_not_recognized">Δεν ήταν δυνατή η αναγνώριση βιομετρικών στοιχείων</string>
     <string name="biometric_scanning_error">Βιομετρικό σφάλμα: %1$s</string>
     <string name="no_credentials_stored">Αυτή η βάση δεδομένων δεν έχει αποθηκευμένα διαπιστευτήρια ακόμα.</string>
@@ -384,7 +383,7 @@
     <string name="biometric">Βιομετρία</string>
     <string name="advanced_unlock">Προηγμένο ξεκλείδωμα</string>
     <string name="biometric_unlock_enable_title">Βιομετρικό ξεκλείδωμα</string>
-    <string name="biometric_unlock_enable_summary">Σας επιτρέπει να σαρώσετε το δακτυλικό σας αποτύπωμα ή άλλο βιομετρικό για να ανοίξετε τη βάση δεδομένων</string>
+    <string name="biometric_unlock_enable_summary">Σας επιτρέπει να σαρώσετε το βιομετρικό σας για να ανοίξετε τη βάση δεδομένων</string>
     <string name="biometric_auto_open_prompt_title">Αυτόματο άνοιγμα βιομετρικής προτροπής</string>
     <string name="biometric_auto_open_prompt_summary">Αυτόματο άνοιγμα βιομετρικής προτροπής όταν ορίζεται ένα βιομετρικό κλειδί για μια βάση δεδομένων</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
@@ -392,4 +391,66 @@
     <string name="biometric_delete_all_key_warning">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα κλειδιά που σχετίζονται με τη βιομετρική αναγνώριση;</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
+    <string name="master_key">Κύριο Κλειδί</string>
+    <string name="security">Ασφάλεια</string>
+    <string name="entry_history">Ιστορικό</string>
+    <string name="entry_setup_otp">Ρυθμίστε τον κωδικό μιάς χρήσης</string>
+    <string name="otp_type">OTP τύπος</string>
+    <string name="otp_secret">Μυστικό</string>
+    <string name="otp_period">Περίοδος (δευτερολέπτα)</string>
+    <string name="otp_counter">Μετρητής</string>
+    <string name="otp_digits">Ψηφία</string>
+    <string name="otp_algorithm">Αλγόριθμος</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Μη έγκυρο μυστικό OTP.</string>
+    <string name="error_disallow_no_credentials">Πρέπει να οριστεί τουλάχιστον μία πιστοποίηση.</string>
+    <string name="error_copy_group_here">Δεν μπορείτε να αντιγράψετε μια ομάδα εδώ.</string>
+    <string name="error_otp_secret_key">Το μυστικό κλειδί πρέπει να είναι σε μορφή Base32.</string>
+    <string name="error_otp_counter">Ο μετρητής πρέπει να είναι μεταξύ %1$d και %2$d.</string>
+    <string name="error_otp_period">Η περίοδος πρέπει να είναι μεταξύ %1$d και %2$d δευτερολέπτων.</string>
+    <string name="error_otp_digits">Το Token πρέπει να περιέχει %1$d έως %2$d ψηφία.</string>
+    <string name="invalid_db_same_uuid">%1$s με το ίδιο UUID %2$s υπάρχει ήδη.</string>
+    <string name="creating_database">Δημιουργία βάσης δεδομένων…</string>
+    <string name="menu_security_settings">Ρυθμίσεις Ασφαλείας</string>
+    <string name="menu_master_key_settings">Ρυθμίσεις Κύριου Κλειδιού</string>
+    <string name="contains_duplicate_uuid">Η βάση δεδομένων περιέχει διπλά UUIDs.</string>
+    <string name="contains_duplicate_uuid_procedure">Με την επικύρωση αυτού του διαλόγου, το KeePass DX θα διορθώσει το πρόβλημα (δημιουργώντας νέα UUIDs για διπλότυπα) και θα συνεχίσει.</string>
+    <string name="database_history">Ιστορικό</string>
+    <string name="autofill_explanation_summary">Ενεργοποιήστε την αυτόματη συμπλήρωση για να συμπληρώσετε γρήγορα φόρμες σε άλλες εφαρμογές</string>
+    <string name="database_opened">Η Βάση Δεδομένων άνοιξε</string>
+    <string name="clipboard_explanation_summary">Αντιγράψτε τα πεδία εισαγωγής χρησιμοποιώντας το πρόχειρο της συσκευής σας</string>
+    <string name="persistent_notification_title">Συνεχής ειδοποίηση</string>
+    <string name="persistent_notification_summary">Προσθήκη ειδοποίησης όταν η βάση δεδομένων είναι ανοιχτή</string>
+    <string name="advanced_unlock_explanation_summary">Χρησιμοποιήστε το προηγμένο ξεκλείδωμα για να ανοίξετε μια βάση δεδομένων πιο εύκολα</string>
+    <string name="database_data_compression_title">Συμπίεση Δεδομένων</string>
+    <string name="database_data_compression_summary">Η συμπίεση δεδομένων μειώνει το μέγεθος της βάσης δεδομένων.</string>
+    <string name="max_history_items_title">Μέγιστα στοιχεία ιστορικού</string>
+    <string name="max_history_items_summary">Περιορισμός αριθμού των στοιχείων ιστορικού ανά καταχώριση</string>
+    <string name="max_history_size_title">Μέγιστο μέγεθος ιστορικού</string>
+    <string name="max_history_size_summary">Περιορισμός μεγέθους ιστορικού ανά καταχώριση (σε δυαδικά bytes)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Προτεινόμενες αλλαγές</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Προτεινόμενη αλλαγή του κύριου κλειδιού (ημέρες)</string>
+    <string name="settings_database_force_changing_master_key_title">Εξαναγκαστική αλλαγή</string>
+    <string name="settings_database_force_changing_master_key_summary">Εξαναγκαστική αλλαγή του κύριου κλειδιού (ημέρες)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Εξαναγκαστική αλλαγή την επόμενη φορά</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Εξαναγκαστική αλλαγή του κύριου κλειδιού την επόμενη φορά (μία φορά)</string>
+    <string name="database_default_username_title">Προεπιλεγμένο όνομα χρήστη</string>
+    <string name="database_custom_color_title">Προσαρμοσμένο χρώμα βάσης δεδομένων</string>
+    <string name="compression">Συμπίεση</string>
+    <string name="compression_none">Καμιά</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="magic_keyboard_explanation_summary">Ενεργοποιώντας ένα προσαρμοσμένο πληκτρολόγιο συγκεντρώνει τους κωδικούς πρόσβασής σας και όλα τα πεδία ταυτότητας</string>
+    <string name="device_keyboard_setting_title">Ρυθμίσεις Πληκτρολογίου Συσκευής</string>
+    <string name="education_biometric_title">Ξεκλείδωμα Βάσης Δεδομένων με βιομετρικά στοιχεία</string>
+    <string name="education_biometric_summary">Συνδέστε τον κωδικό πρόσβασής σας στο σαρωμένο βιομετρικό σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
+    <string name="error_save_database">Δεν ήταν δυνατή η αποθήκευση της βάσης δεδομένων.</string>
+    <string name="menu_save_database">Αποθήκευση βάσης δεδομένων</string>
+    <string name="menu_empty_recycle_bin">Άδειος Κάδος Ανακύκλωσης</string>
+    <string name="command_execution">Εκτέλεση της εντολής…</string>
+    <string name="warning_permanently_delete_nodes">Είστε βέβαιοι ότι θέλετε να διαγράψετε οριστικά τους επιλεγμένους κόμβους;</string>
+    <string name="keystore_not_accessible">Η κλειδοθήκη δεν έχει προετοιμαστεί σωστά.</string>
+    <string name="credential_before_click_biometric_button">Πληκτρολογήστε τον κωδικό πρόσβασης πριν κάνετε κλικ στο βιομετρικό κουμπί.</string>
+    <string name="recycle_bin_group_title">Ομάδα Κάδου Ανακύκλωσης</string>
+    <string name="enable_auto_save_database_title">Αυτόματη αποθήκευση βάσης δεδομένων</string>
+    <string name="enable_auto_save_database_summary">Αυτόματη αποθήκευση της βάσης δεδομένων μετά από μια σημαντική ενέργεια (μόνο σε λειτουργία \"Τροποποιήσιμο\")</string>
 </resources>
