@@ -19,13 +19,13 @@
 --><resources>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_homepage">Сайт</string>
-    <string name="about_description">Android-версия программы управления паролями KeePass</string>
+    <string name="about_description">Android-версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
     <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Задержка</string>
-    <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
+    <string name="app_timeout_summary">Время до блокировки приложения при неактивности</string>
     <string name="application">Приложение</string>
     <string name="menu_app_settings">Настройки приложения</string>
     <string name="beta_dontask">Не показывать снова</string>
@@ -33,7 +33,7 @@
     <string name="file_manager_install_description">Создание, открытие и сохранение файла базы требует установки файлового менеджера, который принимает действия Intent ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
-    <string name="clipboard_error">Некоторые устройства не позволяют приложению использовать буфер обмена.</string>
+    <string name="clipboard_error">Некоторые устройства не дают приложению использовать буфер обмена.</string>
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
@@ -197,7 +197,7 @@
     <string name="sort_last_access_time">Время последнего доступа</string>
     <string name="edit_entry">Редактировать запись</string>
     <string name="allow">Разрешить</string>
-    <string name="clipboard_swipe_clean">Смахните, чтобы очистить буфер обмена сейчас</string>
+    <string name="clipboard_swipe_clean">Смахните для очистки буфера обмена</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
     <string name="error_move_folder_in_itself">Нельзя переместить группу в саму себя.</string>
@@ -311,12 +311,15 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
-    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong></string>
+    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong>
+    </string>
     <string name="html_text_feature_generosity">Эти <strong>визуальные функции</strong> доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад.</strong></string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад.</strong>
+    </string>
     <string name="html_text_dev_feature">Эта функция находится <strong>в разработке</strong> и требует вашего <strong>участия</strong>, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>-версию,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Участвуя в проекте</strong>,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Участвуя в проекте</strong>,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять <strong>новые возможности</strong> и <strong>исправлять ошибки</strong> в соответствии с вашими замечаниями.</string>
     <string name="html_text_dev_feature_thanks">Спасибо большое за ваш вклад.</string>
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
