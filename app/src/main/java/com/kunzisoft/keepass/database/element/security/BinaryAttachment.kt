@@ -19,9 +19,10 @@
  */
 package com.kunzisoft.keepass.database.element.security
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.stream.readBytes
 import java.io.*
 import java.util.zip.GZIPInputStream
@@ -72,7 +73,7 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun compress() {
+    fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         if (dataFile != null) {
             // To compress, create a new binary with file
             if (isCompressed != true) {
@@ -82,7 +83,7 @@ class BinaryAttachment : Parcelable {
                 try {
                     outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
                     inputStream = getInputDataStream()
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes(bufferSize) { buffer ->
                         outputStream.write(buffer)
                     }
                 } finally {
@@ -102,7 +103,7 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress() {
+    fun decompress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         if (dataFile != null) {
             if (isCompressed != false) {
                 val fileBinaryDecompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
@@ -111,7 +112,7 @@ class BinaryAttachment : Parcelable {
                 try {
                     outputStream = FileOutputStream(fileBinaryDecompress)
                     inputStream = GZIPInputStream(getInputDataStream())
-                    inputStream.readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                    inputStream.readBytes(bufferSize) { buffer ->
                         outputStream.write(buffer)
                     }
                 } finally {
@@ -124,6 +125,32 @@ class BinaryAttachment : Parcelable {
                             // Harmonize with database compression
                             isCompressed = false
                         }
+                    }
+                }
+            }
+        }
+    }
+
+    fun download(createdFileUri: Uri,
+                 contentResolver: ContentResolver,
+                 bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                 update: ((percent: Int)->Unit)? = null) {
+
+        var dataDownloaded = 0
+        contentResolver.openOutputStream(createdFileUri).use { outputStream ->
+            outputStream?.let { fileOutputStream ->
+                if (isCompressed == true) {
+                    GZIPInputStream(getInputDataStream())
+                } else {
+                    getInputDataStream()
+                }.use { inputStream ->
+                    inputStream.readBytes(bufferSize) { buffer ->
+                        fileOutputStream.write(buffer)
+                        dataDownloaded += buffer.size
+                        try {
+                            val percentDownload = (100 * dataDownloaded / length()).toInt()
+                            update?.invoke(percentDownload)
+                        } catch (e: Exception) {}
                     }
                 }
             }

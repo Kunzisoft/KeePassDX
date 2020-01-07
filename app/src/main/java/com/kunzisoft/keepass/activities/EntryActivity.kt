@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -40,18 +41,24 @@ import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
+import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.createDocument
+import com.kunzisoft.keepass.utils.onCreateDocumentResult
 import com.kunzisoft.keepass.view.EntryContentsView
 import java.util.*
+import kotlin.collections.HashMap
 
 class EntryActivity : LockingHideActivity() {
 
@@ -68,6 +75,9 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
+
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAttachmentsToDownload: HashMap<Int, BinaryAttachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -108,6 +118,9 @@ class EntryActivity : LockingHideActivity() {
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         firstLaunchOfActivity = true
+
+        // Init attachment service binder manager
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
     }
 
     override fun onResume() {
@@ -155,7 +168,30 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
+        mAttachmentFileBinderManager?.apply {
+            registerProgressTask()
+            onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
+                override fun onStartAction(fileUri: Uri, attachment: BinaryAttachment) {
+                    entryContentsView?.startAttachmentDownload(attachment)
+                }
+
+                override fun onUpdateAction(fileUri: Uri, attachment: BinaryAttachment, percentProgression: Int) {
+                    entryContentsView?.updateAttachmentDownloadProgress(attachment, percentProgression)
+                }
+
+                override fun onStopAction(fileUri: Uri, attachment: BinaryAttachment, success: Boolean) {
+                    entryContentsView?.stopAttachmentDownload(attachment)
+                }
+            }
+        }
+
         firstLaunchOfActivity = false
+    }
+
+    override fun onPause() {
+        mAttachmentFileBinderManager?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     private fun fillEntryDataInContentsView(entry: Entry) {
@@ -271,8 +307,14 @@ class EntryActivity : LockingHideActivity() {
         entryContentsView?.showAttachments(showAttachmentsView)
         if (showAttachmentsView) {
             entryContentsView?.assignAttachments(attachments)
-            entryContentsView?.onAttachmentClick { attachmentItem, position ->
-                // TODO Download File Attachment
+            entryContentsView?.onAttachmentClick { attachmentItem, _ ->
+                if (!attachmentItem.downloadInProgress) {
+                    createDocument(this, attachmentItem.name)?.let { requestCode ->
+                        mAttachmentsToDownload[requestCode] = attachmentItem.binaryAttachment
+                    }
+                } else {
+                    // TODO Stop download
+                }
             }
         }
         entryContentsView?.refreshAttachments()
@@ -315,12 +357,22 @@ class EntryActivity : LockingHideActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE ->
                 // Not directly get the entry from intent data but from database
                 mEntry?.let {
                     fillEntryDataInContentsView(it)
                 }
+        }
+
+        onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
+            if (createdFileUri != null) {
+                mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
+                    mAttachmentFileBinderManager
+                            ?.startDownloadAttachment(createdFileUri, attachmentToDownload)
+                }
+            }
         }
     }
 

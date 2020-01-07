@@ -422,6 +422,7 @@
     <string name="html_text_dev_feature_upgrade">Do not forget to keep your app up to date by installing new versions.</string>
     <string name="download">Download</string>
     <string name="contribute">Contribute</string>
+    <string name="download_attachment">Download %1$s</string>
     <!-- Encryption Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>

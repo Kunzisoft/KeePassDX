@@ -9,8 +9,10 @@
       android:anyDensity="true" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission
+        android:maxSdkVersion="18"
+        android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:label="@string/app_name"
@@ -148,6 +150,10 @@
             android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
+            android:enabled="true"
+            android:exported="false" />
+        <service
+            android:name=".notifications.AttachmentFileNotificationService"
             android:enabled="true"
             android:exported="false" />
         <service

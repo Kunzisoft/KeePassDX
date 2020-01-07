@@ -31,8 +31,21 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_margin="6dp"
         android:src="@drawable/ic_file_download_white_24dp"
         android:tint="?attr/colorAccent" />
+    <ProgressBar
+        android:id="@+id/item_attachment_progress"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_marginBottom="4dp"
+        android:max="100"
+        android:progress="60"
+        android:progressDrawable="@drawable/background_progress_circle" />
 </androidx.constraintlayout.widget.ConstraintLayout>

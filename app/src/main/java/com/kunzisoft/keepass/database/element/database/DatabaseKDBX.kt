@@ -181,7 +181,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                             }
                             CompressionAlgorithm.GZip -> {
                                 // To compress, create a new binary with file
-                                binary.compress()
+                                binary.compress(BUFFER_SIZE_BYTES)
                             }
                         }
                     }
@@ -189,7 +189,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         when (newCompression) {
                             CompressionAlgorithm.None -> {
                                 // To decompress, create a new binary with file
-                                binary.decompress()
+                                binary.decompress(BUFFER_SIZE_BYTES)
                             }
                             CompressionAlgorithm.GZip -> {
                             }
