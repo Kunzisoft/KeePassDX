@@ -94,7 +94,7 @@
     <string name="keyfile_is_empty">Файл ключа пуст.</string>
     <string name="length">Длина</string>
     <string name="list_size_title">Размер списка</string>
-    <string name="list_size_summary">Размер шрифта элементов списка</string>
+    <string name="list_size_summary">Размер текста элементов списка</string>
     <string name="loading_database">Загрузка базы…</string>
     <string name="lowercase">Строчные</string>
     <string name="maskpass_title">Скрывать пароли</string>
@@ -111,7 +111,7 @@
     <string name="menu_open">Открыть</string>
     <string name="menu_search">Поиск</string>
     <string name="menu_showpass">Показать пароль</string>
-    <string name="menu_url">Перейти</string>
+    <string name="menu_url">Открыть ссылку</string>
     <string name="minus">-Дефис-</string>
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
@@ -125,10 +125,10 @@
     <string name="read_only">Только чтение</string>
     <string name="read_only_warning">KeePass DX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
     <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту.</string>
-    <string name="recentfile_title">Недавно открытые</string>
-    <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
+    <string name="recentfile_title">Базы паролей</string>
+    <string name="recentfile_summary">Хранить имена недавно открытых баз</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
-    <string name="remember_keyfile_title">Помнить файлы ключей</string>
+    <string name="remember_keyfile_title">Файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
@@ -253,8 +253,8 @@
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать \"корзину\"</string>
     <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
-    <string name="monospace_font_fields_enable_title">Шрифт полей</string>
-    <string name="monospace_font_fields_enable_summary">Изменить используемый в полях шрифт для лучшей читаемости</string>
+    <string name="monospace_font_fields_enable_title">Особый шрифт</string>
+    <string name="monospace_font_fields_enable_summary">Использовать в полях особый шрифт для лучшей читаемости</string>
     <string name="allow_copy_password_title">Доверять буферу обмена</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищённых полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: буфер обмена доступен всем приложениям. Если копируются чувствительные данные, другие программы могут их перехватить.</string>
@@ -265,8 +265,8 @@
     <string name="application_appearance">Приложение</string>
     <string name="other">Прочее</string>
     <string name="keyboard">Клавиатура</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">Активировать пользовательскую клавиатуру для простого заполнения паролей и всех ваших идентификаторов</string>
+    <string name="magic_keyboard_title">Настройки Magikeyboard</string>
+    <string name="magic_keyboard_explanation_summary">Активируйте пользовательскую клавиатуру для простого заполнения паролей и любых идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без главного пароля</string>
     <string name="allow_no_password_summary">Включить кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
@@ -339,7 +339,7 @@
     <string name="build_label">Сборка %1$s</string>
     <string name="keyboard_entry_category">Запись</string>
     <string name="keyboard_entry_timeout_title">Задержка</string>
-    <string name="keyboard_entry_timeout_summary">Время задержки перед очисткой вводимой записи</string>
+    <string name="keyboard_entry_timeout_summary">Время до очистки вводимой записи</string>
     <string name="keyboard_notification_entry_title">Информационное уведомление</string>
     <string name="keyboard_notification_entry_summary">Показывать уведомление, когда запись доступна</string>
     <string name="keyboard_notification_entry_content_title_text">Запись</string>
@@ -443,7 +443,7 @@
     <string name="compression">Сжатие</string>
     <string name="compression_none">Нет</string>
     <string name="compression_gzip">GZip</string>
-    <string name="device_keyboard_setting_title">Настройки клавиатуры устройства</string>
+    <string name="device_keyboard_setting_title">Настройки клавиатур устройства</string>
     <string name="error_save_database">Невозможно сохранить базу.</string>
     <string name="menu_save_database">Сохранить базу</string>
     <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
