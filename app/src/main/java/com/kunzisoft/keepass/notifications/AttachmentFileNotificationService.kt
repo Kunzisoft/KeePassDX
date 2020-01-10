@@ -113,22 +113,22 @@ class AttachmentFileNotificationService: LockNotificationService() {
             setContentTitle(getString(R.string.download_attachment, fileName))
             when {
                 complete -> {
-                    setContentText("Complete !") // TODO String
+                    setContentText(getString(R.string.download_complete))
                     setContentIntent(pendingContentIntent)
                     setDeleteIntent(pendingDeleteIntent)
                     setOngoing(false)
                 }
                 progress != null -> {
                     if (progress > 100) {
-                        setContentText("Finalizing...")
+                        setContentText(getString(R.string.download_finalization))
                     } else {
                         setProgress(100, progress, false)
-                        setContentText("Extracting : $progress%")
+                        setContentText(getString(R.string.download_progression, progress))
                     }
                     setOngoing(true)
                 }
                 else -> {
-                    setContentText("Download starting : fileName")
+                    setContentText(getString(R.string.download_initialization))
                     setOngoing(true)
                 }
             }
