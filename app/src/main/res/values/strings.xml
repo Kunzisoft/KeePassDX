@@ -456,4 +456,6 @@
     </string-array>
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
+    <string name="hide_expired_entries_title">Hide expired entries</string>
+    <string name="hide_expired_entries_summary">Expired entries will be hidden</string>
 </resources>
