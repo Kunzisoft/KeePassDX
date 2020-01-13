@@ -136,7 +136,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
 
         val notificationIdDynamic = notificationId + downloadFileUris.indexOf(downloadFileUri)
-        notificationManager?.notify(notificationIdDynamic, builder.build())
+        startForeground(notificationIdDynamic, builder.build())
     }
 
     companion object {

@@ -424,7 +424,7 @@
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>
     <string name="download_initialization">Initializing…</string>
-    <string name="download_progression">In progress : %1$d\%</string>
+    <string name="download_progression">In progress : %1$d\%%</string>
     <string name="download_finalization">Finalizing…</string>
     <string name="download_complete">Complete !</string>
     <!-- Encryption Algorithms -->
