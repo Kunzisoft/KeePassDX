@@ -66,6 +66,7 @@ class NodeAdapter
     private var recycleBinBottomSort: Boolean = true
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
+    private var showExpiredEntries: Boolean = true
 
     private var actionNodesList = LinkedList<Node>()
     private var nodeClickCallback: NodeClickCallback? = null
@@ -127,6 +128,7 @@ class NodeAdapter
         this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
+        this.showExpiredEntries = PreferencesUtil.showExpiredEntries(context)
 
         // Reinit textSize for all view type
         calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
@@ -139,7 +141,7 @@ class NodeAdapter
         this.nodeSortedList.clear()
         assignPreferences()
         try {
-            this.nodeSortedList.addAll(group.getChildren())
+            this.nodeSortedList.addAll(group.getChildren().filter { !it.isCurrentlyExpires or showExpiredEntries})
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
@@ -338,7 +340,10 @@ class NodeAdapter
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as Group).getChildEntries(true).size.toString()
+                    text = (subNode as Group)
+                            .getChildEntries(true)
+                            .filter { !it.isCurrentlyExpires or showExpiredEntries}
+                            .size.toString()
                     setTextSize(textSizeUnit, numberChildrenTextSize)
                     visibility = View.VISIBLE
                 }
@@ -348,6 +353,7 @@ class NodeAdapter
         }
     }
 
+    
     override fun getItemCount(): Int {
         return nodeSortedList.size()
     }

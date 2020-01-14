@@ -57,6 +57,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.list_groups_show_number_entries_default))
     }
 
+    fun showExpiredEntries(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return ! prefs.getBoolean(context.getString(R.string.hide_expired_entries_key),
+                context.resources.getBoolean(R.bool.hide_expired_entries_default))
+    }
+
     /**
      * Retrieve the text size in % (1 for 100%)
      */
