@@ -6,11 +6,10 @@ import android.content.Context.BIND_NOT_FOREGROUND
 import android.content.Intent
 import android.content.ServiceConnection
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
 
@@ -25,17 +24,14 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     private var mServiceConnection: ServiceConnection? = null
 
     private val mActionTaskListener = object: AttachmentFileNotificationService.ActionTaskListener {
-        override fun onStartAction(fileUri: Uri, attachment: BinaryAttachment) {
-            onActionTaskListener?.onStartAction(fileUri, attachment)
+        override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
+            onActionTaskListener?.onAttachmentProgress(fileUri, attachment)
         }
+    }
 
-        override fun onUpdateAction(fileUri: Uri, attachment: BinaryAttachment, percentProgression: Int) {
-            onActionTaskListener?.onUpdateAction(fileUri, attachment, percentProgression)
-        }
-
-        override fun onStopAction(fileUri: Uri, attachment: BinaryAttachment, success: Boolean) {
-            onActionTaskListener?.onStopAction(fileUri, attachment, success)
-        }
+    // TODO Fix orientation change
+    fun checkProgress() {
+        mBinder?.getService()?.checkCurrentAttachmentProgress()
     }
 
     @Synchronized
@@ -81,19 +77,15 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
             mIntentTask.putExtras(bundle)
         activity.runOnUiThread {
             mIntentTask.action = actionTask
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.startForegroundService(mIntentTask)
-            } else {
-                activity.startService(mIntentTask)
-            }
+            activity.startService(mIntentTask)
         }
     }
 
     fun startDownloadAttachment(downloadFileUri: Uri,
-                                binaryAttachment: BinaryAttachment) {
+                                entryAttachment: EntryAttachment) {
         start(Bundle().apply {
             putParcelable(AttachmentFileNotificationService.DOWNLOAD_FILE_URI_KEY, downloadFileUri)
-            putParcelable(AttachmentFileNotificationService.BINARY_ATTACHMENT_KEY, binaryAttachment)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
         }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
     }
 }

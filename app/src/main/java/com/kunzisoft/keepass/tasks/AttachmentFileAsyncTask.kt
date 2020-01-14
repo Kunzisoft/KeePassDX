@@ -4,28 +4,36 @@ import android.content.ContentResolver
 import android.net.Uri
 import android.os.AsyncTask
 import android.util.Log
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 
 class AttachmentFileAsyncTask(
         private val fileUri: Uri,
+        private val attachmentNotification: AttachmentFileNotificationService.AttachmentNotification,
         private val contentResolver: ContentResolver,
-        private val onStart: (()->Unit)? = null,
-        private val onUpdate: ((percent: Int)->Unit)? = null,
-        private val onFinish: ((Boolean)->Unit)? = null
-        ): AsyncTask<BinaryAttachment, Int, Boolean>() {
+        private val onUpdate: ((Uri, EntryAttachment, Int)->Unit)? = null
+        ): AsyncTask<Void, Int, Boolean>() {
 
     private val updateMinFrequency = 1000
     private var previousSaveTime = System.currentTimeMillis()
 
     override fun onPreExecute() {
         super.onPreExecute()
-        onStart?.invoke()
+        attachmentNotification.entryAttachment.apply {
+            downloadState = AttachmentState.START
+            downloadProgression = 0
+        }
+        onUpdate?.invoke(fileUri, attachmentNotification.entryAttachment, attachmentNotification.notificationId)
     }
 
-    override fun doInBackground(vararg params: BinaryAttachment?): Boolean {
+    override fun doInBackground(vararg params: Void?): Boolean {
         try {
-            params[0]?.download(fileUri, contentResolver, 1024) { percent ->
-                publishProgress(percent)
+            attachmentNotification.entryAttachment.apply {
+                downloadState = AttachmentState.IN_PROGRESS
+                binaryAttachment.download(fileUri, contentResolver, 1024) { percent ->
+                    publishProgress(percent)
+                }
             }
         } catch (e: Exception) {
             return false
@@ -39,7 +47,11 @@ class AttachmentFileAsyncTask(
 
         val currentTime = System.currentTimeMillis()
         if (previousSaveTime + updateMinFrequency < currentTime) {
-            onUpdate?.invoke(percent)
+            attachmentNotification.entryAttachment.apply {
+                downloadState = AttachmentState.IN_PROGRESS
+                downloadProgression = percent
+            }
+            onUpdate?.invoke(fileUri, attachmentNotification.entryAttachment, attachmentNotification.notificationId)
             Log.d(TAG, "Download file $fileUri : $percent%")
             previousSaveTime = currentTime
         }
@@ -47,7 +59,11 @@ class AttachmentFileAsyncTask(
 
     override fun onPostExecute(result: Boolean) {
         super.onPostExecute(result)
-        onFinish?.invoke(result)
+        attachmentNotification.entryAttachment.apply {
+            downloadState = if (result) AttachmentState.COMPLETE else AttachmentState.ERROR
+            downloadProgression = 100
+        }
+        onUpdate?.invoke(fileUri, attachmentNotification.entryAttachment, attachmentNotification.notificationId)
     }
 
     companion object {

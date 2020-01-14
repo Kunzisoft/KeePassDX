@@ -1,7 +1,6 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
@@ -9,17 +8,17 @@ import android.os.IBinder
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.tasks.AttachmentFileAsyncTask
 import java.util.*
-import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 
 class AttachmentFileNotificationService: LockNotificationService() {
 
-    // Base notification Id, used only to create ids dynamically
-    override val notificationId: Int = 610
-    private val downloadFileUris = ArrayList<Uri>()
+    // Base notification Id, not used
+    override val notificationId: Int = 10000
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
@@ -38,9 +37,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     interface ActionTaskListener {
-        fun onStartAction(fileUri: Uri, attachment: BinaryAttachment)
-        fun onUpdateAction(fileUri: Uri, attachment: BinaryAttachment, percentProgression: Int)
-        fun onStopAction(fileUri: Uri, attachment: BinaryAttachment, success: Boolean)
+        fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment)
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -49,49 +46,65 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
 
+        val downloadFileUri: Uri? = if (intent?.hasExtra(DOWNLOAD_FILE_URI_KEY) == true) {
+            intent.getParcelableExtra(DOWNLOAD_FILE_URI_KEY)
+        } else null
+
         when(intent?.action) {
             ACTION_ATTACHMENT_FILE_START_DOWNLOAD -> {
-                if (intent.hasExtra(DOWNLOAD_FILE_URI_KEY)
-                        && intent.hasExtra(BINARY_ATTACHMENT_KEY)) {
+                if (downloadFileUri != null
+                        && intent.hasExtra(ATTACHMENT_KEY)) {
 
-                    val downloadFileUri: Uri = intent.getParcelableExtra(DOWNLOAD_FILE_URI_KEY)
-                    val attachmentToDownload: BinaryAttachment = intent.getParcelableExtra(BINARY_ATTACHMENT_KEY)
+                    val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }?.notificationId ?: notificationId) +1
 
-                    downloadFileUris.add(downloadFileUri)
-
+                    val entryAttachment: EntryAttachment = intent.getParcelableExtra(ATTACHMENT_KEY)
+                    val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
+                    downloadFileUris[downloadFileUri] = attachmentNotification
                     try {
-                        AttachmentFileAsyncTask(downloadFileUri, contentResolver, {
-                            newNotification(downloadFileUri)
-                            mActionTaskListeners.forEach {
-                                it.onStartAction(downloadFileUri, attachmentToDownload)
+                        AttachmentFileAsyncTask(downloadFileUri,
+                                attachmentNotification,
+                                contentResolver) { uri, attachment, notificationIdAttach ->
+                            newNotification(uri, attachment, notificationIdAttach)
+                            mActionTaskListeners.forEach { actionListener ->
+                                actionListener.onAttachmentProgress(downloadFileUri, attachment)
                             }
-
-                        }, { percent ->
-                            newNotification(downloadFileUri, false, percent)
-                            mActionTaskListeners.forEach {
-                                it.onUpdateAction(downloadFileUri, attachmentToDownload, percent)
-                            }
-                        }, { success ->
-                            newNotification(downloadFileUri, true)
-                            mActionTaskListeners.forEach {
-                                it.onStopAction(downloadFileUri, attachmentToDownload, success)
-                            }
-                        }).execute(attachmentToDownload)
+                        }.execute()
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to download $downloadFileUri", e)
                     }
                 }
             }
-            ACTION_ATTACHMENT_FILE_STOP_DOWNLOAD -> {
+            else -> {
+                if (downloadFileUri != null) {
+                    downloadFileUris[downloadFileUri]?.notificationId?.let {
+                        notificationManager?.cancel(it)
+                        downloadFileUris.remove(downloadFileUri)
+                    }
+                } else {
+                    notificationManager?.cancelAll()
+                    downloadFileUris.clear()
+                }
                 stopSelf()
             }
-            else -> { }
         }
 
         return START_REDELIVER_INTENT
     }
 
-    private fun newNotification(downloadFileUri: Uri, complete: Boolean = false, progress: Int? = null) {
+    fun checkCurrentAttachmentProgress() {
+        downloadFileUris.forEach(object : (Map.Entry<Uri, AttachmentNotification>) -> Unit {
+            override fun invoke(entry: Map.Entry<Uri, AttachmentNotification>) {
+                mActionTaskListeners.forEach { actionListener ->
+                    actionListener.onAttachmentProgress(entry.key, entry.value.entryAttachment)
+                }
+            }
+        })
+    }
+
+    private fun newNotification(downloadFileUri: Uri,
+                                entryAttachment: EntryAttachment,
+                                notificationIdAttachment: Int) {
+
         val pendingContentIntent = PendingIntent.getActivity(this,
                 0,
                 Intent().apply {
@@ -103,7 +116,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
         val pendingDeleteIntent =  PendingIntent.getService(this,
                 0,
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
-                    action = ACTION_ATTACHMENT_FILE_STOP_DOWNLOAD
+                    // No action to delete the service
+                    putExtra(DOWNLOAD_FILE_URI_KEY, downloadFileUri)
                 }, PendingIntent.FLAG_UPDATE_CURRENT)
 
         val fileName = DocumentFile.fromSingleUri(this, downloadFileUri)?.name ?: ""
@@ -111,50 +125,58 @@ class AttachmentFileNotificationService: LockNotificationService() {
         val builder = buildNewNotification().apply {
             setSmallIcon(R.drawable.ic_file_download_white_24dp)
             setContentTitle(getString(R.string.download_attachment, fileName))
-            when {
-                complete -> {
+            setAutoCancel(false)
+            when (entryAttachment.downloadState) {
+                AttachmentState.NULL, AttachmentState.START -> {
+                    setContentText(getString(R.string.download_initialization))
+                    setOngoing(true)
+                }
+                AttachmentState.IN_PROGRESS -> {
+                    if (entryAttachment.downloadProgression > 100) {
+                        setContentText(getString(R.string.download_finalization))
+                    } else {
+                        setProgress(100, entryAttachment.downloadProgression, false)
+                        setContentText(getString(R.string.download_progression, entryAttachment.downloadProgression))
+                    }
+                    setOngoing(true)
+                }
+                AttachmentState.COMPLETE, AttachmentState.ERROR -> {
                     setContentText(getString(R.string.download_complete))
                     setContentIntent(pendingContentIntent)
                     setDeleteIntent(pendingDeleteIntent)
                     setOngoing(false)
                 }
-                progress != null -> {
-                    if (progress > 100) {
-                        setContentText(getString(R.string.download_finalization))
-                    } else {
-                        setProgress(100, progress, false)
-                        setContentText(getString(R.string.download_progression, progress))
-                    }
-                    setOngoing(true)
-                }
-                else -> {
-                    setContentText(getString(R.string.download_initialization))
-                    setOngoing(true)
-                }
             }
-            setAutoCancel(false)
+        }
+        notificationManager?.notify(notificationIdAttachment, builder.build())
+    }
+
+    data class AttachmentNotification(var notificationId: Int, var entryAttachment: EntryAttachment) {
+        override fun equals(other: Any?): Boolean {
+            if (this === other) return true
+            if (javaClass != other?.javaClass) return false
+
+            other as AttachmentNotification
+
+            if (notificationId != other.notificationId) return false
+
+            return true
         }
 
-        val notificationIdDynamic = notificationId + downloadFileUris.indexOf(downloadFileUri)
-        startForeground(notificationIdDynamic, builder.build())
+        override fun hashCode(): Int {
+            return notificationId
+        }
     }
 
     companion object {
         private val TAG = AttachmentFileNotificationService::javaClass.name
 
         const val ACTION_ATTACHMENT_FILE_START_DOWNLOAD = "ACTION_ATTACHMENT_FILE_START_DOWNLOAD"
-        const val ACTION_ATTACHMENT_FILE_STOP_DOWNLOAD = "ACTION_ATTACHMENT_FILE_STOP_DOWNLOAD"
 
         const val DOWNLOAD_FILE_URI_KEY = "DOWNLOAD_FILE_URI_KEY"
-        const val BINARY_ATTACHMENT_KEY = "BINARY_ATTACHMENT_KEY"
+        const val ATTACHMENT_KEY = "ATTACHMENT_KEY"
 
-        fun start(context: Context) {
-            context.startService(Intent(context, AttachmentFileNotificationService::class.java))
-        }
-
-        fun stop(context: Context) {
-            context.stopService(Intent(context, AttachmentFileNotificationService::class.java))
-        }
+        private val downloadFileUris = HashMap<Uri, AttachmentNotification>()
     }
 
 }

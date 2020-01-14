@@ -41,10 +41,11 @@ import com.kunzisoft.keepass.activities.lock.LockingHideActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -77,7 +78,7 @@ class EntryActivity : LockingHideActivity() {
     private var mShowPassword: Boolean = false
 
     private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
-    private var mAttachmentsToDownload: HashMap<Int, BinaryAttachment> = HashMap()
+    private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -171,19 +172,12 @@ class EntryActivity : LockingHideActivity() {
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
-                override fun onStartAction(fileUri: Uri, attachment: BinaryAttachment) {
-                    entryContentsView?.startAttachmentDownload(attachment)
-                }
-
-                override fun onUpdateAction(fileUri: Uri, attachment: BinaryAttachment, percentProgression: Int) {
-                    entryContentsView?.updateAttachmentDownloadProgress(attachment, percentProgression)
-                }
-
-                override fun onStopAction(fileUri: Uri, attachment: BinaryAttachment, success: Boolean) {
-                    entryContentsView?.stopAttachmentDownload(attachment)
+                override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
+                    entryContentsView?.updateAttachmentDownloadProgress(attachment)
                 }
             }
         }
+        mAttachmentFileBinderManager?.checkProgress()
 
         firstLaunchOfActivity = false
     }
@@ -308,12 +302,15 @@ class EntryActivity : LockingHideActivity() {
         if (showAttachmentsView) {
             entryContentsView?.assignAttachments(attachments)
             entryContentsView?.onAttachmentClick { attachmentItem, _ ->
-                if (!attachmentItem.downloadInProgress) {
-                    createDocument(this, attachmentItem.name)?.let { requestCode ->
-                        mAttachmentsToDownload[requestCode] = attachmentItem.binaryAttachment
+                when (attachmentItem.downloadState) {
+                    AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
+                        createDocument(this, attachmentItem.name)?.let { requestCode ->
+                            mAttachmentsToDownload[requestCode] = attachmentItem
+                        }
                     }
-                } else {
-                    // TODO Stop download
+                    else -> {
+                        // TODO Stop download
+                    }
                 }
             }
         }
