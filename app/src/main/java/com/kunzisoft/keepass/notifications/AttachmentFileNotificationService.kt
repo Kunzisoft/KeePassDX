@@ -17,7 +17,6 @@ import kotlin.collections.HashMap
 
 class AttachmentFileNotificationService: LockNotificationService() {
 
-    // Base notification Id, not used
     override val notificationId: Int = 10000
 
     private var mActionTaskBinder = ActionTaskBinder()
@@ -55,7 +54,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 if (downloadFileUri != null
                         && intent.hasExtra(ATTACHMENT_KEY)) {
 
-                    val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }?.notificationId ?: notificationId) +1
+                    val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }
+                            ?.notificationId?.plus(1) ?: notificationId)
 
                     val entryAttachment: EntryAttachment = intent.getParcelableExtra(ATTACHMENT_KEY)
                     val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
@@ -84,7 +84,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     notificationManager?.cancelAll()
                     downloadFileUris.clear()
                 }
-                stopSelf()
+                if (downloadFileUris.isEmpty()) {
+                    stopSelf()
+                }
             }
         }
 
@@ -118,7 +120,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
                     // No action to delete the service
                     putExtra(DOWNLOAD_FILE_URI_KEY, downloadFileUri)
-                }, PendingIntent.FLAG_UPDATE_CURRENT)
+                }, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val fileName = DocumentFile.fromSingleUri(this, downloadFileUri)?.name ?: ""
 

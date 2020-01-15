@@ -41,6 +41,8 @@ import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
+import androidx.recyclerview.widget.SimpleItemAnimator
+
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
                                                   var attrs: AttributeSet? = null,
@@ -127,6 +129,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
             adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
 
         creationDateView = findViewById(R.id.entry_created)
