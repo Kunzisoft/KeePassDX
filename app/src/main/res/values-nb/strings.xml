@@ -37,8 +37,8 @@
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
-    <string name="clipboard_error">Noen enheter vil ikke la apper bruke utklippstavlen.</string>
-    <string name="clipboard_error_clear">Tømming av utklippstavle mislyktes</string>
+    <string name="clipboard_error">Noen enheter lar ikke programmer bruke utklippstavlen.</string>
+    <string name="clipboard_error_clear">Kunne ikke tømme utklippstavle</string>
     <string name="clipboard_timeout">Tidsavbrudd for utklippstavle</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavlen tømmes etter kopiering av brukernavn og passord</string>
     <string name="clipboard_swipe_clean">Dra for å tømme utklippstavlen nå</string>
