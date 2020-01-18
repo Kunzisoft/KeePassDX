@@ -215,7 +215,6 @@
     <string name="path">Chemin</string>
     <string name="assign_master_key">Assigner une clé maîtresse</string>
     <string name="create_keepass_file">Créer une nouvelle base de données</string>
-    <string name="bytes">Octets</string>
     <string name="full_file_path_enable_title">Chemin de fichier</string>
     <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>

@@ -239,7 +239,6 @@
     <string name="file_name">Nome do ficheiro</string>
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave mestre</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Caminho do ficheiro</string>
     <string name="full_file_path_enable_summary">Veja o caminho inteiro do ficheiro</string>
     <string name="recycle_bin_title">Usar lixeira</string>

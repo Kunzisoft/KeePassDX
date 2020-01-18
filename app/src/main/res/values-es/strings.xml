@@ -234,7 +234,6 @@
     <string name="path">Ruta</string>
     <string name="assign_master_key">Asignar una clave maestra</string>
     <string name="create_keepass_file">Crear base de datos nueva</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Ruta de archivo</string>
     <string name="full_file_path_enable_summary">Ver la ruta completa del archivo</string>
     <string name="recycle_bin_title">Usar la papelera de reciclaje</string>

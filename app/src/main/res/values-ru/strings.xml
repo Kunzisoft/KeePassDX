@@ -248,7 +248,6 @@
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
     <string name="create_keepass_file">Создать новую базу</string>
-    <string name="bytes">Байт</string>
     <string name="full_file_path_enable_title">Путь к файлу</string>
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
     <string name="recycle_bin_title">Использовать \"Корзину\"</string>

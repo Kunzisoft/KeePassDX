@@ -250,7 +250,6 @@
     <string name="path">Pad</string>
     <string name="assign_master_key">Hoofdsleutel toewijzen</string>
     <string name="create_keepass_file">Nieuwe databank creëren</string>
-    <string name="bytes">bytes</string>
     <string name="full_file_path_enable_title">Bestandspad</string>
     <string name="full_file_path_enable_summary">Volledig bestandspad tonen</string>
     <string name="recycle_bin_title">Prullenbak gebruiken</string>

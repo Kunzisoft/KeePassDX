@@ -202,7 +202,6 @@
     <string name="unavailable_feature_version">نسخة الاندرويد %1$s لا تحقق ادنى متطلبات السنخة %2$s.</string>
     <string name="file_name">اسم الملف</string>
     <string name="path">مسار</string>
-    <string name="bytes">بايت</string>
     <string name="full_file_path_enable_title">مسار الملف</string>
     <string name="full_file_path_enable_summary">عرض المسار الكامل للملف</string>
     <string name="configure_biometric">فحص البصمة مدعوم لكنه ليس معد.</string>

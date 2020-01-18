@@ -241,7 +241,6 @@
     <string name="path">Caminho</string>
     <string name="assign_master_key">Defina uma chave mestre</string>
     <string name="create_keepass_file">Criar novo banco</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Caminho do arquivo</string>
     <string name="full_file_path_enable_summary">Veja o caminho inteiro do arquivo</string>
     <string name="recycle_bin_title">Usar lixeira</string>

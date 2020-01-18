@@ -218,7 +218,6 @@
     <string name="path">Διαδρομή</string>
     <string name="assign_master_key">Ορίστε ένα κύριο κλειδί</string>
     <string name="create_keepass_file">Δημιουργία νέας βάσης δεδομένων</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Διαδρομή αρχείου</string>
     <string name="full_file_path_enable_summary">Προβολή ολόκληρης της διαδρομής αρχείου</string>
     <string name="recycle_bin_title">Χρησιμοποιήστε κάδο ανακύκλωσης</string>

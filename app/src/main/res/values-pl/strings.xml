@@ -248,7 +248,6 @@
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nową bazę danych</string>
-    <string name="bytes">Bajtów</string>
     <string name="full_file_path_enable_title">Ścieżka pliku</string>
     <string name="full_file_path_enable_summary">Wyświetl pełną ścieżkę do pliku</string>
     <string name="recycle_bin_title">Użyj kosza</string>

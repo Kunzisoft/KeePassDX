@@ -242,7 +242,6 @@
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
     <string name="create_keepass_file">Crea un nuovo database</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Percorso file</string>
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>

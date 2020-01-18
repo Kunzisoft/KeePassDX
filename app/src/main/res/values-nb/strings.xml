@@ -228,7 +228,6 @@
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøkkel</string>
     <string name="create_keepass_file">Opprett ny KeePass-fil</string>
-    <string name="bytes">Byte</string>
     <string name="full_file_path_enable_title">Filsti</string>
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>

@@ -249,7 +249,6 @@
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøgle</string>
     <string name="create_keepass_file">Opret en ny database</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Filsti</string>
     <string name="full_file_path_enable_summary">Se den fulde filsti</string>
     <string name="recycle_bin_title">Brug papirkurven</string>

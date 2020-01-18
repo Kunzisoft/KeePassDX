@@ -251,7 +251,6 @@
     <string name="file_name">Fájlnév</string>
     <string name="path">Útvonal</string>
     <string name="assign_master_key">Mesterkulcs hozzárendelése</string>
-    <string name="bytes">Bájtok</string>
     <string name="full_file_path_enable_title">Fájlútvonal</string>
     <string name="full_file_path_enable_summary">A teljes fájlútvonal megtekintése</string>
     <string name="recycle_bin_title">Kuka használata</string>

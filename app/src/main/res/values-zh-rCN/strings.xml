@@ -218,7 +218,6 @@
     <string name="file_name">文件名</string>
     <string name="path">路径</string>
     <string name="create_keepass_file">创建新数据库</string>
-    <string name="bytes">字节数</string>
     <string name="full_file_path_enable_title">文件路径</string>
     <string name="full_file_path_enable_summary">显示完整的文件路径</string>
     <string name="database_name_title">数据库名称</string>

@@ -21,8 +21,8 @@ package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
+import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.Serializable
 import java.text.DateFormat
@@ -84,7 +84,7 @@ open class FileInfo : Serializable {
     }
 
     fun getSizeString(): String {
-        return (size.toString() + " " + context.getString(R.string.bytes))
+        return Formatter.formatFileSize(context, size)
     }
 
     companion object {
