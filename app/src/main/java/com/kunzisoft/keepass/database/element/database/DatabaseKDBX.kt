@@ -181,7 +181,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                             }
                             CompressionAlgorithm.GZip -> {
                                 // To compress, create a new binary with file
-                                binary.compress()
+                                binary.compress(BUFFER_SIZE_BYTES)
                             }
                         }
                     }
@@ -189,7 +189,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                         when (newCompression) {
                             CompressionAlgorithm.None -> {
                                 // To decompress, create a new binary with file
-                                binary.decompress()
+                                binary.decompress(BUFFER_SIZE_BYTES)
                             }
                             CompressionAlgorithm.GZip -> {
                             }
@@ -562,7 +562,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         private const val KeyElementName = "Key"
         private const val KeyDataElementName = "Data"
 
-        const val BASE_64_FLAG = Base64.DEFAULT
+        const val BASE_64_FLAG = Base64.NO_WRAP
 
         const val BUFFER_SIZE_BYTES = 3 * 128
     }

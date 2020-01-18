@@ -19,20 +19,17 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
-
+import java.util.*
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean, private val key: ByteArray) : InputStream() {
 
-    private val baseStream: LEDataInputStream = LEDataInputStream(baseStream)
+    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(baseStream)
     private var buffer: ByteArray = ByteArray(0)
     private var bufferPos = 0
     private var blockIndex: Long = 0
@@ -46,7 +43,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = DatabaseInputOutputUtils.readUByte(buffer, bufferPos)
+        val output = byteToUInt(buffer[bufferPos])
         bufferPos++
 
         return output
@@ -91,23 +88,23 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
         if (endOfStream) return false
 
         val storedHmac = baseStream.readBytes(32)
-        if (storedHmac == null || storedHmac.size != 32) {
+        if (storedHmac.size != 32) {
             throw IOException("File corrupted")
         }
 
-        val pbBlockIndex = LEDataOutputStream.writeLongBuf(blockIndex)
+        val pbBlockIndex = longTo8Bytes(blockIndex)
         val pbBlockSize = baseStream.readBytes(4)
-        if (pbBlockSize == null || pbBlockSize.size != 4) {
+        if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = LEDataInputStream.readInt(pbBlockSize, 0)
+        val blockSize = bytes4ToInt(pbBlockSize)
         bufferPos = 0
 
         buffer = baseStream.readBytes(blockSize)
 
         if (verify) {
             val cmpHmac: ByteArray
-            val blockKey = HmacBlockStream.GetHmacKey64(key, blockIndex)
+            val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)
             val hmac: Mac
             try {
                 hmac = Mac.getInstance("HmacSHA256")

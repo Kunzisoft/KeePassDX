@@ -19,17 +19,14 @@
  */
 package com.kunzisoft.keepass.database.file.output
 
-import com.kunzisoft.keepass.utils.VariantDictionary
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.database.exception.DatabaseOutputException
-import com.kunzisoft.keepass.stream.HmacBlockStream
-import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.stream.MacOutputStream
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.ULONG_MAX_VALUE
+import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.VariantDictionary
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.OutputStream
@@ -37,13 +34,15 @@ import java.security.DigestOutputStream
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 
 class DatabaseHeaderOutputKDBX @Throws(DatabaseOutputException::class)
-constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX, os: OutputStream) : DatabaseHeaderOutput() {
-    private val los: LEDataOutputStream
+constructor(private val databaseKDBX: DatabaseKDBX,
+            private val header: DatabaseHeaderKDBX,
+            outputStream: OutputStream) : DatabaseHeaderOutput() {
+
+    private val los: LittleEndianDataOutputStream
     private val mos: MacOutputStream
     private val dos: DigestOutputStream
     lateinit var headerHmac: ByteArray
@@ -58,15 +57,16 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         }
 
         try {
-            db.makeFinalKey(header.masterSeed)
+            databaseKDBX.makeFinalKey(header.masterSeed)
         } catch (e: IOException) {
             throw DatabaseOutputException(e)
         }
 
+        val hmacKey = databaseKDBX.hmacKey ?: throw DatabaseOutputException("HmacKey is not defined")
         val hmac: Mac
         try {
             hmac = Mac.getInstance("HmacSHA256")
-            val signingKey = SecretKeySpec(HmacBlockStream.GetHmacKey64(db.hmacKey, DatabaseInputOutputUtils.ULONG_MAX_VALUE), "HmacSHA256")
+            val signingKey = SecretKeySpec(HmacBlockStream.getHmacKey64(hmacKey, ULONG_MAX_VALUE), "HmacSHA256")
             hmac.init(signingKey)
         } catch (e: NoSuchAlgorithmException) {
             throw DatabaseOutputException(e)
@@ -74,9 +74,9 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
             throw DatabaseOutputException(e)
         }
 
-        dos = DigestOutputStream(os, md)
+        dos = DigestOutputStream(outputStream, md)
         mos = MacOutputStream(dos, hmac)
-        los = LEDataOutputStream(mos)
+        los = LittleEndianDataOutputStream(mos)
     }
 
     @Throws(IOException::class)
@@ -86,15 +86,15 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         los.writeUInt(DatabaseHeaderKDBX.DBSIG_2.toLong())
         los.writeUInt(header.version)
 
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, DatabaseInputOutputUtils.uuidToBytes(db.dataCipher))
-        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, LEDataOutputStream.writeIntBuf(DatabaseHeaderKDBX.getFlagFromCompression(db.compressionAlgorithm)))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CipherID, uuidTo16Bytes(databaseKDBX.dataCipher))
+        writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.CompressionFlags, intTo4Bytes(DatabaseHeaderKDBX.getFlagFromCompression(databaseKDBX.compressionAlgorithm)))
         writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.MasterSeed, header.masterSeed)
 
         if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformSeed, header.transformSeed)
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, LEDataOutputStream.writeLongBuf(db.numberKeyEncryptionRounds))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.TransformRounds, longTo8Bytes(databaseKDBX.numberKeyEncryptionRounds))
         } else {
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(db.kdfParameters!!))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.KdfParameters, KdfParameters.serialize(databaseKDBX.kdfParameters!!))
         }
 
         if (header.encryptionIV.isNotEmpty()) {
@@ -104,13 +104,13 @@ constructor(private val db: DatabaseKDBX, private val header: DatabaseHeaderKDBX
         if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomstreamKey, header.innerRandomStreamKey)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.StreamStartBytes, header.streamStartBytes)
-            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, LEDataOutputStream.writeIntBuf(header.innerRandomStream!!.id))
+            writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.InnerRandomStreamID, intTo4Bytes(header.innerRandomStream!!.id))
         }
 
-        if (db.containsPublicCustomData()) {
+        if (databaseKDBX.containsPublicCustomData()) {
             val bos = ByteArrayOutputStream()
-            val los = LEDataOutputStream(bos)
-            VariantDictionary.serialize(db.publicCustomData, los)
+            val los = LittleEndianDataOutputStream(bos)
+            VariantDictionary.serialize(databaseKDBX.publicCustomData, los)
             writeHeaderField(DatabaseHeaderKDBX.PwDbHeaderV4Fields.PublicCustomData, bos.toByteArray())
         }
 

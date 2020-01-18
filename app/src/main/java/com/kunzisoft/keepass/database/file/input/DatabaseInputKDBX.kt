@@ -24,7 +24,8 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CipherFactory
 import com.kunzisoft.keepass.crypto.StreamCipherFactory
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BASE_64_FLAG
@@ -37,12 +38,11 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.exception.*
-import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
+import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
 import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
@@ -54,10 +54,12 @@ import java.util.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
 import javax.crypto.Cipher
+import javax.crypto.CipherInputStream
 import kotlin.math.min
 
-class DatabaseInputKDBX(private val streamDir: File,
-                        private val fixDuplicateUUID: Boolean = false) : DatabaseInput<DatabaseKDBX>() {
+class DatabaseInputKDBX(cacheDirectory: File,
+                        private val fixDuplicateUUID: Boolean = false)
+    : DatabaseInput<DatabaseKDBX>(cacheDirectory) {
 
     private var randomStream: StreamCipher? = null
     private lateinit var mDatabase: DatabaseKDBX
@@ -131,11 +133,11 @@ class DatabaseInputKDBX(private val streamDir: File,
             if (mDatabase.kdbxVersion < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
 
                 val decrypted = attachCipherStream(databaseInputStream, cipher)
-                val dataDecrypted = LEDataInputStream(decrypted)
+                val dataDecrypted = LittleEndianDataInputStream(decrypted)
                 val storedStartBytes: ByteArray?
                 try {
                     storedStartBytes = dataDecrypted.readBytes(32)
-                    if (storedStartBytes == null || storedStartBytes.size != 32) {
+                    if (storedStartBytes.size != 32) {
                         throw InvalidCredentialsDatabaseException()
                     }
                 } catch (e: IOException) {
@@ -148,7 +150,7 @@ class DatabaseInputKDBX(private val streamDir: File,
 
                 isPlain = HashedBlockInputStream(dataDecrypted)
             } else { // KDBX 4
-                val isData = LEDataInputStream(databaseInputStream)
+                val isData = LittleEndianDataInputStream(databaseInputStream)
                 val storedHash = isData.readBytes(32)
                 if (!Arrays.equals(storedHash, hashOfHeader)) {
                     throw InvalidCredentialsDatabaseException()
@@ -157,7 +159,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 val hmacKey = mDatabase.hmacKey ?: throw LoadDatabaseException()
                 val headerHmac = DatabaseHeaderKDBX.computeHeaderHmac(pbHeader, hmacKey)
                 val storedHmac = isData.readBytes(32)
-                if (storedHmac == null || storedHmac.size != 32) {
+                if (storedHmac.size != 32) {
                     throw InvalidCredentialsDatabaseException()
                 }
                 // Mac doesn't match
@@ -207,12 +209,12 @@ class DatabaseInputKDBX(private val streamDir: File,
     }
 
     private fun attachCipherStream(inputStream: InputStream, cipher: Cipher): InputStream {
-        return BetterCipherInputStream(inputStream, cipher, 50 * 1024)
+        return CipherInputStream(inputStream, cipher)
     }
 
     @Throws(IOException::class)
     private fun loadInnerHeader(inputStream: InputStream, header: DatabaseHeaderKDBX) {
-        val lis = LEDataInputStream(inputStream)
+        val lis = LittleEndianDataInputStream(inputStream)
 
         while (true) {
             if (!readInnerHeader(lis, header)) break
@@ -220,7 +222,8 @@ class DatabaseInputKDBX(private val streamDir: File,
     }
 
     @Throws(IOException::class)
-    private fun readInnerHeader(dataInputStream: LEDataInputStream, header: DatabaseHeaderKDBX): Boolean {
+    private fun readInnerHeader(dataInputStream: LittleEndianDataInputStream,
+                                header: DatabaseHeaderKDBX): Boolean {
         val fieldId = dataInputStream.read().toByte()
 
         val size = dataInputStream.readInt()
@@ -243,13 +246,11 @@ class DatabaseInputKDBX(private val streamDir: File,
                 val protectedFlag = flag && DatabaseHeaderKDBX.KdbxBinaryFlags.Protected.toInt() != DatabaseHeaderKDBX.KdbxBinaryFlags.None.toInt()
                 val byteLength = size - 1
                 // Read in a file
-                val file = File(streamDir, unusedCacheFileName)
+                val file = File(cacheDirectory, unusedCacheFileName)
                 FileOutputStream(file).use { outputStream ->
-                    dataInputStream.readBytes(byteLength, object : ReadBytes {
-                        override fun read(buffer: ByteArray) {
-                            outputStream.write(buffer)
-                        }
-                    })
+                    dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
+                        outputStream.write(buffer)
+                    }
                 }
                 val protectedBinary = BinaryAttachment(file, protectedFlag)
                 mDatabase.binaryPool.add(protectedBinary)
@@ -822,7 +823,7 @@ class DatabaseInputKDBX(private val streamDir: File,
                 buf = buf8
             }
 
-            val seconds = LEDataInputStream.readLong(buf, 0)
+            val seconds = bytes64ToLong(buf)
             utcDate = DateKDBXUtil.convertKDBX4Time(seconds)
 
         } else {
@@ -882,7 +883,7 @@ class DatabaseInputKDBX(private val streamDir: File,
         }
         val buf = Base64.decode(encoded, BASE_64_FLAG)
 
-        return DatabaseInputOutputUtils.bytesToUuid(buf)
+        return bytes16ToUuid(buf)
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
@@ -960,7 +961,7 @@ class DatabaseInputKDBX(private val streamDir: File,
 
         // New binary to retrieve
         else {
-            var compressed: Boolean? = null
+            var compressed = false
             var protected = false
 
             if (xpp.attributeCount > 0) {
@@ -980,16 +981,16 @@ class DatabaseInputKDBX(private val streamDir: File,
                 return BinaryAttachment()
             val data = Base64.decode(base64, BASE_64_FLAG)
 
-            val file = File(streamDir, unusedCacheFileName)
+            val file = File(cacheDirectory, unusedCacheFileName)
             return FileOutputStream(file).use { outputStream ->
                 // Force compression in this specific case
                 if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                        && compressed == false) {
+                        && !compressed) {
                     GZIPOutputStream(outputStream).write(data)
                     BinaryAttachment(file, protected, true)
                 } else {
                     outputStream.write(data)
-                    BinaryAttachment(file, protected)
+                    BinaryAttachment(file, protected, compressed)
                 }
             }
         }

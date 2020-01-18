@@ -42,7 +42,6 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
@@ -53,8 +52,7 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
-import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
 import java.io.FileNotFoundException
@@ -92,16 +90,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         // Create button
         createButtonView = findViewById(R.id.create_database_button)
-        if (Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-                    addCategory(Intent.CATEGORY_OPENABLE)
-                    type = "application/x-keepass"
-                }.resolveActivity(packageManager) == null) {
-            // No Activity found that can handle this intent.
-            createButtonView?.visibility = View.GONE
-        }
-        else{
+        if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
             // There is an activity which can handle this intent.
             createButtonView?.visibility = View.VISIBLE
+        }
+        else{
+            // No Activity found that can handle this intent.
+            createButtonView?.visibility = View.GONE
         }
 
         createButtonView?.setOnClickListener { createNewFile() }
@@ -182,18 +177,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
      */
     @SuppressLint("InlinedApi")
     private fun createNewFile() {
-        try {
-            startActivityForResult(Intent(
-                    Intent.ACTION_CREATE_DOCUMENT).apply {
-                        addCategory(Intent.CATEGORY_OPENABLE)
-                        type = "application/x-keepass"
-                        putExtra(Intent.EXTRA_TITLE, getString(R.string.database_file_name_default) +
-                                getString(R.string.database_file_extension_default))
-                    },
-                    CREATE_FILE_REQUEST_CODE)
-        } catch (e: Exception) {
-            BrowserDialogFragment().show(supportFragmentManager, "browserDialog")
-        }
+        createDocument(this, getString(R.string.database_file_name_default) +
+                getString(R.string.database_file_extension_default), "application/x-keepass")
     }
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
@@ -367,14 +352,14 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         // Retrieve the created URI from the file manager
-        if (requestCode == CREATE_FILE_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
-            mDatabaseFileUri = data?.data
+        onCreateDocumentResult(requestCode, resultCode, data) { databaseFileCreatedUri ->
+            mDatabaseFileUri = databaseFileCreatedUri
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment.getInstance(true)
                         .show(supportFragmentManager, "passwordDialog")
             }
             // else {
-                // TODO Show error
+            // TODO Show error
             // }
         }
     }
@@ -426,8 +411,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
         private const val TAG = "FileDbSelectActivity"
         private const val EXTRA_STAY = "EXTRA_STAY"
         private const val EXTRA_DATABASE_URI = "EXTRA_DATABASE_URI"
-
-        private const val CREATE_FILE_REQUEST_CODE = 3853
 
         /*
          * -------------------------

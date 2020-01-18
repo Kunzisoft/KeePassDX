@@ -21,7 +21,7 @@ package com.kunzisoft.keepass.crypto.keyDerivation
 
 import android.content.res.Resources
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.stream.bytes16ToUuid
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -126,7 +126,7 @@ class Argon2Kdf internal constructor() : KdfEngine() {
 
     companion object {
 
-        val CIPHER_UUID: UUID = DatabaseInputOutputUtils.bytesToUuid(
+        val CIPHER_UUID: UUID = bytes16ToUuid(
                 byteArrayOf(0xEF.toByte(),
                         0x63.toByte(),
                         0x6D.toByte(),

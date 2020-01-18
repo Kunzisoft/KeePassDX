@@ -19,13 +19,17 @@
  */
 package com.kunzisoft.keepass.utils;
 
-import com.kunzisoft.keepass.stream.LEDataInputStream;
-import com.kunzisoft.keepass.stream.LEDataOutputStream;
+import com.kunzisoft.keepass.stream.LittleEndianDataInputStream;
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToInt;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToUInt;
+import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes64ToLong;
 
 public class VariantDictionary {
     private static final int VdVersion = 0x0100;
@@ -51,7 +55,6 @@ public class VariantDictionary {
             this.type = type;
             this.value = value;
         }
-
     }
 
     private Object getValue(String name) {
@@ -87,7 +90,7 @@ public class VariantDictionary {
     public void setByteArray(String name, byte[] value) { putType(VdType.ByteArray, name, value); }
     public byte[] getByteArray(String name) { return (byte[])getValue(name); }
 
-    public static VariantDictionary deserialize(LEDataInputStream lis) throws IOException {
+    public static VariantDictionary deserialize(LittleEndianDataInputStream lis) throws IOException {
         VariantDictionary d = new VariantDictionary();
 
         int version = lis.readUShort();
@@ -122,12 +125,12 @@ public class VariantDictionary {
             switch (bType) {
                 case VdType.UInt32:
                     if (valueLen == 4) {
-                        d.setUInt32(name, LEDataInputStream.readUInt(valueBuf, 0));
+                        d.setUInt32(name, bytes4ToUInt(valueBuf));
                     }
                     break;
                 case VdType.UInt64:
                     if (valueLen == 8) {
-                        d.setUInt64(name, LEDataInputStream.readLong(valueBuf, 0));
+                        d.setUInt64(name, bytes64ToLong(valueBuf));
                     }
                     break;
                 case VdType.Bool:
@@ -137,12 +140,12 @@ public class VariantDictionary {
                     break;
                 case VdType.Int32:
                     if (valueLen == 4) {
-                        d.setInt32(name, LEDataInputStream.readInt(valueBuf, 0));
+                        d.setInt32(name, bytes4ToInt(valueBuf));
                     }
                     break;
                 case VdType.Int64:
                     if (valueLen == 8) {
-                        d.setInt64(name, LEDataInputStream.readLong(valueBuf, 0));
+                        d.setInt64(name, bytes64ToLong(valueBuf));
                     }
                     break;
                 case VdType.String:
@@ -152,7 +155,6 @@ public class VariantDictionary {
                     d.setByteArray(name, valueBuf);
                     break;
                 default:
-                    assert (false);
                     break;
             }
         }
@@ -160,9 +162,9 @@ public class VariantDictionary {
         return d;
     }
 
-    public static void serialize(VariantDictionary d, LEDataOutputStream los) throws IOException{
+    public static void serialize(VariantDictionary d,
+                                 LittleEndianDataOutputStream los) throws IOException{
         if (los == null) {
-            assert(false);
             return;
         }
 
@@ -174,7 +176,6 @@ public class VariantDictionary {
             try {
                 nameBuf = name.getBytes("UTF-8");
             } catch (UnsupportedEncodingException e) {
-                assert(false);
                 throw new IOException("Couldn't encode parameter name.");
             }
 
@@ -219,13 +220,11 @@ public class VariantDictionary {
                     los.write(buf);
                     break;
                 default:
-                    assert(false);
                     break;
             }
         }
 
         los.write(VdType.None);
-
     }
 
     public void copyTo(VariantDictionary d) {
@@ -236,7 +235,7 @@ public class VariantDictionary {
            dict.put(key, value);
        }
     }
-;
+
     public int size() {
         return dict.size();
     }

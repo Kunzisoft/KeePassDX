@@ -13,7 +13,9 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
@@ -284,10 +286,29 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
+    fun getAttachments(): ArrayList<EntryAttachment> {
+        val attachments = ArrayList<EntryAttachment>()
+
+        val binaryDescriptionKDB = entryKDB?.binaryDescription ?: ""
+        val binaryKDB = entryKDB?.binaryData
+        if (binaryKDB != null) {
+            attachments.add(EntryAttachment(binaryDescriptionKDB, binaryKDB))
+        }
+
+        val actionEach = object : (Map.Entry<String, BinaryAttachment>)->Unit {
+            override fun invoke(mapEntry: Map.Entry<String, BinaryAttachment>) {
+                attachments.add(EntryAttachment(mapEntry.key, mapEntry.value))
+            }
+        }
+        entryKDBX?.binaries?.forEach(actionEach)
+
+        return attachments
+    }
+
     fun getHistory(): ArrayList<Entry> {
         val history = ArrayList<Entry>()
-        val entryV4History = entryKDBX?.history ?: ArrayList()
-        for (entryHistory in entryV4History) {
+        val entryKDBXHistory = entryKDBX?.history ?: ArrayList()
+        for (entryHistory in entryKDBXHistory) {
             history.add(Entry(entryHistory))
         }
         return history

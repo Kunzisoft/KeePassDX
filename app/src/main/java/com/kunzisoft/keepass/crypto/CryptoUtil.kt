@@ -19,15 +19,13 @@
  */
 package com.kunzisoft.keepass.crypto
 
-import com.kunzisoft.keepass.stream.LEDataOutputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
-
+import com.kunzisoft.keepass.stream.longTo8Bytes
 import java.io.IOException
 import java.security.DigestOutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
-
+import java.util.*
 import javax.crypto.Mac
 import kotlin.math.min
 
@@ -60,7 +58,7 @@ object CryptoUtil {
                     throw RuntimeException(e)
                 }
 
-                val pbR = LEDataOutputStream.writeLongBuf(r)
+                val pbR = longTo8Bytes(r)
                 val part = hmac.doFinal(pbR)
 
                 val copy = min(cbOut - pos, part.size)

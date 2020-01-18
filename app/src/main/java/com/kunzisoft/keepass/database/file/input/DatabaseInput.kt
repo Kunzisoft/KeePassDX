@@ -22,9 +22,11 @@ package com.kunzisoft.keepass.database.file.input
 import com.kunzisoft.keepass.database.element.database.DatabaseVersioned
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import java.io.File
 import java.io.InputStream
 
-abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>> {
+abstract class DatabaseInput<PwDb : DatabaseVersioned<*, *, *, *>>
+    (protected val cacheDirectory: File) {
 
     /**
      * Load a versioned database file, return contents in a new DatabaseVersioned.

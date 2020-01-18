@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -43,15 +44,22 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
+import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.createDocument
+import com.kunzisoft.keepass.utils.onCreateDocumentResult
 import com.kunzisoft.keepass.view.EntryContentsView
 import java.util.*
+import kotlin.collections.HashMap
 
 class EntryActivity : LockingHideActivity() {
 
@@ -68,6 +76,9 @@ class EntryActivity : LockingHideActivity() {
     private var mIsHistory: Boolean = false
 
     private var mShowPassword: Boolean = false
+
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -108,6 +119,9 @@ class EntryActivity : LockingHideActivity() {
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         firstLaunchOfActivity = true
+
+        // Init attachment service binder manager
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
     }
 
     override fun onResume() {
@@ -155,7 +169,22 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
+        mAttachmentFileBinderManager?.apply {
+            registerProgressTask()
+            onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
+                override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
+                    entryContentsView?.updateAttachmentDownloadProgress(attachment)
+                }
+            }
+        }
+
         firstLaunchOfActivity = false
+    }
+
+    override fun onPause() {
+        mAttachmentFileBinderManager?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     private fun fillEntryDataInContentsView(entry: Entry) {
@@ -265,6 +294,27 @@ class EntryActivity : LockingHideActivity() {
         }
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
+        // Manage attachments
+        val attachments = entry.getAttachments()
+        val showAttachmentsView = attachments.isNotEmpty()
+        entryContentsView?.showAttachments(showAttachmentsView)
+        if (showAttachmentsView) {
+            entryContentsView?.assignAttachments(attachments)
+            entryContentsView?.onAttachmentClick { attachmentItem, _ ->
+                when (attachmentItem.downloadState) {
+                    AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
+                        createDocument(this, attachmentItem.name)?.let { requestCode ->
+                            mAttachmentsToDownload[requestCode] = attachmentItem
+                        }
+                    }
+                    else -> {
+                        // TODO Stop download
+                    }
+                }
+            }
+        }
+        entryContentsView?.refreshAttachments()
+
         // Assign dates
         entryContentsView?.assignCreationDate(entry.creationTime)
         entryContentsView?.assignModificationDate(entry.lastModificationTime)
@@ -276,9 +326,6 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
 
-        // Assign special data
-        entryContentsView?.assignUUID(entry.nodeId.id)
-
         // Manage history
         historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
         if (mIsHistory) {
@@ -287,7 +334,7 @@ class EntryActivity : LockingHideActivity() {
             taColorAccent.recycle()
         }
         val entryHistory = entry.getHistory()
-        // isMainEntry = not an history
+        // TODO isMainEntry = not an history
         val showHistoryView = entryHistory.isNotEmpty()
         entryContentsView?.showHistory(showHistoryView)
         if (showHistoryView) {
@@ -296,20 +343,32 @@ class EntryActivity : LockingHideActivity() {
                 launch(this, historyItem, true, position)
             }
         }
+        entryContentsView?.refreshHistory()
+
+        // Assign special data
+        entryContentsView?.assignUUID(entry.nodeId.id)
 
         database.stopManageEntry(entry)
-
-        entryContentsView?.refreshHistory()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE ->
                 // Not directly get the entry from intent data but from database
                 mEntry?.let {
                     fillEntryDataInContentsView(it)
                 }
+        }
+
+        onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
+            if (createdFileUri != null) {
+                mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
+                    mAttachmentFileBinderManager
+                            ?.startDownloadAttachment(createdFileUri, attachmentToDownload)
+                }
+            }
         }
     }
 

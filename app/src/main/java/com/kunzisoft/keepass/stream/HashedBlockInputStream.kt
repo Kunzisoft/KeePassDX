@@ -19,18 +19,16 @@
  */
 package com.kunzisoft.keepass.stream
 
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
-import java.util.Arrays
+import java.util.*
 
 
 class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
 
-    private val baseStream: LEDataInputStream = LEDataInputStream(inputStream)
+    private val baseStream: LittleEndianDataInputStream = LittleEndianDataInputStream(inputStream)
     private var bufferPos = 0
     private var buffer: ByteArray = ByteArray(0)
     private var bufferIndex: Long = 0
@@ -88,11 +86,11 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
         bufferIndex++
 
         val storedHash = baseStream.readBytes(32)
-        if (storedHash == null || storedHash.size != HASH_SIZE) {
+        if (storedHash.size != HASH_SIZE) {
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = LEDataInputStream.readInt(baseStream)
+        val bufferSize = baseStream.readBytes4ToInt()
         if (bufferSize < 0) {
             throw IOException("Invalid data format")
         }
@@ -146,7 +144,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             if (!readHashedBlock()) return -1
         }
 
-        val output = DatabaseInputOutputUtils.readUByte(buffer, bufferPos)
+        val output = byteToUInt(buffer[bufferPos])
         bufferPos++
 
         return output

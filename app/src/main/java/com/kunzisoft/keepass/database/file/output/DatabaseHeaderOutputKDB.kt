@@ -20,34 +20,34 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LEDataOutputStream
-
+import com.kunzisoft.keepass.stream.intTo4Bytes
 import java.io.IOException
 import java.io.OutputStream
 
-class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB, private val mOS: OutputStream) {
+class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB,
+                              private val mOutputStream: OutputStream) {
 
     @Throws(IOException::class)
     fun outputStart() {
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature1))
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.signature2))
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.flags))
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.version))
-        mOS.write(mHeader.masterSeed)
-        mOS.write(mHeader.encryptionIV)
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numGroups))
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numEntries))
+        mOutputStream.write(intTo4Bytes(mHeader.signature1))
+        mOutputStream.write(intTo4Bytes(mHeader.signature2))
+        mOutputStream.write(intTo4Bytes(mHeader.flags))
+        mOutputStream.write(intTo4Bytes(mHeader.version))
+        mOutputStream.write(mHeader.masterSeed)
+        mOutputStream.write(mHeader.encryptionIV)
+        mOutputStream.write(intTo4Bytes(mHeader.numGroups))
+        mOutputStream.write(intTo4Bytes(mHeader.numEntries))
     }
 
     @Throws(IOException::class)
     fun outputContentHash() {
-        mOS.write(mHeader.contentsHash)
+        mOutputStream.write(mHeader.contentsHash)
     }
 
     @Throws(IOException::class)
     fun outputEnd() {
-        mOS.write(mHeader.transformSeed)
-        mOS.write(LEDataOutputStream.writeIntBuf(mHeader.numKeyEncRounds))
+        mOutputStream.write(mHeader.transformSeed)
+        mOutputStream.write(intTo4Bytes(mHeader.numKeyEncRounds))
     }
 
     @Throws(IOException::class)
@@ -59,6 +59,6 @@ class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB, private va
 
     @Throws(IOException::class)
     fun close() {
-        mOS.close()
+        mOutputStream.close()
     }
 }
