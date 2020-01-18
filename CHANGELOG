@@ -1,5 +1,10 @@
 KeepassDX (2.5.0.0beta26)
+ * Download attachments
+ * Change file size string format
  * Fix crash when clearing clipboard
+ * Fix attachments compressions
+ * Fix dates
+ * Fix UUID message for Database v1
 
 KeepassDX (2.5.0.0beta25)
  * Setting for Recycle Bin

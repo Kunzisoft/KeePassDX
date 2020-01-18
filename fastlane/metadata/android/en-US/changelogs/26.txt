@@ -1,1 +1,6 @@
+ * Download attachments
+ * Change file size string format
  * Fix crash when clearing clipboard
+ * Fix attachments compressions
+ * Fix dates
+ * Fix UUID message for Database v1

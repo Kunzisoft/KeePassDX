@@ -1,1 +1,6 @@
+ * Téléchargement des fichiers joints
+ * Changement du texte de format de fichiers
  * Correction du crash pendant le vidage du presse-papiers
+ * Correction des compressions des fichiers joints
+ * Correction des dates
+ * Correction du message UUID pour les bases de données V1
