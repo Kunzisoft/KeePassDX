@@ -29,11 +29,6 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         }
     }
 
-    // TODO Fix orientation change
-    fun checkProgress() {
-        mBinder?.getService()?.checkCurrentAttachmentProgress()
-    }
-
     @Synchronized
     fun registerProgressTask() {
         // Check if a service is currently running else do nothing
@@ -43,6 +38,7 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
                     mBinder = (serviceBinder as AttachmentFileNotificationService.ActionTaskBinder).apply {
                         addActionTaskListener(mActionTaskListener)
                     }
+                    mBinder?.getService()?.checkCurrentAttachmentProgress()
                 }
 
                 override fun onServiceDisconnected(name: ComponentName?) {

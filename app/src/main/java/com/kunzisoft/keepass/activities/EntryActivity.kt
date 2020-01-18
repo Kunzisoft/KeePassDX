@@ -177,7 +177,6 @@ class EntryActivity : LockingHideActivity() {
                 }
             }
         }
-        mAttachmentFileBinderManager?.checkProgress()
 
         firstLaunchOfActivity = false
     }

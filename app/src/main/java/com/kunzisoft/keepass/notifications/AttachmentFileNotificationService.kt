@@ -28,9 +28,27 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
+
+            downloadFileUris.forEach(object : (Map.Entry<Uri, AttachmentNotification>) -> Unit {
+                override fun invoke(entry: Map.Entry<Uri, AttachmentNotification>) {
+                    entry.value.attachmentTask?.onUpdate = { uri, attachment, notificationIdAttach ->
+                        newNotification(uri, attachment, notificationIdAttach)
+                        mActionTaskListeners.forEach { actionListener ->
+                            actionListener.onAttachmentProgress(entry.key, attachment)
+                        }
+                    }
+                }
+            })
+
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
+            downloadFileUris.forEach(object : (Map.Entry<Uri, AttachmentNotification>) -> Unit {
+                override fun invoke(entry: Map.Entry<Uri, AttachmentNotification>) {
+                    entry.value.attachmentTask?.onUpdate = null
+                }
+            })
+
             mActionTaskListeners.remove(actionTaskListener)
         }
     }
@@ -55,7 +73,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         && intent.hasExtra(ATTACHMENT_KEY)) {
 
                     val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }
-                            ?.notificationId?.plus(1) ?: notificationId)
+                            ?.notificationId ?: notificationId) + 1
 
                     val entryAttachment: EntryAttachment = intent.getParcelableExtra(ATTACHMENT_KEY)
                     val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
@@ -63,10 +81,12 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     try {
                         AttachmentFileAsyncTask(downloadFileUri,
                                 attachmentNotification,
-                                contentResolver) { uri, attachment, notificationIdAttach ->
-                            newNotification(uri, attachment, notificationIdAttach)
-                            mActionTaskListeners.forEach { actionListener ->
-                                actionListener.onAttachmentProgress(downloadFileUri, attachment)
+                                contentResolver).apply {
+                            onUpdate = { uri, attachment, notificationIdAttach ->
+                                newNotification(uri, attachment, notificationIdAttach)
+                                mActionTaskListeners.forEach { actionListener ->
+                                    actionListener.onAttachmentProgress(downloadFileUri, attachment)
+                                }
                             }
                         }.execute()
                     } catch (e: Exception) {
@@ -80,9 +100,6 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         notificationManager?.cancel(it)
                         downloadFileUris.remove(downloadFileUri)
                     }
-                } else {
-                    notificationManager?.cancelAll()
-                    downloadFileUris.clear()
                 }
                 if (downloadFileUris.isEmpty()) {
                     stopSelf()
@@ -153,7 +170,20 @@ class AttachmentFileNotificationService: LockNotificationService() {
         notificationManager?.notify(notificationIdAttachment, builder.build())
     }
 
-    data class AttachmentNotification(var notificationId: Int, var entryAttachment: EntryAttachment) {
+    override fun onDestroy() {
+        downloadFileUris.forEach(object : (Map.Entry<Uri, AttachmentNotification>) -> Unit {
+            override fun invoke(entry: Map.Entry<Uri, AttachmentNotification>) {
+                entry.value.attachmentTask?.onUpdate = null
+                notificationManager?.cancel(entry.value.notificationId)
+            }
+        })
+
+        super.onDestroy()
+    }
+
+    data class AttachmentNotification(var notificationId: Int,
+                                      var entryAttachment: EntryAttachment,
+                                      var attachmentTask: AttachmentFileAsyncTask? = null) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false

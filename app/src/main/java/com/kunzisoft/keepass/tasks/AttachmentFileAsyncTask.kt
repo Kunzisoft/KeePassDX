@@ -11,15 +11,16 @@ import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 class AttachmentFileAsyncTask(
         private val fileUri: Uri,
         private val attachmentNotification: AttachmentFileNotificationService.AttachmentNotification,
-        private val contentResolver: ContentResolver,
-        private val onUpdate: ((Uri, EntryAttachment, Int)->Unit)? = null
-        ): AsyncTask<Void, Int, Boolean>() {
+        private val contentResolver: ContentResolver)
+    : AsyncTask<Void, Int, Boolean>() {
 
     private val updateMinFrequency = 1000
     private var previousSaveTime = System.currentTimeMillis()
+    var onUpdate: ((Uri, EntryAttachment, Int)->Unit)? = null
 
     override fun onPreExecute() {
         super.onPreExecute()
+        attachmentNotification.attachmentTask = this
         attachmentNotification.entryAttachment.apply {
             downloadState = AttachmentState.START
             downloadProgression = 0
@@ -59,6 +60,7 @@ class AttachmentFileAsyncTask(
 
     override fun onPostExecute(result: Boolean) {
         super.onPostExecute(result)
+        attachmentNotification.attachmentTask = null
         attachmentNotification.entryAttachment.apply {
             downloadState = if (result) AttachmentState.COMPLETE else AttachmentState.ERROR
             downloadProgression = 100
