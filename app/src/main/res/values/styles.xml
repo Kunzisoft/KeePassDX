@@ -328,4 +328,10 @@
         <item name="android:textSize">16sp</item>
 	</style>
 
+    <!-- Progress bar -->
+    <style name="KeepassDXStyle.ProgressBar.Circle" parent="Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
+        <item name="android:background">@drawable/background_progress_circle</item>
+    </style>
+
 </resources>
