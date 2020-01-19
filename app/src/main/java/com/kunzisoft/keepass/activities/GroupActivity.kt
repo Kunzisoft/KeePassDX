@@ -658,7 +658,8 @@ class GroupActivity : LockingActivity(),
         }
 
         // Menu for recycle bin
-        if (mDatabase?.isRecycleBinEnabled == true
+        if (!mReadOnly
+                && mDatabase?.isRecycleBinEnabled == true
                 && mDatabase?.recycleBin == mCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
         }
