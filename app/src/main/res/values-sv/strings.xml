@@ -370,13 +370,13 @@
     <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfilen.</string>
     <string name="menu_advanced_unlock_settings">Avancerad upplåsning</string>
     <string name="menu_biometric_remove_key">Radera sparad biometrisk nyckel</string>
-    <string name="configure_biometric">Biometrisk prompt stöds med är inte konfigurerad.</string>
+    <string name="configure_biometric">Biometrisk prompt stöds men är inte konfigurerad.</string>
     <string name="open_biometric_prompt_unlock_database">Öppna den biometriska prompten för att låsa upp databasen</string>
     <string name="open_biometric_prompt_store_credential">Öppna den biometriska prompten för att lagra autentiseringsuppgifter</string>
     <string name="biometric_prompt_store_credential_title">Spara biometrisk igenkänning</string>
     <string name="biometric_prompt_store_credential_message">VARNING: Användandet av biometrisk igenkänning befriar dig inte från att veta ditt huvudlösenord.</string>
     <string name="biometric_prompt_extract_credential_title">Öppna databas med biometrisk igenkänning</string>
-    <string name="biometric_prompt_extract_credential_message">Hämta databasinformation med biometriska data</string>
+    <string name="biometric_prompt_extract_credential_message">Hämta databasinformation med biometrisk data</string>
     <string name="biometric_invalid_key">Kan inte läsa den biometriska nyckeln. Radera den och gör om den biometriska igenkänningsproceduren.</string>
     <string name="biometric_not_recognized">Känner inte igen biometrik</string>
     <string name="biometric_scanning_error">Biometriskt fel: %1$s</string>
