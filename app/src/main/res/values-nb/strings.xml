@@ -386,4 +386,26 @@
     <string name="error_otp_period">Periode må være mellom %1$d og %2$d sekunder.</string>
     <string name="database_opened">Database åpnet</string>
     <string name="menu_save_database">Lagre database</string>
+    <string name="content_description_password_checkbox">Passordsavkryssningsboks</string>
+    <string name="content_description_keyfile_checkbox">Nøkkelfil-avkryssningsboks</string>
+    <string name="biometric">Biometrisk</string>
+    <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
+    <string name="error_copy_group_here">Du kan ikke kopiere en gruppe hit.</string>
+    <string name="error_otp_secret_key">Hemmelig nøkkel må være i Base32-format.</string>
+    <string name="error_otp_digits">"Symbolet må inneholde %1$d  til %2$d siffer."</string>
+    <string name="invalid_db_same_uuid">%1$d med samme UUID %2$s finnes allerede.</string>
+    <string name="creating_database">Oppretter database…</string>
+    <string name="menu_security_settings">Sikkerhetsinnstillinger</string>
+    <string name="menu_master_key_settings">Hovednøkkelinnstillinger</string>
+    <string name="contains_duplicate_uuid">Databasen inneholder dupliserte UUID-er.</string>
+    <string name="persistent_notification_title">Vedvarende merknad</string>
+    <string name="persistent_notification_summary">Legg til en merknad når databasen er åpen</string>
+    <string name="database_data_compression_title">Datakomprimering</string>
+    <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse.</string>
+    <string name="compression">Komprimering</string>
+    <string name="compression_none">Ingen</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="error_save_database">Kunne ikke lagre database.</string>
+    <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
+    <string name="command_execution">Kjører kommandoen…</string>
 </resources>
