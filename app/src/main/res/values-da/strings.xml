@@ -426,7 +426,7 @@
     <string name="persistent_notification_summary">Tilføj en meddelelse, når databasen er åben</string>
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
     <string name="database_data_compression_title">Datakomprimering</string>
-    <string name="database_data_compression_summary">Datakomprimering reducerer størrelsen på databasen.</string>
+    <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse.</string>
     <string name="max_history_items_title">Maks. historikposter</string>
     <string name="max_history_items_summary">Begræns antallet af historikposter pr. indtastning</string>
     <string name="max_history_size_title">Maks. historiestørrelse</string>
