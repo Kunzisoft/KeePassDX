@@ -28,6 +28,8 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
@@ -47,6 +49,8 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import com.kunzisoft.keepass.view.asError
+import kotlinx.android.synthetic.main.activity_password.*
 import java.util.*
 
 class EntryEditActivity : LockingHideActivity(),
@@ -64,6 +68,7 @@ class EntryEditActivity : LockingHideActivity(),
     private var mIsNew: Boolean = false
 
     // Views
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: ScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
     private var saveView: View? = null
@@ -80,6 +85,8 @@ class EntryEditActivity : LockingHideActivity(),
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
 
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -180,6 +187,15 @@ class EntryEditActivity : LockingHideActivity(),
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                     if (result.isSuccess)
                         finish()
+                }
+            }
+
+            // Show error
+            if (!result.isSuccess) {
+                result.message?.let { resultMessage ->
+                    Snackbar.make(coordinatorLayout!!,
+                            resultMessage,
+                            Snackbar.LENGTH_LONG).asError().show()
                 }
             }
         }
