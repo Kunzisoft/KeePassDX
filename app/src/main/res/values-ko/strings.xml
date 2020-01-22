@@ -146,7 +146,6 @@
     <string name="protection">보호</string>
     <string name="read_only">쓰기 보호됨</string>
     <string name="read_only_warning">KeePass DX는 데이터베이스를 수정하기 위해 쓰기 권한이 필요합니다.</string>
-    <string name="read_only_kitkat_warning">안드로이드 4.4 KitKat부터, 일부 기기는 SD카드 쓰기를 지원하지 않습니다.</string>
     <string name="recentfile_title">최근 파일 기록</string>
     <string name="recentfile_summary">최근 파일 이름 기억하기</string>
     <string name="remember_keyfile_summary">데이터베이스 키 파일 위치 기억하기</string>

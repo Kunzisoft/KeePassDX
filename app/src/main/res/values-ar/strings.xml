@@ -173,7 +173,6 @@
     <string name="omitbackup_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePass DX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
-    <string name="read_only_kitkat_warning">ابتداءا من اندرويد كيت كات بعض الاجهزة لا تسمح بالكتابة على قاعدة البيانات.</string>
     <string name="remember_keyfile_summary">تذكر موقع ملف المفتاح قاعدة البيانات</string>
     <string name="remember_keyfile_title">حفظ الملف المفتاحي</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>

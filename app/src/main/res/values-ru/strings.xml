@@ -124,7 +124,6 @@
     <string name="protection">Защита</string>
     <string name="read_only">Только чтение</string>
     <string name="read_only_warning">KeePass DX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
-    <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту.</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>

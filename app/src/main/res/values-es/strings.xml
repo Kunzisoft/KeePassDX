@@ -173,7 +173,6 @@
     <string name="protection">Protección</string>
     <string name="read_only">Protegida contra escritura</string>
     <string name="read_only_warning">KeePass DX necesita permiso de escritura para modificar la base de datos.</string>
-    <string name="read_only_kitkat_warning">A partir de Android KitKat, algunos dispositivos ya no permiten a las aplicaciones escribir en la tarjeta SD.</string>
     <string name="encryption_explanation">Algoritmo de cifrado utilizado en todos los datos.</string>
     <string name="kdf_explanation">Para generar la clave del algoritmo de cifrado, la clave maestra se transforma mediante una función de derivación de claves con una sal aleatoria.</string>
     <string name="memory_usage">Uso de memoria</string>

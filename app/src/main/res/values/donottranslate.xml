@@ -186,7 +186,6 @@
     -->
 
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
-    <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
 
     <!-- Sort -->
     <string name="sort_node_key" translatable="false">sort_node_key</string>

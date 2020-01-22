@@ -145,7 +145,6 @@
     <string name="protection">Koruma</string>
     <string name="read_only">Yazma korumalı</string>
     <string name="read_only_warning">Veritabanınızdaki herhangi bir şeyi değiştirmek için KeePass DX\'in yazma iznine ihtiyacı var.</string>
-    <string name="read_only_kitkat_warning">Android KitKat ile başlayan bazı cihazlar artık uygulamaların SD karta yazmasına izin vermiyor.</string>
     <string name="recentfile_title">Son dosya geçmişi</string>
     <string name="recentfile_summary">Son dosya adlarını hatırla</string>
     <string name="remember_keyfile_summary">Veritabanı anahtar dosyaların yerini hatırlar</string>

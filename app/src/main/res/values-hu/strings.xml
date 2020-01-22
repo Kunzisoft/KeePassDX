@@ -124,7 +124,6 @@
     <string name="protection">Védelem</string>
     <string name="read_only">Írásvédett</string>
     <string name="read_only_warning">A KeePass DX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
-    <string name="read_only_kitkat_warning">Az Android KitKattől kezdődően, egyes eszközökön az alkalmazások nem írhatnak az SD kártyára.</string>
     <string name="recentfile_title">Előző fájlok előzményei</string>
     <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
     <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>

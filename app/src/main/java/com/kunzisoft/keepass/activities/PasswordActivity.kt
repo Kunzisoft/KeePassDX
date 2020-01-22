@@ -24,6 +24,7 @@ import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,13 +38,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -229,6 +228,29 @@ class PasswordActivity : StylishActivity() {
                                     Snackbar.LENGTH_LONG).asError().show()
                         }
                     }
+                }
+            }
+        }
+
+        // Check permission
+        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        if (Build.VERSION.SDK_INT >= 23
+                && !readOnly) {
+            val permissions = arrayOf(writePermission)
+            if (ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_REQUEST -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
                 }
             }
         }
@@ -682,6 +704,8 @@ class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
+
+        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {

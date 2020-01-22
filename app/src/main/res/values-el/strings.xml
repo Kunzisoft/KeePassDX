@@ -123,7 +123,6 @@
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
     <string name="read_only_warning">Το KeePass DX χρειάζεται άδεια εγγραφής για να αλλάξει οτιδήποτε στη βάση δεδομένων σας.</string>
-    <string name="read_only_kitkat_warning">Ξεκινώντας από το Android KitKat, μερικές συσκευές δεν επιτρέπουν πλέον στις εφαρμογές να γράψουν στην κάρτα SD.</string>
     <string name="recentfile_title">Πρόσφατο ιστορικό αρχείων</string>
     <string name="recentfile_summary">Απομνημόνευση πρόσφατων ονομάτων αρχείων</string>
     <string name="remember_keyfile_summary">Απομνημόνευση της τοποθεσίας αρχείων-κλειδιών των βάσεων δεδομένων</string>

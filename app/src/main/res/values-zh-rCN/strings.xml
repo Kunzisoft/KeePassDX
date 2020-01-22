@@ -186,7 +186,6 @@
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">KeePass DX 需要写入权限以修改数据库。</string>
-    <string name="read_only_kitkat_warning">从 Android 4.4.4 开始，一些设备不再允许应用写入 SD 卡。</string>
     <string name="recentfile_title">最近文件历史</string>
     <string name="recentfile_summary">记住最近使用的文件名</string>
     <string name="encryption_explanation">加密所有数据时采用的算法。</string>

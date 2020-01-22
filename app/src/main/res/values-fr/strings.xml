@@ -132,8 +132,7 @@
     <string name="progress_title">Traitement en cours …</string>
     <string name="protection">Protection</string>
     <string name="read_only">Protégé en écriture</string>
-    <string name="read_only_warning">KeePass DX a besoin de la permission d’écriture afin modifier la base de données.</string>
-    <string name="read_only_kitkat_warning">À partir d’Android KitKat, certains appareils n’autorisent plus les applications à écrire sur la carte microSD.</string>
+    <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
     <string name="recentfile_summary">Mémoriser les noms des fichiers récents</string>
     <string name="remember_keyfile_summary">Mémoriser l’emplacement des fichiers clé des bases de données</string>

@@ -123,7 +123,6 @@
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
     <string name="read_only_warning">KeePass DX behøver skrivetilladelse for at ændre i databasen.</string>
-    <string name="read_only_kitkat_warning">Startende med Android KitKat, tillader nogle enheder ikke længere apps at skrive til SD-kortet.</string>
     <string name="recentfile_title">Seneste filhistorik</string>
     <string name="recentfile_summary">Husk de seneste filnavne</string>
     <string name="remember_keyfile_summary">Husker placeringen af databasernøglefiler</string>

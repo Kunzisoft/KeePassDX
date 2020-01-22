@@ -146,7 +146,6 @@
     <string name="protection">Beskyttelse</string>
     <string name="read_only">Skrivebeskyttet</string>
     <string name="read_only_warning">KeePass DX har ikke skrivetilgang til din databaseplassering, så den vil bli åpnet skrivebeskyttet.</string>
-    <string name="read_only_kitkat_warning">Siden Android KitKat, tillater noen enheter ikke lenger programmer å skrive til SD-kortet.</string>
     <string name="recentfile_title">Nylig filhistorikk</string>
     <string name="recentfile_summary">Husk nylig brukte filnavn</string>
     <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>

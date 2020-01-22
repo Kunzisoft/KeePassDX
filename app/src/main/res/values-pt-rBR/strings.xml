@@ -179,7 +179,6 @@
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">KeePass DX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
-    <string name="read_only_kitkat_warning">A partir do Android KitKat, alguns dispositivos não permitem mais a escrita para o cartão de memória.</string>
     <string name="recentfile_title">Histórico de arquivos recentes</string>
     <string name="recentfile_summary">Lembrar nomes recentes de arquivos</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
