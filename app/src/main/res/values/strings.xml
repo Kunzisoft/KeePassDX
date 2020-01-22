@@ -70,7 +70,7 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>

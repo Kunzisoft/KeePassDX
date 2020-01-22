@@ -49,7 +49,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>

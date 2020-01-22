@@ -44,7 +44,7 @@
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
-    <string name="disclaimer_formal">Το KeePass DX ©% 1 $ d Η Kunzisoft έρχεται χωρίς απολύτως καμία εγγύηση. Αυτό είναι ελεύθερο λογισμικό και είστε ευπρόσδεκτοι να το διανείμετε εκ νέου υπό τις συνθήκες της έκδοσης GPL 3 ή νεότερης έκδοσης.</string>
+    <string name="disclaimer_formal">Το KeePass DX © %1$d Kunzisoft έρχεται χωρίς απολύτως καμία εγγύηση. Αυτό είναι ελεύθερο λογισμικό και είστε ευπρόσδεκτοι να το διανείμετε εκ νέου υπό τις συνθήκες της έκδοσης GPL 3 ή νεότερης έκδοσης.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Ακύρωση</string>

@@ -159,7 +159,7 @@
     <string name="clipboard_error">Niektóre telefony Samsung z Androidem nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>

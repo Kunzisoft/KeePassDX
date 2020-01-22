@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>

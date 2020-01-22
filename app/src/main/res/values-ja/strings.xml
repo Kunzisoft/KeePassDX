@@ -39,7 +39,7 @@
     <string name="decrypting_db">データベースを解析中…</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
     <string name="select_database_file">データベースファイル</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_cancel">キャンセル</string>

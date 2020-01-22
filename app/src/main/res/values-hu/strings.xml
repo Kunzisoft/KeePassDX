@@ -44,7 +44,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
     <string name="select_database_file">Létező adatbázis megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>

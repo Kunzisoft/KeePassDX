@@ -45,7 +45,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft kommer HELT UTAN GARANTIER; Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Ange databasnamn</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_cancel">Avbryt</string>

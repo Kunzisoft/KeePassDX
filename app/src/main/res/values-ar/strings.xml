@@ -129,7 +129,7 @@
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="disclaimer_formal">KeePass DX © %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
     <string name="entry_accessed">نُفذ إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
