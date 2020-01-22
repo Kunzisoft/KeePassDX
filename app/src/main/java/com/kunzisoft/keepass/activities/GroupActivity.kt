@@ -430,12 +430,8 @@ class GroupActivity : LockingActivity(),
             val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
             var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
             mCurrentGroup?.let {
-                val isRoot = it == mRootGroup
                 if (!it.allowAddEntryIfIsRoot())
-                    addEntryEnabled = !isRoot && addEntryEnabled
-                if (isRoot) {
-                    showWarnings()
-                }
+                    addEntryEnabled = it != mRootGroup && addEntryEnabled
             }
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
@@ -852,14 +848,6 @@ class GroupActivity : LockingActivity(),
         (supportFragmentManager
                 .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
                 .iconPicked(bundle)
-    }
-
-    private fun showWarnings() {
-        if (Database.getInstance().isReadOnly) {
-            if (PreferencesUtil.showReadOnlyWarning(this)) {
-                ReadOnlyDialog().show(supportFragmentManager, "readOnlyDialog")
-            }
-        }
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {
