@@ -156,7 +156,7 @@
     <string name="extended_ASCII">ASCII extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Error del portapapeles</string>
-    <string name="clipboard_error">Algunos teléfonos Samsung con Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones.</string>
+    <string name="clipboard_error">Algunos dispositivos Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones.</string>
     <string name="clipboard_error_clear">Falló la limpieza del portapapeles</string>
     <string name="clipboard_swipe_clean">Deslizar ahora para limpiar el portapapeles</string>
     <string name="error_string_key">Cada cadena debe tener un nombre de campo.</string>
@@ -394,4 +394,20 @@
     <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
     <string name="content_description_entry_save">Guardar entrada</string>
+    <string name="master_key">Llave Maestra</string>
+    <string name="security">Seguridad</string>
+    <string name="entry_history">Historial</string>
+    <string name="entry_setup_otp">Configuración de contraseña de un solo uso</string>
+    <string name="otp_type">Tipo de contraseña de un solo uso</string>
+    <string name="otp_secret">Secreto</string>
+    <string name="otp_period">Período (segundos)</string>
+    <string name="otp_counter">Contador</string>
+    <string name="otp_digits">Dígitos</string>
+    <string name="otp_algorithm">Algoritmo</string>
+    <string name="entry_otp">Contraseña de un solo uso</string>
+    <string name="error_invalid_OTP">Secreto de contraseña de un solo uso inválida.</string>
+    <string name="error_disallow_no_credentials">Por lo menos un credencial debe ser definido.</string>
+    <string name="error_otp_secret_key">Clave secreta debe estar en formato Base32.</string>
+    <string name="error_otp_counter">Contador debe estar entre %1$d y %2$d.</string>
+    <string name="error_save_database">No se puede guardar la base de datos.</string>
 </resources>
