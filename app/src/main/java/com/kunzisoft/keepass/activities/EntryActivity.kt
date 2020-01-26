@@ -37,7 +37,7 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -61,7 +61,7 @@ import com.kunzisoft.keepass.view.EntryContentsView
 import java.util.*
 import kotlin.collections.HashMap
 
-class EntryActivity : LockingHideActivity() {
+class EntryActivity : LockingActivity() {
 
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null

@@ -1,5 +1,6 @@
  * Download attachments
  * Change file size string format
+ * Prevent screenshot for all screen
  * Fix crash when clearing clipboard
  * Fix attachments compressions
  * Fix dates

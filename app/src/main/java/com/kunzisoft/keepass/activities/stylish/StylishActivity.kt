@@ -19,20 +19,45 @@
  */
 package com.kunzisoft.keepass.activities.stylish
 
+import android.content.ActivityNotFoundException
+import android.content.Intent
 import android.os.Bundle
 import androidx.annotation.StyleRes
 import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
+import android.view.WindowManager
 
+/**
+ * Stylish Hide Activity that apply a dynamic style and sets FLAG_SECURE to prevent screenshots / from
+ * appearing in the recent app preview
+ */
 abstract class StylishActivity : AppCompatActivity() {
 
     @StyleRes
     private var themeId: Int = 0
 
+    /* (non-Javadoc) Workaround for HTC Linkify issues
+     * @see android.app.Activity#startActivity(android.content.Intent)
+     */
+    override fun startActivity(intent: Intent) {
+        try {
+            if (intent.component != null && intent.component!!.shortClassName == ".HtcLinkifyDispatcherActivity") {
+                intent.component = null
+            }
+            super.startActivity(intent)
+        } catch (e: ActivityNotFoundException) {
+            /* Catch the bad HTC implementation case */
+            super.startActivity(Intent.createChooser(intent, null))
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.themeId = Stylish.getThemeId(this)
         setTheme(themeId)
+
+        // Several gingerbread devices have problems with FLAG_SECURE
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onResume() {

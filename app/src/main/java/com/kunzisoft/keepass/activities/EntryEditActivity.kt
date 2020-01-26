@@ -34,7 +34,7 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -50,10 +50,9 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.asError
-import kotlinx.android.synthetic.main.activity_password.*
 import java.util.*
 
-class EntryEditActivity : LockingHideActivity(),
+class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener {
