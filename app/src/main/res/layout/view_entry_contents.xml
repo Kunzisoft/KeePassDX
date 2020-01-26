@@ -78,22 +78,15 @@
 					android:layout_height="wrap_content"
 					android:text="@string/entry_password"
 					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<HorizontalScrollView
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_password"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_below="@+id/entry_password_label"
 					android:layout_toLeftOf="@+id/entry_password_action_image"
-					android:layout_toStartOf="@+id/entry_password_action_image">
-					<androidx.appcompat.widget.AppCompatTextView
-						android:id="@+id/entry_password"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:scrollHorizontally="true"
-						android:inputType="textPassword"
-						android:focusable="false"
-						android:lines="1"
-						style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-				</HorizontalScrollView>
+					android:layout_toStartOf="@+id/entry_password_action_image"
+					android:focusable="false"
+					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 				<androidx.appcompat.widget.AppCompatImageView
 					android:id="@+id/entry_password_action_image"
 					android:layout_width="wrap_content"
