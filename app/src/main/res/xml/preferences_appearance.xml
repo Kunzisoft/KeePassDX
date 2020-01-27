@@ -67,16 +67,16 @@
             android:title="@string/full_file_path_enable_title"
             android:summary="@string/full_file_path_enable_summary"
             android:defaultValue="@bool/full_file_path_enable_default"/>
-        <SwitchPreference
-            android:key="@string/hide_expired_entries_key"
-            android:title="@string/hide_expired_entries_title"
-            android:summary="@string/hide_expired_entries_summary"
-            android:defaultValue="@bool/hide_expired_entries_default"/>
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="@string/other">
+        <SwitchPreference
+            android:key="@string/hide_expired_entries_key"
+            android:title="@string/hide_expired_entries_title"
+            android:summary="@string/hide_expired_entries_summary"
+            android:defaultValue="@bool/hide_expired_entries_default"/>
 
         <SwitchPreference
             android:key="@string/enable_education_screens_key"
