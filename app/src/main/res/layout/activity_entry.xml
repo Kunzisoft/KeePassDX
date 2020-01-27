@@ -116,7 +116,7 @@
 
             <com.kunzisoft.keepass.view.EntryContentsView
                 android:id="@+id/entry_contents"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_width="0dp"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
                 app:layout_constraintTop_toBottomOf="@+id/history_container"
