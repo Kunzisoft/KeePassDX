@@ -32,13 +32,13 @@
      inkscape:window-height="1043"
      id="namedview4"
      showgrid="false"
-     inkscape:zoom="0.37770272"
-     inkscape:cx="320.43961"
-     inkscape:cy="442.36446"
+     inkscape:zoom="0.53415231"
+     inkscape:cx="66.604423"
+     inkscape:cy="271.09171"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer2"
+     inkscape:current-layer="layer1"
      showguides="false"><inkscape:grid
        id="grid4646"
        type="xygrid"
@@ -1651,7 +1651,7 @@
      inkscape:groupmode="layer"
      id="layer1"
      inkscape:label="KeePassDX Pro"
-     style="display:none"><rect
+     style="display:inline"><rect
        style="display:inline;opacity:1;fill:#494949;fill-opacity:1;stroke:none;stroke-opacity:1;filter:url(#filter5634-6-9)"
        id="rect5432-2"
        width="231.03204"
@@ -1660,7 +1660,7 @@
        y="344.8678"
        ry="14.515615"
        transform="rotate(-47.470294,378.4595,108.59059)" /><flowRoot
-       transform="translate(-303.77948,174.7365)"
+       transform="translate(-290.65448,174.7365)"
        style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#e3e3e3;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4648-0-8)"
        id="flowRoot4617-2"
        xml:space="preserve"><flowRegion
@@ -1676,7 +1676,7 @@
        xml:space="preserve"
        id="flowRoot4491"
        style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#47ad49;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4648-0-8)"
-       transform="translate(228.22052,174.7365)"><flowRegion
+       transform="translate(222.59552,174.7365)"><flowRegion
          id="flowRegion4493"><rect
            id="rect4495"
            width="894.88367"
@@ -1689,7 +1689,7 @@
        xml:space="preserve"
        id="flowRoot4501-9"
        style="font-style:normal;font-weight:normal;line-height:0.01%;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;display:inline;fill:#fb8c00;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;filter:url(#filter4648-0-8)"
-       transform="translate(78.22052,174.7365)"><flowRegion
+       transform="translate(72.59552,174.7365)"><flowRegion
          id="flowRegion4503-2"><rect
            id="rect4505-2"
            width="894.88367"
@@ -1702,7 +1702,7 @@
      inkscape:groupmode="layer"
      id="layer2"
      inkscape:label="KeePassDX"
-     style="display:inline"><rect
+     style="display:none"><rect
        style="display:inline;opacity:1;fill:#e3e3e3;fill-opacity:1;stroke:none;stroke-opacity:1;filter:url(#filter5634-0)"
        id="rect5432-4"
        width="231.03204"
@@ -1739,7 +1739,8 @@
          style="font-style:normal;font-variant:normal;font-weight:600;font-stretch:normal;font-size:90px;line-height:1.25;font-family:'URW Gothic L';-inkscape-font-specification:'URW Gothic L Semi-Bold';fill:#fb8c00;fill-opacity:1">DX</flowPara></flowRoot></g><g
      inkscape:groupmode="layer"
      id="layer3"
-     inkscape:label="Orange"><path
+     inkscape:label="Orange"
+     style="display:inline"><path
        style="display:inline;fill:#fb8c00;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0;filter:url(#filter5490-2)"
        d="m 111.71787,587.90961 1027.45173,-440.66515 5.7528,540.76402 z"
        id="path5383"

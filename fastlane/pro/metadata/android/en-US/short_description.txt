@@ -1,1 +1,1 @@
-Pro version of KeePass Deluxe, secure and open source password manager
+Pro version of KeePassDX, secure and open source password manager
