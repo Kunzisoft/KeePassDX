@@ -61,6 +61,7 @@ object Stylish {
 
         return when (themeString) {
             context.getString(R.string.list_style_name_night) -> R.style.KeepassDXStyle_Night
+            context.getString(R.string.list_style_name_black) -> R.style.KeepassDXStyle_Black
             context.getString(R.string.list_style_name_dark) -> R.style.KeepassDXStyle_Dark
             context.getString(R.string.list_style_name_blue) -> R.style.KeepassDXStyle_Blue
             context.getString(R.string.list_style_name_red) -> R.style.KeepassDXStyle_Red

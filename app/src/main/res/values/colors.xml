@@ -27,6 +27,7 @@
 
     <color name="orange_light">#ffa726</color>
     <color name="orange">#fb8c00</color>
+    <color name="orange_dark">#ef6c00</color>
 
     <color name="green_lighter">#a5d6a7</color>
     <color name="green_light">#4caf50</color>
