@@ -1,5 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--
+ Copyright 2020 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <TextView
@@ -10,6 +30,6 @@
         android:layout_margin="5dp"
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
-        android:text="qsjdbhqsdv"
+        tools:text="Sample"
         android:textColor="@color/white"/>
 </RelativeLayout>

@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Homepage</string>
@@ -70,7 +70,7 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -97,7 +97,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
     <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
-    <string name="error_can_not_handle_uri">Could not handle this URI in KeePass DX.</string>
+    <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
@@ -200,7 +200,7 @@
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePass DX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
+    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePassDX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
     <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
@@ -267,8 +267,8 @@
     <string name="biometric">Biometric</string>
     <string name="general">General</string>
     <string name="autofill">Autofill</string>
-    <string name="autofill_service_name">KeePass DX form autofilling</string>
-    <string name="autofill_sign_in_prompt">Sign in with KeePass DX</string>
+    <string name="autofill_service_name">KeePassDX form autofilling</string>
+    <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
     <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
     <string name="password_size_title">Generated password size</string>
@@ -346,7 +346,7 @@
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
     <string name="device_keyboard_setting_title">Device Keyboard Settings</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
     <string name="keyboard_entry_category">Entry</string>
     <string name="keyboard_selection_entry_title">Entry selection</string>

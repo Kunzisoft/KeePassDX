@@ -2,20 +2,20 @@
 <!--
  Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePass DX.
+ This file is part of KeePassDX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePassDX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePassDX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">フィードバック</string>
     <string name="about_homepage">ホームページ</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">データベースを解析中…</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
     <string name="select_database_file">データベースファイル</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_cancel">キャンセル</string>
@@ -55,7 +55,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">ArcFour stream cipherには対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePass DXはこのuriを処理できません。</string>
+    <string name="error_can_not_handle_uri">KeePassDXはこのuriを処理できません。</string>
     <string name="error_file_not_create">ファイルを作成できません。</string>
     <string name="error_invalid_db">無効なデータベースです。</string>
     <string name="error_invalid_path">パスが無効です。</string>
@@ -182,7 +182,7 @@
     <string name="create_keepass_file">新しいデータベースを作成</string>
     <string name="protection">保護</string>
     <string name="read_only">書き込み保護</string>
-    <string name="read_only_warning">Keepass DX は、データベースを変更するために書き込みアクセス許可が必要です。</string>
+    <string name="read_only_warning">KeePassDX は、データベースを変更するために書き込みアクセス許可が必要です。</string>
     <string name="recentfile_title">最近使用したファイルの履歴</string>
     <string name="recentfile_summary">最近使用したファイル名を記憶します</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズム。</string>

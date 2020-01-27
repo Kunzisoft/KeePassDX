@@ -21,7 +21,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
  - Création de TOTP Steam
  - Suppression des boutons de don
 
-Keepass DX est <b>opensource</b> et <b>sans publicité</b>.
+KeePassDX est <b>opensource</b> et <b>sans publicité</b>.
 
 Vous avez un bug : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
 

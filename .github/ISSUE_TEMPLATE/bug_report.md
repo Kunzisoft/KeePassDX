@@ -30,7 +30,7 @@ If applicable, add screenshots to help explain your problem.
  - Size: [e.g. 150Mo]
  - Contains attachment: [e.g. Yes]
 
-**KeePass DX (please complete the following information):**
+**KeePassDX (please complete the following information):**
  - Version: [e.g. 2.5.0.0beta23]
  - Build: [e.g. Free]
  - Language: [e.g. French]

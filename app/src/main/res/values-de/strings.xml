@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Translations from BoDEAN
     Translations from Matthias Dill
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -64,7 +64,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Benutzername</string>
     <string name="error_arc4">Die RC4/ARCFOUR-Stromverschlüsselung wird nicht unterstützt.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kann diese URI-Adresse nicht verarbeiten.</string>
+    <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
     <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
@@ -127,7 +127,7 @@
     <string name="progress_title">Ausführen …</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
-    <string name="read_only_warning">KeePass DX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
+    <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
@@ -230,8 +230,8 @@
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="biometric_not_recognized">Biometrische Daten nicht erkannt</string>
     <string name="autofill">Autofill</string>
-    <string name="autofill_service_name">KeePass DX autom. Formularausfüllung</string>
-    <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
+    <string name="autofill_service_name">KeePassDX autom. Formularausfüllung</string>
+    <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Autofill-Dienstvorgabe festlegen</string>
     <string name="autofill_explanation_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
@@ -336,7 +336,7 @@
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard-Einstellungen</string>
     <string name="keyboard_entry_category">Eintrag</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -421,7 +421,7 @@
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
-    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePass DX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="persistent_notification_title">Dauerhafte Benachrichtigung</string>

@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">Informacje zwrotne</string>
     <string name="about_homepage">Strona domowa</string>
@@ -54,7 +54,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie ArcFour nie jest wspierane.</string>
-    <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePass DX.</string>
+    <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePassDX.</string>
     <string name="error_file_not_create">Nie można utworzyć pliku:</string>
     <string name="error_invalid_db">Nie można odczytać bazy danych.</string>
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>
@@ -159,7 +159,7 @@
     <string name="clipboard_error">Niektóre telefony Samsung z Androidem nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -185,7 +185,7 @@
     <string name="menu_open_file_read_and_write">Modyfikowalne</string>
     <string name="protection">Ochrona</string>
     <string name="read_only">Chroniony przed zapisem</string>
-    <string name="read_only_warning">KeePass DX potrzebuje uprawnień do zapisu, aby mógł modyfikować bazę danych.</string>
+    <string name="read_only_warning">KeePassDX potrzebuje uprawnień do zapisu, aby mógł modyfikować bazę danych.</string>
     <string name="encryption_explanation">Algorytm szyfrowania bazy danych używany dla wszystkich danych.</string>
     <string name="kdf_explanation">Aby wygenerować klucz dla algorytmu szyfrowania, klucz główny jest transformowany przy użyciu losowo solonej funkcji wyprowadzania klucza.</string>
     <string name="memory_usage">Użycie pamięci</string>
@@ -219,8 +219,8 @@
     <string name="menu_appearance_settings">Wygląd</string>
     <string name="general">Ogólne</string>
     <string name="autofill">Wypełnij automatycznie</string>
-    <string name="autofill_service_name">Autouzupełnianie formularzy KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Zaloguj się za pomocą KeePass DX</string>
+    <string name="autofill_service_name">Autouzupełnianie formularzy KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Zaloguj się za pomocą KeePassDX</string>
     <string name="set_autofill_service_title">Ustaw domyślną usługę autouzupełniania</string>
     <string name="autofill_explanation_summary">Włącz autouzupełnianie, aby móc szybko wypełniać formularze w innych aplikacjach</string>
     <string name="password_size_title">Wygenerowany rozmiar hasła</string>
@@ -331,7 +331,7 @@
     <string name="icon_pack_choose_summary">Pakiet ikon używany w aplikacji</string>
     <string name="build_label">Kompilacja %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ustawienia Magikeyboard</string>
     <string name="keyboard_entry_category">Wpis</string>
     <string name="keyboard_entry_timeout_title">Limit czasu</string>
@@ -431,7 +431,7 @@
     <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
     <string name="error_otp_digits">Token musi zawierać %1$d do %2$d cyfr.</string>
     <string name="invalid_db_same_uuid">%1$s o tym samym identyfikatorze UUID %2$s już istnieje.</string>
-    <string name="contains_duplicate_uuid_procedure">Weryfikując to okno dialogowe, KeePass DX rozwiąże problem (poprzez wygenerowanie nowych UUID dla duplikatów) i będzie kontynuował.</string>
+    <string name="contains_duplicate_uuid_procedure">Weryfikując to okno dialogowe, KeePassDX rozwiąże problem (poprzez wygenerowanie nowych UUID dla duplikatów) i będzie kontynuował.</string>
     <string name="clipboard_explanation_summary">Skopiuj pola wprowadzania danych za pomocą schowka urządzenia</string>
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych.</string>

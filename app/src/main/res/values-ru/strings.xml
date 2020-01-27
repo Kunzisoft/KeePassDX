@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_homepage">Сайт</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="disclaimer_formal">Приложение KeePass DX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
+    <string name="disclaimer_formal">Приложение KeePassDX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -60,7 +60,7 @@
     <string name="entry_url">Ссылка</string>
     <string name="entry_user_name">Имя</string>
     <string name="error_arc4">Потоковый шифр ARCFOUR не поддерживается.</string>
-    <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePass DX.</string>
+    <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
     <string name="error_file_not_create">Невозможно создать файл:</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь, что путь указан правильно.</string>
@@ -123,7 +123,7 @@
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
     <string name="read_only">Только чтение</string>
-    <string name="read_only_warning">KeePass DX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
+    <string name="read_only_warning">KeePassDX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
     <string name="recentfile_title">Недавно открытые</string>
     <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
@@ -219,8 +219,8 @@
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
-    <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Войти с помощью KeePass DX</string>
+    <string name="autofill_service_name">Сервис автозаполнения KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Войти с помощью KeePassDX</string>
     <string name="autofill_explanation_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
     <string name="set_autofill_service_title">Сервис автозаполнения по умолчанию</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
@@ -329,7 +329,7 @@
     <string name="icon_pack_choose_title">Набор значков</string>
     <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Настройки Magikeyboard</string>
     <string name="build_label">Сборка %1$s</string>
     <string name="keyboard_entry_category">Запись</string>
@@ -415,7 +415,7 @@
     <string name="menu_security_settings">Настройки безопасности</string>
     <string name="menu_master_key_settings">Настройки главного пароля</string>
     <string name="contains_duplicate_uuid">База содержит повторяющиеся UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePass DX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
+    <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePassDX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
     <string name="persistent_notification_title">Постоянное уведомление</string>

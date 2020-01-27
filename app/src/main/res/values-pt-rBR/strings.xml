@@ -2,24 +2,24 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">Comentários</string>
     <string name="about_homepage">Página inicial</string>
-    <string name="about_description">KeePass DX é uma implementação para Android do gerenciador de senhas KeePass</string>
+    <string name="about_description">KeePassDX é uma implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
     <string name="add_group">Adicionar grupo</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -55,7 +55,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
-    <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePass DX.</string>
+    <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
     <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>
@@ -178,7 +178,7 @@
     <string name="menu_open_file_read_and_write">Leitura e escrita</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
-    <string name="read_only_warning">KeePass DX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
+    <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
     <string name="recentfile_title">Histórico de arquivos recentes</string>
     <string name="recentfile_summary">Lembrar nomes recentes de arquivos</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
@@ -213,8 +213,8 @@
     <string name="menu_appearance_settings">Aparência</string>
     <string name="general">Geral</string>
     <string name="autofill">Preenchimento automático</string>
-    <string name="autofill_service_name">Preenchimento Automático KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Entre com o KeePass DX</string>
+    <string name="autofill_service_name">Preenchimento Automático KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Entre com o KeePassDX</string>
     <string name="set_autofill_service_title">Definir serviço padrão de preenchimento automático</string>
     <string name="autofill_explanation_summary">Habilite o serviço para rapidamente preencher formulários em outros aplicativos</string>
     <string name="password_size_title">Comprimento da senha gerada</string>
@@ -334,7 +334,7 @@
     <string name="clipboard">Área de transferência</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Configurações do Magikeyboard</string>
     <string name="keyboard_entry_category">Entrada</string>
     <string name="keyboard_entry_timeout_title">Tempo limite</string>
@@ -419,7 +419,7 @@
     <string name="menu_security_settings">Configurações de segurança</string>
     <string name="menu_master_key_settings">Configurações da chave mestre</string>
     <string name="contains_duplicate_uuid">O banco de dados contém UUIDs duplicados.</string>
-    <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePass DX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
+    <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePassDX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
     <string name="persistent_notification_title">Notificação persistente</string>
