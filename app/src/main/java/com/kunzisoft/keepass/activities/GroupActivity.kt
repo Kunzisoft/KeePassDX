@@ -111,8 +111,6 @@ class GroupActivity : LockingActivity(),
 
     private var mIconColor: Int = 0
 
-    private var showExpiredEntries = true
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -197,8 +195,6 @@ class GroupActivity : LockingActivity(),
                 EntryEditActivity.launch(this@GroupActivity, currentGroup)
             }
         })
-
-        showExpiredEntries = PreferencesUtil.showExpiredEntries(this)
 
         mDatabase?.let { database ->
             // Search suggestion
@@ -453,9 +449,7 @@ class GroupActivity : LockingActivity(),
     private fun refreshNumberOfChildren() {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getChildEntries(true)
-                        ?.filter { !it.isCurrentlyExpires or showExpiredEntries}
-                        ?.size?.toString() ?: ""
+                text = mCurrentGroup?.getChildEntries(*Group.getChildFilters(context))?.size?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE
