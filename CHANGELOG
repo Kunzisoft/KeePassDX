@@ -2,6 +2,7 @@ KeepassDX (2.5.0.0beta26)
  * Download attachments
  * Change file size string format
  * Prevent screenshot for all screen
+ * Auto performed "Go" key in Magikeyboard
  * Fix crash when clearing clipboard
  * Fix attachments compressions
  * Fix dates

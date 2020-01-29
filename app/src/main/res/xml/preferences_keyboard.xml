@@ -49,6 +49,11 @@
     <PreferenceCategory
         android:title="@string/keyboard_keys_category">
         <SwitchPreference
+            android:key="@string/keyboard_auto_go_action_key"
+            android:title="@string/keyboard_auto_go_action_title"
+            android:summary="@string/keyboard_auto_go_action_summary"
+            android:defaultValue="@bool/keyboard_auto_go_action_default"/>
+        <SwitchPreference
             android:key="@string/keyboard_key_vibrate_key"
             android:title="@string/keyboard_key_vibrate_title"
             android:defaultValue="@bool/keyboard_key_vibrate_default"/>

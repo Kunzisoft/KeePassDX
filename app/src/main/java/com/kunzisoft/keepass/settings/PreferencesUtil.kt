@@ -267,6 +267,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
     }
 
+    fun isAutoGoActionEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_auto_go_action_key),
+                context.resources.getBoolean(R.bool.keyboard_auto_go_action_default))
+    }
+
     fun isKeyboardVibrationEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_key_vibrate_key),

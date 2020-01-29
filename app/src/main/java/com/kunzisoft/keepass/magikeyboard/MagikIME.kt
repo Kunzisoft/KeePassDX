@@ -114,6 +114,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
                     currentInputConnection.commitText(entryInfoKey?.getGeneratedFieldValue(item.name) , 1)
+                    goNextAutomatically()
                 }
             }
             recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, true)
@@ -235,18 +236,21 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
             KEY_USERNAME -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.username, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.username, 1)
                 }
+                goNextAutomatically()
             }
             KEY_PASSWORD -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.password, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.password, 1)
                 }
+                goNextAutomatically()
             }
             KEY_URL -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.url, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.url, 1)
                 }
+                goNextAutomatically()
             }
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
@@ -258,6 +262,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
             Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
         }// TODO Unlock key
+    }
+
+    private fun goNextAutomatically() {
+        if (PreferencesUtil.isAutoGoActionEnable(this))
+            currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
     }
 
     override fun onPress(primaryCode: Int) {

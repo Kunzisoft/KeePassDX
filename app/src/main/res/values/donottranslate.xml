@@ -119,6 +119,8 @@
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
     <string name="keyboard_entry_timeout_default" translatable="false">300000</string>
+    <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
+    <bool name="keyboard_auto_go_action_default" translatable="false">true</bool>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>

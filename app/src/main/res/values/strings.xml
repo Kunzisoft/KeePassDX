@@ -363,6 +363,8 @@
     <string name="keyboard_appearance_category">Appearance</string>
     <string name="keyboard_theme_title">Keyboard theme</string>
     <string name="keyboard_keys_category">Keys</string>
+    <string name="keyboard_auto_go_action_title">Auto key action</string>
+    <string name="keyboard_auto_go_action_summary">Action of the "Go" key performed automatically after pressing a "Field" key</string>
     <string name="keyboard_key_vibrate_title">Vibrate on keypress</string>
     <string name="keyboard_key_sound_title">Sound on keypress</string>
     <string name="allow_no_password_title">Allow no master key</string>
