@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by

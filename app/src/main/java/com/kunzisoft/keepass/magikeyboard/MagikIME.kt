@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.magikeyboard
@@ -90,17 +90,10 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             keyboard = Keyboard(this, R.xml.keyboard_password)
             keyboardEntry = Keyboard(this, R.xml.keyboard_password_entry)
 
-            if (!Database.getInstance().loaded)
-                removeEntryInfo()
-            assignKeyboardView()
-            keyboardView?.setOnKeyboardActionListener(this)
-            keyboardView?.isPreviewEnabled = false
-
             val context = baseContext
             val popupFieldsView = LayoutInflater.from(context)
                     .inflate(R.layout.keyboard_popup_fields, FrameLayout(context))
 
-            dismissCustomKeys()
             popupCustomKeys = PopupWindow(context).apply {
                 width = WindowManager.LayoutParams.WRAP_CONTENT
                 height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -114,6 +107,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
                     currentInputConnection.commitText(entryInfoKey?.getGeneratedFieldValue(item.name) , 1)
+                    goNextAutomatically()
                 }
             }
             recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, true)
@@ -121,6 +115,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
             closeView.setOnClickListener { popupCustomKeys?.dismiss() }
+
+            if (!Database.getInstance().loaded)
+                removeEntryInfo()
+            assignKeyboardView()
+            keyboardView?.setOnKeyboardActionListener(this)
+            keyboardView?.isPreviewEnabled = false
 
             return rootKeyboardView
         }
@@ -235,29 +235,39 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
             KEY_USERNAME -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.username, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.username, 1)
                 }
+                goNextAutomatically()
             }
             KEY_PASSWORD -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.password, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.password, 1)
                 }
+                goNextAutomatically()
             }
             KEY_URL -> {
                 if (entryInfoKey != null) {
-                    inputConnection.commitText(entryInfoKey!!.url, 1)
+                    currentInputConnection.commitText(entryInfoKey!!.url, 1)
                 }
+                goNextAutomatically()
             }
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
-                    fieldsAdapter?.fields = entryInfoKey!!.customFields
-                    fieldsAdapter?.notifyDataSetChanged()
+                    fieldsAdapter?.apply {
+                        setFields(entryInfoKey!!.customFields)
+                        notifyDataSetChanged()
+                    }
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
             Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
-            Keyboard.KEYCODE_DONE -> inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_ENTER))
+            Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
         }// TODO Unlock key
+    }
+
+    private fun goNextAutomatically() {
+        if (PreferencesUtil.isAutoGoActionEnable(this))
+            currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
     }
 
     override fun onPress(primaryCode: Int) {

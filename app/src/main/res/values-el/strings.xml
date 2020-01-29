@@ -2,25 +2,25 @@
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePass DX.
+ This file is part of KeePassDX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePassDX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePassDX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Σχόλια</string>
     <string name="about_homepage">Αρχική Σελίδα</string>
-    <string name="about_description">Το KeePass DX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
+    <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη καταχώρησης</string>
     <string name="add_group">Προσθήκη ομάδας</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
-    <string name="disclaimer_formal">Το KeePass DX ©% 1 $ d Η Kunzisoft έρχεται χωρίς απολύτως καμία εγγύηση. Αυτό είναι ελεύθερο λογισμικό και είστε ευπρόσδεκτοι να το διανείμετε εκ νέου υπό τις συνθήκες της έκδοσης GPL 3 ή νεότερης έκδοσης.</string>
+    <string name="disclaimer_formal">Το KeePassDX © %1$d Kunzisoft έρχεται χωρίς απολύτως καμία εγγύηση. Αυτό είναι ελεύθερο λογισμικό και είστε ευπρόσδεκτοι να το διανείμετε εκ νέου υπό τις συνθήκες της έκδοσης GPL 3 ή νεότερης έκδοσης.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Ακύρωση</string>
@@ -61,7 +61,7 @@
     <string name="entry_url">Διεύθυνση URL</string>
     <string name="entry_user_name">Όνομα Χρήστη</string>
     <string name="error_arc4">Η ροή κρυπτογράφησης ARCFOUR δεν υποστηρίζεται.</string>
-    <string name="error_can_not_handle_uri">Το KeePass DX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
+    <string name="error_can_not_handle_uri">Το KeePassDX δε μπορεί να χειριστεί αυτή τη διεύθυνση URI.</string>
     <string name="error_file_not_create">Δεν ήταν δυνατή η δημιουργία αρχείου:</string>
     <string name="error_invalid_db">Δεν ήταν δυνατή η ανάγνωση της βάσης δεδομένων.</string>
     <string name="error_invalid_path">Βεβαιωθείτε ότι η διαδρομή είναι σωστή.</string>
@@ -122,8 +122,7 @@
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
-    <string name="read_only_warning">Το KeePass DX χρειάζεται άδεια εγγραφής για να αλλάξει οτιδήποτε στη βάση δεδομένων σας.</string>
-    <string name="read_only_kitkat_warning">Ξεκινώντας από το Android KitKat, μερικές συσκευές δεν επιτρέπουν πλέον στις εφαρμογές να γράψουν στην κάρτα SD.</string>
+    <string name="read_only_warning">Το KeePassDX χρειάζεται άδεια εγγραφής για να αλλάξει οτιδήποτε στη βάση δεδομένων σας.</string>
     <string name="recentfile_title">Πρόσφατο ιστορικό αρχείων</string>
     <string name="recentfile_summary">Απομνημόνευση πρόσφατων ονομάτων αρχείων</string>
     <string name="remember_keyfile_summary">Απομνημόνευση της τοποθεσίας αρχείων-κλειδιών των βάσεων δεδομένων</string>
@@ -199,8 +198,8 @@
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>
     <string name="general">Γενικά</string>
     <string name="autofill">Αυτόματη συμπλήρωση</string>
-    <string name="autofill_service_name">Μορφή KeePass DX αυτόματης συμπλήρωσης</string>
-    <string name="autofill_sign_in_prompt">Συνδεθείτε με το KeePass DX</string>
+    <string name="autofill_service_name">Μορφή KeePassDX αυτόματης συμπλήρωσης</string>
+    <string name="autofill_sign_in_prompt">Συνδεθείτε με το KeePassDX</string>
     <string name="set_autofill_service_title">Ορίστε την προεπιλεγμένη υπηρεσία αυτόματης συμπλήρωσης</string>
     <string name="password_size_title">Παραγόμενο μέγεθος κωδικού πρόσβασης</string>
     <string name="password_size_summary">Ορίστε το προεπιλεγμένο μέγεθος των παραγόμενων κωδικών πρόσβασης</string>
@@ -314,7 +313,7 @@
     <string name="clipboard">Πρόχειρο</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Ρυθμίσεις Magikeyboard</string>
     <string name="keyboard_entry_category">Καταχώριση</string>
     <string name="keyboard_entry_timeout_title">Τέλος χρόνου</string>

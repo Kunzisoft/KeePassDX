@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 --><resources>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilice como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePass DX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
+    <string name="disclaimer_formal">KeePassDX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
     <string name="select_database_file">Abrir base de datos existente</string>
     <string name="entry_accessed">Acceso</string>
     <string name="entry_cancel">Cancelar</string>
@@ -57,7 +57,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nombre de usuario</string>
     <string name="error_arc4">No se admite el cifrador de flujo ARCFOUR.</string>
-    <string name="error_can_not_handle_uri">KeePass DX no puede manejar este URI.</string>
+    <string name="error_can_not_handle_uri">KeePassDX no puede manejar este URI.</string>
     <string name="error_file_not_create">No se pudo crear el archivo:</string>
     <string name="error_invalid_db">No se pudo leer la base de datos.</string>
     <string name="error_invalid_path">Asegúrese de que la ruta sea correcta.</string>
@@ -172,8 +172,7 @@
     <string name="menu_biometric_remove_key">Quite la clave de huella dactilar</string>
     <string name="protection">Protección</string>
     <string name="read_only">Protegida contra escritura</string>
-    <string name="read_only_warning">KeePass DX necesita permiso de escritura para modificar la base de datos.</string>
-    <string name="read_only_kitkat_warning">A partir de Android KitKat, algunos dispositivos ya no permiten a las aplicaciones escribir en la tarjeta SD.</string>
+    <string name="read_only_warning">KeePassDX necesita permiso de escritura para modificar la base de datos.</string>
     <string name="encryption_explanation">Algoritmo de cifrado utilizado en todos los datos.</string>
     <string name="kdf_explanation">Para generar la clave del algoritmo de cifrado, la clave maestra se transforma mediante una función de derivación de claves con una sal aleatoria.</string>
     <string name="memory_usage">Uso de memoria</string>
@@ -208,8 +207,8 @@
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
     <string name="autofill">Compleción automática</string>
-    <string name="autofill_service_name">Compleción automática de formularios de KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Acceder con KeePass DX</string>
+    <string name="autofill_service_name">Compleción automática de formularios de KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Acceder con KeePassDX</string>
     <string name="set_autofill_service_title">Establecer servicio de compleción automática predeterminado</string>
     <string name="password_size_title">Tamaño de la contraseña generada</string>
     <string name="password_size_summary">Establece el tamaño predeterminado de las contraseñas generadas</string>
@@ -327,7 +326,7 @@
     <string name="enable_read_only_summary">Abrir su base de datos protegida contra escritura de manera predeterminada</string>
     <string name="education_read_only_title">Proteja la base de datos contra escritura</string>
     <string name="keyboard_name">Teclado mágico</string>
-    <string name="keyboard_label">Teclado mágico (KeePass DX)</string>
+    <string name="keyboard_label">Teclado mágico (KeePassDX)</string>
     <string name="keyboard_setting_label">Configuración del Teclado mágico</string>
     <string name="keyboard_entry_category">Entrada</string>
     <string name="keyboard_entry_timeout_title">Tiempo límite</string>

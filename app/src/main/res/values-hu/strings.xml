@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Visszajelzés</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
     <string name="select_database_file">Létező adatbázis megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
@@ -60,7 +60,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Felhasználónév</string>
     <string name="error_arc4">Az ARCFOUR adatfolyam-titkosítás nem támogatott.</string>
-    <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePass DX-ben.</string>
+    <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
     <string name="error_invalid_path">Győződjön meg róla, hogy az útvonal helyes.</string>
@@ -123,8 +123,7 @@
     <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Védelem</string>
     <string name="read_only">Írásvédett</string>
-    <string name="read_only_warning">A KeePass DX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
-    <string name="read_only_kitkat_warning">Az Android KitKattől kezdődően, egyes eszközökön az alkalmazások nem írhatnak az SD kártyára.</string>
+    <string name="read_only_warning">A KeePassDX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
     <string name="recentfile_title">Előző fájlok előzményei</string>
     <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
     <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>
@@ -224,8 +223,8 @@
     <string name="menu_appearance_settings">Megjelenés</string>
     <string name="general">Általános</string>
     <string name="autofill">Automatikus kitöltés</string>
-    <string name="autofill_service_name">KeePass DX űrlapkitöltés</string>
-    <string name="autofill_sign_in_prompt">Bejelentkezés a KeePass DX-szel</string>
+    <string name="autofill_service_name">KeePassDX űrlapkitöltés</string>
+    <string name="autofill_sign_in_prompt">Bejelentkezés a KeePassDX-szel</string>
     <string name="set_autofill_service_title">Alapértelmezett automatikus kitöltési szolgáltatás beállítása</string>
     <string name="autofill_explanation_summary">Automatikus kitöltés engedélyezése az űrlapok gyors kitöltéséhez más alkalmazásokban</string>
     <string name="password_size_title">Előállított jelszó mérete</string>
@@ -270,7 +269,7 @@
     <string name="magic_keyboard_title">Mágikus billentyűzet</string>
     <string name="magic_keyboard_explanation_summary">Egyéni billentyűzet aktiválása, amely kitölti a jelszavakat és az összes azonosító mezőt</string>
     <string name="keyboard_name">Mágikus billentyűzet</string>
-    <string name="keyboard_label">Mágikus billentyűzet (KeePass DX)</string>
+    <string name="keyboard_label">Mágikus billentyűzet (KeePassDX)</string>
     <string name="keyboard_setting_label">Mágikus billentyűzet beállításai</string>
     <string name="keyboard_entry_category">Bejegyzés</string>
     <string name="keyboard_entry_timeout_title">Időtúllépés</string>

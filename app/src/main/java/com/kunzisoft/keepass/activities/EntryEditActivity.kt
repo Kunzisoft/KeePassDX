@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.kunzisoft.keepass.activities
 
@@ -28,11 +28,13 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -47,9 +49,10 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
+import com.kunzisoft.keepass.view.asError
 import java.util.*
 
-class EntryEditActivity : LockingHideActivity(),
+class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener {
@@ -64,6 +67,7 @@ class EntryEditActivity : LockingHideActivity(),
     private var mIsNew: Boolean = false
 
     // Views
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: ScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
     private var saveView: View? = null
@@ -80,6 +84,8 @@ class EntryEditActivity : LockingHideActivity(),
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_close_white_24dp)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        coordinatorLayout = findViewById(R.id.entry_edit_coordinator_layout)
 
         scrollView = findViewById(R.id.entry_edit_scroll)
         scrollView?.scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
@@ -180,6 +186,15 @@ class EntryEditActivity : LockingHideActivity(),
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
                     if (result.isSuccess)
                         finish()
+                }
+            }
+
+            // Show error
+            if (!result.isSuccess) {
+                result.message?.let { resultMessage ->
+                    Snackbar.make(coordinatorLayout!!,
+                            resultMessage,
+                            Snackbar.LENGTH_LONG).asError().show()
                 }
             }
         }

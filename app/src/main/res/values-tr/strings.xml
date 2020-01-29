@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">Geri Bildirim</string>
     <string name="about_homepage">Ana sayfa</string>
@@ -64,11 +64,11 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">ARCFOUR akış şifresi desteklenmiyor.</string>
-    <string name="error_can_not_handle_uri">Bu URI, KeePass DX\'te işlenemedi.</string>
+    <string name="error_can_not_handle_uri">Bu URI, KeePassDX\'te işlenemedi.</string>
     <string name="error_nokeyfile">Bir anahtar dosyası seçin.</string>
     <string name="error_out_of_memory">Tüm veritabanınızı yüklemek için bellek yok.</string>
     <string name="error_load_database">Veritabanınız yüklenemedi.</string>
@@ -144,8 +144,7 @@
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>
     <string name="read_only">Yazma korumalı</string>
-    <string name="read_only_warning">Veritabanınızdaki herhangi bir şeyi değiştirmek için KeePass DX\'in yazma iznine ihtiyacı var.</string>
-    <string name="read_only_kitkat_warning">Android KitKat ile başlayan bazı cihazlar artık uygulamaların SD karta yazmasına izin vermiyor.</string>
+    <string name="read_only_warning">Veritabanınızdaki herhangi bir şeyi değiştirmek için KeePassDX\'in yazma iznine ihtiyacı var.</string>
     <string name="recentfile_title">Son dosya geçmişi</string>
     <string name="recentfile_summary">Son dosya adlarını hatırla</string>
     <string name="remember_keyfile_summary">Veritabanı anahtar dosyaların yerini hatırlar</string>
@@ -202,8 +201,8 @@
     <string name="menu_appearance_settings">Görünüm</string>
     <string name="general">Genel</string>
     <string name="autofill">Otomatik Doldurma</string>
-    <string name="autofill_service_name">KeePass DX formu otomatik doldurma</string>
-    <string name="autofill_sign_in_prompt">KeePass DX ile giriş yap</string>
+    <string name="autofill_service_name">KeePassDX formu otomatik doldurma</string>
+    <string name="autofill_sign_in_prompt">KeePassDX ile giriş yap</string>
     <string name="set_autofill_service_title">Varsayılan otomatik doldurma hizmetini ayarla</string>
     <string name="autofill_explanation_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>
     <string name="password_size_title">Oluşturulan parola boyutu</string>
@@ -248,7 +247,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Parolalarınızı ve tüm kimlik alanlarınızı içeren özel bir klavye etkinleştirin</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard ayarları</string>
     <string name="keyboard_entry_category">Girdi</string>
     <string name="keyboard_entry_timeout_title">Zaman aşımı</string>
@@ -403,7 +402,7 @@
     <string name="menu_security_settings">Güvenlik ayarları</string>
     <string name="menu_master_key_settings">Ana Anahtar ayarları</string>
     <string name="contains_duplicate_uuid">Veritabanı tekrarlanan UUID\'ler içermektedir.</string>
-    <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePass DX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
+    <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePassDX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
     <string name="database_opened">Veritabanı açıldı</string>
     <string name="clipboard_explanation_summary">Cihazınızın panosunu kullanarak giriş alanlarını kopyala</string>
     <string name="persistent_notification_title">Kalıcı bildirim</string>

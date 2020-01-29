@@ -9,7 +9,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
  - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePass XC...)
  - Permet la copie rapide de champs et l'ouverture d'URI /URL
  - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / ...)
- - Gestion de One-Time Password (HOTP / TOTP)
+ - Gestion de One-Time Password (HOTP / TOTP) pour l'authentification à deux facteurs (2FA)
  - Material design avec thèmes
  - Remplissage automatique de champs
  - Clavier de remplissage de champs
@@ -21,7 +21,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
  - Création de TOTP Steam
  - Suppression des boutons de don
 
-Keepass DX est <b>opensource</b> et <b>sans publicité</b>.
+KeePassDX est <b>opensource</b> et <b>sans publicité</b>.
 
 Vous avez un bug : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
 

@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.activities
@@ -24,6 +24,7 @@ import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -37,13 +38,11 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -99,6 +98,7 @@ class PasswordActivity : StylishActivity() {
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
+    private var mPermissionAsked = false
     private var readOnly: Boolean = false
 
     private var mProgressDialogThread: ProgressDialogThread? = null
@@ -130,6 +130,7 @@ class PasswordActivity : StylishActivity() {
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
 
+        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.open_database_button)
@@ -280,6 +281,7 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
         super.onSaveInstanceState(outState)
     }
@@ -545,9 +547,6 @@ class PasswordActivity : StylishActivity() {
         }.show(supportFragmentManager, "duplicateUUIDDialog")
     }
 
-    // To fix multiple view education
-    private var performedEductionInProgress = false
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         val inflater = menuInflater
         // Read menu
@@ -563,51 +562,96 @@ class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        if (!performedEductionInProgress) {
-            performedEductionInProgress = true
-            // Show education views
-            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
+        launchEducation(menu) {
+            launchCheckPermission()
         }
 
         return true
     }
 
+    // Check permission
+    private fun launchCheckPermission() {
+        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        val permissions = arrayOf(writePermission)
+        if (Build.VERSION.SDK_INT >= 23
+                && !readOnly
+                && !mPermissionAsked) {
+            mPermissionAsked = true
+            // Check self permission to show or not the dialog
+            if (toolbar != null
+                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_REQUEST -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
+    }
+
+    // To fix multiple view education
+    private var performedEductionInProgress = false
+    private fun launchEducation(menu: Menu, onEducationFinished: ()-> Unit) {
+        if (!performedEductionInProgress) {
+            performedEductionInProgress = true
+            // Show education views
+            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu, onEducationFinished) }
+        }
+    }
+
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
-                                       menu: Menu) {
-        val educationContainerView = containerView
-        val unlockEducationPerformed = educationContainerView != null
+                                       menu: Menu,
+                                       onEducationFinished: ()-> Unit) {
+        val educationToolbar = toolbar
+        val unlockEducationPerformed = educationToolbar != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
-                educationContainerView,
+                educationToolbar,
                         {
-                            performedNextEducation(passwordActivityEducation, menu)
+                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
                         },
                         {
-                            performedNextEducation(passwordActivityEducation, menu)
+                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
                         })
         if (!unlockEducationPerformed) {
-            val educationToolbar = toolbar
             val readOnlyEducationPerformed =
                     educationToolbar?.findViewById<View>(R.id.menu_open_file_read_mode_key) != null
                     && passwordActivityEducation.checkAndPerformedReadOnlyEducation(
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
                     },
                     {
-                        performedNextEducation(passwordActivityEducation, menu)
+                        performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
                     })
 
             if (!readOnlyEducationPerformed) {
-
                 val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
-                // EducationPerformed
+                val biometricEducationPerformed =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
-                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!)
+                        && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
+                        {
+                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                        },
+                        {
+                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                        })
 
+                if (!biometricEducationPerformed) {
+                    onEducationFinished.invoke()
+                }
             }
         }
     }
@@ -682,6 +726,10 @@ class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
+
+        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
+
+        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
