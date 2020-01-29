@@ -34,7 +34,7 @@ import java.util.ArrayList
 class FieldsAdapter(context: Context) : RecyclerView.Adapter<FieldsAdapter.FieldViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var fields: MutableList<Field> = ArrayList()
+    private var fields: MutableList<Field> = ArrayList()
     var onItemClickListener: OnItemClickListener? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FieldViewHolder {
@@ -50,6 +50,11 @@ class FieldsAdapter(context: Context) : RecyclerView.Adapter<FieldsAdapter.Field
 
     override fun getItemCount(): Int {
         return fields.size
+    }
+
+    fun setFields(fieldsToAdd: List<Field>) {
+        fields.clear()
+        fields.addAll(fieldsToAdd)
     }
 
     fun clear() {

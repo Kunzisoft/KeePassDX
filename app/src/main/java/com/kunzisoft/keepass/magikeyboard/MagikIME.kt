@@ -90,17 +90,10 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             keyboard = Keyboard(this, R.xml.keyboard_password)
             keyboardEntry = Keyboard(this, R.xml.keyboard_password_entry)
 
-            if (!Database.getInstance().loaded)
-                removeEntryInfo()
-            assignKeyboardView()
-            keyboardView?.setOnKeyboardActionListener(this)
-            keyboardView?.isPreviewEnabled = false
-
             val context = baseContext
             val popupFieldsView = LayoutInflater.from(context)
                     .inflate(R.layout.keyboard_popup_fields, FrameLayout(context))
 
-            dismissCustomKeys()
             popupCustomKeys = PopupWindow(context).apply {
                 width = WindowManager.LayoutParams.WRAP_CONTENT
                 height = WindowManager.LayoutParams.WRAP_CONTENT
@@ -122,6 +115,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
             closeView.setOnClickListener { popupCustomKeys?.dismiss() }
+
+            if (!Database.getInstance().loaded)
+                removeEntryInfo()
+            assignKeyboardView()
+            keyboardView?.setOnKeyboardActionListener(this)
+            keyboardView?.isPreviewEnabled = false
 
             return rootKeyboardView
         }
@@ -254,8 +253,10 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
-                    fieldsAdapter?.fields = entryInfoKey!!.customFields
-                    fieldsAdapter?.notifyDataSetChanged()
+                    fieldsAdapter?.apply {
+                        setFields(entryInfoKey!!.customFields)
+                        notifyDataSetChanged()
+                    }
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
