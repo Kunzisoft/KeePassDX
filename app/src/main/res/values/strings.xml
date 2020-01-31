@@ -455,6 +455,7 @@
     <string-array name="list_style_names">
         <item>Light</item>
         <item>Night</item>
+        <item>AMOLED Black</item>
         <item>Classic Dark</item>
         <item>Sky and Ocean</item>
         <item>Red Volcano</item>
