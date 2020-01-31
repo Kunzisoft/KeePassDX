@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.kunzisoft.keepass"
     android:installLocation="auto">
     <supports-screens
@@ -21,7 +22,9 @@
         android:fullBackupContent="@xml/backup"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
         android:largeHeap="true"
-        android:theme="@style/KeepassDXStyle.Night">
+        android:resizeableActivity="true"
+        android:theme="@style/KeepassDXStyle.Night"
+        tools:targetApi="n">
         <!-- TODO backup API Key -->
         <meta-data
             android:name="com.google.android.backup.api_key"
