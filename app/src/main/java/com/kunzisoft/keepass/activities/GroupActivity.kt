@@ -449,7 +449,7 @@ class GroupActivity : LockingActivity(),
     private fun refreshNumberOfChildren() {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getChildEntries(*Group.getChildFilters(context))?.size?.toString() ?: ""
+                text = mCurrentGroup?.getChildEntries(*Group.ChildFilter.getDefaults(context))?.size?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE

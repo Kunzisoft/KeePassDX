@@ -79,7 +79,17 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     }
 
     enum class ChildFilter {
-        META_STREAM, EXPIRED
+        META_STREAM, EXPIRED;
+
+        companion object {
+            fun getDefaults(context: Context): Array<ChildFilter> {
+                return if (PreferencesUtil.showExpiredEntries(context)) {
+                    arrayOf(META_STREAM)
+                } else {
+                    arrayOf(META_STREAM, EXPIRED)
+                }
+            }
+        }
     }
 
     companion object CREATOR : Parcelable.Creator<Group> {
@@ -89,14 +99,6 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
         override fun newArray(size: Int): Array<Group?> {
             return arrayOfNulls(size)
-        }
-
-        fun getChildFilters(context: Context): Array<ChildFilter> {
-            return if (PreferencesUtil.showExpiredEntries(context)) {
-                arrayOf(ChildFilter.META_STREAM)
-            } else {
-                arrayOf(ChildFilter.META_STREAM, ChildFilter.EXPIRED)
-            }
         }
     }
 

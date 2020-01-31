@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
+import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
@@ -401,7 +402,7 @@ class Database {
         return mSearchHelper?.search(this, str, max)
     }
 
-    fun searchEntries(query: String): Cursor? {
+    fun searchEntries(context: Context, query: String): Cursor? {
 
         var cursorKDB: EntryCursorKDB? = null
         var cursorKDBX: EntryCursorKDBX? = null
@@ -414,7 +415,7 @@ class Database {
         val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
             // Search in hide entries but not meta-stream
-            for (entry in searchResult.getChildEntries(Group.ChildFilter.META_STREAM)) {
+            for (entry in searchResult.getChildEntries(*Group.ChildFilter.getDefaults(context))) {
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }

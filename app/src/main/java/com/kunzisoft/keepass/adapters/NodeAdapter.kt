@@ -131,7 +131,7 @@ class NodeAdapter
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
 
-        this.entryFilters = Group.getChildFilters(context)
+        this.entryFilters = Group.ChildFilter.getDefaults(context)
 
         // Reinit textSize for all view type
         calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }

@@ -36,7 +36,8 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
-class SearchEntryCursorAdapter(context: Context, private val database: Database)
+class SearchEntryCursorAdapter(private val context: Context,
+                               private val database: Database)
     : androidx.cursoradapter.widget.CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
@@ -109,7 +110,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
-        return database.searchEntries(constraint.toString())
+        return database.searchEntries(context, constraint.toString())
     }
 
     fun getEntryFromPosition(position: Int): Entry? {
