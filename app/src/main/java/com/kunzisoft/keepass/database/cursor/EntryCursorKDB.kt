@@ -36,7 +36,9 @@ class EntryCursorKDB : EntryCursorUUID<EntryKDB>() {
                 entry.username,
                 entry.password,
                 entry.url,
-                entry.notes
+                entry.notes,
+                entry.expiryTime,
+                entry.expires
         ))
         entryId++
     }

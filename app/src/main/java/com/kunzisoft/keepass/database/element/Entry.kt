@@ -230,12 +230,27 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
 
+    /**
+     * {@inheritDoc}
+     * Get the display title from an entry, <br></br>
+     * [.startManageEntry] and [.stopManageEntry] must be called
+     * before and after [.getVisualTitle]
+     */
     fun getVisualTitle(): String {
-        return getVisualTitle(isTan(),
-                title,
-                username,
-                url,
-                nodeId.toString())
+        return if (isTan()) {
+            "$PMS_TAN_ENTRY $username"
+        } else {
+            if (title.isEmpty())
+                if (username.isEmpty())
+                    if (url.isEmpty())
+                        nodeId.toString()
+                    else
+                        url
+                else
+                    username
+            else
+                title
+        }
     }
 
     /*
@@ -419,28 +434,5 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
 
         const val PMS_TAN_ENTRY = "<TAN>"
-
-        /**
-         * {@inheritDoc}
-         * Get the display title from an entry, <br></br>
-         * [.startManageEntry] and [.stopManageEntry] must be called
-         * before and after [.getVisualTitle]
-         */
-        fun getVisualTitle(isTan: Boolean, title: String, userName: String, url: String, id: String): String {
-            return if (isTan) {
-                "$PMS_TAN_ENTRY $userName"
-            } else {
-                if (title.isEmpty())
-                    if (userName.isEmpty())
-                        if (url.isEmpty())
-                            id
-                        else
-                            url
-                    else
-                        userName
-                else
-                    title
-            }
-        }
     }
 }

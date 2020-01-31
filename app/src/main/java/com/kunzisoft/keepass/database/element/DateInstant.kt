@@ -23,6 +23,7 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DateInstant : Parcelable {
@@ -42,6 +43,10 @@ class DateInstant : Parcelable {
 
     constructor(millis: Long) {
         jDate = Date(millis)
+    }
+
+    constructor(string: String) {
+        jDate = dateFormat.parse(string)
     }
 
     constructor() {
@@ -84,12 +89,13 @@ class DateInstant : Parcelable {
     }
 
     override fun toString(): String {
-        return jDate.toString()
+        return dateFormat.format(jDate)
     }
 
     companion object {
 
         val NEVER_EXPIRE = neverExpire
+        private val dateFormat = SimpleDateFormat.getDateTimeInstance()
 
         private val neverExpire: DateInstant
             get() {

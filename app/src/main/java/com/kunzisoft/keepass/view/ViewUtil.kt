@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.view
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.text.method.PasswordTransformationMethod
 import android.view.View
@@ -47,6 +48,13 @@ fun TextView.applyHiddenStyle(hide: Boolean) {
         transformationMethod = null
         maxLines = 800
     }
+}
+
+fun TextView.strikeOut(strikeOut: Boolean) {
+    paintFlags = if (strikeOut)
+        paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+    else
+        paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
 }
 
 fun Snackbar.asError(): Snackbar {

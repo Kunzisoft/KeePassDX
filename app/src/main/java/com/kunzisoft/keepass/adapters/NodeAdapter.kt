@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
 
 class NodeAdapter
@@ -294,49 +295,36 @@ class NodeAdapter
                 width = iconSize.toInt()
             }
         }
+
         // Assign text
         holder.text.apply {
             text = subNode.title
             setTextSize(textSizeUnit, infoTextSize)
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
+            strikeOut(subNode.isCurrentlyExpires)
         }
-        // Assign click
-        holder.container.setOnClickListener {
-            nodeClickCallback?.onNodeClick(subNode)
-        }
-        holder.container.setOnLongClickListener {
-            nodeClickCallback?.onNodeLongClick(subNode) ?: false
-        }
-
-        holder.container.isSelected = actionNodesList.contains(subNode)
-
         // Add subText with username
         holder.subText.apply {
             text = ""
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
+            strikeOut(subNode.isCurrentlyExpires)
             visibility = View.GONE
-            if (subNode.type == Type.ENTRY) {
-                val entry = subNode as Entry
+        }
 
-                mDatabase.startManageEntry(entry)
+        // Specific elements for entry
+        if (subNode.type == Type.ENTRY) {
+            val entry = subNode as Entry
+            mDatabase.startManageEntry(entry)
 
-                holder.text.text = entry.getVisualTitle()
-
+            holder.text.text = entry.getVisualTitle()
+            holder.subText.apply {
                 val username = entry.username
                 if (showUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
                     setTextSize(textSizeUnit, subtextSize)
                 }
-
-                mDatabase.stopManageEntry(entry)
             }
+
+            mDatabase.stopManageEntry(entry)
         }
 
         // Add number of entries in groups
@@ -353,6 +341,16 @@ class NodeAdapter
                 holder.numberChildren?.visibility = View.GONE
             }
         }
+
+        // Assign click
+        holder.container.setOnClickListener {
+            nodeClickCallback?.onNodeClick(subNode)
+        }
+        holder.container.setOnLongClickListener {
+            nodeClickCallback?.onNodeLongClick(subNode) ?: false
+        }
+
+        holder.container.isSelected = actionNodesList.contains(subNode)
     }
 
     

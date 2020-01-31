@@ -430,25 +430,21 @@ class Database {
 
     fun getEntryFrom(cursor: Cursor): Entry? {
         val iconFactory = mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
-        val entry = createEntry()
 
-        // TODO invert field reference manager
-        entry?.let { entryVersioned ->
-            startManageEntry(entryVersioned)
+        return createEntry()?.apply {
+            startManageEntry(this)
             mDatabaseKDB?.let {
-                entryVersioned.entryKDB?.let { entryKDB ->
+                entryKDB?.let { entryKDB ->
                     (cursor as EntryCursorKDB).populateEntry(entryKDB, iconFactory)
                 }
             }
             mDatabaseKDBX?.let {
-                entryVersioned.entryKDBX?.let { entryKDBX ->
+                entryKDBX?.let { entryKDBX ->
                     (cursor as EntryCursorKDBX).populateEntry(entryKDBX, iconFactory)
                 }
             }
-            stopManageEntry(entryVersioned)
+            stopManageEntry(this)
         }
-
-        return entry
     }
 
     @Throws(DatabaseOutputException::class)

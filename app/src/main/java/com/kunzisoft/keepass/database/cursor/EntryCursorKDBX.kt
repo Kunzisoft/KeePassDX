@@ -40,7 +40,9 @@ class EntryCursorKDBX : EntryCursorUUID<EntryKDBX>() {
                 entry.username,
                 entry.password,
                 entry.url,
-                entry.notes
+                entry.notes,
+                entry.expiryTime,
+                entry.expires
         ))
 
         for (element in entry.customFields.entries) {
