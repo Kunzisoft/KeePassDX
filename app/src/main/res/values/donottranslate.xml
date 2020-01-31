@@ -143,6 +143,8 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
     <bool name="full_file_path_enable_default" translatable="false">false</bool>
+    <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
+    <bool name="hide_expired_entries_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>

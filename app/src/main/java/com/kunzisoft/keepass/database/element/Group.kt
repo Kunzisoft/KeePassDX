@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.database.element
 
+import android.content.Context
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.group.GroupKDB
@@ -27,6 +28,7 @@ import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -76,6 +78,10 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         groupKDBX = parcel.readParcelable(GroupKDBX::class.java.classLoader)
     }
 
+    enum class ChildFilter {
+        META_STREAM, EXPIRED
+    }
+
     companion object CREATOR : Parcelable.Creator<Group> {
         override fun createFromParcel(parcel: Parcel): Group {
             return Group(parcel)
@@ -83,6 +89,14 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
 
         override fun newArray(size: Int): Array<Group?> {
             return arrayOfNulls(size)
+        }
+
+        fun getChildFilters(context: Context): Array<ChildFilter> {
+            return if (PreferencesUtil.showExpiredEntries(context)) {
+                arrayOf(ChildFilter.META_STREAM)
+            } else {
+                arrayOf(ChildFilter.META_STREAM, ChildFilter.EXPIRED)
+            }
         }
     }
 
@@ -223,38 +237,45 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     }
 
     override fun getChildEntries(): MutableList<Entry> {
-        return getChildEntries(false)
+        // To cal function with vararg
+        return getChildEntries(*emptyArray<ChildFilter>())
     }
 
-    fun getChildEntries(withoutMetaStream: Boolean): MutableList<Entry> {
+    fun getChildEntries(vararg filter: ChildFilter): MutableList<Entry> {
         val children = ArrayList<Entry>()
+
+        val withoutMetaStream = filter.contains(ChildFilter.META_STREAM)
+        val showExpiredEntries = !filter.contains(ChildFilter.EXPIRED)
 
         groupKDB?.getChildEntries()?.forEach {
             val entryToAddAsChild = Entry(it)
-            if (!withoutMetaStream || (withoutMetaStream && !entryToAddAsChild.isMetaStream))
+            if ((!withoutMetaStream || (withoutMetaStream && !entryToAddAsChild.isMetaStream))
+                    && (!entryToAddAsChild.isCurrentlyExpires or showExpiredEntries))
                 children.add(entryToAddAsChild)
         }
         groupKDBX?.getChildEntries()?.forEach {
-            children.add(Entry(it))
+            val entryToAddAsChild = Entry(it)
+            if (!entryToAddAsChild.isCurrentlyExpires or showExpiredEntries)
+                children.add(entryToAddAsChild)
         }
 
         return children
     }
 
     /**
-     * Filter MetaStream entries and return children
+     * Filter entries and return children
      * @return List of direct children (one level below) as NodeVersioned
      */
-    fun getChildren(withoutMetaStream: Boolean = true): List<Node> {
+    fun getChildren(vararg filter: ChildFilter): List<Node> {
         val children = ArrayList<Node>()
         children.addAll(getChildGroups())
 
         groupKDB?.let {
-            children.addAll(getChildEntries(withoutMetaStream))
+            children.addAll(getChildEntries(*filter))
         }
         groupKDBX?.let {
             // No MetasStream in V4
-            children.addAll(getChildEntries(withoutMetaStream))
+            children.addAll(getChildEntries(*filter))
         }
 
         return children

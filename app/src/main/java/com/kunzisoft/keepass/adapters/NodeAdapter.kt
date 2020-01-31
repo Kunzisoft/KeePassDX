@@ -34,8 +34,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
@@ -66,6 +68,7 @@ class NodeAdapter
     private var recycleBinBottomSort: Boolean = true
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
+    private var entryFilters = arrayOf<Group.ChildFilter>()
 
     private var actionNodesList = LinkedList<Node>()
     private var nodeClickCallback: NodeClickCallback? = null
@@ -128,6 +131,8 @@ class NodeAdapter
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
 
+        this.entryFilters = Group.getChildFilters(context)
+
         // Reinit textSize for all view type
         calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
     }
@@ -139,7 +144,7 @@ class NodeAdapter
         this.nodeSortedList.clear()
         assignPreferences()
         try {
-            this.nodeSortedList.addAll(group.getChildren())
+            this.nodeSortedList.addAll(group.getChildren(*entryFilters))
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
@@ -338,7 +343,9 @@ class NodeAdapter
         if (subNode.type == Type.GROUP) {
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
-                    text = (subNode as Group).getChildEntries(true).size.toString()
+                    text = (subNode as Group)
+                            .getChildEntries(*entryFilters)
+                            .size.toString()
                     setTextSize(textSizeUnit, numberChildrenTextSize)
                     visibility = View.VISIBLE
                 }
@@ -348,6 +355,7 @@ class NodeAdapter
         }
     }
 
+    
     override fun getItemCount(): Int {
         return nodeSortedList.size()
     }
