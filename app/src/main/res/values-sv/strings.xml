@@ -49,12 +49,12 @@
     <string name="select_database_file">Öppna befintlig databas</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_cancel">Avbryt</string>
-    <string name="entry_notes">Kommentarer</string>
+    <string name="entry_notes">Anteckningar</string>
     <string name="entry_confpassword">Bekräfta lösenord</string>
     <string name="entry_created">Skapad</string>
-    <string name="entry_expires">Upphör att gälla</string>
+    <string name="entry_expires">Upphör</string>
     <string name="entry_keyfile">Nyckelfil</string>
-    <string name="entry_modified">Senast ändrad</string>
+    <string name="entry_modified">Ändrad</string>
     <string name="entry_password">Lösenord</string>
     <string name="entry_save">Spara</string>
     <string name="entry_title">Namn</string>
@@ -122,7 +122,7 @@
     <string name="progress_create">Skapar ny databas…</string>
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
-    <string name="remember_keyfile_summary">Sparar sökvägar till databasers nyckelfiler</string>
+    <string name="remember_keyfile_summary">Kommer ihåg sökvägar till databasers nyckelfiler</string>
     <string name="remember_keyfile_title">Spara nyckelfil</string>
     <string name="content_description_remove_from_list">Ta bort</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
@@ -170,14 +170,14 @@
     <string name="clipboard_swipe_clean">Svep för att rensa urklipp nu</string>
     <string name="content_description_open_file">Öppna fil</string>
     <string name="content_description_add_node">Lägg till nod</string>
-    <string name="content_description_add_entry">Lägg till post</string>
+    <string name="content_description_add_entry">Ny post</string>
     <string name="content_description_add_group">Lägg till grupp</string>
     <string name="content_description_file_information">Filinformation</string>
     <string name="content_description_password_checkbox">Lösenordskryssruta</string>
     <string name="content_description_keyfile_checkbox">Nyckelfilskryssruta</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
-    <string name="content_description_entry_icon">Post ikon</string>
-    <string name="content_description_entry_save">Post spara</string>
+    <string name="content_description_entry_icon">Post-ikon</string>
+    <string name="content_description_entry_save">Spara post</string>
     <string name="content_description_password_generator">Lösenordsgenerator</string>
     <string name="content_description_password_length">Lösenords längd</string>
     <string name="content_description_add_field">Lägg till fält</string>
@@ -220,7 +220,7 @@
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>
     <string name="general">Generellt</string>
     <string name="autofill">Autofyll</string>
-    <string name="autofill_service_name">KeePass DX formulär-autofyll</string>
+    <string name="autofill_service_name">KeePass DX autofyll formulär</string>
     <string name="autofill_sign_in_prompt">Logga in med KeePass DX</string>
     <string name="set_autofill_service_title">Välj standardtjänst för autofyll</string>
     <string name="password_size_title">Längd på genererat lösenord</string>
@@ -232,7 +232,7 @@
     <string name="lock">Lås</string>
     <string name="lock_database_screen_off_title">Skärmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen när skärmen är av</string>
-    <string name="unavailable_feature_text">Kunde inte starta denna funktion</string>
+    <string name="unavailable_feature_text">Kunde inte starta denna funktion.</string>
     <string name="unavailable_feature_version">Din Androidversion %1$s möter inte minimumversionen %2$s.</string>
     <string name="unavailable_feature_hardware">Kunde inte hitta motsvarande hårdvara.</string>
     <string name="file_name">Filnamn</string>
@@ -260,7 +260,7 @@
     <string name="reset_education_screens_summary">Visa alla hjälpskärmar igen</string>
     <string name="reset_education_screens_text">Återställ hjälpskärmar</string>
     <string name="education_create_database_title">Skapa din databasfil</string>
-    <string name="education_create_database_summary">Skapa din första lösenordshanterarfil.</string>
+    <string name="education_create_database_summary">Skapa din första lösenordshanteringsfil.</string>
     <string name="education_select_database_title">Öppna en befintlig databas</string>
     <string name="education_select_database_summary">Öppna din tidigare databasfil från din filhanterare för att fortsätta använda den.</string>
     <string name="education_new_node_title">Lägg till objekt i din databas</string>
@@ -312,7 +312,7 @@
     <string name="menu_paste">Klistra in</string>
     <string name="menu_cancel">Avbryt</string>
     <string name="clipboard_warning">Om automatisk rensning av urklippet misslyckas, radera dess historik manuellt.</string>
-    <string name="allow_copy_password_warning">VARNING: urklipp delas mellan alla appar. Om känslig data kopieras kan annan mjukvara återskapa det.</string>
+    <string name="allow_copy_password_warning">VARNING: Urklipp delas mellan alla appar. Om känslig data kopieras kan annan mjukvara återskapa den.</string>
     <string name="allow_no_password_title">Tillåt ingen huvudnyckel</string>
     <string name="allow_no_password_summary">Aktivera \"öppna\"-knappen om inga användaruppgifter har valts</string>
     <string name="enable_education_screens_title">Hjälpskärmar</string>
@@ -355,12 +355,12 @@
     <string name="lock_database_back_root_title">Tryck på tillbaka-knappen för att låsa</string>
     <string name="lock_database_back_root_summary">Lås databasen när användaren klickar på tillbaka-knappen från startskärmen</string>
     <string name="clear_clipboard_notification_title">Rensa vid stängning</string>
-    <string name="clear_clipboard_notification_summary">Stäng databasen när notifikationen stängs</string>
+    <string name="clear_clipboard_notification_summary">Stäng databasen när aviseringen stängs</string>
     <string name="recycle_bin">Papperskorg</string>
     <string name="keyboard_selection_entry_title">Val av post</string>
     <string name="keyboard_selection_entry_summary">Visa inmatningsfält i Magikeyboard när en post visas</string>
     <string name="delete_entered_password_title">Radera lösenord</string>
-    <string name="delete_entered_password_summary">Raderar det inskrivna lösenordet efter ett anslutningsförsök</string>
+    <string name="delete_entered_password_summary">Raderar det skrivna lösenordet efter ett anslutningsförsök</string>
     <string name="content_description_node_children">Under-noder</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Du kan inte flytta en post hit.</string>
@@ -394,7 +394,7 @@
     <string name="enable">Aktivera</string>
     <string name="disable">Avaktivera</string>
     <string name="entry_history">Historik</string>
-    <string name="entry_setup_otp">Sätt upp engångslösenord</string>
+    <string name="entry_setup_otp">Konfigurera engångslösenord</string>
     <string name="otp_type">OTP-typ</string>
     <string name="otp_secret">Hemlighet</string>
     <string name="otp_period">Period (sekunder)</string>
@@ -418,11 +418,11 @@
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
-    <string name="clipboard_explanation_summary">Kopiera post-fält med enhetens urklipp</string>
-    <string name="persistent_notification_title">Ständig avisering</string>
+    <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
+    <string name="persistent_notification_title">Beständig avisering</string>
     <string name="persistent_notification_summary">Lägg till en avisering när databasen är öppen</string>
     <string name="advanced_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
-    <string name="database_data_compression_title">Datakompression</string>
+    <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek.</string>
     <string name="max_history_items_title">Max. historikobjekt</string>
     <string name="max_history_items_summary">Begränsar antalet historikobjekt per post</string>
@@ -436,7 +436,7 @@
     <string name="settings_database_force_changing_master_key_next_time_summary">Tvinga ändring av huvudnyckeln nästa gång (en gång)</string>
     <string name="database_default_username_title">Standard-användarnamn</string>
     <string name="database_custom_color_title">Anpassad databasfärg</string>
-    <string name="compression">Kompression</string>
+    <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
     <string name="compression_gzip">GZip</string>
     <string name="magic_keyboard_explanation_summary">Aktivera ett anpassat tangentbord som innehåller dina lösenord och alla identitetsfält</string>
@@ -452,5 +452,5 @@
     <string name="credential_before_click_biometric_button">Skriv lösenordet innan du klickar på biometrik-knappen.</string>
     <string name="recycle_bin_group_title">Papperskorgsgruppen</string>
     <string name="enable_auto_save_database_title">Autospara databas</string>
-    <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter en viktig händelse (endast i läget \"modifierbar\")</string>
+    <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter en viktig händelse (endast i läget \"Modifierbar\")</string>
 </resources>
