@@ -185,6 +185,8 @@
     <string name="menu_file_selection_read_only">Write-protected</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="menu_empty_recycle_bin">Empty the recycle bin</string>
+    <string name="menu_restore_entry_history">Restore history</string>
+    <string name="menu_delete_entry_history">Delete history</string>
     <string name="minus">Minus</string>
     <string name="never">Never</string>
     <string name="no_results">No search results</string>

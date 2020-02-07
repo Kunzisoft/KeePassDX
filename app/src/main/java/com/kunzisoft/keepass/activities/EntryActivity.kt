@@ -48,6 +48,8 @@ import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
@@ -73,7 +75,10 @@ class EntryActivity : LockingActivity() {
     private var mDatabase: Database? = null
 
     private var mEntry: Entry? = null
+
     private var mIsHistory: Boolean = false
+    private var mEntryLastVersion: Entry? = null
+    private var mEntryHistoryPosition: Int = -1
 
     private var mShowPassword: Boolean = false
 
@@ -122,6 +127,18 @@ class EntryActivity : LockingActivity() {
 
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+
+        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
+                ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
+                    // Close the current activity after an history action
+                    if (result.isSuccess)
+                        finish()
+                }
+            }
+            // TODO Visual error for entry history
+        }
     }
 
     override fun onResume() {
@@ -131,11 +148,13 @@ class EntryActivity : LockingActivity() {
         try {
             val keyEntry: NodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
             mEntry = mDatabase?.getEntryById(keyEntry)
+            mEntryLastVersion = mEntry
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, mEntryHistoryPosition)
+        mEntryHistoryPosition = historyPosition
         if (historyPosition >= 0) {
             mIsHistory = true
             mEntry = mEntry?.getHistory()?.get(historyPosition)
@@ -220,7 +239,7 @@ class EntryActivity : LockingActivity() {
                             "\n\n" +
                             getString(R.string.clipboard_warning))
                     .create().apply {
-                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) {dialog, _ ->
+                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) { dialog, _ ->
                             PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
                             dialog.dismiss()
                             fillEntryDataInContentsView(entry)
@@ -340,7 +359,7 @@ class EntryActivity : LockingActivity() {
         if (showHistoryView) {
             entryContentsView?.assignHistory(entryHistory)
             entryContentsView?.onHistoryClick { historyItem, position ->
-                launch(this, historyItem, true, position)
+                launch(this, historyItem, mReadOnly, position)
             }
         }
         entryContentsView?.refreshHistory()
@@ -389,7 +408,10 @@ class EntryActivity : LockingActivity() {
         MenuUtil.contributionMenuInflater(inflater, menu)
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
-        if (mReadOnly) {
+        if (mIsHistory && !mReadOnly) {
+            inflater.inflate(R.menu.entry_history, menu)
+        }
+        if (mIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -481,6 +503,22 @@ class EntryActivity : LockingActivity() {
 
                 UriUtil.gotoUrl(this, url)
                 return true
+            }
+            R.id.menu_restore_entry_history -> {
+                mEntryLastVersion?.let { mainEntry ->
+                    mProgressDialogThread?.startDatabaseRestoreEntryHistory(
+                            mainEntry,
+                            mEntryHistoryPosition,
+                            !mReadOnly && mAutoSaveEnable)
+                }
+            }
+            R.id.menu_delete_entry_history -> {
+                mEntryLastVersion?.let { mainEntry ->
+                    mProgressDialogThread?.startDatabaseDeleteEntryHistory(
+                            mainEntry,
+                            mEntryHistoryPosition,
+                            !mReadOnly && mAutoSaveEnable)
+                }
             }
             R.id.menu_lock -> {
                 lockAndExit()

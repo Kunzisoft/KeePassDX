@@ -304,6 +304,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         history.add(entry)
     }
 
+    fun removeEntryFromHistory(position: Int) {
+        history.removeAt(position)
+    }
+
     fun removeAllHistory() {
         history.clear()
     }

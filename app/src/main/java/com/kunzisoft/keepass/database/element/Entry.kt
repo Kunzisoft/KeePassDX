@@ -354,6 +354,10 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
     }
 
+    fun removeEntryFromHistory(position: Int) {
+        entryKDBX?.removeEntryFromHistory(position)
+    }
+
     fun removeAllHistory() {
         entryKDBX?.removeAllHistory()
     }

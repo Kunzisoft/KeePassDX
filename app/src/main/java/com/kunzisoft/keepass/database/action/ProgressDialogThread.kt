@@ -41,9 +41,11 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_MOVE_NODES_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_SAVE
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COLOR_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_COMPRESSION_TASK
@@ -365,6 +367,34 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     fun startDatabaseDeleteNodes(nodesToDelete: List<Node>,
                                  save: Boolean) {
         startDatabaseActionListNodes(ACTION_DATABASE_DELETE_NODES_TASK, nodesToDelete, null, save)
+    }
+
+    /*
+      -----------------
+        Entry History Settings
+      -----------------
+    */
+
+    fun startDatabaseRestoreEntryHistory(mainEntry: Entry,
+                                         entryHistoryPosition: Int,
+                                         save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+                , ACTION_DATABASE_RESTORE_ENTRY_HISTORY)
+    }
+
+    fun startDatabaseDeleteEntryHistory(mainEntry: Entry,
+                                        entryHistoryPosition: Int,
+                                        save: Boolean) {
+        start(Bundle().apply {
+            putParcelable(DatabaseTaskNotificationService.ENTRY_ID_KEY, mainEntry.nodeId)
+            putInt(DatabaseTaskNotificationService.ENTRY_HISTORY_POSITION_KEY, entryHistoryPosition)
+            putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
+        }
+                , ACTION_DATABASE_DELETE_ENTRY_HISTORY)
     }
 
     /*
