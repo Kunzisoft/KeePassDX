@@ -1,1 +1,1 @@
-Gestionnaire de mots de passe sécurisé et open source compatible fichiers KeePass
+Gestionnaire de mots de passe open source compatible KeePass
