@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.kunzisoft.keepass.activities
 
@@ -22,6 +22,7 @@ import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -36,24 +37,33 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.LockingHideActivity
+import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.settings.SettingsAutofillActivity
+import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.createDocument
+import com.kunzisoft.keepass.utils.onCreateDocumentResult
 import com.kunzisoft.keepass.view.EntryContentsView
 import java.util.*
+import kotlin.collections.HashMap
 
-class EntryActivity : LockingHideActivity() {
+class EntryActivity : LockingActivity() {
 
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
@@ -65,9 +75,15 @@ class EntryActivity : LockingHideActivity() {
     private var mDatabase: Database? = null
 
     private var mEntry: Entry? = null
+
     private var mIsHistory: Boolean = false
+    private var mEntryLastVersion: Entry? = null
+    private var mEntryHistoryPosition: Int = -1
 
     private var mShowPassword: Boolean = false
+
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
+    private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
     private var firstLaunchOfActivity: Boolean = false
@@ -108,6 +124,21 @@ class EntryActivity : LockingHideActivity() {
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         firstLaunchOfActivity = true
+
+        // Init attachment service binder manager
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
+
+        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+            when (actionTask) {
+                ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
+                ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
+                    // Close the current activity after an history action
+                    if (result.isSuccess)
+                        finish()
+                }
+            }
+            // TODO Visual error for entry history
+        }
     }
 
     override fun onResume() {
@@ -117,11 +148,13 @@ class EntryActivity : LockingHideActivity() {
         try {
             val keyEntry: NodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
             mEntry = mDatabase?.getEntryById(keyEntry)
+            mEntryLastVersion = mEntry
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }
 
-        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, -1)
+        val historyPosition = intent.getIntExtra(KEY_ENTRY_HISTORY_POSITION, mEntryHistoryPosition)
+        mEntryHistoryPosition = historyPosition
         if (historyPosition >= 0) {
             mIsHistory = true
             mEntry = mEntry?.getHistory()?.get(historyPosition)
@@ -155,7 +188,22 @@ class EntryActivity : LockingHideActivity() {
             }
         }
 
+        mAttachmentFileBinderManager?.apply {
+            registerProgressTask()
+            onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
+                override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
+                    entryContentsView?.updateAttachmentDownloadProgress(attachment)
+                }
+            }
+        }
+
         firstLaunchOfActivity = false
+    }
+
+    override fun onPause() {
+        mAttachmentFileBinderManager?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     private fun fillEntryDataInContentsView(entry: Entry) {
@@ -191,7 +239,7 @@ class EntryActivity : LockingHideActivity() {
                             "\n\n" +
                             getString(R.string.clipboard_warning))
                     .create().apply {
-                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) {dialog, _ ->
+                        setButton(AlertDialog.BUTTON_POSITIVE, getText(R.string.enable)) { dialog, _ ->
                             PreferencesUtil.setAllowCopyPasswordAndProtectedFields(this@EntryActivity, true)
                             dialog.dismiss()
                             fillEntryDataInContentsView(entry)
@@ -265,6 +313,27 @@ class EntryActivity : LockingHideActivity() {
         }
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
+        // Manage attachments
+        val attachments = entry.getAttachments()
+        val showAttachmentsView = attachments.isNotEmpty()
+        entryContentsView?.showAttachments(showAttachmentsView)
+        if (showAttachmentsView) {
+            entryContentsView?.assignAttachments(attachments)
+            entryContentsView?.onAttachmentClick { attachmentItem, _ ->
+                when (attachmentItem.downloadState) {
+                    AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
+                        createDocument(this, attachmentItem.name)?.let { requestCode ->
+                            mAttachmentsToDownload[requestCode] = attachmentItem
+                        }
+                    }
+                    else -> {
+                        // TODO Stop download
+                    }
+                }
+            }
+        }
+        entryContentsView?.refreshAttachments()
+
         // Assign dates
         entryContentsView?.assignCreationDate(entry.creationTime)
         entryContentsView?.assignModificationDate(entry.lastModificationTime)
@@ -276,9 +345,6 @@ class EntryActivity : LockingHideActivity() {
             entryContentsView?.assignExpiresDate(getString(R.string.never))
         }
 
-        // Assign special data
-        entryContentsView?.assignUUID(entry.nodeId.id)
-
         // Manage history
         historyView?.visibility = if (mIsHistory) View.VISIBLE else View.GONE
         if (mIsHistory) {
@@ -287,29 +353,41 @@ class EntryActivity : LockingHideActivity() {
             taColorAccent.recycle()
         }
         val entryHistory = entry.getHistory()
-        // isMainEntry = not an history
+        // TODO isMainEntry = not an history
         val showHistoryView = entryHistory.isNotEmpty()
         entryContentsView?.showHistory(showHistoryView)
         if (showHistoryView) {
             entryContentsView?.assignHistory(entryHistory)
             entryContentsView?.onHistoryClick { historyItem, position ->
-                launch(this, historyItem, true, position)
+                launch(this, historyItem, mReadOnly, position)
             }
         }
+        entryContentsView?.refreshHistory()
+
+        // Assign special data
+        entryContentsView?.assignUUID(entry.nodeId.id)
 
         database.stopManageEntry(entry)
-
-        entryContentsView?.refreshHistory()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+
         when (requestCode) {
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE ->
                 // Not directly get the entry from intent data but from database
                 mEntry?.let {
                     fillEntryDataInContentsView(it)
                 }
+        }
+
+        onCreateDocumentResult(requestCode, resultCode, data) { createdFileUri ->
+            if (createdFileUri != null) {
+                mAttachmentsToDownload[requestCode]?.let { attachmentToDownload ->
+                    mAttachmentFileBinderManager
+                            ?.startDownloadAttachment(createdFileUri, attachmentToDownload)
+                }
+            }
         }
     }
 
@@ -330,7 +408,10 @@ class EntryActivity : LockingHideActivity() {
         MenuUtil.contributionMenuInflater(inflater, menu)
         inflater.inflate(R.menu.entry, menu)
         inflater.inflate(R.menu.database, menu)
-        if (mReadOnly) {
+        if (mIsHistory && !mReadOnly) {
+            inflater.inflate(R.menu.entry_history, menu)
+        }
+        if (mIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
         }
@@ -422,6 +503,22 @@ class EntryActivity : LockingHideActivity() {
 
                 UriUtil.gotoUrl(this, url)
                 return true
+            }
+            R.id.menu_restore_entry_history -> {
+                mEntryLastVersion?.let { mainEntry ->
+                    mProgressDialogThread?.startDatabaseRestoreEntryHistory(
+                            mainEntry,
+                            mEntryHistoryPosition,
+                            !mReadOnly && mAutoSaveEnable)
+                }
+            }
+            R.id.menu_delete_entry_history -> {
+                mEntryLastVersion?.let { mainEntry ->
+                    mProgressDialogThread?.startDatabaseDeleteEntryHistory(
+                            mainEntry,
+                            mEntryHistoryPosition,
+                            !mReadOnly && mAutoSaveEnable)
+                }
             }
             R.id.menu_lock -> {
                 lockAndExit()

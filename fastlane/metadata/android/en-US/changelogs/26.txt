@@ -1,0 +1,11 @@
+ * Download attachments
+ * Change file size string format
+ * Prevent screenshot for all screen
+ * Auto performed "Go" key in Magikeyboard
+ * Restore and delete entry history
+ * Setting to hide expired entries
+ * New Black theme
+ * Fix crash when clearing clipboard
+ * Fix attachments compressions
+ * Fix dates
+ * Fix UUID message for Database v1

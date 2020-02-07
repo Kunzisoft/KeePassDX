@@ -2,23 +2,23 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="about_feedback">Commentaires</string>
-    <string name="about_homepage">Site Web</string>
+    <string name="about_homepage">Page d’accueil</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
@@ -27,33 +27,33 @@
     <string name="encryption_algorithm">Algorithme de chiffrement</string>
     <string name="key_derivation_function">Fonction de dérivation de clé</string>
     <string name="app_timeout">Délai d’expiration de l’application</string>
-    <string name="app_timeout_summary">Durée d’inactivité avant de verrouiller l’application</string>
+    <string name="app_timeout_summary">Durée d’inactivité avant le verrouillage de l’application</string>
     <string name="application">Application</string>
     <string name="menu_app_settings">Paramètres de l’application</string>
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
     <string name="beta_dontask">Ne plus afficher</string>
-    <string name="brackets">Crochets</string>
+    <string name="brackets">Parenthèses (ou autres)</string>
     <string name="extended_ASCII">ASCII étendu</string>
-    <string name="file_manager_install_description">Parcourir les fichiers en installant le gestionnaire de fichiers OpenIntents</string>
+    <string name="file_manager_install_description">Créer, ouvrir et enregistrer un fichier de base de données nécessitent l’installation d’un gestionnaire de fichiers qui accepte les actions d’intention ACTION_CREATE_DOCUMENT et ACTION_OPEN_DOCUMENT</string>
     <string name="allow">Autoriser</string>
     <string name="clipboard_cleared">Presse-papier vidé</string>
     <string name="clipboard_error_title">Erreur de presse-papier</string>
-    <string name="clipboard_error">Certains appareils Android Samsung ne permettent pas aux applications d’utiliser le presse-papier.</string>
+    <string name="clipboard_error">Certains appareils ne permettent pas aux applications d’utiliser le presse-papier.</string>
     <string name="clipboard_error_clear">Impossible de vider le presse-papier</string>
     <string name="clipboard_timeout">Expiration du presse-papier</string>
     <string name="clipboard_timeout_summary">Durée de stockage dans le presse-papier</string>
-    <string name="clipboard_swipe_clean">Balayer pour vider le presse-papier maintenant</string>
+    <string name="clipboard_swipe_clean">Glisser pour vider le presse-papier maintenant</string>
     <string name="select_to_copy">Copier %1$s dans le presse-papier</string>
     <string name="retrieving_db_key">Récupération de la clé de la base de données…</string>
     <string name="database">Base de données</string>
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft n’offre absolument aucune garantie. Il s’agit d’un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v3 ou ultérieure.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft n’offre absolument aucune garantie. Il s’agit d’un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v3 ou ultérieure.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
-    <string name="entry_confpassword">Confirmer mot de passe</string>
+    <string name="entry_confpassword">Confirmer le mot de passe</string>
     <string name="entry_created">Créée</string>
     <string name="entry_expires">Expire</string>
     <string name="entry_keyfile">Fichier clé</string>
@@ -64,49 +64,49 @@
     <string name="entry_title">Titre</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nom d’utilisateur</string>
-    <string name="error_arc4">Le chiffrement de flux ARCFOUR n’est pas pris en charge.</string>
-    <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePass DX.</string>
+    <string name="error_arc4">Le chiffrement de flux Arcfour n’est pas pris en charge.</string>
+    <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePassDX.</string>
     <string name="error_file_not_create">Impossible de créer le fichier :</string>
     <string name="error_invalid_db">Impossible de lire la base de données.</string>
-    <string name="error_invalid_path">Vérifier la validité du chemin.</string>
+    <string name="error_invalid_path">Vérifier la validité du chemin d’accès.</string>
     <string name="error_no_name">Saisir un nom.</string>
     <string name="error_nokeyfile">Sélectionner un fichier clé.</string>
-    <string name="error_out_of_memory">Mémoire insuffisante pour charger l’ensemble de votre base de données.</string>
-    <string name="error_pass_gen_type">Au moins un type de génération de mot de passe doit être sélectionné.</string>
+    <string name="error_out_of_memory">Mémoire insuffisante pour charger l’intégralité de votre base de données.</string>
+    <string name="error_pass_gen_type">Au moins un type de génération de mots de passe doit être sélectionné.</string>
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
-    <string name="error_rounds_too_large">« Tours de transformation » trop grand. Défini à 2147483648.</string>
+    <string name="error_rounds_too_large">« Tours de transformation » trop grand. Définition à 2147483648.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
-    <string name="error_title_required">Ajoutez un titre.</string>
-    <string name="error_wrong_length">Saisir un entier positif dans le champ « Longueur ».</string>
+    <string name="error_title_required">Veuillez ajouter un titre.</string>
+    <string name="error_wrong_length">Veuillez saisir un entier positif dans le champ « Longueur ».</string>
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
     <string name="field_value">Valeur du champ</string>
-    <string name="file_not_found_content">Impossible de trouver le fichier. Essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
+    <string name="file_not_found_content">Impossible de trouver le fichier. Veuillez essayer de le rouvrir depuis votre gestionnaire de fichiers.</string>
     <string name="file_browser">Gestionnaire de fichiers</string>
     <string name="generate_password">Générer un mot de passe</string>
     <string name="hint_conf_pass">Confirmer le mot de passe</string>
     <string name="hint_generated_password">Mot de passe généré</string>
     <string name="hint_group_name">Nom du groupe</string>
     <string name="hint_keyfile">Fichier clé</string>
-    <string name="hint_length">longueur</string>
-    <string name="hint_pass">mot de passe</string>
+    <string name="hint_length">Longueur</string>
+    <string name="hint_pass">Mot de passe</string>
     <string name="password">Mot de passe</string>
     <string name="install_from_play_store">Installer depuis Google Play</string>
     <string name="install_from_f_droid">Installer depuis F-Droid</string>
-    <string name="invalid_credentials">Impossible de lire le mot de passe ou le fichier clé.</string>
-    <string name="invalid_algorithm">Mauvais algorithme.</string>
+    <string name="invalid_credentials">Impossible de lire les identifiants. Si cela se reproduit, votre fichier de base de données est peut-être corrompu.</string>
+    <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
-    <string name="keyfile_does_not_exist">Aucun fichier de clé n’existe.</string>
-    <string name="keyfile_is_empty">Le fichier de clé est vide.</string>
+    <string name="keyfile_does_not_exist">Aucun fichier clé.</string>
+    <string name="keyfile_is_empty">Le fichier clé est vide.</string>
     <string name="length">Longueur</string>
     <string name="list_size_title">Taille des éléments de liste</string>
     <string name="list_size_summary">Taille du texte dans les éléments de liste</string>
     <string name="loading_database">Chargement de la base de données…</string>
-    <string name="lowercase">Minuscule</string>
+    <string name="lowercase">Minuscules</string>
     <string name="maskpass_title">Masquer les mots de passe</string>
-    <string name="maskpass_summary">Masquer les mots de passe (***) par défaut</string>
+    <string name="maskpass_summary">Masque les mots de passe (***) par défaut</string>
     <string name="menu_about">À propos</string>
-    <string name="menu_change_key_settings">Modifier la clé maîtresse</string>
+    <string name="menu_change_key_settings">Modifier la clé principale</string>
     <string name="copy_field">%1$s copié</string>
     <string name="settings">Paramètres</string>
     <string name="menu_database_settings">Paramètres de la base de données</string>
@@ -122,29 +122,28 @@
     <string name="menu_url">Ouvrir l’URL</string>
     <string name="minus">Moins</string>
     <string name="never">Jamais</string>
-    <string name="no_results">Aucun résultat pour cette recherche</string>
-    <string name="no_url_handler">Installer un navigateur web pour ouvrir cette URL.</string>
+    <string name="no_results">Aucun résultat</string>
+    <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
     <string name="open_recent">Bases de données récentes</string>
-    <string name="omitbackup_title">Ne pas rechercher dans les entrées de sauvegarde</string>
-    <string name="omitbackup_summary">Omet les groupes « Sauvegarde » et \"Corbeille\" des résultats de recherche</string>
+    <string name="omitbackup_title">Ne pas rechercher dans les entrées sauvegardées</string>
+    <string name="omitbackup_summary">Omet les groupes « Sauvegarde » et « Corbeille » des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
-    <string name="progress_title">Traitement en cours …</string>
+    <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
     <string name="read_only">Protégé en écriture</string>
-    <string name="read_only_warning">KeePass DX a besoin de la permission d’écriture afin modifier la base de données.</string>
-    <string name="read_only_kitkat_warning">À partir d’Android KitKat, certains appareils n’autorisent plus les applications à écrire sur la carte microSD.</string>
+    <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
     <string name="recentfile_title">Historique de fichiers récents</string>
-    <string name="recentfile_summary">Mémoriser les noms des fichiers récents</string>
-    <string name="remember_keyfile_summary">Mémoriser l’emplacement des fichiers clé des bases de données</string>
+    <string name="recentfile_summary">Mémorise les noms des fichiers récents</string>
+    <string name="remember_keyfile_summary">Mémorise l’emplacement des fichiers clé des bases de données</string>
     <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
-    <string name="content_description_remove_from_list">Effacer</string>
+    <string name="content_description_remove_from_list">Supprimer</string>
     <string name="root">Racine</string>
     <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>
-    <string name="kdf_explanation">Afin de générer la clé pour l’algorithme de chiffrement, la clé maîtresse est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>
+    <string name="kdf_explanation">Afin de générer la clé pour l’algorithme de chiffrement, la clé principale est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
-    <string name="rounds_hint">tours de transformation</string>
+    <string name="rounds_hint">Tours de transformation</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
     <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>
@@ -162,69 +161,68 @@
     <string name="sort_creation_time">Création</string>
     <string name="sort_last_modify_time">Modification</string>
     <string name="sort_last_access_time">Accès</string>en
-    <string name="special">Spécial</string>
+    <string name="special">Spéciaux</string>
     <string name="search">Rechercher</string>
     <string name="search_results">Résultats de recherche</string>
     <string name="underline">Souligné</string>
     <string name="unsupported_db_version">Version de la base de données non prise en charge.</string>
-    <string name="uppercase">Majuscule</string>
+    <string name="uppercase">Majuscules</string>
     <string name="warning">Alerte</string>
-    <string name="warning_password_encoding">Éviter les caractères en dehors du format d\'encodage de texte du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
-    <string name="warning_read_only">Accorder l’accès en écriture à la carte microSD pour enregistrer les modifications de la base de données.</string>
-    <string name="warning_unmounted">Monter la carte microSD pour créer ou charger une base de données.</string>
+    <string name="warning_password_encoding">Éviter les caractères en dehors du format de codage de caractères du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
+    <string name="warning_read_only">Accorder l’accès en écriture à la carte mémoire pour enregistrer les modifications de la base de données.</string>
+    <string name="warning_unmounted">Monter la carte mémoire pour créer ou charger une base de données.</string>
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
     <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
-    <string name="open_biometric_prompt_unlock_database">Ouvrir la boite de dialogue biométrique pour déverrouiller la base de données</string>
+    <string name="open_biometric_prompt_unlock_database">Ouvrir l’invite biométrique pour déverrouiller la base de données</string>
     <string name="encrypted_value_stored">Mot de passe chiffré stocké</string>
     <string name="database_history">Historique</string>
-    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Restaurer vos identifiants de connexion.</string>
+    <string name="biometric_invalid_key">Impossible de lire la clé biométrique. Veuillez la supprimer et répéter la procédure de reconnaissance biométrique.</string>
     <string name="biometric_not_recognized">Impossible de reconnaître l’empreinte biométique</string>
     <string name="biometric_scanning_error">Erreur biométrique : %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Ouvrir la boite de dialogue biométrique pour stocker les identifiants</string>
-    <string name="no_credentials_stored">Cette base de données n’a pas encore enregistré d\'identifiant de connexion.</string>
+    <string name="open_biometric_prompt_store_credential">Ouvrir l’invite biométrique pour stocker les identifiants</string>
+    <string name="no_credentials_stored">Cette base de données n’a pas encore stocké d’identifiants.</string>
     <string name="menu_appearance_settings">Apparence</string>
     <string name="general">Général</string>
     <string name="autofill">Remplissage automatique</string>
-    <string name="autofill_service_name">Remplissage automatique des formulaires KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Se connecter avec KeePass DX</string>
+    <string name="autofill_service_name">Remplissage automatique des formulaires KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Se connecter avec KeePassDX</string>
     <string name="set_autofill_service_title">Définir le service de remplissage automatique par défaut</string>
     <string name="autofill_explanation_summary">Activer le remplissage automatique pour remplir rapidement des formulaires dans d’autres applications</string>
     <string name="password_size_title">Taille du mot de passe généré</string>
-    <string name="password_size_summary">Définir la taille par défaut des mots de passe générés</string>
+    <string name="password_size_summary">Défini la taille par défaut des mots de passe générés</string>
     <string name="list_password_generator_options_title">Caractères de mot de passe</string>
-    <string name="list_password_generator_options_summary">Définir les caractères autorisés du générateur de mot de passe</string>
+    <string name="list_password_generator_options_summary">Défini les caractères autorisés du générateur de mot de passe</string>
     <string name="clipboard">Presse-papier</string>
     <string name="clipboard_notifications_title">Notifications du presse-papier</string>
-    <string name="clipboard_notifications_summary">Activer les notifications du presse-papier pour copier les champs lors de l\'affichage d\'une entrée</string>
+    <string name="clipboard_notifications_summary">Active les notifications du presse-papier pour copier les champs lors de l’affichage d’une entrée</string>
     <string name="clipboard_warning">Si la suppression automatique du presse-papier échoue, supprimer son historique manuellement.</string>
     <string name="lock">Verrouiller</string>
     <string name="lock_database_screen_off_title">Verrouillage d’écran</string>
-    <string name="lock_database_screen_off_summary">Verrouiller la base de données lorsque l’écran est éteint</string>
-    <string name="advanced_unlock">Déverouillage avancée</string>
-    <string name="biometric_unlock_enable_title">Déverouillage biométrique</string>
-    <string name="biometric_unlock_enable_summary">Vous permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
+    <string name="lock_database_screen_off_summary">Verrouille la base de données lorsque l’écran est éteint</string>
+    <string name="advanced_unlock">Déverrouillage avancé</string>
+    <string name="biometric_unlock_enable_title">Déverrouillage biométrique</string>
+    <string name="biometric_unlock_enable_summary">Permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
     <string name="biometric_delete_all_key_title">Supprimer les clés de chiffrement</string>
-    <string name="biometric_delete_all_key_summary">Supprimer toutes les clés de chiffrement liées à la reconnaissance biométrique</string>
+    <string name="biometric_delete_all_key_summary">Supprime toutes les clés de chiffrement liées à la reconnaissance biométrique</string>
     <string name="biometric_delete_all_key_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées à la reconnaissance biométrique \?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
-    <string name="unavailable_feature_version">Votre version Android %1$s est inférieure à la version minimale %2$s requise.</string>
+    <string name="unavailable_feature_version">Votre version d’Android %1$s est inférieure à la version minimale %2$s requise.</string>
     <string name="unavailable_feature_hardware">Impossible de trouver le matériel correspondant.</string>
     <string name="file_name">Nom de fichier</string>
-    <string name="path">Chemin</string>
-    <string name="assign_master_key">Assigner une clé maîtresse</string>
+    <string name="path">Chemin d’accès</string>
+    <string name="assign_master_key">Affecter une clé principale</string>
     <string name="create_keepass_file">Créer une nouvelle base de données</string>
-    <string name="bytes">Octets</string>
-    <string name="full_file_path_enable_title">Chemin de fichier</string>
-    <string name="full_file_path_enable_summary">Afficher le chemin complet du fichier</string>
+    <string name="full_file_path_enable_title">Chemin d’accès du fichier</string>
+    <string name="full_file_path_enable_summary">Affiche le chemin d’accès complet du fichier</string>
     <string name="recycle_bin_title">Utiliser la corbeille</string>
-    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans le groupe \"Corbeille\" avant suppression</string>
-    <string name="monospace_font_fields_enable_title">Police de champ</string>
-    <string name="monospace_font_fields_enable_summary">Changer la police utilisée dans les champs pour une meilleure visibilité des caractères</string>
-    <string name="allow_copy_password_title">Confiance dans le presse-papier</string>
-    <string name="allow_copy_password_summary">Autoriser le mot de passe de l’entrée et les champs protégés à entrer dans le presse-papier</string>
-    <string name="allow_copy_password_warning">ATTENTION : le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
+    <string name="recycle_bin_summary">Déplace les groupes et les entrées dans le groupe « Corbeille » avant leur suppression</string>
+    <string name="monospace_font_fields_enable_title">Fonte de caractères des champs</string>
+    <string name="monospace_font_fields_enable_summary">Change la fonte utilisée dans les champs pour une meilleure visibilité des caractères</string>
+    <string name="allow_copy_password_title">Faire confiance au presse-papier</string>
+    <string name="allow_copy_password_summary">Autorise la copie du mot de passe de l’entrée et des champs protégés dans le presse-papier</string>
+    <string name="allow_copy_password_warning">ATTENTION : Le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -232,53 +230,52 @@
     <string name="application_appearance">Application</string>
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
+    <string name="magic_keyboard_title">Magiclavier</string>
+    <string name="magic_keyboard_explanation_summary">Active un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
     <string name="enable_education_screens_title">Écrans éducatifs</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
     <string name="reset_education_screens_title">Réinitialiser les écrans éducatifs</string>
-    <string name="reset_education_screens_summary">Montrer à nouveau tous les éléments éducatifs</string>
+    <string name="reset_education_screens_summary">Afficher à nouveau tous les éléments éducatifs</string>
     <string name="reset_education_screens_text">Écrans éducatifs réinitialisés</string>
     <string name="education_create_database_title">Créer votre fichier de base de données</string>
-    <string name="education_create_database_summary">Créer votre premier fichier de gestion de mots de passe.</string>
+    <string name="education_create_database_summary">Crée votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrir une base de données existante</string>
-    <string name="education_select_database_summary">Ouvrir votre ancien fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
+    <string name="education_select_database_summary">Ouvre votre précédent fichier de base de données depuis votre gestionnaire de fichiers pour continuer à l’utiliser.</string>
     <string name="education_new_node_title">Ajouter des éléments à votre base de données</string>
-    <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques.
-\n
-\nLes groupes (~ dossiers) organisent les entrées dans votre base de données.</string>
+    <string name="education_new_node_summary">Les entrées aident à gérer vos identités numériques. 
+\n 
+\nLes groupes (≈ dossiers) organisent les entrées dans votre base de données.</string>
     <string name="education_search_title">Rechercher dans les entrées</string>
-    <string name="education_search_summary">Entrer le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
-    <string name="education_biometric_title">Déverrouillage de la base de données par biométrique</string>
-    <string name="education_biometric_summary">Associer votre mot de passe à votre empreinte biométrique numérisée pour déverrouiller rapidement votre base de données.</string>
+    <string name="education_search_summary">Saisir le titre, le nom d’utilisateur ou le contenu des autres champs pour récupérer vos mots de passe.</string>
+    <string name="education_biometric_title">Déverrouillage de la base de données par la biométrie</string>
+    <string name="education_biometric_summary">Associe votre mot de passe à votre empreinte biométrique numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
-    <string name="education_entry_edit_summary">Modifier votre entrée avec des champs personnalisés. La collection de données peut être référencée entre différents champs de l’entrée.</string>
+    <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
     <string name="education_generate_password_title">Créer un mot de passe fort pour votre entrée.</string>
-    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez le facilement en fonction des critères du formulaire et n’oubliez pas d’utiliser un mot de passe suffisamment complexe.</string>
+    <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez-le facilement en fonction des critères du formulaire et n’oubliez pas de sécuriser votre mot de passe.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs personnalisés</string>
-    <string name="education_entry_new_field_summary">Enregistrer un champ additionnel, ajouter une valeur et facultativement le protéger.</string>
-    <string name="education_unlock_title">Déverrouiller votre base de données</string>
-    <string name="education_unlock_summary">Saisir le mot de passe ou le fichier de clé pour déverrouiller votre base de données.
+    <string name="education_entry_new_field_summary">Enregistrez un champ additionnel, ajoutez une valeur et facultativement le protéger.</string>
+    <string name="education_unlock_title">Déverrouillez votre base de données</string>
+    <string name="education_unlock_summary">Saisissez le mot de passe ou le fichier clé pour déverrouiller votre base de données.
 \n
-\nSauvegarder une copie de votre fichier de base de données en lieu sûr après chaque modification.</string>
-    <string name="education_field_copy_title">Copier un champ</string>
+\nSauvegardez votre fichier de base de données en lieu sûr après chaque modification.</string>
+    <string name="education_field_copy_title">Copiez un champ</string>
     <string name="education_field_copy_summary">Les champs copiés peuvent être collés n’importe où.
 \n
-\nUtiliser la méthode de remplissage automatique de formulaire que vous préférez.</string>
-    <string name="education_lock_title">Verrouiller la base de données</string>
+\nUtilisez la méthode de remplissage automatique de formulaire que vous préférez.</string>
+    <string name="education_lock_title">Verrouillez la base de données</string>
     <string name="education_lock_summary">Verrouillez votre base de données rapidement. Vous pouvez configurer l’application pour qu’elle la verrouille après un délai et lorsque l’écran s’éteint.</string>
     <string name="education_sort_title">Tri des éléments</string>
-    <string name="education_sort_summary">Choisir comment les entrées et les groupes sont triés.</string>
-    <string name="education_donation_title">Participer</string>
-    <string name="education_donation_summary">Aider à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
+    <string name="education_sort_summary">Choisissez comment les entrées et les groupes sont triés.</string>
+    <string name="education_donation_title">Participez</string>
+    <string name="education_donation_summary">Aidez à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
-    <string name="html_text_buy_pro">En achetant la version pro, vous accéderez à cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; et vous aiderez en particulier à &lt;strong&gt;la réalisation de projets communautaires.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro"> Algorithms </string>
     <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation">Afin de garder notre liberté et de rester toujours actifs, nous comptons sur votre <strong>contribution.</strong>
-    </string>
+    <string name="html_text_donation"> Algorithms </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_contibute">En &lt;strong&gt;contribuant&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute"> Algorithms </string>
     <string name="html_text_dev_feature_encourage">vous encouragez les développeurs à créer de <strong>nouvelles fonctionnalités</strong> et à <strong>corriger des bogues</strong> en fonction de vos remarques.</string>
     <string name="html_text_dev_feature_thanks">Merci beaucoup pour votre contribution.</string>
     <string name="html_text_dev_feature_work_hard">Nous travaillons dur pour livrer cette fonctionnalité rapidement.</string>
@@ -290,7 +287,7 @@
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <!-- Key Derivation Functions -->
-    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_AES">Fonction de dérivation de clé AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string-array name="timeout_options">
         <item>5 secondes</item>
@@ -313,105 +310,106 @@
     <string-array name="list_style_names">
         <item>Thème Jour</item>
         <item>Thème Nuit</item>
+        <item>Thème Noir</item>
         <item>Thème Foncé Classique</item>
         <item>Thème Ciel et Océan</item>
         <item>Thème Rouge Volcan</item>
         <item>Thème Pro Violet</item>
     </string-array>
-    <string name="icon_pack_choose_title">Ensemble d’icônes</string>
-    <string name="icon_pack_choose_summary">Ensemble d’icônes utilisés dans l’application</string>
-    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe en lui-même.</string>
+    <string name="icon_pack_choose_title">Collection d’icônes</string>
+    <string name="icon_pack_choose_summary">Collection d’icônes utilisées dans l’application</string>
+    <string name="error_move_folder_in_itself">Vous ne pouvez pas déplacer un groupe dans lui-même.</string>
     <string name="menu_copy">Copier</string>
     <string name="menu_move">Déplacer</string>
     <string name="menu_paste">Coller</string>
     <string name="menu_cancel">Annuler</string>
-    <string name="allow_no_password_title">Autoriser aucune clé maîtresse</string>
-    <string name="allow_no_password_summary">Activer le bouton « Ouvrir » si aucune identification n’est sélectionnée</string>
+    <string name="allow_no_password_title">N’autoriser aucune clé principale</string>
+    <string name="allow_no_password_summary">Active le bouton « Ouvrir » si aucun identifiant n’est sélectionné</string>
     <string name="menu_file_selection_read_only">Protégé en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
-    <string name="enable_read_only_summary">Ouvrir votre base de données en lecture seule par défaut</string>
-    <string name="education_read_only_title">Protéger en écriture votre base de données</string>
-    <string name="education_read_only_summary">Changer le mode d’ouverture pour la session. 
-\n 
-\n« Protégé en écriture » empêche les modifications involontaires de la base de données. 
+    <string name="enable_read_only_summary">Ouvre la base de données en lecture seule par défaut</string>
+    <string name="education_read_only_title">Protégez en écriture votre base de données</string>
+    <string name="education_read_only_summary">Changez le mode d’ouverture pour la session.
+\n
+\n« Protégé en écriture » empêche les modifications involontaires de la base de données.
 \n« Modifiable » vous permet d’ajouter, de supprimer ou de modifier tous les éléments.</string>
     <string name="edit_entry">Modifier l’entrée</string>
     <string name="error_load_database">Impossible de charger votre base de données.</string>
-    <string name="error_load_database_KDF_memory">Impossible de charger la clé. Essayer de diminuer la mémoire utilisée par la fonction de dérivation de clé.</string>
+    <string name="error_load_database_KDF_memory">Impossible de charger la clé. Veuillez essayer de diminuer l’utilisation mémoire de la fonction de dérivation de clé.</string>
     <string name="list_entries_show_username_title">Afficher les noms d’utilisateur</string>
-    <string name="list_entries_show_username_summary">Afficher les noms d’utilisateur dans les listes des entrées</string>
-    <string name="build_label">Compiler %1$s</string>
-    <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
-    <string name="keyboard_setting_label">Paramètres Magikeyboard</string>
+    <string name="list_entries_show_username_summary">Afficher les noms d’utilisateur dans les listes d’entrées</string>
+    <string name="build_label">Version du code exécutable %1$s</string>
+    <string name="keyboard_name">Magiclavier</string>
+    <string name="keyboard_label">Magiclavier (KeePass DX)</string>
+    <string name="keyboard_setting_label">Paramètres Magiclavier</string>
     <string name="keyboard_entry_category">Entrée</string>
     <string name="keyboard_entry_timeout_title">Délai d’expiration</string>
     <string name="keyboard_entry_timeout_summary">Délai d’expiration pour effacer l’entrée au clavier</string>
-    <string name="keyboard_notification_entry_title">Info de notification</string>
-    <string name="keyboard_notification_entry_summary">Afficher une notification lorsqu’une entrée est disponible</string>
+    <string name="keyboard_notification_entry_title">Informations de notification</string>
+    <string name="keyboard_notification_entry_summary">Affiche une notification lorsqu’une entrée est disponible</string>
     <string name="keyboard_notification_entry_content_title_text">Entrée</string>
-    <string name="keyboard_notification_entry_content_title">%1$s disponible sur Magikeyboard</string>
+    <string name="keyboard_notification_entry_content_title">%1$s disponible sur le Magiclavier</string>
     <string name="keyboard_notification_entry_content_text">%1$s</string>
     <string name="keyboard_notification_entry_clear_close_title">Effacer à la fermeture</string>
-    <string name="keyboard_notification_entry_clear_close_summary">Fermer la base de données lors de la fermeture de la notification</string>
+    <string name="keyboard_notification_entry_clear_close_summary">Ferme la base de données lors de la fermeture de la notification</string>
     <string name="keyboard_appearance_category">Apparence</string>
     <string name="keyboard_theme_title">Thème du clavier</string>
     <string name="keyboard_keys_category">Touches</string>
     <string name="keyboard_key_vibrate_title">Vibrer au toucher</string>
     <string name="keyboard_key_sound_title">Son au toucher</string>
     <string name="selection_mode">Mode sélection</string>
-    <string name="do_not_kill_app">Ne pas tuer l\'application…</string>
-    <string name="lock_database_back_root_title">Appuyer sur \"Retour\" pour verouiller</string>
-    <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l\'utilisateur clique sur le bouton Précédent de l\'écran racine</string>
+    <string name="do_not_kill_app">Veuillez ne pas tuer l’application…</string>
+    <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
+    <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
-    <string name="clear_clipboard_notification_summary">Ferme la base de données lors de la fermeture de notification</string>
+    <string name="clear_clipboard_notification_summary">Ferme la base de données lors de la fermeture de la notification</string>
     <string name="recycle_bin">Corbeille</string>
-    <string name="keyboard_selection_entry_title">Sélection d\'entrée</string>
-    <string name="keyboard_selection_entry_summary">Afficher les champs de saisie dans Magikeyboard lors de l\'affichage d\'une entrée</string>
+    <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
+    <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
-    <string name="delete_entered_password_summary">Supprime le mot de passe entré après une tentative de connexion</string>
+    <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>
     <string name="content_description_add_node">Ajouter un nœud</string>
     <string name="content_description_add_entry">Ajouter une entrée</string>
     <string name="content_description_add_group">Ajouter un groupe</string>
-    <string name="content_description_entry_icon">Icône de l\'entrée</string>
-    <string name="content_description_entry_save">Enregistrer l\'entrée</string>
-    <string name="content_description_password_generator">Générateur de mot de passe</string>
+    <string name="content_description_entry_icon">Icône de l’entrée</string>
+    <string name="content_description_entry_save">Enregistrer l’entrée</string>
+    <string name="content_description_password_generator">Générateur de mots de passe</string>
     <string name="content_description_password_length">Longueur de mot de passe</string>
     <string name="content_description_add_field">Ajouter un champ</string>
     <string name="content_description_remove_field">Supprimer un champ</string>
     <string name="entry_UUID">UUID</string>
-    <string name="list_groups_show_number_entries_title">Afficher le nombre d\'entrées</string>
-    <string name="list_groups_show_number_entries_summary">Afficher le nombre d\'entrées du groupe</string>
-    <string name="content_description_node_children">Enfants de noeud</string>
-    <string name="content_description_file_information">Information de fichier</string>
-    <string name="content_description_password_checkbox">Case à cocher mot de passe</string>
-    <string name="content_description_keyfile_checkbox">Case à cocher fichier de clé</string>
+    <string name="list_groups_show_number_entries_title">Afficher le nombre d’entrées</string>
+    <string name="list_groups_show_number_entries_summary">Afficher le nombre d’entrées dans un groupe</string>
+    <string name="content_description_node_children">Enfants du nœud</string>
+    <string name="content_description_file_information">Informations du fichier</string>
+    <string name="content_description_password_checkbox">Case à cocher du mot de passe</string>
+    <string name="content_description_keyfile_checkbox">Case à cocher du fichier clé</string>
     <string name="content_description_repeat_toggle_password_visibility">Répéter le basculement de visibilité du mot de passe</string>
     <string name="error_move_entry_here">Vous ne pouvez pas déplacer une entrée ici.</string>
     <string name="error_copy_entry_here">Vous ne pouvez pas copier une entrée ici.</string>
     <string name="content_description_background">Arrière-plan</string>
     <string name="content_description_update_from_list">Mise à jour</string>
     <string name="content_description_keyboard_close_fields">Fermer les champs</string>
-    <string name="error_create_database_file">Impossible de créer une base avec ce mot de passe et ce fichier de clé.</string>
+    <string name="error_create_database_file">Impossible de créer une base de données avec ce mot de passe et ce fichier clé.</string>
     <string name="menu_advanced_unlock_settings">Déverrouillage avancé</string>
     <string name="enable">Activer</string>
     <string name="disable">Désactiver</string>
     <string name="biometric_prompt_store_credential_title">Enregistrer la reconnaissance biométrique</string>
-    <string name="biometric_prompt_store_credential_message">Stocker les informations d\'identification de la base de données avec des données biométriques</string>
+    <string name="biometric_prompt_store_credential_message">ATTENTION : L’utilisation de la reconnaissance biométrique ne vous dispense pas de connaître votre mot de passe principal.</string>
     <string name="biometric_prompt_extract_credential_title">Ouvrir la base de données avec la reconnaissance biométrique</string>
-    <string name="biometric_prompt_extract_credential_message">Extraire les informations d\'identification de la base de données avec des données biométriques</string>
-    <string name="biometric">Biométrique</string>
-    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement la boite de dialogue biométrique</string>
-    <string name="biometric_auto_open_prompt_summary">Ouvrir automatiquement la boite de dialogue biométrique lorsqu\'une clé biométrique est définie pour une base de données</string>
-    <string name="master_key">Clé Maîtresse</string>
+    <string name="biometric_prompt_extract_credential_message">Extraire les identifiants de la base de données avec les données biométriques</string>
+    <string name="biometric">Biométrie</string>
+    <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement l’invite biométrique</string>
+    <string name="biometric_auto_open_prompt_summary">Ouvre automatiquement l’invite biométrique lorsqu’une clé biométrique est définie pour une base de données</string>
+    <string name="master_key">Clé principale</string>
     <string name="security">Sécurité</string>
     <string name="entry_history">Historique</string>
-    <string name="entry_setup_otp">Configuration d\'un mot de passe à usage unique</string>
+    <string name="entry_setup_otp">Configuration d’un mot de passe à usage unique</string>
     <string name="otp_type">Type OTP</string>
     <string name="otp_secret">Secret</string>
-    <string name="otp_period">Période (Secondes)</string>
+    <string name="otp_period">Période (secondes)</string>
     <string name="otp_counter">Compteur</string>
     <string name="otp_digits">Chiffres</string>
     <string name="otp_algorithm">Algorithme</string>
@@ -422,34 +420,44 @@
     <string name="error_otp_secret_key">La clé secrète doit être au format Base32.</string>
     <string name="error_otp_counter">Le compteur doit être entre %1$d et %2$d.</string>
     <string name="error_otp_period">La période doit être entre %1$d et %2$d secondes.</string>
-    <string name="error_otp_digits">Le token doit contenir de %1$d à %2$d chiffres.</string>
+    <string name="error_otp_digits">Le jeton doit contenir de %1$d à %2$d chiffres.</string>
     <string name="invalid_db_same_uuid">%1$s avec le même UUID %2$s existe déjà.</string>
-    <string name="creating_database">Création de base de données…</string>
+    <string name="creating_database">Création de la base de données…</string>
     <string name="menu_security_settings">Paramètres de sécurité</string>
-    <string name="menu_master_key_settings">Paramètres de clé maîtresse</string>
-    <string name="contains_duplicate_uuid">La base de données contient des UUID en double.</string>
-    <string name="contains_duplicate_uuid_procedure">En validant cette boîte de dialogue, KeePass DX corrigera le problème (en générant de nouveaux UUID pour les doublons) et continuera.</string>
+    <string name="menu_master_key_settings">Paramètres de la clé maîtresse</string>
+    <string name="contains_duplicate_uuid">La base de données contient des doublons d’UUID.</string>
+    <string name="contains_duplicate_uuid_procedure">En validant cette boîte de dialogue, KeePassDX corrigera le problème (en générant de nouveaux UUID pour les doublons) et continuera.</string>
     <string name="database_opened">Base de données ouverte</string>
-    <string name="clipboard_explanation_summary">Copier les champs de saisie à l\'aide du presse-papiers de votre appareil</string>
+    <string name="clipboard_explanation_summary">Copie les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
     <string name="persistent_notification_title">Notification persistante</string>
-    <string name="persistent_notification_summary">Ajouter une notification lorsque la base de données est ouverte</string>
-    <string name="advanced_unlock_explanation_summary">Utilisez le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
+    <string name="persistent_notification_summary">Ajoute une notification lorsque la base de données est ouverte</string>
+    <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>
-    <string name="max_history_items_title">Eléments d\'historique max.</string>
-    <string name="max_history_items_summary">Limiter le nombre d\'éléments d\'historique par entrée</string>
-    <string name="max_history_size_title">Taille de l\'historique max.</string>
-    <string name="max_history_size_summary">Limiter la taille de l\'historique par entrée (en octets binaires)</string>
+    <string name="max_history_items_title">Nombre maximum d’items</string>
+    <string name="max_history_items_summary">Limite le nombre d’items de l’historique par entrée</string>
+    <string name="max_history_size_title">Taille maximum</string>
+    <string name="max_history_size_summary">Limite la taille de l’historique par entrée (en octets)</string>
     <string name="settings_database_recommend_changing_master_key_title">Recommander changement</string>
-    <string name="settings_database_recommend_changing_master_key_summary">Recommander le changement de clé maîtresse (jours)</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Recommande le changement de la clé principale (jours)</string>
     <string name="settings_database_force_changing_master_key_title">Forcer changement</string>
-    <string name="settings_database_force_changing_master_key_summary">Force le changement de clé maîtresse (jours)</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Force changement la prochaine fois</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Force le changement de clé maîtresse la prochaine fois (une fois)</string>
-    <string name="database_default_username_title">Nom d\'utilisateur par défaut</string>
-    <string name="database_custom_color_title">Couleur de base de données personnalisée</string>
+    <string name="settings_database_force_changing_master_key_summary">Force le changement de la clé principale (jours)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Forcer changement la prochaine fois</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Force le changement de la clé principale la prochaine fois (une seule fois)</string>
+    <string name="database_default_username_title">Nom d’utilisateur par défaut</string>
+    <string name="database_custom_color_title">Couleur de la base de données</string>
     <string name="compression">Compression</string>
     <string name="compression_none">Aucune</string>
-    <string name="compression_gzip">GZip</string>
-    <string name="device_keyboard_setting_title">Paramètres clavier de l\'appareil</string>
+    <string name="compression_gzip">Gzip</string>
+    <string name="device_keyboard_setting_title">Paramètres du clavier de l’appareil</string>
+    <string name="error_save_database">Impossible d’enregistrer la base de données.</string>
+    <string name="menu_save_database">Enregistrer la base de données</string>
+    <string name="menu_empty_recycle_bin">Vider la corbeille</string>
+    <string name="command_execution">Exécution de la commande…</string>
+    <string name="warning_permanently_delete_nodes">Êtes-vous sûr de vouloir supprimer définitivement les nœuds sélectionnés \?</string>
+    <string name="keystore_not_accessible">Le magasin de clés n’est pas correctement initialisé.</string>
+    <string name="credential_before_click_biometric_button">Saisissez le mot de passe avant de cliquer sur le bouton biométrique.</string>
+    <string name="recycle_bin_group_title">Groupe de la corbeille</string>
+    <string name="enable_auto_save_database_title">Enregistrement automatique de la base de données</string>
+    <string name="enable_auto_save_database_summary">Enregistre automatiquement la base de données après une action importante (uniquement en mode « Modifiable »)</string>
 </resources>

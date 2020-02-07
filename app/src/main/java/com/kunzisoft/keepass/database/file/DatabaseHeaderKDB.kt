@@ -1,29 +1,31 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX. Derived from KeePass for J2ME
+ * This file is part of KeePassDX. Derived from KeePass for J2ME
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  *
  */
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.stream.LEDataInputStream
-
+import com.kunzisoft.keepass.stream.bytes4ToInt
+import com.kunzisoft.keepass.stream.readBytesLength
+import com.kunzisoft.keepass.stream.readBytes4ToInt
 import java.io.IOException
+import java.io.InputStream
 
 class DatabaseHeaderKDB : DatabaseHeader() {
 
@@ -47,30 +49,25 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     var contentsHash = ByteArray(32)
 
+    // As UInt
     var numKeyEncRounds: Int = 0
 
     /**
      * Parse given buf, as read from file.
-     * @param buf
-     * @throws IOException
      */
     @Throws(IOException::class)
-    fun loadFromFile(buf: ByteArray, offset: Int) {
-        signature1 = LEDataInputStream.readInt(buf, offset)
-        signature2 = LEDataInputStream.readInt(buf, offset + 4)
-        flags = LEDataInputStream.readInt(buf, offset + 8)
-        version = LEDataInputStream.readInt(buf, offset + 12)
-
-        System.arraycopy(buf, offset + 16, masterSeed, 0, 16)
-        System.arraycopy(buf, offset + 32, encryptionIV, 0, 16)
-
-        numGroups = LEDataInputStream.readInt(buf, offset + 48)
-        numEntries = LEDataInputStream.readInt(buf, offset + 52)
-
-        System.arraycopy(buf, offset + 56, contentsHash, 0, 32)
-
-        System.arraycopy(buf, offset + 88, transformSeed, 0, 32)
-        numKeyEncRounds = LEDataInputStream.readInt(buf, offset + 120)
+    fun loadFromFile(inputStream: InputStream) {
+        signature1 = inputStream.readBytes4ToInt() // 4 bytes
+        signature2 = inputStream.readBytes4ToInt() // 4 bytes
+        flags = inputStream.readBytes4ToInt() // 4 bytes
+        version = inputStream.readBytes4ToInt() // 4 bytes
+        masterSeed = inputStream.readBytesLength(16) // 16 bytes
+        encryptionIV = inputStream.readBytesLength(16) // 16 bytes
+        numGroups = inputStream.readBytes4ToInt() // 4 bytes
+        numEntries = inputStream.readBytes4ToInt() // 4 bytes
+        contentsHash = inputStream.readBytesLength(32) // 32 bytes
+        transformSeed = inputStream.readBytesLength(32) // 32 bytes
+        numKeyEncRounds = inputStream.readBytes4ToInt()
         if (numKeyEncRounds < 0) {
             // TODO: Really treat this like an unsigned integer
             throw IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.")

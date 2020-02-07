@@ -2,20 +2,20 @@
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePass DX.
+ This file is part of KeePassDX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePassDX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePassDX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
 
@@ -25,7 +25,7 @@
     *******************
     -->
 
-    <string name="app_name" translatable="false">KeePass DX</string>
+    <string name="app_name" translatable="false">KeePassDX</string>
     <string name="app_name_part1" translatable="false">KeePass</string>
     <string name="app_name_part2" translatable="false">DX</string>
     <string name="app_name_part3" translatable="false" />
@@ -49,7 +49,7 @@
     <string-array name="file_types">
         <item translatable="false">@string/database_file_extension_default</item>
     </string-array>
-    <string name="database_default_name" translatable="false">KeePass DX Database</string>
+    <string name="database_default_name" translatable="false">KeePassDX Database</string>
 
     <!--
     *******************
@@ -119,6 +119,8 @@
     <bool name="keyboard_notification_entry_clear_close_default" translatable="false">true</bool>
     <string name="keyboard_entry_timeout_key" translatable="false">keyboard_entry_timeout_key</string>
     <string name="keyboard_entry_timeout_default" translatable="false">300000</string>
+    <string name="keyboard_auto_go_action_key" translatable="false">keyboard_auto_go_action_key</string>
+    <bool name="keyboard_auto_go_action_default" translatable="false">true</bool>
     <string name="keyboard_key_vibrate_key" translatable="false">keyboard_key_vibrate_key</string>
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
@@ -141,6 +143,8 @@
     <bool name="monospace_font_fields_enable_default" translatable="false">true</bool>
     <string name="full_file_path_enable_key" translatable="false">full_file_path_enable_key</string>
     <bool name="full_file_path_enable_default" translatable="false">false</bool>
+    <string name="hide_expired_entries_key" translatable="false">hide_expired_entries_key</string>
+    <bool name="hide_expired_entries_default" translatable="false">false</bool>
     <string name="enable_education_screens_key" translatable="false">enable_education_screens_key</string>
     <bool name="enable_education_screens_default" translatable="false">true</bool>
     <string name="reset_education_screens_key" translatable="false">relaunch_education_screens_key</string>
@@ -186,7 +190,6 @@
     -->
 
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
-    <string name="show_read_only_warning" translatable="false">show_read_only_warning</string>
 
     <!-- Sort -->
     <string name="sort_node_key" translatable="false">sort_node_key</string>
@@ -268,6 +271,7 @@
     <!-- Style -->
     <string name="list_style_name_light" translatable="false">KeepassDXStyle_Light</string>
     <string name="list_style_name_night" translatable="false">KeepassDXStyle_Night</string>
+    <string name="list_style_name_black" translatable="false">KeepassDXStyle_Black</string>
     <string name="list_style_name_dark" translatable="false">KeepassDXStyle_Dark</string>
     <string name="list_style_name_blue" translatable="false">KeepassDXStyle_Blue</string>
     <string name="list_style_name_red" translatable="false">KeepassDXStyle_Red</string>
@@ -275,6 +279,7 @@
     <string-array name="list_style_values">
         <item translatable="false">@string/list_style_name_light</item>
         <item translatable="false">@string/list_style_name_night</item>
+        <item translatable="false">@string/list_style_name_black</item>
         <item translatable="false">@string/list_style_name_dark</item>
         <item translatable="false">@string/list_style_name_blue</item>
         <item translatable="false">@string/list_style_name_red</item>

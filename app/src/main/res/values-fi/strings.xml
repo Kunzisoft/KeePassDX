@@ -2,25 +2,25 @@
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePass DX.
+ This file is part of KeePassDX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePassDX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePassDX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Palaute:</string>
     <string name="about_homepage">Kotisivu:</string>
-    <string name="about_description">KeePass DX on KeePass-salasanahallintaohjelman Android-versio</string>
+    <string name="about_description">KeePassDX on KeePass-salasanahallintaohjelman Android-versio</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
@@ -60,8 +60,8 @@
     <string name="entry_title">Nimi</string>
     <string name="entry_url">URL-osoite</string>
     <string name="entry_user_name">Käyttäjänimi</string>
-    <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
-    <string name="error_can_not_handle_uri">KeePass DX ei osaa käsitellä tätä osoitetta.</string>
+    <string name="error_arc4">The Arcfour stream cipher ei ole tuettu.</string>
+    <string name="error_can_not_handle_uri">KeePassDX ei osaa käsitellä tätä osoitetta.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>
     <string name="error_invalid_path">Viallinen hakemistopolku.</string>

@@ -3,7 +3,7 @@
 <b>Features</b> :
  - Create database files / entries and groups
  - Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
- - Compatible with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
+ - Compatible with the majority of alternative programs (KeePass, KeePassX, KeePassXC...)
  - Allows fast copy of fields and opening of URI / URL
  - Biometric recognition for fast unlocking (Fingerprint / Face unlock / ...)
  - One-Time Password management (HOTP / TOTP) for Two-factor authentication (2FA)
@@ -13,7 +13,7 @@
  - Precise management of settings
  - Code written in native language (Kotlin / Java / JNI / C)
 
-Keepass DX is <b>opensource</b> and <b>ad-free</b>. 
+KeePassDX is <b>opensource</b> and <b>ad-free</b>.
 
 You can donate or buy the <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">pro version</a>
 for a better service and a quick development of your features.

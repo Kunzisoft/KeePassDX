@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.kunzisoft.keepass.view
 
@@ -32,13 +32,17 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
-import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
+import androidx.recyclerview.widget.SimpleItemAnimator
+
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
                                                   var attrs: AttributeSet? = null,
@@ -78,11 +82,15 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val expiresImageView: ImageView
     private val expiresDateView: TextView
 
-    private val uuidView: TextView
+    private val attachmentsContainerView: View
+    private val attachmentsListView: RecyclerView
+    private val attachmentsAdapter = EntryAttachmentsAdapter(context)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
     private val historyAdapter = EntryHistoryAdapter(context)
+
+    private val uuidView: TextView
 
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
@@ -116,13 +124,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         extrasContainerView = findViewById(R.id.extra_strings_container)
         extrasView = findViewById(R.id.extra_strings)
 
+        attachmentsContainerView = findViewById(R.id.entry_attachments_container)
+        attachmentsListView = findViewById(R.id.entry_attachments_list)
+        attachmentsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
         creationDateView = findViewById(R.id.entry_created)
         modificationDateView = findViewById(R.id.entry_modified)
         lastAccessDateView = findViewById(R.id.entry_accessed)
         expiresImageView = findViewById(R.id.entry_expires_image)
         expiresDateView = findViewById(R.id.entry_expires_date)
-
-        uuidView = findViewById(R.id.entry_UUID)
 
         historyContainerView = findViewById(R.id.entry_history_container)
         historyListView = findViewById(R.id.entry_history_list)
@@ -130,6 +144,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
             adapter = historyAdapter
         }
+
+        uuidView = findViewById(R.id.entry_UUID)
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -331,6 +347,39 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
     }
+
+    /* -------------
+     * Attachments
+     * -------------
+     */
+
+    fun showAttachments(show: Boolean) {
+        attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
+    }
+
+    fun refreshAttachments() {
+        attachmentsAdapter.notifyDataSetChanged()
+    }
+
+    fun assignAttachments(attachments: ArrayList<EntryAttachment>) {
+        attachmentsAdapter.clear()
+        attachmentsAdapter.entryAttachmentsList.addAll(attachments)
+    }
+
+    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {
+        attachmentsAdapter.updateProgress(attachmentToDownload)
+    }
+
+    fun onAttachmentClick(action: (attachment: EntryAttachment, position: Int)->Unit) {
+        attachmentsAdapter.onItemClickListener = { item, position ->
+            action.invoke(item, position)
+        }
+    }
+
+    /* -------------
+     * History
+     * -------------
+     */
 
     fun showHistory(show: Boolean) {
         historyContainerView.visibility = if (show) View.VISIBLE else View.GONE

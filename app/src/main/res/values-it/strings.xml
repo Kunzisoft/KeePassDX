@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
 --><resources>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
@@ -60,8 +60,8 @@
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome utente</string>
-    <string name="error_arc4">La codifica a flusso ARCFOUR non è supportata.</string>
-    <string name="error_can_not_handle_uri">KeePass DX non può gestire questo URI.</string>
+    <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
+    <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>
     <string name="error_invalid_path">Assicurati che il percorso sia corretto.</string>
@@ -123,8 +123,7 @@
     <string name="progress_title">In corso…</string>
     <string name="protection">Protezione</string>
     <string name="read_only">Sola lettura</string>
-    <string name="read_only_warning">KeePass DX richiede l\'autorizzazione di scrittura per poter modificare il tuo database.</string>
-    <string name="read_only_kitkat_warning">A partire da Android KitKat, alcuni dispositivi non permettono più alle app di scrivere nella scheda SD.</string>
+    <string name="read_only_warning">KeePassDX richiede l\'autorizzazione di scrittura per poter modificare il tuo database.</string>
     <string name="recentfile_title">Cronologia file recenti</string>
     <string name="recentfile_summary">Ricorda i file recenti</string>
     <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave dei database</string>
@@ -215,8 +214,8 @@
     <string name="menu_appearance_settings">Aspetto</string>
     <string name="general">Generale</string>
     <string name="autofill">Autocompletamento</string>
-    <string name="autofill_service_name">Autocompletamento di KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Accedi con KeePass DX</string>
+    <string name="autofill_service_name">Autocompletamento di KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Accedi con KeePassDX</string>
     <string name="set_autofill_service_title">Imposta servizio predefinito di autocompletamento</string>
     <string name="autofill_explanation_summary">Attiva l\'autocompletamento per compilare velocemente i moduli in altre app</string>
     <string name="password_size_title">Dimensione password generata</string>
@@ -242,7 +241,6 @@
     <string name="path">Percorso</string>
     <string name="assign_master_key">Assegna una chiave master</string>
     <string name="create_keepass_file">Crea un nuovo database</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Percorso file</string>
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
@@ -337,7 +335,7 @@
     <string name="clipboard">Appunti</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magitastiera</string>
-    <string name="keyboard_label">Magitastiera (KeePass DX)</string>
+    <string name="keyboard_label">Magitastiera (KeePassDX)</string>
     <string name="keyboard_setting_label">Impostazioni Magitastiera</string>
     <string name="keyboard_entry_category">Elemento</string>
     <string name="keyboard_entry_timeout_title">Scadenza</string>

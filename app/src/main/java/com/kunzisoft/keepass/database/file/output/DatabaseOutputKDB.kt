@@ -1,20 +1,20 @@
 /*
 ` * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.file.output
@@ -26,7 +26,7 @@ import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.LEDataOutputStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
@@ -128,7 +128,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.version = DatabaseHeaderKDB.DBVER_DW
         header.numGroups = mDatabaseKDB.numberOfGroups()
         header.numEntries = mDatabaseKDB.numberOfEntries()
-        header.numKeyEncRounds = mDatabaseKDB.numberKeyEncryptionRounds.toInt()
+        header.numKeyEncRounds = mDatabaseKDB.numberKeyEncryptionRounds.toInt() // TODO Signed Long - Unsigned Int
 
         setIVs(header)
 
@@ -197,7 +197,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     @Suppress("CAST_NEVER_SUCCEEDS")
     @Throws(DatabaseOutputException::class)
     fun outputPlanGroupAndEntries(os: OutputStream) {
-        val los = LEDataOutputStream(os)
+        val los = LittleEndianDataOutputStream(os)
 
         // useHeaderHash
         if (headerHashBlock != null) {
@@ -261,7 +261,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
     @Throws(IOException::class)
     private fun writeExtData(headerDigest: ByteArray, os: OutputStream) {
-        val los = LEDataOutputStream(os)
+        val los = LittleEndianDataOutputStream(os)
 
         writeExtDataField(los, 0x0001, headerDigest, headerDigest.size)
         val headerRandom = ByteArray(32)
@@ -273,7 +273,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
     }
 
     @Throws(IOException::class)
-    private fun writeExtDataField(los: LEDataOutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
+    private fun writeExtDataField(los: LittleEndianDataOutputStream, fieldType: Int, data: ByteArray?, fieldSize: Int) {
         los.writeUShort(fieldType)
         los.writeInt(fieldSize)
         if (data != null) {

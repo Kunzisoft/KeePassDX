@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources><string name="about_feedback">Comentarios:</string>
     <string name="about_homepage">Páxina inicial:</string>
-    <string name="about_description">KeePass DX é unha implementación para Android do xestor de contrasinais KeePass.</string>
+    <string name="about_description">KeePassDX é unha implementación para Android do xestor de contrasinais KeePass.</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Engadir entrada</string>
     <string name="add_group">Engadir grupo</string>

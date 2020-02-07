@@ -1,25 +1,26 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
+import android.content.Context
 import android.content.res.Resources
 import android.database.Cursor
 import android.net.Uri
@@ -36,7 +37,10 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.database.exception.*
+import com.kunzisoft.keepass.database.exception.DatabaseOutputException
+import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
+import com.kunzisoft.keepass.database.exception.LoadDatabaseException
+import com.kunzisoft.keepass.database.exception.SignatureDatabaseException
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.input.DatabaseInputKDB
@@ -45,7 +49,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.stream.LEDataInputStream
+import com.kunzisoft.keepass.stream.readBytes4ToInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -324,66 +328,67 @@ class Database {
             isReadOnly = !file.canWrite()
         }
 
-        // Pass Uris as InputStreams
-        val inputStream: InputStream?
+        // Pass KeyFile Uri as InputStreams
+        var databaseInputStream: InputStream? = null
+        var keyFileInputStream: InputStream? = null
         try {
-            inputStream = UriUtil.getUriInputStream(contentResolver, uri)
+            // Get keyFile inputStream
+            keyfile?.let {
+                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
+            }
+
+            // Load Data, pass Uris as InputStreams
+            databaseInputStream = BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri))
+            if (!databaseInputStream.markSupported()) {
+                throw IOException("Input stream does not support mark.")
+            }
+
+            // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
+            databaseInputStream.mark(10)
+
+            // Get the file directory to save the attachments
+            val sig1 = databaseInputStream.readBytes4ToInt()
+            val sig2 = databaseInputStream.readBytes4ToInt()
+
+            // Return to the start
+            databaseInputStream.reset()
+
+            when {
+                // Header of database KDB
+                DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB(
+                        cacheDirectory,
+                        fixDuplicateUUID)
+                        .openDatabase(databaseInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
+
+                // Header of database KDBX
+                DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
+                        cacheDirectory,
+                        fixDuplicateUUID)
+                        .openDatabase(databaseInputStream,
+                                password,
+                                keyFileInputStream,
+                                progressTaskUpdater))
+
+                // Header not recognized
+                else -> throw SignatureDatabaseException()
+            }
+
+            this.mSearchHelper = SearchHelper(omitBackup)
+            loaded = true
+
+        } catch (e: LoadDatabaseException) {
+            Log.e("KPD", "Database::loadData", e)
+            throw e
         } catch (e: Exception) {
             Log.e("KPD", "Database::loadData", e)
             throw FileNotFoundDatabaseException()
+        } finally {
+            keyFileInputStream?.close()
+            databaseInputStream?.close()
         }
-
-        // Pass KeyFile Uri as InputStreams
-        var keyFileInputStream: InputStream? = null
-        keyfile?.let {
-            try {
-                keyFileInputStream = UriUtil.getUriInputStream(contentResolver, keyfile)
-            } catch (e: Exception) {
-                Log.e("KPD", "Database::loadData", e)
-                throw FileNotFoundDatabaseException()
-            }
-        }
-
-        // Load Data
-
-        val bufferedInputStream = BufferedInputStream(inputStream)
-        if (!bufferedInputStream.markSupported()) {
-            throw IOException("Input stream does not support mark.")
-        }
-
-        // We'll end up reading 8 bytes to identify the header. Might as well use two extra.
-        bufferedInputStream.mark(10)
-
-        // Get the file directory to save the attachments
-        val sig1 = LEDataInputStream.readInt(bufferedInputStream)
-        val sig2 = LEDataInputStream.readInt(bufferedInputStream)
-
-        // Return to the start
-        bufferedInputStream.reset()
-
-        when {
-            // Header of database KDB
-            DatabaseHeaderKDB.matchesHeader(sig1, sig2) -> setDatabaseKDB(DatabaseInputKDB()
-                    .openDatabase(bufferedInputStream,
-                            password,
-                            keyFileInputStream,
-                            progressTaskUpdater))
-
-            // Header of database KDBX
-            DatabaseHeaderKDBX.matchesHeader(sig1, sig2) -> setDatabaseKDBX(DatabaseInputKDBX(
-                    cacheDirectory,
-                    fixDuplicateUUID)
-                    .openDatabase(bufferedInputStream,
-                            password,
-                            keyFileInputStream,
-                            progressTaskUpdater))
-
-            // Header not recognized
-            else -> throw SignatureDatabaseException()
-        }
-
-        this.mSearchHelper = SearchHelper(omitBackup)
-        loaded = true
     }
 
     fun isGroupSearchable(group: Group, isOmitBackup: Boolean): Boolean {
@@ -397,7 +402,7 @@ class Database {
         return mSearchHelper?.search(this, str, max)
     }
 
-    fun searchEntries(query: String): Cursor? {
+    fun searchEntries(context: Context, query: String): Cursor? {
 
         var cursorKDB: EntryCursorKDB? = null
         var cursorKDBX: EntryCursorKDBX? = null
@@ -409,7 +414,8 @@ class Database {
 
         val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
-            for (entry in searchResult.getChildEntries(true)) {
+            // Search in hide entries but not meta-stream
+            for (entry in searchResult.getChildEntries(*Group.ChildFilter.getDefaults(context))) {
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }
@@ -424,25 +430,21 @@ class Database {
 
     fun getEntryFrom(cursor: Cursor): Entry? {
         val iconFactory = mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
-        val entry = createEntry()
 
-        // TODO invert field reference manager
-        entry?.let { entryVersioned ->
-            startManageEntry(entryVersioned)
+        return createEntry()?.apply {
+            startManageEntry(this)
             mDatabaseKDB?.let {
-                entryVersioned.entryKDB?.let { entryKDB ->
+                entryKDB?.let { entryKDB ->
                     (cursor as EntryCursorKDB).populateEntry(entryKDB, iconFactory)
                 }
             }
             mDatabaseKDBX?.let {
-                entryVersioned.entryKDBX?.let { entryKDBX ->
+                entryKDBX?.let { entryKDBX ->
                     (cursor as EntryCursorKDBX).populateEntry(entryKDBX, iconFactory)
                 }
             }
-            stopManageEntry(entryVersioned)
+            stopManageEntry(this)
         }
-
-        return entry
     }
 
     @Throws(DatabaseOutputException::class)

@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.adapters
@@ -28,15 +28,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.cursor.EntryCursor
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
-import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import java.util.*
+import com.kunzisoft.keepass.view.strikeOut
 
-class SearchEntryCursorAdapter(context: Context, private val database: Database)
+class SearchEntryCursorAdapter(private val context: Context,
+                               private val database: Database)
     : androidx.cursoradapter.widget.CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
     private val cursorInflater: LayoutInflater = context.getSystemService(
@@ -71,34 +70,31 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
 
     override fun bindView(view: View, context: Context, cursor: Cursor) {
 
-        // Retrieve elements from cursor
-        val uuid = UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_MOST_SIGNIFICANT_BITS)),
-                cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_UUID_LEAST_SIGNIFICANT_BITS)))
-        val iconFactory = database.iconFactory
-        var icon: IconImage = iconFactory.getIcon(
-                UUID(cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_MOST_SIGNIFICANT_BITS)),
-                        cursor.getLong(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_CUSTOM_UUID_LEAST_SIGNIFICANT_BITS))))
-        if (icon.isUnknown) {
-            icon = iconFactory.getIcon(cursor.getInt(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_ICON_STANDARD)))
-            if (icon.isUnknown)
-                icon = iconFactory.keyIcon
-        }
-        val title = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_TITLE))
-        val username = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_USERNAME))
-        val url = cursor.getString(cursor.getColumnIndex(EntryCursor.COLUMN_INDEX_URL))
+        database.getEntryFrom(cursor)?.let { currentEntry ->
+            val viewHolder = view.tag as ViewHolder
 
-        val viewHolder = view.tag as ViewHolder
+            // Assign image
+            viewHolder.imageViewIcon?.assignDatabaseIcon(
+                    database.drawFactory,
+                    currentEntry.icon,
+                    iconColor)
 
-        // Assign image
-        viewHolder.imageViewIcon?.assignDatabaseIcon(database.drawFactory, icon, iconColor)
+            // Assign title
+            viewHolder.textViewTitle?.apply {
+                text = currentEntry.getVisualTitle()
+                strikeOut(currentEntry.isCurrentlyExpires)
+            }
 
-        // Assign title
-        val showTitle = Entry.getVisualTitle(false, title, username, url, uuid.toString())
-        viewHolder.textViewTitle?.text = showTitle
-        if (displayUsername && username.isNotEmpty()) {
-            viewHolder.textViewSubTitle?.text = String.format("(%s)", username)
-        } else {
-            viewHolder.textViewSubTitle?.text = ""
+            // Assign subtitle
+            viewHolder.textViewSubTitle?.apply {
+                val entryUsername = currentEntry.username
+                text = if (displayUsername && entryUsername.isNotEmpty()) {
+                    String.format("(%s)", entryUsername)
+                } else {
+                    ""
+                }
+                strikeOut(currentEntry.isCurrentlyExpires)
+            }
         }
     }
 
@@ -109,7 +105,7 @@ class SearchEntryCursorAdapter(context: Context, private val database: Database)
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
-        return database.searchEntries(constraint.toString())
+        return database.searchEntries(context, constraint.toString())
     }
 
     fun getEntryFromPosition(position: Int): Entry? {

@@ -2,26 +2,26 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Rückmeldung</string>
+    <string name="about_feedback">Feedback</string>
     <string name="about_homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
@@ -37,7 +37,7 @@
     <string name="file_manager_install_description">Das Erstellen, Öffnen und Speichern einer Datenbankdatei erfordert die Installation eines Dateimanagers, der die beabsichtigten Aktionen ACTION_CREATE_DOCUMENT und ACTION_OPEN_DOCUMENT akzeptiert.</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>
     <string name="clipboard_error_title">Zwischenablage-Fehler</string>
-    <string name="clipboard_error">Einige Samsung Android-Smartphones lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
+    <string name="clipboard_error">Einige Geräte lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablage-Timeout</string>
     <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePass DX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -63,8 +63,8 @@
     <string name="entry_title">Titel</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Benutzername</string>
-    <string name="error_arc4">Die RC4/ARCFOUR-Stromverschlüsselung wird nicht unterstützt.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kann diese URI-Adresse nicht verarbeiten.</string>
+    <string name="error_arc4">Die RC4/Arcfour-Stromverschlüsselung wird nicht unterstützt.</string>
+    <string name="error_can_not_handle_uri">KeePassDX kann diese URI-Adresse nicht verarbeiten.</string>
     <string name="error_file_not_create">Konnte Datei nicht erstellen:</string>
     <string name="error_invalid_db">Datenbank nicht lesbar.</string>
     <string name="error_invalid_path">Sicherstellen, dass der Pfad korrekt ist.</string>
@@ -91,7 +91,7 @@
     <string name="password">Passwort</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="invalid_credentials">Passwort oder Schlüsseldatei ist falsch.</string>
+    <string name="invalid_credentials">Die Anmeldeinformationen konnten nicht gelesen werden. Wenn dies erneut auftritt, kann Ihre Datenbankdatei beschädigt sein.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_does_not_exist">Es existiert keine Schlüsseldatei.</string>
@@ -110,7 +110,7 @@
     <string name="menu_delete">Löschen</string>
     <string name="menu_donate">Spenden</string>
     <string name="menu_edit">Bearbeiten</string>
-    <string name="menu_hide_password">Passwort ausblenden</string>
+    <string name="menu_hide_password">Passwort verstecken</string>
     <string name="menu_lock">Datenbank sperren</string>
     <string name="menu_open">Öffnen</string>
     <string name="menu_search">Suchen</string>
@@ -127,8 +127,7 @@
     <string name="progress_title">Ausführen …</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
-    <string name="read_only_warning">KeePass DX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
-    <string name="read_only_kitkat_warning">Ab Android KitKat haben Apps auf einigen Geräten keine Schreibrechte mehr für die SD-Karte.</string>
+    <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
     <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
     <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
     <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
@@ -189,20 +188,20 @@
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
     <string name="unavailable_feature_text">Dieses Feature konnte nicht gestartet werden.</string>
-    <string name="biometric_unlock_enable_summary">Ermöglicht Ihre Biometrie zu scannen, um die Datenbank zu öffnen</string>
+    <string name="biometric_unlock_enable_summary">Ermöglicht Ihre Biometrie zu scannen, um die Datenbank zu öffnen.</string>
     <string name="advanced_unlock">Erweiterte Entsperrung</string>
     <string name="biometric_unlock_enable_title">Biometrische Entsperrung</string>
     <string name="lock">Sperre</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
-    <string name="open_biometric_prompt_unlock_database">Biometrische Abfrage öffnen, um die Datenbank zu entsperren</string>
+    <string name="open_biometric_prompt_unlock_database">Biometrische Abfrage öffnen, um die Datenbank zu entsperren.</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
-    <string name="biometric_invalid_key">Biometrischer Schlüssel konnte nicht gelesen werden. Stellen Sie Ihre Anmeldedaten wieder her.</string>
+    <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
     <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
     <string name="database_history">Verlauf</string>
     <string name="general">Allgemein</string>
-    <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern</string>
+    <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern.</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
     <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
@@ -231,17 +230,16 @@
     <string name="sort_last_access_time">Zugriffsdatum</string>
     <string name="biometric_not_recognized">Biometrische Daten nicht erkannt</string>
     <string name="autofill">Autofill</string>
-    <string name="autofill_service_name">KeePass DX autom. Formularausfüllung</string>
-    <string name="autofill_sign_in_prompt">Mit KeePass DX anmelden</string>
+    <string name="autofill_service_name">KeePassDX autom. Formularausfüllung</string>
+    <string name="autofill_sign_in_prompt">Mit KeePassDX anmelden</string>
     <string name="set_autofill_service_title">Autofill-Dienstvorgabe festlegen</string>
     <string name="autofill_explanation_summary">Autofill aktivieren, um automatisch Eingabefelder in anderen Apps auszufüllen</string>
     <string name="clipboard">Zwischenablage</string>
     <string name="biometric_delete_all_key_title">Verschlüsselungsschlüssel löschen</string>
-    <string name="biometric_delete_all_key_summary">Alle Verschlüsselungsschlüssel für biometrischen Erkennung löschen</string>
-    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle Schlüssel zur biometrischen Erkennung löschen möchten\?</string>
+    <string name="biometric_delete_all_key_summary">Alle mit der biometrischen Erkennung verbundenen Verschlüsselungsschlüssel löschen.</string>
+    <string name="biometric_delete_all_key_warning">Sind Sie sicher, dass Sie alle mit der biometrischen Erkennung verknüpften Schlüssel löschen möchten\?</string>
     <string name="unavailable_feature_version">Die Android-Version, %1$s, erfüllt nicht die Mindestanforderung für Version %2$s.</string>
     <string name="unavailable_feature_hardware">Keine entsprechende Hardware.</string>
-    <string name="bytes">Bytes</string>
     <string name="full_file_path_enable_title">Dateipfad</string>
     <string name="full_file_path_enable_summary">Vollständigen Dateipfad anzeigen</string>
     <string name="recycle_bin_title">Papierkorb verwenden</string>
@@ -292,11 +290,9 @@
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und speichert keine persönlichen Daten auf dessen Servern – unabhängig von der verwendeten Version.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong>
-    </string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser <strong>visuellen Funktion</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
     <string name="html_text_feature_generosity">Diese <strong>visuelle Funktion</strong> wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
-    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong>
-    </string>
+    <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren <strong>Beitrag.</strong></string>
     <string name="html_text_dev_feature">Diese Funktion ist <strong>in Entwicklung</strong> und erfordert <strong>Ihren Beitrag</strong>, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der <strong>Pro-Version</strong>,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr <strong>Mitwirken</strong>,</string>
@@ -338,7 +334,7 @@
     <string name="list_entries_show_username_summary">Benutzernamen in Eintragslisten anzeigen</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard-Einstellungen</string>
     <string name="keyboard_entry_category">Eintrag</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
@@ -382,28 +378,28 @@
     <string name="clear_clipboard_notification_summary">Die Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
-    <string name="error_move_entry_here">Du kannst keinen Eintrag hierher verschieben.</string>
-    <string name="error_copy_entry_here">Du kannst keinen Eintrag hierher kopieren.</string>
-    <string name="content_description_password_checkbox">Kontrollkästchen</string>
-    <string name="content_description_repeat_toggle_password_visibility">Umschalten der Kennwortanzeige wiederholen</string>
+    <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
+    <string name="error_copy_entry_here">Hierher kann kein Eintrag kopiert werden.</string>
+    <string name="content_description_password_checkbox">Passwort-Kontrollkästchen</string>
+    <string name="content_description_repeat_toggle_password_visibility">Umschalten der Passwort-Sichtbarkeit wiederholen</string>
     <string name="content_description_background">Hintergrund</string>
     <string name="content_description_update_from_list">Aktualisieren</string>
     <string name="content_description_keyboard_close_fields">Felder schließen</string>
     <string name="error_create_database_file">Es ist nicht möglich, eine Datenbank mit diesem Passwort und dieser Schlüsseldatei zu erstellen.</string>
     <string name="menu_advanced_unlock_settings">Erweiterte Entsperrung</string>
     <string name="biometric_prompt_store_credential_title">Biometrische Erkennung speichern</string>
-    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrische Erkennung öffnen</string>
+    <string name="biometric_prompt_extract_credential_title">Datenbank mit biometrischer Erkennung öffnen</string>
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
-    <string name="biometric_prompt_store_credential_message">Datenbank-Anmeldeinformationen biometrisch speichern</string>
-    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen mit biometrischen Daten extrahieren</string>
-    <string name="biometric_auto_open_prompt_title">Biometrische Eingabeaufforderung automatisch öffnen</string>
-    <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist</string>
+    <string name="biometric_prompt_store_credential_message">ACHTUNG: Die Verwendung der biometrischen Erkennung befreit Sie nicht von der Kenntnis Ihres Hauptpassworts.</string>
+    <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
+    <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
+    <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist.</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
-    <string name="entry_setup_otp">Einmal-Passwort (OTP) einrichten</string>
+    <string name="entry_setup_otp">Einmalpasswort einrichten</string>
     <string name="otp_type">OTP-Typ</string>
     <string name="otp_secret">Geheimnis</string>
     <string name="otp_period">Zeitraum (Sekunden)</string>
@@ -423,12 +419,12 @@
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
-    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePass DX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="persistent_notification_title">Dauerhafte Benachrichtigung</string>
     <string name="persistent_notification_summary">Bei geöffneter Datenbank eine Benachrichtigung hinzufügen</string>
-    <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen</string>
+    <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
     <string name="database_data_compression_title">Datenkompression</string>
     <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße.</string>
     <string name="max_history_items_title">Max. Verlaufseinträge</string>
@@ -447,4 +443,14 @@
     <string name="compression_none">Keine</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Gerätetastatur-Einstellungen</string>
+    <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
+    <string name="menu_save_database">Datenbank speichern</string>
+    <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
+    <string name="command_execution">Befehl ausführen …</string>
+    <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
+    <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
+    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
+    <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
+    <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
+    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
 </resources>

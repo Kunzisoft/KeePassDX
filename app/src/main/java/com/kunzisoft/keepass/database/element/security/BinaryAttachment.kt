@@ -1,29 +1,29 @@
 /*
  * Copyright 2018 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.element.security
 
+import android.content.ContentResolver
+import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
-import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
-import com.kunzisoft.keepass.stream.ReadBytes
-import com.kunzisoft.keepass.stream.readFromStream
+import com.kunzisoft.keepass.stream.readBytes
 import java.io.*
 import java.util.zip.GZIPInputStream
 import java.util.zip.GZIPOutputStream
@@ -73,25 +73,29 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun compress() {
+    fun compress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         if (dataFile != null) {
             // To compress, create a new binary with file
             if (isCompressed != true) {
                 val fileBinaryCompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
-                val outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
-                readFromStream(getInputDataStream(), BUFFER_SIZE_BYTES,
-                        object : ReadBytes {
-                            override fun read(buffer: ByteArray) {
-                                outputStream.write(buffer)
-                            }
-                        })
-                outputStream.close()
+                var outputStream: GZIPOutputStream? = null
+                var inputStream: InputStream? = null
+                try {
+                    outputStream = GZIPOutputStream(FileOutputStream(fileBinaryCompress))
+                    inputStream = getInputDataStream()
+                    inputStream.readBytes(bufferSize) { buffer ->
+                        outputStream.write(buffer)
+                    }
+                } finally {
+                    inputStream?.close()
+                    outputStream?.close()
 
-                // Remove unGzip file
-                if (dataFile!!.delete()) {
-                    if (fileBinaryCompress.renameTo(dataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = true
+                    // Remove unGzip file
+                    if (dataFile!!.delete()) {
+                        if (fileBinaryCompress.renameTo(dataFile)) {
+                            // Harmonize with database compression
+                            isCompressed = true
+                        }
                     }
                 }
             }
@@ -99,24 +103,54 @@ class BinaryAttachment : Parcelable {
     }
 
     @Throws(IOException::class)
-    fun decompress() {
+    fun decompress(bufferSize: Int = DEFAULT_BUFFER_SIZE) {
         if (dataFile != null) {
             if (isCompressed != false) {
                 val fileBinaryDecompress = File(dataFile!!.parent, dataFile!!.name + "_temp")
-                val outputStream = FileOutputStream(fileBinaryDecompress)
-                readFromStream(GZIPInputStream(getInputDataStream()), BUFFER_SIZE_BYTES,
-                        object : ReadBytes {
-                            override fun read(buffer: ByteArray) {
-                                outputStream.write(buffer)
-                            }
-                        })
-                outputStream.close()
+                var outputStream: FileOutputStream? = null
+                var inputStream: GZIPInputStream? = null
+                try {
+                    outputStream = FileOutputStream(fileBinaryDecompress)
+                    inputStream = GZIPInputStream(getInputDataStream())
+                    inputStream.readBytes(bufferSize) { buffer ->
+                        outputStream.write(buffer)
+                    }
+                } finally {
+                    inputStream?.close()
+                    outputStream?.close()
 
-                // Remove gzip file
-                if (dataFile!!.delete()) {
-                    if (fileBinaryDecompress.renameTo(dataFile)) {
-                        // Harmonize with database compression
-                        isCompressed = false
+                    // Remove gzip file
+                    if (dataFile!!.delete()) {
+                        if (fileBinaryDecompress.renameTo(dataFile)) {
+                            // Harmonize with database compression
+                            isCompressed = false
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun download(createdFileUri: Uri,
+                 contentResolver: ContentResolver,
+                 bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                 update: ((percent: Int)->Unit)? = null) {
+
+        var dataDownloaded = 0
+        contentResolver.openOutputStream(createdFileUri).use { outputStream ->
+            outputStream?.let { fileOutputStream ->
+                if (isCompressed == true) {
+                    GZIPInputStream(getInputDataStream())
+                } else {
+                    getInputDataStream()
+                }.use { inputStream ->
+                    inputStream.readBytes(bufferSize) { buffer ->
+                        fileOutputStream.write(buffer)
+                        dataDownloaded += buffer.size
+                        try {
+                            val percentDownload = (100 * dataDownloaded / length()).toInt()
+                            update?.invoke(percentDownload)
+                        } catch (e: Exception) {}
                     }
                 }
             }

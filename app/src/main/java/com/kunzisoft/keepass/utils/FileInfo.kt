@@ -1,28 +1,28 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
+import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.R
 import java.io.File
 import java.io.Serializable
 import java.text.DateFormat
@@ -84,7 +84,7 @@ open class FileInfo : Serializable {
     }
 
     fun getSizeString(): String {
-        return (size.toString() + " " + context.getString(R.string.bytes))
+        return Formatter.formatFileSize(context, size)
     }
 
     companion object {

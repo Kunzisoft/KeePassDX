@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.timeout
@@ -37,9 +37,15 @@ import java.util.*
 
 class ClipboardHelper(private val context: Context) {
 
-    private val clipboardManager: ClipboardManager =
-            context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+    private var mClipboardManager: ClipboardManager? = null
+
     private val mTimer = Timer()
+
+    private fun getClipboardManager(): ClipboardManager? {
+        if (mClipboardManager == null)
+            mClipboardManager = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager?
+        return mClipboardManager
+    }
 
     @JvmOverloads
     fun timeoutCopyToClipboard(text: String, toastString: String = "") {
@@ -64,8 +70,8 @@ class ClipboardHelper(private val context: Context) {
     }
 
     fun getClipboard(context: Context): CharSequence {
-        if (clipboardManager.hasPrimaryClip()) {
-            val data = clipboardManager.primaryClip
+        if (getClipboardManager()?.hasPrimaryClip() == true) {
+            val data = getClipboardManager()?.primaryClip
             if (data!!.itemCount > 0) {
                 val text = data.getItemAt(0).coerceToText(context)
                 if (text != null) {
@@ -84,7 +90,7 @@ class ClipboardHelper(private val context: Context) {
     @Throws(ClipboardException::class)
     fun copyToClipboard(label: String, value: String) {
         try {
-            clipboardManager.primaryClip = ClipData.newPlainText(label, value)
+            getClipboardManager()?.primaryClip = ClipData.newPlainText(label, value)
         } catch (e: Exception) {
             throw ClipboardException(e)
         }
@@ -95,7 +101,7 @@ class ClipboardHelper(private val context: Context) {
     @JvmOverloads
     fun cleanClipboard(label: String = "") {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            clipboardManager.clearPrimaryClip()
+            getClipboardManager()?.clearPrimaryClip()
         } else {
             copyToClipboard(label, "")
         }

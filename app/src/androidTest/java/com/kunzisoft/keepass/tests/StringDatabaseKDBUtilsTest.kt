@@ -1,37 +1,33 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.tests
 
-import org.junit.Assert.assertArrayEquals
-
-import java.io.ByteArrayOutputStream
-import java.util.Calendar
-import java.util.Random
-
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.ULONG_MAX_VALUE
+import com.kunzisoft.keepass.stream.*
 import junit.framework.TestCase
+import org.junit.Assert.assertArrayEquals
+import java.io.ByteArrayOutputStream
+import java.util.*
 
-import com.kunzisoft.keepass.stream.LEDataInputStream
-import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
-class DatabaseInputOutputUtilsTest : TestCase() {
+class StringDatabaseKDBUtilsTest : TestCase() {
 
     fun testReadWriteLongZero() {
         testReadWriteLong(0.toByte())
@@ -55,15 +51,9 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
     private fun testReadWriteLong(value: Byte) {
         val orig = ByteArray(8)
-        val dest = ByteArray(8)
+        setArray(orig, value, 8)
 
-        setArray(orig, value, 0, 8)
-
-        val one = LEDataInputStream.readLong(orig, 0)
-        LEDataOutputStream.writeLong(one, dest, 0)
-
-        assertArrayEquals(orig, dest)
-
+        assertArrayEquals(orig, longTo8Bytes(bytes64ToLong(orig)))
     }
 
     fun testReadWriteIntZero() {
@@ -80,24 +70,22 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
     private fun testReadWriteInt(value: Byte) {
         val orig = ByteArray(4)
-        val dest = ByteArray(4)
 
         for (i in 0..3) {
             orig[i] = 0
         }
 
-        setArray(orig, value, 0, 4)
+        setArray(orig, value, 4)
 
-        val one = LEDataInputStream.readInt(orig, 0)
-
-        LEDataOutputStream.writeInt(one, dest, 0)
+        val one = bytes4ToInt(orig)
+        val dest = intTo4Bytes(one)
 
         assertArrayEquals(orig, dest)
 
     }
 
-    private fun setArray(buf: ByteArray, value: Byte, offset: Int, size: Int) {
-        for (i in offset until offset + size) {
+    private fun setArray(buf: ByteArray, value: Byte, size: Int) {
+        for (i in 0 until size) {
             buf[i] = value
         }
     }
@@ -108,11 +96,10 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         orig[0] = 0
         orig[1] = 1
 
-        val one = LEDataInputStream.readUShort(orig, 0)
-        val dest = LEDataOutputStream.writeUShortBuf(one)
+        val one = bytes2ToUShort(orig)
+        val dest = uShortTo2Bytes(one)
 
         assertArrayEquals(orig, dest)
-
     }
 
     fun testReadWriteShortMin() {
@@ -125,15 +112,12 @@ class DatabaseInputOutputUtilsTest : TestCase() {
 
     private fun testReadWriteShort(value: Byte) {
         val orig = ByteArray(2)
-        val dest = ByteArray(2)
+        setArray(orig, value, 2)
 
-        setArray(orig, value, 0, 2)
-
-        val one = LEDataInputStream.readUShort(orig, 0)
-        LEDataOutputStream.writeUShort(one, dest, 0)
+        val one = bytes2ToUShort(orig)
+        val dest = uShortTo2Bytes(one)
 
         assertArrayEquals(orig, dest)
-
     }
 
     fun testReadWriteByteZero() {
@@ -149,16 +133,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val orig = ByteArray(1)
-        val dest = ByteArray(1)
-
-        setArray(orig, value, 0, 1)
-
-        val one = DatabaseInputOutputUtils.readUByte(orig, 0)
-        DatabaseInputOutputUtils.writeUByte(one, dest, 0)
-
-        assertArrayEquals(orig, dest)
-
+        val dest: Byte = uIntToByte(byteToUInt(value))
+        assert(value == dest)
     }
 
     fun testDate() {
@@ -168,9 +144,13 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         expected.set(2008, 1, 2, 3, 4, 5)
 
         val actual = Calendar.getInstance()
-        DatabaseInputOutputUtils.writeCDate(expected.time, cal)?.let { buf ->
-            actual.time = DatabaseInputOutputUtils.readCDate(buf, 0, cal).date
+        dateTo5Bytes(expected.time, cal)?.let { buf ->
+            actual.time = bytes5ToDate(buf, cal).date
         }
+
+        val jDate = DateInstant(System.currentTimeMillis())
+        val intermediate = DateInstant(jDate)
+        val cDate = bytes5ToDate(dateTo5Bytes(intermediate.date)!!)
 
         assertEquals("Year mismatch: ", 2008, actual.get(Calendar.YEAR))
         assertEquals("Month mismatch: ", 1, actual.get(Calendar.MONTH))
@@ -178,17 +158,19 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         assertEquals("Hour mismatch: ", 3, actual.get(Calendar.HOUR_OF_DAY))
         assertEquals("Minute mismatch: ", 4, actual.get(Calendar.MINUTE))
         assertEquals("Second mismatch: ", 5, actual.get(Calendar.SECOND))
+        assertTrue("jDate and intermediate not equal", jDate == intermediate)
+        assertTrue("jDate $jDate and cDate $cDate not equal", cDate == jDate)
     }
 
     fun testUUID() {
         val bUUID = ByteArray(16)
         Random().nextBytes(bUUID)
 
-        val uuid = DatabaseInputOutputUtils.bytesToUuid(bUUID)
-        val eUUID = DatabaseInputOutputUtils.uuidToBytes(uuid)
+        val uuid = bytes16ToUuid(bUUID)
+        val eUUID = uuidTo16Bytes(uuid)
 
-        val lUUID = LEDataInputStream.readUuid(bUUID, 0)
-        val leUUID = DatabaseInputOutputUtils.uuidToBytes(lUUID)
+        val lUUID = bytes16ToUuid(bUUID)
+        val leUUID = uuidTo16Bytes(lUUID)
 
         assertArrayEquals("UUID match failed", bUUID, eUUID)
         assertArrayEquals("UUID match failed", bUUID, leUUID)
@@ -202,8 +184,8 @@ class DatabaseInputOutputUtilsTest : TestCase() {
         }
 
         val bos = ByteArrayOutputStream()
-        val leos = LEDataOutputStream(bos)
-        leos.writeLong(DatabaseInputOutputUtils.ULONG_MAX_VALUE)
+        val leos = LittleEndianDataOutputStream(bos)
+        leos.writeLong(ULONG_MAX_VALUE)
         leos.close()
 
         val uLongMax = bos.toByteArray()

@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.file
@@ -30,10 +30,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
-import com.kunzisoft.keepass.stream.CopyInputStream
-import com.kunzisoft.keepass.stream.HmacBlockStream
-import com.kunzisoft.keepass.stream.LEDataInputStream
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
+import com.kunzisoft.keepass.stream.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -148,7 +145,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val headerBOS = ByteArrayOutputStream()
         val copyInputStream = CopyInputStream(inputStream, headerBOS)
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
-        val littleEndianDataInputStream = LEDataInputStream(digestInputStream)
+        val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
         val sig1 = littleEndianDataInputStream.readInt()
         val sig2 = littleEndianDataInputStream.readInt()
@@ -172,7 +169,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     @Throws(IOException::class)
-    private fun readHeaderField(dis: LEDataInputStream): Boolean {
+    private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
         val fieldID = dis.read().toByte()
 
         val fieldSize: Int = if (version < FILE_VERSION_32_4) {
@@ -243,12 +240,12 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid cipher ID.")
         }
 
-        databaseV4.dataCipher = DatabaseInputOutputUtils.bytesToUuid(pbId)
+        databaseV4.dataCipher = bytes16ToUuid(pbId)
     }
 
-    private fun setTransformRound(roundsByte: ByteArray?) {
+    private fun setTransformRound(roundsByte: ByteArray) {
         assignAesKdfEngineIfNotExists()
-        val rounds = LEDataInputStream.readLong(roundsByte!!, 0)
+        val rounds = bytes64ToLong(roundsByte)
         databaseV4.kdfParameters?.setUInt64(AesKdf.PARAM_ROUNDS, rounds)
         databaseV4.numberKeyEncryptionRounds = rounds
     }
@@ -259,7 +256,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = LEDataInputStream.readInt(pbFlags, 0)
+        val flag = bytes4ToInt(pbFlags)
         if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
@@ -275,7 +272,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = LEDataInputStream.readInt(streamID, 0)
+        val id = bytes4ToInt(streamID)
         if (id < 0 || id >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }
@@ -295,6 +292,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     }
 
     companion object {
+
+        var ULONG_MAX_VALUE: Long = -1
+
         const val DBSIG_PRE2 = -0x4ab4049a
         const val DBSIG_2 = -0x4ab40499
 
@@ -323,7 +323,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.GetHmacKey64(key, DatabaseInputOutputUtils.ULONG_MAX_VALUE)
+            val blockKey = HmacBlockStream.getHmacKey64(key, ULONG_MAX_VALUE)
 
             val hmac: Mac
             try {

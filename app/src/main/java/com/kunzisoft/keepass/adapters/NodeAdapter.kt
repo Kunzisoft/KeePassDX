@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.adapters
@@ -34,12 +34,15 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
 
 class NodeAdapter
@@ -66,6 +69,7 @@ class NodeAdapter
     private var recycleBinBottomSort: Boolean = true
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
+    private var entryFilters = arrayOf<Group.ChildFilter>()
 
     private var actionNodesList = LinkedList<Node>()
     private var nodeClickCallback: NodeClickCallback? = null
@@ -128,6 +132,8 @@ class NodeAdapter
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
 
+        this.entryFilters = Group.ChildFilter.getDefaults(context)
+
         // Reinit textSize for all view type
         calculateViewTypeTextSize.forEachIndexed { index, _ -> calculateViewTypeTextSize[index] = true }
     }
@@ -139,7 +145,7 @@ class NodeAdapter
         this.nodeSortedList.clear()
         assignPreferences()
         try {
-            this.nodeSortedList.addAll(group.getChildren())
+            this.nodeSortedList.addAll(group.getChildren(*entryFilters))
         } catch (e: Exception) {
             Log.e(TAG, "Can't add node elements to the list", e)
             Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
@@ -289,15 +295,53 @@ class NodeAdapter
                 width = iconSize.toInt()
             }
         }
+
         // Assign text
         holder.text.apply {
             text = subNode.title
             setTextSize(textSizeUnit, infoTextSize)
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
+            strikeOut(subNode.isCurrentlyExpires)
         }
+        // Add subText with username
+        holder.subText.apply {
+            text = ""
+            strikeOut(subNode.isCurrentlyExpires)
+            visibility = View.GONE
+        }
+
+        // Specific elements for entry
+        if (subNode.type == Type.ENTRY) {
+            val entry = subNode as Entry
+            mDatabase.startManageEntry(entry)
+
+            holder.text.text = entry.getVisualTitle()
+            holder.subText.apply {
+                val username = entry.username
+                if (showUserNames && username.isNotEmpty()) {
+                    visibility = View.VISIBLE
+                    text = username
+                    setTextSize(textSizeUnit, subtextSize)
+                }
+            }
+
+            mDatabase.stopManageEntry(entry)
+        }
+
+        // Add number of entries in groups
+        if (subNode.type == Type.GROUP) {
+            if (showNumberEntries) {
+                holder.numberChildren?.apply {
+                    text = (subNode as Group)
+                            .getChildEntries(*entryFilters)
+                            .size.toString()
+                    setTextSize(textSizeUnit, numberChildrenTextSize)
+                    visibility = View.VISIBLE
+                }
+            } else {
+                holder.numberChildren?.visibility = View.GONE
+            }
+        }
+
         // Assign click
         holder.container.setOnClickListener {
             nodeClickCallback?.onNodeClick(subNode)
@@ -307,47 +351,9 @@ class NodeAdapter
         }
 
         holder.container.isSelected = actionNodesList.contains(subNode)
-
-        // Add subText with username
-        holder.subText.apply {
-            text = ""
-            paintFlags = if (subNode.isCurrentlyExpires)
-                paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-            else
-                paintFlags and Paint.STRIKE_THRU_TEXT_FLAG
-            visibility = View.GONE
-            if (subNode.type == Type.ENTRY) {
-                val entry = subNode as Entry
-
-                mDatabase.startManageEntry(entry)
-
-                holder.text.text = entry.getVisualTitle()
-
-                val username = entry.username
-                if (showUserNames && username.isNotEmpty()) {
-                    visibility = View.VISIBLE
-                    text = username
-                    setTextSize(textSizeUnit, subtextSize)
-                }
-
-                mDatabase.stopManageEntry(entry)
-            }
-        }
-
-        // Add number of entries in groups
-        if (subNode.type == Type.GROUP) {
-            if (showNumberEntries) {
-                holder.numberChildren?.apply {
-                    text = (subNode as Group).getChildEntries(true).size.toString()
-                    setTextSize(textSizeUnit, numberChildrenTextSize)
-                    visibility = View.VISIBLE
-                }
-            } else {
-                holder.numberChildren?.visibility = View.GONE
-            }
-        }
     }
 
+    
     override fun getItemCount(): Int {
         return nodeSortedList.size()
     }

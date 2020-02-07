@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  */
 package com.kunzisoft.keepass.activities
 
@@ -42,14 +42,19 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.FragmentManager
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.dialogs.DeleteNodesDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
-import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -430,12 +435,8 @@ class GroupActivity : LockingActivity(),
             val addGroupEnabled = !mReadOnly && !mCurrentGroupIsASearch
             var addEntryEnabled = !mReadOnly && !mCurrentGroupIsASearch
             mCurrentGroup?.let {
-                val isRoot = it == mRootGroup
                 if (!it.allowAddEntryIfIsRoot())
-                    addEntryEnabled = !isRoot && addEntryEnabled
-                if (isRoot) {
-                    showWarnings()
-                }
+                    addEntryEnabled = it != mRootGroup && addEntryEnabled
             }
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
@@ -448,7 +449,7 @@ class GroupActivity : LockingActivity(),
     private fun refreshNumberOfChildren() {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getChildEntries(true)?.size?.toString() ?: ""
+                text = mCurrentGroup?.getChildEntries(*Group.ChildFilter.getDefaults(context))?.size?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE
@@ -658,7 +659,8 @@ class GroupActivity : LockingActivity(),
         }
 
         // Menu for recycle bin
-        if (mDatabase?.isRecycleBinEnabled == true
+        if (!mReadOnly
+                && mDatabase?.isRecycleBinEnabled == true
                 && mDatabase?.recycleBin == mCurrentGroup) {
             inflater.inflate(R.menu.recycle_bin, menu)
         }
@@ -851,14 +853,6 @@ class GroupActivity : LockingActivity(),
         (supportFragmentManager
                 .findFragmentByTag(GroupEditDialogFragment.TAG_CREATE_GROUP) as GroupEditDialogFragment)
                 .iconPicked(bundle)
-    }
-
-    private fun showWarnings() {
-        if (Database.getInstance().isReadOnly) {
-            if (PreferencesUtil.showReadOnlyWarning(this)) {
-                ReadOnlyDialog().show(supportFragmentManager, "readOnlyDialog")
-            }
-        }
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {

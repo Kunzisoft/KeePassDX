@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
@@ -9,6 +28,8 @@ import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
+import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
+import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
 import com.kunzisoft.keepass.database.element.node.Node
@@ -107,6 +128,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             ACTION_DATABASE_COPY_NODES_TASK -> buildDatabaseCopyNodesActionTask(intent)
             ACTION_DATABASE_MOVE_NODES_TASK -> buildDatabaseMoveNodesActionTask(intent)
             ACTION_DATABASE_DELETE_NODES_TASK -> buildDatabaseDeleteNodesActionTask(intent)
+            ACTION_DATABASE_RESTORE_ENTRY_HISTORY -> buildDatabaseRestoreEntryHistoryActionTask(intent)
+            ACTION_DATABASE_DELETE_ENTRY_HISTORY -> buildDatabaseDeleteEntryHistoryActionTask(intent)
             ACTION_DATABASE_UPDATE_COMPRESSION_TASK -> buildDatabaseUpdateCompressionActionTask(intent)
             ACTION_DATABASE_UPDATE_NAME_TASK,
             ACTION_DATABASE_UPDATE_DESCRIPTION_TASK,
@@ -409,6 +432,42 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
+    private fun buildDatabaseRestoreEntryHistoryActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(ENTRY_ID_KEY)
+                && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
+                && intent.hasExtra(SAVE_DATABASE_KEY)
+        ) {
+            val database = Database.getInstance()
+            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { mainEntry ->
+                RestoreEntryHistoryDatabaseRunnable(this,
+                        database,
+                        mainEntry,
+                        intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+            }
+        } else {
+            null
+        }
+    }
+
+    private fun buildDatabaseDeleteEntryHistoryActionTask(intent: Intent): ActionRunnable? {
+        return if (intent.hasExtra(ENTRY_ID_KEY)
+                && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
+                && intent.hasExtra(SAVE_DATABASE_KEY)
+        ) {
+            val database = Database.getInstance()
+            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { mainEntry ->
+                DeleteEntryHistoryDatabaseRunnable(this,
+                        database,
+                        mainEntry,
+                        intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
+                        intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
+            }
+        } else {
+            null
+        }
+    }
+
     private fun buildDatabaseUpdateCompressionActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(OLD_ELEMENT_KEY)
                 && intent.hasExtra(NEW_ELEMENT_KEY)
@@ -503,6 +562,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val ACTION_DATABASE_COPY_NODES_TASK = "ACTION_DATABASE_COPY_NODES_TASK"
         const val ACTION_DATABASE_MOVE_NODES_TASK = "ACTION_DATABASE_MOVE_NODES_TASK"
         const val ACTION_DATABASE_DELETE_NODES_TASK = "ACTION_DATABASE_DELETE_NODES_TASK"
+        const val ACTION_DATABASE_RESTORE_ENTRY_HISTORY = "ACTION_DATABASE_RESTORE_ENTRY_HISTORY"
+        const val ACTION_DATABASE_DELETE_ENTRY_HISTORY = "ACTION_DATABASE_DELETE_ENTRY_HISTORY"
         const val ACTION_DATABASE_UPDATE_NAME_TASK = "ACTION_DATABASE_UPDATE_NAME_TASK"
         const val ACTION_DATABASE_UPDATE_DESCRIPTION_TASK = "ACTION_DATABASE_UPDATE_DESCRIPTION_TASK"
         const val ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK = "ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK"
@@ -532,6 +593,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val GROUPS_ID_KEY = "GROUPS_ID_KEY"
         const val ENTRIES_ID_KEY = "ENTRIES_ID_KEY"
         const val PARENT_ID_KEY = "PARENT_ID_KEY"
+        const val ENTRY_HISTORY_POSITION_KEY = "ENTRY_HISTORY_POSITION_KEY"
         const val SAVE_DATABASE_KEY = "SAVE_DATABASE_KEY"
         const val OLD_NODES_KEY = "OLD_NODES_KEY"
         const val NEW_NODES_KEY = "NEW_NODES_KEY"

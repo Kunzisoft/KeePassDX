@@ -2,30 +2,30 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
     <string name="about_feedback">Обратная связь</string>
     <string name="about_homepage">Сайт</string>
-    <string name="about_description">Android-версия программы управления паролями KeePass</string>
+    <string name="about_description">Android-версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
     <string name="add_group">Новая группа</string>
     <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Задержка</string>
-    <string name="app_timeout_summary">Задержка блокировки при бездействии</string>
+    <string name="app_timeout_summary">Время до блокировки приложения при неактивности</string>
     <string name="application">Приложение</string>
     <string name="menu_app_settings">Настройки приложения</string>
     <string name="beta_dontask">Не показывать снова</string>
@@ -33,7 +33,7 @@
     <string name="file_manager_install_description">Создание, открытие и сохранение файла базы требует установки файлового менеджера, который принимает действия Intent ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
     <string name="clipboard_error_title">Ошибка буфера обмена</string>
-    <string name="clipboard_error">Некоторые устройства Samsung не дают приложению использовать буфер обмена.</string>
+    <string name="clipboard_error">Некоторые устройства не дают приложению использовать буфер обмена.</string>
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="disclaimer_formal">Приложение KeePass DX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
+    <string name="disclaimer_formal">Приложение KeePassDX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -59,8 +59,8 @@
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
     <string name="entry_user_name">Имя</string>
-    <string name="error_arc4">Потоковый шифр ARCFOUR не поддерживается.</string>
-    <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePass DX.</string>
+    <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
+    <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
     <string name="error_file_not_create">Невозможно создать файл:</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь, что путь указан правильно.</string>
@@ -87,14 +87,14 @@
     <string name="password">Пароль</string>
     <string name="install_from_play_store">Google Play</string>
     <string name="install_from_f_droid">F-Droid</string>
-    <string name="invalid_credentials">Неправильный главный пароль или файл ключа.</string>
+    <string name="invalid_credentials">Неправильный главный пароль или файл ключа. Если это сообщение повторяется, файл базы, возможно, повреждён.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
     <string name="keyfile_does_not_exist">Файл ключа не найден.</string>
     <string name="keyfile_is_empty">Файл ключа пуст.</string>
     <string name="length">Длина</string>
     <string name="list_size_title">Размер списка</string>
-    <string name="list_size_summary">Размер шрифта элементов списка</string>
+    <string name="list_size_summary">Размер текста элементов списка</string>
     <string name="loading_database">Загрузка базы…</string>
     <string name="lowercase">Строчные</string>
     <string name="maskpass_title">Скрывать пароли</string>
@@ -111,24 +111,23 @@
     <string name="menu_open">Открыть</string>
     <string name="menu_search">Поиск</string>
     <string name="menu_showpass">Показать пароль</string>
-    <string name="menu_url">Перейти</string>
+    <string name="menu_url">Открыть ссылку</string>
     <string name="minus">-Дефис-</string>
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
     <string name="open_recent">Недавно открытые</string>
     <string name="omitbackup_title">Не искать в резервных копиях</string>
-    <string name="omitbackup_summary">Не искать в \"Резервировании\" и \"Корзине\"</string>
+    <string name="omitbackup_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
     <string name="progress_title">Обработка…</string>
     <string name="protection">Защита</string>
     <string name="read_only">Только чтение</string>
-    <string name="read_only_warning">KeePass DX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
-    <string name="read_only_kitkat_warning">Начиная с Android KitKat, на некоторых устройствах приложениям запрещена запись на SD-карту.</string>
-    <string name="recentfile_title">Недавно открытые</string>
-    <string name="recentfile_summary">Хранить имена недавно открытых файлов</string>
+    <string name="read_only_warning">KeePassDX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
+    <string name="recentfile_title">Базы паролей</string>
+    <string name="recentfile_summary">Хранить имена недавно открытых баз</string>
     <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
-    <string name="remember_keyfile_title">Хранить файлы ключей</string>
+    <string name="remember_keyfile_title">Файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
@@ -154,7 +153,7 @@
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>
     <string name="open_biometric_prompt_unlock_database">Ожидание биометрического ключа для разблокировки базы</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
-    <string name="biometric_invalid_key">Неправильный биометрический ключ. Восстановите главный пароль.</string>
+    <string name="biometric_invalid_key">Невозможно распознать биометрический ключ. Пожалуйста, удалите его и повторите процедуру настройки биометрического распознавания.</string>
     <string name="biometric_scanning_error">Проблема с биометрическим ключом: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Используйте биометрический ключ, чтобы сохранить главный пароль</string>
     <string name="no_credentials_stored">Для этой базы главный пароль ещё не сохранён.</string>
@@ -197,7 +196,7 @@
     <string name="sort_last_access_time">Время последнего доступа</string>
     <string name="edit_entry">Редактировать запись</string>
     <string name="allow">Разрешить</string>
-    <string name="clipboard_swipe_clean">Смахните, чтобы очистить буфер обмена сейчас</string>
+    <string name="clipboard_swipe_clean">Смахните для очистки буфера обмена</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
     <string name="error_move_folder_in_itself">Нельзя переместить группу в саму себя.</string>
@@ -220,14 +219,14 @@
     <string name="menu_appearance_settings">Внешний вид</string>
     <string name="general">Общие</string>
     <string name="autofill">Автозаполнение</string>
-    <string name="autofill_service_name">Сервис автозаполнения KeePass DX</string>
-    <string name="autofill_sign_in_prompt">Войти с помощью KeePass DX</string>
+    <string name="autofill_service_name">Сервис автозаполнения KeePassDX</string>
+    <string name="autofill_sign_in_prompt">Войти с помощью KeePassDX</string>
     <string name="autofill_explanation_summary">Включить сервис для быстрого заполнения форм в других приложениях</string>
     <string name="set_autofill_service_title">Сервис автозаполнения по умолчанию</string>
     <string name="password_size_title">Длина создаваемого пароля</string>
-    <string name="password_size_summary">Установить длину создаваемых паролей по умолчанию</string>
+    <string name="password_size_summary">Настройка длины создаваемых паролей по умолчанию</string>
     <string name="list_password_generator_options_title">Символы пароля</string>
-    <string name="list_password_generator_options_summary">Установить набор разрешённых символов для создания пароля</string>
+    <string name="list_password_generator_options_summary">Настройка набора разрешённых символов для создания пароля</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="clipboard_notifications_title">Уведомления буфера обмена</string>
     <string name="clipboard_notifications_summary">Включить уведомления буфера обмена для копирования полей при просмотре записи</string>
@@ -248,13 +247,12 @@
     <string name="path">Путь</string>
     <string name="assign_master_key">Установить главный пароль</string>
     <string name="create_keepass_file">Создать новую базу</string>
-    <string name="bytes">Байт</string>
     <string name="full_file_path_enable_title">Путь к файлу</string>
     <string name="full_file_path_enable_summary">Показывать полный путь к файлу</string>
-    <string name="recycle_bin_title">Использовать \"Корзину\"</string>
-    <string name="recycle_bin_summary">Перемещать группу или запись в \"Корзину\" вместо удаления</string>
-    <string name="monospace_font_fields_enable_title">Шрифт полей</string>
-    <string name="monospace_font_fields_enable_summary">Изменить используемый в полях шрифт для лучшей читаемости</string>
+    <string name="recycle_bin_title">Использовать \"корзину\"</string>
+    <string name="recycle_bin_summary">Перемещать группу или запись в \"корзину\" вместо удаления</string>
+    <string name="monospace_font_fields_enable_title">Особый шрифт</string>
+    <string name="monospace_font_fields_enable_summary">Использовать в полях особый шрифт для лучшей читаемости</string>
     <string name="allow_copy_password_title">Доверять буферу обмена</string>
     <string name="allow_copy_password_summary">Разрешить копирование пароля и защищённых полей в буфер обмена</string>
     <string name="allow_copy_password_warning">ПРЕДУПРЕЖДЕНИЕ: буфер обмена доступен всем приложениям. Если копируются чувствительные данные, другие программы могут их перехватить.</string>
@@ -265,8 +263,8 @@
     <string name="application_appearance">Приложение</string>
     <string name="other">Прочее</string>
     <string name="keyboard">Клавиатура</string>
-    <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">Активировать пользовательскую клавиатуру для простого заполнения паролей и всех ваших идентификаторов</string>
+    <string name="magic_keyboard_title">Настройки Magikeyboard</string>
+    <string name="magic_keyboard_explanation_summary">Активируйте пользовательскую клавиатуру для простого заполнения паролей и любых идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без главного пароля</string>
     <string name="allow_no_password_summary">Включить кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
@@ -311,12 +309,14 @@
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
     <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
-    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong></string>
+    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов.</strong>
+    </string>
     <string name="html_text_feature_generosity">Эти <strong>визуальные функции</strong> доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад.</strong></string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится <strong>в разработке</strong> и требует вашего <strong>участия</strong>, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>-версию,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Участвуя в проекте</strong>,</string>
+    <string name="html_text_dev_feature_contibute">
+        <strong>Участвуя в проекте</strong>,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять <strong>новые возможности</strong> и <strong>исправлять ошибки</strong> в соответствии с вашими замечаниями.</string>
     <string name="html_text_dev_feature_thanks">Спасибо большое за ваш вклад.</string>
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
@@ -331,12 +331,12 @@
     <string name="icon_pack_choose_title">Набор значков</string>
     <string name="icon_pack_choose_summary">Набор значков, используемый в приложении</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Настройки Magikeyboard</string>
     <string name="build_label">Сборка %1$s</string>
     <string name="keyboard_entry_category">Запись</string>
     <string name="keyboard_entry_timeout_title">Задержка</string>
-    <string name="keyboard_entry_timeout_summary">Время задержки перед очисткой вводимой записи</string>
+    <string name="keyboard_entry_timeout_summary">Время до очистки вводимой записи</string>
     <string name="keyboard_notification_entry_title">Информационное уведомление</string>
     <string name="keyboard_notification_entry_summary">Показывать уведомление, когда запись доступна</string>
     <string name="keyboard_notification_entry_content_title_text">Запись</string>
@@ -350,7 +350,7 @@
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
     <string name="do_not_kill_app">Не убивать приложение…</string>
-    <string name="lock_database_back_root_title">Нажмите \"Назад\" для блокировки</string>
+    <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
     <string name="clear_clipboard_notification_summary">Закрывать базу при закрытии уведомления</string>
@@ -385,7 +385,7 @@
     <string name="error_create_database_file">Невозможно создать базу с этим паролем и ключевым файлом.</string>
     <string name="menu_advanced_unlock_settings">Дополнительная разблокировка</string>
     <string name="biometric_prompt_store_credential_title">Сохранение биометрического ключа</string>
-    <string name="biometric_prompt_store_credential_message">Сохранять главный пароль биометрическим ключом</string>
+    <string name="biometric_prompt_store_credential_message">ВНИМАНИЕ: использование функции биометрического распознавания не освобождает пользователя от необходимости знать главный пароль.</string>
     <string name="biometric_prompt_extract_credential_title">Открывать базу биометрическим ключом</string>
     <string name="biometric_prompt_extract_credential_message">Извлекать главный пароль биометрическим ключом</string>
     <string name="biometric">Биометрический ключ</string>
@@ -417,14 +417,14 @@
     <string name="menu_security_settings">Настройки безопасности</string>
     <string name="menu_master_key_settings">Настройки главного пароля</string>
     <string name="contains_duplicate_uuid">База содержит повторяющиеся UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePass DX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
+    <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePassDX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
     <string name="persistent_notification_title">Постоянное уведомление</string>
     <string name="persistent_notification_summary">Показывать уведомление, пока открыта база</string>
     <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
     <string name="database_data_compression_title">Сжатие данных</string>
-    <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы</string>
+    <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы.</string>
     <string name="max_history_items_title">Максимум записей в истории</string>
     <string name="max_history_items_summary">Ограничение числа элементов истории каждой записи</string>
     <string name="max_history_size_title">Максимальный размер истории</string>
@@ -440,5 +440,15 @@
     <string name="compression">Сжатие</string>
     <string name="compression_none">Нет</string>
     <string name="compression_gzip">GZip</string>
-    <string name="device_keyboard_setting_title">Настройки клавиатуры устройства</string>
+    <string name="device_keyboard_setting_title">Настройки клавиатур устройства</string>
+    <string name="error_save_database">Невозможно сохранить базу.</string>
+    <string name="menu_save_database">Сохранить базу</string>
+    <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
+    <string name="command_execution">Выполнение команды…</string>
+    <string name="warning_permanently_delete_nodes">Вы уверены, что хотите навсегда удалить выбранные узлы\?</string>
+    <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
+    <string name="credential_before_click_biometric_button">Введите пароль перед нажатием кнопки биометрии.</string>
+    <string name="recycle_bin_group_title">Группа \"корзины\"</string>
+    <string name="enable_auto_save_database_title">Автосохранение базы</string>
+    <string name="enable_auto_save_database_summary">Автоматическое сохранение базы после каждого важного действия (только в \"режиме записи\")</string>
 </resources>

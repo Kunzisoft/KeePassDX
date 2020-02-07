@@ -1,7 +1,7 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
  *  KeePassDroid is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,9 +22,8 @@ package com.kunzisoft.keepass.database.file.output
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX.Companion.BUFFER_SIZE_BYTES
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
-import com.kunzisoft.keepass.stream.ReadBytes
-import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.stream.readFromStream
+import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
+import com.kunzisoft.keepass.stream.readBytes
 import java.io.IOException
 import java.io.OutputStream
 import kotlin.experimental.or
@@ -33,7 +32,7 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
                                     private val header: DatabaseHeaderKDBX,
                                     outputStream: OutputStream) {
 
-    private val dataOutputStream: LEDataOutputStream = LEDataOutputStream(outputStream)
+    private val dataOutputStream: LittleEndianDataOutputStream = LittleEndianDataOutputStream(outputStream)
 
     @Throws(IOException::class)
     fun output() {
@@ -58,13 +57,9 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
             dataOutputStream.writeInt(protectedBinary.length().toInt() + 1) // TODO verify
             dataOutputStream.write(flag.toInt())
 
-            readFromStream(protectedBinary.getInputDataStream(), BUFFER_SIZE_BYTES,
-                object : ReadBytes {
-                    override fun read(buffer: ByteArray) {
-                        dataOutputStream.write(buffer)
-                    }
-                }
-            )
+            protectedBinary.getInputDataStream().readBytes(BUFFER_SIZE_BYTES) { buffer ->
+                dataOutputStream.write(buffer)
+            }
         }
 
         dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader.toInt())

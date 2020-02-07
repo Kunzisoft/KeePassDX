@@ -1,3 +1,22 @@
+/*
+ * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ *
+ * This file is part of KeePassDX.
+ *
+ *  KeePassDX is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *
+ *  KeePassDX is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
@@ -13,7 +32,9 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
@@ -209,12 +230,27 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return title == PMS_TAN_ENTRY && username.isNotEmpty()
     }
 
+    /**
+     * {@inheritDoc}
+     * Get the display title from an entry, <br></br>
+     * [.startManageEntry] and [.stopManageEntry] must be called
+     * before and after [.getVisualTitle]
+     */
     fun getVisualTitle(): String {
-        return getVisualTitle(isTan(),
-                title,
-                username,
-                url,
-                nodeId.toString())
+        return if (isTan()) {
+            "$PMS_TAN_ENTRY $username"
+        } else {
+            if (title.isEmpty())
+                if (username.isEmpty())
+                    if (url.isEmpty())
+                        nodeId.toString()
+                    else
+                        url
+                else
+                    username
+            else
+                title
+        }
     }
 
     /*
@@ -284,10 +320,29 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
+    fun getAttachments(): ArrayList<EntryAttachment> {
+        val attachments = ArrayList<EntryAttachment>()
+
+        val binaryDescriptionKDB = entryKDB?.binaryDescription ?: ""
+        val binaryKDB = entryKDB?.binaryData
+        if (binaryKDB != null) {
+            attachments.add(EntryAttachment(binaryDescriptionKDB, binaryKDB))
+        }
+
+        val actionEach = object : (Map.Entry<String, BinaryAttachment>)->Unit {
+            override fun invoke(mapEntry: Map.Entry<String, BinaryAttachment>) {
+                attachments.add(EntryAttachment(mapEntry.key, mapEntry.value))
+            }
+        }
+        entryKDBX?.binaries?.forEach(actionEach)
+
+        return attachments
+    }
+
     fun getHistory(): ArrayList<Entry> {
         val history = ArrayList<Entry>()
-        val entryV4History = entryKDBX?.history ?: ArrayList()
-        for (entryHistory in entryV4History) {
+        val entryKDBXHistory = entryKDBX?.history ?: ArrayList()
+        for (entryHistory in entryKDBXHistory) {
             history.add(Entry(entryHistory))
         }
         return history
@@ -297,6 +352,10 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entry.entryKDBX?.let {
             entryKDBX?.addEntryToHistory(it)
         }
+    }
+
+    fun removeEntryFromHistory(position: Int) {
+        entryKDBX?.removeEntryFromHistory(position)
     }
 
     fun removeAllHistory() {
@@ -379,28 +438,5 @@ class Entry : Node, EntryVersionedInterface<Group> {
         }
 
         const val PMS_TAN_ENTRY = "<TAN>"
-
-        /**
-         * {@inheritDoc}
-         * Get the display title from an entry, <br></br>
-         * [.startManageEntry] and [.stopManageEntry] must be called
-         * before and after [.getVisualTitle]
-         */
-        fun getVisualTitle(isTan: Boolean, title: String, userName: String, url: String, id: String): String {
-            return if (isTan) {
-                "$PMS_TAN_ENTRY $userName"
-            } else {
-                if (title.isEmpty())
-                    if (userName.isEmpty())
-                        if (url.isEmpty())
-                            id
-                        else
-                            url
-                    else
-                        userName
-                else
-                    title
-            }
-        }
     }
 }

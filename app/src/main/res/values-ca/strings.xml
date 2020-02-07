@@ -2,20 +2,20 @@
 <!--
  Copyright 2019 Jeremy Jamet / Kunzisoft.
      
- This file is part of KeePass DX.
+ This file is part of KeePassDX.
 
-  KeePass DX is free software: you can redistribute it and/or modify
+  KeePassDX is free software: you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  KeePass DX is distributed in the hope that it will be useful,
+  KeePassDX is distributed in the hope that it will be useful,
   but WITHOUT ANY WARRANTY; without even the implied warranty of
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 
   You should have received a copy of the GNU General Public License
-  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
   
   Catalan translation by Oriol Garrote
   
@@ -23,7 +23,7 @@
 <resources>
     <string name="about_feedback">Comentaris:</string>
     <string name="about_homepage">Pàgina inici:</string>
-    <string name="about_description">KeePass DX és una implementació per Android de KeePass password manager.</string>
+    <string name="about_description">KeePassDX és una implementació per Android de KeePass password manager.</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
     <string name="add_group">Afegeix grup</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
     <string name="select_database_file">Introdueix el nom de la base de dades</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
@@ -58,8 +58,8 @@
     <string name="entry_title">Nom</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Usuari</string>
-    <string name="error_arc4">L\'encriptació ArcFour no està suportada.</string>
-    <string name="error_can_not_handle_uri">KeePass DX no pot manejar aquesta uri.</string>
+    <string name="error_arc4">L\'encriptació Arcfour no està suportada.</string>
+    <string name="error_can_not_handle_uri">KeePassDX no pot manejar aquesta uri.</string>
     <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
     <string name="error_invalid_db">Base de dades invàlida.</string>
     <string name="error_invalid_path">Camí invàlid.</string>

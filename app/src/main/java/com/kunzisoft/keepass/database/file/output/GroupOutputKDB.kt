@@ -1,28 +1,29 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *     
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.element.group.GroupKDB
-import com.kunzisoft.keepass.stream.LEDataOutputStream
-import com.kunzisoft.keepass.utils.DatabaseInputOutputUtils
-
+import com.kunzisoft.keepass.stream.dateTo5Bytes
+import com.kunzisoft.keepass.stream.intTo4Bytes
+import com.kunzisoft.keepass.stream.uShortTo2Bytes
+import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
 import java.io.IOException
 import java.io.OutputStream
 
@@ -38,46 +39,46 @@ class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: O
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
         mOutputStream.write(GROUPID_FIELD_SIZE)
-        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.id))
+        mOutputStream.write(intTo4Bytes(mGroup.id))
 
         // Name
         mOutputStream.write(NAME_FIELD_TYPE)
-        DatabaseInputOutputUtils.writeCString(mGroup.title, mOutputStream)
+        StringDatabaseKDBUtils.writeStringToBytes(mGroup.title, mOutputStream)
 
         // Create date
         mOutputStream.write(CREATE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.creationTime.date))
+        mOutputStream.write(dateTo5Bytes(mGroup.creationTime.date))
 
         // Modification date
         mOutputStream.write(MOD_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastModificationTime.date))
+        mOutputStream.write(dateTo5Bytes(mGroup.lastModificationTime.date))
 
         // Access date
         mOutputStream.write(ACCESS_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.lastAccessTime.date))
+        mOutputStream.write(dateTo5Bytes(mGroup.lastAccessTime.date))
 
         // Expiration date
         mOutputStream.write(EXPIRE_FIELD_TYPE)
         mOutputStream.write(DATE_FIELD_SIZE)
-        mOutputStream.write(DatabaseInputOutputUtils.writeCDate(mGroup.expiryTime.date))
+        mOutputStream.write(dateTo5Bytes(mGroup.expiryTime.date))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)
         mOutputStream.write(IMAGEID_FIELD_SIZE)
-        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.icon.iconId))
+        mOutputStream.write(intTo4Bytes(mGroup.icon.iconId))
 
         // Level
         mOutputStream.write(LEVEL_FIELD_TYPE)
         mOutputStream.write(LEVEL_FIELD_SIZE)
-        mOutputStream.write(LEDataOutputStream.writeUShortBuf(mGroup.level))
+        mOutputStream.write(uShortTo2Bytes(mGroup.level))
 
         // Flags
         mOutputStream.write(FLAGS_FIELD_TYPE)
         mOutputStream.write(FLAGS_FIELD_SIZE)
-        mOutputStream.write(LEDataOutputStream.writeIntBuf(mGroup.flags))
+        mOutputStream.write(intTo4Bytes(mGroup.flags))
 
         // End
         mOutputStream.write(END_FIELD_TYPE)
@@ -86,23 +87,22 @@ class GroupOutputKDB (private val mGroup: GroupKDB, private val mOutputStream: O
 
     companion object {
         // Constants
-        val GROUPID_FIELD_TYPE: ByteArray = LEDataOutputStream.writeUShortBuf(1)
-        val NAME_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(2)
-        val CREATE_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(3)
-        val MOD_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(4)
-        val ACCESS_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(5)
-        val EXPIRE_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(6)
-        val IMAGEID_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(7)
-        val LEVEL_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(8)
-        val FLAGS_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(9)
-        val END_FIELD_TYPE:ByteArray = LEDataOutputStream.writeUShortBuf(0xFFFF)
-        val LONG_FOUR:ByteArray = LEDataOutputStream.writeIntBuf(4)
-        val GROUPID_FIELD_SIZE:ByteArray = LONG_FOUR
-        val DATE_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(5)
-        val IMAGEID_FIELD_SIZE:ByteArray = LONG_FOUR
-        val LEVEL_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(2)
-        val FLAGS_FIELD_SIZE:ByteArray = LONG_FOUR
-        val ZERO_FIELD_SIZE:ByteArray = LEDataOutputStream.writeIntBuf(0)
-    }
+        val GROUPID_FIELD_TYPE: ByteArray = uShortTo2Bytes(1)
+        val NAME_FIELD_TYPE:ByteArray = uShortTo2Bytes(2)
+        val CREATE_FIELD_TYPE:ByteArray = uShortTo2Bytes(3)
+        val MOD_FIELD_TYPE:ByteArray = uShortTo2Bytes(4)
+        val ACCESS_FIELD_TYPE:ByteArray = uShortTo2Bytes(5)
+        val EXPIRE_FIELD_TYPE:ByteArray = uShortTo2Bytes(6)
+        val IMAGEID_FIELD_TYPE:ByteArray = uShortTo2Bytes(7)
+        val LEVEL_FIELD_TYPE:ByteArray = uShortTo2Bytes(8)
+        val FLAGS_FIELD_TYPE:ByteArray = uShortTo2Bytes(9)
+        val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
 
+        val GROUPID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
+        val DATE_FIELD_SIZE:ByteArray = intTo4Bytes(5)
+        val IMAGEID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
+        val LEVEL_FIELD_SIZE:ByteArray = intTo4Bytes(2)
+        val FLAGS_FIELD_SIZE:ByteArray = intTo4Bytes(4)
+        val ZERO_FIELD_SIZE:ByteArray = intTo4Bytes(0)
+    }
 }

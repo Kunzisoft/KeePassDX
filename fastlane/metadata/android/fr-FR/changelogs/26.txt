@@ -1,0 +1,11 @@
+ * Téléchargement des fichiers joints
+ * Changement du texte de format de fichiers
+ * Empêche la capture pour tous les écrans
+ * Touche "Go" exécutée automatiquement dans Magikeyboard
+ * Restauration et suppression d'historique d'entrée
+ * Paramètre pour cacher les entrées expirées
+ * Nouveau thème noir
+ * Correction du crash pendant le vidage du presse-papiers
+ * Correction des compressions des fichiers joints
+ * Correction des dates
+ * Correction du message UUID pour les bases de données V1

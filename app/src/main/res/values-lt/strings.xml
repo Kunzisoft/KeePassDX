@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_description">KeePass DX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
+    <string name="about_description">KeePassDX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
     <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
     <string name="about_feedback">Atsiliepimai:</string>
@@ -76,7 +76,7 @@
     <string name="clipboard_error_clear">Iškarpinės išvalymas nepavyko</string>
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
     <string name="omitbackup_title">Neiškoti atkūrimo įrašuose</string>
-    <string name="error_can_not_handle_uri">KeePass DX negali apdoroti šio uri.</string>
+    <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio uri.</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
     <string name="keyfile_does_not_exist">Rakto failas neegzistuoja.</string>

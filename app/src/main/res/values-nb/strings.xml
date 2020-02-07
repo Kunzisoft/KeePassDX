@@ -2,20 +2,20 @@
 <!--
     Copyright 2019 Jeremy Jamet / Kunzisoft.
 
-    This file is part of KeePass DX.
+    This file is part of KeePassDX.
 
-    KeePass DX is free software: you can redistribute it and/or modify
+    KeePassDX is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    KeePass DX is distributed in the hope that it will be useful,
+    KeePassDX is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
     <string name="about_feedback">Tilbakemelding</string>
@@ -38,8 +38,8 @@
     <string name="allow">Tillat</string>
     <string name="clipboard_cleared">Utklippstavle tømt</string>
     <string name="clipboard_error_title">Utklippstavlefeil</string>
-    <string name="clipboard_error">Noen Android-telefoner fra Samsung lar ikke programmer bruke utklippstavlen.</string>
-    <string name="clipboard_error_clear">Tømming av utklippstavle mislyktes</string>
+    <string name="clipboard_error">Noen enheter lar ikke programmer bruke utklippstavlen.</string>
+    <string name="clipboard_error_clear">Kunne ikke tømme utklippstavle</string>
     <string name="clipboard_timeout">Tidsavbrudd for utklippstavle</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavlen tømmes etter kopiering av brukernavn og passord</string>
     <string name="clipboard_swipe_clean">Dra for å tømme utklippstavlen nå</string>
@@ -49,7 +49,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="disclaimer_formal">KeePass DX \u00A9 %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
+    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -64,8 +64,8 @@
     <string name="entry_title">Tittel</string>
     <string name="entry_url">Nettadresse</string>
     <string name="entry_user_name">Brukernavn</string>
-    <string name="error_arc4">ARCFOUR-strømchifferet støttes ikke.</string>
-    <string name="error_can_not_handle_uri">KeePass DX kan ikke håntere denne URI-en.</string>
+    <string name="error_arc4">Arcfour-strømchifferet støttes ikke.</string>
+    <string name="error_can_not_handle_uri">KeePassDX kan ikke håntere denne URI-en.</string>
     <string name="error_file_not_create">Kunne ikke opprette fil:</string>
     <string name="error_invalid_db">Ugyldig database eller fremmed hovednøkkel.</string>
     <string name="error_invalid_path">Ugyldig sti.</string>
@@ -145,8 +145,7 @@
     <string name="progress_title">Arbeider…</string>
     <string name="protection">Beskyttelse</string>
     <string name="read_only">Skrivebeskyttet</string>
-    <string name="read_only_warning">KeePass DX har ikke skrivetilgang til din databaseplassering, så den vil bli åpnet skrivebeskyttet.</string>
-    <string name="read_only_kitkat_warning">Siden Android KitKat, tillater noen enheter ikke lenger programmer å skrive til SD-kortet.</string>
+    <string name="read_only_warning">KeePassDX har ikke skrivetilgang til din databaseplassering, så den vil bli åpnet skrivebeskyttet.</string>
     <string name="recentfile_title">Nylig filhistorikk</string>
     <string name="recentfile_summary">Husk nylig brukte filnavn</string>
     <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>
@@ -200,8 +199,8 @@
     <string name="menu_appearance_settings">Utseende</string>
     <string name="general">Generelt</string>
     <string name="autofill">Autofyll</string>
-    <string name="autofill_service_name">KeePass DX autofyll-tjeneste</string>
-    <string name="autofill_sign_in_prompt">Logg inn med KeePass DX</string>
+    <string name="autofill_service_name">KeePassDX autofyll-tjeneste</string>
+    <string name="autofill_sign_in_prompt">Logg inn med KeePassDX</string>
     <string name="set_autofill_service_title">Sett forvalgt autofyll-tjeneste</string>
     <string name="autofill_explanation_summary">Skru på tjenesten for å fylle ut skjema fra andre programmer</string>
     <string name="password_size_title">Passordsstørrelse</string>
@@ -228,7 +227,6 @@
     <string name="path">Sti</string>
     <string name="assign_master_key">Tildel en hovednøkkel</string>
     <string name="create_keepass_file">Opprett ny KeePass-fil</string>
-    <string name="bytes">Byte</string>
     <string name="full_file_path_enable_title">Filsti</string>
     <string name="full_file_path_enable_summary">Vis hele filstien</string>
     <string name="recycle_bin_title">Bruk papirkurv</string>
@@ -257,7 +255,7 @@
     <string name="reset_education_screens_summary">Tilbakestill visning av opplæringselementer</string>
     <string name="reset_education_screens_text">Tilbakestilling av opplæringsskjermer</string>
     <string name="education_create_database_title">Opprett din databasefil</string>
-    <string name="education_create_database_summary">Du kjenner ikke KeePass DX enda, opprett din første passordsaministrasjonsfil.</string>
+    <string name="education_create_database_summary">Du kjenner ikke KeePassDX enda, opprett din første passordsaministrasjonsfil.</string>
     <string name="education_select_database_title">Åpne en eksisterende database</string>
     <string name="education_select_database_summary">Du har allerede brukt en KeePass-behandler. Bare åpne KDBX-filen fra din filbehandler.</string>
     <string name="education_new_node_title">Legg til nye elementer i databasen din</string>
@@ -294,9 +292,11 @@
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong></string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
+    </string>
     <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong></string>
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
+    </string>
     <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
     <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>
@@ -317,7 +317,7 @@
     <string name="icon_pack_choose_summary">Endre programmets ikonpakke</string>
     <string name="build_label">Bygg %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard-innstillinger</string>
     <string name="keyboard_entry_category">Oppføring</string>
     <string name="keyboard_entry_timeout_title">Tidsavbrudd</string>
@@ -368,4 +368,43 @@
     <string name="biometric_prompt_store_credential_message">Lagre databaseopplysninger med biometriske data</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Skru av</string>
+    <string name="content_description_entry_icon">Oppføringsikon</string>
+    <string name="master_key">Hovednøkkel</string>
+    <string name="security">Sikkerhet</string>
+    <string name="entry_history">Historikk</string>
+    <string name="entry_setup_otp">Sett opp engangspassord</string>
+    <string name="otp_type">OTP-type</string>
+    <string name="otp_secret">Hemmelighet</string>
+    <string name="otp_period">Periode (sekunder)</string>
+    <string name="otp_counter">Teller</string>
+    <string name="otp_digits">Siffer</string>
+    <string name="otp_algorithm">Algoritme</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Ugyldig OTP-hemmelighet.</string>
+    <string name="error_otp_counter">Telleren må være mellom %1$d og %2$d.</string>
+    <string name="error_otp_period">Periode må være mellom %1$d og %2$d sekunder.</string>
+    <string name="database_opened">Database åpnet</string>
+    <string name="menu_save_database">Lagre database</string>
+    <string name="content_description_password_checkbox">Passordsavkryssningsboks</string>
+    <string name="content_description_keyfile_checkbox">Nøkkelfil-avkryssningsboks</string>
+    <string name="biometric">Biometrisk</string>
+    <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
+    <string name="error_copy_group_here">Du kan ikke kopiere en gruppe hit.</string>
+    <string name="error_otp_secret_key">Hemmelig nøkkel må være i Base32-format.</string>
+    <string name="error_otp_digits">"Symbolet må inneholde %1$d  til %2$d siffer."</string>
+    <string name="invalid_db_same_uuid">%1$d med samme UUID %2$s finnes allerede.</string>
+    <string name="creating_database">Oppretter database…</string>
+    <string name="menu_security_settings">Sikkerhetsinnstillinger</string>
+    <string name="menu_master_key_settings">Hovednøkkelinnstillinger</string>
+    <string name="contains_duplicate_uuid">Databasen inneholder dupliserte UUID-er.</string>
+    <string name="persistent_notification_title">Vedvarende merknad</string>
+    <string name="persistent_notification_summary">Legg til en merknad når databasen er åpen</string>
+    <string name="database_data_compression_title">Datakomprimering</string>
+    <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse.</string>
+    <string name="compression">Komprimering</string>
+    <string name="compression_none">Ingen</string>
+    <string name="compression_gzip">GZip</string>
+    <string name="error_save_database">Kunne ikke lagre database.</string>
+    <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
+    <string name="command_execution">Kjører kommandoen…</string>
 </resources>

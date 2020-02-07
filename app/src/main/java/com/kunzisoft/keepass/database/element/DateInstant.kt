@@ -1,20 +1,20 @@
 /*
  * Copyright 2019 Jeremy Jamet / Kunzisoft.
  *
- * This file is part of KeePass DX.
+ * This file is part of KeePassDX.
  *
- *  KeePass DX is free software: you can redistribute it and/or modify
+ *  KeePassDX is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation, either version 3 of the License, or
  *  (at your option) any later version.
  *
- *  KeePass DX is distributed in the hope that it will be useful,
+ *  KeePassDX is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
  *
  *  You should have received a copy of the GNU General Public License
- *  along with KeePass DX.  If not, see <http://www.gnu.org/licenses/>.
+ *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
 package com.kunzisoft.keepass.database.element
@@ -23,6 +23,7 @@ import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
 import androidx.core.os.ConfigurationCompat
+import java.text.SimpleDateFormat
 import java.util.*
 
 class DateInstant : Parcelable {
@@ -42,6 +43,10 @@ class DateInstant : Parcelable {
 
     constructor(millis: Long) {
         jDate = Date(millis)
+    }
+
+    constructor(string: String) {
+        jDate = dateFormat.parse(string)
     }
 
     constructor() {
@@ -84,12 +89,13 @@ class DateInstant : Parcelable {
     }
 
     override fun toString(): String {
-        return jDate.toString()
+        return dateFormat.format(jDate)
     }
 
     companion object {
 
         val NEVER_EXPIRE = neverExpire
+        private val dateFormat = SimpleDateFormat.getDateTimeInstance()
 
         private val neverExpire: DateInstant
             get() {

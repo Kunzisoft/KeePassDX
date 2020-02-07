@@ -74,7 +74,7 @@ abstract class NotificationService : Service() {
 
     companion object {
         const val CHANNEL_ID_KEEPASS = "com.kunzisoft.keepass.notification.channel"
-        const val CHANNEL_NAME_KEEPASS = "KeePass DX notification"
+        const val CHANNEL_NAME_KEEPASS = "KeePassDX notification"
         const val GROUP_KEEPASS = "GROUP_KEEPASS"
         const val SUMMARY_ID = 0
     }
