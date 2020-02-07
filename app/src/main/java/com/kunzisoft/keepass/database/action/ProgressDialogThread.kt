@@ -199,7 +199,11 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
 
         unBindService()
 
-        activity.unregisterReceiver(databaseTaskBroadcastReceiver)
+        try {
+            activity.unregisterReceiver(databaseTaskBroadcastReceiver)
+        } catch (e: IllegalArgumentException) {
+            // If receiver not register, do nothing
+        }
     }
 
     @Synchronized
