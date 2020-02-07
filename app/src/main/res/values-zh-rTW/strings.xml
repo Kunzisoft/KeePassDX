@@ -54,7 +54,7 @@
     <string name="entry_title">名稱</string>
     <string name="entry_url">網址</string>
     <string name="entry_user_name">用戶名</string>
-    <string name="error_arc4">ArcFour流密碼不被支援。</string>
+    <string name="error_arc4">Arcfour流密碼不被支援。</string>
     <string name="error_can_not_handle_uri">KeePassDX無法處理此URI。</string>
     <string name="error_file_not_create">不能創建檔案：</string>
     <string name="error_invalid_db">無法閱讀資料庫。</string>

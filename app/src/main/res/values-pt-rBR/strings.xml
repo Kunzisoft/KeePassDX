@@ -54,7 +54,7 @@
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de usuário</string>
-    <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
+    <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
     <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
@@ -78,7 +78,7 @@
     <string name="hint_pass">senha</string>
     <string name="install_from_play_store">Instalar a partir do Google Play</string>
     <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
-    <string name="invalid_credentials">Senha ou arquivo de chaves inválidos.</string>
+    <string name="invalid_credentials">Não foi possível ler credenciais. Se isso ocorrer novamente, seu arquivo de banco de dados pode estar corrompido.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -154,7 +154,7 @@
     <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
-    <string name="clipboard_error">Alguns celulares Samsung Android não permitem aplicativos a usarem a área de transferência.</string>
+    <string name="clipboard_error">Alguns dispositivos não permitem que aplicativos usem a área de transferência.</string>
     <string name="clipboard_error_clear">Não foi possível limpar a área de transferência</string>
     <string name="clipboard_swipe_clean">Deslize para limpar a área de transferência agora</string>
     <string name="entry_not_found">Não pôde encontrar dado de entrada.</string>
@@ -204,7 +204,7 @@
     <string name="configure_biometric">Impressão digital é suportada, mas não está configurada.</string>
     <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
-    <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Recupere sua senha.</string>
+    <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>
     <string name="biometric_not_recognized">Não pôde reconhecer impressão digital</string>
     <string name="biometric_scanning_error">Problema de Impressão digital: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Use Impressão digital para armazenar esta senha</string>
@@ -243,7 +243,7 @@
     <string name="full_file_path_enable_title">Caminho do arquivo</string>
     <string name="full_file_path_enable_summary">Veja o caminho inteiro do arquivo</string>
     <string name="recycle_bin_title">Usar lixeira</string>
-    <string name="recycle_bin_summary">Move grupos e entradas para a \"Lixeira\" antes de apagar</string>
+    <string name="recycle_bin_summary">Mover grupos e entradas para o grupo \"Lixeira\" antes de apagar</string>
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
@@ -303,15 +303,12 @@
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
     <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
-    </string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
     <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
-    </string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong></string>
     <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute">
-        <strong>Contribuindo </strong>,</string>
+    <string name="html_text_dev_feature_contibute"><strong>Contribuindo </strong>,</string>
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
@@ -388,7 +385,7 @@
     <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
     <string name="biometric_prompt_store_credential_title">Salvar reconhecimento biométrico</string>
-    <string name="biometric_prompt_store_credential_message">Armazenar credenciais do banco de dados com biometria</string>
+    <string name="biometric_prompt_store_credential_message">AVISO: O uso de reconhecimento biométrico não exime você de saber sua senha mestra.</string>
     <string name="biometric_prompt_extract_credential_title">Abrir banco de dados com biometria</string>
     <string name="biometric_prompt_extract_credential_message">Extrair credenciais do banco de dados com biometria</string>
     <string name="biometric">Biometria</string>
@@ -399,7 +396,7 @@
     <string name="master_key">Chave mestre</string>
     <string name="security">Segurança</string>
     <string name="entry_history">Histórico</string>
-    <string name="entry_setup_otp">Configurar TOTP</string>
+    <string name="entry_setup_otp">Configurar OTP</string>
     <string name="otp_type">Tipo OTP</string>
     <string name="otp_secret">Segredo</string>
     <string name="otp_period">Período (segundos)</string>
@@ -413,7 +410,7 @@
     <string name="error_otp_secret_key">A chave secreta deve estar em formato Base32.</string>
     <string name="error_otp_counter">O contador deve estar entre %1$d e %2$d.</string>
     <string name="error_otp_period">O período deve estar entre %1$d e %2$d segundos.</string>
-    <string name="error_otp_digits">O token deve conter de %1$d até %2$d digitos.</string>
+    <string name="error_otp_digits">O token deve conter de %1$d até %2$d dígitos.</string>
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
     <string name="creating_database">Criando banco de dados…</string>
     <string name="menu_security_settings">Configurações de segurança</string>
@@ -443,4 +440,14 @@
     <string name="compression_none">Nada</string>
     <string name="compression_gzip">GZip</string>
     <string name="device_keyboard_setting_title">Configurações do teclado do aparelho</string>
+    <string name="error_save_database">Não foi possível salvar no banco de dados.</string>
+    <string name="menu_save_database">Salvar banco de dados</string>
+    <string name="menu_empty_recycle_bin">Esvaziar lixeira</string>
+    <string name="command_execution">Executando o comando…</string>
+    <string name="warning_permanently_delete_nodes">Você tem certeza que quer apagar permanentemente os nós selecionados\?</string>
+    <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
+    <string name="credential_before_click_biometric_button">Digite sua senha antes de clicar no botão de biometria.</string>
+    <string name="recycle_bin_group_title">Grupo de lixeira</string>
+    <string name="enable_auto_save_database_title">Salvar automaticamente o banco de dados</string>
+    <string name="enable_auto_save_database_summary">Salvar automaticamente o banco de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
 </resources>

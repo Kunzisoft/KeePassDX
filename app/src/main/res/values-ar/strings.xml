@@ -133,7 +133,7 @@
     <string name="entry_accessed">نُفذ إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
-    <string name="error_arc4">تشفير دفق ARCFOUR غير مدعوم.</string>
+    <string name="error_arc4">تشفير دفق Arcfour غير مدعوم.</string>
     <string name="error_can_not_handle_uri">تعذرت معاملة هذا الرابط في KeePassDX.</string>
     <string name="error_invalid_db">تعذرت قراءة قاعدة البيانات.</string>
     <string name="error_nokeyfile">اختر ملف مفتاح.</string>

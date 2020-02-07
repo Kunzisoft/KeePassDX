@@ -54,7 +54,7 @@
     <string name="entry_title">Meno</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Meno používateľa</string>
-    <string name="error_arc4">ArcFour stream šifra nieje podporovaná.</string>
+    <string name="error_arc4">Arcfour stream šifra nieje podporovaná.</string>
     <string name="error_can_not_handle_uri">KeePassDX nevie použiť túto uri.</string>
     <string name="error_file_not_create">Neviem vytvoriť súbor:</string>
     <string name="error_invalid_db">Chybná databáza.</string>

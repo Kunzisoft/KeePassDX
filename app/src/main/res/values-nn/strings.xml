@@ -55,7 +55,7 @@
     <string name="entry_title">Namn</string>
     <string name="entry_url">Adresse</string>
     <string name="entry_user_name">Brukaramn</string>
-    <string name="error_arc4">Kan ikkje bruka ArcFour dataflytkryptering.</string>
+    <string name="error_arc4">Kan ikkje bruka Arcfour dataflytkryptering.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan ikkje bruka denne ressursen.</string>
     <string name="error_file_not_create">Klarte ikkje å laga fila:</string>
     <string name="error_invalid_db">Ugyldig database.</string>

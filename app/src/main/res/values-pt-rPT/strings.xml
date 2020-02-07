@@ -60,7 +60,7 @@
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome de utilizador</string>
-    <string name="error_arc4">A cifra de fluxo ARCFOUR não é suportada.</string>
+    <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
     <string name="error_file_not_create">Não foi possível criar o ficheiro:</string>
     <string name="error_invalid_db">Não foi possível ler a base de dados.</string>

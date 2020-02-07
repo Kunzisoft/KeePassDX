@@ -60,7 +60,7 @@
     <string name="entry_title">Nome</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Nome utente</string>
-    <string name="error_arc4">La codifica a flusso ARCFOUR non è supportata.</string>
+    <string name="error_arc4">La codifica a flusso Arcfour non è supportata.</string>
     <string name="error_can_not_handle_uri">KeePassDX non può gestire questo URI.</string>
     <string name="error_file_not_create">Impossibile creare il file:</string>
     <string name="error_invalid_db">Lettura del database fallita.</string>

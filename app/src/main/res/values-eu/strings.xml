@@ -61,7 +61,7 @@
     <string name="entry_title">Izena</string>
     <string name="entry_url">URLa</string>
     <string name="entry_user_name">Erabiltzaile izena</string>
-    <string name="error_arc4">ArcFour stream zifratze sisterako ez dago euskarririk..</string>
+    <string name="error_arc4">Arcfour stream zifratze sisterako ez dago euskarririk..</string>
     <string name="error_can_not_handle_uri">KeePassDX-ek ezin dut uri hau kudeatu.</string>
     <string name="error_file_not_create">Ezin izan da fitxategia sortu:</string>
     <string name="error_invalid_db">Datubase baliogabea.</string>

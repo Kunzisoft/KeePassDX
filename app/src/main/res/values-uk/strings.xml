@@ -55,7 +55,7 @@
     <string name="entry_title">Ім’я</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Ім’я користувача</string>
-    <string name="error_arc4">Потокове шифрування ArcFour не підтримується.</string>
+    <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
     <string name="error_can_not_handle_uri">KeePassDX не може опрацювати цю адресу.</string>
     <string name="error_file_not_create">Не можливо створити файл:</string>
     <string name="error_invalid_db">Невірна база даних.</string>

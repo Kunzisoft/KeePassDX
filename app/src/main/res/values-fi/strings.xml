@@ -60,7 +60,7 @@
     <string name="entry_title">Nimi</string>
     <string name="entry_url">URL-osoite</string>
     <string name="entry_user_name">Käyttäjänimi</string>
-    <string name="error_arc4">The ArcFour stream cipher ei ole tuettu.</string>
+    <string name="error_arc4">The Arcfour stream cipher ei ole tuettu.</string>
     <string name="error_can_not_handle_uri">KeePassDX ei osaa käsitellä tätä osoitetta.</string>
     <string name="error_file_not_create">Tiedoston luonti epäonnistui:</string>
     <string name="error_invalid_db">Viallinen salasanatietokanta.</string>

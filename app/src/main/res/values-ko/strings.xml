@@ -64,7 +64,7 @@
     <string name="entry_title">제목</string>
     <string name="entry_url">링크</string>
     <string name="entry_user_name">아이디</string>
-    <string name="error_arc4">ARCFOUR 스트림 암호는 지원되지 않습니다.</string>
+    <string name="error_arc4">Arcfour 스트림 암호는 지원되지 않습니다.</string>
     <string name="error_can_not_handle_uri">KeePassDX에서는 이 URI를 처리할 수 없습니다.</string>
     <string name="error_file_not_create">파일을 생성할 수 없음:</string>
     <string name="error_invalid_db">데이터베이스를 읽을 수 없음.</string>

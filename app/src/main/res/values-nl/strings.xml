@@ -56,7 +56,7 @@
     <string name="entry_title">Naam</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Gebruikersnaam</string>
-    <string name="error_arc4">De ARCFOUR stream-versleuteling wordt niet ondersteund.</string>
+    <string name="error_arc4">De Arcfour stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan deze URI niet verwerken.</string>
     <string name="error_file_not_create">Kan bestand niet creëren:</string>
     <string name="error_invalid_db">Kan databank niet uitlezen.</string>

@@ -54,7 +54,7 @@
     <string name="entry_title">名称</string>
     <string name="entry_url">链接</string>
     <string name="entry_user_name">用户名</string>
-    <string name="error_arc4">不支持 ARCFOUR 流式加密。</string>
+    <string name="error_arc4">不支持 Arcfour 流式加密。</string>
     <string name="error_can_not_handle_uri">应用无法处理此 URI。</string>
     <string name="error_file_not_create">无法创建文件：</string>
     <string name="error_invalid_db">无法读取数据库。</string>
@@ -78,7 +78,7 @@
     <string name="hint_pass">密码</string>
     <string name="install_from_play_store">从 Play 商店安装</string>
     <string name="install_from_f_droid">从 F-Droid 安装</string>
-    <string name="invalid_credentials">无法读取密码或密钥文件。</string>
+    <string name="invalid_credentials">无法读取密码或密钥文件。如果重试后仍然如此，你的数据库可能已损坏。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
     <string name="list_size_title">列表项目尺寸</string>
@@ -150,7 +150,7 @@
     <string name="extended_ASCII">ASCII 拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
-    <string name="clipboard_error">一些三星设备不让应用程序使用剪切板。</string>
+    <string name="clipboard_error">一些设备不让应用程序使用剪切板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
     <string name="clipboard_swipe_clean">滑动以清空剪切板</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -246,7 +246,7 @@
     <string name="configure_biometric">支持但未配置生物识别。</string>
     <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
-    <string name="biometric_invalid_key">不能读取生物识别密钥，还原你的凭据。</string>
+    <string name="biometric_invalid_key">不能读取生物识别密钥。请将其删除后重新设置。</string>
     <string name="biometric_not_recognized">无法识别生物识别信息</string>
     <string name="biometric_scanning_error">生物识别错误：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
@@ -385,7 +385,7 @@
     <string name="error_create_database_file">无法使用此密码和密钥文件创建数据库。</string>
     <string name="menu_advanced_unlock_settings">高级解锁</string>
     <string name="biometric_prompt_store_credential_title">保存生物识别信息</string>
-    <string name="biometric_prompt_store_credential_message">使用生物识别数据存储数据库凭据</string>
+    <string name="biometric_prompt_store_credential_message">警告：即使使用生物识别数据存储了数据库凭据，你仍需牢记主密码。</string>
     <string name="biometric_prompt_extract_credential_title">使用生物识别功能打开数据库</string>
     <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
     <string name="biometric">生物识别</string>
@@ -440,4 +440,13 @@
     <string name="compression_none">无</string>
     <string name="compression_gzip">GZip压缩</string>
     <string name="device_keyboard_setting_title">设备键盘设置</string>
+    <string name="error_save_database">无法保存数据库。</string>
+    <string name="menu_save_database">保存数据库</string>
+    <string name="menu_empty_recycle_bin">清空回收站</string>
+    <string name="command_execution">正在执行命令……</string>
+    <string name="warning_permanently_delete_nodes">确认要永久删除选中的条目吗？</string>
+    <string name="credential_before_click_biometric_button">请先输入密码，再点击生物识别按钮。</string>
+    <string name="recycle_bin_group_title">回收站（组）</string>
+    <string name="enable_auto_save_database_title">自动保存数据库</string>
+    <string name="enable_auto_save_database_summary">在进行重要操作后自动保存数据库（仅在编辑模式下有效）</string>
 </resources>

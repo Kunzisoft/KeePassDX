@@ -58,7 +58,7 @@
     <string name="entry_title">Nom</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Usuari</string>
-    <string name="error_arc4">L\'encriptació ArcFour no està suportada.</string>
+    <string name="error_arc4">L\'encriptació Arcfour no està suportada.</string>
     <string name="error_can_not_handle_uri">KeePassDX no pot manejar aquesta uri.</string>
     <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
     <string name="error_invalid_db">Base de dades invàlida.</string>

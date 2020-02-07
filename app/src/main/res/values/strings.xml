@@ -86,7 +86,7 @@
     <string name="entry_password">Password</string>
     <string name="entry_save">Save</string>
     <string name="entry_title">Title</string>
-    <string name="entry_setup_otp">Setup One-Time Password</string>
+    <string name="entry_setup_otp">Set up one-time password</string>
     <string name="otp_type">OTP type</string>
     <string name="otp_secret">Secret</string>
     <string name="otp_period">Period (seconds)</string>
@@ -96,7 +96,7 @@
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
-    <string name="error_arc4">The ARCFOUR stream cipher is not supported.</string>
+    <string name="error_arc4">The Arcfour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read database.</string>
@@ -124,7 +124,7 @@
     <string name="error_otp_secret_key">Secret key must be in Base32 format.</string>
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
-    <string name="error_otp_digits">Token must contains %1$d to %2$d digits.</string>
+    <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -139,7 +139,7 @@
     <string name="password">Password</string>
     <string name="install_from_f_droid">Install from F-Droid</string>
     <string name="install_from_play_store">Install from Play Store</string>
-    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupt.</string>
+    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupted.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>

@@ -59,7 +59,7 @@
     <string name="entry_title">Név</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Felhasználónév</string>
-    <string name="error_arc4">Az ARCFOUR adatfolyam-titkosítás nem támogatott.</string>
+    <string name="error_arc4">Az Arcfour adatfolyam-titkosítás nem támogatott.</string>
     <string name="error_can_not_handle_uri">Ez az URI nem kezelhető a KeePassDX-ben.</string>
     <string name="error_file_not_create">Nem sikerült létrehozni a fájlt:</string>
     <string name="error_invalid_db">Az adatbázist nem lehet olvasni.</string>
