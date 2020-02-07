@@ -22,11 +22,11 @@
     <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">@color/dark</item>
-        <item name="colorAccent">#26a69a</item>
-        <item name="colorAccentLight">#80cbc4</item>
-        <item name="colorControlActivated">#80cbc4</item>
-        <item name="android:textColorPrimary">#80cbc4</item>
-        <item name="android:textColorHintInverse">#80cbc4</item>
+        <item name="colorAccent">#2c7a96</item>
+        <item name="colorAccentLight">#33b5e5</item>
+        <item name="colorControlActivated">#33b5e5</item>
+        <item name="android:textColorPrimary">#33b5e5</item>
+        <item name="android:textColorHintInverse">#33b5e5</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
@@ -47,6 +47,6 @@
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">#fefefe</item>
-        <item name="android:textColorPrimary">#80cbc4</item>
+        <item name="android:textColorPrimary">#33b5e5</item>
     </style>
 </resources>
