@@ -3,6 +3,7 @@ KeepassDX (2.5.0.0beta26)
  * Change file size string format
  * Prevent screenshot for all screen
  * Auto performed "Go" key in Magikeyboard
+ * Restore and delete entry history
  * Setting to hide expired entries
  * New AMOLED theme
  * Fix crash when clearing clipboard
