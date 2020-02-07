@@ -4,7 +4,7 @@
  * Auto performed "Go" key in Magikeyboard
  * Restore and delete entry history
  * Setting to hide expired entries
- * New AMOLED theme
+ * New Black theme
  * Fix crash when clearing clipboard
  * Fix attachments compressions
  * Fix dates

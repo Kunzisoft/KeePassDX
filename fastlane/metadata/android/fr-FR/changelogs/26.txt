@@ -4,7 +4,7 @@
  * Touche "Go" exécutée automatiquement dans Magikeyboard
  * Restauration et suppression d'historique d'entrée
  * Paramètre pour cacher les entrées expirées
- * Nouveau thème AMOLED
+ * Nouveau thème noir
  * Correction du crash pendant le vidage du presse-papiers
  * Correction des compressions des fichiers joints
  * Correction des dates
