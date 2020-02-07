@@ -8,10 +8,10 @@
 
  * Create database files / entries and groups
  * Support for **.kdb** and **.kdbx** files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
- * **Compatible** with the majority of alternative programs (KeePass, KeePassX, KeePass XC...)
+ * **Compatible** with the majority of alternative programs (KeePass, KeePassX, KeePassXC...)
  * Allows **fast copy** of fields and opening of URI / URL
  * **Biometric recognition** for fast unlocking *(Fingerprint / Face unlock / ...)*
- * **One-Time Password** management *(HOTP / TOTP)*
+ * **One-Time Password** management *(HOTP / TOTP)* for Two-factor authentication (2FA)
  * Material design with **themes**
  * **AutoFill** and Integration
  * Field filling **keyboard**
@@ -65,7 +65,7 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
 
 ## License
 
- Copyright (c) 2019 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
+ Copyright (c) 2020 Jeremy Jamet / [Kunzisoft](https://www.kunzisoft.com).
 
  This file is part of KeePassDX.
 
