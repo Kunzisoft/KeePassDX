@@ -47,7 +47,6 @@ class ClipboardHelper(private val context: Context) {
         return mClipboardManager
     }
 
-    @JvmOverloads
     fun timeoutCopyToClipboard(text: String, toastString: String = "") {
         if (toastString.isNotEmpty())
             Toast.makeText(context, toastString, Toast.LENGTH_LONG).show()
@@ -98,7 +97,6 @@ class ClipboardHelper(private val context: Context) {
     }
 
     @Throws(ClipboardException::class)
-    @JvmOverloads
     fun cleanClipboard(label: String = "") {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             getClipboardManager()?.clearPrimaryClip()
