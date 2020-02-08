@@ -270,12 +270,12 @@
     <string name="education_donation_title">Participez</string>
     <string name="education_donation_summary">Aidez à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
     <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
-    <string name="html_text_buy_pro"> Algorithms </string>
-    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
-    <string name="html_text_donation"> Algorithms </string>
+    <string name="html_text_buy_pro">En achetant la version pro, vous aurez accès à cette <strong>fonctionnalité visuelle</strong> et vous aiderez notamment <strong>la réalisation de projets communautaires.</strong></string>
+    <string name="html_text_feature_generosity">Cette <strong>fonctionnalité visuelle</strong> est disponible grâce à votre générosité.</string>
+    <string name="html_text_donation">Afin de garder notre liberté et d’être toujours actifs, nous comptons sur votre <strong>contribution.</strong></string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
-    <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_contibute"> Algorithms </string>
+    <string name="html_text_dev_feature_buy_pro">En achetant la version <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature_contibute">En <strong>contribuant</strong>,</string>
     <string name="html_text_dev_feature_encourage">vous encouragez les développeurs à créer de <strong>nouvelles fonctionnalités</strong> et à <strong>corriger des bogues</strong> en fonction de vos remarques.</string>
     <string name="html_text_dev_feature_thanks">Merci beaucoup pour votre contribution.</string>
     <string name="html_text_dev_feature_work_hard">Nous travaillons dur pour livrer cette fonctionnalité rapidement.</string>
