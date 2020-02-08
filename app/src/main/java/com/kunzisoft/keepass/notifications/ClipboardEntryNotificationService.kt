@@ -208,7 +208,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     private fun cleanClipboard() {
         try {
             clipboardHelper?.cleanClipboard()
-        } catch (e: ClipboardException) {
+        } catch (e: Exception) {
             Log.e(TAG, "Clipboard can't be cleaned", e)
         }
     }
