@@ -347,7 +347,7 @@
     <string name="keyboard_keys_category">Кнопки</string>
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
-    <string name="do_not_kill_app">Не убивать приложение…</string>
+    <string name="do_not_kill_app">Не убивайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
