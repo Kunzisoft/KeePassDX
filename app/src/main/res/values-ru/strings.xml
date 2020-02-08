@@ -351,7 +351,7 @@
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
-    <string name="clear_clipboard_notification_summary">Закрывать базу при закрытии уведомления</string>
+    <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления</string>
     <string name="recycle_bin">Корзина</string>
     <string name="keyboard_selection_entry_title">Выбор записи</string>
     <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
