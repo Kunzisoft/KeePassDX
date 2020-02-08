@@ -150,7 +150,6 @@
     <string name="file_browser">متصفح الملفات</string>
     <string name="invalid_credentials">تعذرت قراءة كلمة السر أو ملف المفتاح.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
-    <string name="keyfile_does_not_exist">لا يوجد ملف مفتاح.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
@@ -269,7 +268,6 @@
     <string name="content_description_background">الخلفية</string>
     <string name="rounds">دورات التحويل</string>
     <string name="rounds_explanation">توفر الدورات الاضافية ضد هجوم توليد التركيبات ،لكنها تبطئ التحميل والحفظ.</string>
-    <string name="rounds_hint">دورات التحميل</string>
     <string name="memory_usage_explanation">مقدار الذاكرة (بالبايت) لاستخدامها في دالة اشتقاق المفتاح.</string>
     <string name="parallelism_explanation">درجة التوازي (عدد العمليات) لدالة اشتقاق المفتاح.</string>
     <string name="sort_groups_before">مجموعات قبل</string>

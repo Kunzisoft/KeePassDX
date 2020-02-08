@@ -94,7 +94,6 @@
     <string name="invalid_credentials">Die Anmeldeinformationen konnten nicht gelesen werden. Wenn dies erneut auftritt, kann Ihre Datenbankdatei beschädigt sein.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
-    <string name="keyfile_does_not_exist">Es existiert keine Schlüsseldatei.</string>
     <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
@@ -137,7 +136,6 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="rounds_hint">Schlüsseltransformationen</string>
     <string name="saving_database">Datenbank wird gespeichert …</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>

@@ -99,7 +99,6 @@
     <string name="invalid_credentials">비밀번호나 키 파일을 읽을 수 없습니다.</string>
     <string name="invalid_algorithm">잘못된 알고리즘입니다.</string>
     <string name="invalid_db_sig">데이터베이스 형식을 인식할 수 없습니다.</string>
-    <string name="keyfile_does_not_exist">키 파일이 없습니다.</string>
     <string name="keyfile_is_empty">이 키 파일은 비어 있습니다.</string>
     <string name="length">길이</string>
     <string name="list_entries_show_username_title">아이디 보이기</string>

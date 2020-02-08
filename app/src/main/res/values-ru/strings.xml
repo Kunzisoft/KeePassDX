@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Неправильный главный пароль или файл ключа. Если это сообщение повторяется, файл базы, возможно, повреждён.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
-    <string name="keyfile_does_not_exist">Файл ключа не найден.</string>
     <string name="keyfile_is_empty">Файл ключа пуст.</string>
     <string name="length">Длина</string>
     <string name="list_size_title">Размер списка</string>
@@ -133,7 +132,6 @@
     <string name="root">База</string>
     <string name="rounds">Раунды шифрования</string>
     <string name="rounds_explanation">Дополнительные раунды шифрования – выше стойкость базы к подбору пароля, но медленнее открытие и сохранение.</string>
-    <string name="rounds_hint">раундов шифрования</string>
     <string name="saving_database">Сохранение базы…</string>
     <string name="space">П р о б е л</string>
     <string name="search_label">Поиск</string>

@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Kunne ikke læse legitimationsoplysninger. Hvis det sker igen, kan databasefilen være beskadiget.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>
-    <string name="keyfile_does_not_exist">Nøglefil eksisterer ikke.</string>
     <string name="keyfile_is_empty">Nøglefilen er tom.</string>
     <string name="length">Længde</string>
     <string name="list_size_title">Størrelse på listeelementer</string>
@@ -132,7 +131,6 @@
     <string name="root">Rod</string>
     <string name="rounds">Transformationsrunder</string>
     <string name="rounds_explanation">Yderligere krypteringsrunder giver højere beskyttelse mod brute-force angreb, men kan virkelig forsinke læsnings- og skrivehastigheden.</string>
-    <string name="rounds_hint">Transformationsrunder</string>
     <string name="saving_database">Gemmer database…</string>
     <string name="space">Mellemrum</string>
     <string name="search_label">Søg</string>

@@ -117,7 +117,6 @@
     <string name="root">Rot</string>
     <string name="rounds">Krypteringsomgangar</string>
     <string name="rounds_explanation">Fleire krypteringsomgangar gjev tilleggsvern mot rå makt-åtak, men kan òg gjera lasting og lagring mykje tregare.</string>
-    <string name="rounds_hint">omgangar</string>
     <string name="saving_database">Lagrar databasen …</string>
     <string name="space">Mellomrom</string>
     <string name="search_label">Søk</string>

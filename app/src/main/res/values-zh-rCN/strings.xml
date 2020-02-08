@@ -113,7 +113,6 @@
     <string name="root">Root</string>
     <string name="rounds">转换次数</string>
     <string name="rounds_explanation">更多的转换次数能更好地抵抗暴力破解攻击，但也会增加读取和保存的时间。</string>
-    <string name="rounds_hint">变换次数</string>
     <string name="saving_database">正在保存数据库…</string>
     <string name="space">空格</string>
     <string name="search_label">搜索</string>
@@ -168,7 +167,6 @@
     <string name="error_move_folder_in_itself">无法将群组移至它自身之下。</string>
     <string name="file_not_found_content">找不到文件。请重新打开文件。</string>
     <string name="invalid_algorithm">算法无效。</string>
-    <string name="keyfile_does_not_exist">密钥文件不存在。</string>
     <string name="keyfile_is_empty">密钥文件为空。</string>
     <string name="list_entries_show_username_title">显示用户名</string>
     <string name="list_entries_show_username_summary">在条目列表上显示用户名</string>

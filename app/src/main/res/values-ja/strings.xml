@@ -116,7 +116,6 @@
     <string name="root">Root</string>
     <string name="rounds">暗号化レベル</string>
     <string name="rounds_explanation">暗号化レベルを高く設定するとブルートフォース(総当り)攻撃に強くなりますが、保存や読込に時間が掛かります。</string>
-    <string name="rounds_hint">レベル</string>
     <string name="saving_database">データベースを保存中…</string>
     <string name="space">半角スペース</string>
     <string name="search_label">検索</string>
@@ -166,7 +165,6 @@
     <string name="field_value">フィールド値</string>
     <string name="file_not_found_content">ファイルが見つかりません。ファイルブラウザーからもう一度開いてみてください。</string>
     <string name="invalid_algorithm">アルゴリズムが間違っています。</string>
-    <string name="keyfile_does_not_exist">鍵ファイルが存在しません。</string>
     <string name="keyfile_is_empty">鍵ファイルが空です。</string>
     <string name="list_entries_show_username_title">ユーザー名を表示</string>
     <string name="list_entries_show_username_summary">エントリーリストのユーザー名を表示します</string>

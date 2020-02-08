@@ -96,7 +96,6 @@
     <string name="invalid_credentials">Impossible de lire les identifiants. Si cela se reproduit, votre fichier de base de données est peut-être corrompu.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
-    <string name="keyfile_does_not_exist">Aucun fichier clé.</string>
     <string name="keyfile_is_empty">Le fichier clé est vide.</string>
     <string name="length">Longueur</string>
     <string name="list_size_title">Taille des éléments de liste</string>
@@ -143,7 +142,6 @@
     <string name="kdf_explanation">Afin de générer la clé pour l’algorithme de chiffrement, la clé principale est transformée en utilisant une fonction de dérivation de clé salée aléatoirement.</string>
     <string name="rounds">Tours de transformation</string>
     <string name="rounds_explanation">Des tours de chiffrement supplémentaires fournissent une protection plus élevée contre les attaques par force brute, mais cela peut considérablement ralentir les opérations de chargement et d’enregistrement.</string>
-    <string name="rounds_hint">Tours de transformation</string>
     <string name="memory_usage">Utilisation de la mémoire</string>
     <string name="memory_usage_explanation">Quantité de mémoire (en octets) à utiliser par la fonction de dérivation de clé.</string>
     <string name="parallelism">Parallélisme</string>

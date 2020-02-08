@@ -87,7 +87,6 @@
     <string name="invalid_credentials">סיסמה או קובץ מפתח לא מתאימים.</string>
     <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
     <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
-    <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>
     <string name="keyfile_is_empty">קובץ מפתח ריק.</string>
     <string name="length">אורך</string>
     <string name="list_size_title">גודל רשימה קבוצות</string>
@@ -127,7 +126,6 @@
     <string name="content_description_remove_from_list">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
-    <string name="rounds_hint">סיבובים</string>
     <string name="saving_database">שומר מסד נתונים…</string>
     <string name="space">גודל</string>
     <string name="search_label">חיפוש</string>

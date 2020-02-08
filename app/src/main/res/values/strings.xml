@@ -143,7 +143,6 @@
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>
-    <string name="keyfile_does_not_exist">No keyfile exists.</string>
     <string name="keyfile_is_empty">The keyfile is empty.</string>
     <string name="length">Length</string>
     <string name="list_entries_show_username_title">Show usernames</string>
@@ -213,7 +212,6 @@
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
     <string name="rounds">Transformation rounds</string>
     <string name="rounds_explanation">Additional encryption rounds provide higher protection against brute force attacks, but can really slow down loading and saving.</string>
-    <string name="rounds_hint">transformation rounds</string>
     <string name="memory_usage">Memory usage</string>
     <string name="memory_usage_explanation">Amount of memory (in bytes) to be used by the key derivation function.</string>
     <string name="parallelism">Parallelism</string>

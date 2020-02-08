@@ -70,7 +70,6 @@
     <string name="invalid_credentials">Nederīga parole vai atslēgas fails.</string>
     <string name="invalid_algorithm">Nederīgs algoritms.</string>
     <string name="invalid_db_sig">Datu bāzes formāts nav atpazīts.</string>
-    <string name="keyfile_does_not_exist">Atslēgas fails nepastāv.</string>
     <string name="keyfile_is_empty">Atslēgas fails ir tukšs.</string>
     <string name="length">Garums</string>
     <string name="list_size_title">Grupu saraksta teksta izmērs</string>
@@ -111,7 +110,6 @@
     <string name="root">Root</string>
     <string name="rounds">Šifrēšanas līmeņi</string>
     <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
-    <string name="rounds_hint">līmeņi</string>
     <string name="saving_database">Datu bāzes saglabāšana…</string>
     <string name="space">Atstarpe</string>
     <string name="search_label">Meklēt</string>

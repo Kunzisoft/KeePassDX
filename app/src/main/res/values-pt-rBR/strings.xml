@@ -116,7 +116,6 @@
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
-    <string name="rounds_hint">rodadas de transformação</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Spaço</string>
     <string name="search_label">Busca</string>
@@ -165,7 +164,6 @@
     <string name="field_value">Valor do campo</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu provedor de conteúdo.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
-    <string name="keyfile_does_not_exist">Não existem arquivos-chave.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
     <string name="menu_form_filling_settings">Preenchimento de formulário</string>

@@ -113,7 +113,6 @@
     <string name="root">Root</string>
     <string name="rounds">加密次數</string>
     <string name="rounds_explanation">更高級的加密次數對暴力攻擊能提供額外保護，但也會增加讀取和保存的時間。</string>
-    <string name="rounds_hint">加密次數</string>
     <string name="saving_database">正在保存資料庫…</string>
     <string name="space">空格</string>
     <string name="search_label">搜尋</string>
@@ -152,7 +151,6 @@
     <string name="error_autofill_enable_service">無法啟用自動填入服務。</string>
     <string name="error_move_folder_in_itself">無法移動一個群組至自己本身。</string>
     <string name="invalid_algorithm">無效的演算法。</string>
-    <string name="keyfile_does_not_exist">密鑰檔不存在。</string>
     <string name="keyfile_is_empty">密鑰檔是空白的。</string>
     <string name="menu_form_filling_settings">表格填入</string>
     <string name="menu_copy">複製</string>

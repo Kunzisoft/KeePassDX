@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Password o file chiave non validi.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
-    <string name="keyfile_does_not_exist">Non esiste alcun file chiave.</string>
     <string name="keyfile_is_empty">Il file chiave è vuoto.</string>
     <string name="length">Lunghezza</string>
     <string name="list_size_title">Dimensione elenco gruppo</string>
@@ -132,7 +131,6 @@
     <string name="root">Root</string>
     <string name="rounds">Livello cifratura</string>
     <string name="rounds_explanation">Livelli di cifratura aggiuntivi forniscono una maggiore protezione contro attacchi di tipo forza bruta, ma può rallentare il caricamento e il salvataggio.</string>
-    <string name="rounds_hint">livello</string>
     <string name="saving_database">Salvataggio database…</string>
     <string name="space">Spazio</string>
     <string name="search_label">Cerca</string>

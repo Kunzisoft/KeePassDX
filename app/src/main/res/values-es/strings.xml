@@ -120,7 +120,6 @@
     <string name="root">Raíz</string>
     <string name="rounds">Pasadas de transformación</string>
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
-    <string name="rounds_hint">pasadas de transformación</string>
     <string name="saving_database">Guardando base de datos…</string>
     <string name="space">Espacio</string>
     <string name="search_label">Buscar</string>
@@ -165,7 +164,6 @@
     <string name="field_value">Valor del campo</string>
     <string name="file_not_found_content">No se pudo encontrar el archivo. Intente volver a abrirlo en el explorador de archivos.</string>
     <string name="invalid_algorithm">El algoritmo es incorrecto.</string>
-    <string name="keyfile_does_not_exist">No existe ningún archivo de clave.</string>
     <string name="keyfile_is_empty">El archivo de clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Llenado de formulario</string>

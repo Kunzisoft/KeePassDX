@@ -91,7 +91,6 @@
     <string name="invalid_credentials">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
-    <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>
     <string name="keyfile_is_empty">Gako fitxategia hutsik dago.</string>
     <string name="length">Luzera</string>
     <string name="list_size_title">Talde listaren tamaina</string>
@@ -132,7 +131,6 @@
     <string name="root">Root</string>
     <string name="rounds">Enkriptatzeko Rondak</string>
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
-    <string name="rounds_hint">rondak</string>
     <string name="saving_database">Datubasea gordetzen…</string>
     <string name="space">Lekua</string>
     <string name="search_label">Bilatu</string>

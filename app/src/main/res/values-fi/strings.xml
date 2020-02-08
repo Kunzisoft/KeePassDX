@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Väärä salasana tai avaintiedosto.</string>
     <string name="invalid_algorithm">Epäkelpo algoritmi.</string>
     <string name="invalid_db_sig">Salasanatietokannan tyyppiä ei tunnistettu.</string>
-    <string name="keyfile_does_not_exist">Avaintiedostoa ei ole olemassa.</string>
     <string name="keyfile_is_empty">Avaintiedosto on tyhjä.</string>
     <string name="length">Pituus</string>
     <string name="list_size_title">Ryhmälistan pituus</string>
@@ -131,7 +130,6 @@
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>
     <string name="rounds_explanation">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
-    <string name="rounds_hint">kierroksia</string>
     <string name="saving_database">Tallennetaan tietokantaa&#8230;</string>
     <string name="space">Tila</string>
     <string name="search_label">Etsi</string>

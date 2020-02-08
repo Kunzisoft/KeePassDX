@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων. Εάν αυτό επαναληφθεί, το αρχείο της βάσης δεδομένων ενδέχεται να είναι κατεστραμμένο.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
-    <string name="keyfile_does_not_exist">Δεν υπάρχει αρχείο-κλειδϊ.</string>
     <string name="keyfile_is_empty">Το αρχείο-κλειδί είναι κενό.</string>
     <string name="length">Μήκος</string>
     <string name="list_size_title">Μέγεθος στοιχείου λίστας</string>
@@ -132,7 +131,6 @@
     <string name="root">Ριζικός Κατάλογος</string>
     <string name="rounds">Κύκλοι μετασχηματισμού Κρυπτογράφησης</string>
     <string name="rounds_explanation">Επιπλέον κύκλοι κρυπτογράφησης παρέχουν πρόσθετη προστασία ενάντια σε επιθέσεις brute force, αλλά μπορεί να επιβραδύνει πολύ την φόρτωση και την αποθήκευση.</string>
-    <string name="rounds_hint">κύκλοι μετασχηματισμού</string>
     <string name="saving_database">Αποθήκευση βάσης δεδομένων…</string>
     <string name="space">Κενό</string>
     <string name="search_label">Αναζήτηση</string>

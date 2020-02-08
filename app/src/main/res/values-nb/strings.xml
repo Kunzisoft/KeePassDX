@@ -99,7 +99,6 @@
     <string name="invalid_credentials">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
-    <string name="keyfile_does_not_exist">Ingen nøkkelfil finnes.</string>
     <string name="keyfile_is_empty">Nøkkelfilen er tom.</string>
     <string name="length">Lengde</string>
     <string name="list_entries_show_username_title">Vis brukernavn</string>
@@ -156,7 +155,6 @@
     <string name="kdf_explanation">For å generere en nøkkel for krypteringsalgoritmen, er den komprimerte hovednøkkelen (SHA-256) transformert ved bruk av en tilfeldig saltet nøkkelutledningsfunksjon.</string>
     <string name="rounds">Krypteringsomganger</string>
     <string name="rounds_explanation">Flere krypteringsomganger gir ytterligere beskyttelse mot råmaktsangrep, men kan virkelig sakke ned innlasting og lagring.</string>
-    <string name="rounds_hint">omganger</string>
     <string name="memory_usage">Minnebruk</string>
     <string name="memory_usage_explanation">Mangden minne (i binære byte) brukt til nøkkelutledelsesfunksjonen.</string>
     <string name="parallelism">Parallellitet</string>

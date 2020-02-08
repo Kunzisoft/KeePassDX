@@ -90,7 +90,6 @@
     <string name="invalid_credentials">A jelszó vagy kulcsfájl nem olvasható.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
-    <string name="keyfile_does_not_exist">Nem létezik kulcsfájl.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>
     <string name="length">Hossz</string>
     <string name="list_size_title">Listaelemek mérete</string>
@@ -133,7 +132,6 @@
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>
     <string name="rounds_explanation">A további titkosítási körök magasabb védelmet biztosítanak a nyers erőt használó támadások ellen, ugyanakkor jelentősen lassíthatják az adatbázis betöltését vagy mentését.</string>
-    <string name="rounds_hint">transzformációs körök</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>
     <string name="search_label">Keresés</string>

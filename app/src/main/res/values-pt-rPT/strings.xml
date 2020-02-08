@@ -91,7 +91,6 @@
     <string name="invalid_credentials">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
-    <string name="keyfile_does_not_exist">Não existem ficheiros-chave.</string>
     <string name="keyfile_is_empty">O ficheiro-chave está vazio.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
@@ -134,7 +133,6 @@
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
-    <string name="rounds_hint">rodadas de transformação</string>
     <string name="saving_database">A guardar base de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>

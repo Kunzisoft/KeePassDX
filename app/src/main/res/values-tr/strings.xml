@@ -98,7 +98,6 @@
     <string name="invalid_credentials">Kimlik bilgileri okunamadı. Bu tekrar ederse, veritabanı dosyanız bozuk olabilir.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veritabanı biçimi tanımlanamadı.</string>
-    <string name="keyfile_does_not_exist">Hiç anahtar dosya yok.</string>
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
     <string name="length">Uzunluk</string>
     <string name="list_entries_show_username_title">Kullanıcı adlarını göster</string>
@@ -155,7 +154,6 @@
     <string name="kdf_explanation">Şifreleme algoritmasının anahtarını üretmek için ana anahtar, rastgele anahtar türetme işlevi kullanılarak dönüştürülür.</string>
     <string name="rounds">Dönüşüm turları</string>
     <string name="rounds_explanation">Ek şifreleme turları, kaba kuvvet saldırılarına karşı daha yüksek koruma sağlar, ancak yükleme ve kaydetmeyi gerçekten yavaşlatabilir.</string>
-    <string name="rounds_hint">dönüşüm turları</string>
     <string name="memory_usage">Hafıza kullanımı</string>
     <string name="memory_usage_explanation">Anahtar türetme işlevi tarafından kullanılacak bellek miktarı (ikili bayt cinsinden).</string>
     <string name="parallelism">Paralellik</string>

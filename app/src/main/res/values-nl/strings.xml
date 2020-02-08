@@ -118,7 +118,6 @@
     <string name="root">Hoofdmap</string>
     <string name="rounds">Encryptie-cycli</string>
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
-    <string name="rounds_hint">cycli</string>
     <string name="saving_database">Bezig met opslaan van databank…</string>
     <string name="space">Ruimte</string>
     <string name="search_label">Zoeken</string>
@@ -171,7 +170,6 @@
     <string name="field_value">Veldwaarde</string>
     <string name="file_not_found_content">Bestand niet gevonden. Probeer opnieuw te openen via je bestandsbeheerder.</string>
     <string name="invalid_algorithm">Ongeldig algoritme.</string>
-    <string name="keyfile_does_not_exist">Er bestaat geen sleutelbestand.</string>
     <string name="keyfile_is_empty">Het sleutelbestand is leeg.</string>
     <string name="list_entries_show_username_title">Gebruikersnamen tonen</string>
     <string name="list_entries_show_username_summary">Gebruikersnamen tonen in itemlijsten</string>

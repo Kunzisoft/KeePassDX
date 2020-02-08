@@ -91,7 +91,6 @@
     <string name="invalid_credentials">Nebylo možno načíst autentizační údaje. Pokud se chyba opakuje, databázový soubor může být poškozen.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nedaří se rozpoznat formát databáze.</string>
-    <string name="keyfile_does_not_exist">Soubor s klíčem neexistuje.</string>
     <string name="keyfile_is_empty">Soubor s klíčem je prázdný.</string>
     <string name="length">Délka</string>
     <string name="list_size_title">Velikost položek seznamu</string>
@@ -133,7 +132,6 @@
     <string name="root">Kořen</string>
     <string name="rounds">Počet šifrovacích průchodů</string>
     <string name="rounds_explanation">Vyšší počet šifrovacích průchodů zvýší odolnost proti útoku zkoušením všech možných hesel, ale může výrazně zpomalit načítání a ukládání.</string>
-    <string name="rounds_hint">transformační průchody</string>
     <string name="saving_database">Ukládám databázi…</string>
     <string name="space">Místo</string>
     <string name="search_label">Hledat</string>

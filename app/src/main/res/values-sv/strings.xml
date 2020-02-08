@@ -90,7 +90,6 @@
     <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna. Om detta inträffar igen kan det bero på att databasfilen är skadad.</string>
     <string name="invalid_algorithm">Fel algoritm.</string>
     <string name="invalid_db_sig">Det gick inte att känna igen databasformatet.</string>
-    <string name="keyfile_does_not_exist">Nyckelfilen existerar inte.</string>
     <string name="keyfile_is_empty">Nyckelfilen är tom.</string>
     <string name="length">Längd</string>
     <string name="list_size_title">Storlek på grupplista</string>
@@ -129,7 +128,6 @@
     <string name="root">Root</string>
     <string name="rounds">Transformationsrundor</string>
     <string name="rounds_explanation">Högre antal krypteringsrundor ger ytterligare skydd mot bruteforce-attacker, men kan göra det betydligt långsammare att ladda och spara.</string>
-    <string name="rounds_hint">transformationsrundor</string>
     <string name="saving_database">Sparar databas…</string>
     <string name="space">Mellanslag</string>
     <string name="search_label">Sök</string>

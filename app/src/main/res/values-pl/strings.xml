@@ -117,7 +117,6 @@
     <string name="root">Root</string>
     <string name="rounds">Rundy szyfrowania</string>
     <string name="rounds_explanation">Dodatkowe rundy szyfrowania zapewniają lepszą ochronę przed atakami typu brute force, ale mogą znacznie spowolnić ładowanie i zapisywanie.</string>
-    <string name="rounds_hint">rundy szyfrowania</string>
     <string name="saving_database">Zapisywanie bazy danych…</string>
     <string name="space">Spacja</string>
     <string name="search_label">Szukaj</string>
@@ -170,7 +169,6 @@
     <string name="field_value">Wartość pola</string>
     <string name="file_not_found_content">Nie znaleziono pliku. Spróbuj ponownie otworzyć go w przeglądarce plików.</string>
     <string name="invalid_algorithm">Błędny algorytm.</string>
-    <string name="keyfile_does_not_exist">Brak pliku klucza.</string>
     <string name="keyfile_is_empty">Plik klucza jest pusty.</string>
     <string name="list_entries_show_username_title">Pokaż nazwy użytkowników</string>
     <string name="list_entries_show_username_summary">Pokaż nazwy użytkowników na listach wpisów</string>
