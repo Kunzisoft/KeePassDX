@@ -363,7 +363,7 @@
     <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
-    <string name="clear_clipboard_notification_summary">Vérrouille la base de données lors de la fermeture de la notification</string>
+    <string name="clear_clipboard_notification_summary">Verrouille la base de données lors de la fermeture de la notification</string>
     <string name="recycle_bin">Corbeille</string>
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
     <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>
