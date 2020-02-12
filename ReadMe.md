@@ -59,9 +59,11 @@ Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassD
 	
 ## Other devices
 
-- [KeePass XC](https://keepassxc.org/) (https://keepassxc.org/) works with **GNU/Linux**, **Mac** and **Windows**, is updated regularly and under the terms of the GNU General Public License. This is the recommended version for computers.
+- [KeePass](https://keepass.info/) (https://keepass.info/) is the original and official project for desktop, with technical documentation for standardized database files. It is updated regularly with active maintenance (written in C#).
 
-- [KeePass](https://keepass.info/) (https://keepass.info/) is the historical project, with good technical documentation for standardized database files but only running on **Windows**.
+- [KeePassXC](https://keepassxc.org/) (https://keepassxc.org/) is an alternative integration to KeePass written in C++.
+
+- [KeeWeb](https://keeweb.info/) (https://keeweb.info/) is a web version also compatible with KeePass files. 
 
 ## License
 
