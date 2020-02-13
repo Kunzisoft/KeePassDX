@@ -375,7 +375,7 @@
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
     <string name="lock_database_back_root_title">\"Zurück\" drücken, um zu sperren</string>
-    <string name="clear_clipboard_notification_summary">Die Datenbank schließen, wenn die Benachrichtigung geschlossen wird</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Benachrichtigung geschlossen wird</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
@@ -453,4 +453,16 @@
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
+    <string name="entry_attachments">Anhänge</string>
+    <string name="menu_restore_entry_history">Historie wiederherstellen</string>
+    <string name="menu_delete_entry_history">Historie löschen</string>
+    <string name="keyboard_auto_go_action_title">Auto-Key-Aktion</string>
+    <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
+    <string name="download_attachment">%1$s herunterladen</string>
+    <string name="download_initialization">Initialisieren…</string>
+    <string name="download_progression">Fortschritt: %1$d%</string>
+    <string name="download_finalization">Fertigstellung…</string>
+    <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
+    <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
+    <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
 </resources>
