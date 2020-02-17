@@ -411,9 +411,9 @@
     <string name="education_sort_summary">Choose how entries and groups are sorted.</string>
     <string name="education_donation_title">Participate</string>
     <string name="education_donation_summary">Help increase the stability, security and in adding more features.</string>
-    <string name="html_text_ad_free">Unlike many password management apps, this one is &lt;strong&gt;ad-free&lt;/strong&gt;, &lt;strong&gt;copylefted libre software&lt;/strong&gt; and does not collect personal data on its servers, no matter what version you use.</string>
-    <string name="html_text_buy_pro">By buying the pro version, you will have access to this &lt;strong&gt;visual feature&lt;/strong&gt; and you will especially help &lt;strong&gt;the realization of community projects.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">This &lt;strong&gt;visual feature&lt;/strong&gt; is available thanks to your generosity.</string>
+    <string name="html_text_ad_free">%1$s is either \\\"Username\\\" or \\\"Password\\\".</string>
+    <string name="html_text_buy_pro">%1$s is either \\\"Username\\\" or \\\"Password\\\".</string>
+    <string name="html_text_feature_generosity">%1$s is either \\\"Username\\\" or \\\"Password\\\".</string>
     <string name="html_text_donation">In order to keep our freedom and to always be active, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">This feature is &lt;strong&gt;under development&lt;/strong&gt; and requires your &lt;strong&gt;contribution&lt;/strong&gt; to be available soon.</string>
     <string name="html_text_dev_feature_buy_pro">By buying the &lt;strong&gt;pro&lt;/strong&gt; version,</string>
