@@ -309,9 +309,9 @@
     <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katıl</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
-    <string name="html_text_ad_free">Birçok şifre yönetimi uygulamasından farklı olarak, bu, <strong>ad-free</strong>, <strong>copylefted libre yazılımı</strong> şeklindedir ve hangi sürümü kullanıyor olursanız olun, kendi sunucularında kişisel verileri toplamaz.</string>
-    <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu <strong>görsel özelliğe</strong> erişebilecek ve özellikle <strong>topluluk projelerinin gerçekleştirilmesine</strong> yardımcı olacaksınız</string>
-    <string name="html_text_feature_generosity">Bu <strong>görsel özellik</strong>, cömertliğiniz sayesinde kullanılabilir.</string>
+    <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama <strong>reklam içermez</strong>, <strong>açık kaynaklı</strong> ve <strong>copyleft lisanslıdır</strong>. Hangi sürümü (ücretsiz veya profesyonel) kullanırsanız kullanın, herhangi bir biçimde <strong>kişisel veri toplanmamaktadır</strong>.</string>
+    <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu <strong>görsel stile</strong> erişebilecek ve özellikle <strong>topluluk projelerinin gerçekleştirilmesine</strong> yardımcı olacaksınız.</string>
+    <string name="html_text_feature_generosity">Bu <strong>görsel stil</strong>, cömertliğiniz sayesinde kullanılabilir.</string>
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için <strong>katkılarınıza</strong> güveniyoruz</string>
     <string name="html_text_dev_feature">Bu özellik <strong>geliştirme aşamasındadır</strong> ve <strong>katkılarınızın</strong> yakında kullanıma sunulmasını gerektirir.</string>
     <string name="html_text_dev_feature_buy_pro"><strong>Pro</strong> sürümü satın alarak,</string>
