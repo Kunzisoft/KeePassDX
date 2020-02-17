@@ -245,12 +245,12 @@
     <string name="warning_read_only">Grant SD card write access to save database changes.</string>
     <string name="warning_unmounted">Mount the SD card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
-    <string name="warning_no_encryption_key">Continue with unencrypted database?</string>
+    <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric input is supported but not set up.</string>
-    <string name="keystore_not_accessible">Could not read keys.</string>
+    <string name="keystore_not_accessible">Could not open keystore.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric input to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric input to store credentials</string>
     <string name="biometric_prompt_store_credential_title">Save biometric recognition</string>
@@ -258,7 +258,8 @@
     <string name="biometric_prompt_extract_credential_title">Database unlocking with biometry</string>
     <string name="biometric_prompt_extract_credential_message">Fetch database credential using biometric data recognition</string>
     <string name="encrypted_value_stored">Encrypted password stored</string>
-    <string name="biometric_invalid_key">Retry biometric recognition</string>
+    <!--Biometric recognition is the action that is retried.-->
+    <string name="biometric_invalid_key">Delete the biometric key and try again.</string>
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
@@ -279,7 +280,7 @@
     <string name="list_password_generator_options_summary">Set allowed password generator characters</string>
     <string name="database_opened">Database opened</string>
     <string name="clipboard">Clipboard</string>
-    <string name="clipboard_explanation_summary">Copy entry fields into the clipboard of your device</string>
+    <string name="clipboard_explanation_summary">Copy entry fields from the clipboard of your device</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
     <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>
     <string name="clipboard_warning">If automatic deletion of clipboard fails, delete its history manually.</string>
@@ -290,7 +291,7 @@
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
     <string name="persistent_notification_title">Persistent notification</string>
     <string name="persistent_notification_summary">Add a notification when the database is open</string>
-    <string name="advanced_unlock">Advanced unlock</string>
+    <string name="advanced_unlock">Automated unlocking</string>
     <string name="advanced_unlock_explanation_summary">Use automated database unlocking</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
@@ -381,7 +382,7 @@
     <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational hints</string>
     <string name="reset_education_screens_summary">Show clickable educational info again</string>
-    <string name="reset_education_screens_text">Educational hints reset</string>
+    <string name="reset_education_screens_text">Reset all educational hints</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
@@ -466,5 +467,5 @@
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
-    <string name="hide_expired_entries_summary">No outdated entries shown</string>
+    <string name="hide_expired_entries_summary">Expired entries are hidden</string>
 </resources>
