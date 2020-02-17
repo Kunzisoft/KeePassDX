@@ -269,9 +269,9 @@
     <string name="education_sort_summary">Choisissez comment les entrées et les groupes sont triés.</string>
     <string name="education_donation_title">Participez</string>
     <string name="education_donation_summary">Aidez à améliorer la stabilité, la sécurité et à ajouter des fonctionnalités.</string>
-    <string name="html_text_ad_free">Contrairement à beaucoup d’applications de gestion de mots de passe, cette application est <strong>sans publicité</strong>, <strong>libre sous licence copyleft</strong> et ne collecte pas de données personnelles sur ses serveurs, peu importe la version que vous utilisez.</string>
+    <string name="html_text_ad_free"> Algorithms </string>
     <string name="html_text_buy_pro"> Algorithms </string>
-    <string name="html_text_feature_generosity">Cette &lt;strong&gt;fonctionnalité visuelle&lt;/strong&gt; est disponible grâce à votre générosité.</string>
+    <string name="html_text_feature_generosity"> Algorithms </string>
     <string name="html_text_donation"> Algorithms </string>
     <string name="html_text_dev_feature">Cette fonctionnalité est <strong>en cours de développement</strong> et nécessite votre <strong>contribution</strong> pour être bientôt disponible.</string>
     <string name="html_text_dev_feature_buy_pro">En achetant la version &lt;strong&gt;pro&lt;/strong&gt;,</string>
