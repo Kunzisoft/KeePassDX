@@ -309,8 +309,8 @@
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
     <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, jest oprogramowaniem darmowym typu <strong>copylefted libre</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
-    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do tej <strong>funkcji wizualnej</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe.</strong></string>
-    <string name="html_text_feature_generosity">Ta <strong>funkcja wizualna</strong> jest dostępna dzięki Twojej hojności.</string>
+    <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do <strong>stylu wizualnego</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe.</strong></string>
+    <string name="html_text_feature_generosity">Ten <strong>styl wizualny</strong> jest dostępny dzięki Twojej hojności.</string>
     <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
     <string name="html_text_dev_feature">Ta funkcja jest <strong>rozwojowa</strong> i wymaga twojego <strong>wkładu</strong> aby być wkrótce dostępną.</string>
     <string name="html_text_dev_feature_buy_pro">Kupując wersję <strong>pro</strong> wersja,</string>
@@ -414,7 +414,7 @@
     <string name="database_data_compression_title">Kompresja danych</string>
     <string name="max_history_items_summary">Ogranicz liczbę elementów historii na wpis</string>
     <string name="max_history_size_title">Maksymalny rozmiar</string>
-    <string name="settings_database_recommend_changing_master_key_title">Zalecane przedłużenie</string>
+    <string name="settings_database_recommend_changing_master_key_title">Zalecane odnowienie</string>
     <string name="settings_database_recommend_changing_master_key_summary">Zaleca się zmianę klucza głównego (dni)</string>
     <string name="settings_database_force_changing_master_key_summary">Wymagaj zmiany klucza głównego (dni)</string>
     <string name="database_default_username_title">Domyślna nazwa użytkownika</string>
@@ -436,8 +436,8 @@
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych.</string>
     <string name="max_history_items_title">Maksymalna liczba</string>
     <string name="max_history_size_summary">Ogranicz rozmiar historii (w bajtach) na wpis</string>
-    <string name="settings_database_force_changing_master_key_title">Wymuś zmianę</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Wymuś zmianę następnym razem</string>
+    <string name="settings_database_force_changing_master_key_title">Wymuś odnowienie</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Wymuś odnowienie następnym razem</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Wymagaj zmiany klucza głównego następnym razem (raz)</string>
     <string name="error_save_database">Nie można zapisać bazy danych.</string>
     <string name="menu_save_database">Zapisz bazę danych</string>
