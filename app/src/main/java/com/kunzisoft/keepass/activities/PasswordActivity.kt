@@ -33,10 +33,7 @@ import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
 import androidx.annotation.RequiresApi
@@ -87,7 +84,7 @@ class PasswordActivity : StylishActivity() {
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
-    private var infoView: TextView? = null
+    private var infoContainerView: ViewGroup? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
@@ -102,7 +99,7 @@ class PasswordActivity : StylishActivity() {
     private var readOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
-            infoView?.visibility = if (value) {
+            infoContainerView?.visibility = if (value) {
                 readOnly = true
                 View.VISIBLE
             } else {
@@ -131,7 +128,7 @@ class PasswordActivity : StylishActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         containerView = findViewById(R.id.container)
-        confirmButtonView = findViewById(R.id.pass_ok)
+        confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
         keyFileView = findViewById(R.id.pass_keyfile)
@@ -139,7 +136,7 @@ class PasswordActivity : StylishActivity() {
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
-        infoView = findViewById(R.id.activity_password_info)
+        infoContainerView = findViewById(R.id.activity_password_info_container)
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
