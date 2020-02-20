@@ -211,7 +211,6 @@
     <string name="sort_last_access_time">Åtkomst</string>
     <string name="warning">Varning</string>
     <string name="warning_password_encoding">Undvik lösenordstecken utöver textkodningsformatet i databasfilen (okända tecken konverteras till samma bokstav).</string>
-    <string name="warning_read_only">Ge tillåtelse att skriva till SD-kortet för att spara ändringar i databasen.</string>
     <string name="warning_empty_password">Är du säker på att du verkligen inte vill skydda dina lösenord från att låsas upp\?</string>
     <string name="warning_no_encryption_key">Är du säker på att du inte vill använda en krypteringsnyckel\?</string>
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>

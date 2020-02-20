@@ -143,7 +143,6 @@
     <string name="uppercase">Maiuscole</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
-    <string name="warning_read_only">Permetti l\'accesso in scrittura alla scheda SD per salvare le modifiche al database.</string>
     <string name="warning_unmounted">Monta la scheda SD per creare o caricare un database.</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>

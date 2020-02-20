@@ -314,7 +314,6 @@
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compilación %1$s</string>
     <string name="clipboard_warning">Si la supresión automática del portapapeles falla, borran el historial manualmente.</string>
-    <string name="warning_read_only">Otorgue permiso de escritura a la tarjeta SD para guardar los cambios en la base de datos.</string>
     <string name="allow_copy_password_warning">ATENCIÓN: todas las aplicaciones comparten el portapapeles. Si copia datos confidenciales, otros programas podrían recuperarlos.</string>
     <string name="allow_no_password_title">No permitir claves maestras</string>
     <string name="allow_no_password_summary">Activar el botón «Abrir» si no se selecciona ninguna credencial</string>

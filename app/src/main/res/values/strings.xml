@@ -240,7 +240,7 @@
     <string name="uppercase">Upper-case</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
-    <string name="warning_read_only">Grant memory write access to save database changes.</string>
+    <string name="warning_database_read_only">Grant file manager write access to save database</string>
     <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>

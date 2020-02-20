@@ -123,7 +123,6 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="warning_read_only">请授予 SD 卡写入权限以保存数据库。</string>
     <string name="warning_unmounted">请挂载SD卡以创建或加载数据库。</string>
     <string name="education_unlock_summary">输入密码和/或一个密钥文件来解锁你的数据库。 
 \n 

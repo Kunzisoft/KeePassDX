@@ -78,7 +78,6 @@ class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
-
     private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
@@ -88,6 +87,7 @@ class PasswordActivity : StylishActivity() {
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
+    private var infoView: TextView? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
@@ -100,6 +100,16 @@ class PasswordActivity : StylishActivity() {
 
     private var mPermissionAsked = false
     private var readOnly: Boolean = false
+    private var mForceReadOnly: Boolean = false
+        set(value) {
+            infoView?.visibility = if (value) {
+                readOnly = true
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            field = value
+        }
 
     private var mProgressDialogThread: ProgressDialogThread? = null
 
@@ -129,6 +139,7 @@ class PasswordActivity : StylishActivity() {
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
+        infoView = findViewById(R.id.activity_password_info)
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
@@ -301,6 +312,8 @@ class PasswordActivity : StylishActivity() {
             databaseUri = intent.getParcelableExtra(KEY_FILENAME)
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
+
+        mForceReadOnly = UriUtil.isUriReadOnly(contentResolver, databaseUri)
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
@@ -551,7 +564,12 @@ class PasswordActivity : StylishActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
+
+        if (mForceReadOnly) {
+            menu.removeItem(R.id.menu_open_file_read_mode_key)
+        } else {
+            changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
+        }
 
         MenuUtil.defaultMenuInflater(inflater, menu)
 

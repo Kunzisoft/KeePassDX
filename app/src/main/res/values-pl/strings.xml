@@ -127,7 +127,6 @@
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="warning_read_only">Przydziel dostęp do zapisu na karcie SD, aby zapisać zmiany w bazie danych.</string>
     <string name="warning_unmounted">Zamontuj kartę SD, aby utworzyć lub załadować bazę danych.</string>
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
 \n

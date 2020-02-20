@@ -145,7 +145,6 @@
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
-    <string name="warning_read_only">Предоставьте доступ к хранилищу на запись для сохранения изменений в базе.</string>
     <string name="warning_unmounted">Подключите хранилище для создания или загрузки базы.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>

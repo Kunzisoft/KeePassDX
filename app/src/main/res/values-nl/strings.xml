@@ -128,7 +128,6 @@
     <string name="underline">Onderstrepen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databankversie.</string>
     <string name="uppercase">Hoofdletters</string>
-    <string name="warning_read_only">Machtig schrijftoegang om de databankwijzigingen op ge slaan.</string>
     <string name="warning_unmounted">Koppel de SD-kaart aan om een databank te creëren of laden.</string>
     <string name="version_label">Versie %1$s</string>
     <string name="education_unlock_summary">Geef het wachtwoord en/of sleutelbestand op om je databank te ontgrendelen.

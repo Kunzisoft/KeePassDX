@@ -212,7 +212,6 @@
     <string name="sort_creation_time">Létrehozás</string>
     <string name="sort_last_modify_time">Módosítás</string>
     <string name="sort_last_access_time">Hozzáférés</string>
-    <string name="warning_read_only">SD kártya írási jogosultság megadása az adatbázis-változások mentéséhez.</string>
     <string name="warning_empty_password">Biztos, hogy nem akar jelszavas feloldási védelmet\?</string>
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>

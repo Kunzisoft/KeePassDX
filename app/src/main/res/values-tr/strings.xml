@@ -180,7 +180,6 @@
     <string name="uppercase">Büyük harf</string>
     <string name="warning">Uyarı</string>
     <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
-    <string name="warning_read_only">Veritabanı değişikliklerini kaydetmek için bellek yazma erişimi verin.</string>
     <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için hafıza kartını takın.</string>
     <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
     <string name="warning_no_encryption_key">Herhangi bir şifreleme anahtarı kullanmak istemediğinize emin misiniz\?</string>

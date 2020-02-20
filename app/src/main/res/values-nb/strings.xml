@@ -179,7 +179,6 @@
     <string name="uppercase">Store bokstaver</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Unngå passordtegn utenfor tekstkodingsformat i databasefil (ukjente tegn blir konvertert til samme bokstav).</string>
-    <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
     <string name="warning_unmounted">SD-kortet ditt er ikke montert på enheten din. Du vil ikke kunne laste inne eller opprette din database.</string>
     <string name="warning_empty_password">Ønsker du virkelig å bruke en tom streng som ditt passord?</string>
     <string name="warning_no_encryption_key">Er du sikker på at du ønsker å bruke en krypteringsnøkkel?</string>

@@ -176,7 +176,6 @@
     <string name="remember_keyfile_title">حفظ الملف المفتاحي</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
     <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
-    <string name="warning_read_only">اسمح بالكتابة على بطاقة الذاكرة لحفظ التغيرات.</string>
     <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>

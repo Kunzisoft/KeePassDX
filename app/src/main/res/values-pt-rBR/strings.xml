@@ -321,7 +321,6 @@
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
-    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
     <string name="error_load_database">Falha ao carregar o banco.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>

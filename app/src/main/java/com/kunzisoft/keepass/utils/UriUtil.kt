@@ -50,6 +50,18 @@ object UriUtil {
         }
     }
 
+    fun isUriReadOnly(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
+        if (fileUri == null)
+            return true
+        return try {
+            contentResolver.openAssetFileDescriptor(fileUri, "w")?.close()
+            false
+        } catch (e: Exception) {
+            Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
+            true
+        }
+    }
+
     fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
         if (fileUri == null)
             return null

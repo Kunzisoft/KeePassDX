@@ -221,7 +221,6 @@
     <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
-    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
     <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>
     <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
     <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>

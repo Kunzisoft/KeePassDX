@@ -190,7 +190,6 @@
     <string name="sort_last_access_time">Προσπέλαση</string>
     <string name="warning">Προειδοποίηση</string>
     <string name="warning_password_encoding">Αποφύγετε τους χαρακτήρες κωδικού πρόσβασης έξω από τη μορφή κωδικοποίησης κειμένου στο αρχείο βάσης δεδομένων (οι μη αναγνωρισμένοι χαρακτήρες μετατρέπονται στο ίδιο γράμμα).</string>
-    <string name="warning_read_only">Δώστε πρόσβαση εγγραφής στην κάρτα SD για να αποθηκεύσετε τις αλλαγές της βάσης δεδομένων.</string>
     <string name="warning_empty_password">Θέλετε πραγματικά να μην έχετε κανέναν κωδικό προστασίας ξεκλειδώματος;</string>
     <string name="warning_no_encryption_key">Είστε βέβαιοι ότι δεν θέλετε να χρησιμοποιήσετε κάποιο κλειδί κρυπτογράφησης;</string>
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>

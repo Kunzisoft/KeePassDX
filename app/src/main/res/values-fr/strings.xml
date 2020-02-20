@@ -167,7 +167,6 @@
     <string name="uppercase">Majuscules</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors du format de codage de caractères du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
-    <string name="warning_read_only">Accorder l’accès en écriture à la mémoire pour enregistrer les modifications de la base de données.</string>
     <string name="warning_unmounted">Monter la carte mémoire pour créer ou charger une base de données.</string>
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
