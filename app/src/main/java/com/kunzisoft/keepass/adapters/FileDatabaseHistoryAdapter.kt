@@ -20,6 +20,8 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
+import android.graphics.Color
+import android.graphics.PorterDuff
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
@@ -82,15 +84,26 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         // File path
         holder.filePath.text = UriUtil.decode(fileDatabaseInfo.fileUri?.toString())
 
-        holder.filePreciseInfoContainer.visibility = if (fileDatabaseInfo.found()) {
-            // Modification
-            holder.fileModification.text = fileDatabaseInfo.getModificationString()
-            // Size
-            holder.fileSize.text = fileDatabaseInfo.getSizeString()
+        if (fileDatabaseInfo.dataAccessible()) {
+            holder.fileInformation.clearColorFilter()
+        } else {
+            holder.fileInformation.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+        }
 
-            View.VISIBLE
-        } else
-            View.GONE
+        // Modification
+        if (fileDatabaseInfo.lastModificationAccessible()) {
+            holder.fileModification.text = fileDatabaseInfo.getModificationString()
+            holder.fileModification.visibility = View.VISIBLE
+        } else {
+            holder.fileModification.visibility = View.GONE
+        }
+        // Size
+        if (fileDatabaseInfo.sizeAccessible()) {
+            holder.fileSize.text = fileDatabaseInfo.getSizeString()
+            holder.fileSize.visibility = View.VISIBLE
+        } else {
+            holder.fileSize.visibility = View.GONE
+        }
 
         // Click on information
         val isExpanded = position == mExpandedPosition
@@ -178,7 +191,6 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         var fileModifyButton: ImageView = itemView.findViewById(R.id.file_modify_button)
         var fileDeleteButton: ImageView = itemView.findViewById(R.id.file_delete_button)
         var filePath: TextView = itemView.findViewById(R.id.file_path)
-        var filePreciseInfoContainer: ViewGroup = itemView.findViewById(R.id.file_precise_info_container)
         var fileModification: TextView = itemView.findViewById(R.id.file_modification)
         var fileSize: TextView = itemView.findViewById(R.id.file_size)
     }
