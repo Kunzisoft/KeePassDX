@@ -577,45 +577,14 @@ class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu) {
-            launchCheckPermission()
-        }
+        launchEducation(menu)
 
         return true
     }
 
-    // Check permission
-    private fun launchCheckPermission() {
-        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        val permissions = arrayOf(writePermission)
-        if (Build.VERSION.SDK_INT >= 23
-                && !readOnly
-                && !mPermissionAsked) {
-            mPermissionAsked = true
-            // Check self permission to show or not the dialog
-            if (toolbar != null
-                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            WRITE_EXTERNAL_STORAGE_REQUEST -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
     // To fix multiple view education
     private var performedEductionInProgress = false
-    private fun launchEducation(menu: Menu, onEducationFinished: ()-> Unit) {
+    private fun launchEducation(menu: Menu, onEducationFinished: (()-> Unit)? = null) {
         if (!performedEductionInProgress) {
             performedEductionInProgress = true
             // Show education views
@@ -625,7 +594,7 @@ class PasswordActivity : StylishActivity() {
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu,
-                                       onEducationFinished: ()-> Unit) {
+                                       onEducationFinished: (()-> Unit)? = null) {
         val educationToolbar = toolbar
         val unlockEducationPerformed = educationToolbar != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
@@ -665,7 +634,7 @@ class PasswordActivity : StylishActivity() {
                         })
 
                 if (!biometricEducationPerformed) {
-                    onEducationFinished.invoke()
+                    onEducationFinished?.invoke()
                 }
             }
         }
@@ -743,8 +712,6 @@ class PasswordActivity : StylishActivity() {
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
 
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
-
-        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
