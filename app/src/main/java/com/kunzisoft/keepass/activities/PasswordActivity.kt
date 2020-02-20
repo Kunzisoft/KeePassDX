@@ -24,7 +24,6 @@ import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -35,11 +34,13 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
-import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -71,7 +72,7 @@ import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
-class PasswordActivity : StylishActivity() {
+open class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
@@ -90,12 +91,11 @@ class PasswordActivity : StylishActivity() {
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
 
-    private var prefs: SharedPreferences? = null
+    private var mSharedPreferences: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
-    private var mPermissionAsked = false
     private var readOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
@@ -115,7 +115,7 @@ class PasswordActivity : StylishActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         mRememberKeyFile = PreferencesUtil.rememberKeyFiles(this)
 
@@ -138,7 +138,6 @@ class PasswordActivity : StylishActivity() {
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
         infoContainerView = findViewById(R.id.activity_password_info_container)
 
-        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.open_database_button)
@@ -289,7 +288,6 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
         super.onSaveInstanceState(outState)
     }
@@ -350,7 +348,7 @@ class PasswordActivity : StylishActivity() {
                 newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply {
+            mSharedPreferences?.edit()?.apply {
                 newDefaultFileName?.let {
                     putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
                 } ?: kotlin.run {
@@ -365,7 +363,7 @@ class PasswordActivity : StylishActivity() {
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
-        val defaultFilename = prefs?.getString(KEY_DEFAULT_DATABASE_PATH, "")
+        val defaultFilename = mSharedPreferences?.getString(KEY_DEFAULT_DATABASE_PATH, "")
         if (databaseFileUri != null
                 && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
                 && databaseFileUri == UriUtil.parse(defaultFilename)) {
@@ -710,8 +708,6 @@ class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
-
-        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
