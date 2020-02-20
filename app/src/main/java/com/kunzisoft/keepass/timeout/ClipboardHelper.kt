@@ -98,10 +98,14 @@ class ClipboardHelper(private val context: Context) {
 
     @Throws(ClipboardException::class)
     fun cleanClipboard(label: String = "") {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            getClipboardManager()?.clearPrimaryClip()
-        } else {
-            copyToClipboard(label, "")
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                getClipboardManager()?.clearPrimaryClip()
+            } else {
+                copyToClipboard(label, "")
+            }
+        } catch (e: Exception) {
+            throw ClipboardException(e)
         }
     }
 
