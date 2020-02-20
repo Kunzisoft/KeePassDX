@@ -27,6 +27,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
@@ -35,6 +36,7 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.view.showActionError
 
 open class SettingsActivity
     : LockingActivity(),
@@ -43,6 +45,7 @@ open class SettingsActivity
 
     private var backupManager: BackupManager? = null
 
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
 
     companion object {
@@ -74,6 +77,8 @@ open class SettingsActivity
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_toolbar)
+
+        coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         toolbar = findViewById(R.id.toolbar)
         toolbar?.setTitle(R.string.settings)
         setSupportActionBar(toolbar)
@@ -92,6 +97,8 @@ open class SettingsActivity
             (supportFragmentManager
                     .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
                     ?.onProgressDialogThreadResult(actionTask, result)
+
+            coordinatorLayout?.showActionError(result)
         }
     }
 

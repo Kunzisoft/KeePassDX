@@ -34,6 +34,7 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -60,11 +61,13 @@ import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.utils.createDocument
 import com.kunzisoft.keepass.utils.onCreateDocumentResult
 import com.kunzisoft.keepass.view.EntryContentsView
+import com.kunzisoft.keepass.view.showActionError
 import java.util.*
 import kotlin.collections.HashMap
 
 class EntryActivity : LockingActivity() {
 
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var collapsingToolbarLayout: CollapsingToolbarLayout? = null
     private var titleIconView: ImageView? = null
     private var historyView: View? = null
@@ -114,6 +117,7 @@ class EntryActivity : LockingActivity() {
         invalidateOptionsMenu()
 
         // Get views
+        coordinatorLayout = findViewById(R.id.toolbar_coordinator)
         collapsingToolbarLayout = findViewById(R.id.toolbar_layout)
         titleIconView = findViewById(R.id.entry_icon)
         historyView = findViewById(R.id.history_container)
@@ -137,7 +141,7 @@ class EntryActivity : LockingActivity() {
                         finish()
                 }
             }
-            // TODO Visual error for entry history
+            coordinatorLayout?.showActionError(result)
         }
     }
 

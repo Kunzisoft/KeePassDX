@@ -76,6 +76,7 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.AddNodeButtonView
 import com.kunzisoft.keepass.view.ToolbarAction
 import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionError
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -251,15 +252,7 @@ class GroupActivity : LockingActivity(),
                     }
                 }
 
-                if (!result.isSuccess) {
-                    coordinatorLayout?.let { coordinatorLayout ->
-                        result.exception?.errorId?.let { errorId ->
-                            Snackbar.make(coordinatorLayout, errorId, Snackbar.LENGTH_LONG).asError().show()
-                        } ?: result.message?.let { message ->
-                            Snackbar.make(coordinatorLayout, message, Snackbar.LENGTH_LONG).asError().show()
-                        }
-                    }
-                }
+                coordinatorLayout?.showActionError(result)
 
                 finishNodeAction()
 

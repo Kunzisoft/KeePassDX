@@ -29,13 +29,15 @@ import android.view.View
 import android.widget.ScrollView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
@@ -49,7 +51,7 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
-import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionError
 import java.util.*
 
 class EntryEditActivity : LockingActivity(),
@@ -188,15 +190,7 @@ class EntryEditActivity : LockingActivity(),
                         finish()
                 }
             }
-
-            // Show error
-            if (!result.isSuccess) {
-                result.message?.let { resultMessage ->
-                    Snackbar.make(coordinatorLayout!!,
-                            resultMessage,
-                            Snackbar.LENGTH_LONG).asError().show()
-                }
-            }
+            coordinatorLayout?.showActionError(result)
         }
     }
 
