@@ -311,9 +311,9 @@
     <string name="education_sort_summary">Vyberte řazení položek a skupin.</string>
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, bezpečnost a přidávání dalších funkcí.</string>
-    <string name="html_text_ad_free">Narozdíl od mnoha aplikací pro správu hesel, tato je <strong>bez reklam</strong>, je <strong>svobodným softwarem</strong> a neodesílá nikam žádné osobní údaje, bez ohledu na to, jakou verzi používáte.</string>
-    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k této <strong>vizuální funkci</strong> a hlavně pomůžete <strong>uskutečnění komunitních projektů.</strong></string>
-    <string name="html_text_feature_generosity">Tato <strong>vizuální funkce</strong> je k dispozici díky vaší štědrosti.</string>
+    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel, tato je <strong>bez reklam</strong>, je <strong>svobodným softwarem</strong> a <strong> pod copyleft licencí</strong>. <strong>Nesbírá žádné osobní údaje</strong> v jakékoli formě, bez ohledu na to, jakou verzi používáte.</string>
+    <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k tomuto <strong>vizuálnímu stylu</strong> a hlavně pomůžete <strong>uskutečnění komunitních projektů.</strong></string>
+    <string name="html_text_feature_generosity">Tento <strong>vizuální styl</strong> je k dispozici díky vaší štědrosti.</string>
     <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity, počítáme s vaším <strong>přispěním.</strong></string>
     <string name="html_text_dev_feature">Tato funkce je <strong>ve vývoji</strong> a potřebuje váš <strong>příspěvek</strong>, aby byla brzy k dispozici.</string>
     <string name="html_text_dev_feature_buy_pro">Zakoupením <strong>pro</strong> varianty,</string>
