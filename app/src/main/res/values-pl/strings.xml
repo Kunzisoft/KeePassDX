@@ -308,7 +308,7 @@
     <string name="education_sort_summary">Wybierz sposób sortowania wpisów i grup.</string>
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
-    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, jest oprogramowaniem darmowym typu <strong>copylefted libre</strong> i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
+    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest <strong>wolna od reklam</strong>, <strong>open source</strong> i na licencji <strong>licencjonowanie copyleftted</strong>. <strong>Żadne dane osobowe nie są gromadzone</strong>, w jakiejkolwiek formie, bez względu na to, z której wersji (bezpłatnej lub pro) korzystasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do <strong>stylu wizualnego</strong> a szczególnie pomożesz <strong> zrealizować projekty społecznościowe.</strong></string>
     <string name="html_text_feature_generosity">Ten <strong>styl wizualny</strong> jest dostępny dzięki Twojej hojności.</string>
     <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój <strong>wkład.</strong></string>
@@ -453,7 +453,7 @@
     <string name="menu_restore_entry_history">Przywróć historię</string>
     <string name="menu_delete_entry_history">Usuń historię</string>
     <string name="keyboard_auto_go_action_title">Automatyczne działanie klucza</string>
-    <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane automatycznie po naciśnięciu klawisza Field</string>
+    <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane jest automatycznie po naciśnięciu klawisza Field</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
     <string name="download_progression">W trakcie realizacji: %1$d%</string>
