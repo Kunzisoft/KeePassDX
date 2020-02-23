@@ -113,8 +113,6 @@
     <string name="omitbackup_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
     <string name="progress_create">Creant nova base de dades&#8230;</string>
     <string name="progress_title">Treballant&#8230;</string>
-    <string name="remember_keyfile_summary">Recorda la localització d\'arxius clau</string>
-    <string name="remember_keyfile_title">Guarda arxiu clau</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>

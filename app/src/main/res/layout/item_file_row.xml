@@ -186,7 +186,7 @@
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/file_size"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="end|bottom"
                     android:textColor="?android:attr/textColorHintInverse"

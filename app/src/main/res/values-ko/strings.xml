@@ -145,10 +145,6 @@
     <string name="protection">보호</string>
     <string name="read_only">쓰기 보호됨</string>
     <string name="read_only_warning">KeePassDX는 데이터베이스를 수정하기 위해 쓰기 권한이 필요합니다.</string>
-    <string name="recentfile_title">최근 파일 기록</string>
-    <string name="recentfile_summary">최근 파일 이름 기억하기</string>
-    <string name="remember_keyfile_summary">데이터베이스 키 파일 위치 기억하기</string>
-    <string name="remember_keyfile_title">키 파일 저장</string>
     <string name="content_description_remove_from_list">삭제</string>
     <string name="root">루트</string>
     <string name="encryption_explanation">데이터베이스 암호화 알고리즘이 모든 데이터에 적용됩니다.</string>

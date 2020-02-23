@@ -24,27 +24,85 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
+import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
+import java.io.File
 import java.io.FileInputStream
 import java.io.FileNotFoundException
 import java.io.InputStream
+import java.util.*
 
 
 object UriUtil {
 
-    @Throws(FileNotFoundException::class)
-    fun getUriInputStream(contentResolver: ContentResolver, uri: Uri?): InputStream? {
-        if (uri == null)
-            return null
-        val scheme = uri.scheme
-        return if (scheme == null || scheme.isEmpty() || scheme == "file") {
-            FileInputStream(uri.path!!)
-        } else if (scheme == "content") {
-            contentResolver.openInputStream(uri)
-        } else {
-            null
+    fun isUriAccessible(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
+        if (fileUri == null)
+            return false
+        return try {
+            //https://developer.android.com/reference/android/content/res/AssetFileDescriptor
+            contentResolver.openAssetFileDescriptor(fileUri, "r")?.close()
+            true
+        } catch (e: Exception) {
+            Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
+            false
         }
+    }
+
+    fun isUriNotWritable(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
+        if (fileUri == null)
+            return true
+        return try {
+            contentResolver.openAssetFileDescriptor(fileUri, "wa")?.close()
+            false
+        } catch (e: Exception) {
+            Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
+            true
+        }
+    }
+
+    fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
+        if (fileUri == null)
+            return null
+        return when {
+            isFileScheme(fileUri) -> {
+                fileUri.path?.let {
+                    File(it).let { file ->
+                        return DocumentFile.fromFile(file)
+                    }
+                }
+            }
+            isContentScheme(fileUri) -> DocumentFile.fromSingleUri(context, fileUri)
+            else -> null
+        }
+    }
+
+    @Throws(FileNotFoundException::class)
+    fun getUriInputStream(contentResolver: ContentResolver, fileUri: Uri?): InputStream? {
+        if (fileUri == null)
+            return null
+        return when {
+            isFileScheme(fileUri) -> fileUri.path?.let { FileInputStream(it) }
+            isContentScheme(fileUri) -> contentResolver.openInputStream(fileUri)
+            else -> null
+        }
+    }
+
+    private fun isFileScheme(fileUri: Uri): Boolean {
+        val scheme = fileUri.scheme
+        if (scheme == null || scheme.isEmpty() || scheme.toLowerCase(Locale.ENGLISH) == "file") {
+            return true
+        }
+        return false
+    }
+
+    private fun isContentScheme(fileUri: Uri): Boolean {
+        val scheme = fileUri.scheme
+        if (scheme != null && scheme.toLowerCase(Locale.ENGLISH) == "content") {
+            return true
+        }
+        return false
     }
 
     fun parse(stringUri: String?): Uri? {

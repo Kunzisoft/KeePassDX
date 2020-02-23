@@ -122,10 +122,6 @@
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
     <string name="read_only_warning">KeePassDX behøver skrivetilladelse for at ændre i databasen.</string>
-    <string name="recentfile_title">Seneste filhistorik</string>
-    <string name="recentfile_summary">Husk de seneste filnavne</string>
-    <string name="remember_keyfile_summary">Husker placeringen af databasernøglefiler</string>
-    <string name="remember_keyfile_title">Gem nøglefil</string>
     <string name="content_description_remove_from_list">Fjern</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rod</string>
@@ -142,7 +138,6 @@
     <string name="underline">Understregning</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>
-    <string name="warning_read_only">Giv SD-kort skrive adgang for at gemme databasen ændringer.</string>
     <string name="warning_unmounted">Monter SD-kortet for at oprette eller indlæse en database.</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil til at låse databasen op.

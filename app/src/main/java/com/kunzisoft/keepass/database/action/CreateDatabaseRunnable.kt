@@ -24,6 +24,7 @@ import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class CreateDatabaseRunnable(context: Context,
                              private val mDatabase: Database,
@@ -57,8 +58,11 @@ class CreateDatabaseRunnable(context: Context,
 
         if (result.isSuccess) {
             // Add database to recent files
-            FileDatabaseHistoryAction.getInstance(context.applicationContext)
-                    .addOrUpdateDatabaseUri(mDatabaseUri, mKeyFile)
+            if (PreferencesUtil.rememberDatabaseLocations(context)) {
+                FileDatabaseHistoryAction.getInstance(context.applicationContext)
+                        .addOrUpdateDatabaseUri(mDatabaseUri,
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKeyFile else null)
+            }
         } else {
             Log.e("CreateDatabaseRunnable", "Unable to create the database")
         }

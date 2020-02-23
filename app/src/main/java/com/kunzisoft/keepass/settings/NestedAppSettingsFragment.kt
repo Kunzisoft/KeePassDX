@@ -75,16 +75,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         activity?.let { activity ->
             allowCopyPassword()
 
-            findPreference<Preference>(getString(R.string.keyfile_key))?.setOnPreferenceChangeListener { _, newValue ->
+            findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
                 }
                 true
             }
 
-            findPreference<Preference>(getString(R.string.recentfile_key))?.setOnPreferenceChangeListener { _, newValue ->
+            findPreference<Preference>(getString(R.string.remember_keyfile_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles()
                 }
                 true
             }

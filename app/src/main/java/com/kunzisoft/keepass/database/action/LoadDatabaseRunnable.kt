@@ -74,14 +74,10 @@ class LoadDatabaseRunnable(private val context: Context,
     override fun onFinishRun() {
         if (result.isSuccess) {
             // Save keyFile in app database
-            val rememberKeyFile = PreferencesUtil.rememberKeyFiles(context)
-            if (rememberKeyFile) {
-                var keyUri = mKey
-                if (!rememberKeyFile) {
-                    keyUri = null
-                }
+            if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context)
-                        .addOrUpdateDatabaseUri(mUri, keyUri)
+                        .addOrUpdateDatabaseUri(mUri,
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKey else null)
             }
 
             // Register the biometric

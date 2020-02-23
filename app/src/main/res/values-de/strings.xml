@@ -127,10 +127,6 @@
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
-    <string name="recentfile_title">Zuletzt verwendete Datenbanken</string>
-    <string name="recentfile_summary">Zuletzt verwendete Datenbanken merken</string>
-    <string name="remember_keyfile_summary">Erinnert sich an den Speicherort der Schlüsseldateien der Datenbanken</string>
-    <string name="remember_keyfile_title">Schlüsselquelle merken</string>
     <string name="content_description_remove_from_list">Löschen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Start</string>
@@ -149,7 +145,6 @@
     <string name="uppercase">Großbuchstaben</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Text-Encoding-Format besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
-    <string name="warning_read_only">Schreibzugriff auf die SD-Karte gewähren, um Datenbankänderungen speichern zu können.</string>
     <string name="warning_unmounted">Die SD-Karte einbinden, um eine Datenbank erstellen oder laden zu können.</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Geben Sie das Passwort und/oder die Schlüsseldatei ein, um Ihre Datenbank zu entsperren.

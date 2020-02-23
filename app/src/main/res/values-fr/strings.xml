@@ -132,10 +132,6 @@
     <string name="protection">Protection</string>
     <string name="read_only">Protégé en écriture</string>
     <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
-    <string name="recentfile_title">Historique de fichiers récents</string>
-    <string name="recentfile_summary">Mémorise les noms des fichiers récents</string>
-    <string name="remember_keyfile_summary">Mémorise l’emplacement des fichiers clé des bases de données</string>
-    <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
     <string name="content_description_remove_from_list">Supprimer</string>
     <string name="root">Racine</string>
     <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>
@@ -167,7 +163,6 @@
     <string name="uppercase">Majuscules</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors du format de codage de caractères du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
-    <string name="warning_read_only">Accorder l’accès en écriture à la mémoire pour enregistrer les modifications de la base de données.</string>
     <string name="warning_unmounted">Monter la carte mémoire pour créer ou charger une base de données.</string>
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>

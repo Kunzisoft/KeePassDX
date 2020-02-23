@@ -123,10 +123,6 @@
     <string name="protection">Protezione</string>
     <string name="read_only">Sola lettura</string>
     <string name="read_only_warning">KeePassDX richiede l\'autorizzazione di scrittura per poter modificare il tuo database.</string>
-    <string name="recentfile_title">Cronologia file recenti</string>
-    <string name="recentfile_summary">Ricorda i file recenti</string>
-    <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave dei database</string>
-    <string name="remember_keyfile_title">Salva il file chiave</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="root">Root</string>
     <string name="rounds">Livello cifratura</string>
@@ -143,7 +139,6 @@
     <string name="uppercase">Maiuscole</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
-    <string name="warning_read_only">Permetti l\'accesso in scrittura alla scheda SD per salvare le modifiche al database.</string>
     <string name="warning_unmounted">Monta la scheda SD per creare o caricare un database.</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>

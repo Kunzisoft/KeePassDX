@@ -122,10 +122,6 @@
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>
     <string name="read_only_warning">Το KeePassDX χρειάζεται άδεια εγγραφής για να αλλάξει οτιδήποτε στη βάση δεδομένων σας.</string>
-    <string name="recentfile_title">Πρόσφατο ιστορικό αρχείων</string>
-    <string name="recentfile_summary">Απομνημόνευση πρόσφατων ονομάτων αρχείων</string>
-    <string name="remember_keyfile_summary">Απομνημόνευση της τοποθεσίας αρχείων-κλειδιών των βάσεων δεδομένων</string>
-    <string name="remember_keyfile_title">Αποθήκευση αρχείου-κλειδιού</string>
     <string name="content_description_remove_from_list">Αφαίρεση</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Ριζικός Κατάλογος</string>
@@ -190,7 +186,6 @@
     <string name="sort_last_access_time">Προσπέλαση</string>
     <string name="warning">Προειδοποίηση</string>
     <string name="warning_password_encoding">Αποφύγετε τους χαρακτήρες κωδικού πρόσβασης έξω από τη μορφή κωδικοποίησης κειμένου στο αρχείο βάσης δεδομένων (οι μη αναγνωρισμένοι χαρακτήρες μετατρέπονται στο ίδιο γράμμα).</string>
-    <string name="warning_read_only">Δώστε πρόσβαση εγγραφής στην κάρτα SD για να αποθηκεύσετε τις αλλαγές της βάσης δεδομένων.</string>
     <string name="warning_empty_password">Θέλετε πραγματικά να μην έχετε κανέναν κωδικό προστασίας ξεκλειδώματος;</string>
     <string name="warning_no_encryption_key">Είστε βέβαιοι ότι δεν θέλετε να χρησιμοποιήσετε κάποιο κλειδί κρυπτογράφησης;</string>
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>

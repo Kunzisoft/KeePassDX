@@ -124,10 +124,6 @@
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
-    <string name="recentfile_title">Histórico de ficheiros recentes</string>
-    <string name="recentfile_summary">Lembrar nomes recentes de ficheiros</string>
-    <string name="remember_keyfile_summary">Lembra o local dos ficheiros-chave dos bancos de dados</string>
-    <string name="remember_keyfile_title">Guardar ficheiro chave</string>
     <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
@@ -221,7 +217,6 @@
     <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
-    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
     <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>
     <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
     <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>

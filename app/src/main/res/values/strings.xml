@@ -203,10 +203,14 @@
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePassDX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
     <string name="selection_mode">Selection mode</string>
-    <string name="recentfile_title">Recent file history</string>
-    <string name="recentfile_summary">Remember recent filenames</string>
-    <string name="remember_keyfile_summary">Remembers the location of databases keyfiles</string>
-    <string name="remember_keyfile_title">Save keyfile</string>
+    <string name="remember_database_locations_title">Save location of databases</string>
+    <string name="remember_database_locations_summary">Remember the location of databases</string>
+    <string name="show_recent_files_title">Show recent files</string>
+    <string name="show_recent_files_summary">Show locations of recent databases</string>
+    <string name="hide_broken_locations_title">Hide broken database links</string>
+    <string name="hide_broken_locations_summary">Hide broken links in the list of recent databases</string>
+    <string name="remember_keyfile_locations_title">Save location of keyfiles</string>
+    <string name="remember_keyfile_locations_summary">Remember the location of databases keyfiles</string>
     <string name="root">Root</string>
     <string name="encryption_explanation">Database encryption algorithm used for all data.</string>
     <string name="kdf_explanation">To generate the key for the encryption algorithm, the master key is transformed using a randomly salted key derivation function.</string>
@@ -240,7 +244,7 @@
     <string name="uppercase">Upper-case</string>
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
-    <string name="warning_read_only">Grant memory write access to save database changes.</string>
+    <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
     <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
     <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>

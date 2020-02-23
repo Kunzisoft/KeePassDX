@@ -123,10 +123,6 @@
     <string name="protection">Защита</string>
     <string name="read_only">Только чтение</string>
     <string name="read_only_warning">KeePassDX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
-    <string name="recentfile_title">Базы паролей</string>
-    <string name="recentfile_summary">Хранить имена недавно открытых баз</string>
-    <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
-    <string name="remember_keyfile_title">Файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
@@ -145,7 +141,6 @@
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
-    <string name="warning_read_only">Предоставьте доступ к хранилищу на запись для сохранения изменений в базе.</string>
     <string name="warning_unmounted">Подключите хранилище для создания или загрузки базы.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>

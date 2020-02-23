@@ -87,7 +87,6 @@
     <string name="progress_create">إنشاء قاعدة بيانات جديدة …</string>
     <string name="protection">الحماية</string>
     <string name="read_only">للقراءة فقط</string>
-    <string name="recentfile_summary">تذكر أسماء الملفات المستخدمة مؤخرا</string>
     <string name="content_description_remove_from_list">حذف</string>
     <string name="root">الجذر</string>
     <string name="memory_usage">استخدام الذاكرة</string>
@@ -172,11 +171,8 @@
     <string name="omitbackup_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePassDX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
-    <string name="remember_keyfile_summary">تذكر موقع ملف المفتاح قاعدة البيانات</string>
-    <string name="remember_keyfile_title">حفظ الملف المفتاحي</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
     <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
-    <string name="warning_read_only">اسمح بالكتابة على بطاقة الذاكرة لحفظ التغيرات.</string>
     <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>

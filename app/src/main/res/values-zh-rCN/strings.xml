@@ -106,8 +106,6 @@
     <string name="open_recent">最近使用过的数据库</string>
     <string name="progress_create">正在创建新数据库…</string>
     <string name="progress_title">正在处理…</string>
-    <string name="remember_keyfile_summary">记住密钥文件的位置</string>
-    <string name="remember_keyfile_title">保存密钥文件</string>
     <string name="content_description_remove_from_list">移除</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
@@ -123,7 +121,6 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="warning_read_only">请授予 SD 卡写入权限以保存数据库。</string>
     <string name="warning_unmounted">请挂载SD卡以创建或加载数据库。</string>
     <string name="education_unlock_summary">输入密码和/或一个密钥文件来解锁你的数据库。 
 \n 
@@ -184,8 +181,8 @@
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">KeePassDX 需要写入权限以修改数据库。</string>
-    <string name="recentfile_title">最近文件历史</string>
-    <string name="recentfile_summary">记住最近使用的文件名</string>
+    <string name="show_recent_files_title">最近文件历史</string>
+    <string name="show_recent_files_summary">记住最近使用的文件名</string>
     <string name="encryption_explanation">加密所有数据时采用的算法。</string>
     <string name="kdf_explanation">将转换主密钥以生成加密数据库所需的密钥，转换方式为随机加盐算法。</string>
     <string name="memory_usage">内存使用量</string>

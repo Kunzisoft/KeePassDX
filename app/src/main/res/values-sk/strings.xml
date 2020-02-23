@@ -109,8 +109,6 @@
     <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="progress_create">Vytváram novú databázu…</string>
     <string name="progress_title">Pracujem…</string>
-    <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
-    <string name="remember_keyfile_title">Uložiť keyfile</string>
     <string name="content_description_remove_from_list">Odstrániť</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
