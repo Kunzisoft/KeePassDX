@@ -308,7 +308,7 @@ open class PasswordActivity : StylishActivity() {
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
 
-        mForceReadOnly = UriUtil.isUriReadOnly(contentResolver, databaseUri)
+        mForceReadOnly = UriUtil.isUriNotWritable(contentResolver, databaseUri)
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
