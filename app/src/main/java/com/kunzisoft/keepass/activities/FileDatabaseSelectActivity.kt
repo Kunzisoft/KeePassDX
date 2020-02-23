@@ -277,8 +277,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
         // Construct adapter with listeners
         if (PreferencesUtil.showRecentFiles(this)) {
             mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
-                databaseFileHistoryList?.let {
-                    mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
+                databaseFileHistoryList?.let { historyList ->
+                    val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(this@FileDatabaseSelectActivity)
+                    mAdapterDatabaseHistory?.addDatabaseFileHistoryList(
+                            // Show only uri accessible
+                            historyList.filter {
+                                if (hideBrokenLocations) {
+                                    UriUtil.parse(it.databaseUri)?.let { historyUri ->
+                                        UriUtil.isUriAccessible(contentResolver, historyUri)
+                                    } ?: false
+                                } else
+                                    true
+                            })
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
                     updateFileListVisibility()
                 }

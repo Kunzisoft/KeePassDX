@@ -132,6 +132,12 @@
             android:dependency="@string/remember_database_locations_key"
             android:defaultValue="@bool/show_recent_files_default"/>
         <SwitchPreference
+            android:key="@string/hide_broken_locations_key"
+            android:title="@string/hide_broken_locations_title"
+            android:summary="@string/hide_broken_locations_summary"
+            android:dependency="@string/show_recent_files_key"
+            android:defaultValue="@bool/hide_broken_locations_default"/>
+        <SwitchPreference
             android:key="@string/remember_keyfile_locations_key"
             android:title="@string/remember_keyfile_locations_title"
             android:summary="@string/remember_keyfile_locations_summary"

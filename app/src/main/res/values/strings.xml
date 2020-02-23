@@ -207,6 +207,8 @@
     <string name="remember_database_locations_summary">Remember the location of databases</string>
     <string name="show_recent_files_title">Show recent files</string>
     <string name="show_recent_files_summary">Show locations of recent databases</string>
+    <string name="hide_broken_locations_title">Hide broken database links</string>
+    <string name="hide_broken_locations_summary">Hide broken links in the list of recent databases</string>
     <string name="remember_keyfile_locations_title">Save location of keyfiles</string>
     <string name="remember_keyfile_locations_summary">Remember the location of databases keyfiles</string>
     <string name="root">Root</string>

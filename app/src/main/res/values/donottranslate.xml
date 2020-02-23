@@ -87,6 +87,8 @@
     <bool name="remember_database_locations_default" translatable="false">true</bool>
     <string name="show_recent_files_key" translatable="false">show_recent_files_key</string>
     <bool name="show_recent_files_default" translatable="false">true</bool>
+    <string name="hide_broken_locations_key" translatable="false">hide_broken_locations_key</string>
+    <bool name="hide_broken_locations_default" translatable="false">true</bool>
     <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
     <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>

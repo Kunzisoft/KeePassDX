@@ -40,6 +40,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.show_recent_files_default))
     }
 
+    fun hideBrokenLocations(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.hide_broken_locations_key),
+                context.resources.getBoolean(R.bool.hide_broken_locations_default))
+    }
+
     fun rememberKeyFileLocations(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.remember_keyfile_locations_key),
