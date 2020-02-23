@@ -126,6 +126,12 @@
             android:summary="@string/remember_database_locations_summary"
             android:defaultValue="@bool/remember_database_locations_default"/>
         <SwitchPreference
+            android:key="@string/remember_keyfile_locations_key"
+            android:title="@string/remember_keyfile_locations_title"
+            android:summary="@string/remember_keyfile_locations_summary"
+            android:dependency="@string/remember_database_locations_key"
+            android:defaultValue="@bool/remember_keyfile_locations_default"/>
+        <SwitchPreference
             android:key="@string/show_recent_files_key"
             android:title="@string/show_recent_files_title"
             android:summary="@string/show_recent_files_summary"
@@ -137,12 +143,6 @@
             android:summary="@string/hide_broken_locations_summary"
             android:dependency="@string/show_recent_files_key"
             android:defaultValue="@bool/hide_broken_locations_default"/>
-        <SwitchPreference
-            android:key="@string/remember_keyfile_locations_key"
-            android:title="@string/remember_keyfile_locations_title"
-            android:summary="@string/remember_keyfile_locations_summary"
-            android:dependency="@string/remember_database_locations_key"
-            android:defaultValue="@bool/remember_keyfile_locations_default"/>
 
     </PreferenceCategory>
 
