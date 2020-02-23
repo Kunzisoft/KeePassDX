@@ -187,6 +187,7 @@ open class PasswordActivity : StylishActivity() {
                         removePassword()
 
                         if (result.isSuccess) {
+                            setEmptyViews()
                             launchGroupActivity()
                         } else {
                             var resultError = ""
