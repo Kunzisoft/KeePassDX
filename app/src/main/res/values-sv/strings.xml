@@ -121,8 +121,6 @@
     <string name="progress_create">Skapar ny databas…</string>
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>
-    <string name="remember_keyfile_summary">Kommer ihåg sökvägar till databasers nyckelfiler</string>
-    <string name="remember_keyfile_title">Spara nyckelfil</string>
     <string name="content_description_remove_from_list">Ta bort</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
@@ -192,8 +190,6 @@
     <string name="menu_form_filling_settings">Formulär-ifyllning</string>
     <string name="read_only">Skrivskyddad</string>
     <string name="read_only_warning">KeePass DX behöver skrivbehörighet för att ändra något i din databas.</string>
-    <string name="recentfile_title">Senaste filhistorik</string>
-    <string name="recentfile_summary">Kom ihåg senaste filnamn</string>
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen.</string>
     <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>

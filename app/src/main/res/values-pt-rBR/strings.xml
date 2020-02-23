@@ -109,8 +109,6 @@
     <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
-    <string name="remember_keyfile_summary">Lembra o local dos arquivos-chave dos bancos de dados</string>
-    <string name="remember_keyfile_title">Salvar arquivo de chave</string>
     <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
@@ -177,8 +175,8 @@
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
-    <string name="recentfile_title">Histórico de arquivos recentes</string>
-    <string name="recentfile_summary">Lembrar nomes recentes de arquivos</string>
+    <string name="show_recent_files_title">Histórico de arquivos recentes</string>
+    <string name="show_recent_files_summary">Lembrar nomes recentes de arquivos</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre é transformada usando uma função de derivação de chave.</string>
     <string name="memory_usage">Uso de memória</string>

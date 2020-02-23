@@ -123,10 +123,6 @@
     <string name="protection">Protezione</string>
     <string name="read_only">Sola lettura</string>
     <string name="read_only_warning">KeePassDX richiede l\'autorizzazione di scrittura per poter modificare il tuo database.</string>
-    <string name="recentfile_title">Cronologia file recenti</string>
-    <string name="recentfile_summary">Ricorda i file recenti</string>
-    <string name="remember_keyfile_summary">Ricorda la posizione dei file chiave dei database</string>
-    <string name="remember_keyfile_title">Salva il file chiave</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="root">Root</string>
     <string name="rounds">Livello cifratura</string>

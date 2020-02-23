@@ -109,8 +109,6 @@
     <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="progress_create">データベースファイルを作成中…</string>
     <string name="progress_title">実行中…</string>
-    <string name="remember_keyfile_summary">前回使用したキーファイルを次回も表示します</string>
-    <string name="remember_keyfile_title">キーファイルを記憶</string>
     <string name="content_description_remove_from_list">消去</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
@@ -181,8 +179,6 @@
     <string name="protection">保護</string>
     <string name="read_only">書き込み保護</string>
     <string name="read_only_warning">KeePassDX は、データベースを変更するために書き込みアクセス許可が必要です。</string>
-    <string name="recentfile_title">最近使用したファイルの履歴</string>
-    <string name="recentfile_summary">最近使用したファイル名を記憶します</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズム。</string>
     <string name="sort_menu">並び順</string>
     <string name="sort_ascending">昇順</string>

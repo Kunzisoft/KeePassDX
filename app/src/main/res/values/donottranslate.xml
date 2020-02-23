@@ -83,10 +83,12 @@
     <bool name="maskpass_default" translatable="false">true</bool>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
-    <string name="recentfile_key" translatable="false">recentfile</string>
-    <bool name="recentfile_default" translatable="false">true</bool>
-    <string name="keyfile_key" translatable="false">keyfile</string>
-    <bool name="keyfile_default" translatable="false">true</bool>
+    <string name="remember_database_locations_key" translatable="false">remember_database_locations_key</string>
+    <bool name="remember_database_locations_default" translatable="false">true</bool>
+    <string name="show_recent_files_key" translatable="false">show_recent_files_key</string>
+    <bool name="show_recent_files_default" translatable="false">true</bool>
+    <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
+    <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>

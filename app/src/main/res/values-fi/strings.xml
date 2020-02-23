@@ -121,10 +121,6 @@
     <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
     <string name="progress_title">Työskennellään&#8230;</string>
     <string name="protection">Suojaus</string>
-    <string name="recentfile_title">Viimeisten tiedostojen lista</string>
-    <string name="recentfile_summary">Muista viimeksi käytettyjen tiedostojen nimet</string>
-    <string name="remember_keyfile_summary">Muista avaintiedostojen sijainti</string>
-    <string name="remember_keyfile_title">Tallenna avaintiedosto</string>
     <string name="content_description_remove_from_list">Poista</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>

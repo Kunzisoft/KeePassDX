@@ -52,6 +52,7 @@ import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
@@ -274,12 +275,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
         updateExternalStorageWarning()
 
         // Construct adapter with listeners
-        mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
-            databaseFileHistoryList?.let {
-                mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
-                updateFileListVisibility()
-                mAdapterDatabaseHistory?.notifyDataSetChanged()
+        if (PreferencesUtil.showRecentFiles(this)) {
+            mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
+                databaseFileHistoryList?.let {
+                    mAdapterDatabaseHistory?.addDatabaseFileHistoryList(it)
+                    mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    updateFileListVisibility()
+                }
             }
+        } else {
+            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
+            mAdapterDatabaseHistory?.notifyDataSetChanged()
+            updateFileListVisibility()
         }
 
         // Register progress task

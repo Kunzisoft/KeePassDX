@@ -132,10 +132,6 @@
     <string name="protection">Protection</string>
     <string name="read_only">Protégé en écriture</string>
     <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
-    <string name="recentfile_title">Historique de fichiers récents</string>
-    <string name="recentfile_summary">Mémorise les noms des fichiers récents</string>
-    <string name="remember_keyfile_summary">Mémorise l’emplacement des fichiers clé des bases de données</string>
-    <string name="remember_keyfile_title">Enregistrer le fichier clé</string>
     <string name="content_description_remove_from_list">Supprimer</string>
     <string name="root">Racine</string>
     <string name="encryption_explanation">Algorithme de chiffrement de la base de données utilisé pour toutes les données.</string>

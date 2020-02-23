@@ -108,10 +108,6 @@
     <string name="omitbackup_summary">Pomija grupy „Kopia zapasowa” i „Kosz” w wynikach wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
-    <string name="recentfile_title">Najnowsza historia plików</string>
-    <string name="recentfile_summary">Zapamiętaj najnowsze nazwy plików</string>
-    <string name="remember_keyfile_summary">Zapamiętuje lokalizację plików kluczy baz danych</string>
-    <string name="remember_keyfile_title">Zapisz plik klucza</string>
     <string name="content_description_remove_from_list">Usuń</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>

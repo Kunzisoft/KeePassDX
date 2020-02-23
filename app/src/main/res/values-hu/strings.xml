@@ -123,10 +123,6 @@
     <string name="protection">Védelem</string>
     <string name="read_only">Írásvédett</string>
     <string name="read_only_warning">A KeePassDX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
-    <string name="recentfile_title">Előző fájlok előzményei</string>
-    <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
-    <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>
-    <string name="remember_keyfile_title">Kulcsfájl mentése</string>
     <string name="content_description_remove_from_list">Eltávolítás</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>

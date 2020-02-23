@@ -122,10 +122,6 @@
     <string name="progress_create">Datubase berria sortzen…</string>
     <string name="progress_title">Lanean…</string>
     <string name="protection">Babesa</string>
-    <string name="recentfile_title">Duela gutxiko fitxategien historia</string>
-    <string name="recentfile_summary">Gogoratu duela gutxi erabili diren fitxategien izenak</string>
-    <string name="remember_keyfile_summary">Gogoratu gako fitxategien kokapenak</string>
-    <string name="remember_keyfile_title">Gako fitxategia gorde</string>
     <string name="content_description_remove_from_list">Ezabatu</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>

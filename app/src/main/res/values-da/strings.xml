@@ -122,10 +122,6 @@
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
     <string name="read_only_warning">KeePassDX behøver skrivetilladelse for at ændre i databasen.</string>
-    <string name="recentfile_title">Seneste filhistorik</string>
-    <string name="recentfile_summary">Husk de seneste filnavne</string>
-    <string name="remember_keyfile_summary">Husker placeringen af databasernøglefiler</string>
-    <string name="remember_keyfile_title">Gem nøglefil</string>
     <string name="content_description_remove_from_list">Fjern</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Rod</string>

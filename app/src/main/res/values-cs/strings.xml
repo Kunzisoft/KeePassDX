@@ -123,10 +123,6 @@
     <string name="progress_title">Zpracování…</string>
     <string name="protection">Ochrana</string>
     <string name="read_only_warning">Ke změně v databázi potřebuje KeePassDX oprávnění pro zápis.</string>
-    <string name="recentfile_title">Historie nedávných souborů</string>
-    <string name="recentfile_summary">Pamatovat si nedávno otevřené soubory</string>
-    <string name="remember_keyfile_summary">Pamatovat si umístění souborů s klíči</string>
-    <string name="remember_keyfile_title">Uložit soubor s klíčem</string>
     <string name="content_description_remove_from_list">Odstranit</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Kořen</string>

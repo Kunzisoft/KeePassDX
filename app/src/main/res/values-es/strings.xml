@@ -106,15 +106,11 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir este URL.</string>
-    <string name="recentfile_title">Historial de archivos recientes</string>
-    <string name="recentfile_summary">Recordar nombres de archivos recientes</string>
     <string name="open_recent">Bases de datos recientes</string>
     <string name="omitbackup_title">No buscar en las entradas de respaldo</string>
     <string name="omitbackup_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
     <string name="progress_title">Trabajando…</string>
-    <string name="remember_keyfile_summary">Recuerda la ubicación de los archivos de clave de bases de datos</string>
-    <string name="remember_keyfile_title">Guardando archivo de clave</string>
     <string name="content_description_remove_from_list">Quitar</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>

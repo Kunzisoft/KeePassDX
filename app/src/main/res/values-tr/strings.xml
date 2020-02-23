@@ -144,10 +144,6 @@
     <string name="protection">Koruma</string>
     <string name="read_only">Yazma korumalı</string>
     <string name="read_only_warning">Veritabanınızdaki herhangi bir şeyi değiştirmek için KeePassDX\'in yazma iznine ihtiyacı var.</string>
-    <string name="recentfile_title">Son dosya geçmişi</string>
-    <string name="recentfile_summary">Son dosya adlarını hatırla</string>
-    <string name="remember_keyfile_summary">Veritabanı anahtar dosyaların yerini hatırlar</string>
-    <string name="remember_keyfile_title">Anahtar dosya kaydet</string>
     <string name="content_description_remove_from_list">Kaldır</string>
     <string name="root">Kök</string>
     <string name="encryption_explanation">Tüm veriler için veritabanı şifreleme algoritması kullanılmıştır.</string>

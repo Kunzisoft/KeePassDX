@@ -155,6 +155,10 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         return listDatabaseFiles.size
     }
 
+    fun clearDatabaseFileHistoryList() {
+        listDatabaseFiles.clear()
+    }
+
     fun addDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<FileDatabaseHistoryEntity>) {
         listDatabaseFiles.clear()
         listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)

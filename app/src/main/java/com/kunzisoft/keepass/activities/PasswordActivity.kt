@@ -117,7 +117,7 @@ open class PasswordActivity : StylishActivity() {
 
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFiles(this)
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         setContentView(R.layout.activity_password)
 

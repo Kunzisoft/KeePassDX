@@ -111,8 +111,6 @@
     <string name="omitbackup_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Bezig met creëren van nieuwe databank…</string>
     <string name="progress_title">Bezig met verwerken…</string>
-    <string name="remember_keyfile_summary">Locatie van databank-sleutelbestanden onthouden</string>
-    <string name="remember_keyfile_title">Sleutelbestand opslaan</string>
     <string name="content_description_remove_from_list">Verwijderen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Hoofdmap</string>
@@ -184,8 +182,8 @@
     <string name="protection">Beveiliging</string>
     <string name="read_only">Alleen-lezen</string>
     <string name="read_only_warning">KeePassDX moet worden gemachtigd om je databank te kunnen aanpassen.</string>
-    <string name="recentfile_title">Recente bestandgeschiedenis</string>
-    <string name="recentfile_summary">Recent gebruikte bestandsnamen onthouden</string>
+    <string name="show_recent_files_title">Recente bestandgeschiedenis</string>
+    <string name="show_recent_files_summary">Recent gebruikte bestandsnamen onthouden</string>
     <string name="encryption_explanation">Het algoritme dat moet worden gebruikt om de gehele databank te versleutelen.</string>
     <string name="kdf_explanation">Om de sleutel voor het algoritme te kunnen genereren, wordt de hoofdsleutel getransformeerd middels een willekeurige afleidingsfunctie.</string>
     <string name="memory_usage">Geheugengebruik</string>

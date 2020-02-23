@@ -28,10 +28,22 @@ import java.util.*
 
 object PreferencesUtil {
 
-    fun rememberKeyFiles(context: Context): Boolean {
+    fun rememberDatabaseLocations(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyfile_key),
-                context.resources.getBoolean(R.bool.keyfile_default))
+        return prefs.getBoolean(context.getString(R.string.remember_database_locations_key),
+                context.resources.getBoolean(R.bool.remember_database_locations_default))
+    }
+
+    fun showRecentFiles(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_recent_files_key),
+                context.resources.getBoolean(R.bool.show_recent_files_default))
+    }
+
+    fun rememberKeyFileLocations(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.remember_keyfile_locations_key),
+                context.resources.getBoolean(R.bool.remember_keyfile_locations_default))
     }
 
     fun omitBackup(context: Context): Boolean {

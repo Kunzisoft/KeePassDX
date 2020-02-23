@@ -123,10 +123,6 @@
     <string name="protection">Защита</string>
     <string name="read_only">Только чтение</string>
     <string name="read_only_warning">KeePassDX необходимо разрешение на запись, чтобы иметь возможность изменить что-либо в вашей базе.</string>
-    <string name="recentfile_title">Базы паролей</string>
-    <string name="recentfile_summary">Хранить имена недавно открытых баз</string>
-    <string name="remember_keyfile_summary">Хранить пути к файлам ключей</string>
-    <string name="remember_keyfile_title">Файлы ключей</string>
     <string name="content_description_remove_from_list">Убрать из списка</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">База</string>
