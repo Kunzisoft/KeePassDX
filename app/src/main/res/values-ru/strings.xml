@@ -58,7 +58,7 @@
     <string name="entry_save">Сохранить</string>
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
-    <string name="entry_user_name">Имя</string>
+    <string name="entry_user_name">Имя пользователя</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
     <string name="error_file_not_create">Невозможно создать файл:</string>
@@ -308,7 +308,7 @@
     <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
-    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
+    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>с открытым исходным кодом</strong> и <strong>свободно от лицензирования</strong>. Оно <strong>не хранит ваши личные данные</strong> на своих серверах независимо от того, какую версию (бесплатную или профессиональную) вы используете.</string>
     <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным стилям</strong> и особенно поможете <strong>реализации общественных проектов</strong>.</string>
     <string name="html_text_feature_generosity">Эти <strong>визуальные стили</strong> доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад</strong>.</string>
