@@ -35,7 +35,7 @@
     <string name="beta_dontask">Do not show again</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
-    <string name="file_manager_install_description">A file manager is needed to create, open and save database files.</string>
+    <string name="file_manager_install_description">A file manager that can create, open and save database files when started from another app is needed.</string>
     <string name="allow">Allow</string>
     <string name="clipboard_cleared">Clipboard cleared</string>
     <string name="clipboard_error_title">Clipboard error</string>
