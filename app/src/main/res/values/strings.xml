@@ -202,7 +202,7 @@
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">Generate new UUIDs for duplicates to continue?</string>
+    <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="selection_mode">Selection mode</string>
     <string name="recentfile_title">Recent file history</string>
     <string name="recentfile_summary">Remember recent filenames</string>
