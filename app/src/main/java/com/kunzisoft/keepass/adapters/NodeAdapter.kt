@@ -118,7 +118,7 @@ class NodeAdapter
         taTextColor.recycle()
     }
 
-    private fun assignPreferences() {
+    fun assignPreferences() {
         this.prefTextSize = PreferencesUtil.getListTextSize(context)
         this.infoTextSize = context.resources.getDimension(R.dimen.list_medium_size_default) * prefTextSize
         this.subtextSize = context.resources.getDimension(R.dimen.list_small_size_default) * prefTextSize

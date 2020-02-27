@@ -194,7 +194,10 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         // Refresh data
-        mAdapter?.notifyDataSetChanged()
+        mAdapter?.apply {
+            assignPreferences()
+            notifyDataSetChanged()
+        }
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
