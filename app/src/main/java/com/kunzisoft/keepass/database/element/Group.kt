@@ -187,6 +187,12 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return contained ?: false
     }
 
+    override fun nodeIndexInParentForNaturalOrder(): Int {
+        return groupKDB?.nodeIndexInParentForNaturalOrder()
+                ?: groupKDBX?.nodeIndexInParentForNaturalOrder()
+                ?: -1
+    }
+
     override var creationTime: DateInstant
         get() = groupKDB?.creationTime ?: groupKDBX?.creationTime ?: DateInstant()
         set(value) {
@@ -225,62 +231,58 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
     override val isCurrentlyExpires: Boolean
         get() = groupKDB?.isCurrentlyExpires ?: groupKDBX?.isCurrentlyExpires ?: false
 
-    override fun getChildGroups(): MutableList<Group> {
-        val children = ArrayList<Group>()
-
-        groupKDB?.getChildGroups()?.forEach {
-            children.add(Group(it))
-        }
-        groupKDBX?.getChildGroups()?.forEach {
-            children.add(Group(it))
-        }
-
-        return children
+    override fun getChildGroups(): List<Group> {
+        return groupKDB?.getChildGroups()?.map {
+            Group(it)
+        } ?:
+        groupKDBX?.getChildGroups()?.map {
+            Group(it)
+        } ?:
+        ArrayList()
     }
 
-    override fun getChildEntries(): MutableList<Entry> {
-        // To cal function with vararg
-        return getChildEntries(*emptyArray<ChildFilter>())
+    override fun getChildEntries(): List<Entry> {
+        return groupKDB?.getChildEntries()?.map {
+            Entry(it)
+        } ?:
+        groupKDBX?.getChildEntries()?.map {
+            Entry(it)
+        } ?:
+        ArrayList()
     }
 
-    fun getChildEntries(vararg filter: ChildFilter): MutableList<Entry> {
-        val children = ArrayList<Entry>()
-
+    fun getFilteredChildEntries(vararg filter: ChildFilter): List<Entry> {
         val withoutMetaStream = filter.contains(ChildFilter.META_STREAM)
         val showExpiredEntries = !filter.contains(ChildFilter.EXPIRED)
 
-        groupKDB?.getChildEntries()?.forEach {
-            val entryToAddAsChild = Entry(it)
-            if ((!withoutMetaStream || (withoutMetaStream && !entryToAddAsChild.isMetaStream))
-                    && (!entryToAddAsChild.isCurrentlyExpires or showExpiredEntries))
-                children.add(entryToAddAsChild)
-        }
-        groupKDBX?.getChildEntries()?.forEach {
-            val entryToAddAsChild = Entry(it)
-            if (!entryToAddAsChild.isCurrentlyExpires or showExpiredEntries)
-                children.add(entryToAddAsChild)
-        }
+        return groupKDB?.getChildEntries()?.filter {
+            (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream))
+                    && (!it.isCurrentlyExpires or showExpiredEntries)
+        }?.map {
+            Entry(it)
+        } ?:
+        groupKDBX?.getChildEntries()?.filter {
+            !it.isCurrentlyExpires or showExpiredEntries
+        }?.map {
+            Entry(it)
+        } ?:
+        ArrayList()
+    }
 
-        return children
+    fun getNumberOfChildEntries(vararg filter: ChildFilter): Int {
+        return getFilteredChildEntries(*filter).size
     }
 
     /**
      * Filter entries and return children
      * @return List of direct children (one level below) as NodeVersioned
      */
-    fun getChildren(vararg filter: ChildFilter): List<Node> {
-        val children = ArrayList<Node>()
-        children.addAll(getChildGroups())
+    fun getChildren(): List<Node> {
+        return getChildGroups() + getChildEntries()
+    }
 
-        groupKDB?.let {
-            children.addAll(getChildEntries(*filter))
-        }
-        groupKDBX?.let {
-            // No MetasStream in V4
-            children.addAll(getChildEntries(*filter))
-        }
-
-        return children
+    fun getFilteredChildren(vararg filter: ChildFilter): List<Node> {
+        return getChildGroups() + getFilteredChildEntries(*filter)
     }
 
     override fun addChildGroup(group: Group) {

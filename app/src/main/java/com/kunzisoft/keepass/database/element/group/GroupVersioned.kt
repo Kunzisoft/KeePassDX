@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.element.group
 import android.os.Parcel
 import com.kunzisoft.keepass.database.element.entry.EntryVersioned
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
+import java.util.*
 
 abstract class GroupVersioned
         <
@@ -34,9 +35,10 @@ abstract class GroupVersioned
 
     private var titleGroup = ""
     @Transient
-    private val childGroups = ArrayList<Group>()
+    private val childGroups = LinkedList<Group>()
     @Transient
-    private val childEntries = ArrayList<Entry>()
+    private val childEntries = LinkedList<Entry>()
+    private var positionIndexChildren = 0
 
     constructor() : super()
 
@@ -52,9 +54,8 @@ abstract class GroupVersioned
     protected fun updateWith(source: GroupVersioned<GroupId, EntryId, Group, Entry>) {
         super.updateWith(source)
         titleGroup = source.titleGroup
-        childGroups.clear()
+        removeChildren()
         childGroups.addAll(source.childGroups)
-        childEntries.clear()
         childEntries.addAll(source.childEntries)
     }
 
@@ -62,23 +63,27 @@ abstract class GroupVersioned
         get() = titleGroup
         set(value) { titleGroup = value }
 
-    override fun getChildGroups(): MutableList<Group> {
+    override fun getChildGroups(): List<Group> {
         return childGroups
     }
 
-    override fun getChildEntries(): MutableList<Entry> {
+    override fun getChildEntries(): List<Entry> {
         return childEntries
     }
 
     override fun addChildGroup(group: Group) {
         if (childGroups.contains(group))
             removeChildGroup(group)
+        positionIndexChildren++
+        group.nodeIndexInParentForNaturalOrder = positionIndexChildren
         this.childGroups.add(group)
     }
 
     override fun addChildEntry(entry: Entry) {
         if (childEntries.contains(entry))
             removeChildEntry(entry)
+        positionIndexChildren++
+        entry.nodeIndexInParentForNaturalOrder = positionIndexChildren
         this.childEntries.add(entry)
     }
 
@@ -93,6 +98,13 @@ abstract class GroupVersioned
     override fun removeChildren() {
         this.childGroups.clear()
         this.childEntries.clear()
+    }
+
+    override fun nodeIndexInParentForNaturalOrder(): Int {
+        return if (nodeIndexInParentForNaturalOrder == -1)
+            childGroups.indexOf(this)
+        else
+            nodeIndexInParentForNaturalOrder
     }
 
     override fun toString(): String {

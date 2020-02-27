@@ -415,7 +415,7 @@ class Database {
         val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchResult != null) {
             // Search in hide entries but not meta-stream
-            for (entry in searchResult.getChildEntries(*Group.ChildFilter.getDefaults(context))) {
+            for (entry in searchResult.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }

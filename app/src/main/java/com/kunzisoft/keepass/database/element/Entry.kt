@@ -160,6 +160,12 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return contained ?: false
     }
 
+    override fun nodeIndexInParentForNaturalOrder(): Int {
+        return entryKDB?.nodeIndexInParentForNaturalOrder()
+                ?: entryKDBX?.nodeIndexInParentForNaturalOrder()
+                ?: -1
+    }
+
     override var creationTime: DateInstant
         get() = entryKDB?.creationTime ?: entryKDBX?.creationTime ?: DateInstant()
         set(value) {
