@@ -28,6 +28,7 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
@@ -37,6 +38,8 @@ class EntryAttachmentsAdapter(val context: Context) : RecyclerView.Adapter<Entry
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
     var onItemClickListener: ((item: EntryAttachment, position: Int)->Unit)? = null
+
+    private val mDatabase = Database.getInstance()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryBinariesViewHolder {
         return EntryBinariesViewHolder(inflater.inflate(R.layout.item_attachment, parent, false))
@@ -49,7 +52,8 @@ class EntryAttachmentsAdapter(val context: Context) : RecyclerView.Adapter<Entry
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
                 entryAttachment.binaryAttachment.length())
         holder.binaryFileCompression.apply {
-            if (entryAttachment.binaryAttachment.isCompressed == true) {
+            if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
+                    || entryAttachment.binaryAttachment.isCompressed == true) {
                 text = CompressionAlgorithm.GZip.getName(context.resources)
                 visibility = View.VISIBLE
             } else {
