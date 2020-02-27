@@ -1,3 +1,4 @@
  * Nouveau paramètre pour cacher les liens de base de données brisés
  * Correction des paramètres pour les emplacements de base de données
  * Correction d'un message d'erreur lorsque le fichier de base de données n'est pas accessible en écriture
+ * Correction des paramètres de rafraîchissement de l'apparence

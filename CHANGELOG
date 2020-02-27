@@ -2,6 +2,7 @@ KeepassDX (2.5.0.0beta27)
  * New setting to hide broken links
  * Fix settings for database locations
  * Fix error message when database file not writable
+ * Fix appearance refresh settings
 
 KeepassDX (2.5.0.0beta26)
  * Download attachments
