@@ -374,6 +374,8 @@ open class PasswordActivity : StylishActivity() {
         // If Activity is launch with a password and want to open directly
         val intent = intent
         val password = intent.getStringExtra(KEY_PASSWORD)
+        // Consume the intent extra password
+        intent.removeExtra(KEY_PASSWORD)
         val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
         if (password != null) {
             populatePasswordTextView(password)
