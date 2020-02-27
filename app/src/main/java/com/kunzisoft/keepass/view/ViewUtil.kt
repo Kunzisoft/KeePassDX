@@ -52,6 +52,11 @@ fun TextView.applyHiddenStyle(hide: Boolean) {
     }
 }
 
+fun TextView.setTextSize(unit: Int, defaultSize: Float, multiplier: Float) {
+    if (multiplier > 0.0F && multiplier != 1.0F)
+        setTextSize(unit, defaultSize * multiplier)
+}
+
 fun TextView.strikeOut(strikeOut: Boolean) {
     paintFlags = if (strikeOut)
         paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Paint
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -42,6 +41,7 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
 
@@ -58,11 +58,11 @@ class NodeAdapter
 
     private var calculateViewTypeTextSize = Array(2) { true} // number of view type
     private var textSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
-    private var prefTextSize: Float = 0F
-    private var subtextSize: Float = 0F
-    private var infoTextSize: Float = 0F
-    private var numberChildrenTextSize: Float = 0F
-    private var iconSize: Float = 0F
+    private var prefSizeMultiplier: Float = 0F
+    private var subtextDefaultDimension: Float = 0F
+    private var infoTextDefaultDimension: Float = 0F
+    private var numberChildrenTextDefaultDimension: Float = 0F
+    private var iconDefaultDimension: Float = 0F
     private var listSort: SortNodeEnum = SortNodeEnum.DB
     private var ascendingSort: Boolean = true
     private var groupsBeforeSort: Boolean = true
@@ -87,6 +87,11 @@ class NodeAdapter
         get() = nodeSortedList.size() <= 0
 
     init {
+        this.infoTextDefaultDimension = context.resources.getDimension(R.dimen.list_medium_size_default)
+        this.subtextDefaultDimension = context.resources.getDimension(R.dimen.list_small_size_default)
+        this.numberChildrenTextDefaultDimension = context.resources.getDimension(R.dimen.list_tiny_size_default)
+        this.iconDefaultDimension = context.resources.getDimension(R.dimen.list_icon_size_default)
+
         assignPreferences()
 
         this.nodeSortedList = SortedList(Node::class.java, object : SortedListAdapterCallback<Node>(this) {
@@ -119,11 +124,7 @@ class NodeAdapter
     }
 
     fun assignPreferences() {
-        this.prefTextSize = PreferencesUtil.getListTextSize(context)
-        this.infoTextSize = context.resources.getDimension(R.dimen.list_medium_size_default) * prefTextSize
-        this.subtextSize = context.resources.getDimension(R.dimen.list_small_size_default) * prefTextSize
-        this.numberChildrenTextSize = context.resources.getDimension(R.dimen.list_tiny_size_default) * prefTextSize
-        this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
+        this.prefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
         this.listSort = PreferencesUtil.getListSort(context)
         this.ascendingSort = PreferencesUtil.getAscendingSort(context)
@@ -291,15 +292,15 @@ class NodeAdapter
             assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
-                height = iconSize.toInt()
-                width = iconSize.toInt()
+                height = (iconDefaultDimension * prefSizeMultiplier).toInt()
+                width = (iconDefaultDimension * prefSizeMultiplier).toInt()
             }
         }
 
         // Assign text
         holder.text.apply {
             text = subNode.title
-            setTextSize(textSizeUnit, infoTextSize)
+            setTextSize(textSizeUnit, infoTextDefaultDimension, prefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
         }
         // Add subText with username
@@ -320,7 +321,7 @@ class NodeAdapter
                 if (showUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
-                    setTextSize(textSizeUnit, subtextSize)
+                    setTextSize(textSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
                 }
             }
 
@@ -334,7 +335,7 @@ class NodeAdapter
                     text = (subNode as Group)
                             .getChildEntries(*entryFilters)
                             .size.toString()
-                    setTextSize(textSizeUnit, numberChildrenTextSize)
+                    setTextSize(textSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
             } else {
@@ -352,7 +353,6 @@ class NodeAdapter
 
         holder.container.isSelected = actionNodesList.contains(subNode)
     }
-
     
     override fun getItemCount(): Int {
         return nodeSortedList.size()
