@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">フィードバック</string>
-    <string name="about_homepage">ホームページ</string>
+    <string name="feedback">フィードバック</string>
+    <string name="homepage">ホームページ</string>
     <string name="about_description">KeePass パスワードマネージャーの Android 実装</string>
     <string name="accept">決定</string>
     <string name="add_entry">エントリーを追加</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">データベースを解析中…</string>
     <string name="default_checkbox">このデータベースを次回以降も利用する</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
     <string name="select_database_file">データベースファイル</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_cancel">キャンセル</string>
@@ -87,7 +87,7 @@
     <string name="lowercase">英数小文字</string>
     <string name="maskpass_title">パスワードを隠す</string>
     <string name="maskpass_summary">パスワード欄をアスタリスクで表示します</string>
-    <string name="menu_about">About</string>
+    <string name="about">About</string>
     <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
     <string name="menu_database_settings">データベース設定</string>

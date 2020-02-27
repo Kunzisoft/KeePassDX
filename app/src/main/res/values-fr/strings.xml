@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Commentaires</string>
-    <string name="about_homepage">Page d’accueil</string>
+    <string name="feedback">Commentaires</string>
+    <string name="homepage">Page d’accueil</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Ajouter une entrée</string>
@@ -49,7 +49,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft n’offre absolument aucune garantie. Il s’agit d’un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v3 ou ultérieure.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft n’offre absolument aucune garantie. Il s’agit d’un logiciel libre, vous pouvez le redistribuer sous les conditions de la licence GPL v3 ou ultérieure.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -104,7 +104,7 @@
     <string name="lowercase">Minuscules</string>
     <string name="maskpass_title">Masquer les mots de passe</string>
     <string name="maskpass_summary">Masque les mots de passe (***) par défaut</string>
-    <string name="menu_about">À propos</string>
+    <string name="about">À propos</string>
     <string name="menu_change_key_settings">Modifier la clé principale</string>
     <string name="copy_field">%1$s copié</string>
     <string name="settings">Paramètres</string>

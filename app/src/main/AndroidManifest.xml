@@ -133,7 +133,7 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
             android:launchMode="singleTask"
-            android:label="@string/menu_about" />
+            android:label="@string/about" />
         <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
             android:configChanges="keyboardHidden" />

@@ -19,8 +19,8 @@
   
   Swedish translation by Niclas Burgren (burgren@gmail.com)
 --><resources>
-    <string name="about_feedback">Feedback</string>
-    <string name="about_homepage">Hemsida</string>
+    <string name="feedback">Feedback</string>
+    <string name="homepage">Hemsida</string>
     <string name="about_description">Android-implementation av KeePass password manager</string>
     <string name="accept">OK</string>
     <string name="add_entry">Ny post</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Dekrypterar databasinnehåll…</string>
     <string name="default_checkbox">Använd som standarddatabas</string>
     <string name="digits">Siffror</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kommer helt utan garantier. Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer helt utan garantier. Detta är fri programvara och du är välkommen att distribuera den utifrån villkoren i GPL version 3 eller senare.</string>
     <string name="select_database_file">Öppna befintlig databas</string>
     <string name="entry_accessed">Senast använd</string>
     <string name="entry_cancel">Avbryt</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">Gemener</string>
     <string name="maskpass_title">Dölj lösenord</string>
     <string name="maskpass_summary">Döljer lösenord (***) som standard</string>
-    <string name="menu_about">Om</string>
+    <string name="about">Om</string>
     <string name="menu_change_key_settings">Byt huvudnyckel</string>
     <string name="settings">Inställningar</string>
     <string name="menu_database_settings">Databasinställningar</string>

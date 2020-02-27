@@ -19,8 +19,8 @@
   
   Basque translation by David García-Abad, released under GPL V2.
 --><resources>
-    <string name="about_feedback">Feedback:</string>
-    <string name="about_homepage">Hasiera orria</string>
+    <string name="feedback">Feedback:</string>
+    <string name="homepage">Hasiera orria</string>
     <string name="about_description">Keepass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen…</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_cancel">Utzi</string>
@@ -99,7 +99,7 @@
     <string name="lowercase">minuskulak</string>
     <string name="maskpass_title">Pasahitza estali</string>
     <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
-    <string name="menu_about">Honi buruz</string>
+    <string name="about">Honi buruz</string>
     <string name="menu_change_key_settings">Gako Maisua Aldatu</string>
     <string name="settings">Ezarpenak</string>
     <string name="menu_database_settings">Datubasearen ezarpenak</string>

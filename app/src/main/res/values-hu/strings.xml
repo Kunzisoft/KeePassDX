@@ -18,8 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">Visszajelzés</string>
-    <string name="about_homepage">Honlap</string>
+    <string name="feedback">Visszajelzés</string>
+    <string name="homepage">Honlap</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
     <string name="select_database_file">Létező adatbázis megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">Kisbetűk</string>
     <string name="maskpass_title">Jelszavak elrejtése</string>
     <string name="maskpass_summary">Jelszavak alapértelmezett elrejtése (***)</string>
-    <string name="menu_about">Névjegy</string>
+    <string name="about">Névjegy</string>
     <string name="menu_change_key_settings">Mesterkulcs cseréje</string>
     <string name="settings">Beállítások</string>
     <string name="menu_database_settings">Adatbázis-beállítások</string>

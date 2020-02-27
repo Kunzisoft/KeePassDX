@@ -19,8 +19,8 @@
 
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
 --><resources>
-    <string name="about_feedback">Tilbagemelding</string>
-    <string name="about_homepage">Hjemmeside</string>
+    <string name="feedback">Tilbagemelding</string>
+    <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
     <string name="accept">Accepter</string>
     <string name="add_entry">Tilføj post</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Dekrypterer databaseindhold…</string>
     <string name="default_checkbox">Brug som standarddatabase</string>
     <string name="digits">Cifre</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kommer med absolut ingen garanti. Det er fri software, og kan videredistribueres under betingelserne i GPL version 3 eller nyere.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer med absolut ingen garanti. Det er fri software, og kan videredistribueres under betingelserne i GPL version 3 eller nyere.</string>
     <string name="select_database_file">Åbn en eksisterende database</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">Små bogstaver</string>
     <string name="maskpass_title">Skjul adgangskoder</string>
     <string name="maskpass_summary">Masker adgangskoder (***) som standard</string>
-    <string name="menu_about">Om</string>
+    <string name="about">Om</string>
     <string name="menu_change_key_settings">Skift hovednøgle</string>
     <string name="settings">Indstillinger</string>
     <string name="menu_database_settings">Database indstillinger</string>

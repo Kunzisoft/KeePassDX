@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">反馈</string>
-    <string name="about_homepage">主页</string>
+    <string name="feedback">反馈</string>
+    <string name="homepage">主页</string>
     <string name="about_description">Android平台上的KeePass密码管理器</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft 应用绝对不带有担保。本应用是自由软件，您可在遵循 GPL 3 或者此开源协议的更高版本的情况下重新发布。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft 应用绝对不带有担保。本应用是自由软件，您可在遵循 GPL 3 或者此开源协议的更高版本的情况下重新发布。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -87,7 +87,7 @@
     <string name="lowercase">小写</string>
     <string name="maskpass_title">隐藏密码</string>
     <string name="maskpass_summary">默认使用星号 (***) 隐藏密码</string>
-    <string name="menu_about">关于</string>
+    <string name="about">关于</string>
     <string name="menu_change_key_settings">更改主密钥</string>
     <string name="settings">设置</string>
     <string name="menu_database_settings">数据库设置</string>

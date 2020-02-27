@@ -21,8 +21,8 @@
   
 -->
 <resources>
-    <string name="about_feedback">Comentaris:</string>
-    <string name="about_homepage">Pàgina inici:</string>
+    <string name="feedback">Comentaris:</string>
+    <string name="homepage">Pàgina inici:</string>
     <string name="about_description">KeePassDX és una implementació per Android de KeePass password manager.</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
     <string name="select_database_file">Introdueix el nom de la base de dades</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
@@ -91,7 +91,7 @@
     <string name="lowercase">Minúscules</string>
     <string name="maskpass_title">Emmascara contrasenya</string>
     <string name="maskpass_summary">Amaga les contrasenyes per defecte</string>
-    <string name="menu_about">Sobre</string>
+    <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Canvia Clau Mestra</string>
     <string name="settings">Paràmetres</string>
     <string name="menu_database_settings">Paràmetres de la base de dades</string>

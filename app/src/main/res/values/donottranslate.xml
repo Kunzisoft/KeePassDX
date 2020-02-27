@@ -32,8 +32,8 @@
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
-    <string name="homepage" translatable="false">https://www.keepassdx.com</string>
-    <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
+    <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
+    <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="file_manager_play_store" translatable="false">TODO file manager</string>
     <string name="file_manager_f_droid" translatable="false">TODO file manager</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>

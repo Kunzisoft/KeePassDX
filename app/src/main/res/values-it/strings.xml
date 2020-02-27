@@ -19,8 +19,8 @@
 
     Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
 --><resources>
-    <string name="about_feedback">Commenti</string>
-    <string name="about_homepage">Pagina web</string>
+    <string name="feedback">Commenti</string>
+    <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>
     <string name="accept">Accetto</string>
     <string name="add_entry">Aggiungi elemento</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">Minuscole</string>
     <string name="maskpass_title">Nascondi le password</string>
     <string name="maskpass_summary">Maschera le password (***) in modo predefinito</string>
-    <string name="menu_about">Informazioni</string>
+    <string name="about">Informazioni</string>
     <string name="menu_change_key_settings">Modifica chiave principale</string>
     <string name="settings">Impostazioni</string>
     <string name="menu_database_settings">Impostazioni database</string>

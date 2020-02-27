@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Informacje zwrotne</string>
-    <string name="about_homepage">Strona domowa</string>
+    <string name="feedback">Informacje zwrotne</string>
+    <string name="homepage">Strona domowa</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
     <string name="accept">Akceptuj</string>
     <string name="add_entry">Dodaj wpis</string>
@@ -86,7 +86,7 @@
     <string name="lowercase">Małe litery</string>
     <string name="maskpass_title">Ukryj hasła</string>
     <string name="maskpass_summary">Maskuj hasła (***) domyślnie</string>
-    <string name="menu_about">O programie</string>
+    <string name="about">O programie</string>
     <string name="menu_change_key_settings">Zmień klucz główny</string>
     <string name="settings">Ustawienia</string>
     <string name="menu_database_settings">Ustawienia bazy danych</string>
@@ -153,7 +153,7 @@
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>

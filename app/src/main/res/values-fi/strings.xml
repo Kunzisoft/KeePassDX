@@ -18,8 +18,8 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">Palaute:</string>
-    <string name="about_homepage">Kotisivu:</string>
+    <string name="feedback">Palaute:</string>
+    <string name="homepage">Kotisivu:</string>
     <string name="about_description">KeePassDX on KeePass-salasanahallintaohjelman Android-versio</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">pienet kirjaimet</string>
     <string name="maskpass_title">Piilota salasaan</string>
     <string name="maskpass_summary">Piilota salasanat oletuksena</string>
-    <string name="menu_about">Tietoa</string>
+    <string name="about">Tietoa</string>
     <string name="menu_change_key_settings">Vaihda pääsalasanaa</string>
     <string name="settings">Asetukset</string>
     <string name="menu_database_settings">Salasanatietokannan asetukset</string>

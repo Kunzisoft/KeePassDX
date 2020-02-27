@@ -18,7 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_homepage">الصفحة الرئيسية</string>
+    <string name="homepage">الصفحة الرئيسية</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
     <string name="encryption">التعمية</string>
@@ -68,7 +68,7 @@
     <string name="loading_database">يحمل قاعدة البيانات…</string>
     <string name="lowercase">حروف صغيرة</string>
     <string name="maskpass_summary">إخفاء كلمات المرور بشكل افتراضي</string>
-    <string name="menu_about">عن التطبيق</string>
+    <string name="about">عن التطبيق</string>
     <string name="menu_change_key_settings">تغيير المفتاح الرئيسي</string>
     <string name="settings">الإعدادات</string>
     <string name="menu_app_settings">إعدادات التطبيق</string>
@@ -114,7 +114,7 @@
     <string name="education_entry_new_field_title">إضافة حقول مخصصة</string>
     <string name="education_field_copy_title">نسخ حقل</string>
     <string name="education_lock_title">تأمين قاعدة البيانات</string>
-    <string name="about_feedback">الأصداء</string>
+    <string name="feedback">الأصداء</string>
     <string name="about_description">تنفيذ أندرويد لمدير كلمات السر «كي‌باس»</string>
     <string name="add_entry">إضافة مدخلة</string>
     <string name="edit_entry">تحرير مدخلة</string>
@@ -128,7 +128,7 @@
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="html_about_licence">KeePassDX © %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
     <string name="entry_accessed">نُفذ إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>

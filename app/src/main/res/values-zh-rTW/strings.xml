@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">回饋</string>
-    <string name="about_homepage">首頁</string>
+    <string name="feedback">回饋</string>
+    <string name="homepage">首頁</string>
     <string name="about_description">KeePass密碼管理軟體的Android版本。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">解密資料庫內容中…</string>
     <string name="default_checkbox">以此作為預設資料庫</string>
     <string name="digits">數字</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft；軟體不帶有任何擔保。這是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；軟體不帶有任何擔保。這是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。</string>
     <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
@@ -87,7 +87,7 @@
     <string name="lowercase">小寫</string>
     <string name="maskpass_title">密碼遮罩</string>
     <string name="maskpass_summary">預設隱藏密碼</string>
-    <string name="menu_about">關於</string>
+    <string name="about">關於</string>
     <string name="menu_change_key_settings">變更主密鑰</string>
     <string name="settings">設定</string>
     <string name="menu_database_settings">資料庫設定</string>

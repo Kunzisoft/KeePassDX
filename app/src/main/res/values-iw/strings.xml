@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><!-- translated by Arthur Zamarin<arthurzam@gmail.com>--><resources>
-    <string name="about_feedback">משוב</string>
-    <string name="about_homepage">דף הבית</string>
+    <string name="feedback">משוב</string>
+    <string name="homepage">דף הבית</string>
     <string name="about_description">KeePassDX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
@@ -95,7 +95,7 @@
     <string name="lowercase">אות קטנה</string>
     <string name="maskpass_title">מסיכת הסיסמה</string>
     <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
-    <string name="menu_about">אודות</string>
+    <string name="about">אודות</string>
     <string name="menu_change_key_settings">שנה מפתח ראשי</string>
     <string name="settings">העדפות</string>
     <string name="menu_database_settings">הגדרות מסד נתונים</string>

@@ -19,8 +19,8 @@
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 --><resources>
-    <string name="about_feedback">Commentario</string>
-    <string name="about_homepage">Página de inicio</string>
+    <string name="feedback">Commentario</string>
+    <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Añadir entrada</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilice como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePassDX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
+    <string name="html_about_licence">KeePassDX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
     <string name="select_database_file">Abrir base de datos existente</string>
     <string name="entry_accessed">Acceso</string>
     <string name="entry_cancel">Cancelar</string>
@@ -89,7 +89,7 @@
     <string name="lowercase">Minúsculas</string>
     <string name="maskpass_title">Ocultar contraseñas</string>
     <string name="maskpass_summary">Enmascarar contraseñas (***) de manera predeterminada</string>
-    <string name="menu_about">Acerca de</string>
+    <string name="about">Acerca de</string>
     <string name="menu_change_key_settings">Cambiar Contraseña Maestra</string>
     <string name="settings">Configuración</string>
     <string name="menu_database_settings">Configuración de Base de datos</string>

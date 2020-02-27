@@ -17,8 +17,10 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Feedback</string>
-    <string name="about_homepage">Homepage</string>
+    <string name="contact">Contact</string>
+    <string name="contribution">Contribution</string>
+    <string name="feedback">Feedback</string>
+    <string name="homepage">Homepage</string>
     <string name="about_description">Android implementation of the KeePass password manager</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Add entry</string>
@@ -70,7 +72,8 @@
     <string name="decrypting_db">Decrypting database content…</string>
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is libre software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;. \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
+    <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -156,7 +159,7 @@
     <string name="lowercase">Lower-case</string>
     <string name="maskpass_title">Hide passwords</string>
     <string name="maskpass_summary">Mask passwords (***) by default</string>
-    <string name="menu_about">About</string>
+    <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
     <string name="settings">Settings</string>

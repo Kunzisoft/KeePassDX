@@ -21,15 +21,15 @@ package com.kunzisoft.keepass.activities
 
 import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
+import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.MenuItem
 import android.widget.TextView
-
+import androidx.appcompat.widget.Toolbar
+import androidx.core.text.HtmlCompat
 import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
-
 import org.joda.time.DateTime
 
 class AboutActivity : StylishActivity() {
@@ -40,7 +40,7 @@ class AboutActivity : StylishActivity() {
         setContentView(R.layout.activity_about)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.title = getString(R.string.menu_about)
+        toolbar.title = getString(R.string.about)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
@@ -64,9 +64,17 @@ class AboutActivity : StylishActivity() {
         val buildTextView = findViewById<TextView>(R.id.activity_about_build)
         buildTextView.text = build
 
+        findViewById<TextView>(R.id.activity_about_licence_text).apply {
+            movementMethod = LinkMovementMethod.getInstance()
+            text = HtmlCompat.fromHtml(getString(R.string.html_about_licence, DateTime().year),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
 
-        val disclaimerText = findViewById<TextView>(R.id.disclaimer)
-        disclaimerText.text = getString(R.string.disclaimer_formal, DateTime().year)
+        findViewById<TextView>(R.id.activity_about_contribution_text).apply {
+            movementMethod = LinkMovementMethod.getInstance()
+            text = HtmlCompat.fromHtml(getString(R.string.html_about_contribution),
+                    HtmlCompat.FROM_HTML_MODE_LEGACY)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

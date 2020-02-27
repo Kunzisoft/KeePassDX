@@ -18,8 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">피드백</string>
-    <string name="about_homepage">홈페이지</string>
+    <string name="feedback">피드백</string>
+    <string name="homepage">홈페이지</string>
     <string name="about_description">KeePass 암호 관리자의 Android 구현본</string>
     <string name="accept">확인</string>
     <string name="add_entry">항목 추가</string>
@@ -49,7 +49,7 @@
     <string name="decrypting_db">데이터베이스 컨텐츠 암호 해독 중…</string>
     <string name="default_checkbox">기본 데이터베이스로 사용</string>
     <string name="digits">단위</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft는 보증이 적용되지 않습니다; 이것은 자유 소프트웨어이며, GPL 버전 3 또는 그 이상의 조건으로의 재배포를 환영합니다.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft는 보증이 적용되지 않습니다; 이것은 자유 소프트웨어이며, GPL 버전 3 또는 그 이상의 조건으로의 재배포를 환영합니다.</string>
     <string name="entry_accessed">접근됨</string>
     <string name="entry_cancel">취소</string>
     <string name="entry_notes">노트</string>
@@ -109,7 +109,7 @@
     <string name="lowercase">소문자</string>
     <string name="maskpass_title">비밀번호 숨기기</string>
     <string name="maskpass_summary">기본 비밀번호를 (***) 로 가리기</string>
-    <string name="menu_about">정보</string>
+    <string name="about">정보</string>
     <string name="menu_change_key_settings">마스터 키 바꾸기</string>
     <string name="copy_field">%1$s 복사됨</string>
     <string name="settings">설정</string>

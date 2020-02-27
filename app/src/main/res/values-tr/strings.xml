@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Geri Bildirim</string>
-    <string name="about_homepage">Ana sayfa</string>
+    <string name="feedback">Geri Bildirim</string>
+    <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
     <string name="accept">Kabul et</string>
     <string name="add_entry">Girdi Ekle</string>
@@ -64,7 +64,7 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">Arcfour akış şifresi desteklenmiyor.</string>
@@ -108,7 +108,7 @@
     <string name="lowercase">Küçük harf</string>
     <string name="maskpass_title">Parolaları gizle</string>
     <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
-    <string name="menu_about">Hakkında</string>
+    <string name="about">Hakkında</string>
     <string name="menu_change_key_settings">Ana anahtarı değiştir</string>
     <string name="copy_field">%1$s kopyalandı</string>
     <string name="settings">Ayarlar</string>

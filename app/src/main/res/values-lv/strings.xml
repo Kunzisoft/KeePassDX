@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="about_feedback">Atsauksmes:</string>
-    <string name="about_homepage">Mājaslapa:</string>
+    <string name="feedback">Atsauksmes:</string>
+    <string name="homepage">Mājaslapa:</string>
     <string name="about_description">KeePassDX ir KeePass paroļu menedžera Android implementācija</string>
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
@@ -78,7 +78,7 @@
     <string name="lowercase">Lower-case</string>
     <string name="maskpass_title">Sēpt paroles</string>
     <string name="maskpass_summary">Sēpt paroles *****</string>
-    <string name="menu_about">Par</string>
+    <string name="about">Par</string>
     <string name="menu_change_key_settings">Mainīt galveno paroli</string>
     <string name="settings">Iestatījumi</string>
     <string name="menu_database_settings">Datu bāzes iestatījumi</string>
@@ -142,5 +142,5 @@
     <string name="encryption">Šifrēšana</string>
     <string name="extended_ASCII">Paplašinātais ASCII</string>
     <string name="allow">Atļaut</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
     </resources>

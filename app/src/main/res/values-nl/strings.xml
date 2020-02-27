@@ -19,8 +19,8 @@
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 --><resources>
-    <string name="about_feedback">Reacties</string>
-    <string name="about_homepage">Website</string>
+    <string name="feedback">Reacties</string>
+    <string name="homepage">Website</string>
     <string name="about_description">Android-implementatie van de KeePass-wachtwoordbeheerder</string>
     <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Bezig met ontsleutelen van databankinhoud…</string>
     <string name="default_checkbox">Gebruiken als standaarddatabank</string>
     <string name="digits">Getallen</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft biedt geen enkele garantie. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft biedt geen enkele garantie. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
     <string name="select_database_file">Bestaande databank openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
@@ -89,7 +89,7 @@
     <string name="lowercase">Kleine letters</string>
     <string name="maskpass_title">Wachtwoord verbergen</string>
     <string name="maskpass_summary">Wachtwoorden standaard afschermen (***)</string>
-    <string name="menu_about">Over</string>
+    <string name="about">Over</string>
     <string name="menu_change_key_settings">Hoofdsleutel wijzigen</string>
     <string name="settings">Instellingen</string>
     <string name="menu_database_settings">Databank-instellingen</string>

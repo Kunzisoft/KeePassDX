@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Обратная связь</string>
-    <string name="about_homepage">Сайт</string>
+    <string name="feedback">Обратная связь</string>
+    <string name="homepage">Сайт</string>
     <string name="about_description">Android-версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="disclaimer_formal">Приложение KeePassDX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
+    <string name="html_about_licence">Приложение KeePassDX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -98,7 +98,7 @@
     <string name="lowercase">Строчные</string>
     <string name="maskpass_title">Скрывать пароли</string>
     <string name="maskpass_summary">Скрывать пароли за (***) по умолчанию</string>
-    <string name="menu_about">Сведения</string>
+    <string name="about">Сведения</string>
     <string name="menu_change_key_settings">Изменить главный пароль</string>
     <string name="settings">Настройки</string>
     <string name="menu_database_settings">Настройки базы</string>

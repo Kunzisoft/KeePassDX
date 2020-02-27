@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Tilbakemelding</string>
-    <string name="about_homepage">Hjemmeside</string>
+    <string name="feedback">Tilbakemelding</string>
+    <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
@@ -48,7 +48,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -108,7 +108,7 @@
     <string name="lowercase">Små bokstaver</string>
     <string name="maskpass_title">Masker passord</string>
     <string name="maskpass_summary">Skjul passord som forvalg</string>
-    <string name="menu_about">Om</string>
+    <string name="about">Om</string>
     <string name="menu_change_key_settings">Endre hovednøkkel</string>
     <string name="copy_field">Kopi av%1$s</string>
     <string name="settings">Innstillinger</string>

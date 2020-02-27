@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Comentários</string>
-    <string name="about_homepage">Página inicial</string>
+    <string name="feedback">Comentários</string>
+    <string name="homepage">Página inicial</string>
     <string name="about_description">KeePassDX é uma implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -87,7 +87,7 @@
     <string name="lowercase">Letras minúsculas</string>
     <string name="maskpass_title">Esconder senhas</string>
     <string name="maskpass_summary">Mascarar senhas (***) por padrão</string>
-    <string name="menu_about">Sobre</string>
+    <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Modificar senha mestre</string>
     <string name="settings">Configurações</string>
     <string name="menu_database_settings">Configurações do banco de dados</string>

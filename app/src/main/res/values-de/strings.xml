@@ -21,8 +21,8 @@
     Translations from Matthias Dill
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Feedback</string>
-    <string name="about_homepage">Webseite</string>
+    <string name="feedback">Feedback</string>
+    <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
     <string name="add_entry">Eintrag hinzufügen</string>
@@ -47,7 +47,7 @@
     <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -102,7 +102,7 @@
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="maskpass_title">Passwort verstecken</string>
     <string name="maskpass_summary">Passwörter standardmäßig mit (***) maskieren</string>
-    <string name="menu_about">Über</string>
+    <string name="about">Über</string>
     <string name="menu_change_key_settings">Hauptschlüssel ändern</string>
     <string name="settings">Einstellungen</string>
     <string name="menu_database_settings">Datenbank-Einstellungen</string>

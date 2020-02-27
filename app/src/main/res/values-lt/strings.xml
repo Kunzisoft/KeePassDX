@@ -3,8 +3,8 @@
     <string name="about_description">KeePassDX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
     <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
-    <string name="about_feedback">Atsiliepimai:</string>
-    <string name="about_homepage">Pagrindinis puslapis:</string>
+    <string name="feedback">Atsiliepimai:</string>
+    <string name="homepage">Pagrindinis puslapis:</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
@@ -40,7 +40,7 @@
     <string name="hint_pass">slaptažodis</string>
     <string name="length">Ilgis</string>
     <string name="list_size_title">Grupės sąrašo dydis</string>
-    <string name="menu_about">Apie</string>
+    <string name="about">Apie</string>
     <string name="settings">Nustatymai</string>
     <string name="menu_database_settings">Duomenų bazės nustatymai</string>
     <string name="menu_delete">Išrinti</string>

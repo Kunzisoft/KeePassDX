@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Spätná väzba</string>
-    <string name="about_homepage">Domovská stránka</string>
+    <string name="feedback">Spätná väzba</string>
+    <string name="homepage">Domovská stránka</string>
     <string name="about_description">Správca hesiel KeePass pre Android</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy…</string>
     <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
@@ -87,7 +87,7 @@
     <string name="lowercase">Malé písmená</string>
     <string name="maskpass_title">Skryť heslo</string>
     <string name="maskpass_summary">Skryť heslá štandardne</string>
-    <string name="menu_about">O Programe</string>
+    <string name="about">O Programe</string>
     <string name="menu_change_key_settings">Zmeniť hlavný Kľúč</string>
     <string name="settings">Nastavenia</string>
     <string name="menu_database_settings">Nastavenia Databázy</string>

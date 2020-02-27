@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="about_feedback">प्रतिक्रिया</string>
-    <string name="about_homepage">होमपेज</string>
+    <string name="feedback">प्रतिक्रिया</string>
+    <string name="homepage">होमपेज</string>
     <string name="about_description">एंड्रॉयड पर आधारित KeePass पासवर्ड मैनेजर</string>
     <string name="accept">स्वीकार</string>
     <string name="add_entry">रिकॉर्ड जोड़ें</string>
@@ -30,7 +30,7 @@
     <string name="decrypting_db">डेटाबेस सामग्री डिक्रिप्टिंग…</string>
     <string name="default_checkbox">डिफ़ॉल्ट डेटाबेस के रूप में उपयोग करें</string>
     <string name="digits">अंक</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft बिल्कुल कोई वारंटी के साथ आता है । यह लाइब्रे सॉफ्टवेयर है, और जीपीएल संस्करण 3 या बाद की शर्तों के तहत इसे पुनर्वितरित करने के लिए आपका स्वागत है।</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft बिल्कुल कोई वारंटी के साथ आता है । यह लाइब्रे सॉफ्टवेयर है, और जीपीएल संस्करण 3 या बाद की शर्तों के तहत इसे पुनर्वितरित करने के लिए आपका स्वागत है।</string>
     <string name="entry_accessed">एक्सेस किया गया</string>
     <string name="entry_cancel">रद्द करें</string>
     <string name="entry_notes">टिप्पणियाँ</string>
