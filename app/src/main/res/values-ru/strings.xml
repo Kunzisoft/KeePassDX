@@ -194,7 +194,7 @@
     <string name="sort_creation_time">Время создания</string>
     <string name="sort_last_modify_time">Время изменения</string>
     <string name="sort_last_access_time">Время последнего доступа</string>
-    <string name="edit_entry">Редактировать запись</string>
+    <string name="edit_entry">Изменить</string>
     <string name="allow">Разрешить</string>
     <string name="clipboard_swipe_clean">Смахните для очистки буфера обмена</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
