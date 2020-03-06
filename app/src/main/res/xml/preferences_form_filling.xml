@@ -66,6 +66,7 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/autofill_key"
         android:title="@string/autofill">
         <Preference
             android:key="@string/autofill_explanation_key"
