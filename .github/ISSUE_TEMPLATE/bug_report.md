@@ -20,9 +20,6 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
-If applicable, add screenshots to help explain your problem.
-
 ** Keepass Database **
  - Created with: [e.g Windows KeePass 2.42]
  - Version: [e.g. 2]
