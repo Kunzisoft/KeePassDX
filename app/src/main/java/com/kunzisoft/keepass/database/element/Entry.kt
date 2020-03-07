@@ -247,13 +247,13 @@ class Entry : Node, EntryVersionedInterface<Group> {
             "$PMS_TAN_ENTRY $username"
         } else {
             if (title.isEmpty())
-                if (username.isEmpty())
-                    if (url.isEmpty())
-                        nodeId.toString()
+                if (url.isEmpty())
+                    if (username.isEmpty())
+                            nodeId.toString()
                     else
-                        url
+                        username
                 else
-                    username
+                    url
             else
                 title
         }
