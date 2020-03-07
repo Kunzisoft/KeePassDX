@@ -54,6 +54,11 @@
             android:title="@string/omitbackup_title"
             android:summary="@string/omitbackup_summary"
             android:defaultValue="@bool/omitbackup_default"/>
+        <SwitchPreference
+            android:key="@string/auto_focus_search_key"
+            android:title="@string/auto_focus_search_title"
+            android:summary="@string/auto_focus_search_summary"
+            android:defaultValue="@bool/auto_focus_search_default"/>
 
     </PreferenceCategory>
 

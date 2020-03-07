@@ -58,6 +58,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.omitbackup_default))
     }
 
+    fun automaticallyFocusSearch(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.auto_focus_search_key),
+                context.resources.getBoolean(R.bool.auto_focus_search_default))
+    }
+
     fun showUsernamesListEntries(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),

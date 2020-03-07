@@ -102,6 +102,7 @@ class GroupActivity : LockingActivity(),
 
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
+    private var mRequestStartupSearch = true
 
     // Nodes
     private var mRootGroup: Group? = null
@@ -142,6 +143,8 @@ class GroupActivity : LockingActivity(),
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
+            if (savedInstanceState.containsKey(REQUEST_STARTUP_SEARCH_KEY))
+                mRequestStartupSearch = savedInstanceState.getBoolean(REQUEST_STARTUP_SEARCH_KEY)
             if (savedInstanceState.containsKey(OLD_GROUP_TO_UPDATE_KEY))
                 mOldGroupToUpdate = savedInstanceState.getParcelable(OLD_GROUP_TO_UPDATE_KEY)
         }
@@ -332,6 +335,7 @@ class GroupActivity : LockingActivity(),
         mOldGroupToUpdate?.let {
             outState.putParcelable(OLD_GROUP_TO_UPDATE_KEY, it)
         }
+        outState.putBoolean(REQUEST_STARTUP_SEARCH_KEY, mRequestStartupSearch)
         super.onSaveInstanceState(outState)
     }
 
@@ -683,6 +687,13 @@ class GroupActivity : LockingActivity(),
                     }
                 })
             }
+            // Expand the search view if defined in settings
+            if (mRequestStartupSearch
+                    && PreferencesUtil.automaticallyFocusSearch(this@GroupActivity)) {
+                // To request search only one time
+                mRequestStartupSearch = false
+                it.expandActionView()
+            }
         }
 
         super.onCreateOptionsMenu(menu)
@@ -935,6 +946,7 @@ class GroupActivity : LockingActivity(),
 
         private val TAG = GroupActivity::class.java.name
 
+        private const val REQUEST_STARTUP_SEARCH_KEY = "REQUEST_STARTUP_SEARCH_KEY"
         private const val GROUP_ID_KEY = "GROUP_ID_KEY"
         private const val LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG"
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
