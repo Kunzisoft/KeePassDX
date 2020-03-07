@@ -1,5 +1,6 @@
 KeepassDX (2.5beta27)
  * New setting to hide broken links
+ * Show URL when title is empty
  * Fix settings for database locations
  * Fix error message when database file not writable
  * Fix appearance refresh settings
