@@ -364,7 +364,7 @@
     <string name="content_description_file_information">Informazioni sul file</string>
     <string name="content_description_password_checkbox">Casella di controllo della password</string>
     <string name="content_description_keyfile_checkbox">Casella di controllo Keyfile</string>
-    <string name="content_description_repeat_toggle_password_visibility">"Ripeti  attivare / disattivare la visibilità della password"</string>
+    <string name="content_description_repeat_toggle_password_visibility">Ripeti attivare / disattivare la visibilità della password</string>
     <string name="content_description_entry_icon">Icona</string>
     <string name="content_description_password_generator">Generatore di password</string>
     <string name="content_description_password_length">Lunghezza della password</string>

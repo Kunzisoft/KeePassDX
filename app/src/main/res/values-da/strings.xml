@@ -19,7 +19,6 @@
 
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
 --><resources>
-    <string name="feedback">Tilbagemelding</string>
     <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
     <string name="accept">Accepter</string>
@@ -27,12 +26,12 @@
     <string name="add_group">Tilføj gruppe</string>
     <string name="encryption_algorithm">Krypteringsalgoritme</string>
     <string name="app_timeout">Timeout</string>
-    <string name="app_timeout_summary">Inaktivitet før programmet bliver er låst</string>
-    <string name="application">App</string>
+    <string name="app_timeout_summary">Inaktiv tid, før databasen låses</string>
+    <string name="application">Program</string>
     <string name="menu_app_settings">Indstillinger</string>
     <string name="beta_dontask">Vis ikke igen</string>
     <string name="brackets">Parenteser</string>
-    <string name="file_manager_install_description">Installer OpenIntents Fil Manager for at gennemse filer</string>
+    <string name="file_manager_install_description">En filhåndtering, der accepterer intensionshandlingen ACTION_CREATE_DOCUMENT og ACTION_OPEN_DOCUMENT, er nødvendig for at oprette, åbne og gemme databasefiler.</string>
     <string name="clipboard_cleared">Udklipsholder ryddet</string>
     <string name="clipboard_error_title">Udklipsfejl</string>
     <string name="clipboard_error">Nogle enheder, vil ikke lade programmer bruge udklipsholderen.</string>
@@ -45,7 +44,6 @@
     <string name="decrypting_db">Dekrypterer databaseindhold…</string>
     <string name="default_checkbox">Brug som standarddatabase</string>
     <string name="digits">Cifre</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer med absolut ingen garanti. Det er fri software, og kan videredistribueres under betingelserne i GPL version 3 eller nyere.</string>
     <string name="select_database_file">Åbn en eksisterende database</string>
     <string name="entry_accessed">Senest åbnet</string>
     <string name="entry_cancel">Annuller</string>
@@ -78,16 +76,16 @@
     <string name="field_value">Feltværdi</string>
     <string name="file_browser">Filhåndtering</string>
     <string name="generate_password">Generer adgangskode</string>
-    <string name="hint_conf_pass">bekræft adgangskode</string>
-    <string name="hint_generated_password">genereret adgangskode</string>
+    <string name="hint_conf_pass">Bekræft adgangskode</string>
+    <string name="hint_generated_password">Genereret adgangskode</string>
     <string name="hint_group_name">Gruppenavn</string>
-    <string name="hint_keyfile">nøglefil</string>
-    <string name="hint_length">længde</string>
-    <string name="hint_pass">adgangskode</string>
+    <string name="hint_keyfile">Nøglefil</string>
+    <string name="hint_length">Længde</string>
+    <string name="hint_pass">Adgangskode</string>
     <string name="password">Adgangskode</string>
     <string name="install_from_play_store">Installer fra Google Play</string>
     <string name="install_from_f_droid">Installer fra F-Droid</string>
-    <string name="invalid_credentials">Kunne ikke læse legitimationsoplysninger. Hvis det sker igen, kan databasefilen være beskadiget.</string>
+    <string name="invalid_credentials">Legitimationsoplysningerne kunne ikke læses. Hvis det sker igen, kan databasefilen være beskadiget.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>
     <string name="keyfile_is_empty">Nøglefilen er tom.</string>
@@ -117,7 +115,7 @@
     <string name="no_url_handler">Installer en web-browser til at åbne URL.</string>
     <string name="open_recent">Seneste databaser</string>
     <string name="omit_backup_search_title">Gennemsøg ikke backup poster</string>
-    <string name="omit_backup_search_summary">Udelader \"Backup\" og \"Papirkurv\" - grupper fra søgeresultater</string>
+    <string name="omit_backup_search_summary">Udelader \"Sikkerhedskopiering\" og \"Papirkurv\" - grupper fra søgeresultater</string>
     <string name="progress_create">Opretter ny database…</string>
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>
@@ -138,7 +136,7 @@
     <string name="underline">Understregning</string>
     <string name="unsupported_db_version">Database-versionen er ikke understøttet.</string>
     <string name="uppercase">Store bogstaver</string>
-    <string name="warning_unmounted">Monter SD-kortet for at oprette eller indlæse en database.</string>
+    <string name="warning_unmounted">Monter hukommelseskortet for at oprette eller indlæse en database.</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Angiv en adgangskode og/eller en nøglefil til at låse databasen op.
 \n
@@ -185,7 +183,7 @@
     <string name="encryption_explanation">Databasekrypteringsalgoritme anvendt for alle data.</string>
     <string name="kdf_explanation">For at generere nøglen til krypteringsalgoritmen, omdannes hovednøglen ved hjælp af en tilfældigt saltet nøgleafledningsfunktion.</string>
     <string name="memory_usage">Hukommelsesforbrug</string>
-    <string name="memory_usage_explanation">Hukommelse (i binær byte), som anvendes af nøgleafledningsfunktion.</string>
+    <string name="memory_usage_explanation">Hukommelse (i bytes), som anvendes af nøgleafledningsfunktion.</string>
     <string name="parallelism">Parallelitet</string>
     <string name="parallelism_explanation">Grad af parallelitet (dvs. antallet af tråde), som anvendes af nøgleafledningsfunktion.</string>
     <string name="sort_menu">Sorter</string>
@@ -243,13 +241,13 @@
     <string name="create_keepass_file">Opret en ny database</string>
     <string name="full_file_path_enable_title">Filsti</string>
     <string name="full_file_path_enable_summary">Se den fulde filsti</string>
-    <string name="recycle_bin_title">Brug papirkurven</string>
+    <string name="recycle_bin_title">Brug af papirkurven</string>
     <string name="recycle_bin_summary">Flyt grupper og poster til gruppen \"Papirkurven\" før den slettes</string>
     <string name="monospace_font_fields_enable_title">Feltskrifttype</string>
     <string name="monospace_font_fields_enable_summary">Skift skrifttypen, der anvendes i felter, for at forbedre tegnsynlighed</string>
     <string name="allow_copy_password_title">Udklipsholder tillid</string>
-    <string name="allow_copy_password_summary">Tillad at adgangskoden og beskyttede felter kopieres til udklipsholderen</string>
-    <string name="allow_copy_password_warning">ADVARSEL: Udklipsholder deles af alle apps. Hvis følsomme data er kopieret, kan andet software gendanne den.</string>
+    <string name="allow_copy_password_summary">Tillad kopiering af adgangskoden og beskyttede felter kopieres til udklipsholderen</string>
+    <string name="allow_copy_password_warning">Advarsel: Udklipsholder deles af alle programmer. Hvis følsomme data er kopieret, kan andet software gendanne den.</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Database beskrivelse</string>
     <string name="database_version_title">Databaseversion</string>
@@ -273,9 +271,9 @@
     <string name="education_select_database_title">Åbn en eksisterende database</string>
     <string name="education_select_database_summary">Åbn den tidligere database fil fra filhåndtering for at fortsætte med at bruge den.</string>
     <string name="education_new_node_title">Tilføj elementer til databasen</string>
-    <string name="education_new_node_summary">Tilføje poster til at styre digitale identiteter.
+    <string name="education_new_node_summary">Poster hjælper med at administrere digitale identiteter.
 \n
-\nTilføje grupper (svarende til mapper) for at organisere indtastninger og database.</string>
+\nGrupper (~mapper) organiserer poster i databasen.</string>
     <string name="education_search_title">Søg i poster</string>
     <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
     <string name="education_biometric_title">Database oplåsning med fingeraftryk</string>
@@ -316,7 +314,7 @@
     <string name="download">Hent</string>
     <string name="contribute">Bidrag</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Tema</string>
     <string name="style_choose_summary">Tema, der bruges i programmet</string>
@@ -337,24 +335,24 @@
     <string name="keyboard_appearance_category">Udseende</string>
     <string name="keyboard_theme_title">Tastaturtema</string>
     <string name="keyboard_keys_category">Taster</string>
-    <string name="keyboard_key_vibrate_title">Vibrer ved tastetryk</string>
-    <string name="keyboard_key_sound_title">Lyd ved tastetryk</string>
+    <string name="keyboard_key_vibrate_title">Vibrerende tastetryk</string>
+    <string name="keyboard_key_sound_title">Hørbare tastetryk</string>
     <string name="build_label">Build %1$s</string>
-    <string name="keyboard_entry_timeout_summary">Timeout for at rydde indtastning</string>
+    <string name="keyboard_entry_timeout_summary">Tidsudløb for at rydde indtastning</string>
     <string name="entry_notes">Noter</string>
     <string name="selection_mode">Valgstilstand</string>
     <string name="do_not_kill_app">Luk ikke programmet…</string>
     <string name="lock_database_back_root_title">Tryk på \'Tilbage\' for at låse</string>
-    <string name="lock_database_back_root_summary">Lås databasen, når brugeren klikker på tilbage-knappen fra startskærmen</string>
+    <string name="lock_database_back_root_summary">Lås databasen, når der klikkes på tilbage-knappen fra startskærmen</string>
     <string name="clear_clipboard_notification_title">Ryd ved lukning</string>
     <string name="clear_clipboard_notification_summary">Luk databasen ved lukning af underretning</string>
-    <string name="recycle_bin">Papirkurv</string>
+    <string name="recycle_bin">Papirkurven</string>
     <string name="keyboard_selection_entry_title">Valg af indtastning</string>
     <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
     <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
     <string name="content_description_open_file">Åbn fil</string>
-    <string name="content_description_node_children">Underknude</string>
+    <string name="content_description_node_children">Undernode</string>
     <string name="content_description_add_node">Tilføj knude</string>
     <string name="content_description_add_entry">Tilføj post</string>
     <string name="content_description_add_group">Tilføj gruppe</string>
@@ -418,30 +416,42 @@
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse.</string>
-    <string name="max_history_items_title">Maks. historikposter</string>
+    <string name="max_history_items_title">Max. antal</string>
     <string name="max_history_items_summary">Begræns antallet af historikposter pr. indtastning</string>
-    <string name="max_history_size_title">Maks. historiestørrelse</string>
-    <string name="max_history_size_summary">Begræns historikstørrelse pr. post (i binære bytes)</string>
-    <string name="settings_database_recommend_changing_master_key_title">Anbefalet ændring</string>
+    <string name="max_history_size_title">Max. størrelse</string>
+    <string name="max_history_size_summary">Begræns historikstørrelsen (i bytes) pr. post</string>
+    <string name="settings_database_recommend_changing_master_key_title">Anbefalet fornyelse</string>
     <string name="settings_database_recommend_changing_master_key_summary">Anbefal ændring af hovednøglen (dage)</string>
-    <string name="settings_database_force_changing_master_key_title">Gennemtving ændring</string>
-    <string name="settings_database_force_changing_master_key_summary">Gennemtving ændring af hovednøglen (dage)</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Gennemtving ændring næste gang</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Gennemtving ændring af hovednøglen næste gang (én gang)</string>
+    <string name="settings_database_force_changing_master_key_title">Gennemtving fornyelse</string>
+    <string name="settings_database_force_changing_master_key_summary">Kræv ændring af hovednøglen (dage)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Gennemtving fornyelse næste gang</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Kræv ændring af hovednøglen næste gang (én gang)</string>
     <string name="database_default_username_title">Standard brugernavn</string>
     <string name="database_custom_color_title">Brugerdefineret databasefarve</string>
     <string name="compression">Komprimering</string>
     <string name="compression_none">Ingen</string>
-    <string name="compression_gzip">Gzip</string>
+    <string name="compression_gzip">gzip</string>
     <string name="device_keyboard_setting_title">Indstillinger for enhedens tastatur</string>
     <string name="error_save_database">Databasen kunne ikke gemmes.</string>
     <string name="menu_save_database">Gem database</string>
-    <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
+    <string name="menu_empty_recycle_bin">Tøm papirkurven</string>
     <string name="command_execution">Udfører kommandoen…</string>
     <string name="warning_permanently_delete_nodes">Bekræft sletning ad de markerede noder permanent\?</string>
-    <string name="keystore_not_accessible">Keystore er ikke korrekt initialiseret.</string>
+    <string name="keystore_not_accessible">Nøglelageret er ikke korrekt initialiseret.</string>
     <string name="credential_before_click_biometric_button">Skriv adgangskoden, før der klikkes på den biometriske knap.</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>
     <string name="enable_auto_save_database_title">Gem automatisk database</string>
-    <string name="enable_auto_save_database_summary">Gem automatisk databasen efter en vigtig handling (kun i tilstanden \"modificerbar\")</string>
+    <string name="enable_auto_save_database_summary">Gem automatisk databasen efter en vigtig handling (kun i tilstanden \"Modificerbar\")</string>
+    <string name="entry_attachments">Vedhæftninger</string>
+    <string name="menu_restore_entry_history">Gendan historik</string>
+    <string name="menu_delete_entry_history">Slet historik</string>
+    <string name="keyboard_auto_go_action_title">Auto nøglehandling</string>
+    <string name="keyboard_auto_go_action_summary">Handling af Gå-tasten udføres automatisk, efter der er trykket på en Felt nøgle</string>
+    <string name="download_attachment">Hent %1$s</string>
+    <string name="download_initialization">Initialiserer…</string>
+    <string name="download_progression">I gang: %1$d%</string>
+    <string name="download_finalization">Færdiggørelse…</string>
+    <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
+    <string name="hide_expired_entries_title">Skjul udløbne poster</string>
+    <string name="hide_expired_entries_summary">Udløbne poster vil blive skjult</string>
 </resources>

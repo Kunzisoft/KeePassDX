@@ -130,7 +130,7 @@
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
-    <string name="read_only">Protégé en écriture</string>
+    <string name="read_only">Protéger en écriture</string>
     <string name="read_only_warning">Selon votre gestionnaire de fichiers, KeePassDX peut ne pas être autorisé à écrire dans votre stockage.</string>
     <string name="content_description_remove_from_list">Supprimer</string>
     <string name="root">Racine</string>
@@ -318,7 +318,7 @@
     <string name="menu_cancel">Annuler</string>
     <string name="allow_no_password_title">Autoriser l\'absence de clé principale</string>
     <string name="allow_no_password_summary">Active le bouton « Ouvrir » si aucun identifiant n’est sélectionné</string>
-    <string name="menu_file_selection_read_only">Protégé en écriture</string>
+    <string name="menu_file_selection_read_only">Protéger en écriture</string>
     <string name="menu_open_file_read_and_write">Modifiable</string>
     <string name="enable_read_only_title">Protégé en écriture</string>
     <string name="enable_read_only_summary">Ouvre la base de données en lecture seule par défaut</string>
@@ -356,7 +356,7 @@
     <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
-    <string name="clear_clipboard_notification_summary">Vérrouille la base de données lors de la fermeture de la notification</string>
+    <string name="clear_clipboard_notification_summary">Verrouille la base de données lors de la fermeture de la notification</string>
     <string name="recycle_bin">Corbeille</string>
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
     <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>

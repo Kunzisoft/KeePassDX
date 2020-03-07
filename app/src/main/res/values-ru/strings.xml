@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Обратная связь</string>
-    <string name="homepage">Сайт</string>
+    <string name="about_feedback">Отзыв</string>
+    <string name="about_homepage">Сайт</string>
     <string name="about_description">Android-версия менеджера паролей KeePass</string>
     <string name="accept">Принять</string>
     <string name="add_entry">Новая запись</string>
@@ -58,7 +58,7 @@
     <string name="entry_save">Сохранить</string>
     <string name="entry_title">Название</string>
     <string name="entry_url">Ссылка</string>
-    <string name="entry_user_name">Имя</string>
+    <string name="entry_user_name">Имя пользователя</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
     <string name="error_file_not_create">Невозможно создать файл:</string>
@@ -187,7 +187,7 @@
     <string name="sort_creation_time">Время создания</string>
     <string name="sort_last_modify_time">Время изменения</string>
     <string name="sort_last_access_time">Время последнего доступа</string>
-    <string name="edit_entry">Редактировать запись</string>
+    <string name="edit_entry">Изменить</string>
     <string name="allow">Разрешить</string>
     <string name="clipboard_swipe_clean">Смахните для очистки буфера обмена</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
@@ -301,9 +301,9 @@
     <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
-    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>свободное программное обеспечение (copyleft)</strong> и не хранит ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
-    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным функциям</strong> и особенно поможете <strong>реализации общественных проектов</strong>.</string>
-    <string name="html_text_feature_generosity">Эти <strong>визуальные функции</strong> доступны благодаря вашей щедрости.</string>
+    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong>, <strong>с открытым исходным кодом</strong> и <strong>свободно от лицензирования</strong>. Оно <strong>не хранит ваши личные данные</strong> на своих серверах независимо от того, какую версию (бесплатную или профессиональную) вы используете.</string>
+    <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим <strong>визуальным стилям</strong> и особенно поможете <strong>реализации общественных проектов</strong>.</string>
+    <string name="html_text_feature_generosity">Эти <strong>визуальные стили</strong> доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш <strong>вклад</strong>.</string>
     <string name="html_text_dev_feature">Эта функция находится <strong>в разработке</strong> и требует вашего <strong>участия</strong>, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая <strong>Pro</strong>-версию,</string>
@@ -340,11 +340,11 @@
     <string name="keyboard_keys_category">Кнопки</string>
     <string name="keyboard_key_vibrate_title">Вибрация при нажатии</string>
     <string name="keyboard_key_sound_title">Звук при нажатии</string>
-    <string name="do_not_kill_app">Не убивать приложение…</string>
+    <string name="do_not_kill_app">Не убивайте приложение…</string>
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
-    <string name="clear_clipboard_notification_summary">Закрывать базу при закрытии уведомления</string>
+    <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления</string>
     <string name="recycle_bin">Корзина</string>
     <string name="keyboard_selection_entry_title">Выбор записи</string>
     <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
@@ -452,6 +452,6 @@
     <string name="download_progression">Выполнение: %1$d%</string>
     <string name="download_finalization">Завершение…</string>
     <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
-    <string name="hide_expired_entries_title">Скрывать истёкшие записи</string>
+    <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
 </resources>
