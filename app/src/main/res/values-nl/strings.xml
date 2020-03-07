@@ -306,16 +306,16 @@
     <string name="education_sort_summary">Kies hoe items en groepen worden gesorteerd.</string>
     <string name="education_donation_title">Bijdragen</string>
     <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
-    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze <strong>reclamevrij</strong>, <strong>vrije software</strong> en slaat geen persoonlijke gegevens op op haar servers, ongeacht de versie die je gebruikt.</string>
-    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze <strong>visuele functie</strong> en draag je bij aan het <strong>realiseren van gemeenschapsprojecten.</strong>
+    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze &lt;strong&gt;reclamevrij&lt;/strong&gt;, &lt;strong&gt;vrije software&lt;/strong&gt; en slaat geen persoonlijke gegevens op op haar servers, ongeacht de versie die je gebruikt.</string>
+    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze &lt;strong&gt;visuele functie&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Deze <strong>visuele functie</strong> is beschikbaar gekomen door jullie gulheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw <strong>bijdrage.</strong>
+    <string name="html_text_feature_generosity">Deze &lt;strong&gt;visuele functie&lt;/strong&gt; is beschikbaar gekomen door jullie gulheid.</string>
+    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Deze functie <strong>wordt momenteel ontwikkeld</strong> en kan alleen beschikbaar komen middels jouw <strong>bijdrage</strong>.</string>
-    <string name="html_text_dev_feature_buy_pro">Door de <strong>pro</strong>-versie te kopen,</string>
-    <string name="html_text_dev_feature_contibute">Door <strong>bij te dragen</strong>,</string>
-    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om <strong>nieuwe functies</strong> te creëren en <strong>bugs op te lossen</strong>.</string>
+    <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
+    <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
+    <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;bugs op te lossen&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
     <string name="html_text_dev_feature_upgrade">Vergeet niet om je app up-to-date te houden door nieuwe versies te installeren.</string>

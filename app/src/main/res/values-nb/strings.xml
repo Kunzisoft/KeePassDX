@@ -283,16 +283,16 @@
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
-    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
+    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleftbasert fri programvare&lt;/strong&gt; og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil spesielt hjelpe &lt;strong&gt; realiseringen av gemenskapsprosjekter.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
+    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
-    <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
-    <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>
-    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape <strong>nye funksjoner</strong> og til å <strong>fikse feil</strong> i henhold til dine kommentarer.</string>
+    <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
+    <string name="html_text_dev_feature_buy_pro">Ved å kjøpe &lt;strong&gt;pro&lt;/strong&gt;-versjonen,</string>
+    <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape &lt;strong&gt;nye funksjoner&lt;/strong&gt; og til å &lt;strong&gt;fikse feil&lt;/strong&gt; i henhold til dine kommentarer.</string>
     <string name="html_text_dev_feature_thanks">Takk for ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Det arbeides hardt på realiseringen av denne utgaven.</string>
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>

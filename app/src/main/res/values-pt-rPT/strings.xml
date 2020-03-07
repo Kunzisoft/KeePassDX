@@ -280,17 +280,17 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;software livre&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
-    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
+    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>Contribuindo </strong>,</string>
-    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
+        &lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter seu aplicativo atualizado.</string>

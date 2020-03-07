@@ -295,17 +295,17 @@
     <string name="education_sort_summary">Scegli l\'ordine di elementi e gruppi.</string>
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
-    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è <strong>senza pubblicità</strong>, <strong>software libero (copyleft)</strong> e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa <strong>funzione visiva</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong>
+    <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa &lt;strong&gt;funzione visiva&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione di progetti della comunità.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Questa <strong>funzione visiva</strong> è disponibile grazie alla tua generosità.</string>
-    <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo <strong>contributo.</strong>
+    <string name="html_text_feature_generosity">Questa &lt;strong&gt;funzione visiva&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
+    <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Questa funzione è <strong>in sviluppo</strong> e richiede il tuo <strong>contributo</strong> per essere disponibile a breve.</string>
-    <string name="html_text_dev_feature_buy_pro">Acquistando la versione <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>
+    <string name="html_text_dev_feature_buy_pro">Acquistando la versione &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>Contribuendo</strong>,</string>
-    <string name="html_text_dev_feature_encourage">incoraggi gli sviluppatori a creare <strong>nuove funzioni</strong> e a <strong>correggere errori</strong> secondo le tue osservazioni.</string>
+        &lt;strong&gt;Contribuendo&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">incoraggi gli sviluppatori a creare &lt;strong&gt;nuove funzioni&lt;/strong&gt; e a &lt;strong&gt;correggere errori&lt;/strong&gt; secondo le tue osservazioni.</string>
     <string name="html_text_dev_feature_thanks">Grazie mille per il tuo contributo.</string>
     <string name="html_text_dev_feature_work_hard">Stiamo lavorando sodo per rilasciare questa funzione a breve.</string>
     <string name="html_text_dev_feature_upgrade">Non dimenticare di tenere aggiornata l\'app installando nuove versioni.</string>
