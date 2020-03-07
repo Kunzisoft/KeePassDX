@@ -18,8 +18,8 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">Зворотний зв’язок:</string>
-    <string name="about_homepage">Домашня сторінка:</string>
+    <string name="feedback">Зворотний зв’язок:</string>
+    <string name="homepage">Домашня сторінка:</string>
     <string name="about_description">KeePassDX є Android версією менеджера паролів KeePass.</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
@@ -40,7 +40,7 @@
     <string name="decrypting_db">Розшифрування змісту бази даних&#8230;</string>
     <string name="default_checkbox">Використовувати як мою типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Введіть ім’я бази даних</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Відміна</string>
@@ -86,9 +86,9 @@
     <string name="list_size_summary">Розмір тексту у списку груп</string>
     <string name="loading_database">Завантаження бази даних&#8230;</string>
     <string name="lowercase">Нижній регістр</string>
-    <string name="maskpass_title">Маска пароля</string>
-    <string name="maskpass_summary">Приховати паролі за замовчуванням</string>
-    <string name="menu_about">Про</string>
+    <string name="hide_password_title">Маска пароля</string>
+    <string name="hide_password_summary">Приховати паролі за замовчуванням</string>
+    <string name="about">Про</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
     <string name="settings">Налаштування</string>
     <string name="menu_database_settings">Налаштування бази даних</string>
@@ -106,18 +106,15 @@
     <string name="no_results">Нічого не знайдено.</string>
     <string name="no_url_handler">Нема програми для опрацювання цього посилання.</string>
     <string name="open_recent">Відкрити останню базу даних :</string>
-    <string name="omitbackup_title">Не шукати записів з резервного копіювання та кошиків</string>
-    <string name="omitbackup_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
+    <string name="omit_backup_search_title">Не шукати записів з резервного копіювання та кошиків</string>
+    <string name="omit_backup_search_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
     <string name="progress_create">Створення нової бази даних&#8230;</string>
     <string name="progress_title">Працює&#8230;</string>
-    <string name="remember_keyfile_summary">Запам’ятати розташування файла ключа</string>
-    <string name="remember_keyfile_title">Збережіть файл ключа</string>
     <string name="content_description_remove_from_list">Вилучити</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
     <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
-    <string name="rounds_hint">цикли</string>
     <string name="saving_database">Збереження бази даних&#8230;</string>
     <string name="space">Пропуск</string>
     <string name="search_label">Пошук</string>

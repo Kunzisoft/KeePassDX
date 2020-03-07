@@ -18,8 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources>
-    <string name="about_feedback">Visszajelzés</string>
-    <string name="about_homepage">Honlap</string>
+    <string name="feedback">Visszajelzés</string>
+    <string name="homepage">Honlap</string>
     <string name="about_description">A KeePass jelszókezelő androidos megvalósítása</string>
     <string name="accept">Elfogadás</string>
     <string name="add_entry">Bejegyzés hozzáadása</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. Ehhez a programhoz semmilyen garancia nem jár. Ez egy szabad szoftver, a GNU General Public License 3-as vagy későbbi verziójának feltételei mellett terjeszthető, illetve módosítható.</string>
     <string name="select_database_file">Létező adatbázis megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
@@ -90,16 +90,15 @@
     <string name="invalid_credentials">A jelszó vagy kulcsfájl nem olvasható.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
-    <string name="keyfile_does_not_exist">Nem létezik kulcsfájl.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>
     <string name="length">Hossz</string>
     <string name="list_size_title">Listaelemek mérete</string>
     <string name="list_size_summary">Szövegméret az elemlistában</string>
     <string name="loading_database">Adatbázis betöltése…</string>
     <string name="lowercase">Kisbetűk</string>
-    <string name="maskpass_title">Jelszavak elrejtése</string>
-    <string name="maskpass_summary">Jelszavak alapértelmezett elrejtése (***)</string>
-    <string name="menu_about">Névjegy</string>
+    <string name="hide_password_title">Jelszavak elrejtése</string>
+    <string name="hide_password_summary">Jelszavak alapértelmezett elrejtése (***)</string>
+    <string name="about">Névjegy</string>
     <string name="menu_change_key_settings">Mesterkulcs cseréje</string>
     <string name="settings">Beállítások</string>
     <string name="menu_database_settings">Adatbázis-beállítások</string>
@@ -117,23 +116,18 @@
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Telepítsen egy webböngészőt az URL megnyitásához.</string>
     <string name="open_recent">Korábbi adatbázisok</string>
-    <string name="omitbackup_title">Ne keressen a biztonsági mentésekben</string>
-    <string name="omitbackup_summary">A „Biztonsági mentés” csoport kihagyása a keresésből (csak a .kdb fájlokra érvényes)</string>
+    <string name="omit_backup_search_title">Ne keressen a biztonsági mentésekben</string>
+    <string name="omit_backup_search_summary">A „Biztonsági mentés” csoport kihagyása a keresésből (csak a .kdb fájlokra érvényes)</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Védelem</string>
     <string name="read_only">Írásvédett</string>
     <string name="read_only_warning">A KeePassDX-nek írási engedélyre van szüksége, hogy bármit is módosíthasson az adatbázisban.</string>
-    <string name="recentfile_title">Előző fájlok előzményei</string>
-    <string name="recentfile_summary">Az előző fájlnevek megjegyzése</string>
-    <string name="remember_keyfile_summary">Megjegyzi az adatbázis-kulcsfájlok helyét</string>
-    <string name="remember_keyfile_title">Kulcsfájl mentése</string>
     <string name="content_description_remove_from_list">Eltávolítás</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Gyökérkönyvár</string>
     <string name="rounds">Transzformációs körök</string>
     <string name="rounds_explanation">A további titkosítási körök magasabb védelmet biztosítanak a nyers erőt használó támadások ellen, ugyanakkor jelentősen lassíthatják az adatbázis betöltését vagy mentését.</string>
-    <string name="rounds_hint">transzformációs körök</string>
     <string name="saving_database">Adatbázis mentése…</string>
     <string name="space">Szóköz</string>
     <string name="search_label">Keresés</string>
@@ -214,7 +208,6 @@
     <string name="sort_creation_time">Létrehozás</string>
     <string name="sort_last_modify_time">Módosítás</string>
     <string name="sort_last_access_time">Hozzáférés</string>
-    <string name="warning_read_only">SD kártya írási jogosultság megadása az adatbázis-változások mentéséhez.</string>
     <string name="warning_empty_password">Biztos, hogy nem akar jelszavas feloldási védelmet\?</string>
     <string name="warning_no_encryption_key">Biztos, hogy nem akar semmilyen titkosítási kulcsot használni\?</string>
     <string name="build_label">Összeállítás: %1$s</string>
@@ -330,14 +323,14 @@
     <string name="clipboard_swipe_clean">Seprés a vágólap azonnali törléséhez</string>
     <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
     <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
-    <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy <strong>reklámmentes</strong>, <strong>copyleft licencelésű szabad szoftver</strong>, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
-    <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a <strong>vizuális funkcióhoz</strong>, és segít a <strong>közösségi projektek megvalósulásában.</strong></string>
-    <string name="html_text_feature_generosity">Ez a <strong>vizuális funkció</strong> az Ön nagylelkűségének köszönhetően érhető el.</string>
-    <string name="html_text_donation">Ahhoz, hogy megtartsuk a szabadságunkat, és hogy mindig aktívak lehessünk, számítunk az Ön <strong>támogatására.</strong></string>
-    <string name="html_text_dev_feature">Ez a funkció <strong>fejlesztés alatt áll</strong>, és az Ön <strong>támogatására</strong> van szükség, hogy hamarosan elérhető legyen.</string>
-    <string name="html_text_dev_feature_buy_pro">A <strong>pro</strong> verzió megvásárlásával,</string>
-    <string name="html_text_dev_feature_contibute">A <strong>támogatással</strong></string>
-    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy <strong>új funkciókat</strong> készítsenek, és <strong>hibákat javítsanak</strong> az észrevételei alapján.</string>
+    <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
+    <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális funkcióhoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális funkció&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
+    <string name="html_text_donation">Ahhoz, hogy megtartsuk a szabadságunkat, és hogy mindig aktívak lehessünk, számítunk az Ön &lt;strong&gt;támogatására.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
+    <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
+    <string name="html_text_dev_feature_contibute">A &lt;strong&gt;támogatással&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature_encourage">arra ösztönzi a fejlesztőket, hogy &lt;strong&gt;új funkciókat&lt;/strong&gt; készítsenek, és &lt;strong&gt;hibákat javítsanak&lt;/strong&gt; az észrevételei alapján.</string>
     <string name="html_text_dev_feature_thanks">Köszönjük a támogatását.</string>
     <string name="html_text_dev_feature_work_hard">Keményen dolgozunk, hogy gyorsan kiadjuk ezt a funkciót.</string>
     <string name="html_text_dev_feature_upgrade">Ne felejtse naprakészen tartani az alkalmazást az új verziók telepítésével.</string>

@@ -47,5 +47,10 @@ interface NodeVersionedInterface<ParentGroup> : NodeTimeInterface, Parcelable {
 
     fun isContainedIn(container: ParentGroup): Boolean
 
+    /**
+     * Groups are always before in natural order (DB order)
+     */
+    fun nodeIndexInParentForNaturalOrder(): Int
+
     fun touch(modified: Boolean, touchParents: Boolean)
 }

@@ -24,9 +24,9 @@ import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 
 interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, Entry> : NodeVersionedInterface<Group> {
 
-    fun getChildGroups(): MutableList<Group>
+    fun getChildGroups(): List<Group>
 
-    fun getChildEntries(): MutableList<Entry>
+    fun getChildEntries(): List<Entry>
 
     fun addChildGroup(group: Group)
 

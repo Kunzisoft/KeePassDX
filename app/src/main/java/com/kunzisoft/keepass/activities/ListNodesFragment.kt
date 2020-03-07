@@ -54,7 +54,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     private var nodeClickListener: NodeClickListener? = null
     private var onScrollListener: OnScrollListener? = null
 
-    private var listView: RecyclerView? = null
+    private var mNodesRecyclerView: RecyclerView? = null
     var mainGroup: Group? = null
         private set
     private var mAdapter: NodeAdapter? = null
@@ -169,19 +169,23 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         // To apply theme
         val rootView = inflater.cloneInContext(contextThemed)
                 .inflate(R.layout.fragment_list_nodes, container, false)
-        listView = rootView.findViewById(R.id.nodes_list)
+        mNodesRecyclerView = rootView.findViewById(R.id.nodes_list)
         notFoundView = rootView.findViewById(R.id.not_found_container)
 
+        mNodesRecyclerView?.apply {
+            scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
+            layoutManager = LinearLayoutManager(context)
+            adapter = mAdapter
+        }
+
         onScrollListener?.let { onScrollListener ->
-            listView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            mNodesRecyclerView?.addOnScrollListener(object : RecyclerView.OnScrollListener() {
                 override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                     super.onScrolled(recyclerView, dx, dy)
                     onScrollListener.onScrolled(dy)
                 }
             })
         }
-
-        rebuildList()
 
         return rootView
     }
@@ -194,14 +198,14 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         // Refresh data
-        mAdapter?.notifyDataSetChanged()
+        rebuildList()
 
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
-            listView?.visibility = View.GONE
+            mNodesRecyclerView?.visibility = View.GONE
             notFoundView?.visibility = View.VISIBLE
         } else {
-            listView?.visibility = View.VISIBLE
+            mNodesRecyclerView?.visibility = View.VISIBLE
             notFoundView?.visibility = View.GONE
         }
     }
@@ -211,14 +215,12 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         mainGroup?.let { mainGroup ->
             mAdapter?.rebuildList(mainGroup)
         }
-        listView?.apply {
-            scrollBarStyle = View.SCROLLBARS_INSIDE_INSET
-            layoutManager = LinearLayoutManager(context)
-            adapter = mAdapter
-        }
     }
 
-    override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {
+    override fun onSortSelected(sortNodeEnum: SortNodeEnum,
+                                ascending: Boolean,
+                                groupsBefore: Boolean,
+                                recycleBinBottom: Boolean) {
         // Toggle setting
         prefs?.edit()?.apply {
             putString(getString(R.string.sort_node_key), sortNodeEnum.name)
@@ -229,10 +231,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
         }
 
         // Tell the adapter to refresh it's list
-        mAdapter?.notifyChangeSort(sortNodeEnum, ascending, groupsBefore)
-        mainGroup?.let { mainGroup ->
-            mAdapter?.rebuildList(mainGroup)
-        }
+        mAdapter?.notifyChangeSort(sortNodeEnum,
+                SortNodeEnum.SortNodeParameters(ascending, groupsBefore, recycleBinBottom))
+        rebuildList()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -378,9 +379,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                             mAdapter?.addNode(newNode)
                         if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
                             //mAdapter.updateLastNodeRegister(newNode);
-                            mainGroup?.let { mainGroup ->
-                                mAdapter?.rebuildList(mainGroup)
-                            }
+                            rebuildList()
                         }
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }

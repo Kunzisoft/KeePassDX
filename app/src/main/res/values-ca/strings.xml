@@ -21,8 +21,8 @@
   
 -->
 <resources>
-    <string name="about_feedback">Comentaris:</string>
-    <string name="about_homepage">Pàgina inici:</string>
+    <string name="feedback">Comentaris:</string>
+    <string name="homepage">Pàgina inici:</string>
     <string name="about_description">KeePassDX és una implementació per Android de KeePass password manager.</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
@@ -43,7 +43,7 @@
     <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
     <string name="select_database_file">Introdueix el nom de la base de dades</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
@@ -89,9 +89,9 @@
     <string name="list_size_summary">Mida del text a la llista de grups</string>
     <string name="loading_database">Carregant base de dades&#8230;</string>
     <string name="lowercase">Minúscules</string>
-    <string name="maskpass_title">Emmascara contrasenya</string>
-    <string name="maskpass_summary">Amaga les contrasenyes per defecte</string>
-    <string name="menu_about">Sobre</string>
+    <string name="hide_password_title">Emmascara contrasenya</string>
+    <string name="hide_password_summary">Amaga les contrasenyes per defecte</string>
+    <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Canvia Clau Mestra</string>
     <string name="settings">Paràmetres</string>
     <string name="menu_database_settings">Paràmetres de la base de dades</string>
@@ -109,18 +109,15 @@
     <string name="no_results">Cap resultat de cerca</string>
     <string name="no_url_handler">Sense gestor per aquesta url.</string>
     <string name="open_recent">Obre base de dades recent :</string>
-    <string name="omitbackup_title">No cerquis entrades a còpia de seguretat ni paperera</string>
-    <string name="omitbackup_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
+    <string name="omit_backup_search_title">No cerquis entrades a còpia de seguretat ni paperera</string>
+    <string name="omit_backup_search_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
     <string name="progress_create">Creant nova base de dades&#8230;</string>
     <string name="progress_title">Treballant&#8230;</string>
-    <string name="remember_keyfile_summary">Recorda la localització d\'arxius clau</string>
-    <string name="remember_keyfile_title">Guarda arxiu clau</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>
     <string name="rounds">Passades d\'encriptació</string>
     <string name="rounds_explanation">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
-    <string name="rounds_hint">passades</string>
     <string name="saving_database">Guardant la base de dades&#8230;</string>
     <string name="space">Espai</string>
     <string name="search_label">Cerca</string>

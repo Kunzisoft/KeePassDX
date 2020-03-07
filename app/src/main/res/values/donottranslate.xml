@@ -32,8 +32,8 @@
 
     <string name="app_pro_url" translatable="false">https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro</string>
     <string name="contribution_url" translatable="false">https://www.keepassdx.com/contribution</string>
-    <string name="homepage" translatable="false">https://www.keepassdx.com</string>
-    <string name="issues" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
+    <string name="homepage_url" translatable="false">https://www.keepassdx.com</string>
+    <string name="issues_url" translatable="false">https://github.com/Kunzisoft/KeePassDX/issues</string>
     <string name="file_manager_play_store" translatable="false">TODO file manager</string>
     <string name="file_manager_f_droid" translatable="false">TODO file manager</string>
     <string name="field_references_url" translatable="false">https://keepass.info/help/base/fieldrefs.html</string>
@@ -68,8 +68,10 @@
     <bool name="enable_read_only_default" translatable="false">false</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
-    <string name="omitbackup_key" translatable="false">omitbackup</string>
-    <bool name="omitbackup_default" translatable="false">true</bool>
+    <string name="omit_backup_search_key" translatable="false">omit_backup_search_key</string>
+    <bool name="omit_backup_search_default" translatable="false">true</bool>
+    <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
+    <bool name="auto_focus_search_default" translatable="false">false</bool>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
@@ -79,14 +81,18 @@
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
-    <string name="maskpass_key" translatable="false">maskpass</string>
-    <bool name="maskpass_default" translatable="false">true</bool>
+    <string name="hide_password_key" translatable="false">hide_password_key</string>
+    <bool name="hide_password_default" translatable="false">true</bool>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
-    <string name="recentfile_key" translatable="false">recentfile</string>
-    <bool name="recentfile_default" translatable="false">true</bool>
-    <string name="keyfile_key" translatable="false">keyfile</string>
-    <bool name="keyfile_default" translatable="false">true</bool>
+    <string name="remember_database_locations_key" translatable="false">remember_database_locations_key</string>
+    <bool name="remember_database_locations_default" translatable="false">true</bool>
+    <string name="show_recent_files_key" translatable="false">show_recent_files_key</string>
+    <bool name="show_recent_files_default" translatable="false">true</bool>
+    <string name="hide_broken_locations_key" translatable="false">hide_broken_locations_key</string>
+    <bool name="hide_broken_locations_default" translatable="false">true</bool>
+    <string name="remember_keyfile_locations_key" translatable="false">remember_keyfile_locations_key</string>
+    <bool name="remember_keyfile_locations_default" translatable="false">true</bool>
     <string name="advanced_unlock_explanation_key" translatable="false">advanced_unlock_explanation_key</string>
     <string name="biometric_unlock_enable_key" translatable="false">biometric_unlock_enable_key</string>
     <bool name="biometric_unlock_enable_default" translatable="false">false</bool>
@@ -108,6 +114,7 @@
     <bool name="clear_clipboard_notification_default" translatable="false">true</bool>
     <string name="clipboard_timeout_key" translatable="false">clip_timeout_key</string>
     <string name="clipboard_timeout_default" translatable="false">300000</string>
+    <string name="autofill_key" translatable="false">autofill_key</string>
     <string name="autofill_explanation_key" translatable="false">autofill_explanation_key</string>
     <string name="settings_autofill_enable_key" translatable="false">settings_autofill_enable_key</string>
     <bool name="settings_autofill_enable_default" translatable="false">false</bool>

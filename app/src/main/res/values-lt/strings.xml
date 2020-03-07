@@ -3,8 +3,8 @@
     <string name="about_description">KeePassDX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
     <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
-    <string name="about_feedback">Atsiliepimai:</string>
-    <string name="about_homepage">Pagrindinis puslapis:</string>
+    <string name="feedback">Atsiliepimai:</string>
+    <string name="homepage">Pagrindinis puslapis:</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
@@ -40,7 +40,7 @@
     <string name="hint_pass">slaptažodis</string>
     <string name="length">Ilgis</string>
     <string name="list_size_title">Grupės sąrašo dydis</string>
-    <string name="menu_about">Apie</string>
+    <string name="about">Apie</string>
     <string name="settings">Nustatymai</string>
     <string name="menu_database_settings">Duomenų bazės nustatymai</string>
     <string name="menu_delete">Išrinti</string>
@@ -58,10 +58,6 @@
     <string name="warning">Įspėjimas</string>
     <string name="select_database_file">Įveskite duomenų bazės failą</string>
     <string name="error_wrong_length">Įveskite teigiamą skaičių ilgio lauke</string>
-    <string name="recentfile_title">Naujausių failų istorija</string>
-    <string name="recentfile_summary">Atsiminti paskutinius naudotus failų pavadinimus</string>
-    <string name="remember_keyfile_title">Saugoti rakto failą</string>
-    <string name="remember_keyfile_summary">Atsimena rakto failų vietą</string>
     <string name="content_description_remove_from_list">Pašalinti</string>
     <string name="root">Šaknis</string>
     <string name="read_only">Tik skaitymui</string>
@@ -75,16 +71,15 @@
     <string name="app_timeout">Programėlės neveiklumas</string>
     <string name="clipboard_error_clear">Iškarpinės išvalymas nepavyko</string>
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
-    <string name="omitbackup_title">Neiškoti atkūrimo įrašuose</string>
+    <string name="omit_backup_search_title">Neiškoti atkūrimo įrašuose</string>
     <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio uri.</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
-    <string name="keyfile_does_not_exist">Rakto failas neegzistuoja.</string>
     <string name="entry_keyfile">Rakto failas</string>
     <string name="search">Įrašo pavadinimas/aprašymas</string>
     <string name="menu_change_key_settings">Pakeisti master raktą</string>
     <string name="entry_accessed">Naudota:</string>
-    <string name="maskpass_title">Maskuoti slaptažodį</string>
+    <string name="hide_password_title">Maskuoti slaptažodį</string>
     <string name="space">Tarpas</string>
     <string name="special">Specialus</string>
     <string name="uppercase">Didžiosios raidės</string>
@@ -93,7 +88,7 @@
     <string name="underline">Pabraukimas</string>
     <string name="open_recent">Atidaryti naujausią duomenų bazę </string>
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
-    <string name="maskpass_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
+    <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Neteisingas kelias.</string>
 

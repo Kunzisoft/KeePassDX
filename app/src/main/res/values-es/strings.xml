@@ -19,8 +19,8 @@
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
 --><resources>
-    <string name="about_feedback">Commentario</string>
-    <string name="about_homepage">Página de inicio</string>
+    <string name="feedback">Commentario</string>
+    <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
     <string name="accept">Aceptar</string>
     <string name="add_entry">Añadir entrada</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Descifrando el contenido de la base de datos…</string>
     <string name="default_checkbox">Utilice como base de datos por defecto</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePassDX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
+    <string name="html_about_licence">KeePassDX, © %1$d de Kunzisoft, no incluye garantías. Es un «software» libre y puede redistribuirlo en virtud de las condiciones de la GPL, en su versión 3 o posterior.</string>
     <string name="select_database_file">Abrir base de datos existente</string>
     <string name="entry_accessed">Acceso</string>
     <string name="entry_cancel">Cancelar</string>
@@ -87,9 +87,9 @@
     <string name="list_size_summary">Tamaño del texto de la lista de grupo</string>
     <string name="loading_database">Cargando base de datos…</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="maskpass_title">Ocultar contraseñas</string>
-    <string name="maskpass_summary">Enmascarar contraseñas (***) de manera predeterminada</string>
-    <string name="menu_about">Acerca de</string>
+    <string name="hide_password_title">Ocultar contraseñas</string>
+    <string name="hide_password_summary">Enmascarar contraseñas (***) de manera predeterminada</string>
+    <string name="about">Acerca de</string>
     <string name="menu_change_key_settings">Cambiar Contraseña Maestra</string>
     <string name="settings">Configuración</string>
     <string name="menu_database_settings">Configuración de Base de datos</string>
@@ -106,21 +106,16 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir este URL.</string>
-    <string name="recentfile_title">Historial de archivos recientes</string>
-    <string name="recentfile_summary">Recordar nombres de archivos recientes</string>
     <string name="open_recent">Bases de datos recientes</string>
-    <string name="omitbackup_title">No buscar en las entradas de respaldo</string>
-    <string name="omitbackup_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
+    <string name="omit_backup_search_title">No buscar en las entradas de respaldo</string>
+    <string name="omit_backup_search_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
     <string name="progress_title">Trabajando…</string>
-    <string name="remember_keyfile_summary">Recuerda la ubicación de los archivos de clave de bases de datos</string>
-    <string name="remember_keyfile_title">Guardando archivo de clave</string>
     <string name="content_description_remove_from_list">Quitar</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raíz</string>
     <string name="rounds">Pasadas de transformación</string>
     <string name="rounds_explanation">Un alto número de pasadas de cifrado proporciona protección adicional contra ataques de fuerza bruta, pero puede ralentizar mucho el cargado y el guardado.</string>
-    <string name="rounds_hint">pasadas de transformación</string>
     <string name="saving_database">Guardando base de datos…</string>
     <string name="space">Espacio</string>
     <string name="search_label">Buscar</string>
@@ -165,7 +160,6 @@
     <string name="field_value">Valor del campo</string>
     <string name="file_not_found_content">No se pudo encontrar el archivo. Intente volver a abrirlo en el explorador de archivos.</string>
     <string name="invalid_algorithm">El algoritmo es incorrecto.</string>
-    <string name="keyfile_does_not_exist">No existe ningún archivo de clave.</string>
     <string name="keyfile_is_empty">El archivo de clave está vacío.</string>
     <string name="copy_field">Copia de %1$s</string>
     <string name="menu_form_filling_settings">Llenado de formulario</string>
@@ -282,14 +276,14 @@
     <string name="education_sort_summary">Ordenar registros y grupos de acuerdo a parámetros específicos.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Participe para aumentar la estabilidad, la seguridad y agregar más funciones.</string>
-    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es <strong>sin publicidad </strong>, <strong>fuente abierta</strong> y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
-    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a <strong>la característica visual </strong>y usted ayudará especialmente a <strong>la realización de proyectos comunitarios.</strong></string>
-    <string name="html_text_feature_generosity">Esta <strong>característica visual </strong>está disponible gracias a tu generosidad.</string>
-    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu <strong>contribución.</strong></string>
-    <string name="html_text_dev_feature">Esta función está <strong>en desarrollo</strong> y requiere de tu <strong>contribución</strong> para estar disponible dentro de poco.</string>
-    <string name="html_text_dev_feature_buy_pro">Al comprar la versión <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute">Al <strong>contribuir</strong>,</string>
-    <string name="html_text_dev_feature_encourage">usted alienta a los desarrolladores a crear <strong>nuevas funciones</strong> y a <strong>errores de configuración</strong> de acuerdo con tus comentarios.</string>
+    <string name="html_text_ad_free">A diferencia de muchas aplicaciones de administración de contraseñas, esta aplicación es &lt;strong&gt;sin publicidad &lt;/strong&gt;, &lt;strong&gt;fuente abierta&lt;/strong&gt; y no recupera datos personales en sus servidores, ni siquiera en su versión gratuita.</string>
+    <string name="html_text_buy_pro">Al comprar la versión pro, tendrá acceso a &lt;strong&gt;la característica visual &lt;/strong&gt;y usted ayudará especialmente a &lt;strong&gt;la realización de proyectos comunitarios.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Esta &lt;strong&gt;característica visual &lt;/strong&gt;está disponible gracias a tu generosidad.</string>
+    <string name="html_text_donation">Para mantener nuestra libertad y estar siempre vigente, contamos con tu &lt;strong&gt;contribución.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Esta función está &lt;strong&gt;en desarrollo&lt;/strong&gt; y requiere de tu &lt;strong&gt;contribución&lt;/strong&gt; para estar disponible dentro de poco.</string>
+    <string name="html_text_dev_feature_buy_pro">Al comprar la versión &lt;strong&gt;pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute">Al &lt;strong&gt;contribuir&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">usted alienta a los desarrolladores a crear &lt;strong&gt;nuevas funciones&lt;/strong&gt; y a &lt;strong&gt;errores de configuración&lt;/strong&gt; de acuerdo con tus comentarios.</string>
     <string name="html_text_dev_feature_thanks">Muchas gracias por tu contribución.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabajando duro para lanzar esta característica rápidamente.</string>
     <string name="html_text_dev_feature_upgrade">No olvide mantener su aplicación actualizada.</string>
@@ -316,7 +310,6 @@
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compilación %1$s</string>
     <string name="clipboard_warning">Si la supresión automática del portapapeles falla, borran el historial manualmente.</string>
-    <string name="warning_read_only">Otorgue permiso de escritura a la tarjeta SD para guardar los cambios en la base de datos.</string>
     <string name="allow_copy_password_warning">ATENCIÓN: todas las aplicaciones comparten el portapapeles. Si copia datos confidenciales, otros programas podrían recuperarlos.</string>
     <string name="allow_no_password_title">No permitir claves maestras</string>
     <string name="allow_no_password_summary">Activar el botón «Abrir» si no se selecciona ninguna credencial</string>

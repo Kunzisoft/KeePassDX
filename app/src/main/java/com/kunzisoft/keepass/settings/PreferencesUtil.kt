@@ -28,16 +28,40 @@ import java.util.*
 
 object PreferencesUtil {
 
-    fun rememberKeyFiles(context: Context): Boolean {
+    fun rememberDatabaseLocations(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.keyfile_key),
-                context.resources.getBoolean(R.bool.keyfile_default))
+        return prefs.getBoolean(context.getString(R.string.remember_database_locations_key),
+                context.resources.getBoolean(R.bool.remember_database_locations_default))
+    }
+
+    fun showRecentFiles(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.show_recent_files_key),
+                context.resources.getBoolean(R.bool.show_recent_files_default))
+    }
+
+    fun hideBrokenLocations(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.hide_broken_locations_key),
+                context.resources.getBoolean(R.bool.hide_broken_locations_default))
+    }
+
+    fun rememberKeyFileLocations(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.remember_keyfile_locations_key),
+                context.resources.getBoolean(R.bool.remember_keyfile_locations_default))
     }
 
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.omitbackup_key),
-                context.resources.getBoolean(R.bool.omitbackup_default))
+        return prefs.getBoolean(context.getString(R.string.omit_backup_search_key),
+                context.resources.getBoolean(R.bool.omit_backup_search_default))
+    }
+
+    fun automaticallyFocusSearch(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.auto_focus_search_key),
+                context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
     fun showUsernamesListEntries(context: Context): Boolean {
@@ -194,8 +218,8 @@ object PreferencesUtil {
 
     fun isPasswordMask(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.maskpass_key),
-                context.resources.getBoolean(R.bool.maskpass_default))
+        return prefs.getBoolean(context.getString(R.string.hide_password_key),
+                context.resources.getBoolean(R.bool.hide_password_default))
     }
 
     fun fieldFontIsInVisibility(context: Context): Boolean {

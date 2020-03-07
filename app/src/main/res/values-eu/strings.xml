@@ -19,8 +19,8 @@
   
   Basque translation by David García-Abad, released under GPL V2.
 --><resources>
-    <string name="about_feedback">Feedback:</string>
-    <string name="about_homepage">Hasiera orria</string>
+    <string name="feedback">Feedback:</string>
+    <string name="homepage">Hasiera orria</string>
     <string name="about_description">Keepass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
     <string name="add_entry">Sarrera gehitu</string>
@@ -45,7 +45,7 @@
     <string name="decrypting_db">Datubasearen datuak desenkriptatzen…</string>
     <string name="default_checkbox">Hau erabili modu lehenetsitako datubase gisa</string>
     <string name="digits">Zenbakiak</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ez dakar inolako bermerik. Lan hau software librea da. banatu edo/eta aldatu egin dezakezu GNU General Public License bigarren bertsioaren baldintzapean.</string>
     <string name="select_database_file">Datubasearen fitxategiaren izena sartu</string>
     <string name="entry_accessed">Akzesoa</string>
     <string name="entry_cancel">Utzi</string>
@@ -91,16 +91,15 @@
     <string name="invalid_credentials">Pasahitz edo gako fitxategi baliogabea.</string>
     <string name="invalid_algorithm">Algoritmo baliogabea.</string>
     <string name="invalid_db_sig">Datubase formato ez ezaguna.</string>
-    <string name="keyfile_does_not_exist">Gako fitxategia ez da esistitzen.</string>
     <string name="keyfile_is_empty">Gako fitxategia hutsik dago.</string>
     <string name="length">Luzera</string>
     <string name="list_size_title">Talde listaren tamaina</string>
     <string name="list_size_summary">Testuaren tamaina taldearen listan</string>
     <string name="loading_database">Datubasea kargatzen…</string>
     <string name="lowercase">minuskulak</string>
-    <string name="maskpass_title">Pasahitza estali</string>
-    <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
-    <string name="menu_about">Honi buruz</string>
+    <string name="hide_password_title">Pasahitza estali</string>
+    <string name="hide_password_summary">Pasahitza estali modu lehenetsian</string>
+    <string name="about">Honi buruz</string>
     <string name="menu_change_key_settings">Gako Maisua Aldatu</string>
     <string name="settings">Ezarpenak</string>
     <string name="menu_database_settings">Datubasearen ezarpenak</string>
@@ -118,21 +117,16 @@
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
     <string name="open_recent">Duela gutxiko datubasea ireki :</string>
-    <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
-    <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
+    <string name="omit_backup_search_title">Ez bilatu segurtasun kopiaren sarreretan</string>
+    <string name="omit_backup_search_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
     <string name="progress_create">Datubase berria sortzen…</string>
     <string name="progress_title">Lanean…</string>
     <string name="protection">Babesa</string>
-    <string name="recentfile_title">Duela gutxiko fitxategien historia</string>
-    <string name="recentfile_summary">Gogoratu duela gutxi erabili diren fitxategien izenak</string>
-    <string name="remember_keyfile_summary">Gogoratu gako fitxategien kokapenak</string>
-    <string name="remember_keyfile_title">Gako fitxategia gorde</string>
     <string name="content_description_remove_from_list">Ezabatu</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Enkriptatzeko Rondak</string>
     <string name="rounds_explanation">Enkriptatzeko ronda gehiago indar gordineko atakeen kontrako babes gehiago ematen dute, baina kargatzea eta gordetzea moteldu dezakete modu nabarmenean.</string>
-    <string name="rounds_hint">rondak</string>
     <string name="saving_database">Datubasea gordetzen…</string>
     <string name="space">Lekua</string>
     <string name="search_label">Bilatu</string>

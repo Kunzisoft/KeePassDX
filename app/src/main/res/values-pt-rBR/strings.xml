@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Comentários</string>
-    <string name="about_homepage">Página inicial</string>
+    <string name="feedback">Comentários</string>
+    <string name="homepage">Página inicial</string>
     <string name="about_description">KeePassDX é uma implementação para Android do gerenciador de senhas KeePass</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Digitos</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -85,9 +85,9 @@
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">Carregando banco de dados…</string>
     <string name="lowercase">Letras minúsculas</string>
-    <string name="maskpass_title">Esconder senhas</string>
-    <string name="maskpass_summary">Mascarar senhas (***) por padrão</string>
-    <string name="menu_about">Sobre</string>
+    <string name="hide_password_title">Esconder senhas</string>
+    <string name="hide_password_summary">Mascarar senhas (***) por padrão</string>
+    <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Modificar senha mestre</string>
     <string name="settings">Configurações</string>
     <string name="menu_database_settings">Configurações do banco de dados</string>
@@ -105,18 +105,15 @@
     <string name="no_results">Sem resultados na busca</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
     <string name="open_recent">Bancos de dados recentes</string>
-    <string name="omitbackup_title">Não procurar por entradas no backup ou na lixeira</string>
-    <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
+    <string name="omit_backup_search_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">Criando novo banco de dados…</string>
     <string name="progress_title">Trabalhando…</string>
-    <string name="remember_keyfile_summary">Lembra o local dos arquivos-chave dos bancos de dados</string>
-    <string name="remember_keyfile_title">Salvar arquivo de chave</string>
     <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
-    <string name="rounds_hint">rodadas de transformação</string>
     <string name="saving_database">Salvando banco de dados…</string>
     <string name="space">Spaço</string>
     <string name="search_label">Busca</string>
@@ -165,7 +162,6 @@
     <string name="field_value">Valor do campo</string>
     <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu provedor de conteúdo.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
-    <string name="keyfile_does_not_exist">Não existem arquivos-chave.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
     <string name="menu_form_filling_settings">Preenchimento de formulário</string>
@@ -179,8 +175,8 @@
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
-    <string name="recentfile_title">Histórico de arquivos recentes</string>
-    <string name="recentfile_summary">Lembrar nomes recentes de arquivos</string>
+    <string name="show_recent_files_title">Histórico de arquivos recentes</string>
+    <string name="show_recent_files_summary">Lembrar nomes recentes de arquivos</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre é transformada usando uma função de derivação de chave.</string>
     <string name="memory_usage">Uso de memória</string>
@@ -302,14 +298,14 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
-    <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong></string>
-    <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
-    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Contribuindo </strong>,</string>
-    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;software livre&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
+    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter seu aplicativo atualizado.</string>
@@ -323,7 +319,6 @@
     <string name="icon_pack_choose_title">Pacote de ícones</string>
     <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
     <string name="edit_entry">Editar entrada</string>
-    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
     <string name="error_load_database">Falha ao carregar o banco.</string>
     <string name="error_load_database_KDF_memory">Não pôde carregar a chave. Tente diminuir o \"Uso de Memória\" do KDF.</string>
     <string name="list_entries_show_username_title">Mostrar nomes de usuário</string>

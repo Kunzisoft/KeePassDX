@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Spätná väzba</string>
-    <string name="about_homepage">Domovská stránka</string>
+    <string name="feedback">Spätná väzba</string>
+    <string name="homepage">Domovská stránka</string>
     <string name="about_description">Správca hesiel KeePass pre Android</string>
     <string name="accept">Prijať</string>
     <string name="add_entry">Pridať Záznam</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">Dešifrujem obsah databázy…</string>
     <string name="default_checkbox">Použiť ako predvolenú databázu</string>
     <string name="digits">Číslice</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft použitie Absolútne bez Záruky. Toto je free software, a môžete ho používať pod GPL ver. 3 alebo vyššie.</string>
     <string name="select_database_file">Vložte názov Databázy</string>
     <string name="entry_accessed">Pristupované</string>
     <string name="entry_cancel">Zrušiť</string>
@@ -85,9 +85,9 @@
     <string name="list_size_summary">Veľkosť textu v zozname skupín</string>
     <string name="loading_database">Načítavam Databázu…</string>
     <string name="lowercase">Malé písmená</string>
-    <string name="maskpass_title">Skryť heslo</string>
-    <string name="maskpass_summary">Skryť heslá štandardne</string>
-    <string name="menu_about">O Programe</string>
+    <string name="hide_password_title">Skryť heslo</string>
+    <string name="hide_password_summary">Skryť heslá štandardne</string>
+    <string name="about">O Programe</string>
     <string name="menu_change_key_settings">Zmeniť hlavný Kľúč</string>
     <string name="settings">Nastavenia</string>
     <string name="menu_database_settings">Nastavenia Databázy</string>
@@ -105,18 +105,15 @@
     <string name="no_results">Žiadne výsledky hľadania</string>
     <string name="no_url_handler">Žiaden manažér pre url.</string>
     <string name="open_recent">Otvoriť poslednú databázu :</string>
-    <string name="omitbackup_title">Neprehľadávať položky</string>
-    <string name="omitbackup_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
+    <string name="omit_backup_search_title">Neprehľadávať položky</string>
+    <string name="omit_backup_search_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="progress_create">Vytváram novú databázu…</string>
     <string name="progress_title">Pracujem…</string>
-    <string name="remember_keyfile_summary">Zapamätať si umiestnenie keyfile</string>
-    <string name="remember_keyfile_title">Uložiť keyfile</string>
     <string name="content_description_remove_from_list">Odstrániť</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrovacie opakovania</string>
     <string name="rounds_explanation">Vyššie opakovania šifrovania dávajú vyššiu ochranu proti útokom hrubou silou, ale môžu spomaliť načítavanie a ukladanie.</string>
-    <string name="rounds_hint">opakovania</string>
     <string name="saving_database">Ukladám databázu…</string>
     <string name="space">Miesto</string>
     <string name="search_label">Hľadať</string>

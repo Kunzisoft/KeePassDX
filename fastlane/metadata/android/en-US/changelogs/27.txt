@@ -1,0 +1,7 @@
+ * New setting to hide broken links
+ * Show URL when title is empty
+ * Setting to open search field at database opening
+ * Fix settings for database locations
+ * Fix error message when database file not writable
+ * Fix appearance refresh settings
+ * Sort optimization

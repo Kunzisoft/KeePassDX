@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-    <string name="about_feedback">Atsauksmes:</string>
-    <string name="about_homepage">Mājaslapa:</string>
+    <string name="feedback">Atsauksmes:</string>
+    <string name="homepage">Mājaslapa:</string>
     <string name="about_description">KeePassDX ir KeePass paroļu menedžera Android implementācija</string>
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
@@ -70,16 +70,15 @@
     <string name="invalid_credentials">Nederīga parole vai atslēgas fails.</string>
     <string name="invalid_algorithm">Nederīgs algoritms.</string>
     <string name="invalid_db_sig">Datu bāzes formāts nav atpazīts.</string>
-    <string name="keyfile_does_not_exist">Atslēgas fails nepastāv.</string>
     <string name="keyfile_is_empty">Atslēgas fails ir tukšs.</string>
     <string name="length">Garums</string>
     <string name="list_size_title">Grupu saraksta teksta izmērs</string>
     <string name="list_size_summary">Teksta izmērs ierakstos un grupu sarakstos</string>
     <string name="loading_database">Ielādēt datu bāzi…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="maskpass_title">Sēpt paroles</string>
-    <string name="maskpass_summary">Sēpt paroles *****</string>
-    <string name="menu_about">Par</string>
+    <string name="hide_password_title">Sēpt paroles</string>
+    <string name="hide_password_summary">Sēpt paroles *****</string>
+    <string name="about">Par</string>
     <string name="menu_change_key_settings">Mainīt galveno paroli</string>
     <string name="settings">Iestatījumi</string>
     <string name="menu_database_settings">Datu bāzes iestatījumi</string>
@@ -97,21 +96,16 @@
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
     <string name="open_recent">Atvērt pēdējo datu bāzi :</string>
-    <string name="omitbackup_title">Nemeklēt kopijās un atkritnē</string>
-    <string name="omitbackup_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
+    <string name="omit_backup_search_title">Nemeklēt kopijās un atkritnē</string>
+    <string name="omit_backup_search_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="progress_create">Izveido jaunu datu bāzi…</string>
     <string name="progress_title">Darbojas…</string>
     <string name="protection">Aizsardzība</string>
-    <string name="recentfile_title">Nesen atvērtie</string>
-    <string name="recentfile_summary">Glabāt atvērto failu nosaukumus</string>
-    <string name="remember_keyfile_summary">Atcerēties šo atslēgas faila vietu</string>
-    <string name="remember_keyfile_title">Saglabāt atslēgas failu</string>
     <string name="content_description_remove_from_list">Noņemt</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
     <string name="rounds">Šifrēšanas līmeņi</string>
     <string name="rounds_explanation">Augstākā līmeņa šifrēšana sniedz lielāku aizsardzību, bet palēnina darbības ar datu bāzēm.</string>
-    <string name="rounds_hint">līmeņi</string>
     <string name="saving_database">Datu bāzes saglabāšana…</string>
     <string name="space">Atstarpe</string>
     <string name="search_label">Meklēt</string>
@@ -148,5 +142,5 @@
     <string name="encryption">Šifrēšana</string>
     <string name="extended_ASCII">Paplašinātais ASCII</string>
     <string name="allow">Atļaut</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
     </resources>

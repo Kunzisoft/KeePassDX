@@ -18,8 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="about_feedback">Comentários</string>
-    <string name="about_homepage">Página inicial</string>
+    <string name="feedback">Comentários</string>
+    <string name="homepage">Página inicial</string>
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
     <string name="accept">Aceitar</string>
     <string name="add_entry">Adicionar entrada</string>
@@ -44,7 +44,7 @@
     <string name="decrypting_db">A desencriptar o conteúdo da base de dados…</string>
     <string name="default_checkbox">Utilizar como base de dados predefinida</string>
     <string name="digits">Dígitos</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft é fornecido absolutamente sem nenhuma garantia. Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é fornecido absolutamente sem nenhuma garantia. Este software é livre, e pode redistribui-lo conforme as condições da licença GPL versão 3 ou superior.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
@@ -91,16 +91,15 @@
     <string name="invalid_credentials">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
-    <string name="keyfile_does_not_exist">Não existem ficheiros-chave.</string>
     <string name="keyfile_is_empty">O ficheiro-chave está vazio.</string>
     <string name="length">Comprimento</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">A carregar base de dados…</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="maskpass_title">Esconder palavras-passe</string>
-    <string name="maskpass_summary">Mascarar palavras-passe (***) por padrão</string>
-    <string name="menu_about">Sobre</string>
+    <string name="hide_password_title">Esconder palavras-passe</string>
+    <string name="hide_password_summary">Mascarar palavras-passe (***) por padrão</string>
+    <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="settings">Definições</string>
     <string name="menu_database_settings">Definições da base de dados</string>
@@ -118,23 +117,18 @@
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
     <string name="open_recent">Bancos de dados recentes</string>
-    <string name="omitbackup_title">Não procurar por entradas no backup ou na lixeira</string>
-    <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
+    <string name="omit_backup_search_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">A criar nova base de dados…</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>
     <string name="read_only">Apenas leitura</string>
     <string name="read_only_warning">KeePassDX precisa de permissões de escrita para poder mudar qualquer coisa no seu banco.</string>
-    <string name="recentfile_title">Histórico de ficheiros recentes</string>
-    <string name="recentfile_summary">Lembrar nomes recentes de ficheiros</string>
-    <string name="remember_keyfile_summary">Lembra o local dos ficheiros-chave dos bancos de dados</string>
-    <string name="remember_keyfile_title">Guardar ficheiro chave</string>
     <string name="content_description_remove_from_list">Remover</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Raiz</string>
     <string name="rounds">Rodadas de criptografia</string>
     <string name="rounds_explanation">Rodadas adicionais de criptografia adicionam mais proteção contra ataques de força bruta, mas podem tornar o processo de carregar e salvar mais lentos.</string>
-    <string name="rounds_hint">rodadas de transformação</string>
     <string name="saving_database">A guardar base de dados…</string>
     <string name="space">Espaço</string>
     <string name="search_label">Pesquisar</string>
@@ -223,7 +217,6 @@
     <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
-    <string name="warning_read_only">Conceda acesso de escrita ao cartão SD para salvar alterações do banco.</string>
     <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>
     <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
     <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>
@@ -287,17 +280,17 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;software livre&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Este <strong>recurso visual</strong> está disponível graças à sua generosidade.</string>
-    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua <strong>contribuição.</strong>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
+    <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Esse recurso está <strong>em desenvolvimento</strong> e exige que sua <strong>contribuição</strong> para que esteja disponível em breve.</string>
-    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão <strong>pro</strong>,</string>
+    <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
+    <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
-        <strong>Contribuindo </strong>,</string>
-    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com suas observações.</string>
+        &lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter seu aplicativo atualizado.</string>

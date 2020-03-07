@@ -16,10 +16,9 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="about_feedback">Tilbakemelding</string>
-    <string name="about_homepage">Hjemmeside</string>
+--><resources>
+    <string name="feedback">Tilbakemelding</string>
+    <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
     <string name="accept">Godta</string>
     <string name="add_entry">Legg til oppføring</string>
@@ -49,7 +48,7 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -99,7 +98,6 @@
     <string name="invalid_credentials">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_algorithm">Ugyldig algoritme.</string>
     <string name="invalid_db_sig">Fremmed databaseformat.</string>
-    <string name="keyfile_does_not_exist">Ingen nøkkelfil finnes.</string>
     <string name="keyfile_is_empty">Nøkkelfilen er tom.</string>
     <string name="length">Lengde</string>
     <string name="list_entries_show_username_title">Vis brukernavn</string>
@@ -108,9 +106,9 @@
     <string name="list_size_summary">Tekststørrelse i elemenetlisten</string>
     <string name="loading_database">Laster database…</string>
     <string name="lowercase">Små bokstaver</string>
-    <string name="maskpass_title">Masker passord</string>
-    <string name="maskpass_summary">Skjul passord som forvalg</string>
-    <string name="menu_about">Om</string>
+    <string name="hide_password_title">Masker passord</string>
+    <string name="hide_password_summary">Skjul passord som forvalg</string>
+    <string name="about">Om</string>
     <string name="menu_change_key_settings">Endre hovednøkkel</string>
     <string name="copy_field">Kopi av%1$s</string>
     <string name="settings">Innstillinger</string>
@@ -139,24 +137,19 @@
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
     <string name="open_recent">Nylige databaser</string>
-    <string name="omitbackup_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
-    <string name="omitbackup_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
+    <string name="omit_backup_search_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
+    <string name="omit_backup_search_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
     <string name="progress_title">Arbeider…</string>
     <string name="protection">Beskyttelse</string>
     <string name="read_only">Skrivebeskyttet</string>
     <string name="read_only_warning">KeePassDX har ikke skrivetilgang til din databaseplassering, så den vil bli åpnet skrivebeskyttet.</string>
-    <string name="recentfile_title">Nylig filhistorikk</string>
-    <string name="recentfile_summary">Husk nylig brukte filnavn</string>
-    <string name="remember_keyfile_summary">Husk nøkkelfilers plassering</string>
-    <string name="remember_keyfile_title">Lagre nøkkelfil</string>
     <string name="content_description_remove_from_list">Fjern</string>
     <string name="root">Rot</string>
     <string name="encryption_explanation">Algoritme for å kryptere hele databasen. (Passord, brukernavn, merknader og all data i databasen er kryptert med valgt algoritme).</string>
     <string name="kdf_explanation">For å generere en nøkkel for krypteringsalgoritmen, er den komprimerte hovednøkkelen (SHA-256) transformert ved bruk av en tilfeldig saltet nøkkelutledningsfunksjon.</string>
     <string name="rounds">Krypteringsomganger</string>
     <string name="rounds_explanation">Flere krypteringsomganger gir ytterligere beskyttelse mot råmaktsangrep, men kan virkelig sakke ned innlasting og lagring.</string>
-    <string name="rounds_hint">omganger</string>
     <string name="memory_usage">Minnebruk</string>
     <string name="memory_usage_explanation">Mangden minne (i binære byte) brukt til nøkkelutledelsesfunksjonen.</string>
     <string name="parallelism">Parallellitet</string>
@@ -182,7 +175,6 @@
     <string name="uppercase">Store bokstaver</string>
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Unngå passordtegn utenfor tekstkodingsformat i databasefil (ukjente tegn blir konvertert til samme bokstav).</string>
-    <string name="warning_read_only">SD-kortet ditt er i øyeblikket skrivebeskyttet. Det kan hende du ikke kan lagre endringer i databasen din.</string>
     <string name="warning_unmounted">SD-kortet ditt er ikke montert på enheten din. Du vil ikke kunne laste inne eller opprette din database.</string>
     <string name="warning_empty_password">Ønsker du virkelig å bruke en tom streng som ditt passord?</string>
     <string name="warning_no_encryption_key">Er du sikker på at du ønsker å bruke en krypteringsnøkkel?</string>
@@ -291,16 +283,16 @@
     <string name="education_sort_summary">Sorter oppføringer og grupper i henhold til spesifikke parameter.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Delta for å øke stabiliteten, sikkerheten, og med å legge til flere funksjoner.</string>
-    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette <strong>reklamefri</strong>, <strong>copyleftbasert fri programvare</strong> og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
-    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne <strong>visuelle funksjonen</strong> og du vil spesielt hjelpe <strong> realiseringen av gemenskapsprosjekter.</strong>
+    <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleftbasert fri programvare&lt;/strong&gt; og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
+    <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil spesielt hjelpe &lt;strong&gt; realiseringen av gemenskapsprosjekter.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Denne <strong>visuelle funksjonen</strong> er tilgjengelig takket være din generøsitet.</string>
-    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine <strong>bidrag.</strong>
+    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
+    <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Denne funksjonen er <strong>under utvikling</strong> og krever <strong>bidrag</strong> for å bli tilgjengelig snart.</string>
-    <string name="html_text_dev_feature_buy_pro">Ved å kjøpe <strong>pro</strong>-versjonen,</string>
-    <string name="html_text_dev_feature_contibute">Ved å <strong>bidra</strong>,</string>
-    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape <strong>nye funksjoner</strong> og til å <strong>fikse feil</strong> i henhold til dine kommentarer.</string>
+    <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
+    <string name="html_text_dev_feature_buy_pro">Ved å kjøpe &lt;strong&gt;pro&lt;/strong&gt;-versjonen,</string>
+    <string name="html_text_dev_feature_contibute">Ved å &lt;strong&gt;bidra&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">oppfordrer du utviklere til å skape &lt;strong&gt;nye funksjoner&lt;/strong&gt; og til å &lt;strong&gt;fikse feil&lt;/strong&gt; i henhold til dine kommentarer.</string>
     <string name="html_text_dev_feature_thanks">Takk for ditt bidrag.</string>
     <string name="html_text_dev_feature_work_hard">Det arbeides hardt på realiseringen av denne utgaven.</string>
     <string name="html_text_dev_feature_upgrade">Ikke glem å holde programmet ditt oppgradert.</string>
@@ -407,4 +399,17 @@
     <string name="error_save_database">Kunne ikke lagre database.</string>
     <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
     <string name="command_execution">Kjører kommandoen…</string>
+    <string name="content_description_node_children">Undernoder</string>
+    <string name="content_description_entry_save">Lagre oppføring</string>
+    <string name="database_default_username_title">Forvalgt brukernavn</string>
+    <string name="database_custom_color_title">Tilpasset databasefarge</string>
+    <string name="recycle_bin_group_title">Papirkurvsgruppe</string>
+    <string name="entry_attachments">Vedlegg</string>
+    <string name="menu_restore_entry_history">Gjenopprett historikk</string>
+    <string name="menu_delete_entry_history">Slett historikk</string>
+    <string name="download_attachment">Last ned %1$s</string>
+    <string name="download_progression">Underveis: %1$d%</string>
+    <string name="download_finalization">Fullfører…</string>
+    <string name="download_complete">Fullført. Trykk for å åpne filen.</string>
+    <string name="hide_expired_entries_title">Skjul utløpte oppføringer</string>
 </resources>

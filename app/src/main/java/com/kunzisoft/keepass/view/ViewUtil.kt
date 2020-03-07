@@ -29,8 +29,10 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
  * Replace font by monospace, must be called after seText()
@@ -48,6 +50,11 @@ fun TextView.applyHiddenStyle(hide: Boolean) {
         transformationMethod = null
         maxLines = 800
     }
+}
+
+fun TextView.setTextSize(unit: Int, defaultSize: Float, multiplier: Float) {
+    if (multiplier > 0.0F && multiplier != 1.0F)
+        setTextSize(unit, defaultSize * multiplier)
 }
 
 fun TextView.strikeOut(strikeOut: Boolean) {
@@ -99,4 +106,14 @@ fun Toolbar.expand(animate: Boolean = true)  {
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
     }.start()
+}
+
+fun CoordinatorLayout.showActionError(result: ActionRunnable.Result) {
+    if (!result.isSuccess) {
+        result.exception?.errorId?.let { errorId ->
+            Snackbar.make(this, errorId, Snackbar.LENGTH_LONG).asError().show()
+        } ?: result.message?.let { message ->
+            Snackbar.make(this, message, Snackbar.LENGTH_LONG).asError().show()
+        }
+    }
 }

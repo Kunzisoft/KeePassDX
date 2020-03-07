@@ -19,8 +19,8 @@
 
     Dutch translation by Erik Devriendt, corrected by Erik Jan Meijer
 --><resources>
-    <string name="about_feedback">Reacties</string>
-    <string name="about_homepage">Website</string>
+    <string name="feedback">Reacties</string>
+    <string name="homepage">Website</string>
     <string name="about_description">Android-implementatie van de KeePass-wachtwoordbeheerder</string>
     <string name="accept">Accepteren</string>
     <string name="add_entry">Item toevoegen</string>
@@ -41,7 +41,7 @@
     <string name="decrypting_db">Bezig met ontsleutelen van databankinhoud…</string>
     <string name="default_checkbox">Gebruiken als standaarddatabank</string>
     <string name="digits">Getallen</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft biedt geen enkele garantie. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft biedt geen enkele garantie. Dit is vrije software, dus je mag deze software verspreiden onder de voorwaarden van de GPL versie 3 of recenter.</string>
     <string name="select_database_file">Bestaande databank openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
@@ -87,9 +87,9 @@
     <string name="list_size_summary">Tekstgrootte van itemlijst</string>
     <string name="loading_database">Bezig met laden van databank…</string>
     <string name="lowercase">Kleine letters</string>
-    <string name="maskpass_title">Wachtwoord verbergen</string>
-    <string name="maskpass_summary">Wachtwoorden standaard afschermen (***)</string>
-    <string name="menu_about">Over</string>
+    <string name="hide_password_title">Wachtwoord verbergen</string>
+    <string name="hide_password_summary">Wachtwoorden standaard afschermen (***)</string>
+    <string name="about">Over</string>
     <string name="menu_change_key_settings">Hoofdsleutel wijzigen</string>
     <string name="settings">Instellingen</string>
     <string name="menu_database_settings">Databank-instellingen</string>
@@ -107,18 +107,15 @@
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
     <string name="open_recent">Recente databanken</string>
-    <string name="omitbackup_title">Back-upitems niet doorzoeken</string>
-    <string name="omitbackup_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
+    <string name="omit_backup_search_title">Back-upitems niet doorzoeken</string>
+    <string name="omit_backup_search_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Bezig met creëren van nieuwe databank…</string>
     <string name="progress_title">Bezig met verwerken…</string>
-    <string name="remember_keyfile_summary">Locatie van databank-sleutelbestanden onthouden</string>
-    <string name="remember_keyfile_title">Sleutelbestand opslaan</string>
     <string name="content_description_remove_from_list">Verwijderen</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Hoofdmap</string>
     <string name="rounds">Encryptie-cycli</string>
     <string name="rounds_explanation">Een hoger aantal encryptie-cycli geeft bijkomende bescherming tegen brute-force aanvallen, maar kan het laden en opslaan sterk vertragen.</string>
-    <string name="rounds_hint">cycli</string>
     <string name="saving_database">Bezig met opslaan van databank…</string>
     <string name="space">Ruimte</string>
     <string name="search_label">Zoeken</string>
@@ -129,7 +126,6 @@
     <string name="underline">Onderstrepen</string>
     <string name="unsupported_db_version">Niet-ondersteunde databankversie.</string>
     <string name="uppercase">Hoofdletters</string>
-    <string name="warning_read_only">Machtig schrijftoegang om de databankwijzigingen op ge slaan.</string>
     <string name="warning_unmounted">Koppel de SD-kaart aan om een databank te creëren of laden.</string>
     <string name="version_label">Versie %1$s</string>
     <string name="education_unlock_summary">Geef het wachtwoord en/of sleutelbestand op om je databank te ontgrendelen.
@@ -171,7 +167,6 @@
     <string name="field_value">Veldwaarde</string>
     <string name="file_not_found_content">Bestand niet gevonden. Probeer opnieuw te openen via je bestandsbeheerder.</string>
     <string name="invalid_algorithm">Ongeldig algoritme.</string>
-    <string name="keyfile_does_not_exist">Er bestaat geen sleutelbestand.</string>
     <string name="keyfile_is_empty">Het sleutelbestand is leeg.</string>
     <string name="list_entries_show_username_title">Gebruikersnamen tonen</string>
     <string name="list_entries_show_username_summary">Gebruikersnamen tonen in itemlijsten</string>
@@ -187,8 +182,8 @@
     <string name="protection">Beveiliging</string>
     <string name="read_only">Alleen-lezen</string>
     <string name="read_only_warning">KeePassDX moet worden gemachtigd om je databank te kunnen aanpassen.</string>
-    <string name="recentfile_title">Recente bestandgeschiedenis</string>
-    <string name="recentfile_summary">Recent gebruikte bestandsnamen onthouden</string>
+    <string name="show_recent_files_title">Recente bestandgeschiedenis</string>
+    <string name="show_recent_files_summary">Recent gebruikte bestandsnamen onthouden</string>
     <string name="encryption_explanation">Het algoritme dat moet worden gebruikt om de gehele databank te versleutelen.</string>
     <string name="kdf_explanation">Om de sleutel voor het algoritme te kunnen genereren, wordt de hoofdsleutel getransformeerd middels een willekeurige afleidingsfunctie.</string>
     <string name="memory_usage">Geheugengebruik</string>
@@ -311,16 +306,16 @@
     <string name="education_sort_summary">Kies hoe items en groepen worden gesorteerd.</string>
     <string name="education_donation_title">Bijdragen</string>
     <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
-    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze <strong>reclamevrij</strong>, <strong>vrije software</strong> en slaat geen persoonlijke gegevens op op haar servers, ongeacht de versie die je gebruikt.</string>
-    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze <strong>visuele functie</strong> en draag je bij aan het <strong>realiseren van gemeenschapsprojecten.</strong>
+    <string name="html_text_ad_free">In tegenstelling tot veel wachtwoordbeheerapps is deze &lt;strong&gt;reclamevrij&lt;/strong&gt;, &lt;strong&gt;vrije software&lt;/strong&gt; en slaat geen persoonlijke gegevens op op haar servers, ongeacht de versie die je gebruikt.</string>
+    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot deze &lt;strong&gt;visuele functie&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Deze <strong>visuele functie</strong> is beschikbaar gekomen door jullie gulheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw <strong>bijdrage.</strong>
+    <string name="html_text_feature_generosity">Deze &lt;strong&gt;visuele functie&lt;/strong&gt; is beschikbaar gekomen door jullie gulheid.</string>
+    <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;
     </string>
-    <string name="html_text_dev_feature">Deze functie <strong>wordt momenteel ontwikkeld</strong> en kan alleen beschikbaar komen middels jouw <strong>bijdrage</strong>.</string>
-    <string name="html_text_dev_feature_buy_pro">Door de <strong>pro</strong>-versie te kopen,</string>
-    <string name="html_text_dev_feature_contibute">Door <strong>bij te dragen</strong>,</string>
-    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om <strong>nieuwe functies</strong> te creëren en <strong>bugs op te lossen</strong>.</string>
+    <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
+    <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
+    <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;bugs op te lossen&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
     <string name="html_text_dev_feature_upgrade">Vergeet niet om je app up-to-date te houden door nieuwe versies te installeren.</string>

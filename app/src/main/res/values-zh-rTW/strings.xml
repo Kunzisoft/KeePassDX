@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">回饋</string>
-    <string name="about_homepage">首頁</string>
+    <string name="feedback">回饋</string>
+    <string name="homepage">首頁</string>
     <string name="about_description">KeePass密碼管理軟體的Android版本。</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加條目</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">解密資料庫內容中…</string>
     <string name="default_checkbox">以此作為預設資料庫</string>
     <string name="digits">數字</string>
-    <string name="disclaimer_formal">KeePassDX © %1$d Kunzisoft；軟體不帶有任何擔保。這是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft；軟體不帶有任何擔保。這是自由軟體，您可在遵循GPL 3或者更高版本的情況下重新發佈。</string>
     <string name="select_database_file">選擇一個已存在之資料庫</string>
     <string name="entry_accessed">訪問時間</string>
     <string name="entry_cancel">取消</string>
@@ -85,9 +85,9 @@
     <string name="list_size_summary">群列表中的文本尺寸</string>
     <string name="loading_database">載入資料庫中…</string>
     <string name="lowercase">小寫</string>
-    <string name="maskpass_title">密碼遮罩</string>
-    <string name="maskpass_summary">預設隱藏密碼</string>
-    <string name="menu_about">關於</string>
+    <string name="hide_password_title">密碼遮罩</string>
+    <string name="hide_password_summary">預設隱藏密碼</string>
+    <string name="about">關於</string>
     <string name="menu_change_key_settings">變更主密鑰</string>
     <string name="settings">設定</string>
     <string name="menu_database_settings">資料庫設定</string>
@@ -106,14 +106,11 @@
     <string name="open_recent">最近打開的資料庫：</string>
     <string name="progress_create">創建新資料庫中…</string>
     <string name="progress_title">工作中…</string>
-    <string name="remember_keyfile_summary">記住密鑰檔的位置</string>
-    <string name="remember_keyfile_title">保存密鑰檔</string>
     <string name="content_description_remove_from_list">移除</string>
     <string name="encryption_rijndael">Rijndael加密(AES)</string>
     <string name="root">Root</string>
     <string name="rounds">加密次數</string>
     <string name="rounds_explanation">更高級的加密次數對暴力攻擊能提供額外保護，但也會增加讀取和保存的時間。</string>
-    <string name="rounds_hint">加密次數</string>
     <string name="saving_database">正在保存資料庫…</string>
     <string name="space">空格</string>
     <string name="search_label">搜尋</string>
@@ -152,7 +149,6 @@
     <string name="error_autofill_enable_service">無法啟用自動填入服務。</string>
     <string name="error_move_folder_in_itself">無法移動一個群組至自己本身。</string>
     <string name="invalid_algorithm">無效的演算法。</string>
-    <string name="keyfile_does_not_exist">密鑰檔不存在。</string>
     <string name="keyfile_is_empty">密鑰檔是空白的。</string>
     <string name="menu_form_filling_settings">表格填入</string>
     <string name="menu_copy">複製</string>
@@ -163,7 +159,7 @@
     <string name="menu_biometric_remove_key">移除指紋密鑰</string>
     <string name="menu_file_selection_read_only">唯讀</string>
     <string name="menu_open_file_read_and_write">讀寫</string>
-    <string name="omitbackup_title">不要搜尋備份的項目</string>
+    <string name="omit_backup_search_title">不要搜尋備份的項目</string>
     <string name="protection">保護</string>
     <string name="read_only">唯讀</string>
     <string name="read_only_warning">KeePassDX 無法存取資料庫所在位置，將以唯讀模式開啟資料庫。</string>
@@ -207,9 +203,7 @@
     <string name="field_name">欄位名</string>
     <string name="field_value">欄位值</string>
     <string name="file_not_found_content">找不到檔案。嘗試從檔案瀏覽器重新打開它。</string>
-    <string name="omitbackup_summary">從搜尋結果中省略\"備份\"和\"回收站\"組</string>
-    <string name="recentfile_title">最近的檔案歷史記錄</string>
-    <string name="recentfile_summary">記住最近的檔案名</string>
+    <string name="omit_backup_search_summary">從搜尋結果中省略\"備份\"和\"回收站\"組</string>
     <string name="encryption_explanation">用於所有資料的資料庫加密演算法。</string>
     <string name="memory_usage">記憶體使用情況</string>
     <string name="memory_usage_explanation">密钥推導函數要使用的記憶體量（以二进制字节为单位）。</string>

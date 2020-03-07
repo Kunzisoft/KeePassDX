@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><!-- translated by Arthur Zamarin<arthurzam@gmail.com>--><resources>
-    <string name="about_feedback">משוב</string>
-    <string name="about_homepage">דף הבית</string>
+    <string name="feedback">משוב</string>
+    <string name="homepage">דף הבית</string>
     <string name="about_description">KeePassDX היא תוכנה המממשת את מנהל הסיסמאות KeePass לאנרואיד.</string>
     <string name="accept">קבל</string>
     <string name="add_entry">הוסף ערך</string>
@@ -87,16 +87,15 @@
     <string name="invalid_credentials">סיסמה או קובץ מפתח לא מתאימים.</string>
     <string name="invalid_algorithm">אלגוריתם לא חוקי.</string>
     <string name="invalid_db_sig">תבנית מסד הנתונים אינה מזוהה.</string>
-    <string name="keyfile_does_not_exist">קובץ המפתח לא קיים.</string>
     <string name="keyfile_is_empty">קובץ מפתח ריק.</string>
     <string name="length">אורך</string>
     <string name="list_size_title">גודל רשימה קבוצות</string>
     <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
     <string name="loading_database">טוען מסד נתונים…</string>
     <string name="lowercase">אות קטנה</string>
-    <string name="maskpass_title">מסיכת הסיסמה</string>
-    <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
-    <string name="menu_about">אודות</string>
+    <string name="hide_password_title">מסיכת הסיסמה</string>
+    <string name="hide_password_summary">הסתר סיסמאות כברירת מחדל</string>
+    <string name="about">אודות</string>
     <string name="menu_change_key_settings">שנה מפתח ראשי</string>
     <string name="settings">העדפות</string>
     <string name="menu_database_settings">הגדרות מסד נתונים</string>
@@ -114,20 +113,15 @@
     <string name="no_results">אין תוצאות חיפוש</string>
     <string name="no_url_handler">אין מטפל לכתובת url זו.</string>
     <string name="open_recent">פתח מסד נתונים אחרון :</string>
-    <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
-    <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
+    <string name="omit_backup_search_title">אל תחפש ערכי גיבוי</string>
+    <string name="omit_backup_search_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
     <string name="progress_create">צור מסד נתונים חדש…</string>
     <string name="progress_title">עובד…</string>
     <string name="protection">הגנה</string>
     <string name="read_only_warning">ל-KeePassDX אין הרשאות כתיבה למסד הנתונים הזה, ולכן הוא יפתח לקריאה בלבד.</string>
-    <string name="recentfile_title">היסטוריית קובץ אחרונה</string>
-    <string name="recentfile_summary">שמור קבצים שהיו בשימוש לאחרונה</string>
-    <string name="remember_keyfile_summary">זכור מיקום קבצי מפתח</string>
-    <string name="remember_keyfile_title">שמור קובץ מפתח</string>
     <string name="content_description_remove_from_list">הסר</string>
     <string name="rounds">סיבובי הצפנה</string>
     <string name="rounds_explanation">מספר סיבובי הצפנה גבוה יותר מספר הגה טובה יותר נגד התקפות, אבל יכול להעלות בהרבה את זמן הטעינה והשמירה.</string>
-    <string name="rounds_hint">סיבובים</string>
     <string name="saving_database">שומר מסד נתונים…</string>
     <string name="space">גודל</string>
     <string name="search_label">חיפוש</string>

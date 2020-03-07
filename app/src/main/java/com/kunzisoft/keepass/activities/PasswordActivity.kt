@@ -24,7 +24,6 @@ import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -33,16 +32,15 @@ import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.KeyEvent
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.*
+import android.widget.Button
+import android.widget.CompoundButton
+import android.widget.EditText
+import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
-import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -74,11 +72,10 @@ import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
-class PasswordActivity : StylishActivity() {
+open class PasswordActivity : StylishActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
-
     private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
@@ -88,18 +85,28 @@ class PasswordActivity : StylishActivity() {
     private var checkboxKeyFileView: CompoundButton? = null
     private var checkboxDefaultDatabaseView: CompoundButton? = null
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
+    private var infoContainerView: ViewGroup? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
 
-    private var prefs: SharedPreferences? = null
+    private var mSharedPreferences: SharedPreferences? = null
 
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
-    private var mPermissionAsked = false
     private var readOnly: Boolean = false
+    private var mForceReadOnly: Boolean = false
+        set(value) {
+            infoContainerView?.visibility = if (value) {
+                readOnly = true
+                View.VISIBLE
+            } else {
+                View.GONE
+            }
+            field = value
+        }
 
     private var mProgressDialogThread: ProgressDialogThread? = null
 
@@ -108,9 +115,9 @@ class PasswordActivity : StylishActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFiles(this)
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         setContentView(R.layout.activity_password)
 
@@ -121,7 +128,7 @@ class PasswordActivity : StylishActivity() {
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         containerView = findViewById(R.id.container)
-        confirmButtonView = findViewById(R.id.pass_ok)
+        confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
         keyFileView = findViewById(R.id.pass_keyfile)
@@ -129,8 +136,8 @@ class PasswordActivity : StylishActivity() {
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
+        infoContainerView = findViewById(R.id.activity_password_info_container)
 
-        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.open_database_button)
@@ -180,6 +187,7 @@ class PasswordActivity : StylishActivity() {
                         removePassword()
 
                         if (result.isSuccess) {
+                            setEmptyViews()
                             launchGroupActivity()
                         } else {
                             var resultError = ""
@@ -281,7 +289,6 @@ class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
         super.onSaveInstanceState(outState)
     }
@@ -301,6 +308,8 @@ class PasswordActivity : StylishActivity() {
             databaseUri = intent.getParcelableExtra(KEY_FILENAME)
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
+
+        mForceReadOnly = UriUtil.isUriNotWritable(contentResolver, databaseUri)
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
@@ -340,7 +349,7 @@ class PasswordActivity : StylishActivity() {
                 newDefaultFileName = databaseFileUri ?: newDefaultFileName
             }
 
-            prefs?.edit()?.apply {
+            mSharedPreferences?.edit()?.apply {
                 newDefaultFileName?.let {
                     putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
                 } ?: kotlin.run {
@@ -355,7 +364,7 @@ class PasswordActivity : StylishActivity() {
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
-        val defaultFilename = prefs?.getString(KEY_DEFAULT_DATABASE_PATH, "")
+        val defaultFilename = mSharedPreferences?.getString(KEY_DEFAULT_DATABASE_PATH, "")
         if (databaseFileUri != null
                 && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
                 && databaseFileUri == UriUtil.parse(defaultFilename)) {
@@ -365,6 +374,8 @@ class PasswordActivity : StylishActivity() {
         // If Activity is launch with a password and want to open directly
         val intent = intent
         val password = intent.getStringExtra(KEY_PASSWORD)
+        // Consume the intent extra password
+        intent.removeExtra(KEY_PASSWORD)
         val launchImmediately = intent.getBooleanExtra(KEY_LAUNCH_IMMEDIATELY, false)
         if (password != null) {
             populatePasswordTextView(password)
@@ -551,7 +562,12 @@ class PasswordActivity : StylishActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-        changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
+
+        if (mForceReadOnly) {
+            menu.removeItem(R.id.menu_open_file_read_mode_key)
+        } else {
+            changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
+        }
 
         MenuUtil.defaultMenuInflater(inflater, menu)
 
@@ -562,45 +578,14 @@ class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu) {
-            launchCheckPermission()
-        }
+        launchEducation(menu)
 
         return true
     }
 
-    // Check permission
-    private fun launchCheckPermission() {
-        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
-        val permissions = arrayOf(writePermission)
-        if (Build.VERSION.SDK_INT >= 23
-                && !readOnly
-                && !mPermissionAsked) {
-            mPermissionAsked = true
-            // Check self permission to show or not the dialog
-            if (toolbar != null
-                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
-            }
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        when (requestCode) {
-            WRITE_EXTERNAL_STORAGE_REQUEST -> {
-                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
     // To fix multiple view education
     private var performedEductionInProgress = false
-    private fun launchEducation(menu: Menu, onEducationFinished: ()-> Unit) {
+    private fun launchEducation(menu: Menu, onEducationFinished: (()-> Unit)? = null) {
         if (!performedEductionInProgress) {
             performedEductionInProgress = true
             // Show education views
@@ -610,7 +595,7 @@ class PasswordActivity : StylishActivity() {
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
                                        menu: Menu,
-                                       onEducationFinished: ()-> Unit) {
+                                       onEducationFinished: (()-> Unit)? = null) {
         val educationToolbar = toolbar
         val unlockEducationPerformed = educationToolbar != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
@@ -650,7 +635,7 @@ class PasswordActivity : StylishActivity() {
                         })
 
                 if (!biometricEducationPerformed) {
-                    onEducationFinished.invoke()
+                    onEducationFinished?.invoke()
                 }
             }
         }
@@ -726,10 +711,6 @@ class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
-
-        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
-
-        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {

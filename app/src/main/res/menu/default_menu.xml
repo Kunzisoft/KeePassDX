@@ -26,7 +26,7 @@
         app:showAsAction="ifRoom" />
     <item android:id="@+id/menu_about"
         android:icon="@drawable/ic_help_white_24dp"
-        android:title="@string/menu_about"
+        android:title="@string/about"
         android:orderInCategory="101"
         app:showAsAction="ifRoom" />
 </menu>

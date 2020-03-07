@@ -50,10 +50,15 @@
         android:title="@string/search_label">
 
         <SwitchPreference
-            android:key="@string/omitbackup_key"
-            android:title="@string/omitbackup_title"
-            android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"/>
+            android:key="@string/omit_backup_search_key"
+            android:title="@string/omit_backup_search_title"
+            android:summary="@string/omit_backup_search_summary"
+            android:defaultValue="@bool/omit_backup_search_default"/>
+        <SwitchPreference
+            android:key="@string/auto_focus_search_key"
+            android:title="@string/auto_focus_search_title"
+            android:summary="@string/auto_focus_search_summary"
+            android:defaultValue="@bool/auto_focus_search_default"/>
 
     </PreferenceCategory>
 
@@ -105,10 +110,10 @@
             android:entryValues="@array/list_password_generator_options_values"
             android:defaultValue="@array/list_password_generator_options_default_values"/>
         <SwitchPreference
-            android:key="@string/maskpass_key"
-            android:title="@string/maskpass_title"
-            android:summary="@string/maskpass_summary"
-            android:defaultValue="@bool/maskpass_default"/>
+            android:key="@string/hide_password_key"
+            android:title="@string/hide_password_title"
+            android:summary="@string/hide_password_summary"
+            android:defaultValue="@bool/hide_password_default"/>
         <SwitchPreference
             android:key="@string/allow_copy_password_key"
             android:title="@string/allow_copy_password_title"
@@ -121,16 +126,28 @@
         android:title="@string/database_history">
 
         <SwitchPreference
-            android:key="@string/recentfile_key"
-            android:title="@string/recentfile_title"
-            android:summary="@string/recentfile_summary"
-            android:defaultValue="@bool/recentfile_default"/>
+            android:key="@string/remember_database_locations_key"
+            android:title="@string/remember_database_locations_title"
+            android:summary="@string/remember_database_locations_summary"
+            android:defaultValue="@bool/remember_database_locations_default"/>
         <SwitchPreference
-            android:key="@string/keyfile_key"
-            android:title="@string/remember_keyfile_title"
-            android:summary="@string/remember_keyfile_summary"
-            android:dependency="@string/recentfile_key"
-            android:defaultValue="@bool/keyfile_default"/>
+            android:key="@string/remember_keyfile_locations_key"
+            android:title="@string/remember_keyfile_locations_title"
+            android:summary="@string/remember_keyfile_locations_summary"
+            android:dependency="@string/remember_database_locations_key"
+            android:defaultValue="@bool/remember_keyfile_locations_default"/>
+        <SwitchPreference
+            android:key="@string/show_recent_files_key"
+            android:title="@string/show_recent_files_title"
+            android:summary="@string/show_recent_files_summary"
+            android:dependency="@string/remember_database_locations_key"
+            android:defaultValue="@bool/show_recent_files_default"/>
+        <SwitchPreference
+            android:key="@string/hide_broken_locations_key"
+            android:title="@string/hide_broken_locations_title"
+            android:summary="@string/hide_broken_locations_summary"
+            android:dependency="@string/show_recent_files_key"
+            android:defaultValue="@bool/hide_broken_locations_default"/>
 
     </PreferenceCategory>
 

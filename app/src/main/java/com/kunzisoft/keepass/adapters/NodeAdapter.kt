@@ -21,15 +21,12 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Paint
-import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -39,34 +36,34 @@ import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.database.element.node.Node
+import com.kunzisoft.keepass.database.element.node.NodeVersionedInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.view.setTextSize
 import com.kunzisoft.keepass.view.strikeOut
 import java.util.*
 
-class NodeAdapter
 /**
  * Create node list adapter with contextMenu or not
  * @param context Context to use
  */
-(private val context: Context)
+class NodeAdapter (private val context: Context)
     : RecyclerView.Adapter<NodeAdapter.NodeViewHolder>() {
 
+    private var nodeComparator: Comparator<NodeVersionedInterface<Group>>? = null
+    private val nodeSortedListCallback: NodeSortedListCallback
     private val nodeSortedList: SortedList<Node>
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
     private var calculateViewTypeTextSize = Array(2) { true} // number of view type
     private var textSizeUnit: Int = TypedValue.COMPLEX_UNIT_PX
-    private var prefTextSize: Float = 0F
-    private var subtextSize: Float = 0F
-    private var infoTextSize: Float = 0F
-    private var numberChildrenTextSize: Float = 0F
-    private var iconSize: Float = 0F
-    private var listSort: SortNodeEnum = SortNodeEnum.DB
-    private var ascendingSort: Boolean = true
-    private var groupsBeforeSort: Boolean = true
-    private var recycleBinBottomSort: Boolean = true
+    private var prefSizeMultiplier: Float = 0F
+    private var subtextDefaultDimension: Float = 0F
+    private var infoTextDefaultDimension: Float = 0F
+    private var numberChildrenTextDefaultDimension: Float = 0F
+    private var iconDefaultDimension: Float = 0F
+
     private var showUserNames: Boolean = true
     private var showNumberEntries: Boolean = true
     private var entryFilters = arrayOf<Group.ChildFilter>()
@@ -87,23 +84,15 @@ class NodeAdapter
         get() = nodeSortedList.size() <= 0
 
     init {
+        this.infoTextDefaultDimension = context.resources.getDimension(R.dimen.list_medium_size_default)
+        this.subtextDefaultDimension = context.resources.getDimension(R.dimen.list_small_size_default)
+        this.numberChildrenTextDefaultDimension = context.resources.getDimension(R.dimen.list_tiny_size_default)
+        this.iconDefaultDimension = context.resources.getDimension(R.dimen.list_icon_size_default)
+
         assignPreferences()
 
-        this.nodeSortedList = SortedList(Node::class.java, object : SortedListAdapterCallback<Node>(this) {
-            override fun compare(item1: Node, item2: Node): Int {
-                return listSort.getNodeComparator(ascendingSort, groupsBeforeSort, recycleBinBottomSort).compare(item1, item2)
-            }
-
-            override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
-                return oldItem.type == newItem.type
-                        && oldItem.title == newItem.title
-                        && oldItem.icon == newItem.icon
-            }
-
-            override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
-                return item1 == item2
-            }
-        })
+        this.nodeSortedListCallback = NodeSortedListCallback()
+        this.nodeSortedList = SortedList(Node::class.java, nodeSortedListCallback)
 
         // Database
         this.mDatabase = Database.getInstance()
@@ -118,17 +107,18 @@ class NodeAdapter
         taTextColor.recycle()
     }
 
-    private fun assignPreferences() {
-        this.prefTextSize = PreferencesUtil.getListTextSize(context)
-        this.infoTextSize = context.resources.getDimension(R.dimen.list_medium_size_default) * prefTextSize
-        this.subtextSize = context.resources.getDimension(R.dimen.list_small_size_default) * prefTextSize
-        this.numberChildrenTextSize = context.resources.getDimension(R.dimen.list_tiny_size_default) * prefTextSize
-        this.iconSize = context.resources.getDimension(R.dimen.list_icon_size_default) * prefTextSize
+    fun assignPreferences() {
+        this.prefSizeMultiplier = PreferencesUtil.getListTextSize(context)
 
-        this.listSort = PreferencesUtil.getListSort(context)
-        this.ascendingSort = PreferencesUtil.getAscendingSort(context)
-        this.groupsBeforeSort = PreferencesUtil.getGroupsBeforeSort(context)
-        this.recycleBinBottomSort = PreferencesUtil.getRecycleBinBottomSort(context)
+        notifyChangeSort(
+                PreferencesUtil.getListSort(context),
+                        SortNodeEnum.SortNodeParameters(
+                            PreferencesUtil.getAscendingSort(context),
+                            PreferencesUtil.getGroupsBeforeSort(context),
+                            PreferencesUtil.getRecycleBinBottomSort(context)
+                        )
+                )
+
         this.showUserNames = PreferencesUtil.showUsernamesListEntries(context)
         this.showNumberEntries = PreferencesUtil.showNumberEntries(context)
 
@@ -142,15 +132,25 @@ class NodeAdapter
      * Rebuild the list by clear and build children from the group
      */
     fun rebuildList(group: Group) {
-        this.nodeSortedList.clear()
         assignPreferences()
-        try {
-            this.nodeSortedList.addAll(group.getChildren(*entryFilters))
-        } catch (e: Exception) {
-            Log.e(TAG, "Can't add node elements to the list", e)
-            Toast.makeText(context, "Can't add node elements to the list : " + e.message, Toast.LENGTH_LONG).show()
+        nodeSortedList.replaceAll(group.getFilteredChildren(*entryFilters)
+        )
+    }
+
+    private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
+        override fun compare(item1: Node, item2: Node): Int {
+            return nodeComparator!!.compare(item1, item2)
         }
-        notifyDataSetChanged()
+
+        override fun areContentsTheSame(oldItem: Node, newItem: Node): Boolean {
+            return oldItem.type == newItem.type
+                    && oldItem.title == newItem.title
+                    && oldItem.icon == newItem.icon
+        }
+
+        override fun areItemsTheSame(item1: Node, item2: Node): Boolean {
+            return item1 == item2
+        }
     }
 
     fun contains(node: Node): Boolean {
@@ -261,10 +261,9 @@ class NodeAdapter
     /**
      * Notify a change sort of the list
      */
-    fun notifyChangeSort(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean) {
-        this.listSort = sortNodeEnum
-        this.ascendingSort = ascending
-        this.groupsBeforeSort = groupsBefore
+    fun notifyChangeSort(sortNodeEnum: SortNodeEnum,
+                         sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+        this.nodeComparator = sortNodeEnum.getNodeComparator(sortNodeParameters)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -291,15 +290,15 @@ class NodeAdapter
             assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
             // Relative size of the icon
             layoutParams?.apply {
-                height = iconSize.toInt()
-                width = iconSize.toInt()
+                height = (iconDefaultDimension * prefSizeMultiplier).toInt()
+                width = (iconDefaultDimension * prefSizeMultiplier).toInt()
             }
         }
 
         // Assign text
         holder.text.apply {
             text = subNode.title
-            setTextSize(textSizeUnit, infoTextSize)
+            setTextSize(textSizeUnit, infoTextDefaultDimension, prefSizeMultiplier)
             strikeOut(subNode.isCurrentlyExpires)
         }
         // Add subText with username
@@ -320,7 +319,7 @@ class NodeAdapter
                 if (showUserNames && username.isNotEmpty()) {
                     visibility = View.VISIBLE
                     text = username
-                    setTextSize(textSizeUnit, subtextSize)
+                    setTextSize(textSizeUnit, subtextDefaultDimension, prefSizeMultiplier)
                 }
             }
 
@@ -332,9 +331,9 @@ class NodeAdapter
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getChildEntries(*entryFilters)
-                            .size.toString()
-                    setTextSize(textSizeUnit, numberChildrenTextSize)
+                            .getNumberOfChildEntries(*entryFilters)
+                            .toString()
+                    setTextSize(textSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
                     visibility = View.VISIBLE
                 }
             } else {
@@ -352,7 +351,6 @@ class NodeAdapter
 
         holder.container.isSelected = actionNodesList.contains(subNode)
     }
-
     
     override fun getItemCount(): Int {
         return nodeSortedList.size()

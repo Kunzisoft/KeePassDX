@@ -25,17 +25,6 @@ interface Node: NodeVersionedInterface<Group> {
 
     val nodeId: NodeId<*>?
 
-    val nodePositionInParent: Int
-        get() {
-            parent?.getChildren(Group.ChildFilter.META_STREAM)?.let { children ->
-                children.forEachIndexed { index, nodeVersioned ->
-                    if (nodeVersioned.nodeId == this.nodeId)
-                        return index
-                }
-            }
-            return -1
-        }
-
     fun addParentFrom(node: Node) {
         parent = node.parent
     }

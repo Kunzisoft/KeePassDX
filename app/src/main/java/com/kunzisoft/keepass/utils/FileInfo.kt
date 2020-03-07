@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.utils
 import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
-import androidx.documentfile.provider.DocumentFile
-import java.io.File
 import java.io.Serializable
 import java.text.DateFormat
 import java.util.*
@@ -34,7 +32,7 @@ open class FileInfo : Serializable {
     var fileUri: Uri?
     var filePath: String? = null
     var fileName: String? = ""
-    var lastModification = Date()
+    var lastModification = Date(0L)
     var size: Long = 0L
 
     constructor(context: Context, fileUri: Uri) {
@@ -51,22 +49,11 @@ open class FileInfo : Serializable {
 
     fun init() {
         this.filePath = fileUri?.path
-        if (EXTERNAL_STORAGE_AUTHORITY == fileUri?.authority) {
-            fileUri?.let { fileUri ->
-                DocumentFile.fromSingleUri(context, fileUri)?.let { file ->
-                    size = file.length()
-                    fileName = file.name
-                    lastModification = Date(file.lastModified())
-                }
-            }
-        } else {
-            filePath?.let {
-                File(it).let { file ->
-                    size = file.length()
-                    fileName = file.name
-                    lastModification = Date(file.lastModified())
-                }
-            }
+
+        UriUtil.getFileData(context, fileUri)?.let { file ->
+            size = file.length()
+            fileName = file.name
+            lastModification = Date(file.lastModified())
         }
 
         if (fileName == null || fileName!!.isEmpty()) {
@@ -74,8 +61,16 @@ open class FileInfo : Serializable {
         }
     }
 
-    fun found(): Boolean {
+    fun lastModificationAccessible(): Boolean {
+        return lastModification.after(Date(0L))
+    }
+
+    fun sizeAccessible(): Boolean {
         return size != 0L
+    }
+
+    fun dataAccessible(): Boolean {
+        return UriUtil.isUriAccessible(context.contentResolver, fileUri)
     }
 
     fun getModificationString(): String {
@@ -85,10 +80,5 @@ open class FileInfo : Serializable {
 
     fun getSizeString(): String {
         return Formatter.formatFileSize(context, size)
-    }
-
-    companion object {
-
-        private const val EXTERNAL_STORAGE_AUTHORITY = "com.android.externalstorage.documents"
     }
 }

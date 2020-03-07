@@ -40,6 +40,8 @@ abstract class NodeVersioned<IdType, Parent : GroupVersionedInterface<Parent, En
     val id: IdType
         get() = nodeId.id
 
+    var nodeIndexInParentForNaturalOrder = -1
+
     protected constructor()
 
     protected constructor(parcel: Parcel) {

@@ -75,16 +75,16 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         activity?.let { activity ->
             allowCopyPassword()
 
-            findPreference<Preference>(getString(R.string.keyfile_key))?.setOnPreferenceChangeListener { _, newValue ->
+            findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
                 }
                 true
             }
 
-            findPreference<Preference>(getString(R.string.recentfile_key))?.setOnPreferenceChangeListener { _, newValue ->
+            findPreference<Preference>(getString(R.string.remember_keyfile_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
-                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
+                    FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAllKeyFiles()
                 }
                 true
             }
@@ -95,8 +95,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_form_filling, rootKey)
 
         activity?.let { activity ->
-            val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
                 val autofillManager = activity.getSystemService(AutofillManager::class.java)
                 if (autofillManager != null && autofillManager.hasEnabledAutofillServices())
                     autoFillEnablePreference?.isChecked = autofillManager.hasEnabledAutofillServices()
@@ -143,13 +143,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     }
                 }
             } else {
-                autoFillEnablePreference?.setOnPreferenceClickListener { preference ->
-                    (preference as SwitchPreference).isChecked = false
-                    val fragmentManager = fragmentManager!!
-                    UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.O)
-                            .show(fragmentManager, "unavailableFeatureDialog")
-                    false
-                }
+                findPreference<Preference>(getString(R.string.autofill_key))?.isVisible = false
             }
         }
 
@@ -342,8 +336,8 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
 
         activity?.let { activity ->
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val autoFillEnablePreference: SwitchPreference? = findPreference(getString(R.string.settings_autofill_enable_key))
-                if (autoFillEnablePreference != null) {
+                findPreference<SwitchPreference?>(getString(R.string.settings_autofill_enable_key))?.let {
+                    autoFillEnablePreference ->
                     val autofillManager = activity.getSystemService(AutofillManager::class.java)
                     autoFillEnablePreference.isChecked = autofillManager != null
                             && autofillManager.hasEnabledAutofillServices()
