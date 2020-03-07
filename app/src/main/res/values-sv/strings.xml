@@ -96,8 +96,8 @@
     <string name="list_size_summary">Textstorlek i grupplistan</string>
     <string name="loading_database">Laddar databas…</string>
     <string name="lowercase">Gemener</string>
-    <string name="maskpass_title">Dölj lösenord</string>
-    <string name="maskpass_summary">Döljer lösenord (***) som standard</string>
+    <string name="hide_password_title">Dölj lösenord</string>
+    <string name="hide_password_summary">Döljer lösenord (***) som standard</string>
     <string name="about">Om</string>
     <string name="menu_change_key_settings">Byt huvudnyckel</string>
     <string name="settings">Inställningar</string>
@@ -116,8 +116,8 @@
     <string name="no_results">Inget sökresultat</string>
     <string name="no_url_handler">Installera en webbläsare för att öppna denna URL.</string>
     <string name="open_recent">Senast öppnade databaser</string>
-    <string name="omitbackup_title">Sök inte efter backup-poster</string>
-    <string name="omitbackup_summary">Utelämnar poster i grupperna \"Backup\" och \"Papperskorg\"</string>
+    <string name="omit_backup_search_title">Sök inte efter backup-poster</string>
+    <string name="omit_backup_search_summary">Utelämnar poster i grupperna \"Backup\" och \"Papperskorg\"</string>
     <string name="progress_create">Skapar ny databas…</string>
     <string name="progress_title">Arbetar…</string>
     <string name="protection">Skydd</string>

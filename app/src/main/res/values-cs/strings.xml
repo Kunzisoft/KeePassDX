@@ -97,8 +97,8 @@
     <string name="list_size_summary">Velikost textu v seznamu prvků</string>
     <string name="loading_database">Načítám databázi…</string>
     <string name="lowercase">Malá písmena</string>
-    <string name="maskpass_title">Skrýt hesla</string>
-    <string name="maskpass_summary">Ve výchozím stavu zobrazit (***) místo hesla</string>
+    <string name="hide_password_title">Skrýt hesla</string>
+    <string name="hide_password_summary">Ve výchozím stavu zobrazit (***) místo hesla</string>
     <string name="about">O aplikaci</string>
     <string name="menu_change_key_settings">Změnit hlavní klíč</string>
     <string name="settings">Nastavení</string>
@@ -117,8 +117,8 @@
     <string name="no_results">Žádné výsledky hledání</string>
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
     <string name="open_recent">Nedávno otevřené databáze</string>
-    <string name="omitbackup_title">Neprohledávat položky v záloze</string>
-    <string name="omitbackup_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
+    <string name="omit_backup_search_title">Neprohledávat položky v záloze</string>
+    <string name="omit_backup_search_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
     <string name="progress_create">Vytvářím novou databázi…</string>
     <string name="progress_title">Zpracování…</string>
     <string name="protection">Ochrana</string>

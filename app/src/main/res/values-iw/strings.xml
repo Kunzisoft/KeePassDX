@@ -93,8 +93,8 @@
     <string name="list_size_summary">גודל הטקסט ברשימת הקבוצות</string>
     <string name="loading_database">טוען מסד נתונים…</string>
     <string name="lowercase">אות קטנה</string>
-    <string name="maskpass_title">מסיכת הסיסמה</string>
-    <string name="maskpass_summary">הסתר סיסמאות כברירת מחדל</string>
+    <string name="hide_password_title">מסיכת הסיסמה</string>
+    <string name="hide_password_summary">הסתר סיסמאות כברירת מחדל</string>
     <string name="about">אודות</string>
     <string name="menu_change_key_settings">שנה מפתח ראשי</string>
     <string name="settings">העדפות</string>
@@ -113,8 +113,8 @@
     <string name="no_results">אין תוצאות חיפוש</string>
     <string name="no_url_handler">אין מטפל לכתובת url זו.</string>
     <string name="open_recent">פתח מסד נתונים אחרון :</string>
-    <string name="omitbackup_title">אל תחפש ערכי גיבוי</string>
-    <string name="omitbackup_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
+    <string name="omit_backup_search_title">אל תחפש ערכי גיבוי</string>
+    <string name="omit_backup_search_summary">הורד את קבוצת \"גיבוי\" מתוצאות חיפוש (תואם רק לקבצי kdb)</string>
     <string name="progress_create">צור מסד נתונים חדש…</string>
     <string name="progress_title">עובד…</string>
     <string name="protection">הגנה</string>

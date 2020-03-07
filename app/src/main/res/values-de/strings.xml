@@ -100,8 +100,8 @@
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
     <string name="loading_database">Datenbank wird geladen …</string>
     <string name="lowercase">Kleinbuchstaben</string>
-    <string name="maskpass_title">Passwort verstecken</string>
-    <string name="maskpass_summary">Passwörter standardmäßig mit (***) maskieren</string>
+    <string name="hide_password_title">Passwort verstecken</string>
+    <string name="hide_password_summary">Passwörter standardmäßig mit (***) maskieren</string>
     <string name="about">Über</string>
     <string name="menu_change_key_settings">Hauptschlüssel ändern</string>
     <string name="settings">Einstellungen</string>
@@ -120,8 +120,8 @@
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
     <string name="open_recent">Zuletzt geöffnete Datenbanken</string>
-    <string name="omitbackup_title">Papierkorb/Sicherungen nicht durchsuchen</string>
-    <string name="omitbackup_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
+    <string name="omit_backup_search_title">Papierkorb/Sicherungen nicht durchsuchen</string>
+    <string name="omit_backup_search_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
     <string name="progress_create">Neue Datenbank anlegen …</string>
     <string name="progress_title">Ausführen …</string>
     <string name="protection">Sicherheit</string>

@@ -76,8 +76,8 @@
     <string name="list_size_summary">Teksta izmērs ierakstos un grupu sarakstos</string>
     <string name="loading_database">Ielādēt datu bāzi…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="maskpass_title">Sēpt paroles</string>
-    <string name="maskpass_summary">Sēpt paroles *****</string>
+    <string name="hide_password_title">Sēpt paroles</string>
+    <string name="hide_password_summary">Sēpt paroles *****</string>
     <string name="about">Par</string>
     <string name="menu_change_key_settings">Mainīt galveno paroli</string>
     <string name="settings">Iestatījumi</string>
@@ -96,8 +96,8 @@
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
     <string name="open_recent">Atvērt pēdējo datu bāzi :</string>
-    <string name="omitbackup_title">Nemeklēt kopijās un atkritnē</string>
-    <string name="omitbackup_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
+    <string name="omit_backup_search_title">Nemeklēt kopijās un atkritnē</string>
+    <string name="omit_backup_search_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="progress_create">Izveido jaunu datu bāzi…</string>
     <string name="progress_title">Darbojas…</string>
     <string name="protection">Aizsardzība</string>

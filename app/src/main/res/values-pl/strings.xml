@@ -84,8 +84,8 @@
     <string name="list_size_summary">Wielkość tekstu w liście grup</string>
     <string name="loading_database">Wczytywanie bazy danych…</string>
     <string name="lowercase">Małe litery</string>
-    <string name="maskpass_title">Ukryj hasła</string>
-    <string name="maskpass_summary">Maskuj hasła (***) domyślnie</string>
+    <string name="hide_password_title">Ukryj hasła</string>
+    <string name="hide_password_summary">Maskuj hasła (***) domyślnie</string>
     <string name="about">O programie</string>
     <string name="menu_change_key_settings">Zmień klucz główny</string>
     <string name="settings">Ustawienia</string>
@@ -104,8 +104,8 @@
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Zainstaluj przeglądarkę internetową, aby otworzyć ten adres URL.</string>
     <string name="open_recent">Ostatnio używana baza danych</string>
-    <string name="omitbackup_title">Nie wyszukuj wpisów kopii zapasowej</string>
-    <string name="omitbackup_summary">Pomija grupy „Kopia zapasowa” i „Kosz” w wynikach wyszukiwania</string>
+    <string name="omit_backup_search_title">Nie wyszukuj wpisów kopii zapasowej</string>
+    <string name="omit_backup_search_summary">Pomija grupy „Kopia zapasowa” i „Kosz” w wynikach wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
     <string name="progress_title">Pracuję…</string>
     <string name="content_description_remove_from_list">Usuń</string>

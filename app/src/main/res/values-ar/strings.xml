@@ -67,7 +67,7 @@
     <string name="list_size_summary">حجم النص في قائمة العناصر</string>
     <string name="loading_database">يحمل قاعدة البيانات…</string>
     <string name="lowercase">حروف صغيرة</string>
-    <string name="maskpass_summary">إخفاء كلمات المرور بشكل افتراضي</string>
+    <string name="hide_password_summary">إخفاء كلمات المرور بشكل افتراضي</string>
     <string name="about">عن التطبيق</string>
     <string name="menu_change_key_settings">تغيير المفتاح الرئيسي</string>
     <string name="settings">الإعدادات</string>
@@ -154,7 +154,7 @@
     <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
     <string name="hint_generated_password">كلمةالسر المشفرة</string>
     <string name="hint_keyfile">الملف المفتاحي</string>
-    <string name="maskpass_title">اخفاء كلمات السر</string>
+    <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخ %1$s</string>
     <string name="menu_copy">نسخ</string>
     <string name="menu_move">نقل</string>
@@ -168,7 +168,7 @@
     <string name="select_database_file">فتح قاعدة بيانات موجودة</string>
     <string name="create_keepass_file">انشاء قاعدة بيانات</string>
     <string name="open_recent">قواعد البيانات الاخيرة</string>
-    <string name="omitbackup_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
+    <string name="omit_backup_search_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePassDX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>

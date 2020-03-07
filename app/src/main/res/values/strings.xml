@@ -157,8 +157,8 @@
     <string name="creating_database">Creating database…</string>
     <string name="loading_database">Loading database…</string>
     <string name="lowercase">Lower-case</string>
-    <string name="maskpass_title">Hide passwords</string>
-    <string name="maskpass_summary">Mask passwords (***) by default</string>
+    <string name="hide_password_title">Hide passwords</string>
+    <string name="hide_password_summary">Mask passwords (***) by default</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">Change master key</string>
     <string name="copy_field">Copy of %1$s</string>
@@ -196,8 +196,8 @@
     <string name="select_database_file">Open existing database</string>
     <string name="create_keepass_file">Create new database</string>
     <string name="open_recent">Recent databases</string>
-    <string name="omitbackup_title">Don\'t search through backup entries</string>
-    <string name="omitbackup_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
+    <string name="omit_backup_search_title">Don\'t search through backup entries</string>
+    <string name="omit_backup_search_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
     <string name="progress_create">Creating new database…</string>

@@ -96,8 +96,8 @@
     <string name="list_size_summary">Μέγεθος κειμένου στη λίστα στοιχείων</string>
     <string name="loading_database">Φόρτωση βάσης δεδομένων…</string>
     <string name="lowercase">Μικρά</string>
-    <string name="maskpass_title">Απόκρυψη κωδικών πρόσβασης</string>
-    <string name="maskpass_summary">Μάσκα κωδικούς πρόσβασης (***) από προεπιλογή</string>
+    <string name="hide_password_title">Απόκρυψη κωδικών πρόσβασης</string>
+    <string name="hide_password_summary">Μάσκα κωδικούς πρόσβασης (***) από προεπιλογή</string>
     <string name="about">Σχετικά με</string>
     <string name="menu_change_key_settings">Αλλαγή Κύριου Κλειδιού</string>
     <string name="settings">Ρυθμίσεις</string>
@@ -116,8 +116,8 @@
     <string name="no_results">Δεν βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Εγκαταστήστε ένα πρόγραμμα περιήγησης για να ανοίξετε αυτήν τη διεύθυνση URL.</string>
     <string name="open_recent">Πρόσφατες βάσεις δεδομένων</string>
-    <string name="omitbackup_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
-    <string name="omitbackup_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
+    <string name="omit_backup_search_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
+    <string name="omit_backup_search_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
     <string name="progress_title">Επεξεργασία…</string>
     <string name="protection">Προστασία</string>

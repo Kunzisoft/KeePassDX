@@ -96,8 +96,8 @@
     <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
     <string name="loading_database">Ladataan salasanatietokantaa&#8230;</string>
     <string name="lowercase">pienet kirjaimet</string>
-    <string name="maskpass_title">Piilota salasaan</string>
-    <string name="maskpass_summary">Piilota salasanat oletuksena</string>
+    <string name="hide_password_title">Piilota salasaan</string>
+    <string name="hide_password_summary">Piilota salasanat oletuksena</string>
     <string name="about">Tietoa</string>
     <string name="menu_change_key_settings">Vaihda pääsalasanaa</string>
     <string name="settings">Asetukset</string>
@@ -116,8 +116,8 @@
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
     <string name="open_recent">Avaa viimeisin salasanatietokanta :</string>
-    <string name="omitbackup_title">Älä etsi varmuuskopioista eikä roskakorista</string>
-    <string name="omitbackup_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
+    <string name="omit_backup_search_title">Älä etsi varmuuskopioista eikä roskakorista</string>
+    <string name="omit_backup_search_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
     <string name="progress_title">Työskennellään&#8230;</string>
     <string name="protection">Suojaus</string>

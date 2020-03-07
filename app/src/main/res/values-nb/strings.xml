@@ -106,8 +106,8 @@
     <string name="list_size_summary">Tekststørrelse i elemenetlisten</string>
     <string name="loading_database">Laster database…</string>
     <string name="lowercase">Små bokstaver</string>
-    <string name="maskpass_title">Masker passord</string>
-    <string name="maskpass_summary">Skjul passord som forvalg</string>
+    <string name="hide_password_title">Masker passord</string>
+    <string name="hide_password_summary">Skjul passord som forvalg</string>
     <string name="about">Om</string>
     <string name="menu_change_key_settings">Endre hovednøkkel</string>
     <string name="copy_field">Kopi av%1$s</string>
@@ -137,8 +137,8 @@
     <string name="no_url_handler">Kan ikke håndtere denne nettadressen.</string>
     <string name="select_database_file">Velg en eksisterende database</string>
     <string name="open_recent">Nylige databaser</string>
-    <string name="omitbackup_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
-    <string name="omitbackup_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
+    <string name="omit_backup_search_title">Ikke søk gjennom sikkerhetskopioppføringer</string>
+    <string name="omit_backup_search_summary">Utelat \"Sikkerhetskopi\"-gruppen fra søkeresultater (har kunn innvirkning på .kdb-filer)</string>
     <string name="progress_create">Oppretter ny database…</string>
     <string name="progress_title">Arbeider…</string>
     <string name="protection">Beskyttelse</string>

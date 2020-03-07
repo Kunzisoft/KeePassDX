@@ -54,8 +54,8 @@ object PreferencesUtil {
 
     fun omitBackup(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.omitbackup_key),
-                context.resources.getBoolean(R.bool.omitbackup_default))
+        return prefs.getBoolean(context.getString(R.string.omit_backup_search_key),
+                context.resources.getBoolean(R.bool.omit_backup_search_default))
     }
 
     fun automaticallyFocusSearch(context: Context): Boolean {
@@ -218,8 +218,8 @@ object PreferencesUtil {
 
     fun isPasswordMask(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.maskpass_key),
-                context.resources.getBoolean(R.bool.maskpass_default))
+        return prefs.getBoolean(context.getString(R.string.hide_password_key),
+                context.resources.getBoolean(R.bool.hide_password_default))
     }
 
     fun fieldFontIsInVisibility(context: Context): Boolean {

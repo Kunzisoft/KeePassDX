@@ -85,8 +85,8 @@
     <string name="list_size_summary">グループ一覧の文字サイズ</string>
     <string name="loading_database">データベース読込中…</string>
     <string name="lowercase">英数小文字</string>
-    <string name="maskpass_title">パスワードを隠す</string>
-    <string name="maskpass_summary">パスワード欄をアスタリスクで表示します</string>
+    <string name="hide_password_title">パスワードを隠す</string>
+    <string name="hide_password_summary">パスワード欄をアスタリスクで表示します</string>
     <string name="about">About</string>
     <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
@@ -105,8 +105,8 @@
     <string name="no_results">検索結果に該当するものはありません。</string>
     <string name="no_url_handler">このURLを処理できません。</string>
     <string name="open_recent">以前使用したデータベースを開く:</string>
-    <string name="omitbackup_title">検索対象から除外</string>
-    <string name="omitbackup_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
+    <string name="omit_backup_search_title">検索対象から除外</string>
+    <string name="omit_backup_search_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="progress_create">データベースファイルを作成中…</string>
     <string name="progress_title">実行中…</string>
     <string name="content_description_remove_from_list">消去</string>

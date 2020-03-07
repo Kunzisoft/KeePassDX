@@ -87,8 +87,8 @@
     <string name="list_size_summary">Tamaño del texto de la lista de grupo</string>
     <string name="loading_database">Cargando base de datos…</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="maskpass_title">Ocultar contraseñas</string>
-    <string name="maskpass_summary">Enmascarar contraseñas (***) de manera predeterminada</string>
+    <string name="hide_password_title">Ocultar contraseñas</string>
+    <string name="hide_password_summary">Enmascarar contraseñas (***) de manera predeterminada</string>
     <string name="about">Acerca de</string>
     <string name="menu_change_key_settings">Cambiar Contraseña Maestra</string>
     <string name="settings">Configuración</string>
@@ -107,8 +107,8 @@
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir este URL.</string>
     <string name="open_recent">Bases de datos recientes</string>
-    <string name="omitbackup_title">No buscar en las entradas de respaldo</string>
-    <string name="omitbackup_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
+    <string name="omit_backup_search_title">No buscar en las entradas de respaldo</string>
+    <string name="omit_backup_search_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
     <string name="progress_title">Trabajando…</string>
     <string name="content_description_remove_from_list">Quitar</string>

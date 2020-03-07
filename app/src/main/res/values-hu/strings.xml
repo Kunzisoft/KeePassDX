@@ -96,8 +96,8 @@
     <string name="list_size_summary">Szövegméret az elemlistában</string>
     <string name="loading_database">Adatbázis betöltése…</string>
     <string name="lowercase">Kisbetűk</string>
-    <string name="maskpass_title">Jelszavak elrejtése</string>
-    <string name="maskpass_summary">Jelszavak alapértelmezett elrejtése (***)</string>
+    <string name="hide_password_title">Jelszavak elrejtése</string>
+    <string name="hide_password_summary">Jelszavak alapértelmezett elrejtése (***)</string>
     <string name="about">Névjegy</string>
     <string name="menu_change_key_settings">Mesterkulcs cseréje</string>
     <string name="settings">Beállítások</string>
@@ -116,8 +116,8 @@
     <string name="no_results">Nincs találat</string>
     <string name="no_url_handler">Telepítsen egy webböngészőt az URL megnyitásához.</string>
     <string name="open_recent">Korábbi adatbázisok</string>
-    <string name="omitbackup_title">Ne keressen a biztonsági mentésekben</string>
-    <string name="omitbackup_summary">A „Biztonsági mentés” csoport kihagyása a keresésből (csak a .kdb fájlokra érvényes)</string>
+    <string name="omit_backup_search_title">Ne keressen a biztonsági mentésekben</string>
+    <string name="omit_backup_search_summary">A „Biztonsági mentés” csoport kihagyása a keresésből (csak a .kdb fájlokra érvényes)</string>
     <string name="progress_create">Új adatbázis létrehozása…</string>
     <string name="progress_title">Feldolgozás…</string>
     <string name="protection">Védelem</string>

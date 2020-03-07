@@ -106,8 +106,8 @@
     <string name="list_size_summary">Öğe listesindeki metin boyutu</string>
     <string name="loading_database">Veritabanı yükleniyor…</string>
     <string name="lowercase">Küçük harf</string>
-    <string name="maskpass_title">Parolaları gizle</string>
-    <string name="maskpass_summary">Parola maskesi. Varsayılan (***)</string>
+    <string name="hide_password_title">Parolaları gizle</string>
+    <string name="hide_password_summary">Parola maskesi. Varsayılan (***)</string>
     <string name="about">Hakkında</string>
     <string name="menu_change_key_settings">Ana anahtarı değiştir</string>
     <string name="copy_field">%1$s kopyalandı</string>
@@ -137,8 +137,8 @@
     <string name="select_database_file">Mevcut veritabanını aç</string>
     <string name="create_keepass_file">Yeni veritabanı oluştur</string>
     <string name="open_recent">Son veritabanları</string>
-    <string name="omitbackup_title">Yedek girişleri arama</string>
-    <string name="omitbackup_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri dönüşüm kutusu\" gruplarını atlar</string>
+    <string name="omit_backup_search_title">Yedek girişleri arama</string>
+    <string name="omit_backup_search_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri dönüşüm kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veritabanı oluştur…</string>
     <string name="progress_title">Çalışıyor…</string>
     <string name="protection">Koruma</string>

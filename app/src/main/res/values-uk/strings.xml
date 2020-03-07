@@ -86,8 +86,8 @@
     <string name="list_size_summary">Розмір тексту у списку груп</string>
     <string name="loading_database">Завантаження бази даних&#8230;</string>
     <string name="lowercase">Нижній регістр</string>
-    <string name="maskpass_title">Маска пароля</string>
-    <string name="maskpass_summary">Приховати паролі за замовчуванням</string>
+    <string name="hide_password_title">Маска пароля</string>
+    <string name="hide_password_summary">Приховати паролі за замовчуванням</string>
     <string name="about">Про</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
     <string name="settings">Налаштування</string>
@@ -106,8 +106,8 @@
     <string name="no_results">Нічого не знайдено.</string>
     <string name="no_url_handler">Нема програми для опрацювання цього посилання.</string>
     <string name="open_recent">Відкрити останню базу даних :</string>
-    <string name="omitbackup_title">Не шукати записів з резервного копіювання та кошиків</string>
-    <string name="omitbackup_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
+    <string name="omit_backup_search_title">Не шукати записів з резервного копіювання та кошиків</string>
+    <string name="omit_backup_search_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
     <string name="progress_create">Створення нової бази даних&#8230;</string>
     <string name="progress_title">Працює&#8230;</string>
     <string name="content_description_remove_from_list">Вилучити</string>

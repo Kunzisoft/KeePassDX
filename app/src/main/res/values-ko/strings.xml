@@ -107,8 +107,8 @@
     <string name="list_size_summary">요소 목록 텍스트 크기</string>
     <string name="loading_database">데이터베이스 로딩 중…</string>
     <string name="lowercase">소문자</string>
-    <string name="maskpass_title">비밀번호 숨기기</string>
-    <string name="maskpass_summary">기본 비밀번호를 (***) 로 가리기</string>
+    <string name="hide_password_title">비밀번호 숨기기</string>
+    <string name="hide_password_summary">기본 비밀번호를 (***) 로 가리기</string>
     <string name="about">정보</string>
     <string name="menu_change_key_settings">마스터 키 바꾸기</string>
     <string name="copy_field">%1$s 복사됨</string>
@@ -139,7 +139,7 @@
     <string name="select_database_file">가지고 있는 데이터베이스 열기</string>
     <string name="create_keepass_file">새 데이터베이스 생성</string>
     <string name="open_recent">최근 데이터베이스</string>
-    <string name="omitbackup_title">백업 항목 검색하지 않기</string>
+    <string name="omit_backup_search_title">백업 항목 검색하지 않기</string>
     <string name="progress_create">새 데이터베이스 생성 중…</string>
     <string name="progress_title">작업 중…</string>
     <string name="protection">보호</string>

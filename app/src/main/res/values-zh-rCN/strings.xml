@@ -85,8 +85,8 @@
     <string name="list_size_summary">列表文字大小</string>
     <string name="loading_database">正在加载数据库…</string>
     <string name="lowercase">小写</string>
-    <string name="maskpass_title">隐藏密码</string>
-    <string name="maskpass_summary">默认使用星号 (***) 隐藏密码</string>
+    <string name="hide_password_title">隐藏密码</string>
+    <string name="hide_password_summary">默认使用星号 (***) 隐藏密码</string>
     <string name="about">关于</string>
     <string name="menu_change_key_settings">更改主密钥</string>
     <string name="settings">设置</string>
@@ -176,8 +176,8 @@
     <string name="menu_biometric_remove_key">删除保存的生物识别密钥</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
-    <string name="omitbackup_title">搜索时忽略备份条目</string>
-    <string name="omitbackup_summary">搜索时忽略“备份”与“回收站”</string>
+    <string name="omit_backup_search_title">搜索时忽略备份条目</string>
+    <string name="omit_backup_search_summary">搜索时忽略“备份”与“回收站”</string>
     <string name="protection">保护</string>
     <string name="read_only">只读</string>
     <string name="read_only_warning">KeePassDX 需要写入权限以修改数据库。</string>

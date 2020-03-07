@@ -89,8 +89,8 @@
     <string name="list_size_summary">Mida del text a la llista de grups</string>
     <string name="loading_database">Carregant base de dades&#8230;</string>
     <string name="lowercase">Minúscules</string>
-    <string name="maskpass_title">Emmascara contrasenya</string>
-    <string name="maskpass_summary">Amaga les contrasenyes per defecte</string>
+    <string name="hide_password_title">Emmascara contrasenya</string>
+    <string name="hide_password_summary">Amaga les contrasenyes per defecte</string>
     <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Canvia Clau Mestra</string>
     <string name="settings">Paràmetres</string>
@@ -109,8 +109,8 @@
     <string name="no_results">Cap resultat de cerca</string>
     <string name="no_url_handler">Sense gestor per aquesta url.</string>
     <string name="open_recent">Obre base de dades recent :</string>
-    <string name="omitbackup_title">No cerquis entrades a còpia de seguretat ni paperera</string>
-    <string name="omitbackup_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
+    <string name="omit_backup_search_title">No cerquis entrades a còpia de seguretat ni paperera</string>
+    <string name="omit_backup_search_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
     <string name="progress_create">Creant nova base de dades&#8230;</string>
     <string name="progress_title">Treballant&#8230;</string>
     <string name="content_description_remove_from_list">Elimina</string>

@@ -71,7 +71,7 @@
     <string name="app_timeout">Programėlės neveiklumas</string>
     <string name="clipboard_error_clear">Iškarpinės išvalymas nepavyko</string>
     <string name="list_size_summary">Teksto dydis grupės sąraše</string>
-    <string name="omitbackup_title">Neiškoti atkūrimo įrašuose</string>
+    <string name="omit_backup_search_title">Neiškoti atkūrimo įrašuose</string>
     <string name="error_can_not_handle_uri">KeePassDX negali apdoroti šio uri.</string>
     <string name="entry_not_found">Įrašo duomenys nerasti.</string>
     <string name="keyfile_is_empty">Rakto failas yra tuščias.</string>
@@ -79,7 +79,7 @@
     <string name="search">Įrašo pavadinimas/aprašymas</string>
     <string name="menu_change_key_settings">Pakeisti master raktą</string>
     <string name="entry_accessed">Naudota:</string>
-    <string name="maskpass_title">Maskuoti slaptažodį</string>
+    <string name="hide_password_title">Maskuoti slaptažodį</string>
     <string name="space">Tarpas</string>
     <string name="special">Specialus</string>
     <string name="uppercase">Didžiosios raidės</string>
@@ -88,7 +88,7 @@
     <string name="underline">Pabraukimas</string>
     <string name="open_recent">Atidaryti naujausią duomenų bazę </string>
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
-    <string name="maskpass_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
+    <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Neteisingas kelias.</string>
 

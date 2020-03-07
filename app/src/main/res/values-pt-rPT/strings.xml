@@ -97,8 +97,8 @@
     <string name="list_size_summary">Tamanho do texto na lista de grupos</string>
     <string name="loading_database">A carregar base de dados…</string>
     <string name="lowercase">Minúsculas</string>
-    <string name="maskpass_title">Esconder palavras-passe</string>
-    <string name="maskpass_summary">Mascarar palavras-passe (***) por padrão</string>
+    <string name="hide_password_title">Esconder palavras-passe</string>
+    <string name="hide_password_summary">Mascarar palavras-passe (***) por padrão</string>
     <string name="about">Sobre</string>
     <string name="menu_change_key_settings">Alterar chave mestre</string>
     <string name="settings">Definições</string>
@@ -117,8 +117,8 @@
     <string name="no_results">A pesquisa não obteve resultados</string>
     <string name="no_url_handler">Instale um navegador para abrir esta URL.</string>
     <string name="open_recent">Bancos de dados recentes</string>
-    <string name="omitbackup_title">Não procurar por entradas no backup ou na lixeira</string>
-    <string name="omitbackup_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
+    <string name="omit_backup_search_title">Não procurar por entradas no backup ou na lixeira</string>
+    <string name="omit_backup_search_summary">Omite os grupos \"Backup\" e \"Lixeira\" dos resultados da busca</string>
     <string name="progress_create">A criar nova base de dados…</string>
     <string name="progress_title">Em funcionamento…</string>
     <string name="protection">Proteção</string>

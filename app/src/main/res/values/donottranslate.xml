@@ -68,8 +68,8 @@
     <bool name="enable_read_only_default" translatable="false">false</bool>
     <string name="enable_auto_save_database_key" translatable="false">enable_auto_save_database_key</string>
     <bool name="enable_auto_save_database_default" translatable="false">true</bool>
-    <string name="omitbackup_key" translatable="false">omitbackup</string>
-    <bool name="omitbackup_default" translatable="false">true</bool>
+    <string name="omit_backup_search_key" translatable="false">omit_backup_search_key</string>
+    <bool name="omit_backup_search_default" translatable="false">true</bool>
     <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
     <bool name="auto_focus_search_default" translatable="false">false</bool>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
@@ -81,8 +81,8 @@
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>
     <string name="list_password_generator_options_key" translatable="false">list_password_generator_options_key</string>
-    <string name="maskpass_key" translatable="false">maskpass</string>
-    <bool name="maskpass_default" translatable="false">true</bool>
+    <string name="hide_password_key" translatable="false">hide_password_key</string>
+    <bool name="hide_password_default" translatable="false">true</bool>
     <string name="allow_copy_password_key" translatable="false">allow_copy_password_key</string>
     <bool name="allow_copy_password_default" translatable="false">false</bool>
     <string name="remember_database_locations_key" translatable="false">remember_database_locations_key</string>

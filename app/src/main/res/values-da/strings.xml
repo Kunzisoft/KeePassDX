@@ -96,8 +96,8 @@
     <string name="list_size_summary">Tekststørrelse i elementliste</string>
     <string name="loading_database">Indlæser database…</string>
     <string name="lowercase">Små bogstaver</string>
-    <string name="maskpass_title">Skjul adgangskoder</string>
-    <string name="maskpass_summary">Masker adgangskoder (***) som standard</string>
+    <string name="hide_password_title">Skjul adgangskoder</string>
+    <string name="hide_password_summary">Masker adgangskoder (***) som standard</string>
     <string name="about">Om</string>
     <string name="menu_change_key_settings">Skift hovednøgle</string>
     <string name="settings">Indstillinger</string>
@@ -116,8 +116,8 @@
     <string name="no_results">Ingen søgeresultater</string>
     <string name="no_url_handler">Installer en web-browser til at åbne URL.</string>
     <string name="open_recent">Seneste databaser</string>
-    <string name="omitbackup_title">Gennemsøg ikke backup poster</string>
-    <string name="omitbackup_summary">Udelader \"Backup\" og \"Papirkurv\" - grupper fra søgeresultater</string>
+    <string name="omit_backup_search_title">Gennemsøg ikke backup poster</string>
+    <string name="omit_backup_search_summary">Udelader \"Backup\" og \"Papirkurv\" - grupper fra søgeresultater</string>
     <string name="progress_create">Opretter ny database…</string>
     <string name="progress_title">Arbejder…</string>
     <string name="protection">Beskyttelse</string>

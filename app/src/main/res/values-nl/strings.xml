@@ -87,8 +87,8 @@
     <string name="list_size_summary">Tekstgrootte van itemlijst</string>
     <string name="loading_database">Bezig met laden van databank…</string>
     <string name="lowercase">Kleine letters</string>
-    <string name="maskpass_title">Wachtwoord verbergen</string>
-    <string name="maskpass_summary">Wachtwoorden standaard afschermen (***)</string>
+    <string name="hide_password_title">Wachtwoord verbergen</string>
+    <string name="hide_password_summary">Wachtwoorden standaard afschermen (***)</string>
     <string name="about">Over</string>
     <string name="menu_change_key_settings">Hoofdsleutel wijzigen</string>
     <string name="settings">Instellingen</string>
@@ -107,8 +107,8 @@
     <string name="no_results">Geen zoekresultaten</string>
     <string name="no_url_handler">Installeer een webbrowser om deze URL te openen.</string>
     <string name="open_recent">Recente databanken</string>
-    <string name="omitbackup_title">Back-upitems niet doorzoeken</string>
-    <string name="omitbackup_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
+    <string name="omit_backup_search_title">Back-upitems niet doorzoeken</string>
+    <string name="omit_backup_search_summary">Hiermee worden groepen \"Back-up\" en \"Prullenbak\" uit de zoekresultaten weggelaten</string>
     <string name="progress_create">Bezig met creëren van nieuwe databank…</string>
     <string name="progress_title">Bezig met verwerken…</string>
     <string name="content_description_remove_from_list">Verwijderen</string>

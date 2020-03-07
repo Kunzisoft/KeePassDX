@@ -50,10 +50,10 @@
         android:title="@string/search_label">
 
         <SwitchPreference
-            android:key="@string/omitbackup_key"
-            android:title="@string/omitbackup_title"
-            android:summary="@string/omitbackup_summary"
-            android:defaultValue="@bool/omitbackup_default"/>
+            android:key="@string/omit_backup_search_key"
+            android:title="@string/omit_backup_search_title"
+            android:summary="@string/omit_backup_search_summary"
+            android:defaultValue="@bool/omit_backup_search_default"/>
         <SwitchPreference
             android:key="@string/auto_focus_search_key"
             android:title="@string/auto_focus_search_title"
@@ -110,10 +110,10 @@
             android:entryValues="@array/list_password_generator_options_values"
             android:defaultValue="@array/list_password_generator_options_default_values"/>
         <SwitchPreference
-            android:key="@string/maskpass_key"
-            android:title="@string/maskpass_title"
-            android:summary="@string/maskpass_summary"
-            android:defaultValue="@bool/maskpass_default"/>
+            android:key="@string/hide_password_key"
+            android:title="@string/hide_password_title"
+            android:summary="@string/hide_password_summary"
+            android:defaultValue="@bool/hide_password_default"/>
         <SwitchPreference
             android:key="@string/allow_copy_password_key"
             android:title="@string/allow_copy_password_title"

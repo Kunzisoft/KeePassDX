@@ -97,8 +97,8 @@
     <string name="list_size_summary">Testuaren tamaina taldearen listan</string>
     <string name="loading_database">Datubasea kargatzen…</string>
     <string name="lowercase">minuskulak</string>
-    <string name="maskpass_title">Pasahitza estali</string>
-    <string name="maskpass_summary">Pasahitza estali modu lehenetsian</string>
+    <string name="hide_password_title">Pasahitza estali</string>
+    <string name="hide_password_summary">Pasahitza estali modu lehenetsian</string>
     <string name="about">Honi buruz</string>
     <string name="menu_change_key_settings">Gako Maisua Aldatu</string>
     <string name="settings">Ezarpenak</string>
@@ -117,8 +117,8 @@
     <string name="no_results">Emaitzarik gabeko bilaketa</string>
     <string name="no_url_handler">URL kudatzeko euskarririk ez.</string>
     <string name="open_recent">Duela gutxiko datubasea ireki :</string>
-    <string name="omitbackup_title">Ez bilatu segurtasun kopiaren sarreretan</string>
-    <string name="omitbackup_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
+    <string name="omit_backup_search_title">Ez bilatu segurtasun kopiaren sarreretan</string>
+    <string name="omit_backup_search_summary">Kendu segurtasun kopien taldea bilaketen emaitzetatik (.kdb fitxategie dagokie bakarrik)</string>
     <string name="progress_create">Datubase berria sortzen…</string>
     <string name="progress_title">Lanean…</string>
     <string name="protection">Babesa</string>

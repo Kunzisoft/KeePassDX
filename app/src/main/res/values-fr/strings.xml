@@ -102,8 +102,8 @@
     <string name="list_size_summary">Taille du texte dans les éléments de liste</string>
     <string name="loading_database">Chargement de la base de données…</string>
     <string name="lowercase">Minuscules</string>
-    <string name="maskpass_title">Masquer les mots de passe</string>
-    <string name="maskpass_summary">Masque les mots de passe (***) par défaut</string>
+    <string name="hide_password_title">Masquer les mots de passe</string>
+    <string name="hide_password_summary">Masque les mots de passe (***) par défaut</string>
     <string name="about">À propos</string>
     <string name="menu_change_key_settings">Modifier la clé principale</string>
     <string name="copy_field">%1$s copié</string>
@@ -125,8 +125,8 @@
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
     <string name="open_recent">Bases de données récentes</string>
-    <string name="omitbackup_title">Ne pas rechercher dans les entrées sauvegardées</string>
-    <string name="omitbackup_summary">Omet les groupes « Sauvegarde » et « Corbeille » des résultats de recherche</string>
+    <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
+    <string name="omit_backup_search_summary">Omet les groupes « Sauvegarde » et « Corbeille » des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
     <string name="progress_title">Traitement en cours…</string>
     <string name="protection">Protection</string>
