@@ -197,6 +197,9 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             selectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(it)
         }
 
+        // Refresh data
+        rebuildList()
+
         if (isASearchResult && mAdapter!= null && mAdapter!!.isEmpty) {
             // To show the " no search entry found "
             mNodesRecyclerView?.visibility = View.GONE
@@ -205,9 +208,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             mNodesRecyclerView?.visibility = View.VISIBLE
             notFoundView?.visibility = View.GONE
         }
-
-        // Refresh data
-        rebuildList()
     }
 
     fun rebuildList() {
