@@ -43,7 +43,8 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="html_about_licence">Приложение KeePassDX © %1$d Kunzisoft предоставляется без каких-либо гарантий. Распространяется свободно по лицензии GPL v3 или новее.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft с <strong>открытым исходным кодом</strong> и <strong>без рекламы</strong>. 
+\nРаспространяется под лицензией <strong>GPLv3</strong> без каких-либо гарантий.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -284,7 +285,7 @@
     <string name="education_generate_password_title">Создайте надёжный пароль для записи.</string>
     <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
     <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
-    <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, просто заполнив его, добавьте значение и при необходимости защитите.</string>
+    <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
     <string name="education_unlock_title">Разблокируйте базу</string>
     <string name="education_read_only_title">База только для чтения</string>
     <string name="education_read_only_summary">Изменяйте режим открытия в сессии.
@@ -301,7 +302,7 @@
     <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
-    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это &lt;strong&gt;без рекламы&lt;/strong&gt;, &lt;strong&gt;с открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Оно &lt;strong&gt;не хранит ваши личные данные&lt;/strong&gt; на своих серверах независимо от того, какую версию (бесплатную или профессиональную) вы используете.</string>
+    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это <strong>без рекламы</strong> и <strong>свободно от лицензирования</strong>. Оно не собирает ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
     <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим &lt;strong&gt;визуальным стилям&lt;/strong&gt; и особенно поможете &lt;strong&gt;реализации общественных проектов&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;/strong&gt;.</string>
@@ -454,4 +455,18 @@
     <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
+    <string name="contact">Связь</string>
+    <string name="contribution">Вклад</string>
+    <string name="html_about_contribution">Для <strong>сохранения нашей независимости</strong>, <strong>исправления ошибок</strong>, <strong>добавления новых функций</strong> и <strong>поддержания разработки в активном состоянии</strong>, мы рассчитываем на ваш <strong>вклад</strong>.</string>
+    <string name="auto_focus_search_title">Быстрый поиск</string>
+    <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
+    <string name="remember_database_locations_title">Сохранять расположение баз</string>
+    <string name="remember_database_locations_summary">Запоминать расположение баз</string>
+    <string name="remember_keyfile_locations_title">Сохранять расположение файлов ключей</string>
+    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей баз</string>
+    <string name="show_recent_files_title">Показывать последние файлы</string>
+    <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
+    <string name="hide_broken_locations_title">Скрывать недействительные ссылки на базы</string>
+    <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
+    <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
 </resources>
