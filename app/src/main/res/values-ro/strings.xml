@@ -1,2 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="about_description">Implementarea Android a managerului de parole KeePass</string>
+    <string name="accept">Accept</string>
+    <string name="add_entry">Introduce intrarea</string>
+    <string name="edit_entry">Editeaza intrarea</string>
+    <string name="add_group">Aduce grup</string>
+    <string name="master_key">Cheia generala</string>
+    <string name="security">Securitate</string>
+    <string name="encryption">Criptare</string>
+    <string name="encryption_algorithm">Algoritm de criptare</string>
+    <string name="key_derivation_function">Functie derivata a cheii</string>
+    <string name="app_timeout">Timpul aplicatiei a expirat</string>
+    <string name="app_timeout_summary">Timpul de asteptare inaintea blocarii bancii de date</string>
+    <string name="application">Aplicatie</string>
+    <string name="beta_dontask">Nu mai arata inca odata</string>
+    <string name="brackets">Paranteze patrate</string>
+    <string name="extended_ASCII">ASCII extins</string>
+    <string name="file_manager_install_description">Un manager de fișiere care acceptă acțiunea de creeare ACTION_CREATE_DOCUMENT si ACTION_OPEN_DOCUMENT este necesara sa creeze ,deschida si salveze fisierele din banca de date</string>
+    <string name="allow">Permite</string>
+    <string name="clipboard_cleared">Carnetelul din memorie curatat</string>
+    <string name="clipboard_error_title">Eroare de citire copiere memorie</string>
+    <string name="clipboard_error">Unele dispozitive nu permit aplicatiei sa foloseasca memoria de citire din carnetel.</string>
+    <string name="clipboard_error_clear">Nu s-a putut curata memoria carnetelului</string>
+    <string name="clipboard_timeout">Timp expirat de citire a carnetelului</string>
+    <string name="clipboard_timeout_summary">Durata de memorare din carnetel</string>
+    <string name="clipboard_swipe_clean">Schimba ca sa cureti carnetelul acum</string>
+    <string name="content_description_background">In spate</string>
+    <string name="content_description_open_file">Deschide fisier</string>
+    <string name="content_description_node_children">Copil nod</string>
+    <string name="content_description_add_node">Introduce nod</string>
+    <string name="content_description_add_entry">Introduce o intrare</string>
+    <string name="content_description_add_group">Aduce un grup</string>
+    <string name="content_description_file_information">Informatia fisierului</string>
+    <string name="content_description_password_checkbox">Verifica parola</string>
+    <string name="content_description_keyfile_checkbox">Verifica fisierul cheie</string>
+    <string name="content_description_repeat_toggle_password_visibility">Repetați pentru a comuta vizibilitatea parolei</string>
+    <string name="content_description_entry_icon">Pictograma de intrare</string>
+    <string name="content_description_entry_save">Salvați intrarea</string>
+    <string name="content_description_password_generator">Generator de parole</string>
+    <string name="content_description_password_length">Lungimea parolei</string>
+    <string name="content_description_add_field">Adăugați câmp</string>
+    <string name="content_description_remove_field">Elimina câmp</string>
+    <string name="content_description_update_from_list">Actualizați</string>
+    <string name="content_description_remove_from_list">Elimina</string>
+    <string name="content_description_keyboard_close_fields">Câmpuri închise</string>
+    <string name="select_to_copy">%1$s is either \\\"Nume\\\" si \\\"Parola\\\".</string>
+    <string name="retrieving_db_key">Obtinerea cheii bazei de date…</string>
+    <string name="database">Baza de date</string>
+    <string name="decrypting_db">Decriptarea continutului bazei de date.…</string>
+    <string name="contact">Contact</string>
+    <string name="contribution">Contributie</string>
+    <string name="feedback">Opinii</string>
+    <string name="homepage">Pagina acasa</string>
+</resources>
