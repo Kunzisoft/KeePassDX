@@ -87,7 +87,7 @@
     <string name="lowercase">小写</string>
     <string name="hide_password_title">隐藏密码</string>
     <string name="hide_password_summary">默认使用星号(***)隐藏密码</string>
-    <string name="menu_about">关于</string>
+    <string name="about">关于</string>
     <string name="menu_change_key_settings">更改主密钥</string>
     <string name="settings">设置</string>
     <string name="menu_database_settings">数据库设置</string>

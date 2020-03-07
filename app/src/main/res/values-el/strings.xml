@@ -17,8 +17,8 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="about_feedback">Σχόλια</string>
-    <string name="about_homepage">Αρχική Σελίδα</string>
+    <string name="feedback">Σχόλια</string>
+    <string name="homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
     <string name="accept">Αποδοχή</string>
     <string name="add_entry">Προσθήκη καταχώρησης</string>
