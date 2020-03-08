@@ -23,6 +23,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import kotlin.math.min
 
 class HashedBlockOutputStream : OutputStream {
 
@@ -61,11 +62,11 @@ class HashedBlockOutputStream : OutputStream {
     override fun close() {
         if (bufferPos != 0) {
             // Write remaining buffered amount
-            WriteHashedBlock()
+            writeHashedBlock()
         }
 
         // Write terminating block
-        WriteHashedBlock()
+        writeHashedBlock()
 
         flush()
         baseStream!!.close()
@@ -82,12 +83,12 @@ class HashedBlockOutputStream : OutputStream {
         var counter = count
         while (counter > 0) {
             if (bufferPos == buffer!!.size) {
-                WriteHashedBlock()
+                writeHashedBlock()
             }
 
-            val copyLen = Math.min(buffer!!.size - bufferPos, counter)
+            val copyLen = min(buffer!!.size - bufferPos, counter)
 
-            System.arraycopy(b, currentOffset, buffer, bufferPos, copyLen)
+            System.arraycopy(b, currentOffset, buffer!!, bufferPos, copyLen)
 
             currentOffset += copyLen
             bufferPos += copyLen
@@ -97,7 +98,7 @@ class HashedBlockOutputStream : OutputStream {
     }
 
     @Throws(IOException::class)
-    private fun WriteHashedBlock() {
+    private fun writeHashedBlock() {
         baseStream!!.writeUInt(bufferIndex)
         bufferIndex++
 
@@ -110,7 +111,7 @@ class HashedBlockOutputStream : OutputStream {
             }
 
             val hash: ByteArray
-            messageDigest.update(buffer, 0, bufferPos)
+            messageDigest.update(buffer!!, 0, bufferPos)
             hash = messageDigest.digest()
             /*
 			if ( bufferPos == buffer.length) {
