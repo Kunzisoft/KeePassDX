@@ -723,7 +723,7 @@ class Database {
     fun canRecycle(entry: Entry): Boolean {
         var canRecycle: Boolean? = null
         entry.entryKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle(it)
+            canRecycle = mDatabaseKDB?.canRecycle()
         }
         entry.entryKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)
@@ -734,7 +734,7 @@ class Database {
     fun canRecycle(group: Group): Boolean {
         var canRecycle: Boolean? = null
         group.groupKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle(it)
+            canRecycle = mDatabaseKDB?.canRecycle()
         }
         group.groupKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)

@@ -20,9 +20,10 @@ android {
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
 
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = ["room.incremental":"true", "room.schemaLocation": "$projectDir/schemas".toString()]
+        kapt {
+            arguments {
+                arg("room.incremental", "true")
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
             }
         }
     }
