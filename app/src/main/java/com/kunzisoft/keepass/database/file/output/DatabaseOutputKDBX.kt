@@ -386,7 +386,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, value: Date?) {
         if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
-            writeObject(name, DatabaseKDBXXML.dateFormatter.get().format(value))
+            writeObject(name, DatabaseKDBXXML.DateFormatter.format(value))
         } else {
             val dt = DateTime(value)
             val seconds = DateKDBXUtil.convertDateToKDBX4Time(dt)
