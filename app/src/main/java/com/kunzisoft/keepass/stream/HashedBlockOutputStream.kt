@@ -102,16 +102,16 @@ class HashedBlockOutputStream : OutputStream {
         bufferIndex++
 
         if (bufferPos > 0) {
-            var md: MessageDigest? = null
+            val messageDigest: MessageDigest
             try {
-                md = MessageDigest.getInstance("SHA-256")
+                messageDigest = MessageDigest.getInstance("SHA-256")
             } catch (e: NoSuchAlgorithmException) {
                 throw IOException("SHA-256 not implemented here.")
             }
 
             val hash: ByteArray
-            md!!.update(buffer, 0, bufferPos)
-            hash = md.digest()
+            messageDigest.update(buffer, 0, bufferPos)
+            hash = messageDigest.digest()
             /*
 			if ( bufferPos == buffer.length) {
 				hash = md.digest(buffer);
