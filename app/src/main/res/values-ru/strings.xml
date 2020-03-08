@@ -116,7 +116,7 @@
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
-    <string name="open_recent">Недавно открытые</string>
+    <string name="open_recent">Недавно открытые базы</string>
     <string name="omit_backup_search_title">Не искать в резервных копиях</string>
     <string name="omit_backup_search_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
@@ -314,7 +314,7 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Помощь проекту</string>
+    <string name="contribute">Вклад</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
