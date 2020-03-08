@@ -112,7 +112,7 @@ class IconPickerDialogFragment : DialogFragment() {
                     // Retrieve the textColor to tint the icon
                     val ta = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
                     ImageViewCompat.setImageTintList(iconImageView, ColorStateList.valueOf(ta.getColor(0, Color.BLACK)))
-                    ta?.recycle()
+                    ta.recycle()
                 }
             }
 

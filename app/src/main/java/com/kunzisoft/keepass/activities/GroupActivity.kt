@@ -346,7 +346,8 @@ class GroupActivity : LockingActivity(),
 
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
-            return mDatabase?.search(intent.getStringExtra(SearchManager.QUERY).trim { it <= ' ' })
+            val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
+            return mDatabase?.search(searchString)
         }
         // else a real group
         else {

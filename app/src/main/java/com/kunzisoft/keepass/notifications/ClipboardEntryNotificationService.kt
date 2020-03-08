@@ -78,12 +78,14 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
                 if (actionKey == intent.action) {
-                    val fieldToCopy = intent.getParcelableExtra<ClipboardEntryNotificationField>(
-                            ClipboardEntryNotificationField.getExtraKeyLinkToActionKey(actionKey))
-                    val nextFields = constructListOfField(intent)
-                    // Remove the current field from the next fields
-                    nextFields.remove(fieldToCopy)
-                    copyField(fieldToCopy, nextFields)
+                    intent.getParcelableExtra<ClipboardEntryNotificationField>(
+                            ClipboardEntryNotificationField.getExtraKeyLinkToActionKey(actionKey))?.let {
+                        fieldToCopy ->
+                        val nextFields = constructListOfField(intent)
+                        // Remove the current field from the next fields
+                        nextFields.remove(fieldToCopy)
+                        copyField(fieldToCopy, nextFields)
+                    }
                 }
             }
         }
@@ -91,10 +93,12 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     private fun constructListOfField(intent: Intent?): ArrayList<ClipboardEntryNotificationField> {
-        var fieldList = ArrayList<ClipboardEntryNotificationField>()
-        if (intent != null && intent.extras != null) {
-            if (intent.extras!!.containsKey(EXTRA_CLIPBOARD_FIELDS))
-                fieldList = intent.getParcelableArrayListExtra(EXTRA_CLIPBOARD_FIELDS)
+        val fieldList = ArrayList<ClipboardEntryNotificationField>()
+        if (intent?.extras?.containsKey(EXTRA_CLIPBOARD_FIELDS) == true) {
+            intent.getParcelableArrayListExtra<ClipboardEntryNotificationField>(EXTRA_CLIPBOARD_FIELDS)?.let { retrieveFields ->
+                fieldList.clear()
+                fieldList.addAll(retrieveFields)
+            }
         }
         return fieldList
     }

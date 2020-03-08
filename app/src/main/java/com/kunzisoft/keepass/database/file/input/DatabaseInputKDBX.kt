@@ -660,7 +660,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.DeletedObject -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxDeletedObject?.uuid = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemDeletionTime, ignoreCase = true)) {
-                ctxDeletedObject?.deletionTime = readTime(xpp)
+                ctxDeletedObject?.setDeletionTime(readTime(xpp))
             } else {
                 readUnknown(xpp)
             }

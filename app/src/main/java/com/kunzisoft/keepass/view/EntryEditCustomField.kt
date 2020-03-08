@@ -103,7 +103,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
             parent.removeView(this)
             parent.invalidate()
         } catch (e: ClassCastException) {
-            Log.e(javaClass.name, e.message)
+            Log.e(javaClass.name, "Unable to delete view", e)
         }
     }
 }

@@ -94,20 +94,21 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
 
-                    val entryAttachment: EntryAttachment = intent.getParcelableExtra(ATTACHMENT_KEY)
-                    val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
-                    downloadFileUris[downloadFileUri] = attachmentNotification
                     try {
-                        AttachmentFileAsyncTask(downloadFileUri,
-                                attachmentNotification,
-                                contentResolver).apply {
-                            onUpdate = { uri, attachment, notificationIdAttach ->
-                                newNotification(uri, attachment, notificationIdAttach)
-                                mActionTaskListeners.forEach { actionListener ->
-                                    actionListener.onAttachmentProgress(downloadFileUri, attachment)
+                        intent.getParcelableExtra<EntryAttachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+                            val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
+                            downloadFileUris[downloadFileUri] = attachmentNotification
+                            AttachmentFileAsyncTask(downloadFileUri,
+                                    attachmentNotification,
+                                    contentResolver).apply {
+                                onUpdate = { uri, attachment, notificationIdAttach ->
+                                    newNotification(uri, attachment, notificationIdAttach)
+                                    mActionTaskListeners.forEach { actionListener ->
+                                        actionListener.onAttachmentProgress(downloadFileUri, attachment)
+                                    }
                                 }
-                            }
-                        }.execute()
+                            }.execute()
+                        }
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to download $downloadFileUri", e)
                     }

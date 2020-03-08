@@ -26,17 +26,25 @@ import java.util.UUID
 class DeletedObject {
 
     var uuid: UUID = DatabaseVersioned.UUID_ZERO
-    var deletionTime: Date? = null
-        get() = if (field == null) {
-            Date(System.currentTimeMillis())
-        } else field
+    private var mDeletionTime: Date? = null
+
+    fun getDeletionTime(): Date {
+        if (mDeletionTime == null) {
+            mDeletionTime = Date(System.currentTimeMillis())
+        }
+        return mDeletionTime!!
+    }
+
+    fun setDeletionTime(deletionTime: Date) {
+        this.mDeletionTime = deletionTime
+    }
 
     constructor()
 
     @JvmOverloads
     constructor(uuid: UUID, deletionTime: Date = Date()) {
         this.uuid = uuid
-        this.deletionTime = deletionTime
+        this.mDeletionTime = deletionTime
     }
 
     override fun equals(other: Any?): Boolean {
