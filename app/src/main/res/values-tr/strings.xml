@@ -433,7 +433,7 @@
     <string name="keyboard_auto_go_action_summary">Alan tuşuna bastıktan sonra otomatik olarak gerçekleştirilen Git tuşunun eylemi</string>
     <string name="download_attachment">İndir %1$s</string>
     <string name="download_initialization">Başlatılıyor…</string>
-    <string name="download_progression">Devam ediyor: %1$d%</string>
+    <string name="download_progression">Devam ediyor: %1$d&#37;</string>
     <string name="download_finalization">Sonlandırılıyor…</string>
     <string name="download_complete">Tamamlandı! Dosyayı açmak için dokunun.</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
