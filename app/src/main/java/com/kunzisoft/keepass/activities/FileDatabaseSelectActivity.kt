@@ -28,7 +28,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -142,8 +141,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         if (!(savedInstanceState != null
                         && savedInstanceState.containsKey(EXTRA_STAY)
                         && savedInstanceState.getBoolean(EXTRA_STAY, false))) {
-            val prefs = PreferenceManager.getDefaultSharedPreferences(this)
-            val databasePath = prefs.getString(PasswordActivity.KEY_DEFAULT_DATABASE_PATH, "")
+            val databasePath = PreferencesUtil.getDefaultDatabasePath(this)
 
             UriUtil.parse(databasePath)?.let { databaseFileUri ->
                 launchPasswordActivityWithPath(databaseFileUri)

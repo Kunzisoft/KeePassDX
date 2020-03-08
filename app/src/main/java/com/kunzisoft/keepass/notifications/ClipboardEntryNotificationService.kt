@@ -22,14 +22,11 @@ package com.kunzisoft.keepass.notifications
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.ClipboardException
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
@@ -62,9 +59,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
 
         //Get settings
-        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.clipboard_timeout_key),
-                getString(R.string.clipboard_timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+        notificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
 
         when {
             intent == null -> Log.w(TAG, "null intent")

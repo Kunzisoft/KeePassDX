@@ -82,7 +82,9 @@ class SortDialogFragment : DialogFragment() {
             builder.setView(rootView)
                     // Add action buttons
                     .setPositiveButton(android.R.string.ok
-                    ) { _, _ -> mListener?.onSortSelected(mSortNodeEnum, mAscending, mGroupsBefore, mRecycleBinBottom) }
+                    ) { _, _ -> mListener?.onSortSelected(mSortNodeEnum,
+                            SortNodeEnum.SortNodeParameters(mAscending, mGroupsBefore, mRecycleBinBottom))
+                    }
                     .setNegativeButton(android.R.string.cancel) { _, _ -> }
 
             val ascendingView = rootView.findViewById<CompoundButton>(R.id.sort_selection_ascending)
@@ -150,10 +152,7 @@ class SortDialogFragment : DialogFragment() {
     }
 
     interface SortSelectionListener {
-        fun onSortSelected(sortNodeEnum: SortNodeEnum,
-                           ascending: Boolean,
-                           groupsBefore: Boolean,
-                           recycleBinBottom: Boolean)
+        fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters)
     }
 
     companion object {

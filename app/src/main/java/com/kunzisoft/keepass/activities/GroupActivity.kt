@@ -860,8 +860,8 @@ class GroupActivity : LockingActivity(),
                 .iconPicked(bundle)
     }
 
-    override fun onSortSelected(sortNodeEnum: SortNodeEnum, ascending: Boolean, groupsBefore: Boolean, recycleBinBottom: Boolean) {
-        mListNodesFragment?.onSortSelected(sortNodeEnum, ascending, groupsBefore, recycleBinBottom)
+    override fun onSortSelected(sortNodeEnum: SortNodeEnum, sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+        mListNodesFragment?.onSortSelected(sortNodeEnum, sortNodeParameters)
     }
 
     override fun startActivity(intent: Intent) {
