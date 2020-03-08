@@ -38,7 +38,7 @@
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
     <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
     <string name="select_to_copy">Выберите %1$s для копирования в буфер обмена</string>
-    <string name="retrieving_db_key">Создание ключа базы…</string>
+    <string name="retrieving_db_key">Получение ключа базы…</string>
     <string name="database">База</string>
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
@@ -314,7 +314,7 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Вклад</string>
+    <string name="contribute">Помощь проекту</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
@@ -455,18 +455,18 @@
     <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
-    <string name="contact">Связь</string>
+    <string name="contact">Контактная информация</string>
     <string name="contribution">Вклад</string>
     <string name="html_about_contribution">Для <strong>сохранения нашей независимости</strong>, <strong>исправления ошибок</strong>, <strong>добавления новых функций</strong> и <strong>поддержания разработки в активном состоянии</strong>, мы рассчитываем на ваш <strong>вклад</strong>.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Сохранять расположение баз</string>
+    <string name="remember_database_locations_title">Хранить расположение баз</string>
     <string name="remember_database_locations_summary">Запоминать расположение баз</string>
-    <string name="remember_keyfile_locations_title">Сохранять расположение файлов ключей</string>
+    <string name="remember_keyfile_locations_title">Хранить расположение файлов ключей</string>
     <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей баз</string>
-    <string name="show_recent_files_title">Показывать последние файлы</string>
+    <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
-    <string name="hide_broken_locations_title">Скрывать недействительные ссылки на базы</string>
+    <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
 </resources>
