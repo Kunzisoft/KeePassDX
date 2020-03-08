@@ -493,10 +493,11 @@ class Database {
             var outputStream: OutputStream? = null
             try {
                 outputStream = contentResolver.openOutputStream(uri)
-                val pmo =
-                        mDatabaseKDB?.let { DatabaseOutputKDB(it, outputStream) }
-                        ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, outputStream) }
-                pmo?.output()
+                outputStream?.let { definedOutputStream ->
+                    val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
+                                    ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
+                    databaseOutput?.output()
+                }
             } catch (e: Exception) {
                 throw IOException(e)
             } finally {

@@ -89,7 +89,7 @@ class ClipboardHelper(private val context: Context) {
     @Throws(ClipboardException::class)
     fun copyToClipboard(label: String, value: String) {
         try {
-            getClipboardManager()?.primaryClip = ClipData.newPlainText(label, value)
+            getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(label, value))
         } catch (e: Exception) {
             throw ClipboardException(e)
         }
