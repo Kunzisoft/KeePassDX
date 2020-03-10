@@ -42,7 +42,7 @@ object UriUtil {
             return false
         return try {
             //https://developer.android.com/reference/android/content/res/AssetFileDescriptor
-            contentResolver.openAssetFileDescriptor(fileUri, "r")?.close()
+            contentResolver.openInputStream(fileUri)?.close()
             true
         } catch (e: Exception) {
             Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
@@ -50,16 +50,11 @@ object UriUtil {
         }
     }
 
-    fun isUriNotWritable(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
+    fun isUriWritable(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
         if (fileUri == null)
-            return true
-        return try {
-            contentResolver.openAssetFileDescriptor(fileUri, "wa")?.close()
-            false
-        } catch (e: Exception) {
-            Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
-            true
-        }
+            return false
+        // TODO Uri writeable detection
+        return true
     }
 
     fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
