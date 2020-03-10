@@ -73,7 +73,7 @@
     <string name="default_checkbox">Use as default database</string>
     <string name="digits">Digits</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; and &lt;strong&gt;without advertising&lt;/strong&gt;. \nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
-    <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution.&lt;/strong&gt;</string>
+    <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="entry_accessed">Accessed</string>
     <string name="entry_cancel">Cancel</string>
     <string name="entry_notes">Notes</string>
@@ -405,7 +405,7 @@
     <string name="education_generate_password_title">Create a strong password for your entry.</string>
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
-    <string name="education_entry_new_field_summary">Register a basic non-supplied field by filling in a new one that you can also protect.</string>
+    <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter the password and/or keyfile to unlock your database.\n\nBackup your database file in a safe place after each change.</string>
     <string name="education_read_only_title">Write protect your database</string>
@@ -433,7 +433,7 @@
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>
     <string name="download_initialization">Initializing…</string>
-    <string name="download_progression">In progress: %1$d\%%</string>
+    <string name="download_progression">In progress: %1$d&#37;</string>
     <string name="download_finalization">Finalizing…</string>
     <string name="download_complete">Complete! Tap to open the file.</string>
     <!-- Encryption Algorithms -->

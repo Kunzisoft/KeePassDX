@@ -23,12 +23,10 @@ import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
-import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.preference.PreferenceManager
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -91,8 +89,6 @@ open class PasswordActivity : StylishActivity() {
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
 
-    private var mSharedPreferences: SharedPreferences? = null
-
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
@@ -114,8 +110,6 @@ open class PasswordActivity : StylishActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
         mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
@@ -309,7 +303,7 @@ open class PasswordActivity : StylishActivity() {
             keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
         }
 
-        mForceReadOnly = UriUtil.isUriNotWritable(contentResolver, databaseUri)
+        mForceReadOnly = !UriUtil.isUriWritable(contentResolver, databaseUri)
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
@@ -344,19 +338,12 @@ open class PasswordActivity : StylishActivity() {
 
         // Define listeners for default database checkbox and validate button
         checkboxDefaultDatabaseView?.setOnCheckedChangeListener { _, isChecked ->
-            var newDefaultFileName: Uri? = null
+            var newDefaultFileUri: Uri? = null
             if (isChecked) {
-                newDefaultFileName = databaseFileUri ?: newDefaultFileName
+                newDefaultFileUri = databaseFileUri ?: newDefaultFileUri
             }
 
-            mSharedPreferences?.edit()?.apply {
-                newDefaultFileName?.let {
-                    putString(KEY_DEFAULT_DATABASE_PATH, newDefaultFileName.toString())
-                } ?: kotlin.run {
-                    remove(KEY_DEFAULT_DATABASE_PATH)
-                }
-                apply()
-            }
+            PreferencesUtil.saveDefaultDatabasePath(this, newDefaultFileUri)
 
             val backupManager = BackupManager(this@PasswordActivity)
             backupManager.dataChanged()
@@ -364,7 +351,7 @@ open class PasswordActivity : StylishActivity() {
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
 
         // Retrieve settings for default database
-        val defaultFilename = mSharedPreferences?.getString(KEY_DEFAULT_DATABASE_PATH, "")
+        val defaultFilename = PreferencesUtil.getDefaultDatabasePath(this)
         if (databaseFileUri != null
                 && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
                 && databaseFileUri == UriUtil.parse(defaultFilename)) {
@@ -702,8 +689,6 @@ open class PasswordActivity : StylishActivity() {
     companion object {
 
         private val TAG = PasswordActivity::class.java.name
-
-        const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
 
         private const val KEY_FILENAME = "fileName"
         private const val KEY_KEYFILE = "keyFile"

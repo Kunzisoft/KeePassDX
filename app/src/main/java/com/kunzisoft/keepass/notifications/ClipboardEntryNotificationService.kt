@@ -22,14 +22,11 @@ package com.kunzisoft.keepass.notifications
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.preference.PreferenceManager
 import android.util.Log
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.database.exception.ClipboardException
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.ClipboardHelper
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper.NEVER
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import java.util.*
@@ -62,9 +59,7 @@ class ClipboardEntryNotificationService : LockNotificationService() {
         mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
 
         //Get settings
-        notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
-                .getString(getString(R.string.clipboard_timeout_key),
-                getString(R.string.clipboard_timeout_default))?.toLong() ?: TimeoutHelper.DEFAULT_TIMEOUT
+        notificationTimeoutMilliSecs = PreferencesUtil.getClipboardTimeout(this)
 
         when {
             intent == null -> Log.w(TAG, "null intent")
@@ -78,12 +73,14 @@ class ClipboardEntryNotificationService : LockNotificationService() {
             }
             else -> for (actionKey in ClipboardEntryNotificationField.allActionKeys) {
                 if (actionKey == intent.action) {
-                    val fieldToCopy = intent.getParcelableExtra<ClipboardEntryNotificationField>(
-                            ClipboardEntryNotificationField.getExtraKeyLinkToActionKey(actionKey))
-                    val nextFields = constructListOfField(intent)
-                    // Remove the current field from the next fields
-                    nextFields.remove(fieldToCopy)
-                    copyField(fieldToCopy, nextFields)
+                    intent.getParcelableExtra<ClipboardEntryNotificationField>(
+                            ClipboardEntryNotificationField.getExtraKeyLinkToActionKey(actionKey))?.let {
+                        fieldToCopy ->
+                        val nextFields = constructListOfField(intent)
+                        // Remove the current field from the next fields
+                        nextFields.remove(fieldToCopy)
+                        copyField(fieldToCopy, nextFields)
+                    }
                 }
             }
         }
@@ -91,10 +88,12 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     private fun constructListOfField(intent: Intent?): ArrayList<ClipboardEntryNotificationField> {
-        var fieldList = ArrayList<ClipboardEntryNotificationField>()
-        if (intent != null && intent.extras != null) {
-            if (intent.extras!!.containsKey(EXTRA_CLIPBOARD_FIELDS))
-                fieldList = intent.getParcelableArrayListExtra(EXTRA_CLIPBOARD_FIELDS)
+        val fieldList = ArrayList<ClipboardEntryNotificationField>()
+        if (intent?.extras?.containsKey(EXTRA_CLIPBOARD_FIELDS) == true) {
+            intent.getParcelableArrayListExtra<ClipboardEntryNotificationField>(EXTRA_CLIPBOARD_FIELDS)?.let { retrieveFields ->
+                fieldList.clear()
+                fieldList.addAll(retrieveFields)
+            }
         }
         return fieldList
     }

@@ -21,9 +21,7 @@ package com.kunzisoft.keepass.activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
@@ -69,8 +67,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     private var notFoundView: View? = null
     private var isASearchResult: Boolean = false
 
-    // Preferences for sorting
-    private var prefs: SharedPreferences? = null
 
     private var readOnly: Boolean = false
         get() {
@@ -155,7 +151,6 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 })
             }
         }
-        prefs = PreferenceManager.getDefaultSharedPreferences(context)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -213,26 +208,26 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     fun rebuildList() {
         // Add elements to the list
         mainGroup?.let { mainGroup ->
-            mAdapter?.rebuildList(mainGroup)
+            mAdapter?.apply {
+                rebuildList(mainGroup)
+                // To visually change the elements
+                if (PreferencesUtil.APPEARANCE_CHANGED) {
+                    notifyDataSetChanged()
+                    PreferencesUtil.APPEARANCE_CHANGED = false
+                }
+            }
         }
     }
 
     override fun onSortSelected(sortNodeEnum: SortNodeEnum,
-                                ascending: Boolean,
-                                groupsBefore: Boolean,
-                                recycleBinBottom: Boolean) {
-        // Toggle setting
-        prefs?.edit()?.apply {
-            putString(getString(R.string.sort_node_key), sortNodeEnum.name)
-            putBoolean(getString(R.string.sort_ascending_key), ascending)
-            putBoolean(getString(R.string.sort_group_before_key), groupsBefore)
-            putBoolean(getString(R.string.sort_recycle_bin_bottom_key), recycleBinBottom)
-            apply()
+                                sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+        // Save setting
+        context?.let {
+            PreferencesUtil.saveNodeSort(it, sortNodeEnum, sortNodeParameters)
         }
 
         // Tell the adapter to refresh it's list
-        mAdapter?.notifyChangeSort(sortNodeEnum,
-                SortNodeEnum.SortNodeParameters(ascending, groupsBefore, recycleBinBottom))
+        mAdapter?.notifyChangeSort(sortNodeEnum, sortNodeParameters)
         rebuildList()
     }
 

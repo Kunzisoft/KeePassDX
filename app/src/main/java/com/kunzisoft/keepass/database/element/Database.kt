@@ -493,10 +493,11 @@ class Database {
             var outputStream: OutputStream? = null
             try {
                 outputStream = contentResolver.openOutputStream(uri)
-                val pmo =
-                        mDatabaseKDB?.let { DatabaseOutputKDB(it, outputStream) }
-                        ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, outputStream) }
-                pmo?.output()
+                outputStream?.let { definedOutputStream ->
+                    val databaseOutput = mDatabaseKDB?.let { DatabaseOutputKDB(it, definedOutputStream) }
+                                    ?: mDatabaseKDBX?.let { DatabaseOutputKDBX(it, definedOutputStream) }
+                    databaseOutput?.output()
+                }
             } catch (e: Exception) {
                 throw IOException(e)
             } finally {
@@ -723,7 +724,7 @@ class Database {
     fun canRecycle(entry: Entry): Boolean {
         var canRecycle: Boolean? = null
         entry.entryKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle(it)
+            canRecycle = mDatabaseKDB?.canRecycle()
         }
         entry.entryKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)
@@ -734,7 +735,7 @@ class Database {
     fun canRecycle(group: Group): Boolean {
         var canRecycle: Boolean? = null
         group.groupKDB?.let {
-            canRecycle = mDatabaseKDB?.canRecycle(it)
+            canRecycle = mDatabaseKDB?.canRecycle()
         }
         group.groupKDBX?.let {
             canRecycle = mDatabaseKDBX?.canRecycle(it)

@@ -45,7 +45,7 @@ class EntryInfo : Parcelable {
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
         notes = parcel.readString() ?: notes
-        parcel.readList(customFields, Field::class.java.classLoader)
+        parcel.readList(customFields as List<Field>, Field::class.java.classLoader)
         otpModel = parcel.readParcelable(OtpModel::class.java.classLoader) ?: otpModel
     }
 

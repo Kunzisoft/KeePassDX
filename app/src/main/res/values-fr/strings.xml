@@ -460,9 +460,23 @@
     <string name="keyboard_auto_go_action_summary">Action de la touche Go effectuée automatiquement après avoir appuyé sur une touche de champ</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
-    <string name="download_progression">En cours : %1$d%</string>
+    <string name="download_progression">En cours : %1$d&#37;</string>
     <string name="download_finalization">Finalisation…</string>
     <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
     <string name="hide_expired_entries_summary">Les entrées expirées seront masquées</string>
+    <string name="contact">Contact</string>
+    <string name="contribution">Contribution</string>
+    <string name="html_about_contribution">Afin de &lt;strong&gt;garder notre liberté&lt;/strong&gt;, &lt;strong&gt;corriger les bugs&lt;/strong&gt;, &lt;strong&gt;ajouter des fonctionnalités&lt;/strong&gt; et &lt;strong&gt;être toujours actif&lt;/strong&gt;, nous comptons sur votre &lt;strong&gt;contribution&lt;/strong&gt;.</string>
+    <string name="auto_focus_search_title">Recherche rapide</string>
+    <string name="auto_focus_search_summary">Demander une recherche lors de l\'ouverture d\'une base de données</string>
+    <string name="remember_database_locations_title">Enregistrer l\'emplacement des bases de données</string>
+    <string name="remember_database_locations_summary">Se souvenir de l\'emplacement des bases de données</string>
+    <string name="remember_keyfile_locations_title">Enregistrer l\'emplacement des fichiers clés</string>
+    <string name="remember_keyfile_locations_summary">Se souvenir de l\'emplacement des fichiers de clés des bases de données</string>
+    <string name="show_recent_files_title">Afficher les fichiers récents</string>
+    <string name="show_recent_files_summary">Afficher les emplacements des bases de données récentes</string>
+    <string name="hide_broken_locations_title">Masquer les liens rompus de base de données</string>
+    <string name="hide_broken_locations_summary">Masquer les liens rompus dans la liste des bases de données récentes</string>
+    <string name="warning_database_read_only">Accorder un accès en écriture au fichier pour enregistrer les modifications de la base de données</string>
 </resources>

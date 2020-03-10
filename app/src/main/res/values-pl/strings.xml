@@ -449,7 +449,7 @@
     <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane jest automatycznie po naciśnięciu klawisza Field</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
-    <string name="download_progression">W trakcie realizacji: %1$d%</string>
+    <string name="download_progression">W trakcie realizacji: %1$d&#37;</string>
     <string name="download_finalization">Kończę…</string>
     <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>

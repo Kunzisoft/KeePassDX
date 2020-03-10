@@ -23,6 +23,7 @@ import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import kotlin.math.min
 
 class HashedBlockOutputStream : OutputStream {
 
@@ -61,11 +62,11 @@ class HashedBlockOutputStream : OutputStream {
     override fun close() {
         if (bufferPos != 0) {
             // Write remaining buffered amount
-            WriteHashedBlock()
+            writeHashedBlock()
         }
 
         // Write terminating block
-        WriteHashedBlock()
+        writeHashedBlock()
 
         flush()
         baseStream!!.close()
@@ -82,12 +83,12 @@ class HashedBlockOutputStream : OutputStream {
         var counter = count
         while (counter > 0) {
             if (bufferPos == buffer!!.size) {
-                WriteHashedBlock()
+                writeHashedBlock()
             }
 
-            val copyLen = Math.min(buffer!!.size - bufferPos, counter)
+            val copyLen = min(buffer!!.size - bufferPos, counter)
 
-            System.arraycopy(b, currentOffset, buffer, bufferPos, copyLen)
+            System.arraycopy(b, currentOffset, buffer!!, bufferPos, copyLen)
 
             currentOffset += copyLen
             bufferPos += copyLen
@@ -97,21 +98,21 @@ class HashedBlockOutputStream : OutputStream {
     }
 
     @Throws(IOException::class)
-    private fun WriteHashedBlock() {
+    private fun writeHashedBlock() {
         baseStream!!.writeUInt(bufferIndex)
         bufferIndex++
 
         if (bufferPos > 0) {
-            var md: MessageDigest? = null
+            val messageDigest: MessageDigest
             try {
-                md = MessageDigest.getInstance("SHA-256")
+                messageDigest = MessageDigest.getInstance("SHA-256")
             } catch (e: NoSuchAlgorithmException) {
                 throw IOException("SHA-256 not implemented here.")
             }
 
             val hash: ByteArray
-            md!!.update(buffer, 0, bufferPos)
-            hash = md.digest()
+            messageDigest.update(buffer!!, 0, bufferPos)
+            hash = messageDigest.digest()
             /*
 			if ( bufferPos == buffer.length) {
 				hash = md.digest(buffer);

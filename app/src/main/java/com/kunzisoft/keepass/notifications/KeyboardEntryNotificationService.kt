@@ -62,7 +62,9 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             else -> {
                 notificationManager?.cancel(notificationId)
                 if (intent.hasExtra(ENTRY_INFO_KEY)) {
-                    newNotification(intent.getParcelableExtra(ENTRY_INFO_KEY))
+                    intent.getParcelableExtra<EntryInfo>(ENTRY_INFO_KEY)?.let {
+                        newNotification(it)
+                    }
                 }
             }
         }

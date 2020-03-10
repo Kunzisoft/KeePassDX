@@ -150,9 +150,11 @@ class EntryActivity : LockingActivity() {
 
         // Get Entry from UUID
         try {
-            val keyEntry: NodeId<UUID> = intent.getParcelableExtra(KEY_ENTRY)
-            mEntry = mDatabase?.getEntryById(keyEntry)
-            mEntryLastVersion = mEntry
+            val keyEntry: NodeId<UUID>? = intent.getParcelableExtra(KEY_ENTRY)
+            if (keyEntry != null) {
+                mEntry = mDatabase?.getEntryById(keyEntry)
+                mEntryLastVersion = mEntry
+            }
         } catch (e: ClassCastException) {
             Log.e(TAG, "Unable to retrieve the entry key")
         }

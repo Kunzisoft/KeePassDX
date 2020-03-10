@@ -4,21 +4,28 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.3'
 
     defaultConfig {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
-        targetSdkVersion 28
-        versionCode = 27
-        versionName = "2.5beta27"
+        targetSdkVersion 29
+        versionCode = 28
+        versionName = "2.5beta28"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
+
+        kapt {
+            arguments {
+                arg("room.incremental", "true")
+                arg("room.schemaLocation", "$projectDir/schemas".toString())
+            }
+        }
     }
 
     externalNativeBuild {
@@ -79,7 +86,7 @@ android {
 }
 
 def spongycastleVersion = "1.58.0.0"
-def room_version = "2.2.1"
+def room_version = "2.2.4"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
@@ -88,7 +95,9 @@ dependencies {
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
-    implementation 'androidx.biometric:biometric:1.0.0'
+    implementation 'androidx.documentfile:documentfile:1.0.1'
+    implementation 'androidx.biometric:biometric:1.0.1'
+    // To upgrade with style
     implementation 'com.google.android.material:material:1.0.0'
 
     implementation "androidx.room:room-runtime:$room_version"

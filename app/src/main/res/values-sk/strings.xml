@@ -150,8 +150,17 @@
     <string name="extended_ASCII">Rozšírené ASCII</string>
     <string name="allow">Povoliť</string>
     <string name="clipboard_error_title">Chyba schránky</string>
-    <string name="clipboard_error">Niektoré Samsungy nedovolia aplikáciám používať schránku.</string>
+    <string name="clipboard_error">Niektoré zariadenia nedovolia aplikáciám používať schránku.</string>
     <string name="clipboard_error_clear">Nepodarilo sa vymazať schránku</string>
     <string name="clipboard_swipe_clean">Schránku vymažete potiahnutím prsta cez políčko</string>
     <string name="entry_not_found">Nenašli sa údaje záznamu</string>
+    <string name="contact">Kontakt</string>
+    <string name="content_description_open_file">Otvoriť súbor</string>
+    <string name="content_description_file_information">Informácie o súbore</string>
+    <string name="content_description_entry_save">Uložiť záznam</string>
+    <string name="content_description_password_generator">Generátor hesla</string>
+    <string name="content_description_password_length">Dĺžka hesla</string>
+    <string name="content_description_background">Pozadie</string>
+    <string name="security">Bezpečnosť</string>
+    <string name="contribution">Príspevok</string>
 </resources>

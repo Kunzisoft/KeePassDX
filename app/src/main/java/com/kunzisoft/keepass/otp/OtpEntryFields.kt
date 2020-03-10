@@ -281,8 +281,10 @@ object OtpEntryFields {
                     // malformed
                     return false
                 }
-                otpElement.period = matcher.group(1).toIntOrNull() ?: TOTP_DEFAULT_PERIOD
-                otpElement.tokenType = OtpTokenType.getFromString(matcher.group(2))
+                otpElement.period = matcher.group(1)?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                otpElement.tokenType = matcher.group(2)?.let {
+                    OtpTokenType.getFromString(it)
+                } ?: OtpTokenType.RFC6238
             }
         } catch (exception: Exception) {
             return false

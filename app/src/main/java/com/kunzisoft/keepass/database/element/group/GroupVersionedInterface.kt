@@ -40,6 +40,7 @@ interface GroupVersionedInterface<Group: GroupVersionedInterface<Group, Entry>, 
 
     fun allowAddEntryIfIsRoot(): Boolean
 
+    @Suppress("UNCHECKED_CAST")
     fun doForEachChildAndForIt(entryHandler: NodeHandler<Entry>,
                                groupHandler: NodeHandler<Group>) {
         doForEachChild(entryHandler, groupHandler)

@@ -276,6 +276,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
     private fun onCreateAppearancePreferences(rootKey: String?) {
         setPreferencesFromResource(R.xml.preferences_appearance, rootKey)
 
+        // To change list items appearance
+        PreferencesUtil.APPEARANCE_CHANGED = true
+
         activity?.let { activity ->
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true

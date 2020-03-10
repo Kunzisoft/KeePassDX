@@ -660,7 +660,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.DeletedObject -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxDeletedObject?.uuid = readUuid(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemDeletionTime, ignoreCase = true)) {
-                ctxDeletedObject?.deletionTime = readTime(xpp)
+                ctxDeletedObject?.setDeletionTime(readTime(xpp))
             } else {
                 readUnknown(xpp)
             }
@@ -829,7 +829,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         } else {
 
             try {
-                utcDate = DatabaseKDBXXML.dateFormatter.get()?.parse(sDate)
+                utcDate = DatabaseKDBXXML.DateFormatter.parse(sDate)
             } catch (e: ParseException) {
                 // Catch with null test below
             }

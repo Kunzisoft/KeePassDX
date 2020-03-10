@@ -127,11 +127,7 @@ object DatabaseKDBXXML {
     const val ElemCustomData = "CustomData"
     const val ElemStringDictExItem = "Item"
 
-    val dateFormatter: ThreadLocal<SimpleDateFormat> = object : ThreadLocal<SimpleDateFormat>() {
-        override fun initialValue(): SimpleDateFormat {
-            val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
-            dateFormat.timeZone = TimeZone.getTimeZone("UTC")
-            return dateFormat
-        }
+    val DateFormatter = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.ROOT).apply {
+        timeZone = TimeZone.getTimeZone("UTC")
     }
 }

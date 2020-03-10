@@ -453,7 +453,7 @@
     <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren…</string>
-    <string name="download_progression">Fortschritt: %1$d%</string>
+    <string name="download_progression">Fortschritt: %1$d&#37;</string>
     <string name="download_finalization">Fertigstellung…</string>
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>

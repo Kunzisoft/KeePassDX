@@ -231,8 +231,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
      * @param node Node to remove
      * @return true if node can be recycle, false elsewhere
      */
-    fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
-        // TODO #394 Backup pw3
+    //  TODO #394 Backup KDB
+    //  fun canRecycle(node: NodeVersioned<*, GroupKDB, EntryKDB>): Boolean {
+    fun canRecycle(): Boolean {
         return true
     }
 

@@ -120,7 +120,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
         }
 
         val computedHash = messageDigest.digest(buffer)
-        if (computedHash == null || computedHash.size != HASH_SIZE) {
+        if (computedHash.size != HASH_SIZE) {
             throw IOException("Hash wrong size")
         }
 

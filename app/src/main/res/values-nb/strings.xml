@@ -408,7 +408,7 @@
     <string name="menu_restore_entry_history">Gjenopprett historikk</string>
     <string name="menu_delete_entry_history">Slett historikk</string>
     <string name="download_attachment">Last ned %1$s</string>
-    <string name="download_progression">Underveis: %1$d%</string>
+    <string name="download_progression">Underveis: %1$d&#37;</string>
     <string name="download_finalization">Fullfører…</string>
     <string name="download_complete">Fullført. Trykk for å åpne filen.</string>
     <string name="hide_expired_entries_title">Skjul utløpte oppføringer</string>

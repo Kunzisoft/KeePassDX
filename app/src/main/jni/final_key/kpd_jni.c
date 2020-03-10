@@ -384,7 +384,7 @@ typedef struct _master_key {
 } master_key;
 
 
-void *generate_key_material(void *arg) {
+uint32_t generate_key_material(void *arg) {
   #if defined(KPD_PROFILE)
   struct timespec start, end;
   #endif
@@ -435,7 +435,7 @@ void *generate_key_material(void *arg) {
     pthread_mutex_unlock(&mk->lock2);
   }
 
-  return (void *)flip;
+  return flip;
 }
 
 JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_keepass_crypto_finalkey_NativeFinalKey_nTransformMasterKey(JNIEnv *env, jobject this, jbyteArray seed, jbyteArray key, jlong rounds) {
@@ -474,12 +474,12 @@ JNIEXPORT jbyteArray JNICALL Java_com_kunzisoft_keepass_crypto_finalkey_NativeFi
   (*env)->GetByteArrayRegion(env, key, 0, MASTER_KEY_SIZE, (jbyte *)mk.key1);
 
   // step 2: encrypt the hash "rounds" (default: 6000) times
-  iret = pthread_create( &t1, NULL, generate_key_material, (void*)&mk );
+  iret = pthread_create( &t1, NULL, (void*)generate_key_material, (void*)&mk );
   if( iret != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 1"); // FIXME: get a better exception class for this...
     return NULL;
   }
-  iret = pthread_create( &t2, NULL, generate_key_material, (void*)&mk );
+  iret = pthread_create( &t2, NULL, (void*)generate_key_material, (void*)&mk );
   if( iret != 0 ) {
     (*env)->ThrowNew(env, bad_arg, "TransformMasterKey: failed to launch thread 2"); // FIXME: get a better exception class for this...
     return NULL;
