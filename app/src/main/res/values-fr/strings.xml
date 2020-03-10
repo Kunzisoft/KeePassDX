@@ -49,7 +49,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence"> Algorithms </string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;. Il est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -467,7 +467,7 @@
     <string name="hide_expired_entries_summary">Les entrées expirées seront masquées</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
-    <string name="html_about_contribution"> Algorithms </string>
+    <string name="html_about_contribution">Afin de &lt;strong&gt;garder notre liberté&lt;/strong&gt;, &lt;strong&gt;corriger les bugs&lt;/strong&gt;, &lt;strong&gt;ajouter des fonctionnalités&lt;/strong&gt; et &lt;strong&gt;être toujours actif&lt;/strong&gt;, nous comptons sur votre &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Recherche rapide</string>
     <string name="auto_focus_search_summary">Demander une recherche lors de l\'ouverture d\'une base de données</string>
     <string name="remember_database_locations_title">Enregistrer l\'emplacement des bases de données</string>
