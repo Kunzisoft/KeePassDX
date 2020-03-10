@@ -124,7 +124,7 @@
     <string name="install_from_play_store">Instalați din Play Store</string>
     <string name="invalid_credentials">Nu s-a putut citi datele de acreditare. Dacă reîncepe, baza de date a dumneavoastra poate fi coruptă.</string>
     <string name="invalid_algorithm">Algoritm greșit.</string>
-    <string name="invalid_db_same_uuid">% 1 $ s cu același UUID% 2 $ s există deja.</string>
+    <string name="invalid_db_same_uuid">%1$s cu același UUID %2$s există deja.</string>
     <string name="invalid_db_sig">Nu s-a putut recunoaște formatul bazei de date.</string>
     <string name="keyfile_is_empty">Fișierul cheie este gol.</string>
     <string name="length">Lungime</string>
@@ -138,7 +138,7 @@
     <string name="loading_database">Se încarcă baza de date …</string>
     <string name="lowercase">Caz jos</string>
     <string name="menu_change_key_settings">Schimbă cheia principală</string>
-    <string name="copy_field">Copie din% 1 $ s</string>
+    <string name="copy_field">Copie din %1$s</string>
     <string name="settings">Setări</string>
     <string name="menu_app_settings">Setările aplicației</string>
     <string name="menu_form_filling_settings">Completarea formularului</string>

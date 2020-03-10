@@ -1,4 +1,8 @@
-KeepassDX (2.5beta27)
+KeePassDX(2.5beta28)
+ * Fix read only database
+ * Upgrade to Android SDK 29
+
+KeePassDX (2.5beta27)
  * New setting to hide broken links
  * Show URL when title is empty
  * Setting to open search field at database opening
@@ -7,7 +11,7 @@ KeepassDX (2.5beta27)
  * Fix appearance refresh settings
  * Sort optimization
 
-KeepassDX (2.5.0.0beta26)
+KeePassDX (2.5.0.0beta26)
  * Download attachments
  * Change file size string format
  * Prevent screenshot for all screen
@@ -20,7 +24,7 @@ KeepassDX (2.5.0.0beta26)
  * Fix dates
  * Fix UUID message for Database v1
 
-KeepassDX (2.5.0.0beta25)
+KeePassDX (2.5.0.0beta25)
  * Setting for Recycle Bin
  * Fix Recycle bin issues
  * Fix TOTP
@@ -28,7 +32,7 @@ KeepassDX (2.5.0.0beta25)
  * Fix update group
  * Fix OOM
 
-KeepassDX (2.5.0.0beta24)
+KeePassDX (2.5.0.0beta24)
  * Add OTP (HOTP / TOTP)
  * Add settings (Color, Security, Master Key)
  * Show history of each entry
@@ -38,7 +42,7 @@ KeepassDX (2.5.0.0beta24)
  * Open/Save database as service / Add persistent notification
  * Fix settings / edit group / small bugs
 
-KeepassDX (2.5.0.0beta23)
+KeePassDX (2.5.0.0beta23)
  * New, more secure database creation workflow
  * Recognize more database files
  * Add alias for history files (WARNING: history is erased)
@@ -47,14 +51,14 @@ KeepassDX (2.5.0.0beta23)
  * Fix OOM with KeyFile
  * Fix small issues
 
-KeepassDX (2.5.0.0beta22)
+KeePassDX (2.5.0.0beta22)
  * Rebuild code for actions
  * Add UUID as entry view
  * Fix bug with natural order
  * Fix number of entries in databaseV1
  * New entry views
 
-KeepassDX (2.5.0.0beta21)
+KeePassDX (2.5.0.0beta21)
  * Fix nested groups no longer visible in V1 databases
  * Improved data import algorithm for V1 databases
  * Add natural database sort
@@ -62,10 +66,10 @@ KeepassDX (2.5.0.0beta21)
  * Fix button disabled with only KeyFile
  * Show the number of entries in a group
 
-KeepassDX (2.5.0.0beta20)
+KeePassDX (2.5.0.0beta20)
  * Fix a major bug that displays an entry history
 
-KeepassDX (2.5.0.0beta19)
+KeePassDX (2.5.0.0beta19)
  * Add lock button always visible
  * New connection workflow
  * Code refactored in Kotlin
@@ -76,7 +80,7 @@ KeepassDX (2.5.0.0beta19)
  * Fix memory when load database
  * Fix small bugs
 
-KeepassDX (2.5.0.0beta18)
+KeePassDX (2.5.0.0beta18)
  * New recent databases views
  * New information dialog
  * Custom fields for the Magikeyboard
@@ -85,10 +89,10 @@ KeepassDX (2.5.0.0beta18)
  * Fix memory when opening the database
  * Memory management for attachments
 
-KeepassDX (2.5.0.0beta17)
+KeePassDX (2.5.0.0beta17)
  * Fix font and search
 
-KeepassDX (2.5.0.0beta16)
+KeePassDX (2.5.0.0beta16)
  * New search in a single fragment
  * Search suggestions
  * Added the display of usernames
@@ -96,20 +100,20 @@ KeepassDX (2.5.0.0beta16)
  * Fix read-only mode
  * Fix parcelable / toolbar / back
 
-KeepassDX (2.5.0.0beta15)
+KeePassDX (2.5.0.0beta15)
  * Read only mode
  * Best group recovery for the navigation fragment
  * Fix copies in notifications
  * Fix orientation
  * Added translations
 
-KeepassDX (2.5.0.0beta14)
+KeePassDX (2.5.0.0beta14)
  * Optimize all the memory with parcelables / fix search
 
-KeepassDX (2.5.0.0beta13)
+KeePassDX (2.5.0.0beta13)
  * Fix memory issue with parcelable (crash in beta12 version)
 
-KeepassDX (2.5.0.0beta12)
+KeePassDX (2.5.0.0beta12)
  * Added the Magikeyboard to fill the forms (settings still in development)
  * Added move and copy for groups and entries
  * New navigation in a single screen / new animations between activities
@@ -122,10 +126,10 @@ KeepassDX (2.5.0.0beta12)
  * Fix the fingerprint recognition (WARNING : The keystore is reinit, you must delete the old keys)
  * Fix small bugs
 
-KeepassDX (2.5.0.0beta11)
+KeePassDX (2.5.0.0beta11)
  * Fix crash in beta10 version
 
-KeepassDX (2.5.0.0beta10)
+KeePassDX (2.5.0.0beta10)
  * Dynamically change Algorithm and Key Derivation Function in settings
  * Upgrade translations
  * New red volcano theme, fix classic dark theme
@@ -133,7 +137,7 @@ KeepassDX (2.5.0.0beta10)
  * Update fingerprint state with checkbox
  * Fix bugs
 
-KeepassDX (2.5.0.0beta9)
+KeePassDX (2.5.0.0beta9)
  * Education Screens to learn how to use the app
  * New designs
  * New custom font for character visibility
@@ -142,9 +146,9 @@ KeepassDX (2.5.0.0beta9)
  * Change setting organisation
  * Pro version
 
-KeepassDX (2.5.0.0beta8)
+KeePassDX (2.5.0.0beta8)
  * Hide custom entries protected
- * Best management of field references (https://keepass.info/help/base/fieldrefs.html)
+ * Best management of field references (https://KeePass.info/help/base/fieldrefs.html)
  * Change database / default settings
  * Add Autofill for search
  * Add sorting by last access and by creation time
@@ -152,7 +156,7 @@ KeepassDX (2.5.0.0beta8)
  * Refactor old code
  * Fix bugs
 
-KeepassDX (2.5.0.0beta7)
+KeePassDX (2.5.0.0beta7)
  * Rebuild Notifications
  * Change links to https
  * Add extended Ascii (ñæËÌÂÝÜ...)
@@ -161,10 +165,10 @@ KeepassDX (2.5.0.0beta7)
  * Add setting to prevent the password copy
  * Fix bugs
 
-KeepassDX (2.5.0.0beta6)
+KeePassDX (2.5.0.0beta6)
  * Fix crash
 
-KeepassDX (2.5.0.0beta5)
+KeePassDX (2.5.0.0beta5)
  * Autofill (Android O)
  * Deletion for group
  * New sorts with (Asc/Dsc, Groups before or after)
@@ -185,7 +189,7 @@ KeepassDX (2.5.0.0beta5)
  * Fix many small bugs
  * Add recycle bin setting (not yet accessible)
 
-KeepassDX (2.5.0.0beta4)
+KeePassDX (2.5.0.0beta4)
  * Show only file name
  * Setting for full path
  * Add information for each database file
@@ -194,7 +198,7 @@ KeepassDX (2.5.0.0beta4)
  * Delete view assignment for fingerprint opening
  * Merge KeePassDroid 2.2.1
 
-KeepassDX (2.5.0.0beta3)
+KeePassDX (2.5.0.0beta3)
  * New database workflow with new screens and folder selection
  * Settings for default password generation
  * Fingerprint dialog for explanations
@@ -205,17 +209,17 @@ KeepassDX (2.5.0.0beta3)
  * Merge KeePassDroid 2.2.0.9
  * Add corruption fix mode
 
-KeepassDX (2.5.0.0beta2)
+KeePassDX (2.5.0.0beta2)
  * Remove libs for F-Droid
 
-KeepassDX (2.5.0.0beta1)
- * Fork KeepassDroid
+KeePassDX (2.5.0.0beta1)
+ * Fork KeePassDroid
  * Add Material Design
  * Add Light and Night theme
  * Min API is 14
  * Solve bug for fingerprint
  * Update French translation
- * Change donation (see KeepassDroid to contribute on both projects)
+ * Change donation (see KeePassDroid to contribute on both projects)
 
 KeePassDroid (2.2.1)
  * Fix kdbx4 date corruption
@@ -476,7 +480,7 @@ KeePassDroid (1.9.10)
 
 KeePassDroid (1.9.9)
  * Go back to explicitly storing blank fields in the database
-   (works around bug in keepassx)
+   (works around bug in KeePassx)
  * Add support for native code on MIPS architectures
  * Adding Vibrate permission. On some devices notifications fail
    without the vibrate permission.

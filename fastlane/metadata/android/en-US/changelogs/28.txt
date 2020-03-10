@@ -1,1 +1,2 @@
- *
+ * Fix read only database
+ * Upgrade to Android SDK 29
