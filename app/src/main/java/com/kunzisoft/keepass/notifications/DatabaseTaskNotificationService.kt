@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseR
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.*
 import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
@@ -209,8 +210,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(KEY_FILE_CHECKED_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
         ) {
-            val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
+            val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
+
+            if (databaseUri == null)
+                return null
+
             return CreateDatabaseRunnable(this,
                     Database.getInstance(),
                     databaseUri,
@@ -236,11 +241,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
             val database = Database.getInstance()
-            val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY)
+            val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
             val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
             val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
+
+            if (databaseUri == null)
+                return  null
 
             return LoadDatabaseRunnable(
                     this,
@@ -275,9 +283,10 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(KEY_FILE_CHECKED_KEY)
                 && intent.hasExtra(KEY_FILE_KEY)
         ) {
+            val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
                     Database.getInstance(),
-                    intent.getParcelableExtra(DATABASE_URI_KEY),
+                    databaseUri,
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
@@ -304,10 +313,17 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getGroupById(intent.getParcelableExtra(PARENT_ID_KEY))?.let { parent ->
+            val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
+            val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
+
+            if (parentId == null
+                    || newGroup == null)
+                return null
+
+            database.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
                         database,
-                        intent.getParcelableExtra(GROUP_KEY),
+                        newGroup,
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
@@ -323,8 +339,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getGroupById(intent.getParcelableExtra(GROUP_ID_KEY))?.let { oldGroup ->
-                val newGroup: Group = intent.getParcelableExtra(GROUP_KEY)
+            val groupId: NodeId<*>? = intent.getParcelableExtra(GROUP_ID_KEY)
+            val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
+
+            if (groupId == null
+                    || newGroup == null)
+                return null
+
+            database.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
                         database,
                         oldGroup,
@@ -343,10 +365,17 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getGroupById(intent.getParcelableExtra(PARENT_ID_KEY))?.let { parent ->
+            val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
+            val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
+
+            if (parentId == null
+                    || newEntry == null)
+                return null
+
+            database.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
                         database,
-                        intent.getParcelableExtra(ENTRY_KEY),
+                        newEntry,
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
@@ -362,8 +391,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { oldEntry ->
-                val newEntry: Entry = intent.getParcelableExtra(ENTRY_KEY)
+            val entryId: NodeId<UUID>? = intent.getParcelableExtra(ENTRY_ID_KEY)
+            val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
+
+            if (entryId == null
+                    || newEntry == null)
+                return null
+
+            database.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
                         database,
                         oldEntry,
@@ -383,7 +418,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getGroupById(intent.getParcelableExtra(PARENT_ID_KEY))?.let { newParent ->
+            val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
+
+            database.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
                         database,
                         getListNodesFromBundle(database, intent.extras!!),
@@ -403,7 +440,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getGroupById(intent.getParcelableExtra(PARENT_ID_KEY))?.let { newParent ->
+            val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
+
+            database.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
                         database,
                         getListNodesFromBundle(database, intent.extras!!),
@@ -438,7 +477,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { mainEntry ->
+            val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
+
+            database.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
                         database,
                         mainEntry,
@@ -456,7 +497,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
             val database = Database.getInstance()
-            database.getEntryById(intent.getParcelableExtra(ENTRY_ID_KEY))?.let { mainEntry ->
+            val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
+
+            database.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
                         database,
                         mainEntry,
@@ -472,10 +515,18 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         return if (intent.hasExtra(OLD_ELEMENT_KEY)
                 && intent.hasExtra(NEW_ELEMENT_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)) {
+
+            val oldElement: CompressionAlgorithm? = intent.getParcelableExtra(OLD_ELEMENT_KEY)
+            val newElement: CompressionAlgorithm? = intent.getParcelableExtra(NEW_ELEMENT_KEY)
+
+            if (oldElement == null
+                    || newElement == null)
+                return null
+
             return UpdateCompressionBinariesDatabaseRunnable(this,
                     Database.getInstance(),
-                    intent.getParcelableExtra(OLD_ELEMENT_KEY),
-                    intent.getParcelableExtra(NEW_ELEMENT_KEY),
+                    oldElement,
+                    newElement,
                     intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->

@@ -46,7 +46,7 @@ class DateInstant : Parcelable {
     }
 
     constructor(string: String) {
-        jDate = dateFormat.parse(string)
+        jDate = dateFormat.parse(string) ?: jDate
     }
 
     constructor() {
@@ -121,7 +121,7 @@ class DateInstant : Parcelable {
             }
         }
 
-        private fun isSameDate(d1: Date?, d2: Date?): Boolean {
+        private fun isSameDate(d1: Date, d2: Date): Boolean {
             val cal1 = Calendar.getInstance()
             cal1.time = d1
             cal1.set(Calendar.MILLISECOND, 0)

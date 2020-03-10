@@ -20,13 +20,46 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.Context
-import android.preference.PreferenceManager
+import android.net.Uri
+import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import java.util.*
 
 object PreferencesUtil {
+
+    private const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
+
+    fun saveDefaultDatabasePath(context: Context, defaultDatabaseUri: Uri?) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        prefs?.edit()?.apply {
+            defaultDatabaseUri?.let {
+                putString(KEY_DEFAULT_DATABASE_PATH, it.toString())
+            } ?: kotlin.run {
+                remove(KEY_DEFAULT_DATABASE_PATH)
+            }
+            apply()
+        }
+    }
+
+    fun getDefaultDatabasePath(context: Context): String? {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(KEY_DEFAULT_DATABASE_PATH, "")
+    }
+
+    fun saveNodeSort(context: Context,
+                     sortNodeEnum: SortNodeEnum,
+                     sortNodeParameters: SortNodeEnum.SortNodeParameters) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        prefs?.edit()?.apply {
+            putString(context.getString(R.string.sort_node_key), sortNodeEnum.name)
+            putBoolean(context.getString(R.string.sort_ascending_key), sortNodeParameters.ascending)
+            putBoolean(context.getString(R.string.sort_group_before_key), sortNodeParameters.groupsBefore)
+            putBoolean(context.getString(R.string.sort_recycle_bin_bottom_key), sortNodeParameters.recycleBinBottom)
+            apply()
+        }
+    }
 
     fun rememberDatabaseLocations(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
@@ -145,6 +178,13 @@ object PreferencesUtil {
         } catch (e: NumberFormatException) {
             TimeoutHelper.DEFAULT_TIMEOUT
         }
+    }
+
+    fun getClipboardTimeout(context: Context): Long {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getString(context.getString(R.string.clipboard_timeout_key),
+                context.getString(R.string.clipboard_timeout_default))?.toLong()
+                ?: TimeoutHelper.DEFAULT_TIMEOUT
     }
 
     fun isLockDatabaseWhenScreenShutOffEnable(context: Context): Boolean {

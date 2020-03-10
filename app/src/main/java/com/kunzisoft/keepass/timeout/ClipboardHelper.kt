@@ -25,7 +25,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.os.Build
-import android.preference.PreferenceManager
 import android.text.SpannableString
 import android.text.method.LinkMovementMethod
 import android.text.util.Linkify
@@ -33,6 +32,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.exception.ClipboardException
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 
 class ClipboardHelper(private val context: Context) {
@@ -58,13 +58,9 @@ class ClipboardHelper(private val context: Context) {
             return
         }
 
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        val sClipClear = prefs.getString(context.getString(R.string.clipboard_timeout_key),
-                context.getString(R.string.clipboard_timeout_default))
-
-        val clipClearTime = (sClipClear ?: "300000").toLong()
-        if (clipClearTime > 0) {
-            mTimer.schedule(ClearClipboardTask(context, text), clipClearTime)
+        val clipboardTimeout = PreferencesUtil.getClipboardTimeout(context)
+        if (clipboardTimeout > 0) {
+            mTimer.schedule(ClearClipboardTask(context, text), clipboardTimeout)
         }
     }
 
@@ -89,7 +85,7 @@ class ClipboardHelper(private val context: Context) {
     @Throws(ClipboardException::class)
     fun copyToClipboard(label: String, value: String) {
         try {
-            getClipboardManager()?.primaryClip = ClipData.newPlainText(label, value)
+            getClipboardManager()?.setPrimaryClip(ClipData.newPlainText(label, value))
         } catch (e: Exception) {
             throw ClipboardException(e)
         }
