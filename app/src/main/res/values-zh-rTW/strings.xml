@@ -143,7 +143,7 @@
     <string name="extended_ASCII">增強的ASCII</string>
     <string name="allow">允許</string>
     <string name="clipboard_error_title">剪貼簿錯誤</string>
-    <string name="clipboard_error">部份 Samsung 手機不容許其他程式使用剪貼簿。</string>
+    <string name="clipboard_error">部份設備不容許其他程式使用剪貼簿。</string>
     <string name="clipboard_error_clear">無法清除剪貼簿</string>
     <string name="clipboard_swipe_clean">滑动即可清除剪贴板</string>
     <string name="error_autofill_enable_service">無法啟用自動填入服務。</string>
@@ -251,4 +251,15 @@
     <string name="menu_security_settings">安全設定</string>
     <string name="contains_duplicate_uuid">資料庫包含重複的 UUID。</string>
     <string name="contains_duplicate_uuid_procedure">通過驗證此對話方塊，KeePassDX 將修復問題（通過為重複項生成新的 UUID）並繼續。</string>
+    <string name="set_autofill_service_title">設置為默認的填充服務</string>
+    <string name="password_size_title">生成密碼的長度</string>
+    <string name="password_size_summary">設置生成密碼的默認長度</string>
+    <string name="list_password_generator_options_title">密碼字符集</string>
+    <string name="list_password_generator_options_summary">設置密碼生成時所需要的字符集</string>
+    <string name="clipboard">剪貼板</string>
+    <string name="autofill_explanation_summary">啟用自動填充功能以快速填寫其他應用程序中的用戶名和密碼</string>
+    <string name="database_opened">數據庫已打開</string>
+    <string name="clipboard_explanation_summary">使用設備的剪貼板複製輸入密碼</string>
+    <string name="contact">聯繫方式</string>
+    <string name="contribution">貢獻</string>
 </resources>
