@@ -208,7 +208,14 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     fun rebuildList() {
         // Add elements to the list
         mainGroup?.let { mainGroup ->
-            mAdapter?.rebuildList(mainGroup)
+            mAdapter?.apply {
+                rebuildList(mainGroup)
+                // To visually change the elements
+                if (PreferencesUtil.APPEARANCE_CHANGED) {
+                    notifyDataSetChanged()
+                    PreferencesUtil.APPEARANCE_CHANGED = false
+                }
+            }
         }
     }
 

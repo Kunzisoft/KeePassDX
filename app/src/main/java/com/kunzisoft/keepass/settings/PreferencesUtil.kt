@@ -29,6 +29,8 @@ import java.util.*
 
 object PreferencesUtil {
 
+    var APPEARANCE_CHANGED = false
+
     private const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
 
     fun saveDefaultDatabasePath(context: Context, defaultDatabaseUri: Uri?) {
