@@ -415,8 +415,6 @@
     <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
-    <string name="persistent_notification_title">Dauerhafte Benachrichtigung</string>
-    <string name="persistent_notification_summary">Bei geöffneter Datenbank eine Benachrichtigung hinzufügen</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
     <string name="database_data_compression_title">Datenkompression</string>
     <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße.</string>

@@ -26,7 +26,6 @@ import android.os.Build
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
@@ -42,6 +41,8 @@ class DatabaseOpenNotificationService: LockNotificationService() {
 
     override fun actionOnLock() {
         closeDatabase()
+        // Remove the lock timer (no more needed if it exists)
+        TimeoutHelper.cancelLockTimer(this)
         // Service is stopped after receive the broadcast
         super.actionOnLock()
     }
@@ -65,9 +66,8 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                 val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val database = Database.getInstance()
-                // TODO start Foreground
                 if (database.loaded) {
-                    notificationManager?.notify(notificationId, buildNewNotification().apply {
+                    startForeground(notificationId, buildNewNotification().apply {
                         setSmallIcon(R.drawable.notification_ic_database_open)
                         setContentTitle(getString(R.string.database_opened))
                         setContentText(database.name + " (" + database.version + ")")
@@ -75,7 +75,6 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                         setContentIntent(pendingDatabaseIntent)
                         setDeleteIntent(pendingDeleteIntent)
                     }.build())
-                    TimeoutHelper.recordTime(this)
                 } else {
                     stopSelf()
                 }
@@ -88,9 +87,11 @@ class DatabaseOpenNotificationService: LockNotificationService() {
     companion object {
         const val ACTION_CLOSE_DATABASE = "ACTION_CLOSE_DATABASE"
 
-        fun startIfAllowed(context: Context) {
-            if (PreferencesUtil.isPersistentNotificationEnable(context)) {
-                // Start the opening notification
+        fun start(context: Context) {
+            // Start the opening notification, keep it active to receive lock
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                context.startForegroundService(Intent(context, DatabaseOpenNotificationService::class.java))
+            } else {
                 context.startService(Intent(context, DatabaseOpenNotificationService::class.java))
             }
         }

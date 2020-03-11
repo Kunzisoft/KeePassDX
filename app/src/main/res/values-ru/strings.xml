@@ -412,8 +412,6 @@
     <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePassDX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
-    <string name="persistent_notification_title">Постоянное уведомление</string>
-    <string name="persistent_notification_summary">Показывать уведомление, пока открыта база</string>
     <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
     <string name="database_data_compression_title">Сжатие данных</string>
     <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы.</string>

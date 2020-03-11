@@ -46,24 +46,22 @@ object TimeoutHelper {
         private set
 
     private fun getLockPendingIntent(context: Context): PendingIntent {
-        return PendingIntent.getBroadcast(context,
+        return PendingIntent.getBroadcast(context.applicationContext,
                 REQUEST_ID,
                 Intent(LOCK_ACTION),
                 PendingIntent.FLAG_CANCEL_CURRENT)
     }
 
     /**
-     * Record the current time to check it later with checkTime
+     * Start the lock timer by creating an alarm,
+     * if the method is recalled with a previous lock timer pending, the previous one is deleted
      */
-    fun recordTime(context: Context) {
-        // Record timeout time in case timeout service is killed
-        PreferencesUtil.saveCurrentTime(context)
-
+    private fun startLockTimer(context: Context) {
         if (Database.getInstance().loaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
             if (timeout != NEVER) {
                 // No timeout don't start timeout service
-                (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
+                (context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
                     val triggerTime = System.currentTimeMillis() + timeout
                     Log.d(TAG, "TimeoutHelper start")
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -76,27 +74,34 @@ object TimeoutHelper {
         }
     }
 
-    fun cancelRecordTime(context: Context) {
-        (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
+    /**
+     * Cancel the lock timer currently pending, useful if lock was triggered by another way
+     */
+    fun cancelLockTimer(context: Context) {
+        (context.applicationContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
             Log.d(TAG, "TimeoutHelper cancel")
             alarmManager.cancel(getLockPendingIntent(context))
         }
     }
 
     /**
+     * Record the current time, to check it later with checkTime and start a new lock timer
+     */
+    fun recordTime(context: Context) {
+        // Record timeout time in case timeout service is killed
+        PreferencesUtil.saveCurrentTime(context)
+        startLockTimer(context)
+    }
+
+    /**
      * Check the time previously record with recordTime and do the [timeoutAction] if timeout
      * if temporarilyDisableTimeout() is called, the function as no effect until releaseTemporarilyDisableTimeoutAndCheckTime() is called
-     * return 'false' if timeout, 'true' if in time
+     * return 'false' and send broadcast lock action if timeout, 'true' if in time
      */
     fun checkTime(context: Context, timeoutAction: (() -> Unit)? = null): Boolean {
         // No effect if temporarily disable
         if (temporarilyDisableTimeout)
             return true
-
-        // Cancel the lock PendingIntent
-        if (Database.getInstance().loaded) {
-            cancelRecordTime(context)
-        }
 
         // Check whether the timeout has expired
         val currentTime = System.currentTimeMillis()
@@ -120,6 +125,7 @@ object TimeoutHelper {
         if (diff >= appTimeout) {
             // We have timed out
             timeoutAction?.invoke()
+            context.sendBroadcast(Intent(LOCK_ACTION))
             return false
         }
         return true
@@ -166,7 +172,7 @@ object TimeoutHelper {
         }
         if (inTime) {
             // Start the opening notification
-            DatabaseOpenNotificationService.startIfAllowed(context)
+            DatabaseOpenNotificationService.start(context)
         }
         return inTime
     }

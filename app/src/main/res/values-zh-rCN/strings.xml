@@ -414,8 +414,6 @@
     <string name="contains_duplicate_uuid_procedure">通过验证此对话框，KeePassDX将解决这个问题（通过给重复项生成新的UUID）并继续。</string>
     <string name="database_opened">数据库开启</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
-    <string name="persistent_notification_title">持久通知</string>
-    <string name="persistent_notification_summary">当数据库打开时产生一条通知</string>
     <string name="advanced_unlock_explanation_summary">使用高级解锁轻松打开数据库</string>
     <string name="database_data_compression_title">数据压缩</string>
     <string name="database_data_compression_summary">数据压缩可降低数据库大小。</string>

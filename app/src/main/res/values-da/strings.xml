@@ -411,8 +411,6 @@
     <string name="contains_duplicate_uuid_procedure">Ved at godkende dialogboksen, vil KeePassDX løse problemet (ved at generere nye UUID\'er for dubletter) og fortsætte.</string>
     <string name="database_opened">Database åbnet</string>
     <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
-    <string name="persistent_notification_title">Vedvarende meddelelse</string>
-    <string name="persistent_notification_summary">Tilføj en meddelelse, når databasen er åben</string>
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerer databasens størrelse.</string>
