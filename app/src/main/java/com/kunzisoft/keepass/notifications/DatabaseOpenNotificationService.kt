@@ -27,7 +27,9 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.closeDatabase
 
 class DatabaseOpenNotificationService: LockNotificationService() {
 
@@ -36,8 +38,12 @@ class DatabaseOpenNotificationService: LockNotificationService() {
     private fun stopNotificationAndSendLock() {
         // Send lock action
         sendBroadcast(Intent(LOCK_ACTION))
-        // Stop the service
-        stopSelf()
+    }
+
+    override fun actionOnLock() {
+        closeDatabase()
+        // Service is stopped after receive the broadcast
+        super.actionOnLock()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -59,6 +65,7 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                 val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
 
                 val database = Database.getInstance()
+                // TODO start Foreground
                 if (database.loaded) {
                     notificationManager?.notify(notificationId, buildNewNotification().apply {
                         setSmallIcon(R.drawable.notification_ic_database_open)
@@ -68,6 +75,7 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                         setContentIntent(pendingDatabaseIntent)
                         setDeleteIntent(pendingDeleteIntent)
                     }.build())
+                    TimeoutHelper.recordTime(this)
                 } else {
                     stopSelf()
                 }

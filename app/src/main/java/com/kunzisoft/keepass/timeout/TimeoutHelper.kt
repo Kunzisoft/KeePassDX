@@ -61,18 +61,25 @@ object TimeoutHelper {
 
         if (Database.getInstance().loaded) {
             val timeout = PreferencesUtil.getAppTimeout(context)
-
-            // No timeout don't start timeout service
             if (timeout != NEVER) {
-                val triggerTime = System.currentTimeMillis() + timeout
-                val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-                Log.d(TAG, "TimeoutHelper start")
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    am.setExact(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
-                } else {
-                    am.set(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                // No timeout don't start timeout service
+                (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
+                    val triggerTime = System.currentTimeMillis() + timeout
+                    Log.d(TAG, "TimeoutHelper start")
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        alarmManager.setExact(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                    } else {
+                        alarmManager.set(AlarmManager.RTC, triggerTime, getLockPendingIntent(context))
+                    }
                 }
             }
+        }
+    }
+
+    fun cancelRecordTime(context: Context) {
+        (context.getSystemService(Context.ALARM_SERVICE) as AlarmManager?)?.let { alarmManager ->
+            Log.d(TAG, "TimeoutHelper cancel")
+            alarmManager.cancel(getLockPendingIntent(context))
         }
     }
 
@@ -88,9 +95,7 @@ object TimeoutHelper {
 
         // Cancel the lock PendingIntent
         if (Database.getInstance().loaded) {
-            val am = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-            Log.d(TAG, "TimeoutHelper cancel")
-            am.cancel(getLockPendingIntent(context))
+            cancelRecordTime(context)
         }
 
         // Check whether the timeout has expired
