@@ -36,10 +36,9 @@ const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TAS
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
 
 const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
-
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
 
-class LockReceiver(var action: () -> Unit) : BroadcastReceiver() {
+class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
         // If allowed, lock and exit
@@ -48,20 +47,24 @@ class LockReceiver(var action: () -> Unit) : BroadcastReceiver() {
                 when (it) {
                     Intent.ACTION_SCREEN_OFF ->
                         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(context)) {
-                            action.invoke()
+                            lockAction.invoke()
                         }
-                    LOCK_ACTION -> action.invoke()
+                    LOCK_ACTION,
+                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> lockAction.invoke()
                 }
             }
         }
     }
 }
 
-fun Context.registerLockReceiver(lockReceiver: LockReceiver?) {
+fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
+                                 registerRemoveEntryMagikeyboard: Boolean = false) {
     lockReceiver?.let {
         registerReceiver(it, IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
             addAction(LOCK_ACTION)
+            if (registerRemoveEntryMagikeyboard)
+                addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
         })
     }
 }

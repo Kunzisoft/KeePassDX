@@ -19,10 +19,8 @@
  */
 package com.kunzisoft.keepass.magikeyboard
 
-import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.inputmethodservice.InputMethodService
 import android.inputmethodservice.Keyboard
 import android.inputmethodservice.KeyboardView
@@ -42,8 +40,7 @@ import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.LOCK_ACTION
-import com.kunzisoft.keepass.utils.REMOVE_ENTRY_MAGIKEYBOARD_ACTION
+import com.kunzisoft.keepass.utils.*
 
 class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
@@ -55,29 +52,18 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     private var fieldsAdapter: FieldsAdapter? = null
     private var playSoundDuringCLick: Boolean = false
 
-    private var lockBroadcastReceiver: BroadcastReceiver? = null
+    private var lockReceiver: LockReceiver? = null
 
     override fun onCreate() {
         super.onCreate()
 
         // Remove the entry and lock the keyboard when the lock signal is receive
-        lockBroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                when (intent?.action) {
-                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION, LOCK_ACTION -> {
+        lockReceiver = LockReceiver {
                         removeEntryInfo()
                         assignKeyboardView()
-                    }
-                }
-            }
         }
 
-        registerReceiver(lockBroadcastReceiver,
-                IntentFilter().apply {
-                    addAction(LOCK_ACTION)
-                    addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
-                }
-        )
+        registerLockReceiver(lockReceiver, true)
     }
 
     override fun onCreateInputView(): View {
@@ -301,7 +287,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
 
     override fun onDestroy() {
         dismissCustomKeys()
-        unregisterReceiver(lockBroadcastReceiver)
+        unregisterLockReceiver(lockReceiver)
         super.onDestroy()
     }
 
