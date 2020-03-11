@@ -905,8 +905,8 @@ class GroupActivity : LockingActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        // Not directly get the entry from intent data but from database
-        mListNodesFragment?.rebuildList()
+        // Directly used the onActivityResult in fragment
+        mListNodesFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun removeSearchInIntent(intent: Intent) {
