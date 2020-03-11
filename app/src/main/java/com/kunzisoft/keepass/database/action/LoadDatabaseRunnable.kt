@@ -86,8 +86,11 @@ class LoadDatabaseRunnable(private val context: Context,
                         .addOrUpdateCipherDatabase(cipherDatabaseEntity) // return value not called
             }
 
+            // Register the current time to init the lock timer
+            PreferencesUtil.saveCurrentTime(context)
+
             // Start the opening notification
-            DatabaseOpenNotificationService.startIfAllowed(context)
+            DatabaseOpenNotificationService.start(context)
         } else {
             mDatabase.closeAndClear(cacheDirectory)
         }

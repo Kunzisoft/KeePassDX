@@ -207,12 +207,6 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.enable_auto_save_database_default))
     }
 
-    fun isPersistentNotificationEnable(context: Context): Boolean {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getBoolean(context.getString(R.string.persistent_notification_key),
-                context.resources.getBoolean(R.bool.persistent_notification_default))
-    }
-
     fun isBiometricUnlockEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.biometric_unlock_enable_key),

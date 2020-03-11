@@ -953,19 +953,27 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildAndLaunchIntent(context: Context, group: Group?, readOnly: Boolean,
-                                         intentBuildLauncher: (Intent) -> Unit) {
-            val checkTime = if (context is Activity)
-                TimeoutHelper.checkTimeAndLockIfTimeout(context)
-            else
-                TimeoutHelper.checkTime(context)
-            if (checkTime) {
-                val intent = Intent(context, GroupActivity::class.java)
-                if (group != null) {
-                    intent.putExtra(GROUP_ID_KEY, group.nodeId)
-                }
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-                intentBuildLauncher.invoke(intent)
+        private fun buildIntent(context: Context, group: Group?, readOnly: Boolean,
+                                intentBuildLauncher: (Intent) -> Unit) {
+            val intent = Intent(context, GroupActivity::class.java)
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.nodeId)
+            }
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+            intentBuildLauncher.invoke(intent)
+        }
+
+        private fun checkTimeAndBuildIntent(activity: Activity, group: Group?, readOnly: Boolean,
+                                            intentBuildLauncher: (Intent) -> Unit) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                buildIntent(activity, group, readOnly, intentBuildLauncher)
+            }
+        }
+
+        private fun checkTimeAndBuildIntent(context: Context, group: Group?, readOnly: Boolean,
+                                            intentBuildLauncher: (Intent) -> Unit) {
+            if (TimeoutHelper.checkTime(context)) {
+                buildIntent(context, group, readOnly, intentBuildLauncher)
             }
         }
 
@@ -977,8 +985,7 @@ class GroupActivity : LockingActivity(),
 
         @JvmOverloads
         fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            TimeoutHelper.recordTime(context)
-            buildAndLaunchIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 context.startActivity(intent)
             }
         }
@@ -991,8 +998,7 @@ class GroupActivity : LockingActivity(),
         // TODO implement pre search to directly open the direct group
 
         fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
-            TimeoutHelper.recordTime(context)
-            buildAndLaunchIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
@@ -1006,8 +1012,7 @@ class GroupActivity : LockingActivity(),
 
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure)
             }
         }

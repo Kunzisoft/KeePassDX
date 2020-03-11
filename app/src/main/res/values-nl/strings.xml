@@ -418,8 +418,6 @@
     <string name="contains_duplicate_uuid_procedure">Door dit dialoogvenster te valideren, zal KeePassDX het probleem oplossen (door nieuwe UUID\'s voor duplicaten te genereren) en doorgaan.</string>
     <string name="database_opened">Database geopend</string>
     <string name="clipboard_explanation_summary">Kopieer invoervelden met behulp van het klembord van uw apparaat</string>
-    <string name="persistent_notification_title">Aanhoudende melding</string>
-    <string name="persistent_notification_summary">Voeg een melding toe wanneer de database is geopend</string>
     <string name="advanced_unlock_explanation_summary">Geavanceerde ontgrendeling gebruiken om een database gemakkelijker te openen</string>
     <string name="database_data_compression_title">Gegevenscompressie</string>
     <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database.</string>

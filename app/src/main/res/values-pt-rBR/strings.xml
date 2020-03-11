@@ -414,8 +414,6 @@
     <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePassDX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
-    <string name="persistent_notification_title">Notificação persistente</string>
-    <string name="persistent_notification_summary">Adicionar uma notificação quando o banco de dados for aberto</string>
     <string name="advanced_unlock_explanation_summary">Usar destravamento avançado para abrir o banco de dados mais facilmente</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados.</string>

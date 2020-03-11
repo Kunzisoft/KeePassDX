@@ -408,8 +408,6 @@
     <string name="autofill_explanation_summary">Ενεργοποιήστε την αυτόματη συμπλήρωση για να συμπληρώσετε γρήγορα φόρμες σε άλλες εφαρμογές</string>
     <string name="database_opened">Η Βάση Δεδομένων άνοιξε</string>
     <string name="clipboard_explanation_summary">Αντιγράψτε τα πεδία εισαγωγής χρησιμοποιώντας το πρόχειρο της συσκευής σας</string>
-    <string name="persistent_notification_title">Συνεχής ειδοποίηση</string>
-    <string name="persistent_notification_summary">Προσθήκη ειδοποίησης όταν η βάση δεδομένων είναι ανοιχτή</string>
     <string name="advanced_unlock_explanation_summary">Χρησιμοποιήστε το προηγμένο ξεκλείδωμα για να ανοίξετε μια βάση δεδομένων πιο εύκολα</string>
     <string name="database_data_compression_title">Συμπίεση Δεδομένων</string>
     <string name="database_data_compression_summary">Η συμπίεση δεδομένων μειώνει το μέγεθος της βάσης δεδομένων.</string>

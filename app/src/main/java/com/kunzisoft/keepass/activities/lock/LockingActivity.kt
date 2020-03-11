@@ -20,11 +20,7 @@
 package com.kunzisoft.keepass.activities.lock
 
 import android.app.Activity
-import android.app.NotificationManager
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,12 +30,9 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
-import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
-import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.*
 
 abstract class LockingActivity : StylishActivity() {
 
@@ -81,12 +74,10 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         if (mTimeoutEnable) {
-            mLockReceiver = LockReceiver()
-            val intentFilter = IntentFilter().apply {
-                addAction(Intent.ACTION_SCREEN_OFF)
-                addAction(LOCK_ACTION)
+            mLockReceiver = LockReceiver {
+                lockAndExit()
             }
-            registerReceiver(mLockReceiver, intentFilter)
+            registerLockReceiver(mLockReceiver)
         }
 
         mExitLock = false
@@ -151,26 +142,8 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onDestroy() {
+        unregisterLockReceiver(mLockReceiver)
         super.onDestroy()
-        if (mLockReceiver != null)
-            unregisterReceiver(mLockReceiver)
-    }
-
-    inner class LockReceiver : BroadcastReceiver() {
-
-        override fun onReceive(context: Context, intent: Intent) {
-            // If allowed, lock and exit
-            if (!TimeoutHelper.temporarilyDisableTimeout) {
-                intent.action?.let {
-                    when (it) {
-                        Intent.ACTION_SCREEN_OFF -> if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(this@LockingActivity)) {
-                            lockAndExit()
-                        }
-                        LOCK_ACTION -> lockAndExit()
-                    }
-                }
-            }
-        }
     }
 
     protected fun lockAndExit() {
@@ -208,20 +181,8 @@ abstract class LockingActivity : StylishActivity() {
 }
 
 fun Activity.lock() {
-    // Stop the Magikeyboard service
-    stopService(Intent(this, KeyboardEntryNotificationService::class.java))
-    MagikIME.removeEntry(this)
+    closeDatabase()
 
-    // Stop the notification service
-    stopService(Intent(this, ClipboardEntryNotificationService::class.java))
-
-    Log.i(Activity::class.java.name, "Shutdown " + localClassName +
-            " after inactivity or manual lock")
-    (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager).apply {
-        cancelAll()
-    }
-    // Clear data
-    Database.getInstance().closeAndClear(applicationContext.filesDir)
     // Add onActivityForResult response
     setResult(LockingActivity.RESULT_EXIT_LOCK)
     finish()

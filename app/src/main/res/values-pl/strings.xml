@@ -402,8 +402,6 @@
     <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
     <string name="contains_duplicate_uuid">Baza danych zawiera zduplikowane identyfikatory UUID.</string>
     <string name="database_opened">Baza danych otwarta</string>
-    <string name="persistent_notification_title">Stałe powiadamianie</string>
-    <string name="persistent_notification_summary">Dodaj powiadomienie, gdy baza danych jest otwarta</string>
     <string name="database_data_compression_title">Kompresja danych</string>
     <string name="max_history_items_summary">Ogranicz liczbę elementów historii na wpis</string>
     <string name="max_history_size_title">Maksymalny rozmiar</string>

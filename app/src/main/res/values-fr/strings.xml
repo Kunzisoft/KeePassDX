@@ -422,8 +422,6 @@
     <string name="contains_duplicate_uuid_procedure">En validant cette boîte de dialogue, KeePassDX corrigera le problème (en générant de nouveaux UUID pour les doublons) et continuera.</string>
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copie les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
-    <string name="persistent_notification_title">Notification persistante</string>
-    <string name="persistent_notification_summary">Ajoute une notification lorsque la base de données est ouverte</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>

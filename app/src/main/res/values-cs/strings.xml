@@ -412,8 +412,6 @@
     <string name="contains_duplicate_uuid_procedure">Prověřením toho dialogu opraví KeePassDX chybu (založením nového UUID pro duplikáty) a bude pokračovat.</string>
     <string name="database_opened">Databáze otevřena</string>
     <string name="clipboard_explanation_summary">Kopírujte pole záznamů pomocí schránky Vašeho zařízení</string>
-    <string name="persistent_notification_title">Trvalé oznámení</string>
-    <string name="persistent_notification_summary">Přidat oznámení, když je databáze otevřena</string>
     <string name="advanced_unlock_explanation_summary">K snadnějšímu otevření databáze použijte pokročilé odemknutí</string>
     <string name="database_data_compression_title">Komprese dat</string>
     <string name="database_data_compression_summary">Komprese dat snižuje velikost databáze.</string>

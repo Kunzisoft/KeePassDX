@@ -410,8 +410,6 @@
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
-    <string name="persistent_notification_title">Beständig avisering</string>
-    <string name="persistent_notification_summary">Lägg till en avisering när databasen är öppen</string>
     <string name="advanced_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek.</string>

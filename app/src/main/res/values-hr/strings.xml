@@ -184,8 +184,6 @@
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbrišite njegovu povijest ručno.</string>
     <string name="lock_database_screen_off_summary">Zaključaj bazu podataka kada je ekran ugašen</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
-    <string name="persistent_notification_title">Trajna obavijest</string>
-    <string name="persistent_notification_summary">Dodaj obavijest kada je baza podataka otvorena</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristite napredno otključavanje za jednostavnije otvaranje baze podataka</string>
     <string name="biometric_unlock_enable_title">Biometričko otključavanje</string>

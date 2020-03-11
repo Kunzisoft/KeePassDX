@@ -395,8 +395,6 @@
     <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePassDX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
     <string name="database_opened">Veritabanı açıldı</string>
     <string name="clipboard_explanation_summary">Cihazınızın panosunu kullanarak giriş alanlarını kopyala</string>
-    <string name="persistent_notification_title">Kalıcı bildirim</string>
-    <string name="persistent_notification_summary">Veritabanı açıkken bir bildirim ekle</string>
     <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>
