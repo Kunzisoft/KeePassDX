@@ -17,6 +17,8 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+@file:Suppress("DEPRECATION")
+
 package com.kunzisoft.keepass.view
 
 import android.content.Context
