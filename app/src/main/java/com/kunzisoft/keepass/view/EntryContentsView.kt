@@ -99,8 +99,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         get() = passwordContainerView.visibility == View.VISIBLE
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_entry_contents, this)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+        inflater?.inflate(R.layout.view_entry_contents, this)
 
         userNameContainerView = findViewById(R.id.entry_user_name_container)
         userNameView = findViewById(R.id.entry_user_name)

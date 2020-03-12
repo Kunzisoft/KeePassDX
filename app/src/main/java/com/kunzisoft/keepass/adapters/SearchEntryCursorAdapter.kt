@@ -38,8 +38,8 @@ class SearchEntryCursorAdapter(private val context: Context,
                                private val database: Database)
     : androidx.cursoradapter.widget.CursorAdapter(context, null, FLAG_REGISTER_CONTENT_OBSERVER) {
 
-    private val cursorInflater: LayoutInflater = context.getSystemService(
-            Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+    private val cursorInflater: LayoutInflater? = context.getSystemService(
+            Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
     private var displayUsername: Boolean = false
     private val iconColor: Int
 
@@ -58,7 +58,7 @@ class SearchEntryCursorAdapter(private val context: Context,
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
 
-        val view = cursorInflater.inflate(R.layout.item_search_entry, parent, false)
+        val view = cursorInflater!!.inflate(R.layout.item_search_entry, parent, false)
         val viewHolder = ViewHolder()
         viewHolder.imageViewIcon = view.findViewById(R.id.entry_icon)
         viewHolder.textViewTitle = view.findViewById(R.id.entry_text)

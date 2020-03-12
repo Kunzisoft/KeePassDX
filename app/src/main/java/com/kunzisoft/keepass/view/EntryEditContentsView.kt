@@ -60,8 +60,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private var iconColor: Int = 0
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_entry_edit_contents, this)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+        inflater?.inflate(R.layout.view_entry_edit_contents, this)
 
         entryTitleLayoutView = findViewById(R.id.entry_edit_container_title)
         entryTitleView = findViewById(R.id.entry_edit_title)

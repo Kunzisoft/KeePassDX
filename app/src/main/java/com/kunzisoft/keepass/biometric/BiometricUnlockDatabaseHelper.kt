@@ -95,7 +95,7 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
             // really not much to do when no fingerprint support found
             isKeyManagerInit = false
         } else {
-            this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
+            this.keyguardManager = context.getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager?
 
             try {
                 this.keyStore = KeyStore.getInstance(BIOMETRIC_KEYSTORE)

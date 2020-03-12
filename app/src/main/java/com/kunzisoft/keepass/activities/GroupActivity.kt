@@ -664,13 +664,15 @@ class GroupActivity : LockingActivity(),
         }
 
         // Get the SearchView and set the searchable configuration
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
 
         menu.findItem(R.id.menu_search)?.let {
             val searchView = it.actionView as SearchView?
             searchView?.apply {
-                setSearchableInfo(searchManager.getSearchableInfo(
-                        ComponentName(this@GroupActivity, GroupActivity::class.java)))
+                (searchManager?.getSearchableInfo(
+                        ComponentName(this@GroupActivity, GroupActivity::class.java)))?.let { searchableInfo ->
+                    setSearchableInfo(searchableInfo)
+                }
                 setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
                 suggestionsAdapter = mSearchSuggestionAdapter
                 setOnSuggestionListener(object : SearchView.OnSuggestionListener {

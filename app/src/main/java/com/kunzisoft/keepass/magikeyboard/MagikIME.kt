@@ -173,12 +173,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     private fun switchToPreviousKeyboard() {
         var imeManager: InputMethodManager? = null
         try {
-            imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 switchToPreviousInputMethod()
             } else {
                 window.window?.let { window ->
-                    imeManager.switchToLastInputMethod(window.attributes.token)
+                    imeManager?.switchToLastInputMethod(window.attributes.token)
                 }
             }
         } catch (e: Exception) {
@@ -200,8 +200,8 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             KEY_BACK_KEYBOARD -> switchToPreviousKeyboard()
 
             KEY_CHANGE_KEYBOARD -> {
-                val imeManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imeManager.showInputMethodPicker()
+                (getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?)
+                        ?.showInputMethodPicker()
             }
             KEY_UNLOCK -> {
             }
