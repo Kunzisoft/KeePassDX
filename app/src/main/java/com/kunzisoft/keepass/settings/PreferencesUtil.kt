@@ -31,15 +31,13 @@ object PreferencesUtil {
 
     var APPEARANCE_CHANGED = false
 
-    private const val KEY_DEFAULT_DATABASE_PATH = "KEY_DEFAULT_DATABASE_PATH"
-
     fun saveDefaultDatabasePath(context: Context, defaultDatabaseUri: Uri?) {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         prefs?.edit()?.apply {
             defaultDatabaseUri?.let {
-                putString(KEY_DEFAULT_DATABASE_PATH, it.toString())
+                putString(context.getString(R.string.default_database_path_key), it.toString())
             } ?: kotlin.run {
-                remove(KEY_DEFAULT_DATABASE_PATH)
+                remove(context.getString(R.string.default_database_path_key))
             }
             apply()
         }
@@ -47,7 +45,7 @@ object PreferencesUtil {
 
     fun getDefaultDatabasePath(context: Context): String? {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getString(KEY_DEFAULT_DATABASE_PATH, "")
+        return prefs.getString(context.getString(R.string.default_database_path_key), "")
     }
 
     fun saveNodeSort(context: Context,
