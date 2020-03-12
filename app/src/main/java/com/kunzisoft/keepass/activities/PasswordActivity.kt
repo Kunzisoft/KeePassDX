@@ -313,7 +313,7 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun initUriFromIntent() {
-        mForceReadOnly = !UriUtil.isUriWritable(contentResolver, mDatabaseFileUri)
+        mForceReadOnly = !UriUtil.isUriWritable(mDatabaseFileUri)
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {

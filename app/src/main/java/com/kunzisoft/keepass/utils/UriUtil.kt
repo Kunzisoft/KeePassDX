@@ -50,7 +50,7 @@ object UriUtil {
         }
     }
 
-    fun isUriWritable(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
+    fun isUriWritable(fileUri: Uri?): Boolean {
         if (fileUri == null)
             return false
         // TODO Uri writeable detection
