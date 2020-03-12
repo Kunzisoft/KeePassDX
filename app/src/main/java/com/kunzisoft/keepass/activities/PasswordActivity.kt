@@ -111,8 +111,6 @@ open class PasswordActivity : StylishActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
-
         setContentView(R.layout.activity_password)
 
         toolbar = findViewById(R.id.toolbar)
@@ -287,6 +285,8 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
+
         if (Database.getInstance().loaded)
             launchGroupActivity()
 
