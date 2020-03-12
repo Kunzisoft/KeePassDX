@@ -243,6 +243,7 @@
     <!-- TimeOut -->
     <string name="timeout_backup_key" translatable="false">timeout_backup_key</string>
     <string name="timeout_default" translatable="false">300000</string>
+    <string name="timeout_screen_off" translatable="false">3000</string>
     <string-array name="timeout_values">
         <item translatable="false">5000</item>
         <item translatable="false">10000</item>

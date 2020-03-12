@@ -24,7 +24,9 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.os.Handler
 import android.util.Log
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
@@ -40,17 +42,31 @@ const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY
 
 class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
+    private val screenOffHandler = Handler()
+    private var screenOffRunnable: Runnable? = null
+
     override fun onReceive(context: Context, intent: Intent) {
+
+        screenOffRunnable?.let { runnable ->
+            screenOffHandler.removeCallbacks(runnable)
+        }
         // If allowed, lock and exit
         if (!TimeoutHelper.temporarilyDisableTimeout) {
             intent.action?.let {
                 when (it) {
-                    Intent.ACTION_SCREEN_OFF ->
+                    Intent.ACTION_SCREEN_OFF -> {
                         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(context)) {
-                            lockAction.invoke()
+                            screenOffRunnable = Runnable {
+                                lockAction.invoke()
+                            }
+                            // Launch the effective action after a small time
+                            screenOffHandler.postDelayed(screenOffRunnable!!,
+                                    context.getString(R.string.timeout_screen_off).toLong())
                         }
+                    }
                     LOCK_ACTION,
                     REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> lockAction.invoke()
+                    else -> {}
                 }
             }
         }
@@ -62,6 +78,7 @@ fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
     lockReceiver?.let {
         registerReceiver(it, IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
             addAction(LOCK_ACTION)
             if (registerRemoveEntryMagikeyboard)
                 addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
