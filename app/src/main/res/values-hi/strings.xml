@@ -58,7 +58,6 @@
     <string name="error_pass_match">पासवर्ड मेल नहीं खाते हैं।</string>
     <string name="error_rounds_too_large">\"परिवर्तन राउंड\" बहुत अधिक है। 2147483648 पर सेट हो रहा है।</string>
     <string name="error_string_key">प्रत्येक स्ट्रिंग में फ़ील्ड नाम होना चाहिए।</string>
-    <string name="error_title_required">एक शीर्षक जोड़ें।</string>
     <string name="content_description_open_file">फ़ाइल खोलें</string>
     <string name="content_description_node_children">नोड के बच्चे</string>
     <string name="content_description_add_node">नोड जोड़ें</string>

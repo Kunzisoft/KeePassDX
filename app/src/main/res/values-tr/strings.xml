@@ -77,7 +77,6 @@
     <string name="error_pass_match">Parolalar uyuşmuyor.</string>
     <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. 2147483648\'e ayarlayın.</string>
     <string name="error_string_key">Her dizenin bir alan adı olmalıdır.</string>
-    <string name="error_title_required">Bir başlık ekle.</string>
     <string name="error_wrong_length">\"Uzunluk\" alanına pozitif bir tam sayı girin.</string>
     <string name="error_autofill_enable_service">Otomatik doldurma hizmeti etkinleştirilemedi.</string>
     <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>

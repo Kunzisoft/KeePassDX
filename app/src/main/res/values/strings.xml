@@ -115,7 +115,6 @@
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
-    <string name="error_title_required">Add a title.</string>
     <string name="error_wrong_length">Enter a positive whole number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>

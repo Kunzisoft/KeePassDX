@@ -75,7 +75,6 @@
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 2147483648 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
-    <string name="error_title_required">Titel hinzufügen.</string>
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>

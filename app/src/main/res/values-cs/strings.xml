@@ -71,7 +71,6 @@
     <string name="error_pass_match">Zadání hesla se neshodují.</string>
     <string name="error_rounds_too_large">Příliš vysoký „Počet průchodů“. Nastavuji na 2147483648.</string>
     <string name="error_string_key">Je třeba, aby každý řetězec měl název kolonky.</string>
-    <string name="error_title_required">Přidejte název.</string>
     <string name="error_wrong_length">Do nastavení „Délka“ zadejte celé kladné číslo.</string>
     <string name="field_name">Název pole</string>
     <string name="field_value">Hodnota pole</string>

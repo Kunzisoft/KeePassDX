@@ -228,14 +228,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     fun isValid(): Boolean {
         var isValid = true
 
-        // Require title
-        if (entryTitleView.text.toString().isEmpty()) {
-            entryTitleLayoutView.error = context.getString(R.string.error_title_required)
-            isValid = false
-        } else {
-            entryTitleLayoutView.error = null
-        }
-
         // Validate password
         if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {
             entryPasswordLayoutView.error = context.getString(R.string.error_pass_match)

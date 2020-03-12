@@ -64,7 +64,6 @@
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
     <string name="error_rounds_too_large">\"Rundy szyfrowania\" są zbyt wysokie. Ustaw na 2147483648.</string>
-    <string name="error_title_required">Dodaj tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\".</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>

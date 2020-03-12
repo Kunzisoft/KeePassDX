@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません</string>
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
-    <string name="error_title_required">タイトルは必須入力です。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
     <string name="file_browser">ファイルブラウザ</string>
     <string name="generate_password">パスワードを生成する</string>

@@ -95,7 +95,6 @@
     <string name="error_pass_match">Parolele nu se potrivesc.</string>
     <string name="error_rounds_too_large">\"Transformările rotunde\" prea sus. Setarea la 2147483648.</string>
     <string name="error_string_key">Fiecare șir trebuie să aibă un nume de câmp.</string>
-    <string name="error_title_required">Adăugați un titlu.</string>
     <string name="error_wrong_length">Introduceți un număr întreg pozitiv în câmpul \"Lungime\".</string>
     <string name="error_autofill_enable_service">Nu s-a putut activa serviciul de completare automată.</string>
     <string name="error_move_folder_in_itself">Nu puteți muta un grup în sine.</string>

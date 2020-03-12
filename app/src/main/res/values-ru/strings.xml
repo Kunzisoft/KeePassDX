@@ -72,7 +72,6 @@
     <string name="error_pass_match">Пароли не совпадают.</string>
     <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
-    <string name="error_title_required">Введите название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
     <string name="field_value">Значение поля</string>

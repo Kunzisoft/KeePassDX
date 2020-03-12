@@ -50,7 +50,6 @@
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
     <string name="error_pass_match">كلمتا السر غير متطابقتين.</string>
-    <string name="error_title_required">اكتب عنوانًا.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
     <string name="generate_password">توليد كلمة سر</string>

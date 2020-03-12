@@ -73,7 +73,6 @@
     <string name="error_nokeyfile">Odaberi datoteku ključa.</string>
     <string name="error_pass_gen_type">Bar jedan tip generiranja lozinke mora biti odabran.</string>
     <string name="error_pass_match">Lozinke se ne podudaraju.</string>
-    <string name="error_title_required">Dodaj naslov.</string>
     <string name="error_wrong_length">Unesi pozitivan cijeli broj u polje \"Duljina\".</string>
     <string name="error_otp_secret_key">Tajni ključ mora biti u Base32 formatu.</string>
     <string name="error_otp_counter">Brojač mora biti između %1$d i %2$d.</string>

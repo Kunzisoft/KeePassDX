@@ -70,7 +70,6 @@
     <string name="error_pass_match">Adgangskoderne er ikke ens.</string>
     <string name="error_rounds_too_large">\"Transformation Runder\" er for stor. Sættes til 2147483648.</string>
     <string name="error_string_key">Hver streng skal have et feltnavn.</string>
-    <string name="error_title_required">Tilføj en titel.</string>
     <string name="error_wrong_length">Angiv et positivt heltal i feltet \"Længde\".</string>
     <string name="field_name">Feltnavn</string>
     <string name="field_value">Feltværdi</string>

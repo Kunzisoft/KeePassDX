@@ -67,7 +67,6 @@
     <string name="error_pass_gen_type">Je moet minimaal één soort wachtwoordgenerering kiezen.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Wordt ingesteld op 2147483648.</string>
-    <string name="error_title_required">Voeg een titel toe.</string>
     <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
     <string name="file_browser">Bestandsverkenner</string>
     <string name="generate_password">Wachtwoord genereren</string>

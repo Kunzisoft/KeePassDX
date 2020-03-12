@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">必須至少選擇一個密碼生成類型。</string>
     <string name="error_pass_match">密碼不正確。</string>
     <string name="error_rounds_too_large">次數太多。最大設置到2147483648。</string>
-    <string name="error_title_required">添加標題。</string>
     <string name="error_wrong_length">長度欄位輸入一個正整數</string>
     <string name="file_browser">檔案管理器</string>
     <string name="generate_password">生成密碼</string>
