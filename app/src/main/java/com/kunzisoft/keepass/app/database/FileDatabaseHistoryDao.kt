@@ -38,6 +38,9 @@ interface FileDatabaseHistoryDao {
     @Delete
     fun delete(fileDatabaseHistory: FileDatabaseHistoryEntity): Int
 
+    @Query("UPDATE file_database_history SET keyfile_uri=null WHERE database_uri = :databaseUriString")
+    fun deleteKeyFileByDatabaseUri(databaseUriString: String)
+
     @Query("UPDATE file_database_history SET keyfile_uri=null")
     fun deleteAllKeyFiles()
 
