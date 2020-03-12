@@ -1,1 +1,2 @@
- *
+ * Fix title and username entry view refresh after an update
+ * Fix database lock request (open notification always active)
