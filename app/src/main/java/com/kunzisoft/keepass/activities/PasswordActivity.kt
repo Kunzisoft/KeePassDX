@@ -165,6 +165,12 @@ open class PasswordActivity : StylishActivity() {
             enableOrNotTheConfirmationButton()
         }
 
+        // If is a view intent
+        getUriFromIntent(intent)
+        if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
+            mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
+        }
+
         mProgressDialogThread = ProgressDialogThread(this).apply {
             onActionFinish = { actionTask, result ->
                 when (actionTask) {
@@ -177,11 +183,9 @@ open class PasswordActivity : StylishActivity() {
                             }
                         }
 
-                        // Remove the password in view in all cases
-                        removePassword()
-
                         if (result.isSuccess) {
-                            setEmptyViews()
+                            mDatabaseKeyFileUri = null
+                            clearCredentialsViews(true)
                             launchGroupActivity()
                         } else {
                             var resultError = ""
@@ -237,6 +241,24 @@ open class PasswordActivity : StylishActivity() {
         }
     }
 
+    private fun getUriFromIntent(intent: Intent?) {
+        // If is a view intent
+        val action = intent?.action
+        if (action != null
+                && action == VIEW_INTENT) {
+            mDatabaseFileUri = intent.data
+            mDatabaseKeyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
+        } else {
+            mDatabaseFileUri = intent?.getParcelableExtra(KEY_FILENAME)
+            mDatabaseKeyFileUri = intent?.getParcelableExtra(KEY_KEYFILE)
+        }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        getUriFromIntent(intent)
+    }
+
     private fun launchGroupActivity() {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
@@ -271,7 +293,7 @@ open class PasswordActivity : StylishActivity() {
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
         if (Database.getInstance().loaded) {
-            setEmptyViews()
+            clearCredentialsViews()
         }
 
         // For check shutdown
@@ -283,46 +305,31 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        mDatabaseKeyFileUri?.let {
+            outState.putString(KEY_KEYFILE, it.toString())
+        }
         ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
         super.onSaveInstanceState(outState)
     }
 
     private fun initUriFromIntent() {
-
-        val databaseUri: Uri?
-        val keyFileUri: Uri?
-
-        // If is a view intent
-        val action = intent.action
-        if (action != null
-                && action == VIEW_INTENT) {
-            databaseUri = intent.data
-            keyFileUri = UriUtil.getUriFromIntent(intent, KEY_KEYFILE)
-        } else {
-            databaseUri = intent.getParcelableExtra(KEY_FILENAME)
-            keyFileUri = intent.getParcelableExtra(KEY_KEYFILE)
-        }
-
-        mForceReadOnly = !UriUtil.isUriWritable(contentResolver, databaseUri)
+        mForceReadOnly = !UriUtil.isUriWritable(contentResolver, mDatabaseFileUri)
 
         // Post init uri with KeyFile if needed
-        if (mRememberKeyFile && (keyFileUri == null || keyFileUri.toString().isEmpty())) {
+        if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
             // Retrieve KeyFile in a thread
-            databaseUri?.let { databaseUriNotNull ->
+            mDatabaseFileUri?.let { databaseUri ->
                 FileDatabaseHistoryAction.getInstance(applicationContext)
-                        .getKeyFileUriByDatabaseUri(databaseUriNotNull)  {
+                        .getKeyFileUriByDatabaseUri(databaseUri)  {
                             onPostInitUri(databaseUri, it)
                         }
             }
         } else {
-            onPostInitUri(databaseUri, keyFileUri)
+            onPostInitUri(mDatabaseFileUri, mDatabaseKeyFileUri)
         }
     }
 
     private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
-        mDatabaseFileUri = databaseFileUri
-        mDatabaseKeyFileUri = keyFileUri
-
         // Define title
         databaseFileUri?.let {
             FileDatabaseInfo(this, it).retrieveDatabaseTitle { title ->
@@ -331,9 +338,8 @@ open class PasswordActivity : StylishActivity() {
         }
 
         // Define Key File text
-        val keyUriString = keyFileUri?.toString() ?: ""
-        if (keyUriString.isNotEmpty() && mRememberKeyFile) { // Bug KeepassDX #18
-            populateKeyFileTextView(keyUriString)
+        if (mRememberKeyFile) {
+            populateKeyFileTextView(keyFileUri?.toString())
         }
 
         // Define listeners for default database checkbox and validate button
@@ -428,10 +434,9 @@ open class PasswordActivity : StylishActivity() {
         }
     }
 
-    private fun setEmptyViews() {
+    private fun clearCredentialsViews(clearKeyFile: Boolean = !mRememberKeyFile) {
         populatePasswordTextView(null)
-        // Bug KeepassDX #18
-        if (!mRememberKeyFile) {
+        if (clearKeyFile) {
             populateKeyFileTextView(null)
         }
     }
@@ -497,18 +502,13 @@ open class PasswordActivity : StylishActivity() {
         mDatabaseKeyFileUri = if (checkboxKeyFileView?.isChecked != true) null else keyFile
     }
 
-    private fun removePassword() {
-        passwordView?.setText("")
-        checkboxPasswordView?.isChecked = false
-    }
-
     private fun loadDatabase(databaseFileUri: Uri?,
                              password: String?,
                              keyFileUri: Uri?,
                              cipherDatabaseEntity: CipherDatabaseEntity? = null) {
 
         if (PreferencesUtil.deletePasswordAfterConnexionAttempt(this)) {
-            removePassword()
+            clearCredentialsViews()
         }
 
         databaseFileUri?.let { databaseUri ->
@@ -671,6 +671,7 @@ open class PasswordActivity : StylishActivity() {
             keyFileResult = it.onActivityResultCallback(requestCode, resultCode, data
             ) { uri ->
                 if (uri != null) {
+                    mDatabaseKeyFileUri = uri
                     populateKeyFileTextView(uri.toString())
                 }
             }
@@ -679,7 +680,7 @@ open class PasswordActivity : StylishActivity() {
             // this block if not a key file response
             when (resultCode) {
                 LockingActivity.RESULT_EXIT_LOCK, Activity.RESULT_CANCELED -> {
-                    setEmptyViews()
+                    clearCredentialsViews()
                     Database.getInstance().closeAndClear(applicationContext.filesDir)
                 }
             }

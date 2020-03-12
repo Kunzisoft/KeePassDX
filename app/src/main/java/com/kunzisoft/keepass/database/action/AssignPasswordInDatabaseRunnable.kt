@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.database.action
 import android.content.Context
 import android.net.Uri
 import com.kunzisoft.keepass.app.database.CipherDatabaseAction
+import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.utils.UriUtil
 
@@ -70,6 +71,9 @@ open class AssignPasswordInDatabaseRunnable (
         // Erase the biometric
         CipherDatabaseAction.getInstance(context)
                 .deleteByDatabaseUri(mDatabaseUri)
+        // Erase the register keyfile
+        FileDatabaseHistoryAction.getInstance(context)
+                .deleteKeyFileByDatabaseUri(mDatabaseUri)
 
         if (!result.isSuccess) {
             // Erase the current master key

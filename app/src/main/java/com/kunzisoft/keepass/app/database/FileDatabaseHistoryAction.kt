@@ -112,6 +112,14 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
         ).execute()
     }
 
+    fun deleteKeyFileByDatabaseUri(databaseUri: Uri) {
+        ActionDatabaseAsyncTask(
+                {
+                    databaseFileHistoryDao.deleteKeyFileByDatabaseUri(databaseUri.toString())
+                }
+        ).execute()
+    }
+
     fun deleteAllKeyFiles() {
         ActionDatabaseAsyncTask(
                 {
