@@ -157,7 +157,7 @@
     <string name="content_description_open_file">Otvoriť súbor</string>
     <string name="content_description_file_information">Informácie o súbore</string>
     <string name="content_description_entry_save">Uložiť záznam</string>
-    <string name="content_description_password_generator">Generátor hesla</string>
+    <string name="entry_password_generator">Generátor hesla</string>
     <string name="content_description_password_length">Dĺžka hesla</string>
     <string name="content_description_background">Pozadie</string>
     <string name="security">Bezpečnosť</string>

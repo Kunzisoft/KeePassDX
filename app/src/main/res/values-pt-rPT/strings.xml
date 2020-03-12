@@ -358,9 +358,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Repetir alternar a visibilidade da palavra-passe</string>
     <string name="content_description_entry_icon">Ícone da entrada</string>
     <string name="content_description_entry_save">Gravação de entrada</string>
-    <string name="content_description_password_generator">Gerador de palavras-passe</string>
+    <string name="entry_password_generator">Gerador de palavras-passe</string>
     <string name="content_description_password_length">Comprimento da palavra-passe</string>
-    <string name="content_description_add_field">Adicionar campo</string>
+    <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Remover campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>

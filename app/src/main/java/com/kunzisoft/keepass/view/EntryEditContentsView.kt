@@ -24,7 +24,6 @@ import android.graphics.Color
 import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
@@ -52,10 +51,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryPasswordLayoutView: TextInputLayout
     private val entryPasswordView: EditText
     private val entryConfirmationPasswordView: EditText
-    val generatePasswordView: View
     private val entryCommentView: EditText
     private val entryExtraFieldsContainer: ViewGroup
-    val addNewFieldButton: View
 
     private var iconColor: Int = 0
 
@@ -71,10 +68,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryPasswordLayoutView = findViewById(R.id.entry_edit_container_password)
         entryPasswordView = findViewById(R.id.entry_edit_password)
         entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
-        generatePasswordView = findViewById(R.id.entry_edit_generate_button)
         entryCommentView = findViewById(R.id.entry_edit_notes)
         entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
-        addNewFieldButton = findViewById(R.id.entry_edit_add_new_field)
 
         // Retrieve the textColor to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -141,10 +136,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             }
         }
 
-    fun setOnPasswordGeneratorClickListener(clickListener: () -> Unit) {
-        generatePasswordView.setOnClickListener { clickListener.invoke() }
-    }
-
     var notes: String
         get() {
             return entryCommentView.text.toString()
@@ -154,18 +145,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             if (fontInVisibility)
                 entryCommentView.applyFontVisibility()
         }
-
-    fun allowCustomField(allow: Boolean, action: () -> Unit) {
-        addNewFieldButton.apply {
-            if (allow) {
-                visibility = View.VISIBLE
-                setOnClickListener { action.invoke() }
-            } else {
-                visibility = View.GONE
-                setOnClickListener(null)
-            }
-        }
-    }
 
     val customFields: MutableList<Field>
         get() {

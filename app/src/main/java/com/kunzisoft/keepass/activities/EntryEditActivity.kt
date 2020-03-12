@@ -26,9 +26,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ScrollView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.NestedScrollView
+import com.google.android.material.bottomappbar.BottomAppBar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -70,8 +71,9 @@ class EntryEditActivity : LockingActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
-    private var scrollView: ScrollView? = null
+    private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
+    private var entryEditBottomBar: BottomAppBar? = null
     private var saveView: View? = null
 
     // Education
@@ -167,16 +169,48 @@ class EntryEditActivity : LockingActivity(),
         // Add listener to the icon
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
-        // Generate password button
-        entryEditContentsView?.setOnPasswordGeneratorClickListener { openPasswordGenerator() }
+        // Bottom Bar
+        entryEditBottomBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditBottomBar?.apply {
+            inflateMenu(R.menu.entry_edit)
+
+            menu.findItem(R.id.menu_add_field).apply {
+                val allowCustomField = mNewEntry?.allowCustomFields() == true
+                isEnabled = allowCustomField
+                isVisible = allowCustomField
+            }
+
+            menu.findItem(R.id.menu_add_otp).apply {
+                val allowOTP = mDatabase?.allowOTP == true
+                isEnabled = allowOTP
+                isVisible = allowOTP
+            }
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_generate_password -> {
+                        openPasswordGenerator()
+                        true
+                    }
+                    R.id.menu_add_field -> {
+                        addNewCustomField()
+                        true
+                    }
+                    R.id.menu_add_otp -> {
+                        // Retrieve the current otpElement if exists
+                        // and open the dialog to set up the OTP
+                        SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+                                .show(supportFragmentManager, "addOTPDialog")
+                        true
+                    }
+                    else -> true
+                }
+            }
+        }
 
         // Save button
         saveView = findViewById(R.id.entry_edit_save)
         saveView?.setOnClickListener { saveEntry() }
-
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) {
-            addNewCustomField()
-        }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -307,8 +341,6 @@ class EntryEditActivity : LockingActivity(),
         // Save database not needed here
         menu.findItem(R.id.menu_save_database)?.isVisible = false
         MenuUtil.contributionMenuInflater(inflater, menu)
-        if (mDatabase?.allowOTP == true)
-            inflater.inflate(R.menu.entry_otp, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
@@ -318,8 +350,8 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldButton
+        val passwordView: View? = null// TODO entryEditContentsView?.generatePasswordView
+        val addNewFieldView: View? = null // TODO entryEditContentsView?.addNewFieldButton
 
         val generatePasswordEducationPerformed = passwordView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
@@ -354,13 +386,6 @@ class EntryEditActivity : LockingActivity(),
             }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
-                return true
-            }
-            R.id.menu_add_otp -> {
-                // Retrieve the current otpElement if exists
-                // and open the dialog to set up the OTP
-                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
-                        .show(supportFragmentManager, "addOTPDialog")
                 return true
             }
             android.R.id.home -> finish()
