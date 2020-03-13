@@ -23,15 +23,22 @@
         android:icon="@drawable/ic_key_white_24dp"
         android:title="@string/entry_password_generator"
         android:orderInCategory="91"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="always" />
     <item android:id="@+id/menu_add_field"
         android:icon="@drawable/ic_add_white_24dp"
         android:title="@string/entry_add_field"
-        android:orderInCategory="91"
+        android:orderInCategory="92"
+        app:showAsAction="always" />
+    <!--
+    <item android:id="@+id/menu_add_attachment"
+        android:icon="@drawable/ic_attach_file_white_24dp"
+        android:title="@string/entry_add_attachment"
+        android:orderInCategory="93"
         app:showAsAction="ifRoom" />
+        -->
     <item android:id="@+id/menu_add_otp"
         android:icon="@drawable/ic_av_timer_white_24dp"
         android:title="@string/entry_setup_otp"
-        android:orderInCategory="92"
+        android:orderInCategory="94"
         app:showAsAction="ifRoom" />
 </menu>

@@ -26,10 +26,10 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
-import com.google.android.material.bottomappbar.BottomAppBar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
@@ -73,7 +73,7 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
-    private var entryEditBottomBar: BottomAppBar? = null
+    private var entryEditAddToolBar: ActionMenuView? = null
     private var saveView: View? = null
 
     // Education
@@ -170,9 +170,9 @@ class EntryEditActivity : LockingActivity(),
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
         // Bottom Bar
-        entryEditBottomBar = findViewById(R.id.entry_edit_bottom_bar)
-        entryEditBottomBar?.apply {
-            inflateMenu(R.menu.entry_edit)
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditAddToolBar?.apply {
+            menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true

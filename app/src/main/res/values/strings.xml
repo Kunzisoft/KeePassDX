@@ -61,6 +61,7 @@
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
     <string name="entry_add_field">Add field</string>
+    <string name="entry_add_attachment">Add attachment</string>
     <string name="content_description_remove_field">Remove field</string>
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
