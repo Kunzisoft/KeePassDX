@@ -20,12 +20,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/menu_generate_password"
-        android:icon="@drawable/ic_key_white_24dp"
+        android:icon="@drawable/ic_generate_password_white_24dp"
         android:title="@string/entry_password_generator"
         android:orderInCategory="91"
         app:showAsAction="always" />
     <item android:id="@+id/menu_add_field"
-        android:icon="@drawable/ic_add_white_24dp"
+        android:icon="@drawable/ic_new_field_white_24dp"
         android:title="@string/entry_add_field"
         android:orderInCategory="92"
         app:showAsAction="always" />
