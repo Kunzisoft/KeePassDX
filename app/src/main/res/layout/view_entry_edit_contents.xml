@@ -25,142 +25,150 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content">
 
-	<LinearLayout
-		android:padding="@dimen/default_margin"
-		android:orientation="vertical"
+	<androidx.cardview.widget.CardView
+		android:id="@+id/entry_edit_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/default_margin"
 		app:layout_constraintTop_toTopOf="parent">
-
-		<androidx.appcompat.widget.AppCompatImageButton
-			android:id="@+id/entry_edit_icon_button"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_margin="4dp"
-			android:src="@drawable/ic_blank_32dp"
-			android:contentDescription="@string/content_description_entry_icon"
-			android:layout_gravity="center"/>
-
-		<!--  Title -->
-		<com.google.android.material.textfield.TextInputLayout
-			android:id="@+id/entry_edit_container_title"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_title"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="text"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:maxLines="1"
-				android:hint="@string/entry_title"/>
-		</com.google.android.material.textfield.TextInputLayout>
-
-		<!-- Username -->
-		<com.google.android.material.textfield.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_user_name"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="text"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:maxLines="1"
-				android:hint="@string/entry_user_name"/>
-		</com.google.android.material.textfield.TextInputLayout>
-
-		<!-- Password -->
-		<RelativeLayout
-			android:orientation="horizontal"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_password"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				app:passwordToggleEnabled="true"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentStart="true">
-
-				<androidx.appcompat.widget.AppCompatEditText
-					android:id="@+id/entry_edit_password"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textPassword"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_password"/>
-			</com.google.android.material.textfield.TextInputLayout>
-
-			<!-- Confirm Password -->
-			<com.google.android.material.textfield.TextInputLayout
-				android:id="@+id/entry_edit_container_confirmation_password"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_alignParentLeft="true"
-				android:layout_alignParentStart="true"
-				app:passwordToggleEnabled="true"
-				android:contentDescription="@string/content_description_repeat_toggle_password_visibility"
-				android:layout_below="@+id/entry_edit_container_password">
-
-				<androidx.appcompat.widget.AppCompatEditText
-					android:id="@+id/entry_edit_confirmation_password"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:inputType="textPassword"
-					android:importantForAccessibility="no"
-					android:importantForAutofill="no"
-					android:maxLines="1"
-					android:hint="@string/entry_confpassword"/>
-			</com.google.android.material.textfield.TextInputLayout>
-		</RelativeLayout>
-
-		<!--  URL -->
-		<com.google.android.material.textfield.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_url"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:inputType="textUri"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:maxLines="1"
-				android:hint="@string/entry_url"/>
-		</com.google.android.material.textfield.TextInputLayout>
-
-		<!-- Comment -->
-		<com.google.android.material.textfield.TextInputLayout
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content">
-
-			<androidx.appcompat.widget.AppCompatEditText
-				android:id="@+id/entry_edit_notes"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:gravity="start"
-				android:maxLines="20"
-				android:importantForAccessibility="no"
-				android:importantForAutofill="no"
-				android:inputType="textMultiLine"
-				android:hint="@string/entry_notes"/>
-		</com.google.android.material.textfield.TextInputLayout>
-
 		<LinearLayout
-			android:id="@+id/entry_edit_advanced_container"
+			android:orientation="vertical"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:orientation="vertical">
-		</LinearLayout>
-	</LinearLayout>
+			android:layout_margin="@dimen/default_margin">
 
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/entry_edit_icon_button"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_margin="4dp"
+				android:src="@drawable/ic_blank_32dp"
+				android:contentDescription="@string/content_description_entry_icon"
+				android:layout_gravity="center"/>
+
+			<!--  Title -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/entry_edit_container_title"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<androidx.appcompat.widget.AppCompatEditText
+					android:id="@+id/entry_edit_title"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="text"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:maxLines="1"
+					android:hint="@string/entry_title"/>
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<!-- Username -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<androidx.appcompat.widget.AppCompatEditText
+					android:id="@+id/entry_edit_user_name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="text"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:maxLines="1"
+					android:hint="@string/entry_user_name"/>
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<!-- Password -->
+			<RelativeLayout
+				android:orientation="horizontal"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/entry_edit_container_password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					app:passwordToggleEnabled="true"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentStart="true">
+
+					<androidx.appcompat.widget.AppCompatEditText
+						android:id="@+id/entry_edit_password"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="textPassword"
+						android:importantForAccessibility="no"
+						android:importantForAutofill="no"
+						android:maxLines="1"
+						android:hint="@string/entry_password"/>
+				</com.google.android.material.textfield.TextInputLayout>
+
+				<!-- Confirm Password -->
+				<com.google.android.material.textfield.TextInputLayout
+					android:id="@+id/entry_edit_container_confirmation_password"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_alignParentLeft="true"
+					android:layout_alignParentStart="true"
+					app:passwordToggleEnabled="true"
+					android:contentDescription="@string/content_description_repeat_toggle_password_visibility"
+					android:layout_below="@+id/entry_edit_container_password">
+
+					<androidx.appcompat.widget.AppCompatEditText
+						android:id="@+id/entry_edit_confirmation_password"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:inputType="textPassword"
+						android:importantForAccessibility="no"
+						android:importantForAutofill="no"
+						android:maxLines="1"
+						android:hint="@string/entry_confpassword"/>
+				</com.google.android.material.textfield.TextInputLayout>
+			</RelativeLayout>
+
+			<!--  URL -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<androidx.appcompat.widget.AppCompatEditText
+					android:id="@+id/entry_edit_url"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:inputType="textUri"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:maxLines="1"
+					android:hint="@string/entry_url"/>
+			</com.google.android.material.textfield.TextInputLayout>
+
+			<!-- Comment -->
+			<com.google.android.material.textfield.TextInputLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content">
+
+				<androidx.appcompat.widget.AppCompatEditText
+					android:id="@+id/entry_edit_notes"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:gravity="start"
+					android:maxLines="20"
+					android:importantForAccessibility="no"
+					android:importantForAutofill="no"
+					android:inputType="textMultiLine"
+					android:hint="@string/entry_notes"/>
+			</com.google.android.material.textfield.TextInputLayout>
+		</LinearLayout>
+	</androidx.cardview.widget.CardView>
+
+	<LinearLayout
+		android:id="@+id/entry_edit_advanced_container"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical"
+		android:paddingTop="@dimen/default_margin"
+		android:paddingBottom="@dimen/default_margin"
+		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container">
+	</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
