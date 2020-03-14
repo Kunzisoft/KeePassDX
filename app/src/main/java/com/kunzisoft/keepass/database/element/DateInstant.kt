@@ -142,7 +142,7 @@ class DateInstant : Parcelable {
         fun getDateTimeString(resources: Resources, date: Date): String {
             return java.text.DateFormat.getDateTimeInstance(
                         java.text.DateFormat.MEDIUM,
-                        java.text.DateFormat.MEDIUM,
+                        java.text.DateFormat.SHORT,
                         ConfigurationCompat.getLocales(resources.configuration)[0])
                             .format(date)
         }

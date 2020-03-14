@@ -143,7 +143,47 @@
 					android:hint="@string/entry_url"/>
 			</com.google.android.material.textfield.TextInputLayout>
 
-			<!-- Comment -->
+			<!-- Expires -->
+			<androidx.constraintlayout.widget.ConstraintLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" >
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_edit_expires_label"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintTop_toTopOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					android:text="@string/entry_expires"
+					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"/>
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_edit_expires_text"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginStart="6dp"
+					android:layout_marginEnd="6dp"
+					app:layout_constraintTop_toBottomOf="@+id/entry_edit_expires_label"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toStartOf="parent"
+					style="@style/KeepassDXStyle.TextAppearance.Large"
+					tools:text="2020-03-04 05:00"/>
+				<androidx.appcompat.widget.AppCompatSpinner
+					android:id="@+id/entry_edit_expires_presets"
+					android:visibility="gone"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintTop_toBottomOf="@+id/entry_edit_expires_label"
+					app:layout_constraintBottom_toBottomOf="parent"
+					app:layout_constraintStart_toEndOf="@+id/entry_edit_expires_text"
+					app:layout_constraintEnd_toStartOf="@+id/entry_edit_expires_checkbox"/>
+				<androidx.appcompat.widget.SwitchCompat
+					android:id="@+id/entry_edit_expires_checkbox"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					app:layout_constraintTop_toBottomOf="@+id/entry_edit_expires_label"
+					app:layout_constraintEnd_toEndOf="parent"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+
+			<!-- Notes -->
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
