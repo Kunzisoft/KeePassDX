@@ -70,7 +70,7 @@
         <androidx.core.widget.NestedScrollView
             android:id="@+id/entry_edit_scroll"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:scrollbarStyle="insideOverlay"
             android:scrollbars="none"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
@@ -95,9 +95,9 @@
             android:id="@+id/entry_edit_save"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_anchor="@+id/toolbar_layout"
             app:layout_anchorGravity="bottom|end"
-            android:src="@drawable/ic_save_white_24dp"
+            app:layout_anchor="@+id/entry_edit_scroll"
+            android:src="@drawable/ic_check_white_24dp"
             android:contentDescription="@string/content_description_entry_save"
             app:useCompatPadding="true"
             style="@style/KeepassDXStyle.Fab"/>
