@@ -173,9 +173,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
     <string name="content_description_entry_icon">Post-ikon</string>
     <string name="content_description_entry_save">Spara post</string>
-    <string name="content_description_password_generator">Lösenordsgenerator</string>
+    <string name="entry_password_generator">Lösenordsgenerator</string>
     <string name="content_description_password_length">Lösenords längd</string>
-    <string name="content_description_add_field">Lägg till fält</string>
+    <string name="entry_add_field">Lägg till fält</string>
     <string name="content_description_remove_field">Ta bort fält</string>
     <string name="content_description_background">Bakgrund</string>
     <string name="content_description_update_from_list">Uppdatera</string>

@@ -364,9 +364,9 @@
     <string name="content_description_repeat_toggle_password_visibility">重复切换密码可见性</string>
     <string name="content_description_entry_icon">条目图标</string>
     <string name="content_description_entry_save">保存条目</string>
-    <string name="content_description_password_generator">密码生成器</string>
+    <string name="entry_password_generator">密码生成器</string>
     <string name="content_description_password_length">密码长度</string>
-    <string name="content_description_add_field">添加字段</string>
+    <string name="entry_add_field">添加字段</string>
     <string name="content_description_remove_field">删除字段</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">无法移动条目到此处。</string>

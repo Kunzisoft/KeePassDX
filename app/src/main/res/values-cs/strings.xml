@@ -362,9 +362,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Přepni ukázání hesla</string>
     <string name="content_description_entry_icon">Ikona záznamu</string>
     <string name="content_description_entry_save">Uložit záznam</string>
-    <string name="content_description_password_generator">Generátor hesel</string>
+    <string name="entry_password_generator">Generátor hesel</string>
     <string name="content_description_password_length">Délka hesla</string>
-    <string name="content_description_add_field">Přidej pole</string>
+    <string name="entry_add_field">Přidej pole</string>
     <string name="content_description_remove_field">Odebrat pole</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Sem záznam přesunout nelze.</string>

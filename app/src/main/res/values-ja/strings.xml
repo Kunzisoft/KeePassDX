@@ -194,9 +194,9 @@
     <string name="content_description_file_information">ファイル情報</string>
     <string name="content_description_entry_icon">エントリーのアイコン</string>
     <string name="content_description_entry_save">エントリーの保存</string>
-    <string name="content_description_password_generator">パスワード生成</string>
+    <string name="entry_password_generator">パスワード生成</string>
     <string name="content_description_password_length">パスワードの長さ</string>
-    <string name="content_description_add_field">フィールドの追加</string>
+    <string name="entry_add_field">フィールドの追加</string>
     <string name="content_description_remove_field">フィールドの削除</string>
     <string name="error_move_entry_here">エントリーを移動できませんでした。</string>
     <string name="error_copy_entry_here">エントリーをコピーできませんでした。</string>

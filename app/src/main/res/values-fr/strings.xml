@@ -367,9 +367,9 @@
     <string name="content_description_add_group">Ajouter un groupe</string>
     <string name="content_description_entry_icon">Icône de l’entrée</string>
     <string name="content_description_entry_save">Enregistrer l’entrée</string>
-    <string name="content_description_password_generator">Générateur de mots de passe</string>
+    <string name="entry_password_generator">Générateur de mots de passe</string>
     <string name="content_description_password_length">Longueur de mot de passe</string>
-    <string name="content_description_add_field">Ajouter un champ</string>
+    <string name="entry_add_field">Ajouter un champ</string>
     <string name="content_description_remove_field">Supprimer un champ</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d’entrées</string>

@@ -368,9 +368,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
     <string name="content_description_entry_icon">Item-icoon</string>
     <string name="content_description_entry_save">Item opslaan</string>
-    <string name="content_description_password_generator">Wachtwoordgenerator</string>
+    <string name="entry_password_generator">Wachtwoordgenerator</string>
     <string name="content_description_password_length">Wachtwoordlengte</string>
-    <string name="content_description_add_field">Veld toevoegen</string>
+    <string name="entry_add_field">Veld toevoegen</string>
     <string name="content_description_remove_field">Veld verwijderen</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Je kan hier geen item plaatsen.</string>

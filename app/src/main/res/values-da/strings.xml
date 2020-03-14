@@ -361,9 +361,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
     <string name="content_description_entry_icon">Indtastningsikon</string>
     <string name="content_description_entry_save">Gem indtastning</string>
-    <string name="content_description_password_generator">Adgangskodegenerator</string>
+    <string name="entry_password_generator">Adgangskodegenerator</string>
     <string name="content_description_password_length">Længde på adgangskode</string>
-    <string name="content_description_add_field">Tilføj felt</string>
+    <string name="entry_add_field">Tilføj felt</string>
     <string name="content_description_remove_field">Fjern felt</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Vis antal poster</string>

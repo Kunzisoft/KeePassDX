@@ -355,9 +355,9 @@
     <string name="content_description_file_information">Informacje o pliku</string>
     <string name="content_description_entry_icon">Ikona wpisu</string>
     <string name="content_description_entry_save">Zapisz wpis</string>
-    <string name="content_description_password_generator">Generator haseł</string>
+    <string name="entry_password_generator">Generator haseł</string>
     <string name="content_description_password_length">Długość hasła</string>
-    <string name="content_description_add_field">Dodaj pole</string>
+    <string name="entry_add_field">Dodaj pole</string>
     <string name="content_description_remove_field">Usuń pole</string>
     <string name="error_copy_entry_here">Nie możesz tutaj skopiować wpisu.</string>
     <string name="list_groups_show_number_entries_title">Pokaż liczbę wpisów</string>

@@ -361,9 +361,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Повтор переключения видимости пароля</string>
     <string name="content_description_entry_icon">Значок записи</string>
     <string name="content_description_entry_save">Сохранение записи</string>
-    <string name="content_description_password_generator">Генератор паролей</string>
+    <string name="entry_password_generator">Генератор паролей</string>
     <string name="content_description_password_length">Длина пароля</string>
-    <string name="content_description_add_field">Добавить поле</string>
+    <string name="entry_add_field">Добавить поле</string>
     <string name="content_description_remove_field">Удалить поле</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Вы не можете переместить запись сюда.</string>

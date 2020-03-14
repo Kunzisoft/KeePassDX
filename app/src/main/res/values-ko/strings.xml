@@ -163,9 +163,9 @@
     <string name="content_description_password_checkbox">비밀번호 체크박스</string>
     <string name="content_description_keyfile_checkbox">내용_설명_키파일_체크박스</string>
     <string name="content_description_repeat_toggle_password_visibility">토글 비밀번호 가시성 반복</string>
-    <string name="content_description_password_generator">비밀번호 생성</string>
+    <string name="entry_password_generator">비밀번호 생성</string>
     <string name="content_description_password_length">비밀번호 길이</string>
-    <string name="content_description_add_field">필드 추가</string>
+    <string name="entry_add_field">필드 추가</string>
     <string name="content_description_remove_field">필드 제거</string>
     <string name="error_move_entry_here">항목을 여기로 옮길 수 없습니다.</string>
     <string name="error_copy_entry_here">항목을 여기로 복사할 수 없습니다.</string>

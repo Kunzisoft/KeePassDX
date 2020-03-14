@@ -365,9 +365,9 @@
     <string name="content_description_keyfile_checkbox">Casella di controllo Keyfile</string>
     <string name="content_description_repeat_toggle_password_visibility">Ripeti attivare / disattivare la visibilità della password</string>
     <string name="content_description_entry_icon">Icona</string>
-    <string name="content_description_password_generator">Generatore di password</string>
+    <string name="entry_password_generator">Generatore di password</string>
     <string name="content_description_password_length">Lunghezza della password</string>
-    <string name="content_description_add_field">Aggiungi un campo</string>
+    <string name="entry_add_field">Aggiungi un campo</string>
     <string name="content_description_remove_field">Rimuovi un campo</string>
     <string name="error_move_entry_here">Non è possibile spostare una voce qui.</string>
     <string name="error_copy_entry_here">Non è possibile copiare una voce qui.</string>

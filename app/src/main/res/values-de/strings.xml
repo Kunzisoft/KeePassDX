@@ -358,9 +358,9 @@
     <string name="content_description_file_information">Datei-Informationen</string>
     <string name="content_description_entry_icon">Symbol für den Eintrag</string>
     <string name="content_description_entry_save">Eintrag speichern</string>
-    <string name="content_description_password_generator">Passwort-Generator</string>
+    <string name="entry_password_generator">Passwort-Generator</string>
     <string name="content_description_password_length">Passwortlänge</string>
-    <string name="content_description_add_field">Feld hinzufügen</string>
+    <string name="entry_add_field">Feld hinzufügen</string>
     <string name="content_description_remove_field">Feld entfernen</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Anzahl der Einträge anzeigen</string>

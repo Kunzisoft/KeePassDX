@@ -341,9 +341,9 @@
     <string name="content_description_add_entry">Legg til oppføring</string>
     <string name="content_description_add_group">Legg til gruppe</string>
     <string name="content_description_file_information">Filinfo</string>
-    <string name="content_description_password_generator">Passordgenerator</string>
+    <string name="entry_password_generator">Passordgenerator</string>
     <string name="content_description_password_length">Passordslengde</string>
-    <string name="content_description_add_field">Legg til felt</string>
+    <string name="entry_add_field">Legg til felt</string>
     <string name="content_description_remove_field">Fjern felt</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Du kan ikke flytte en oppføring hit.</string>

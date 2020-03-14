@@ -341,9 +341,9 @@
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
     <string name="content_description_entry_save">Αποθήκευση καταχώρησης</string>
-    <string name="content_description_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
+    <string name="entry_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
     <string name="content_description_password_length">Μήκος κωδικού πρόσβασης</string>
-    <string name="content_description_add_field">Προσθήκη πεδίου</string>
+    <string name="entry_add_field">Προσθήκη πεδίου</string>
     <string name="content_description_remove_field">Αφαίρεση πεδίου</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Δεν μπορείτε να μετακινήσετε μια καταχώρηση εδώ.</string>
