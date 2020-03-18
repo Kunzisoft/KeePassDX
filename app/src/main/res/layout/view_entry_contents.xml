@@ -27,7 +27,10 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/default_margin">
+		android:layout_marginTop="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -182,10 +185,8 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:visibility="gone"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:id="@+id/extra_strings"
@@ -200,10 +201,8 @@
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -230,11 +229,9 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginBottom="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin">
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -313,10 +310,8 @@
 		android:id="@+id/entry_history_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -401,10 +396,8 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"

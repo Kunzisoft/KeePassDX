@@ -29,7 +29,10 @@
 		android:id="@+id/entry_edit_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/default_margin"
+		android:layout_marginTop="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin"
+		android:layout_marginStart="0dp"
+		android:layout_marginEnd="0dp"
 		app:layout_constraintTop_toTopOf="parent">
 		<LinearLayout
 			android:orientation="vertical"
@@ -143,7 +146,7 @@
 					android:hint="@string/entry_url"/>
 			</com.google.android.material.textfield.TextInputLayout>
 
-			<!-- Comment -->
+			<!-- Notes -->
 			<com.google.android.material.textfield.TextInputLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
