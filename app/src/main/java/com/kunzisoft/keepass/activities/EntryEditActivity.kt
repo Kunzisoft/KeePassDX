@@ -431,20 +431,24 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
-        entryEditContentsView?.expiresDate?.date?.let { expiresDate ->
-            // Save the date
-            entryEditContentsView?.expiresDate =
-                    DateInstant(DateTime(expiresDate)
-                            .withYear(year)
-                            .withMonthOfYear(month+1)
-                            .withDayOfMonth(day)
-                            .toDate())
-            // Launch the time picker
-            val dateTime = DateTime(expiresDate)
-            val defaultHour = dateTime.hourOfDay
-            val defaultMinute = dateTime.minuteOfHour
-            TimePickerFragment.getInstance(defaultHour, defaultMinute)
-                    .show(supportFragmentManager, "TimePickerFragment")
+        // To fix android 4.4 issue
+        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
+        if (datePicker?.isShown == true) {
+            entryEditContentsView?.expiresDate?.date?.let { expiresDate ->
+                // Save the date
+                entryEditContentsView?.expiresDate =
+                        DateInstant(DateTime(expiresDate)
+                                .withYear(year)
+                                .withMonthOfYear(month + 1)
+                                .withDayOfMonth(day)
+                                .toDate())
+                // Launch the time picker
+                val dateTime = DateTime(expiresDate)
+                val defaultHour = dateTime.hourOfDay
+                val defaultMinute = dateTime.minuteOfHour
+                TimePickerFragment.getInstance(defaultHour, defaultMinute)
+                        .show(supportFragmentManager, "TimePickerFragment")
+            }
         }
     }
 
