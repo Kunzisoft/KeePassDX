@@ -34,6 +34,7 @@ import java.util.*
 internal class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameCandidate: AutofillId? = null
+    private var lockHint: Boolean = false
 
     fun parse(): Result? {
         result = Result()
@@ -85,19 +86,25 @@ internal class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it == View.AUTOFILL_HINT_USERNAME
-                        || it == View.AUTOFILL_HINT_EMAIL_ADDRESS
-                        || it == View.AUTOFILL_HINT_PHONE -> {
+                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_USERNAME
+                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_EMAIL_ADDRESS
+                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PHONE -> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
-                it == View.AUTOFILL_HINT_PASSWORD
-                        || it.contains("password") -> {
+                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PASSWORD
+                        || it.toLowerCase(Locale.ENGLISH).contains("password") -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
-                it == "on" -> {
+                it.toLowerCase(Locale.ENGLISH) == "off" -> {
+                    Log.d(TAG, "Autofill OFF hint")
+                    lockHint = true
+                    return false
+                }
+                it.toLowerCase(Locale.ENGLISH) == "on" -> {
+                    Log.d(TAG, "Autofill ON hint")
                     if (parseNodeByHtmlAttributes(node))
                         return true
                 }
@@ -108,6 +115,8 @@ internal class StructureParser(private val structure: AssistStructure) {
     }
 
     private fun parseNodeByHtmlAttributes(node: AssistStructure.ViewNode): Boolean {
+        if (lockHint)
+            return false
         val autofillId = node.autofillId
         val nodHtml = node.htmlInfo
         when (nodHtml?.tag?.toLowerCase(Locale.ENGLISH)) {
