@@ -35,7 +35,7 @@ class KeeAutofillService : AutofillService() {
         val fillContexts = request.fillContexts
         val latestStructure = fillContexts[fillContexts.size - 1].structure
 
-        cancellationSignal.setOnCancelListener { Log.e(TAG, "Cancel autofill not implemented in this sample.") }
+        cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
         val responseBuilder = FillResponse.Builder()
         // Check user's settings for authenticating Responses and Datasets.
