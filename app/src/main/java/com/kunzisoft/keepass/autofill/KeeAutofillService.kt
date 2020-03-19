@@ -41,7 +41,7 @@ class KeeAutofillService : AutofillService() {
         // Check user's settings for authenticating Responses and Datasets.
         val parseResult = StructureParser(latestStructure).parse()
         parseResult?.allAutofillIds()?.let { autofillIds ->
-            if (listOf(*autofillIds).isNotEmpty()) {
+            if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
                 val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this)
