@@ -34,7 +34,7 @@
         app:showAsAction="always" />
         -->
     <item android:id="@+id/menu_add_otp"
-        android:icon="@drawable/ic_av_timer_white_24dp"
+        android:icon="@drawable/ic_otp_white_24dp"
         android:title="@string/entry_setup_otp"
         android:orderInCategory="94"
         app:showAsAction="always" />
