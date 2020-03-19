@@ -212,10 +212,7 @@ class EntryEditActivity : LockingActivity(),
                         true
                     }
                     R.id.menu_add_otp -> {
-                        // Retrieve the current otpElement if exists
-                        // and open the dialog to set up the OTP
-                        SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
-                                .show(supportFragmentManager, "addOTPDialog")
+                        setupOTP()
                         true
                     }
                     else -> true
@@ -315,6 +312,13 @@ class EntryEditActivity : LockingActivity(),
         entryEditContentsView?.addEmptyCustomField()
     }
 
+    private fun setupOTP() {
+        // Retrieve the current otpElement if exists
+        // and open the dialog to set up the OTP
+        SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+                .show(supportFragmentManager, "addOTPDialog")
+    }
+
     /**
      * Saves the new entry or update an existing entry in the database
      */
@@ -372,12 +376,10 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView: View? = null// TODO entryEditContentsView?.generatePasswordView
-        val addNewFieldView: View? = null // TODO entryEditContentsView?.addNewFieldButton
-
-        val generatePasswordEducationPerformed = passwordView != null
+        val passwordGeneratorView: View? = entryEditAddToolBar?.findViewById(R.id.menu_generate_password)
+        val generatePasswordEducationPerformed = passwordGeneratorView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                passwordView,
+                passwordGeneratorView,
                 {
                     openPasswordGenerator()
                 },
@@ -386,14 +388,28 @@ class EntryEditActivity : LockingActivity(),
                 }
         )
         if (!generatePasswordEducationPerformed) {
-            // entryNewFieldEducationPerformed
-            mNewEntry != null && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
+            val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
+            val addNewFieldEducationPerformed = mNewEntry != null
+                    && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
                     && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
                         addNewCustomField()
-                    })
+                    },
+                    {
+                        performedNextEducation(entryEditActivityEducation)
+                    }
+            )
+            if (!addNewFieldEducationPerformed) {
+                val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
+                setupOtpView != null && setupOtpView.visibility == View.VISIBLE
+                        && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
+                        setupOtpView,
+                        {
+                            setupOTP()
+                        })
+            }
         }
     }
 

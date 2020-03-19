@@ -37,7 +37,7 @@ class EntryEditActivityEducation(activity: Activity)
                         activity.getString(R.string.education_generate_password_title),
                         activity.getString(R.string.education_generate_password_summary))
                         .textColorInt(Color.WHITE)
-                        .tintTarget(false)
+                        .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
                     override fun onTargetClick(view: TapTargetView) {
@@ -66,7 +66,7 @@ class EntryEditActivityEducation(activity: Activity)
                         activity.getString(R.string.education_entry_new_field_title),
                         activity.getString(R.string.education_entry_new_field_summary))
                         .textColorInt(Color.WHITE)
-                        .tintTarget(false)
+                        .tintTarget(true)
                         .cancelable(true),
                 object : TapTargetView.Listener() {
                     override fun onTargetClick(view: TapTargetView) {
@@ -81,5 +81,34 @@ class EntryEditActivityEducation(activity: Activity)
                     }
                 },
                 R.string.education_entry_new_field_key)
+    }
+
+    /**
+     * Check and display learning views
+     * Displays the explanation to setup OTP
+     */
+    fun checkAndPerformedSetUpOTPEducation(educationView: View,
+                                           onEducationViewClick: ((TapTargetView?) -> Unit)? = null,
+                                           onOuterViewClick: ((TapTargetView?) -> Unit)? = null): Boolean {
+        return checkAndPerformedEducation(!isEducationSetupOTPPerformed(activity),
+                TapTarget.forView(educationView,
+                                activity.getString(R.string.education_setup_OTP_title),
+                                activity.getString(R.string.education_setup_OTP_summary))
+                        .textColorInt(Color.WHITE)
+                        .tintTarget(true)
+                        .cancelable(true),
+                object : TapTargetView.Listener() {
+                    override fun onTargetClick(view: TapTargetView) {
+                        super.onTargetClick(view)
+                        onEducationViewClick?.invoke(view)
+                    }
+
+                    override fun onOuterCircleClick(view: TapTargetView?) {
+                        super.onOuterCircleClick(view)
+                        view?.dismiss(false)
+                        onOuterViewClick?.invoke(view)
+                    }
+                },
+                R.string.education_setup_OTP_key)
     }
 }
