@@ -439,8 +439,7 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            if (isEnable)
-                showButton()
+            showButton()
         }
     }
 
@@ -504,6 +503,7 @@ class GroupActivity : LockingActivity(),
     private fun finishNodeAction() {
         actionNodeMode?.finish()
         actionNodeMode = null
+        addNodeButtonView?.showButton()
     }
 
     override fun onNodeSelected(nodes: List<Node>): Boolean {
@@ -515,6 +515,7 @@ class GroupActivity : LockingActivity(),
             } else {
                 actionNodeMode?.invalidate()
             }
+            addNodeButtonView?.hideButton()
         } else {
             finishNodeAction()
         }

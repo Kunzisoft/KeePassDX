@@ -132,7 +132,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
     }
 
     fun showButton() {
-        if (addButtonView?.visibility != VISIBLE)
+        if (isEnable && addButtonView?.visibility != VISIBLE)
             addButtonView?.show(onAddButtonVisibilityChangedListener)
     }
 
