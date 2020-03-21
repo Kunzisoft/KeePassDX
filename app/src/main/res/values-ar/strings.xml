@@ -271,7 +271,6 @@
     <string name="content_description_node_children">العقد الفرعية</string>
     <string name="content_description_add_node">أضف عقدة</string>
     <string name="content_description_entry_icon">ايقونة المدخل</string>
-    <string name="content_description_entry_save">حفظ المدخل</string>
     <string name="content_description_password_length">طول كلمة السر</string>
     <string name="entry_add_field">أضف حقل</string>
     <string name="content_description_remove_field">أزل حقل</string>

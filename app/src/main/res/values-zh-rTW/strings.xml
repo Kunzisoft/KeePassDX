@@ -185,7 +185,6 @@
     <string name="content_description_keyfile_checkbox">金鑰檔案核取方塊</string>
     <string name="content_description_repeat_toggle_password_visibility">重複切換密碼可見性</string>
     <string name="content_description_entry_icon">條目圖示</string>
-    <string name="content_description_entry_save">條目保存</string>
     <string name="content_description_password_length">密碼長度</string>
     <string name="entry_add_field">添加欄位</string>
     <string name="content_description_remove_field">刪除欄位</string>

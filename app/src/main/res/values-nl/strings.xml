@@ -367,7 +367,6 @@
     <string name="content_description_keyfile_checkbox">Sleutelbestandcheckbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
     <string name="content_description_entry_icon">Item-icoon</string>
-    <string name="content_description_entry_save">Item opslaan</string>
     <string name="entry_password_generator">Wachtwoordgenerator</string>
     <string name="content_description_password_length">Wachtwoordlengte</string>
     <string name="entry_add_field">Veld toevoegen</string>

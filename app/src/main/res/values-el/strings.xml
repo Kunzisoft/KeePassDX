@@ -340,7 +340,6 @@
     <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου κλειδιού-αρχείου</string>
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
-    <string name="content_description_entry_save">Αποθήκευση καταχώρησης</string>
     <string name="entry_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
     <string name="content_description_password_length">Μήκος κωδικού πρόσβασης</string>
     <string name="entry_add_field">Προσθήκη πεδίου</string>

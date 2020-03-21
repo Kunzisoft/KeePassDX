@@ -172,7 +172,6 @@
     <string name="content_description_keyfile_checkbox">Nyckelfilskryssruta</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
     <string name="content_description_entry_icon">Post-ikon</string>
-    <string name="content_description_entry_save">Spara post</string>
     <string name="entry_password_generator">Lösenordsgenerator</string>
     <string name="content_description_password_length">Lösenords längd</string>
     <string name="entry_add_field">Lägg till fält</string>

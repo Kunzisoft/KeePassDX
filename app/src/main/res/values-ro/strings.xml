@@ -36,7 +36,6 @@
     <string name="content_description_keyfile_checkbox">Verifica fisierul cheie</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetați pentru a comuta vizibilitatea parolei</string>
     <string name="content_description_entry_icon">Pictograma de intrare</string>
-    <string name="content_description_entry_save">Salvați intrarea</string>
     <string name="entry_password_generator">Generator de parole</string>
     <string name="content_description_password_length">Lungimea parolei</string>
     <string name="entry_add_field">Adăugați câmp</string>

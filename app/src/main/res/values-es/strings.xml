@@ -383,7 +383,6 @@
 \n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos.</string>
     <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
-    <string name="content_description_entry_save">Guardar entrada</string>
     <string name="master_key">Llave Maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>

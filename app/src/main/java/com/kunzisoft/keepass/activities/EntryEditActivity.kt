@@ -30,6 +30,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -221,7 +222,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Save button
-        saveView = findViewById(R.id.entry_edit_save)
+        saveView = findViewById(R.id.entry_edit_validate)
         saveView?.setOnClickListener { saveEntry() }
 
         // Verify the education views
@@ -426,7 +427,9 @@ class EntryEditActivity : LockingActivity(),
                 MenuUtil.onContributionItemSelected(this)
                 return true
             }
-            android.R.id.home -> finish()
+            android.R.id.home -> {
+                onBackPressed()
+            }
         }
 
         return super.onOptionsItemSelected(item)
@@ -500,6 +503,15 @@ class EntryEditActivity : LockingActivity(),
 
     override fun cancelPassword(bundle: Bundle) {
         // Do nothing here
+    }
+
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.discard_changes)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    super@EntryEditActivity.onBackPressed()
+                }.create().show()
     }
 
     override fun finish() {

@@ -373,7 +373,6 @@
     <string name="error_copy_entry_here">Non è possibile copiare una voce qui.</string>
     <string name="list_groups_show_number_entries_title">Mostra il numero di voci</string>
     <string name="list_groups_show_number_entries_summary">Mostra il numero di voci in un gruppo</string>
-    <string name="content_description_entry_save">Salva</string>
     <string name="content_description_update_from_list">Aggiorna</string>
     <string name="content_description_keyboard_close_fields">Chiudi campi</string>
 </resources>

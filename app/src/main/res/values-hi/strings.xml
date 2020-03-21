@@ -68,7 +68,6 @@
     <string name="content_description_keyfile_checkbox">कीफाइल चेकबॉक्स</string>
     <string name="content_description_repeat_toggle_password_visibility">पासवर्ड दृश्यता टॉगल दोहराएं</string>
     <string name="content_description_entry_icon">प्रवेश आइकन</string>
-    <string name="content_description_entry_save">प्रविष्टि सहेजें</string>
     <string name="entry_password_generator">पासवर्ड जनरेटर</string>
     <string name="content_description_password_length">पासवर्ड की लंबाई</string>
     <string name="entry_add_field">फ़ील्ड जोड़ें</string>

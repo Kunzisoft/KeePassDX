@@ -397,7 +397,6 @@
     <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
     <string name="command_execution">Kjører kommandoen…</string>
     <string name="content_description_node_children">Undernoder</string>
-    <string name="content_description_entry_save">Lagre oppføring</string>
     <string name="database_default_username_title">Forvalgt brukernavn</string>
     <string name="database_custom_color_title">Tilpasset databasefarge</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>

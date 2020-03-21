@@ -360,7 +360,6 @@
     <string name="content_description_keyfile_checkbox">Afkrydsningsfelt for nøglefil</string>
     <string name="content_description_repeat_toggle_password_visibility">Gentag for at skifte synlighed for adgangskode</string>
     <string name="content_description_entry_icon">Indtastningsikon</string>
-    <string name="content_description_entry_save">Gem indtastning</string>
     <string name="entry_password_generator">Adgangskodegenerator</string>
     <string name="content_description_password_length">Længde på adgangskode</string>
     <string name="entry_add_field">Tilføj felt</string>

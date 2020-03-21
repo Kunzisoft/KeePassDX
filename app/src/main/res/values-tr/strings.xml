@@ -353,7 +353,6 @@
     <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Geçiş şifresi görünürlüğünü tekrarlayın</string>
-    <string name="content_description_entry_save">Girdiyi kaydet</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelleme</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>

@@ -103,13 +103,13 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/entry_edit_save"
+        android:id="@+id/entry_edit_validate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchorGravity="bottom|end"
         app:layout_anchor="@+id/entry_edit_scroll"
         android:src="@drawable/ic_check_white_24dp"
-        android:contentDescription="@string/content_description_entry_save"
+        android:contentDescription="@string/validate"
         app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
 

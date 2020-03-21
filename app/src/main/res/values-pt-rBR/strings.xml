@@ -368,7 +368,6 @@
     <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
-    <string name="content_description_entry_save">Salvar entrada</string>
     <string name="content_description_node_children">Nó filho</string>
     <string name="content_description_password_checkbox">Caixa de seleção de senha</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
