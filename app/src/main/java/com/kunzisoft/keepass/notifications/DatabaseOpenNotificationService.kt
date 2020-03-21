@@ -73,7 +73,10 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                         setContentText(database.name + " (" + database.version + ")")
                         setAutoCancel(false)
                         setContentIntent(pendingDatabaseIntent)
+                        // Unfortunately swipe is disabled in lollipop+
                         setDeleteIntent(pendingDeleteIntent)
+                        addAction(R.drawable.ic_lock_white_24dp, getString(R.string.lock),
+                                pendingDeleteIntent)
                     }.build())
                 } else {
                     stopSelf()

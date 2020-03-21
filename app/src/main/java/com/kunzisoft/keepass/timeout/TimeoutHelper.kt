@@ -153,27 +153,14 @@ object TimeoutHelper {
     /**
      * Temporarily disable timeout, checkTime() function always return true
      */
-    fun temporarilyDisableTimeout(context: Context) {
+    fun temporarilyDisableTimeout() {
         temporarilyDisableTimeout = true
-
-        // Stop the opening notification
-        DatabaseOpenNotificationService.stop(context)
     }
 
     /**
-     * Release the temporarily disable timeout and directly call checkTime()
+     * Release the temporarily disable timeout
      */
-    fun releaseTemporarilyDisableTimeoutAndLockIfTimeout(context: Context): Boolean {
+    fun releaseTemporarilyDisableTimeout() {
         temporarilyDisableTimeout = false
-        val inTime =  if (context is LockingActivity) {
-            checkTimeAndLockIfTimeout(context)
-        } else {
-            checkTime(context)
-        }
-        if (inTime) {
-            // Start the opening notification
-            DatabaseOpenNotificationService.start(context)
-        }
-        return inTime
     }
 }

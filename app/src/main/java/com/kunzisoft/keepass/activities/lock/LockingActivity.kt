@@ -147,6 +147,7 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     protected fun lockAndExit() {
+        sendBroadcast(Intent(LOCK_ACTION))
         lock()
     }
 

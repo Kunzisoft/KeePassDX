@@ -578,8 +578,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): ActionRunnable.Result {
             var resultTask = ActionRunnable.Result(false)
-            // Without that, bind listeners don't work properly (I don't know why?)
-            Thread.sleep(500)
             actionRunnables.forEach {
                 it?.invoke(progressTaskUpdater)?.apply {
                     run()
