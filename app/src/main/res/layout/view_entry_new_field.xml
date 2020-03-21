@@ -26,7 +26,9 @@
     android:layout_marginTop="0dp"
     android:layout_marginBottom="@dimen/default_margin"
     android:layout_marginStart="0dp"
-    android:layout_marginEnd="0dp">
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
