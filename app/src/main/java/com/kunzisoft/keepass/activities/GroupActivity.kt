@@ -987,7 +987,8 @@ class GroupActivity : LockingActivity(),
          */
 
         @JvmOverloads
-        fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+        fun launch(context: Context,
+                   readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 context.startActivity(intent)
             }
@@ -1000,7 +1001,8 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
+        fun launchForKeyboardSelection(context: Context,
+                                       readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
@@ -1014,7 +1016,9 @@ class GroupActivity : LockingActivity(),
         // TODO implement pre search to directly open the direct group
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure, readOnly: Boolean) {
+        fun launchForAutofillResult(activity: Activity,
+                                    assistStructure: AssistStructure,
+                                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure)
             }
