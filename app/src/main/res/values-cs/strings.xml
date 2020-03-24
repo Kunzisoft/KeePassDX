@@ -283,7 +283,7 @@
     <string name="education_generate_password_title">Vytvořte k záznamu silné heslo.</string>
     <string name="education_generate_password_summary">Vygenerujte silné heslo pro svou položku, definujte je podle kritérií formuláře, a nezapomeňte na bezpečné heslo.</string>
     <string name="education_entry_new_field_title">Přidat vlastní kolonky</string>
-    <string name="education_entry_new_field_summary">Chcete-li zaregistrovat základní kolonku, která není ve výchozím stavu k dispozici, jednoduše vyplňte novou kolonku. Novou kolonku můžete také nastavit jako chráněnou.</string>
+    <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
     <string name="education_unlock_title">Odemknout databázi</string>
     <string name="education_read_only_title">Ochraňte svou databázi před zápisem</string>
     <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení.
@@ -301,7 +301,7 @@
     <string name="education_sort_summary">Vyberte řazení položek a skupin.</string>
     <string name="education_donation_title">Zapojit se</string>
     <string name="education_donation_summary">Zapojte se a pomozte zvýšit stabilitu, bezpečnost a přidávání dalších funkcí.</string>
-    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel, tato je &lt;strong&gt;bez reklam&lt;/strong&gt;, je &lt;strong&gt;svobodným softwarem&lt;/strong&gt; a &lt;strong&gt; pod copyleft licencí&lt;/strong&gt;. &lt;strong&gt;Nesbírá žádné osobní údaje&lt;/strong&gt; v jakékoli formě, bez ohledu na to, jakou verzi používáte.</string>
+    <string name="html_text_ad_free">Na rozdíl od mnoha aplikací pro správu hesel, tato je <strong>bez reklam</strong>", je  "<strong>svobodný software pod copyleft licencí</strong> a nesbírá žádné osobní údaje na svých serverech bez ohledu na to, jakou verzi používáte.</string>
     <string name="html_text_buy_pro">Zakoupením varianty „pro“ získáte přístup k tomuto &lt;strong&gt;vizuálnímu stylu&lt;/strong&gt; a hlavně pomůžete &lt;strong&gt;uskutečnění komunitních projektů.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Tento &lt;strong&gt;vizuální styl&lt;/strong&gt; je k dispozici díky vaší štědrosti.</string>
     <string name="html_text_donation">Pro zajištění svobody nás všech a pokračování aktivity, počítáme s vaším &lt;strong&gt;přispěním.&lt;/strong&gt;</string>
@@ -446,9 +446,26 @@
     <string name="keyboard_auto_go_action_summary">Automatická akce klíče Jít po stisknutí klíče Pole</string>
     <string name="download_attachment">Stáhnout %1$s</string>
     <string name="download_initialization">Zahajuji…</string>
-    <string name="download_progression">Probíhá: %1$d&#37;</string>
+    <string name="download_progression">Probíhá: %1$d%</string>
     <string name="download_finalization">Dokončuji…</string>
     <string name="download_complete">Ukončeno! Klepnout pro otevření souboru.</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
     <string name="hide_expired_entries_summary">Propadlé záznamy budou skryty</string>
+    <string name="contact">Kontakt</string>
+    <string name="contribution">Příspěvky</string>
+    <string name="feedback">Feedback</string>
+    <string name="auto_focus_search_title">Snadné hledání</string>
+    <string name="auto_focus_search_summary">Při otevření databáze žádat hledání</string>
+    <string name="remember_database_locations_title">Uložit umístění databází</string>
+    <string name="remember_database_locations_summary">Pamatovat si umístění databází</string>
+    <string name="remember_keyfile_locations_title">Uložit umístění souborů s klíči</string>
+    <string name="remember_keyfile_locations_summary">Pamatovat si umístění souborů s klíči</string>
+    <string name="show_recent_files_title">Ukázat nedávné soubory</string>
+    <string name="show_recent_files_summary">Ukázat umístění nedávných databází</string>
+    <string name="hide_broken_locations_title">Skrýt špatné odkazy na databáze</string>
+    <string name="hide_broken_locations_summary">Skrýt špatné odkazy v seznamu nedávných databází</string>
+    <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>otevřený software</strong> a <strong>bey reklam</strong>.
+\nJe poskytován jak je, pod licencí <strong>GPLv3</strong>, bez jakékoli záruky.</string>
+    <string name="html_about_contribution">Abychom si <strong>udrželi svoji svobodu</strong>, <strong>opravili chyby</strong>,<strong>doplnili funkce</strong> a <strong>byli vždy aktivní</strong>, počítáme s Vaším <strong>přispěním</strong>.</string>
 </resources>
