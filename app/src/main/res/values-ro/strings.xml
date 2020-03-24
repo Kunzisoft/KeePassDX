@@ -261,8 +261,6 @@
     <string name="lock_database_screen_off_summary">Încărcați baza de date când ecranul este deconectat</string>
     <string name="lock_database_back_root_title">Apăsați „Înapoi” pentru a bloca ecranul</string>
     <string name="lock_database_back_root_summary">Blocați baza de date atunci când utilizatorul face clic pe butonul înapoi de pe ecranul rădăcină</string>
-    <string name="persistent_notification_title">Notificare persistentă</string>
-    <string name="persistent_notification_summary">Adăugați o notificare atunci când baza de date este deschisă</string>
     <string name="advanced_unlock">Deblocare avansată</string>
     <string name="advanced_unlock_explanation_summary">Utilizați deblocarea avansată pentru a deschide o bază de date mai ușor</string>
     <string name="biometric_unlock_enable_title">Deblocare biometrică</string>
