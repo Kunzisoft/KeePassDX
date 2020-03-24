@@ -49,7 +49,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence"> Algorithms </string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est <strong>libre</strong> et <strong>sans publicité</strong>. \nIl est fourni tel quel, sous la licence <strong>GPLv3</strong>, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -275,7 +275,6 @@
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
-    <!-- Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
