@@ -44,7 +44,8 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft viene distribuito assolutamente con nessuna garanzia. Si tratta di software libero e sei invitato a distribuirlo sotto le condizioni della licenza GPL versione 3 o successiva.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma <strong>open source</strong> e <strong>senza pubblicità</strong>.
+\nViene distribuito sotto le condizioni della licenza <strong>GPL versione 3</strong> o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
@@ -364,7 +365,7 @@
     <string name="content_description_file_information">Informazioni sul file</string>
     <string name="content_description_password_checkbox">Casella di controllo della password</string>
     <string name="content_description_keyfile_checkbox">Casella di controllo Keyfile</string>
-    <string name="content_description_repeat_toggle_password_visibility">Ripeti le richiesta di visibilità della password</string>
+    <string name="content_description_repeat_toggle_password_visibility">Ripeti la richiesta di visibilità della password</string>
     <string name="content_description_entry_icon">Icona</string>
     <string name="content_description_password_generator">Generatore di password</string>
     <string name="content_description_password_length">Lunghezza della password</string>
