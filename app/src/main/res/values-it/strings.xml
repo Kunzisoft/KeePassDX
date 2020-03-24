@@ -238,7 +238,7 @@
     <string name="full_file_path_enable_title">Percorso file</string>
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
-    <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
+    <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo \"Cestino\" prima di eliminarlo</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
@@ -348,7 +348,7 @@
     <string name="keyboard_key_sound_title">Suono alla pressione</string>
     <string name="selection_mode">Modalità selezione</string>
     <string name="do_not_kill_app">Non terminare l\'app…</string>
-    <string name="lock_database_back_root_title">Premere Indietro sulla schermata principale per bloccare</string>
+    <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
     <string name="clear_clipboard_notification_summary">Chiudere il database alla chiusura della notifica</string>
