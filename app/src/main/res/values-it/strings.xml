@@ -31,10 +31,10 @@
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
-    <string name="file_manager_install_description">Sfoglia i file installando il Gestore File di OpenIntents</string>
+    <string name="file_manager_install_description">È necessario un file manager che accetti gli Intent ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT per creare, aprire e salvare i file di database.</string>
     <string name="clipboard_cleared">Appunti eliminati</string>
     <string name="clipboard_error_title">Errore negli appunti</string>
-    <string name="clipboard_error">Alcuni telefoni Android di Samsung non permettono alle app di usare gli appunti.</string>
+    <string name="clipboard_error">Alcuni dispositivi non permettono alle app di usare gli appunti.</string>
     <string name="clipboard_error_clear">Eliminazione degli appunti fallita</string>
     <string name="clipboard_timeout">Scadenza appunti</string>
     <string name="clipboard_timeout_summary">Tempo prima di eliminare gli appunti</string>
@@ -377,4 +377,5 @@
     <string name="content_description_entry_save">Salva</string>
     <string name="content_description_update_from_list">Aggiorna</string>
     <string name="content_description_keyboard_close_fields">Chiudi campi</string>
+    <string name="security">Sicurezza</string>
 </resources>
