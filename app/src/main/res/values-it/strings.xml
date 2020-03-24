@@ -44,8 +44,8 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma <strong>open source</strong> e <strong>senza pubblicità</strong>.
-\nViene distribuito sotto le condizioni della licenza <strong>GPL versione 3</strong> o successiva, senza alcuna garanzia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
+\nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
