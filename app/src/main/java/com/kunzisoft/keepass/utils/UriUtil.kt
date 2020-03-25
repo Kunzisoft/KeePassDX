@@ -42,7 +42,7 @@ object UriUtil {
             return false
         return try {
             //https://developer.android.com/reference/android/content/res/AssetFileDescriptor
-            contentResolver.openInputStream(fileUri)?.close()
+            contentResolver.openAssetFileDescriptor(fileUri, "r")?.close()
             true
         } catch (e: Exception) {
             Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
