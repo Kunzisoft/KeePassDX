@@ -288,10 +288,10 @@
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;Ihren Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr &lt;strong&gt;Mitwirken&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">Sie ermutigen die Entwickler:innen, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß Ihren&lt;strong&gt; Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
+    <string name="html_text_dev_feature_encourage">Sie ermutigen die Entwickler:innen, <strong>neue Funktionen</strong> einzuführen und gemäß Ihren Anmerkungen <strong>Fehler zu beheben</strong>.</string>
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten indem sie neue Versionen installieren.</string>
+    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten, indem Sie neue Versionen installieren.</string>
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
     <string name="encryption_chacha20">ChaCha20</string>
