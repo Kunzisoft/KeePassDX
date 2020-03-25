@@ -27,7 +27,7 @@
     <string name="add_group">Aggiungi gruppo</string>
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
     <string name="app_timeout">Scadenza app</string>
-    <string name="app_timeout_summary">Inattività prima del blocco dell\'app</string>
+    <string name="app_timeout_summary">Tempo di inattività prima del blocco dell\'app</string>
     <string name="application">App</string>
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
@@ -81,7 +81,7 @@
     <string name="hint_conf_pass">conferma password</string>
     <string name="hint_generated_password">password generata</string>
     <string name="hint_group_name">Nome gruppo</string>
-    <string name="hint_keyfile">file chiave</string>
+    <string name="hint_keyfile">File chiave</string>
     <string name="hint_length">lunghezza</string>
     <string name="password">Password</string>
     <string name="hint_pass">password</string>
@@ -139,7 +139,7 @@
     <string name="uppercase">Maiuscole</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
-    <string name="warning_unmounted">Monta la scheda SD per creare o caricare un database.</string>
+    <string name="warning_unmounted">Monta la scheda di memoria per poter creare o caricare un database.</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>
     <string name="open_biometric_prompt_unlock_database">Scansione impronte</string>
@@ -237,7 +237,7 @@
     <string name="full_file_path_enable_title">Percorso file</string>
     <string name="full_file_path_enable_summary">Visualizza il percorso file completo</string>
     <string name="recycle_bin_title">Usa il cestino</string>
-    <string name="recycle_bin_summary">Sposta gruppi ed elementi nel cestino prima di eliminare</string>
+    <string name="recycle_bin_summary">Sposta i gruppi e le voci nel gruppo \"Cestino\" prima di eliminarlo</string>
     <string name="monospace_font_fields_enable_title">Carattere campi</string>
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
@@ -347,7 +347,7 @@
     <string name="keyboard_key_sound_title">Suono alla pressione</string>
     <string name="selection_mode">Modalità selezione</string>
     <string name="do_not_kill_app">Non terminare l\'app…</string>
-    <string name="lock_database_back_root_title">Premere Indietro sulla schermata principale per bloccare</string>
+    <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
     <string name="clear_clipboard_notification_summary">Chiudere il database alla chiusura della notifica</string>
@@ -390,21 +390,21 @@
     <string name="otp_digits">Cifre</string>
     <string name="otp_algorithm">Algoritmo</string>
     <string name="entry_otp">Password usa e getta</string>
-    <string name="error_invalid_OTP">Segreto della password usa e getta non valido</string>
-    <string name="error_disallow_no_credentials">" Impostare almeno una credenziale."</string>
+    <string name="error_invalid_OTP">Segreto per password usa e getta (OTP) non valido.</string>
+    <string name="error_disallow_no_credentials">Impostare almeno una credenziale.</string>
     <string name="error_copy_group_here">Non puoi copiare un gruppo qui.</string>
-    <string name="error_otp_secret_key">La chiave segreta deve essere nel formato Base32</string>
+    <string name="error_otp_secret_key">La chiave segreta deve essere nel formato Base32.</string>
     <string name="error_otp_counter">Il contatore deve essere tra %1$d e %2$d.</string>
     <string name="error_otp_period">Il periodo deve essere tra %1$d e %2$d secondi.</string>
     <string name="error_otp_digits">Il token deve contenere tra %1$d e %2$d cifre.</string>
     <string name="invalid_db_same_uuid">%1$s con le stesse credenziali univoche %2$s è già esistente.</string>
-    <string name="creating_database">Sto creando il database...</string>
+    <string name="creating_database">Sto creando il database…</string>
     <string name="menu_security_settings">Impostazioni di sicurezza</string>
     <string name="contains_duplicate_uuid">Il databse contiene identificativi univoci univerali duplicati.</string>
     <string name="error_save_database">Non è possibile salvare il database.</string>
     <string name="menu_save_database">Salva il database</string>
     <string name="menu_empty_recycle_bin">Svuota il cestino</string>
-    <string name="command_execution">Esecuzione del comando...</string>
+    <string name="command_execution">Esecuzione del comando…</string>
     <string name="warning_permanently_delete_nodes">Sei sicuro di voler eliminare definitivamente i nodi selezionati\?</string>
     <string name="entry_attachments">Allegati</string>
 </resources>
