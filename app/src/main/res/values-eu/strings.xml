@@ -73,7 +73,6 @@
     <string name="error_pass_match">Pasahitzak ez datoz bat.</string>
     <string name="error_rounds_too_large">Rondak handiegiak.   2147483648 balorean jarrita.</string>
     <string name="error_string_key">Eremu izen bat behar da testu kate bakoitzerako.</string>
-    <string name="error_title_required">Izenburu bat behar da.</string>
     <string name="error_wrong_length">Eremuaren luzeran entero positibo bat sartu</string>
     <string name="field_name">Eremuaren izena</string>
     <string name="field_value">Eremuaren balorea</string>

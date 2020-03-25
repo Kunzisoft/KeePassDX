@@ -30,10 +30,9 @@
     <string name="content_description_add_group">Dodaj grupu</string>
     <string name="content_description_file_information">Informacije o datoteci</string>
     <string name="content_description_entry_icon">Ikona unosa</string>
-    <string name="content_description_entry_save">Spremi unos</string>
-    <string name="content_description_password_generator">Generator lozinke</string>
+    <string name="entry_password_generator">Generator lozinke</string>
     <string name="content_description_password_length">Duljina lozinke</string>
-    <string name="content_description_add_field">Dodaj polje</string>
+    <string name="entry_add_field">Dodaj polje</string>
     <string name="content_description_remove_field">Ukloni polje</string>
     <string name="content_description_update_from_list">Ažuriraj</string>
     <string name="content_description_remove_from_list">Ukloni</string>
@@ -73,7 +72,6 @@
     <string name="error_nokeyfile">Odaberi datoteku ključa.</string>
     <string name="error_pass_gen_type">Bar jedan tip generiranja lozinke mora biti odabran.</string>
     <string name="error_pass_match">Lozinke se ne podudaraju.</string>
-    <string name="error_title_required">Dodaj naslov.</string>
     <string name="error_wrong_length">Unesi pozitivan cijeli broj u polje \"Duljina\".</string>
     <string name="error_otp_secret_key">Tajni ključ mora biti u Base32 formatu.</string>
     <string name="error_otp_counter">Brojač mora biti između %1$d i %2$d.</string>
@@ -184,8 +182,6 @@
     <string name="clipboard_warning">Ako automatsko brisanje međuspremnika ne uspije, izbrišite njegovu povijest ručno.</string>
     <string name="lock_database_screen_off_summary">Zaključaj bazu podataka kada je ekran ugašen</string>
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
-    <string name="persistent_notification_title">Trajna obavijest</string>
-    <string name="persistent_notification_summary">Dodaj obavijest kada je baza podataka otvorena</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristite napredno otključavanje za jednostavnije otvaranje baze podataka</string>
     <string name="biometric_unlock_enable_title">Biometričko otključavanje</string>

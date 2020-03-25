@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+ Copyright 2019 Jeremy Jamet / Kunzisoft.
+
+ This file is part of KeePassDX.
+
+  KeePassDX is free software: you can redistribute it and/or modify
+  it under the terms of the GNU General Public License as published by
+  the Free Software Foundation, either version 3 of the License, or
+  (at your option) any later version.
+
+  KeePassDX is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU General Public License for more details.
+
+  You should have received a copy of the GNU General Public License
+  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<menu xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:ignore="AlwaysShowAction">
+    <item android:id="@+id/menu_add_field"
+        android:icon="@drawable/ic_new_field_white_24dp"
+        android:title="@string/entry_add_field"
+        android:orderInCategory="92"
+        app:showAsAction="always" />
+    <!--
+    <item android:id="@+id/menu_add_attachment"
+        android:icon="@drawable/ic_attach_file_white_24dp"
+        android:title="@string/entry_add_attachment"
+        android:orderInCategory="93"
+        app:showAsAction="always" />
+        -->
+    <item android:id="@+id/menu_add_otp"
+        android:icon="@drawable/ic_otp_white_24dp"
+        android:title="@string/entry_setup_otp"
+        android:orderInCategory="94"
+        app:showAsAction="always" />
+    <item android:id="@+id/menu_generate_password"
+        android:icon="@drawable/ic_generate_password_white_24dp"
+        android:title="@string/entry_password_generator"
+        android:orderInCategory="95"
+        app:showAsAction="always" />
+</menu>

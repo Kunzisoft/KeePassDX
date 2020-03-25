@@ -43,8 +43,8 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft с &lt;strong&gt;открытым исходным кодом&lt;strong&gt; и &lt;strong&gt;без рекламы&lt;strong&gt;.
-\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;strong&gt; без каких-либо гарантий.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft с &lt;strong&gt;открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
+\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -72,7 +72,6 @@
     <string name="error_pass_match">Пароли не совпадают.</string>
     <string name="error_rounds_too_large">Предельное значение 2147483648.</string>
     <string name="error_string_key">Каждое поле должно иметь название.</string>
-    <string name="error_title_required">Введите название.</string>
     <string name="error_wrong_length">Поле \"Длина\" должно быть положительным целым числом.</string>
     <string name="field_name">Название поля</string>
     <string name="field_value">Значение поля</string>
@@ -302,7 +301,7 @@
     <string name="education_sort_summary">Выберите критерий сортировки записей и групп.</string>
     <string name="education_donation_title">Участвуйте</string>
     <string name="education_donation_summary">Примите участие в проекте для повышения стабильности, безопасности и добавления новых возможностей.</string>
-    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это &lt;strong&gt;без рекламы&lt;strong&gt; и &lt;strong&gt;свободно от лицензирования&lt;strong&gt;. Оно не собирает ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
+    <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это &lt;strong&gt;без рекламы&lt;/strong&gt; и &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Оно не собирает ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
     <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим &lt;strong&gt;визуальным стилям&lt;/strong&gt; и особенно поможете &lt;strong&gt;реализации общественных проектов&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
     <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;/strong&gt;.</string>
@@ -314,7 +313,7 @@
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Помощь проекту</string>
+    <string name="contribute">Вклад</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
@@ -361,10 +360,9 @@
     <string name="content_description_keyfile_checkbox">Флажок ключевого файла</string>
     <string name="content_description_repeat_toggle_password_visibility">Повтор переключения видимости пароля</string>
     <string name="content_description_entry_icon">Значок записи</string>
-    <string name="content_description_entry_save">Сохранение записи</string>
-    <string name="content_description_password_generator">Генератор паролей</string>
+    <string name="entry_password_generator">Генератор паролей</string>
     <string name="content_description_password_length">Длина пароля</string>
-    <string name="content_description_add_field">Добавить поле</string>
+    <string name="entry_add_field">Добавить поле</string>
     <string name="content_description_remove_field">Удалить поле</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Вы не можете переместить запись сюда.</string>
@@ -412,8 +410,6 @@
     <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePassDX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
-    <string name="persistent_notification_title">Постоянное уведомление</string>
-    <string name="persistent_notification_summary">Показывать уведомление, пока открыта база</string>
     <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
     <string name="database_data_compression_title">Сжатие данных</string>
     <string name="database_data_compression_summary">Сжатие данных уменьшает размер базы.</string>
@@ -450,14 +446,14 @@
     <string name="keyboard_auto_go_action_summary">Выполнять команду \"Ввод\" автоматически после нажатия кнопки заполнения поля</string>
     <string name="download_attachment">Скачать %1$s</string>
     <string name="download_initialization">Инициализация…</string>
-    <string name="download_progression">Выполнение: %1$d&#37;</string>
+    <string name="download_progression">Выполнение: %1$d%</string>
     <string name="download_finalization">Завершение…</string>
     <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
     <string name="contact">Контактная информация</string>
-    <string name="contribution">Вклад</string>
-    <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;strong&gt;, &lt;strong&gt;исправления ошибок&lt;strong&gt;, &lt;strong&gt;добавления новых функций&lt;strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;strong&gt;, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;strong&gt;.</string>
+    <string name="contribution">Помощь проекту</string>
+    <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
     <string name="remember_database_locations_title">Хранить расположение баз</string>

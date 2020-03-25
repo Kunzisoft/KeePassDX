@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">Musí byť vybraý najmenej jeden typ generovania hesla</string>
     <string name="error_pass_match">Heslá sa nezhodujú.</string>
     <string name="error_rounds_too_large">Príliš veľa opakovaní.  Nastavujem na 2147483648.</string>
-    <string name="error_title_required">Vyžaduje sa názov.</string>
     <string name="error_wrong_length">Zadajte celé kladné číslo na dĺžku poľa</string>
     <string name="file_browser">Správca Súborov</string>
     <string name="generate_password">Generovať Heslo</string>
@@ -157,8 +156,7 @@
     <string name="contact">Kontakt</string>
     <string name="content_description_open_file">Otvoriť súbor</string>
     <string name="content_description_file_information">Informácie o súbore</string>
-    <string name="content_description_entry_save">Uložiť záznam</string>
-    <string name="content_description_password_generator">Generátor hesla</string>
+    <string name="entry_password_generator">Generátor hesla</string>
     <string name="content_description_password_length">Dĺžka hesla</string>
     <string name="content_description_background">Pozadie</string>
     <string name="security">Bezpečnosť</string>

@@ -69,8 +69,8 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
     }
 
     private fun inflate(context: Context) {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_button_add_node, this)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+        inflater?.inflate(R.layout.view_button_add_node, this)
 
         addEntryEnable = true
         addGroupEnable = true
@@ -132,7 +132,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
     }
 
     fun showButton() {
-        if (addButtonView?.visibility != VISIBLE)
+        if (isEnable && addButtonView?.visibility != VISIBLE)
             addButtonView?.show(onAddButtonVisibilityChangedListener)
     }
 

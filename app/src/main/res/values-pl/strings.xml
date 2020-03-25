@@ -64,7 +64,6 @@
     <string name="error_pass_gen_type">Należy wybrać co najmniej jeden rodzaj generowania hasła.</string>
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
     <string name="error_rounds_too_large">\"Rundy szyfrowania\" są zbyt wysokie. Ustaw na 2147483648.</string>
-    <string name="error_title_required">Dodaj tytuł.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\".</string>
     <string name="file_browser">Przeglądarka plików</string>
     <string name="generate_password">Generuj hasło</string>
@@ -153,7 +152,8 @@
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft korzystasz absolutnie bez gwarancji. To jest bezpłatne oprogramowanie i możesz go redystrybuować na warunkach GPL w wersji 3 lub późniejszej.</string>
+    <string name="html_about_licence">KeePassDX © %1 $d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
+\nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -284,7 +284,7 @@
     <string name="education_generate_password_title">Utwórz silne hasło do swojego wpisu.</string>
     <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
     <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
-    <string name="education_entry_new_field_summary">Zarejestruj podstawowe pole niedostarczone, wypełniając nowe pole, które możesz również chronić.</string>
+    <string name="education_entry_new_field_summary">Zarejestruj dodatkowe pole, dodaj wartość i opcjonalnie chroń je.</string>
     <string name="education_unlock_title">Odblokuj swoją bazę danych</string>
     <string name="education_read_only_title">Zapisz ochronę swojej bazy danych</string>
     <string name="education_read_only_summary">Zmień tryb otwierania sesji.
@@ -301,7 +301,7 @@
     <string name="education_sort_summary">Wybierz sposób sortowania wpisów i grup.</string>
     <string name="education_donation_title">Weź udział</string>
     <string name="education_donation_summary">Pomóż zwiększyć stabilność, bezpieczeństwo i dodawanie kolejnych funkcji.</string>
-    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest &lt;strong&gt;wolna od reklam&lt;/strong&gt;, &lt;strong&gt;open source&lt;/strong&gt; i na licencji &lt;strong&gt;licencjonowanie copyleftted&lt;/strong&gt;. &lt;strong&gt;Żadne dane osobowe nie są gromadzone&lt;/strong&gt;, w jakiejkolwiek formie, bez względu na to, z której wersji (bezpłatnej lub pro) korzystasz.</string>
+    <string name="html_text_ad_free">W przeciwieństwie do wielu aplikacji do zarządzania hasłami, ta jest wolna od &lt;strong&gt;reklam&lt;/strong&gt;, &lt;strong&gt;jest wolnym oprogramowaniem copyleftted&lt;/strong&gt; i nie zbiera danych osobowych na swoich serwerach, bez względu na to, jakiej wersji używasz.</string>
     <string name="html_text_buy_pro">Kupując wersję pro, będziesz mieć dostęp do &lt;strong&gt;stylu wizualnego&lt;/strong&gt; a szczególnie pomożesz &lt;strong&gt; zrealizować projekty społecznościowe.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Ten &lt;strong&gt;styl wizualny&lt;/strong&gt; jest dostępny dzięki Twojej hojności.</string>
     <string name="html_text_donation">Aby zachować naszą wolność i być zawsze aktywnym, liczymy na Twój &lt;strong&gt;wkład.&lt;/strong&gt;</string>
@@ -355,10 +355,9 @@
     <string name="content_description_add_group">Dodaj grupę</string>
     <string name="content_description_file_information">Informacje o pliku</string>
     <string name="content_description_entry_icon">Ikona wpisu</string>
-    <string name="content_description_entry_save">Zapisz wpis</string>
-    <string name="content_description_password_generator">Generator haseł</string>
+    <string name="entry_password_generator">Generator haseł</string>
     <string name="content_description_password_length">Długość hasła</string>
-    <string name="content_description_add_field">Dodaj pole</string>
+    <string name="entry_add_field">Dodaj pole</string>
     <string name="content_description_remove_field">Usuń pole</string>
     <string name="error_copy_entry_here">Nie możesz tutaj skopiować wpisu.</string>
     <string name="list_groups_show_number_entries_title">Pokaż liczbę wpisów</string>
@@ -402,8 +401,6 @@
     <string name="menu_master_key_settings">Ustawienia klucza głównego</string>
     <string name="contains_duplicate_uuid">Baza danych zawiera zduplikowane identyfikatory UUID.</string>
     <string name="database_opened">Baza danych otwarta</string>
-    <string name="persistent_notification_title">Stałe powiadamianie</string>
-    <string name="persistent_notification_summary">Dodaj powiadomienie, gdy baza danych jest otwarta</string>
     <string name="database_data_compression_title">Kompresja danych</string>
     <string name="max_history_items_summary">Ogranicz liczbę elementów historii na wpis</string>
     <string name="max_history_size_title">Maksymalny rozmiar</string>
@@ -449,9 +446,23 @@
     <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane jest automatycznie po naciśnięciu klawisza Field</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
-    <string name="download_progression">W trakcie realizacji: %1$d&#37;</string>
+    <string name="download_progression">W trakcie realizacji: %1$d%</string>
     <string name="download_finalization">Kończę…</string>
     <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy zostaną ukryte</string>
+    <string name="contact">Kontakt</string>
+    <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;sprawdzać błędy&lt;/strong&gt;, &lt;strong&gt;dodać funkcje&lt;/strong&gt; i &lt;strong&gt;by być zawsze aktywnym&lt;/strong&gt;, liczymy na twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
+    <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
+    <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
+    <string name="remember_database_locations_title">Zapisz lokalizację baz danych</string>
+    <string name="remember_database_locations_summary">Zapamiętaj lokalizację baz danych</string>
+    <string name="remember_keyfile_locations_title">Zapisz lokalizację plików kluczy</string>
+    <string name="remember_keyfile_locations_summary">Zapamiętaj lokalizację plików kluczy baz danych</string>
+    <string name="show_recent_files_title">Pokaż najnowsze pliki</string>
+    <string name="show_recent_files_summary">Pokaż lokalizacje najnowszych baz danych</string>
+    <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
+    <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
+    <string name="warning_database_read_only">Przyznaj dostęp do zapisu pliku, aby zapisać zmiany w bazie danych</string>
+    <string name="contribution">Wkład</string>
 </resources>

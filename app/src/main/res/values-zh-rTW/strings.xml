@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">必須至少選擇一個密碼生成類型。</string>
     <string name="error_pass_match">密碼不正確。</string>
     <string name="error_rounds_too_large">次數太多。最大設置到2147483648。</string>
-    <string name="error_title_required">添加標題。</string>
     <string name="error_wrong_length">長度欄位輸入一個正整數</string>
     <string name="file_browser">檔案管理器</string>
     <string name="generate_password">生成密碼</string>
@@ -167,7 +166,7 @@
     <string name="key_derivation_function">金鑰推算函數</string>
     <string name="edit_entry">編輯入口</string>
     <string name="content_description_open_file">開啟檔案</string>
-    <string name="content_description_password_generator">密碼產生器</string>
+    <string name="entry_password_generator">密碼產生器</string>
     <string name="entry_UUID">UUID</string>
     <string name="content_description_background">背景</string>
     <string name="content_description_update_from_list">更新</string>
@@ -186,9 +185,8 @@
     <string name="content_description_keyfile_checkbox">金鑰檔案核取方塊</string>
     <string name="content_description_repeat_toggle_password_visibility">重複切換密碼可見性</string>
     <string name="content_description_entry_icon">條目圖示</string>
-    <string name="content_description_entry_save">條目保存</string>
     <string name="content_description_password_length">密碼長度</string>
-    <string name="content_description_add_field">添加欄位</string>
+    <string name="entry_add_field">添加欄位</string>
     <string name="content_description_remove_field">刪除欄位</string>
     <string name="master_key">主密鑰</string>
     <string name="menu_master_key_settings">主密鑰設定</string>

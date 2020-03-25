@@ -72,7 +72,6 @@
     <string name="error_pass_match">Lösenorden matchar inte.</string>
     <string name="error_rounds_too_large">\"Transformationsrundor\" är för stort. Sätter värdet till 2147483648.</string>
     <string name="error_string_key">Varje sträng måste ha ett fältnamn.</string>
-    <string name="error_title_required">Lägg till en titel.</string>
     <string name="error_wrong_length">Ange ett positivt heltal i fältet för längd.</string>
     <string name="field_name">Fältnamn</string>
     <string name="field_value">Fältvärde</string>
@@ -173,10 +172,9 @@
     <string name="content_description_keyfile_checkbox">Nyckelfilskryssruta</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetera växla lösenordssynlighet</string>
     <string name="content_description_entry_icon">Post-ikon</string>
-    <string name="content_description_entry_save">Spara post</string>
-    <string name="content_description_password_generator">Lösenordsgenerator</string>
+    <string name="entry_password_generator">Lösenordsgenerator</string>
     <string name="content_description_password_length">Lösenords längd</string>
-    <string name="content_description_add_field">Lägg till fält</string>
+    <string name="entry_add_field">Lägg till fält</string>
     <string name="content_description_remove_field">Ta bort fält</string>
     <string name="content_description_background">Bakgrund</string>
     <string name="content_description_update_from_list">Uppdatera</string>
@@ -410,8 +408,6 @@
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
     <string name="clipboard_explanation_summary">Kopiera post-fält med hjälp av enhetens urklipp</string>
-    <string name="persistent_notification_title">Beständig avisering</string>
-    <string name="persistent_notification_summary">Lägg till en avisering när databasen är öppen</string>
     <string name="advanced_unlock_explanation_summary">Använd avancerad upplåsning för att öppna en databas enklare</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reducerar databasens storlek.</string>

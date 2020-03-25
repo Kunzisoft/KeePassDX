@@ -77,7 +77,6 @@
     <string name="error_pass_match">Passordene samsvarer ikke.</string>
     <string name="error_rounds_too_large">\"Omganger\" er for stort. Setter til 2147483648.</string>
     <string name="error_string_key">Hver streng må ha et feltnavn.</string>
-    <string name="error_title_required">En tittel er påkrevd.</string>
     <string name="error_wrong_length">Skriv inn et positivt heltall i \"Lengde\"-feltet.</string>
     <string name="error_autofill_enable_service">Autofyll-tjenesten kan ikke skrus på.</string>
     <string name="error_move_folder_in_itself">Kan ikke flytte gruppe inn i seg selv.</string>
@@ -342,9 +341,9 @@
     <string name="content_description_add_entry">Legg til oppføring</string>
     <string name="content_description_add_group">Legg til gruppe</string>
     <string name="content_description_file_information">Filinfo</string>
-    <string name="content_description_password_generator">Passordgenerator</string>
+    <string name="entry_password_generator">Passordgenerator</string>
     <string name="content_description_password_length">Passordslengde</string>
-    <string name="content_description_add_field">Legg til felt</string>
+    <string name="entry_add_field">Legg til felt</string>
     <string name="content_description_remove_field">Fjern felt</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Du kan ikke flytte en oppføring hit.</string>
@@ -389,8 +388,6 @@
     <string name="menu_security_settings">Sikkerhetsinnstillinger</string>
     <string name="menu_master_key_settings">Hovednøkkelinnstillinger</string>
     <string name="contains_duplicate_uuid">Databasen inneholder dupliserte UUID-er.</string>
-    <string name="persistent_notification_title">Vedvarende merknad</string>
-    <string name="persistent_notification_summary">Legg til en merknad når databasen er åpen</string>
     <string name="database_data_compression_title">Datakomprimering</string>
     <string name="database_data_compression_summary">Datakomprimering reduserer databasens størrelse.</string>
     <string name="compression">Komprimering</string>
@@ -400,7 +397,6 @@
     <string name="menu_empty_recycle_bin">Tøm papirkurv</string>
     <string name="command_execution">Kjører kommandoen…</string>
     <string name="content_description_node_children">Undernoder</string>
-    <string name="content_description_entry_save">Lagre oppføring</string>
     <string name="database_default_username_title">Forvalgt brukernavn</string>
     <string name="database_custom_color_title">Tilpasset databasefarge</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>

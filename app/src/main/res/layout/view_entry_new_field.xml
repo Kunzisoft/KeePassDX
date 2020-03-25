@@ -17,76 +17,87 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<RelativeLayout
+
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="0dp"
     android:layout_marginBottom="@dimen/default_margin"
-    android:importantForAutofill="noExcludeDescendants"
-    android:background="@drawable/background_stroke_element"
-    tools:targetApi="o">
+    android:layout_marginStart="0dp"
+    android:layout_marginEnd="0dp"
+    android:layout_marginLeft="0dp"
+    android:layout_marginRight="0dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/title_container"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
-        android:paddingRight="12dp"
-        android:paddingEnd="12dp">
+        android:importantForAutofill="noExcludeDescendants"
+        tools:targetApi="o">
 
-        <EditText
-            android:id="@+id/entry_new_field_label"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/title_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/field_name"
-            android:importantForAccessibility="no"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingTop="12dp"
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/entry_new_field_delete"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:src="@drawable/ic_close_white_24dp"
-        android:contentDescription="@string/content_description_remove_field"
-        android:tint="?attr/colorAccent" />
+            <EditText
+                android:id="@+id/entry_new_field_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/field_name"
+                android:importantForAccessibility="no"
+                android:importantForAutofill="no"
+                android:inputType="text"
+                android:maxLines="1" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/protection"
-        style="@style/KeepassDXStyle.TextAppearance.Default"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_below="@+id/value_container"
-        android:layout_centerHorizontal="true"
-        android:text="@string/protection" />
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/entry_new_field_delete"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/ic_close_white_24dp"
+            android:contentDescription="@string/content_description_remove_field"
+            android:tint="?attr/colorAccent" />
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/value_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
-        android:paddingRight="12dp"
-        android:paddingEnd="12dp"
-        android:layout_below="@+id/title_container">
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/protection"
+            style="@style/KeepassDXStyle.TextAppearance.Default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_below="@+id/value_container"
+            android:layout_centerHorizontal="true"
+            android:text="@string/protection" />
 
-        <EditText
-            android:id="@+id/entry_new_field_value"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/value_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:importantForAccessibility="no"
-            android:importantForAutofill="no"
-            android:hint="@string/field_value" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:paddingLeft="@dimen/default_margin"
+            android:paddingStart="@dimen/default_margin"
+            android:paddingRight="@dimen/default_margin"
+            android:paddingEnd="@dimen/default_margin"
+            android:layout_below="@+id/title_container">
 
-</RelativeLayout>
+            <EditText
+                android:id="@+id/entry_new_field_value"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:importantForAccessibility="no"
+                android:importantForAutofill="no"
+                android:hint="@string/field_value" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

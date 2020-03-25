@@ -77,7 +77,6 @@
     <string name="error_pass_match">Parolalar uyuşmuyor.</string>
     <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. 2147483648\'e ayarlayın.</string>
     <string name="error_string_key">Her dizenin bir alan adı olmalıdır.</string>
-    <string name="error_title_required">Bir başlık ekle.</string>
     <string name="error_wrong_length">\"Uzunluk\" alanına pozitif bir tam sayı girin.</string>
     <string name="error_autofill_enable_service">Otomatik doldurma hizmeti etkinleştirilemedi.</string>
     <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>
@@ -337,9 +336,9 @@
     <string name="content_description_password_checkbox">Parola onay kutusu</string>
     <string name="content_description_keyfile_checkbox">Anahtar dosyası onay kutusu</string>
     <string name="content_description_entry_icon">Giriş simgesi</string>
-    <string name="content_description_password_generator">Parola üreteci</string>
+    <string name="entry_password_generator">Parola üreteci</string>
     <string name="content_description_password_length">Parola uzunluğu</string>
-    <string name="content_description_add_field">Alan ekle</string>
+    <string name="entry_add_field">Alan ekle</string>
     <string name="content_description_remove_field">Alanı kaldır</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Buraya bir girişi taşıyamazsınız.</string>
@@ -354,7 +353,6 @@
     <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Geçiş şifresi görünürlüğünü tekrarlayın</string>
-    <string name="content_description_entry_save">Girdiyi kaydet</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelleme</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
@@ -395,8 +393,6 @@
     <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePassDX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
     <string name="database_opened">Veritabanı açıldı</string>
     <string name="clipboard_explanation_summary">Cihazınızın panosunu kullanarak giriş alanlarını kopyala</string>
-    <string name="persistent_notification_title">Kalıcı bildirim</string>
-    <string name="persistent_notification_summary">Veritabanı açıkken bir bildirim ekle</string>
     <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>

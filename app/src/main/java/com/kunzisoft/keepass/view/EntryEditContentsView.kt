@@ -21,21 +21,21 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
-import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.LinearLayout
+import android.widget.*
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.Field
+import org.joda.time.Duration
+import org.joda.time.Instant
 
 class EntryEditContentsView @JvmOverloads constructor(context: Context,
                                                       attrs: AttributeSet? = null,
@@ -52,16 +52,26 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryPasswordLayoutView: TextInputLayout
     private val entryPasswordView: EditText
     private val entryConfirmationPasswordView: EditText
-    val generatePasswordView: View
-    private val entryCommentView: EditText
+    private val entryExpiresCheckBox: CompoundButton
+    private val entryExpiresTextView: TextView
+    private val entryNotesView: EditText
     private val entryExtraFieldsContainer: ViewGroup
-    val addNewFieldButton: View
 
     private var iconColor: Int = 0
+    private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
+
+    var onDateClickListener: OnClickListener? = null
+        set(value) {
+            field = value
+            if (entryExpiresCheckBox.isChecked)
+                entryExpiresTextView.setOnClickListener(value)
+            else
+                entryExpiresTextView.setOnClickListener(null)
+        }
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-        inflater.inflate(R.layout.view_entry_edit_contents, this)
+        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
+        inflater?.inflate(R.layout.view_entry_edit_contents, this)
 
         entryTitleLayoutView = findViewById(R.id.entry_edit_container_title)
         entryTitleView = findViewById(R.id.entry_edit_title)
@@ -71,10 +81,14 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryPasswordLayoutView = findViewById(R.id.entry_edit_container_password)
         entryPasswordView = findViewById(R.id.entry_edit_password)
         entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
-        generatePasswordView = findViewById(R.id.entry_edit_generate_button)
-        entryCommentView = findViewById(R.id.entry_edit_notes)
+        entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
+        entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
+        entryNotesView = findViewById(R.id.entry_edit_notes)
         entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
-        addNewFieldButton = findViewById(R.id.entry_edit_add_new_field)
+
+        entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
+            assignExpiresDateText()
+        }
 
         // Retrieve the textColor to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -141,31 +155,45 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             }
         }
 
-    fun setOnPasswordGeneratorClickListener(clickListener: () -> Unit) {
-        generatePasswordView.setOnClickListener { clickListener.invoke() }
+    private fun assignExpiresDateText() {
+        entryExpiresTextView.text = if (entryExpiresCheckBox.isChecked) {
+            entryExpiresTextView.setOnClickListener(onDateClickListener)
+            expiresInstant.getDateTimeString(resources)
+        } else {
+            entryExpiresTextView.setOnClickListener(null)
+            resources.getString(R.string.never)
+        }
+        if (fontInVisibility)
+            entryExpiresTextView.applyFontVisibility()
     }
+
+    var expires: Boolean
+        get() {
+            return entryExpiresCheckBox.isChecked
+        }
+        set(value) {
+            entryExpiresCheckBox.isChecked = value
+            assignExpiresDateText()
+        }
+
+    var expiresDate: DateInstant
+        get() {
+            return expiresInstant
+        }
+        set(value) {
+            expiresInstant = value
+            assignExpiresDateText()
+        }
 
     var notes: String
         get() {
-            return entryCommentView.text.toString()
+            return entryNotesView.text.toString()
         }
         set(value) {
-            entryCommentView.setText(value)
+            entryNotesView.setText(value)
             if (fontInVisibility)
-                entryCommentView.applyFontVisibility()
+                entryNotesView.applyFontVisibility()
         }
-
-    fun allowCustomField(allow: Boolean, action: () -> Unit) {
-        addNewFieldButton.apply {
-            if (allow) {
-                visibility = View.VISIBLE
-                setOnClickListener { action.invoke() }
-            } else {
-                visibility = View.GONE
-                setOnClickListener(null)
-            }
-        }
-    }
 
     val customFields: MutableList<Field>
         get() {
@@ -227,14 +255,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      */
     fun isValid(): Boolean {
         var isValid = true
-
-        // Require title
-        if (entryTitleView.text.toString().isEmpty()) {
-            entryTitleLayoutView.error = context.getString(R.string.error_title_required)
-            isValid = false
-        } else {
-            entryTitleLayoutView.error = null
-        }
 
         // Validate password
         if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {

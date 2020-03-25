@@ -369,13 +369,11 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
             EntryEditActivity.ADD_OR_UPDATE_ENTRY_REQUEST_CODE -> {
                 if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE
                         || resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                    data?.getParcelableExtra<Node>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { newNode ->
+                    data?.getParcelableExtra<Node>(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY)?.let { changedNode ->
                         if (resultCode == EntryEditActivity.ADD_ENTRY_RESULT_CODE)
-                            mAdapter?.addNode(newNode)
-                        if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE) {
-                            //mAdapter.updateLastNodeRegister(newNode);
-                            rebuildList()
-                        }
+                            addNode(changedNode)
+                        if (resultCode == EntryEditActivity.UPDATE_ENTRY_RESULT_CODE)
+                            mAdapter?.notifyDataSetChanged()
                     } ?: Log.e(this.javaClass.name, "New node can be retrieve in Activity Result")
                 }
             }

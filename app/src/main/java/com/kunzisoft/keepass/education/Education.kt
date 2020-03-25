@@ -94,7 +94,8 @@ open class Education(val activity: Activity) {
                 R.string.education_copy_username_key,
                 R.string.education_entry_edit_key,
                 R.string.education_password_generator_key,
-                R.string.education_entry_new_field_key)
+                R.string.education_entry_new_field_key,
+                R.string.education_setup_OTP_key)
 
 
         /**
@@ -269,6 +270,18 @@ open class Education(val activity: Activity) {
             val prefs = getEducationSharedPreferences(context)
             return prefs.getBoolean(context.getString(R.string.education_entry_new_field_key),
                     context.resources.getBoolean(R.bool.education_entry_new_field_default))
+        }
+
+        /**
+         * Determines whether the explanatory view to setup OTP has already been displayed.
+         *
+         * @param context The context to open the SharedPreferences
+         * @return boolean value of education_setup_OTP_key key
+         */
+        fun isEducationSetupOTPPerformed(context: Context): Boolean {
+            val prefs = getEducationSharedPreferences(context)
+            return prefs.getBoolean(context.getString(R.string.education_setup_OTP_key),
+                    context.resources.getBoolean(R.bool.education_setup_OTP_default))
         }
 
         /**

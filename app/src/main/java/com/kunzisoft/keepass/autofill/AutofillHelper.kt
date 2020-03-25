@@ -26,15 +26,14 @@ import android.content.Intent
 import android.os.Build
 import android.service.autofill.Dataset
 import android.service.autofill.FillResponse
-import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.model.EntryInfo
-import java.util.*
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -56,10 +55,10 @@ object AutofillHelper {
             return String.format("%s (%s)", entryInfo.title, entryInfo.username)
         if (entryInfo.title.isNotEmpty())
             return entryInfo.title
-        if (entryInfo.username.isNotEmpty())
-            return entryInfo.username
         if (entryInfo.url.isNotEmpty())
             return entryInfo.url
+        if (entryInfo.username.isNotEmpty())
+            return entryInfo.username
         return ""
     }
 
@@ -71,12 +70,12 @@ object AutofillHelper {
         val builder = Dataset.Builder(views)
         builder.setId(entryInfo.id)
 
-        struct.password.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.password)) }
-
-        val ids = ArrayList(struct.username)
-        if (entryInfo.username.contains("@") || struct.username.isEmpty())
-            ids.addAll(struct.email)
-        ids.forEach { id -> builder.setValue(id, AutofillValue.forText(entryInfo.username)) }
+        struct.usernameId?.let { usernameId ->
+            builder.setValue(usernameId, AutofillValue.forText(entryInfo.username))
+        }
+        struct.passwordId?.let { password ->
+            builder.setValue(password, AutofillValue.forText(entryInfo.password))
+        }
 
         return try {
             builder.build()

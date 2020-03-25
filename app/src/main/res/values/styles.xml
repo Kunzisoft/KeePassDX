@@ -68,8 +68,8 @@
         <item name="iconPreferenceColor">@color/text_color_secondary_light</item>
 
         <!-- Dialog -->
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Light.Dialog</item>
 
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
@@ -121,12 +121,9 @@
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
+        <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Night.Dialog</item>
-
-        <!-- Dialog -->
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
 
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
@@ -178,12 +175,9 @@
 
         <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
 
+        <!-- Dialog -->
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-
-        <!-- Dialog -->
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
 
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
@@ -266,25 +260,30 @@
     </style>
 
     <!-- Dialog -->
-    <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="KeepassDXStyle.Light.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:textColorPrimary">@color/green</item>
+        <item name="android:background">@color/background_light</item>
+    </style>
+    <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_night</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
     </style>
-    <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
+    <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:background">@color/dark</item>
-        <item name="buttonBarNegativeButtonStyle">@style/KeepassDXStyle.Dialog.NegativeButton</item>
-        <item name="buttonBarPositiveButtonStyle">@style/KeepassDXStyle.Dialog.PositiveButton</item>
+        <item name="android:background">@color/black</item>
     </style>
-    <style name="KeepassDXStyle.Dialog.NegativeButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">?attr/colorAccent</item>
+    <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/orange</item>
+        <item name="android:textColorPrimary">@color/green_dark</item>
+        <item name="android:windowBackground">@color/background_light</item>
     </style>
-    <style name="KeepassDXStyle.Dialog.PositiveButton" parent="Widget.AppCompat.Button.ButtonBar.AlertDialog">
-        <item name="android:textColor">?android:attr/textColorPrimary</item>
+    <style name="KeepassDXStyle.Night.DateTime.Dialog" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="colorAccent">@color/orange_dark</item>
+        <item name="android:textColorPrimary">@color/green_light</item>
+        <item name="android:windowBackground">@color/background_night</item>
     </style>
 
     <!-- CheckBox -->

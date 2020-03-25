@@ -439,8 +439,7 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            if (isEnable)
-                showButton()
+            showButton()
         }
     }
 
@@ -504,6 +503,7 @@ class GroupActivity : LockingActivity(),
     private fun finishNodeAction() {
         actionNodeMode?.finish()
         actionNodeMode = null
+        addNodeButtonView?.showButton()
     }
 
     override fun onNodeSelected(nodes: List<Node>): Boolean {
@@ -515,6 +515,7 @@ class GroupActivity : LockingActivity(),
             } else {
                 actionNodeMode?.invalidate()
             }
+            addNodeButtonView?.hideButton()
         } else {
             finishNodeAction()
         }
@@ -664,13 +665,15 @@ class GroupActivity : LockingActivity(),
         }
 
         // Get the SearchView and set the searchable configuration
-        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager
+        val searchManager = getSystemService(Context.SEARCH_SERVICE) as SearchManager?
 
         menu.findItem(R.id.menu_search)?.let {
             val searchView = it.actionView as SearchView?
             searchView?.apply {
-                setSearchableInfo(searchManager.getSearchableInfo(
-                        ComponentName(this@GroupActivity, GroupActivity::class.java)))
+                (searchManager?.getSearchableInfo(
+                        ComponentName(this@GroupActivity, GroupActivity::class.java)))?.let { searchableInfo ->
+                    setSearchableInfo(searchableInfo)
+                }
                 setIconifiedByDefault(false) // Do not iconify the widget; expand it by default
                 suggestionsAdapter = mSearchSuggestionAdapter
                 setOnSuggestionListener(object : SearchView.OnSuggestionListener {
@@ -905,8 +908,8 @@ class GroupActivity : LockingActivity(),
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
         }
 
-        // Not directly get the entry from intent data but from database
-        mListNodesFragment?.rebuildList()
+        // Directly used the onActivityResult in fragment
+        mListNodesFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
     private fun removeSearchInIntent(intent: Intent) {
@@ -953,19 +956,27 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildAndLaunchIntent(context: Context, group: Group?, readOnly: Boolean,
-                                         intentBuildLauncher: (Intent) -> Unit) {
-            val checkTime = if (context is Activity)
-                TimeoutHelper.checkTimeAndLockIfTimeout(context)
-            else
-                TimeoutHelper.checkTime(context)
-            if (checkTime) {
-                val intent = Intent(context, GroupActivity::class.java)
-                if (group != null) {
-                    intent.putExtra(GROUP_ID_KEY, group.nodeId)
-                }
-                ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
-                intentBuildLauncher.invoke(intent)
+        private fun buildIntent(context: Context, group: Group?, readOnly: Boolean,
+                                intentBuildLauncher: (Intent) -> Unit) {
+            val intent = Intent(context, GroupActivity::class.java)
+            if (group != null) {
+                intent.putExtra(GROUP_ID_KEY, group.nodeId)
+            }
+            ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
+            intentBuildLauncher.invoke(intent)
+        }
+
+        private fun checkTimeAndBuildIntent(activity: Activity, group: Group?, readOnly: Boolean,
+                                            intentBuildLauncher: (Intent) -> Unit) {
+            if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
+                buildIntent(activity, group, readOnly, intentBuildLauncher)
+            }
+        }
+
+        private fun checkTimeAndBuildIntent(context: Context, group: Group?, readOnly: Boolean,
+                                            intentBuildLauncher: (Intent) -> Unit) {
+            if (TimeoutHelper.checkTime(context)) {
+                buildIntent(context, group, readOnly, intentBuildLauncher)
             }
         }
 
@@ -976,9 +987,9 @@ class GroupActivity : LockingActivity(),
          */
 
         @JvmOverloads
-        fun launch(context: Context, readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            TimeoutHelper.recordTime(context)
-            buildAndLaunchIntent(context, null, readOnly) { intent ->
+        fun launch(context: Context,
+                   readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 context.startActivity(intent)
             }
         }
@@ -990,9 +1001,9 @@ class GroupActivity : LockingActivity(),
          */
         // TODO implement pre search to directly open the direct group
 
-        fun launchForKeyboardSelection(context: Context, readOnly: Boolean) {
-            TimeoutHelper.recordTime(context)
-            buildAndLaunchIntent(context, null, readOnly) { intent ->
+        fun launchForKeyboardSelection(context: Context,
+                                       readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
@@ -1005,9 +1016,10 @@ class GroupActivity : LockingActivity(),
         // TODO implement pre search to directly open the direct group
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure, readOnly: Boolean) {
-            TimeoutHelper.recordTime(activity)
-            buildAndLaunchIntent(activity, null, readOnly) { intent ->
+        fun launchForAutofillResult(activity: Activity,
+                                    assistStructure: AssistStructure,
+                                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
+            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure)
             }
         }

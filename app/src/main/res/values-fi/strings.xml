@@ -72,7 +72,6 @@
     <string name="error_pass_match">Salasanat eivät täsmää.</string>
     <string name="error_rounds_too_large">Kierroksia on liian paljon. Asetetaan se arvoon 2147483648.</string>
     <string name="error_string_key">Kentän nimi on pakollinen joka tekstille.</string>
-    <string name="error_title_required">Otsikko on pakollinen.</string>
     <string name="error_wrong_length">Syötä positiivinen kokonaisluku pituus-kenttään</string>
     <string name="field_name">Kentän nimi</string>
     <string name="field_value">Kentän arvo</string>

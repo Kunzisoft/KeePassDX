@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません</string>
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
-    <string name="error_title_required">タイトルは必須入力です。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
     <string name="file_browser">ファイルブラウザ</string>
     <string name="generate_password">パスワードを生成する</string>
@@ -194,10 +193,9 @@
     <string name="content_description_add_group">グループの追加</string>
     <string name="content_description_file_information">ファイル情報</string>
     <string name="content_description_entry_icon">エントリーのアイコン</string>
-    <string name="content_description_entry_save">エントリーの保存</string>
-    <string name="content_description_password_generator">パスワード生成</string>
+    <string name="entry_password_generator">パスワード生成</string>
     <string name="content_description_password_length">パスワードの長さ</string>
-    <string name="content_description_add_field">フィールドの追加</string>
+    <string name="entry_add_field">フィールドの追加</string>
     <string name="content_description_remove_field">フィールドの削除</string>
     <string name="error_move_entry_here">エントリーを移動できませんでした。</string>
     <string name="error_copy_entry_here">エントリーをコピーできませんでした。</string>

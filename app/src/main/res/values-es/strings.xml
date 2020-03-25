@@ -67,7 +67,6 @@
     <string name="error_pass_gen_type">Debe seleccionar al menos un tipo de generación de contraseñas.</string>
     <string name="error_pass_match">Las contraseñas no coinciden.</string>
     <string name="error_rounds_too_large">Pasadas demasiado grande. Establecido a 2147483648.</string>
-    <string name="error_title_required">Añada un título.</string>
     <string name="error_wrong_length">Proporcione un número entero positivo en el campo «Longitud».</string>
     <string name="file_browser">Explorador de archivos</string>
     <string name="generate_password">Generar contraseña</string>
@@ -355,9 +354,9 @@
     <string name="content_description_password_checkbox">Casilla de contraseña</string>
     <string name="content_description_keyfile_checkbox">Casilla de archivo de clave</string>
     <string name="content_description_entry_icon">Icono de entrada</string>
-    <string name="content_description_password_generator">Generador de contraseñas</string>
+    <string name="entry_password_generator">Generador de contraseñas</string>
     <string name="content_description_password_length">Longitud de contraseña</string>
-    <string name="content_description_add_field">Añadir campo</string>
+    <string name="entry_add_field">Añadir campo</string>
     <string name="content_description_remove_field">Quitar campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">No puede desplazar entradas aquí.</string>
@@ -384,7 +383,6 @@
 \n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos.</string>
     <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
-    <string name="content_description_entry_save">Guardar entrada</string>
     <string name="master_key">Llave Maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>

@@ -67,7 +67,6 @@
     <string name="error_pass_gen_type">Je moet minimaal één soort wachtwoordgenerering kiezen.</string>
     <string name="error_pass_match">De wachtwoorden komen niet overeen.</string>
     <string name="error_rounds_too_large">\"Cycli-waarde\" te groot. Wordt ingesteld op 2147483648.</string>
-    <string name="error_title_required">Voeg een titel toe.</string>
     <string name="error_wrong_length">Voer een positief geheel getal in in het veld \"Lengte\".</string>
     <string name="file_browser">Bestandsverkenner</string>
     <string name="generate_password">Wachtwoord genereren</string>
@@ -368,10 +367,9 @@
     <string name="content_description_keyfile_checkbox">Sleutelbestandcheckbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Weergave van het wachtwoord wisselen</string>
     <string name="content_description_entry_icon">Item-icoon</string>
-    <string name="content_description_entry_save">Item opslaan</string>
-    <string name="content_description_password_generator">Wachtwoordgenerator</string>
+    <string name="entry_password_generator">Wachtwoordgenerator</string>
     <string name="content_description_password_length">Wachtwoordlengte</string>
-    <string name="content_description_add_field">Veld toevoegen</string>
+    <string name="entry_add_field">Veld toevoegen</string>
     <string name="content_description_remove_field">Veld verwijderen</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Je kan hier geen item plaatsen.</string>
@@ -418,8 +416,6 @@
     <string name="contains_duplicate_uuid_procedure">Door dit dialoogvenster te valideren, zal KeePassDX het probleem oplossen (door nieuwe UUID\'s voor duplicaten te genereren) en doorgaan.</string>
     <string name="database_opened">Database geopend</string>
     <string name="clipboard_explanation_summary">Kopieer invoervelden met behulp van het klembord van uw apparaat</string>
-    <string name="persistent_notification_title">Aanhoudende melding</string>
-    <string name="persistent_notification_summary">Voeg een melding toe wanneer de database is geopend</string>
     <string name="advanced_unlock_explanation_summary">Geavanceerde ontgrendeling gebruiken om een database gemakkelijker te openen</string>
     <string name="database_data_compression_title">Gegevenscompressie</string>
     <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database.</string>

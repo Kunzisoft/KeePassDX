@@ -39,8 +39,8 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是Kunzisoft的一个&lt;strong&gt;开源&lt;strong&gt;和&lt;strong&gt;无广告&lt;strong&gt;软件。
-\n它是根据&lt;strong&gt;GPLv3 &lt;strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d 是Kunzisoft的一个&lt;strong&gt;开源&lt;/strong&gt;和&lt;strong&gt;无广告&lt;/strong&gt;软件。
+\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -66,7 +66,6 @@
     <string name="error_pass_gen_type">必须至少选择一种密码生成类型。</string>
     <string name="error_pass_match">密码不匹配。</string>
     <string name="error_rounds_too_large">“变换次数”过多。已设置为2147483648。</string>
-    <string name="error_title_required">请添加标题。</string>
     <string name="error_wrong_length">请在“长度”字段输入正整数。</string>
     <string name="file_browser">文件浏览器</string>
     <string name="generate_password">生成密码</string>
@@ -332,7 +331,7 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;strong&gt;，&lt;strong&gt;基于copylefted版权协议的免费软件&lt;strong&gt;，同样的本软件的任何版本也不会收集您的个人信息。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于copylefted版权协议的免费软件&lt;/strong&gt;，同样的本软件的任何版本也不会收集您的个人信息。</string>
     <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供的帮助</string>
     <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;现在已经可用，感谢慷慨相助。</string>
     <string name="html_text_donation">为继续建设此自由项目，我们需要&lt;strong&gt;捐助。&lt;/strong&gt;</string>
@@ -364,10 +363,9 @@
     <string name="content_description_keyfile_checkbox">密钥文件选框</string>
     <string name="content_description_repeat_toggle_password_visibility">重复切换密码可见性</string>
     <string name="content_description_entry_icon">条目图标</string>
-    <string name="content_description_entry_save">保存条目</string>
-    <string name="content_description_password_generator">密码生成器</string>
+    <string name="entry_password_generator">密码生成器</string>
     <string name="content_description_password_length">密码长度</string>
-    <string name="content_description_add_field">添加字段</string>
+    <string name="entry_add_field">添加字段</string>
     <string name="content_description_remove_field">删除字段</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">无法移动条目到此处。</string>
@@ -414,8 +412,6 @@
     <string name="contains_duplicate_uuid_procedure">通过验证此对话框，KeePassDX将解决这个问题（通过给重复项生成新的UUID）并继续。</string>
     <string name="database_opened">数据库开启</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
-    <string name="persistent_notification_title">持久通知</string>
-    <string name="persistent_notification_summary">当数据库打开时产生一条通知</string>
     <string name="advanced_unlock_explanation_summary">使用高级解锁轻松打开数据库</string>
     <string name="database_data_compression_title">数据压缩</string>
     <string name="database_data_compression_summary">数据压缩可降低数据库大小。</string>
@@ -452,14 +448,14 @@
     <string name="keyboard_auto_go_action_summary">填入用户名或密码后直接登录</string>
     <string name="download_attachment">下载%1$s</string>
     <string name="download_initialization">正在初始化…</string>
-    <string name="download_progression">进行中：%1$d&#37;</string>
+    <string name="download_progression">进行中：%1$d%</string>
     <string name="download_finalization">正在完成…</string>
     <string name="download_complete">完成！点击打开文件。</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>
     <string name="hide_expired_entries_summary">过期条目将被隐藏</string>
     <string name="contact">联系我们</string>
     <string name="contribution">贡献</string>
-    <string name="html_about_contribution">为了&lt;strong&gt;保持我们的自由&lt;strong&gt;，&lt;strong&gt;修复错误&lt;strong&gt;，&lt;strong&gt;添加功能&lt;strong&gt;和&lt;strong&gt;始终保持活跃&lt;strong&gt;，我们期待您的 &lt;strong&gt;贡献。&lt;strong&gt;</string>
+    <string name="html_about_contribution">为了&lt;strong&gt;保持我们的自由&lt;/strong&gt;，&lt;strong&gt;修复错误&lt;/strong&gt;，&lt;strong&gt;添加功能&lt;/strong&gt;和&lt;strong&gt;始终保持活跃&lt;/strong&gt;，我们期待您的 &lt;strong&gt;贡献&lt;/strong&gt;。</string>
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
     <string name="remember_database_locations_title">数据库保存的路径</string>

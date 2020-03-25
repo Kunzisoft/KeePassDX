@@ -541,12 +541,10 @@ class EntryActivity : LockingActivity() {
 
     override fun finish() {
         // Transit data in previous Activity after an update
-        /*
-		TODO Slowdown when add entry as result
-        Intent intent = new Intent();
-        intent.putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry);
-        onFinish(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, intent);
-        */
+        Intent().apply {
+            putExtra(EntryEditActivity.ADD_OR_UPDATE_ENTRY_KEY, mEntry)
+            setResult(EntryEditActivity.UPDATE_ENTRY_RESULT_CODE, this)
+        }
         super.finish()
     }
 

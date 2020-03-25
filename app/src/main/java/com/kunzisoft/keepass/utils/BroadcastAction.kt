@@ -19,10 +19,91 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.app.NotificationManager
+import android.content.BroadcastReceiver
+import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
+import android.os.Handler
+import android.util.Log
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
+import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.TimeoutHelper
+
 const val DATABASE_START_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_START_TASK_ACTION"
 const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_ACTION"
 
 const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
-
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
 
+class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
+
+    private val screenOffHandler = Handler()
+    private var screenOffRunnable: Runnable? = null
+
+    override fun onReceive(context: Context, intent: Intent) {
+
+        screenOffRunnable?.let { runnable ->
+            screenOffHandler.removeCallbacks(runnable)
+        }
+        // If allowed, lock and exit
+        if (!TimeoutHelper.temporarilyDisableTimeout) {
+            intent.action?.let {
+                when (it) {
+                    Intent.ACTION_SCREEN_OFF -> {
+                        if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(context)) {
+                            screenOffRunnable = Runnable {
+                                lockAction.invoke()
+                            }
+                            // Launch the effective action after a small time
+                            screenOffHandler.postDelayed(screenOffRunnable!!,
+                                    context.getString(R.string.timeout_screen_off).toLong())
+                        }
+                    }
+                    LOCK_ACTION,
+                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> lockAction.invoke()
+                    else -> {}
+                }
+            }
+        }
+    }
+}
+
+fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
+                                 registerRemoveEntryMagikeyboard: Boolean = false) {
+    lockReceiver?.let {
+        registerReceiver(it, IntentFilter().apply {
+            addAction(Intent.ACTION_SCREEN_OFF)
+            addAction(Intent.ACTION_SCREEN_ON)
+            addAction(LOCK_ACTION)
+            if (registerRemoveEntryMagikeyboard)
+                addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
+        })
+    }
+}
+
+fun Context.unregisterLockReceiver(lockReceiver: LockReceiver?) {
+    lockReceiver?.let {
+        unregisterReceiver(it)
+    }
+}
+
+fun Context.closeDatabase() {
+    // Stop the Magikeyboard service
+    stopService(Intent(this, KeyboardEntryNotificationService::class.java))
+    MagikIME.removeEntry(this)
+
+    // Stop the notification service
+    stopService(Intent(this, ClipboardEntryNotificationService::class.java))
+
+    Log.i(Context::class.java.name, "Shutdown after inactivity or manual lock")
+    (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)?.apply {
+        cancelAll()
+    }
+    // Clear data
+    Database.getInstance().closeAndClear(applicationContext.filesDir)
+}

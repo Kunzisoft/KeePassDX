@@ -1,0 +1,6 @@
+ * Mise à niveau de l'algorithme de remplissage automatique
+ * Suppression du fichier clé enregistré après avoir sauvegardé de nouvelles informations d'identification
+ * Correction de l'actualisation de la vue d'entrée du titre et du nom d'utilisateur après une mise à jour
+ * Correction de la demande de verrouillage de la base de données (notification ouverte toujours active)
+ * Autoriser le titre vide dans les entrées
+ * Ajout des dates d'expiration

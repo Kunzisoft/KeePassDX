@@ -34,6 +34,19 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:key="@string/autofill_key"
+        android:title="@string/autofill">
+        <Preference
+            android:key="@string/autofill_explanation_key"
+            android:icon="@drawable/prefs_info_24dp"
+            android:summary="@string/autofill_explanation_summary"/>
+        <SwitchPreference
+            android:key="@string/settings_autofill_enable_key"
+            android:title="@string/set_autofill_service_title"
+            android:defaultValue="@bool/settings_autofill_enable_default"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/clipboard">
         <Preference
             android:key="@string/clipboard_explanation_key"
@@ -63,19 +76,6 @@
             android:title="@string/allow_copy_password_title"
             android:summary="@string/allow_copy_password_summary"
             android:defaultValue="@bool/allow_copy_password_default"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:key="@string/autofill_key"
-        android:title="@string/autofill">
-        <Preference
-            android:key="@string/autofill_explanation_key"
-            android:icon="@drawable/prefs_info_24dp"
-            android:summary="@string/autofill_explanation_summary"/>
-        <SwitchPreference
-            android:key="@string/settings_autofill_enable_key"
-            android:title="@string/set_autofill_service_title"
-            android:defaultValue="@bool/settings_autofill_enable_default"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -83,11 +83,6 @@
             android:title="@string/lock_database_back_root_title"
             android:summary="@string/lock_database_back_root_summary"
             android:defaultValue="@bool/lock_database_back_root_default"/>
-        <SwitchPreference
-            android:key="@string/persistent_notification_key"
-            android:title="@string/persistent_notification_title"
-            android:summary="@string/persistent_notification_summary"
-            android:defaultValue="@bool/persistent_notification_default"/>
 
     </PreferenceCategory>
 

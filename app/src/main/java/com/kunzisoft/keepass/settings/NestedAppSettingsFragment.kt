@@ -248,12 +248,18 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                                         BiometricUnlockDatabaseHelper.deleteEntryKeyInKeystoreForBiometric(
                                                 activity,
                                                 object : BiometricUnlockDatabaseHelper.BiometricUnlockErrorCallback {
-                                                    override fun onInvalidKeyException(e: Exception) {}
-
-                                                    override fun onBiometricException(e: Exception) {
+                                                    fun showException(e: Exception) {
                                                         Toast.makeText(context,
                                                                 getString(R.string.biometric_scanning_error, e.localizedMessage),
                                                                 Toast.LENGTH_SHORT).show()
+                                                    }
+
+                                                    override fun onInvalidKeyException(e: Exception) {
+                                                        showException(e)
+                                                    }
+
+                                                    override fun onBiometricException(e: Exception) {
+                                                        showException(e)
                                                     }
                                                 })
                                     }

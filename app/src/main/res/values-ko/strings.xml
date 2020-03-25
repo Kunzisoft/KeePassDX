@@ -78,7 +78,6 @@
     <string name="error_pass_match">비밀번호가 일치하지 않습니다.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" 가 너무 높습니다. 2147483648로 설정합니다.</string>
     <string name="error_string_key">각 항목은 필드 이름을 가져야 합니다.</string>
-    <string name="error_title_required">제목을 입력하십시오.</string>
     <string name="error_wrong_length">\"길이\" 필드에는 양수를 입력하십시오.</string>
     <string name="error_autofill_enable_service">자동 채우기 서비스를 활성화할 수 없습니다.</string>
     <string name="error_move_folder_in_itself">그룹을 자신에게 옮길 수 없습니다.</string>
@@ -164,9 +163,9 @@
     <string name="content_description_password_checkbox">비밀번호 체크박스</string>
     <string name="content_description_keyfile_checkbox">내용_설명_키파일_체크박스</string>
     <string name="content_description_repeat_toggle_password_visibility">토글 비밀번호 가시성 반복</string>
-    <string name="content_description_password_generator">비밀번호 생성</string>
+    <string name="entry_password_generator">비밀번호 생성</string>
     <string name="content_description_password_length">비밀번호 길이</string>
-    <string name="content_description_add_field">필드 추가</string>
+    <string name="entry_add_field">필드 추가</string>
     <string name="content_description_remove_field">필드 제거</string>
     <string name="error_move_entry_here">항목을 여기로 옮길 수 없습니다.</string>
     <string name="error_copy_entry_here">항목을 여기로 복사할 수 없습니다.</string>

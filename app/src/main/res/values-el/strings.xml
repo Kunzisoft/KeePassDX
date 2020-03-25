@@ -71,7 +71,6 @@
     <string name="error_pass_match">Οι κωδικοί δεν ταιριάζουν.</string>
     <string name="error_rounds_too_large">Οι \"κύκλοι μετασχηματισμού\" είναι πολύ υψηλοί. Ρύθμιση στο 2147483648.</string>
     <string name="error_string_key">Κάθε σειρά πρέπει να έχει όνομα πεδίου.</string>
-    <string name="error_title_required">Προσθέστε έναν τίτλο.</string>
     <string name="error_wrong_length">Εισάγετε ένα θετικό ακέραιο αριθμό στο πεδίο \"Μήκος\".</string>
     <string name="field_name">Όνομα πεδίου</string>
     <string name="field_value">Τιμή πεδίου</string>
@@ -341,10 +340,9 @@
     <string name="content_description_keyfile_checkbox">Πλαίσιο ελέγχου κλειδιού-αρχείου</string>
     <string name="content_description_repeat_toggle_password_visibility">Επανάληψη της ορατότητας του κωδικού πρόσβασης</string>
     <string name="content_description_entry_icon">Εικονίδιο καταχώρησης</string>
-    <string name="content_description_entry_save">Αποθήκευση καταχώρησης</string>
-    <string name="content_description_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
+    <string name="entry_password_generator">Γεννήτρια κωδικού πρόσβασης</string>
     <string name="content_description_password_length">Μήκος κωδικού πρόσβασης</string>
-    <string name="content_description_add_field">Προσθήκη πεδίου</string>
+    <string name="entry_add_field">Προσθήκη πεδίου</string>
     <string name="content_description_remove_field">Αφαίρεση πεδίου</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Δεν μπορείτε να μετακινήσετε μια καταχώρηση εδώ.</string>
@@ -408,8 +406,6 @@
     <string name="autofill_explanation_summary">Ενεργοποιήστε την αυτόματη συμπλήρωση για να συμπληρώσετε γρήγορα φόρμες σε άλλες εφαρμογές</string>
     <string name="database_opened">Η Βάση Δεδομένων άνοιξε</string>
     <string name="clipboard_explanation_summary">Αντιγράψτε τα πεδία εισαγωγής χρησιμοποιώντας το πρόχειρο της συσκευής σας</string>
-    <string name="persistent_notification_title">Συνεχής ειδοποίηση</string>
-    <string name="persistent_notification_summary">Προσθήκη ειδοποίησης όταν η βάση δεδομένων είναι ανοιχτή</string>
     <string name="advanced_unlock_explanation_summary">Χρησιμοποιήστε το προηγμένο ξεκλείδωμα για να ανοίξετε μια βάση δεδομένων πιο εύκολα</string>
     <string name="database_data_compression_title">Συμπίεση Δεδομένων</string>
     <string name="database_data_compression_summary">Η συμπίεση δεδομένων μειώνει το μέγεθος της βάσης δεδομένων.</string>

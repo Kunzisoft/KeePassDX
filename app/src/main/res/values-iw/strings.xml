@@ -69,7 +69,6 @@
     <string name="error_pass_match">הסיסמאות לא תואמות.</string>
     <string name="error_rounds_too_large">מספר סיבובים גדול מדי. מגדיר ל-2147483648.</string>
     <string name="error_string_key">שדה שם נדרש לכל מחרוזת.</string>
-    <string name="error_title_required">כותרת נדרשת.</string>
     <string name="error_wrong_length">הזן מספר חיובי בשדה האורך</string>
     <string name="field_name">שם השדה</string>
     <string name="field_value">ערך השדה</string>

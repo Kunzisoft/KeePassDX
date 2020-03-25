@@ -75,8 +75,6 @@
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>
-    <string name="persistent_notification_key" translatable="false">persistent_notification_key</string>
-    <bool name="persistent_notification_default" translatable="false">true</bool>
     <string name="lock_database_back_root_key" translatable="false">lock_database_back_root_key</string>
     <bool name="lock_database_back_root_default" translatable="false">false</bool>
     <string name="password_length_key" translatable="false">password_length_key</string>
@@ -197,6 +195,7 @@
     -->
 
     <string name="show_beta_warning" translatable="false">show_beta_warning</string>
+    <string name="default_database_path_key" translatable="false">default_database_path_key</string>
 
     <!-- Sort -->
     <string name="sort_node_key" translatable="false">sort_node_key</string>
@@ -237,6 +236,8 @@
     <bool name="education_password_generator_default" translatable="false">false</bool>
     <string name="education_entry_new_field_key" translatable="false">education_entry_new_field_key</string>
     <bool name="education_entry_new_field_default" translatable="false">false</bool>
+    <string name="education_setup_OTP_key" translatable="false">education_setup_OTP_key</string>
+    <bool name="education_setup_OTP_default" translatable="false">false</bool>
     <string name="education_screen_reclicked_key" translatable="false">education_screen_reclicked_key</string>
     <bool name="education_screen_reclicked_default" translatable="false">false</bool>
 
@@ -244,6 +245,7 @@
     <!-- TimeOut -->
     <string name="timeout_backup_key" translatable="false">timeout_backup_key</string>
     <string name="timeout_default" translatable="false">300000</string>
+    <string name="timeout_screen_off" translatable="false">3000</string>
     <string-array name="timeout_values">
         <item translatable="false">5000</item>
         <item translatable="false">10000</item>

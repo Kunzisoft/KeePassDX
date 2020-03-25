@@ -75,7 +75,6 @@
     <string name="error_pass_match">Die Passwörter stimmen nicht überein.</string>
     <string name="error_rounds_too_large">„Transformationsrunden“ zu hoch. Wird auf 2147483648 eingestellt.</string>
     <string name="error_string_key">Für jede Zeichenfolge ist ein Feldname notwendig.</string>
-    <string name="error_title_required">Titel hinzufügen.</string>
     <string name="error_wrong_length">Eine positive ganze Zahl in das Feld „Länge“ eingeben.</string>
     <string name="field_name">Feldname</string>
     <string name="field_value">Feldwert</string>
@@ -358,10 +357,9 @@
     <string name="content_description_add_group">Gruppe hinzufügen</string>
     <string name="content_description_file_information">Datei-Informationen</string>
     <string name="content_description_entry_icon">Symbol für den Eintrag</string>
-    <string name="content_description_entry_save">Eintrag speichern</string>
-    <string name="content_description_password_generator">Passwort-Generator</string>
+    <string name="entry_password_generator">Passwort-Generator</string>
     <string name="content_description_password_length">Passwortlänge</string>
-    <string name="content_description_add_field">Feld hinzufügen</string>
+    <string name="entry_add_field">Feld hinzufügen</string>
     <string name="content_description_remove_field">Feld entfernen</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Anzahl der Einträge anzeigen</string>
@@ -415,8 +413,6 @@
     <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
-    <string name="persistent_notification_title">Dauerhafte Benachrichtigung</string>
-    <string name="persistent_notification_summary">Bei geöffneter Datenbank eine Benachrichtigung hinzufügen</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
     <string name="database_data_compression_title">Datenkompression</string>
     <string name="database_data_compression_summary">Datenkompression reduziert die Datenbankgröße.</string>

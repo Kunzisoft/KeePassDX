@@ -19,31 +19,28 @@
  */
 package com.kunzisoft.keepass.notifications
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
-import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.LockReceiver
+import com.kunzisoft.keepass.utils.registerLockReceiver
+import com.kunzisoft.keepass.utils.unregisterLockReceiver
 
 abstract class LockNotificationService : NotificationService() {
 
-    private var lockBroadcastReceiver: BroadcastReceiver? = null
+    private var mLockReceiver: LockReceiver? = null
+
+    protected open fun actionOnLock() {
+        // Stop the service in all cases
+        stopSelf()
+    }
 
     override fun onCreate() {
         super.onCreate()
 
         // Register a lock receiver to stop notification service when lock on keyboard is performed
-        lockBroadcastReceiver = object : BroadcastReceiver() {
-            override fun onReceive(context: Context?, intent: Intent?) {
-                // Stop the service in all cases
-                stopSelf()
-            }
+        mLockReceiver = LockReceiver {
+                actionOnLock()
         }
-        registerReceiver(lockBroadcastReceiver,
-                IntentFilter().apply {
-                    addAction(LOCK_ACTION)
-                }
-        )
+        registerLockReceiver(mLockReceiver)
     }
 
     protected fun stopTask(task: Thread?) {
@@ -59,7 +56,7 @@ abstract class LockNotificationService : NotificationService() {
 
     override fun onDestroy() {
 
-        unregisterReceiver(lockBroadcastReceiver)
+        unregisterLockReceiver(mLockReceiver)
 
         super.onDestroy()
     }

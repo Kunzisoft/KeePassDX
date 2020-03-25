@@ -1,0 +1,6 @@
+ * Upgrade autofill algorithm
+ * Delete registered KeyFile after save new credentials
+ * Fix title and username entry view refresh after an update
+ * Fix database lock request (open notification always active)
+ * Allow empty title in entries
+ * Add expiration datetime

@@ -65,7 +65,6 @@
     <string name="error_pass_gen_type">Pelo menos um tipo de geração de senhas deve ser selecionado.</string>
     <string name="error_pass_match">As senhas não combinam.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
-    <string name="error_title_required">Insira um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="file_browser">Localizador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
@@ -360,16 +359,15 @@
     <string name="content_description_add_group">Adicionar grupo</string>
     <string name="content_description_file_information">Informações do arquivo</string>
     <string name="content_description_entry_icon">Ícone da entrada</string>
-    <string name="content_description_password_generator">Gerador de senhas</string>
+    <string name="entry_password_generator">Gerador de senhas</string>
     <string name="content_description_password_length">Comprimento da senha</string>
-    <string name="content_description_add_field">Adicionar campo</string>
+    <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Remover campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
     <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
-    <string name="content_description_entry_save">Salvar entrada</string>
     <string name="content_description_node_children">Nó filho</string>
     <string name="content_description_password_checkbox">Caixa de seleção de senha</string>
     <string name="content_description_keyfile_checkbox">Caixa de seleção do arquivo-chave</string>
@@ -414,8 +412,6 @@
     <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePassDX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
-    <string name="persistent_notification_title">Notificação persistente</string>
-    <string name="persistent_notification_summary">Adicionar uma notificação quando o banco de dados for aberto</string>
     <string name="advanced_unlock_explanation_summary">Usar destravamento avançado para abrir o banco de dados mais facilmente</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados.</string>

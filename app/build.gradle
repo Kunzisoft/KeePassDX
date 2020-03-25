@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode = 28
-        versionName = "2.5beta28"
+        versionCode = 29
+        versionName = "2.5beta29"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -86,7 +86,7 @@ android {
 }
 
 def spongycastleVersion = "1.58.0.0"
-def room_version = "2.2.4"
+def room_version = "2.2.5"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"

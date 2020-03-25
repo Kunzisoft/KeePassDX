@@ -27,7 +27,12 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_margin="@dimen/default_margin">
+		android:layout_marginTop="@dimen/default_margin"
+		android:layout_marginBottom="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -182,10 +187,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:visibility="gone"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:id="@+id/extra_strings"
@@ -200,10 +205,10 @@
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -230,11 +235,11 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginBottom="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin">
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
+		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
@@ -313,10 +318,10 @@
 		android:id="@+id/entry_history_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -401,10 +406,10 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginStart="@dimen/default_margin"
-		android:layout_marginEnd="@dimen/default_margin"
-		android:layout_marginLeft="@dimen/default_margin"
-		android:layout_marginRight="@dimen/default_margin"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/default_margin">
 		<LinearLayout
 			android:layout_height="wrap_content"
@@ -421,15 +426,29 @@
 				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 			<HorizontalScrollView
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content">
+				android:layout_height="match_parent">
 				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_UUID"
+					android:id="@+id/entry_UUID_reference"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:textIsSelectable="true"
 					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
 			</HorizontalScrollView>
-
+			<HorizontalScrollView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginStart="12dp"
+				android:layout_marginLeft="12dp"
+				android:layout_marginEnd="12dp"
+				android:layout_marginRight="12dp">
+				<androidx.appcompat.widget.AppCompatTextView
+					android:id="@+id/entry_UUID"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:textIsSelectable="true"
+					style="@style/KeepassDXStyle.TextAppearance.TinyText"
+					android:textColor="?attr/colorAccent"/>
+			</HorizontalScrollView>
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 

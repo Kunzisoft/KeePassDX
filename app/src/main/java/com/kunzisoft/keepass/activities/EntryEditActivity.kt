@@ -19,6 +19,8 @@
 package com.kunzisoft.keepass.activities
 
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -26,13 +28,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.ScrollView
+import android.widget.DatePicker
+import android.widget.TimePicker
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.widget.NestedScrollView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.GeneratePasswordDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
-import com.kunzisoft.keepass.activities.dialogs.SetOTPDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.*
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -52,12 +56,15 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
+import org.joda.time.DateTime
 import java.util.*
 
 class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
-        SetOTPDialogFragment.CreateOtpListener {
+        SetOTPDialogFragment.CreateOtpListener,
+        DatePickerDialog.OnDateSetListener,
+        TimePickerDialog.OnTimeSetListener {
 
     private var mDatabase: Database? = null
 
@@ -70,8 +77,9 @@ class EntryEditActivity : LockingActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
-    private var scrollView: ScrollView? = null
+    private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
+    private var entryEditAddToolBar: ActionMenuView? = null
     private var saveView: View? = null
 
     // Education
@@ -94,6 +102,16 @@ class EntryEditActivity : LockingActivity(),
 
         entryEditContentsView = findViewById(R.id.entry_edit_contents)
         entryEditContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
+        entryEditContentsView?.onDateClickListener = View.OnClickListener {
+            entryEditContentsView?.expiresDate?.date?.let { expiresDate ->
+                val dateTime = DateTime(expiresDate)
+                val defaultYear = dateTime.year
+                val defaultMonth = dateTime.monthOfYear-1
+                val defaultDay = dateTime.dayOfMonth
+                DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
+                        .show(supportFragmentManager, "DatePickerFragment")
+            }
+        }
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
@@ -167,16 +185,45 @@ class EntryEditActivity : LockingActivity(),
         // Add listener to the icon
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
-        // Generate password button
-        entryEditContentsView?.setOnPasswordGeneratorClickListener { openPasswordGenerator() }
+        // Bottom Bar
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditAddToolBar?.apply {
+            menuInflater.inflate(R.menu.entry_edit, menu)
+
+            menu.findItem(R.id.menu_add_field).apply {
+                val allowCustomField = mNewEntry?.allowCustomFields() == true
+                isEnabled = allowCustomField
+                isVisible = allowCustomField
+            }
+
+            menu.findItem(R.id.menu_add_otp).apply {
+                val allowOTP = mDatabase?.allowOTP == true
+                isEnabled = allowOTP
+                isVisible = allowOTP
+            }
+
+            setOnMenuItemClickListener { item ->
+                when (item.itemId) {
+                    R.id.menu_generate_password -> {
+                        openPasswordGenerator()
+                        true
+                    }
+                    R.id.menu_add_field -> {
+                        addNewCustomField()
+                        true
+                    }
+                    R.id.menu_add_otp -> {
+                        setupOTP()
+                        true
+                    }
+                    else -> true
+                }
+            }
+        }
 
         // Save button
-        saveView = findViewById(R.id.entry_edit_save)
+        saveView = findViewById(R.id.entry_edit_validate)
         saveView?.setOnClickListener { saveEntry() }
-
-        entryEditContentsView?.allowCustomField(mNewEntry?.allowCustomFields() == true) {
-            addNewCustomField()
-        }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)
@@ -207,6 +254,9 @@ class EntryEditActivity : LockingActivity(),
             username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
             url = newEntry.url
             password = newEntry.password
+            expires = newEntry.expires
+            if (expires)
+                expiresDate = newEntry.expiryTime
             notes = newEntry.notes
             for (entry in newEntry.customFields.entries) {
                 post {
@@ -228,7 +278,11 @@ class EntryEditActivity : LockingActivity(),
                 username = entryView.username
                 url = entryView.url
                 password = entryView.password
-                notes = entryView.notes
+                expires = entryView.expires
+                if (entryView.expires) {
+                    expiryTime = entryView.expiresDate
+                }
+                notes = entryView. notes
                 entryView.customFields.forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
                 }
@@ -257,6 +311,13 @@ class EntryEditActivity : LockingActivity(),
      */
     private fun addNewCustomField() {
         entryEditContentsView?.addEmptyCustomField()
+    }
+
+    private fun setupOTP() {
+        // Retrieve the current otpElement if exists
+        // and open the dialog to set up the OTP
+        SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
+                .show(supportFragmentManager, "addOTPDialog")
     }
 
     /**
@@ -307,8 +368,6 @@ class EntryEditActivity : LockingActivity(),
         // Save database not needed here
         menu.findItem(R.id.menu_save_database)?.isVisible = false
         MenuUtil.contributionMenuInflater(inflater, menu)
-        if (mDatabase?.allowOTP == true)
-            inflater.inflate(R.menu.entry_otp, menu)
 
         entryEditActivityEducation?.let {
             Handler().post { performedNextEducation(it) }
@@ -318,12 +377,10 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordView = entryEditContentsView?.generatePasswordView
-        val addNewFieldView = entryEditContentsView?.addNewFieldButton
-
-        val generatePasswordEducationPerformed = passwordView != null
+        val passwordGeneratorView: View? = entryEditAddToolBar?.findViewById(R.id.menu_generate_password)
+        val generatePasswordEducationPerformed = passwordGeneratorView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
-                passwordView,
+                passwordGeneratorView,
                 {
                     openPasswordGenerator()
                 },
@@ -332,14 +389,28 @@ class EntryEditActivity : LockingActivity(),
                 }
         )
         if (!generatePasswordEducationPerformed) {
-            // entryNewFieldEducationPerformed
-            mNewEntry != null && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
+            val addNewFieldView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_field)
+            val addNewFieldEducationPerformed = mNewEntry != null
+                    && mNewEntry!!.allowCustomFields() && mNewEntry!!.customFields.isEmpty()
                     && addNewFieldView != null && addNewFieldView.visibility == View.VISIBLE
                     && entryEditActivityEducation.checkAndPerformedEntryNewFieldEducation(
                     addNewFieldView,
                     {
                         addNewCustomField()
-                    })
+                    },
+                    {
+                        performedNextEducation(entryEditActivityEducation)
+                    }
+            )
+            if (!addNewFieldEducationPerformed) {
+                val setupOtpView: View? = entryEditAddToolBar?.findViewById(R.id.menu_add_otp)
+                setupOtpView != null && setupOtpView.visibility == View.VISIBLE
+                        && entryEditActivityEducation.checkAndPerformedSetUpOTPEducation(
+                        setupOtpView,
+                        {
+                            setupOTP()
+                        })
+            }
         }
     }
 
@@ -356,14 +427,9 @@ class EntryEditActivity : LockingActivity(),
                 MenuUtil.onContributionItemSelected(this)
                 return true
             }
-            R.id.menu_add_otp -> {
-                // Retrieve the current otpElement if exists
-                // and open the dialog to set up the OTP
-                SetOTPDialogFragment.build(mEntry?.getOtpElement()?.otpModel)
-                        .show(supportFragmentManager, "addOTPDialog")
-                return true
+            android.R.id.home -> {
+                onBackPressed()
             }
-            android.R.id.home -> finish()
         }
 
         return super.onOptionsItemSelected(item)
@@ -380,6 +446,39 @@ class EntryEditActivity : LockingActivity(),
     override fun iconPicked(bundle: Bundle) {
         IconPickerDialogFragment.getIconStandardFromBundle(bundle)?.let { icon ->
             temporarilySaveAndShowSelectedIcon(icon)
+        }
+    }
+
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        // To fix android 4.4 issue
+        // https://stackoverflow.com/questions/12436073/datepicker-ondatechangedlistener-called-twice
+        if (datePicker?.isShown == true) {
+            entryEditContentsView?.expiresDate?.date?.let { expiresDate ->
+                // Save the date
+                entryEditContentsView?.expiresDate =
+                        DateInstant(DateTime(expiresDate)
+                                .withYear(year)
+                                .withMonthOfYear(month + 1)
+                                .withDayOfMonth(day)
+                                .toDate())
+                // Launch the time picker
+                val dateTime = DateTime(expiresDate)
+                val defaultHour = dateTime.hourOfDay
+                val defaultMinute = dateTime.minuteOfHour
+                TimePickerFragment.getInstance(defaultHour, defaultMinute)
+                        .show(supportFragmentManager, "TimePickerFragment")
+            }
+        }
+    }
+
+    override fun onTimeSet(timePicker: TimePicker?, hours: Int, minutes: Int) {
+        entryEditContentsView?.expiresDate?.date?.let { expiresDate ->
+            // Save the date
+            entryEditContentsView?.expiresDate =
+                    DateInstant(DateTime(expiresDate)
+                            .withHourOfDay(hours)
+                            .withMinuteOfHour(minutes)
+                            .toDate())
         }
     }
 
@@ -404,6 +503,15 @@ class EntryEditActivity : LockingActivity(),
 
     override fun cancelPassword(bundle: Bundle) {
         // Do nothing here
+    }
+
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+                .setMessage(R.string.discard_changes)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(android.R.string.ok) { _, _ ->
+                    super@EntryEditActivity.onBackPressed()
+                }.create().show()
     }
 
     override fun finish() {

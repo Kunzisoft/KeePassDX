@@ -22,6 +22,7 @@
     <dimen name="image_button_margin">8dp</dimen>
     <dimen name="image_list_margin">12dp</dimen>
     <dimen name="button_margin">6dp</dimen>
+    <dimen name="card_view_margin">12dp</dimen>
 
     <dimen name="icon_size">32dp</dimen>
 

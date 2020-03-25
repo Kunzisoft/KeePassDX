@@ -72,7 +72,6 @@
     <string name="error_pass_match">As palavras-passe não coincidem.</string>
     <string name="error_rounds_too_large">\"Número de rodadas\" é muito grande. Modificado para 2147483648.</string>
     <string name="error_string_key">Um nome do campo é necessário para cada string.</string>
-    <string name="error_title_required">Adicione um título.</string>
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
@@ -358,10 +357,9 @@
     <string name="content_description_keyfile_checkbox">Caixa de seleção keyfile</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir alternar a visibilidade da palavra-passe</string>
     <string name="content_description_entry_icon">Ícone da entrada</string>
-    <string name="content_description_entry_save">Gravação de entrada</string>
-    <string name="content_description_password_generator">Gerador de palavras-passe</string>
+    <string name="entry_password_generator">Gerador de palavras-passe</string>
     <string name="content_description_password_length">Comprimento da palavra-passe</string>
-    <string name="content_description_add_field">Adicionar campo</string>
+    <string name="entry_add_field">Adicionar campo</string>
     <string name="content_description_remove_field">Remover campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>

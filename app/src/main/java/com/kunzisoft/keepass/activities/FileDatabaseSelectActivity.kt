@@ -161,9 +161,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
             onActionFinish = { actionTask, _ ->
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
-                        // TODO Check
-                        // mAdapterDatabaseHistory?.notifyDataSetChanged()
-                        // updateFileListVisibility()
                         GroupActivity.launch(this@FileDatabaseSelectActivity)
                     }
                 }

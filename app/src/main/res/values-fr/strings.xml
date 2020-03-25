@@ -49,7 +49,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;. Il est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;libre&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;. \nIl est fourni tel quel, sous la licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -76,7 +76,6 @@
     <string name="error_pass_match">Les mots de passe ne correspondent pas.</string>
     <string name="error_rounds_too_large">« Tours de transformation » trop grand. Définition à 2147483648.</string>
     <string name="error_string_key">Chaque chaîne doit avoir un nom de champ.</string>
-    <string name="error_title_required">Veuillez ajouter un titre.</string>
     <string name="error_wrong_length">Veuillez saisir un entier positif dans le champ « Longueur ».</string>
     <string name="error_autofill_enable_service">Impossible d’activer le service de remplissage automatique.</string>
     <string name="field_name">Nom du champ</string>
@@ -275,7 +274,6 @@
     <string name="html_text_dev_feature_upgrade">N’oubliez pas de garder votre application à jour en installant les nouvelles versions.</string>
     <string name="download">Télécharger</string>
     <string name="contribute">Contribuer</string>
-    <!-- Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -367,10 +365,9 @@
     <string name="content_description_add_entry">Ajouter une entrée</string>
     <string name="content_description_add_group">Ajouter un groupe</string>
     <string name="content_description_entry_icon">Icône de l’entrée</string>
-    <string name="content_description_entry_save">Enregistrer l’entrée</string>
-    <string name="content_description_password_generator">Générateur de mots de passe</string>
+    <string name="entry_password_generator">Générateur de mots de passe</string>
     <string name="content_description_password_length">Longueur de mot de passe</string>
-    <string name="content_description_add_field">Ajouter un champ</string>
+    <string name="entry_add_field">Ajouter un champ</string>
     <string name="content_description_remove_field">Supprimer un champ</string>
     <string name="entry_UUID">UUID</string>
     <string name="list_groups_show_number_entries_title">Afficher le nombre d’entrées</string>
@@ -422,8 +419,6 @@
     <string name="contains_duplicate_uuid_procedure">En validant cette boîte de dialogue, KeePassDX corrigera le problème (en générant de nouveaux UUID pour les doublons) et continuera.</string>
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copie les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
-    <string name="persistent_notification_title">Notification persistante</string>
-    <string name="persistent_notification_summary">Ajoute une notification lorsque la base de données est ouverte</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>
@@ -460,7 +455,7 @@
     <string name="keyboard_auto_go_action_summary">Action de la touche Go effectuée automatiquement après avoir appuyé sur une touche de champ</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
-    <string name="download_progression">En cours : %1$d&#37;</string>
+    <string name="download_progression">En cours : %1$d%</string>
     <string name="download_finalization">Finalisation…</string>
     <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>

@@ -33,6 +33,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
+import java.util.*
 
 /**
  * Replace font by monospace, must be called after seText()

@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.autofill
 import android.app.assist.AssistStructure
 import android.os.Build
 import androidx.annotation.RequiresApi
-import android.text.InputType
 import android.util.Log
 import android.view.View
 import android.view.autofill.AutofillId
@@ -35,74 +34,140 @@ import java.util.*
 internal class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameCandidate: AutofillId? = null
+    private var lockHint: Boolean = false
 
     fun parse(): Result? {
         result = Result()
         result?.apply {
             usernameCandidate = null
-            for (i in 0 until structure.windowNodeCount) {
+            mainLoop@ for (i in 0 until structure.windowNodeCount) {
                 val windowNode = structure.getWindowNodeAt(i)
+                /*
                 title.add(windowNode.title)
                 windowNode.rootViewNode.webDomain?.let {
                     webDomain.add(it)
                 }
-                parseViewNode(windowNode.rootViewNode)
+                */
+                if (parseViewNode(windowNode.rootViewNode))
+                    break@mainLoop
             }
             // If not explicit username field found, add the field just before password field.
-            if (username.isEmpty() && email.isEmpty()
-                    && password.isNotEmpty() && usernameCandidate != null)
-                username.add(usernameCandidate!!)
+            if (usernameId == null && passwordId != null && usernameCandidate != null)
+                usernameId = usernameCandidate
         }
 
-        return result
+        // Return the result only if password field is retrieved
+        return if (result?.passwordId != null)
+            result
+        else
+            null
     }
 
-    private fun parseViewNode(node: AssistStructure.ViewNode) {
-        val hints = node.autofillHints
-        val autofillId = node.autofillId
-        if (autofillId != null) {
+    private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
+        if (node.autofillId != null) {
+            val hints = node.autofillHints
             if (hints != null && hints.isNotEmpty()) {
-                when {
-                    Arrays.stream(hints).anyMatch { View.AUTOFILL_HINT_USERNAME == it } -> result?.username?.add(autofillId)
-                    Arrays.stream(hints).anyMatch { View.AUTOFILL_HINT_EMAIL_ADDRESS == it } -> result?.email?.add(autofillId)
-                    Arrays.stream(hints).anyMatch { View.AUTOFILL_HINT_PASSWORD == it } -> result?.password?.add(autofillId)
-                    else -> Log.d(TAG, "unsupported hints")
+                if (parseNodeByAutofillHint(node))
+                    return true
+            } else {
+                if (parseNodeByHtmlAttributes(node))
+                    return true
+            }
+        }
+        // Recursive method to process each node
+        for (i in 0 until node.childCount) {
+            if (parseViewNode(node.getChildAt(i)))
+                return true
+        }
+        return false
+    }
+
+    private fun parseNodeByAutofillHint(node: AssistStructure.ViewNode): Boolean {
+        val autofillId = node.autofillId
+        node.autofillHints?.forEach {
+            when {
+                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_USERNAME
+                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_EMAIL_ADDRESS
+                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PHONE -> {
+                    result?.usernameId = autofillId
+                    Log.d(TAG, "Autofill username hint")
                 }
-            } else if (node.autofillType == View.AUTOFILL_TYPE_TEXT) {
-                val inputType = node.inputType
-                when {
-                    inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS > 0 -> result?.email?.add(autofillId)
-                    inputType and InputType.TYPE_TEXT_VARIATION_PASSWORD > 0 -> result?.password?.add(autofillId)
-                    result?.password?.isEmpty() == true -> usernameCandidate = autofillId
+                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PASSWORD
+                        || it.toLowerCase(Locale.ENGLISH).contains("password") -> {
+                    result?.passwordId = autofillId
+                    Log.d(TAG, "Autofill password hint")
+                    return true
+                }
+                it.toLowerCase(Locale.ENGLISH) == "off" -> {
+                    Log.d(TAG, "Autofill OFF hint")
+                    lockHint = true
+                    return false
+                }
+                it.toLowerCase(Locale.ENGLISH) == "on" -> {
+                    Log.d(TAG, "Autofill ON hint")
+                    if (parseNodeByHtmlAttributes(node))
+                        return true
+                }
+                else -> Log.d(TAG, "Autofill unsupported hint $it")
+            }
+        }
+        return false
+    }
+
+    private fun parseNodeByHtmlAttributes(node: AssistStructure.ViewNode): Boolean {
+        if (lockHint)
+            return false
+        val autofillId = node.autofillId
+        val nodHtml = node.htmlInfo
+        when (nodHtml?.tag?.toLowerCase(Locale.ENGLISH)) {
+            "input" -> {
+                nodHtml.attributes?.forEach { pairAttribute ->
+                    when (pairAttribute.first.toLowerCase(Locale.ENGLISH)) {
+                        "type" -> {
+                            when (pairAttribute.second.toLowerCase(Locale.ENGLISH)) {
+                                "tel", "email" -> {
+                                    result?.usernameId = autofillId
+                                    Log.d(TAG, "Autofill username type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                }
+                                "text" -> {
+                                    usernameCandidate = autofillId
+                                    Log.d(TAG, "Autofill type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                }
+                                "password" -> {
+                                    result?.passwordId = autofillId
+                                    Log.d(TAG, "Autofill password type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
-
-        for (i in 0 until node.childCount)
-            parseViewNode(node.getChildAt(i))
+        return false
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     internal class Result {
-        val title: MutableList<CharSequence>
-        val webDomain: MutableList<String>
-        val username: MutableList<AutofillId>
-        val email: MutableList<AutofillId>
-        val password: MutableList<AutofillId>
+        var usernameId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
 
-        init {
-            title = ArrayList()
-            webDomain = ArrayList()
-            username = ArrayList()
-            email = ArrayList()
-            password = ArrayList()
-        }
+        var passwordId: AutofillId? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
 
         fun allAutofillIds(): Array<AutofillId> {
             val all = ArrayList<AutofillId>()
-            all.addAll(username)
-            all.addAll(email)
-            all.addAll(password)
+            usernameId?.let {
+                all.add(it)
+            }
+            passwordId?.let {
+                all.add(it)
+            }
             return all.toTypedArray()
         }
     }

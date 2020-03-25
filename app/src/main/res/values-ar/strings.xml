@@ -50,7 +50,6 @@
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
     <string name="error_pass_match">كلمتا السر غير متطابقتين.</string>
-    <string name="error_title_required">اكتب عنوانًا.</string>
     <string name="field_name">اسم الحقل</string>
     <string name="field_value">قيمة الحقل</string>
     <string name="generate_password">توليد كلمة سر</string>
@@ -260,7 +259,7 @@
     <string name="content_description_add_entry">إضافة إدخال</string>
     <string name="content_description_add_group">إضافة مجموعة</string>
     <string name="content_description_file_information">معلومات الملف</string>
-    <string name="content_description_password_generator">مولد كلمة السر</string>
+    <string name="entry_password_generator">مولد كلمة السر</string>
     <string name="content_description_background">الخلفية</string>
     <string name="rounds">دورات التحويل</string>
     <string name="rounds_explanation">توفر الدورات الاضافية ضد هجوم توليد التركيبات ،لكنها تبطئ التحميل والحفظ.</string>
@@ -272,9 +271,8 @@
     <string name="content_description_node_children">العقد الفرعية</string>
     <string name="content_description_add_node">أضف عقدة</string>
     <string name="content_description_entry_icon">ايقونة المدخل</string>
-    <string name="content_description_entry_save">حفظ المدخل</string>
     <string name="content_description_password_length">طول كلمة السر</string>
-    <string name="content_description_add_field">أضف حقل</string>
+    <string name="entry_add_field">أضف حقل</string>
     <string name="content_description_remove_field">أزل حقل</string>
     <string name="error_move_entry_here">لا يمكنك نقل مدخل هنا.</string>
     <string name="error_copy_entry_here">لا يمكنك نسخ مدخل هنا.</string>
