@@ -92,6 +92,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val historyAdapter = EntryHistoryAdapter(context)
 
     private val uuidView: TextView
+    private val uuidReferenceView: TextView
 
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
@@ -147,6 +148,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
 
         uuidView = findViewById(R.id.entry_UUID)
+        uuidReferenceView = findViewById(R.id.entry_UUID_reference)
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -346,7 +348,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun assignUUID(uuid: UUID) {
-        uuidView.text = uuid.toKeePassRefString()
+        uuidView.text = uuid.toString()
+        uuidReferenceView.text = uuid.toKeePassRefString()
     }
 
     /* -------------
