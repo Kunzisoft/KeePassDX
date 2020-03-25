@@ -269,7 +269,7 @@
     <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
     <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Ein wichtiges, nicht mitgeliefertes Feld erfassen, indem ein neues Feld ausgefüllt wird, das sich auch schützen lässt.</string>
+    <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden.
