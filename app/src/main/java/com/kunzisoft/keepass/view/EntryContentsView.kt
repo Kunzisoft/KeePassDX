@@ -31,6 +31,7 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
@@ -40,8 +41,8 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
+import com.kunzisoft.keepass.utils.toKeePassRefString
 import java.util.*
-import androidx.recyclerview.widget.SimpleItemAnimator
 
 
 class EntryContentsView @JvmOverloads constructor(context: Context,
@@ -91,6 +92,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val historyAdapter = EntryHistoryAdapter(context)
 
     private val uuidView: TextView
+    private val uuidReferenceView: TextView
 
     val isUserNamePresent: Boolean
         get() = userNameContainerView.visibility == View.VISIBLE
@@ -146,6 +148,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
 
         uuidView = findViewById(R.id.entry_UUID)
+        uuidReferenceView = findViewById(R.id.entry_UUID_reference)
 
         val attrColorAccent = intArrayOf(R.attr.colorAccent)
         val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
@@ -346,6 +349,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
+        uuidReferenceView.text = uuid.toKeePassRefString()
     }
 
     /* -------------

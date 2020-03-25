@@ -19,8 +19,7 @@
  */
 package com.kunzisoft.keepass.utils
 
-import java.util.ArrayList
-import java.util.Locale
+import java.util.*
 
 object StringUtil {
 
@@ -85,5 +84,17 @@ object StringUtil {
 
         return currentText
     }
+}
 
+fun UUID.toKeePassRefString(): String {
+    val tempString = toString().replace("-", "").toUpperCase(Locale.ENGLISH)
+    return StringBuffer(reverseString2(tempString.substring(12, 16)))
+            .append(reverseString2(tempString.substring(8, 12)))
+            .append(reverseString2(tempString.substring(0, 8)))
+            .append(reverseString2(tempString.substring(20, 32)))
+            .append(reverseString2(tempString.substring(16, 20))).toString()
+}
+
+private fun reverseString2(string: String): String {
+    return string.chunked(2).reversed().joinToString("")
 }

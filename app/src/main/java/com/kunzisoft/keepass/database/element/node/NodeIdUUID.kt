@@ -21,8 +21,7 @@ package com.kunzisoft.keepass.database.element.node
 
 import android.os.Parcel
 import android.os.Parcelable
-
-import java.util.UUID
+import java.util.*
 
 class NodeIdUUID : NodeId<UUID> {
 

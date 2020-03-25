@@ -90,6 +90,7 @@ class FieldReferencesEngine {
 
             if (result != null) {
                 val found = result.entry
+                found?.stopToManageFieldReferences()
                 val wanted = result.wanted
 
                 var data: String? = null
@@ -145,22 +146,15 @@ class FieldReferencesEngine {
         searchParametersV4.setupNone()
 
         searchParametersV4.searchString = ref.substring(4)
-        if (scan == 'T') {
-            searchParametersV4.searchInTitles = true
-        } else if (scan == 'U') {
-            searchParametersV4.searchInUserNames = true
-        } else if (scan == 'A') {
-            searchParametersV4.searchInUrls = true
-        } else if (scan == 'P') {
-            searchParametersV4.searchInPasswords = true
-        } else if (scan == 'N') {
-            searchParametersV4.searchInNotes = true
-        } else if (scan == 'I') {
-            searchParametersV4.searchInUUIDs = true
-        } else if (scan == 'O') {
-            searchParametersV4.searchInOther = true
-        } else {
-            return null
+        when (scan) {
+            'T' -> searchParametersV4.searchInTitles = true
+            'U' -> searchParametersV4.searchInUserNames = true
+            'A' -> searchParametersV4.searchInUrls = true
+            'P' -> searchParametersV4.searchInPasswords = true
+            'N' -> searchParametersV4.searchInNotes = true
+            'I' -> searchParametersV4.searchInUUIDs = true
+            'O' -> searchParametersV4.searchInOther = true
+            else -> return null
         }
 
         val list = ArrayList<EntryKDBX>()

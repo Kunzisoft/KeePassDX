@@ -282,7 +282,7 @@
     <string name="education_generate_password_title">Opret en stærk adgangskode til posten.</string>
     <string name="education_generate_password_summary">Generer en stærk kodeord til at forbinde elementet, definer det i henhold til kriteriet for formularen og glem ikke et sikkert kodeord.</string>
     <string name="education_entry_new_field_title">Tilføj brugerdefinerede felter</string>
-    <string name="education_entry_new_field_summary">Registrer et grundlæggende felt, der ikke er oprettet, ved at udfylde et ny, som også kan beskyttes.</string>
+    <string name="education_entry_new_field_summary">Registrer et ekstra felt, tilføj en værdi og beskyt det eventuelt.</string>
     <string name="education_unlock_title">Lås databasen op</string>
     <string name="education_read_only_title">Skrivebeskyt databasen</string>
     <string name="education_read_only_summary">Skift åbningstilstanden for sessionen. 
@@ -299,9 +299,9 @@
     <string name="education_sort_summary">Vælg hvordan poster og grupper er sorteret.</string>
     <string name="education_donation_title">Deltag</string>
     <string name="education_donation_summary">Bidrag til at øge stabiliteten, sikkerheden og med at tilføje flere funktioner.</string>
-    <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne &lt;strong&gt; annoncefri &lt;/strong&gt;, &lt;strong&gt; copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
-    <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til &lt;strong&gt;visuel funktionen&lt;/strong&gt;, og det vil især hjælpe &lt;strong&gt;gennemførelsen af lokale projekter.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle funktion&lt;/strong&gt; er tilgængelige takket være bidrag.</string>
+    <string name="html_text_ad_free">I modsætning til andre programmer til adgangskodeadministration er denne &lt;strong&gt;annoncefri&lt;/strong&gt;, &lt;strong&gt;copyleft fri software&lt;/strong&gt;, og indsamler ikke personlige data, uanset hvilken version der bruges.</string>
+    <string name="html_text_buy_pro">Ved at købe pro-versionen, er der adgang til &lt;strong&gt;visuel stil&lt;/strong&gt;, og det vil især hjælpe &lt;strong&gt;gennemførelsen af lokale projekter.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stil&lt;/strong&gt; er tilgængelige takket være bidrag.</string>
     <string name="html_text_donation">For at bevare uafhængighed og altid at være aktiv, regner vi med &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Funktionen er &lt;strong&gt;under udvikling&lt;/strong&gt;, og det kræver &lt;strong&gt;bidrag&lt;/strong&gt;, for snart at være tilgængelig.</string>
     <string name="html_text_dev_feature_buy_pro">Ved at købe &lt;strong&gt;pro&lt;/strong&gt; versionen,</string>
@@ -445,9 +445,26 @@
     <string name="keyboard_auto_go_action_summary">Handling af Gå-tasten udføres automatisk, efter der er trykket på en Felt nøgle</string>
     <string name="download_attachment">Hent %1$s</string>
     <string name="download_initialization">Initialiserer…</string>
-    <string name="download_progression">I gang: %1$d&#37;</string>
+    <string name="download_progression">I gang: %1$d%</string>
     <string name="download_finalization">Færdiggørelse…</string>
     <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
     <string name="hide_expired_entries_summary">Udløbne poster vil blive skjult</string>
+    <string name="contact">Kontakt</string>
+    <string name="contribution">Bidrag</string>
+    <string name="feedback">Tilbagemelding</string>
+    <string name="html_about_licence">KeePassDX ©%1$d Kunzisoft er &lt;strong&gt;open source&lt;/strong&gt; og &lt;strong&gt;uden reklamer&lt;/strong&gt;.
+\nDet leveres som det er under &lt;strong&gt;GPLv3&lt;/strong&gt; licens uden nogen garanti.</string>
+    <string name="html_about_contribution">For at &lt;strong&gt;holde vores frihed&lt;/strong&gt;, &lt;strong&gt;rette fejl&lt;/strong&gt;, &lt;strong&gt;tilføje funktioner&lt;/strong&gt; og &lt;strong&gt;at være altid aktiv&lt;/strong&gt;, regner vi med &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
+    <string name="auto_focus_search_title">Hurtig søgning</string>
+    <string name="auto_focus_search_summary">Anmod om en søgning når en database åbnes</string>
+    <string name="remember_database_locations_title">Gem placering af databaser</string>
+    <string name="remember_database_locations_summary">Husk placeringen af databaser</string>
+    <string name="remember_keyfile_locations_title">Gem placering af nøglefiler</string>
+    <string name="remember_keyfile_locations_summary">Husker placeringen af databasernøglefiler</string>
+    <string name="show_recent_files_title">Vis seneste filer</string>
+    <string name="show_recent_files_summary">Vis placeringer af de seneste databaser</string>
+    <string name="hide_broken_locations_title">Skjule brudte databaselinks</string>
+    <string name="hide_broken_locations_summary">Skjul brudte links på listen over seneste databaser</string>
+    <string name="warning_database_read_only">Giv fil skriveadgang for at gemme databasændringer</string>
 </resources>
