@@ -34,7 +34,6 @@ import java.util.*
 internal class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameCandidate: AutofillId? = null
-    private var lockHint: Boolean = false
 
     fun parse(): Result? {
         result = Result()
@@ -98,15 +97,10 @@ internal class StructureParser(private val structure: AssistStructure) {
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
-                it.toLowerCase(Locale.ENGLISH) == "off" -> {
-                    Log.d(TAG, "Autofill OFF hint")
-                    lockHint = true
-                    return false
-                }
+                it.toLowerCase(Locale.ENGLISH) == "off" ||
                 it.toLowerCase(Locale.ENGLISH) == "on" -> {
-                    Log.d(TAG, "Autofill ON hint")
-                    if (parseNodeByHtmlAttributes(node))
-                        return true
+                    Log.d(TAG, "Autofill web hint")
+                    return parseNodeByHtmlAttributes(node)
                 }
                 else -> Log.d(TAG, "Autofill unsupported hint $it")
             }
@@ -115,8 +109,6 @@ internal class StructureParser(private val structure: AssistStructure) {
     }
 
     private fun parseNodeByHtmlAttributes(node: AssistStructure.ViewNode): Boolean {
-        if (lockHint)
-            return false
         val autofillId = node.autofillId
         val nodHtml = node.htmlInfo
         when (nodHtml?.tag?.toLowerCase(Locale.ENGLISH)) {
@@ -136,6 +128,7 @@ internal class StructureParser(private val structure: AssistStructure) {
                                 "password" -> {
                                     result?.passwordId = autofillId
                                     Log.d(TAG, "Autofill password type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    return true
                                 }
                             }
                         }
