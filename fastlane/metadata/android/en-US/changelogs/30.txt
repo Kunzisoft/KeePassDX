@@ -1,0 +1,2 @@
+ * Fix Lock after screen off (wait 1.5 seconds)
+ * Upgrade autofill algorithm

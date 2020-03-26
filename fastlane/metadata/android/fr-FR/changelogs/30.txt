@@ -1,0 +1,2 @@
+ * Correction du verrouillage après la désactivation de l'écran (attendre 1,5 seconde)
+ * Mise à niveau de l'algorithme de remplissage automatique
