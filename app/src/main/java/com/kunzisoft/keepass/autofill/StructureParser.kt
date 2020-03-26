@@ -97,6 +97,8 @@ internal class StructureParser(private val structure: AssistStructure) {
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
+                // Ignore autocomplete="off"
+                // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
                 it.toLowerCase(Locale.ENGLISH) == "off" ||
                 it.toLowerCase(Locale.ENGLISH) == "on" -> {
                     Log.d(TAG, "Autofill web hint")
