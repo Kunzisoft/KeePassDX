@@ -59,6 +59,7 @@
     <string name="content_description_entry_icon">Entry icon</string>
     <string name="validate">Validate</string>
     <string name="discard_changes">Discard changes?</string>
+    <string name="discard">Discard</string>
     <string name="entry_password_generator">Password generator</string>
     <string name="content_description_password_length">Password length</string>
     <string name="entry_add_field">Add field</string>
