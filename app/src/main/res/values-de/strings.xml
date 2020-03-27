@@ -269,7 +269,7 @@
     <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
     <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
-    <string name="education_entry_new_field_summary">Ein wichtiges, nicht mitgeliefertes Feld erfassen, indem ein neues Feld ausgefüllt wird, das sich auch schützen lässt.</string>
+    <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
     <string name="education_field_copy_title">Ein Feld kopieren</string>
     <string name="education_field_copy_summary">Kopierte Felder können an beliebiger Stelle eingefügt werden.
@@ -288,10 +288,10 @@
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;Ihren Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
     <string name="html_text_dev_feature_buy_pro">Durch den Kauf der &lt;strong&gt;Pro-Version&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Durch Ihr &lt;strong&gt;Mitwirken&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">du bestärkst die Entwickler:innen, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß deinen&lt;strong&gt; Anmerkungen &lt;strong&gt;Fehler auszumerzen&lt;/strong&gt;.&lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß Ihren Anmerkungen &lt;strong&gt;Fehler auszumerzen&lt;/strong&gt;.</string>
+    <string name="html_text_dev_feature_encourage">Sie ermutigen die Entwickler:innen, &lt;strong&gt;neue Funktionen&lt;/strong&gt; einzuführen und gemäß Ihren Anmerkungen &lt;strong&gt;Fehler zu beheben&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Vielen Dank für Ihre Unterstützung.</string>
     <string name="html_text_dev_feature_work_hard">Wir bemühen uns, diese Funktion bald zu veröffentlichen.</string>
-    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten indem sie neue Versionen installieren.</string>
+    <string name="html_text_dev_feature_upgrade">Vergessen Sie nicht, Ihre App aktuell zu halten, indem Sie neue Versionen installieren.</string>
     <string name="download">Download</string>
     <string name="contribute">Unterstützen</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -449,7 +449,7 @@
     <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren…</string>
-    <string name="download_progression">Fortschritt: %1$d&#37;</string>
+    <string name="download_progression">Fortschritt: %1$d%</string>
     <string name="download_finalization">Fertigstellung…</string>
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>

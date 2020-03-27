@@ -19,12 +19,15 @@
  */
 package com.kunzisoft.keepass.utils
 
+import android.app.AlarmManager
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Context.ALARM_SERVICE
 import android.content.Intent
 import android.content.IntentFilter
-import android.os.Handler
+import android.os.Build
 import android.util.Log
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.Database
@@ -42,26 +45,34 @@ const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY
 
 class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
-    private val screenOffHandler = Handler()
-    private var screenOffRunnable: Runnable? = null
+    var mLockPendingIntent: PendingIntent? = null
 
     override fun onReceive(context: Context, intent: Intent) {
-
-        screenOffRunnable?.let { runnable ->
-            screenOffHandler.removeCallbacks(runnable)
-        }
         // If allowed, lock and exit
         if (!TimeoutHelper.temporarilyDisableTimeout) {
             intent.action?.let {
                 when (it) {
+                    Intent.ACTION_SCREEN_ON -> {
+                        cancelLockPendingIntent(context)
+                    }
                     Intent.ACTION_SCREEN_OFF -> {
                         if (PreferencesUtil.isLockDatabaseWhenScreenShutOffEnable(context)) {
-                            screenOffRunnable = Runnable {
-                                lockAction.invoke()
-                            }
+                            mLockPendingIntent = PendingIntent.getBroadcast(context,
+                                    4575,
+                                    Intent(intent).apply {
+                                        action = LOCK_ACTION
+                                    },
+                                    0)
                             // Launch the effective action after a small time
-                            screenOffHandler.postDelayed(screenOffRunnable!!,
-                                    context.getString(R.string.timeout_screen_off).toLong())
+                            val first: Long = System.currentTimeMillis() + context.getString(R.string.timeout_screen_off).toLong()
+                            val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager?
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                                alarmManager?.setExact(AlarmManager.RTC_WAKEUP, first, mLockPendingIntent)
+                            } else {
+                                alarmManager?.set(AlarmManager.RTC_WAKEUP, first, mLockPendingIntent)
+                            }
+                        } else {
+                            cancelLockPendingIntent(context)
                         }
                     }
                     LOCK_ACTION,
@@ -69,6 +80,14 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                     else -> {}
                 }
             }
+        }
+    }
+
+    private fun cancelLockPendingIntent(context: Context) {
+        mLockPendingIntent?.let {
+            val alarmManager = context.getSystemService(ALARM_SERVICE) as AlarmManager?
+            alarmManager?.cancel(mLockPendingIntent)
+            mLockPendingIntent = null
         }
     }
 }
