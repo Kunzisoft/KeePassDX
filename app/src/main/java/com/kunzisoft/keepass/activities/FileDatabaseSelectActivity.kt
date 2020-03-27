@@ -35,6 +35,7 @@ import android.view.View
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -61,6 +62,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views
+    private var coordinatorLayout: CoordinatorLayout? = null
     private var fileListContainer: View? = null
     private var createButtonView: View? = null
     private var openDatabaseButtonView: View? = null
@@ -82,6 +84,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         mFileDatabaseHistoryAction = FileDatabaseHistoryAction.getInstance(applicationContext)
 
         setContentView(R.layout.activity_file_selection)
+        coordinatorLayout = findViewById(R.id.activity_file_selection_coordinator_layout)
         fileListContainer = findViewById(R.id.container_file_list)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
@@ -179,7 +182,9 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private fun fileNoFoundAction(e: FileNotFoundException) {
         val error = getString(R.string.file_not_found_content)
-        Snackbar.make(activity_file_selection_coordinator_layout, error, Snackbar.LENGTH_LONG).asError().show()
+        coordinatorLayout?.let {
+            Snackbar.make(it, error, Snackbar.LENGTH_LONG).asError().show()
+        }
         Log.e(TAG, error, e)
     }
 
@@ -368,10 +373,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
             if (mDatabaseFileUri != null) {
                 AssignMasterKeyDialogFragment.getInstance(true)
                         .show(supportFragmentManager, "passwordDialog")
+            } else {
+                val error = getString(R.string.error_create_database)
+                coordinatorLayout?.let {
+                    Snackbar.make(it, error, Snackbar.LENGTH_LONG).asError().show()
+                }
+                Log.e(TAG, error)
             }
-            // else {
-            // TODO Show error
-            // }
         }
     }
 
