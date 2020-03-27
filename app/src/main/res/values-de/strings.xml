@@ -266,7 +266,7 @@
     <string name="education_biometric_summary">Verknüpft Ihr Passwort mit Ihrer gescannten Biometrie, um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
-    <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
@@ -410,7 +410,7 @@
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
-    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden und danach fortfahren\?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
@@ -441,7 +441,7 @@
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
-    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
+    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
@@ -467,4 +467,11 @@
     <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
     <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
     <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
+    <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>
+    <string name="education_setup_OTP_title">Einrichten von OTP</string>
+    <string name="error_create_database">Es ist nicht möglich, eine Datenbankdatei zu erstellen.</string>
+    <string name="entry_add_attachment">Anhang hinzufügen</string>
+    <string name="discard">Verwerfen</string>
+    <string name="discard_changes">Änderungen verwerfen\?</string>
+    <string name="validate">Validieren</string>
 </resources>
