@@ -509,7 +509,7 @@ class EntryEditActivity : LockingActivity(),
         AlertDialog.Builder(this)
                 .setMessage(R.string.discard_changes)
                 .setNegativeButton(android.R.string.cancel, null)
-                .setPositiveButton(android.R.string.ok) { _, _ ->
+                .setPositiveButton(R.string.discard) { _, _ ->
                     super@EntryEditActivity.onBackPressed()
                 }.create().show()
     }

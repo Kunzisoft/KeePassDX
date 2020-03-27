@@ -313,7 +313,13 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun initUriFromIntent() {
-        mForceReadOnly = !UriUtil.isUriWritable(mDatabaseFileUri)
+        /*
+        // "canXrite" doesn't work with Google Drive, don't really know why?
+        mForceReadOnly = mDatabaseFileUri?.let {
+            !FileDatabaseInfo(this, it).canWrite
+        } ?: false
+        */
+        mForceReadOnly = false
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {

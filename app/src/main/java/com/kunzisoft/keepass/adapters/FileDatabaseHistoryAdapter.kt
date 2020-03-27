@@ -84,24 +84,25 @@ class FileDatabaseHistoryAdapter(private val context: Context)
         // File path
         holder.filePath.text = UriUtil.decode(fileDatabaseInfo.fileUri?.toString())
 
-        if (fileDatabaseInfo.dataAccessible()) {
+        if (fileDatabaseInfo.exists) {
             holder.fileInformation.clearColorFilter()
         } else {
             holder.fileInformation.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
         }
 
         // Modification
-        if (fileDatabaseInfo.lastModificationAccessible()) {
-            holder.fileModification.text = fileDatabaseInfo.getModificationString()
+        fileDatabaseInfo.getModificationString()?.let {
+            holder.fileModification.text = it
             holder.fileModification.visibility = View.VISIBLE
-        } else {
+        } ?: run {
             holder.fileModification.visibility = View.GONE
         }
+
         // Size
-        if (fileDatabaseInfo.sizeAccessible()) {
-            holder.fileSize.text = fileDatabaseInfo.getSizeString()
+        fileDatabaseInfo.getSizeString()?.let {
+            holder.fileSize.text = it
             holder.fileSize.visibility = View.VISIBLE
-        } else {
+        } ?: run {
             holder.fileSize.visibility = View.GONE
         }
 

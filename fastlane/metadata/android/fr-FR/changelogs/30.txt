@@ -1,0 +1,3 @@
+ * Correction du verrouillage après la désactivation de l'écran (attendre 1,5 seconde)
+ * Mise à niveau de l'algorithme de remplissage automatique
+ * Correction de l'ANR lors de la vérification de fichier
