@@ -1,6 +1,7 @@
 KeePassDX(2.5beta30)
  * Fix Lock after screen off (wait 1.5 seconds)
  * Upgrade autofill algorithm
+ * Fix ANR during file verifications
 
 KeePassDX(2.5beta29)
  * Upgrade autofill algorithm
