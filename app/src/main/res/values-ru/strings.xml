@@ -205,8 +205,8 @@
     <string name="sort_groups_before">Сначала группы</string>
     <string name="sort_recycle_bin_bottom">\"Корзина\" внизу</string>
     <string name="sort_title">Название записи</string>
-    <string name="warning_empty_password">Вы действительно не хотите использовать пароль для защиты базы\?</string>
-    <string name="warning_no_encryption_key">Вы действительно не хотите использовать ключ шифрования?</string>
+    <string name="warning_empty_password">Продолжить без пароля для защиты базы\?</string>
+    <string name="warning_no_encryption_key">Продолжить без ключа шифрования\?</string>
     <string name="biometric_not_recognized">Биометрический ключ не распознан</string>
     <string name="database_history">История</string>
     <string name="menu_appearance_settings">Внешний вид</string>
@@ -232,7 +232,7 @@
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
     <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
-    <string name="biometric_delete_all_key_warning">Вы уверены, что хотите удалить все ключи, связанные с биометрическим ключом\?</string>
+    <string name="biometric_delete_all_key_warning">Удалить все ключи шифрования, связанные с биометрическим распознаванием\?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
     <string name="unavailable_feature_version">Ваша версия Android %1$s ниже минимально необходимой %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
@@ -281,7 +281,7 @@
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
     <string name="education_entry_edit_summary">Редактируйте записи с настраиваемыми полями. Возможны перекрёстные ссылки между полями разных записей.</string>
-    <string name="education_generate_password_title">Создайте надёжный пароль для записи.</string>
+    <string name="education_generate_password_title">Создайте надёжный пароль</string>
     <string name="education_generate_password_summary">Создайте надёжный пароль, связанный с записью, легко настраиваемый под критерии формы. И не забудьте главный пароль от базы.</string>
     <string name="education_entry_new_field_title">Добавляйте настраиваемые поля</string>
     <string name="education_entry_new_field_summary">Зарегистрируйте дополнительное поле, добавьте значение и при необходимости защитите его.</string>
@@ -407,7 +407,7 @@
     <string name="menu_security_settings">Настройки безопасности</string>
     <string name="menu_master_key_settings">Настройки главного пароля</string>
     <string name="contains_duplicate_uuid">База содержит повторяющиеся UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">Если вы разрешите, KeePassDX исправит проблему (путём создания новых UUID для дубликатов) и продолжит работу.</string>
+    <string name="contains_duplicate_uuid_procedure">Исправить проблему путём создания новых UUID для дубликатов и продолжить работу\?</string>
     <string name="database_opened">База открыта</string>
     <string name="clipboard_explanation_summary">Копирование полей ввода с помощью буфера обмена устройства</string>
     <string name="advanced_unlock_explanation_summary">Использовать дополнительную разблокировку для более лёгкого открытия базы данных</string>
@@ -433,17 +433,17 @@
     <string name="menu_save_database">Сохранить базу</string>
     <string name="menu_empty_recycle_bin">Очистить \"корзину\"</string>
     <string name="command_execution">Выполнение команды…</string>
-    <string name="warning_permanently_delete_nodes">Вы уверены, что хотите навсегда удалить выбранные узлы\?</string>
+    <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные узлы\?</string>
     <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
     <string name="credential_before_click_biometric_button">Введите пароль перед нажатием кнопки биометрии.</string>
     <string name="recycle_bin_group_title">Группа \"корзины\"</string>
     <string name="enable_auto_save_database_title">Автосохранение базы</string>
-    <string name="enable_auto_save_database_summary">Автоматическое сохранение базы после каждого важного действия (только в \"режиме записи\")</string>
+    <string name="enable_auto_save_database_summary">Сохранять базу после каждого важного действия (в \"режиме записи\")</string>
     <string name="entry_attachments">Вложения</string>
     <string name="menu_restore_entry_history">Восстановить историю</string>
     <string name="menu_delete_entry_history">Удалить историю</string>
     <string name="keyboard_auto_go_action_title">Автоматическое действие кнопки</string>
-    <string name="keyboard_auto_go_action_summary">Выполнять команду \"Ввод\" автоматически после нажатия кнопки заполнения поля</string>
+    <string name="keyboard_auto_go_action_summary">Выполнять команду \"Ввод\" после нажатия кнопки заполнения поля</string>
     <string name="download_attachment">Скачать %1$s</string>
     <string name="download_initialization">Инициализация…</string>
     <string name="download_progression">Выполнение: %1$d%</string>
@@ -465,4 +465,11 @@
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
+    <string name="validate">Проверить</string>
+    <string name="discard_changes">Отменить изменения\?</string>
+    <string name="discard">Отменить</string>
+    <string name="entry_add_attachment">Добавить вложение</string>
+    <string name="error_create_database">Невозможно создать файл базы.</string>
+    <string name="education_setup_OTP_title">Настройте OTP</string>
+    <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
 </resources>
