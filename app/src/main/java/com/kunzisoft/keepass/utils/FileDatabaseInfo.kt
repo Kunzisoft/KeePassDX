@@ -21,25 +21,77 @@ package com.kunzisoft.keepass.utils
 
 import android.content.Context
 import android.net.Uri
+import android.text.format.Formatter
+import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import java.io.Serializable
+import java.text.DateFormat
+import java.util.*
 
-class FileDatabaseInfo : FileInfo {
+class FileDatabaseInfo : Serializable {
 
-    constructor(context: Context, fileUri: Uri): super(context, fileUri)
+    private var context: Context
+    private var documentFile: DocumentFile? = null
+    var fileUri: Uri?
+        private set
 
-    constructor(context: Context, filePath: String): super(context, filePath)
+    constructor(context: Context, fileUri: Uri) {
+        this.context = context
+        this.fileUri = fileUri
+        init()
+    }
+
+    constructor(context: Context, filePath: String) {
+        this.context = context
+        this.fileUri = UriUtil.parse(filePath)
+        init()
+    }
+
+    fun init() {
+        documentFile = UriUtil.getFileData(context, fileUri)
+    }
+
+    var exists: Boolean = false
+        get() {
+            return documentFile?.exists() ?: field
+        }
+        private set
+
+    var canRead: Boolean = false
+        get() {
+            return documentFile?.canRead() ?: field
+        }
+        private set
+
+    var canWrite: Boolean = false
+        get() {
+            return documentFile?.canWrite() ?: field
+        }
+        private set
+
+    fun getModificationString(): String? {
+        return documentFile?.lastModified()?.let {
+            DateFormat.getDateTimeInstance()
+                    .format(Date(it))
+        }
+    }
+
+    fun getSizeString(): String? {
+        return documentFile?.let {
+            Formatter.formatFileSize(context, it.length())
+        }
+    }
 
     fun retrieveDatabaseAlias(alias: String): String {
         return when {
             alias.isNotEmpty() -> alias
-            PreferencesUtil.isFullFilePathEnable(context) -> filePath ?: ""
-            else -> fileName ?: ""
+            PreferencesUtil.isFullFilePathEnable(context) -> fileUri?.path ?: ""
+            else -> if (exists) documentFile?.name ?: "" else  fileUri?.path ?: ""
         }
     }
 
     fun retrieveDatabaseTitle(titleCallback: (String)->Unit) {
-
         fileUri?.let { fileUri ->
             FileDatabaseHistoryAction.getInstance(context.applicationContext)
                     .getFileDatabaseHistory(fileUri) { fileDatabaseHistoryEntity ->
@@ -48,5 +100,4 @@ class FileDatabaseInfo : FileInfo {
             }
         }
     }
-
 }

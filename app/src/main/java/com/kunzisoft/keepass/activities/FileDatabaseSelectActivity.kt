@@ -278,9 +278,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
                             // Show only uri accessible
                             historyList.filter {
                                 if (hideBrokenLocations) {
-                                    UriUtil.parse(it.databaseUri)?.let { historyUri ->
-                                        UriUtil.isUriAccessible(contentResolver, historyUri)
-                                    } ?: false
+                                    FileDatabaseInfo(this@FileDatabaseSelectActivity,
+                                            it.databaseUri).exists
                                 } else
                                     true
                             })

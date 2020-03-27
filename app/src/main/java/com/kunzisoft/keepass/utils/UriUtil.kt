@@ -24,7 +24,6 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
@@ -36,26 +35,6 @@ import java.util.*
 
 
 object UriUtil {
-
-    fun isUriAccessible(contentResolver: ContentResolver, fileUri: Uri?): Boolean {
-        if (fileUri == null)
-            return false
-        return try {
-            //https://developer.android.com/reference/android/content/res/AssetFileDescriptor
-            contentResolver.openInputStream(fileUri)?.close()
-            true
-        } catch (e: Exception) {
-            Log.e(UriUtil.javaClass.name, "Unable to access uri $fileUri : ${e.message}")
-            false
-        }
-    }
-
-    fun isUriWritable(fileUri: Uri?): Boolean {
-        if (fileUri == null)
-            return false
-        // TODO Uri writeable detection
-        return true
-    }
 
     fun getFileData(context: Context, fileUri: Uri?): DocumentFile? {
         if (fileUri == null)
