@@ -388,14 +388,14 @@
     <string name="security">Безопасность</string>
     <string name="entry_history">История</string>
     <string name="entry_setup_otp">Настройка одноразового пароля</string>
-    <string name="otp_type">Тип одноразового пароля</string>
+    <string name="otp_type">Тип OTP</string>
     <string name="otp_secret">Секретный ключ</string>
     <string name="otp_period">Время (в секундах)</string>
     <string name="otp_counter">Счётчик</string>
     <string name="otp_digits">Цифры</string>
     <string name="otp_algorithm">Алгоритм</string>
-    <string name="entry_otp">Одноразовый пароль</string>
-    <string name="error_invalid_OTP">Недействительный секретный ключ одноразового пароля.</string>
+    <string name="entry_otp">OTP</string>
+    <string name="error_invalid_OTP">Некорректный OTP</string>
     <string name="error_disallow_no_credentials">Должен быть установлен, по крайней мере, один пароль.</string>
     <string name="error_copy_group_here">Вы не можете копировать группу сюда.</string>
     <string name="error_otp_secret_key">Секретный ключ должен быть в формате BASE32.</string>
