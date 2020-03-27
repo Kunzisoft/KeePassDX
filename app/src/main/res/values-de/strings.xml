@@ -454,4 +454,17 @@
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
+    <string name="contact">Kontakt</string>
+    <string name="html_about_contribution">Damit wir <strong>unsere Unabhängigkeit erhalten</strong>, <strong>Fehler korrigieren</strong>, <strong>Funktionen hinzufügen</strong> und <strong>weiterhin aktiv bleiben</strong> können, zählen wir auf Ihren <strong>Beitrag</strong>.</string>
+    <string name="auto_focus_search_title">Schnellsuche</string>
+    <string name="auto_focus_search_summary">Suche nach Öffnen einer Datenbank öffnen</string>
+    <string name="remember_database_locations_title">Speicherort der Datenbanken</string>
+    <string name="remember_database_locations_summary">Speicherort der Datenbanken merken</string>
+    <string name="remember_keyfile_locations_title">Speicherort der Schlüsseldateien</string>
+    <string name="remember_keyfile_locations_summary">Speicherort der Schlüssel zu Datenbanken merken</string>
+    <string name="show_recent_files_title">Zuletzt verwendete Dateien anzeigen</string>
+    <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
+    <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
+    <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
+    <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
 </resources>
