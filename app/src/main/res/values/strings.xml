@@ -209,7 +209,7 @@
     <string name="read_only">Write-protected</string>
     <string name="read_only_warning">Depending on your file manager, KeePassDX may not allowed to write in your storage.</string>
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">By validating this dialog, KeePassDX will fix the problem (by generating new UUIDs for duplicates) and continue.</string>
+    <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="selection_mode">Selection mode</string>
     <string name="remember_database_locations_title">Save location of databases</string>
     <string name="remember_database_locations_summary">Remember the location of databases</string>
@@ -254,9 +254,9 @@
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
-    <string name="warning_empty_password">Do you really want no password unlocking protection?</string>
-    <string name="warning_no_encryption_key">Are you sure you do not want to use any encryption key?</string>
-    <string name="warning_permanently_delete_nodes">Are you sure you want to permanently delete the selected nodes?</string>
+    <string name="warning_empty_password">Continue without password unlocking protection?</string>
+    <string name="warning_no_encryption_key">Continue without encryption key?</string>
+    <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
@@ -302,11 +302,11 @@
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
-    <string name="biometric_auto_open_prompt_title">Auto open biometric prompt</string>
+    <string name="biometric_auto_open_prompt_title">Auto-open biometric prompt</string>
     <string name="biometric_auto_open_prompt_summary">Automatically open biometric prompt when a biometric key is defined for a database</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
-    <string name="biometric_delete_all_key_warning">Are you sure you want to delete all keys related to biometric recognition?</string>
+    <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
     <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version %2$s required.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
@@ -328,7 +328,7 @@
     <string name="settings_database_recommend_changing_master_key_summary">Recommend changing the master key (days)</string>
     <string name="settings_database_force_changing_master_key_title">Force renewal</string>
     <string name="settings_database_force_changing_master_key_summary">Require changing the master key (days)</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Force renewal the next time</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Force renewal next time</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Require changing the master key the next time (once)</string>
     <string name="monospace_font_fields_enable_title">Field font</string>
     <string name="monospace_font_fields_enable_summary">Change font used in fields for better character visibility</string>
@@ -354,7 +354,7 @@
     <string name="keyboard">Keyboard</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Activate a custom keyboard populating your passwords and all identity fields</string>
-    <string name="device_keyboard_setting_title">Device keyboard Settings</string>
+    <string name="device_keyboard_setting_title">Device keyboard settings</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard settings</string>
@@ -374,7 +374,7 @@
     <string name="keyboard_theme_title">Keyboard theme</string>
     <string name="keyboard_keys_category">Keys</string>
     <string name="keyboard_auto_go_action_title">Auto key action</string>
-    <string name="keyboard_auto_go_action_summary">Action of the "Go" key performed automatically after pressing a "Field" key</string>
+    <string name="keyboard_auto_go_action_summary">\"Go\" key action after pressing a \"Field\" key</string>
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="allow_no_password_title">Allow no master key</string>
@@ -384,7 +384,7 @@
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
-    <string name="enable_auto_save_database_summary">Automatically save the database after an important action (only in \"Modifiable\" mode)</string>
+    <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
     <string name="enable_education_screens_title">Educational screens</string>
     <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
     <string name="reset_education_screens_title">Reset educational screens</string>
@@ -476,5 +476,5 @@
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
-    <string name="hide_expired_entries_summary">Expired entries will be hidden</string>
+    <string name="hide_expired_entries_summary">Expired entries are hidden</string>
 </resources>
