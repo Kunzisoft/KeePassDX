@@ -1,3 +1,6 @@
+KeePassDX(2.5beta31)
+ *
+
 KeePassDX(2.5beta30)
  * Fix Lock after screen off (wait 1.5 seconds)
  * Upgrade autofill algorithm
