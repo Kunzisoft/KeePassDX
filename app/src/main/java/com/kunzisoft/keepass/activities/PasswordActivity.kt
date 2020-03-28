@@ -286,10 +286,16 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
+        // Close the current activity if the file cannot be read
+        mDatabaseFileUri?.let {
+            if (!FileDatabaseInfo(this, it).exists)
+                finish()
+        } ?: finish()
 
         if (Database.getInstance().loaded)
             launchGroupActivity()
+
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
