@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.autofill
 
 import android.app.assist.AssistStructure
 import android.os.Build
+import android.text.InputType
 import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.View
@@ -63,15 +64,17 @@ internal class StructureParser(private val structure: AssistStructure) {
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
-        if (node.autofillId != null) {
+        if (node.autofillId != null
+                && node.autofillType == View.AUTOFILL_TYPE_TEXT) {
+            // Parse methods
             val hints = node.autofillHints
             if (hints != null && hints.isNotEmpty()) {
                 if (parseNodeByAutofillHint(node))
                     return true
-            } else {
-                if (parseNodeByHtmlAttributes(node))
-                    return true
-            }
+            } else if (parseNodeByHtmlAttributes(node))
+                return true
+            else if (parseNodeByAndroidInput(node))
+                return true
         }
         // Recursive method to process each node
         for (i in 0 until node.childCount) {
@@ -121,20 +124,62 @@ internal class StructureParser(private val structure: AssistStructure) {
                             when (pairAttribute.second.toLowerCase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
                                     result?.usernameId = autofillId
-                                    Log.d(TAG, "Autofill username type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "text" -> {
                                     usernameCandidate = autofillId
-                                    Log.d(TAG, "Autofill type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill username candidate web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "password" -> {
                                     result?.passwordId = autofillId
-                                    Log.d(TAG, "Autofill password type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill password web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                     return true
                                 }
                             }
                         }
                     }
+                }
+            }
+        }
+        return false
+    }
+
+    private fun parseNodeByAndroidInput(node: AssistStructure.ViewNode): Boolean {
+        val autofillId = node.autofillId
+        val inputType = node.inputType
+        if (inputType and InputType.TYPE_CLASS_TEXT != 0) {
+            when {
+                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS != 0 -> {
+                    result?.usernameId = autofillId
+                    Log.d(TAG, "Autofill username android type: $inputType")
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_NORMAL != 0 ||
+                        inputType and InputType.TYPE_NUMBER_VARIATION_NORMAL != 0 ||
+                        inputType and InputType.TYPE_TEXT_VARIATION_PERSON_NAME != 0 -> {
+                    usernameCandidate = autofillId
+                    Log.d(TAG, "Autofill username candidate android type: $inputType")
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0 ||
+                        inputType and InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD != 0 ||
+                        inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD != 0 -> {
+                    result?.passwordId = autofillId
+                    Log.d(TAG, "Autofill password android type: $inputType")
+                    return true
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_FILTER != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_PHONETIC != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_URI != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD != 0 -> {
+                    // Type not used
+                }
+                else -> {
+                    Log.d(TAG, "Autofill unknown android type: $inputType")
+                    usernameCandidate = autofillId
                 }
             }
         }
