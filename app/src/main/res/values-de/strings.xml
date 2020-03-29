@@ -457,7 +457,7 @@
     <string name="contact">Kontakt</string>
     <string name="html_about_contribution">Damit wir <strong>unsere Unabhängigkeit erhalten</strong>, <strong>Fehler korrigieren</strong>, <strong>Funktionen hinzufügen</strong> und <strong>weiterhin aktiv bleiben</strong> können, zählen wir auf Ihren <strong>Beitrag</strong>.</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
-    <string name="auto_focus_search_summary">Suche nach Öffnen einer Datenbank öffnen</string>
+    <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
     <string name="remember_database_locations_title">Speicherort der Datenbanken</string>
     <string name="remember_database_locations_summary">Speicherort der Datenbanken merken</string>
     <string name="remember_keyfile_locations_title">Speicherort der Schlüsseldateien</string>
