@@ -85,22 +85,22 @@ internal class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_USERNAME
-                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_EMAIL_ADDRESS
-                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PHONE -> {
+                it.equals(View.AUTOFILL_HINT_USERNAME, true)
+                        || it.equals(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
+                        || it.equals(View.AUTOFILL_HINT_PHONE, true) -> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
-                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PASSWORD
-                        || it.toLowerCase(Locale.ENGLISH).contains("password") -> {
+                it.equals(View.AUTOFILL_HINT_PASSWORD, true)
+                        || it.contains("password", true) -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
-                it.toLowerCase(Locale.ENGLISH) == "off" ||
-                it.toLowerCase(Locale.ENGLISH) == "on" -> {
+                it.equals("off", true) ||
+                it.equals("on", true) -> {
                     Log.d(TAG, "Autofill web hint")
                     return parseNodeByHtmlAttributes(node)
                 }
