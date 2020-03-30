@@ -445,7 +445,7 @@
     <string name="keyboard_auto_go_action_summary">Handling af Gå-tasten udføres automatisk, efter der er trykket på en Felt nøgle</string>
     <string name="download_attachment">Hent %1$s</string>
     <string name="download_initialization">Initialiserer…</string>
-    <string name="download_progression">I gang: %1$d%</string>
+    <string name="download_progression">I gang: %1$d&#37;</string>
     <string name="download_finalization">Færdiggørelse…</string>
     <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>

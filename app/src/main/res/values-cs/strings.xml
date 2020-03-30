@@ -446,7 +446,7 @@
     <string name="keyboard_auto_go_action_summary">Automatická akce klíče Jít po stisknutí klíče Pole</string>
     <string name="download_attachment">Stáhnout %1$s</string>
     <string name="download_initialization">Zahajuji…</string>
-    <string name="download_progression">Probíhá: %1$d%</string>
+    <string name="download_progression">Probíhá: %1$d&#37;</string>
     <string name="download_finalization">Dokončuji…</string>
     <string name="download_complete">Ukončeno! Klepnout pro otevření souboru.</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>

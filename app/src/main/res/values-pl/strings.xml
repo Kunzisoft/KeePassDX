@@ -152,7 +152,7 @@
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="html_about_licence">KeePassDX © %1 $d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
 \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
@@ -446,7 +446,7 @@
     <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane jest automatycznie po naciśnięciu klawisza Field</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
-    <string name="download_progression">W trakcie realizacji: %1$d%</string>
+    <string name="download_progression">W trakcie realizacji: %1$d&#37;</string>
     <string name="download_finalization">Kończę…</string>
     <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
