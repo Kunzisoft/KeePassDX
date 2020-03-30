@@ -21,7 +21,7 @@
     Translations from Matthias Dill
     Translations from David Ramiro
 --><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="feedback">Feedback</string>
+    <string name="feedback">Rückmeldung</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
@@ -266,7 +266,7 @@
     <string name="education_biometric_summary">Verknüpft Ihr Passwort mit Ihrer gescannten Biometrie, um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
-    <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
@@ -281,7 +281,7 @@
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
-    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt; und unter <stark>Copyleft lizenziert</stark>. &lt;strong&gt;Es werden keine persönlichen Daten gesammelt&lt;/strong&gt;, in welcher Form auch immer, egal welche Version (kostenlos oder pro) Sie verwenden.</string>
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und unter <strong>Copyleft lizenziert</strong>. Es werden keine persönlichen Daten gesammelt, in welcher Form auch immer, egal welche Version (kostenlos oder pro) Sie verwenden.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser &lt;strong&gt;visuellen Funktion&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projektarbeiten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
@@ -410,7 +410,7 @@
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
-    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden und danach fortfahren\?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
@@ -441,7 +441,7 @@
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
-    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
+    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
@@ -454,4 +454,25 @@
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
+    <string name="contact">Kontakt</string>
+    <string name="html_about_contribution">Damit wir <strong>unsere Unabhängigkeit erhalten</strong>, <strong>Fehler korrigieren</strong>, <strong>Funktionen hinzufügen</strong> und <strong>weiterhin aktiv bleiben</strong> können, zählen wir auf Ihren <strong>Beitrag</strong>.</string>
+    <string name="auto_focus_search_title">Schnellsuche</string>
+    <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
+    <string name="remember_database_locations_title">Speicherort der Datenbanken</string>
+    <string name="remember_database_locations_summary">Speicherort der Datenbanken merken</string>
+    <string name="remember_keyfile_locations_title">Speicherort der Schlüsseldateien</string>
+    <string name="remember_keyfile_locations_summary">Speicherort der Schlüssel zu Datenbanken merken</string>
+    <string name="show_recent_files_title">Zuletzt verwendete Dateien anzeigen</string>
+    <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
+    <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
+    <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
+    <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
+    <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>
+    <string name="education_setup_OTP_title">Einrichten von OTP</string>
+    <string name="error_create_database">Es ist nicht möglich, eine Datenbankdatei zu erstellen.</string>
+    <string name="entry_add_attachment">Anhang hinzufügen</string>
+    <string name="discard">Verwerfen</string>
+    <string name="discard_changes">Änderungen verwerfen\?</string>
+    <string name="validate">Validieren</string>
+    <string name="contribution">Mitwirken</string>
 </resources>
