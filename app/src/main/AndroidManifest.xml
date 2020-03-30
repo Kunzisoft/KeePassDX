@@ -15,7 +15,6 @@
     <uses-permission
         android:name="android.permission.VIBRATE"/>
     <uses-permission
-        android:maxSdkVersion="18"
         android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application

@@ -23,6 +23,7 @@ import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,13 +33,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -92,6 +91,7 @@ open class PasswordActivity : StylishActivity() {
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
+    private var mPermissionAsked = false
     private var readOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
@@ -130,6 +130,7 @@ open class PasswordActivity : StylishActivity() {
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
         infoContainerView = findViewById(R.id.activity_password_info_container)
 
+        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         val browseView = findViewById<View>(R.id.open_database_button)
@@ -285,10 +286,16 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
+        // Close the current activity if the file cannot be read
+        mDatabaseFileUri?.let {
+            if (!FileDatabaseInfo(this, it).exists)
+                finish()
+        } ?: finish()
 
         if (Database.getInstance().loaded)
             launchGroupActivity()
+
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
@@ -305,6 +312,7 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         mDatabaseKeyFileUri?.let {
             outState.putString(KEY_KEYFILE, it.toString())
         }
@@ -571,9 +579,40 @@ open class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu)
+        launchEducation(menu) {
+            launchCheckPermission()
+        }
 
         return true
+    }
+
+    // Check permission
+    private fun launchCheckPermission() {
+        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        val permissions = arrayOf(writePermission)
+        if (Build.VERSION.SDK_INT >= 23
+                && !readOnly
+                && !mPermissionAsked) {
+            mPermissionAsked = true
+            // Check self permission to show or not the dialog
+            if (toolbar != null
+                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_REQUEST -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     // To fix multiple view education
@@ -703,6 +742,8 @@ open class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
+        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
+        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
