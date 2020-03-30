@@ -197,7 +197,7 @@
     <string name="warning">Advarsel</string>
     <string name="warning_password_encoding">Undgå adgangskodetegn uden for tekstkodningsformatet i databasefilen (ukendte tegn konverteres til samme bogstav).</string>
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
-    <string name="warning_no_encryption_key">Bekræft ingen brug af en krypteringsnøgle?</string>
+    <string name="warning_no_encryption_key">Fortsæt uden krypteringsnøgle\?</string>
     <string name="configure_biometric">Biometrisk prompt understøttes, men er ikke konfigureret.</string>
     <string name="open_biometric_prompt_unlock_database">Åbn den biometriske prompt for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
@@ -230,7 +230,7 @@
     <string name="biometric_unlock_enable_summary">Lader dig scanne din biometrisk for at åbne databasen</string>
     <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>
     <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
-    <string name="biometric_delete_all_key_warning">Bekræft sletning af alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>
+    <string name="biometric_delete_all_key_warning">Slet alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
     <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>
@@ -279,7 +279,7 @@
     <string name="education_biometric_summary">Link adgangskoden til det scannede fingeraftryk for hurtigt at låse databasen op.</string>
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool data kan refereres mellem forskellige indtastningsfelter.</string>
-    <string name="education_generate_password_title">Opret en stærk adgangskode til posten.</string>
+    <string name="education_generate_password_title">Opret en stærk adgangskode</string>
     <string name="education_generate_password_summary">Generer en stærk kodeord til at forbinde elementet, definer det i henhold til kriteriet for formularen og glem ikke et sikkert kodeord.</string>
     <string name="education_entry_new_field_title">Tilføj brugerdefinerede felter</string>
     <string name="education_entry_new_field_summary">Registrer et ekstra felt, tilføj en værdi og beskyt det eventuelt.</string>
@@ -323,7 +323,7 @@
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Magikeyboard indstillinger</string>
     <string name="keyboard_entry_category">Post</string>
-    <string name="keyboard_entry_timeout_title">Timeout</string>
+    <string name="keyboard_entry_timeout_title">Udløbstid</string>
     <string name="keyboard_notification_entry_title">Meddelelsesinfo</string>
     <string name="keyboard_notification_entry_summary">Vis en meddelelse, når en post er til rådighed</string>
     <string name="keyboard_notification_entry_content_title_text">Post</string>
@@ -375,7 +375,7 @@
     <string name="error_create_database_file">Kan ikke oprette database med denne adgangskode og nøglefil.</string>
     <string name="menu_advanced_unlock_settings">Avanceret oplåsning</string>
     <string name="biometric_prompt_store_credential_title">Gem biometrisk genkendelse</string>
-    <string name="biometric_prompt_store_credential_message">ADVARSEL: Brug af biometrisk genkendelse fritager ikke for at kende hovedadgangskode.</string>
+    <string name="biometric_prompt_store_credential_message">Advarsel: hovedadgangskoden skal stadig huskes, hvis der bruges biometrisk genkendelse.</string>
     <string name="biometric_prompt_extract_credential_title">Åbn database med biometrisk genkendelse</string>
     <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
     <string name="biometric">Biometrisk</string>
@@ -406,7 +406,7 @@
     <string name="menu_security_settings">Sikkerhedsindstillinger</string>
     <string name="menu_master_key_settings">Indstillinger for hovednøgle</string>
     <string name="contains_duplicate_uuid">Databasen indeholder dublerede UUID\'er.</string>
-    <string name="contains_duplicate_uuid_procedure">Ved at godkende dialogboksen, vil KeePassDX løse problemet (ved at generere nye UUID\'er for dubletter) og fortsætte.</string>
+    <string name="contains_duplicate_uuid_procedure">Løs problemet ved at generere nye UUID\'er for dubletter til at fortsætte\?</string>
     <string name="database_opened">Database åbnet</string>
     <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
@@ -432,12 +432,12 @@
     <string name="menu_save_database">Gem database</string>
     <string name="menu_empty_recycle_bin">Tøm papirkurven</string>
     <string name="command_execution">Udfører kommandoen…</string>
-    <string name="warning_permanently_delete_nodes">Bekræft sletning ad de markerede noder permanent\?</string>
+    <string name="warning_permanently_delete_nodes">Slet markerede noder permanent\?</string>
     <string name="keystore_not_accessible">Nøglelageret er ikke korrekt initialiseret.</string>
     <string name="credential_before_click_biometric_button">Skriv adgangskoden, før der klikkes på den biometriske knap.</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>
     <string name="enable_auto_save_database_title">Gem automatisk database</string>
-    <string name="enable_auto_save_database_summary">Gem automatisk databasen efter en vigtig handling (kun i tilstanden \"Modificerbar\")</string>
+    <string name="enable_auto_save_database_summary">Gem databasen efter hver en vigtig handling (i tilstanden \"Modificerbar\")</string>
     <string name="entry_attachments">Vedhæftninger</string>
     <string name="menu_restore_entry_history">Gendan historik</string>
     <string name="menu_delete_entry_history">Slet historik</string>
@@ -449,7 +449,7 @@
     <string name="download_finalization">Færdiggørelse…</string>
     <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
-    <string name="hide_expired_entries_summary">Udløbne poster vil blive skjult</string>
+    <string name="hide_expired_entries_summary">Udløbne poster er skjult</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Bidrag</string>
     <string name="feedback">Tilbagemelding</string>
@@ -467,4 +467,11 @@
     <string name="hide_broken_locations_title">Skjule brudte databaselinks</string>
     <string name="hide_broken_locations_summary">Skjul brudte links på listen over seneste databaser</string>
     <string name="warning_database_read_only">Giv fil skriveadgang for at gemme databasændringer</string>
+    <string name="education_setup_OTP_summary">Opsætning af engangsadgangskodestyring (HOTP / TOTP) for at generere et token anmodet om tofaktorautentisering (2FA).</string>
+    <string name="education_setup_OTP_title">Opsætning af OTP</string>
+    <string name="error_create_database">Databasefilen kunne ikke oprettes.</string>
+    <string name="entry_add_attachment">Tilføj vedhæng</string>
+    <string name="discard">Kassér</string>
+    <string name="discard_changes">Kasser ændringer\?</string>
+    <string name="validate">Valider</string>
 </resources>
