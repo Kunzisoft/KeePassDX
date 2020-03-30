@@ -42,9 +42,9 @@
     <string name="clipboard_timeout">Zwischenablage-Timeout</string>
     <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
+    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen…</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
+    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte…</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
@@ -97,7 +97,7 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
-    <string name="loading_database">Datenbank wird geladen …</string>
+    <string name="loading_database">Datenbank wird geladen…</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="hide_password_title">Passwort verstecken</string>
     <string name="hide_password_summary">Passwörter standardmäßig mit (***) maskieren</string>
@@ -121,8 +121,8 @@
     <string name="open_recent">Zuletzt geöffnete Datenbanken</string>
     <string name="omit_backup_search_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omit_backup_search_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
-    <string name="progress_create">Neue Datenbank anlegen …</string>
-    <string name="progress_title">Ausführen …</string>
+    <string name="progress_create">Neue Datenbank anlegen…</string>
+    <string name="progress_title">Ausführen…</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
@@ -131,7 +131,7 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Datenbank wird gespeichert …</string>
+    <string name="saving_database">Datenbank wird gespeichert…</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Sortierung</string>
@@ -297,8 +297,8 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
-    <string name="icon_pack_choose_title">Symbolepaket</string>
-    <string name="icon_pack_choose_summary">In der App verwendetes Symbolepaket</string>
+    <string name="icon_pack_choose_title">Symbolpaket</string>
+    <string name="icon_pack_choose_summary">In der App verwendetes Symbolpaket</string>
     <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
@@ -344,7 +344,7 @@
     <string name="keyboard_key_vibrate_title">Vibrierende Tastendrücke</string>
     <string name="keyboard_key_sound_title">Hörbare Tastendrücke</string>
     <string name="selection_mode">Auswahlmodus</string>
-    <string name="do_not_kill_app">Nicht die App beenden …</string>
+    <string name="do_not_kill_app">Nicht die App beenden…</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm der Zurück-Button gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -435,7 +435,7 @@
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Datenbank speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
-    <string name="command_execution">Befehl ausführen …</string>
+    <string name="command_execution">Befehl ausführen…</string>
     <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
@@ -450,7 +450,7 @@
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren…</string>
     <string name="download_progression">Fortschritt: %1$d%</string>
-    <string name="download_finalization">Fertigstellung…</string>
+    <string name="download_finalization">Fertigstellen…</string>
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
