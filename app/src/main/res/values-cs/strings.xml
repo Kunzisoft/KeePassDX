@@ -468,4 +468,9 @@
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;otevřený software&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
 \nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
     <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;opravili chyby&lt;/strong&gt;,&lt;strong&gt;doplnili funkce&lt;/strong&gt; a &lt;strong&gt;byli vždy aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
+    <string name="error_create_database">Nedaří se vytvořit soubor s databází.</string>
+    <string name="entry_add_attachment">Přidat přílohu</string>
+    <string name="discard">Zahodit</string>
+    <string name="discard_changes">Zahodit změny\?</string>
+    <string name="validate">Ověřit</string>
 </resources>
