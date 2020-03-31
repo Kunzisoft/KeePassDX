@@ -446,7 +446,7 @@
     <string name="keyboard_auto_go_action_summary">Выполнять команду \"Ввод\" автоматически после нажатия кнопки заполнения поля</string>
     <string name="download_attachment">Скачать %1$s</string>
     <string name="download_initialization">Инициализация…</string>
-    <string name="download_progression">Выполнение: %1$d%</string>
+    <string name="download_progression">Выполнение: %1$d&#37;</string>
     <string name="download_finalization">Завершение…</string>
     <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
