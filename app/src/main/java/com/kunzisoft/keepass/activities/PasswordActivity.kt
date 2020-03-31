@@ -133,9 +133,13 @@ open class PasswordActivity : StylishActivity() {
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
-        val browseView = findViewById<View>(R.id.open_database_button)
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
-        browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
+        findViewById<View>(R.id.open_keyfile_button)?.apply {
+            mOpenFileHelper?.openFileOnClickViewListener?.let {
+                setOnClickListener(it)
+                setOnLongClickListener(it)
+            }
+        }
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {

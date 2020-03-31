@@ -105,8 +105,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
         createButtonView?.setOnClickListener { createNewFile() }
 
         mOpenFileHelper = OpenFileHelper(this)
-        openDatabaseButtonView = findViewById(R.id.open_database_button)
-        openDatabaseButtonView?.setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+        openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
+        openDatabaseButtonView?.apply {
+            mOpenFileHelper?.openFileOnClickViewListener?.let {
+                setOnClickListener(it)
+                setOnLongClickListener(it)
+            }
+        }
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
