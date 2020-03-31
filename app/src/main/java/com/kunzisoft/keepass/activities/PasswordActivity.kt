@@ -65,6 +65,7 @@ import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
@@ -76,7 +77,7 @@ open class PasswordActivity : StylishActivity() {
     private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
-    private var keyFileView: EditText? = null
+    private var keyFileSelectionView: KeyFileSelectionView? = null
     private var confirmButtonView: Button? = null
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
@@ -123,7 +124,7 @@ open class PasswordActivity : StylishActivity() {
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
-        keyFileView = findViewById(R.id.pass_keyfile)
+        keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
@@ -134,7 +135,7 @@ open class PasswordActivity : StylishActivity() {
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
-        findViewById<View>(R.id.open_keyfile_button)?.apply {
+        keyFileSelectionView?.apply {
             mOpenFileHelper?.openFileOnClickViewListener?.let {
                 setOnClickListener(it)
                 setOnLongClickListener(it)
@@ -150,17 +151,6 @@ open class PasswordActivity : StylishActivity() {
             override fun afterTextChanged(editable: Editable) {
                 if (editable.toString().isNotEmpty() && checkboxPasswordView?.isChecked != true)
                     checkboxPasswordView?.isChecked = true
-            }
-        })
-        keyFileView?.setOnEditorActionListener(onEditorActionListener)
-        keyFileView?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun afterTextChanged(editable: Editable) {
-                if (editable.toString().isNotEmpty() && checkboxKeyFileView?.isChecked != true)
-                    checkboxKeyFileView?.isChecked = true
             }
         })
 
@@ -357,7 +347,7 @@ open class PasswordActivity : StylishActivity() {
 
         // Define Key File text
         if (mRememberKeyFile) {
-            populateKeyFileTextView(keyFileUri?.toString())
+            populateKeyFileTextView(keyFileUri)
         }
 
         // Define listeners for default database checkbox and validate button
@@ -471,13 +461,13 @@ open class PasswordActivity : StylishActivity() {
         }
     }
 
-    private fun populateKeyFileTextView(text: String?) {
-        if (text == null || text.isEmpty()) {
-            keyFileView?.setText("")
+    private fun populateKeyFileTextView(uri: Uri?) {
+        if (uri == null || uri.toString().isEmpty()) {
+            keyFileSelectionView?.uri = null
             if (checkboxKeyFileView?.isChecked == true)
                 checkboxKeyFileView?.isChecked = false
         } else {
-            keyFileView?.setText(text)
+            keyFileSelectionView?.uri = uri
             if (checkboxKeyFileView?.isChecked != true)
                 checkboxKeyFileView?.isChecked = true
         }
@@ -498,7 +488,7 @@ open class PasswordActivity : StylishActivity() {
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val password: String? = passwordView?.text?.toString()
-        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
+        val keyFile: Uri? = keyFileSelectionView?.uri
         verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
     }
 
@@ -511,7 +501,7 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
-        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
+        val keyFile: Uri? = keyFileSelectionView?.uri
         verifyKeyFileCheckbox(keyFile)
         loadDatabase(mDatabaseFileUri, password, mDatabaseKeyFileUri)
     }
@@ -721,7 +711,7 @@ open class PasswordActivity : StylishActivity() {
             ) { uri ->
                 if (uri != null) {
                     mDatabaseKeyFileUri = uri
-                    populateKeyFileTextView(uri.toString())
+                    populateKeyFileTextView(uri)
                 }
             }
         }
