@@ -112,6 +112,11 @@ class EntryEditActivity : LockingActivity(),
                         .show(supportFragmentManager, "DatePickerFragment")
             }
         }
+
+        findViewById<View>(R.id.lock_button)?.setOnClickListener {
+            lockAndExit()
+        }
+
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
@@ -416,10 +421,6 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
-            }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
             }

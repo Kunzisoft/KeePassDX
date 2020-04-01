@@ -126,4 +126,13 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/lock_button"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_lock_white_24dp"
+        android:background="@drawable/background_start_bottom_button"
+        android:contentDescription="@string/menu_lock"
+        android:layout_gravity="start|bottom" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

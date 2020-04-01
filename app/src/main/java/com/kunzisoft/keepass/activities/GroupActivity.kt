@@ -89,6 +89,7 @@ class GroupActivity : LockingActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var lockView: ImageView? = null
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -134,6 +135,11 @@ class GroupActivity : LockingActivity(),
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
         modeTitleView = findViewById(R.id.mode_title_view)
+        lockView = findViewById(R.id.lock_button)
+
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
@@ -753,12 +759,10 @@ class GroupActivity : LockingActivity(),
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
-                    toolbar != null
-                            && toolbar!!.findViewById<View>(R.id.menu_lock) != null
-                            && groupActivityEducation.checkAndPerformedLockMenuEducation(
-                            toolbar!!.findViewById(R.id.menu_lock),
+                    lockView != null
+                            && groupActivityEducation.checkAndPerformedLockMenuEducation(lockView!!,
                             {
-                                onOptionsItemSelected(menu.findItem(R.id.menu_lock))
+                                lockAndExit()
                             },
                             {
                                 performedNextEducation(groupActivityEducation, menu)
@@ -777,10 +781,6 @@ class GroupActivity : LockingActivity(),
             R.id.menu_search ->
                 //onSearchRequested();
                 return true
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
-            }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
                 return true

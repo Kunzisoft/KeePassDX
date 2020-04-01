@@ -125,6 +125,10 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
         entryProgress = findViewById(R.id.entry_progress)
 
+        findViewById<View>(R.id.lock_button)?.setOnClickListener {
+            lockAndExit()
+        }
+
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         firstLaunchOfActivity = true
@@ -525,10 +529,6 @@ class EntryActivity : LockingActivity() {
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
                 }
-            }
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
             }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
