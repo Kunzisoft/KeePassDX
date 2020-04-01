@@ -429,9 +429,22 @@
     <string name="keyboard_auto_go_action_summary">Alan tuşuna bastıktan sonra otomatik olarak gerçekleştirilen Git tuşunun eylemi</string>
     <string name="download_attachment">İndir %1$s</string>
     <string name="download_initialization">Başlatılıyor…</string>
-    <string name="download_progression">Devam ediyor: %1$d&#37;</string>
+    <string name="download_progression">Devam ediyor: %1$d%</string>
     <string name="download_finalization">Sonlandırılıyor…</string>
     <string name="download_complete">Tamamlandı! Dosyayı açmak için dokunun.</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
     <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gizlenecek</string>
+    <string name="warning_database_read_only">Veritabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
+    <string name="hide_broken_locations_summary">Son veritabanları listesindeki bozuk bağlantıları gizle</string>
+    <string name="hide_broken_locations_title">Bozuk veritabanı bağlantılarını gizle</string>
+    <string name="show_recent_files_summary">Son veritabanlarının konumlarını göster</string>
+    <string name="show_recent_files_title">Son dosyaları göster</string>
+    <string name="remember_keyfile_locations_summary">Veri tabanını anahtar dosyalarının konumunu hatırla</string>
+    <string name="remember_keyfile_locations_title">"Anahtar dosyalarının konumlarını kaydet "</string>
+    <string name="remember_database_locations_summary">"Veri tabanlarının konumlarını hatırla "</string>
+    <string name="remember_database_locations_title">Veri tabanını konumlarını kaydet</string>
+    <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
+    <string name="auto_focus_search_title">Hızlı arama</string>
+    <string name="contribution">Katkı</string>
+    <string name="contact">İletişim</string>
 </resources>
