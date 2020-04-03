@@ -278,7 +278,7 @@
     <string name="education_biometric_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
-    <string name="education_generate_password_title">Güçlü bir parola oluşturun.</string>
+    <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
     <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
     <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
