@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
-    <string name="about_description">Android平台上的KeePass密码管理器</string>
+    <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
@@ -123,8 +123,8 @@
     <string name="uppercase">大写</string>
     <string name="warning_unmounted">请挂载内存卡以新建或加载数据库。</string>
     <string name="education_unlock_summary">输入密码和/或密钥文件来解锁你的数据库。
-\n
-\n记得在每次更改后将数据库文件备份至安全的地方。</string>
+\n 
+\n记得在每次做出更改后，将数据库文件备份至安全的地方。</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -222,7 +222,7 @@
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
     <string name="magic_keyboard_title">魔法键盘</string>
-    <string name="enable_read_only_title">写保护（只读模式）</string>
+    <string name="enable_read_only_title">写入保护（只读模式）</string>
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
@@ -246,7 +246,7 @@
     <string name="biometric_scanning_error">生物识别错误：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认的填充服务</string>
-    <string name="autofill_explanation_summary">启用自动填充功能，以便捷地在其他程序中填写信息</string>
+    <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
     <string name="list_password_generator_options_title">密码字符集</string>
@@ -316,11 +316,11 @@
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
     <string name="education_unlock_title">解锁数据库</string>
-    <string name="education_read_only_title">为数据库开启写保护（只读）</string>
-    <string name="education_read_only_summary">在会话中改变打开模式。
-\n
-\n“写保护（只读）”将阻止对数据库的任何修改。
-\n“可编辑（可写）”让添加、删除或者修改元素。</string>
+    <string name="education_read_only_title">数据库启用写入保护（只读）</string>
+    <string name="education_read_only_summary">更改会话的打开模式。 
+\n 
+\n“写入保护（只读）”可防止对数据库的意外更改。 
+\n“可编辑（可写）”允许您添加、删除或者修改元素。</string>
     <string name="education_field_copy_title">复制字段</string>
     <string name="education_field_copy_summary">已复制的字段可以粘贴到任何地方。
 \n
@@ -345,7 +345,7 @@
     <string name="selection_mode">选择模式</string>
     <string name="do_not_kill_app">不要终止程序…</string>
     <string name="lock_database_back_root_title">按返回键以锁定</string>
-    <string name="lock_database_back_root_summary">在点按根屏幕上的后退按钮时锁定数据库</string>
+    <string name="lock_database_back_root_summary">点击屏幕底部的返回键时锁定数据库</string>
     <string name="clear_clipboard_notification_title">关闭程序时清空剪贴板</string>
     <string name="clear_clipboard_notification_summary">清除通知时锁定数据库</string>
     <string name="recycle_bin">回收站</string>
