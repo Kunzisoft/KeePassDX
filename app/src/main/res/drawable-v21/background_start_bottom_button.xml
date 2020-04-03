@@ -9,19 +9,19 @@
         <shape>
             <stroke
                 android:width="1dp"
-                android:color="?attr/colorPrimaryDark" />
+                android:color="?attr/colorAccentLight" />
             <corners
                 android:topLeftRadius="0dp"
                 android:topRightRadius="40dp"
                 android:bottomLeftRadius="0dp"
                 android:bottomRightRadius="0dp"/>
             <padding
-                android:left="0dp"
+                android:left="4dp"
                 android:right="12dp"
-                android:top="16dp"
+                android:top="18dp"
                 android:bottom="8dp"/>
             <solid
-                android:color="?attr/colorPrimary" />
+                android:color="?attr/colorAccent" />
         </shape>
     </item>
 </ripple>
