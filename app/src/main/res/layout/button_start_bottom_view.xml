@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.AppCompatImageView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lock_button"
+    android:layout_width="48dp"
+    android:layout_height="48dp"
+    android:elevation="4dp"
+    android:src="@drawable/ic_lock_white_24dp"
+    android:background="@drawable/background_start_bottom_button"
+    android:contentDescription="@string/menu_lock"
+    tools:targetApi="lollipop" />

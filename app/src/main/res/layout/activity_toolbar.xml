@@ -19,6 +19,7 @@
 -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/toolbar_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -39,13 +40,11 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/lock_button"
+    <include
+        layout="@layout/button_start_bottom_view"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:visibility="gone"
-        android:src="@drawable/ic_lock_white_24dp"
-        android:background="@drawable/background_start_bottom_button"
-        android:contentDescription="@string/menu_lock"
         android:layout_gravity="start|bottom" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

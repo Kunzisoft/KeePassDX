@@ -140,13 +140,10 @@
                 android:background="?android:attr/windowBackground" />
         </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/lock_button"
+        <include
+            layout="@layout/button_start_bottom_view"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_lock_white_24dp"
-            android:background="@drawable/background_start_bottom_button"
-            android:contentDescription="@string/menu_lock"
             app:layout_anchor="@+id/node_list_container"
             app:layout_anchorGravity="start|bottom" />
 
