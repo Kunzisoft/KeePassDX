@@ -281,7 +281,7 @@
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
     <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
-    <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
+    <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isterseniz koruyun.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
     <string name="education_unlock_summary">Veritabanınızın kilidini açmak için parola ve/veya anahtar dosya girin.
 \n
