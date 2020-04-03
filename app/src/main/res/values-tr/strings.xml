@@ -64,7 +64,8 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>özgür yazılımdır</strong> ve <strong>reklam içermez</strong>. 
+\n<strong>GPLv3</strong> lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">Arcfour akış şifresi desteklenmiyor.</string>
@@ -281,7 +282,7 @@
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
     <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
-    <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isterseniz koruyun.</string>
+    <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isteğe bağlı olarak koruyun.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
     <string name="education_unlock_summary">Veritabanınızın kilidini açmak için parola ve/veya anahtar dosya girin.
 \n
@@ -301,7 +302,7 @@
     <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katıl</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
-    <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt;açık kaynaklı&lt;/strong&gt; ve &lt;strong&gt;copyleft lisanslıdır&lt;/strong&gt;. Hangi sürümü (ücretsiz veya profesyonel) kullanırsanız kullanın, herhangi bir biçimde &lt;strong&gt;kişisel veri toplanmamaktadır&lt;/strong&gt;.</string>
+    <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama <strong>reklam içermez</strong>, <strong> copyleft lisanslı özgür yazılımdır</strong> ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
     <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu &lt;strong&gt;görsel stile&lt;/strong&gt; erişebilecek ve özellikle &lt;strong&gt;topluluk projelerinin gerçekleştirilmesine&lt;/strong&gt; yardımcı olacaksınız.</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görsel stil&lt;/strong&gt;, cömertliğiniz sayesinde kullanılabilir.</string>
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için &lt;strong&gt;katkılarınıza&lt;/strong&gt; güveniyoruz</string>
@@ -440,8 +441,8 @@
     <string name="show_recent_files_summary">Son veritabanlarının konumlarını göster</string>
     <string name="show_recent_files_title">Son dosyaları göster</string>
     <string name="remember_keyfile_locations_summary">Veri tabanını anahtar dosyalarının konumunu hatırla</string>
-    <string name="remember_keyfile_locations_title">"Anahtar dosyalarının konumlarını kaydet "</string>
-    <string name="remember_database_locations_summary">"Veri tabanlarının konumlarını hatırla "</string>
+    <string name="remember_keyfile_locations_title">Anahtar dosyalarının konumlarını kaydet</string>
+    <string name="remember_database_locations_summary">Veri tabanlarının konumlarını hatırla</string>
     <string name="remember_database_locations_title">Veri tabanını konumlarını kaydet</string>
     <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
     <string name="auto_focus_search_title">Hızlı arama</string>
@@ -450,7 +451,7 @@
     <string name="education_setup_OTP_summary">İki öğeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için Bir Kerelik Parola yönetimini (HOTP / TOTP) ayarlayın.</string>
     <string name="education_setup_OTP_title">OTP ayarla</string>
     <string name="error_create_database">Veritabanı dosyası oluşturulamıyor.</string>
-    <string name="html_about_contribution">&lt;strong&gt; Özgürlüğümüzü korumak&lt;/strong&gt;, &lt;strong&gt; hataları düzeltmek&lt;/strong&gt;, &lt;strong&gt; özellikler eklemek &lt;/strong&gt;ve&lt;/strong&gt; her zaman etkin olmak için&lt;/strong&gt;, &lt;strong&gt; desteğinize güveniyoruz&lt;/strong&gt;.</string>
+    <string name="html_about_contribution"><strong>Özgürlüğümüzü korumak</strong>, <strong>hataları düzeltmek</strong>, <strong>özellikler eklemek</strong> ve <strong>her zaman etkin olmak</strong> için, <strong>desteğinize</strong> güveniyoruz.</string>
     <string name="entry_add_attachment">Ek ekle</string>
     <string name="discard">Vazgeç</string>
     <string name="discard_changes">Değişikliklerden vazgeç\?</string>
