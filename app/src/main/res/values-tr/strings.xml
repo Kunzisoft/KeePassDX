@@ -450,7 +450,7 @@
     <string name="education_setup_OTP_summary">İki öğeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için Bir Kerelik Parola yönetimini (HOTP / TOTP) ayarlayın.</string>
     <string name="education_setup_OTP_title">OTP ayarla</string>
     <string name="error_create_database">Veritabanı dosyası oluşturulamıyor.</string>
-    <string name="html_about_contribution">&lt;strong&gt; Özgürlüğümüzü korumak &lt;/strong&gt;, &lt;strong&gt; hataları düzeltmek &lt;/strong&gt;, &lt;strong&gt; özellikler eklemek &lt;/strong&gt; ve &lt;strong&gt; her zaman etkin olmak için &lt;/strong&gt;, &lt;strong&gt; desteğinize güveniyoruz&lt;/ strong&gt;.</string>
+    <string name="html_about_contribution">&lt;strong&gt; Özgürlüğümüzü korumak&lt;/strong&gt;, &lt;strong&gt; hataları düzeltmek&lt;/strong&gt;, &lt;strong&gt; özellikler eklemek &lt;/strong&gt;ve&lt;/strong&gt; her zaman etkin olmak için&lt;/strong&gt;, &lt;strong&gt; desteğinize güveniyoruz&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Ek ekle</string>
     <string name="discard">Vazgeç</string>
     <string name="discard_changes">Değişikliklerden vazgeç\?</string>
