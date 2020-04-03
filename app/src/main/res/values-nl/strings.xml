@@ -278,7 +278,7 @@
     <string name="education_new_node_summary">Voeg items toe om je digitale identiteiten te beheren.
 \n
 \nVoeg groepen toe (groepen zijn gelijk aan mappen) om items in je databank te organiseren.</string>
-    <string name="education_search_title">"Doorzoek  al je items"</string>
+    <string name="education_search_title">Doorzoek al je items</string>
     <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om wachtwoorden te vinden.</string>
     <string name="education_biometric_title">Ontgrendel de databank met je vingerafdruk</string>
     <string name="education_biometric_summary">Koppel je wachtwoord en vingerafdruk om de databank snel te ontgrendelen.</string>
