@@ -39,8 +39,8 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是Kunzisoft的一个&lt;strong&gt;开源&lt;/strong&gt;和&lt;strong&gt;无广告&lt;/strong&gt;软件。
-\n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 的一个<strong>自由软件</strong>并且<strong>不含广告</strong>。 
+\n它是根据<strong>GPLv3</strong>许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
     <string name="entry_cancel">取消</string>
@@ -312,7 +312,7 @@
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
     <string name="education_generate_password_title">新建一个强密码</string>
-    <string name="education_generate_password_summary">依据表格中的标准生成新密码，并将密码与条目关联起来，永不忘记。</string>
+    <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
     <string name="education_unlock_title">解锁数据库</string>
@@ -331,14 +331,14 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于copylefted版权协议的免费软件&lt;/strong&gt;，同样的本软件的任何版本也不会收集您的个人信息。</string>
-    <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供的帮助</string>
-    <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;现在已经可用，感谢慷慨相助。</string>
-    <string name="html_text_donation">为继续建设此自由项目，我们需要&lt;strong&gt;捐助。&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature">这个特性目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使这个特性在未来变得可用。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款<strong>没有广告</strong>，<strong>基于 copylefted 版权协议的自由软件</strong>。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部<strong>主题样式</strong>，重要的是，您会为<strong>社区项目的进行</strong>提供帮助</string>
+    <string name="html_text_feature_generosity">此<strong>主题样式</strong>已可用，感谢您的慷慨相助。</string>
+    <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的<strong>捐赠。</strong></string>
+    <string name="html_text_dev_feature">此功能目前<strong>仍在开发中</strong>，<strong>捐助</strong>将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
     <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
-    <string name="html_text_dev_feature_encourage">您的留言，鼓励了开发人员开发&lt;strong&gt;新特性&lt;/strong&gt;并&lt;strong&gt;修复程序缺陷&lt;/strong&gt;。</string>
+    <string name="html_text_dev_feature_encourage">您的留言，是对开发人员添加<strong>新功能</strong>及<strong>修复 bugs</strong> 的鼓励。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助和贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
     <string name="html_text_dev_feature_upgrade">别忘了更新程序。</string>
@@ -455,7 +455,7 @@
     <string name="hide_expired_entries_summary">过期条目将被隐藏</string>
     <string name="contact">联系我们</string>
     <string name="contribution">贡献</string>
-    <string name="html_about_contribution">为了&lt;strong&gt;保持我们的自由&lt;/strong&gt;，&lt;strong&gt;修复错误&lt;/strong&gt;，&lt;strong&gt;添加功能&lt;/strong&gt;和&lt;strong&gt;始终保持活跃&lt;/strong&gt;，我们期待您的 &lt;strong&gt;贡献&lt;/strong&gt;。</string>
+    <string name="html_about_contribution">为了<strong>维持我们的自由</strong>、<strong>修复 bugs</strong>、<strong>添加更多功能</strong>以及<strong>始终保持项目活跃</strong>，我们期待您的<strong>贡献</strong>。</string>
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
     <string name="remember_database_locations_title">数据库保存的路径</string>
