@@ -163,15 +163,19 @@ open class SettingsActivity
     }
 
     private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
-        when (key) {
-            NestedSettingsFragment.Screen.DATABASE,
-            NestedSettingsFragment.Screen.DATABASE_MASTER_KEY,
-            NestedSettingsFragment.Screen.DATABASE_SECURITY -> {
-                lockView?.visibility = View.VISIBLE
+        if (PreferencesUtil.showLockDatabaseButton(this)) {
+            when (key) {
+                NestedSettingsFragment.Screen.DATABASE,
+                NestedSettingsFragment.Screen.DATABASE_MASTER_KEY,
+                NestedSettingsFragment.Screen.DATABASE_SECURITY -> {
+                    lockView?.visibility = View.VISIBLE
+                }
+                else -> {
+                    lockView?.visibility = View.GONE
+                }
             }
-            else -> {
-                lockView?.visibility = View.GONE
-            }
+        } else {
+            lockView?.visibility = View.GONE
         }
     }
 

@@ -638,6 +638,13 @@ class GroupActivity : LockingActivity(),
 
     override fun onResume() {
         super.onResume()
+
+        // Show the lock button
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
         // Refresh the elements
         assignGroupViewElements()
         // Refresh suggestions to change preferences
