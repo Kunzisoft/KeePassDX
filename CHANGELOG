@@ -1,5 +1,10 @@
 KeePassDX(2.5beta31)
- *
+ * Add write permission to keep compatibility with old file managers
+ * Fix autofill for apps
+ * New keyfile input
+ * Icon to hide keyfile input
+ * New lock button
+ * Setting to hide lock button in user interface
 
 KeePassDX(2.5beta30)
  * Fix Lock after screen off (wait 1.5 seconds)
