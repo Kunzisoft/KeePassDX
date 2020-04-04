@@ -26,6 +26,8 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
@@ -47,6 +49,7 @@ open class SettingsActivity
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
+    private var lockView: View? = null
 
     companion object {
 
@@ -83,6 +86,11 @@ open class SettingsActivity
         toolbar?.setTitle(R.string.settings)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        lockView = findViewById(R.id.lock_button)
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
@@ -154,6 +162,23 @@ open class SettingsActivity
                                                 keyFile: Uri?) {
     }
 
+    private fun hideOrShowLockButton(key: NestedSettingsFragment.Screen) {
+        if (PreferencesUtil.showLockDatabaseButton(this)) {
+            when (key) {
+                NestedSettingsFragment.Screen.DATABASE,
+                NestedSettingsFragment.Screen.DATABASE_MASTER_KEY,
+                NestedSettingsFragment.Screen.DATABASE_SECURITY -> {
+                    lockView?.visibility = View.VISIBLE
+                }
+                else -> {
+                    lockView?.visibility = View.GONE
+                }
+            }
+        } else {
+            lockView?.visibility = View.GONE
+        }
+    }
+
     override fun onBackPressed() {
         // this if statement is necessary to navigate through nested and main fragments
         if (supportFragmentManager.backStackEntryCount == 0) {
@@ -162,6 +187,7 @@ open class SettingsActivity
             supportFragmentManager.popBackStack()
         }
         toolbar?.setTitle(R.string.settings)
+        hideOrShowLockButton(NestedSettingsFragment.Screen.APPLICATION)
     }
 
     private fun replaceFragment(key: NestedSettingsFragment.Screen) {
@@ -173,6 +199,7 @@ open class SettingsActivity
                 .commit()
 
         toolbar?.title = NestedSettingsFragment.retrieveTitle(resources, key)
+        hideOrShowLockButton(key)
     }
 
     override fun onNestedPreferenceSelected(key: NestedSettingsFragment.Screen) {

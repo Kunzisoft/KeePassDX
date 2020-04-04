@@ -81,6 +81,7 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditContentsView: EntryEditContentsView? = null
     private var entryEditAddToolBar: ActionMenuView? = null
     private var saveView: View? = null
+    private var lockView: View? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -112,6 +113,12 @@ class EntryEditActivity : LockingActivity(),
                         .show(supportFragmentManager, "DatePickerFragment")
             }
         }
+
+        lockView = findViewById(R.id.lock_button)
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
+
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
 
@@ -238,6 +245,16 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionError(result)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 
@@ -416,10 +433,6 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
-            }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
             }

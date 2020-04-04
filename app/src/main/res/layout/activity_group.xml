@@ -140,12 +140,19 @@
                 android:background="?android:attr/windowBackground" />
         </LinearLayout>
 
+        <include
+            layout="@layout/view_button_lock"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            app:layout_anchor="@+id/node_list_container"
+            app:layout_anchorGravity="start|bottom" />
+
         <com.kunzisoft.keepass.view.AddNodeButtonView
             android:id="@+id/add_node_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_anchor="@+id/node_list_container"
-            app:layout_anchorGravity="right|bottom" />
+            app:layout_anchorGravity="end|bottom" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <com.kunzisoft.keepass.view.ToolbarAction

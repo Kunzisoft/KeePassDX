@@ -551,14 +551,10 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
         val settingActivity = activity as SettingsActivity?
 
-        when (item.itemId) {
-            R.id.menu_lock -> {
-                settingActivity?.lock()
-                return true
-            }
+        return when (item.itemId) {
             R.id.menu_save_database -> {
                 settingActivity?.mProgressDialogThread?.startDatabaseSave(!mDatabaseReadOnly)
-                return true
+                true
             }
 
             else -> {
@@ -566,7 +562,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                 settingActivity?.let {
                     MenuUtil.onDefaultMenuOptionsItemSelected(it, item, mDatabaseReadOnly, true)
                 }
-                return super.onOptionsItemSelected(item)
+                super.onOptionsItemSelected(item)
             }
         }
     }

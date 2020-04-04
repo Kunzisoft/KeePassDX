@@ -89,6 +89,7 @@ class GroupActivity : LockingActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -134,6 +135,11 @@ class GroupActivity : LockingActivity(),
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
         modeTitleView = findViewById(R.id.mode_title_view)
+        lockView = findViewById(R.id.lock_button)
+
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
 
         toolbar?.title = ""
         setSupportActionBar(toolbar)
@@ -632,6 +638,13 @@ class GroupActivity : LockingActivity(),
 
     override fun onResume() {
         super.onResume()
+
+        // Show the lock button
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
         // Refresh the elements
         assignGroupViewElements()
         // Refresh suggestions to change preferences
@@ -753,12 +766,11 @@ class GroupActivity : LockingActivity(),
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
-                    toolbar != null
-                            && toolbar!!.findViewById<View>(R.id.menu_lock) != null
-                            && groupActivityEducation.checkAndPerformedLockMenuEducation(
-                            toolbar!!.findViewById(R.id.menu_lock),
+                    val lockButtonView = findViewById<View>(R.id.lock_button_icon)
+                    lockButtonView != null
+                            && groupActivityEducation.checkAndPerformedLockMenuEducation(lockButtonView,
                             {
-                                onOptionsItemSelected(menu.findItem(R.id.menu_lock))
+                                lockAndExit()
                             },
                             {
                                 performedNextEducation(groupActivityEducation, menu)
@@ -777,10 +789,6 @@ class GroupActivity : LockingActivity(),
             R.id.menu_search ->
                 //onSearchRequested();
                 return true
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
-            }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
                 return true

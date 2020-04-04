@@ -73,6 +73,7 @@ class EntryActivity : LockingActivity() {
     private var historyView: View? = null
     private var entryContentsView: EntryContentsView? = null
     private var entryProgress: ProgressBar? = null
+    private var lockView: View? = null
     private var toolbar: Toolbar? = null
 
     private var mDatabase: Database? = null
@@ -124,6 +125,11 @@ class EntryActivity : LockingActivity() {
         entryContentsView = findViewById(R.id.entry_contents)
         entryContentsView?.applyFontVisibilityToFields(PreferencesUtil.fieldFontIsInVisibility(this))
         entryProgress = findViewById(R.id.entry_progress)
+        lockView = findViewById(R.id.lock_button)
+
+        lockView?.setOnClickListener {
+            lockAndExit()
+        }
 
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
@@ -147,6 +153,13 @@ class EntryActivity : LockingActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        // Show the lock button
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
 
         // Get Entry from UUID
         try {
@@ -525,10 +538,6 @@ class EntryActivity : LockingActivity() {
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
                 }
-            }
-            R.id.menu_lock -> {
-                lockAndExit()
-                return true
             }
             R.id.menu_save_database -> {
                 mProgressDialogThread?.startDatabaseSave(!mReadOnly)
