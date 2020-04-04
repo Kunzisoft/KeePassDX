@@ -41,7 +41,7 @@
     </LinearLayout>
 
     <include
-        layout="@layout/button_start_bottom_view"
+        layout="@layout/view_button_lock"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:visibility="gone"

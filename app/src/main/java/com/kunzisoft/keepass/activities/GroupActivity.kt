@@ -89,7 +89,7 @@ class GroupActivity : LockingActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
-    private var lockView: ImageView? = null
+    private var lockView: View? = null
     private var toolbar: Toolbar? = null
     private var searchTitleView: View? = null
     private var toolbarAction: ToolbarAction? = null
@@ -759,8 +759,9 @@ class GroupActivity : LockingActivity(),
 
                 if (!sortMenuEducationPerformed) {
                     // lockMenuEducationPerformed
-                    lockView != null
-                            && groupActivityEducation.checkAndPerformedLockMenuEducation(lockView!!,
+                    val lockButtonView = findViewById<View>(R.id.lock_button_icon)
+                    lockButtonView != null
+                            && groupActivityEducation.checkAndPerformedLockMenuEducation(lockButtonView,
                             {
                                 lockAndExit()
                             },

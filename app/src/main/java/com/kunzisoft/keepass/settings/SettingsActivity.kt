@@ -49,7 +49,7 @@ open class SettingsActivity
 
     private var coordinatorLayout: CoordinatorLayout? = null
     private var toolbar: Toolbar? = null
-    private var lockView: ImageView? = null
+    private var lockView: View? = null
 
     companion object {
 
