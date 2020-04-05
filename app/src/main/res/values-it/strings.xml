@@ -413,4 +413,10 @@
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
     <string name="html_about_contribution">Per poter <strong>mantenere la nostra libertà</strong>, <strong>risolvere bug</strong>, <strong>aggiungere funzionalità</strong> ed <strong>essere sempre attivi</strong>, facciamo affidamento sul tuo <strong>contributo</strong>.</string>
     <string name="contact">Contatto</string>
+    <string name="biometric_prompt_extract_credential_title">Apri il database con riconoscimento biometrico</string>
+    <string name="biometric_prompt_store_credential_title">Salva il riconoscimento biometrico</string>
+    <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
+    <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
+    <string name="master_key">Chiave principale</string>
+    <string name="contribution">Contribuisci</string>
 </resources>
