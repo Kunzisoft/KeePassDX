@@ -144,7 +144,7 @@
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>
     <string name="open_biometric_prompt_unlock_database">Scansione impronte</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
-    <string name="biometric_invalid_key">Lettura dell\'impronta fallita. Ripristina la tua password.</string>
+    <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Usa l\'impronta per salvare questa password</string>
     <string name="no_credentials_stored">Questo database non ha ancora alcuna password.</string>
@@ -223,7 +223,7 @@
     <string name="lock_database_screen_off_summary">Blocca il database quando lo schermo è spento</string>
     <string name="advanced_unlock">Impronta digitale</string>
     <string name="biometric_unlock_enable_title">Scansione di impronte</string>
-    <string name="biometric_unlock_enable_summary">Consente la scansione di impronte per aprire il database</string>
+    <string name="biometric_unlock_enable_summary">Consente la scansione biometrica per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
     <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
     <string name="biometric_delete_all_key_warning">Eliminare tutte le chiavi di cifrature associate al riconoscimento biometrico \?</string>
@@ -437,4 +437,16 @@
     <string name="max_history_size_title">Dimensione massima</string>
     <string name="max_history_items_title">Numero massimo</string>
     <string name="biometric_auto_open_prompt_title">Apri automaticamente prompt biometrico</string>
+    <string name="max_history_size_summary">Limita la dimensione della cronologia per voce (in byte binari)</string>
+    <string name="max_history_items_summary">Limita il numero di elementi della cronologia per voce</string>
+    <string name="recycle_bin_group_title">Gruppo cestino</string>
+    <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database.</string>
+    <string name="database_data_compression_title">Compressione dati</string>
+    <string name="biometric_auto_open_prompt_summary">Apri automaticamente il prompt biometrico quando viene definita una chiave biometrica per un database</string>
+    <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco avanzato per aprire il database più facilmente</string>
+    <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
+    <string name="database_opened">Database aperto</string>
+    <string name="biometric">Biometrico</string>
+    <string name="credential_before_click_biometric_button">Digitare la password prima di fare clic sul pulsante biometrico.</string>
+    <string name="biometric_prompt_extract_credential_message">Estrai le credenziali del database con dati biometrici</string>
 </resources>
