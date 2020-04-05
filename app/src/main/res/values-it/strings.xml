@@ -226,7 +226,7 @@
     <string name="biometric_unlock_enable_summary">Consente la scansione di impronte per aprire il database</string>
     <string name="biometric_delete_all_key_title">Elimina chiavi di cifratura</string>
     <string name="biometric_delete_all_key_summary">Elimina tutte le chiavi di cifratura relative al riconoscimento dell\'impronta</string>
-    <string name="biometric_delete_all_key_warning">Sei sicuro di volere eliminare tutte le chiavi relative alle impronte?</string>
+    <string name="biometric_delete_all_key_warning">Eliminare tutte le chiavi di cifrature associate al riconoscimento biometrico \?</string>
     <string name="unavailable_feature_text">Impossibile avviare questa funzione.</string>
     <string name="unavailable_feature_version">La tua versione di Android %1$s non è la minima %2$s richiesta.</string>
     <string name="unavailable_feature_hardware">L\'hardware relativo non è stato trovato.</string>
@@ -413,7 +413,7 @@
     <string name="menu_restore_entry_history">Ripristina cronologia</string>
     <string name="html_about_contribution">Per poter <strong>mantenere la nostra libertà</strong>, <strong>risolvere bug</strong>, <strong>aggiungere funzionalità</strong> ed <strong>essere sempre attivi</strong>, facciamo affidamento sul tuo <strong>contributo</strong>.</string>
     <string name="contact">Contatto</string>
-    <string name="biometric_prompt_extract_credential_title">Apri il database con riconoscimento biometrico</string>
+    <string name="biometric_prompt_extract_credential_title">Apri il database con il riconoscimento biometrico</string>
     <string name="biometric_prompt_store_credential_title">Salva il riconoscimento biometrico</string>
     <string name="keystore_not_accessible">Il keystore non è inizializzato correttamente.</string>
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
@@ -434,4 +434,7 @@
     <string name="discard">Scarta</string>
     <string name="discard_changes">Scartare i cambiamenti\?</string>
     <string name="validate">Convalida</string>
+    <string name="max_history_size_title">Dimensione massima</string>
+    <string name="max_history_items_title">Numero massimo</string>
+    <string name="biometric_auto_open_prompt_title">Apri automaticamente prompt biometrico</string>
 </resources>
