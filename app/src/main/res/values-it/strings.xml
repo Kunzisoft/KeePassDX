@@ -44,8 +44,8 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
-\nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma <strong>libero</strong> e <strong>senza pubblicità</strong>. 
+\nViene distribuito sotto le condizioni della licenza <strong>GPL versione 3</strong> o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
     <string name="entry_accessed">Ultimo accesso</string>
@@ -200,8 +200,8 @@
     <string name="sort_creation_time">Creazione</string>
     <string name="sort_last_modify_time">Modifica</string>
     <string name="sort_last_access_time">Accesso</string>
-    <string name="warning_empty_password">Vuoi veramente che non ci sia una password di sblocco\?</string>
-    <string name="warning_no_encryption_key">Sei sicuro di non volere usare una chiave di cifratura?</string>
+    <string name="warning_empty_password">Continuare senza aver impostato una password di sblocco \?</string>
+    <string name="warning_no_encryption_key">Continuare senza una chiave di cifratura\?</string>
     <string name="biometric_not_recognized">Impronta non riconosciuta</string>
     <string name="database_history">Cronologia</string>
     <string name="menu_appearance_settings">Aspetto</string>
@@ -405,7 +405,7 @@
     <string name="menu_save_database">Salva il database</string>
     <string name="menu_empty_recycle_bin">Svuota il cestino</string>
     <string name="command_execution">Esecuzione del comando…</string>
-    <string name="warning_permanently_delete_nodes">Sei sicuro di voler eliminare definitivamente i nodi selezionati\?</string>
+    <string name="warning_permanently_delete_nodes">Vuoi eliminare definitivamente i nodi selezionati\?</string>
     <string name="entry_attachments">Allegati</string>
     <string name="auto_focus_search_summary">Richiedi una ricerca quando un database viene aperto</string>
     <string name="auto_focus_search_title">Ricerca rapida</string>
@@ -419,4 +419,19 @@
     <string name="menu_master_key_settings">Impostazioni della chiave principale</string>
     <string name="master_key">Chiave principale</string>
     <string name="contribution">Contribuisci</string>
+    <string name="biometric_prompt_store_credential_message">Attenzione: Devi comunque ricordarti la password principale anche se usi il riconoscimento biometrico.</string>
+    <string name="warning_database_read_only">Garantisci il permesso di scrittura per salvare i cambiamenti del database</string>
+    <string name="hide_broken_locations_summary">Nascondi link corrotti nella lista dei database recenti</string>
+    <string name="hide_broken_locations_title">Nascondi i link di database corrotti</string>
+    <string name="show_recent_files_summary">Mostra le posizioni dei database recenti</string>
+    <string name="show_recent_files_title">Mostra file recenti</string>
+    <string name="remember_keyfile_locations_title">Salva la posizione dei keyfile</string>
+    <string name="remember_database_locations_summary">Ricorda la posizione dei database</string>
+    <string name="remember_database_locations_title">Salva posizione dei database</string>
+    <string name="contains_duplicate_uuid_procedure">Per continuare, risolvi il problema generando nuovi UUIDs per i duplicati \?</string>
+    <string name="error_create_database">Impossibile creare il file del database.</string>
+    <string name="entry_add_attachment">Aggiungi allegato</string>
+    <string name="discard">Scarta</string>
+    <string name="discard_changes">Scartare i cambiamenti\?</string>
+    <string name="validate">Convalida</string>
 </resources>
