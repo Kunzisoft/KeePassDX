@@ -437,7 +437,7 @@
     <string name="max_history_size_title">Dimensione massima</string>
     <string name="max_history_items_title">Numero massimo</string>
     <string name="biometric_auto_open_prompt_title">Apri automaticamente prompt biometrico</string>
-    <string name="max_history_size_summary">Limita la dimensione della cronologia per voce (in byte binari)</string>
+    <string name="max_history_size_summary">Limita la dimensione (in byte) della cronologia per voce</string>
     <string name="max_history_items_summary">Limita il numero di elementi della cronologia per voce</string>
     <string name="recycle_bin_group_title">Gruppo cestino</string>
     <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database.</string>
@@ -449,4 +449,7 @@
     <string name="biometric">Biometrico</string>
     <string name="credential_before_click_biometric_button">Digitare la password prima di fare clic sul pulsante biometrico.</string>
     <string name="biometric_prompt_extract_credential_message">Estrai le credenziali del database con dati biometrici</string>
+    <string name="settings_database_force_changing_master_key_title">Forza rinnovo</string>
+    <string name="settings_database_recommend_changing_master_key_summary">Consigliato cambiare la chiave principale (giorni)</string>
+    <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>
 </resources>
