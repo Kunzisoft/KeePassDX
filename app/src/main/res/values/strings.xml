@@ -253,6 +253,7 @@
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
+    <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
     <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>

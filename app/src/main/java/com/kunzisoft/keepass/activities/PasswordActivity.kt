@@ -280,11 +280,6 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
-        // Close the current activity if the file cannot be read
-        mDatabaseFileUri?.let {
-            if (!FileDatabaseInfo(this, it).exists)
-                finish()
-        } ?: finish()
 
         if (Database.getInstance().loaded)
             launchGroupActivity()
@@ -321,7 +316,9 @@ open class PasswordActivity : StylishActivity() {
             !FileDatabaseInfo(this, it).canWrite
         } ?: false
         */
-        mForceReadOnly = false
+        mForceReadOnly = mDatabaseFileUri?.let {
+            !FileDatabaseInfo(this, it).exists
+        } ?: true
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
