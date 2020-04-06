@@ -20,12 +20,14 @@
 package com.kunzisoft.keepass.autofill
 
 import android.os.Build
+import android.os.Bundle
 import android.os.CancellationSignal
 import android.service.autofill.*
 import androidx.annotation.RequiresApi
 import android.util.Log
 import android.widget.RemoteViews
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.model.SearchInfo
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
@@ -44,9 +46,17 @@ class KeeAutofillService : AutofillService() {
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this)
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.domain
+                }
+                val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this,
+                        searchInfo)
                 val presentation = RemoteViews(packageName, R.layout.item_autofill_service_unlock)
                 responseBuilder.setAuthentication(autofillIds, sender, presentation)
+                responseBuilder.setClientState(Bundle().apply {
+                    putParcelable("KEY_SEARCH_INFO", searchInfo)
+                })
                 callback.onSuccess(responseBuilder.build())
             }
         }

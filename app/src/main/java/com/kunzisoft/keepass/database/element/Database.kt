@@ -397,9 +397,8 @@ class Database {
         false
     }
 
-    @JvmOverloads
-    fun search(str: String, max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.search(this, str, max)
+    fun createVirtualGroupWithSearchResult(str: String, max: Int = Integer.MAX_VALUE): Group? {
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, str, max)
     }
 
     fun searchEntries(context: Context, query: String): Cursor? {
@@ -412,10 +411,10 @@ class Database {
         if (mDatabaseKDBX != null)
             cursorKDBX = EntryCursorKDBX()
 
-        val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
-        if (searchResult != null) {
+        val searchGroup = createVirtualGroupWithSearchResult(query, SearchHelper.MAX_SEARCH_ENTRY)
+        if (searchGroup != null) {
             // Search in hide entries but not meta-stream
-            for (entry in searchResult.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
+            for (entry in searchGroup.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }

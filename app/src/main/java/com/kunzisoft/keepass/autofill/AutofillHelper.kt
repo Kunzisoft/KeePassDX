@@ -34,6 +34,7 @@ import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.SearchInfo
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,6 +43,7 @@ object AutofillHelper {
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
     private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
+    const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
 
     fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
         intent?.let {
@@ -118,9 +120,15 @@ object AutofillHelper {
     /**
      * Utility method to start an activity with an Autofill for result
      */
-    fun startActivityForAutofillResult(activity: Activity, intent: Intent, assistStructure: AssistStructure) {
+    fun startActivityForAutofillResult(activity: Activity,
+                                       intent: Intent,
+                                       assistStructure: AssistStructure,
+                                       searchInfo: SearchInfo?) {
         EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
         intent.putExtra(ASSIST_STRUCTURE, assistStructure)
+        searchInfo?.let {
+            intent.putExtra(KEY_SEARCH_INFO, it)
+        }
         activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
 

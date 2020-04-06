@@ -36,7 +36,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
 
     private var incrementEntry = 0
 
-    fun search(database: Database, qStr: String, max: Int): Group? {
+    fun createVirtualGroupWithSearchResult(database: Database, qStr: String, max: Int): Group? {
 
         val searchGroup = database.createGroup()
         searchGroup?.title = "\"" + qStr + "\""

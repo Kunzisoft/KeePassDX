@@ -62,6 +62,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
@@ -353,7 +354,7 @@ class GroupActivity : LockingActivity(),
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
             val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            return mDatabase?.search(searchString)
+            return mDatabase?.createVirtualGroupWithSearchResult(searchString)
         }
         // else a real group
         else {
@@ -964,27 +965,41 @@ class GroupActivity : LockingActivity(),
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
 
-        private fun buildIntent(context: Context, group: Group?, readOnly: Boolean,
+        private fun buildIntent(context: Context,
+                                group: Group?,
+                                searchInfo: SearchInfo?,
+                                readOnly: Boolean,
                                 intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(context, GroupActivity::class.java)
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.nodeId)
             }
+            if (searchInfo != null) {
+                intent.action = Intent.ACTION_SEARCH
+                val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
+                intent.putExtra(SearchManager.QUERY, searchQuery)
+            }
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intentBuildLauncher.invoke(intent)
         }
 
-        private fun checkTimeAndBuildIntent(activity: Activity, group: Group?, readOnly: Boolean,
+        private fun checkTimeAndBuildIntent(activity: Activity,
+                                            group: Group?,
+                                            searchInfo: SearchInfo?,
+                                            readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                buildIntent(activity, group, readOnly, intentBuildLauncher)
+                buildIntent(activity, group, searchInfo, readOnly, intentBuildLauncher)
             }
         }
 
-        private fun checkTimeAndBuildIntent(context: Context, group: Group?, readOnly: Boolean,
+        private fun checkTimeAndBuildIntent(context: Context,
+                                            group: Group?,
+                                            searchInfo: SearchInfo?,
+                                            readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTime(context)) {
-                buildIntent(context, group, readOnly, intentBuildLauncher)
+                buildIntent(context, group, searchInfo, readOnly, intentBuildLauncher)
             }
         }
 
@@ -993,11 +1008,9 @@ class GroupActivity : LockingActivity(),
          * 		Standard Launch
          * -------------------------
          */
-
-        @JvmOverloads
         fun launch(context: Context,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
                 context.startActivity(intent)
             }
         }
@@ -1008,10 +1021,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         // TODO implement pre search to directly open the direct group
-
         fun launchForKeyboardSelection(context: Context,
                                        readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelection(context, intent)
             }
         }
@@ -1021,14 +1033,13 @@ class GroupActivity : LockingActivity(),
          * 		Autofill Launch
          * -------------------------
          */
-        // TODO implement pre search to directly open the direct group
-
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     assistStructure: AssistStructure,
+                                    searchInfo: SearchInfo?,
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
-                AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure)
+            checkTimeAndBuildIntent(activity, null, searchInfo, readOnly) { intent ->
+                AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)
             }
         }
     }

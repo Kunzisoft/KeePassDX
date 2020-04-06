@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -40,12 +41,16 @@ class AutofillLauncherActivity : AppCompatActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
+            val searchInfo: SearchInfo? = SearchInfo().apply {
+                applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
+                webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
+            }
             if (Database.getInstance().loaded && TimeoutHelper.checkTime(this))
                 GroupActivity.launchForAutofillResult(this,
-                        assistStructure)
+                        assistStructure, searchInfo)
             else {
                 FileDatabaseSelectActivity.launchForAutofillResult(this,
-                        assistStructure)
+                        assistStructure, searchInfo)
             }
         } else {
             setResult(Activity.RESULT_CANCELED)
@@ -62,10 +67,20 @@ class AutofillLauncherActivity : AppCompatActivity() {
 
     companion object {
 
-        fun getAuthIntentSenderForResponse(context: Context): IntentSender {
-            val intent = Intent(context, AutofillLauncherActivity::class.java)
+        private const val KEY_SEARCH_APPLICATION_ID = "KEY_SEARCH_APPLICATION_ID"
+        private const val KEY_SEARCH_DOMAIN = "KEY_SEARCH_DOMAIN"
+
+        fun getAuthIntentSenderForResponse(context: Context,
+                                           searchInfo: SearchInfo? = null): IntentSender {
             return PendingIntent.getActivity(context, 0,
-                    intent, PendingIntent.FLAG_CANCEL_CURRENT).intentSender
+                    // Doesn't work with Parcelable (don't know why?)
+                    Intent(context, AutofillLauncherActivity::class.java).apply {
+                        searchInfo?.let {
+                            putExtra(KEY_SEARCH_APPLICATION_ID, it.applicationId)
+                            putExtra(KEY_SEARCH_DOMAIN, it.webDomain)
+                        }
+                    },
+                    PendingIntent.FLAG_CANCEL_CURRENT).intentSender
         }
     }
 }
