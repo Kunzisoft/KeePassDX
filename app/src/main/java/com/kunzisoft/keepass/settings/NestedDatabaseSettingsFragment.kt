@@ -31,7 +31,6 @@ import com.kunzisoft.androidclearchroma.ChromaUtil
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
