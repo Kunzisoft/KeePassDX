@@ -54,7 +54,7 @@ class OpenFileHelper {
 
     inner class OpenFileOnClickViewListener : View.OnClickListener, View.OnLongClickListener {
 
-        private fun onAbstractClick(v: View?, longClick: Boolean = false) {
+        private fun onAbstractClick(longClick: Boolean = false) {
             try {
                 if (longClick) {
                     try {
@@ -78,11 +78,11 @@ class OpenFileHelper {
         }
 
         override fun onClick(v: View) {
-            onAbstractClick(v)
+            onAbstractClick()
         }
 
         override fun onLongClick(v: View?): Boolean {
-            onAbstractClick(v, true)
+            onAbstractClick(true)
             return true
         }
     }
