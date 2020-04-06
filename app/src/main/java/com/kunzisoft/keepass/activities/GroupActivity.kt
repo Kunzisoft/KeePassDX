@@ -354,7 +354,7 @@ class GroupActivity : LockingActivity(),
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
             val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            return mDatabase?.createVirtualGroupWithSearchResult(searchString)
+            return mDatabase?.createVirtualGroupFromSearch(searchString)
         }
         // else a real group
         else {
@@ -493,7 +493,7 @@ class GroupActivity : LockingActivity(),
                             // Build response with the entry selected
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && mDatabase != null) {
                                 mDatabase?.let { database ->
-                                    AutofillHelper.buildResponseWhenEntrySelected(this@GroupActivity,
+                                    AutofillHelper.buildResponse(this@GroupActivity,
                                             entryVersioned.getEntryInfo(database))
                                 }
                             }

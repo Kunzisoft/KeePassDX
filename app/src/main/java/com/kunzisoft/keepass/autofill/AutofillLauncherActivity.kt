@@ -31,6 +31,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.search.SearchHelper.Companion.MAX_SEARCH_ENTRY
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -41,14 +42,32 @@ class AutofillLauncherActivity : AppCompatActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
-            val searchInfo: SearchInfo? = SearchInfo().apply {
+            val database = Database.getInstance()
+            // Build search param
+            val searchInfo = SearchInfo().apply {
                 applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                 webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
             }
-            if (Database.getInstance().loaded && TimeoutHelper.checkTime(this))
-                GroupActivity.launchForAutofillResult(this,
-                        assistStructure, searchInfo)
-            else {
+            // If database is open
+            if (database.loaded && TimeoutHelper.checkTime(this)) {
+                var searchWithoutUI = false
+                // If search provide results
+                database.createVirtualGroupFromSearch(searchInfo, MAX_SEARCH_ENTRY)?.let { searchGroup ->
+                    if (searchGroup.getNumberOfChildEntries() > 0) {
+                        // Build response with the entry selected
+                        AutofillHelper.buildResponse(this@AutofillLauncherActivity,
+                                searchGroup.getChildEntriesInfo(database))
+                        searchWithoutUI = true
+                        finish()
+                    }
+                }
+
+                // Show the database UI to select the entry
+                if (!searchWithoutUI) {
+                    GroupActivity.launchForAutofillResult(this,
+                            assistStructure, searchInfo)
+                }
+            } else {
                 FileDatabaseSelectActivity.launchForAutofillResult(this,
                         assistStructure, searchInfo)
             }

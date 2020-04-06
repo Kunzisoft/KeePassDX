@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIterator
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDB
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
-import java.util.*
 
 class SearchHelper(private val isOmitBackup: Boolean) {
 
@@ -36,22 +35,19 @@ class SearchHelper(private val isOmitBackup: Boolean) {
 
     private var incrementEntry = 0
 
-    fun createVirtualGroupWithSearchResult(database: Database, qStr: String, max: Int): Group? {
+    fun createVirtualGroupWithSearchResult(database: Database, searchQuery: String, max: Int): Group? {
 
         val searchGroup = database.createGroup()
-        searchGroup?.title = "\"" + qStr + "\""
+        searchGroup?.title = "\"" + searchQuery + "\""
 
         // Search all entries
-        val loc = Locale.getDefault()
-        val finalQStr = qStr.toLowerCase(loc)
-
         incrementEntry = 0
         database.rootGroup?.doForEachChild(
                 object : NodeHandler<Entry>() {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
                             return false
-                        if (entryContainsString(node, finalQStr, loc)) {
+                        if (entryContainsString(node, searchQuery)) {
                             searchGroup?.addChildEntry(node)
                             incrementEntry++
                         }
@@ -73,7 +69,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
         return searchGroup
     }
 
-    private fun entryContainsString(entry: Entry, searchString: String, locale: Locale): Boolean {
+    private fun entryContainsString(entry: Entry, searchString: String): Boolean {
 
         // Entry don't contains string if the search string is empty
         if (searchString.isEmpty())
@@ -90,11 +86,10 @@ class SearchHelper(private val isOmitBackup: Boolean) {
 
         iterator?.let {
             while (it.hasNext()) {
-                val str = it.next()
-                if (str.isNotEmpty()) {
-                    if (str.toLowerCase(locale).contains(searchString)) {
+                val currentString = it.next()
+                if (currentString.isNotEmpty()
+                        && currentString.contains(searchString, true)) {
                         return true
-                    }
                 }
             }
         }

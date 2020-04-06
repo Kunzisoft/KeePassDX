@@ -88,9 +88,16 @@ object AutofillHelper {
     }
 
     /**
-     * Method to hit when right key is selected
+     * Build the Autofill response for one entry
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entryInfo: EntryInfo) {
+    fun buildResponse(activity: Activity, entryInfo: EntryInfo) {
+        buildResponse(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
+    }
+
+    /**
+     * Build the Autofill response for many entry
+     */
+    fun buildResponse(activity: Activity, entriesInfo: List<EntryInfo>) {
         var setResultOk = false
         activity.intent?.extras?.let { extras ->
             if (extras.containsKey(ASSIST_STRUCTURE)) {
@@ -98,8 +105,9 @@ object AutofillHelper {
                     StructureParser(structure).parse()?.let { result ->
                         // New Response
                         val responseBuilder = FillResponse.Builder()
-                        val dataset = buildDataset(activity, entryInfo, result)
-                        responseBuilder.addDataset(dataset)
+                        entriesInfo.forEach {
+                            responseBuilder.addDataset(buildDataset(activity, it, result))
+                        }
                         val mReplyIntent = Intent()
                         Log.d(activity.javaClass.name, "Successed Autofill auth.")
                         mReplyIntent.putExtra(

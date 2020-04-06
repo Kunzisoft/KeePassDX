@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.element.group.GroupVersionedInterface
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.*
+import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import java.util.*
 import kotlin.collections.ArrayList
@@ -249,6 +250,14 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
             Entry(it)
         } ?:
         ArrayList()
+    }
+
+    fun getChildEntriesInfo(database: Database): List<EntryInfo> {
+        val entriesInfo = ArrayList<EntryInfo>()
+        getChildEntries().forEach { entry ->
+            entriesInfo.add(entry.getEntryInfo(database))
+        }
+        return entriesInfo
     }
 
     fun getFilteredChildEntries(vararg filter: ChildFilter): List<Entry> {
