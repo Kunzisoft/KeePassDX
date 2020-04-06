@@ -57,29 +57,33 @@ internal class StructureParser(private val structure: AssistStructure) {
         }
 
         // Return the result only if password field is retrieved
-        return if (result?.passwordId != null)
+        return if (result?.usernameId != null
+                && result?.passwordId != null)
             result
         else
             null
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
-        if (node.autofillId != null
-                && node.autofillType == View.AUTOFILL_TYPE_TEXT) {
-            // Parse methods
-            val hints = node.autofillHints
-            if (hints != null && hints.isNotEmpty()) {
-                if (parseNodeByAutofillHint(node))
+        // Only parse visible nodes
+        if (node.visibility == View.VISIBLE) {
+            if (node.autofillId != null
+                    && node.autofillType == View.AUTOFILL_TYPE_TEXT) {
+                // Parse methods
+                val hints = node.autofillHints
+                if (hints != null && hints.isNotEmpty()) {
+                    if (parseNodeByAutofillHint(node))
+                        return true
+                } else if (parseNodeByHtmlAttributes(node))
                     return true
-            } else if (parseNodeByHtmlAttributes(node))
-                return true
-            else if (parseNodeByAndroidInput(node))
-                return true
-        }
-        // Recursive method to process each node
-        for (i in 0 until node.childCount) {
-            if (parseViewNode(node.getChildAt(i)))
-                return true
+                else if (parseNodeByAndroidInput(node))
+                    return true
+            }
+            // Recursive method to process each node
+            for (i in 0 until node.childCount) {
+                if (parseViewNode(node.getChildAt(i)))
+                    return true
+            }
         }
         return false
     }
