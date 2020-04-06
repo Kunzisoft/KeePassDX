@@ -43,8 +43,8 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft с &lt;strong&gt;открытым исходным кодом&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
-\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это <strong>свободное программное обеспечение</strong> и <strong>без рекламы</strong>. 
+\nРаспространяется под лицензией <strong>GPLv3</strong> без каких-либо гарантий.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
