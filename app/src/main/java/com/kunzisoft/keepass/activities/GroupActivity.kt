@@ -1036,7 +1036,7 @@ class GroupActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     assistStructure: AssistStructure,
-                                    searchInfo: SearchInfo?,
+                                    searchInfo: SearchInfo? = null,
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
             checkTimeAndBuildIntent(activity, null, searchInfo, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)

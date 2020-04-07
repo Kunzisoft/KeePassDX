@@ -268,10 +268,21 @@ open class PasswordActivity : StylishActivity() {
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity,
-                                assistStructure,
-                                intent.getParcelableExtra(KEY_SEARCH_INFO),
-                                readOnly)
+                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+                        AutofillHelper.checkAutoSearchInfo(this,
+                                Database.getInstance(),
+                                searchInfo,
+                                {
+                                    finish()
+                                },
+                                {
+                                    // Here no search info found
+                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
+                                            assistStructure,
+                                            null,
+                                            readOnly)
+                                }
+                        )
                     }
                 })
     }

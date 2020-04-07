@@ -33,6 +33,8 @@ import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
 
@@ -122,6 +124,32 @@ object AutofillHelper {
                 Log.w(activity.javaClass.name, "Failed Autofill auth.")
                 activity.setResult(Activity.RESULT_CANCELED)
             }
+        }
+    }
+
+    /**
+     * Utility method to perform actions if item is found or not after an auto search in [database]
+     */
+    fun checkAutoSearchInfo(activity: Activity,
+                        database: Database,
+                        searchInfo: SearchInfo?,
+                        onItemFound: () -> Unit,
+                        onItemNotFound: () -> Unit) {
+        var searchWithoutUI = false
+        if (searchInfo != null) {
+            // If search provide results
+            database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
+                if (searchGroup.getNumberOfChildEntries() > 0) {
+                    // Build response with the entry selected
+                    buildResponse(activity,
+                            searchGroup.getChildEntriesInfo(database))
+                    searchWithoutUI = true
+                    onItemFound.invoke()
+                }
+            }
+        }
+        if (!searchWithoutUI) {
+            onItemNotFound.invoke()
         }
     }
 
