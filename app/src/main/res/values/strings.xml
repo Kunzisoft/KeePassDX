@@ -284,6 +284,7 @@
     <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
     <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
+    <string name="autofill_preference_title">Autofill settings</string>
     <string name="password_size_title">Generated password size</string>
     <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>
@@ -380,6 +381,10 @@
     <string name="keyboard_auto_go_action_summary">\"Go\" key action after pressing a \"Field\" key</string>
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
+    <string name="autofill_auto_search_title">Auto search</string>
+    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or applicationId</string>
+    <string name="autofill_close_database_title">Close database</string>
+    <string name="autofill_close_database_summary">Close the database after a suggestion of entries</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

@@ -20,16 +20,36 @@
 package com.kunzisoft.keepass.settings
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.widget.Toolbar
+import android.view.MenuItem
 
-class SettingsAutofillActivity : SettingsActivity() {
+import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.stylish.StylishActivity
+
+class MagikeyboardSettingsActivity : StylishActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        mTimeoutEnable = false
+
+        setContentView(R.layout.activity_toolbar)
+        val toolbar = findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setTitle(R.string.keyboard_setting_label)
+        setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, MagikeyboardSettingsFragment())
+                    .commit()
+        }
     }
 
-    override fun retrieveMainFragment(): Fragment {
-        return NestedSettingsFragment.newInstance(NestedSettingsFragment.Screen.FORM_FILLING)
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> onBackPressed()
+        }
+
+        return super.onOptionsItemSelected(item)
     }
+
 }
