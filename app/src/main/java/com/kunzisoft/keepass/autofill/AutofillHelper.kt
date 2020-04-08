@@ -71,6 +71,23 @@ object AutofillHelper {
         return ""
     }
 
+    internal fun addHeader(responseBuilder: FillResponse.Builder,
+                           packageName: String,
+                           webDomain: String?,
+                           applicationId: String?) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            if (webDomain != null) {
+                responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_web_domain).apply {
+                    setTextViewText(R.id.autofill_web_domain_text, webDomain)
+                })
+            } else if (applicationId != null) {
+                responseBuilder.setHeader(RemoteViews(packageName, R.layout.item_autofill_app_id).apply {
+                    setTextViewText(R.id.autofill_app_id_text, applicationId)
+                })
+            }
+        }
+    }
+
     internal fun buildDataset(context: Context,
                               entryInfo: EntryInfo,
                               struct: StructureParser.Result): Dataset? {
@@ -195,11 +212,11 @@ object AutofillHelper {
     private fun newRemoteViews(context: Context,
                                remoteViewsText: String,
                                remoteViewsIcon: IconImage? = null): RemoteViews {
-        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_service)
-        presentation.setTextViewText(R.id.text, remoteViewsText)
+        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_entry)
+        presentation.setTextViewText(R.id.autofill_entry_text, remoteViewsText)
         if (remoteViewsIcon != null) {
             presentation.assignDatabaseIcon(context,
-                    R.id.icon,
+                    R.id.autofill_entry_icon,
                     Database.getInstance().drawFactory,
                     remoteViewsIcon,
                     ContextCompat.getColor(context, R.color.green))

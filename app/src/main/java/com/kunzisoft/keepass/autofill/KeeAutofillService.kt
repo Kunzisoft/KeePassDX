@@ -53,6 +53,8 @@ class KeeAutofillService : AutofillService() {
                     searchInfo,
                     { items ->
                         val responseBuilder = FillResponse.Builder()
+                        AutofillHelper.addHeader(responseBuilder, packageName,
+                                parseResult.domain, parseResult.applicationId)
                         items.forEach {
                             responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
                         }
@@ -79,10 +81,19 @@ class KeeAutofillService : AutofillService() {
                 // to generate Response.
                 val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this,
                         searchInfo)
-                val presentation = RemoteViews(packageName, R.layout.item_autofill_service_unlock)
-
                 val responseBuilder = FillResponse.Builder()
-                responseBuilder.setAuthentication(autofillIds, sender, presentation)
+                val remoteViewsUnlock: RemoteViews = if (!parseResult.domain.isNullOrEmpty()) {
+                    RemoteViews(packageName, R.layout.item_autofill_unlock_web_domain).apply {
+                        setTextViewText(R.id.autofill_web_domain_text, parseResult.domain)
+                    }
+                } else if (!parseResult.applicationId.isNullOrEmpty()) {
+                    RemoteViews(packageName, R.layout.item_autofill_unlock_app_id).apply {
+                        setTextViewText(R.id.autofill_app_id_text, parseResult.applicationId)
+                    }
+                } else {
+                    RemoteViews(packageName, R.layout.item_autofill_unlock)
+                }
+                responseBuilder.setAuthentication(autofillIds, sender, remoteViewsUnlock)
                 callback.onSuccess(responseBuilder.build())
             }
         }
