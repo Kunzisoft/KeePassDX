@@ -20,43 +20,69 @@
 package com.kunzisoft.keepass.autofill
 
 import android.os.Build
-import android.os.Bundle
 import android.os.CancellationSignal
 import android.service.autofill.*
-import androidx.annotation.RequiresApi
 import android.util.Log
 import android.widget.RemoteViews
+import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.SearchInfo
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
-    override fun onFillRequest(request: FillRequest, cancellationSignal: CancellationSignal,
+    override fun onFillRequest(request: FillRequest,
+                               cancellationSignal: CancellationSignal,
                                callback: FillCallback) {
         val fillContexts = request.fillContexts
         val latestStructure = fillContexts[fillContexts.size - 1].structure
 
         cancellationSignal.setOnCancelListener { Log.w(TAG, "Cancel autofill.") }
 
-        val responseBuilder = FillResponse.Builder()
         // Check user's settings for authenticating Responses and Datasets.
-        val parseResult = StructureParser(latestStructure).parse()
-        parseResult?.allAutofillIds()?.let { autofillIds ->
+        StructureParser(latestStructure).parse()?.let { parseResult ->
+
+            val searchInfo = SearchInfo().apply {
+                applicationId = parseResult.applicationId
+                webDomain = parseResult.domain
+            }
+
+            AutofillHelper.checkAutoSearchInfo(this,
+                    Database.getInstance(),
+                    searchInfo,
+                    { items ->
+                        items.forEach {
+                            val responseBuilder = FillResponse.Builder()
+                            responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                            callback.onSuccess(responseBuilder.build())
+                        }
+                    },
+                    {
+                        // Show UI if no search result
+                        showUIForEntrySelection(parseResult, searchInfo, callback)
+                    },
+                    {
+                        // Show UI if database not open
+                        showUIForEntrySelection(parseResult, searchInfo, callback)
+                    }
+            )
+        }
+    }
+
+    private fun showUIForEntrySelection(parseResult: StructureParser.Result,
+                                        searchInfo: SearchInfo,
+                                        callback: FillCallback) {
+        parseResult.allAutofillIds().let { autofillIds ->
             if (autofillIds.isNotEmpty()) {
                 // If the entire Autofill Response is authenticated, AuthActivity is used
                 // to generate Response.
-                val searchInfo = SearchInfo().apply {
-                    applicationId = parseResult.applicationId
-                    webDomain = parseResult.domain
-                }
                 val sender = AutofillLauncherActivity.getAuthIntentSenderForResponse(this,
                         searchInfo)
                 val presentation = RemoteViews(packageName, R.layout.item_autofill_service_unlock)
+
+                val responseBuilder = FillResponse.Builder()
                 responseBuilder.setAuthentication(autofillIds, sender, presentation)
-                responseBuilder.setClientState(Bundle().apply {
-                    putParcelable("KEY_SEARCH_INFO", searchInfo)
-                })
                 callback.onSuccess(responseBuilder.build())
             }
         }

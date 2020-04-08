@@ -30,8 +30,8 @@
         android:layout_marginEnd="12dp"
         android:layout_marginLeft="12dp"
         android:layout_marginStart="12dp"
-        android:src="@drawable/ic_key_white_24dp"
-        android:tint="@color/green"/>
+        android:contentDescription="@string/content_description_entry_icon"
+        android:src="@drawable/ic_key_white_24dp" />
 
     <TextView
         android:id="@+id/text"
@@ -40,7 +40,7 @@
         android:layout_gravity="center"
         android:paddingRight="12dp"
         android:paddingEnd="12dp"
-        android:paddingLeft="12dp"
-        android:paddingStart="12dp"
+        android:paddingLeft="0dp"
+        android:paddingStart="0dp"
         android:textAppearance="?android:attr/textAppearanceListItemSmall" />
 </LinearLayout>

@@ -272,7 +272,9 @@ open class PasswordActivity : StylishActivity() {
                         AutofillHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
-                                {
+                                { items ->
+                                    // Response is build
+                                    AutofillHelper.buildResponse(this, items)
                                     finish()
                                 },
                                 {
@@ -281,6 +283,10 @@ open class PasswordActivity : StylishActivity() {
                                             assistStructure,
                                             null,
                                             readOnly)
+                                },
+                                {
+                                    // Simply close if database not opened, normally not happened
+                                    finish()
                                 }
                         )
                     }

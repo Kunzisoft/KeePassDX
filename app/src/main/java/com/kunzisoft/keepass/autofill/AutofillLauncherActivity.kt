@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
@@ -41,31 +40,31 @@ class AutofillLauncherActivity : AppCompatActivity() {
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
         if (assistStructure != null) {
-            val database = Database.getInstance()
             // Build search param
             val searchInfo = SearchInfo().apply {
                 applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                 webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
             }
             // If database is open
-            if (database.loaded && TimeoutHelper.checkTime(this)) {
-                AutofillHelper.checkAutoSearchInfo(this,
-                        Database.getInstance(),
-                        searchInfo,
-                        {
-                            // Items found
-                            finish()
-                        },
-                        {
-                            // Show the database UI to select the entry
-                            GroupActivity.launchForAutofillResult(this,
-                                    assistStructure)
-                        }
-                )
-            } else {
-                FileDatabaseSelectActivity.launchForAutofillResult(this,
-                        assistStructure, searchInfo)
-            }
+            AutofillHelper.checkAutoSearchInfo(this,
+                    Database.getInstance(),
+                    searchInfo,
+                    { items ->
+                        // Items found
+                        AutofillHelper.buildResponse(this, items)
+                        finish()
+                    },
+                    {
+                        // Show the database UI to select the entry
+                        GroupActivity.launchForAutofillResult(this,
+                                assistStructure)
+                    },
+                    {
+                        // If database not open
+                        FileDatabaseSelectActivity.launchForAutofillResult(this,
+                                assistStructure, searchInfo)
+                    }
+            )
         } else {
             setResult(Activity.RESULT_CANCELED)
             finish()

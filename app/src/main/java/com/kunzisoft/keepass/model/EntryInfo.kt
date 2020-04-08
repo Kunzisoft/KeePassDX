@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.model
 
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields.OTP_TOKEN_FIELD
 import java.util.*
@@ -29,6 +30,7 @@ class EntryInfo : Parcelable {
 
     var id: String = ""
     var title: String = ""
+    var icon: IconImage? = null
     var username: String = ""
     var password: String = ""
     var url: String = ""
@@ -41,6 +43,7 @@ class EntryInfo : Parcelable {
     private constructor(parcel: Parcel) {
         id = parcel.readString() ?: id
         title = parcel.readString() ?: title
+        icon = parcel.readParcelable(IconImage::class.java.classLoader)
         username = parcel.readString() ?: username
         password = parcel.readString() ?: password
         url = parcel.readString() ?: url
@@ -56,6 +59,7 @@ class EntryInfo : Parcelable {
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(title)
+        parcel.writeParcelable(icon, flags)
         parcel.writeString(username)
         parcel.writeString(password)
         parcel.writeString(url)

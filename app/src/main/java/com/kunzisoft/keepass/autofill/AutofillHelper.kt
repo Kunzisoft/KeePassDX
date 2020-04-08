@@ -31,12 +31,16 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -66,11 +70,11 @@ object AutofillHelper {
         return ""
     }
 
-    private fun buildDataset(context: Context,
-                             entryInfo: EntryInfo,
-                             struct: StructureParser.Result): Dataset? {
+    internal fun buildDataset(context: Context,
+                              entryInfo: EntryInfo,
+                              struct: StructureParser.Result): Dataset? {
         val title = makeEntryTitle(entryInfo)
-        val views = newRemoteViews(context.packageName, title)
+        val views = newRemoteViews(context, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
         builder.setId(entryInfo.id)
 
@@ -130,26 +134,29 @@ object AutofillHelper {
     /**
      * Utility method to perform actions if item is found or not after an auto search in [database]
      */
-    fun checkAutoSearchInfo(activity: Activity,
-                        database: Database,
-                        searchInfo: SearchInfo?,
-                        onItemFound: () -> Unit,
-                        onItemNotFound: () -> Unit) {
-        var searchWithoutUI = false
-        if (searchInfo != null) {
-            // If search provide results
-            database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
-                if (searchGroup.getNumberOfChildEntries() > 0) {
-                    // Build response with the entry selected
-                    buildResponse(activity,
-                            searchGroup.getChildEntriesInfo(database))
-                    searchWithoutUI = true
-                    onItemFound.invoke()
+    fun checkAutoSearchInfo(context: Context,
+                            database: Database,
+                            searchInfo: SearchInfo?,
+                            onItemsFound: (items: List<EntryInfo>) -> Unit,
+                            onItemNotFound: () -> Unit,
+                            onDatabaseClosed: () -> Unit) {
+        if (database.loaded && TimeoutHelper.checkTime(context)) {
+            var searchWithoutUI = false
+            if (searchInfo != null) {
+                // If search provide results
+                database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
+                    if (searchGroup.getNumberOfChildEntries() > 0) {
+                        searchWithoutUI = true
+                        onItemsFound.invoke(
+                                searchGroup.getChildEntriesInfo(database))
+                    }
                 }
             }
-        }
-        if (!searchWithoutUI) {
-            onItemNotFound.invoke()
+            if (!searchWithoutUI) {
+                onItemNotFound.invoke()
+            }
+        } else {
+            onDatabaseClosed.invoke()
         }
     }
 
@@ -183,9 +190,18 @@ object AutofillHelper {
         }
     }
 
-    private fun newRemoteViews(packageName: String, remoteViewsText: String): RemoteViews {
-        val presentation = RemoteViews(packageName, R.layout.item_autofill_service)
+    private fun newRemoteViews(context: Context,
+                               remoteViewsText: String,
+                               remoteViewsIcon: IconImage? = null): RemoteViews {
+        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_service)
         presentation.setTextViewText(R.id.text, remoteViewsText)
+        if (remoteViewsIcon != null) {
+            presentation.assignDatabaseIcon(context,
+                    R.id.icon,
+                    Database.getInstance().drawFactory,
+                    remoteViewsIcon,
+                    ContextCompat.getColor(context, R.color.green))
+        }
         return presentation
     }
 }
