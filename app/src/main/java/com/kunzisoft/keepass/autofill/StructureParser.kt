@@ -37,34 +37,41 @@ internal class StructureParser(private val structure: AssistStructure) {
     private var usernameCandidate: AutofillId? = null
 
     fun parse(): Result? {
-        result = Result()
-        result?.apply {
-            usernameCandidate = null
-            mainLoop@ for (i in 0 until structure.windowNodeCount) {
-                val windowNode = structure.getWindowNodeAt(i)
-                /*
-                title.add(windowNode.title)
-                windowNode.rootViewNode.webDomain?.let {
-                    webDomain.add(it)
-                }
-                */
-                if (parseViewNode(windowNode.rootViewNode))
-                    break@mainLoop
-            }
-            // If not explicit username field found, add the field just before password field.
-            if (usernameId == null && passwordId != null && usernameCandidate != null)
-                usernameId = usernameCandidate
-        }
+        try {
+            result = Result()
+            result?.apply {
+                usernameCandidate = null
+                mainLoop@ for (i in 0 until structure.windowNodeCount) {
+                    val windowNode = structure.getWindowNodeAt(i)
+                    applicationId = windowNode.title.toString().split("/")[0]
+                    Log.d(TAG, "Autofill applicationId: $applicationId")
 
-        // Return the result only if password field is retrieved
-        return if (result?.usernameId != null
-                && result?.passwordId != null)
-            result
-        else
-            null
+                    if (parseViewNode(windowNode.rootViewNode))
+                        break@mainLoop
+                }
+                // If not explicit username field found, add the field just before password field.
+                if (usernameId == null && passwordId != null && usernameCandidate != null)
+                    usernameId = usernameCandidate
+            }
+
+            // Return the result only if password field is retrieved
+            return if (result?.usernameId != null
+                    && result?.passwordId != null)
+                result
+            else
+                null
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
+        // Get the domain of a web app
+        node.webDomain?.let {
+            result?.domain = it
+            Log.d(TAG, "Autofill domain: $it")
+        }
+
         // Only parse visible nodes
         if (node.visibility == View.VISIBLE) {
             if (node.autofillId != null
@@ -192,6 +199,13 @@ internal class StructureParser(private val structure: AssistStructure) {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     internal class Result {
+        var applicationId: String? = null
+        var domain: String? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
         var usernameId: AutofillId? = null
             set(value) {
                 if (field == null)

@@ -24,7 +24,6 @@ import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.database.element.Database
 
 class MainPreferenceFragment : PreferenceFragmentCompat() {

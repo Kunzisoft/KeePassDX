@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -24,10 +24,10 @@ import androidx.preference.PreferenceFragmentCompat
 
 import com.kunzisoft.keepass.R
 
-class MagikIMESettingsFragment : PreferenceFragmentCompat() {
+class AutofillSettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         // Load the preferences from an XML resource
-        setPreferencesFromResource(R.xml.preferences_keyboard, rootKey)
+        setPreferencesFromResource(R.xml.preferences_autofill, rootKey)
     }
 }

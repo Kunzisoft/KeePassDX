@@ -39,7 +39,7 @@ constructor(private val mEntry: EntryKDB,
                 title -> mEntry.title
                 url -> mEntry.url
                 username -> mEntry.username
-                comment -> mEntry.notes
+                notes -> mEntry.notes
                 else -> ""
             }
         }
@@ -73,7 +73,7 @@ constructor(private val mEntry: EntryKDB,
                 title -> mSearchParameters.searchInTitles
                 url -> mSearchParameters.searchInUrls
                 username -> mSearchParameters.searchInUserNames
-                comment -> mSearchParameters.searchInNotes
+                notes -> mSearchParameters.searchInNotes
                 else -> true
             }
 
@@ -88,7 +88,7 @@ constructor(private val mEntry: EntryKDB,
         private const val title = 0
         private const val url = 1
         private const val username = 2
-        private const val comment = 3
+        private const val notes = 3
         private const val maxEntries = 4
     }
 

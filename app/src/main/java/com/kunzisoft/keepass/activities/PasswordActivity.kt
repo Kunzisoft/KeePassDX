@@ -49,11 +49,13 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
@@ -255,16 +257,38 @@ open class PasswordActivity : StylishActivity() {
     private fun launchGroupActivity() {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
-                    GroupActivity.launch(this@PasswordActivity, readOnly)
+                    GroupActivity.launch(this@PasswordActivity,
+                            readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity,
+                            readOnly)
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
+                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+                        AutofillHelper.checkAutoSearchInfo(this,
+                                Database.getInstance(),
+                                searchInfo,
+                                { items ->
+                                    // Response is build
+                                    AutofillHelper.buildResponse(this, items)
+                                    finish()
+                                },
+                                {
+                                    // Here no search info found
+                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
+                                            assistStructure,
+                                            null,
+                                            readOnly)
+                                },
+                                {
+                                    // Simply close if database not opened, normally not happened
+                                    finish()
+                                }
+                        )
                     }
                 })
     }
@@ -789,13 +813,15 @@ open class PasswordActivity : StylishActivity() {
                 activity: Activity,
                 databaseFile: Uri,
                 keyFile: Uri?,
-                assistStructure: AssistStructure?) {
+                assistStructure: AssistStructure?,
+                searchInfo: SearchInfo?) {
             if (assistStructure != null) {
                 buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                     AutofillHelper.startActivityForAutofillResult(
                             activity,
                             intent,
-                            assistStructure)
+                            assistStructure,
+                            searchInfo)
                 }
             } else {
                 launch(activity, databaseFile, keyFile)

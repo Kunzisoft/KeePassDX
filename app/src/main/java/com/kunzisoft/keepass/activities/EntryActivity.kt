@@ -52,7 +52,6 @@ import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_RESTORE_ENTRY_HISTORY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.settings.SettingsAutofillActivity
 import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.ClipboardHelper
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -475,8 +474,7 @@ class EntryActivity : LockingActivity() {
                                             getString(R.string.entry_user_name)))
                         },
                         {
-                            // Launch autofill settings
-                            startActivity(Intent(this@EntryActivity, SettingsAutofillActivity::class.java))
+                            performedNextEducation(entryActivityEducation, menu)
                         })
 
         if (!entryCopyEducationPerformed) {

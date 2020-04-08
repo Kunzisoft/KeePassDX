@@ -26,7 +26,6 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.node.NodeVersioned
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.stream.NullOutputStream
 import java.io.IOException
@@ -262,6 +261,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     }
 
     companion object {
+        val TYPE = DatabaseKDB::class.java
 
         const val BACKUP_FOLDER_TITLE = "Backup"
         private const val BACKUP_FOLDER_UNDEFINED_ID = -1

@@ -354,4 +354,10 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.keyboard_key_sound_key),
                 context.resources.getBoolean(R.bool.keyboard_key_sound_default))
     }
+
+    fun isAutofillAutoSearchEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
+                context.resources.getBoolean(R.bool.autofill_auto_search_default))
+    }
 }

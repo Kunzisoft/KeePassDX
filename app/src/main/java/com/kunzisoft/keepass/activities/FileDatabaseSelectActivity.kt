@@ -48,9 +48,11 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
@@ -217,7 +219,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         try {
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                     databaseUri, keyFile,
-                                    assistStructure)
+                                    assistStructure,
+                                    intent.getParcelableExtra(KEY_SEARCH_INFO))
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
@@ -229,16 +232,21 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private fun launchGroupActivity(readOnly: Boolean) {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
-                    GroupActivity.launch(this@FileDatabaseSelectActivity, readOnly)
+                    GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity, readOnly)
+                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity,
+                            readOnly)
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity, assistStructure, readOnly)
+                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
+                                assistStructure,
+                                intent.getParcelableExtra(KEY_SEARCH_INFO),
+                                readOnly)
                     }
                 })
     }
@@ -459,10 +467,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
          */
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure) {
+        fun launchForAutofillResult(activity: Activity,
+                                    assistStructure: AssistStructure,
+                                    searchInfo: SearchInfo?) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
-                    assistStructure)
+                    assistStructure,
+                    searchInfo)
         }
     }
 }

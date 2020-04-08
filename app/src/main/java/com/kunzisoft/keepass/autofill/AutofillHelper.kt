@@ -31,9 +31,17 @@ import android.view.autofill.AutofillManager
 import android.view.autofill.AutofillValue
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
+import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -42,6 +50,7 @@ object AutofillHelper {
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
     private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
+    const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
 
     fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
         intent?.let {
@@ -62,11 +71,11 @@ object AutofillHelper {
         return ""
     }
 
-    private fun buildDataset(context: Context,
-                             entryInfo: EntryInfo,
-                             struct: StructureParser.Result): Dataset? {
+    internal fun buildDataset(context: Context,
+                              entryInfo: EntryInfo,
+                              struct: StructureParser.Result): Dataset? {
         val title = makeEntryTitle(entryInfo)
-        val views = newRemoteViews(context.packageName, title)
+        val views = newRemoteViews(context, title, entryInfo.icon)
         val builder = Dataset.Builder(views)
         builder.setId(entryInfo.id)
 
@@ -86,9 +95,16 @@ object AutofillHelper {
     }
 
     /**
-     * Method to hit when right key is selected
+     * Build the Autofill response for one entry
      */
-    fun buildResponseWhenEntrySelected(activity: Activity, entryInfo: EntryInfo) {
+    fun buildResponse(activity: Activity, entryInfo: EntryInfo) {
+        buildResponse(activity, ArrayList<EntryInfo>().apply { add(entryInfo) })
+    }
+
+    /**
+     * Build the Autofill response for many entry
+     */
+    fun buildResponse(activity: Activity, entriesInfo: List<EntryInfo>) {
         var setResultOk = false
         activity.intent?.extras?.let { extras ->
             if (extras.containsKey(ASSIST_STRUCTURE)) {
@@ -96,8 +112,9 @@ object AutofillHelper {
                     StructureParser(structure).parse()?.let { result ->
                         // New Response
                         val responseBuilder = FillResponse.Builder()
-                        val dataset = buildDataset(activity, entryInfo, result)
-                        responseBuilder.addDataset(dataset)
+                        entriesInfo.forEach {
+                            responseBuilder.addDataset(buildDataset(activity, it, result))
+                        }
                         val mReplyIntent = Intent()
                         Log.d(activity.javaClass.name, "Successed Autofill auth.")
                         mReplyIntent.putExtra(
@@ -116,11 +133,47 @@ object AutofillHelper {
     }
 
     /**
+     * Utility method to perform actions if item is found or not after an auto search in [database]
+     */
+    fun checkAutoSearchInfo(context: Context,
+                            database: Database,
+                            searchInfo: SearchInfo?,
+                            onItemsFound: (items: List<EntryInfo>) -> Unit,
+                            onItemNotFound: () -> Unit,
+                            onDatabaseClosed: () -> Unit) {
+        if (database.loaded && TimeoutHelper.checkTime(context)) {
+            var searchWithoutUI = false
+            if (PreferencesUtil.isAutofillAutoSearchEnable(context)
+                    && searchInfo != null) {
+                // If search provide results
+                database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
+                    if (searchGroup.getNumberOfChildEntries() > 0) {
+                        searchWithoutUI = true
+                        onItemsFound.invoke(
+                                searchGroup.getChildEntriesInfo(database))
+                    }
+                }
+            }
+            if (!searchWithoutUI) {
+                onItemNotFound.invoke()
+            }
+        } else {
+            onDatabaseClosed.invoke()
+        }
+    }
+
+    /**
      * Utility method to start an activity with an Autofill for result
      */
-    fun startActivityForAutofillResult(activity: Activity, intent: Intent, assistStructure: AssistStructure) {
+    fun startActivityForAutofillResult(activity: Activity,
+                                       intent: Intent,
+                                       assistStructure: AssistStructure,
+                                       searchInfo: SearchInfo?) {
         EntrySelectionHelper.addEntrySelectionModeExtraInIntent(intent)
         intent.putExtra(ASSIST_STRUCTURE, assistStructure)
+        searchInfo?.let {
+            intent.putExtra(KEY_SEARCH_INFO, it)
+        }
         activity.startActivityForResult(intent, AUTOFILL_RESPONSE_REQUEST_CODE)
     }
 
@@ -139,9 +192,18 @@ object AutofillHelper {
         }
     }
 
-    private fun newRemoteViews(packageName: String, remoteViewsText: String): RemoteViews {
-        val presentation = RemoteViews(packageName, R.layout.item_autofill_service)
+    private fun newRemoteViews(context: Context,
+                               remoteViewsText: String,
+                               remoteViewsIcon: IconImage? = null): RemoteViews {
+        val presentation = RemoteViews(context.packageName, R.layout.item_autofill_service)
         presentation.setTextViewText(R.id.text, remoteViewsText)
+        if (remoteViewsIcon != null) {
+            presentation.assignDatabaseIcon(context,
+                    R.id.icon,
+                    Database.getInstance().drawFactory,
+                    remoteViewsIcon,
+                    ContextCompat.getColor(context, R.color.green))
+        }
         return presentation
     }
 }
