@@ -52,11 +52,11 @@ class KeeAutofillService : AutofillService() {
                     Database.getInstance(),
                     searchInfo,
                     { items ->
+                        val responseBuilder = FillResponse.Builder()
                         items.forEach {
-                            val responseBuilder = FillResponse.Builder()
                             responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
-                            callback.onSuccess(responseBuilder.build())
                         }
+                        callback.onSuccess(responseBuilder.build())
                     },
                     {
                         // Show UI if no search result
