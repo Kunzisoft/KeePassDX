@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
@@ -142,7 +143,8 @@ object AutofillHelper {
                             onDatabaseClosed: () -> Unit) {
         if (database.loaded && TimeoutHelper.checkTime(context)) {
             var searchWithoutUI = false
-            if (searchInfo != null) {
+            if (PreferencesUtil.isAutofillAutoSearchEnable(context)
+                    && searchInfo != null) {
                 // If search provide results
                 database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
                     if (searchGroup.getNumberOfChildEntries() > 0) {
