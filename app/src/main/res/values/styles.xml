@@ -134,60 +134,6 @@
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
         <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
     </style>
-    <style name="KeepassDXStyle.Black.v21" parent="Theme.AppCompat">
-        <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
-
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-
-        <item name="windowNoTitle">true</item>
-        <item name="windowActionBar">false</item>
-
-        <item name="android:buttonStyle">@style/KeepassDXStyle.Button</item>
-        <item name="buttonStyle">@style/KeepassDXStyle.Button</item>
-
-        <item name="android:imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-        <item name="imageButtonStyle">@style/KeepassDXStyle.ImageButton</item>
-
-        <item name="android:checkboxStyle">@style/KeepassDXStyle.CheckBox</item>
-
-        <item name="colorPrimary">@color/dark</item>
-        <item name="colorPrimaryDark">@color/black</item>
-        <item name="colorAccent">@color/orange_dark</item>
-        <item name="colorAccentLight">@color/orange</item>
-
-        <item name="colorControlNormal">@color/colorText</item>
-        <item name="colorControlActivated">@color/green_darker</item>
-
-        <item name="android:textAppearance">@style/KeepassDXStyle.TextAppearance</item>
-        <item name="android:textAppearanceMedium">@style/KeepassDXStyle.TextAppearance</item>
-
-        <item name="android:windowBackground">@color/background_dark</item>
-
-        <item name="android:textColor">@color/text_color_night</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
-        <item name="textColorInverse">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/green</item>
-        <item name="android:textColorPrimaryInverse">@color/colorTextPrimaryInverse</item>
-        <item name="android:textColorSecondary">@color/text_color_secondary_night</item>
-        <item name="android:textColorSecondaryInverse">@color/colorTextSecondaryInverse</item>
-        <item name="android:textColorHint">@color/colorTextSecondary</item>
-        <item name="android:textColorHintInverse">@color/green_light</item>
-
-        <item name="iconPreferenceColor">@color/text_color_secondary_night</item>
-
-        <!-- Dialog -->
-        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-        <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-
-        <!-- Toolbar -->
-        <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
-        <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Black.Toolbar.Popup</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
-        <!-- CollapsingToolbarLayout -->
-        <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
-        <item name="collapsedTitleTextAppearance">@style/KeepassDXStyle.Collapsed.Title</item>
-    </style>
 
     <!-- Light Style -->
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" />
@@ -201,13 +147,6 @@
     <style name="KeepassDXStyle.Night.Toolbar.Popup" parent="Theme.AppCompat">
         <item name="android:textColor">@color/colorTextInverse</item>
         <item name="android:colorBackground">@color/background_night</item>
-    </style>
-
-    <!-- Black Style -->
-    <style name="KeepassDXStyle.Black" parent="KeepassDXStyle.Black.v21" />
-    <style name="KeepassDXStyle.Black.Toolbar.Popup" parent="Theme.AppCompat">
-        <item name="android:textColor">@color/colorTextPrimaryInverse</item>
-        <item name="android:colorBackground">@color/dark</item>
     </style>
 
     <!-- Activity Animation -->
@@ -229,15 +168,6 @@
 
     <!-- Toolbar Style Night Green -->
     <style name="KeepassDXStyle.Toolbar.Night" parent="KeepassDXStyle.Night.v21">
-        <item name="colorControlNormal">@color/colorTextInverse</item>
-        <item name="android:textColorPrimary">@color/colorTextInverse</item>
-        <item name="android:textColorSecondary">@color/colorTextInverse</item>
-        <item name="android:editTextColor">@color/colorTextInverse</item>
-        <item name="android:textColorHint">@color/green_lighter</item>
-    </style>
-
-    <!-- Toolbar Style Black Green -->
-    <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black.v21">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
@@ -269,11 +199,6 @@
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_night</item>
-    </style>
-    <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="colorAccent">@color/orange_dark</item>
-        <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:background">@color/black</item>
     </style>
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
