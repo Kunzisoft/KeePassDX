@@ -443,7 +443,7 @@
     <string name="remember_keyfile_locations_summary">Veri tabanını anahtar dosyalarının konumunu hatırla</string>
     <string name="remember_keyfile_locations_title">Anahtar dosyalarının konumlarını kaydet</string>
     <string name="remember_database_locations_summary">Veri tabanlarının konumlarını hatırla</string>
-    <string name="remember_database_locations_title">Veri tabanını konumlarını kaydet</string>
+    <string name="remember_database_locations_title">Veri tabanlarının konumlarını kaydet</string>
     <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
     <string name="auto_focus_search_title">Hızlı arama</string>
     <string name="contribution">Katkı</string>
