@@ -1,5 +1,6 @@
  * Add write permission to keep compatibility with old file managers
  * Fix autofill for apps
+ * Auto search for autofill
  * New keyfile input
  * Icon to hide keyfile input
  * New lock button
