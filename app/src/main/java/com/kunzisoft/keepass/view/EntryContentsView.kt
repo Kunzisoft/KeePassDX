@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.graphics.Color
+import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -71,8 +72,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val urlContainerView: View
     private val urlView: TextView
 
-    private val commentContainerView: View
-    private val commentView: TextView
+    private val notesContainerView: View
+    private val notesView: TextView
 
     private val extrasContainerView: View
     private val extrasView: ViewGroup
@@ -120,8 +121,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
 
-        commentContainerView = findViewById(R.id.entry_notes_container)
-        commentView = findViewById(R.id.entry_notes)
+        notesContainerView = findViewById(R.id.entry_notes_container)
+        notesView = findViewById(R.id.entry_notes)
 
         extrasContainerView = findViewById(R.id.extra_strings_container)
         extrasView = findViewById(R.id.extra_strings)
@@ -289,15 +290,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignComment(comment: String?) {
         if (comment != null && comment.isNotEmpty()) {
-            commentContainerView.visibility = View.VISIBLE
-            commentView.apply {
+            notesContainerView.visibility = View.VISIBLE
+            notesView.apply {
                 text = comment
                 if (fontInVisibility)
                     applyFontVisibility()
             }
-
+            try {
+                Linkify.addLinks(notesView, Linkify.ALL)
+            } catch (e: Exception) {}
         } else {
-            commentContainerView.visibility = View.GONE
+            notesContainerView.visibility = View.GONE
         }
     }
 

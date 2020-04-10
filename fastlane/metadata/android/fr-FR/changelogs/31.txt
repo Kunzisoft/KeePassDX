@@ -5,3 +5,4 @@
  * Icône pour masquer la saisie du fichier clé
  * Nouveau bouton de verrouillage
  * Réglage pour masquer le bouton de verrouillage dans l'interface utilisateur
+ * Liens cliquables dans les notes
