@@ -94,7 +94,6 @@
     <string name="never">Nekad</string>
     <string name="no_results">Nav meklēšanas rezultātu</string>
     <string name="no_url_handler">Neizdevās atvērt saiti.</string>
-    <string name="open_recent">Atvērt pēdējo datu bāzi :</string>
     <string name="omit_backup_search_title">Nemeklēt kopijās un atkritnē</string>
     <string name="omit_backup_search_summary">Izlaist kopijas un atkritni no meklēšanas rezultātiem</string>
     <string name="progress_create">Izveido jaunu datu bāzi…</string>
@@ -116,7 +115,6 @@
     <string name="underline">Pasvītrojums</string>
     <string name="unsupported_db_version">Neatbalstīta datu bāzes versija.</string>
     <string name="uppercase">Lielie burti</string>
-    <string name="warning_unmounted">Nav SD kartes. Darbības ar datu bāzi nav iespējamas.</string>
     <string name="version_label">Versija %1$s</string>
 
     <string name="education_unlock_summary">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi.</string>

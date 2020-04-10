@@ -104,7 +104,6 @@
     <string name="never">Aldri</string>
     <string name="no_results">Ingen søkjeresultat</string>
     <string name="no_url_handler">Ingen behandlar for denne adressa.</string>
-    <string name="open_recent">Opna nyleg brukt database :</string>
     <string name="omit_backup_search_title">Søk ikkje i kopipostane eller søppelbøtta</string>
     <string name="omit_backup_search_summary">Søkjeresultatet inneheld ikkje oppføringar frå \'Backup\' eller søppelbøtta</string>
     <string name="progress_create">Lager ny database …</string>
@@ -124,7 +123,6 @@
     <string name="underline">Understreking</string>
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>
     <string name="uppercase">Store bokstavar</string>
-    <string name="warning_unmounted">SD-kortet er ikkje montert i eininga di. Du kan verken henta eller laga databasen din.</string>
     <string name="version_label">Utgåve %1$s</string>
 
     <string name="education_unlock_summary">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen.</string>

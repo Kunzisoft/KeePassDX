@@ -166,13 +166,11 @@
     <string name="menu_open_file_read_and_write">قابل للتعديل</string>
     <string name="select_database_file">فتح قاعدة بيانات موجودة</string>
     <string name="create_keepass_file">انشاء قاعدة بيانات</string>
-    <string name="open_recent">قواعد البيانات الاخيرة</string>
     <string name="omit_backup_search_title">لا تبحثفي مدخلات النسخ الاحتياطي</string>
     <string name="progress_title">قيد العمل…</string>
     <string name="read_only_warning">KeePassDX يحتاج صلاحية الكتابة من اجل تعديل قاعدة البيانات.</string>
     <string name="encryption_explanation">خوارزمية تشفير جميع البيانات.</string>
     <string name="unsupported_db_version">قاعدة بيانات غير مدعومة.</string>
-    <string name="warning_unmounted">اربط بطاقة الذاكرة لإنشاء او تحميل قاعدة بيانات.</string>
     <string name="build_label">بناء %1$s</string>
     <string name="encrypted_value_stored">تم حفظ كلمة السر المشفرة</string>
     <string name="no_credentials_stored">قاعدة البيانات لا تمتلك كلمة سر.</string>

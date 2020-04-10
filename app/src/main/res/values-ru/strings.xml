@@ -115,7 +115,6 @@
     <string name="never">Никогда</string>
     <string name="no_results">Совпадения не найдены</string>
     <string name="no_url_handler">Установите браузер, чтобы открыть этот URL.</string>
-    <string name="open_recent">Недавно открытые базы</string>
     <string name="omit_backup_search_title">Не искать в резервных копиях</string>
     <string name="omit_backup_search_summary">Не искать в группах \"Резервирование\" и \"Корзина\"</string>
     <string name="progress_create">Создание новой базы…</string>
@@ -141,7 +140,6 @@
     <string name="uppercase">ЗАГЛАВНЫЕ</string>
     <string name="warning">Внимание</string>
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
-    <string name="warning_unmounted">Подключите хранилище для создания или загрузки базы.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>
     <string name="open_biometric_prompt_unlock_database">Ожидание биометрического ключа для разблокировки базы</string>

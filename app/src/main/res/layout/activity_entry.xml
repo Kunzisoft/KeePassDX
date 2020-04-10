@@ -32,7 +32,6 @@
         android:layout_height="@dimen/toolbar_parallax_height">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
-            xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

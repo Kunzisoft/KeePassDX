@@ -123,7 +123,6 @@
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
-    <string name="open_recent">Bases de données récentes</string>
     <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
     <string name="omit_backup_search_summary">Omet les groupes « Sauvegarde » et « Corbeille » des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
@@ -162,7 +161,6 @@
     <string name="uppercase">Majuscules</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors du format de codage de caractères du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
-    <string name="warning_unmounted">Monter la carte mémoire pour créer ou charger une base de données.</string>
     <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
     <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>

@@ -102,7 +102,6 @@
     <string name="never">Nigdy</string>
     <string name="no_results">Brak wyników wyszukiwania</string>
     <string name="no_url_handler">Zainstaluj przeglądarkę internetową, aby otworzyć ten adres URL.</string>
-    <string name="open_recent">Ostatnio używana baza danych</string>
     <string name="omit_backup_search_title">Nie wyszukuj wpisów kopii zapasowej</string>
     <string name="omit_backup_search_summary">Pomija grupy \"Kopia zapasowa\" i \"Kosz\" z wyników wyszukiwania</string>
     <string name="progress_create">Tworzenie nowej bazy danych…</string>
@@ -122,7 +121,6 @@
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
-    <string name="warning_unmounted">Zainstaluj kartę pamięci, aby utworzyć lub załadować bazę danych.</string>
     <string name="education_unlock_summary">prowadź hasło i/lub plik klucza, aby odblokować bazę danych.
 \n
 \nUtwórz kopię zapasową pliku bazy danych w bezpiecznym miejscu po każdej zmianie.</string>

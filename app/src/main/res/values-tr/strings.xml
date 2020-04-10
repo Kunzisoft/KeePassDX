@@ -135,7 +135,6 @@
     <string name="no_url_handler">Bu URL\'u açmak için bir web tarayıcısı yükleyin.</string>
     <string name="select_database_file">Mevcut veritabanını aç</string>
     <string name="create_keepass_file">Yeni veritabanı oluştur</string>
-    <string name="open_recent">Son veritabanları</string>
     <string name="omit_backup_search_title">Yedek girişleri arama</string>
     <string name="omit_backup_search_summary">Arama sonuçlarından \"Yedekleme\" ve \"Geri dönüşüm kutusu\" gruplarını atlar</string>
     <string name="progress_create">Yeni veritabanı oluştur…</string>
@@ -175,7 +174,6 @@
     <string name="uppercase">Büyük harf</string>
     <string name="warning">Uyarı</string>
     <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
-    <string name="warning_unmounted">Bir veritabanı oluşturmak veya yüklemek için hafıza kartını takın.</string>
     <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
     <string name="warning_no_encryption_key">Herhangi bir şifreleme anahtarı kullanmak istemediğinize emin misiniz\?</string>
     <string name="version_label">Sürüm %1$s</string>

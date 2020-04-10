@@ -105,7 +105,6 @@
     <string name="never">Nunca</string>
     <string name="no_results">Sin resultado de búsqueda</string>
     <string name="no_url_handler">Instale un navegador web para abrir este URL.</string>
-    <string name="open_recent">Bases de datos recientes</string>
     <string name="omit_backup_search_title">No buscar en las entradas de respaldo</string>
     <string name="omit_backup_search_summary">Omite los grupos «Respaldo» y «Papelera de reciclaje» de los resultados de búsqueda</string>
     <string name="progress_create">Creando nueva base de datos…</string>
@@ -125,7 +124,6 @@
     <string name="underline">Subrayado</string>
     <string name="unsupported_db_version">No se admite esta versión de la base de datos.</string>
     <string name="uppercase">Mayúsculas</string>
-    <string name="warning_unmounted">Monte la tarjeta SD para crear o cargar una base de datos.</string>
     <string name="version_label">Versión %1$s</string>
     <string name="education_unlock_summary">Introduzca una contraseña y/o un archivo de clave para desbloquear su base de datos.</string>
     <string-array name="timeout_options">

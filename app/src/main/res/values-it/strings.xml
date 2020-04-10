@@ -115,7 +115,6 @@
     <string name="never">Mai</string>
     <string name="no_results">Nessun risultato di ricerca</string>
     <string name="no_url_handler">Installa un browser web per aprire questo URL.</string>
-    <string name="open_recent">Database recenti</string>
     <string name="omit_backup_search_title">Non cercare nelle voci di backup</string>
     <string name="omit_backup_search_summary">Ometti i gruppi \"Backup\" e \"Cestino\" dai risultati di ricerca</string>
     <string name="progress_create">Creazione nuovo database…</string>
@@ -139,7 +138,6 @@
     <string name="uppercase">Maiuscole</string>
     <string name="warning">Attenzione</string>
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
-    <string name="warning_unmounted">Monta la scheda di memoria per poter creare o caricare un database.</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>
     <string name="open_biometric_prompt_unlock_database">Scansione impronte</string>

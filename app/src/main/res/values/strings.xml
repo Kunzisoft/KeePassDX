@@ -199,7 +199,6 @@
     <string name="no_url_handler">Install a web browser to open this URL.</string>
     <string name="select_database_file">Open existing database</string>
     <string name="create_keepass_file">Create new database</string>
-    <string name="open_recent">Recent databases</string>
     <string name="omit_backup_search_title">Don\'t search through backup entries</string>
     <string name="omit_backup_search_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
     <string name="auto_focus_search_title">Quick search</string>
@@ -255,7 +254,6 @@
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
     <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
-    <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>

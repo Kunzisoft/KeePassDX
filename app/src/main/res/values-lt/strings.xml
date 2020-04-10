@@ -86,7 +86,6 @@
     <string name="lowercase">Mažosios raidės</string>
     <string name="minus">Minusas</string>
     <string name="underline">Pabraukimas</string>
-    <string name="open_recent">Atidaryti naujausią duomenų bazę </string>
     <string name="default_checkbox">Naudoti šią duomenų bazę kaip numatytąją</string>
     <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>

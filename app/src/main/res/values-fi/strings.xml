@@ -114,7 +114,6 @@
     <string name="never">Ei koskaan</string>
     <string name="no_results">Ei hakutuloksia</string>
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
-    <string name="open_recent">Avaa viimeisin salasanatietokanta :</string>
     <string name="omit_backup_search_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omit_backup_search_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
     <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
@@ -136,7 +135,6 @@
     <string name="underline">Alleviivattu</string>
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>
-    <string name="warning_unmounted">SD-korttia ei löydy. Et voi ladata tai tallentaa salasanatietokantaa.</string>
     <string name="version_label">Versio %1$s</string>
 
     <string name="education_unlock_summary">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi.</string>

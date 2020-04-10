@@ -103,7 +103,6 @@
     <string name="never">从不</string>
     <string name="no_results">没有搜索结果</string>
     <string name="no_url_handler">需要安装网络浏览器才能打开这个URL。</string>
-    <string name="open_recent">最近用过的数据库</string>
     <string name="progress_create">正在新建数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="content_description_remove_from_list">移除</string>
@@ -121,7 +120,6 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="warning_unmounted">请挂载内存卡以新建或加载数据库。</string>
     <string name="education_unlock_summary">输入密码和/或密钥文件来解锁你的数据库。
 \n
 \n记得在每次更改后将数据库文件备份至安全的地方。</string>

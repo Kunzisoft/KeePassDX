@@ -102,7 +102,6 @@
     <string name="never">從不</string>
     <string name="no_results">沒有搜索結果</string>
     <string name="no_url_handler">沒有這個鏈結的處理程式。</string>
-    <string name="open_recent">最近打開的資料庫：</string>
     <string name="progress_create">創建新資料庫中…</string>
     <string name="progress_title">工作中…</string>
     <string name="content_description_remove_from_list">移除</string>
@@ -120,7 +119,6 @@
     <string name="underline">強調</string>
     <string name="unsupported_db_version">不支援的資料庫版本。</string>
     <string name="uppercase">大寫</string>
-    <string name="warning_unmounted">你的SD卡目前尚未安裝在您的設備上。你將無法讀或創建您的資料庫。</string>
     <string name="education_unlock_summary">輸入密碼和/或一個密鑰檔來解鎖你的資料庫.</string>
     <string-array name="timeout_options">
         <item>5秒</item>

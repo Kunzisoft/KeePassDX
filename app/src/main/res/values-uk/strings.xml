@@ -104,7 +104,6 @@
     <string name="never">Ніколи</string>
     <string name="no_results">Нічого не знайдено.</string>
     <string name="no_url_handler">Нема програми для опрацювання цього посилання.</string>
-    <string name="open_recent">Відкрити останню базу даних :</string>
     <string name="omit_backup_search_title">Не шукати записів з резервного копіювання та кошиків</string>
     <string name="omit_backup_search_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
     <string name="progress_create">Створення нової бази даних&#8230;</string>
@@ -124,7 +123,6 @@
     <string name="underline">Підкреслення</string>
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>
-    <string name="warning_unmounted">Ваша карта пам’яті зараз не змонтована на телефоні. Ви не зможете завантажити або створити базу даних.</string>
     <string name="version_label">Версія %1$s</string>
 
     <string name="education_unlock_summary">Введіть пароль і/або файл ключа для відкриття бази даних.</string>

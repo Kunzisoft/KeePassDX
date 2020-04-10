@@ -176,7 +176,6 @@
     <string name="no_url_handler">Instalați un browser web pentru a deschide această adresă URL.</string>
     <string name="select_database_file">Deschide baza de date existentă</string>
     <string name="create_keepass_file">Creați o bază de date nouă</string>
-    <string name="open_recent">Baze de date recente</string>
     <string name="progress_create">Crearea noii baze de date …</string>
     <string name="progress_title">Lucrând …</string>
     <string name="protection">Protecție</string>
@@ -217,7 +216,6 @@
     <string name="uppercase">Cu majuscule</string>
     <string name="warning">Avertizare</string>
     <string name="warning_password_encoding">Evitați caracterele parole în afara formatului de codare a textului în fișierul bazei de date (caracterele nerecunoscute sunt convertite în aceeași literă).</string>
-    <string name="warning_unmounted">Montați cardul de memorie pentru a crea sau încărca o bază de date.</string>
     <string name="warning_empty_password">Chiar nu doriți nicio protecție de deblocare a parolei\?</string>
     <string name="warning_no_encryption_key">Ești sigur că nu vrei să folosești nicio cheie de criptare\?</string>
     <string name="warning_permanently_delete_nodes">Sigur doriți să ștergeți definitiv nodurile selectate\?</string>

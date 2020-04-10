@@ -113,7 +113,6 @@
     <string name="never">Nikdy</string>
     <string name="no_results">Žádné výsledky hledání</string>
     <string name="no_url_handler">Pro otevření tohoto URL nainstalujte webový prohlížeč.</string>
-    <string name="open_recent">Nedávno otevřené databáze</string>
     <string name="omit_backup_search_title">Neprohledávat položky v záloze</string>
     <string name="omit_backup_search_summary">Vynechat skupiny „Záloha“ a \"Koš\" z výsledků vyhledávání</string>
     <string name="progress_create">Vytvářím novou databázi…</string>
@@ -137,7 +136,6 @@
     <string name="unsupported_db_version">Nepodporovaná verze databáze.</string>
     <string name="uppercase">Velká písmena</string>
     <string name="version_label">Verze %1$s</string>
-    <string name="warning_unmounted">Připojit paměťovou kartu pro založení a otevření databáze.</string>
     <string name="education_unlock_summary">Databázi odemknete zadáním hesla a/nebo souboru s klíčem.
 \n
 \nNezapomeňte si po každé úpravě zazálohovat kopii svého .kdbx souboru na bezpečné místo.</string>
