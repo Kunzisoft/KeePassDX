@@ -24,7 +24,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:importantForAutofill="noExcludeDescendants"
-    android:background="?attr/colorPrimaryDark"
     tools:targetApi="o">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -32,6 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/background_repeat"
+        android:backgroundTint="?attr/colorPrimary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
 
@@ -130,7 +130,6 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/transparent"
                     android:theme="?attr/toolbarAppearance"
                     app:layout_constraintTop_toTopOf="parent"
                     android:elevation="4dp"
