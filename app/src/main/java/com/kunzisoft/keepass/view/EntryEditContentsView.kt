@@ -200,12 +200,16 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             val customFieldsArray = ArrayList<Field>()
             // Add extra fields from views
             entryExtraFieldsContainer.let {
-                for (i in 0 until it.childCount) {
-                    val view = it.getChildAt(i) as EntryEditCustomField
-                    val key = view.label
-                    val value = view.value
-                    val protect = view.isProtected
-                    customFieldsArray.add(Field(key, ProtectedString(protect, value)))
+                try {
+                    for (i in 0 until it.childCount) {
+                        val view = it.getChildAt(i) as EntryEditCustomField
+                        val key = view.label
+                        val value = view.value
+                        val protect = view.isProtected
+                        customFieldsArray.add(Field(key, ProtectedString(protect, value)))
+                    }
+                } catch (exception: Exception) {
+                    // Extra field container contains another type of view
                 }
             }
             return customFieldsArray
@@ -215,11 +219,14 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * Add a new view to fill in the information of the customized field and focus it
      */
     fun addEmptyCustomField() {
-        val entryEditCustomField = EntryEditCustomField(context).apply {
-            setFontVisibility(fontInVisibility)
-            requestFocus()
+        // Fix current custom field before adding a new one
+        if (isValid()) {
+            val entryEditCustomField = EntryEditCustomField(context).apply {
+                setFontVisibility(fontInVisibility)
+                requestFocus()
+            }
+            entryExtraFieldsContainer.addView(entryEditCustomField)
         }
-        entryExtraFieldsContainer.addView(entryEditCustomField)
     }
 
     /**
@@ -254,26 +261,34 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * @return ErrorValidation An error with a message or a validation without message
      */
     fun isValid(): Boolean {
-        var isValid = true
-
         // Validate password
         if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {
             entryPasswordLayoutView.error = context.getString(R.string.error_pass_match)
-            isValid = false
+            return false
         } else {
             entryPasswordLayoutView.error = null
         }
 
         // Validate extra fields
         entryExtraFieldsContainer.let {
-            for (i in 0 until it.childCount) {
-                val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
-                if (!entryEditCustomField.isValid()) {
-                    isValid = false
+            try {
+                val customFieldLabelSet = HashSet<String>()
+                for (i in 0 until it.childCount) {
+                    val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
+                    if (customFieldLabelSet.contains(entryEditCustomField.label)) {
+                        entryEditCustomField.setError(R.string.error_label_exists)
+                        return false
+                    }
+                    customFieldLabelSet.add(entryEditCustomField.label)
+                    if (!entryEditCustomField.isValid()) {
+                        return false
+                    }
                 }
+            } catch (exception: Exception) {
+                return false
             }
         }
-        return isValid
+        return true
     }
 
 }

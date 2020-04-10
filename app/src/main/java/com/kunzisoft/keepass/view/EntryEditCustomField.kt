@@ -30,6 +30,7 @@ import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.RelativeLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
@@ -84,12 +85,18 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     fun isValid(): Boolean {
         // Validate extra field
         if (label.isEmpty()) {
-            labelLayoutView.error = context.getString(R.string.error_string_key)
+            setError(R.string.error_string_key)
             return false
         } else {
-            labelLayoutView.error = null
+            setError(null)
         }
         return true
+    }
+
+    fun setError(@StringRes errorId: Int?) {
+        labelLayoutView.error = if (errorId == null) null else {
+            context.getString(errorId)
+        }
     }
 
     fun setFontVisibility(applyFontVisibility: Boolean) {
