@@ -101,7 +101,8 @@ internal class StructureParser(private val structure: AssistStructure) {
             when {
                 it.equals(View.AUTOFILL_HINT_USERNAME, true)
                         || it.equals(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
-                        || it.equals(View.AUTOFILL_HINT_PHONE, true) -> {
+                        || it.equals(View.AUTOFILL_HINT_PHONE, true)
+                        || it.equals("usernameOrEmail", true)-> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
