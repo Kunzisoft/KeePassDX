@@ -3,25 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:color="@color/white"
     tools:targetApi="lollipop">
-    <item
-        android:bottom="-2dp"
-        android:left="-2dp">
+    <item>
         <shape>
-            <stroke
-                android:width="1dp"
-                android:color="?android:attr/textColorPrimary" />
             <corners
                 android:topLeftRadius="0dp"
                 android:topRightRadius="40dp"
                 android:bottomLeftRadius="0dp"
                 android:bottomRightRadius="0dp"/>
-            <padding
-                android:left="4dp"
-                android:right="12dp"
-                android:top="18dp"
-                android:bottom="8dp"/>
-            <solid
-                android:color="?android:windowBackground" />
+            <solid android:color="?android:attr/windowBackground"/>
         </shape>
     </item>
 </ripple>

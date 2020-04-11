@@ -3,16 +3,30 @@
     android:id="@+id/lock_button"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lock_button_background"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginBottom="-2dp"
         tools:targetApi="lollipop"
         android:elevation="4dp"
-        android:background="@drawable/background_start_bottom_button"
+        style="@style/KeepassDXStyle.Special.Button.Background"
+        android:layout_gravity="bottom|start"
+        android:contentDescription="@string/menu_lock" />
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/lock_button_stroke"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="-2dp"
+        android:layout_marginLeft="-2dp"
+        android:layout_marginBottom="-2dp"
+        tools:targetApi="lollipop"
+        android:elevation="4dp"
+        style="@style/KeepassDXStyle.Special.Button.Stroke"
         android:layout_gravity="bottom|start"
         android:contentDescription="@string/menu_lock" />
     <androidx.appcompat.widget.AppCompatImageView
