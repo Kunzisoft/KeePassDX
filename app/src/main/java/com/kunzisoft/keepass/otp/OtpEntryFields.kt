@@ -74,7 +74,7 @@ object OtpEntryFields {
     // [^&=\s]+=[^&=\s]+(&[^&=\s]+=[^&=\s]+)*
     private const val validKeyValue = "[^&=\\s]+"
     private const val validKeyValuePair = "$validKeyValue=$validKeyValue"
-    private const val validKeyValueRegex = "$validKeyValuePair&($validKeyValuePair)*"
+    private const val validKeyValueRegex = "$validKeyValuePair(&$validKeyValuePair)*"
 
     /**
      * Parse fields of an entry to retrieve an OtpElement
@@ -243,21 +243,18 @@ object OtpEntryFields {
         val plainText = getField(OTP_FIELD)
         if (plainText != null && plainText.isNotEmpty()) {
             if (Pattern.matches(validKeyValueRegex, plainText)) {
-                try {
+                return try {
                     // KeeOtp string format
                     val query = breakDownKeyValuePairs(plainText)
 
-                    var secretString = query[SEED_KEY]
-                    if (secretString == null)
-                        secretString = ""
-                        otpElement.setBase32Secret(secretString)
-                        otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
-                        otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
+                    otpElement.setBase32Secret(query[SEED_KEY] ?: "")
+                    otpElement.digits = query[DIGITS_KEY]?.toIntOrNull() ?: OTP_DEFAULT_DIGITS
+                    otpElement.period = query[STEP_KEY]?.toIntOrNull() ?: TOTP_DEFAULT_PERIOD
 
-                        otpElement.type = OtpType.TOTP
-                        return true
+                    otpElement.type = OtpType.TOTP
+                    true
                 } catch (exception: Exception) {
-                    return false
+                    false
                 }
             } else {
                 // Malformed
