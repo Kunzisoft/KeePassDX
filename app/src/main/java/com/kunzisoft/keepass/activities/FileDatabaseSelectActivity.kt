@@ -63,6 +63,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
+    private var fileManagerExplanationButton: View? = null
     private var createButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -88,6 +89,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+
+        fileManagerExplanationButton = findViewById(R.id.file_manager_explanation_button)
+        fileManagerExplanationButton?.setOnClickListener {
+            UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
+        }
 
         // Create button
         createButtonView = findViewById(R.id.create_database_button)
