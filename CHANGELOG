@@ -7,6 +7,7 @@ KeePassDX(2.5beta31)
  * New lock button
  * Setting to hide lock button in user interface
  * Clickable links in notes
+ * Fix autofill for key-value pairs
 
 KeePassDX(2.5beta30)
  * Fix Lock after screen off (wait 1.5 seconds)

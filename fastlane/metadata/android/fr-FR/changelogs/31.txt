@@ -6,3 +6,4 @@
  * Nouveau bouton de verrouillage
  * Réglage pour masquer le bouton de verrouillage dans l'interface utilisateur
  * Liens cliquables dans les notes
+ * Correction du remplissage automatique pour les paires clé-valeur
