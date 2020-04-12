@@ -62,7 +62,7 @@
     <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
     <string name="retrieving_db_key">Veritabanı anahtarı alınıyor…</string>
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
-    <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
+    <string name="default_checkbox">Öntanımlı veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>özgür yazılımdır</strong> ve <strong>reklam içermez</strong>. 
 \n<strong>GPLv3</strong> lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
@@ -107,7 +107,7 @@
     <string name="loading_database">Veritabanı yükleniyor…</string>
     <string name="lowercase">Küçük harf</string>
     <string name="hide_password_title">Parolaları gizle</string>
-    <string name="hide_password_summary">Parola maskesi. Varsayılan (***)</string>
+    <string name="hide_password_summary">Parolaları öntanımlı olarak (***) ile maskele</string>
     <string name="about">Hakkında</string>
     <string name="menu_change_key_settings">Ana anahtarı değiştir</string>
     <string name="copy_field">%1$s kopyalandı</string>
@@ -195,10 +195,10 @@
     <string name="autofill">Otomatik Doldurma</string>
     <string name="autofill_service_name">KeePassDX formu otomatik doldurma</string>
     <string name="autofill_sign_in_prompt">KeePassDX ile giriş yap</string>
-    <string name="set_autofill_service_title">Varsayılan otomatik doldurma hizmetini ayarla</string>
+    <string name="set_autofill_service_title">Öntanımlı otomatik doldurma hizmetini ayarla</string>
     <string name="autofill_explanation_summary">Diğer uygulamalardaki formları hızlı doldurmak için otomatik doldurmayı etkinleştirin</string>
     <string name="password_size_title">Oluşturulan parola boyutu</string>
-    <string name="password_size_summary">Oluşturulan parolaların varsayılan boyutunu ayarlar</string>
+    <string name="password_size_summary">Oluşturulan parolaların öntanımlı boyutunu ayarlar</string>
     <string name="list_password_generator_options_title">Parola karakterleri</string>
     <string name="list_password_generator_options_summary">İzin verilen parola üreticisi karakterlerini ayarla</string>
     <string name="clipboard">Pano</string>
@@ -259,7 +259,7 @@
     <string name="allow_no_password_title">Ana anahtar olmamasına izin ver</string>
     <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesini etkinleştirin</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
-    <string name="enable_read_only_summary">Veri tabanını varsayılan olarak salt okunur aç</string>
+    <string name="enable_read_only_summary">Veri tabanını öntanımlı olarak salt okunur aç</string>
     <string name="enable_education_screens_title">Eğitim ekranları</string>
     <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için öğeleri vurgulayın</string>
     <string name="reset_education_screens_title">Eğitim ekranlarını sıfırla</string>
@@ -407,7 +407,7 @@
     <string name="settings_database_force_changing_master_key_summary">Ana anahtarın değiştirilmesini gerektir (gün)</string>
     <string name="settings_database_force_changing_master_key_next_time_title">Bir dahaki sefere yenilemeye zorla</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Bir dahaki sefere ana anahtarı değiştirmeyi gerektirir (bir kez)</string>
-    <string name="database_default_username_title">Varsayılan kullanıcı adı</string>
+    <string name="database_default_username_title">Öntanımlı kullanıcı adı</string>
     <string name="database_custom_color_title">Özel veritabanı rengi</string>
     <string name="compression">Sıkıştırma</string>
     <string name="compression_none">Yok</string>
