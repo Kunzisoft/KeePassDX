@@ -152,4 +152,5 @@
     <string name="edit_entry">Edita l\'entrada</string>
     <string name="contribution">Contribució</string>
     <string name="contact">Contacte</string>
+    <string name="beta_dontask"></string>
 </resources>
