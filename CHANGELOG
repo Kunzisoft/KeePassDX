@@ -1,4 +1,7 @@
-KeePassDX(2.5beta31)
+KeePassDX(2.5)
+ *
+
+KeePassDX(2.5RC1)
  * Add write permission to keep compatibility with old file managers
  * Fix autofill for apps
  * Auto search for autofill
