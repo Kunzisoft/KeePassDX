@@ -150,8 +150,9 @@
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1 $d Kunzisoft jest &lt;strong&gt;wolnym programem&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
 \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
+>>>>>>> translations
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -194,8 +195,8 @@
     <string name="warning_password_encoding">Unikaj znaków hasła spoza formatu kodowania tekstu w pliku bazy danych (nierozpoznane znaki są konwertowane na tę samą literę).</string>
     <string name="sort_recycle_bin_bottom">Kosz na dole</string>
     <string name="sort_title">Tytuł</string>
-    <string name="warning_empty_password">Czy naprawdę nie chcesz ochrony przed odblokowaniem hasła\?</string>
-    <string name="warning_no_encryption_key">Czy na pewno nie chcesz używać żadnego klucza szyfrowania?</string>
+    <string name="warning_empty_password">Kontynuować bez ochrony odblokowującej hasło\?</string>
+    <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
     <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
@@ -230,7 +231,7 @@
     <string name="biometric_unlock_enable_summary">Umożliwia zeskanowanie danych biometrycznych w celu otwarcia bazy danych</string>
     <string name="biometric_delete_all_key_title">Usuń klucze szyfrowania</string>
     <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
-    <string name="biometric_delete_all_key_warning">Czy na pewno chcesz usunąć wszystkie klucze związane z rozpoznawaniem linii papilarnych\?</string>
+    <string name="biometric_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z rozpoznawaniem biometrycznym\?</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
     <string name="unavailable_feature_version">Twoja wersja Androida %1$s nie spełnia wymaganej minimalnej wersji %2$s.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>
@@ -279,7 +280,7 @@
     <string name="education_biometric_summary">Połącz swoje hasło z zeskanowanym odciskiem palca, aby szybko odblokować bazę danych.</string>
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
-    <string name="education_generate_password_title">Utwórz silne hasło do swojego wpisu.</string>
+    <string name="education_generate_password_title">Utwórz silne hasło</string>
     <string name="education_generate_password_summary">Wygeneruj silne hasło, które będzie kojarzyć się z Twoim wpisem, łatwo zdefiniuj je zgodnie z kryteriami formularza i nie zapomnij o bezpiecznym haśle.</string>
     <string name="education_entry_new_field_title">Dodaj niestandardowe pola</string>
     <string name="education_entry_new_field_summary">Zarejestruj dodatkowe pole, dodaj wartość i opcjonalnie chroń je.</string>
@@ -418,7 +419,7 @@
     <string name="error_otp_period">Okres musi wynosić od %1$d do %2$d sekund.</string>
     <string name="error_otp_digits">Token musi zawierać cyfry od %1$d do %2$d.</string>
     <string name="invalid_db_same_uuid">%1$s o tym samym identyfikatorze UUID %2$s już istnieje.</string>
-    <string name="contains_duplicate_uuid_procedure">Weryfikując to okno dialogowe, KeePassDX rozwiąże problem (poprzez wygenerowanie nowych UUID dla duplikatów) i będzie kontynuował.</string>
+    <string name="contains_duplicate_uuid_procedure">Rozwiązać problem poprzez stworzenie nowych identyfikatory UUID duplikatów, aby kontynuować\?</string>
     <string name="clipboard_explanation_summary">Skopiuj pola wprowadzania danych za pomocą schowka urządzenia</string>
     <string name="advanced_unlock_explanation_summary">Użyj zaawansowanego odblokowywania w celu łatwiejszego otwierania bazy danych</string>
     <string name="database_data_compression_summary">Kompresja danych zmniejsza rozmiar bazy danych.</string>
@@ -431,24 +432,24 @@
     <string name="menu_save_database">Zapisz bazę danych</string>
     <string name="menu_empty_recycle_bin">Opróżnij kosz</string>
     <string name="command_execution">Wykonywanie polecenia…</string>
-    <string name="warning_permanently_delete_nodes">Czy na pewno chcesz trwale usunąć wybrane węzły\?</string>
+    <string name="warning_permanently_delete_nodes">Czy trwale usunąć wybrane węzły\?</string>
     <string name="keystore_not_accessible">Magazyn kluczy nie został poprawnie zainicjowany.</string>
     <string name="credential_before_click_biometric_button">Wpisz hasło przed kliknięciem przycisku biometrycznego.</string>
     <string name="recycle_bin_group_title">Kosz grupy</string>
     <string name="enable_auto_save_database_title">Automatycznie zapisuj bazę danych</string>
-    <string name="enable_auto_save_database_summary">Automatycznie zapisz bazę danych po ważnym działaniu (tylko w trybie „Modyfikowalnym”)</string>
+    <string name="enable_auto_save_database_summary">Zapisz bazę danych po każdym ważnym działaniu (w trybie „Modyfikowalnym”)</string>
     <string name="entry_attachments">Załączniki</string>
     <string name="menu_restore_entry_history">Przywróć historię</string>
     <string name="menu_delete_entry_history">Usuń historię</string>
     <string name="keyboard_auto_go_action_title">Automatyczne działanie klucza</string>
-    <string name="keyboard_auto_go_action_summary">Działanie klawisza Go wykonywane jest automatycznie po naciśnięciu klawisza Field</string>
+    <string name="keyboard_auto_go_action_summary">Akcja klawisza „Idź” po naciśnięciu klawisza „Pole”</string>
     <string name="download_attachment">Pobierz %1$s</string>
     <string name="download_initialization">Inicjowanie…</string>
     <string name="download_progression">W trakcie realizacji: %1$d&#37;</string>
     <string name="download_finalization">Kończę…</string>
     <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
-    <string name="hide_expired_entries_summary">Wygasłe wpisy zostaną ukryte</string>
+    <string name="hide_expired_entries_summary">Wygasłe wpisy są ukryte</string>
     <string name="contact">Kontakt</string>
     <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;sprawdzać błędy&lt;/strong&gt;, &lt;strong&gt;dodać funkcje&lt;/strong&gt; i &lt;strong&gt;by być zawsze aktywnym&lt;/strong&gt;, liczymy na twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
@@ -463,4 +464,11 @@
     <string name="hide_broken_locations_summary">Ukryj uszkodzone łącza na liście najnowszych baz danych</string>
     <string name="warning_database_read_only">Przyznaj dostęp do zapisu pliku, aby zapisać zmiany w bazie danych</string>
     <string name="contribution">Wkład</string>
+    <string name="education_setup_OTP_summary">Skonfiguruj zarządzanie hasłem jednorazowym (HOTP / TOTP), aby wygenerować token wymagany do uwierzytelniania dwuskładnikowego (2FA).</string>
+    <string name="education_setup_OTP_title">Konfiguracja OTP</string>
+    <string name="error_create_database">Nie można utworzyć pliku bazy danych.</string>
+    <string name="entry_add_attachment">Dodaj załącznik</string>
+    <string name="discard">Odrzuć</string>
+    <string name="discard_changes">Odrzucić zmiany\?</string>
+    <string name="validate">Walidacja</string>
 </resources>

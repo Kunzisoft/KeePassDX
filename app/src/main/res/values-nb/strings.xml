@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+-->
+<resources>
     <string name="feedback">Tilbakemelding</string>
     <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
@@ -48,7 +49,8 @@
     <string name="decrypting_db">Dekrypterer databaseinnhold…</string>
     <string name="default_checkbox">Bruk dette som forvalgt database</string>
     <string name="digits">Siffer</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kommer uten noen form for garanti. Dette er fri programvare, og du er velkommen til å redistribuere det i henhold til vilkårene i GPL versjon 3 eller senere.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft er &lt;strong&gt;fri programvare&lt;/strong&gt;, og &lt;strong&gt;reklamefritt&lt;/strong&gt;.
+\nDet tilbys som det er, i hendhold til &lt;strong&gt;GPL versjon 3 eller senere&lt;/strong&gt;, uten noen garantier.</string>
     <string name="entry_accessed">Brukt</string>
     <string name="entry_cancel">Avbryt</string>
     <string name="entry_notes">Kommentarer</string>
@@ -380,7 +382,7 @@
     <string name="error_disallow_no_credentials">Minst én identitetsdetalj må angis.</string>
     <string name="error_copy_group_here">Du kan ikke kopiere en gruppe hit.</string>
     <string name="error_otp_secret_key">Hemmelig nøkkel må være i Base32-format.</string>
-    <string name="error_otp_digits">"Symbolet må inneholde %1$d  til %2$d siffer."</string>
+    <string name="error_otp_digits">Symbolet må inneholde %1$d til %2$d siffer.</string>
     <string name="invalid_db_same_uuid">%1$s med samme UUID %2$s finnes allerede.</string>
     <string name="creating_database">Oppretter database…</string>
     <string name="menu_security_settings">Sikkerhetsinnstillinger</string>
@@ -406,4 +408,8 @@
     <string name="download_finalization">Fullfører…</string>
     <string name="download_complete">Fullført. Trykk for å åpne filen.</string>
     <string name="hide_expired_entries_title">Skjul utløpte oppføringer</string>
+    <string name="auto_focus_search_title">Hurtigsøk</string>
+    <string name="entry_add_attachment">Legg til vedlegg</string>
+    <string name="contribution">Bidrag</string>
+    <string name="contact">Kontakt</string>
 </resources>
