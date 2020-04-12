@@ -19,17 +19,16 @@
   
   Catalan translation by Oriol Garrote
   
--->
-<resources>
+--><resources>
     <string name="feedback">Comentaris:</string>
     <string name="homepage">Pàgina inici:</string>
-    <string name="about_description">KeePassDX és una implementació per Android de KeePass password manager.</string>
+    <string name="about_description">KeePassDX és una implementació per a Android de KeePass password manager</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
     <string name="add_group">Afegeix grup</string>
-    <string name="encryption_algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algorisme de xifratge</string>
     <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
-    <string name="app_timeout_summary">Temps abans de bloquejar la base de dades quan l\'applicació està inactiva.</string>
+    <string name="app_timeout_summary">Temps d\'inactivitat abans de blocar la base de dades</string>
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Paràmetres de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
@@ -38,9 +37,9 @@
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
     <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>
     <string name="select_to_copy">Selecciona per copiar %1$s al porta-retalls</string>
-    <string name="retrieving_db_key">Creant clau de base de dades&#8230;</string>
+    <string name="retrieving_db_key">Creant clau de base de dades…</string>
     <string name="database">Base de dades</string>
-    <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
+    <string name="decrypting_db">Desencriptant continguts de la base de dades…</string>
     <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
@@ -86,7 +85,7 @@
     <string name="length">Longitud</string>
     <string name="list_size_title">Mida de la llista de grups</string>
     <string name="list_size_summary">Mida del text a la llista de grups</string>
-    <string name="loading_database">Carregant base de dades&#8230;</string>
+    <string name="loading_database">Carregant base de dades…</string>
     <string name="lowercase">Minúscules</string>
     <string name="hide_password_title">Emmascara contrasenya</string>
     <string name="hide_password_summary">Amaga les contrasenyes per defecte</string>
@@ -110,14 +109,14 @@
     <string name="open_recent">Obre base de dades recent :</string>
     <string name="omit_backup_search_title">No cerquis entrades a còpia de seguretat ni paperera</string>
     <string name="omit_backup_search_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
-    <string name="progress_create">Creant nova base de dades&#8230;</string>
-    <string name="progress_title">Treballant&#8230;</string>
+    <string name="progress_create">Creant nova base de dades…</string>
+    <string name="progress_title">Treballant…</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>
     <string name="rounds">Passades d\'encriptació</string>
     <string name="rounds_explanation">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
-    <string name="saving_database">Guardant la base de dades&#8230;</string>
+    <string name="saving_database">Guardant la base de dades…</string>
     <string name="space">Espai</string>
     <string name="search_label">Cerca</string>
     <string name="sort_db">Ordenació de base de dades</string>
@@ -130,23 +129,27 @@
     <string name="uppercase">Majúscules</string>
     <string name="warning_unmounted">La teva tarja SD no està muntada al teu dispositiu. No podràs carregar ni guardar una base de dades.</string>
     <string name="version_label">Versió %1$s</string>
-
     <string name="education_unlock_summary">Introdueix una contrasenya i/o un arxiu clau per desbloquejar la base de dades.</string>
-
     <string-array name="timeout_options">
-    	<item>5 segons</item>
-    	<item>10 segons</item>
-    	<item>20 segons</item>
-    	<item>30 segons</item>
-    	<item>1 minut</item>
-    	<item>5 minuts</item>
-    	<item>15 minuts</item>
-    	<item>30 minuts</item>
-    	<item>Mai</item>
+        <item>5 segons</item>
+        <item>10 segons</item>
+        <item>20 segons</item>
+        <item>30 segons</item>
+        <item>1 minut</item>
+        <item>5 minuts</item>
+        <item>15 minuts</item>
+        <item>30 minuts</item>
+        <item>Mai</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Petita</item>
-    	<item>Mitjana</item>
-    	<item>Gran</item>
+        <item>Petita</item>
+        <item>Mitjana</item>
+        <item>Gran</item>
     </string-array>
+    <string name="encryption">Xifrat</string>
+    <string name="security">Seguretat</string>
+    <string name="master_key">Clau mestra</string>
+    <string name="edit_entry">Edita l\'entrada</string>
+    <string name="contribution">Contribució</string>
+    <string name="contact">Contacte</string>
 </resources>
