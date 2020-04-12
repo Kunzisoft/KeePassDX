@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+-->
+<resources>
     <string name="feedback">Geri Bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
@@ -64,7 +65,8 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Varsayılan veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft kesinlikle bir garanti vermez. Bu, libre yazılımıdır ve GPL sürüm 3 veya üzeri şartlar altında yeniden dağıtmanız mümkündür.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;özgür yazılımdır&lt;/strong&gt; ve &lt;strong&gt;reklam içermez&lt;/strong&gt;.
+\n&lt;strong&gt;GPLv3&lt;/strong&gt; lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">Arcfour akış şifresi desteklenmiyor.</string>
@@ -76,7 +78,7 @@
     <string name="error_pass_gen_type">En az bir parola oluşturma türü seçilmelidir.</string>
     <string name="error_pass_match">Parolalar uyuşmuyor.</string>
     <string name="error_rounds_too_large">\"Dönüşüm turları\" çok yüksek. 2147483648\'e ayarlayın.</string>
-    <string name="error_string_key">Her dizenin bir alan adı olmalıdır.</string>
+    <string name="error_string_key">Her dizginin bir alan adı olmalıdır.</string>
     <string name="error_wrong_length">\"Uzunluk\" alanına pozitif bir tam sayı girin.</string>
     <string name="error_autofill_enable_service">Otomatik doldurma hizmeti etkinleştirilemedi.</string>
     <string name="error_move_folder_in_itself">Bir grubu kendine taşıyamazsın.</string>
@@ -174,8 +176,8 @@
     <string name="uppercase">Büyük harf</string>
     <string name="warning">Uyarı</string>
     <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
-    <string name="warning_empty_password">Gerçekten parolasız açma koruması mı istiyorsunuz\?</string>
-    <string name="warning_no_encryption_key">Herhangi bir şifreleme anahtarı kullanmak istemediğinize emin misiniz\?</string>
+    <string name="warning_empty_password">Parola kilidi koruması olmadan devam edilsin mi\?</string>
+    <string name="warning_no_encryption_key">Şifreleme anahtarı olmadan devam edilsin mi\?</string>
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
     <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
@@ -210,7 +212,7 @@
     <string name="biometric_unlock_enable_summary">Veritabanını açmak için biyometriklerinizi taramanızı sağlar</string>
     <string name="biometric_delete_all_key_title">Şifreleme anahtarlarını silin</string>
     <string name="biometric_delete_all_key_summary">Parmak izi tanıma ile ilgili tüm şifreleme anahtarlarını silin</string>
-    <string name="biometric_delete_all_key_warning">Parmak izi tanıma ile ilgili tüm tuşları silmek istediğinizden emin misiniz\?</string>
+    <string name="biometric_delete_all_key_warning">Biyometrik tanıma ile ilgili tüm şifreleme anahtarları silinsin mi\?</string>
     <string name="unavailable_feature_text">Bu özellik başlatılamadı.</string>
     <string name="unavailable_feature_version">Android sürümünüz %1$s, gerekli minimum %2$s sürümünü karşılamıyor.</string>
     <string name="unavailable_feature_hardware">İlgili donanım bulunamadı.</string>
@@ -276,10 +278,10 @@
     <string name="education_biometric_summary">Veritabanınızı hızlıca açmak için parolanızı taranan parmak izinize bağlayın.</string>
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
-    <string name="education_generate_password_title">Girdiniz için güçlü bir parola oluşturun.</string>
+    <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
     <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
-    <string name="education_entry_new_field_summary">Ayrıca koruyabileceğiniz yeni bir formu doldurarak temel bir tedarik edilmemiş alanı kaydedin.</string>
+    <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isteğe bağlı olarak koruyun.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
     <string name="education_unlock_summary">Veritabanınızın kilidini açmak için parola ve/veya anahtar dosya girin.
 \n
@@ -299,7 +301,7 @@
     <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katıl</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
-    <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt;açık kaynaklı&lt;/strong&gt; ve &lt;strong&gt;copyleft lisanslıdır&lt;/strong&gt;. Hangi sürümü (ücretsiz veya profesyonel) kullanırsanız kullanın, herhangi bir biçimde &lt;strong&gt;kişisel veri toplanmamaktadır&lt;/strong&gt;.</string>
+    <string name="html_text_ad_free">Birçok parola yönetimi uygulamasının aksine, bu uygulama &lt;strong&gt;reklam içermez&lt;/strong&gt;, &lt;strong&gt; copyleft lisanslı özgür yazılımdır&lt;/strong&gt; ve hangi sürümü kullanırsanız kullanın, sunucularında kişisel veri toplamaz.</string>
     <string name="html_text_buy_pro">Profesyonel sürümü satın alarak, bu &lt;strong&gt;görsel stile&lt;/strong&gt; erişebilecek ve özellikle &lt;strong&gt;topluluk projelerinin gerçekleştirilmesine&lt;/strong&gt; yardımcı olacaksınız.</string>
     <string name="html_text_feature_generosity">Bu &lt;strong&gt;görsel stil&lt;/strong&gt;, cömertliğiniz sayesinde kullanılabilir.</string>
     <string name="html_text_donation">Özgürlüğümüzü korumak ve daima aktif olmak için &lt;strong&gt;katkılarınıza&lt;/strong&gt; güveniyoruz</string>
@@ -388,7 +390,7 @@
     <string name="menu_security_settings">Güvenlik ayarları</string>
     <string name="menu_master_key_settings">Ana anahtar ayarları</string>
     <string name="contains_duplicate_uuid">Veritabanı tekrarlanan UUID\'ler içermektedir.</string>
-    <string name="contains_duplicate_uuid_procedure">Bu iletişim kutusunu doğrulayarak, KeePassDX sorunu çözecek (tekrarlananlar için yeni UUID\'ler oluşturarak) ve devam edecektir.</string>
+    <string name="contains_duplicate_uuid_procedure">Tekrarlananlar için yeni UUID\'ler oluşturarak sorunu çöz ve devam et\?</string>
     <string name="database_opened">Veritabanı açıldı</string>
     <string name="clipboard_explanation_summary">Cihazınızın panosunu kullanarak giriş alanlarını kopyala</string>
     <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
@@ -402,29 +404,29 @@
     <string name="settings_database_recommend_changing_master_key_summary">Ana anahtarın değiştirilmesini öner (gün)</string>
     <string name="settings_database_force_changing_master_key_title">Yenilemeyi zorla</string>
     <string name="settings_database_force_changing_master_key_summary">Ana anahtarın değiştirilmesini gerektir (gün)</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Bir dahaki sefere yenilemeyi zorla</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Bir dahaki sefere yenilemeye zorla</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">Bir dahaki sefere ana anahtarı değiştirmeyi gerektirir (bir kez)</string>
     <string name="database_default_username_title">Varsayılan kullanıcı adı</string>
     <string name="database_custom_color_title">Özel veritabanı rengi</string>
     <string name="compression">Sıkıştırma</string>
     <string name="compression_none">Yok</string>
     <string name="compression_gzip">gzip</string>
-    <string name="device_keyboard_setting_title">Cihaz klavye Ayarları</string>
+    <string name="device_keyboard_setting_title">Cihaz klavye ayarları</string>
     <string name="error_save_database">Veritabanı kaydedilemedi.</string>
     <string name="menu_save_database">Veritabanını kaydet</string>
     <string name="menu_empty_recycle_bin">Geri dönüşüm kutusunu boşalt</string>
     <string name="command_execution">Komut çalıştırılıyor…</string>
-    <string name="warning_permanently_delete_nodes">Seçili düğümleri kalıcı olarak silmek istediğinizden emin misiniz\?</string>
+    <string name="warning_permanently_delete_nodes">Seçilen düğümler kalıcı olarak silinsin mi\?</string>
     <string name="keystore_not_accessible">Anahtar deposu düzgün bir şekilde başlatılmadı.</string>
     <string name="credential_before_click_biometric_button">Biyometrik butona tıklamadan önce şifreyi yazın.</string>
     <string name="recycle_bin_group_title">Geri dönüşüm kutusu grubu</string>
     <string name="enable_auto_save_database_title">Veritabanını otomatik kaydet</string>
-    <string name="enable_auto_save_database_summary">Önemli bir işlemden sonra veritabanını otomatik olarak kaydet (yalnızca \"Değiştirilebilir\" modunda)</string>
+    <string name="enable_auto_save_database_summary">Her önemli işlemden sonra veri tabanını kaydet (\"Değiştirilebilir\" modda)</string>
     <string name="entry_attachments">Ekler</string>
     <string name="menu_restore_entry_history">Geçmişi geri yükle</string>
     <string name="menu_delete_entry_history">Geçmişi sil</string>
     <string name="keyboard_auto_go_action_title">Otomatik tuş eylemi</string>
-    <string name="keyboard_auto_go_action_summary">Alan tuşuna bastıktan sonra otomatik olarak gerçekleştirilen Git tuşunun eylemi</string>
+    <string name="keyboard_auto_go_action_summary">\"Alan\" tuşuna bastıktan sonra \"Git\" tuşu eylemi</string>
     <string name="download_attachment">İndir %1$s</string>
     <string name="download_initialization">Başlatılıyor…</string>
     <string name="download_progression">Devam ediyor: %1$d&#37;</string>
@@ -432,4 +434,25 @@
     <string name="download_complete">Tamamlandı! Dosyayı açmak için dokunun.</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
     <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gizlenecek</string>
+    <string name="warning_database_read_only">Veritabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
+    <string name="hide_broken_locations_summary">Son veritabanları listesindeki bozuk bağlantıları gizle</string>
+    <string name="hide_broken_locations_title">Bozuk veritabanı bağlantılarını gizle</string>
+    <string name="show_recent_files_summary">Son veritabanlarının konumlarını göster</string>
+    <string name="show_recent_files_title">Son dosyaları göster</string>
+    <string name="remember_keyfile_locations_summary">Veri tabanını anahtar dosyalarının konumunu hatırla</string>
+    <string name="remember_keyfile_locations_title">Anahtar dosyalarının konumlarını kaydet</string>
+    <string name="remember_database_locations_summary">Veri tabanlarının konumlarını hatırla</string>
+    <string name="remember_database_locations_title">Veri tabanlarının konumlarını kaydet</string>
+    <string name="auto_focus_search_summary">Veri tabanını açarken arama iste</string>
+    <string name="auto_focus_search_title">Hızlı arama</string>
+    <string name="contribution">Katkı</string>
+    <string name="contact">İletişim</string>
+    <string name="education_setup_OTP_summary">İki öğeli kimlik doğrulaması (2FA) için istenen bir belirteç oluşturmak için Bir Kerelik Parola yönetimini (HOTP / TOTP) ayarlayın.</string>
+    <string name="education_setup_OTP_title">OTP ayarla</string>
+    <string name="error_create_database">Veritabanı dosyası oluşturulamıyor.</string>
+    <string name="html_about_contribution">&lt;strong&gt;Özgürlüğümüzü korumak&lt;/strong&gt;, &lt;strong&gt;hataları düzeltmek&lt;/strong&gt;, &lt;strong&gt;özellikler eklemek&lt;/strong&gt; ve &lt;strong&gt;her zaman etkin olmak&lt;/strong&gt; için, &lt;strong&gt;desteğinize&lt;/strong&gt; güveniyoruz.</string>
+    <string name="entry_add_attachment">Ek ekle</string>
+    <string name="discard">Vazgeç</string>
+    <string name="discard_changes">Değişikliklerden vazgeç\?</string>
+    <string name="validate">Doğrula</string>
 </resources>

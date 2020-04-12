@@ -43,7 +43,7 @@
     <string name="content_description_update_from_list">Actualizați</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="content_description_keyboard_close_fields">Câmpuri închise</string>
-    <string name="select_to_copy">%1$s is either \\\"Nume\\\" si \\\"Parola\\\".</string>
+    <string name="select_to_copy">Selectați pentru a copia %1$s în clipboard</string>
     <string name="retrieving_db_key">Obtinerea cheii bazei de date…</string>
     <string name="database">Baza de date</string>
     <string name="decrypting_db">Decriptarea continutului bazei de date.…</string>
@@ -167,9 +167,9 @@
     <string name="minus">Minus</string>
     <string name="never">Niciodata</string>
     <string name="no_results">Nu există Rezultate</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;sursa deschisa&lt;strong&gt; and &lt;strong&gt;fara publicitate&lt;strong&gt;.
-\nEste prevăzut așa cum este, sub &lt;strong&gt;GPLv3&lt;strong&gt; licenta,fara nici un fel de garantie.</string>
-    <string name="html_about_contribution">In oridine sa &lt;strong&gt;pastram libertatea noastra &lt;strong&gt;, &lt;strong&gt;fix bugs&lt;strong&gt;, &lt;strong&gt;adăugați funcții&lt;strong&gt; si&lt;strong&gt;sa fie intotdeauna activ&lt;strong&gt;", ne bazam pe  "&lt;strong&gt;contributie.&lt;strong&gt;</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;sursa deschisa&lt;strong&gt; and &lt;strong&gt;fara publicitate&lt;/strong&gt;. 
+\nEste prevăzut așa cum este, sub &lt;strong&gt;GPLv3&lt;/strong&gt; licenta, fara nici un fel de garantie.</string>
+    <string name="html_about_contribution">In oridine sa &lt;strong&gt;pastram libertatea noastra&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;adăugați funcții&lt;/strong&gt; si&lt;strong&gt;sa fie intotdeauna activ&lt;strong&gt;, ne bazam pe &lt;strong&gt;contributie&lt;/strong&gt;.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>
@@ -392,7 +392,7 @@
     <string name="html_text_buy_pro">Cumpărând versiunea pro, veți avea acces la acest &lt;strong&gt; stil vizual &lt;/strong&gt; și vă va ajuta în special &lt;strong&gt; implementarea proiectelor comunitare. &lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Acest &lt;strong&gt; stil vizual &lt;/strong&gt; este disponibil datorită generozității tale.</string>
     <string name="html_text_donation">Pentru a ne păstra libertatea și pentru a fi mereu activi, ne bazăm pe contribuția dvs. &lt;strong&gt;. &lt;/strong&gt;</string>
-    <string name="html_text_dev_feature">Această caracteristică este &lt;strong&gt; în curs de dezvoltare &lt;/strong&gt; și necesită ca contribuția dvs &lt;strong&gt; să fie disponibilă în curând.</string>
+    <string name="html_text_dev_feature">Această caracteristică este &lt;strong&gt; în curs de dezvoltare&lt;/strong&gt; și necesită ca &lt;strong&gt;contribuția&lt;/strong&gt; dvs să fie disponibilă în curând.</string>
     <string name="html_text_dev_feature_buy_pro">Cumpărând versiunea &lt;strong&gt; pro &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">Prin &lt;strong&gt; contribuție &lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">încurajezi dezvoltatorii să creeze &lt;strong&gt; funcții noi &lt;/strong&gt; și să &lt;strong&gt; remedieze erori &lt;/strong&gt; în conformitate cu observațiile tale.</string>

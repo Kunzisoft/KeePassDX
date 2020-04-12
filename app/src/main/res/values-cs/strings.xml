@@ -195,8 +195,8 @@
     <string name="sort_last_access_time">Přístup</string>
     <string name="warning">Varování</string>
     <string name="warning_password_encoding">Nepoužívejte v hesle pro databázový soubor znaky mimo znakovou sadu Latin-1 (nepoužívejte znaky s diakritikou).</string>
-    <string name="warning_empty_password">Opravdu chcete ponechat databázi nechráněnou (bez hesla)?</string>
-    <string name="warning_no_encryption_key">Opravdu nechcete používat šifrovací klíč?</string>
+    <string name="warning_empty_password">Pokračovat bez ochrany odemknutím heslem\?</string>
+    <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
     <string name="configure_biometric">Biometrická pobídka je zařízením podporována, ale není nastavena.</string>
     <string name="open_biometric_prompt_unlock_database">Otevři biometrickou pobídku k otevření databáze</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
@@ -229,7 +229,7 @@
     <string name="biometric_unlock_enable_summary">Nechá otevřít databázi snímáním biometrického údaje</string>
     <string name="biometric_delete_all_key_title">Smazat šifrovací klíče</string>
     <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
-    <string name="biometric_delete_all_key_warning">Opravdu chcete smazat všechny klíče související s biometrickým rozlišením\?</string>
+    <string name="biometric_delete_all_key_warning">Smazat všechny šifrovací klíče související s biometrickým rozlišením\?</string>
     <string name="unavailable_feature_text">Tuto funkci se nedaří spustit.</string>
     <string name="unavailable_feature_version">Verze %1$s vámi používaného systému Android nevyhovuje minimální verzi %2$s.</string>
     <string name="unavailable_feature_hardware">Hardware nebyl rozpoznán.</string>
@@ -278,7 +278,7 @@
     <string name="education_biometric_summary">Propojte své heslo a otisk prstu pro rychlé odemykání databáze.</string>
     <string name="education_entry_edit_title">Upravit položku</string>
     <string name="education_entry_edit_summary">Přidejte ke své položce vlastní kolonky. Společná data mohou být sdílena mezi více různými kolonkami.</string>
-    <string name="education_generate_password_title">Vytvořte k záznamu silné heslo.</string>
+    <string name="education_generate_password_title">Vytvořit silné heslo</string>
     <string name="education_generate_password_summary">Vygenerujte silné heslo pro svou položku, definujte je podle kritérií formuláře, a nezapomeňte na bezpečné heslo.</string>
     <string name="education_entry_new_field_title">Přidat vlastní kolonky</string>
     <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
@@ -405,7 +405,7 @@
     <string name="menu_security_settings">Nastavení zabezpečení</string>
     <string name="menu_master_key_settings">Nastavení hlavního klíče</string>
     <string name="contains_duplicate_uuid">Databáze obsahuje duplikátní UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">Prověřením toho dialogu opraví KeePassDX chybu (založením nového UUID pro duplikáty) a bude pokračovat.</string>
+    <string name="contains_duplicate_uuid_procedure">Opravit chybu založením nového UUID pro duplikáty a pokračovat\?</string>
     <string name="database_opened">Databáze otevřena</string>
     <string name="clipboard_explanation_summary">Kopírujte pole záznamů pomocí schránky Vašeho zařízení</string>
     <string name="advanced_unlock_explanation_summary">K snadnějšímu otevření databáze použijte pokročilé odemknutí</string>
@@ -431,24 +431,24 @@
     <string name="menu_save_database">Uložit databázi</string>
     <string name="menu_empty_recycle_bin">Vysypat koš</string>
     <string name="command_execution">Provádím příkaz…</string>
-    <string name="warning_permanently_delete_nodes">Jste si jisti, že chcete natrvalo smazat vybrané uzly\?</string>
+    <string name="warning_permanently_delete_nodes">Natrvalo smazat vybrané uzly\?</string>
     <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
     <string name="credential_before_click_biometric_button">Zadejte heslo než kliknete na tlačítko biometriky.</string>
     <string name="recycle_bin_group_title">Skupina Koš</string>
     <string name="enable_auto_save_database_title">Uložit databázi automaticky</string>
-    <string name="enable_auto_save_database_summary">Automaticky uloží databázi po důležité akci (pouze v režimu \"Zápis\")</string>
+    <string name="enable_auto_save_database_summary">Uložit databázi po každé důležité akci (v režimu \"Zápis\")</string>
     <string name="entry_attachments">Připojené soubory</string>
     <string name="menu_restore_entry_history">Obnovit historii</string>
     <string name="menu_delete_entry_history">Smazat historii</string>
     <string name="keyboard_auto_go_action_title">Akce auto-klíče</string>
-    <string name="keyboard_auto_go_action_summary">Automatická akce klíče Jít po stisknutí klíče Pole</string>
+    <string name="keyboard_auto_go_action_summary">Akce klíče \"Jít\" po stisknutí klíče \"Položka\"</string>
     <string name="download_attachment">Stáhnout %1$s</string>
     <string name="download_initialization">Zahajuji…</string>
     <string name="download_progression">Probíhá: %1$d&#37;</string>
     <string name="download_finalization">Dokončuji…</string>
     <string name="download_complete">Ukončeno! Klepnout pro otevření souboru.</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
-    <string name="hide_expired_entries_summary">Propadlé záznamy budou skryty</string>
+    <string name="hide_expired_entries_summary">Propadlé záznamy jsou skryty</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Příspěvky</string>
     <string name="feedback">Feedback</string>
@@ -463,7 +463,14 @@
     <string name="hide_broken_locations_title">Skrýt špatné odkazy na databáze</string>
     <string name="hide_broken_locations_summary">Skrýt špatné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;otevřený software&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;svobodný software&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
 \nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
     <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;opravili chyby&lt;/strong&gt;,&lt;strong&gt;doplnili funkce&lt;/strong&gt; a &lt;strong&gt;byli vždy aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
+    <string name="error_create_database">Nedaří se vytvořit soubor s databází.</string>
+    <string name="entry_add_attachment">Přidat přílohu</string>
+    <string name="discard">Zahodit</string>
+    <string name="discard_changes">Zahodit změny\?</string>
+    <string name="validate">Ověřit</string>
+    <string name="education_setup_OTP_summary">Nastavit správu One-Time hesla (HOTP / TOTP) pro založení tokenu požadovaného pro dvoufázové ověření (2FA).</string>
+    <string name="education_setup_OTP_title">Nastavit OTP</string>
 </resources>

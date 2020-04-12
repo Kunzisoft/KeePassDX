@@ -53,9 +53,9 @@ You can contribute in different ways to help us on our work.
       alt="Get it on Google Play"
 	height="80">](https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.free)
 	
-## F.A.Q.
+## Frequently Asked Questions
 
-Other questions? You can read the [F.A.Q.](https://github.com/Kunzisoft/KeePassDX/wiki/F.A.Q.) 
+Other questions? You can read the [FAQ](https://github.com/Kunzisoft/KeePassDX/wiki/FAQ) 
 	
 ## Other devices
 
