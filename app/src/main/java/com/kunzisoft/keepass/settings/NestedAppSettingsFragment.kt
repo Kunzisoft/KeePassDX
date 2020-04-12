@@ -160,17 +160,22 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.magic_keyboard_preference_key))?.setOnPreferenceClickListener {
-            startActivity(Intent(context, MagikIMESettings::class.java))
-            false
-        }
-
-        findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.clipboard_explanation_url)
+            startActivity(Intent(context, MagikeyboardSettingsActivity::class.java))
             false
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
             UriUtil.gotoUrl(context!!, R.string.autofill_explanation_url)
+            false
+        }
+
+        findPreference<Preference>(getString(R.string.settings_autofill_key))?.setOnPreferenceClickListener {
+            startActivity(Intent(context, AutofillSettingsActivity::class.java))
+            false
+        }
+
+        findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
+            UriUtil.gotoUrl(context!!, R.string.clipboard_explanation_url)
             false
         }
 

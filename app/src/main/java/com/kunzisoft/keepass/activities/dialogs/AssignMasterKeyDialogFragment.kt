@@ -35,7 +35,7 @@ import android.widget.CompoundButton
 import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.view.KeyFileSelectionView
 
 class AssignMasterKeyDialogFragment : DialogFragment() {
 
@@ -51,9 +51,8 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
     private var passwordRepeatTextInputLayout: TextInputLayout? = null
     private var passwordRepeatView: TextView? = null
 
-    private var keyFileTextInputLayout: TextInputLayout? = null
     private var keyFileCheckBox: CompoundButton? = null
-    private var keyFileView: TextView? = null
+    private var keyFileSelectionView: KeyFileSelectionView? = null
 
     private var mListener: AssignPasswordDialogListener? = null
 
@@ -66,16 +65,6 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         override fun afterTextChanged(editable: Editable) {
             passwordCheckBox?.isChecked = true
-        }
-    }
-
-    private val keyFileTextWatcher = object : TextWatcher {
-        override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-        override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-        override fun afterTextChanged(editable: Editable) {
-            keyFileCheckBox?.isChecked = true
         }
     }
 
@@ -121,13 +110,14 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
             passwordRepeatTextInputLayout = rootView?.findViewById(R.id.password_repeat_input_layout)
             passwordRepeatView = rootView?.findViewById(R.id.pass_conf_password)
 
-            keyFileTextInputLayout = rootView?.findViewById(R.id.keyfile_input_layout)
             keyFileCheckBox = rootView?.findViewById(R.id.keyfile_checkox)
-            keyFileView = rootView?.findViewById(R.id.pass_keyfile)
+            keyFileSelectionView = rootView?.findViewById(R.id.keyfile_selection)
 
             mOpenFileHelper = OpenFileHelper(this)
-            rootView?.findViewById<View>(R.id.open_database_button)?.setOnClickListener { view ->
-                mOpenFileHelper?.openFileOnClickViewListener?.onClick(view) }
+            keyFileSelectionView?.apply {
+                setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+                setOnLongClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+            }
 
             val dialog = builder.create()
 
@@ -176,14 +166,12 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
 
         // To check checkboxes if a text is present
         passwordView?.addTextChangedListener(passwordTextWatcher)
-        keyFileView?.addTextChangedListener(keyFileTextWatcher)
     }
 
     override fun onPause() {
         super.onPause()
 
         passwordView?.removeTextChangedListener(passwordTextWatcher)
-        keyFileView?.removeTextChangedListener(keyFileTextWatcher)
     }
 
     private fun verifyPassword(): Boolean {
@@ -216,11 +204,11 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         if (keyFileCheckBox != null
                 && keyFileCheckBox!!.isChecked) {
 
-            UriUtil.parse(keyFileView?.text?.toString())?.let { uri ->
+            keyFileSelectionView?.uri?.let { uri ->
                 mKeyFile = uri
             } ?: run {
                 error = true
-                keyFileTextInputLayout?.error = getString(R.string.error_nokeyfile)
+                keyFileSelectionView?.error = getString(R.string.error_nokeyfile)
             }
         }
         return error
@@ -265,8 +253,7 @@ class AssignMasterKeyDialogFragment : DialogFragment() {
         ) { uri ->
             uri?.let { pathUri ->
                 keyFileCheckBox?.isChecked = true
-                keyFileView?.text = pathUri.toString()
-
+                keyFileSelectionView?.uri = pathUri
             }
         }
     }

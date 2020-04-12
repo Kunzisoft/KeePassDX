@@ -26,13 +26,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.os.Handler
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -48,9 +46,11 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
@@ -63,7 +63,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
-    private var fileListContainer: View? = null
+    private var fileManagerExplanationButton: View? = null
     private var createButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -85,11 +85,15 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         setContentView(R.layout.activity_file_selection)
         coordinatorLayout = findViewById(R.id.activity_file_selection_coordinator_layout)
-        fileListContainer = findViewById(R.id.container_file_list)
 
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         toolbar.title = ""
         setSupportActionBar(toolbar)
+
+        fileManagerExplanationButton = findViewById(R.id.file_manager_explanation_button)
+        fileManagerExplanationButton?.setOnClickListener {
+            UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
+        }
 
         // Create button
         createButtonView = findViewById(R.id.create_database_button)
@@ -105,8 +109,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
         createButtonView?.setOnClickListener { createNewFile() }
 
         mOpenFileHelper = OpenFileHelper(this)
-        openDatabaseButtonView = findViewById(R.id.open_database_button)
-        openDatabaseButtonView?.setOnClickListener(mOpenFileHelper?.openFileOnClickViewListener)
+        openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
+        openDatabaseButtonView?.apply {
+            mOpenFileHelper?.openFileOnClickViewListener?.let {
+                setOnClickListener(it)
+                setOnLongClickListener(it)
+            }
+        }
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -121,7 +130,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         databaseFileUri,
                         UriUtil.parse(fileDatabaseHistoryEntityToOpen.keyFileUri))
             }
-            updateFileListVisibility()
         }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryDeleteListener { fileDatabaseHistoryToDelete ->
             // Remove from app database
@@ -130,7 +138,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 fileHistoryDeleted?.let { databaseFileHistoryDeleted ->
                     mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileHistoryDeleted)
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    updateFileListVisibility()
                 }
             }
             true
@@ -212,7 +219,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         try {
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                     databaseUri, keyFile,
-                                    assistStructure)
+                                    assistStructure,
+                                    intent.getParcelableExtra(KEY_SEARCH_INFO))
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
@@ -224,16 +232,21 @@ class FileDatabaseSelectActivity : StylishActivity(),
     private fun launchGroupActivity(readOnly: Boolean) {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
-                    GroupActivity.launch(this@FileDatabaseSelectActivity, readOnly)
+                    GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity, readOnly)
+                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity,
+                            readOnly)
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity, assistStructure, readOnly)
+                        GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
+                                assistStructure,
+                                intent.getParcelableExtra(KEY_SEARCH_INFO),
+                                readOnly)
                     }
                 })
     }
@@ -245,25 +258,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
             overridePendingTransition(0, 0)
     }
 
-    private fun updateExternalStorageWarning() {
-        // To show errors
-        var warning = -1
-        val state = Environment.getExternalStorageState()
-        if (state == Environment.MEDIA_MOUNTED_READ_ONLY) {
-            warning = R.string.read_only_warning
-        } else if (state != Environment.MEDIA_MOUNTED) {
-            warning = R.string.warning_unmounted
-        }
-
-        val labelWarningView = findViewById<TextView>(R.id.label_warning)
-        if (warning != -1) {
-            labelWarningView.setText(warning)
-            labelWarningView.visibility = View.VISIBLE
-        } else {
-            labelWarningView.visibility = View.INVISIBLE
-        }
-    }
-
     override fun onResume() {
         val database = Database.getInstance()
         if (database.loaded) {
@@ -271,8 +265,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
         }
 
         super.onResume()
-
-        updateExternalStorageWarning()
 
         // Construct adapter with listeners
         if (PreferencesUtil.showRecentFiles(this)) {
@@ -289,13 +281,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
                                     true
                             })
                     mAdapterDatabaseHistory?.notifyDataSetChanged()
-                    updateFileListVisibility()
                 }
             }
         } else {
             mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
             mAdapterDatabaseHistory?.notifyDataSetChanged()
-            updateFileListVisibility()
         }
 
         // Register progress task
@@ -315,13 +305,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
         outState.putBoolean(EXTRA_STAY, true)
         // to retrieve the URI of a created database after an orientation change
         outState.putParcelable(EXTRA_DATABASE_URI, mDatabaseFileUri)
-    }
-
-    private fun updateFileListVisibility() {
-        if (mAdapterDatabaseHistory?.itemCount == 0)
-            fileListContainer?.visibility = View.INVISIBLE
-        else
-            fileListContainer?.visibility = View.VISIBLE
     }
 
     override fun onAssignKeyDialogPositiveClick(
@@ -454,10 +437,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
          */
 
         @RequiresApi(api = Build.VERSION_CODES.O)
-        fun launchForAutofillResult(activity: Activity, assistStructure: AssistStructure) {
+        fun launchForAutofillResult(activity: Activity,
+                                    assistStructure: AssistStructure,
+                                    searchInfo: SearchInfo?) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
-                    assistStructure)
+                    assistStructure,
+                    searchInfo)
         }
     }
 }

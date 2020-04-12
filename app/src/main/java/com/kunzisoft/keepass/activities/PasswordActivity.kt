@@ -23,6 +23,7 @@ import android.app.Activity
 import android.app.assist.AssistStructure
 import android.app.backup.BackupManager
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -32,13 +33,11 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.widget.Button
-import android.widget.CompoundButton
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
+import androidx.core.app.ActivityCompat
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -50,11 +49,13 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.education.PasswordActivityEducation
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
@@ -66,6 +67,7 @@ import com.kunzisoft.keepass.utils.FileDatabaseInfo
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
+import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
@@ -77,7 +79,7 @@ open class PasswordActivity : StylishActivity() {
     private var containerView: View? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
-    private var keyFileView: EditText? = null
+    private var keyFileSelectionView: KeyFileSelectionView? = null
     private var confirmButtonView: Button? = null
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
@@ -92,6 +94,7 @@ open class PasswordActivity : StylishActivity() {
     private var mRememberKeyFile: Boolean = false
     private var mOpenFileHelper: OpenFileHelper? = null
 
+    private var mPermissionAsked = false
     private var readOnly: Boolean = false
     private var mForceReadOnly: Boolean = false
         set(value) {
@@ -123,18 +126,23 @@ open class PasswordActivity : StylishActivity() {
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
-        keyFileView = findViewById(R.id.pass_keyfile)
+        keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
         checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
         infoContainerView = findViewById(R.id.activity_password_info_container)
 
+        mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
 
-        val browseView = findViewById<View>(R.id.open_database_button)
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
-        browseView.setOnClickListener(mOpenFileHelper!!.openFileOnClickViewListener)
+        keyFileSelectionView?.apply {
+            mOpenFileHelper?.openFileOnClickViewListener?.let {
+                setOnClickListener(it)
+                setOnLongClickListener(it)
+            }
+        }
 
         passwordView?.setOnEditorActionListener(onEditorActionListener)
         passwordView?.addTextChangedListener(object : TextWatcher {
@@ -145,17 +153,6 @@ open class PasswordActivity : StylishActivity() {
             override fun afterTextChanged(editable: Editable) {
                 if (editable.toString().isNotEmpty() && checkboxPasswordView?.isChecked != true)
                     checkboxPasswordView?.isChecked = true
-            }
-        })
-        keyFileView?.setOnEditorActionListener(onEditorActionListener)
-        keyFileView?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun onTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
-
-            override fun afterTextChanged(editable: Editable) {
-                if (editable.toString().isNotEmpty() && checkboxKeyFileView?.isChecked != true)
-                    checkboxKeyFileView?.isChecked = true
             }
         })
 
@@ -260,16 +257,38 @@ open class PasswordActivity : StylishActivity() {
     private fun launchGroupActivity() {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
-                    GroupActivity.launch(this@PasswordActivity, readOnly)
+                    GroupActivity.launch(this@PasswordActivity,
+                            readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity, readOnly)
+                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity,
+                            readOnly)
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        GroupActivity.launchForAutofillResult(this@PasswordActivity, assistStructure, readOnly)
+                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+                        AutofillHelper.checkAutoSearchInfo(this,
+                                Database.getInstance(),
+                                searchInfo,
+                                { items ->
+                                    // Response is build
+                                    AutofillHelper.buildResponse(this, items)
+                                    finish()
+                                },
+                                {
+                                    // Here no search info found
+                                    GroupActivity.launchForAutofillResult(this@PasswordActivity,
+                                            assistStructure,
+                                            null,
+                                            readOnly)
+                                },
+                                {
+                                    // Simply close if database not opened, normally not happened
+                                    finish()
+                                }
+                        )
                     }
                 })
     }
@@ -285,10 +304,11 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         if (Database.getInstance().loaded)
             launchGroupActivity()
+
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         // If the database isn't accessible make sure to clear the password field, if it
         // was saved in the instance state
@@ -305,6 +325,7 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
         mDatabaseKeyFileUri?.let {
             outState.putString(KEY_KEYFILE, it.toString())
         }
@@ -319,7 +340,9 @@ open class PasswordActivity : StylishActivity() {
             !FileDatabaseInfo(this, it).canWrite
         } ?: false
         */
-        mForceReadOnly = false
+        mForceReadOnly = mDatabaseFileUri?.let {
+            !FileDatabaseInfo(this, it).exists
+        } ?: true
 
         // Post init uri with KeyFile if needed
         if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
@@ -345,7 +368,7 @@ open class PasswordActivity : StylishActivity() {
 
         // Define Key File text
         if (mRememberKeyFile) {
-            populateKeyFileTextView(keyFileUri?.toString())
+            populateKeyFileTextView(keyFileUri)
         }
 
         // Define listeners for default database checkbox and validate button
@@ -459,13 +482,13 @@ open class PasswordActivity : StylishActivity() {
         }
     }
 
-    private fun populateKeyFileTextView(text: String?) {
-        if (text == null || text.isEmpty()) {
-            keyFileView?.setText("")
+    private fun populateKeyFileTextView(uri: Uri?) {
+        if (uri == null || uri.toString().isEmpty()) {
+            keyFileSelectionView?.uri = null
             if (checkboxKeyFileView?.isChecked == true)
                 checkboxKeyFileView?.isChecked = false
         } else {
-            keyFileView?.setText(text)
+            keyFileSelectionView?.uri = uri
             if (checkboxKeyFileView?.isChecked != true)
                 checkboxKeyFileView?.isChecked = true
         }
@@ -486,7 +509,7 @@ open class PasswordActivity : StylishActivity() {
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
         val password: String? = passwordView?.text?.toString()
-        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
+        val keyFile: Uri? = keyFileSelectionView?.uri
         verifyCheckboxesAndLoadDatabase(password, keyFile, cipherDatabaseEntity)
     }
 
@@ -499,7 +522,7 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun verifyKeyFileCheckboxAndLoadDatabase(password: String?) {
-        val keyFile: Uri? = UriUtil.parse(keyFileView?.text?.toString())
+        val keyFile: Uri? = keyFileSelectionView?.uri
         verifyKeyFileCheckbox(keyFile)
         loadDatabase(mDatabaseFileUri, password, mDatabaseKeyFileUri)
     }
@@ -571,9 +594,40 @@ open class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu)
+        launchEducation(menu) {
+            launchCheckPermission()
+        }
 
         return true
+    }
+
+    // Check permission
+    private fun launchCheckPermission() {
+        val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
+        val permissions = arrayOf(writePermission)
+        if (Build.VERSION.SDK_INT >= 23
+                && !readOnly
+                && !mPermissionAsked) {
+            mPermissionAsked = true
+            // Check self permission to show or not the dialog
+            if (toolbar != null
+                    && ActivityCompat.checkSelfPermission(this, writePermission) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(this, permissions, WRITE_EXTERNAL_STORAGE_REQUEST)
+            }
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        when (requestCode) {
+            WRITE_EXTERNAL_STORAGE_REQUEST -> {
+                if (grantResults.isEmpty() || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                        Toast.makeText(this, R.string.read_only_warning, Toast.LENGTH_LONG).show()
+                }
+            }
+        }
     }
 
     // To fix multiple view education
@@ -678,7 +732,7 @@ open class PasswordActivity : StylishActivity() {
             ) { uri ->
                 if (uri != null) {
                     mDatabaseKeyFileUri = uri
-                    populateKeyFileTextView(uri.toString())
+                    populateKeyFileTextView(uri)
                 }
             }
         }
@@ -703,6 +757,8 @@ open class PasswordActivity : StylishActivity() {
 
         private const val KEY_PASSWORD = "password"
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
+        private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
+        private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
@@ -757,13 +813,15 @@ open class PasswordActivity : StylishActivity() {
                 activity: Activity,
                 databaseFile: Uri,
                 keyFile: Uri?,
-                assistStructure: AssistStructure?) {
+                assistStructure: AssistStructure?,
+                searchInfo: SearchInfo?) {
             if (assistStructure != null) {
                 buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
                     AutofillHelper.startActivityForAutofillResult(
                             activity,
                             intent,
-                            assistStructure)
+                            assistStructure,
+                            searchInfo)
                 }
             } else {
                 launch(activity, databaseFile, keyFile)

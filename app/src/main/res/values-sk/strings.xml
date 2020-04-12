@@ -103,7 +103,6 @@
     <string name="never">Nikdy</string>
     <string name="no_results">Žiadne výsledky hľadania</string>
     <string name="no_url_handler">Žiaden manažér pre url.</string>
-    <string name="open_recent">Otvoriť poslednú databázu :</string>
     <string name="omit_backup_search_title">Neprehľadávať položky</string>
     <string name="omit_backup_search_summary">Vynechať skupinu \'Backup\' a Recycle Bin z výsledkov hľadania</string>
     <string name="progress_create">Vytváram novú databázu…</string>
@@ -123,7 +122,6 @@
     <string name="underline">Podčiarknuté</string>
     <string name="unsupported_db_version">Nepodporovaná verzia databázy.</string>
     <string name="uppercase">Veľké písmená</string>
-    <string name="warning_unmounted">Vaša SD karta nie je momentálne pripojená k zariadeniu. Nemôžete načítať, alebo vytvoriť databázu.</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Vložte heslo a / alebo keyfile pre odomknutie databázy.</string>
     <string-array name="timeout_options">

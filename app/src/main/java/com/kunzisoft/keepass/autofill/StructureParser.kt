@@ -20,6 +20,7 @@ package com.kunzisoft.keepass.autofill
 
 import android.app.assist.AssistStructure
 import android.os.Build
+import android.text.InputType
 import androidx.annotation.RequiresApi
 import android.util.Log
 import android.view.View
@@ -36,47 +37,60 @@ internal class StructureParser(private val structure: AssistStructure) {
     private var usernameCandidate: AutofillId? = null
 
     fun parse(): Result? {
-        result = Result()
-        result?.apply {
-            usernameCandidate = null
-            mainLoop@ for (i in 0 until structure.windowNodeCount) {
-                val windowNode = structure.getWindowNodeAt(i)
-                /*
-                title.add(windowNode.title)
-                windowNode.rootViewNode.webDomain?.let {
-                    webDomain.add(it)
-                }
-                */
-                if (parseViewNode(windowNode.rootViewNode))
-                    break@mainLoop
-            }
-            // If not explicit username field found, add the field just before password field.
-            if (usernameId == null && passwordId != null && usernameCandidate != null)
-                usernameId = usernameCandidate
-        }
+        try {
+            result = Result()
+            result?.apply {
+                usernameCandidate = null
+                mainLoop@ for (i in 0 until structure.windowNodeCount) {
+                    val windowNode = structure.getWindowNodeAt(i)
+                    applicationId = windowNode.title.toString().split("/")[0]
+                    Log.d(TAG, "Autofill applicationId: $applicationId")
 
-        // Return the result only if password field is retrieved
-        return if (result?.passwordId != null)
-            result
-        else
-            null
+                    if (parseViewNode(windowNode.rootViewNode))
+                        break@mainLoop
+                }
+                // If not explicit username field found, add the field just before password field.
+                if (usernameId == null && passwordId != null && usernameCandidate != null)
+                    usernameId = usernameCandidate
+            }
+
+            // Return the result only if password field is retrieved
+            return if (result?.usernameId != null
+                    && result?.passwordId != null)
+                result
+            else
+                null
+        } catch (e: Exception) {
+            return null
+        }
     }
 
     private fun parseViewNode(node: AssistStructure.ViewNode): Boolean {
-        if (node.autofillId != null) {
-            val hints = node.autofillHints
-            if (hints != null && hints.isNotEmpty()) {
-                if (parseNodeByAutofillHint(node))
+        // Get the domain of a web app
+        node.webDomain?.let {
+            result?.domain = it
+            Log.d(TAG, "Autofill domain: $it")
+        }
+
+        // Only parse visible nodes
+        if (node.visibility == View.VISIBLE) {
+            if (node.autofillId != null
+                    && node.autofillType == View.AUTOFILL_TYPE_TEXT) {
+                // Parse methods
+                val hints = node.autofillHints
+                if (hints != null && hints.isNotEmpty()) {
+                    if (parseNodeByAutofillHint(node))
+                        return true
+                } else if (parseNodeByHtmlAttributes(node))
                     return true
-            } else {
-                if (parseNodeByHtmlAttributes(node))
+                else if (parseNodeByAndroidInput(node))
                     return true
             }
-        }
-        // Recursive method to process each node
-        for (i in 0 until node.childCount) {
-            if (parseViewNode(node.getChildAt(i)))
-                return true
+            // Recursive method to process each node
+            for (i in 0 until node.childCount) {
+                if (parseViewNode(node.getChildAt(i)))
+                    return true
+            }
         }
         return false
     }
@@ -85,22 +99,23 @@ internal class StructureParser(private val structure: AssistStructure) {
         val autofillId = node.autofillId
         node.autofillHints?.forEach {
             when {
-                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_USERNAME
-                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_EMAIL_ADDRESS
-                        || it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PHONE -> {
+                it.equals(View.AUTOFILL_HINT_USERNAME, true)
+                        || it.equals(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
+                        || it.equals(View.AUTOFILL_HINT_PHONE, true)
+                        || it.equals("usernameOrEmail", true)-> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
-                it.toLowerCase(Locale.ENGLISH) == View.AUTOFILL_HINT_PASSWORD
-                        || it.toLowerCase(Locale.ENGLISH).contains("password") -> {
+                it.equals(View.AUTOFILL_HINT_PASSWORD, true)
+                        || it.contains("password", true) -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
                     return true
                 }
                 // Ignore autocomplete="off"
                 // https://developer.mozilla.org/en-US/docs/Web/Security/Securing_your_site/Turning_off_form_autocompletion
-                it.toLowerCase(Locale.ENGLISH) == "off" ||
-                it.toLowerCase(Locale.ENGLISH) == "on" -> {
+                it.equals("off", true) ||
+                it.equals("on", true) -> {
                     Log.d(TAG, "Autofill web hint")
                     return parseNodeByHtmlAttributes(node)
                 }
@@ -121,15 +136,15 @@ internal class StructureParser(private val structure: AssistStructure) {
                             when (pairAttribute.second.toLowerCase(Locale.ENGLISH)) {
                                 "tel", "email" -> {
                                     result?.usernameId = autofillId
-                                    Log.d(TAG, "Autofill username type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill username web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "text" -> {
                                     usernameCandidate = autofillId
-                                    Log.d(TAG, "Autofill type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill username candidate web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                 }
                                 "password" -> {
                                     result?.passwordId = autofillId
-                                    Log.d(TAG, "Autofill password type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
+                                    Log.d(TAG, "Autofill password web type: ${node.htmlInfo?.tag} ${node.htmlInfo?.attributes}")
                                     return true
                                 }
                             }
@@ -141,8 +156,57 @@ internal class StructureParser(private val structure: AssistStructure) {
         return false
     }
 
+    private fun parseNodeByAndroidInput(node: AssistStructure.ViewNode): Boolean {
+        val autofillId = node.autofillId
+        val inputType = node.inputType
+        if (inputType and InputType.TYPE_CLASS_TEXT != 0) {
+            when {
+                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS != 0 -> {
+                    result?.usernameId = autofillId
+                    Log.d(TAG, "Autofill username android type: $inputType")
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_NORMAL != 0 ||
+                        inputType and InputType.TYPE_NUMBER_VARIATION_NORMAL != 0 ||
+                        inputType and InputType.TYPE_TEXT_VARIATION_PERSON_NAME != 0 -> {
+                    usernameCandidate = autofillId
+                    Log.d(TAG, "Autofill username candidate android type: $inputType")
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0 ||
+                        inputType and InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD != 0 ||
+                        inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD != 0 -> {
+                    result?.passwordId = autofillId
+                    Log.d(TAG, "Autofill password android type: $inputType")
+                    return true
+                }
+                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_FILTER != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_PHONETIC != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_URI != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS != 0 ||
+                inputType and InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD != 0 -> {
+                    // Type not used
+                }
+                else -> {
+                    Log.d(TAG, "Autofill unknown android type: $inputType")
+                    usernameCandidate = autofillId
+                }
+            }
+        }
+        return false
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     internal class Result {
+        var applicationId: String? = null
+        var domain: String? = null
+            set(value) {
+                if (field == null)
+                    field = value
+            }
+
         var usernameId: AutofillId? = null
             set(value) {
                 if (field == null)

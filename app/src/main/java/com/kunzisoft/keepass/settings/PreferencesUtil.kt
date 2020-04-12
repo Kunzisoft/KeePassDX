@@ -199,6 +199,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.lock_database_back_root_default))
     }
 
+    fun showLockDatabaseButton(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.lock_database_show_button_key),
+                context.resources.getBoolean(R.bool.lock_database_show_button_default))
+    }
+
     fun isAutoSaveDatabaseEnabled(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.enable_auto_save_database_key),
@@ -347,5 +353,11 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_key_sound_key),
                 context.resources.getBoolean(R.bool.keyboard_key_sound_default))
+    }
+
+    fun isAutofillAutoSearchEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
+                context.resources.getBoolean(R.bool.autofill_auto_search_default))
     }
 }

@@ -1,0 +1,10 @@
+ * Add write permission to keep compatibility with old file managers
+ * Fix autofill for apps
+ * Auto search for autofill
+ * New keyfile input
+ * Icon to hide keyfile input
+ * New lock button
+ * Setting to hide lock button in user interface
+ * Clickable links in notes
+ * Fix autofill for key-value pairs
+

@@ -102,6 +102,12 @@
 
     </androidx.core.widget.NestedScrollView>
 
+    <include
+        layout="@layout/view_button_lock"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="start|bottom" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
         android:layout_width="match_parent"

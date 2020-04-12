@@ -19,7 +19,7 @@
 --><resources>
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
-    <string name="about_description">Android平台上的KeePass密码管理器</string>
+    <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
     <string name="accept">接受</string>
     <string name="add_entry">添加条目</string>
     <string name="add_group">添加群组</string>
@@ -39,7 +39,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是Kunzisoft的一个&lt;strong&gt;开源&lt;/strong&gt;和&lt;strong&gt;无广告&lt;/strong&gt;软件。
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 的一个&lt;strong&gt;自由软件&lt;/strong&gt;并且&lt;strong&gt;不含广告&lt;/strong&gt;。
 \n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
@@ -103,7 +103,6 @@
     <string name="never">从不</string>
     <string name="no_results">没有搜索结果</string>
     <string name="no_url_handler">需要安装网络浏览器才能打开这个URL。</string>
-    <string name="open_recent">最近用过的数据库</string>
     <string name="progress_create">正在新建数据库…</string>
     <string name="progress_title">正在处理…</string>
     <string name="content_description_remove_from_list">移除</string>
@@ -121,10 +120,9 @@
     <string name="underline">下划线</string>
     <string name="unsupported_db_version">不支持的数据库版本。</string>
     <string name="uppercase">大写</string>
-    <string name="warning_unmounted">请挂载内存卡以新建或加载数据库。</string>
     <string name="education_unlock_summary">输入密码和/或密钥文件来解锁你的数据库。
-\n
-\n记得在每次更改后将数据库文件备份至安全的地方。</string>
+\n 
+\n记得在每次做出更改后，将数据库文件备份至安全的地方。</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -173,7 +171,7 @@
     <string name="menu_paste">粘贴</string>
     <string name="menu_cancel">取消</string>
     <string name="menu_showpass">显示密码</string>
-    <string name="menu_biometric_remove_key">删除已保存生物识别密钥</string>
+    <string name="menu_biometric_remove_key">删除已保存的与生物识别相关的密钥</string>
     <string name="menu_file_selection_read_only">只读</string>
     <string name="menu_open_file_read_and_write">可修改</string>
     <string name="omit_backup_search_title">搜索时忽略备份条目</string>
@@ -222,7 +220,7 @@
     <string name="other">其他</string>
     <string name="keyboard">键盘</string>
     <string name="magic_keyboard_title">魔法键盘</string>
-    <string name="enable_read_only_title">写保护（只读模式）</string>
+    <string name="enable_read_only_title">写入保护（只读模式）</string>
     <string name="enable_read_only_summary">默认以只读方式打开数据库</string>
     <string name="download">下载</string>
     <string name="contribute">贡献</string>
@@ -235,18 +233,18 @@
     <string name="warning_password_encoding">避免在数据库中保存编码格式外字符的密码（未识别的字符将转换为同一字符）。</string>
     <string name="sort_groups_before">群组在前</string>
     <string name="sort_recycle_bin_bottom">回收站在末尾</string>
-    <string name="warning_empty_password">确定不用密码解锁？</string>
-    <string name="warning_no_encryption_key">确认使用空密钥吗？</string>
+    <string name="warning_empty_password">确定不使用密码保护？</string>
+    <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">版本%1$s</string>
     <string name="configure_biometric">支持生物识别设置，但并未启用生物识别。</string>
     <string name="open_biometric_prompt_unlock_database">打开生物识别对话框以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
-    <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物密钥，并重新录入。</string>
+    <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
     <string name="biometric_not_recognized">无法识别生物识别信息</string>
     <string name="biometric_scanning_error">生物识别错误：%1$s</string>
     <string name="no_credentials_stored">当前数据库无密码。</string>
     <string name="set_autofill_service_title">设为默认的填充服务</string>
-    <string name="autofill_explanation_summary">启用自动填充功能，以便捷地在其他程序中填写信息</string>
+    <string name="autofill_explanation_summary">启用自动填充功能，以快速填写其他应用中的表单</string>
     <string name="password_size_title">密码生成长度</string>
     <string name="password_size_summary">设置生成密码的默认长度</string>
     <string name="list_password_generator_options_title">密码字符集</string>
@@ -258,8 +256,8 @@
     <string name="biometric_unlock_enable_title">生物识别解锁</string>
     <string name="biometric_unlock_enable_summary">通过生物识别解锁数据库</string>
     <string name="biometric_delete_all_key_title">删除加密密钥</string>
-    <string name="biometric_delete_all_key_summary">删除所有与生物相关的加密密钥</string>
-    <string name="biometric_delete_all_key_warning">要删除所有生物识别密钥吗？</string>
+    <string name="biometric_delete_all_key_summary">删除所有与生物识别相关的密钥</string>
+    <string name="biometric_delete_all_key_warning">要删除所有与生物识别相关的密钥吗？</string>
     <string name="unavailable_feature_text">无法启动此功能。</string>
     <string name="unavailable_feature_version">你的Android版本%1$s无法满足程序对系统版本%2$s的要求。</string>
     <string name="unavailable_feature_hardware">找不到所需的硬件。</string>
@@ -311,16 +309,16 @@
     <string name="education_biometric_summary">将主密钥与生物识别信息关联，以快速解锁数据库。</string>
     <string name="education_entry_edit_title">编辑此条目</string>
     <string name="education_entry_edit_summary">使用自定义字段编辑条。自定义字段可以在不同的条目间引用。</string>
-    <string name="education_generate_password_title">为记录新建强密码。</string>
-    <string name="education_generate_password_summary">依据表格中的标准生成新密码，并将密码与条目关联起来，永不忘记。</string>
+    <string name="education_generate_password_title">新建一个强密码</string>
+    <string name="education_generate_password_summary">依据表单中的标准进行简单的定义，随机为该条目生成一个强密码，不在担心忘记安全密码。</string>
     <string name="education_entry_new_field_title">添加自定义字段</string>
     <string name="education_entry_new_field_summary">添加一个新的字段并添加为其添加一个值，此时可以选择是否保护该字段及其值。</string>
     <string name="education_unlock_title">解锁数据库</string>
-    <string name="education_read_only_title">为数据库开启写保护（只读）</string>
-    <string name="education_read_only_summary">在会话中改变打开模式。
-\n
-\n“写保护（只读）”将阻止对数据库的任何修改。
-\n“可编辑（可写）”让添加、删除或者修改元素。</string>
+    <string name="education_read_only_title">数据库启用写入保护（只读）</string>
+    <string name="education_read_only_summary">更改会话的打开模式。 
+\n 
+\n“写入保护（只读）”可防止对数据库的意外更改。 
+\n“可编辑（可写）”允许您添加、删除或者修改元素。</string>
     <string name="education_field_copy_title">复制字段</string>
     <string name="education_field_copy_summary">已复制的字段可以粘贴到任何地方。
 \n
@@ -331,21 +329,21 @@
     <string name="education_sort_summary">选择条目和群组的排序方式。</string>
     <string name="education_donation_title">参与开发</string>
     <string name="education_donation_summary">帮助增加稳定性，安全性并添加更多的功能。</string>
-    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于copylefted版权协议的免费软件&lt;/strong&gt;，同样的本软件的任何版本也不会收集您的个人信息。</string>
-    <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供的帮助</string>
-    <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;现在已经可用，感谢慷慨相助。</string>
-    <string name="html_text_donation">为继续建设此自由项目，我们需要&lt;strong&gt;捐助。&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature">这个特性目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使这个特性在未来变得可用。</string>
+    <string name="html_text_ad_free">不同于大多数的密码管理程序，无论您是使用免费版本还是付费版本的 KeePassDX，这都是一款&lt;strong&gt;没有广告&lt;/strong&gt;，&lt;strong&gt;基于 copylefted 版权协议的自由软件&lt;/strong&gt;。同时，本软件的任何版本都不会收集您的任何个人信息。</string>
+    <string name="html_text_buy_pro">通过购买高级版本，您将解锁全部&lt;strong&gt;主题样式&lt;/strong&gt;，重要的是，您会为&lt;strong&gt;社区项目的进行&lt;/strong&gt;提供帮助</string>
+    <string name="html_text_feature_generosity">此&lt;strong&gt;主题样式&lt;/strong&gt;已可用，感谢您的慷慨相助。</string>
+    <string name="html_text_donation">为继续建设此自由项目让其保持活跃，我们需要您的&lt;strong&gt;捐赠。&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">此功能目前&lt;strong&gt;仍在开发中&lt;/strong&gt;，&lt;strong&gt;捐助&lt;/strong&gt;将使该功能很快变得可用。</string>
     <string name="html_text_dev_feature_buy_pro">通过购买&lt;strong&gt;专业&lt;/strong&gt;版，</string>
     <string name="html_text_dev_feature_contibute">通过&lt;strong&gt;贡献&lt;/strong&gt;，</string>
-    <string name="html_text_dev_feature_encourage">您的留言，鼓励了开发人员开发&lt;strong&gt;新特性&lt;/strong&gt;并&lt;strong&gt;修复程序缺陷&lt;/strong&gt;。</string>
+    <string name="html_text_dev_feature_encourage">您的留言，是对开发人员添加&lt;strong&gt;新功能&lt;/strong&gt;及&lt;strong&gt;修复 bugs&lt;/strong&gt; 的鼓励。</string>
     <string name="html_text_dev_feature_thanks">非常感谢您的捐助和贡献。</string>
     <string name="html_text_dev_feature_work_hard">我们正在努力的研发并尽快发布新特性。</string>
     <string name="html_text_dev_feature_upgrade">别忘了更新程序。</string>
     <string name="selection_mode">选择模式</string>
     <string name="do_not_kill_app">不要终止程序…</string>
     <string name="lock_database_back_root_title">按返回键以锁定</string>
-    <string name="lock_database_back_root_summary">在点按根屏幕上的后退按钮时锁定数据库</string>
+    <string name="lock_database_back_root_summary">点击屏幕底部的返回键时锁定数据库</string>
     <string name="clear_clipboard_notification_title">关闭程序时清空剪贴板</string>
     <string name="clear_clipboard_notification_summary">清除通知时锁定数据库</string>
     <string name="recycle_bin">回收站</string>
@@ -397,7 +395,7 @@
     <string name="otp_digits">数字位数</string>
     <string name="otp_algorithm">算法</string>
     <string name="entry_otp">一次性密码</string>
-    <string name="error_invalid_OTP">一次性密码密钥错误。</string>
+    <string name="error_invalid_OTP">错误的一次性密码密钥。</string>
     <string name="error_disallow_no_credentials">至少需要设置一个凭据。</string>
     <string name="error_copy_group_here">不能将群组复制到这里。</string>
     <string name="error_otp_secret_key">密钥必须是BASE32格式。</string>
@@ -409,7 +407,7 @@
     <string name="menu_security_settings">安全设置</string>
     <string name="menu_master_key_settings">主密钥设置</string>
     <string name="contains_duplicate_uuid">数据库包含重复UUID。</string>
-    <string name="contains_duplicate_uuid_procedure">通过验证此对话框，KeePassDX将解决这个问题（通过给重复项生成新的UUID）并继续。</string>
+    <string name="contains_duplicate_uuid_procedure">通过为重复项生成新的UUID以继续解决问题？</string>
     <string name="database_opened">数据库开启</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
     <string name="advanced_unlock_explanation_summary">使用高级解锁轻松打开数据库</string>
@@ -423,7 +421,7 @@
     <string name="settings_database_recommend_changing_master_key_summary">建议修改主密钥（以天为单位）</string>
     <string name="settings_database_force_changing_master_key_title">强制修改</string>
     <string name="settings_database_force_changing_master_key_summary">要求修改主密钥（以天为单位）</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">下次强制修改</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">下次强制更新修改</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">下次强制修改主密钥（一次）</string>
     <string name="database_default_username_title">默认用户名</string>
     <string name="database_custom_color_title">自定义数据库颜色</string>
@@ -435,27 +433,27 @@
     <string name="menu_save_database">保存数据库</string>
     <string name="menu_empty_recycle_bin">清空回收站</string>
     <string name="command_execution">正在执行命令……</string>
-    <string name="warning_permanently_delete_nodes">确认要永久删除选中的条目吗？</string>
+    <string name="warning_permanently_delete_nodes">是否永久删除选中的条目？</string>
     <string name="credential_before_click_biometric_button">请先输入密码，再点击生物识别按钮。</string>
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
-    <string name="enable_auto_save_database_summary">在进行重要操作后自动保存数据库（仅在编辑模式下有效）</string>
+    <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>
     <string name="keystore_not_accessible">密钥库未正确地初始化。</string>
     <string name="entry_attachments">附件</string>
     <string name="menu_restore_entry_history">恢复历史记录</string>
     <string name="menu_delete_entry_history">删除历史记录</string>
     <string name="keyboard_auto_go_action_title">自动键操作</string>
-    <string name="keyboard_auto_go_action_summary">填入用户名或密码后直接登录</string>
+    <string name="keyboard_auto_go_action_summary">填充条目后直接登录</string>
     <string name="download_attachment">下载%1$s</string>
     <string name="download_initialization">正在初始化…</string>
-    <string name="download_progression">进行中：%1$d%</string>
+    <string name="download_progression">进行中：%1$d&#37;</string>
     <string name="download_finalization">正在完成…</string>
     <string name="download_complete">完成！点击打开文件。</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>
     <string name="hide_expired_entries_summary">过期条目将被隐藏</string>
     <string name="contact">联系我们</string>
     <string name="contribution">贡献</string>
-    <string name="html_about_contribution">为了&lt;strong&gt;保持我们的自由&lt;/strong&gt;，&lt;strong&gt;修复错误&lt;/strong&gt;，&lt;strong&gt;添加功能&lt;/strong&gt;和&lt;strong&gt;始终保持活跃&lt;/strong&gt;，我们期待您的 &lt;strong&gt;贡献&lt;/strong&gt;。</string>
+    <string name="html_about_contribution">为了&lt;strong&gt;维持我们的自由&lt;/strong&gt;、&lt;strong&gt;修复 bugs&lt;/strong&gt;、&lt;strong&gt;添加更多功能&lt;/strong&gt;以及&lt;strong&gt;始终保持项目活跃&lt;/strong&gt;，我们期待您的&lt;strong&gt;贡献&lt;/strong&gt;。</string>
     <string name="auto_focus_search_title">快速搜索</string>
     <string name="auto_focus_search_summary">打开数据库时询问是否进行搜索</string>
     <string name="remember_database_locations_title">数据库保存的路径</string>
@@ -465,4 +463,11 @@
     <string name="hide_broken_locations_title">隐藏已损坏的数据库路径</string>
     <string name="hide_broken_locations_summary">在最近的数据库列表中隐藏已损坏的数据库的链接</string>
     <string name="warning_database_read_only">授予软件文件读写访问权限以保存数据库更改</string>
+    <string name="education_setup_OTP_summary">设置一次性密码管理（HOTP / TOTP）以生成请求的用于双重身份验证（2FA）的令牌。</string>
+    <string name="education_setup_OTP_title">设置一次性密码</string>
+    <string name="discard">丢弃</string>
+    <string name="error_create_database">无法创建数据库文件。</string>
+    <string name="entry_add_attachment">添加附件</string>
+    <string name="discard_changes">放弃更改？</string>
+    <string name="validate">验证</string>
 </resources>

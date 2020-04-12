@@ -113,7 +113,6 @@
     <string name="never">Ποτέ</string>
     <string name="no_results">Δεν βρέθηκαν αποτελέσματα αναζήτησης</string>
     <string name="no_url_handler">Εγκαταστήστε ένα πρόγραμμα περιήγησης για να ανοίξετε αυτήν τη διεύθυνση URL.</string>
-    <string name="open_recent">Πρόσφατες βάσεις δεδομένων</string>
     <string name="omit_backup_search_title">Να μην γίνει αναζήτηση μέσα από τις καταχωρήσεις αντιγραφών ασφαλείας</string>
     <string name="omit_backup_search_summary">Παράληψη ομάδας \"Αντίγραφο Ασφαλείας\" και \"Κάδος Ανακύκλωσης\" από τα αποτελέσματα αναζήτησης</string>
     <string name="progress_create">Δημιουργία νέας βάσης δεδομένων…</string>
@@ -136,7 +135,6 @@
     <string name="underline">Υπογράμμιση</string>
     <string name="unsupported_db_version">Μη υποστηριζόμενη έκδοση βάσης δεδομένων.</string>
     <string name="uppercase">Κεφαλαία</string>
-    <string name="warning_unmounted">Μοντάρετε την κάρτα μνήμης για να δημιουργήσετε ή να φορτώσετε μια βάση δεδομένων.</string>
     <string name="version_label">Έκδοση %1$s</string>
     <string name="education_unlock_summary">Καταχωρίστε τον κωδικό πρόσβασης και /ή το αρχείο-κλειδί για να ξεκλειδώσετε τη βάση δεδομένων σας.
 \n

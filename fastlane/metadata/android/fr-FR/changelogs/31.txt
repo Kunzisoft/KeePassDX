@@ -1,0 +1,9 @@
+ * Ajout d'une autorisation d'écriture pour conserver la compatibilité avec les anciens gestionnaires de fichiers
+ * Correction de la saisie automatique pour les applications
+ * Recherche automatique pour le remplissage de formulaires
+ * Nouvelle entrée de fichier clé
+ * Icône pour masquer la saisie du fichier clé
+ * Nouveau bouton de verrouillage
+ * Réglage pour masquer le bouton de verrouillage dans l'interface utilisateur
+ * Liens cliquables dans les notes
+ * Correction du remplissage automatique pour les paires clé-valeur

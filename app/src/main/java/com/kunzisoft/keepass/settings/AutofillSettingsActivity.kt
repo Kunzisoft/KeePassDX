@@ -20,26 +20,25 @@
 package com.kunzisoft.keepass.settings
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
-
+import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 
-class MagikIMESettings : StylishActivity() {
+class AutofillSettingsActivity : StylishActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.activity_toolbar)
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
-        toolbar.setTitle(R.string.keyboard_setting_label)
+        toolbar.setTitle(R.string.autofill_preference_title)
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, MagikIMESettingsFragment())
+                    .replace(R.id.fragment_container, AutofillSettingsFragment())
                     .commit()
         }
     }
@@ -51,5 +50,4 @@ class MagikIMESettings : StylishActivity() {
 
         return super.onOptionsItemSelected(item)
     }
-
 }

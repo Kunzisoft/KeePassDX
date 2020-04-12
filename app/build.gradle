@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode = 30
-        versionName = "2.5beta30"
+        versionCode = 31
+        versionName = "2.5RC1"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -97,6 +97,7 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.0.1'
+    implementation "androidx.core:core-ktx:1.2.0"
     // To upgrade with style
     implementation 'com.google.android.material:material:1.0.0'
 

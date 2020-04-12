@@ -118,6 +118,7 @@
     <string name="error_pass_match">The passwords do not match.</string>
     <string name="error_rounds_too_large">\"Transformation rounds\" too high. Setting to 2147483648.</string>
     <string name="error_string_key">Each string must have a field name.</string>
+    <string name="error_label_exists">This label already exists.</string>
     <string name="error_wrong_length">Enter a positive whole number in the \"Length\" field.</string>
     <string name="error_autofill_enable_service">Could not enable autofill service.</string>
     <string name="error_move_folder_in_itself">You can not move a group into itself.</string>
@@ -198,7 +199,6 @@
     <string name="no_url_handler">Install a web browser to open this URL.</string>
     <string name="select_database_file">Open existing database</string>
     <string name="create_keepass_file">Create new database</string>
-    <string name="open_recent">Recent databases</string>
     <string name="omit_backup_search_title">Don\'t search through backup entries</string>
     <string name="omit_backup_search_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
     <string name="auto_focus_search_title">Quick search</string>
@@ -253,7 +253,7 @@
     <string name="warning">Warning</string>
     <string name="warning_password_encoding">Avoid password characters outside of text encoding format in database file (unrecognized chars are converted to the same letter).</string>
     <string name="warning_database_read_only">Grant file write access to save database changes</string>
-    <string name="warning_unmounted">Mount the memory card to create or load a database.</string>
+    <string name="warning_database_link_revoked">Access to the file revoked by the file manager</string>
     <string name="warning_empty_password">Continue without password unlocking protection?</string>
     <string name="warning_no_encryption_key">Continue without encryption key?</string>
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
@@ -283,6 +283,7 @@
     <string name="autofill_sign_in_prompt">Sign in with KeePassDX</string>
     <string name="autofill_explanation_summary">Enable autofilling to quickly fill out forms in other apps</string>
     <string name="set_autofill_service_title">Set default autofill service</string>
+    <string name="autofill_preference_title">Autofill settings</string>
     <string name="password_size_title">Generated password size</string>
     <string name="password_size_summary">Sets default size of the generated passwords</string>
     <string name="list_password_generator_options_title">Password characters</string>
@@ -298,6 +299,8 @@
     <string name="lock_database_screen_off_summary">Lock the database when the screen is off</string>
     <string name="lock_database_back_root_title">Press \'Back\' to lock</string>
     <string name="lock_database_back_root_summary">Lock the database when the user clicks the back button on the root screen</string>
+    <string name="lock_database_show_button_title">Show lock button</string>
+    <string name="lock_database_show_button_summary">Displays the lock button in the user interface</string>
     <string name="advanced_unlock">Advanced unlock</string>
     <string name="advanced_unlock_explanation_summary">Use advanced unlocking to open a database more easily</string>
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
@@ -377,6 +380,8 @@
     <string name="keyboard_auto_go_action_summary">\"Go\" key action after pressing a \"Field\" key</string>
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
+    <string name="autofill_auto_search_title">Auto search</string>
+    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or applicationId</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

@@ -28,8 +28,14 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.cursor.EntryCursorKDB
+import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
+import com.kunzisoft.keepass.database.element.database.DatabaseKDB
+import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.view.strikeOut
@@ -69,8 +75,7 @@ class SearchEntryCursorAdapter(private val context: Context,
     }
 
     override fun bindView(view: View, context: Context, cursor: Cursor) {
-
-        database.getEntryFrom(cursor)?.let { currentEntry ->
+        getEntryFrom(cursor)?.let { currentEntry ->
             val viewHolder = view.tag as ViewHolder
 
             // Assign image
@@ -98,14 +103,46 @@ class SearchEntryCursorAdapter(private val context: Context,
         }
     }
 
-    private class ViewHolder {
-        internal var imageViewIcon: ImageView? = null
-        internal var textViewTitle: TextView? = null
-        internal var textViewSubTitle: TextView? = null
+    private fun getEntryFrom(cursor: Cursor): Entry? {
+        return database.createEntry()?.apply {
+            database.startManageEntry(this)
+            entryKDB?.let { entryKDB ->
+                (cursor as EntryCursorKDB).populateEntry(entryKDB, database.iconFactory)
+            }
+            entryKDBX?.let { entryKDBX ->
+                (cursor as EntryCursorKDBX).populateEntry(entryKDBX, database.iconFactory)
+            }
+            database.stopManageEntry(this)
+        }
     }
 
     override fun runQueryOnBackgroundThread(constraint: CharSequence): Cursor? {
-        return database.searchEntries(context, constraint.toString())
+        return searchEntries(context, constraint.toString())
+    }
+
+    private fun searchEntries(context: Context, query: String): Cursor? {
+        var cursorKDB: EntryCursorKDB? = null
+        var cursorKDBX: EntryCursorKDBX? = null
+
+        if (database.type == DatabaseKDB.TYPE)
+            cursorKDB = EntryCursorKDB()
+        if (database.type == DatabaseKDBX.TYPE)
+            cursorKDBX = EntryCursorKDBX()
+
+        val searchGroup = database.createVirtualGroupFromSearch(query, SearchHelper.MAX_SEARCH_ENTRY)
+        if (searchGroup != null) {
+            // Search in hide entries but not meta-stream
+            for (entry in searchGroup.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
+                entry.entryKDB?.let {
+                    cursorKDB?.addEntry(it)
+                }
+                entry.entryKDBX?.let {
+                    cursorKDBX?.addEntry(it)
+                }
+            }
+        }
+
+        return cursorKDB ?: cursorKDBX
     }
 
     fun getEntryFromPosition(position: Int): Entry? {
@@ -113,9 +150,14 @@ class SearchEntryCursorAdapter(private val context: Context,
 
         val cursor = this.cursor
         if (cursor.moveToFirst() && cursor.move(position)) {
-            pwEntry = database.getEntryFrom(cursor)
+            pwEntry = getEntryFrom(cursor)
         }
         return pwEntry
     }
 
+    private class ViewHolder {
+        internal var imageViewIcon: ImageView? = null
+        internal var textViewTitle: TextView? = null
+        internal var textViewSubTitle: TextView? = null
+    }
 }

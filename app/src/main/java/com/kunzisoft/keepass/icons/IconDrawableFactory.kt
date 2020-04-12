@@ -22,16 +22,16 @@ package com.kunzisoft.keepass.icons
 import android.content.Context
 import android.content.res.ColorStateList
 import android.content.res.Resources
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import androidx.core.content.res.ResourcesCompat
-import androidx.core.widget.ImageViewCompat
 import android.util.Log
 import android.widget.ImageView
+import android.widget.RemoteViews
+import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.drawable.toBitmap
+import androidx.core.widget.ImageViewCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
@@ -68,6 +68,23 @@ class IconDrawableFactory {
                 ImageViewCompat.setImageTintList(imageView, null)
             }
         }
+    }
+
+    /**
+     * Utility method to assign a drawable to a RemoteView and tint it
+     */
+    fun assignDrawableToRemoteViews(superDrawable: SuperDrawable,
+                                    remoteViews: RemoteViews,
+                                    imageId: Int,
+                                    tintColor: Int = Color.BLACK) {
+        val bitmap = superDrawable.drawable.toBitmap()
+        // Tint bitmap if it's not a custom icon
+        if (!superDrawable.custom) {
+            Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
+                colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
+            })
+        }
+        remoteViews.setImageViewBitmap(imageId, bitmap)
     }
 
     /**
@@ -233,7 +250,6 @@ class IconDrawableFactory {
  */
 fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintColor: Int = Color.WHITE) {
     IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                                 selectedIconPack.defaultIconId,
@@ -249,9 +265,10 @@ fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintCo
 /**
  * Assign a database [icon] to an ImageView and tint it with [tintColor] if needed
  */
-fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: IconImage, tintColor: Int = Color.WHITE) {
+fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
+                                 icon: IconImage,
+                                 tintColor: Int = Color.WHITE) {
     IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-
         iconFactory.assignDrawableToImageView(
                 iconFactory.getIconSuperDrawable(context,
                         icon,
@@ -262,4 +279,20 @@ fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory, icon: IconIma
                     selectedIconPack.tintable(),
                     tintColor)
     }
+}
+
+fun RemoteViews.assignDatabaseIcon(context: Context,
+                                   imageId: Int,
+                                   iconFactory: IconDrawableFactory,
+                                   icon: IconImage,
+                                   tintColor: Int = Color.BLACK) {
+        iconFactory.assignDrawableToRemoteViews(
+                iconFactory.getIconSuperDrawable(context,
+                        icon,
+                        24,
+                        true,
+                        tintColor),
+                this,
+                imageId,
+                tintColor)
 }

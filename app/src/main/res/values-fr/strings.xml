@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="feedback">Commentaires</string>
     <string name="homepage">Page d’accueil</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
@@ -49,7 +50,7 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;libre&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;. \nIl est fourni tel quel, sous la licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
+    <string name="html_about_licence"> Key Derivation Functions </string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -123,7 +124,6 @@
     <string name="no_results">Aucun résultat</string>
     <string name="no_url_handler">Installer un navigateur Web pour ouvrir cette URL.</string>
     <string name="select_database_file">Ouvrir une base de données existante</string>
-    <string name="open_recent">Bases de données récentes</string>
     <string name="omit_backup_search_title">Ne pas rechercher dans les entrées sauvegardées</string>
     <string name="omit_backup_search_summary">Omet les groupes « Sauvegarde » et « Corbeille » des résultats de recherche</string>
     <string name="progress_create">Création d’une nouvelle base de données…</string>
@@ -162,9 +162,8 @@
     <string name="uppercase">Majuscules</string>
     <string name="warning">Alerte</string>
     <string name="warning_password_encoding">Éviter les caractères en dehors du format de codage de caractères du fichier de base de données (les caractères non reconnus sont convertis en une même lettre).</string>
-    <string name="warning_unmounted">Monter la carte mémoire pour créer ou charger une base de données.</string>
-    <string name="warning_empty_password">Ne voulez-vous vraiment aucune protection de déverrouillage par mot de passe \?</string>
-    <string name="warning_no_encryption_key">Êtes-vous sûr de ne vouloir utiliser aucune clé de chiffrement \?</string>
+    <string name="warning_empty_password">Continuer sans protection de déverrouillage par mot de passe \?</string>
+    <string name="warning_no_encryption_key">Continuer sans clé de chiffrement \?</string>
     <string name="version_label">Version %1$s</string>
     <string name="configure_biometric">La reconnaissance biométrique est prise en charge mais n’est pas configurée.</string>
     <string name="open_biometric_prompt_unlock_database">Ouvrir l’invite biométrique pour déverrouiller la base de données</string>
@@ -198,7 +197,7 @@
     <string name="biometric_unlock_enable_summary">Permet de numériser votre empreinte biométrique pour ouvrir la base de données</string>
     <string name="biometric_delete_all_key_title">Supprimer les clés de chiffrement</string>
     <string name="biometric_delete_all_key_summary">Supprime toutes les clés de chiffrement liées à la reconnaissance biométrique</string>
-    <string name="biometric_delete_all_key_warning">Êtes-vous sûr de vouloir supprimer toutes les clés liées à la reconnaissance biométrique \?</string>
+    <string name="biometric_delete_all_key_warning">Supprimer toutes les clés de chiffrement liées à la reconnaissance biométrique \?</string>
     <string name="unavailable_feature_text">Impossible de démarrer cette fonctionnalité.</string>
     <string name="unavailable_feature_version">Votre version d’Android %1$s est inférieure à la version minimale %2$s requise.</string>
     <string name="unavailable_feature_hardware">Impossible de trouver le matériel correspondant.</string>
@@ -243,7 +242,7 @@
     <string name="education_biometric_summary">Associe votre mot de passe à votre empreinte biométrique numérisée pour déverrouiller rapidement votre base de données.</string>
     <string name="education_entry_edit_title">Modifier l’entrée</string>
     <string name="education_entry_edit_summary">Modifie votre entrée avec des champs personnalisés. La collection des données peut être référencée entre différents champs de l’entrée.</string>
-    <string name="education_generate_password_title">Créer un mot de passe fort pour votre entrée.</string>
+    <string name="education_generate_password_title">Créer un mot de passe fort</string>
     <string name="education_generate_password_summary">Générez un mot de passe fort à associer avec votre entrée, définissez-le facilement en fonction des critères du formulaire et n’oubliez pas de sécuriser votre mot de passe.</string>
     <string name="education_entry_new_field_title">Ajoutez des champs personnalisés</string>
     <string name="education_entry_new_field_summary">Enregistrez un champ additionnel, ajoutez une valeur et facultativement le protéger.</string>
@@ -416,7 +415,7 @@
     <string name="menu_security_settings">Paramètres de sécurité</string>
     <string name="menu_master_key_settings">Paramètres de la clé maîtresse</string>
     <string name="contains_duplicate_uuid">La base de données contient des doublons d’UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">En validant cette boîte de dialogue, KeePassDX corrigera le problème (en générant de nouveaux UUID pour les doublons) et continuera.</string>
+    <string name="contains_duplicate_uuid_procedure">Résoudre le problème en générant de nouveaux UUID pour les doublons et continuer \?</string>
     <string name="database_opened">Base de données ouverte</string>
     <string name="clipboard_explanation_summary">Copie les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
@@ -442,24 +441,24 @@
     <string name="menu_save_database">Enregistrer la base de données</string>
     <string name="menu_empty_recycle_bin">Vider la corbeille</string>
     <string name="command_execution">Exécution de la commande…</string>
-    <string name="warning_permanently_delete_nodes">Êtes-vous sûr de vouloir supprimer définitivement les nœuds sélectionnés \?</string>
+    <string name="warning_permanently_delete_nodes">Supprimer définitivement les nœuds sélectionnés \?</string>
     <string name="keystore_not_accessible">Le magasin de clés n’est pas correctement initialisé.</string>
     <string name="credential_before_click_biometric_button">Saisissez le mot de passe avant de cliquer sur le bouton biométrique.</string>
     <string name="recycle_bin_group_title">Groupe de la corbeille</string>
     <string name="enable_auto_save_database_title">Enregistrement automatique de la base de données</string>
-    <string name="enable_auto_save_database_summary">Enregistre automatiquement la base de données après une action importante (uniquement en mode « Modifiable »)</string>
+    <string name="enable_auto_save_database_summary">Enregistre la base de données après chaque action importante (en mode « Modifiable »)</string>
     <string name="entry_attachments">Attachements</string>
     <string name="menu_restore_entry_history">Restaurer l\'historique</string>
     <string name="menu_delete_entry_history">Effacer l\'historique</string>
     <string name="keyboard_auto_go_action_title">Action de touche auto</string>
-    <string name="keyboard_auto_go_action_summary">Action de la touche Go effectuée automatiquement après avoir appuyé sur une touche de champ</string>
+    <string name="keyboard_auto_go_action_summary">Action de la touche « Go » après avoir appuyé sur une touche « Champ »</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
-    <string name="download_progression">En cours : %1$d%</string>
+    <string name="download_progression">En cours : %1$d&#37;</string>
     <string name="download_finalization">Finalisation…</string>
     <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
-    <string name="hide_expired_entries_summary">Les entrées expirées seront masquées</string>
+    <string name="hide_expired_entries_summary">Les entrées expirées sont cachées</string>
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="html_about_contribution">Afin de &lt;strong&gt;garder notre liberté&lt;/strong&gt;, &lt;strong&gt;corriger les bugs&lt;/strong&gt;, &lt;strong&gt;ajouter des fonctionnalités&lt;/strong&gt; et &lt;strong&gt;être toujours actif&lt;/strong&gt;, nous comptons sur votre &lt;strong&gt;contribution&lt;/strong&gt;.</string>
@@ -474,4 +473,11 @@
     <string name="hide_broken_locations_title">Masquer les liens rompus de base de données</string>
     <string name="hide_broken_locations_summary">Masquer les liens rompus dans la liste des bases de données récentes</string>
     <string name="warning_database_read_only">Accorder un accès en écriture au fichier pour enregistrer les modifications de la base de données</string>
+    <string name="education_setup_OTP_summary">Définir le mot de passe à usage unique (temporel ou évènementiel) pour générer un jeton demandé par l’authentification à deux facteurs (A2F).</string>
+    <string name="education_setup_OTP_title">Définir l’OTP</string>
+    <string name="error_create_database">Impossible de créer le fichier de base de données.</string>
+    <string name="entry_add_attachment">Ajouter une pièce jointe</string>
+    <string name="discard">Abandonner</string>
+    <string name="discard_changes">Abandonner les modifications \?</string>
+    <string name="validate">Valider</string>
 </resources>

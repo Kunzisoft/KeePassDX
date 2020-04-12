@@ -132,7 +132,6 @@
     <string name="no_url_handler">Instalirajte web preglednik da bi ste otvorili ovaj URL.</string>
     <string name="select_database_file">Otvori postojeću bazu podataka</string>
     <string name="create_keepass_file">Kreiraj novu bazu podataka</string>
-    <string name="open_recent">Nedavne baze podataka</string>
     <string name="omit_backup_search_title">Ne pretražuj kopije unosa</string>
     <string name="progress_create">Kreiranje nove baze podataka…</string>
     <string name="protection">Zaštita</string>

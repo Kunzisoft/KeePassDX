@@ -137,7 +137,6 @@
     <string name="no_url_handler">이 URL을 열기 위해 웹 브라우저를 설치하십시오.</string>
     <string name="select_database_file">가지고 있는 데이터베이스 열기</string>
     <string name="create_keepass_file">새 데이터베이스 생성</string>
-    <string name="open_recent">최근 데이터베이스</string>
     <string name="omit_backup_search_title">백업 항목 검색하지 않기</string>
     <string name="progress_create">새 데이터베이스 생성 중…</string>
     <string name="progress_title">작업 중…</string>

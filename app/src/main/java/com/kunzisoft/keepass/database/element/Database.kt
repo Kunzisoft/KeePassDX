@@ -20,15 +20,11 @@
 package com.kunzisoft.keepass.database.element
 
 import android.content.ContentResolver
-import android.content.Context
 import android.content.res.Resources
-import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.action.node.NodeHandler
-import com.kunzisoft.keepass.database.cursor.EntryCursorKDB
-import com.kunzisoft.keepass.database.cursor.EntryCursorKDBX
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
@@ -49,6 +45,7 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.IconDrawableFactory
+import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.stream.readBytes4ToInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -136,6 +133,9 @@ class Database {
 
     val version: String
         get() = mDatabaseKDB?.version ?: mDatabaseKDBX?.version ?: "-"
+
+    val type: Class<*>?
+        get() = mDatabaseKDB?.javaClass ?: mDatabaseKDBX?.javaClass
 
     val allowDataCompression: Boolean
         get() = mDatabaseKDBX != null
@@ -397,54 +397,17 @@ class Database {
         false
     }
 
-    @JvmOverloads
-    fun search(str: String, max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.search(this, str, max)
+    fun createVirtualGroupFromSearch(searchQuery: String, max: Int = Integer.MAX_VALUE): Group? {
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, max)
     }
 
-    fun searchEntries(context: Context, query: String): Cursor? {
-
-        var cursorKDB: EntryCursorKDB? = null
-        var cursorKDBX: EntryCursorKDBX? = null
-
-        if (mDatabaseKDB != null)
-            cursorKDB = EntryCursorKDB()
-        if (mDatabaseKDBX != null)
-            cursorKDBX = EntryCursorKDBX()
-
-        val searchResult = search(query, SearchHelper.MAX_SEARCH_ENTRY)
-        if (searchResult != null) {
-            // Search in hide entries but not meta-stream
-            for (entry in searchResult.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
-                entry.entryKDB?.let {
-                    cursorKDB?.addEntry(it)
-                }
-                entry.entryKDBX?.let {
-                    cursorKDBX?.addEntry(it)
-                }
-            }
-        }
-
-        return cursorKDB ?: cursorKDBX
-    }
-
-    fun getEntryFrom(cursor: Cursor): Entry? {
-        val iconFactory = mDatabaseKDB?.iconFactory ?: mDatabaseKDBX?.iconFactory ?: IconImageFactory()
-
-        return createEntry()?.apply {
-            startManageEntry(this)
-            mDatabaseKDB?.let {
-                entryKDB?.let { entryKDB ->
-                    (cursor as EntryCursorKDB).populateEntry(entryKDB, iconFactory)
-                }
-            }
-            mDatabaseKDBX?.let {
-                entryKDBX?.let { entryKDBX ->
-                    (cursor as EntryCursorKDBX).populateEntry(entryKDBX, iconFactory)
-                }
-            }
-            stopManageEntry(this)
-        }
+    fun createVirtualGroupFromSearch(searchInfo: SearchInfo, max: Int = Integer.MAX_VALUE): Group? {
+        val query = (if (searchInfo.webDomain != null)
+            searchInfo.webDomain
+        else
+            searchInfo.applicationId)
+                ?: return null
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, max)
     }
 
     @Throws(DatabaseOutputException::class)

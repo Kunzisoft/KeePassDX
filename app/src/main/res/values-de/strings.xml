@@ -20,8 +20,11 @@
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
-    <string name="feedback">Feedback</string>
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="contact">Kontakt</string>
+    <string name="contribution">Mitwirken</string>
+    <string name="feedback">Rückmeldung</string>
     <string name="homepage">Webseite</string>
     <string name="about_description">Android-Implementierung des Passwortmanagers KeePass</string>
     <string name="accept">Akzeptieren</string>
@@ -42,12 +45,13 @@
     <string name="clipboard_timeout">Zwischenablage-Timeout</string>
     <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
-    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen …</string>
+    <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen…</string>
     <string name="database">Datenbank</string>
-    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte …</string>
+    <string name="decrypting_db">Entschlüsselung der Datenbankinhalte…</string>
     <string name="default_checkbox">Als Standard-Datenbank verwenden</string>
     <string name="digits">Zahlen</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. Alle Rechte vorbehalten. Die Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation ist frei und wird unter den Bedingungen der GNU GPL Version 3 (oder später) verbreitet und lizenziert.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ist &lt;strong&gt;quelloffen&lt;/strong&gt; und &lt;strong&gt;ohne Werbung&lt;/strong&gt;.\nDie Nutzung der Software erfolgt auf eigene Verantwortung und ohne jegliche Garantie. Die Applikation wird unter den Bedingungen der &lt;strong&gt;GPLv3&lt;/strong&gt; lizenziert.</string>
+    <string name="html_about_contribution">Damit wir &lt;strong&gt;unsere Unabhängigkeit erhalten&lt;/strong&gt;, &lt;strong&gt;Fehler korrigieren&lt;/strong&gt;, &lt;strong&gt;Funktionen hinzufügen&lt;/strong&gt; und &lt;strong&gt;weiterhin aktiv bleiben&lt;/strong&gt; können, zählen wir auf Ihren &lt;strong&gt;Beitrag&lt;/strong&gt;.</string>
     <string name="select_database_file">Vorhandene Datenbank öffnen</string>
     <string name="entry_accessed">Letzter Zugriff</string>
     <string name="entry_cancel">Abbrechen</string>
@@ -97,7 +101,7 @@
     <string name="length">Länge</string>
     <string name="list_size_title">Größe der Listenelemente</string>
     <string name="list_size_summary">Schriftgröße der Listenelemente</string>
-    <string name="loading_database">Datenbank wird geladen …</string>
+    <string name="loading_database">Datenbank wird geladen…</string>
     <string name="lowercase">Kleinbuchstaben</string>
     <string name="hide_password_title">Passwort verstecken</string>
     <string name="hide_password_summary">Passwörter standardmäßig mit (***) maskieren</string>
@@ -118,11 +122,12 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
-    <string name="open_recent">Zuletzt geöffnete Datenbanken</string>
     <string name="omit_backup_search_title">Papierkorb/Sicherungen nicht durchsuchen</string>
     <string name="omit_backup_search_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
-    <string name="progress_create">Neue Datenbank anlegen …</string>
-    <string name="progress_title">Ausführen …</string>
+    <string name="auto_focus_search_title">Schnellsuche</string>
+    <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
+    <string name="progress_create">Neue Datenbank anlegen…</string>
+    <string name="progress_title">Ausführen…</string>
     <string name="protection">Sicherheit</string>
     <string name="read_only">Schreibgeschützt</string>
     <string name="read_only_warning">KeePassDX benötigt Schreibrechte, um etwas an der Datenbank zu ändern.</string>
@@ -131,7 +136,7 @@
     <string name="root">Start</string>
     <string name="rounds">Schlüsseltransformationen</string>
     <string name="rounds_explanation">Zusätzliche Schlüsseltransformationen bieten einen besseren Schutz gegen Wörterbuch- oder Brute-Force-Angriffe. Allerdings dauert dann auch das Laden und Speichern der Datenbank entsprechend länger.</string>
-    <string name="saving_database">Datenbank wird gespeichert …</string>
+    <string name="saving_database">Datenbank wird gespeichert…</string>
     <string name="space">Leerzeichen</string>
     <string name="search_label">Suchen</string>
     <string name="sort_db">Natürliche Sortierung</string>
@@ -144,7 +149,6 @@
     <string name="uppercase">Großbuchstaben</string>
     <string name="warning">Warnung</string>
     <string name="warning_password_encoding">Passwortzeichen in der Datenbank vermeiden, die kein Text-Encoding-Format besitzen (nicht erkannte Zeichen werden in denselben Buchstaben umgewandelt).</string>
-    <string name="warning_unmounted">Die Speicher einbinden, um eine Datenbank erstellen oder laden zu können.</string>
     <string name="version_label">Version %1$s</string>
     <string name="education_unlock_summary">Geben Sie das Passwort und/oder die Schlüsseldatei ein, um Ihre Datenbank zu entsperren.
 \n
@@ -175,7 +179,6 @@
     <string name="lock_database_screen_off_title">Bildschirmsperre</string>
     <string name="lock_database_screen_off_summary">Datenbank sperren, wenn der Bildschirm ausgeschaltet wird</string>
     <string name="create_keepass_file">Neue Datenbank erstellen</string>
-    <string name="style_choose_title">App-Design</string>
     <string name="assign_master_key">Hauptschlüssel zuweisen</string>
     <string name="path">Pfad</string>
     <string name="file_name">Dateiname</string>
@@ -195,7 +198,6 @@
     <string name="general">Allgemein</string>
     <string name="open_biometric_prompt_store_credential">Biometrische Abfrage öffnen, um Anmeldedaten zu speichern.</string>
     <string name="no_credentials_stored">Diese Datenbank hat noch kein Passwort.</string>
-    <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
     <string name="encryption">Verschlüsselung</string>
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
@@ -266,7 +268,7 @@
     <string name="education_biometric_summary">Verknüpft Ihr Passwort mit Ihrer gescannten Biometrie, um Ihre Datenbank schnell zu entsperren.</string>
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
-    <string name="education_generate_password_title">Ein starkes Passwort für den Eintrag erstellen.</string>
+    <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
     <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
@@ -281,7 +283,7 @@
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
-    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt; und unter <stark>Copyleft lizenziert</stark>. &lt;strong&gt;Es werden keine persönlichen Daten gesammelt&lt;/strong&gt;, in welcher Form auch immer, egal welche Version (kostenlos oder pro) Sie verwenden.</string>
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt; und unter &lt;strong&gt;Copyleft lizenziert&lt;/strong&gt;. Es werden keine persönlichen Daten gesammelt, in welcher Form auch immer, egal welche Version (kostenlos oder pro) Sie verwenden.</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser &lt;strong&gt;visuellen Funktion&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projektarbeiten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
@@ -297,8 +299,8 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
-    <string name="icon_pack_choose_title">Symbolepaket</string>
-    <string name="icon_pack_choose_summary">In der App verwendetes Symbolepaket</string>
+    <string name="icon_pack_choose_title">Symbolpaket</string>
+    <string name="icon_pack_choose_summary">In der App verwendetes Symbolpaket</string>
     <string name="error_move_folder_in_itself">Eine Gruppe kann nicht in sich selbst verschoben werden.</string>
     <string name="menu_copy">Kopieren</string>
     <string name="menu_move">Verschieben</string>
@@ -344,7 +346,15 @@
     <string name="keyboard_key_vibrate_title">Vibrierende Tastendrücke</string>
     <string name="keyboard_key_sound_title">Hörbare Tastendrücke</string>
     <string name="selection_mode">Auswahlmodus</string>
-    <string name="do_not_kill_app">Nicht die App beenden …</string>
+    <string name="remember_database_locations_title">Speicherort der Datenbanken</string>
+    <string name="remember_database_locations_summary">Speicherort der Datenbanken merken</string>
+    <string name="remember_keyfile_locations_title">Speicherort der Schlüsseldateien</string>
+    <string name="remember_keyfile_locations_summary">Speicherort der Schlüssel zu Datenbanken merken</string>
+    <string name="show_recent_files_title">Zuletzt verwendete Dateien anzeigen</string>
+    <string name="show_recent_files_summary">Speicherort zuletzt verwendeter Datenbanken anzeigen</string>
+    <string name="hide_broken_locations_title">Defekte Datenbankverknüpfungen ausblenden</string>
+    <string name="hide_broken_locations_summary">Nicht funktionierende Verknüpfungen in der Liste der zuletzt verwendeten Datenbanken ausblenden</string>
+    <string name="do_not_kill_app">Nicht die App beenden…</string>
     <string name="lock_database_back_root_summary">Datenbank sperren, wenn auf dem Hauptbildschirm der Zurück-Button gedrückt wird</string>
     <string name="clear_clipboard_notification_title">Beim Schließen löschen</string>
     <string name="recycle_bin">Papierkorb</string>
@@ -410,7 +420,7 @@
     <string name="menu_security_settings">Sicherheits-Einstellungen</string>
     <string name="menu_master_key_settings">Hauptschlüssel-Einstellungen</string>
     <string name="contains_duplicate_uuid">Die Datenbank enthält UUID-Duplikate.</string>
-    <string name="contains_duplicate_uuid_procedure">Durch die Validierung dieses Dialogs wird KeePassDX das Problem (durch Erzeugung neuer UUIDs für Duplikate) beheben und weiter ausgeführt.</string>
+    <string name="contains_duplicate_uuid_procedure">Problem lösen, indem neue UUIDs für Duplikate generiert werden und danach fortfahren\?</string>
     <string name="database_opened">Datenbank geöffnet</string>
     <string name="clipboard_explanation_summary">Eintragsfelder mithilfe der Zwischenablage des Geräts kopieren</string>
     <string name="advanced_unlock_explanation_summary">Erweitertes Entsperren verwenden, um eine Datenbank einfacher zu öffnen.</string>
@@ -435,13 +445,13 @@
     <string name="error_save_database">Die Datenbank konnte nicht gespeichert werden.</string>
     <string name="menu_save_database">Datenbank speichern</string>
     <string name="menu_empty_recycle_bin">Papierkorb leeren</string>
-    <string name="command_execution">Befehl ausführen …</string>
+    <string name="command_execution">Befehl ausführen…</string>
     <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
     <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
-    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (nur im Modus \"Bearbeiten\")</string>
+    <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
     <string name="entry_attachments">Anhänge</string>
     <string name="menu_restore_entry_history">Historie wiederherstellen</string>
     <string name="menu_delete_entry_history">Historie löschen</string>
@@ -449,9 +459,28 @@
     <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren…</string>
-    <string name="download_progression">Fortschritt: %1$d%</string>
-    <string name="download_finalization">Fertigstellung…</string>
+    <string name="download_progression">Fortschritt: %1$d&#37;</string>
+    <string name="download_finalization">Fertigstellen…</string>
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
     <string name="hide_expired_entries_summary">Abgelaufene Einträge werden ausgeblendet</string>
+    <string name="style_choose_title">App-Design</string>
+    <string name="style_choose_summary">App-Design, das in der App genutzt wird</string>
+    <string-array name="list_style_names">
+        <item>Hell</item>
+        <item>Dunkel</item>
+        <item>Schwarz</item>
+        <item>Klassisch Dunkel</item>
+        <item>Himmel und Meer</item>
+        <item>Roter Vulkan</item>
+        <item>Purple Pro</item>
+    </string-array>
+    <string name="warning_database_read_only">Datei Schreibrechte gewähren, um Datenbankänderungen zu speichern</string>
+    <string name="education_setup_OTP_summary">Einrichten einer Einmal-Passwortverwaltung (HOTP / TOTP), um ein Token zu generieren, das für die Zwei-Faktor-Authentifizierung (2FA) angefordert wird.</string>
+    <string name="education_setup_OTP_title">Einrichten von OTP</string>
+    <string name="error_create_database">Es ist nicht möglich, eine Datenbankdatei zu erstellen.</string>
+    <string name="entry_add_attachment">Anhang hinzufügen</string>
+    <string name="discard">Verwerfen</string>
+    <string name="discard_changes">Änderungen verwerfen\?</string>
+    <string name="validate">Validieren</string>
 </resources>

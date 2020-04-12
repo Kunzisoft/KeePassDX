@@ -398,6 +398,7 @@ class Entry : Node, EntryVersionedInterface<Group> {
             database?.startManageEntry(this)
         entryInfo.id = nodeId.toString()
         entryInfo.title = title
+        entryInfo.icon = icon
         entryInfo.username = username
         entryInfo.password = password
         entryInfo.url = url

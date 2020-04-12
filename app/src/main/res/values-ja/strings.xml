@@ -103,7 +103,6 @@
     <string name="never">期限なし</string>
     <string name="no_results">検索結果に該当するものはありません。</string>
     <string name="no_url_handler">このURLを処理できません。</string>
-    <string name="open_recent">以前使用したデータベースを開く:</string>
     <string name="omit_backup_search_title">検索対象から除外</string>
     <string name="omit_backup_search_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
     <string name="progress_create">データベースファイルを作成中…</string>
@@ -123,7 +122,6 @@
     <string name="underline">アンダーライン (_)</string>
     <string name="unsupported_db_version">このバージョンのデータベースはサポートされていません。</string>
     <string name="uppercase">英数大文字</string>
-    <string name="warning_unmounted">SDカードがマウントされていません。データベースの読込や作成ができません。</string>
     <string name="version_label">バージョン %1$s</string>
     <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
     <string-array name="timeout_options">

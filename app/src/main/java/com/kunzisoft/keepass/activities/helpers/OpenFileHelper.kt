@@ -52,14 +52,22 @@ class OpenFileHelper {
         this.fragment = context
     }
 
-    inner class OpenFileOnClickViewListener : View.OnClickListener {
+    inner class OpenFileOnClickViewListener : View.OnClickListener, View.OnLongClickListener {
 
-        override fun onClick(v: View) {
+        private fun onAbstractClick(longClick: Boolean = false) {
             try {
-                try {
-                    openActivityWithActionOpenDocument()
-                } catch(e: Exception) {
-                    openActivityWithActionGetContent()
+                if (longClick) {
+                    try {
+                        openActivityWithActionGetContent()
+                    } catch (e: Exception) {
+                        openActivityWithActionOpenDocument()
+                    }
+                } else {
+                    try {
+                        openActivityWithActionOpenDocument()
+                    } catch (e: Exception) {
+                        openActivityWithActionGetContent()
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Enable to start the file picker activity", e)
@@ -67,6 +75,15 @@ class OpenFileHelper {
                 if (lookForOpenIntentsFilePicker())
                     showBrowserDialog()
             }
+        }
+
+        override fun onClick(v: View) {
+            onAbstractClick()
+        }
+
+        override fun onLongClick(v: View?): Boolean {
+            onAbstractClick(true)
+            return true
         }
     }
 

@@ -30,7 +30,7 @@
             android:title="@string/device_keyboard_setting_title" />
         <Preference
             android:key="@string/magic_keyboard_preference_key"
-            android:title="@string/magic_keyboard_title" />
+            android:title="@string/keyboard_setting_label" />
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -44,6 +44,9 @@
             android:key="@string/settings_autofill_enable_key"
             android:title="@string/set_autofill_service_title"
             android:defaultValue="@bool/settings_autofill_enable_default"/>
+        <Preference
+            android:key="@string/settings_autofill_key"
+            android:title="@string/autofill_preference_title" />
     </PreferenceCategory>
 
     <PreferenceCategory
