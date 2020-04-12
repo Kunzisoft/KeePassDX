@@ -22,7 +22,6 @@
     <style name="KeepassDXStyle.Light" parent="KeepassDXStyle.Light.v21" >
         <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
         <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
-        <item name="android:navigationBarColor">@color/background_light</item>
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
     </style>
