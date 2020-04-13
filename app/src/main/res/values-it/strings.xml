@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,9 +16,10 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
-
-    Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
---><resources>
+    Italian translation by Diego Pierotto
+    Italian translation by anthologist
+-->
+<resources>
     <string name="feedback">Commenti</string>
     <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
@@ -68,7 +69,6 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
-    <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
@@ -243,7 +243,6 @@
     <string name="sort_creation_time">Creation</string>
     <string name="sort_last_modify_time">Modification</string>
     <string name="sort_last_access_time">Access</string>
-    <!--As in special characters. Used for chars outside of Latin-1.-->
     <string name="special">Special</string>
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
@@ -270,7 +269,6 @@
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="biometric_invalid_key">Can not read the biometric key. Please delete it and repeat the biometric recognition procedure.</string>
     <string name="biometric_not_recognized">Could not recognize biometric</string>
-    <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
     <string name="credential_before_click_biometric_button">Type the password before clicking the biometric button.</string>
