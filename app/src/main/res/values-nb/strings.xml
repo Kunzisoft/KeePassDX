@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Tilbakemelding</string>
     <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android-implementasjon av KeePass-passordsbehandleren</string>
@@ -404,7 +403,7 @@
     <string name="menu_restore_entry_history">Gjenopprett historikk</string>
     <string name="menu_delete_entry_history">Slett historikk</string>
     <string name="download_attachment">Last ned %1$s</string>
-    <string name="download_progression">Underveis: %1$d&#37;</string>
+    <string name="download_progression">Underveis: %1$d%</string>
     <string name="download_finalization">Fullfører…</string>
     <string name="download_complete">Fullført. Trykk for å åpne filen.</string>
     <string name="hide_expired_entries_title">Skjul utløpte oppføringer</string>
@@ -412,4 +411,20 @@
     <string name="entry_add_attachment">Legg til vedlegg</string>
     <string name="contribution">Bidrag</string>
     <string name="contact">Kontakt</string>
+    <string name="autofill_auto_search_title">Autosøk</string>
+    <string name="enable_auto_save_database_summary">Lagre database etter hver viktige handling i (i \"modifiserbart\" modus)</string>
+    <string name="download_initialization">Igangsetter…</string>
+    <string name="hide_expired_entries_summary">Utløpte oppføringer er skjult</string>
+    <string name="enable_auto_save_database_title">Automatisk databaselagring</string>
+    <string name="settings_database_force_changing_master_key_title">Påtving fornyelse</string>
+    <string name="settings_database_recommend_changing_master_key_title">Anbefal fornyelse</string>
+    <string name="max_history_size_title">Maksimal størrelse</string>
+    <string name="max_history_items_title">Maksimalt antall</string>
+    <string name="show_recent_files_title">Vis nylige filer</string>
+    <string name="remember_database_locations_title">Lagre databaseplasseringer</string>
+    <string name="contains_duplicate_uuid_procedure">Løs problem ved å generere nye UUID-er for duplikater for å fortsette\?</string>
+    <string name="auto_focus_search_summary">Forespør et søk ved åpning av databaser</string>
+    <string name="error_create_database">Kunne ikke opprette databasefil.</string>
+    <string name="discard">Forkast</string>
+    <string name="discard_changes">Forkast endringer\?</string>
 </resources>
