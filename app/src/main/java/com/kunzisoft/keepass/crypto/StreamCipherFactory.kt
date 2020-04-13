@@ -19,11 +19,11 @@
  */
 package com.kunzisoft.keepass.crypto
 
-import org.spongycastle.crypto.StreamCipher
-import org.spongycastle.crypto.engines.ChaCha7539Engine
-import org.spongycastle.crypto.engines.Salsa20Engine
-import org.spongycastle.crypto.params.KeyParameter
-import org.spongycastle.crypto.params.ParametersWithIV
+import org.bouncycastle.crypto.StreamCipher
+import org.bouncycastle.crypto.engines.ChaCha7539Engine
+import org.bouncycastle.crypto.engines.Salsa20Engine
+import org.bouncycastle.crypto.params.KeyParameter
+import org.bouncycastle.crypto.params.ParametersWithIV
 
 object StreamCipherFactory {
 

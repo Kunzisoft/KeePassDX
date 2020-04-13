@@ -47,8 +47,8 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
+import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
-import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
 import java.io.OutputStream
