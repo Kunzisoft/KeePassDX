@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Geri Bildirim</string>
     <string name="homepage">Ana sayfa</string>
     <string name="about_description">KeePass parola yöneticisinin Android uygulaması</string>
@@ -65,8 +64,8 @@
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>
     <string name="default_checkbox">Öntanımlı veritabanı olarak kullan</string>
     <string name="digits">Rakamlar</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft &lt;strong&gt;özgür yazılımdır&lt;/strong&gt; ve &lt;strong&gt;reklam içermez&lt;/strong&gt;.
-\n&lt;strong&gt;GPLv3&lt;/strong&gt; lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft <strong>açık kaynaklıdır</strong> ve <strong>reklam içermez</strong>. 
+\n<strong>GPLv3</strong> lisansı altında sağlanmaktadır, herhangi bir garanti vermez.</string>
     <string name="entry_expires">Süre sonu</string>
     <string name="entry_keyfile">Anahtar dosya</string>
     <string name="error_arc4">Arcfour akış şifresi desteklenmiyor.</string>
@@ -175,7 +174,7 @@
     <string name="unsupported_db_version">Desteklenmeyen veritabanı sürümü.</string>
     <string name="uppercase">Büyük harf</string>
     <string name="warning">Uyarı</string>
-    <string name="warning_password_encoding">Veritabanı dosyasındaki metin kodlama formatının dışındaki parola karakterlerinden kaçının (tanınmayan karakterler benzer harfe dönüştürülür).</string>
+    <string name="warning_password_encoding">Veri tabanı dosyasındaki metin kodlama biçiminin dışındaki parola karakterlerinden kaçın (tanınmayan karakterler aynı harfe dönüştürülür).</string>
     <string name="warning_empty_password">Parola kilidi koruması olmadan devam edilsin mi\?</string>
     <string name="warning_no_encryption_key">Şifreleme anahtarı olmadan devam edilsin mi\?</string>
     <string name="version_label">Sürüm %1$s</string>
@@ -279,7 +278,7 @@
     <string name="education_entry_edit_title">Girdiyi düzenle</string>
     <string name="education_entry_edit_summary">Girdinizi özel alanlarla düzenleyin. Havuz verileri farklı giriş alanları arasında referans alınabilir.</string>
     <string name="education_generate_password_title">Güçlü bir parola oluşturun</string>
-    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir şifre oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli şifreyi unutmayın.</string>
+    <string name="education_generate_password_summary">Girişinizle ilişkilendirmek için güçlü bir parola oluşturun, formun kriterlerine göre kolayca tanımlayın ve güvenli parolayı unutmayın.</string>
     <string name="education_entry_new_field_title">Özel alanlar ekle</string>
     <string name="education_entry_new_field_summary">Ek bir alan kaydedin, bir değer ekleyin ve isteğe bağlı olarak koruyun.</string>
     <string name="education_unlock_title">Veritabanınızın kilidini açın</string>
@@ -352,7 +351,7 @@
     <string name="delete_entered_password_title">Parolayı sil</string>
     <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
-    <string name="content_description_repeat_toggle_password_visibility">Geçiş şifresi görünürlüğünü tekrarlayın</string>
+    <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
     <string name="content_description_update_from_list">Güncelleme</string>
     <string name="content_description_keyboard_close_fields">Alanları kapat</string>
@@ -381,7 +380,7 @@
     <string name="error_invalid_OTP">Geçersiz OTP sırrı.</string>
     <string name="error_disallow_no_credentials">En azından bir kimlik bilgisi ayarlanmalıdır.</string>
     <string name="error_copy_group_here">Bir grubu buraya kopyalayamazsınız.</string>
-    <string name="error_otp_secret_key">Gizli anahtar Base32 formatında olmalıdır.</string>
+    <string name="error_otp_secret_key">Gizli anahtar Base32 biçiminde olmalıdır.</string>
     <string name="error_otp_counter">Sayaç %1$d ile %2$d arasında olmalıdır.</string>
     <string name="error_otp_period">Periyot %1$d ile %2$d saniye arasında olmalıdır.</string>
     <string name="error_otp_digits">Belirteç %1$d ile %2$d basamak içermelidir.</string>
@@ -418,7 +417,7 @@
     <string name="command_execution">Komut çalıştırılıyor…</string>
     <string name="warning_permanently_delete_nodes">Seçilen düğümler kalıcı olarak silinsin mi\?</string>
     <string name="keystore_not_accessible">Anahtar deposu düzgün bir şekilde başlatılmadı.</string>
-    <string name="credential_before_click_biometric_button">Biyometrik butona tıklamadan önce şifreyi yazın.</string>
+    <string name="credential_before_click_biometric_button">Biyometrik düğmesine tıklamadan önce parolayı yazın.</string>
     <string name="recycle_bin_group_title">Geri dönüşüm kutusu grubu</string>
     <string name="enable_auto_save_database_title">Veritabanını otomatik kaydet</string>
     <string name="enable_auto_save_database_summary">Her önemli işlemden sonra veri tabanını kaydet (\"Değiştirilebilir\" modda)</string>
@@ -429,12 +428,12 @@
     <string name="keyboard_auto_go_action_summary">\"Alan\" tuşuna bastıktan sonra \"Git\" tuşu eylemi</string>
     <string name="download_attachment">İndir %1$s</string>
     <string name="download_initialization">Başlatılıyor…</string>
-    <string name="download_progression">Devam ediyor: %1$d&#37;</string>
+    <string name="download_progression">Devam ediyor: %1$d%</string>
     <string name="download_finalization">Sonlandırılıyor…</string>
     <string name="download_complete">Tamamlandı! Dosyayı açmak için dokunun.</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
     <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gizlenecek</string>
-    <string name="warning_database_read_only">Veritabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
+    <string name="warning_database_read_only">Veri tabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>
     <string name="hide_broken_locations_summary">Son veritabanları listesindeki bozuk bağlantıları gizle</string>
     <string name="hide_broken_locations_title">Bozuk veritabanı bağlantılarını gizle</string>
     <string name="show_recent_files_summary">Son veritabanlarının konumlarını göster</string>
@@ -455,4 +454,11 @@
     <string name="discard">Vazgeç</string>
     <string name="discard_changes">Değişikliklerden vazgeç\?</string>
     <string name="validate">Doğrula</string>
+    <string name="autofill_auto_search_summary">Web etki alanından veya uygulama kimliğinden otomatik olarak arama sonuçları öner</string>
+    <string name="autofill_auto_search_title">Otomatik arama</string>
+    <string name="lock_database_show_button_summary">Kilit düğmesini kullanıcı arayüzünde görüntüler</string>
+    <string name="lock_database_show_button_title">Kilit düğmesini göster</string>
+    <string name="autofill_preference_title">Otomatik doldurma ayarları</string>
+    <string name="warning_database_link_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi</string>
+    <string name="error_label_exists">Bu etiket zaten var.</string>
 </resources>
