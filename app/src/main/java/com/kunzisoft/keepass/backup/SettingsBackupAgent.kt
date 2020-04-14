@@ -26,7 +26,7 @@ import android.app.backup.SharedPreferencesBackupHelper
 @SuppressLint("NewApi")
 class SettingsBackupAgent : BackupAgentHelper() {
 
-    //TODO Backup
+    //TODO Backup #479
 
     override fun onCreate() {
         val defaultPrefs = this.packageName + "_preferences"

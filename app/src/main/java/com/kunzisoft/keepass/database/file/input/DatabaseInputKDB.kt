@@ -150,26 +150,6 @@ class DatabaseInputKDB(cacheDirectory: File,
                     )
             )
 
-            /* TODO checksum
-            // Add a mark to the content start
-            if (!cipherInputStream.markSupported()) {
-                throw IOException("Input stream does not support mark.")
-            }
-            cipherInputStream.mark(cipherInputStream.available() +1)
-            // Consume all data to get the digest
-            var numberRead = 0
-            while (numberRead > -1) {
-                numberRead = cipherInputStream.read(ByteArray(1024))
-            }
-
-            // Check sum
-            if (!Arrays.equals(messageDigest.digest(), header.contentsHash)) {
-                throw InvalidCredentialsDatabaseException()
-            }
-            // Back to the content start
-            cipherInputStream.reset()
-            */
-
             // New manual root because KDB contains multiple root groups (here available with getRootGroups())
             val newRoot = mDatabaseToOpen.createGroup()
             newRoot.level = -1

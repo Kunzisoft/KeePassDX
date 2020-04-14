@@ -108,7 +108,7 @@ class Argon2Kdf internal constructor() : KdfEngine() {
         get() = MAX_MEMORY
 
     override fun getParallelism(p: KdfParameters): Int {
-        return p.getUInt32(PARAM_PARALLELISM).toInt() // TODO Verify
+        return p.getUInt32(PARAM_PARALLELISM).toInt() // TODO Verify #443
     }
 
     override fun setParallelism(p: KdfParameters, parallelism: Int) {

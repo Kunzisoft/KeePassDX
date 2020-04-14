@@ -371,7 +371,6 @@ class EntryActivity : LockingActivity() {
             taColorAccent.recycle()
         }
         val entryHistory = entry.getHistory()
-        // TODO isMainEntry = not an history
         val showHistoryView = entryHistory.isNotEmpty()
         entryContentsView?.showHistory(showHistoryView)
         if (showHistoryView) {

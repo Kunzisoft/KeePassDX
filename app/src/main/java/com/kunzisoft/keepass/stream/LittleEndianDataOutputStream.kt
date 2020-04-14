@@ -30,7 +30,7 @@ import java.io.OutputStream
 class LittleEndianDataOutputStream(private val baseStream: OutputStream) : OutputStream() {
 
     @Throws(IOException::class)
-    fun writeUInt(uint: Long) { // TODO UInt
+    fun writeUInt(uint: Long) { // TODO UInt #443
         baseStream.write(intTo4Bytes(uint.toInt()))
     }
 

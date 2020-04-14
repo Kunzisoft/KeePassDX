@@ -29,7 +29,7 @@
         android:resizeableActivity="true"
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="n">
-        <!-- TODO backup API Key -->
+        <!-- TODO backup API Key #479 -->
         <meta-data
             android:name="com.google.android.backup.api_key"
             android:value="" />

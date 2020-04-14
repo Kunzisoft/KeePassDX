@@ -303,7 +303,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                     if (readOnly
                             || isASearchResult
                             || nodes.any { it.type == Type.GROUP }) {
-                        // TODO COPY For Group
+                        // TODO Copy For Group
                         menu?.removeItem(R.id.menu_copy)
                         menu?.removeItem(R.id.menu_move)
                     }

@@ -158,8 +158,7 @@ class FieldReferencesEngine {
         }
 
         val list = ArrayList<EntryKDBX>()
-        // TODO type parameter
-        searchEntries(contextV4.databaseV4!!.rootGroup, searchParametersV4, list)
+        searchEntries(contextV4.databaseV4?.rootGroup, searchParametersV4, list)
 
         return if (list.size > 0) {
             TargetResult(list[0], wanted)

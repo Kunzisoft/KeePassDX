@@ -105,7 +105,7 @@ class EntryOutputKDB
         val binaryDataLengthRightSize = if (binaryDataLength <= Int.MAX_VALUE) {
             binaryDataLength.toInt()
         } else {
-            0 // TODO if length > UInt.maxvalue show exception
+            0 // TODO if length > UInt.maxvalue show exception #443
         }
         // Write data length
         mOutputStream.write(intTo4Bytes(binaryDataLengthRightSize))

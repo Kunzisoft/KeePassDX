@@ -69,7 +69,7 @@ class DatabaseHeaderKDB : DatabaseHeader() {
         transformSeed = inputStream.readBytesLength(32) // 32 bytes
         numKeyEncRounds = inputStream.readBytes4ToInt()
         if (numKeyEncRounds < 0) {
-            // TODO: Really treat this like an unsigned integer
+            // TODO: Really treat this like an unsigned integer #443
             throw IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.")
         }
     }

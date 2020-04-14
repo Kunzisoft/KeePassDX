@@ -104,10 +104,7 @@ abstract class DatabaseVersioned<
     }
 
     @Throws(IOException::class)
-    protected fun getPasswordKey(key: String?): ByteArray {
-        if (key == null)
-            throw IllegalArgumentException("Key cannot be empty.") // TODO
-
+    protected fun getPasswordKey(key: String): ByteArray {
         val messageDigest: MessageDigest
         try {
             messageDigest = MessageDigest.getInstance("SHA-256")

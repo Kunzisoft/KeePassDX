@@ -128,7 +128,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.version = DatabaseHeaderKDB.DBVER_DW
         header.numGroups = mDatabaseKDB.numberOfGroups()
         header.numEntries = mDatabaseKDB.numberOfEntries()
-        header.numKeyEncRounds = mDatabaseKDB.numberKeyEncryptionRounds.toInt() // TODO Signed Long - Unsigned Int
+        header.numKeyEncRounds = mDatabaseKDB.numberKeyEncryptionRounds.toInt() // TODO Signed Long - Unsigned Int #443
 
         setIVs(header)
 

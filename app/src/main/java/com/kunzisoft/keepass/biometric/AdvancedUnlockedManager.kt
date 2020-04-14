@@ -300,7 +300,6 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     override fun handleEncryptedResult(encryptedValue: String, ivSpec: String) {
         loadDatabaseAfterRegisterCredentials.invoke(encryptedValue, ivSpec)
-        // TODO setAdvancedUnlockedMessageView(R.string.encrypted_value_stored)
     }
 
     override fun handleDecryptedResult(decryptedValue: String) {
