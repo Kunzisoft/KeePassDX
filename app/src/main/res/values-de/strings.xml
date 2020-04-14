@@ -185,7 +185,7 @@
     <string name="biometric_unlock_enable_summary">Ermöglicht Ihre Biometrie zu scannen, um die Datenbank zu öffnen.</string>
     <string name="advanced_unlock">Erweiterte Entsperrung</string>
     <string name="biometric_unlock_enable_title">Biometrische Entsperrung</string>
-    <string name="lock">Sperre</string>
+    <string name="lock">Sperren</string>
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
@@ -282,7 +282,7 @@
     <string name="education_sort_summary">Auswählen, wie Einträge und Gruppen sortiert werden.</string>
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
-    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und unter einer <strong>Copyleft-Lizenz</strong>. <strong>Es werden keine persönlichen Daten gesammelt</strong>, in welcher Form auch immer, unabhängig von der verwendeten Version (kostenlos oder Pro).</string>
+    <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser <strong>werbefrei</strong>, <strong>quelloffen</strong> und unter einer <strong>Copyleft-Lizenz</strong>. Es werden keine persönlichen Daten gesammelt, in welcher Form auch immer, unabhängig von der verwendeten Version (kostenlos oder Pro).</string>
     <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu diesem <strong>visuellen Stil</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
