@@ -142,7 +142,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 entryUrlView.applyFontVisibility()
         }
 
-    var password: String // TODO Error exception
+    var password: String
         get() {
             return entryPasswordView.text.toString()
         }

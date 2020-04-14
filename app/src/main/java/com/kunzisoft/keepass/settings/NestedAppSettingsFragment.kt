@@ -105,7 +105,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     override fun onPreferenceClick(preference: Preference): Boolean {
                         if ((preference as SwitchPreference).isChecked) {
                             try {
-                                startEnableService()
+                                enableService()
                             } catch (e: ActivityNotFoundException) {
                                 val error = getString(R.string.error_autofill_enable_service)
                                 preference.isChecked = false
@@ -124,21 +124,20 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         if (autofillManager != null && autofillManager.hasEnabledAutofillServices()) {
                             autofillManager.disableAutofillServices()
                         } else {
-                            Log.d(javaClass.name, "Sample service already disabled.")
+                            Log.d(javaClass.name, "Autofill service already disabled.")
                         }
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Throws(ActivityNotFoundException::class)
-                    private fun startEnableService() {
+                    private fun enableService() {
                         if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
                             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-                            // TODO Autofill
-                            intent.data = Uri.parse("package:com.example.android.autofill.service")
-                            Log.d(javaClass.name, "enableService(): intent=$intent")
+                            intent.data = Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
+                            Log.d(javaClass.name, "Autofill enable service: intent=$intent")
                             startActivityForResult(intent, REQUEST_CODE_AUTOFILL)
                         } else {
-                            Log.d(javaClass.name, "Sample service already enabled.")
+                            Log.d(javaClass.name, "Autofill service already enabled.")
                         }
                     }
                 }

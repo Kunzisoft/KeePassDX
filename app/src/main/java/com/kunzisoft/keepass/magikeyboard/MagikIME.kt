@@ -250,7 +250,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
             Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
             Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
-        }// TODO Unlock key
+        }
     }
 
     private fun goNextAutomatically() {
