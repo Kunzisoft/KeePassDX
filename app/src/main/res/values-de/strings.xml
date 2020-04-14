@@ -20,8 +20,7 @@
     Translations from BoDEAN
     Translations from Matthias Dill
     Translations from David Ramiro
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Kontakt</string>
     <string name="contribution">Mitwirken</string>
     <string name="feedback">Rückmeldung</string>
@@ -122,8 +121,8 @@
     <string name="never">Nie</string>
     <string name="no_results">Keine Suchergebnisse</string>
     <string name="no_url_handler">Bitte einen Webbrowser installieren, um diese URL zu öffnen.</string>
-    <string name="omit_backup_search_title">Papierkorb/Sicherungen nicht durchsuchen</string>
-    <string name="omit_backup_search_summary">Die Gruppen „Sicherung“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
+    <string name="omit_backup_search_title">Papierkorb/Backup nicht durchsuchen</string>
+    <string name="omit_backup_search_summary">Die Gruppen „Backup“ und „Papierkorb“ werden bei der Suche nicht berücksichtigt</string>
     <string name="auto_focus_search_title">Schnellsuche</string>
     <string name="auto_focus_search_summary">Beim Öffnen einer Datenbank eine Suche veranlassen</string>
     <string name="progress_create">Neue Datenbank anlegen…</string>
@@ -269,7 +268,7 @@
     <string name="education_entry_edit_title">Eintrag bearbeiten</string>
     <string name="education_entry_edit_summary">Bearbeiten Sie Ihren Eintrag mit persönlichen Feldern. Persönliche Felder können mit Querverweisen aus anderen Einträgen ergänzt werden.</string>
     <string name="education_generate_password_title">Ein starkes Passwort erstellen</string>
-    <string name="education_generate_password_summary">Erzeugung eines starken Passworts, das mit dem Eintrag verknüpft wird, nach Kriterien, die einfach in einem Formular festgelegt werden. Dabei an die Passwortsicherheit denken.</string>
+    <string name="education_generate_password_summary">Generieren Sie ein starkes Passwort, um es mit Ihrem Eintrag zu verknüpfen, definieren Sie es einfach nach den Kriterien des Formulars und denken Sie an die Passwortsicherheit.</string>
     <string name="education_entry_new_field_title">Benutzerdefinierte Felder hinzufügen</string>
     <string name="education_entry_new_field_summary">Tragen Sie ein zusätzliches Feld ein, fügen Sie einen Wert hinzu und schützen Sie es optional.</string>
     <string name="education_unlock_title">Die Datenbank entsperren</string>
@@ -284,7 +283,7 @@
     <string name="education_donation_title">Mitmachen</string>
     <string name="education_donation_summary">Mithelfen, um Stabilität und Sicherheit zu verbessern und weitere Funktionen zu ermöglichen.</string>
     <string name="html_text_ad_free">Anders als viele andere Passwortmanager ist dieser &lt;strong&gt;werbefrei&lt;/strong&gt;, &lt;strong&gt;quelloffen&lt;/strong&gt; und unter &lt;strong&gt;Copyleft lizenziert&lt;/strong&gt;. Es werden keine persönlichen Daten gesammelt, in welcher Form auch immer, egal welche Version (kostenlos oder pro) Sie verwenden.</string>
-    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu dieser &lt;strong&gt;visuellen Funktion&lt;/strong&gt; und unterstützt insbesondere &lt;strong&gt;die Umsetzung gemeinschaftlicher Projektarbeiten.&lt;/strong&gt;</string>
+    <string name="html_text_buy_pro">Mit dem Kauf der Pro-Version erhält man Zugang zu diesem <strong>visuellen Stil</strong> und unterstützt insbesondere <strong>die Umsetzung gemeinschaftlicher Projektarbeiten.</strong></string>
     <string name="html_text_feature_generosity">Dieser &lt;strong&gt;visuelle Stil&lt;/strong&gt; wurde wegen Ihrer Großzügigkeit freigeschaltet.</string>
     <string name="html_text_donation">Um unsere Freiheit zu bewahren und immer aktiv zu bleiben, zählen wir auf Ihren &lt;strong&gt;Beitrag.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Diese Funktion ist &lt;strong&gt;in Entwicklung&lt;/strong&gt; und erfordert &lt;strong&gt;Ihren Beitrag&lt;/strong&gt;, um bald verfügbar zu sein.</string>
@@ -459,7 +458,7 @@
     <string name="keyboard_auto_go_action_summary">Aktion der Go-Taste, die automatisch nach dem Drücken einer Feldtaste ausgeführt wird</string>
     <string name="download_attachment">%1$s herunterladen</string>
     <string name="download_initialization">Initialisieren…</string>
-    <string name="download_progression">Fortschritt: %1$d&#37;</string>
+    <string name="download_progression">Fortschritt: %1$d%</string>
     <string name="download_finalization">Fertigstellen…</string>
     <string name="download_complete">Vollständig! Tippen Sie, um die Datei zu öffnen.</string>
     <string name="hide_expired_entries_title">Abgelaufene Einträge ausblenden</string>
@@ -483,4 +482,11 @@
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
     <string name="validate">Validieren</string>
+    <string name="autofill_auto_search_summary">Suchergebnissen aus der Web-Domain oder Anwendung-ID automatisch vorschlagen</string>
+    <string name="autofill_auto_search_title">Automatische Suche</string>
+    <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
+    <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
+    <string name="autofill_preference_title">Autofill-Einstellungen</string>
+    <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
+    <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
 </resources>
