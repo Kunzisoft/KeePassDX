@@ -251,11 +251,7 @@ fun uuidTo16Bytes(uuid: UUID): ByteArray {
     return buf
 }
 
-fun dateTo5Bytes(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {
-    if (date == null) {
-        return null
-    }
-
+fun dateTo5Bytes(date: Date, calendar: Calendar = Calendar.getInstance()): ByteArray {
     val buf = ByteArray(5)
     calendar.time = date
 
