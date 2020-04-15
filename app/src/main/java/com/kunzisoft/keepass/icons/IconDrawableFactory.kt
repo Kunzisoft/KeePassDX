@@ -248,17 +248,22 @@ class IconDrawableFactory {
 /**
  * Assign a default database icon to an ImageView and tint it with [tintColor] if needed
  */
-fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintColor: Int = Color.WHITE) {
-    IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-        iconFactory.assignDrawableToImageView(
-                iconFactory.getIconSuperDrawable(context,
-                                selectedIconPack.defaultIconId,
-                                width,
-                                selectedIconPack.tintable(),
-                                tintColor),
-                    this,
-                    selectedIconPack.tintable(),
-                    tintColor)
+fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory,
+                                        tintColor: Int = Color.WHITE) {
+    try {
+        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+            iconFactory.assignDrawableToImageView(
+                    iconFactory.getIconSuperDrawable(context,
+                                    selectedIconPack.defaultIconId,
+                                    width,
+                                    selectedIconPack.tintable(),
+                                    tintColor),
+                        this,
+                        selectedIconPack.tintable(),
+                        tintColor)
+        }
+    } catch (e: Exception) {
+        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
     }
 }
 
@@ -268,16 +273,20 @@ fun ImageView.assignDefaultDatabaseIcon(iconFactory: IconDrawableFactory, tintCo
 fun ImageView.assignDatabaseIcon(iconFactory: IconDrawableFactory,
                                  icon: IconImage,
                                  tintColor: Int = Color.WHITE) {
-    IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
-        iconFactory.assignDrawableToImageView(
-                iconFactory.getIconSuperDrawable(context,
-                        icon,
-                        width,
-                        true,
-                        tintColor),
-                    this,
-                    selectedIconPack.tintable(),
-                    tintColor)
+    try {
+        IconPackChooser.getSelectedIconPack(context)?.let { selectedIconPack ->
+            iconFactory.assignDrawableToImageView(
+                    iconFactory.getIconSuperDrawable(context,
+                            icon,
+                            width,
+                            true,
+                            tintColor),
+                        this,
+                        selectedIconPack.tintable(),
+                        tintColor)
+        }
+    } catch (e: Exception) {
+        Log.e(ImageView::class.java.name, "Unable to assign icon in image view", e)
     }
 }
 
@@ -286,6 +295,7 @@ fun RemoteViews.assignDatabaseIcon(context: Context,
                                    iconFactory: IconDrawableFactory,
                                    icon: IconImage,
                                    tintColor: Int = Color.BLACK) {
+    try {
         iconFactory.assignDrawableToRemoteViews(
                 iconFactory.getIconSuperDrawable(context,
                         icon,
@@ -295,4 +305,7 @@ fun RemoteViews.assignDatabaseIcon(context: Context,
                 this,
                 imageId,
                 tintColor)
+    } catch (e: Exception) {
+        Log.e(RemoteViews::class.java.name, "Unable to assign icon in remote view", e)
+    }
 }
