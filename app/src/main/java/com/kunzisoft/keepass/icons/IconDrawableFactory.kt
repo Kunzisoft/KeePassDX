@@ -62,7 +62,7 @@ class IconDrawableFactory {
     fun assignDrawableToImageView(superDrawable: SuperDrawable, imageView: ImageView?, tint: Boolean, tintColor: Int) {
         if (imageView != null) {
             imageView.setImageDrawable(superDrawable.drawable)
-            if (!superDrawable.custom && tint) {
+            if (superDrawable.tintable && tint) {
                 ImageViewCompat.setImageTintList(imageView, ColorStateList.valueOf(tintColor))
             } else {
                 ImageViewCompat.setImageTintList(imageView, null)
@@ -79,7 +79,7 @@ class IconDrawableFactory {
                                     tintColor: Int = Color.BLACK) {
         val bitmap = superDrawable.drawable.toBitmap()
         // Tint bitmap if it's not a custom icon
-        if (!superDrawable.custom) {
+        if (superDrawable.tintable && bitmap.isMutable) {
             Canvas(bitmap).drawBitmap(bitmap, 0.0F, 0.0F, Paint().apply {
                 colorFilter = PorterDuffColorFilter(tintColor, PorterDuff.Mode.SRC_IN)
             })
@@ -97,7 +97,7 @@ class IconDrawableFactory {
                 getIconSuperDrawable(context, resId, width, tint, tintColor)
             }
             is IconImageCustom -> {
-                SuperDrawable(getIconDrawable(context.resources, icon), true)
+                SuperDrawable(getIconDrawable(context.resources, icon))
             }
             else -> {
                 SuperDrawable(PatternIcon(context.resources).blankDrawable)
@@ -110,7 +110,7 @@ class IconDrawableFactory {
      * , then [tint] it with [tintColor] if needed
      */
     fun getIconSuperDrawable(context: Context, iconId: Int, width: Int, tint: Boolean, tintColor: Int): SuperDrawable {
-        return SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor))
+        return SuperDrawable(getIconDrawable(context.resources, iconId, width, tint, tintColor), true)
     }
 
     /**
@@ -236,7 +236,7 @@ class IconDrawableFactory {
     /**
      * Utility class to prevent a custom icon to be tint
      */
-    class SuperDrawable(var drawable: Drawable, var custom: Boolean = false)
+    class SuperDrawable(var drawable: Drawable, var tintable: Boolean = false)
 
     companion object {
 
