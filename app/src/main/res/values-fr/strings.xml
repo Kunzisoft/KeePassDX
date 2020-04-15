@@ -480,7 +480,7 @@
     <string name="discard">Abandonner</string>
     <string name="discard_changes">Abandonner les modifications \?</string>
     <string name="validate">Valider</string>
-    <string name="autofill_auto_search_summary">Proposer automatiquement des résultats de recherche à partir du domaine Web ou de l\'applicationId</string>
+    <string name="autofill_auto_search_summary">Suggérer automatiquement des résultats de recherche à partir du domaine Web ou de l\'identifiant de l\'appli</string>
     <string name="autofill_auto_search_title">Recherche automatique</string>
     <string name="lock_database_show_button_summary">Affiche le bouton de verrouillage dans l\'interface utilisateur</string>
     <string name="lock_database_show_button_title">Afficher le bouton de verrouillage</string>
