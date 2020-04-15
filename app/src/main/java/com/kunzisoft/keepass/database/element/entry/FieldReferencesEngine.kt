@@ -226,16 +226,16 @@ class FieldReferencesEngine {
                 break
             }
 
-            val complement = ArrayList<EntryKDBX>()
-            if (negate) {
+            childEntries = if (negate) {
+                val complement = ArrayList<EntryKDBX>()
                 for (entry in childEntries!!) {
                     if (!pgNew.contains(entry)) {
                         complement.add(entry)
                     }
                 }
-                childEntries = complement
+                complement
             } else {
-                childEntries = pgNew
+                pgNew
             }
         }
 
