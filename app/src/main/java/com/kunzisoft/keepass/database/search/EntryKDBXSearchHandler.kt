@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -23,10 +23,11 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import com.kunzisoft.keepass.utils.StringUtil
+import java.util.*
 
-import java.util.Locale
-
-class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParametersKDBX, private val mListStorage: MutableList<EntryKDBX>) : NodeHandler<EntryKDBX>() {
+class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
+                             private val mListStorage: MutableList<EntryKDBX>)
+    : NodeHandler<EntryKDBX>() {
 
     override fun operate(node: EntryKDBX): Boolean {
 

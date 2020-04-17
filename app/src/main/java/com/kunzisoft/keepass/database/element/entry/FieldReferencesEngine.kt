@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.element.entry
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.search.EntryKDBXSearchHandler
-import com.kunzisoft.keepass.database.search.SearchParametersKDBX
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.utils.StringUtil
 import java.util.*
 
@@ -142,23 +142,23 @@ class FieldReferencesEngine {
         val scan = Character.toUpperCase(ref[2])
         val wanted = Character.toUpperCase(ref[0])
 
-        val searchParametersV4 = SearchParametersKDBX()
-        searchParametersV4.setupNone()
+        val searchParameters = SearchParameters()
+        searchParameters.setupNone()
 
-        searchParametersV4.searchString = ref.substring(4)
+        searchParameters.searchString = ref.substring(4)
         when (scan) {
-            'T' -> searchParametersV4.searchInTitles = true
-            'U' -> searchParametersV4.searchInUserNames = true
-            'A' -> searchParametersV4.searchInUrls = true
-            'P' -> searchParametersV4.searchInPasswords = true
-            'N' -> searchParametersV4.searchInNotes = true
-            'I' -> searchParametersV4.searchInUUIDs = true
-            'O' -> searchParametersV4.searchInOther = true
+            'T' -> searchParameters.searchInTitles = true
+            'U' -> searchParameters.searchInUserNames = true
+            'A' -> searchParameters.searchInUrls = true
+            'P' -> searchParameters.searchInPasswords = true
+            'N' -> searchParameters.searchInNotes = true
+            'I' -> searchParameters.searchInUUIDs = true
+            'O' -> searchParameters.searchInOther = true
             else -> return null
         }
 
         val list = ArrayList<EntryKDBX>()
-        searchEntries(contextV4.databaseV4?.rootGroup, searchParametersV4, list)
+        searchEntries(contextV4.databaseV4?.rootGroup, searchParameters, list)
 
         return if (list.size > 0) {
             TargetResult(list[0], wanted)
@@ -190,17 +190,17 @@ class FieldReferencesEngine {
         return newText
     }
 
-    private fun searchEntries(root: GroupKDBX?, searchParametersV4: SearchParametersKDBX?, listStorage: MutableList<EntryKDBX>?) {
-        if (searchParametersV4 == null) {
+    private fun searchEntries(root: GroupKDBX?, searchParameters: SearchParameters?, listStorage: MutableList<EntryKDBX>?) {
+        if (searchParameters == null) {
             return
         }
         if (listStorage == null) {
             return
         }
 
-        val terms = StringUtil.splitStringTerms(searchParametersV4.searchString)
-        if (terms.size <= 1 || searchParametersV4.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(searchParametersV4, listStorage), null)
+        val terms = StringUtil.splitStringTerms(searchParameters.searchString)
+        if (terms.size <= 1 || searchParameters.regularExpression) {
+            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
             return
         }
 
@@ -208,20 +208,20 @@ class FieldReferencesEngine {
         val stringLengthComparator = Comparator<String> { lhs, rhs -> lhs.length - rhs.length }
         Collections.sort(terms, stringLengthComparator)
 
-        val fullSearch = searchParametersV4.searchString
+        val fullSearch = searchParameters.searchString
         var childEntries: List<EntryKDBX>? = root!!.getChildEntries()
         for (i in terms.indices) {
             val pgNew = ArrayList<EntryKDBX>()
 
-            searchParametersV4.searchString = terms[i]
+            searchParameters.searchString = terms[i]
 
             var negate = false
-            if (searchParametersV4.searchString.startsWith("-")) {
-                searchParametersV4.searchString = searchParametersV4.searchString.substring(1)
-                negate = searchParametersV4.searchString.isNotEmpty()
+            if (searchParameters.searchString.startsWith("-")) {
+                searchParameters.searchString = searchParameters.searchString.substring(1)
+                negate = searchParameters.searchString.isNotEmpty()
             }
 
-            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParametersV4, pgNew), null)) {
+            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
                 childEntries = null
                 break
             }
@@ -242,7 +242,7 @@ class FieldReferencesEngine {
         if (childEntries != null) {
             listStorage.addAll(childEntries)
         }
-        searchParametersV4.searchString = fullSearch
+        searchParameters.searchString = fullSearch
     }
 
     companion object {
