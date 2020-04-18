@@ -39,10 +39,10 @@ import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.search.UuidUtil
 import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
-import com.kunzisoft.keepass.utils.toKeePassRefString
 import java.util.*
 
 
@@ -352,7 +352,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUUID(uuid: UUID) {
         uuidView.text = uuid.toString()
-        uuidReferenceView.text = uuid.toKeePassRefString()
+        uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
 
     /* -------------

@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -22,11 +22,10 @@ package com.kunzisoft.keepass.database.search
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
-import com.kunzisoft.keepass.utils.StringUtil
 
-import java.util.Locale
-
-class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParametersKDBX, private val mListStorage: MutableList<EntryKDBX>) : NodeHandler<EntryKDBX>() {
+class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
+                             private val mListStorage: MutableList<EntryKDBX>)
+    : NodeHandler<EntryKDBX>() {
 
     override fun operate(node: EntryKDBX): Boolean {
 
@@ -35,32 +34,17 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
             return true
         }
 
-        var term = mSearchParametersKDBX.searchString
-        if (mSearchParametersKDBX.ignoreCase) {
-            term = term.toLowerCase()
-        }
-
-        if (searchStrings(node, term)) {
+        if (searchStrings(node)) {
             mListStorage.add(node)
             return true
         }
 
-        if (mSearchParametersKDBX.searchInGroupNames) {
-            val parent = node.parent
-            if (parent != null) {
-                var groupName = parent.title
-                if (mSearchParametersKDBX.ignoreCase) {
-                    groupName = groupName.toLowerCase()
-                }
-
-                if (groupName.contains(term)) {
-                    mListStorage.add(node)
-                    return true
-                }
-            }
+        if (searchInGroupNames(node)) {
+            mListStorage.add(node)
+            return true
         }
 
-        if (searchID(node)) {
+        if (searchInUUID(node)) {
             mListStorage.add(node)
             return true
         }
@@ -68,25 +52,33 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
         return true
     }
 
-    private fun searchID(entry: EntryKDBX): Boolean {
-        if (mSearchParametersKDBX.searchInUUIDs) {
-            val hex = UuidUtil.toHexString(entry.id)
-            return StringUtil.indexOfIgnoreCase(hex, mSearchParametersKDBX.searchString, Locale.ENGLISH) >= 0
+    private fun searchInGroupNames(entry: EntryKDBX): Boolean {
+        if (mSearchParametersKDBX.searchInGroupNames) {
+            val parent = entry.parent
+            if (parent != null) {
+                return parent.title
+                        .contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)
+            }
         }
 
         return false
     }
 
-    private fun searchStrings(entry: EntryKDBX, term: String): Boolean {
+    private fun searchInUUID(entry: EntryKDBX): Boolean {
+        if (mSearchParametersKDBX.searchInUUIDs) {
+            return UuidUtil.toHexString(entry.id)
+                    .contains(mSearchParametersKDBX.searchString, true)
+        }
+
+        return false
+    }
+
+    private fun searchStrings(entry: EntryKDBX): Boolean {
         val iterator = EntrySearchStringIteratorKDBX(entry, mSearchParametersKDBX)
         while (iterator.hasNext()) {
-            var str = iterator.next()
-            if (str.isNotEmpty()) {
-                if (mSearchParametersKDBX.ignoreCase) {
-                    str = str.toLowerCase()
-                }
-
-                if (str.contains(term)) {
+            val stringValue = iterator.next()
+            if (stringValue.isNotEmpty()) {
+                if (stringValue.contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)) {
                     return true
                 }
             }

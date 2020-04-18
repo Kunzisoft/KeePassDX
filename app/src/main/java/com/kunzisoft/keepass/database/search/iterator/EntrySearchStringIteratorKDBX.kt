@@ -20,25 +20,20 @@
 package com.kunzisoft.keepass.database.search.iterator
 
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
-import com.kunzisoft.keepass.database.search.SearchParametersKDBX
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.search.SearchParameters
 import java.util.*
 import kotlin.collections.Map.Entry
 
-class EntrySearchStringIteratorKDBX : EntrySearchStringIterator {
+class EntrySearchStringIteratorKDBX(
+        entry: EntryKDBX,
+        private val mSearchParameters: SearchParameters)
+    : Iterator<String> {
 
     private var mCurrent: String? = null
     private var mSetIterator: Iterator<Entry<String, ProtectedString>>? = null
-    private var mSearchParametersV4: SearchParametersKDBX
 
-    constructor(entry: EntryKDBX) {
-        this.mSearchParametersV4 = SearchParametersKDBX()
-        mSetIterator = entry.fields.entries.iterator()
-        advance()
-    }
-
-    constructor(entry: EntryKDBX, searchParametersV4: SearchParametersKDBX) {
-        this.mSearchParametersV4 = searchParametersV4
+    init {
         mSetIterator = entry.fields.entries.iterator()
         advance()
     }
@@ -75,12 +70,12 @@ class EntrySearchStringIteratorKDBX : EntrySearchStringIterator {
 
     private fun searchInField(key: String): Boolean {
         return when (key) {
-            EntryKDBX.STR_TITLE -> mSearchParametersV4.searchInTitles
-            EntryKDBX.STR_USERNAME -> mSearchParametersV4.searchInUserNames
-            EntryKDBX.STR_PASSWORD -> mSearchParametersV4.searchInPasswords
-            EntryKDBX.STR_URL -> mSearchParametersV4.searchInUrls
-            EntryKDBX.STR_NOTES -> mSearchParametersV4.searchInNotes
-            else -> mSearchParametersV4.searchInOther
+            EntryKDBX.STR_TITLE -> mSearchParameters.searchInTitles
+            EntryKDBX.STR_USERNAME -> mSearchParameters.searchInUserNames
+            EntryKDBX.STR_PASSWORD -> mSearchParameters.searchInPasswords
+            EntryKDBX.STR_URL -> mSearchParameters.searchInUrls
+            EntryKDBX.STR_NOTES -> mSearchParameters.searchInNotes
+            else -> mSearchParameters.searchInOther
         }
     }
 

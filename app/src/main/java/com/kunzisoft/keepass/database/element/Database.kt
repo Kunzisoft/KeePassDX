@@ -44,6 +44,7 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.stream.readBytes4ToInt
@@ -397,17 +398,29 @@ class Database {
         false
     }
 
-    fun createVirtualGroupFromSearch(searchQuery: String, max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, max)
+    fun createVirtualGroupFromSearch(searchQuery: String,
+                                     max: Int = Integer.MAX_VALUE): Group? {
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, SearchParameters(), max)
     }
 
-    fun createVirtualGroupFromSearch(searchInfo: SearchInfo, max: Int = Integer.MAX_VALUE): Group? {
+    fun createVirtualGroupFromSearch(searchInfo: SearchInfo,
+                                     max: Int = Integer.MAX_VALUE): Group? {
         val query = (if (searchInfo.webDomain != null)
             searchInfo.webDomain
         else
             searchInfo.applicationId)
                 ?: return null
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, max)
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, SearchParameters().apply {
+            searchInTitles = false
+            searchInUserNames = false
+            searchInPasswords = false
+            searchInUrls = true
+            searchInNotes = true
+            searchInOther = true
+            searchInUUIDs = false
+            searchInTags = false
+            ignoreCase = true
+        }, max)
     }
 
     @Throws(DatabaseOutputException::class)

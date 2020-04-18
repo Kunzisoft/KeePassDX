@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.database.search
 /**
  * Parameters for searching strings in the database.
  */
-open class SearchParameters {
+class SearchParameters {
 
     var searchString: String = ""
 
@@ -33,6 +33,9 @@ open class SearchParameters {
     var searchInUrls = true
     var searchInGroupNames = false
     var searchInNotes = true
+    var searchInOther = true
+    var searchInUUIDs = false
+    var searchInTags = true
     var ignoreCase = true
     var ignoreExpired = false
     var excludeExpired = false
@@ -44,24 +47,30 @@ open class SearchParameters {
      * @param source
      */
     constructor(source: SearchParameters) {
-        regularExpression = source.regularExpression
-        searchInTitles = source.searchInTitles
-        searchInUserNames = source.searchInUserNames
-        searchInPasswords = source.searchInPasswords
-        searchInUrls = source.searchInUrls
-        searchInGroupNames = source.searchInGroupNames
-        searchInNotes = source.searchInNotes
-        ignoreCase = source.ignoreCase
-        ignoreExpired = source.ignoreExpired
-        excludeExpired = source.excludeExpired
+        this.regularExpression = source.regularExpression
+        this.searchInTitles = source.searchInTitles
+        this.searchInUserNames = source.searchInUserNames
+        this.searchInPasswords = source.searchInPasswords
+        this.searchInUrls = source.searchInUrls
+        this.searchInGroupNames = source.searchInGroupNames
+        this.searchInNotes = source.searchInNotes
+        this.searchInOther = source.searchInOther
+        this.searchInUUIDs = source.searchInUUIDs
+        this.searchInTags = source.searchInTags
+        this.ignoreCase = source.ignoreCase
+        this.ignoreExpired = source.ignoreExpired
+        this.excludeExpired = source.excludeExpired
     }
 
-    open fun setupNone() {
+    fun setupNone() {
         searchInTitles = false
         searchInUserNames = false
         searchInPasswords = false
         searchInUrls = false
         searchInGroupNames = false
         searchInNotes = false
+        searchInOther = false
+        searchInUUIDs = false
+        searchInTags = false
     }
 }

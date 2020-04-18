@@ -23,7 +23,6 @@ import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
-import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIterator
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDB
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 
@@ -35,7 +34,10 @@ class SearchHelper(private val isOmitBackup: Boolean) {
 
     private var incrementEntry = 0
 
-    fun createVirtualGroupWithSearchResult(database: Database, searchQuery: String, max: Int): Group? {
+    fun createVirtualGroupWithSearchResult(database: Database,
+                                           searchQuery: String,
+                                           searchParameters: SearchParameters,
+                                           max: Int): Group? {
 
         val searchGroup = database.createGroup()
         searchGroup?.title = "\"" + searchQuery + "\""
@@ -47,7 +49,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
                     override fun operate(node: Entry): Boolean {
                         if (incrementEntry >= max)
                             return false
-                        if (entryContainsString(node, searchQuery)) {
+                        if (entryContainsString(node, searchQuery, searchParameters)) {
                             searchGroup?.addChildEntry(node)
                             incrementEntry++
                         }
@@ -69,26 +71,28 @@ class SearchHelper(private val isOmitBackup: Boolean) {
         return searchGroup
     }
 
-    private fun entryContainsString(entry: Entry, searchString: String): Boolean {
+    private fun entryContainsString(entry: Entry,
+                                    searchQuery: String,
+                                    searchParameters: SearchParameters): Boolean {
 
         // Entry don't contains string if the search string is empty
-        if (searchString.isEmpty())
+        if (searchQuery.isEmpty())
             return false
 
         // Search all strings in the entry
-        var iterator: EntrySearchStringIterator? = null
+        var iterator: Iterator<String>? = null
         entry.entryKDB?.let {
-            iterator = EntrySearchStringIteratorKDB(it)
+            iterator = EntrySearchStringIteratorKDB(it, searchParameters)
         }
         entry.entryKDBX?.let {
-            iterator = EntrySearchStringIteratorKDBX(it)
+            iterator = EntrySearchStringIteratorKDBX(it, searchParameters)
         }
 
         iterator?.let {
             while (it.hasNext()) {
                 val currentString = it.next()
                 if (currentString.isNotEmpty()
-                        && currentString.contains(searchString, true)) {
+                        && currentString.contains(searchQuery, true)) {
                         return true
                 }
             }
