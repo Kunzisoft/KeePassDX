@@ -39,17 +39,12 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
             return true
         }
 
-        if (mSearchParametersKDBX.searchInGroupNames) {
-            val parent = node.parent
-            if (parent != null) {
-                if (parent.title.contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)) {
-                    mListStorage.add(node)
-                    return true
-                }
-            }
+        if (searchInGroupNames(node)) {
+            mListStorage.add(node)
+            return true
         }
 
-        if (searchID(node)) {
+        if (searchInUUID(node)) {
             mListStorage.add(node)
             return true
         }
@@ -57,10 +52,22 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
         return true
     }
 
-    private fun searchID(entry: EntryKDBX): Boolean {
+    private fun searchInGroupNames(entry: EntryKDBX): Boolean {
+        if (mSearchParametersKDBX.searchInGroupNames) {
+            val parent = entry.parent
+            if (parent != null) {
+                return parent.title
+                        .contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)
+            }
+        }
+
+        return false
+    }
+
+    private fun searchInUUID(entry: EntryKDBX): Boolean {
         if (mSearchParametersKDBX.searchInUUIDs) {
-            val hex = UuidUtil.toHexString(entry.id)
-            return hex.indexOf(mSearchParametersKDBX.searchString, 0, true) >= 0
+            return UuidUtil.toHexString(entry.id)
+                    .contains(mSearchParametersKDBX.searchString, true)
         }
 
         return false
