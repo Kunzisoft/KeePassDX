@@ -414,6 +414,7 @@ class Database {
             searchInTitles = false
             searchInUserNames = false
             searchInPasswords = false
+            searchInUrls = true
             searchInNotes = true
             searchInOther = true
             searchInUUIDs = false
