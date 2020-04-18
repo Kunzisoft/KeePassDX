@@ -22,8 +22,6 @@ package com.kunzisoft.keepass.database.search
 import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.entry.EntryKDBX
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
-import com.kunzisoft.keepass.utils.StringUtil
-import java.util.*
 
 class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters,
                              private val mListStorage: MutableList<EntryKDBX>)
@@ -36,12 +34,7 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
             return true
         }
 
-        var term = mSearchParametersKDBX.searchString
-        if (mSearchParametersKDBX.ignoreCase) {
-            term = term.toLowerCase()
-        }
-
-        if (searchStrings(node, term)) {
+        if (searchStrings(node)) {
             mListStorage.add(node)
             return true
         }
@@ -49,12 +42,7 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
         if (mSearchParametersKDBX.searchInGroupNames) {
             val parent = node.parent
             if (parent != null) {
-                var groupName = parent.title
-                if (mSearchParametersKDBX.ignoreCase) {
-                    groupName = groupName.toLowerCase()
-                }
-
-                if (groupName.contains(term)) {
+                if (parent.title.contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)) {
                     mListStorage.add(node)
                     return true
                 }
@@ -72,22 +60,18 @@ class EntryKDBXSearchHandler(private val mSearchParametersKDBX: SearchParameters
     private fun searchID(entry: EntryKDBX): Boolean {
         if (mSearchParametersKDBX.searchInUUIDs) {
             val hex = UuidUtil.toHexString(entry.id)
-            return StringUtil.indexOfIgnoreCase(hex, mSearchParametersKDBX.searchString, Locale.ENGLISH) >= 0
+            return hex.indexOf(mSearchParametersKDBX.searchString, 0, true) >= 0
         }
 
         return false
     }
 
-    private fun searchStrings(entry: EntryKDBX, term: String): Boolean {
+    private fun searchStrings(entry: EntryKDBX): Boolean {
         val iterator = EntrySearchStringIteratorKDBX(entry, mSearchParametersKDBX)
         while (iterator.hasNext()) {
-            var str = iterator.next()
-            if (str.isNotEmpty()) {
-                if (mSearchParametersKDBX.ignoreCase) {
-                    str = str.toLowerCase()
-                }
-
-                if (str.contains(term)) {
+            val stringValue = iterator.next()
+            if (stringValue.isNotEmpty()) {
+                if (stringValue.contains(mSearchParametersKDBX.searchString, mSearchParametersKDBX.ignoreCase)) {
                     return true
                 }
             }

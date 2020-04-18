@@ -23,7 +23,6 @@ import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.search.EntryKDBXSearchHandler
 import com.kunzisoft.keepass.database.search.SearchParameters
-import com.kunzisoft.keepass.utils.StringUtil
 import java.util.*
 
 class FieldReferencesEngine {
@@ -76,11 +75,11 @@ class FieldReferencesEngine {
         for (i in 0..19) {
             text = fillRefsUsingCache(text, contextV4)
 
-            val start = StringUtil.indexOfIgnoreCase(text, STR_REF_START, offset, Locale.ENGLISH)
+            val start = text.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
                 break
             }
-            val end = StringUtil.indexOfIgnoreCase(text, STR_REF_END, start + 1, Locale.ENGLISH)
+            val end = text.indexOf(STR_REF_END, start + 1, true)
             if (end <= start) {
                 break
             }
@@ -185,7 +184,7 @@ class FieldReferencesEngine {
     private fun fillRefsUsingCache(text: String, sprContextV4: SprContextV4): String {
         var newText = text
         for ((key, value) in sprContextV4.refsCache) {
-            newText = StringUtil.replaceAllIgnoresCase(text, key, value, Locale.ENGLISH)
+            newText = text.replace(key, value, true)
         }
         return newText
     }
@@ -198,7 +197,7 @@ class FieldReferencesEngine {
             return
         }
 
-        val terms = StringUtil.splitStringTerms(searchParameters.searchString)
+        val terms = splitStringTerms(searchParameters.searchString)
         if (terms.size <= 1 || searchParameters.regularExpression) {
             root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
             return
@@ -243,6 +242,41 @@ class FieldReferencesEngine {
             listStorage.addAll(childEntries)
         }
         searchParameters.searchString = fullSearch
+    }
+
+    /**
+     * Create a list of String by split text when ' ', '\t', '\r' or '\n' is found
+     */
+    private fun splitStringTerms(text: String?): List<String> {
+        val list = ArrayList<String>()
+        if (text == null) {
+            return list
+        }
+
+        val stringBuilder = StringBuilder()
+        var quoted = false
+
+        for (element in text) {
+
+            if ((element == ' ' || element == '\t' || element == '\r' || element == '\n') && !quoted) {
+
+                val len = stringBuilder.length
+                when {
+                    len > 0 -> {
+                        list.add(stringBuilder.toString())
+                        stringBuilder.delete(0, len)
+                    }
+                    element == '\"' -> quoted = !quoted
+                    else -> stringBuilder.append(element)
+                }
+            }
+        }
+
+        if (stringBuilder.isNotEmpty()) {
+            list.add(stringBuilder.toString())
+        }
+
+        return list
     }
 
     companion object {
