@@ -186,7 +186,7 @@
     <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati.</string>
     <string name="kdf_explanation">Per generare la chiave per l\'algoritmo di cifratura, la chiave principale viene trasformata usando una funzione di derivazione della chiave (con un sale casuale).</string>
     <string name="memory_usage">Utilizzo di memoria</string>
-    <string name="memory_usage_explanation">Quantità di memoria (in byte binari) da usare dalla funzione di derivazione della chiave.</string>
+    <string name="memory_usage_explanation">Quantità di memoria (in byte) utilizzabili dalla funzione di derivazione della chiave.</string>
     <string name="parallelism">Parallelismo</string>
     <string name="parallelism_explanation">Grado di parallelismo (cioè numero di thread) usato dalla funzione di derivazione della chiave.</string>
     <string name="sort_menu">Ordina</string>
