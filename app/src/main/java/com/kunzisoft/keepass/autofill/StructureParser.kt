@@ -35,6 +35,7 @@ import java.util.*
 internal class StructureParser(private val structure: AssistStructure) {
     private var result: Result? = null
     private var usernameCandidate: AutofillId? = null
+    private var usernameNeeded = true
 
     fun parse(): Result? {
         try {
@@ -55,7 +56,7 @@ internal class StructureParser(private val structure: AssistStructure) {
             }
 
             // Return the result only if password field is retrieved
-            return if (result?.usernameId != null
+            return if ((!usernameNeeded || result?.usernameId != null)
                     && result?.passwordId != null)
                 result
             else
@@ -111,6 +112,8 @@ internal class StructureParser(private val structure: AssistStructure) {
                         || it.contains("password", true) -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
+                    // Username not needed in this specific case
+                    usernameNeeded = false
                     return true
                 }
                 // Ignore autocomplete="off"
