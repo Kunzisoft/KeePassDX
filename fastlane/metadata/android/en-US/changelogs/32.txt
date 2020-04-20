@@ -1,3 +1,4 @@
  * Replacement of Spongy Castle by Bouncy Castle
  * Update Autofill compatibility
+ * Fix Magikeyboard "Go" action
 

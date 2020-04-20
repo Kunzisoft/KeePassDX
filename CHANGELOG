@@ -1,6 +1,7 @@
 KeePassDX(2.5RC2)
  * Replacement of Spongy Castle by Bouncy Castle
  * Update Autofill compatibility
+ * Fix Magikeyboard "Go" action
 
 KeePassDX(2.5RC1)
  * Add write permission to keep compatibility with old file managers

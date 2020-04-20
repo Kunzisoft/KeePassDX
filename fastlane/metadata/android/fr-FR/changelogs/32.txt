@@ -1,4 +1,5 @@
  * Remplacement de Spongy Castle par Bouncy Castle
  * Mise à jour de la compatibilité du remplissage automatique
+ * Correction de l'action "Go" du Magikeyboard
 
 
