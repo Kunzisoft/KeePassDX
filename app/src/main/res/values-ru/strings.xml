@@ -465,7 +465,7 @@
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
     <string name="validate">Проверить</string>
     <string name="discard_changes">Забыть изменения\?</string>
-    <string name="discard">"Забыть "</string>
+    <string name="discard">Забыть</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройте OTP</string>
