@@ -20,7 +20,7 @@
 
 package com.kunzisoft.keepass.utils
 
-import com.kunzisoft.keepass.stream.intTo4Bytes
+import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
@@ -57,7 +57,7 @@ object StringDatabaseKDBUtils {
         var str = string
         if (str == null) {
             // Write out a null character
-            os.write(intTo4Bytes(1))
+            os.write(uIntTo4Bytes(UnsignedInt(1)))
             os.write(0x00)
             return 0
         }
@@ -69,7 +69,7 @@ object StringDatabaseKDBUtils {
         val initial = str.toByteArray(defaultCharset)
 
         val length = initial.size + 1
-        os.write(intTo4Bytes(length))
+        os.write(uIntTo4Bytes(UnsignedInt(length)))
         os.write(initial)
         os.write(0x00)
 

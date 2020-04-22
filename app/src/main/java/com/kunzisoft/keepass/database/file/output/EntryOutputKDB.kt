@@ -24,6 +24,7 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.file.output.GroupOutputKDB.Companion.GROUPID_FIELD_SIZE
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.nio.charset.Charset
@@ -54,12 +55,12 @@ class EntryOutputKDB
         // Group ID
         mOutputStream.write(GROUPID_FIELD_TYPE)
         mOutputStream.write(GROUPID_FIELD_SIZE)
-        mOutputStream.write(intTo4Bytes(mEntry.parent!!.id))
+        mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.parent!!.id)))
 
         // Image ID
         mOutputStream.write(IMAGEID_FIELD_TYPE)
         mOutputStream.write(IMAGEID_FIELD_SIZE)
-        mOutputStream.write(intTo4Bytes(mEntry.icon.iconId))
+        mOutputStream.write(uIntTo4Bytes(UnsignedInt(mEntry.icon.iconId)))
 
         // Title
         //byte[] title = mEntry.title.getBytes("UTF-8");
@@ -101,14 +102,9 @@ class EntryOutputKDB
         // Binary
         mOutputStream.write(BINARY_DATA_FIELD_TYPE)
         val binaryData = mEntry.binaryData
-        val binaryDataLength = binaryData?.length() ?: 0
-        val binaryDataLengthRightSize = if (binaryDataLength <= Int.MAX_VALUE) {
-            binaryDataLength.toInt()
-        } else {
-            0 // TODO if length > UInt.maxvalue show exception #443
-        }
+        val binaryDataLength = binaryData?.length() ?: 0L
         // Write data length
-        mOutputStream.write(intTo4Bytes(binaryDataLengthRightSize))
+        mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromLong(binaryDataLength)))
         // Write data
         if (binaryDataLength > 0) {
             binaryData?.getInputDataStream().use { inputStream ->
@@ -140,7 +136,7 @@ class EntryOutputKDB
     private fun writePassword(str: String, os: OutputStream): Int {
         val initial = str.toByteArray(Charset.forName("UTF-8"))
         val length = initial.size + 1
-        os.write(intTo4Bytes(length))
+        os.write(uIntTo4Bytes(UnsignedInt(length)))
         os.write(initial)
         os.write(0x00)
         return length
@@ -164,13 +160,13 @@ class EntryOutputKDB
         val BINARY_DATA_FIELD_TYPE:ByteArray = uShortTo2Bytes(14)
         val END_FIELD_TYPE:ByteArray = uShortTo2Bytes(0xFFFF)
 
-        val LONG_FOUR:ByteArray = intTo4Bytes(4)
-        val UUID_FIELD_SIZE:ByteArray = intTo4Bytes(16)
-        val DATE_FIELD_SIZE:ByteArray = intTo4Bytes(5)
-        val IMAGEID_FIELD_SIZE:ByteArray = intTo4Bytes(4)
-        val LEVEL_FIELD_SIZE:ByteArray = intTo4Bytes(4)
-        val FLAGS_FIELD_SIZE:ByteArray = intTo4Bytes(4)
-        val ZERO_FIELD_SIZE:ByteArray = intTo4Bytes(0)
+        val LONG_FOUR:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        val UUID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(16))
+        val DATE_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(5))
+        val IMAGEID_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        val LEVEL_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        val FLAGS_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(4))
+        val ZERO_FIELD_SIZE:ByteArray = uIntTo4Bytes(UnsignedInt(0))
         val ZERO_FIVE:ByteArray = byteArrayOf(0x00, 0x00, 0x00, 0x00, 0x00)
     }
 }

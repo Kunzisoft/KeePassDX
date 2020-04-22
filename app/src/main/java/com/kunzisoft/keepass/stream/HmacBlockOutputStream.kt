@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.security.InvalidKeyException
@@ -87,7 +88,7 @@ class HmacBlockOutputStream(outputStream: OutputStream,
     @Throws(IOException::class)
     private fun writeSafeBlock() {
         val bufBlockIndex = longTo8Bytes(blockIndex)
-        val blockSizeBuf = intTo4Bytes(bufferPos)
+        val blockSizeBuf = uIntTo4Bytes(UnsignedInt(bufferPos))
 
         val blockHmac: ByteArray
         val blockKey = HmacBlockStream.getHmacKey64(key, blockIndex)

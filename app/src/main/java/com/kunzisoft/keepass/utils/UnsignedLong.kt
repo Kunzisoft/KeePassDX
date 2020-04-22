@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,10 +17,33 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto.finalkey;
+package com.kunzisoft.keepass.utils
 
-import java.io.IOException;
+class UnsignedLong(private var unsignedValue: Long) {
 
-public abstract class FinalKey {
-    public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
+    /**
+     * Convert an unsigned Integer to Long
+     */
+    fun toLong(): Long {
+        return unsignedValue
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as UnsignedLong
+
+        if (unsignedValue != other.unsignedValue) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return unsignedValue.hashCode()
+    }
+
+    companion object {
+        const val ULONG_MAX_VALUE: Long = -1
+    }
 }

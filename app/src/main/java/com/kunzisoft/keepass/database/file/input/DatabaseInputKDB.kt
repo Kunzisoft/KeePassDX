@@ -90,10 +90,10 @@ class DatabaseInputKDB(cacheDirectory: File,
 
             // Select algorithm
             when {
-                header.flags and DatabaseHeaderKDB.FLAG_RIJNDAEL != 0 -> {
+                header.flags.toInt() and DatabaseHeaderKDB.FLAG_RIJNDAEL.toInt() != 0 -> {
                     mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.AESRijndael
                 }
-                header.flags and DatabaseHeaderKDB.FLAG_TWOFISH != 0 -> {
+                header.flags.toInt() and DatabaseHeaderKDB.FLAG_TWOFISH.toInt() != 0 -> {
                     mDatabaseToOpen.encryptionAlgorithm = EncryptionAlgorithm.Twofish
                 }
                 else -> throw InvalidAlgorithmDatabaseException()
@@ -160,8 +160,8 @@ class DatabaseInputKDB(cacheDirectory: File,
             var newEntry: EntryKDB? = null
             var currentGroupNumber = 0
             var currentEntryNumber = 0
-            while (currentGroupNumber < header.numGroups
-                    || currentEntryNumber < header.numEntries) {
+            while (currentGroupNumber < header.numGroups.toLong()
+                    || currentEntryNumber < header.numEntries.toLong()) {
 
                 val fieldType = cipherInputStream.readBytes2ToUShort()
                 val fieldSize = cipherInputStream.readBytes4ToUInt().toInt()
@@ -175,7 +175,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                         when (fieldSize) {
                             4 -> {
                                 newGroup = mDatabaseToOpen.createGroup().apply {
-                                    setGroupId(cipherInputStream.readBytes4ToInt())
+                                    setGroupId(cipherInputStream.readBytes4ToUInt().toInt())
                                 }
                             }
                             16 -> {
@@ -194,7 +194,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                         } ?:
                         newEntry?.let { entry ->
                             val groupKDB = mDatabaseToOpen.createGroup()
-                            groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToInt())
+                            groupKDB.nodeId = NodeIdInt(cipherInputStream.readBytes4ToUInt().toInt())
                             entry.parent = groupKDB
                         }
                     }
@@ -203,7 +203,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                             group.creationTime = cipherInputStream.readBytes5ToDate()
                         } ?:
                         newEntry?.let { entry ->
-                            var iconId = cipherInputStream.readBytes4ToInt()
+                            var iconId = cipherInputStream.readBytes4ToUInt().toInt()
                             // Clean up after bug that set icon ids to -1
                             if (iconId == -1) {
                                 iconId = 0
@@ -237,7 +237,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0007 -> {
                         newGroup?.let { group ->
-                            group.icon = mDatabaseToOpen.iconFactory.getIcon(cipherInputStream.readBytes4ToInt())
+                            group.icon = mDatabaseToOpen.iconFactory.getIcon(cipherInputStream.readBytes4ToUInt().toInt())
                         } ?:
                         newEntry?.let { entry ->
                             entry.password = cipherInputStream.readBytesToString(fieldSize,false)
@@ -253,7 +253,7 @@ class DatabaseInputKDB(cacheDirectory: File,
                     }
                     0x0009 -> {
                         newGroup?.let { group ->
-                            group.flags = cipherInputStream.readBytes4ToInt()
+                            group.groupFlags = cipherInputStream.readBytes4ToUInt().toInt()
                         } ?:
                         newEntry?.let { entry ->
                             entry.creationTime = cipherInputStream.readBytes5ToDate()

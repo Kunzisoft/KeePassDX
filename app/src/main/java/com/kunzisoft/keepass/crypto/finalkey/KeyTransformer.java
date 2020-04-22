@@ -1,6 +1,6 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -17,19 +17,10 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.element.node
+package com.kunzisoft.keepass.crypto.finalkey;
 
-import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.utils.UnsignedLong
+import java.io.IOException;
 
-interface NodeKDBXInterface : NodeTimeInterface {
-
-    var usageCount: UnsignedLong
-
-    var locationChanged: DateInstant
-
-    fun putCustomData(key: String, value: String)
-
-    fun containsCustomData(): Boolean
-
+public abstract class KeyTransformer {
+    public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
 }

@@ -118,4 +118,7 @@ dependencies {
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
+
+    // Tests
+    androidTestImplementation 'junit:junit:4.12'
 }

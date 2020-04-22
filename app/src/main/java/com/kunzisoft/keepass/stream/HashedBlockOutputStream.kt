@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
@@ -98,7 +99,7 @@ class HashedBlockOutputStream : OutputStream {
 
     @Throws(IOException::class)
     private fun writeHashedBlock() {
-        baseStream.writeUInt(bufferIndex)
+        baseStream.writeUInt(UnsignedInt.fromLong(bufferIndex))
         bufferIndex++
 
         if (bufferPos > 0) {

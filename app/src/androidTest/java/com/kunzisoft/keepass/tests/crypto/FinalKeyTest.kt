@@ -26,8 +26,8 @@ import java.util.Random
 
 import junit.framework.TestCase
 
-import com.kunzisoft.keepass.crypto.finalkey.AndroidFinalKey
-import com.kunzisoft.keepass.crypto.finalkey.NativeFinalKey
+import com.kunzisoft.keepass.crypto.finalkey.AndroidAESKeyTransformer
+import com.kunzisoft.keepass.crypto.finalkey.NativeAESKeyTransformer
 
 class FinalKeyTest : TestCase() {
     private var mRand: Random? = null
@@ -56,10 +56,10 @@ class FinalKeyTest : TestCase() {
         mRand!!.nextBytes(seed)
         mRand!!.nextBytes(key)
 
-        val aKey = AndroidFinalKey()
+        val aKey = AndroidAESKeyTransformer()
         androidKey = aKey.transformMasterKey(seed, key, rounds.toLong())
 
-        val nKey = NativeFinalKey()
+        val nKey = NativeAESKeyTransformer()
         nativeKey = nKey.transformMasterKey(seed, key, rounds.toLong())
 
         assertArrayEquals("Does not match", androidKey, nativeKey)

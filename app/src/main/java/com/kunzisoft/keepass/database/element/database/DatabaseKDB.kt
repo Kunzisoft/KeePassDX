@@ -19,7 +19,7 @@
 
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory
+import com.kunzisoft.keepass.crypto.finalkey.AESFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -37,8 +37,6 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
-
-    private var numKeyEncRounds: Int = 0
 
     var backupGroupId: Int = BACKUP_FOLDER_UNDEFINED_ID
 
@@ -87,19 +85,10 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     override val passwordEncoding: String
         get() = "ISO-8859-1"
 
-    override var numberKeyEncryptionRounds: Long
-        get() = numKeyEncRounds.toLong()
-        @Throws(NumberFormatException::class)
-        set(rounds) {
-            if (rounds > Integer.MAX_VALUE || rounds < Integer.MIN_VALUE) {
-                throw NumberFormatException()
-            }
-            numKeyEncRounds = rounds.toInt()
-        }
+    override var numberKeyEncryptionRounds = 300L
 
     init {
         algorithm = EncryptionAlgorithm.AESRijndael
-        numKeyEncRounds = DEFAULT_ENCRYPTION_ROUNDS
     }
 
     /**
@@ -158,9 +147,9 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         val nos = NullOutputStream()
         val dos = DigestOutputStream(nos, messageDigest)
 
-        val transformedMasterKey = transformMasterKey(masterSeed2, masterKey, numRounds)
+        // Encrypt the master key a few times to make brute-force key-search harder
         dos.write(masterSeed)
-        dos.write(transformedMasterKey)
+        dos.write(AESFactory.createFinalKey().transformMasterKey(masterSeed2, masterKey, numRounds))
 
         finalKey = messageDigest.digest()
     }
@@ -266,19 +255,6 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         const val BACKUP_FOLDER_TITLE = "Backup"
         private const val BACKUP_FOLDER_UNDEFINED_ID = -1
 
-        private const val DEFAULT_ENCRYPTION_ROUNDS = 300
-
         const val BUFFER_SIZE_BYTES = 3 * 128
-
-        /**
-         * Encrypt the master key a few times to make brute-force key-search harder
-         * @throws IOException
-         */
-        @Throws(IOException::class)
-        private fun transformMasterKey(pKeySeed: ByteArray, pKey: ByteArray, rounds: Long): ByteArray {
-            val key = FinalKeyFactory.createFinalKey()
-
-            return key.transformMasterKey(pKeySeed, pKey, rounds)
-        }
     }
 }

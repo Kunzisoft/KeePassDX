@@ -20,8 +20,9 @@
 package com.kunzisoft.keepass.tests
 
 import com.kunzisoft.keepass.database.element.DateInstant
-import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.ULONG_MAX_VALUE
 import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import junit.framework.TestCase
 import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream
@@ -77,8 +78,8 @@ class StringDatabaseKDBUtilsTest : TestCase() {
 
         setArray(orig, value, 4)
 
-        val one = bytes4ToInt(orig)
-        val dest = intTo4Bytes(one)
+        val one = bytes4ToUInt(orig)
+        val dest = uIntTo4Bytes(one)
 
         assertArrayEquals(orig, dest)
 
@@ -133,7 +134,7 @@ class StringDatabaseKDBUtilsTest : TestCase() {
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val dest: Byte = uIntToByte(byteToUInt(value))
+        val dest: Byte = UnsignedInt(UnsignedInt.fromByte(value)).toByte()
         assert(value == dest)
     }
 
@@ -185,7 +186,7 @@ class StringDatabaseKDBUtilsTest : TestCase() {
 
         val bos = ByteArrayOutputStream()
         val leos = LittleEndianDataOutputStream(bos)
-        leos.writeLong(ULONG_MAX_VALUE)
+        leos.writeLong(UnsignedLong.ULONG_MAX_VALUE)
         leos.close()
 
         val uLongMax = bos.toByteArray()

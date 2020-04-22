@@ -22,8 +22,9 @@ package com.kunzisoft.keepass.crypto.keyDerivation
 import android.content.res.Resources
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
-import com.kunzisoft.keepass.crypto.finalkey.FinalKeyFactory
+import com.kunzisoft.keepass.crypto.finalkey.AESFactory
 import com.kunzisoft.keepass.stream.bytes16ToUuid
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
@@ -34,12 +35,11 @@ class AesKdf internal constructor() : KdfEngine() {
         get() {
             return KdfParameters(uuid!!).apply {
                 setParamUUID()
-                setUInt32(PARAM_ROUNDS, DEFAULT_ROUNDS.toLong())
+                setUInt32(PARAM_ROUNDS, UnsignedInt.fromLong(defaultKeyRounds))
             }
         }
 
-    override val defaultKeyRounds: Long
-        get() = DEFAULT_ROUNDS.toLong()
+    override val defaultKeyRounds: Long = 6000L
 
     init {
         uuid = CIPHER_UUID
@@ -63,8 +63,7 @@ class AesKdf internal constructor() : KdfEngine() {
             seed = CryptoUtil.hashSha256(seed)
         }
 
-        val key = FinalKeyFactory.createFinalKey()
-        return key.transformMasterKey(seed, currentMasterKey, rounds)
+        return AESFactory.createFinalKey().transformMasterKey(seed, currentMasterKey, rounds)
     }
 
     override fun randomize(p: KdfParameters) {
@@ -85,8 +84,6 @@ class AesKdf internal constructor() : KdfEngine() {
     }
 
     companion object {
-
-        private const val DEFAULT_ROUNDS = 6000
 
         val CIPHER_UUID: UUID = bytes16ToUuid(
                 byteArrayOf(0xC9.toByte(),

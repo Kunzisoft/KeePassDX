@@ -20,7 +20,7 @@
 package com.kunzisoft.keepass.database.file.output
 
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
-import com.kunzisoft.keepass.stream.intTo4Bytes
+import com.kunzisoft.keepass.stream.uIntTo4Bytes
 import java.io.IOException
 import java.io.OutputStream
 
@@ -29,14 +29,14 @@ class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB,
 
     @Throws(IOException::class)
     fun outputStart() {
-        mOutputStream.write(intTo4Bytes(mHeader.signature1))
-        mOutputStream.write(intTo4Bytes(mHeader.signature2))
-        mOutputStream.write(intTo4Bytes(mHeader.flags))
-        mOutputStream.write(intTo4Bytes(mHeader.version))
+        mOutputStream.write(uIntTo4Bytes(mHeader.signature1))
+        mOutputStream.write(uIntTo4Bytes(mHeader.signature2))
+        mOutputStream.write(uIntTo4Bytes(mHeader.flags))
+        mOutputStream.write(uIntTo4Bytes(mHeader.version))
         mOutputStream.write(mHeader.masterSeed)
         mOutputStream.write(mHeader.encryptionIV)
-        mOutputStream.write(intTo4Bytes(mHeader.numGroups))
-        mOutputStream.write(intTo4Bytes(mHeader.numEntries))
+        mOutputStream.write(uIntTo4Bytes(mHeader.numGroups))
+        mOutputStream.write(uIntTo4Bytes(mHeader.numEntries))
     }
 
     @Throws(IOException::class)
@@ -47,7 +47,7 @@ class DatabaseHeaderOutputKDB(private val mHeader: DatabaseHeaderKDB,
     @Throws(IOException::class)
     fun outputEnd() {
         mOutputStream.write(mHeader.transformSeed)
-        mOutputStream.write(intTo4Bytes(mHeader.numKeyEncRounds))
+        mOutputStream.write(uIntTo4Bytes(mHeader.numKeyEncRounds))
     }
 
     @Throws(IOException::class)

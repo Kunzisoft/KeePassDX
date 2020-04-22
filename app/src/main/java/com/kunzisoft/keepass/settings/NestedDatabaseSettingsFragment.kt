@@ -444,8 +444,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                         mMemoryPref?.summary = memoryToShow.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_PARALLELISM_TASK -> {
-                        val oldParallelism = data.getInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newParallelism = data.getInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldParallelism = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newParallelism = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val parallelismToShow =
                                 if (result.isSuccess) {
                                     newParallelism

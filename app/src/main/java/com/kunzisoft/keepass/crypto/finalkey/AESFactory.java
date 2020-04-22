@@ -21,14 +21,17 @@ package com.kunzisoft.keepass.crypto.finalkey;
 
 import com.kunzisoft.keepass.crypto.CipherFactory;
 
-public class FinalKeyFactory {
-    public static FinalKey createFinalKey() {
+public class AESFactory {
+
+    // TODO Encaspulate
+    public static KeyTransformer createFinalKey() {
         // Prefer the native final key implementation
-        if ( !CipherFactory.INSTANCE.deviceBlacklisted() && NativeFinalKey.available() ) {
-            return new NativeFinalKey();
+        if ( !CipherFactory.INSTANCE.deviceBlacklisted()
+                && NativeAESKeyTransformer.available() ) {
+            return new NativeAESKeyTransformer();
         } else {
             // Fall back on the android crypto implementation
-            return new AndroidFinalKey();
+            return new AndroidAESKeyTransformer();
         }
     }
 }

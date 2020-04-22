@@ -19,16 +19,18 @@
  */
 package com.kunzisoft.keepass.crypto
 
-enum class CrsAlgorithm constructor(val id: Int) {
+import com.kunzisoft.keepass.utils.UnsignedInt
 
-    Null(0),
-    ArcFourVariant(1),
-    Salsa20(2),
-    ChaCha20(3);
+enum class CrsAlgorithm constructor(val id: UnsignedInt) {
+
+    Null(UnsignedInt(0)),
+    ArcFourVariant(UnsignedInt(1)),
+    Salsa20(UnsignedInt(2)),
+    ChaCha20(UnsignedInt(3));
 
     companion object {
 
-        fun fromId(num: Int): CrsAlgorithm? {
+        fun fromId(num: UnsignedInt): CrsAlgorithm? {
             for (e in values()) {
                 if (e.id == num) {
                     return e

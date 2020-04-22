@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.crypto.NativeLib;
 import java.io.IOException;
 
 
-public class NativeFinalKey extends FinalKey {
+public class NativeAESKeyTransformer extends KeyTransformer {
 
     public static boolean available() {
         return NativeLib.INSTANCE.init();

@@ -20,20 +20,29 @@
 package com.kunzisoft.keepass.crypto.keyDerivation;
 
 import com.kunzisoft.keepass.crypto.NativeLib;
+import com.kunzisoft.keepass.utils.UnsignedInt;
 
 import java.io.IOException;
 
 public class Argon2Native {
 
-    public static byte[] transformKey(byte[] password, byte[] salt, int parallelism,
-                                              long memory, long iterations, byte[] secretKey,
-                                              byte[] associatedData, long version) throws IOException {
+    public static byte[] transformKey(byte[] password, byte[] salt, UnsignedInt parallelism,
+                                      UnsignedInt memory, UnsignedInt iterations, byte[] secretKey,
+                                      byte[] associatedData, UnsignedInt version) throws IOException {
         NativeLib.INSTANCE.init();
 
-        return nTransformMasterKey(password, salt, parallelism, memory, iterations, secretKey, associatedData, version);
+        return nTransformMasterKey(
+                password,
+                salt,
+                parallelism.toInt(),
+                memory.toInt(),
+                iterations.toInt(),
+                secretKey,
+                associatedData,
+                version.toInt());
     }
 
     private static native byte[] nTransformMasterKey(byte[] password, byte[] salt, int parallelism,
-                                              long memory, long iterations, byte[] secretKey,
-                                              byte[] associatedData, long version) throws IOException;
+                                              int memory, int iterations, byte[] secretKey,
+                                              byte[] associatedData, int version) throws IOException;
 }

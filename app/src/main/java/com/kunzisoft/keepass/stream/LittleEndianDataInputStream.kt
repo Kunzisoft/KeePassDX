@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 
@@ -32,13 +33,8 @@ class LittleEndianDataInputStream(private val baseStream: InputStream) : InputSt
      * be interpreted as an unsigned integer.
      */
     @Throws(IOException::class)
-    fun readUInt(): Long {
+    fun readUInt(): UnsignedInt {
         return baseStream.readBytes4ToUInt()
-    }
-
-    @Throws(IOException::class)
-    fun readInt(): Int {
-        return baseStream.readBytes4ToInt()
     }
 
     @Throws(IOException::class)

@@ -47,7 +47,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.stream.readBytes4ToInt
+import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -206,7 +206,6 @@ class Database {
 
     var numberKeyEncryptionRounds: Long
         get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
-        @Throws(NumberFormatException::class)
         set(numberRounds) {
             mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
@@ -214,13 +213,13 @@ class Database {
 
     var memoryUsage: Long
         get() {
-            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
+            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE
         }
         set(memory) {
             mDatabaseKDBX?.memoryUsage = memory
         }
 
-    var parallelism: Int
+    var parallelism: Long
         get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
             mDatabaseKDBX?.parallelism = parallelism
@@ -348,8 +347,8 @@ class Database {
             databaseInputStream.mark(10)
 
             // Get the file directory to save the attachments
-            val sig1 = databaseInputStream.readBytes4ToInt()
-            val sig2 = databaseInputStream.readBytes4ToInt()
+            val sig1 = databaseInputStream.readBytes4ToUInt()
+            val sig2 = databaseInputStream.readBytes4ToUInt()
 
             // Return to the start
             databaseInputStream.reset()

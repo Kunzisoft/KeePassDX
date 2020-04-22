@@ -24,10 +24,10 @@ import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToInt;
 import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes4ToUInt;
 import static com.kunzisoft.keepass.stream.StreamBytesUtilsKt.bytes64ToLong;
 
@@ -35,6 +35,7 @@ public class VariantDictionary {
     private static final int VdVersion = 0x0100;
     private static final int VdmCritical = 0xFF00;
     private static final int VdmInfo = 0x00FF;
+    private static Charset UTF8Charset = Charset.forName("UTF-8");
 
     private Map<String, VdType> dict = new HashMap<>();
 
@@ -69,8 +70,8 @@ public class VariantDictionary {
         dict.put(name, new VdType(type, value));
     }
 
-    public void setUInt32(String name, long value) { putType(VdType.UInt32, name, value); }
-    public long getUInt32(String name) { return (long)dict.get(name).value; }
+    public void setUInt32(String name, UnsignedInt value) { putType(VdType.UInt32, name, value); }
+    public UnsignedInt getUInt32(String name) { return (UnsignedInt)dict.get(name).value; }
 
     public void setUInt64(String name, long value) { putType(VdType.UInt64, name, value); }
     public long getUInt64(String name) { return (long)dict.get(name).value; }
@@ -109,14 +110,14 @@ public class VariantDictionary {
                 break;
             }
 
-            int nameLen = lis.readInt();
+            int nameLen = lis.readUInt().toInt();
             byte[] nameBuf = lis.readBytes(nameLen);
             if (nameLen != nameBuf.length) {
                 throw new IOException("Invalid format");
             }
-            String name = new String(nameBuf, "UTF-8");
+            String name = new String(nameBuf, UTF8Charset);
 
-            int valueLen = lis.readInt();
+            int valueLen = lis.readUInt().toInt();
             byte[] valueBuf = lis.readBytes(valueLen);
             if (valueLen != valueBuf.length) {
                 throw new IOException("Invalid format");
@@ -140,7 +141,7 @@ public class VariantDictionary {
                     break;
                 case VdType.Int32:
                     if (valueLen == 4) {
-                        d.setInt32(name, bytes4ToInt(valueBuf));
+                        d.setInt32(name, bytes4ToUInt(valueBuf).toInt());
                     }
                     break;
                 case VdType.Int64:
@@ -149,7 +150,7 @@ public class VariantDictionary {
                     }
                     break;
                 case VdType.String:
-                    d.setString(name, new String(valueBuf, "UTF-8"));
+                    d.setString(name, new String(valueBuf, UTF8Charset));
                     break;
                 case VdType.ByteArray:
                     d.setByteArray(name, valueBuf);
@@ -172,12 +173,7 @@ public class VariantDictionary {
 
         for (Map.Entry<String, VdType> entry: d.dict.entrySet()) {
             String name = entry.getKey();
-            byte[] nameBuf = null;
-            try {
-                nameBuf = name.getBytes("UTF-8");
-            } catch (UnsupportedEncodingException e) {
-                throw new IOException("Couldn't encode parameter name.");
-            }
+            byte[] nameBuf = nameBuf = name.getBytes(UTF8Charset);
 
             VdType vd = entry.getValue();
 
@@ -189,7 +185,7 @@ public class VariantDictionary {
             switch (vd.type) {
                 case VdType.UInt32:
                     los.writeInt(4);
-                    los.writeUInt((long)vd.value);
+                    los.writeUInt((UnsignedInt) vd.value);
                     break;
                 case VdType.UInt64:
                     los.writeInt(8);
@@ -210,7 +206,7 @@ public class VariantDictionary {
                     break;
                 case VdType.String:
                     String value = (String)vd.value;
-                    buf = value.getBytes("UTF-8");
+                    buf = value.getBytes(UTF8Charset);
                     los.writeInt(buf.length);
                     los.write(buf);
                     break;
@@ -231,7 +227,6 @@ public class VariantDictionary {
        for (Map.Entry<String, VdType> entry : d.dict.entrySet()) {
            String key = entry.getKey();
            VdType value = entry.getValue();
-
            dict.put(key, value);
        }
     }
