@@ -232,7 +232,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         var data = ByteArray(0)
         if (size > 0) {
             if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
-                data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
+                data = dataInputStream.readBytes(size)
         }
 
         var result = true
