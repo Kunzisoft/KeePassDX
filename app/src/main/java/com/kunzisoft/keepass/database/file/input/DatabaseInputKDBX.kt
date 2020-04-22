@@ -229,16 +229,21 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val size = dataInputStream.readInt()
         if (size < 0) throw IOException("Corrupted file")
 
+        var data = ByteArray(0)
+        if (size > 0) {
+            if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+                data = dataInputStream.readBytes(size)
+        }
+
+        var result = true
         when (fieldId) {
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader -> {
-                return false
+                result = false
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
-                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.setRandomStreamID(data)
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
-                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.innerRandomStreamKey = data
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
@@ -255,12 +260,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val protectedBinary = BinaryAttachment(file, protectedFlag)
                 mDatabase.binaryPool.add(protectedBinary)
             }
-            else -> {
-                return false
-            }
         }
 
-        return true
+        return result
     }
 
     private enum class KdbContext {
