@@ -338,7 +338,10 @@ class Database {
             }
 
             // Load Data, pass Uris as InputStreams
-            databaseInputStream = BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri))
+            val databaseStream = UriUtil.getUriInputStream(contentResolver, uri)
+                    ?: throw IOException("Database input stream cannot be retrieve")
+
+            databaseInputStream = BufferedInputStream(databaseStream)
             if (!databaseInputStream.markSupported()) {
                 throw IOException("Input stream does not support mark.")
             }
