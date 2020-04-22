@@ -19,7 +19,7 @@
 
 package com.kunzisoft.keepass.database.element.database
 
-import com.kunzisoft.keepass.crypto.finalkey.AESFactory
+import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.database.element.entry.EntryKDB
@@ -149,7 +149,7 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
 
         // Encrypt the master key a few times to make brute-force key-search harder
         dos.write(masterSeed)
-        dos.write(AESFactory.createFinalKey().transformMasterKey(masterSeed2, masterKey, numRounds))
+        dos.write(AESKeyTransformerFactory.transformMasterKey(masterSeed2, masterKey, numRounds) ?: ByteArray(0))
 
         finalKey = messageDigest.digest()
     }

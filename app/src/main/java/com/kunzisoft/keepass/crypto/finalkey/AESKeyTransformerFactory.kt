@@ -17,10 +17,20 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto.finalkey;
+package com.kunzisoft.keepass.crypto.finalkey
 
-import java.io.IOException;
+import com.kunzisoft.keepass.crypto.CipherFactory.deviceBlacklisted
 
-public abstract class KeyTransformer {
-    public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
+object AESKeyTransformerFactory : KeyTransformer() {
+    override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long): ByteArray? {
+        // Prefer the native final key implementation
+        val keyTransformer = if (!deviceBlacklisted()
+                && NativeAESKeyTransformer.available()) {
+            NativeAESKeyTransformer()
+        } else {
+            // Fall back on the android crypto implementation
+            AndroidAESKeyTransformer()
+        }
+        return keyTransformer.transformMasterKey(seed, key, rounds)
+    }
 }

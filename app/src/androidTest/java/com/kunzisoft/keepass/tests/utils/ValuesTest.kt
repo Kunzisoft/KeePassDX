@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.tests
+package com.kunzisoft.keepass.tests.utils
 
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.stream.*
@@ -28,7 +28,7 @@ import org.junit.Assert.assertArrayEquals
 import java.io.ByteArrayOutputStream
 import java.util.*
 
-class StringDatabaseKDBUtilsTest : TestCase() {
+class ValuesTest : TestCase() {
 
     fun testReadWriteLongZero() {
         testReadWriteLong(0.toByte())
@@ -82,7 +82,6 @@ class StringDatabaseKDBUtilsTest : TestCase() {
         val dest = uIntTo4Bytes(one)
 
         assertArrayEquals(orig, dest)
-
     }
 
     private fun setArray(buf: ByteArray, value: Byte, size: Int) {
@@ -186,7 +185,7 @@ class StringDatabaseKDBUtilsTest : TestCase() {
 
         val bos = ByteArrayOutputStream()
         val leos = LittleEndianDataOutputStream(bos)
-        leos.writeLong(UnsignedLong.ULONG_MAX_VALUE)
+        leos.writeLong(UnsignedLong.MAX_VALUE)
         leos.close()
 
         val uLongMax = bos.toByteArray()

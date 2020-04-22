@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,21 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto.finalkey;
+package com.kunzisoft.keepass.crypto.finalkey
 
-import com.kunzisoft.keepass.crypto.CipherFactory;
+import java.io.IOException
 
-public class AESFactory {
-
-    // TODO Encaspulate
-    public static KeyTransformer createFinalKey() {
-        // Prefer the native final key implementation
-        if ( !CipherFactory.INSTANCE.deviceBlacklisted()
-                && NativeAESKeyTransformer.available() ) {
-            return new NativeAESKeyTransformer();
-        } else {
-            // Fall back on the android crypto implementation
-            return new AndroidAESKeyTransformer();
-        }
-    }
+abstract class KeyTransformer {
+    @Throws(IOException::class)
+    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long): ByteArray?
 }

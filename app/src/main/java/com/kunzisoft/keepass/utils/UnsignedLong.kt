@@ -44,6 +44,6 @@ class UnsignedLong(private var unsignedValue: Long) {
     }
 
     companion object {
-        const val ULONG_MAX_VALUE: Long = -1
+        const val MAX_VALUE: Long = -1
     }
 }

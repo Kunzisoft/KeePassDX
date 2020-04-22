@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.crypto.keyDerivation
 import android.content.res.Resources
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
-import com.kunzisoft.keepass.crypto.finalkey.AESFactory
+import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
 import com.kunzisoft.keepass.stream.bytes16ToUuid
 import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
@@ -63,7 +63,7 @@ class AesKdf internal constructor() : KdfEngine() {
             seed = CryptoUtil.hashSha256(seed)
         }
 
-        return AESFactory.createFinalKey().transformMasterKey(seed, currentMasterKey, rounds)
+        return AESKeyTransformerFactory.transformMasterKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
 
     override fun randomize(p: KdfParameters) {

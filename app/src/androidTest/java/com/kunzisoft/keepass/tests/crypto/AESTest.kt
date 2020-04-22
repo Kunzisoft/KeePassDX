@@ -80,6 +80,4 @@ class AESTest : TestCase() {
 
         assertArrayEquals("Arrays differ on size: $dataSize", outAndroid, outNative)
     }
-
-
 }

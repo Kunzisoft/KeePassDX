@@ -29,8 +29,8 @@ import junit.framework.TestCase
 import com.kunzisoft.keepass.crypto.finalkey.AndroidAESKeyTransformer
 import com.kunzisoft.keepass.crypto.finalkey.NativeAESKeyTransformer
 
-class FinalKeyTest : TestCase() {
-    private var mRand: Random? = null
+class AESKeyTest : TestCase() {
+    private lateinit var mRand: Random
 
     @Throws(Exception::class)
     override fun setUp() {
@@ -40,29 +40,28 @@ class FinalKeyTest : TestCase() {
     }
 
     @Throws(IOException::class)
-    fun testNativeAndroid() {
+    fun testAES() {
         // Test both an old and an even number to test my flip variable
-        testNativeFinalKey(5)
-        testNativeFinalKey(6)
+        testAESFinalKey(5)
+        testAESFinalKey(6)
     }
 
     @Throws(IOException::class)
-    private fun testNativeFinalKey(rounds: Int) {
+    private fun testAESFinalKey(rounds: Long) {
         val seed = ByteArray(32)
         val key = ByteArray(32)
-        val nativeKey: ByteArray
-        val androidKey: ByteArray
+        val nativeKey: ByteArray?
+        val androidKey: ByteArray?
 
-        mRand!!.nextBytes(seed)
-        mRand!!.nextBytes(key)
+        mRand.nextBytes(seed)
+        mRand.nextBytes(key)
 
-        val aKey = AndroidAESKeyTransformer()
-        androidKey = aKey.transformMasterKey(seed, key, rounds.toLong())
+        val androidAESKey = AndroidAESKeyTransformer()
+        androidKey = androidAESKey.transformMasterKey(seed, key, rounds)
 
-        val nKey = NativeAESKeyTransformer()
-        nativeKey = nKey.transformMasterKey(seed, key, rounds.toLong())
+        val nativeAESKey = NativeAESKeyTransformer()
+        nativeKey = nativeAESKey.transformMasterKey(seed, key, rounds)
 
         assertArrayEquals("Does not match", androidKey, nativeKey)
-
     }
 }

@@ -65,7 +65,7 @@ class UnsignedInt(private var unsignedValue: Int) {
 
     companion object {
         private const val INT_TO_LONG_MASK: Long = 0xffffffffL
-        private const val UINT_MAX_VALUE: Long = 4294967296L // 2^32
+        private const val UINT_MAX_VALUE: Long = 4294967295L // 2^32
 
         val MAX_VALUE = UnsignedInt(UINT_MAX_VALUE.toInt())
 
