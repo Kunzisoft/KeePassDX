@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.LittleEndianDataOutputStream
 import com.kunzisoft.keepass.stream.NullOutputStream
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.BufferedOutputStream
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -117,18 +118,18 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         when {
             mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
-                header.flags = header.flags or DatabaseHeaderKDB.FLAG_RIJNDAEL
+                header.flags = UnsignedInt(header.flags.toInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toInt())
             }
             mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
-                header.flags = header.flags or DatabaseHeaderKDB.FLAG_TWOFISH
+                header.flags = UnsignedInt(header.flags.toInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toInt())
             }
             else -> throw DatabaseOutputException("Unsupported algorithm.")
         }
 
         header.version = DatabaseHeaderKDB.DBVER_DW
-        header.numGroups = mDatabaseKDB.numberOfGroups()
-        header.numEntries = mDatabaseKDB.numberOfEntries()
-        header.numKeyEncRounds = mDatabaseKDB.numberKeyEncryptionRounds.toInt() // TODO Signed Long - Unsigned Int #443
+        header.numGroups = UnsignedInt(mDatabaseKDB.numberOfGroups())
+        header.numEntries = UnsignedInt(mDatabaseKDB.numberOfEntries())
+        header.numKeyEncRounds = UnsignedInt.fromLong(mDatabaseKDB.numberKeyEncryptionRounds)
 
         setIVs(header)
 
@@ -279,6 +280,5 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         if (data != null) {
             los.write(data)
         }
-
     }
 }

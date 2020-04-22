@@ -35,27 +35,26 @@ class ParallelismPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFr
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             database?.let { database ->
-                var parallelism: Int = try {
-                    inputText.toInt()
+                val parallelism: Long = try {
+                    inputText.toLong()
                 } catch (e: NumberFormatException) {
                     MIN_PARALLELISM
                 }
-                if (parallelism < MIN_PARALLELISM) {
-                    parallelism = MIN_PARALLELISM
-                }
-                // TODO Max Parallelism
 
                 val oldParallelism = database.parallelism
                 database.parallelism = parallelism
 
-                mProgressDialogThread?.startDatabaseSaveParallelism(oldParallelism, parallelism, mDatabaseAutoSaveEnable)
+                mProgressDialogThread?.startDatabaseSaveParallelism(
+                        oldParallelism,
+                        parallelism,
+                        mDatabaseAutoSaveEnable)
             }
         }
     }
 
     companion object {
 
-        const val MIN_PARALLELISM = 1
+        const val MIN_PARALLELISM = 1L
 
         fun newInstance(key: String): ParallelismPreferenceDialogFragmentCompat {
             val fragment = ParallelismPreferenceDialogFragmentCompat()

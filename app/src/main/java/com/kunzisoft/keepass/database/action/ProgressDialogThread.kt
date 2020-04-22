@@ -552,12 +552,12 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK)
     }
 
-    fun startDatabaseSaveParallelism(oldParallelism: Int,
-                                     newParallelism: Int,
+    fun startDatabaseSaveParallelism(oldParallelism: Long,
+                                     newParallelism: Long,
                                      save: Boolean) {
         start(Bundle().apply {
-            putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
-            putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
+            putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
+            putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_UPDATE_PARALLELISM_TASK)

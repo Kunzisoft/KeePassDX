@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 import java.security.InvalidKeyException
@@ -43,7 +44,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = byteToUInt(buffer[bufferPos])
+        val output = UnsignedInt.fromByte(buffer[bufferPos]).toInt()
         bufferPos++
 
         return output
@@ -97,10 +98,10 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
         if (pbBlockSize.size != 4) {
             throw IOException("File corrupted")
         }
-        val blockSize = bytes4ToInt(pbBlockSize)
+        val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytes(blockSize)
+        buffer = baseStream.readBytes(blockSize.toInt())
 
         if (verify) {
             val cmpHmac: ByteArray
@@ -134,7 +135,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
 
         blockIndex++
 
-        if (blockSize == 0) {
+        if (blockSize.toLong() == 0L) {
             endOfStream = true
             return false
         }

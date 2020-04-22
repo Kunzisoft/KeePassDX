@@ -42,6 +42,7 @@ import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
@@ -67,7 +68,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     private var numKeyEncRounds: Long = 0
     var publicCustomData = VariantDictionary()
 
-    var kdbxVersion: Long = 0
+    var kdbxVersion = UnsignedInt(0)
     var name = ""
     var nameChanged = DateInstant()
     // TODO change setting date
@@ -83,7 +84,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
     var keyChangeForceDays: Long = 1
     var isKeyChangeForceOnce = false
 
-    var maintenanceHistoryDays: Long = 365
+    var maintenanceHistoryDays = UnsignedInt(365)
     var color = ""
     /**
      * Determine if RecycleBin is enable or not
@@ -219,7 +220,6 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 numKeyEncRounds = kdfEngine.getKeyRounds(kdfParameters!!)
             return numKeyEncRounds
         }
-        @Throws(NumberFormatException::class)
         set(rounds) {
             val kdfEngine = kdfEngine
             if (kdfEngine != null && kdfParameters != null)
@@ -232,7 +232,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
             val kdfEngine = kdfEngine
             return if (kdfEngine != null && kdfParameters != null) {
                 kdfEngine.getMemoryUsage(kdfParameters!!)
-            } else KdfEngine.UNKNOWN_VALUE.toLong()
+            } else KdfEngine.UNKNOWN_VALUE
         }
         set(memory) {
             val kdfEngine = kdfEngine
@@ -240,7 +240,7 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
                 kdfEngine.setMemoryUsage(kdfParameters!!, memory)
         }
 
-    var parallelism: Int
+    var parallelism: Long
         get() {
             val kdfEngine = kdfEngine
             return if (kdfEngine != null && kdfParameters != null) {

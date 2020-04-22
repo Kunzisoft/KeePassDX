@@ -29,7 +29,7 @@ import javax.crypto.NoSuchPaddingException;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
 
-public class AndroidFinalKey extends FinalKey {
+public class AndroidAESKeyTransformer extends KeyTransformer {
 
     @Override
     public byte[] transformMasterKey(byte[] pKeySeed, byte[] pKey, long rounds) throws IOException {

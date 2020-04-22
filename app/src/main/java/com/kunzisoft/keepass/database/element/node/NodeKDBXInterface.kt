@@ -20,10 +20,11 @@
 package com.kunzisoft.keepass.database.element.node
 
 import com.kunzisoft.keepass.database.element.DateInstant
+import com.kunzisoft.keepass.utils.UnsignedLong
 
 interface NodeKDBXInterface : NodeTimeInterface {
 
-    var usageCount: Long
+    var usageCount: UnsignedLong
 
     var locationChanged: DateInstant
 
