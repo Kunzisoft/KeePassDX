@@ -453,7 +453,7 @@
     <string name="keyboard_auto_go_action_summary">Action de la touche « Go » après avoir appuyé sur une touche « Champ »</string>
     <string name="download_attachment">Téléchargement %1$s</string>
     <string name="download_initialization">Initialisation…</string>
-    <string name="download_progression">En cours : %1$d&#37;</string>
+    <string name="download_progression">En cours : %1$d%%</string>
     <string name="download_finalization">Finalisation…</string>
     <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>

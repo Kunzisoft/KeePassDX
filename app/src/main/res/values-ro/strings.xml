@@ -421,7 +421,7 @@
     <string name="contribute">Contribuie</string>
     <string name="download_attachment">Descărcați %1$s</string>
     <string name="download_initialization">Inițializare …</string>
-    <string name="download_progression">In progress: %1$d&#37;</string>
+    <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizare …</string>
     <string name="download_complete">Complet! Atingeți pentru a deschide fișierul.</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>

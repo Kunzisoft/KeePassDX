@@ -447,7 +447,7 @@
     <string name="keyboard_auto_go_action_summary">填充条目后直接登录</string>
     <string name="download_attachment">下载%1$s</string>
     <string name="download_initialization">正在初始化…</string>
-    <string name="download_progression">进行中：%1$d&#37;</string>
+    <string name="download_progression">进行中：%1$d%%</string>
     <string name="download_finalization">正在完成…</string>
     <string name="download_complete">完成！点击打开文件。</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>

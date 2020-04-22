@@ -444,7 +444,7 @@
     <string name="keyboard_auto_go_action_summary">Η ενέργεια του πλήκτρου Go γίνεται αυτόματα αφού πατήσετε ένα πλήκτρο πεδίου</string>
     <string name="download_attachment">Λήψη %1$s</string>
     <string name="download_initialization">Αρχικοποίηση…</string>
-    <string name="download_progression">Σε εξέλιξη: %1$d&#37;</string>
+    <string name="download_progression">Σε εξέλιξη: %1$d%%</string>
     <string name="download_finalization">Ολοκλήρωση…</string>
     <string name="download_complete">Ολοκληρώθηκε! Πατήστε για να ανοίξετε το αρχείο.</string>
     <string name="hide_expired_entries_title">Απόκρυψη καταχωρίσεων που έχουν λήξει</string>
