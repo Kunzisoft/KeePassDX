@@ -86,14 +86,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     private var serviceConnection: ServiceConnection? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            TimeoutHelper.temporarilyDisableTimeout()
-            // Stop the opening notification
-            DatabaseOpenNotificationService.stop(activity)
-            startOrUpdateDialog(titleId, messageId, warningId)
-
-        }
-
         override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
             // Stop the opening notification

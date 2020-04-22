@@ -71,7 +71,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     interface ActionTaskListener {
-        fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
     }
@@ -166,7 +165,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     })
 
                     mActionTaskListeners.forEach { actionTaskListener ->
-                        actionTaskListener.onStartAction(titleId, messageId, warningId)
+                        actionTaskListener.onUpdateAction(titleId, messageId, warningId)
                     }
 
                 }, { result ->
@@ -578,8 +577,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): ActionRunnable.Result {
             var resultTask = ActionRunnable.Result(false)
-            // Without that, bind listeners don't work properly (I don't know why?)
-            Thread.sleep(500)
             actionRunnables.forEach {
                 it?.invoke(progressTaskUpdater)?.apply {
                     run()
