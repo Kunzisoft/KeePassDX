@@ -31,7 +31,6 @@
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
         <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Bottom.Purple</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
-        <item name="iconPreferenceColor">@color/purple_light</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
