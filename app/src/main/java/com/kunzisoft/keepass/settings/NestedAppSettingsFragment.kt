@@ -147,7 +147,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.magic_keyboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.magic_keyboard_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.magic_keyboard_explanation_url)
             false
         }
 
@@ -164,7 +164,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.autofill_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.autofill_explanation_url)
             false
         }
 
@@ -174,7 +174,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.clipboard_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.clipboard_explanation_url)
             false
         }
 
@@ -190,7 +190,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         "\n\n" +
                         getString(R.string.clipboard_warning)
                 AlertDialog
-                        .Builder(context!!)
+                        .Builder(requireContext())
                         .setMessage(message)
                         .create()
                         .apply {
@@ -276,7 +276,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.advanced_unlock_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.advanced_unlock_explanation_url)
             false
         }
     }
@@ -291,7 +291,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
@@ -308,7 +308,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
@@ -324,7 +324,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.reset_education_screens_key))?.setOnPreferenceClickListener {
                 // To allow only one toast
                 if (mCount == 0) {
-                    val sharedPreferences = Education.getEducationSharedPreferences(context!!)
+                    val sharedPreferences = Education.getEducationSharedPreferences(activity)
                     val editor = sharedPreferences.edit()
                     for (resourceId in Education.educationResourcesKeys) {
                         editor.putBoolean(getString(resourceId), false)

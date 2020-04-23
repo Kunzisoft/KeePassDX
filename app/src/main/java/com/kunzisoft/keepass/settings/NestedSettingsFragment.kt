@@ -36,12 +36,10 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
-        var key = 0
-        if (arguments != null)
-            key = arguments!!.getInt(TAG_KEY)
-
-        onCreateScreenPreference(Screen.values()[key], savedInstanceState, rootKey)
+        onCreateScreenPreference(
+                Screen.values()[requireArguments().getInt(TAG_KEY)],
+                savedInstanceState,
+                rootKey)
     }
 
     abstract fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?)
