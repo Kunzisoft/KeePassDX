@@ -52,6 +52,7 @@ open class SettingsActivity
 
     companion object {
 
+        private const val SHOW_LOCK = "SHOW_LOCK"
         private const val TAG_NESTED = "TAG_NESTED"
 
         fun launch(activity: Activity, readOnly: Boolean, timeoutEnable: Boolean) {
@@ -95,6 +96,8 @@ open class SettingsActivity
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())
                     .commit()
+        } else {
+            lockView?.visibility = if (savedInstanceState.getBoolean(SHOW_LOCK)) View.VISIBLE else View.GONE
         }
 
         backupManager = BackupManager(this)
@@ -208,5 +211,11 @@ open class SettingsActivity
             }
         else
             replaceFragment(key)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putBoolean(SHOW_LOCK, lockView?.visibility == View.VISIBLE)
     }
 }
