@@ -227,11 +227,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 biometricUnlockEnablePreference?.apply {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
-                        fragmentManager?.let { fragmentManager ->
-                            (preference as SwitchPreference).isChecked = false
-                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
-                                    .show(fragmentManager, "unavailableFeatureDialog")
-                        }
+                        (preference as SwitchPreference).isChecked = false
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                                .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
                     }
                 }
@@ -297,9 +295,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
-                            fragmentManager?.let { fragmentManager ->
-                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
-                            }
+                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
                         }
                     }
                 if (styleEnabled) {
@@ -316,9 +312,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
-                            fragmentManager?.let { fragmentManager ->
-                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
-                            }
+                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
                         }
                     }
                 if (iconPackEnabled) {

@@ -130,9 +130,7 @@ class GroupEditDialogFragment : DialogFragment(), IconPickerDialogFragment.IconP
                     }
 
             iconButtonView?.setOnClickListener { _ ->
-                fragmentManager?.let {
-                    IconPickerDialogFragment().show(it, "IconPickerDialogFragment")
-                }
+                IconPickerDialogFragment().show(parentFragmentManager, "IconPickerDialogFragment")
             }
 
             return builder.create()

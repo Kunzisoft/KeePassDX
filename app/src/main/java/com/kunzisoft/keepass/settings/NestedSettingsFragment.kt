@@ -51,13 +51,11 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     protected fun preferenceInDevelopment(preferenceInDev: Preference) {
         preferenceInDev.setOnPreferenceClickListener { preference ->
-            fragmentManager?.let { fragmentManager ->
-                try { // don't check if we can
-                    (preference as SwitchPreference).isChecked = false
-                } catch (ignored: Exception) {
-                }
-                UnderDevelopmentFeatureDialogFragment().show(fragmentManager, "underDevFeatureDialog")
+            try { // don't check if we can
+                (preference as SwitchPreference).isChecked = false
+            } catch (ignored: Exception) {
             }
+            UnderDevelopmentFeatureDialogFragment().show(parentFragmentManager, "underDevFeatureDialog")
             false
         }
     }

@@ -165,10 +165,9 @@ class OpenFileHelper {
     private fun showBrowserDialog() {
         try {
             val browserDialogFragment = BrowserDialogFragment()
-            if (fragment != null && fragment!!.fragmentManager != null)
-                browserDialogFragment.show(fragment!!.fragmentManager!!, "browserDialog")
-            else
-                browserDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
+            fragment?.let {
+                browserDialogFragment.show(it.parentFragmentManager, "browserDialog")
+            } ?: browserDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
         } catch (e: Exception) {
             Log.e(TAG, "Can't open BrowserDialog", e)
         }
