@@ -24,8 +24,6 @@
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>
         <item name="colorAccentLight">@color/red_light</item>
-        <item name="android:textColor">@color/purple_dark</item>
-        <item name="android:editTextColor">@color/purple</item>
         <item name="colorControlActivated">@color/green</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
@@ -37,6 +35,7 @@
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
+        <item name="colorControlActivated">@color/purple_lighter</item>
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
