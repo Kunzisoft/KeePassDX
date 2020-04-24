@@ -268,7 +268,10 @@ class EntryEditActivity : LockingActivity(),
         // Set info in view
         entryEditContentsView?.apply {
             title = newEntry.title
-            username = if (newEntry.username.isEmpty()) mDatabase?.defaultUsername ?:"" else newEntry.username
+            username = if (mIsNew && newEntry.username.isEmpty())
+                            mDatabase?.defaultUsername ?: ""
+                       else
+                            newEntry.username
             url = newEntry.url
             password = newEntry.password
             expires = newEntry.expires
