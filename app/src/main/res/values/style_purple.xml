@@ -40,6 +40,7 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/purple_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
     <style name="KeepassDXStyle.Toolbar.Bottom.Purple" parent="KeepassDXStyle.Toolbar.Purple">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>

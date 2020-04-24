@@ -162,6 +162,7 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
     <!-- Toolbar Style Night Green -->
@@ -171,6 +172,7 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
     <!-- Contextual Action Bar -->

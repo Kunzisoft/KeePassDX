@@ -42,6 +42,7 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Black" parent="@style/Widget.AppCompat.ActionMode">
