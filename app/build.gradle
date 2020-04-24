@@ -109,7 +109,7 @@ dependencies {
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.3'
     // Education
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
     implementation 'org.apache.commons:commons-io:1.3.2'
