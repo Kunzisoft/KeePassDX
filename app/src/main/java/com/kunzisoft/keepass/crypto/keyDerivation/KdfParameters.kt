@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.util.*
 
-class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
+class KdfParameters(val uuid: UUID) : VariantDictionary() {
 
     fun setParamUUID() {
         setByteArray(PARAM_UUID, uuidTo16Bytes(uuid))
@@ -41,26 +41,25 @@ class KdfParameters internal constructor(val uuid: UUID) : VariantDictionary() {
 
         @Throws(IOException::class)
         fun deserialize(data: ByteArray): KdfParameters? {
-            val bis = ByteArrayInputStream(data)
-            val lis = LittleEndianDataInputStream(bis)
+            val inputStream = LittleEndianDataInputStream(ByteArrayInputStream(data))
+            val dictionary = deserialize(inputStream)
 
-            val d = deserialize(lis) ?: return null
+            val uuidBytes = dictionary.getByteArray(PARAM_UUID) ?: return null
+            val uuid = bytes16ToUuid(uuidBytes)
 
-            val uuid = bytes16ToUuid(d.getByteArray(PARAM_UUID))
-
-            val kdfP = KdfParameters(uuid)
-            kdfP.copyTo(d)
-            return kdfP
+            val kdfParameters = KdfParameters(uuid)
+            kdfParameters.copyTo(dictionary)
+            return kdfParameters
         }
 
         @Throws(IOException::class)
-        fun serialize(kdf: KdfParameters): ByteArray {
-            val bos = ByteArrayOutputStream()
-            val los = LittleEndianDataOutputStream(bos)
+        fun serialize(kdfParameters: KdfParameters): ByteArray {
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            val outputStream = LittleEndianDataOutputStream(byteArrayOutputStream)
 
-            serialize(kdf, los)
+            serialize(kdfParameters, outputStream)
 
-            return bos.toByteArray()
+            return byteArrayOutputStream.toByteArray()
         }
     }
 

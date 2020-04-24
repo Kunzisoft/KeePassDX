@@ -21,6 +21,8 @@ package com.kunzisoft.keepass.crypto.finalkey;
 
 import com.kunzisoft.keepass.crypto.NativeLib;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.io.IOException;
 
 
@@ -30,8 +32,9 @@ public class NativeAESKeyTransformer extends KeyTransformer {
         return NativeLib.INSTANCE.init();
     }
 
+    @Nullable
     @Override
-    public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
+    public byte[] transformMasterKey(@Nullable byte[] seed, @Nullable byte[] key, @Nullable Long rounds) throws IOException {
         NativeLib.INSTANCE.init();
 
         return nTransformMasterKey(seed, key, rounds);

@@ -22,7 +22,7 @@ package com.kunzisoft.keepass.crypto.finalkey
 import com.kunzisoft.keepass.crypto.CipherFactory.deviceBlacklisted
 
 object AESKeyTransformerFactory : KeyTransformer() {
-    override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long): ByteArray? {
+    override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
         // Prefer the native final key implementation
         val keyTransformer = if (!deviceBlacklisted()
                 && NativeAESKeyTransformer.available()) {

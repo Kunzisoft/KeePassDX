@@ -34,17 +34,17 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
     abstract val defaultParameters: KdfParameters
 
     @Throws(IOException::class)
-    abstract fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray
+    abstract fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray
 
-    abstract fun randomize(p: KdfParameters)
+    abstract fun randomize(kdfParameters: KdfParameters)
 
     /*
      * ITERATIONS
      */
 
-    abstract fun getKeyRounds(p: KdfParameters): Long
+    abstract fun getKeyRounds(kdfParameters: KdfParameters): Long
 
-    abstract fun setKeyRounds(p: KdfParameters, keyRounds: Long)
+    abstract fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long)
 
     abstract val defaultKeyRounds: Long
 
@@ -58,11 +58,11 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
      * MEMORY
      */
 
-    open fun getMemoryUsage(p: KdfParameters): Long {
+    open fun getMemoryUsage(kdfParameters: KdfParameters): Long {
         return UNKNOWN_VALUE
     }
 
-    open fun setMemoryUsage(p: KdfParameters, memory: Long) {
+    open fun setMemoryUsage(kdfParameters: KdfParameters, memory: Long) {
         // Do nothing by default
     }
 
@@ -79,11 +79,11 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
      * PARALLELISM
      */
 
-    open fun getParallelism(p: KdfParameters): Long {
+    open fun getParallelism(kdfParameters: KdfParameters): Long {
         return UNKNOWN_VALUE
     }
 
-    open fun setParallelism(p: KdfParameters, parallelism: Long) {
+    open fun setParallelism(kdfParameters: KdfParameters, parallelism: Long) {
         // Do nothing by default
     }
 

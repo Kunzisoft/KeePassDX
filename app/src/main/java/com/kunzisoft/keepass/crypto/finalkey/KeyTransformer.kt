@@ -23,5 +23,5 @@ import java.io.IOException
 
 abstract class KeyTransformer {
     @Throws(IOException::class)
-    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long): ByteArray?
+    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray?
 }

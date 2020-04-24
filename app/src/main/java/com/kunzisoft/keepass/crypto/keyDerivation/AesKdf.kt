@@ -24,63 +24,63 @@ import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.crypto.CryptoUtil
 import com.kunzisoft.keepass.crypto.finalkey.AESKeyTransformerFactory
 import com.kunzisoft.keepass.stream.bytes16ToUuid
-import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.security.SecureRandom
 import java.util.*
 
-class AesKdf internal constructor() : KdfEngine() {
+class AesKdf : KdfEngine() {
+
+    init {
+        uuid = CIPHER_UUID
+    }
 
     override val defaultParameters: KdfParameters
         get() {
             return KdfParameters(uuid!!).apply {
                 setParamUUID()
-                setUInt32(PARAM_ROUNDS, UnsignedInt.fromLong(defaultKeyRounds))
+                setUInt64(PARAM_ROUNDS, defaultKeyRounds)
             }
         }
 
     override val defaultKeyRounds: Long = 6000L
-
-    init {
-        uuid = CIPHER_UUID
-    }
 
     override fun getName(resources: Resources): String {
         return resources.getString(R.string.kdf_AES)
     }
 
     @Throws(IOException::class)
-    override fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray {
-        var currentMasterKey = masterKey
-        val rounds = p.getUInt64(PARAM_ROUNDS)
-        var seed = p.getByteArray(PARAM_SEED)
+    override fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray {
 
+        var seed = kdfParameters.getByteArray(PARAM_SEED)
+        if (seed != null && seed.size != 32) {
+            seed = CryptoUtil.hashSha256(seed)
+        }
+
+        var currentMasterKey = masterKey
         if (currentMasterKey.size != 32) {
             currentMasterKey = CryptoUtil.hashSha256(currentMasterKey)
         }
 
-        if (seed.size != 32) {
-            seed = CryptoUtil.hashSha256(seed)
-        }
+        val rounds = kdfParameters.getUInt64(PARAM_ROUNDS)
 
         return AESKeyTransformerFactory.transformMasterKey(seed, currentMasterKey, rounds) ?: ByteArray(0)
     }
 
-    override fun randomize(p: KdfParameters) {
+    override fun randomize(kdfParameters: KdfParameters) {
         val random = SecureRandom()
 
         val seed = ByteArray(32)
         random.nextBytes(seed)
 
-        p.setByteArray(PARAM_SEED, seed)
+        kdfParameters.setByteArray(PARAM_SEED, seed)
     }
 
-    override fun getKeyRounds(p: KdfParameters): Long {
-        return p.getUInt64(PARAM_ROUNDS)
+    override fun getKeyRounds(kdfParameters: KdfParameters): Long {
+        return kdfParameters.getUInt64(PARAM_ROUNDS) ?: defaultKeyRounds
     }
 
-    override fun setKeyRounds(p: KdfParameters, keyRounds: Long) {
-        p.setUInt64(PARAM_ROUNDS, keyRounds)
+    override fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long) {
+        kdfParameters.setUInt64(PARAM_ROUNDS, keyRounds)
     }
 
     companion object {
@@ -103,7 +103,7 @@ class AesKdf internal constructor() : KdfEngine() {
                         0x4F.toByte(),
                         0xEA.toByte()))
 
-        const val PARAM_ROUNDS = "R"
-        const val PARAM_SEED = "S"
+        const val PARAM_ROUNDS = "R" // UInt64
+        const val PARAM_SEED = "S" // Byte array
     }
 }

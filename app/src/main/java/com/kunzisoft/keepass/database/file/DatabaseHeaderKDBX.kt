@@ -54,7 +54,9 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         get() = databaseV4.kdfParameters?.getByteArray(AesKdf.PARAM_SEED)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, seed)
+            seed?.let {
+                databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, it)
+            }
         }
 
     object PwDbHeaderV4Fields {
