@@ -2,4 +2,6 @@
  * Update Autofill compatibility
  * Fix Magikeyboard "Go" action
  * Fix KeeWeb database opening
+ * Fix default username
+ * Fix themes
 

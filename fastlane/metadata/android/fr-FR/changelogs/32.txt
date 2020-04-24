@@ -2,5 +2,7 @@
  * Mise à jour de la compatibilité du remplissage automatique
  * Correction de l'action "Go" du Magikeyboard
  * Correction de l'ouverture de bases de données KeeWeb
+ * Correction du nom d'utilisateur par défaut
+ * Correction des thèmes
 
 

@@ -3,6 +3,8 @@ KeePassDX(2.5RC2)
  * Update Autofill compatibility
  * Fix Magikeyboard "Go" action
  * Fix KeeWeb database opening
+ * Fix default username
+ * Fix themes
 
 KeePassDX(2.5RC1)
  * Add write permission to keep compatibility with old file managers
