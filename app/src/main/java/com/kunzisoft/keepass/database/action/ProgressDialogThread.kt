@@ -86,10 +86,14 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     private var serviceConnection: ServiceConnection? = null
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
-        override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
+        override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
             // Stop the opening notification
             DatabaseOpenNotificationService.stop(activity)
+            startOrUpdateDialog(titleId, messageId, warningId)
+        }
+
+        override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             startOrUpdateDialog(titleId, messageId, warningId)
         }
 
@@ -131,7 +135,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
     private fun initServiceConnection() {
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
@@ -150,7 +153,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
@@ -161,7 +163,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     /**
      * Unbind the service and assign null to the service connection to check if already unbind or not
      */
-    @Synchronized
     private fun unBindService() {
         serviceConnection?.let {
             activity.unbindService(it)
@@ -169,22 +170,19 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         serviceConnection = null
     }
 
-    @Synchronized
     fun registerProgressTask() {
         ProgressTaskDialogFragment.stop(activity)
 
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                activity.runOnUiThread {
-                    when (intent?.action) {
-                        DATABASE_START_TASK_ACTION -> {
-                            // Bind to the service when is starting
-                            bindService()
-                        }
-                        DATABASE_STOP_TASK_ACTION -> {
-                            unBindService()
-                        }
+                when (intent?.action) {
+                    DATABASE_START_TASK_ACTION -> {
+                        // Bind to the service when is starting
+                        bindService()
+                    }
+                    DATABASE_STOP_TASK_ACTION -> {
+                        unBindService()
                     }
                 }
             }
@@ -200,7 +198,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         bindService()
     }
 
-    @Synchronized
     fun unregisterProgressTask() {
         ProgressTaskDialogFragment.stop(activity)
 
@@ -216,18 +213,15 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
     private fun start(bundle: Bundle? = null, actionTask: String) {
         activity.stopService(intentDatabaseTask)
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
-        activity.runOnUiThread {
             intentDatabaseTask.action = actionTask
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.startForegroundService(intentDatabaseTask)
-            } else {
-                activity.startService(intentDatabaseTask)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.startForegroundService(intentDatabaseTask)
+        } else {
+            activity.startService(intentDatabaseTask)
         }
     }
 

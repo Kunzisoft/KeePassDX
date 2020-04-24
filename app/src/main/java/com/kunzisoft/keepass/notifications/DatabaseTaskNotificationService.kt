@@ -21,10 +21,7 @@ package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Binder
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
@@ -71,6 +68,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     interface ActionTaskListener {
+        fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?)
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
     }
@@ -165,7 +163,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     })
 
                     mActionTaskListeners.forEach { actionTaskListener ->
-                        actionTaskListener.onUpdateAction(titleId, messageId, warningId)
+                        actionTaskListener.onStartAction(titleId, messageId, warningId)
                     }
 
                 }, { result ->
@@ -583,6 +581,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     resultTask = result
                 }
             }
+            Thread.sleep(500)
             return resultTask
         }
 

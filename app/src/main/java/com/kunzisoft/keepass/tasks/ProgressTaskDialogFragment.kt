@@ -117,9 +117,7 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
         fun start(activity: FragmentActivity,
                   dialog: ProgressTaskDialogFragment) {
-            activity.runOnUiThread {
-                dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
-            }
+            dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
 
         fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
