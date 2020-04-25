@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
@@ -59,6 +60,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
+            actionRunnableAsyncTask?.allowFinishTask?.set(true)
             mActionTaskListeners.add(actionTaskListener)
         }
 
@@ -80,7 +82,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        actionRunnableAsyncTask?.allowFinishTask = true
         return mActionTaskBinder
     }
 
@@ -178,7 +179,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 }
             )
             // To keep the task active until a binder is connected
-            actionRunnableAsyncTask?.allowFinishTask = mActionTaskListeners.size >= 1
+            actionRunnableAsyncTask?.allowFinishTask?.set(mActionTaskListeners.size >= 1)
             actionRunnableAsyncTask?.execute({ actionRunnableNotNull })
         }
 
@@ -571,7 +572,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                           private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
         : AsyncTask<((ProgressTaskUpdater?) -> ActionRunnable), Void, ActionRunnable.Result>() {
 
-        var allowFinishTask = false
+        var allowFinishTask = AtomicBoolean(false)
 
         override fun onPreExecute() {
             super.onPreExecute()
@@ -586,8 +587,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     resultTask = result
                 }
             }
-            while(!allowFinishTask) {
-                Thread.sleep(50)
+            // Min wait to show the dialog
+            Thread.sleep(200)
+            // Additional wait if the dialog take time to show (device with low memory)
+            while(!allowFinishTask.get()) {
+                Thread.sleep(100)
             }
             return resultTask
         }

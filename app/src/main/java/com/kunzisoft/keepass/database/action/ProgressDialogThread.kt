@@ -30,7 +30,8 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -54,6 +55,8 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
@@ -61,12 +64,10 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
-import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.retrieveProgressDialog
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
@@ -85,6 +86,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
 
     private var serviceConnection: ServiceConnection? = null
 
+    private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
+
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
@@ -98,9 +101,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
-            onActionFinish?.invoke(actionTask, result)
             // Remove the progress task
-            ProgressTaskDialogFragment.stop(activity)
+            stopDialog()
             TimeoutHelper.releaseTemporarilyDisableTimeout()
 
             val inTime = if (activity is LockingActivity) {
@@ -113,16 +115,21 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             if (actionTask != ACTION_DATABASE_LOAD_TASK && inTime) {
                 DatabaseOpenNotificationService.start(activity)
             }
+
+            onActionFinish?.invoke(actionTask, result)
         }
     }
 
     private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
-        var progressTaskDialogFragment = retrieveProgressDialog(activity)
         if (progressTaskDialogFragment == null) {
-            progressTaskDialogFragment = ProgressTaskDialogFragment.build()
-            ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment)
+            progressTaskDialogFragment = activity.supportFragmentManager
+                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
         }
-        progressTaskDialogFragment.apply {
+        if (progressTaskDialogFragment == null) {
+            progressTaskDialogFragment = ProgressTaskDialogFragment()
+            progressTaskDialogFragment?.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+        }
+        progressTaskDialogFragment?.apply {
             titleId?.let {
                 updateTitle(it)
             }
@@ -133,6 +140,11 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 updateWarning(it)
             }
         }
+    }
+
+    private fun stopDialog() {
+        progressTaskDialogFragment?.dismissAllowingStateLoss()
+        progressTaskDialogFragment = null
     }
 
     private fun initServiceConnection() {
@@ -171,7 +183,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     fun registerProgressTask() {
-        ProgressTaskDialogFragment.stop(activity)
+        stopDialog()
 
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
@@ -199,7 +211,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     fun unregisterProgressTask() {
-        ProgressTaskDialogFragment.stop(activity)
+        stopDialog()
 
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
