@@ -80,6 +80,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        actionRunnableAsyncTask?.allowFinishTask = true
         return mActionTaskBinder
     }
 
@@ -176,6 +177,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     stopSelf()
                 }
             )
+            // To keep the task active until a binder is connected
+            actionRunnableAsyncTask?.allowFinishTask = mActionTaskListeners.size >= 1
             actionRunnableAsyncTask?.execute({ actionRunnableNotNull })
         }
 
@@ -568,6 +571,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                           private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
         : AsyncTask<((ProgressTaskUpdater?) -> ActionRunnable), Void, ActionRunnable.Result>() {
 
+        var allowFinishTask = false
+
         override fun onPreExecute() {
             super.onPreExecute()
             onPreExecute.invoke()
@@ -581,7 +586,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     resultTask = result
                 }
             }
-            Thread.sleep(500)
+            while(!allowFinishTask) {
+                Thread.sleep(50)
+            }
             return resultTask
         }
 
