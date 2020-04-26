@@ -59,8 +59,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
-        fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
+        fun allowFinishTask() {
+            // To prevent task dialog to be unbound before the display
             actionRunnableAsyncTask?.allowFinishTask?.set(true)
+        }
+
+        fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
         }
 
@@ -178,8 +182,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     stopSelf()
                 }
             )
-            // To keep the task active until a binder is connected
-            actionRunnableAsyncTask?.allowFinishTask?.set(mActionTaskListeners.size >= 1)
             actionRunnableAsyncTask?.execute({ actionRunnableNotNull })
         }
 
@@ -587,8 +589,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     resultTask = result
                 }
             }
-            // Min wait to show the dialog
-            Thread.sleep(200)
             // Additional wait if the dialog take time to show (device with low memory)
             while(!allowFinishTask.get()) {
                 Thread.sleep(100)

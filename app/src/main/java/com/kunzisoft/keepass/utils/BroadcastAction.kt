@@ -119,7 +119,7 @@ fun Context.closeDatabase() {
     // Stop the notification service
     stopService(Intent(this, ClipboardEntryNotificationService::class.java))
 
-    Log.i(Context::class.java.name, "Shutdown after inactivity or manual lock")
+    Log.i(Context::class.java.name, "Close database after inactivity or manual lock")
     (getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager?)?.apply {
         cancelAll()
     }

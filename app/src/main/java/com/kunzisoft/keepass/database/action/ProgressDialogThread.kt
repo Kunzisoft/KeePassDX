@@ -120,6 +120,12 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
+    private var progressDisplayListener = object: ProgressTaskDialogFragment.DisplayListener {
+        override fun onDisplayDialog() {
+            mBinder?.allowFinishTask()
+        }
+    }
+
     private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
         if (progressTaskDialogFragment == null) {
             progressTaskDialogFragment = activity.supportFragmentManager
@@ -127,6 +133,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
         if (progressTaskDialogFragment == null) {
             progressTaskDialogFragment = ProgressTaskDialogFragment()
+            progressTaskDialogFragment?.displayListener = progressDisplayListener
             progressTaskDialogFragment?.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
         progressTaskDialogFragment?.apply {
@@ -143,6 +150,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     private fun stopDialog() {
+        progressTaskDialogFragment?.displayListener = null
         progressTaskDialogFragment?.dismissAllowingStateLoss()
         progressTaskDialogFragment = null
     }
