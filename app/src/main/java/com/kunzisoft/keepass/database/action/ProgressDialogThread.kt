@@ -101,6 +101,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
+            onActionFinish?.invoke(actionTask, result)
+
             // Remove the progress task
             stopDialog()
             TimeoutHelper.releaseTemporarilyDisableTimeout()
@@ -115,8 +117,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             if (actionTask != ACTION_DATABASE_LOAD_TASK && inTime) {
                 DatabaseOpenNotificationService.start(activity)
             }
-
-            onActionFinish?.invoke(actionTask, result)
         }
     }
 
