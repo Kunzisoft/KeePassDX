@@ -46,7 +46,7 @@
             android:paddingRight="@dimen/default_margin"
             android:paddingEnd="@dimen/default_margin">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/entry_new_field_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
             android:paddingEnd="@dimen/default_margin"
             android:layout_below="@+id/title_container">
 
-            <EditText
+            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/entry_new_field_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
