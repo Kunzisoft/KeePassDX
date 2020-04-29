@@ -44,8 +44,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     private var warningView: TextView? = null
     private var progressView: ProgressBar? = null
 
-    var displayListener: DisplayListener? = null
-
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
         activity?.let {
@@ -73,11 +71,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
             return builder.create()
         }
         return super.onCreateDialog(savedInstanceState)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        displayListener?.onDisplayDialog()
     }
 
     fun setTitle(@StringRes titleId: Int) {
@@ -108,10 +101,6 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
     fun updateWarning(@StringRes resId: Int) {
         this.warning = resId
         updateView(warningView, warning)
-    }
-
-    interface DisplayListener {
-        fun onDisplayDialog()
     }
 
     companion object {

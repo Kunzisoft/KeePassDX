@@ -59,13 +59,10 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
-        fun allowFinishTask() {
-            // To prevent task dialog to be unbound before the display
-            actionRunnableAsyncTask?.allowFinishTask?.set(true)
-        }
-
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
+            // To prevent task dialog to be unbound before the display
+            actionRunnableAsyncTask?.allowFinishTask?.set(true)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
