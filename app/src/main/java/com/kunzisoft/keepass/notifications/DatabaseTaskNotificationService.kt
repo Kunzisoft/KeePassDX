@@ -586,9 +586,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     resultTask = result
                 }
             }
-            // Additional wait if the dialog take time to show (device with low memory)
+            // Additional wait if the dialog take time to show
             while(!allowFinishTask.get()) {
-                Thread.sleep(100)
+                Thread.sleep(250)
             }
             return resultTask
         }
