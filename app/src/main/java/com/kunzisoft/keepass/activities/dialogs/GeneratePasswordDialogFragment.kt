@@ -167,7 +167,6 @@ class GeneratePasswordDialogFragment : DialogFragment() {
         var password = ""
         try {
             val length = Integer.valueOf(root?.findViewById<EditText>(R.id.length)?.text.toString())
-
             password = PasswordGenerator(resources).generatePassword(length,
                     uppercaseBox?.isChecked == true,
                     lowercaseBox?.isChecked == true,
@@ -178,6 +177,7 @@ class GeneratePasswordDialogFragment : DialogFragment() {
                     specialsBox?.isChecked == true,
                     bracketsBox?.isChecked == true,
                     extendedBox?.isChecked == true)
+            passwordInputLayoutView?.error = null
         } catch (e: NumberFormatException) {
             passwordInputLayoutView?.error = getString(R.string.error_wrong_length)
         } catch (e: IllegalArgumentException) {
@@ -193,7 +193,6 @@ class GeneratePasswordDialogFragment : DialogFragment() {
     }
 
     companion object {
-
         const val KEY_PASSWORD_ID = "KEY_PASSWORD_ID"
     }
 }
