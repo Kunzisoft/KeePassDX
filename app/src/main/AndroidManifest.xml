@@ -23,17 +23,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:name="com.kunzisoft.keepass.app.App"
         android:allowBackup="true"
-        android:fullBackupContent="@xml/backup"
+        android:fullBackupContent="@xml/backup_rules"
         android:backupAgent="com.kunzisoft.keepass.backup.SettingsBackupAgent"
         android:largeHeap="true"
         android:resizeableActivity="true"
         android:theme="@style/KeepassDXStyle.Night"
         tools:targetApi="n">
-        <!-- TODO backup API Key #479 -->
         <meta-data
             android:name="com.google.android.backup.api_key"
-            android:value="" />
-
+            android:value="${googleAndroidBackupAPIKey}" />
         <activity
             android:name="com.kunzisoft.keepass.activities.FileDatabaseSelectActivity"
             android:theme="@style/KeepassDXStyle.SplashScreen"

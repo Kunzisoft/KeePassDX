@@ -19,14 +19,10 @@
  */
 package com.kunzisoft.keepass.backup
 
-import android.annotation.SuppressLint
 import android.app.backup.BackupAgentHelper
 import android.app.backup.SharedPreferencesBackupHelper
 
-@SuppressLint("NewApi")
 class SettingsBackupAgent : BackupAgentHelper() {
-
-    //TODO Backup #479
 
     override fun onCreate() {
         val defaultPrefs = this.packageName + "_preferences"
