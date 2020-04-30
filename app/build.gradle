@@ -45,9 +45,10 @@ android {
     dexOptions {
     }
 
-    flavorDimensions "tier"
+    flavorDimensions "version"
     productFlavors {
         libre {
+            dimension "version"
             applicationIdSuffix = ".libre"
             buildConfigField "String", "BUILD_VERSION", "\"libre\""
             buildConfigField "boolean", "FULL_VERSION", "true"
@@ -56,6 +57,7 @@ android {
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
         }
         pro {
+            dimension "version"
             applicationIdSuffix = ".pro"
             buildConfigField "String", "BUILD_VERSION", "\"pro\""
             buildConfigField "boolean", "FULL_VERSION", "true"
@@ -65,6 +67,7 @@ android {
             manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIZiXvrQCzSV9LNI6-p7cjTKENZLHIrz_zaqZuQQ" ]
         }
         free {
+            dimension "version"
             applicationIdSuffix = ".free"
             buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "FULL_VERSION", "false"
