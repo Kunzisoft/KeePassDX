@@ -4,4 +4,5 @@
  * Fix KeeWeb database opening
  * Fix default username
  * Fix themes
+ * Fix small issues
 

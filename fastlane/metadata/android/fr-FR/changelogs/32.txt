@@ -4,5 +4,6 @@
  * Correction de l'ouverture de bases de données KeeWeb
  * Correction du nom d'utilisateur par défaut
  * Correction des thèmes
+ * Corrections de petits problèmes
 
 
