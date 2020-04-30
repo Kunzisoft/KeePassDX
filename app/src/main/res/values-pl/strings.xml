@@ -149,9 +149,9 @@
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
     <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
-    <string name="html_about_licence">KeePassDX © %1 $d Kunzisoft jest &lt;strong&gt;wolnym programem&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
-\nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
->>>>>>> translations
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest <strong>open source</strong> i <strong>bez reklam</strong>. 
+\nJest on dostarczany w stanie, zgodnie z licencją <strong>GPLv3</strong> bez żadnych gwarancji.</string>
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; translations
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>
     <string name="error_load_database">Nie można załadować bazy danych.</string>
     <string name="error_load_database_KDF_memory">Nie można załadować klucza. Spróbuj zmniejszyć użycie pamięć KDF.</string>
@@ -470,4 +470,11 @@
     <string name="discard">Odrzuć</string>
     <string name="discard_changes">Odrzucić zmiany\?</string>
     <string name="validate">Walidacja</string>
+    <string name="autofill_auto_search_summary">Automatyczne sugerowanie wyników wyszukiwania z domeny internetowej lub identyfikatora aplikacji</string>
+    <string name="autofill_auto_search_title">Automatyczne wyszukiwanie</string>
+    <string name="lock_database_show_button_summary">Wyświetla przycisk blokady w interfejsie użytkownika</string>
+    <string name="lock_database_show_button_title">Pokaż przycisk blokady</string>
+    <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
+    <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
+    <string name="error_label_exists">Ta etykieta już istnieje.</string>
 </resources>

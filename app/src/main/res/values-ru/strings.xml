@@ -44,8 +44,8 @@
     <string name="decrypting_db">Расшифровка базы…</string>
     <string name="default_checkbox">База по умолчанию</string>
     <string name="digits">Цифры</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это &lt;strong&gt;свободное программное обеспечение&lt;/strong&gt; и &lt;strong&gt;без рекламы&lt;/strong&gt;.
-\nРаспространяется под лицензией &lt;strong&gt;GPLv3&lt;/strong&gt; без каких-либо гарантий.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft — это программное обеспечение <strong>с открытым исходным кодом</strong> и <strong>без рекламы</strong>. 
+\nРаспространяется под лицензией <strong>GPLv3</strong> без каких-либо гарантий.</string>
     <string name="select_database_file">Открыть существующую базу</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Отмена</string>
@@ -224,7 +224,7 @@
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
     <string name="lock_database_screen_off_summary">Блокировать базу при отключении экрана</string>
-    <string name="advanced_unlock">Отпечаток пальца</string>
+    <string name="advanced_unlock">Дополнительная разблокировка</string>
     <string name="biometric_unlock_enable_title">Сканирование биометрического ключа</string>
     <string name="biometric_unlock_enable_summary">Включить разблокировку базы при помощи биометрического ключа</string>
     <string name="biometric_delete_all_key_title">Удалить ключи шифрования</string>
@@ -463,10 +463,17 @@
     <string name="hide_broken_locations_summary">Не показывать неработающие ссылки в списке последних открытых баз</string>
     <string name="warning_database_read_only">Необходимо разрешение на запись в файл для сохранения изменений базы</string>
     <string name="validate">Проверить</string>
-    <string name="discard_changes">Отменить изменения\?</string>
-    <string name="discard">Отменить</string>
+    <string name="discard_changes">Забыть изменения\?</string>
+    <string name="discard">Забыть</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройте OTP</string>
     <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
+    <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска из веб-домена или идентификатора приложения</string>
+    <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>
+    <string name="lock_database_show_button_title">Показывать кнопку блокировки</string>
+    <string name="error_label_exists">Такая метка уже существует.</string>
+    <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
+    <string name="autofill_auto_search_title">Автопоиск</string>
+    <string name="autofill_preference_title">Настройки автозаполнения</string>
 </resources>
