@@ -279,7 +279,7 @@
     <string name="entry_attachments">Adjunts</string>
     <string name="entry_history">Història</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Per tal de <strong>mantenir la nostra llibertat</strong>, <strong>corregir errors</strong>, <strong>afegir característiques</strong> i <strong>estar sempre actius</strong>, comptem amb la vostra <strong>contribució</strong>.</string>
+    <string name="html_about_contribution">Per tal de &lt;strong&gt;mantenir la nostra llibertat&lt;/strong&gt;, &lt;strong&gt;corregir errors&lt;/strong&gt;, &lt;strong&gt;afegir característiques&lt;/strong&gt; i &lt;strong&gt;estar sempre actius&lt;/strong&gt;, comptem amb la vostra &lt;strong&gt;contribució&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Tanca camps</string>
     <string name="content_description_update_from_list">Actualitza</string>
     <string name="content_description_remove_field">Suprimeix camp</string>
