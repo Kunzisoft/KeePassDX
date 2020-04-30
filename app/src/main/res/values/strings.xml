@@ -271,7 +271,7 @@
     <string name="biometric_not_recognized">Could not recognize biometric</string>
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="credential_before_click_biometric_button">Type the password before clicking the biometric button.</string>
+    <string name="credential_before_click_biometric_button">Type in the password, and then click the \"Biometric\" button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
@@ -304,7 +304,7 @@
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open biometric prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Automatically open biometric prompt when a biometric key is defined for a database</string>
+    <string name="biometric_auto_open_prompt_summary">Automatically ask for biometric if the database is set up to use it</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
@@ -314,8 +314,8 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
-    <string name="full_file_path_enable_title">File path</string>
-    <string name="full_file_path_enable_summary">View the full file path</string>
+    <string name="full_file_path_enable_title">Filepath</string>
+    <string name="full_file_path_enable_summary">View the full filepath</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Recycle bin usage</string>
@@ -388,11 +388,11 @@
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
-    <string name="enable_education_screens_title">Educational screens</string>
-    <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
-    <string name="reset_education_screens_title">Reset educational screens</string>
-    <string name="reset_education_screens_summary">Show all educational items again</string>
-    <string name="reset_education_screens_text">Educational screens reset</string>
+    <string name="enable_education_screens_title">Educational hints</string>
+    <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
+    <string name="reset_education_screens_title">Reset educational hints</string>
+    <string name="reset_education_screens_summary">Show all educational info again</string>
+    <string name="reset_education_screens_text">Educational hints reset</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
@@ -441,7 +441,7 @@
     <string name="download_initialization">Initializing…</string>
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
-    <string name="download_complete">Complete! Tap to open the file.</string>
+    <string name="download_complete">Tap to open the file.</string>
     <!-- Encryption Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
