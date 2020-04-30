@@ -377,7 +377,7 @@
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="autofill_auto_search_title">Auto search</string>
-    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or applicationId</string>
+    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application Id</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
@@ -395,7 +395,6 @@
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
     <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
-    <!--both entries and groups are items-->
     <string name="education_new_node_title">Add items to your database</string>
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
@@ -439,12 +438,10 @@
     <string name="download_initialization">Initializing…</string>
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
-    <string name="download_complete">Tap to open the file.</string>
-    <!-- Encryption Algorithms -->
+    <string name="download_complete">Complete! Tap to open the file.</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <!-- Key Derivation Functions -->
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string-array name="timeout_options">

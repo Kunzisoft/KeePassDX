@@ -461,7 +461,7 @@
     <string name="hide_broken_locations_title">Skrýt špatné odkazy na databáze</string>
     <string name="hide_broken_locations_summary">Skrýt špatné odkazy v seznamu nedávných databází</string>
     <string name="warning_database_read_only">Udělit právo zápisu pro uložení změn v databázi</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;svobodný software&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; a &lt;strong&gt;bey reklam&lt;/strong&gt;.
 \nJe poskytován jak je, pod licencí &lt;strong&gt;GPLv3&lt;/strong&gt;, bez jakékoli záruky.</string>
     <string name="html_about_contribution">Abychom si &lt;strong&gt;udrželi svoji svobodu&lt;/strong&gt;, &lt;strong&gt;opravili chyby&lt;/strong&gt;,&lt;strong&gt;doplnili funkce&lt;/strong&gt; a &lt;strong&gt;byli vždy aktivní&lt;/strong&gt;, počítáme s Vaším &lt;strong&gt;přispěním&lt;/strong&gt;.</string>
     <string name="error_create_database">Nedaří se vytvořit soubor s databází.</string>
@@ -471,4 +471,11 @@
     <string name="validate">Ověřit</string>
     <string name="education_setup_OTP_summary">Nastavit správu One-Time hesla (HOTP / TOTP) pro založení tokenu požadovaného pro dvoufázové ověření (2FA).</string>
     <string name="education_setup_OTP_title">Nastavit OTP</string>
+    <string name="autofill_auto_search_summary">Automaticky navrhne výsledky hledání z webové domény nebo Id aplikace</string>
+    <string name="autofill_auto_search_title">Samočinné hledání</string>
+    <string name="lock_database_show_button_summary">Ukáže tlačítko zámku v uživatelském rozhraní</string>
+    <string name="lock_database_show_button_title">Ukázat tlačítko zámku</string>
+    <string name="autofill_preference_title">Nastavení samovyplnění</string>
+    <string name="warning_database_link_revoked">Přístup k souboru zrušenému správcem souborů</string>
+    <string name="error_label_exists">Tento štítek již existuje.</string>
 </resources>

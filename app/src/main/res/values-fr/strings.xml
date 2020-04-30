@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="feedback">Commentaires</string>
     <string name="homepage">Page d’accueil</string>
     <string name="about_description">Implémentation Android du gestionnaire de mots de passe KeePass</string>
@@ -50,7 +49,8 @@
     <string name="decrypting_db">Déchiffrement du contenu de la base de données…</string>
     <string name="default_checkbox">Utiliser comme base de données par défaut</string>
     <string name="digits">Chiffres</string>
-    <string name="html_about_licence"> Key Derivation Functions </string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft est &lt;strong&gt;open source&lt;/strong&gt; et &lt;strong&gt;sans publicité&lt;/strong&gt;.
+\nIl est fourni tel quel, sous licence &lt;strong&gt;GPLv3&lt;/strong&gt;, sans aucune garantie.</string>
     <string name="entry_accessed">Dernier accès</string>
     <string name="entry_cancel">Annuler</string>
     <string name="entry_notes">Notes</string>
@@ -477,4 +477,11 @@
     <string name="discard">Abandonner</string>
     <string name="discard_changes">Abandonner les modifications \?</string>
     <string name="validate">Valider</string>
+    <string name="autofill_auto_search_summary">Suggérer automatiquement des résultats de recherche à partir du domaine Web ou de l\'identifiant de l\'appli</string>
+    <string name="autofill_auto_search_title">Recherche automatique</string>
+    <string name="lock_database_show_button_summary">Affiche le bouton de verrouillage dans l\'interface utilisateur</string>
+    <string name="lock_database_show_button_title">Afficher le bouton de verrouillage</string>
+    <string name="autofill_preference_title">Paramètres de remplissage automatique</string>
+    <string name="warning_database_link_revoked">Accès au fichier révoqué par le gestionnaire de fichiers</string>
+    <string name="error_label_exists">Ce label existe déjà.</string>
 </resources>

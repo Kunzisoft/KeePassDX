@@ -21,28 +21,28 @@
 <resources>
     <string name="feedback">Comentaris:</string>
     <string name="homepage">Pàgina inici:</string>
-    <string name="about_description">KeePassDX és una implementació per Android de KeePass password manager.</string>
+    <string name="about_description">KeePassDX és una implementació per a Android de KeePass password manager</string>
     <string name="accept">Accepta</string>
     <string name="add_entry">Afegeix entrada</string>
     <string name="add_group">Afegeix grup</string>
-    <string name="encryption_algorithm">Algoritme</string>
+    <string name="encryption_algorithm">Algorisme de xifratge</string>
     <string name="app_timeout">Temps d\'espera de l\'aplicació</string>
-    <string name="app_timeout_summary">Temps abans de bloquejar la base de dades quan l\'applicació està inactiva.</string>
+    <string name="app_timeout_summary">Temps d\'inactivitat abans de blocar la base de dades</string>
     <string name="application">Aplicació</string>
     <string name="menu_app_settings">Paràmetres de l\'aplicació</string>
     <string name="brackets">Parèntesis</string>
     <string name="file_manager_install_description">L\'exploració d\'arxius necessita l\'aplicació Open Intents File Manager, clica a sota per instal·lar-la. Degut a peculiaritats de l\'explorador d\'arxius pot ser que no funcioni correctament la primera execució.</string>
     <string name="clipboard_cleared">Porta-retalls netejat.</string>
     <string name="clipboard_timeout">Temps d\'espera del porta-retalls</string>
-    <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls després de copiar un usuari o contrasenya</string>
+    <string name="clipboard_timeout_summary">Temps abans de netejar el porta-retalls</string>
     <string name="select_to_copy">Selecciona per copiar %1$s al porta-retalls</string>
-    <string name="retrieving_db_key">Creant clau de base de dades&#8230;</string>
+    <string name="retrieving_db_key">Creant clau de base de dades…</string>
     <string name="database">Base de dades</string>
-    <string name="decrypting_db">Desencriptant continguts de la base de dades&#8230;</string>
-    <string name="default_checkbox">Utilitza aquesta com a base de dades per defecte</string>
+    <string name="decrypting_db">Es desxifra el contingut de la base de dades…</string>
+    <string name="default_checkbox">Utilitza com a base de dades per defecte</string>
     <string name="digits">Dígits</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuïr-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
-    <string name="select_database_file">Introdueix el nom de la base de dades</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft ve sense cap mena de garantia. Això és programari lliure, i pots redistribuir-lo sota els termes de la llicència GPL versió 3 o posterior.</string>
+    <string name="select_database_file">Obri una base de dades existent</string>
     <string name="entry_accessed">Accedida</string>
     <string name="entry_cancel">Cancel·la</string>
     <string name="entry_notes">Comentaris</string>
@@ -57,32 +57,32 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Usuari</string>
     <string name="error_arc4">L\'encriptació Arcfour no està suportada.</string>
-    <string name="error_can_not_handle_uri">KeePassDX no pot manejar aquesta uri.</string>
+    <string name="error_can_not_handle_uri">KeePassDX no pot manejar aquesta URI.</string>
     <string name="error_file_not_create">No s\'ha pogut crear l\'arxiu:</string>
-    <string name="error_invalid_db">Base de dades invàlida.</string>
-    <string name="error_invalid_path">Camí invàlid.</string>
-    <string name="error_no_name">És necessari un nom.</string>
-    <string name="error_nokeyfile">És necessaria una contrasenya o un arxiu clau.</string>
-    <string name="error_out_of_memory">El telèfon sha quedat sense memòria processant la teva base de dades. Potser és massa gran pel teu telèfon.</string>
-    <string name="error_pass_gen_type">Has de seleccionar almenys un tipus de generador de contrasenyes</string>
+    <string name="error_invalid_db">No s\'ha pogut llegir la base de dades.</string>
+    <string name="error_invalid_path">Assegureu-vos que el camí eś correcte.</string>
+    <string name="error_no_name">Introduïu-hi un nom.</string>
+    <string name="error_nokeyfile">Selecciona un fitxer clau.</string>
+    <string name="error_out_of_memory">No hi ha prou memòria per a carregar la base de dades sencera.</string>
+    <string name="error_pass_gen_type">Has de seleccionar almenys un tipus de generador de contrasenyes.</string>
     <string name="error_pass_match">Les contrasenyes no coincideixen.</string>
     <string name="error_rounds_too_large">Massa passades. Establint a 2147483648.</string>
-    <string name="error_wrong_length">Insereix un enter positiu al camp longitud</string>
+    <string name="error_wrong_length">Inseriu un enter positiu al camp longitud.</string>
     <string name="file_browser">Explorador d\'arxius</string>
-    <string name="generate_password">Generar contrasenya</string>
-    <string name="hint_conf_pass">confirma contrasenya</string>
-    <string name="hint_generated_password">contrasenya generada</string>
+    <string name="generate_password">Genera contrasenya</string>
+    <string name="hint_conf_pass">Confirma contrasenya</string>
+    <string name="hint_generated_password">Contrasenya generada</string>
     <string name="hint_group_name">Nom del grup</string>
-    <string name="hint_keyfile">arxiu clau</string>
-    <string name="hint_length">longitud</string>
-    <string name="hint_pass">contrasenya</string>
+    <string name="hint_keyfile">Fitxer clau</string>
+    <string name="hint_length">Longitud</string>
+    <string name="hint_pass">Contrasenya</string>
     <string name="password">Contrasenya</string>
-    <string name="invalid_credentials">Contrasenya o arxiu clau invàlids.</string>
-    <string name="invalid_db_sig">Format de base de dades desconegut.</string>
+    <string name="invalid_credentials">No s\'han pogut llegir les credencials. Si torna a passar, el fitxer de la vostra base de dades podria estar malmès.</string>
+    <string name="invalid_db_sig">No s\'ha pogut reconèixer el format de la base de dades.</string>
     <string name="length">Longitud</string>
     <string name="list_size_title">Mida de la llista de grups</string>
     <string name="list_size_summary">Mida del text a la llista de grups</string>
-    <string name="loading_database">Carregant base de dades&#8230;</string>
+    <string name="loading_database">Carregant base de dades…</string>
     <string name="lowercase">Minúscules</string>
     <string name="hide_password_title">Emmascara contrasenya</string>
     <string name="hide_password_summary">Amaga les contrasenyes per defecte</string>
@@ -94,28 +94,28 @@
     <string name="menu_donate">Donar</string>
     <string name="menu_edit">Editar</string>
     <string name="menu_hide_password">Amaga contrasenya</string>
-    <string name="menu_lock">Bloqueja la base de dades</string>
+    <string name="menu_lock">Bloca la base de dades</string>
     <string name="menu_open">Obre</string>
     <string name="menu_search">Cerca</string>
-    <string name="menu_showpass">Mostra contrasenya</string>
+    <string name="menu_showpass">Mostra la contrasenya</string>
     <string name="menu_url">Ves a la URL</string>
     <string name="minus">Menys</string>
     <string name="never">Mai</string>
     <string name="no_results">Cap resultat de cerca</string>
-    <string name="no_url_handler">Sense gestor per aquesta url.</string>
+    <string name="no_url_handler">Instal·leu un navegador web per a obri aquesta URL</string>
     <string name="omit_backup_search_title">No cerquis entrades a còpia de seguretat ni paperera</string>
     <string name="omit_backup_search_summary">Omet els grups \'Còpia de seguretat\' i paperera dels resultats de cerca</string>
-    <string name="progress_create">Creant nova base de dades&#8230;</string>
-    <string name="progress_title">Treballant&#8230;</string>
+    <string name="progress_create">Creant nova base de dades…</string>
+    <string name="progress_title">Treballant…</string>
     <string name="content_description_remove_from_list">Elimina</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Arrel</string>
     <string name="rounds">Passades d\'encriptació</string>
-    <string name="rounds_explanation">Més passades d\'encriptació dónen protecció adicional contra atacs de força bruta, però poden alentir molt carregar i guardar la base de dades.</string>
-    <string name="saving_database">Guardant la base de dades&#8230;</string>
+    <string name="rounds_explanation">Més passades d\'encriptació donen protecció addicional contra atacs de força bruta, però poden alentir molt la càrrega i el desat de la base de dades.</string>
+    <string name="saving_database">Guardant la base de dades…</string>
     <string name="space">Espai</string>
     <string name="search_label">Cerca</string>
-    <string name="sort_db">Ordenació de base de dades</string>
+    <string name="sort_db">Ordre natural</string>
     <string name="special">Especial</string>
     <string name="search">Títol/descripció d\'entrada</string>
     <string name="search_results">Resultats de cerca</string>
@@ -124,23 +124,181 @@
     <string name="unsupported_db_version">Versió de la base de dades no suportada.</string>
     <string name="uppercase">Majúscules</string>
     <string name="version_label">Versió %1$s</string>
-
     <string name="education_unlock_summary">Introdueix una contrasenya i/o un arxiu clau per desbloquejar la base de dades.</string>
-
     <string-array name="timeout_options">
-    	<item>5 segons</item>
-    	<item>10 segons</item>
-    	<item>20 segons</item>
-    	<item>30 segons</item>
-    	<item>1 minut</item>
-    	<item>5 minuts</item>
-    	<item>15 minuts</item>
-    	<item>30 minuts</item>
-    	<item>Mai</item>
+        <item>5 segons</item>
+        <item>10 segons</item>
+        <item>20 segons</item>
+        <item>30 segons</item>
+        <item>1 minut</item>
+        <item>5 minuts</item>
+        <item>15 minuts</item>
+        <item>30 minuts</item>
+        <item>Mai</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Petita</item>
-    	<item>Mitjana</item>
-    	<item>Gran</item>
+        <item>Petita</item>
+        <item>Mitjana</item>
+        <item>Gran</item>
     </string-array>
+    <string name="encryption">Xifrat</string>
+    <string name="security">Seguretat</string>
+    <string name="master_key">Clau mestra</string>
+    <string name="edit_entry">Edita l\'entrada</string>
+    <string name="contribution">Contribució</string>
+    <string name="contact">Contacte</string>
+    <string name="beta_dontask">No tornis a mostrar</string>
+    <string name="extended_ASCII">ASCII ampliat</string>
+    <string name="sort_username">Nom d\'usuari</string>
+    <string name="sort_title">Títol</string>
+    <string name="sort_menu">Ordena</string>
+    <string name="allow">Permet</string>
+    <string name="database_default_username_title">Nom d\'usuari per defecte</string>
+    <string name="database_description_title">Descripció de la base de dades</string>
+    <string name="database_name_title">Nom de la base de dades</string>
+    <string name="clear_clipboard_notification_title">Neteja en tancar</string>
+    <string name="disable">Desactiva</string>
+    <string name="enable">Activa</string>
+    <string name="settings_database_force_changing_master_key_summary">Obliga a canviar la contrasenya mestra (dies)</string>
+    <string name="settings_database_force_changing_master_key_title">Força la renovació</string>
+    <string name="max_history_size_title">Mida màxima</string>
+    <string name="max_history_items_title">Nombre màxim</string>
+    <string name="recycle_bin_group_title">Grup paperera</string>
+    <string name="recycle_bin_summary">Mou els grups i les entrades al grup \"paperera\" abans de suprimir-los</string>
+    <string name="recycle_bin_title">Ús de la paperera</string>
+    <string name="database_data_compression_summary">La compressió de les dades redueix la mida de la base de dades.</string>
+    <string name="database_data_compression_title">Compressió de les dades</string>
+    <string name="full_file_path_enable_title">Ruta del fitxer</string>
+    <string name="assign_master_key">Assigna una contrasenya mestra</string>
+    <string name="path">Camí</string>
+    <string name="file_name">Nom de fitxer</string>
+    <string name="unavailable_feature_version">La vostra versió d\'Android (%1$s) no compleix els requeriments; la versió mínima és %2$s.</string>
+    <string name="biometric_delete_all_key_title">Suprimeix les claus de xifrat</string>
+    <string name="lock_database_show_button_summary">Mostra el botó de blocar en la interfície d\'usuari</string>
+    <string name="lock_database_show_button_title">Mostra el botó de blocar</string>
+    <string name="lock_database_back_root_summary">Bloca la base de dades quan l\'usuari toca el botó enrere en la pantalla principal</string>
+    <string name="lock_database_back_root_title">Premeu \'enrere\' per a blocar</string>
+    <string name="lock_database_screen_off_summary">Bloca la base de dades quan la pantalla està desactivada</string>
+    <string name="lock">Bloca</string>
+    <string name="clipboard_warning">Si la supressió automàtica del porta-retalls falla, suprimiu-ne la història manualment.</string>
+    <string name="clipboard_notifications_title">Notificacions del porta-retalls</string>
+    <string name="clipboard">Porta-retalls</string>
+    <string name="database_opened">S\'ha obert la base de dades</string>
+    <string name="list_password_generator_options_summary">Estableix els caràcters admesos pel generador de contrasenyes</string>
+    <string name="list_password_generator_options_title">Caràcters de la contrasenya</string>
+    <string name="password_size_summary">Estableix la mida per defecte de les contrasenyes generades</string>
+    <string name="password_size_title">Mida de la contrasenya generada</string>
+    <string name="autofill_preference_title">Paràmetres d\'autocompleció</string>
+    <string name="autofill_explanation_summary">Activa l\'autocompleció per a omplir ràpidament formularis en altres aplicacions</string>
+    <string name="autofill_sign_in_prompt">Inicia sessió amb KeePassDX</string>
+    <string name="autofill">Autocompleta</string>
+    <string name="general">General</string>
+    <string name="biometric">Biomètric</string>
+    <string name="menu_appearance_settings">Apariència</string>
+    <string name="database_history">Història</string>
+    <string name="credential_before_click_biometric_button">Escriviu la contrasenya abans de fer clic en el botó biomètric.</string>
+    <string name="encrypted_value_stored">Contrasenya xifrada desada</string>
+    <string name="biometric_prompt_extract_credential_title">Obri la base de dades amb reconeixement biomètric</string>
+    <string name="biometric_prompt_store_credential_message">Alerta: Heu de recordar la vostra contrasenya mestra encara que feu servir el reconeixement biomètrica.</string>
+    <string name="warning_permanently_delete_nodes">Voleu suprimir definitivament els nodes seleccionats\?</string>
+    <string name="warning_no_encryption_key">Voleu continuar sense contrasenya de xifrat\?</string>
+    <string name="warning_database_link_revoked">L\'accés al fitxer ha estat revocat pel gestor de fitxers</string>
+    <string name="warning">Advertència</string>
+    <string name="sort_last_access_time">Accés</string>
+    <string name="sort_last_modify_time">Modificació</string>
+    <string name="sort_creation_time">Creació</string>
+    <string name="sort_recycle_bin_bottom">Paperera a baix</string>
+    <string name="sort_groups_before">Primer els grups</string>
+    <string name="sort_ascending">El menor primer ↓</string>
+    <string name="command_execution">S\'executa l\'ordre…</string>
+    <string name="parallelism_explanation">Grau de paral·lelisme (és a dir, nombre de fils) fets servir per la funció de derivació de la clau.</string>
+    <string name="parallelism">Paral·lelisme</string>
+    <string name="memory_usage_explanation">Quantitat de memòria (en bytes) usada per la funció de derivació de la clau.</string>
+    <string name="memory_usage">Ús de la memòria</string>
+    <string name="hide_broken_locations_summary">Amaga els enllaços trencats en la llista de bases de dades recents</string>
+    <string name="show_recent_files_summary">Mostra la ubicació de les bases de dades recents</string>
+    <string name="show_recent_files_title">Mostra els fitxers recents</string>
+    <string name="remember_keyfile_locations_title">Desa la ubicació dels fitxers de claus</string>
+    <string name="remember_database_locations_summary">Recorda la ubicació de les bases de dades</string>
+    <string name="remember_database_locations_title">Desa la ubicació de les bases de dades</string>
+    <string name="selection_mode">Mode de selecció</string>
+    <string name="contains_duplicate_uuid_procedure">Voleu resoldre el problema creant nous UUIDs per als duplicats per a continuar\?</string>
+    <string name="contains_duplicate_uuid">La base de dades conté UUIDs duplicats.</string>
+    <string name="read_only_warning">Depenent del vostre gestor de fitxers, KeePassDX podria no tenir permís per a escriure en l\'espai d\'emmagatzematge.</string>
+    <string name="read_only">Protegit contra escriptura</string>
+    <string name="protection">Protecció</string>
+    <string name="auto_focus_search_summary">Sol·licita una cerca quan s\'obre una base de dades</string>
+    <string name="auto_focus_search_title">Cerca ràpida</string>
+    <string name="create_keepass_file">Crea una nova base de dades</string>
+    <string name="menu_delete_entry_history">Suprimeix la història</string>
+    <string name="menu_restore_entry_history">Restaura la història</string>
+    <string name="menu_empty_recycle_bin">Buida la paperera</string>
+    <string name="menu_open_file_read_and_write">Modificable</string>
+    <string name="menu_file_selection_read_only">Protegit contra escriptura</string>
+    <string name="menu_biometric_remove_key">Suprimeix la clau biomètrica desada</string>
+    <string name="menu_save_database">Desa la base de dades</string>
+    <string name="menu_cancel">Cancel·la</string>
+    <string name="menu_paste">Enganxa</string>
+    <string name="menu_move">Mou</string>
+    <string name="menu_copy">Copia</string>
+    <string name="menu_master_key_settings">Paràmetres de la contrasenya mestra</string>
+    <string name="menu_security_settings">Paràmetres de seguretat</string>
+    <string name="menu_advanced_unlock_settings">Desblocatge avançat</string>
+    <string name="menu_form_filling_settings">Reompliment de formularis</string>
+    <string name="copy_field">Còpia de %1$s</string>
+    <string name="creating_database">Es crea la base de dades…</string>
+    <string name="list_groups_show_number_entries_summary">Mostra el nombre d\'entrades en un grup</string>
+    <string name="list_groups_show_number_entries_title">Mostra el nombre d\'entades</string>
+    <string name="list_entries_show_username_summary">Mostra els noms d\'usuari en les llistes d\'entrades</string>
+    <string name="list_entries_show_username_title">Mostra noms d\'usuari</string>
+    <string name="keyfile_is_empty">El fitxer de claus és buit.</string>
+    <string name="invalid_algorithm">Algorisme incorrecte.</string>
+    <string name="file_not_found_content">No s\'ha trobat el fitxer. Mireu de reobrir-lo des de l\'explorador de fitxers.</string>
+    <string name="field_value">Valor del camp</string>
+    <string name="field_name">Nom del camp</string>
+    <string name="error_otp_digits">El testimoni ha de tenir entre %1$d i %2$d dígits.</string>
+    <string name="error_otp_period">El període ha d\'estar entre %1$d i %2$d segons.</string>
+    <string name="error_otp_counter">El comptador ha d\'estar entre %1$d i %2$d.</string>
+    <string name="error_otp_secret_key">La clau secreta ha d\'estar en format Base32.</string>
+    <string name="error_save_database">No s\'ha pogut desar la base de dades.</string>
+    <string name="error_create_database">No s\'ha pogut crear el fitxer de la base de dades.</string>
+    <string name="error_copy_group_here">No és possible copiar cap grup aquí.</string>
+    <string name="error_copy_entry_here">No és possible copiar cap entrada aquí.</string>
+    <string name="error_move_entry_here">No és possible moure cap entrada aquí.</string>
+    <string name="error_label_exists">Aquesta etiqueta ja existeix.</string>
+    <string name="error_load_database">No s\'ha pogut carregar la vostra base de dades.</string>
+    <string name="entry_otp">OTP</string>
+    <string name="otp_algorithm">Algorisme</string>
+    <string name="otp_digits">Dígits</string>
+    <string name="otp_counter">Comptador</string>
+    <string name="otp_period">Període (segons)</string>
+    <string name="otp_secret">Secret</string>
+    <string name="otp_type">Tipus d\'OTP</string>
+    <string name="entry_setup_otp">Estableix una contrasenya d\'un sol ús</string>
+    <string name="entry_not_found">No s\'ha trobat les dades de l\'entrada.</string>
+    <string name="entry_attachments">Adjunts</string>
+    <string name="entry_history">Història</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="html_about_contribution">Per tal de &lt;strong&gt;mantenir la nostra llibertat&lt;/strong&gt;, &lt;strong&gt;corregir errors&lt;/strong&gt;, &lt;strong&gt;afegir característiques&lt;/strong&gt; i &lt;strong&gt;estar sempre actius&lt;/strong&gt;, comptem amb la vostra &lt;strong&gt;contribució&lt;/strong&gt;.</string>
+    <string name="content_description_keyboard_close_fields">Tanca camps</string>
+    <string name="content_description_update_from_list">Actualitza</string>
+    <string name="content_description_remove_field">Suprimeix camp</string>
+    <string name="entry_add_attachment">Afegeix adjunt</string>
+    <string name="entry_add_field">Afegeix camp</string>
+    <string name="content_description_password_length">Longitud de la contrasenya</string>
+    <string name="entry_password_generator">Generador de contrasenyes</string>
+    <string name="discard">Descarta</string>
+    <string name="discard_changes">Voleu descartar els canvis\?</string>
+    <string name="validate">Valida</string>
+    <string name="content_description_entry_icon">Icona de l\'entrada</string>
+    <string name="content_description_file_information">Informació del fitxer</string>
+    <string name="content_description_add_group">Afegeix grup</string>
+    <string name="content_description_add_entry">Afegeix entrada</string>
+    <string name="content_description_add_node">Afegeix node</string>
+    <string name="content_description_open_file">Obre fitxer</string>
+    <string name="content_description_background">Fons</string>
+    <string name="clipboard_swipe_clean">Llisqueu per a netejear el porta-retalls ara</string>
+    <string name="clipboard_error_clear">No ha estat possible netejar el porta-retalls</string>
+    <string name="clipboard_error">Alguns dispositius no permeten que les aplicacions facin servir el porta-retalls.</string>
+    <string name="clipboard_error_title">Error del porta-retalls</string>
 </resources>
