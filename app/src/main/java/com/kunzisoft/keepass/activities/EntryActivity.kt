@@ -484,9 +484,7 @@ class EntryActivity : LockingActivity() {
                                 onOptionsItemSelected(menu.findItem(R.id.menu_edit))
                             },
                             {
-                                // Open Keepass doc to create field references
-                                startActivity(Intent(Intent.ACTION_VIEW,
-                                        UriUtil.parse(getString(R.string.field_references_url))))
+                                performedNextEducation(entryActivityEducation, menu)
                             })
         }
     }
