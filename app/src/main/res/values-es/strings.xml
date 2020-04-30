@@ -78,8 +78,6 @@
     <string name="hint_length">longitud</string>
     <string name="password">Contraseña</string>
     <string name="hint_pass">contraseña</string>
-    <string name="install_from_play_store">Instalar desde Play Store</string>
-    <string name="install_from_f_droid">Instalar desde F-Droid</string>
     <string name="invalid_credentials">Contraseña o archivo de clave no válido.</string>
     <string name="invalid_db_sig">No se pudo reconocer el formato de la base de datos.</string>
     <string name="length">Longitud</string>

@@ -75,8 +75,6 @@
     <string name="hint_length">Długość</string>
     <string name="password">Hasło</string>
     <string name="hint_pass">Hasło</string>
-    <string name="install_from_play_store">Zainstaluj z Play-Store</string>
-    <string name="install_from_f_droid">Zainstaluj z F-Droid</string>
     <string name="invalid_credentials">Nie można odczytać uwierzytelnień. Jeśli to się powtórzy, plik bazy danych może być uszkodzony.</string>
     <string name="invalid_db_sig">Nie można rozpoznać formatu bazy danych.</string>
     <string name="length">Długość</string>

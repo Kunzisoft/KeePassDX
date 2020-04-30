@@ -77,8 +77,6 @@
     <string name="hint_length">longitud</string>
     <string name="hint_pass">contrasenya</string>
     <string name="password">Contrasenya</string>
-    <string name="install_from_play_store">Instal·la de la Play Store</string>
-    <string name="install_from_f_droid">Instal·la de la F-Droid</string>
     <string name="invalid_credentials">Contrasenya o arxiu clau invàlids.</string>
     <string name="invalid_db_sig">Format de base de dades desconegut.</string>
     <string name="length">Longitud</string>

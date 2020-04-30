@@ -25,7 +25,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
 
 
 private var CREATE_FILE_REQUEST_CODE_DEFAULT = 3853
@@ -60,10 +60,10 @@ fun createDocument(activity: FragmentActivity,
             }, idCode)
             return idCode
         } catch (e: Exception) {
-            BrowserDialogFragment().show(activity.supportFragmentManager, "browserDialog")
+            FileManagerDialogFragment().show(activity.supportFragmentManager, "browserDialog")
         }
     } else {
-        BrowserDialogFragment().show(activity.supportFragmentManager, "browserDialog")
+        FileManagerDialogFragment().show(activity.supportFragmentManager, "browserDialog")
     }
 
     return null

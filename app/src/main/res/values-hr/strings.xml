@@ -105,8 +105,6 @@
     <string name="hint_length">Duljina</string>
     <string name="hint_pass">Lozinka</string>
     <string name="password">Lozinka</string>
-    <string name="install_from_f_droid">Instaliraj iz trgovine F-Droid</string>
-    <string name="install_from_play_store">Instaliraj iz trgovine Play Store</string>
     <string name="invalid_algorithm">Pogrešan algoritam.</string>
     <string name="invalid_db_same_uuid">%1$s s istim UUID %2$s već postoji.</string>
     <string name="invalid_db_sig">Nije moguće prepoznati format baze podataka.</string>

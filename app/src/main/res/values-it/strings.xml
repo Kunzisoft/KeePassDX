@@ -86,8 +86,6 @@
     <string name="hint_length">Lunghezza</string>
     <string name="password">Password</string>
     <string name="hint_pass">Password</string>
-    <string name="install_from_play_store">Installa dal Play Store</string>
-    <string name="install_from_f_droid">Installa dal F-Droid</string>
     <string name="invalid_credentials">Non è possibile leggere le credenziali. Se questo dovesse riaccadere, il file del databese potrebbe essere corrotto.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>

@@ -76,8 +76,6 @@
     <string name="hint_length">lengd</string>
     <string name="password">Passord</string>
     <string name="hint_pass">passord</string>
-    <string name="install_from_play_store">Installer frå Play Store</string>
-    <string name="install_from_f_droid">Installer frå F-Droid</string>
     <string name="invalid_credentials">Ugyldig passord eller nøkkelfil.</string>
     <string name="invalid_db_sig">Ukjent databaseformat.</string>
     <string name="length">Lengd</string>

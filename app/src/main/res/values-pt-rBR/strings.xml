@@ -76,8 +76,6 @@
     <string name="hint_length">tamanho</string>
     <string name="password">Senha</string>
     <string name="hint_pass">senha</string>
-    <string name="install_from_play_store">Instalar a partir do Google Play</string>
-    <string name="install_from_f_droid">Instalar a partir do F-Droid</string>
     <string name="invalid_credentials">Não foi possível ler credenciais. Se isso ocorrer novamente, seu arquivo de banco de dados pode estar corrompido.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>

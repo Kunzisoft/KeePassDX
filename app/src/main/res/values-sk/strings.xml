@@ -76,8 +76,6 @@
     <string name="hint_length">dĺžka</string>
     <string name="password">Heslo</string>
     <string name="hint_pass">heslo</string>
-    <string name="install_from_play_store">Inštalovať z Play Store</string>
-    <string name="install_from_f_droid">Inštalovať z F-Droid</string>
     <string name="invalid_credentials">Chybné heslo, alebo súbor keyfile.</string>
     <string name="invalid_db_sig">Formát Databázy nerozpoznaný.</string>
     <string name="length">Dĺžka</string>

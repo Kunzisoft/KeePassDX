@@ -31,7 +31,7 @@ import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.activities.dialogs.BrowserDialogFragment
+import com.kunzisoft.keepass.activities.dialogs.FileManagerDialogFragment
 import com.kunzisoft.keepass.utils.UriUtil
 
 class OpenFileHelper {
@@ -164,10 +164,10 @@ class OpenFileHelper {
      */
     private fun showBrowserDialog() {
         try {
-            val browserDialogFragment = BrowserDialogFragment()
+            val fileManagerDialogFragment = FileManagerDialogFragment()
             fragment?.let {
-                browserDialogFragment.show(it.parentFragmentManager, "browserDialog")
-            } ?: browserDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
+                fileManagerDialogFragment.show(it.parentFragmentManager, "browserDialog")
+            } ?: fileManagerDialogFragment.show((activity as FragmentActivity).supportFragmentManager, "browserDialog")
         } catch (e: Exception) {
             Log.e(TAG, "Can't open BrowserDialog", e)
         }

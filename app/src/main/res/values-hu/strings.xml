@@ -84,8 +84,6 @@
     <string name="hint_length">hosszúság</string>
     <string name="hint_pass">jelszó</string>
     <string name="password">Jelszó</string>
-    <string name="install_from_play_store">Telepítés a Play Áruházból</string>
-    <string name="install_from_f_droid">Telepítés az F-Droidból</string>
     <string name="invalid_credentials">A jelszó vagy kulcsfájl nem olvasható.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>

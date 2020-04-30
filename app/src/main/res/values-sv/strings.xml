@@ -84,8 +84,6 @@
     <string name="hint_length">längd</string>
     <string name="hint_pass">lösenord</string>
     <string name="password">Lösenord</string>
-    <string name="install_from_play_store">Installera från Play Store</string>
-    <string name="install_from_f_droid">Installera från F-Droid</string>
     <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna. Om detta inträffar igen kan det bero på att databasfilen är skadad.</string>
     <string name="invalid_algorithm">Fel algoritm.</string>
     <string name="invalid_db_sig">Det gick inte att känna igen databasformatet.</string>

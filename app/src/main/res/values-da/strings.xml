@@ -82,8 +82,6 @@
     <string name="hint_length">Længde</string>
     <string name="hint_pass">Adgangskode</string>
     <string name="password">Adgangskode</string>
-    <string name="install_from_play_store">Installer fra Google Play</string>
-    <string name="install_from_f_droid">Installer fra F-Droid</string>
     <string name="invalid_credentials">Legitimationsoplysningerne kunne ikke læses. Hvis det sker igen, kan databasefilen være beskadiget.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>

@@ -135,7 +135,7 @@
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
-    <string name="file_browser">File browser</string>
+    <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>
     <string name="hint_generated_password">Generated password</string>
@@ -144,8 +144,6 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
-    <string name="install_from_f_droid">Install from F-Droid</string>
-    <string name="install_from_play_store">Install from Play Store</string>
     <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupted.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>

@@ -86,8 +86,6 @@
     <string name="hint_length">Длина</string>
     <string name="hint_pass">Пароль</string>
     <string name="password">Пароль</string>
-    <string name="install_from_play_store">Google Play</string>
-    <string name="install_from_f_droid">F-Droid</string>
     <string name="invalid_credentials">Неправильный главный пароль или файл ключа. Если это повторяется, файл базы, возможно, повреждён.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>

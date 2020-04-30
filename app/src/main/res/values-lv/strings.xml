@@ -82,8 +82,6 @@
     <string name="hint_length">garums</string>
     <string name="hint_pass">parole</string>
     <string name="password">Parole</string>
-    <string name="install_from_play_store">Instalēt no Play veikala</string>
-    <string name="install_from_f_droid">Instalēt no F-Droid</string>
     <string name="invalid_credentials">Nederīga parole vai atslēgas fails.</string>
     <string name="invalid_algorithm">Nederīgs algoritms.</string>
     <string name="invalid_db_sig">Datu bāzes formāts nav atpazīts.</string>

@@ -77,8 +77,6 @@
     <string name="hint_length">长度</string>
     <string name="password">密码</string>
     <string name="hint_pass">密码</string>
-    <string name="install_from_play_store">从Play商店安装</string>
-    <string name="install_from_f_droid">从F-Droid安装</string>
     <string name="invalid_credentials">无法读取您的密码或密钥文件。如果重试后仍然如此，你的数据库可能已经损坏。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
