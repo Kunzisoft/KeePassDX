@@ -251,10 +251,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.settings_database_change_credentials_key))?.apply {
                 isEnabled = if (!mDatabaseReadOnly) {
                     onPreferenceClickListener = Preference.OnPreferenceClickListener {
-                        fragmentManager?.let { fragmentManager ->
-                            AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey)
-                                    .show(fragmentManager, "passwordDialog")
-                        }
+                        AssignMasterKeyDialogFragment.getInstance(mDatabase.allowNoMasterKey)
+                                .show(parentFragmentManager, "passwordDialog")
                         false
                     }
                     true
@@ -281,7 +279,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
         try {
             // To reassign color listener after orientation change
-            val chromaDialog = fragmentManager?.findFragmentByTag(TAG_PREF_FRAGMENT) as DatabaseColorPreferenceDialogFragmentCompat?
+            val chromaDialog = parentFragmentManager.findFragmentByTag(TAG_PREF_FRAGMENT) as DatabaseColorPreferenceDialogFragmentCompat?
             chromaDialog?.onColorSelectedListener = colorSelectedListener
         } catch (e: Exception) {}
 
@@ -444,8 +442,8 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                         mMemoryPref?.summary = memoryToShow.toString()
                     }
                     DatabaseTaskNotificationService.ACTION_DATABASE_UPDATE_PARALLELISM_TASK -> {
-                        val oldParallelism = data.getInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
-                        val newParallelism = data.getInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
+                        val oldParallelism = data.getLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY)
+                        val newParallelism = data.getLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY)
                         val parallelismToShow =
                                 if (result.isSuccess) {
                                     newParallelism
@@ -464,68 +462,64 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
         var otherDialogFragment = false
 
-        fragmentManager?.let { fragmentManager ->
-            preference?.let { preference ->
-                var dialogFragment: DialogFragment? = null
-                when {
-                    // Main Preferences
-                    preference.key == getString(R.string.database_name_key) -> {
-                        dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.database_description_key) -> {
-                        dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.database_default_username_key) -> {
-                        dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.database_custom_color_key) -> {
-                        dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
-                            onColorSelectedListener = colorSelectedListener
-                        }
-                    }
-                    preference.key == getString(R.string.database_data_compression_key) -> {
-                        dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.max_history_items_key) -> {
-                        dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.max_history_size_key) -> {
-                        dialogFragment = MaxHistorySizePreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-
-                    // Security
-                    preference.key == getString(R.string.encryption_algorithm_key) -> {
-                        dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.key_derivation_function_key) -> {
-                        val keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.key)
-                        // Add other prefs to manage
-                        keyDerivationDialogFragment.setRoundPreference(mRoundPref)
-                        keyDerivationDialogFragment.setMemoryPreference(mMemoryPref)
-                        keyDerivationDialogFragment.setParallelismPreference(mParallelismPref)
-                        dialogFragment = keyDerivationDialogFragment
-                    }
-                    preference.key == getString(R.string.transform_rounds_key) -> {
-                        dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.memory_usage_key) -> {
-                        dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    preference.key == getString(R.string.parallelism_key) -> {
-                        dialogFragment = ParallelismPreferenceDialogFragmentCompat.newInstance(preference.key)
-                    }
-                    else -> otherDialogFragment = true
-                }
-
-                if (dialogFragment != null && !mDatabaseReadOnly) {
-                    dialogFragment.setTargetFragment(this, 0)
-                    dialogFragment.show(fragmentManager, TAG_PREF_FRAGMENT)
-                }
-                // Could not be handled here. Try with the super method.
-                else if (otherDialogFragment) {
-                    super.onDisplayPreferenceDialog(preference)
+        var dialogFragment: DialogFragment? = null
+        // Main Preferences
+        when (preference?.key) {
+            getString(R.string.database_name_key) -> {
+                dialogFragment = DatabaseNamePreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.database_description_key) -> {
+                dialogFragment = DatabaseDescriptionPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.database_default_username_key) -> {
+                dialogFragment = DatabaseDefaultUsernamePreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.database_custom_color_key) -> {
+                dialogFragment = DatabaseColorPreferenceDialogFragmentCompat.newInstance(preference.key).apply {
+                    onColorSelectedListener = colorSelectedListener
                 }
             }
+            getString(R.string.database_data_compression_key) -> {
+                dialogFragment = DatabaseDataCompressionPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.max_history_items_key) -> {
+                dialogFragment = MaxHistoryItemsPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.max_history_size_key) -> {
+                dialogFragment = MaxHistorySizePreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+
+            // Security
+            getString(R.string.encryption_algorithm_key) -> {
+                dialogFragment = DatabaseEncryptionAlgorithmPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.key_derivation_function_key) -> {
+                val keyDerivationDialogFragment = DatabaseKeyDerivationPreferenceDialogFragmentCompat.newInstance(preference.key)
+                // Add other prefs to manage
+                keyDerivationDialogFragment.setRoundPreference(mRoundPref)
+                keyDerivationDialogFragment.setMemoryPreference(mMemoryPref)
+                keyDerivationDialogFragment.setParallelismPreference(mParallelismPref)
+                dialogFragment = keyDerivationDialogFragment
+            }
+            getString(R.string.transform_rounds_key) -> {
+                dialogFragment = RoundsPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.memory_usage_key) -> {
+                dialogFragment = MemoryUsagePreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.parallelism_key) -> {
+                dialogFragment = ParallelismPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            else -> otherDialogFragment = true
+        }
+
+        if (dialogFragment != null && !mDatabaseReadOnly) {
+            dialogFragment.setTargetFragment(this, 0)
+            dialogFragment.show(parentFragmentManager, TAG_PREF_FRAGMENT)
+        }
+        // Could not be handled here. Try with the super method.
+        else if (otherDialogFragment) {
+            super.onDisplayPreferenceDialog(preference)
         }
     }
 

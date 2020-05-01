@@ -21,10 +21,7 @@ package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
-import android.os.Binder
-import android.os.Bundle
-import android.os.IBinder
+import android.os.*
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
@@ -42,6 +39,7 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
@@ -63,6 +61,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
+            // To prevent task dialog to be unbound before the display
+            actionRunnableAsyncTask?.allowFinishTask?.set(true)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
@@ -571,6 +571,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                           private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
         : AsyncTask<((ProgressTaskUpdater?) -> ActionRunnable), Void, ActionRunnable.Result>() {
 
+        var allowFinishTask = AtomicBoolean(false)
+
         override fun onPreExecute() {
             super.onPreExecute()
             onPreExecute.invoke()
@@ -578,13 +580,15 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): ActionRunnable.Result {
             var resultTask = ActionRunnable.Result(false)
-            // Without that, bind listeners don't work properly (I don't know why?)
-            Thread.sleep(500)
             actionRunnables.forEach {
                 it?.invoke(progressTaskUpdater)?.apply {
                     run()
                     resultTask = result
                 }
+            }
+            // Additional wait if the dialog take time to show
+            while(!allowFinishTask.get()) {
+                Thread.sleep(250)
             }
             return resultTask
         }

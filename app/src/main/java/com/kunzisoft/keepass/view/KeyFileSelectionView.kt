@@ -54,7 +54,7 @@ class KeyFileSelectionView @JvmOverloads constructor(context: Context,
         set(value) {
             mUri = value
             keyFileNameView.text = value?.let {
-                DocumentFile.fromSingleUri(context, value)?.name ?: ""
+                DocumentFile.fromSingleUri(context, value)?.name ?: value.path
             } ?: ""
         }
 }

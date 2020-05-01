@@ -95,7 +95,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             fieldsAdapter?.onItemClickListener = object : FieldsAdapter.OnItemClickListener {
                 override fun onItemClick(item: Field) {
                     currentInputConnection.commitText(entryInfoKey?.getGeneratedFieldValue(item.name) , 1)
-                    goNextAutomatically()
+                    actionTabAutomatically()
                 }
             }
             recyclerView.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this, androidx.recyclerview.widget.LinearLayoutManager.HORIZONTAL, true)
@@ -225,19 +225,19 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.username, 1)
                 }
-                goNextAutomatically()
+                actionTabAutomatically()
             }
             KEY_PASSWORD -> {
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.password, 1)
                 }
-                goNextAutomatically()
+                actionGoAutomatically()
             }
             KEY_URL -> {
                 if (entryInfoKey != null) {
                     currentInputConnection.commitText(entryInfoKey!!.url, 1)
                 }
-                goNextAutomatically()
+                actionTabAutomatically()
             }
             KEY_FIELDS -> {
                 if (entryInfoKey != null) {
@@ -250,10 +250,15 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             }
             Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
             Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
-        }// TODO Unlock key
+        }
     }
 
-    private fun goNextAutomatically() {
+    private fun actionTabAutomatically() {
+        if (PreferencesUtil.isAutoGoActionEnable(this))
+            currentInputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_TAB))
+    }
+
+    private fun actionGoAutomatically() {
         if (PreferencesUtil.isAutoGoActionEnable(this))
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
     }

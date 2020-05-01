@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 import java.security.MessageDigest
@@ -27,9 +28,9 @@ import kotlin.math.min
 
 class HashedBlockOutputStream : OutputStream {
 
-    private var baseStream: LittleEndianDataOutputStream? = null
+    private lateinit var baseStream: LittleEndianDataOutputStream
+    private lateinit var buffer: ByteArray
     private var bufferPos = 0
-    private var buffer: ByteArray? = null
     private var bufferIndex: Long = 0
 
     constructor(os: OutputStream) {
@@ -48,7 +49,6 @@ class HashedBlockOutputStream : OutputStream {
     private fun init(os: OutputStream, bufferSize: Int) {
         baseStream = LittleEndianDataOutputStream(os)
         buffer = ByteArray(bufferSize)
-
     }
 
     @Throws(IOException::class)
@@ -69,12 +69,12 @@ class HashedBlockOutputStream : OutputStream {
         writeHashedBlock()
 
         flush()
-        baseStream!!.close()
+        baseStream.close()
     }
 
     @Throws(IOException::class)
     override fun flush() {
-        baseStream!!.flush()
+        baseStream.flush()
     }
 
     @Throws(IOException::class)
@@ -82,13 +82,13 @@ class HashedBlockOutputStream : OutputStream {
         var currentOffset = offset
         var counter = count
         while (counter > 0) {
-            if (bufferPos == buffer!!.size) {
+            if (bufferPos == buffer.size) {
                 writeHashedBlock()
             }
 
-            val copyLen = min(buffer!!.size - bufferPos, counter)
+            val copyLen = min(buffer.size - bufferPos, counter)
 
-            System.arraycopy(b, currentOffset, buffer!!, bufferPos, copyLen)
+            System.arraycopy(b, currentOffset, buffer, bufferPos, copyLen)
 
             currentOffset += copyLen
             bufferPos += copyLen
@@ -99,7 +99,7 @@ class HashedBlockOutputStream : OutputStream {
 
     @Throws(IOException::class)
     private fun writeHashedBlock() {
-        baseStream!!.writeUInt(bufferIndex)
+        baseStream.writeUInt(UnsignedInt.fromLong(bufferIndex))
         bufferIndex++
 
         if (bufferPos > 0) {
@@ -111,36 +111,24 @@ class HashedBlockOutputStream : OutputStream {
             }
 
             val hash: ByteArray
-            messageDigest.update(buffer!!, 0, bufferPos)
+            messageDigest.update(buffer, 0, bufferPos)
             hash = messageDigest.digest()
-            /*
-			if ( bufferPos == buffer.length) {
-				hash = md.digest(buffer);
-			} else {
-				byte[] b = new byte[bufferPos];
-				System.arraycopy(buffer, 0, b, 0, bufferPos);
-				hash = md.digest(b);
-			}
-			*/
-
-            baseStream!!.write(hash)
+            baseStream.write(hash)
 
         } else {
             // Write 32-bits of zeros
-            baseStream!!.writeLong(0L)
-            baseStream!!.writeLong(0L)
-            baseStream!!.writeLong(0L)
-            baseStream!!.writeLong(0L)
+            baseStream.writeLong(0L)
+            baseStream.writeLong(0L)
+            baseStream.writeLong(0L)
+            baseStream.writeLong(0L)
         }
 
-        baseStream!!.writeInt(bufferPos)
+        baseStream.writeInt(bufferPos)
 
         if (bufferPos > 0) {
-            baseStream!!.write(buffer!!, 0, bufferPos)
+            baseStream.write(buffer, 0, bufferPos)
         }
-
         bufferPos = 0
-
     }
 
     @Throws(IOException::class)

@@ -44,8 +44,8 @@ abstract class StylishFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // To fix status bar color
-        if (activity != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            val window = activity!!.window
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            val window = requireActivity().window
 
             val attrColorPrimaryDark = intArrayOf(android.R.attr.colorPrimaryDark)
             val taColorPrimaryDark = contextThemed?.theme?.obtainStyledAttributes(attrColorPrimaryDark)

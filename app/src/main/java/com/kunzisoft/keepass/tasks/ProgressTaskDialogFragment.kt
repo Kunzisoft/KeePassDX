@@ -22,13 +22,12 @@ package com.kunzisoft.keepass.tasks
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
-import androidx.annotation.StringRes
-import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.FragmentActivity
-import androidx.appcompat.app.AlertDialog
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.annotation.StringRes
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 
 open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
@@ -106,29 +105,8 @@ open class ProgressTaskDialogFragment : DialogFragment(), ProgressTaskUpdater {
 
     companion object {
 
-        private const val PROGRESS_TASK_DIALOG_TAG = "progressDialogFragment"
+        const val PROGRESS_TASK_DIALOG_TAG = "progressDialogFragment"
 
         const val UNDEFINED = -1
-
-        fun build(): ProgressTaskDialogFragment {
-            // Create an instance of the dialog fragment
-            return ProgressTaskDialogFragment()
-        }
-
-        fun start(activity: FragmentActivity,
-                  dialog: ProgressTaskDialogFragment) {
-            activity.runOnUiThread {
-                dialog.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
-            }
-        }
-
-        fun retrieveProgressDialog(activity: FragmentActivity): ProgressTaskDialogFragment? {
-            return activity.supportFragmentManager
-                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
-        }
-
-        fun stop(activity: FragmentActivity) {
-            retrieveProgressDialog(activity)?.dismissAllowingStateLoss()
-        }
     }
 }

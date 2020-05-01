@@ -49,7 +49,7 @@ class IconImageCustom : IconImage {
     constructor(parcel: Parcel) {
         uuid = parcel.readSerializable() as UUID
         // TODO Take too much memories
-        // in.readByteArray(imageData);
+        // parcel.readByteArray(imageData);
     }
 
     override fun writeToParcel(dest: Parcel, flags: Int) {

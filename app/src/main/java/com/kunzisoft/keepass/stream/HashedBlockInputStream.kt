@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -80,7 +81,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
         bufferPos = 0
 
         val index = baseStream.readUInt()
-        if (index != bufferIndex) {
+        if (index.toLong() != bufferIndex) {
             throw IOException("Invalid data format")
         }
         bufferIndex++
@@ -90,11 +91,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             throw IOException("Invalid data format")
         }
 
-        val bufferSize = baseStream.readBytes4ToInt()
-        if (bufferSize < 0) {
-            throw IOException("Invalid data format")
-        }
-
+        val bufferSize = baseStream.readBytes4ToUInt().toInt()
         if (bufferSize == 0) {
             for (hash in 0 until HASH_SIZE) {
                 if (storedHash[hash].toInt() != 0) {
@@ -144,7 +141,7 @@ class HashedBlockInputStream(inputStream: InputStream) : InputStream() {
             if (!readHashedBlock()) return -1
         }
 
-        val output = byteToUInt(buffer[bufferPos])
+        val output = UnsignedInt.fromByte(buffer[bufferPos]).toInt()
         bufferPos++
 
         return output

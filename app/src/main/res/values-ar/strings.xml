@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2018 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -58,8 +58,6 @@
     <string name="hint_length">الطول</string>
     <string name="hint_pass">كلمة السر</string>
     <string name="password">كلمة السر</string>
-    <string name="install_from_play_store">التثبيت مِن متجر غوغل للتطبيقات</string>
-    <string name="install_from_f_droid">التثبيت مِن مستودَع أف-درويد للتطبيقات</string>
     <string name="invalid_algorithm">خوارزمية خاطئة.</string>
     <string name="length">الطول</string>
     <string name="list_size_title">عدد عناصر القائمة</string>

@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.stream
 
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.OutputStream
 
@@ -30,8 +31,8 @@ import java.io.OutputStream
 class LittleEndianDataOutputStream(private val baseStream: OutputStream) : OutputStream() {
 
     @Throws(IOException::class)
-    fun writeUInt(uint: Long) { // TODO UInt
-        baseStream.write(intTo4Bytes(uint.toInt()))
+    fun writeUInt(uInt: UnsignedInt) {
+        baseStream.write(uIntTo4Bytes(uInt))
     }
 
     @Throws(IOException::class)
@@ -66,7 +67,7 @@ class LittleEndianDataOutputStream(private val baseStream: OutputStream) : Outpu
 
     @Throws(IOException::class)
     fun writeInt(value: Int) {
-        baseStream.write(intTo4Bytes(value))
+        baseStream.write(uIntTo4Bytes(UnsignedInt(value)))
     }
 
     @Throws(IOException::class)

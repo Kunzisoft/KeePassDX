@@ -1,22 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2019 Jeremy Jamet / Kunzisoft.
-     
- This file is part of KeePassDX.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
-  KeePassDX is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
+    This file is part of KeePassDX.
 
-  KeePassDX is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
+    KeePassDX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-  You should have received a copy of the GNU General Public License
-  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+    KeePassDX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
+<resources>
     <string name="feedback">Σχόλια</string>
     <string name="homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
@@ -83,8 +84,6 @@
     <string name="hint_length">Μήκος</string>
     <string name="hint_pass">Κωδικός</string>
     <string name="password">Κωδικός Πρόσβασης</string>
-    <string name="install_from_play_store">Εγκατάσταση από το Play Store</string>
-    <string name="install_from_f_droid">Εγκατάσταση από το F-Droid</string>
     <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων. Εάν αυτό επαναληφθεί, το αρχείο της βάσης δεδομένων ενδέχεται να είναι κατεστραμμένο.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
@@ -443,7 +442,7 @@
     <string name="keyboard_auto_go_action_summary">Η ενέργεια του πλήκτρου Go γίνεται αυτόματα αφού πατήσετε ένα πλήκτρο πεδίου</string>
     <string name="download_attachment">Λήψη %1$s</string>
     <string name="download_initialization">Αρχικοποίηση…</string>
-    <string name="download_progression">Σε εξέλιξη: %1$d&#37;</string>
+    <string name="download_progression">Σε εξέλιξη: %1$d%%</string>
     <string name="download_finalization">Ολοκλήρωση…</string>
     <string name="download_complete">Ολοκληρώθηκε! Πατήστε για να ανοίξετε το αρχείο.</string>
     <string name="hide_expired_entries_title">Απόκρυψη καταχωρίσεων που έχουν λήξει</string>

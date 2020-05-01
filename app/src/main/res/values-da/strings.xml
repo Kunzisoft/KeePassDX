@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,9 +16,9 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
-
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
---><resources>
+-->
+<resources>
     <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
     <string name="accept">Accepter</string>
@@ -82,8 +82,6 @@
     <string name="hint_length">Længde</string>
     <string name="hint_pass">Adgangskode</string>
     <string name="password">Adgangskode</string>
-    <string name="install_from_play_store">Installer fra Google Play</string>
-    <string name="install_from_f_droid">Installer fra F-Droid</string>
     <string name="invalid_credentials">Legitimationsoplysningerne kunne ikke læses. Hvis det sker igen, kan databasefilen være beskadiget.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>
@@ -404,7 +402,7 @@
     <string name="menu_security_settings">Sikkerhedsindstillinger</string>
     <string name="menu_master_key_settings">Indstillinger for hovednøgle</string>
     <string name="contains_duplicate_uuid">Databasen indeholder dublerede UUID\'er.</string>
-    <string name="contains_duplicate_uuid_procedure">Løs problemet ved at generere nye UUID\'er for dubletter til at fortsætte\?</string>
+    <string name="contains_duplicate_uuid_procedure">Løs problemet ved at generere nye UUID\'er for dubletter og fortsætte\?</string>
     <string name="database_opened">Database åbnet</string>
     <string name="clipboard_explanation_summary">Kopier indtastningsfelter ved hjælp af enhedens udklipsholder</string>
     <string name="advanced_unlock_explanation_summary">Brug avanceret oplåsning for at gøre det lettere at åbne en database</string>
@@ -440,10 +438,10 @@
     <string name="menu_restore_entry_history">Gendan historik</string>
     <string name="menu_delete_entry_history">Slet historik</string>
     <string name="keyboard_auto_go_action_title">Auto nøglehandling</string>
-    <string name="keyboard_auto_go_action_summary">Handling af Gå-tasten udføres automatisk, efter der er trykket på en Felt nøgle</string>
+    <string name="keyboard_auto_go_action_summary">\"Gå\" tasteaktion, efter der er trykket på en \"Felt\" nøgle</string>
     <string name="download_attachment">Hent %1$s</string>
     <string name="download_initialization">Initialiserer…</string>
-    <string name="download_progression">I gang: %1$d&#37;</string>
+    <string name="download_progression">I gang: %1$d%%</string>
     <string name="download_finalization">Færdiggørelse…</string>
     <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
@@ -472,4 +470,11 @@
     <string name="discard">Kassér</string>
     <string name="discard_changes">Kasser ændringer\?</string>
     <string name="validate">Valider</string>
+    <string name="autofill_auto_search_summary">Foreslår automatisk søgeresultater fra webdomænet eller applikationsId</string>
+    <string name="autofill_auto_search_title">Automatisk søgning</string>
+    <string name="lock_database_show_button_summary">Viser låseknappen i brugergrænsefladen</string>
+    <string name="lock_database_show_button_title">Vis låseknap</string>
+    <string name="autofill_preference_title">Indstillinger for automatisk udfyldning</string>
+    <string name="warning_database_link_revoked">Adgang til filen tilbagekaldt af filadministratoren</string>
+    <string name="error_label_exists">Etiketten findes allerede.</string>
 </resources>

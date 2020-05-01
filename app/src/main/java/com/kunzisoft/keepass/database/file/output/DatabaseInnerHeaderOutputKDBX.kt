@@ -40,7 +40,7 @@ class DatabaseInnerHeaderOutputKDBX(private val database: DatabaseKDBX,
         dataOutputStream.writeInt(4)
         if (header.innerRandomStream == null)
             throw IOException("Can't write innerRandomStream")
-        dataOutputStream.writeInt(header.innerRandomStream!!.id)
+        dataOutputStream.writeInt(header.innerRandomStream!!.id.toInt())
 
         val streamKeySize = header.innerRandomStreamKey.size
         dataOutputStream.write(DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey.toInt())

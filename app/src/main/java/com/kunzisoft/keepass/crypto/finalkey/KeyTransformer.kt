@@ -1,5 +1,5 @@
 /*
- * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,10 +17,11 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto.finalkey;
+package com.kunzisoft.keepass.crypto.finalkey
 
-import java.io.IOException;
+import java.io.IOException
 
-public abstract class FinalKey {
-    public abstract byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException;
+abstract class KeyTransformer {
+    @Throws(IOException::class)
+    abstract fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray?
 }

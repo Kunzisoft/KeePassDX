@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -93,8 +93,6 @@
     <string name="hint_length">길이</string>
     <string name="hint_pass">비밀번호</string>
     <string name="password">비밀번호</string>
-    <string name="install_from_f_droid">F-Droid에서 설치</string>
-    <string name="install_from_play_store">플레이 스토어에서 설치</string>
     <string name="invalid_credentials">비밀번호나 키 파일을 읽을 수 없습니다.</string>
     <string name="invalid_algorithm">잘못된 알고리즘입니다.</string>
     <string name="invalid_db_sig">데이터베이스 형식을 인식할 수 없습니다.</string>

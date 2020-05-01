@@ -47,8 +47,8 @@ import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
+import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
-import org.spongycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlSerializer
 import java.io.IOException
 import java.io.OutputStream
@@ -85,7 +85,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             header = outputHeader(mOS)
 
             val osPlain: OutputStream
-            osPlain = if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+            osPlain = if (header!!.version.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
                 val cos = attachStreamEncryptor(header!!, mOS)
                 cos.write(header!!.streamStartBytes)
 
@@ -105,7 +105,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
                     else -> osPlain
                 }
 
-                if (header!!.version >= DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+                if (header!!.version.toLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
                     val ihOut = DatabaseInnerHeaderOutputKDBX(mDatabaseKDBX, header!!, osXml)
                     ihOut.output()
                 }
@@ -209,7 +209,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemDbDescChanged, mDatabaseKDBX.descriptionChanged.date)
         writeObject(DatabaseKDBXXML.ElemDbDefaultUser, mDatabaseKDBX.defaultUserName, true)
         writeObject(DatabaseKDBXXML.ElemDbDefaultUserChanged, mDatabaseKDBX.defaultUserNameChanged.date)
-        writeObject(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays)
+        writeObject(DatabaseKDBXXML.ElemDbMntncHistoryDays, mDatabaseKDBX.maintenanceHistoryDays.toLong())
         writeObject(DatabaseKDBXXML.ElemDbColor, mDatabaseKDBX.color)
         writeObject(DatabaseKDBXXML.ElemDbKeyChanged, mDatabaseKDBX.keyLastChanged.date)
         writeObject(DatabaseKDBXXML.ElemDbKeyChangeRec, mDatabaseKDBX.keyChangeRecDays)
@@ -230,7 +230,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeUuid(DatabaseKDBXXML.ElemLastTopVisibleGroup, mDatabaseKDBX.lastTopVisibleGroupUUID)
 
         // Seem to work properly if always in meta
-        if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4)
+        if (header!!.version.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong())
             writeMetaBinaries()
 
         writeCustomData(mDatabaseKDBX.customData)
@@ -274,7 +274,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             Log.e(TAG, "Unable to retrieve header", unknownKDF)
         }
 
-        if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+        if (header.version.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
             header.innerRandomStream = CrsAlgorithm.Salsa20
             header.innerRandomStreamKey = ByteArray(32)
         } else {
@@ -288,7 +288,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
             throw DatabaseOutputException("Invalid random cipher")
         }
 
-        if (header.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+        if (header.version.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
             random.nextBytes(header.streamStartBytes)
         }
 
@@ -385,7 +385,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
     private fun writeObject(name: String, value: Date) {
-        if (header!!.version < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+        if (header!!.version.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
             writeObject(name, DatabaseKDBXXML.DateFormatter.format(value))
         } else {
             val dt = DateTime(value)
@@ -489,7 +489,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         xml.startTag(null, DatabaseKDBXXML.ElemAutoType)
 
         writeObject(DatabaseKDBXXML.ElemAutoTypeEnabled, autoType.enabled)
-        writeObject(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions)
+        writeObject(DatabaseKDBXXML.ElemAutoTypeObfuscation, autoType.obfuscationOptions.toLong())
 
         if (autoType.defaultSequence.isNotEmpty()) {
             writeObject(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, autoType.defaultSequence, true)
@@ -629,7 +629,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeObject(DatabaseKDBXXML.ElemLastAccessTime, node.lastAccessTime.date)
         writeObject(DatabaseKDBXXML.ElemExpiryTime, node.expiryTime.date)
         writeObject(DatabaseKDBXXML.ElemExpires, node.expires)
-        writeObject(DatabaseKDBXXML.ElemUsageCount, node.usageCount)
+        writeObject(DatabaseKDBXXML.ElemUsageCount, node.usageCount.toLong())
         writeObject(DatabaseKDBXXML.ElemLocationChanged, node.locationChanged.date)
 
         xml.endTag(null, DatabaseKDBXXML.ElemTimes)

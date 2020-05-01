@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -85,8 +85,6 @@
     <string name="hint_length">comprimento</string>
     <string name="hint_pass">palavra-chave</string>
     <string name="password">Palavra-chave</string>
-    <string name="install_from_play_store">Instalar pela Play Store</string>
-    <string name="install_from_f_droid">Instalar pela F-Droid</string>
     <string name="invalid_credentials">Palavra-chave ou ficheiro chave inválidos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>

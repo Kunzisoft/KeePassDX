@@ -126,12 +126,11 @@ void throwExceptionF(JNIEnv *env, jclass exception, const char *format, ...) {
 }
 
 #define ARGON2_HASHLEN 32
-#define NB_BLOCKSIZE 1024
 
 JNIEXPORT jbyteArray
 JNICALL Java_com_kunzisoft_keepass_crypto_keyDerivation_Argon2Native_nTransformMasterKey(JNIEnv *env,
-   jobject this, jbyteArray password, jbyteArray salt, jint parallelism, jlong memory,
-   jlong iterations, jbyteArray secretKey, jbyteArray associatedData, jlong version) {
+   jobject this, jbyteArray password, jbyteArray salt, jint parallelism, jint memory,
+   jint iterations, jbyteArray secretKey, jbyteArray associatedData, jint version) {
 
     argon2_context context;
     uint8_t *out;
@@ -151,7 +150,7 @@ JNICALL Java_com_kunzisoft_keepass_crypto_keyDerivation_Argon2Native_nTransformM
     uint8_t *adBuf;
     uint32_t adLen = getJNIArray(env, associatedData, &adBuf);
 
-    context.out = (uint8_t *) out;
+    context.out = out;
     context.outlen = ARGON2_HASHLEN;
     context.pwd = passwordBuf;
     context.pwdlen = passwordLen;
@@ -162,7 +161,7 @@ JNICALL Java_com_kunzisoft_keepass_crypto_keyDerivation_Argon2Native_nTransformM
     context.ad = adBuf;
     context.adlen = adLen;
     context.t_cost = (uint32_t) iterations;
-    context.m_cost = ((uint32_t) memory) / NB_BLOCKSIZE;
+    context.m_cost = (uint32_t) memory;
     context.lanes = (uint32_t) parallelism;
     context.threads = (uint32_t) parallelism;
     context.allocate_cbk = NULL;

@@ -24,7 +24,7 @@ import com.kunzisoft.keepass.crypto.engine.AesEngine
 import com.kunzisoft.keepass.crypto.engine.ChaCha20Engine
 import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.engine.TwofishEngine
-import org.spongycastle.jce.provider.BouncyCastleProvider
+import org.bouncycastle.jce.provider.BouncyCastleProvider
 import java.security.NoSuchAlgorithmException
 import java.security.Security
 import java.util.*
@@ -37,6 +37,7 @@ object CipherFactory {
     private var blacklisted: Boolean = false
 
     init {
+        Security.removeProvider(BouncyCastleProvider.PROVIDER_NAME)
         Security.addProvider(BouncyCastleProvider())
     }
 

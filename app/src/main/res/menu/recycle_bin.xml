@@ -21,7 +21,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_empty_recycle_bin"
-        android:icon="@drawable/ic_content_delete_white_24dp"
+        android:icon="@drawable/ic_delete_forever_white_24dp"
         android:title="@string/menu_empty_recycle_bin"
         android:orderInCategory="35"
         app:showAsAction="ifRoom" />

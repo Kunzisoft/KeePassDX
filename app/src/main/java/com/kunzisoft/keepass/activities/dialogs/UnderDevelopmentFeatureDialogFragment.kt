@@ -52,7 +52,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                             .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_buy_pro), HtmlCompat.FROM_HTML_MODE_LEGACY)).append("\n")
                             .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                     builder.setPositiveButton(R.string.download) { _, _ ->
-                        UriUtil.gotoUrl(context!!, R.string.app_pro_url)
+                        UriUtil.gotoUrl(requireContext(), R.string.app_pro_url)
                     }
                     builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
                 }
@@ -61,7 +61,7 @@ class UnderDevelopmentFeatureDialogFragment : DialogFragment() {
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_contibute), HtmlCompat.FROM_HTML_MODE_LEGACY)).append(" ")
                         .append(HtmlCompat.fromHtml(getString(R.string.html_text_dev_feature_encourage), HtmlCompat.FROM_HTML_MODE_LEGACY))
                 builder.setPositiveButton(R.string.contribute) { _, _ ->
-                    UriUtil.gotoUrl(context!!, R.string.contribution_url)
+                    UriUtil.gotoUrl(requireContext(), R.string.contribution_url)
                 }
                 builder.setNegativeButton(android.R.string.cancel) { _, _ -> dismiss() }
             }

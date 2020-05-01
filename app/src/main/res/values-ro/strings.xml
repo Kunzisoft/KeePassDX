@@ -1,4 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
+
+    This file is part of KeePassDX.
+
+    KeePassDX is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    KeePassDX is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
+-->
 <resources>
     <string name="about_description">Implementarea Android a managerului de parole KeePass</string>
     <string name="accept">Accept</string>
@@ -118,8 +136,6 @@
     <string name="hint_length">Lungime</string>
     <string name="hint_pass">Parola</string>
     <string name="password">Parola</string>
-    <string name="install_from_f_droid">Instalați din F-Droid</string>
-    <string name="install_from_play_store">Instalați din Play Store</string>
     <string name="invalid_credentials">Nu s-a putut citi datele de acreditare. Dacă reîncepe, baza de date a dumneavoastra poate fi coruptă.</string>
     <string name="invalid_algorithm">Algoritm greșit.</string>
     <string name="invalid_db_same_uuid">%1$s cu același UUID %2$s există deja.</string>
@@ -403,7 +419,7 @@
     <string name="contribute">Contribuie</string>
     <string name="download_attachment">Descărcați %1$s</string>
     <string name="download_initialization">Inițializare …</string>
-    <string name="download_progression">In progress: %1$d&#37;</string>
+    <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizare …</string>
     <string name="download_complete">Complet! Atingeți pentru a deschide fișierul.</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>

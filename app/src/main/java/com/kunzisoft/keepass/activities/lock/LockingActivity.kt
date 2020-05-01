@@ -19,7 +19,6 @@
  */
 package com.kunzisoft.keepass.activities.lock
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -75,7 +74,10 @@ abstract class LockingActivity : StylishActivity() {
 
         if (mTimeoutEnable) {
             mLockReceiver = LockReceiver {
-                lockAndExit()
+                closeDatabase()
+                // Add onActivityForResult response
+                setResult(RESULT_EXIT_LOCK)
+                finish()
             }
             registerLockReceiver(mLockReceiver)
         }
@@ -148,7 +150,6 @@ abstract class LockingActivity : StylishActivity() {
 
     protected fun lockAndExit() {
         sendBroadcast(Intent(LOCK_ACTION))
-        lock()
     }
 
     /**
@@ -179,12 +180,4 @@ abstract class LockingActivity : StylishActivity() {
             super.onBackPressed()
         }
     }
-}
-
-fun Activity.lock() {
-    closeDatabase()
-
-    // Add onActivityForResult response
-    setResult(LockingActivity.RESULT_EXIT_LOCK)
-    finish()
 }

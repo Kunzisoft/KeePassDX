@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -31,6 +31,8 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.exception.VersionDatabaseException
 import com.kunzisoft.keepass.stream.*
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 import java.io.InputStream
@@ -45,14 +47,16 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     var innerRandomStreamKey: ByteArray = ByteArray(32)
     var streamStartBytes: ByteArray = ByteArray(32)
     var innerRandomStream: CrsAlgorithm? = null
-    var version: Long = 0
+    var version: UnsignedInt = UnsignedInt(0)
 
     // version < FILE_VERSION_32_4)
     var transformSeed: ByteArray?
         get() = databaseV4.kdfParameters?.getByteArray(AesKdf.PARAM_SEED)
         private set(seed) {
             assignAesKdfEngineIfNotExists()
-            databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, seed)
+            seed?.let {
+                databaseV4.kdfParameters?.setByteArray(AesKdf.PARAM_SEED, it)
+            }
         }
 
     object PwDbHeaderV4Fields {
@@ -103,7 +107,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         }
     }
 
-    private fun getMinKdbxVersion(databaseV4: DatabaseKDBX): Long {
+    private fun getMinKdbxVersion(databaseV4: DatabaseKDBX): UnsignedInt {
         // https://keepass.info/help/kb/kdbx_4.html
 
         // Return v4 if AES is not use
@@ -147,8 +151,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val digestInputStream = DigestInputStream(copyInputStream, messageDigest)
         val littleEndianDataInputStream = LittleEndianDataInputStream(digestInputStream)
 
-        val sig1 = littleEndianDataInputStream.readInt()
-        val sig2 = littleEndianDataInputStream.readInt()
+        val sig1 = littleEndianDataInputStream.readUInt()
+        val sig2 = littleEndianDataInputStream.readUInt()
 
         if (!matchesHeader(sig1, sig2)) {
             throw VersionDatabaseException()
@@ -172,10 +176,10 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
         val fieldID = dis.read().toByte()
 
-        val fieldSize: Int = if (version < FILE_VERSION_32_4) {
+        val fieldSize: Int = if (version.toLong() < FILE_VERSION_32_4.toLong()) {
             dis.readUShort()
         } else {
-            dis.readInt()
+            dis.readUInt().toInt()
         }
 
         var fieldData: ByteArray? = null
@@ -198,20 +202,20 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version < FILE_VERSION_32_4)
+            PwDbHeaderV4Fields.TransformSeed -> if (version.toLong() < FILE_VERSION_32_4.toLong())
                 transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version < FILE_VERSION_32_4)
+            PwDbHeaderV4Fields.TransformRounds -> if (version.toLong() < FILE_VERSION_32_4.toLong())
                 setTransformRound(fieldData)
 
             PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version < FILE_VERSION_32_4)
+            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toLong() < FILE_VERSION_32_4.toLong())
                 innerRandomStreamKey = fieldData
 
             PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version < FILE_VERSION_32_4)
+            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toLong() < FILE_VERSION_32_4.toLong())
                 setRandomStreamID(fieldData)
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
@@ -256,8 +260,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid compression flags.")
         }
 
-        val flag = bytes4ToInt(pbFlags)
-        if (flag < 0 || flag >= CompressionAlgorithm.values().size) {
+        val flag = bytes4ToUInt(pbFlags)
+        if (flag.toLong() < 0 || flag.toLong() >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
 
@@ -272,8 +276,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
             throw IOException("Invalid stream id.")
         }
 
-        val id = bytes4ToInt(streamID)
-        if (id < 0 || id >= CrsAlgorithm.values().size) {
+        val id = bytes4ToUInt(streamID)
+        if (id.toInt() < 0 || id.toInt() >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }
 
@@ -287,43 +291,42 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
      * @param version Database version
      * @return true if it's a supported version
      */
-    private fun validVersion(version: Long): Boolean {
-        return version and FILE_VERSION_CRITICAL_MASK <= FILE_VERSION_32_4 and FILE_VERSION_CRITICAL_MASK
+    private fun validVersion(version: UnsignedInt): Boolean {
+        return version.toInt() and FILE_VERSION_CRITICAL_MASK.toInt() <=
+                FILE_VERSION_32_4.toInt() and FILE_VERSION_CRITICAL_MASK.toInt()
     }
 
     companion object {
 
-        var ULONG_MAX_VALUE: Long = -1
+        val DBSIG_PRE2 = UnsignedInt(-0x4ab4049a)
+        val DBSIG_2 = UnsignedInt(-0x4ab40499)
 
-        const val DBSIG_PRE2 = -0x4ab4049a
-        const val DBSIG_2 = -0x4ab40499
+        private val FILE_VERSION_CRITICAL_MASK = UnsignedInt(-0x10000)
+        val FILE_VERSION_32_3 = UnsignedInt(0x00030001)
+        val FILE_VERSION_32_4 = UnsignedInt(0x00040000)
 
-        private const val FILE_VERSION_CRITICAL_MASK: Long = -0x10000
-        const val FILE_VERSION_32_3: Long = 0x00030001
-        const val FILE_VERSION_32_4: Long = 0x00040000
-
-        fun getCompressionFromFlag(flag: Int): CompressionAlgorithm? {
-            return when (flag) {
+        fun getCompressionFromFlag(flag: UnsignedInt): CompressionAlgorithm? {
+            return when (flag.toInt()) {
                 0 -> CompressionAlgorithm.None
                 1 -> CompressionAlgorithm.GZip
                 else -> null
             }
         }
 
-        fun getFlagFromCompression(compression: CompressionAlgorithm): Int {
+        fun getFlagFromCompression(compression: CompressionAlgorithm): UnsignedInt {
             return when (compression) {
-                CompressionAlgorithm.GZip -> 1
-                else -> 0
+                CompressionAlgorithm.GZip -> UnsignedInt(1)
+                else -> UnsignedInt(0)
             }
         }
 
-        fun matchesHeader(sig1: Int, sig2: Int): Boolean {
+        fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
             return sig1 == PWM_DBSIG_1 && (sig2 == DBSIG_PRE2 || sig2 == DBSIG_2)
         }
 
         @Throws(IOException::class)
         fun computeHeaderHmac(header: ByteArray, key: ByteArray): ByteArray {
-            val blockKey = HmacBlockStream.getHmacKey64(key, ULONG_MAX_VALUE)
+            val blockKey = HmacBlockStream.getHmacKey64(key, UnsignedLong.MAX_VALUE)
 
             val hmac: Mac
             try {

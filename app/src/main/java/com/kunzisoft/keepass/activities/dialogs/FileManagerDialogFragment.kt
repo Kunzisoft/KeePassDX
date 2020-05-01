@@ -28,7 +28,7 @@ import android.widget.TextView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.utils.UriUtil
 
-class BrowserDialogFragment : DialogFragment() {
+class FileManagerDialogFragment : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
@@ -41,15 +41,8 @@ class BrowserDialogFragment : DialogFragment() {
             val textDescription = root.findViewById<TextView>(R.id.file_manager_install_description)
             textDescription.text = getString(R.string.file_manager_install_description)
 
-            val market = root.findViewById<Button>(R.id.file_manager_install_play_store)
-            market.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.file_manager_play_store)
-                dismiss()
-            }
-
-            val web = root.findViewById<Button>(R.id.file_manager_install_f_droid)
-            web.setOnClickListener {
-                UriUtil.gotoUrl(context!!, R.string.file_manager_f_droid)
+            root.findViewById<Button>(R.id.file_manager_button).setOnClickListener {
+                UriUtil.gotoUrl(requireContext(), R.string.file_manager_explanation_url)
                 dismiss()
             }
 

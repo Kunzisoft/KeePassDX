@@ -322,6 +322,8 @@ open class PasswordActivity : StylishActivity() {
         mProgressDialogThread?.registerProgressTask()
 
         initUriFromIntent()
+
+        checkPermission()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -594,15 +596,13 @@ open class PasswordActivity : StylishActivity() {
 
         super.onCreateOptionsMenu(menu)
 
-        launchEducation(menu) {
-            launchCheckPermission()
-        }
+        launchEducation(menu)
 
         return true
     }
 
     // Check permission
-    private fun launchCheckPermission() {
+    private fun checkPermission() {
         val writePermission = android.Manifest.permission.WRITE_EXTERNAL_STORAGE
         val permissions = arrayOf(writePermission)
         if (Build.VERSION.SDK_INT >= 23
@@ -632,26 +632,25 @@ open class PasswordActivity : StylishActivity() {
 
     // To fix multiple view education
     private var performedEductionInProgress = false
-    private fun launchEducation(menu: Menu, onEducationFinished: (()-> Unit)? = null) {
+    private fun launchEducation(menu: Menu) {
         if (!performedEductionInProgress) {
             performedEductionInProgress = true
             // Show education views
-            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu, onEducationFinished) }
+            Handler().post { performedNextEducation(PasswordActivityEducation(this), menu) }
         }
     }
 
     private fun performedNextEducation(passwordActivityEducation: PasswordActivityEducation,
-                                       menu: Menu,
-                                       onEducationFinished: (()-> Unit)? = null) {
+                                       menu: Menu) {
         val educationToolbar = toolbar
         val unlockEducationPerformed = educationToolbar != null
                 && passwordActivityEducation.checkAndPerformedUnlockEducation(
                 educationToolbar,
                         {
-                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                            performedNextEducation(passwordActivityEducation, menu)
                         },
                         {
-                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                            performedNextEducation(passwordActivityEducation, menu)
                         })
         if (!unlockEducationPerformed) {
             val readOnlyEducationPerformed =
@@ -660,30 +659,25 @@ open class PasswordActivity : StylishActivity() {
                     educationToolbar.findViewById(R.id.menu_open_file_read_mode_key),
                     {
                         onOptionsItemSelected(menu.findItem(R.id.menu_open_file_read_mode_key))
-                        performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                        performedNextEducation(passwordActivityEducation, menu)
                     },
                     {
-                        performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                        performedNextEducation(passwordActivityEducation, menu)
                     })
 
             if (!readOnlyEducationPerformed) {
                 val biometricCanAuthenticate = BiometricManager.from(this).canAuthenticate()
-                val biometricEducationPerformed =
                 Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
                         && PreferencesUtil.isBiometricUnlockEnable(applicationContext)
                         && (biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED || biometricCanAuthenticate == BiometricManager.BIOMETRIC_SUCCESS)
                         && advancedUnlockInfoView != null && advancedUnlockInfoView?.unlockIconImageView != null
                         && passwordActivityEducation.checkAndPerformedBiometricEducation(advancedUnlockInfoView?.unlockIconImageView!!,
                         {
-                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                            performedNextEducation(passwordActivityEducation, menu)
                         },
                         {
-                            performedNextEducation(passwordActivityEducation, menu, onEducationFinished)
+                            performedNextEducation(passwordActivityEducation, menu)
                         })
-
-                if (!biometricEducationPerformed) {
-                    onEducationFinished?.invoke()
-                }
             }
         }
     }

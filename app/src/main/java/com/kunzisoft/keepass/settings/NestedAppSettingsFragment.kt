@@ -105,7 +105,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                     override fun onPreferenceClick(preference: Preference): Boolean {
                         if ((preference as SwitchPreference).isChecked) {
                             try {
-                                startEnableService()
+                                enableService()
                             } catch (e: ActivityNotFoundException) {
                                 val error = getString(R.string.error_autofill_enable_service)
                                 preference.isChecked = false
@@ -124,21 +124,20 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         if (autofillManager != null && autofillManager.hasEnabledAutofillServices()) {
                             autofillManager.disableAutofillServices()
                         } else {
-                            Log.d(javaClass.name, "Sample service already disabled.")
+                            Log.d(javaClass.name, "Autofill service already disabled.")
                         }
                     }
 
                     @RequiresApi(api = Build.VERSION_CODES.O)
                     @Throws(ActivityNotFoundException::class)
-                    private fun startEnableService() {
+                    private fun enableService() {
                         if (autofillManager != null && !autofillManager.hasEnabledAutofillServices()) {
                             val intent = Intent(Settings.ACTION_REQUEST_SET_AUTOFILL_SERVICE)
-                            // TODO Autofill
-                            intent.data = Uri.parse("package:com.example.android.autofill.service")
-                            Log.d(javaClass.name, "enableService(): intent=$intent")
+                            intent.data = Uri.parse("package:com.kunzisoft.keepass.autofill.KeeAutofillService")
+                            Log.d(javaClass.name, "Autofill enable service: intent=$intent")
                             startActivityForResult(intent, REQUEST_CODE_AUTOFILL)
                         } else {
-                            Log.d(javaClass.name, "Sample service already enabled.")
+                            Log.d(javaClass.name, "Autofill service already enabled.")
                         }
                     }
                 }
@@ -148,7 +147,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.magic_keyboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.magic_keyboard_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.magic_keyboard_explanation_url)
             false
         }
 
@@ -165,7 +164,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.autofill_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.autofill_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.autofill_explanation_url)
             false
         }
 
@@ -175,7 +174,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.clipboard_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.clipboard_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.clipboard_explanation_url)
             false
         }
 
@@ -191,7 +190,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                         "\n\n" +
                         getString(R.string.clipboard_warning)
                 AlertDialog
-                        .Builder(context!!)
+                        .Builder(requireContext())
                         .setMessage(message)
                         .create()
                         .apply {
@@ -228,11 +227,9 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
                 biometricUnlockEnablePreference?.apply {
                     isChecked = false
                     setOnPreferenceClickListener { preference ->
-                        fragmentManager?.let { fragmentManager ->
-                            (preference as SwitchPreference).isChecked = false
-                            UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
-                                    .show(fragmentManager, "unavailableFeatureDialog")
-                        }
+                        (preference as SwitchPreference).isChecked = false
+                        UnavailableFeatureDialogFragment.getInstance(Build.VERSION_CODES.M)
+                                .show(parentFragmentManager, "unavailableFeatureDialog")
                         false
                     }
                 }
@@ -279,7 +276,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         }
 
         findPreference<Preference>(getString(R.string.advanced_unlock_explanation_key))?.setOnPreferenceClickListener {
-            UriUtil.gotoUrl(context!!, R.string.advanced_unlock_explanation_url)
+            UriUtil.gotoUrl(requireContext(), R.string.advanced_unlock_explanation_url)
             false
         }
     }
@@ -294,13 +291,11 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<ListPreference>(getString(R.string.setting_style_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var styleEnabled = true
                 val styleIdString = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
                     for (themeIdDisabled in BuildConfig.STYLES_DISABLED) {
                         if (themeIdDisabled == styleIdString) {
                             styleEnabled = false
-                            fragmentManager?.let { fragmentManager ->
-                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
-                            }
+                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
                         }
                     }
                 if (styleEnabled) {
@@ -313,13 +308,11 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<IconPackListPreference>(getString(R.string.setting_icon_pack_choose_key))?.setOnPreferenceChangeListener { _, newValue ->
                 var iconPackEnabled = true
                 val iconPackId = newValue as String
-                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(context!!))
+                if (BuildConfig.CLOSED_STORE || !Education.isEducationScreenReclickedPerformed(activity))
                     for (iconPackIdDisabled in BuildConfig.ICON_PACKS_DISABLED) {
                         if (iconPackIdDisabled == iconPackId) {
                             iconPackEnabled = false
-                            fragmentManager?.let { fragmentManager ->
-                                ProFeatureDialogFragment().show(fragmentManager, "pro_feature_dialog")
-                            }
+                            ProFeatureDialogFragment().show(parentFragmentManager, "pro_feature_dialog")
                         }
                     }
                 if (iconPackEnabled) {
@@ -331,7 +324,7 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             findPreference<Preference>(getString(R.string.reset_education_screens_key))?.setOnPreferenceClickListener {
                 // To allow only one toast
                 if (mCount == 0) {
-                    val sharedPreferences = Education.getEducationSharedPreferences(context!!)
+                    val sharedPreferences = Education.getEducationSharedPreferences(activity)
                     val editor = sharedPreferences.edit()
                     for (resourceId in Education.educationResourcesKeys) {
                         editor.putBoolean(getString(resourceId), false)

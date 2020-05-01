@@ -17,25 +17,20 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.crypto.finalkey;
+package com.kunzisoft.keepass.crypto.finalkey
 
-import com.kunzisoft.keepass.crypto.NativeLib;
+import com.kunzisoft.keepass.crypto.CipherFactory.deviceBlacklisted
 
-import java.io.IOException;
-
-
-public class NativeFinalKey extends FinalKey {
-
-    public static boolean available() {
-        return NativeLib.INSTANCE.init();
+object AESKeyTransformerFactory : KeyTransformer() {
+    override fun transformMasterKey(seed: ByteArray?, key: ByteArray?, rounds: Long?): ByteArray? {
+        // Prefer the native final key implementation
+        val keyTransformer = if (!deviceBlacklisted()
+                && NativeAESKeyTransformer.available()) {
+            NativeAESKeyTransformer()
+        } else {
+            // Fall back on the android crypto implementation
+            AndroidAESKeyTransformer()
+        }
+        return keyTransformer.transformMasterKey(seed, key, rounds)
     }
-
-    @Override
-    public byte[] transformMasterKey(byte[] seed, byte[] key, long rounds) throws IOException {
-        NativeLib.INSTANCE.init();
-
-        return nTransformMasterKey(seed, key, rounds);
-    }
-
-    private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
 }

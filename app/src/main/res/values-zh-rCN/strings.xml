@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources>
+-->
+<resources>
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
@@ -39,7 +40,7 @@
     <string name="decrypting_db">正在解密数据库内容…</string>
     <string name="default_checkbox">设为默认数据库</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 的一个&lt;strong&gt;自由软件&lt;/strong&gt;并且&lt;strong&gt;不含广告&lt;/strong&gt;。
+    <string name="html_about_licence">KeePassDX © %1$d 是 Kunzisoft 的一个&lt;strong&gt;开源软件&lt;/strong&gt;并且&lt;strong&gt;不含广告&lt;/strong&gt;。
 \n它是根据&lt;strong&gt;GPLv3&lt;/strong&gt;许可证分发的，您可在遵循GPL 3或者更高版本的协议下重新发布。Kunzisoft对软件的质量和性能等问题不提供任何形式的担保。</string>
     <string name="select_database_file">打开已有数据库</string>
     <string name="entry_accessed">访问时间</string>
@@ -76,8 +77,6 @@
     <string name="hint_length">长度</string>
     <string name="password">密码</string>
     <string name="hint_pass">密码</string>
-    <string name="install_from_play_store">从Play商店安装</string>
-    <string name="install_from_f_droid">从F-Droid安装</string>
     <string name="invalid_credentials">无法读取您的密码或密钥文件。如果重试后仍然如此，你的数据库可能已经损坏。</string>
     <string name="invalid_db_sig">无法识别数据库格式。</string>
     <string name="length">长度</string>
@@ -446,7 +445,7 @@
     <string name="keyboard_auto_go_action_summary">填充条目后直接登录</string>
     <string name="download_attachment">下载%1$s</string>
     <string name="download_initialization">正在初始化…</string>
-    <string name="download_progression">进行中：%1$d&#37;</string>
+    <string name="download_progression">进行中：%1$d%%</string>
     <string name="download_finalization">正在完成…</string>
     <string name="download_complete">完成！点击打开文件。</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>
@@ -470,4 +469,11 @@
     <string name="entry_add_attachment">添加附件</string>
     <string name="discard_changes">放弃更改？</string>
     <string name="validate">验证</string>
+    <string name="autofill_auto_search_summary">自动推荐从网站域名或应用程序中搜索的结果</string>
+    <string name="autofill_auto_search_title">自动搜索</string>
+    <string name="lock_database_show_button_summary">在用户界面中显示锁定数据库按钮</string>
+    <string name="lock_database_show_button_title">显示锁定数据库按钮</string>
+    <string name="autofill_preference_title">自动填充设置</string>
+    <string name="warning_database_link_revoked">访问文件管理器撤消访问权限的文件</string>
+    <string name="error_label_exists">该标签已经存在。</string>
 </resources>

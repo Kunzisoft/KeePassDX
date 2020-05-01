@@ -10,6 +10,7 @@
  - Material design with themes
  - AutoFill and Integration
  - Field filling keyboard
+ - History of each entry
  - Precise management of settings
  - Code written in native language (Kotlin / Java / JNI / C)
 

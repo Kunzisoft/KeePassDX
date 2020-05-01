@@ -39,6 +39,7 @@
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Dark" parent="@style/Widget.AppCompat.ActionMode">

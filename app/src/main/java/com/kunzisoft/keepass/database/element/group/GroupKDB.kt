@@ -32,14 +32,14 @@ import java.util.*
 class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface {
 
     var level = 0 // short
-    /** Used by KeePass internally, don't use  */
-    var flags: Int = 0
+    // Used by KeePass internally, don't use
+    var groupFlags = 0
 
     constructor() : super()
 
     constructor(parcel: Parcel) : super(parcel) {
         level = parcel.readInt()
-        flags = parcel.readInt()
+        groupFlags = parcel.readInt()
     }
 
     override fun readParentParcelable(parcel: Parcel): GroupKDB? {
@@ -53,13 +53,13 @@ class GroupKDB : GroupVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeInt(level)
-        dest.writeInt(flags)
+        dest.writeInt(groupFlags)
     }
 
     fun updateWith(source: GroupKDB) {
         super.updateWith(source)
         level = source.level
-        flags = source.flags
+        groupFlags = source.groupFlags
     }
 
     override val type: Type

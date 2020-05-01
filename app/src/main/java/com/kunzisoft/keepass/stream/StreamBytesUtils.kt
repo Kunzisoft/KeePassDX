@@ -21,6 +21,7 @@ package com.kunzisoft.keepass.stream
 
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.utils.StringDatabaseKDBUtils.bytesToString
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 import java.util.*
@@ -80,13 +81,8 @@ fun InputStream.readBytes(length: Int, bufferSize: Int, readBytes: (bytesRead: B
  *  be interpreted as an unsigned integer.
  */
 @Throws(IOException::class)
-fun InputStream.readBytes4ToUInt(): Long {
-    return readBytes4ToInt().toLong() and INT_TO_LONG_MASK
-}
-
-@Throws(IOException::class)
-fun InputStream.readBytes4ToInt(): Int {
-    return bytes4ToInt(readBytesLength(4))
+fun InputStream.readBytes4ToUInt(): UnsignedInt {
+    return bytes4ToUInt(readBytesLength(4))
 }
 
 @Throws(IOException::class)
@@ -141,18 +137,11 @@ fun bytes64ToLong(buf: ByteArray): Long {
             + (buf[7].toLong() and 0xFF shl 56))
 }
 
-
-private const val INT_TO_LONG_MASK: Long = 0xffffffffL
-
-fun bytes4ToUInt(buf: ByteArray): Long {
-    return bytes4ToInt(buf).toLong() and INT_TO_LONG_MASK
-}
-
 /**
  * Read a 32-bit value.
  */
-fun bytes4ToInt(buf: ByteArray): Int {
-    return ((buf[0].toInt() and 0xFF)
+fun bytes4ToUInt(buf: ByteArray): UnsignedInt {
+    return UnsignedInt((buf[0].toInt() and 0xFF)
             + (buf[1].toInt() and 0xFF shl 8)
             + (buf[2].toInt() and 0xFF shl 16)
             + (buf[3].toInt() and 0xFF shl 24))
@@ -182,11 +171,11 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
     System.arraycopy(buf, 0, cDate, 0, dateSize)
 
     val readOffset = 0
-    val dw1 = byteToUInt(cDate[readOffset])
-    val dw2 = byteToUInt(cDate[readOffset + 1])
-    val dw3 = byteToUInt(cDate[readOffset + 2])
-    val dw4 = byteToUInt(cDate[readOffset + 3])
-    val dw5 = byteToUInt(cDate[readOffset + 4])
+    val dw1 = UnsignedInt.fromByte(cDate[readOffset]).toInt()
+    val dw2 = UnsignedInt.fromByte(cDate[readOffset + 1]).toInt()
+    val dw3 = UnsignedInt.fromByte(cDate[readOffset + 2]).toInt()
+    val dw4 = UnsignedInt.fromByte(cDate[readOffset + 3]).toInt()
+    val dw5 = UnsignedInt.fromByte(cDate[readOffset + 4]).toInt()
 
     // Unpack 5 byte structure to date and time
     val year = dw1 shl 6 or (dw2 shr 2)
@@ -205,19 +194,12 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
 }
 
 /**
- * Convert an unsigned Integer to byte
+ * Write a 32-bit Int value.
  */
-fun uIntToByte(value: Int): Byte {
-    return (value and 0xFF).toByte()
-}
-
-/**
- * Write a 32-bit value.
- */
-fun intTo4Bytes(value: Int): ByteArray {
+fun uIntTo4Bytes(value: UnsignedInt): ByteArray {
     val buf = ByteArray(4)
     for (i in 0 until 4) {
-        buf[i] = (value.ushr(8 * i) and 0xFF).toByte()
+        buf[i] = (value.toInt().ushr(8 * i) and 0xFF).toByte()
     }
     return buf
 }
@@ -251,11 +233,7 @@ fun uuidTo16Bytes(uuid: UUID): ByteArray {
     return buf
 }
 
-fun dateTo5Bytes(date: Date?, calendar: Calendar = Calendar.getInstance()): ByteArray? {
-    if (date == null) {
-        return null
-    }
-
+fun dateTo5Bytes(date: Date, calendar: Calendar = Calendar.getInstance()): ByteArray {
     val buf = ByteArray(5)
     calendar.time = date
 
@@ -268,18 +246,12 @@ fun dateTo5Bytes(date: Date?, calendar: Calendar = Calendar.getInstance()): Byte
     val minute = calendar.get(Calendar.MINUTE)
     val second = calendar.get(Calendar.SECOND)
 
-    buf[0] = uIntToByte(year shr 6 and 0x0000003F)
-    buf[1] = uIntToByte(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003))
+    buf[0] = UnsignedInt(year shr 6 and 0x0000003F).toByte()
+    buf[1] = UnsignedInt(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toByte()
     buf[2] = (month and 0x00000003 shl 6
             or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
     buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()
     buf[4] = (minute and 0x00000003 shl 6 or (second and 0x0000003F)).toByte()
 
     return buf
-}
-
-
-/** Convert a byte to an unsigned byte  */
-fun byteToUInt(byte: Byte): Int {
-    return byte.toInt() and 0xFF
 }

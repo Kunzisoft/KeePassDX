@@ -13,6 +13,7 @@ Cette version pro est en cours de développement, en l'achetant vous encouragez 
  - Material design avec thèmes
  - Remplissage automatique de champs
  - Clavier de remplissage de champs
+ - Historique de chaque entrée
  - Gestion précise des paramètres
  - Code écrit en langage natif (Kotlin / Java / JNI / C)
 

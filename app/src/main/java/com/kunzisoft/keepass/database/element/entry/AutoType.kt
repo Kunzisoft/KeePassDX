@@ -23,6 +23,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.UnsignedInt
 
 import java.util.HashMap
 
@@ -46,7 +47,7 @@ class AutoType : Parcelable {
 
     constructor(parcel: Parcel) {
         this.enabled = parcel.readByte().toInt() != 0
-        this.obfuscationOptions = parcel.readLong()
+        this.obfuscationOptions = UnsignedInt(parcel.readInt())
         this.defaultSequence = parcel.readString() ?: defaultSequence
         this.windowSeqPairs = ParcelableUtil.readStringParcelableMap(parcel)
     }
@@ -57,7 +58,7 @@ class AutoType : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (enabled) 1 else 0).toByte())
-        dest.writeLong(obfuscationOptions)
+        dest.writeInt(obfuscationOptions.toInt())
         dest.writeString(defaultSequence)
         ParcelableUtil.writeStringParcelableMap(dest, windowSeqPairs)
     }
@@ -71,7 +72,7 @@ class AutoType : Parcelable {
     }
 
     companion object {
-        private const val OBF_OPT_NONE: Long = 0
+        private val OBF_OPT_NONE = UnsignedInt(0)
 
         @JvmField
         val CREATOR: Parcelable.Creator<AutoType> = object : Parcelable.Creator<AutoType> {

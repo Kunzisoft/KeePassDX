@@ -1,6 +1,6 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2017 Brian Pellin, Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -17,26 +17,28 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.search
+package com.kunzisoft.keepass.crypto.finalkey;
 
-class SearchParametersKDBX : SearchParameters {
+import com.kunzisoft.keepass.crypto.NativeLib;
 
-    var searchInOther = true
-    var searchInUUIDs = false
-    var searchInTags = true
+import org.jetbrains.annotations.Nullable;
 
-    constructor() : super()
+import java.io.IOException;
 
-    constructor(searchParametersV4: SearchParametersKDBX) : super(searchParametersV4) {
-        this.searchInOther = searchParametersV4.searchInOther
-        this.searchInUUIDs = searchParametersV4.searchInUUIDs
-        this.searchInTags = searchParametersV4.searchInTags
+
+public class NativeAESKeyTransformer extends KeyTransformer {
+
+    public static boolean available() {
+        return NativeLib.INSTANCE.init();
     }
 
-    override fun setupNone() {
-        super.setupNone()
-        searchInOther = false
-        searchInUUIDs = false
-        searchInTags = false
+    @Nullable
+    @Override
+    public byte[] transformMasterKey(@Nullable byte[] seed, @Nullable byte[] key, @Nullable Long rounds) throws IOException {
+        NativeLib.INSTANCE.init();
+
+        return nTransformMasterKey(seed, key, rounds);
     }
+
+    private static native byte[] nTransformMasterKey(byte[] seed, byte[] key, long rounds);
 }

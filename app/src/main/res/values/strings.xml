@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
@@ -68,7 +69,6 @@
     <string name="content_description_update_from_list">Update</string>
     <string name="content_description_remove_from_list">Remove</string>
     <string name="content_description_keyboard_close_fields">Close fields</string>
-    <!--%1$s is either \"Username\" or \"Password\".-->
     <string name="select_to_copy">Select to copy %1$s to clipboard</string>
     <string name="retrieving_db_key">Retrieving database key…</string>
     <string name="database">Database</string>
@@ -135,7 +135,7 @@
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
-    <string name="file_browser">File browser</string>
+    <string name="file_browser">File manager</string>
     <string name="generate_password">Generate password</string>
     <string name="hint_conf_pass">Confirm password</string>
     <string name="hint_generated_password">Generated password</string>
@@ -144,8 +144,6 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
-    <string name="install_from_f_droid">Install from F-Droid</string>
-    <string name="install_from_play_store">Install from Play Store</string>
     <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupted.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
@@ -243,7 +241,6 @@
     <string name="sort_creation_time">Creation</string>
     <string name="sort_last_modify_time">Modification</string>
     <string name="sort_last_access_time">Access</string>
-    <!--As in special characters. Used for chars outside of Latin-1.-->
     <string name="special">Special</string>
     <string name="search">Search</string>
     <string name="search_results">Search results</string>
@@ -270,10 +267,9 @@
     <string name="encrypted_value_stored">Encrypted password stored</string>
     <string name="biometric_invalid_key">Can not read the biometric key. Please delete it and repeat the biometric recognition procedure.</string>
     <string name="biometric_not_recognized">Could not recognize biometric</string>
-    <!--This problem could be with scanning, or something else.-->
     <string name="biometric_scanning_error">Biometric error: %1$s</string>
     <string name="no_credentials_stored">This database does not have stored credential yet.</string>
-    <string name="credential_before_click_biometric_button">Type the password before clicking the biometric button.</string>
+    <string name="credential_before_click_biometric_button">Type in the password, and then click the \"Biometric\" button.</string>
     <string name="database_history">History</string>
     <string name="menu_appearance_settings">Appearance</string>
     <string name="biometric">Biometric</string>
@@ -306,7 +302,7 @@
     <string name="biometric_unlock_enable_title">Biometric unlocking</string>
     <string name="biometric_unlock_enable_summary">Lets you scan your biometric to open the database</string>
     <string name="biometric_auto_open_prompt_title">Auto-open biometric prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Automatically open biometric prompt when a biometric key is defined for a database</string>
+    <string name="biometric_auto_open_prompt_summary">Automatically ask for biometric if the database is set up to use it</string>
     <string name="biometric_delete_all_key_title">Delete encryption keys</string>
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
@@ -316,8 +312,8 @@
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
     <string name="assign_master_key">Assign a master key</string>
-    <string name="full_file_path_enable_title">File path</string>
-    <string name="full_file_path_enable_summary">View the full file path</string>
+    <string name="full_file_path_enable_title">Filepath</string>
+    <string name="full_file_path_enable_summary">View the full filepath</string>
     <string name="database_data_compression_title">Data compression</string>
     <string name="database_data_compression_summary">Data compression reduces the size of the database.</string>
     <string name="recycle_bin_title">Recycle bin usage</string>
@@ -381,7 +377,7 @@
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="autofill_auto_search_title">Auto search</string>
-    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or applicationId</string>
+    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application Id</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
@@ -390,16 +386,15 @@
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
     <string name="enable_auto_save_database_summary">Save the database after every important action (in \"Modifiable\" mode)</string>
-    <string name="enable_education_screens_title">Educational screens</string>
-    <string name="enable_education_screens_summary">Highlight the elements to learn how the app works</string>
-    <string name="reset_education_screens_title">Reset educational screens</string>
-    <string name="reset_education_screens_summary">Show all educational items again</string>
-    <string name="reset_education_screens_text">Educational screens reset</string>
+    <string name="enable_education_screens_title">Educational hints</string>
+    <string name="enable_education_screens_summary">Highlight elements to learn how the app works</string>
+    <string name="reset_education_screens_title">Reset educational hints</string>
+    <string name="reset_education_screens_summary">Show all educational info again</string>
+    <string name="reset_education_screens_text">Educational hints reset</string>
     <string name="education_create_database_title">Create your database file</string>
     <string name="education_create_database_summary">Create your first password management file.</string>
     <string name="education_select_database_title">Open an existing database</string>
     <string name="education_select_database_summary">Open your earlier database file from your file browser to continue using it.</string>
-    <!--both entries and groups are items-->
     <string name="education_new_node_title">Add items to your database</string>
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
@@ -441,14 +436,12 @@
     <string name="contribute">Contribute</string>
     <string name="download_attachment">Download %1$s</string>
     <string name="download_initialization">Initializing…</string>
-    <string name="download_progression">In progress: %1$d&#37;</string>
+    <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
     <string name="download_complete">Complete! Tap to open the file.</string>
-    <!-- Encryption Algorithms -->
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <!-- Key Derivation Functions -->
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string-array name="timeout_options">

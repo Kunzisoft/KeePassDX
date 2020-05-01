@@ -37,7 +37,7 @@
 		android:id="@+id/group_edit_name_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
-		<androidx.appcompat.widget.AppCompatEditText
+		<com.google.android.material.textfield.TextInputEditText
 			android:id="@+id/group_edit_name"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"

@@ -1,6 +1,6 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
- *     
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
+ *
  * This file is part of KeePassDX.
  *
  *  KeePassDX is free software: you can redistribute it and/or modify
@@ -17,6 +17,33 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.database.search.iterator
+package com.kunzisoft.keepass.utils
 
-abstract class EntrySearchStringIterator : Iterator<String>
+class UnsignedLong(private var unsignedValue: Long) {
+
+    /**
+     * Convert an unsigned Integer to Long
+     */
+    fun toLong(): Long {
+        return unsignedValue
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as UnsignedLong
+
+        if (unsignedValue != other.unsignedValue) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return unsignedValue.hashCode()
+    }
+
+    companion object {
+        const val MAX_VALUE: Long = -1
+    }
+}

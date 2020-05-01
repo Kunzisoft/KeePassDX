@@ -22,8 +22,7 @@ package com.kunzisoft.keepass.database.element.entry
 import com.kunzisoft.keepass.database.element.database.DatabaseKDBX
 import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.search.EntryKDBXSearchHandler
-import com.kunzisoft.keepass.database.search.SearchParametersKDBX
-import com.kunzisoft.keepass.utils.StringUtil
+import com.kunzisoft.keepass.database.search.SearchParameters
 import java.util.*
 
 class FieldReferencesEngine {
@@ -76,11 +75,11 @@ class FieldReferencesEngine {
         for (i in 0..19) {
             text = fillRefsUsingCache(text, contextV4)
 
-            val start = StringUtil.indexOfIgnoreCase(text, STR_REF_START, offset, Locale.ENGLISH)
+            val start = text.indexOf(STR_REF_START, offset, true)
             if (start < 0) {
                 break
             }
-            val end = StringUtil.indexOfIgnoreCase(text, STR_REF_END, start + 1, Locale.ENGLISH)
+            val end = text.indexOf(STR_REF_END, start + 1, true)
             if (end <= start) {
                 break
             }
@@ -142,24 +141,23 @@ class FieldReferencesEngine {
         val scan = Character.toUpperCase(ref[2])
         val wanted = Character.toUpperCase(ref[0])
 
-        val searchParametersV4 = SearchParametersKDBX()
-        searchParametersV4.setupNone()
+        val searchParameters = SearchParameters()
+        searchParameters.setupNone()
 
-        searchParametersV4.searchString = ref.substring(4)
+        searchParameters.searchString = ref.substring(4)
         when (scan) {
-            'T' -> searchParametersV4.searchInTitles = true
-            'U' -> searchParametersV4.searchInUserNames = true
-            'A' -> searchParametersV4.searchInUrls = true
-            'P' -> searchParametersV4.searchInPasswords = true
-            'N' -> searchParametersV4.searchInNotes = true
-            'I' -> searchParametersV4.searchInUUIDs = true
-            'O' -> searchParametersV4.searchInOther = true
+            'T' -> searchParameters.searchInTitles = true
+            'U' -> searchParameters.searchInUserNames = true
+            'A' -> searchParameters.searchInUrls = true
+            'P' -> searchParameters.searchInPasswords = true
+            'N' -> searchParameters.searchInNotes = true
+            'I' -> searchParameters.searchInUUIDs = true
+            'O' -> searchParameters.searchInOther = true
             else -> return null
         }
 
         val list = ArrayList<EntryKDBX>()
-        // TODO type parameter
-        searchEntries(contextV4.databaseV4!!.rootGroup, searchParametersV4, list)
+        searchEntries(contextV4.databaseV4?.rootGroup, searchParameters, list)
 
         return if (list.size > 0) {
             TargetResult(list[0], wanted)
@@ -186,22 +184,22 @@ class FieldReferencesEngine {
     private fun fillRefsUsingCache(text: String, sprContextV4: SprContextV4): String {
         var newText = text
         for ((key, value) in sprContextV4.refsCache) {
-            newText = StringUtil.replaceAllIgnoresCase(text, key, value, Locale.ENGLISH)
+            newText = text.replace(key, value, true)
         }
         return newText
     }
 
-    private fun searchEntries(root: GroupKDBX?, searchParametersV4: SearchParametersKDBX?, listStorage: MutableList<EntryKDBX>?) {
-        if (searchParametersV4 == null) {
+    private fun searchEntries(root: GroupKDBX?, searchParameters: SearchParameters?, listStorage: MutableList<EntryKDBX>?) {
+        if (searchParameters == null) {
             return
         }
         if (listStorage == null) {
             return
         }
 
-        val terms = StringUtil.splitStringTerms(searchParametersV4.searchString)
-        if (terms.size <= 1 || searchParametersV4.regularExpression) {
-            root!!.doForEachChild(EntryKDBXSearchHandler(searchParametersV4, listStorage), null)
+        val terms = splitStringTerms(searchParameters.searchString)
+        if (terms.size <= 1 || searchParameters.regularExpression) {
+            root!!.doForEachChild(EntryKDBXSearchHandler(searchParameters, listStorage), null)
             return
         }
 
@@ -209,41 +207,76 @@ class FieldReferencesEngine {
         val stringLengthComparator = Comparator<String> { lhs, rhs -> lhs.length - rhs.length }
         Collections.sort(terms, stringLengthComparator)
 
-        val fullSearch = searchParametersV4.searchString
+        val fullSearch = searchParameters.searchString
         var childEntries: List<EntryKDBX>? = root!!.getChildEntries()
         for (i in terms.indices) {
             val pgNew = ArrayList<EntryKDBX>()
 
-            searchParametersV4.searchString = terms[i]
+            searchParameters.searchString = terms[i]
 
             var negate = false
-            if (searchParametersV4.searchString.startsWith("-")) {
-                searchParametersV4.searchString = searchParametersV4.searchString.substring(1)
-                negate = searchParametersV4.searchString.isNotEmpty()
+            if (searchParameters.searchString.startsWith("-")) {
+                searchParameters.searchString = searchParameters.searchString.substring(1)
+                negate = searchParameters.searchString.isNotEmpty()
             }
 
-            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParametersV4, pgNew), null)) {
+            if (!root.doForEachChild(EntryKDBXSearchHandler(searchParameters, pgNew), null)) {
                 childEntries = null
                 break
             }
 
-            val complement = ArrayList<EntryKDBX>()
-            if (negate) {
+            childEntries = if (negate) {
+                val complement = ArrayList<EntryKDBX>()
                 for (entry in childEntries!!) {
                     if (!pgNew.contains(entry)) {
                         complement.add(entry)
                     }
                 }
-                childEntries = complement
+                complement
             } else {
-                childEntries = pgNew
+                pgNew
             }
         }
 
         if (childEntries != null) {
             listStorage.addAll(childEntries)
         }
-        searchParametersV4.searchString = fullSearch
+        searchParameters.searchString = fullSearch
+    }
+
+    /**
+     * Create a list of String by split text when ' ', '\t', '\r' or '\n' is found
+     */
+    private fun splitStringTerms(text: String?): List<String> {
+        val list = ArrayList<String>()
+        if (text == null) {
+            return list
+        }
+
+        val stringBuilder = StringBuilder()
+        var quoted = false
+
+        for (element in text) {
+
+            if ((element == ' ' || element == '\t' || element == '\r' || element == '\n') && !quoted) {
+
+                val len = stringBuilder.length
+                when {
+                    len > 0 -> {
+                        list.add(stringBuilder.toString())
+                        stringBuilder.delete(0, len)
+                    }
+                    element == '\"' -> quoted = !quoted
+                    else -> stringBuilder.append(element)
+                }
+            }
+        }
+
+        if (stringBuilder.isNotEmpty()) {
+            list.add(stringBuilder.toString())
+        }
+
+        return list
     }
 
     companion object {

@@ -36,12 +36,10 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
     }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-
-        var key = 0
-        if (arguments != null)
-            key = arguments!!.getInt(TAG_KEY)
-
-        onCreateScreenPreference(Screen.values()[key], savedInstanceState, rootKey)
+        onCreateScreenPreference(
+                Screen.values()[requireArguments().getInt(TAG_KEY)],
+                savedInstanceState,
+                rootKey)
     }
 
     abstract fun onCreateScreenPreference(screen: Screen, savedInstanceState: Bundle?, rootKey: String?)
@@ -51,13 +49,11 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
     protected fun preferenceInDevelopment(preferenceInDev: Preference) {
         preferenceInDev.setOnPreferenceClickListener { preference ->
-            fragmentManager?.let { fragmentManager ->
-                try { // don't check if we can
-                    (preference as SwitchPreference).isChecked = false
-                } catch (ignored: Exception) {
-                }
-                UnderDevelopmentFeatureDialogFragment().show(fragmentManager, "underDevFeatureDialog")
+            try { // don't check if we can
+                (preference as SwitchPreference).isChecked = false
+            } catch (ignored: Exception) {
             }
+            UnderDevelopmentFeatureDialogFragment().show(parentFragmentManager, "underDevFeatureDialog")
             false
         }
     }

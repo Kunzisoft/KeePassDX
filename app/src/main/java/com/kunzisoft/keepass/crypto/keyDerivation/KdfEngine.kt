@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.crypto.keyDerivation
 
 import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.keepass.utils.UnsignedInt
 
 import java.io.IOException
 import java.io.Serializable
@@ -33,17 +34,17 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
     abstract val defaultParameters: KdfParameters
 
     @Throws(IOException::class)
-    abstract fun transform(masterKey: ByteArray, p: KdfParameters): ByteArray
+    abstract fun transform(masterKey: ByteArray, kdfParameters: KdfParameters): ByteArray
 
-    abstract fun randomize(p: KdfParameters)
+    abstract fun randomize(kdfParameters: KdfParameters)
 
     /*
      * ITERATIONS
      */
 
-    abstract fun getKeyRounds(p: KdfParameters): Long
+    abstract fun getKeyRounds(kdfParameters: KdfParameters): Long
 
-    abstract fun setKeyRounds(p: KdfParameters, keyRounds: Long)
+    abstract fun setKeyRounds(kdfParameters: KdfParameters, keyRounds: Long)
 
     abstract val defaultKeyRounds: Long
 
@@ -51,51 +52,51 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
         get() = 1
 
     open val maxKeyRounds: Long
-        get() = Int.MAX_VALUE.toLong()
+        get() = UnsignedInt.MAX_VALUE.toLong()
 
     /*
      * MEMORY
      */
 
-    open fun getMemoryUsage(p: KdfParameters): Long {
-        return UNKNOWN_VALUE.toLong()
+    open fun getMemoryUsage(kdfParameters: KdfParameters): Long {
+        return UNKNOWN_VALUE
     }
 
-    open fun setMemoryUsage(p: KdfParameters, memory: Long) {
+    open fun setMemoryUsage(kdfParameters: KdfParameters, memory: Long) {
         // Do nothing by default
     }
 
     open val defaultMemoryUsage: Long
-        get() = UNKNOWN_VALUE.toLong()
+        get() = UNKNOWN_VALUE
 
     open val minMemoryUsage: Long
         get() = 1
 
     open val maxMemoryUsage: Long
-        get() = Int.MAX_VALUE.toLong()
+        get() = UnsignedInt.MAX_VALUE.toLong()
 
     /*
      * PARALLELISM
      */
 
-    open fun getParallelism(p: KdfParameters): Int {
+    open fun getParallelism(kdfParameters: KdfParameters): Long {
         return UNKNOWN_VALUE
     }
 
-    open fun setParallelism(p: KdfParameters, parallelism: Int) {
+    open fun setParallelism(kdfParameters: KdfParameters, parallelism: Long) {
         // Do nothing by default
     }
 
-    open val defaultParallelism: Int
+    open val defaultParallelism: Long
         get() = UNKNOWN_VALUE
 
-    open val minParallelism: Int
-        get() = 1
+    open val minParallelism: Long
+        get() = 1L
 
-    open val maxParallelism: Int
-        get() = Int.MAX_VALUE
+    open val maxParallelism: Long
+        get() = UnsignedInt.MAX_VALUE.toLong()
 
     companion object {
-        const val UNKNOWN_VALUE = -1
+        const val UNKNOWN_VALUE: Long = -1L
     }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -18,7 +18,8 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
---><resources>
+-->
+<resources>
     <string name="feedback">Commentario</string>
     <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
@@ -77,8 +78,6 @@
     <string name="hint_length">longitud</string>
     <string name="password">Contraseña</string>
     <string name="hint_pass">contraseña</string>
-    <string name="install_from_play_store">Instalar desde Play Store</string>
-    <string name="install_from_f_droid">Instalar desde F-Droid</string>
     <string name="invalid_credentials">Contraseña o archivo de clave no válido.</string>
     <string name="invalid_db_sig">No se pudo reconocer el formato de la base de datos.</string>
     <string name="length">Longitud</string>

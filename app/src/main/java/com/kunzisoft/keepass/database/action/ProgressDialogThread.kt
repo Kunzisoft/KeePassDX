@@ -30,7 +30,8 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
@@ -54,6 +55,8 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DEFAULT_USERNAME_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_DESCRIPTION_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENCRYPTION_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ITERATIONS_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_KEY_DERIVATION_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MAX_HISTORY_ITEMS_TASK
@@ -61,12 +64,10 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_NAME_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_PARALLELISM_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.getBundleFromListNodes
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
-import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.retrieveProgressDialog
+import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
@@ -85,26 +86,25 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
 
     private var serviceConnection: ServiceConnection? = null
 
+    private var progressTaskDialogFragment: ProgressTaskDialogFragment? = null
+
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
             TimeoutHelper.temporarilyDisableTimeout()
             // Stop the opening notification
             DatabaseOpenNotificationService.stop(activity)
             startOrUpdateDialog(titleId, messageId, warningId)
-
         }
 
         override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            TimeoutHelper.temporarilyDisableTimeout()
-            // Stop the opening notification
-            DatabaseOpenNotificationService.stop(activity)
             startOrUpdateDialog(titleId, messageId, warningId)
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
             onActionFinish?.invoke(actionTask, result)
+
             // Remove the progress task
-            ProgressTaskDialogFragment.stop(activity)
+            stopDialog()
             TimeoutHelper.releaseTemporarilyDisableTimeout()
 
             val inTime = if (activity is LockingActivity) {
@@ -121,12 +121,15 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
-        var progressTaskDialogFragment = retrieveProgressDialog(activity)
         if (progressTaskDialogFragment == null) {
-            progressTaskDialogFragment = ProgressTaskDialogFragment.build()
-            ProgressTaskDialogFragment.start(activity, progressTaskDialogFragment)
+            progressTaskDialogFragment = activity.supportFragmentManager
+                    .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
         }
-        progressTaskDialogFragment.apply {
+        if (progressTaskDialogFragment == null) {
+            progressTaskDialogFragment = ProgressTaskDialogFragment()
+            progressTaskDialogFragment?.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
+        }
+        progressTaskDialogFragment?.apply {
             titleId?.let {
                 updateTitle(it)
             }
@@ -139,7 +142,11 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
+    private fun stopDialog() {
+        progressTaskDialogFragment?.dismissAllowingStateLoss()
+        progressTaskDialogFragment = null
+    }
+
     private fun initServiceConnection() {
         if (serviceConnection == null) {
             serviceConnection = object : ServiceConnection {
@@ -158,7 +165,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
     private fun bindService() {
         initServiceConnection()
         serviceConnection?.let {
@@ -169,7 +175,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     /**
      * Unbind the service and assign null to the service connection to check if already unbind or not
      */
-    @Synchronized
     private fun unBindService() {
         serviceConnection?.let {
             activity.unbindService(it)
@@ -177,22 +182,19 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         serviceConnection = null
     }
 
-    @Synchronized
     fun registerProgressTask() {
-        ProgressTaskDialogFragment.stop(activity)
+        stopDialog()
 
         // Register a database task receiver to stop loading dialog when service finish the task
         databaseTaskBroadcastReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                activity.runOnUiThread {
-                    when (intent?.action) {
-                        DATABASE_START_TASK_ACTION -> {
-                            // Bind to the service when is starting
-                            bindService()
-                        }
-                        DATABASE_STOP_TASK_ACTION -> {
-                            unBindService()
-                        }
+                when (intent?.action) {
+                    DATABASE_START_TASK_ACTION -> {
+                        // Bind to the service when is starting
+                        bindService()
+                    }
+                    DATABASE_STOP_TASK_ACTION -> {
+                        unBindService()
                     }
                 }
             }
@@ -208,9 +210,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         bindService()
     }
 
-    @Synchronized
     fun unregisterProgressTask() {
-        ProgressTaskDialogFragment.stop(activity)
+        stopDialog()
 
         mBinder?.removeActionTaskListener(actionTaskListener)
         mBinder = null
@@ -224,18 +225,15 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    @Synchronized
     private fun start(bundle: Bundle? = null, actionTask: String) {
         activity.stopService(intentDatabaseTask)
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
-        activity.runOnUiThread {
             intentDatabaseTask.action = actionTask
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                activity.startForegroundService(intentDatabaseTask)
-            } else {
-                activity.startService(intentDatabaseTask)
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            activity.startForegroundService(intentDatabaseTask)
+        } else {
+            activity.startService(intentDatabaseTask)
         }
     }
 
@@ -552,12 +550,12 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                 , ACTION_DATABASE_UPDATE_MEMORY_USAGE_TASK)
     }
 
-    fun startDatabaseSaveParallelism(oldParallelism: Int,
-                                     newParallelism: Int,
+    fun startDatabaseSaveParallelism(oldParallelism: Long,
+                                     newParallelism: Long,
                                      save: Boolean) {
         start(Bundle().apply {
-            putInt(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
-            putInt(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
+            putLong(DatabaseTaskNotificationService.OLD_ELEMENT_KEY, oldParallelism)
+            putLong(DatabaseTaskNotificationService.NEW_ELEMENT_KEY, newParallelism)
             putBoolean(DatabaseTaskNotificationService.SAVE_DATABASE_KEY, save)
         }
                 , ACTION_DATABASE_UPDATE_PARALLELISM_TASK)

@@ -21,9 +21,9 @@
 
 package com.kunzisoft.keepass.database.file
 
-import com.kunzisoft.keepass.stream.bytes4ToInt
 import com.kunzisoft.keepass.stream.readBytesLength
-import com.kunzisoft.keepass.stream.readBytes4ToInt
+import com.kunzisoft.keepass.stream.readBytes4ToUInt
+import com.kunzisoft.keepass.utils.UnsignedInt
 import java.io.IOException
 import java.io.InputStream
 
@@ -34,15 +34,15 @@ class DatabaseHeaderKDB : DatabaseHeader() {
      */
     var transformSeed = ByteArray(32)
 
-    var signature1: Int = 0                  // = PWM_DBSIG_1
-    var signature2: Int = 0                  // = DBSIG_2
-    var flags: Int = 0
-    var version: Int = 0
+    var signature1 = UnsignedInt(0)                  // = PWM_DBSIG_1
+    var signature2 = UnsignedInt(0)                  // = DBSIG_2
+    var flags= UnsignedInt(0)
+    var version= UnsignedInt(0)
 
     /** Number of groups in the database  */
-    var numGroups: Int = 0
+    var numGroups = UnsignedInt(0)
     /** Number of entries in the database  */
-    var numEntries: Int = 0
+    var numEntries = UnsignedInt(0)
 
     /**
      * SHA-256 hash of the database, used for integrity check
@@ -50,28 +50,24 @@ class DatabaseHeaderKDB : DatabaseHeader() {
     var contentsHash = ByteArray(32)
 
     // As UInt
-    var numKeyEncRounds: Int = 0
+    var numKeyEncRounds = UnsignedInt(0)
 
     /**
      * Parse given buf, as read from file.
      */
     @Throws(IOException::class)
     fun loadFromFile(inputStream: InputStream) {
-        signature1 = inputStream.readBytes4ToInt() // 4 bytes
-        signature2 = inputStream.readBytes4ToInt() // 4 bytes
-        flags = inputStream.readBytes4ToInt() // 4 bytes
-        version = inputStream.readBytes4ToInt() // 4 bytes
+        signature1 = inputStream.readBytes4ToUInt() // 4 bytes
+        signature2 = inputStream.readBytes4ToUInt() // 4 bytes
+        flags = inputStream.readBytes4ToUInt() // 4 bytes
+        version = inputStream.readBytes4ToUInt() // 4 bytes
         masterSeed = inputStream.readBytesLength(16) // 16 bytes
         encryptionIV = inputStream.readBytesLength(16) // 16 bytes
-        numGroups = inputStream.readBytes4ToInt() // 4 bytes
-        numEntries = inputStream.readBytes4ToInt() // 4 bytes
+        numGroups = inputStream.readBytes4ToUInt() // 4 bytes
+        numEntries = inputStream.readBytes4ToUInt() // 4 bytes
         contentsHash = inputStream.readBytesLength(32) // 32 bytes
         transformSeed = inputStream.readBytesLength(32) // 32 bytes
-        numKeyEncRounds = inputStream.readBytes4ToInt()
-        if (numKeyEncRounds < 0) {
-            // TODO: Really treat this like an unsigned integer
-            throw IOException("Does not support more than " + Integer.MAX_VALUE + " rounds.")
-        }
+        numKeyEncRounds = inputStream.readBytes4ToUInt()
     }
 
     init {
@@ -88,24 +84,24 @@ class DatabaseHeaderKDB : DatabaseHeader() {
     companion object {
 
         // DB sig from KeePass 1.03
-        const val DBSIG_2 = -0x4ab4049b
+        val DBSIG_2 = UnsignedInt(-0x4ab4049b)
         // DB sig from KeePass 1.03
-        const val DBVER_DW = 0x00030003
+        val DBVER_DW = UnsignedInt(0x00030003)
 
-        const val FLAG_SHA2 = 1
-        const val FLAG_RIJNDAEL = 2
-        const val FLAG_ARCFOUR = 4
-        const val FLAG_TWOFISH = 8
+        val FLAG_SHA2 = UnsignedInt(1)
+        val FLAG_RIJNDAEL = UnsignedInt(2)
+        val FLAG_ARCFOUR = UnsignedInt(4)
+        val FLAG_TWOFISH = UnsignedInt(8)
 
         /** Size of byte buffer needed to hold this struct.  */
         const val BUF_SIZE = 124
 
-        fun matchesHeader(sig1: Int, sig2: Int): Boolean {
-            return sig1 == PWM_DBSIG_1 && sig2 == DBSIG_2
+        fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
+            return sig1.toInt() == PWM_DBSIG_1.toInt() && sig2.toInt() == DBSIG_2.toInt()
         }
 
-        fun compatibleHeaders(one: Int, two: Int): Boolean {
-            return one and -0x100 == two and -0x100
+        fun compatibleHeaders(one: UnsignedInt, two: UnsignedInt): Boolean {
+            return one.toInt() and -0x100 == two.toInt() and -0x100
         }
     }
 

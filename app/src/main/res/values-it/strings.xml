@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Copyright 2019 Jeremy Jamet / Kunzisoft.
+    Copyright 2020 Jeremy Jamet / Kunzisoft.
 
     This file is part of KeePassDX.
 
@@ -16,9 +16,10 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
-
-    Italian translation by Diego Pierotto. Updated by anthologist on April 2018.
---><resources>
+    Italian translation by Diego Pierotto
+    Italian translation by anthologist
+-->
+<resources>
     <string name="feedback">Commenti</string>
     <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>
@@ -44,7 +45,7 @@
     <string name="decrypting_db">Decodifica contenuto database…</string>
     <string name="default_checkbox">Usa come database predefinito</string>
     <string name="digits">Numeri</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;libero&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft è un programma &lt;strong&gt;open-source&lt;/strong&gt; e &lt;strong&gt;senza pubblicità&lt;/strong&gt;.
 \nViene distribuito sotto le condizioni della licenza &lt;strong&gt;GPL versione 3&lt;/strong&gt; o successiva, senza alcuna garanzia.</string>
     <string name="entry_notes">Note</string>
     <string name="select_database_file">Apri un database esistente</string>
@@ -85,14 +86,12 @@
     <string name="hint_length">Lunghezza</string>
     <string name="password">Password</string>
     <string name="hint_pass">Password</string>
-    <string name="install_from_play_store">Installa dal Play Store</string>
-    <string name="install_from_f_droid">Installa dal F-Droid</string>
     <string name="invalid_credentials">Non è possibile leggere le credenziali. Se questo dovesse riaccadere, il file del databese potrebbe essere corrotto.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
     <string name="keyfile_is_empty">Il file chiave è vuoto.</string>
     <string name="length">Lunghezza</string>
-    <string name="list_size_title">Dimensione elenco gruppo</string>
+    <string name="list_size_title">Dimensione elenco elementi</string>
     <string name="list_size_summary">Dimensione del testo nell\'elenco del gruppo</string>
     <string name="loading_database">Caricamento database…</string>
     <string name="lowercase">Minuscole</string>
@@ -186,7 +185,7 @@
     <string name="encryption_explanation">Algoritmo di cifratura del database usato per tutti i dati.</string>
     <string name="kdf_explanation">Per generare la chiave per l\'algoritmo di cifratura, la chiave principale viene trasformata usando una funzione di derivazione della chiave (con un sale casuale).</string>
     <string name="memory_usage">Utilizzo di memoria</string>
-    <string name="memory_usage_explanation">Quantità di memoria (in byte binari) da usare dalla funzione di derivazione della chiave.</string>
+    <string name="memory_usage_explanation">Quantità di memoria (in byte) utilizzabili dalla funzione di derivazione della chiave.</string>
     <string name="parallelism">Parallelismo</string>
     <string name="parallelism_explanation">Grado di parallelismo (cioè numero di thread) usato dalla funzione di derivazione della chiave.</string>
     <string name="sort_menu">Ordina</string>
@@ -324,7 +323,7 @@
     <string name="list_entries_show_username_title">Mostra nomi utente</string>
     <string name="list_entries_show_username_summary">Mostra i nomi utente negli elenchi</string>
     <string name="clipboard">Appunti</string>
-    <string name="build_label">Build %1$s</string>
+    <string name="build_label">Costruzione %1$s</string>
     <string name="keyboard_name">Magitastiera</string>
     <string name="keyboard_label">Magitastiera (KeePassDX)</string>
     <string name="keyboard_setting_label">Impostazioni Magitastiera</string>
@@ -341,8 +340,8 @@
     <string name="keyboard_appearance_category">Aspetto</string>
     <string name="keyboard_theme_title">Tema tastiera</string>
     <string name="keyboard_keys_category">Tasti</string>
-    <string name="keyboard_key_vibrate_title">Vibra alla pressione</string>
-    <string name="keyboard_key_sound_title">Suono alla pressione</string>
+    <string name="keyboard_key_vibrate_title">Vibra alla pressione dei tasti</string>
+    <string name="keyboard_key_sound_title">Suono alla pressione dei tasti</string>
     <string name="selection_mode">Modalità selezione</string>
     <string name="do_not_kill_app">Non terminare l\'app…</string>
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
@@ -450,4 +449,36 @@
     <string name="settings_database_force_changing_master_key_title">Forza rinnovo</string>
     <string name="settings_database_recommend_changing_master_key_summary">Consigliato cambiare la chiave principale (giorni)</string>
     <string name="settings_database_recommend_changing_master_key_title">Rinnovo raccomandato</string>
+    <string name="hide_expired_entries_summary">I record scaduti sono nascosti</string>
+    <string name="hide_expired_entries_title">Nascondi i record scaduti</string>
+    <string name="education_setup_OTP_summary">Imposta la gestione delle OTP (HOTP / TOTP) per generare un token richiesto per la 2FA.</string>
+    <string name="download_complete">Completo! Tocca per aprire il file.</string>
+    <string name="download_finalization">Finalizzazione…</string>
+    <string name="download_progression">Avanzamento %1$d%%</string>
+    <string name="download_initialization">Inizializzazione…</string>
+    <string name="download_attachment">Scaricamento %1$s</string>
+    <string name="education_setup_OTP_title">Imposta OTP</string>
+    <string name="enable_auto_save_database_summary">Salva il database dopo ogni azione importante (in modalità \"Modificabile\")</string>
+    <string name="enable_auto_save_database_title">Salvataggio automatico del database</string>
+    <string name="autofill_auto_search_summary">Suggerisci automaticamente risultati dal dominio web o l\'ID dell\'applicazione</string>
+    <string name="autofill_auto_search_title">Ricerca automatica</string>
+    <string name="keyboard_auto_go_action_summary">Dopo la pressione del tasto \"Campo\" invia il tasto \"Vai\"</string>
+    <string name="keyboard_auto_go_action_title">Azione auto key</string>
+    <string name="device_keyboard_setting_title">Impostazioni tastiera dispositivo</string>
+    <string name="compression_gzip">gzip</string>
+    <string name="compression_none">Nessuna</string>
+    <string name="compression">Compressione</string>
+    <string name="database_custom_color_title">Colore del database customizzato</string>
+    <string name="database_default_username_title">Nome utente di default</string>
+    <string name="disable">Disabilita</string>
+    <string name="enable">Abilita</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Richiedi il cambio della master key la prossima volta (una volta)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Forza il rinnovo la prossima volta</string>
+    <string name="settings_database_force_changing_master_key_summary">Richiedi il cambio della master key (giorni)</string>
+    <string name="lock_database_show_button_summary">Mostra il bottone di blocco nell\'interfaccia utente</string>
+    <string name="lock_database_show_button_title">Mostra il bottone di blocco</string>
+    <string name="autofill_preference_title">Impostazioni dell\'autocompletamento</string>
+    <string name="warning_database_link_revoked">Accesso al file revocato dal file manager</string>
+    <string name="remember_keyfile_locations_summary">Ricorda la posizione dei keyfiles dei database</string>
+    <string name="error_label_exists">Questa etichetta esiste già.</string>
 </resources>

@@ -13,8 +13,6 @@ package com.kunzisoft.keepass.app;
 import android.os.Build;
 import android.os.Process;
 
-import com.kunzisoft.keepass.utils.StringUtil;
-
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -66,7 +64,7 @@ public final class PRNGFixes {
     
     private static boolean supportedOnThisDevice() {
     	// Blacklist on samsung devices
-    	if (StringUtil.INSTANCE.indexOfIgnoreCase(Build.MANUFACTURER, "samsung", Locale.ENGLISH) >= 0) {
+    	if (Build.MANUFACTURER.toLowerCase(Locale.ENGLISH).contains("samsung")) {
     		return false;
     	}
     	

@@ -44,9 +44,10 @@ import com.kunzisoft.keepass.database.file.input.DatabaseInputKDBX
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDB
 import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
+import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.stream.readBytes4ToInt
+import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
@@ -205,7 +206,6 @@ class Database {
 
     var numberKeyEncryptionRounds: Long
         get() = mDatabaseKDB?.numberKeyEncryptionRounds ?: mDatabaseKDBX?.numberKeyEncryptionRounds ?: 0
-        @Throws(NumberFormatException::class)
         set(numberRounds) {
             mDatabaseKDB?.numberKeyEncryptionRounds = numberRounds
             mDatabaseKDBX?.numberKeyEncryptionRounds = numberRounds
@@ -213,13 +213,13 @@ class Database {
 
     var memoryUsage: Long
         get() {
-            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE.toLong()
+            return mDatabaseKDBX?.memoryUsage ?: return KdfEngine.UNKNOWN_VALUE
         }
         set(memory) {
             mDatabaseKDBX?.memoryUsage = memory
         }
 
-    var parallelism: Int
+    var parallelism: Long
         get() = mDatabaseKDBX?.parallelism ?: KdfEngine.UNKNOWN_VALUE
         set(parallelism) {
             mDatabaseKDBX?.parallelism = parallelism
@@ -338,7 +338,10 @@ class Database {
             }
 
             // Load Data, pass Uris as InputStreams
-            databaseInputStream = BufferedInputStream(UriUtil.getUriInputStream(contentResolver, uri))
+            val databaseStream = UriUtil.getUriInputStream(contentResolver, uri)
+                    ?: throw IOException("Database input stream cannot be retrieve")
+
+            databaseInputStream = BufferedInputStream(databaseStream)
             if (!databaseInputStream.markSupported()) {
                 throw IOException("Input stream does not support mark.")
             }
@@ -347,8 +350,8 @@ class Database {
             databaseInputStream.mark(10)
 
             // Get the file directory to save the attachments
-            val sig1 = databaseInputStream.readBytes4ToInt()
-            val sig2 = databaseInputStream.readBytes4ToInt()
+            val sig1 = databaseInputStream.readBytes4ToUInt()
+            val sig2 = databaseInputStream.readBytes4ToUInt()
 
             // Return to the start
             databaseInputStream.reset()
@@ -397,17 +400,29 @@ class Database {
         false
     }
 
-    fun createVirtualGroupFromSearch(searchQuery: String, max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, max)
+    fun createVirtualGroupFromSearch(searchQuery: String,
+                                     max: Int = Integer.MAX_VALUE): Group? {
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, SearchParameters(), max)
     }
 
-    fun createVirtualGroupFromSearch(searchInfo: SearchInfo, max: Int = Integer.MAX_VALUE): Group? {
+    fun createVirtualGroupFromSearch(searchInfo: SearchInfo,
+                                     max: Int = Integer.MAX_VALUE): Group? {
         val query = (if (searchInfo.webDomain != null)
             searchInfo.webDomain
         else
             searchInfo.applicationId)
                 ?: return null
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, max)
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, SearchParameters().apply {
+            searchInTitles = false
+            searchInUserNames = false
+            searchInPasswords = false
+            searchInUrls = true
+            searchInNotes = true
+            searchInOther = true
+            searchInUUIDs = false
+            searchInTags = false
+            ignoreCase = true
+        }, max)
     }
 
     @Throws(DatabaseOutputException::class)

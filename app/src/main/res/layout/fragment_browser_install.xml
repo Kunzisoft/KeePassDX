@@ -36,18 +36,11 @@
 		android:gravity="center_horizontal"
 		android:orientation="vertical">
 		<Button
-			android:id="@+id/file_manager_install_play_store"
+			android:id="@+id/file_manager_button"
 			android:layout_margin="@dimen/button_margin"
 			android:layout_width="200sp"
 			android:layout_height="wrap_content"
 			android:enabled="false"
-			android:text="@string/install_from_play_store" />
-		<Button
-			android:id="@+id/file_manager_install_f_droid"
-			android:layout_margin="@dimen/button_margin"
-			android:layout_width="200sp"
-			android:layout_height="wrap_content"
-			android:enabled="false"
-			android:text="@string/install_from_f_droid" />
+			android:text="@string/file_browser" />
 	</LinearLayout>
 </LinearLayout>

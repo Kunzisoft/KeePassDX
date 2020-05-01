@@ -53,15 +53,12 @@ abstract class NotificationService : Service() {
     protected fun buildNewNotification(): NotificationCompat.Builder {
         return NotificationCompat.Builder(this, CHANNEL_ID_KEEPASS)
                 .setColor(colorNotificationAccent)
-                //TODO .setGroup(GROUP_KEEPASS)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setVisibility(NotificationCompat.VISIBILITY_SECRET)
     }
 
-    // TODO only for > lollipop
     protected fun buildSummaryNotification(): NotificationCompat.Builder {
         return buildNewNotification().apply {
-            // TODO Ic setSmallIcon(R.drawable.notification_ic_data_usage_24dp)
             setGroupSummary(true)
         }
     }
@@ -75,7 +72,5 @@ abstract class NotificationService : Service() {
     companion object {
         const val CHANNEL_ID_KEEPASS = "com.kunzisoft.keepass.notification.channel"
         const val CHANNEL_NAME_KEEPASS = "KeePassDX notification"
-        const val GROUP_KEEPASS = "GROUP_KEEPASS"
-        const val SUMMARY_ID = 0
     }
 }

@@ -19,17 +19,13 @@
  */
 package com.kunzisoft.keepass.timeout
 
-import android.app.Activity
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.util.Log
-import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.lock.lock
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 
@@ -132,20 +128,20 @@ object TimeoutHelper {
     }
 
     /**
-     * Check the time previously record with recordTime and lock the activity if timeout
+     * Check the time previously record with recordTime and lock the database if timeout
      */
-    fun checkTimeAndLockIfTimeout(activity: Activity): Boolean {
-        return checkTime(activity) {
-            activity.lock()
+    fun checkTimeAndLockIfTimeout(context: Context): Boolean {
+        return checkTime(context) {
+            context.sendBroadcast(Intent(LOCK_ACTION))
         }
     }
 
     /**
-     * Check the time previously record then, if timeout lock the activity, else reset the timer
+     * Check the time previously record then, if timeout lock the database, else reset the timer
      */
-    fun checkTimeAndLockIfTimeoutOrResetTimeout(activity: Activity, action: (() -> Unit)? = null) {
-        if (checkTimeAndLockIfTimeout(activity)) {
-            recordTime(activity)
+    fun checkTimeAndLockIfTimeoutOrResetTimeout(context: Context, action: (() -> Unit)? = null) {
+        if (checkTimeAndLockIfTimeout(context)) {
+            recordTime(context)
             action?.invoke()
         }
     }

@@ -43,7 +43,9 @@ import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import org.spongycastle.crypto.StreamCipher
+import com.kunzisoft.keepass.utils.UnsignedInt
+import com.kunzisoft.keepass.utils.UnsignedLong
+import org.bouncycastle.crypto.StreamCipher
 import org.xmlpull.v1.XmlPullParser
 import org.xmlpull.v1.XmlPullParserException
 import org.xmlpull.v1.XmlPullParserFactory
@@ -130,7 +132,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             val isPlain: InputStream
-            if (mDatabase.kdbxVersion < DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+            if (mDatabase.kdbxVersion.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
 
                 val decrypted = attachCipherStream(databaseInputStream, cipher)
                 val dataDecrypted = LittleEndianDataInputStream(decrypted)
@@ -178,7 +180,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 else -> isPlain
             }
 
-            if (mDatabase.kdbxVersion >= DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+            if (mDatabase.kdbxVersion.toLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
                 loadInnerHeader(inputStreamXml, header)
             }
 
@@ -226,19 +228,24 @@ class DatabaseInputKDBX(cacheDirectory: File,
                                 header: DatabaseHeaderKDBX): Boolean {
         val fieldId = dataInputStream.read().toByte()
 
-        val size = dataInputStream.readInt()
+        val size = dataInputStream.readUInt().toInt()
         if (size < 0) throw IOException("Corrupted file")
 
+        var data = ByteArray(0)
+        if (size > 0) {
+            if (fieldId != DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary)
+                data = dataInputStream.readBytes(size)
+        }
+
+        var result = true
         when (fieldId) {
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.EndOfHeader -> {
-                return false
+                result = false
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomStreamID -> {
-                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.setRandomStreamID(data)
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.InnerRandomstreamKey -> {
-                val data = if (size > 0) dataInputStream.readBytes(size) else ByteArray(0)
                 header.innerRandomStreamKey = data
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
@@ -255,12 +262,9 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val protectedBinary = BinaryAttachment(file, protectedFlag)
                 mDatabase.binaryPool.add(protectedBinary)
             }
-            else -> {
-                return false
-            }
         }
 
-        return true
+        return result
     }
 
     private enum class KdbContext {
@@ -488,7 +492,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemNotes, ignoreCase = true)) {
                 ctxGroup?.notes = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
+                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxGroup?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
@@ -542,7 +546,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.Entry -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxEntry?.nodeId = NodeIdUUID(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, 0).toInt())
+                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxEntry?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
@@ -598,7 +602,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                     name.equals(DatabaseKDBXXML.ElemLastAccessTime, ignoreCase = true) -> tl?.lastAccessTime = readPwTime(xpp)
                     name.equals(DatabaseKDBXXML.ElemExpiryTime, ignoreCase = true) -> tl?.expiryTime = readPwTime(xpp)
                     name.equals(DatabaseKDBXXML.ElemExpires, ignoreCase = true) -> tl?.expires = readBool(xpp, false)
-                    name.equals(DatabaseKDBXXML.ElemUsageCount, ignoreCase = true) -> tl?.usageCount = readULong(xpp, 0)
+                    name.equals(DatabaseKDBXXML.ElemUsageCount, ignoreCase = true) -> tl?.usageCount = readULong(xpp, UnsignedLong(0))
                     name.equals(DatabaseKDBXXML.ElemLocationChanged, ignoreCase = true) -> tl?.locationChanged = readPwTime(xpp)
                     else -> readUnknown(xpp)
                 }
@@ -621,7 +625,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.EntryAutoType -> if (name.equals(DatabaseKDBXXML.ElemAutoTypeEnabled, ignoreCase = true)) {
                 ctxEntry?.autoType?.enabled = readBool(xpp, true)
             } else if (name.equals(DatabaseKDBXXML.ElemAutoTypeObfuscation, ignoreCase = true)) {
-                ctxEntry?.autoType?.obfuscationOptions = readUInt(xpp, 0)
+                ctxEntry?.autoType?.obfuscationOptions = readUInt(xpp, UnsignedInt(0))
             } else if (name.equals(DatabaseKDBXXML.ElemAutoTypeDefaultSeq, ignoreCase = true)) {
                 ctxEntry?.autoType?.defaultSequence = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemAutoTypeItem, ignoreCase = true)) {
@@ -815,7 +819,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val sDate = readString(xpp)
         var utcDate: Date? = null
 
-        if (mDatabase.kdbxVersion >= DatabaseHeaderKDBX.FILE_VERSION_32_4) {
+        if (mDatabase.kdbxVersion.toLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
             var buf = Base64.decode(sDate, BASE_64_FLAG)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)
@@ -887,48 +891,39 @@ class DatabaseInputKDBX(cacheDirectory: File,
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readInt(xpp: XmlPullParser, def: Int): Int {
-        val str = readString(xpp)
-
+    private fun readInt(xpp: XmlPullParser, default: Int): Int {
         return try {
-            Integer.parseInt(str)
-        } catch (e: NumberFormatException) {
-            def
+            readString(xpp).toInt()
+        } catch (e: Exception) {
+            default
         }
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readUInt(xpp: XmlPullParser, uDefault: Long): Long {
-        val u: Long = readULong(xpp, uDefault)
-
-        if (u < 0 || u > MAX_UINT) {
-            throw NumberFormatException("Outside of the uint size")
-        }
-
-        return u
-
-    }
-
-    @Throws(IOException::class, XmlPullParserException::class)
-    private fun readLong(xpp: XmlPullParser, def: Long): Long {
-        val str = readString(xpp)
-
+    private fun readUInt(xpp: XmlPullParser, default: UnsignedInt): UnsignedInt {
         return try {
-            java.lang.Long.parseLong(str)
-        } catch (e: NumberFormatException) {
-            def
+            UnsignedInt(readString(xpp).toInt())
+        } catch (e: Exception) {
+            default
         }
     }
 
     @Throws(IOException::class, XmlPullParserException::class)
-    private fun readULong(xpp: XmlPullParser, uDefault: Long): Long {
-        var u = readLong(xpp, uDefault)
-
-        if (u < 0) {
-            u = uDefault
+    private fun readLong(xpp: XmlPullParser, default: Long): Long {
+        return try {
+            readString(xpp).toLong()
+        } catch (e: Exception) {
+            default
         }
+    }
 
-        return u
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun readULong(xpp: XmlPullParser, default: UnsignedLong): UnsignedLong {
+        return try {
+            UnsignedLong(readString(xpp).toLong())
+        } catch (e: Exception) {
+            default
+        }
     }
 
     @Throws(XmlPullParserException::class, IOException::class)
@@ -1050,7 +1045,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
     companion object {
 
-        private const val DEFAULT_HISTORY_DAYS: Long = 365
+        private val DEFAULT_HISTORY_DAYS = UnsignedInt(365)
 
         @Throws(XmlPullParserException::class)
         private fun createPullParser(readerStream: InputStream): XmlPullParser {
@@ -1062,8 +1057,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
             return xpp
         }
-
-        private const val MAX_UINT = 4294967296L // 2^32
     }
 }
 

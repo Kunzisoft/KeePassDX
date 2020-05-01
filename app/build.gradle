@@ -11,14 +11,15 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode = 31
-        versionName = "2.5RC1"
+        versionCode = 32
+        versionName = "2.5RC2"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
         testInstrumentationRunner = "android.test.InstrumentationTestRunner"
 
         buildConfigField "String[]", "ICON_PACKS", "{\"classic\",\"material\"}"
+        manifestPlaceholders = [ googleAndroidBackupAPIKey:"" ]
 
         kapt {
             arguments {
@@ -44,32 +45,36 @@ android {
     dexOptions {
     }
 
-    flavorDimensions "tier"
+    flavorDimensions "version"
     productFlavors {
         libre {
+            dimension "version"
             applicationIdSuffix = ".libre"
             buildConfigField "String", "BUILD_VERSION", "\"libre\""
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "false"
             buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
-
         }
         pro {
+            dimension "version"
             applicationIdSuffix = ".pro"
             buildConfigField "String", "BUILD_VERSION", "\"pro\""
             buildConfigField "boolean", "FULL_VERSION", "true"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED", "{}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
+            manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIZiXvrQCzSV9LNI6-p7cjTKENZLHIrz_zaqZuQQ" ]
         }
         free {
+            dimension "version"
             applicationIdSuffix = ".free"
             buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
             buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
+            manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIbRfbV8fHLItXo8OcHwrO0sSNblqhPwkc0DPTqg" ]
         }
     }
 
@@ -85,13 +90,12 @@ android {
     }
 }
 
-def spongycastleVersion = "1.58.0.0"
 def room_version = "2.2.5"
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
-    implementation 'androidx.preference:preference:1.1.0'
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
@@ -100,18 +104,17 @@ dependencies {
     implementation "androidx.core:core-ktx:1.2.0"
     // To upgrade with style
     implementation 'com.google.android.material:material:1.0.0'
-
+    // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
-
-    implementation "com.madgag.spongycastle:core:$spongycastleVersion"
-    implementation "com.madgag.spongycastle:prov:$spongycastleVersion"
+    // Crypto
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
     // Time
     implementation 'joda-time:joda-time:2.9.9'
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.3'
     // Education
-    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.12.0'
+    implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
     // Apache Commons Collections
     implementation 'commons-collections:commons-collections:3.2.1'
     implementation 'org.apache.commons:commons-io:1.3.2'
@@ -120,4 +123,7 @@ dependencies {
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
+
+    // Tests
+    androidTestImplementation 'junit:junit:4.12'
 }

@@ -83,8 +83,6 @@
     <style name="KeepassDXStyle.Night.v21" parent="Theme.AppCompat">
         <item name="android:windowAnimationStyle">@style/KeepassDXStyle.ActivityAnimation</item>
 
-        <item name="preferenceTheme">@style/PreferenceThemeOverlay.v14.Material</item>
-
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
 
@@ -164,6 +162,7 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
     <!-- Toolbar Style Night Green -->
@@ -173,6 +172,7 @@
         <item name="android:textColorSecondary">@color/colorTextInverse</item>
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
+        <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
     <!-- Contextual Action Bar -->

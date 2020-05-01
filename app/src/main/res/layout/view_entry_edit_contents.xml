@@ -57,7 +57,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-				<androidx.appcompat.widget.AppCompatEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/entry_edit_title"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -73,7 +73,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-				<androidx.appcompat.widget.AppCompatEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/entry_edit_user_name"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -98,7 +98,7 @@
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintStart_toStartOf="parent"
 					app:layout_constraintEnd_toEndOf="parent">
-					<androidx.appcompat.widget.AppCompatEditText
+					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/entry_edit_password"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -120,7 +120,7 @@
 					app:passwordToggleEnabled="true"
 					android:contentDescription="@string/content_description_repeat_toggle_password_visibility">
 
-					<androidx.appcompat.widget.AppCompatEditText
+					<com.google.android.material.textfield.TextInputEditText
 						android:id="@+id/entry_edit_confirmation_password"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
@@ -137,7 +137,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-				<androidx.appcompat.widget.AppCompatEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/entry_edit_url"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -193,7 +193,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content">
 
-				<androidx.appcompat.widget.AppCompatEditText
+				<com.google.android.material.textfield.TextInputEditText
 					android:id="@+id/entry_edit_notes"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"

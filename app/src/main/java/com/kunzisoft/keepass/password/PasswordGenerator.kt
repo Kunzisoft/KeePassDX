@@ -65,14 +65,14 @@ class PasswordGenerator(private val resources: Resources) {
 
         // No option has been checked
         if (!upperCase
-                && !lowerCase
-                && !digits
-                && !minus
-                && !underline
-                && !space
-                && !specials
-                && !brackets
-                && !extended) {
+            && !lowerCase
+            && !digits
+            && !minus
+            && !underline
+            && !space
+            && !specials
+            && !brackets
+            && !extended) {
             throw IllegalArgumentException(resources.getString(R.string.error_pass_gen_type))
         }
 
@@ -114,35 +114,27 @@ class PasswordGenerator(private val resources: Resources) {
         if (upperCase) {
             charSet.append(UPPERCASE_CHARS)
         }
-
         if (lowerCase) {
             charSet.append(LOWERCASE_CHARS)
         }
-
         if (digits) {
             charSet.append(DIGIT_CHARS)
         }
-
         if (minus) {
             charSet.append(MINUS_CHAR)
         }
-
         if (underline) {
             charSet.append(UNDERLINE_CHAR)
         }
-
         if (space) {
             charSet.append(SPACE_CHAR)
         }
-
         if (specials) {
             charSet.append(SPECIAL_CHARS)
         }
-
         if (brackets) {
             charSet.append(BRACKET_CHARS)
         }
-
         if (extended) {
             charSet.append(extendedChars())
         }

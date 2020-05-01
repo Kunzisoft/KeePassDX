@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -24,12 +24,10 @@ import com.kunzisoft.keepass.database.search.SearchParameters
 
 import java.util.NoSuchElementException
 
-class EntrySearchStringIteratorKDB
-
-@JvmOverloads
-constructor(private val mEntry: EntryKDB,
-            private val mSearchParameters: SearchParameters? = SearchParameters())
-    : EntrySearchStringIterator() {
+class EntrySearchStringIteratorKDB(
+        private val mEntry: EntryKDB,
+        private val mSearchParameters: SearchParameters)
+    : Iterator<String> {
 
     private var current = 0
 
@@ -62,11 +60,6 @@ constructor(private val mEntry: EntryKDB,
     }
 
     private fun useSearchParameters() {
-
-        if (mSearchParameters == null) {
-            return
-        }
-
         var found = false
         while (!found) {
             found = when (current) {
@@ -84,7 +77,6 @@ constructor(private val mEntry: EntryKDB,
     }
 
     companion object {
-
         private const val title = 0
         private const val url = 1
         private const val username = 2

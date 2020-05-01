@@ -34,6 +34,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
+import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -104,7 +105,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     constructor(parcel: Parcel) : super(parcel) {
         iconCustom = parcel.readParcelable(IconImageCustom::class.java.classLoader) ?: iconCustom
-        usageCount = parcel.readLong()
+        usageCount = UnsignedLong(parcel.readLong())
         locationChanged = parcel.readParcelable(DateInstant::class.java.classLoader) ?: locationChanged
         customData = ParcelableUtil.readStringParcelableMap(parcel)
         fields = ParcelableUtil.readStringParcelableMap(parcel, ProtectedString::class.java)
@@ -122,7 +123,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeParcelable(iconCustom, flags)
-        dest.writeLong(usageCount)
+        dest.writeLong(usageCount.toLong())
         dest.writeParcelable(locationChanged, flags)
         ParcelableUtil.writeStringParcelableMap(dest, customData)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
@@ -243,7 +244,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             fields[STR_NOTES] = ProtectedString(protect, value)
         }
 
-    override var usageCount: Long = 0
+    override var usageCount = UnsignedLong(0)
 
     override var locationChanged = DateInstant()
 
@@ -332,7 +333,8 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
 
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
-        ++usageCount
+        // TODO unsigned long
+        usageCount = UnsignedLong(usageCount.toLong() + 1)
     }
 
     companion object {

@@ -33,7 +33,7 @@ import junit.framework.TestCase
 import com.kunzisoft.keepass.stream.HashedBlockInputStream
 import com.kunzisoft.keepass.stream.HashedBlockOutputStream
 
-class HashedBlock : TestCase() {
+class HashedBlockTest : TestCase() {
 
     @Throws(IOException::class)
     fun testBlockAligned() {
