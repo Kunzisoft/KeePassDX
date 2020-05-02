@@ -221,11 +221,11 @@
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magiclavier</string>
     <string name="magic_keyboard_explanation_summary">Active un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
-    <string name="enable_education_screens_title">Écrans éducatifs</string>
+    <string name="enable_education_screens_title">Conseils pédagogiques</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
-    <string name="reset_education_screens_title">Réinitialiser les écrans éducatifs</string>
-    <string name="reset_education_screens_summary">Afficher à nouveau tous les éléments éducatifs</string>
-    <string name="reset_education_screens_text">Écrans éducatifs réinitialisés</string>
+    <string name="reset_education_screens_title">Réinitialiser les conseils pédagogiques</string>
+    <string name="reset_education_screens_summary">Afficher à nouveau toutes les informations pédagogiques</string>
+    <string name="reset_education_screens_text">Conseils pédagogiques réinitialisés</string>
     <string name="education_create_database_title">Créer votre fichier de base de données</string>
     <string name="education_create_database_summary">Crée votre premier fichier de gestion de mots de passe.</string>
     <string name="education_select_database_title">Ouvrir une base de données existante</string>
@@ -388,7 +388,7 @@
     <string name="biometric_prompt_extract_credential_message">Extraire les identifiants de la base de données avec les données biométriques</string>
     <string name="biometric">Biométrie</string>
     <string name="biometric_auto_open_prompt_title">Ouvrir automatiquement l’invite biométrique</string>
-    <string name="biometric_auto_open_prompt_summary">Ouvre automatiquement l’invite biométrique lorsqu’une clé biométrique est définie pour une base de données</string>
+    <string name="biometric_auto_open_prompt_summary">Demander automatiquement la reconnaissance biométrique si la base de données est configurée pour l\'utiliser</string>
     <string name="master_key">Clé principale</string>
     <string name="security">Sécurité</string>
     <string name="entry_history">Historique</string>
@@ -440,7 +440,7 @@
     <string name="command_execution">Exécution de la commande…</string>
     <string name="warning_permanently_delete_nodes">Supprimer définitivement les nœuds sélectionnés \?</string>
     <string name="keystore_not_accessible">Le magasin de clés n’est pas correctement initialisé.</string>
-    <string name="credential_before_click_biometric_button">Saisissez le mot de passe avant de cliquer sur le bouton biométrique.</string>
+    <string name="credential_before_click_biometric_button">Saisissez le mot de passe puis cliquez sur le bouton \"Biométrique\".</string>
     <string name="recycle_bin_group_title">Groupe de la corbeille</string>
     <string name="enable_auto_save_database_title">Enregistrement automatique de la base de données</string>
     <string name="enable_auto_save_database_summary">Enregistre la base de données après chaque action importante (en mode « Modifiable »)</string>
