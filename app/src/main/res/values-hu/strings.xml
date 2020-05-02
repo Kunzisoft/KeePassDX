@@ -346,7 +346,7 @@
     <string name="security">Biztonság</string>
     <string name="master_key">Mesterkulcs</string>
     <string name="content_description_keyfile_checkbox">Kulcsfájl jelölőnégyzet</string>
-    <string name="error_create_database_file">Ezzel a jelszó és kulcsfájl kombinációval nem hozható létre adatbázis.</string>
+    <string name="error_create_database_file">Ezzel a jelszó és kulcs fájl kombinációval nem hozható létre adatbázis.</string>
     <string name="education_setup_OTP_summary">Egyszer használatos jelszókezelés (HOTP / TOTP) beállítása, hogy tokent állítson elő a kétfaktoros hitelesítéshez (2FA).</string>
     <string name="education_setup_OTP_title">OPT beállítása</string>
     <string name="autofill_auto_search_summary">Keresési találatok automatikus javaslata a webes domain vagy az alkalmazásazonosító alapján</string>
@@ -437,7 +437,7 @@
     <string name="error_otp_period">Az időtartamnak %1$d és %2$d másodperc között kell lennie.</string>
     <string name="error_otp_counter">A számlálónak %1$d és %2$d között kell lennie.</string>
     <string name="error_otp_secret_key">A titkos kulcsnak Base32 formátumban kell lennie.</string>
-    <string name="error_copy_group_here">Bejegyzés ide nem másolható.</string>
+    <string name="error_copy_group_here">Csoport ide nem másolható.</string>
     <string name="error_disallow_no_credentials">Legalább egy hitelesíti módot be kell állítani.</string>
     <string name="error_invalid_OTP">Érvénytelen OTP titok.</string>
     <string name="entry_otp">OTP</string>
@@ -463,7 +463,7 @@
     <string name="error_move_entry_here">Bejegyzés ide nem helyezhető át.</string>
     <string name="entry_UUID">UUID</string>
     <string name="content_description_remove_field">Mező eltávolítása</string>
-    <string name="content_description_password_length">Jelszóhossz</string>
+    <string name="content_description_password_length">Jelszó hossza</string>
     <string name="content_description_entry_icon">Bejegyzésikon</string>
     <string name="content_description_repeat_toggle_password_visibility">Jelszó láthatóságának átváltásának megismétlése</string>
     <string name="content_description_node_children">Csomópont gyermekei</string>
