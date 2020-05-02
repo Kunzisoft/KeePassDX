@@ -346,7 +346,7 @@
     <string name="security">Biztonság</string>
     <string name="master_key">Mesterkulcs</string>
     <string name="content_description_keyfile_checkbox">Kulcsfájl jelölőnégyzet</string>
-    <string name="error_create_database_file">Ezzel a jelszó és kulcs fájl kombinációval nem hozható létre adatbázis.</string>
+    <string name="error_create_database_file">Ezzel a jelszó és kulcsfájl kombinációval nem hozható létre adatbázis.</string>
     <string name="education_setup_OTP_summary">Egyszer használatos jelszókezelés (HOTP / TOTP) beállítása, hogy tokent állítson elő a kétfaktoros hitelesítéshez (2FA).</string>
     <string name="education_setup_OTP_title">OPT beállítása</string>
     <string name="autofill_auto_search_summary">Keresési találatok automatikus javaslata a webes domain vagy az alkalmazásazonosító alapján</string>
