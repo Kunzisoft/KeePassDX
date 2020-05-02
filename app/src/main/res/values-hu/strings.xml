@@ -435,7 +435,7 @@
     <string name="invalid_db_same_uuid">Már létezik %1$d ugyanazzal a(z) %2$s UUID azonosítóval.</string>
     <string name="error_otp_digits">A tokennek %1$d és %2$d közötti számú számjegyet kell tartalmaznia.</string>
     <string name="error_otp_period">Az időtartamnak %1$d és %2$d másodperc között kell lennie.</string>
-    <string name="error_otp_counter">"A számlákónak  %1$d és %2$d között kell lennie."</string>
+    <string name="error_otp_counter">A számlálónak %1$d és %2$d között kell lennie.</string>
     <string name="error_otp_secret_key">A titkos kulcsnak Base32 formátumban kell lennie.</string>
     <string name="error_copy_group_here">Csoport ide nem másolható.</string>
     <string name="error_disallow_no_credentials">Legalább egy hitelesíti módot be kell állítani.</string>
