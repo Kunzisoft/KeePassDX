@@ -17,30 +17,31 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Зворотний зв’язок:</string>
-    <string name="homepage">Домашня сторінка:</string>
-    <string name="about_description">KeePassDX є Android версією менеджера паролів KeePass.</string>
+    <string name="feedback">Відгук</string>
+    <string name="homepage">Домашня сторінка</string>
+    <string name="about_description">KeePassDX є версією менеджера паролів KeePass для Android</string>
     <string name="accept">Прийняти</string>
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
-    <string name="encryption_algorithm">Алгоритм</string>
-    <string name="app_timeout">Тайм-аут програми</string>
-    <string name="app_timeout_summary">Час перед закриттям бази даних, коли програма є неактивною.</string>
+    <string name="encryption_algorithm">Алгоритм шифрування</string>
+    <string name="app_timeout">Час очікування програми</string>
+    <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
     <string name="application">Програма</string>
     <string name="menu_app_settings">Налаштування програми</string>
     <string name="brackets">Дужки</string>
-    <string name="file_manager_install_description">Для перегляду файла необхідно Open Intents File Manager, натисніть нижче для його інсталяції. У зв’язку з деякими недоробками у менеджері файлів перегляд може працювати некоректно при запуску перший раз.</string>
-    <string name="clipboard_cleared">Буфер обміну очищено.</string>
-    <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
-    <string name="clipboard_timeout_summary">Час через який буде очищено буфер обміну після копіювання ім’я користувача чи пароля</string>
+    <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
+    <string name="clipboard_cleared">Буфер обміну очищено</string>
+    <string name="clipboard_timeout">Час очікування буфера обміну</string>
+    <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
     <string name="retrieving_db_key">Створення ключа бази даних…</string>
     <string name="database">База даних</string>
-    <string name="decrypting_db">Розшифрування змісту бази даних…</string>
+    <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Використовувати як типову базу даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
-    <string name="select_database_file">Введіть ім’я бази даних</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є програмою з <strong>відкритим вихідним кодом</strong> та <strong>не містить реклами</strong>.
+\nПрограма постачається як є, на умовах ліцензії <strong>GPLv3</strong>, без будь-яких гарантій.</string>
+    <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Відміна</string>
     <string name="entry_notes">Коментар</string>
@@ -57,26 +58,26 @@
     <string name="error_arc4">Потокове шифрування ARCFOUR не підтримується.</string>
     <string name="error_can_not_handle_uri">KeePassDX не може опрацювати цю адресу.</string>
     <string name="error_file_not_create">Не можливо створити файл:</string>
-    <string name="error_invalid_db">Невірна база даних.</string>
-    <string name="error_invalid_path">Невірний шлях.</string>
-    <string name="error_no_name">Потрібне ім’я.</string>
-    <string name="error_nokeyfile">Необхідно пароль або файл ключа.</string>
-    <string name="error_out_of_memory">Телефону не вистачило пам’яті при аналізі вашої бази даних. Можливо база надто велика для вашог телефона.</string>
-    <string name="error_pass_gen_type">Принаймні один тип генерації пароля необхідно вибрати.</string>
-    <string name="error_pass_match">Паролі не співпадають.</string>
-    <string name="error_rounds_too_large">Надто багато циклів.  Установлено 2147483648.</string>
-    <string name="error_wrong_length">Введіть ціле число на усю довжину поля</string>
-    <string name="file_browser">Перегляд файлів</string>
+    <string name="error_invalid_db">Неможливо прочитати базу даних.</string>
+    <string name="error_invalid_path">Переконайтеся у правильності шляху.</string>
+    <string name="error_no_name">Введіть ім’я.</string>
+    <string name="error_nokeyfile">Виберіть файл ключа.</string>
+    <string name="error_out_of_memory">Бракує пам\'яті для завантаження всієї вашої бази даних.</string>
+    <string name="error_pass_gen_type">Необхідно вибрати принаймні один тип створення пароля.</string>
+    <string name="error_pass_match">Паролі не збігаються.</string>
+    <string name="error_rounds_too_large">Забагато циклів. Установлено 2147483648.</string>
+    <string name="error_wrong_length">Введіть додатне ціле число на усю довжину поля.</string>
+    <string name="file_browser">Файловий менеджер</string>
     <string name="generate_password">Згенерувати пароль</string>
-    <string name="hint_conf_pass">підтвердження пароля</string>
-    <string name="hint_generated_password">згенерований пароль</string>
+    <string name="hint_conf_pass">Підтвердити пароль</string>
+    <string name="hint_generated_password">Згенерований пароль</string>
     <string name="hint_group_name">Ім’я групи</string>
-    <string name="hint_keyfile">файл-ключ</string>
-    <string name="hint_length">довжина</string>
+    <string name="hint_keyfile">Файл ключа</string>
+    <string name="hint_length">Довжина</string>
     <string name="password">Пароль</string>
-    <string name="hint_pass">пароль</string>
-    <string name="invalid_credentials">Невірний пароль або файл ключа.</string>
-    <string name="invalid_db_sig">Формат бази даних не розпізнано.</string>
+    <string name="hint_pass">Пароль</string>
+    <string name="invalid_credentials">Не вдалося прочитати облікові дані. Якщо це відбувається не одноразово, можливо, файл вашої бази даних пошкоджено.</string>
+    <string name="invalid_db_sig">Не вдалось розпізнати формат бази даних.</string>
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір списку груп</string>
     <string name="list_size_summary">Розмір тексту у списку груп</string>
@@ -92,15 +93,15 @@
     <string name="menu_donate">Пожертвувати</string>
     <string name="menu_edit">Редагувати</string>
     <string name="menu_hide_password">Приховати пароль</string>
-    <string name="menu_lock">Блокувати базу даних</string>
+    <string name="menu_lock">Заблокувати базу даних</string>
     <string name="menu_open">Відкрити</string>
     <string name="menu_search">Пошук</string>
     <string name="menu_showpass">Показати пароль</string>
     <string name="menu_url">Перейти по посиланню</string>
     <string name="minus">Minus</string>
     <string name="never">Ніколи</string>
-    <string name="no_results">Нічого не знайдено.</string>
-    <string name="no_url_handler">Нема програми для опрацювання цього посилання.</string>
+    <string name="no_results">Нічого не знайдено</string>
+    <string name="no_url_handler">Щоби відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
     <string name="omit_backup_search_title">Не шукати записів з резервного копіювання та кошиків</string>
     <string name="omit_backup_search_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
     <string name="progress_create">Створення нової бази даних…</string>
@@ -109,7 +110,7 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
-    <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
+    <string name="rounds_explanation">Додаткова кількість циклів шифрування забезпечує кращий захист від грубих атак, але може дещо уповільнити завантаження та збереження.</string>
     <string name="saving_database">Збереження бази даних…</string>
     <string name="space">Пропуск</string>
     <string name="search_label">Пошук</string>
@@ -121,7 +122,9 @@
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>
     <string name="version_label">Версія %1$s</string>
-    <string name="education_unlock_summary">Введіть пароль і/або файл ключа для відкриття бази даних.</string>
+    <string name="education_unlock_summary">Введіть пароль та/або файл ключа, щоби відкрити базу даних.
+\n
+\nСтворюйте резервну копію файлу бази даних після кожної зміни та зберігайте її у безпечному місці.</string>
     <string-array name="timeout_options">
         <item>5 секунд</item>
         <item>10 секунд</item>
@@ -138,10 +141,42 @@
         <item>Середній</item>
         <item>Великий</item>
     </string-array>
-    <string name="contribution">Внесок</string>
+    <string name="contribution">Участь</string>
     <string name="contact">Контакти</string>
     <string name="content_description_password_length">Довжина паролю</string>
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Редагувати запис</string>
+    <string name="beta_dontask">Не показувати знову</string>
+    <string name="clipboard_swipe_clean">Проведіть пальцем, щоб очистити буфер обміну зараз</string>
+    <string name="clear_clipboard_notification_summary">Блокуйте базу даних при закритті сповіщення</string>
+    <string name="configure_biometric">Розблокування за допомогою біометричних даних підтримується, але не налаштоване.</string>
+    <string name="content_description_add_group">Додати групу</string>
+    <string name="content_description_update_from_list">Оновити</string>
+    <string name="keyboard">Клавіатура</string>
+    <string name="compression_gzip">gzip</string>
+    <string name="compression">Стискання</string>
+    <string name="other">Інше</string>
+    <string name="application_appearance">Програма</string>
+    <string name="text_appearance">Текст</string>
+    <string name="database_version_title">Версія бази даних</string>
+    <string name="database_custom_color_title">Власний колір бази даних</string>
+    <string name="database_default_username_title">Типове ім\'я користувача</string>
+    <string name="database_description_title">Опис бази даних</string>
+    <string name="database_name_title">Назва бази даних</string>
+    <string name="disable">Вимкнути</string>
+    <string name="enable">Увімкнути</string>
+    <string name="clear_clipboard_notification_title">Очищати при закритті</string>
+    <string name="allow_copy_password_summary">Дозволити копіювання пароля та захищених полів до буфера обміну</string>
+    <string name="content_description_file_information">Інформація про файл</string>
+    <string name="content_description_add_entry">Додати запис</string>
+    <string name="content_description_background">Тло</string>
+    <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
+    <string name="clipboard_error">Деякі пристрої не дозволяють програмам користуватися буфером обміну.</string>
+    <string name="clipboard_error_title">Помилка буфера обміну</string>
+    <string name="allow">Длзволити</string>
+    <string name="key_derivation_function">Основна функція деривації</string>
+    <string name="encryption">Шифрування</string>
+    <string name="security">Безпека</string>
+    <string name="master_key">Ключ входу</string>
 </resources>
