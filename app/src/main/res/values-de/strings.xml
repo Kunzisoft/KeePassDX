@@ -445,7 +445,7 @@
     <string name="command_execution">Befehl ausführen…</string>
     <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
-    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf den Biometrie-Button.</string>
+    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>
