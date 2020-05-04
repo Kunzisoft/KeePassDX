@@ -440,7 +440,7 @@
     <string name="command_execution">Exécution de la commande…</string>
     <string name="warning_permanently_delete_nodes">Supprimer définitivement les nœuds sélectionnés \?</string>
     <string name="keystore_not_accessible">Le magasin de clés n’est pas correctement initialisé.</string>
-    <string name="credential_before_click_biometric_button">Saisissez le mot de passe puis cliquez sur le bouton \"Biométrique\".</string>
+    <string name="credential_before_click_biometric_button">Saisissez le mot de passe puis cliquez sur le bouton biométrique.</string>
     <string name="recycle_bin_group_title">Groupe de la corbeille</string>
     <string name="enable_auto_save_database_title">Enregistrement automatique de la base de données</string>
     <string name="enable_auto_save_database_summary">Enregistre la base de données après chaque action importante (en mode « Modifiable »)</string>
