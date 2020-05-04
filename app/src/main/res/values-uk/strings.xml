@@ -37,7 +37,7 @@
     <string name="retrieving_db_key">Створення ключа бази даних…</string>
     <string name="database">База даних</string>
     <string name="decrypting_db">Розшифрування змісту бази даних…</string>
-    <string name="default_checkbox">Використовувати як мою типову базу даних</string>
+    <string name="default_checkbox">Використовувати як типову базу даних</string>
     <string name="digits">Цифри</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
     <string name="select_database_file">Введіть ім’я бази даних</string>
@@ -54,7 +54,7 @@
     <string name="entry_title">Ім’я</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Ім’я користувача</string>
-    <string name="error_arc4">Потокове шифрування Arcfour не підтримується.</string>
+    <string name="error_arc4">Потокове шифрування ARCFOUR не підтримується.</string>
     <string name="error_can_not_handle_uri">KeePassDX не може опрацювати цю адресу.</string>
     <string name="error_file_not_create">Не можливо створити файл:</string>
     <string name="error_invalid_db">Невірна база даних.</string>
@@ -139,5 +139,9 @@
         <item>Великий</item>
     </string-array>
     <string name="contribution">Внесок</string>
-    <string name="contact">Зв\'язок</string>
+    <string name="contact">Контакти</string>
+    <string name="content_description_password_length">Довжина паролю</string>
+    <string name="content_description_open_file">Відкрити файл</string>
+    <string name="extended_ASCII">Розширений ASCII</string>
+    <string name="edit_entry">Редагувати запис</string>
 </resources>
