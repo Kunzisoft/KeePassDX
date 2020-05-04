@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Зворотний зв’язок:</string>
     <string name="homepage">Домашня сторінка:</string>
     <string name="about_description">KeePassDX є Android версією менеджера паролів KeePass.</string>
@@ -35,9 +34,9 @@
     <string name="clipboard_timeout">Тайм-аут буфера обміну</string>
     <string name="clipboard_timeout_summary">Час через який буде очищено буфер обміну після копіювання ім’я користувача чи пароля</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
-    <string name="retrieving_db_key">Створення ключа бази даних&#8230;</string>
+    <string name="retrieving_db_key">Створення ключа бази даних…</string>
     <string name="database">База даних</string>
-    <string name="decrypting_db">Розшифрування змісту бази даних&#8230;</string>
+    <string name="decrypting_db">Розшифрування змісту бази даних…</string>
     <string name="default_checkbox">Використовувати як мою типову базу даних</string>
     <string name="digits">Цифри</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
@@ -81,7 +80,7 @@
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір списку груп</string>
     <string name="list_size_summary">Розмір тексту у списку груп</string>
-    <string name="loading_database">Завантаження бази даних&#8230;</string>
+    <string name="loading_database">Завантаження бази даних…</string>
     <string name="lowercase">Нижній регістр</string>
     <string name="hide_password_title">Маска пароля</string>
     <string name="hide_password_summary">Приховати паролі за замовчуванням</string>
@@ -104,14 +103,14 @@
     <string name="no_url_handler">Нема програми для опрацювання цього посилання.</string>
     <string name="omit_backup_search_title">Не шукати записів з резервного копіювання та кошиків</string>
     <string name="omit_backup_search_summary">Пропустити групу \'Резервна копія\' та Кошик серед результатів пошуку</string>
-    <string name="progress_create">Створення нової бази даних&#8230;</string>
-    <string name="progress_title">Працює&#8230;</string>
+    <string name="progress_create">Створення нової бази даних…</string>
+    <string name="progress_title">Працює…</string>
     <string name="content_description_remove_from_list">Вилучити</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Корінь</string>
     <string name="rounds">Циклів шифрування</string>
     <string name="rounds_explanation">Велика кількість циклів шифрування забезпечує додатковий захист від грубих атак, але може дійсно уповільнити завантаження та захист.</string>
-    <string name="saving_database">Збереження бази даних&#8230;</string>
+    <string name="saving_database">Збереження бази даних…</string>
     <string name="space">Пропуск</string>
     <string name="search_label">Пошук</string>
     <string name="sort_db">Упорядкування БД</string>
@@ -122,23 +121,23 @@
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Верхній регістр</string>
     <string name="version_label">Версія %1$s</string>
-
     <string name="education_unlock_summary">Введіть пароль і/або файл ключа для відкриття бази даних.</string>
-
     <string-array name="timeout_options">
-    	<item>5 секунд</item>
-    	<item>10 секунд</item>
-    	<item>20 секунд</item>
-    	<item>30 секунд</item>
-    	<item>1 хвилина</item>
-    	<item>5 хвилин</item>
-    	<item>15 хвилин</item>
-    	<item>30 хвилин</item>
-    	<item>Ніколи</item>
+        <item>5 секунд</item>
+        <item>10 секунд</item>
+        <item>20 секунд</item>
+        <item>30 секунд</item>
+        <item>1 хвилина</item>
+        <item>5 хвилин</item>
+        <item>15 хвилин</item>
+        <item>30 хвилин</item>
+        <item>Ніколи</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Малий</item>
-    	<item>Середній</item>
-    	<item>Великий</item>
+        <item>Малий</item>
+        <item>Середній</item>
+        <item>Великий</item>
     </string-array>
+    <string name="contribution">Внесок</string>
+    <string name="contact">Зв\'язок</string>
 </resources>
