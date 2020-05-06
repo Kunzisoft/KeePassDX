@@ -48,9 +48,9 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
 
-        val alertDialogBuilder = AlertDialog.Builder(activity!!)
+        val alertDialogBuilder = AlertDialog.Builder(requireActivity())
 
-        rootView = activity!!.layoutInflater.inflate(R.layout.pref_dialog_input_color, null)
+        rootView = requireActivity().layoutInflater.inflate(R.layout.pref_dialog_input_color, null)
         enableSwitchView = rootView.findViewById(R.id.switch_element)
 
         val fragmentManager = childFragmentManager
