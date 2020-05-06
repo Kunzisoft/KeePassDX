@@ -132,7 +132,7 @@ class SearchEntryCursorAdapter(private val context: Context,
         val searchGroup = database.createVirtualGroupFromSearch(query, SearchHelper.MAX_SEARCH_ENTRY)
         if (searchGroup != null) {
             // Search in hide entries but not meta-stream
-            for (entry in searchGroup.getFilteredChildEntries(*Group.ChildFilter.getDefaults(context))) {
+            for (entry in searchGroup.getFilteredChildEntries(Group.ChildFilter.getDefaults(context))) {
                 entry.entryKDB?.let {
                     cursorKDB?.addEntry(it)
                 }
