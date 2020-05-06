@@ -53,19 +53,19 @@ abstract class StylishActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         this.themeId = Stylish.getThemeId(this)
         setTheme(themeId)
-        super.onCreate(savedInstanceState)
 
         // Several gingerbread devices have problems with FLAG_SECURE
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE)
     }
 
     override fun onResume() {
+        super.onResume()
         if (Stylish.getThemeId(this) != this.themeId) {
             Log.d(this.javaClass.name, "Theme change detected, restarting activity")
             this.recreate()
         }
-        super.onResume()
     }
 }
