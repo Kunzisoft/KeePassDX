@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Σχόλια</string>
     <string name="homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
@@ -447,4 +446,8 @@
     <string name="download_complete">Ολοκληρώθηκε! Πατήστε για να ανοίξετε το αρχείο.</string>
     <string name="hide_expired_entries_title">Απόκρυψη καταχωρίσεων που έχουν λήξει</string>
     <string name="hide_expired_entries_summary">Οι καταχωρίσεις που έχουν λήξει θα είναι κρυμμένες</string>
+    <string name="show_recent_files_title">Εμφάνιση πρόσφατων αρχείων</string>
+    <string name="auto_focus_search_title">Γρήγορη αναζήτηση</string>
+    <string name="entry_add_attachment">Προσθήκη συνημμένου</string>
+    <string name="contribution">Συνεισφορά</string>
 </resources>
