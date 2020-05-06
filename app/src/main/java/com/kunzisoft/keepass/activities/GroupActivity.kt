@@ -946,7 +946,7 @@ class GroupActivity : LockingActivity(),
                 }
             }
 
-            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
+            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
             // to refresh fragment
             mListNodesFragment?.rebuildList()
             mCurrentGroup = mListNodesFragment?.mainGroup
