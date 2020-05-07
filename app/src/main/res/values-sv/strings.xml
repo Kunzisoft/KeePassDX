@@ -398,7 +398,7 @@
     <string name="menu_security_settings">Säkerhetsinställningar</string>
     <string name="menu_master_key_settings">Inställningar för huvudnyckel</string>
     <string name="contains_duplicate_uuid">Databasen innehåller dubbla UUID:er.</string>
-    <string name="contains_duplicate_uuid_procedure">Genom att bekräfta den här dialogrutan kommer KeePass DX lösa problemet (genom att generera nya UUID:er för dubletter) och fortsätta.</string>
+    <string name="contains_duplicate_uuid_procedure">Lös problemet genom att generera nya UUID-er för dubbletter for att fortsätta.</string>
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
