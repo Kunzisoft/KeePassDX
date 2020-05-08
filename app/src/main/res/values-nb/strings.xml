@@ -425,4 +425,7 @@
     <string name="error_create_database">Kunne ikke opprette databasefil.</string>
     <string name="discard">Forkast</string>
     <string name="discard_changes">Forkast endringer\?</string>
+    <string name="lock_database_show_button_summary">Viser låseknappen i brukergrensesnittet</string>
+    <string name="lock_database_show_button_title">Vis låseknapp</string>
+    <string name="error_label_exists">Denne etiketten finnes allerede.</string>
 </resources>
