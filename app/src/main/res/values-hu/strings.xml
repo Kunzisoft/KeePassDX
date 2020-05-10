@@ -43,8 +43,8 @@
     <string name="decrypting_db">Adatbázis-tartalom titkosításának feloldása…</string>
     <string name="default_checkbox">Használat alapértelmezett adatbázisként</string>
     <string name="digits">Számok</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program <strong>nyílt forráskódú</strong> és <strong>reklámmentes</strong>. 
-\nA program jelen állapotában kerül közreadásra, <strong>GPLv3</strong> licenc alatt, bármilyen garancia nélkül.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft. A program &lt;strong&gt;nyílt forráskódú&lt;/strong&gt; és &lt;strong&gt;reklámmentes&lt;/strong&gt;.
+\nA program jelen állapotában kerül közreadásra, &lt;strong&gt;GPLv3&lt;/strong&gt; licenc alatt, bármilyen garancia nélkül.</string>
     <string name="select_database_file">Létező adatbázis megnyitása</string>
     <string name="entry_accessed">Utolsó hozzáférés</string>
     <string name="entry_cancel">Mégsem</string>
@@ -317,8 +317,8 @@
     <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
     <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>
-    <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a <strong>vizuális stílushoz</strong>, és segít a <strong>közösségi projektek megvalósulásában.</strong></string>
-    <string name="html_text_feature_generosity">Ez a <strong>vizuális stílus</strong> az Ön nagylelkűségének köszönhetően érhető el.</string>
+    <string name="html_text_buy_pro">A pro verzió megvásárlásával hozzáférést kap ehhez a &lt;strong&gt;vizuális stílushoz&lt;/strong&gt;, és segít a &lt;strong&gt;közösségi projektek megvalósulásában.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Ez a &lt;strong&gt;vizuális stílus&lt;/strong&gt; az Ön nagylelkűségének köszönhetően érhető el.</string>
     <string name="html_text_donation">Ahhoz, hogy megtartsuk a szabadságunkat, és hogy mindig aktívak lehessünk, számítunk az Ön &lt;strong&gt;támogatására.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Ez a funkció &lt;strong&gt;fejlesztés alatt áll&lt;/strong&gt;, és az Ön &lt;strong&gt;támogatására&lt;/strong&gt; van szükség, hogy hamarosan elérhető legyen.</string>
     <string name="html_text_dev_feature_buy_pro">A &lt;strong&gt;pro&lt;/strong&gt; verzió megvásárlásával,</string>
@@ -374,7 +374,7 @@
     <string name="auto_focus_search_summary">Keresés kérése az adatbázis megnyitásakor</string>
     <string name="error_create_database">Az adatbázisfájl létrehozása sikertelen.</string>
     <string name="error_label_exists">Ez a címke már létezik.</string>
-    <string name="html_about_contribution">A <strong>szabadságunk megtartása</strong>, a <strong>hibák javítása</strong>, a <strong>funkciók hozzáadása</strong> és az <strong>állandó aktivitás</strong> érdekében számítunk a <strong>támogatására</strong>.</string>
+    <string name="html_about_contribution">A &lt;strong&gt;szabadságunk megtartása&lt;/strong&gt;, a &lt;strong&gt;hibák javítása&lt;/strong&gt;, a &lt;strong&gt;funkciók hozzáadása&lt;/strong&gt; és az &lt;strong&gt;állandó aktivitás&lt;/strong&gt; érdekében számítunk a &lt;strong&gt;támogatására&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Melléklet hozzáadása</string>
     <string name="entry_add_field">Mező hozzáadása</string>
     <string name="entry_password_generator">Jelszógenerátor</string>

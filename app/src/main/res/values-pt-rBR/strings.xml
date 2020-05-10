@@ -293,8 +293,8 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>livre de direitos autorais</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão Pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;livre de direitos autorais&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão Pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
     <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
@@ -470,7 +470,7 @@
     <string name="error_create_database">Incapaz de criar arquivo de base de dados.</string>
     <string name="error_label_exists">Esse rótulo já existe</string>
     <string name="entry_attachments">Acessórios</string>
-    <string name="html_about_contribution">Para <strong>manter sua liberdade</strong>, <strong>solucionar bugs</strong>, <strong>adicionar funções</strong> e <strong>para ser sempre ativo</strong>, nós contamos com sua <strong>contribuição</strong>.</string>
+    <string name="html_about_contribution">Para &lt;strong&gt;manter sua liberdade&lt;/strong&gt;, &lt;strong&gt;solucionar bugs&lt;/strong&gt;, &lt;strong&gt;adicionar funções&lt;/strong&gt; e &lt;strong&gt;para ser sempre ativo&lt;/strong&gt;, nós contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Adicionar anexo</string>
     <string name="discard_changes">Descartar alterações\?</string>
     <string name="validate">Validação</string>

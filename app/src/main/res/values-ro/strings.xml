@@ -182,9 +182,9 @@
     <string name="minus">Minus</string>
     <string name="never">Niciodata</string>
     <string name="no_results">Nu există Rezultate</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is <strong>sursa deschisa</strong> and <strong>fara publicitate</strong>. 
-\nEste prevăzut așa cum este, sub <strong>GPLv3</strong> licenta, fara nici un fel de garantie.</string>
-    <string name="html_about_contribution">In oridine sa <strong>pastram libertatea noastra</strong>, <strong>fix bugs</strong>, <strong>adăugați funcții</strong> si<strong>sa fie intotdeauna activ</strong>, ne bazam pe <strong>contributie</strong>.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;sursa deschisa&lt;/strong&gt; and &lt;strong&gt;fara publicitate&lt;/strong&gt;.
+\nEste prevăzut așa cum este, sub &lt;strong&gt;GPLv3&lt;/strong&gt; licenta, fara nici un fel de garantie.</string>
+    <string name="html_about_contribution">In oridine sa &lt;strong&gt;pastram libertatea noastra&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;adăugați funcții&lt;/strong&gt; si&lt;strong&gt;sa fie intotdeauna activ&lt;/strong&gt;, ne bazam pe &lt;strong&gt;contributie&lt;/strong&gt;.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>

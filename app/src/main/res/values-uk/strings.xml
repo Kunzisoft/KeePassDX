@@ -39,8 +39,8 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Встановити типовою базою даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є програмою з <strong>відкритим вихідним кодом</strong> та <strong>не містить реклами</strong>.
-\nПрограма постачається як є, на умовах ліцензії <strong>GPLv3</strong>, без будь-яких гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є програмою з &lt;strong&gt;відкритим вихідним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
+\nПрограма постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
     <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Скасувати</string>
@@ -254,7 +254,7 @@
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Щоби <strong>зберігати нашу вільність</strong>, <strong>зневаджувати</strong>, <strong>додавати функції</strong> та <strong>бути завжди активним проєктом</strong>, ми розраховуємо на вашу <strong>допомогу</strong>.</string>
+    <string name="html_about_contribution">Щоби &lt;strong&gt;зберігати нашу вільність&lt;/strong&gt;, &lt;strong&gt;зневаджувати&lt;/strong&gt;, &lt;strong&gt;додавати функції&lt;/strong&gt; та &lt;strong&gt;бути завжди активним проєктом&lt;/strong&gt;, ми розраховуємо на вашу &lt;strong&gt;допомогу&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Закрити поля</string>
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
@@ -291,14 +291,14 @@
     <string name="html_text_dev_feature_upgrade">Не забудьте постійно оновлювати програму, встановлюючи нові версії.</string>
     <string name="html_text_dev_feature_work_hard">Ми докладаємо всіх зусиль для якнайшвидшого випуску цієї функції.</string>
     <string name="html_text_dev_feature_thanks">Щиро вдячні за вашу допомогу.</string>
-    <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати <strong>нові функції</strong> та <strong>виправляти помилки</strong> відповідно до ваших зауважень.</string>
-    <string name="html_text_dev_feature_buy_pro">Купуючи версію <strong>pro</strong>,</string>
-    <string name="html_text_dev_feature_contibute"><strong>Допомагаючи</strong>,</string>
-    <string name="html_text_dev_feature">Ця функція ще <strong>розробляється</strong> та потребує вашої <strong>участі</strong>, щоби бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоби залишатися вільними та бути завжди активними, ми розраховуємо на вашу <strong>допомогу.</strong></string>
-    <string name="html_text_feature_generosity">Це <strong>оформлення стилю</strong> доступне завдяки вашій великодушності.</string>
-    <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих <strong>стилів оформлення</strong> та дуже допомагаєте <strong>розробці вільних проєктів.</strong></string>
-    <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є <strong>вільним від реклами</strong>, <strong>вільним програмним забезпеченням з copyleft</strong> та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
+    <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
+    <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
+    <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоби бути доступною якнайшвидше.</string>
+    <string name="html_text_donation">Щоби залишатися вільними та бути завжди активними, ми розраховуємо на вашу &lt;strong&gt;допомогу.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
+    <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
+    <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
     <string name="education_donation_summary">Допоможіть покращити стабільність, безпеку та додати нові функції.</string>
     <string name="education_donation_title">Долучайтеся</string>
     <string name="education_sort_summary">Виберіть спосіб впорядкування записів і груп.</string>

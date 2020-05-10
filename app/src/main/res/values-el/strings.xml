@@ -43,8 +43,8 @@
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
-    <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι <strong>ανοιχτού κώδικα</strong>" και  "<strong>χωρίς διαφημίσεις</strong>.
-\nΠαρέχεται ως έχει, με άδεια <strong>GPLv3</strong>, χωρίς καμία εγγύηση.</string>
+    <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι &lt;strong&gt;ανοιχτού κώδικα&lt;/strong&gt;" και  "&lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;.
+\nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Ακύρωση</string>
@@ -251,9 +251,9 @@
     <string name="education_sort_summary">Επιλέξτε τον τρόπο ταξινόμησης καταχωρήσεων και ομάδων.</string>
     <string name="education_donation_title">Συμμετοχή</string>
     <string name="education_donation_summary">Βοηθήστε να αυξήσετε τη σταθερότητα, την ασφάλεια και την προσθήκη περισσότερων λειτουργιών.</string>
-    <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι <strong>χωρίς διαφημίσεις</strong>, <strong>copylefted libre λογισμικό</strong> και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
+    <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
     <string name="html_text_buy_pro">Με την αγορά της επαγγελματικής έκδοσης, θα έχετε πρόσβαση σε αυτό το &lt;strong&gt;οπτικό στοιχείο&lt;/strong&gt; και θα βοηθήσετε ιδιαίτερα την &lt;strong&gt;υλοποίηση ιδεών της κοινότητας.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Αυτό το <strong>οπτικό στυλ</strong> είναι διαθέσιμο χάρη στη γενναιοδωρία σας.</string>
+    <string name="html_text_feature_generosity">Αυτό το &lt;strong&gt;οπτικό στυλ&lt;/strong&gt; είναι διαθέσιμο χάρη στη γενναιοδωρία σας.</string>
     <string name="html_text_donation">Για να διατηρήσουμε την ελεύθερη έκδοση και να είμαστε πάντα ενεργοί, υπολογίζουμε στην &lt;strong&gt;συνεισφορά σας.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Αυτή η λειτουργία είναι &lt;strong&gt;υπό ανάπτυξη&lt;/strong&gt; και απαιτεί την &lt;strong&gt;συνεισφοράς&lt;/strong&gt; σας για να είναι σύντομα διαθέσιμη.</string>
     <string name="html_text_dev_feature_buy_pro">Με την αγορά της έκδοσης &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -470,7 +470,7 @@
     <string name="auto_focus_search_summary">Ζητήστε αναζήτηση κατά το άνοιγμα μιας βάσης δεδομένων</string>
     <string name="error_create_database">Δεν είναι δυνατή η δημιουργία αρχείου βάσης δεδομένων.</string>
     <string name="error_label_exists">Αυτή η ετικέτα υπάρχει ήδη.</string>
-    <string name="html_about_contribution">Προκειμένου να <strong>διατηρήσουμε την ελευθερία μας</strong>, <strong>να διορθώσουμε σφάλματα</strong>, <strong>να προσθέσουμε λειτουργίες</strong> και <strong>να είμαστε πάντα ενεργοί</strong>, βασιζόμαστε στη <strong>συνεισφορά </strong>.</string>
+    <string name="html_about_contribution">Προκειμένου να &lt;strong&gt;διατηρήσουμε την ελευθερία μας&lt;/strong&gt;, &lt;strong&gt;να διορθώσουμε σφάλματα&lt;/strong&gt;, &lt;strong&gt;να προσθέσουμε λειτουργίες&lt;/strong&gt; και &lt;strong&gt;να είμαστε πάντα ενεργοί&lt;/strong&gt;, βασιζόμαστε στη &lt;strong&gt;συνεισφορά &lt;/strong&gt;.</string>
     <string name="discard">Απόρριψη</string>
     <string name="discard_changes">Απόρριψη αλλαγών;</string>
     <string name="validate">Επικυρώστε</string>
