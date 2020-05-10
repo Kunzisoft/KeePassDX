@@ -1,24 +1,24 @@
-<b>Multi-format KeePass password manager</b>, the application allows to save and use passwords, keys and digital identities in a secure way by integrating the Android design standards.
+<b>Multi-format KeePass password manager</b>, the app allows saving and using passwords, keys and digital identities in a secure way, by integrating the Android design standards.
 
-<b>Features</b> :
- - Create database files / entries and groups
- - Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm
- - Compatible with the majority of alternative programs (KeePass, KeePassX, KeePassXC...)
- - Allows fast copy of fields and opening of URI / URL
- - Biometric recognition for fast unlocking (Fingerprint / Face unlock / ...)
- - One-Time Password management (HOTP / TOTP) for Two-factor authentication (2FA)
- - Material design with themes
- - AutoFill and Integration
- - Field filling keyboard
- - History of each entry
- - Precise management of settings
- - Code written in native language (Kotlin / Java / JNI / C)
+<b>Features</b>
+ - Create database files / entries and groups.
+ - Support for .kdb and .kdbx files (version 1 to 4) with AES - Twofish - ChaCha20 - Argon2 algorithm.
+ - Compatible with the majority of alternative programs (KeePass, KeePassX, KeePassXC, …).
+ - Allows opening and copying URI / URL fields quickly.
+ - Biometric recognition for fast unlocking (fingerprint / face unlock / …).
+ - One-time password management (HOTP / TOTP) for two-factor authentication (2FA).
+ - Material design with themes.
+ - Auto-Fill and integration.
+ - Field filling keyboard.
+ - History of each entry.
+ - Precise management of settings.
+ - Code written in native languages (Kotlin / Java / JNI / C).
 
-KeePassDX is <b>opensource</b> and <b>ad-free</b>.
-
-The project is constantly evolving. Do not hesitate to check the development status of the next updates : <a href="https://github.com/Kunzisoft/KeePassDX/projects">Ongoing tasks</a>
+KeePassDX is <b>open source</b> and <b>ad-free</b>.
 
 You can donate or buy the <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">pro version</a>
-for a better service and a quick development of your features.
+for better service and a quick development of features you want.
 
-Any issue : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
+The project is constantly evolving. Do not hesitate to check the development status of the next updates: <a href="https://github.com/Kunzisoft/KeePassDX/projects">Ongoing tasks</a>
+
+Send issues to: <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>
