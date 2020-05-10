@@ -73,8 +73,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
         setPreferencesFromResource(R.xml.preferences_application, rootKey)
 
         activity?.let { activity ->
-            allowCopyPassword()
-
             findPreference<Preference>(getString(R.string.remember_database_locations_key))?.setOnPreferenceChangeListener { _, newValue ->
                 if (!(newValue as Boolean)) {
                     FileDatabaseHistoryAction.getInstance(activity.applicationContext).deleteAll()
@@ -178,11 +176,6 @@ class NestedAppSettingsFragment : NestedSettingsFragment() {
             false
         }
 
-        // Present in two places
-        allowCopyPassword()
-    }
-
-    private fun allowCopyPassword() {
         val copyPasswordPreference: SwitchPreference? = findPreference(getString(R.string.allow_copy_password_key))
         copyPasswordPreference?.setOnPreferenceChangeListener { _, newValue ->
             if (newValue as Boolean && context != null) {
