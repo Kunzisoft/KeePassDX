@@ -16,6 +16,8 @@
 
 KeePassDX est <b>opensource</b> et <b>sans publicité</b>.
 
+Le projet est en constante évolution. N'hésitez pas à vérifier l'état de développement des prochaines mises à jour : <a href="https://github.com/Kunzisoft/KeePassDX/projects">Tâches en cours</a>
+
 Vous pouvez faire un don ou acheter la <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">version pro</a>
 pour un meilleur service et un développement rapide de vos fonctionnalités.
 

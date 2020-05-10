@@ -1,5 +1,7 @@
 KeePassDX(2.5)
- * Fix small issues
+ * First stable version of KeePassDX
+ * Fork completely rewritten from the KeePassDroid project
+ * Fix small issues from the last Release Candidate
 
 KeePassDX(2.5RC2)
  * Replacement of Spongy Castle by Bouncy Castle
