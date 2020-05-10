@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Informacje zwrotne</string>
     <string name="homepage">Strona domowa</string>
     <string name="about_description">Implementacja Android dla menedżera haseł KeePass</string>
@@ -66,7 +65,7 @@
     <string name="error_pass_match">Hasła nie pasują do siebie.</string>
     <string name="error_rounds_too_large">\"Rundy szyfrowania\" są zbyt wysokie. Ustaw na 2147483648.</string>
     <string name="error_wrong_length">Wprowadź dodatnią liczbę całkowitą w polu \"Długość\".</string>
-    <string name="file_browser">Przeglądarka plików</string>
+    <string name="file_browser">Menedżer plików</string>
     <string name="generate_password">Generuj hasło</string>
     <string name="hint_conf_pass">Potwierdź hasło</string>
     <string name="hint_generated_password">Wygenerowane hasło</string>
@@ -237,7 +236,7 @@
     <string name="path">Ścieżka</string>
     <string name="assign_master_key">Przypisz klucz główny</string>
     <string name="create_keepass_file">Utwórz nową bazę danych</string>
-    <string name="full_file_path_enable_title">Ścieżka pliku</string>
+    <string name="full_file_path_enable_title">Ścieżka dostępu do plików</string>
     <string name="full_file_path_enable_summary">Wyświetl pełną ścieżkę do pliku</string>
     <string name="recycle_bin_title">Wykorzystaj kosz</string>
     <string name="recycle_bin_summary">Przenosi grupy i wpisy do grupy \"Kosz\" przed usunięciem</string>
@@ -259,11 +258,11 @@
     <string name="allow_no_password_summary">Włącz przycisk \"Otwórz\", jeśli nie wybrano uwierzytelnień</string>
     <string name="enable_read_only_title">Ochrona przed zapisem</string>
     <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
-    <string name="enable_education_screens_title">Ekrany edukacyjne</string>
-    <string name="enable_education_screens_summary">Zaznacz elementy, aby dowiedzieć się, jak działa aplikacja</string>
-    <string name="reset_education_screens_title">Zresetuj ekrany edukacyjne</string>
-    <string name="reset_education_screens_summary">Pokaż ponownie wszystkie elementy edukacyjne</string>
-    <string name="reset_education_screens_text">Ekrany edukacyjne zostały zresetowane</string>
+    <string name="enable_education_screens_title">Wskazówki edukacyjne</string>
+    <string name="enable_education_screens_summary">Podświetl elementy, aby dowiedzieć się, jak działa aplikacja</string>
+    <string name="reset_education_screens_title">Zresetuj wskazówki edukacyjne</string>
+    <string name="reset_education_screens_summary">Pokaż ponownie wszystkie informacje edukacyjne</string>
+    <string name="reset_education_screens_text">Reset wskazówek edukacyjnych</string>
     <string name="education_create_database_title">Utwórz plik bazy danych</string>
     <string name="education_create_database_summary">Utwórz swój pierwszy plik zarządzania hasłami.</string>
     <string name="education_select_database_title">Otwórz istniejącą bazę danych</string>
@@ -379,7 +378,7 @@
     <string name="biometric_auto_open_prompt_title">Automatyczne otwieranie monitu biometrycznego</string>
     <string name="enable">Włącz</string>
     <string name="disable">Wyłącz</string>
-    <string name="biometric_auto_open_prompt_summary">Automatycznie otwieraj monit biometryczny, gdy klucz biometryczny jest zdefiniowany dla bazy danych</string>
+    <string name="biometric_auto_open_prompt_summary">Automatycznie pytaj o dane biometryczne, jeśli baza danych jest ustawiona do korzystania z nich</string>
     <string name="content_description_node_children">Węzły podrzędne</string>
     <string name="master_key">Klucz główny</string>
     <string name="security">Zabezpieczenia</string>
@@ -432,7 +431,7 @@
     <string name="command_execution">Wykonywanie polecenia…</string>
     <string name="warning_permanently_delete_nodes">Czy trwale usunąć wybrane węzły\?</string>
     <string name="keystore_not_accessible">Magazyn kluczy nie został poprawnie zainicjowany.</string>
-    <string name="credential_before_click_biometric_button">Wpisz hasło przed kliknięciem przycisku biometrycznego.</string>
+    <string name="credential_before_click_biometric_button">Wpisz hasło, a następnie kliknij przycisk \"Biometric\".</string>
     <string name="recycle_bin_group_title">Kosz grupy</string>
     <string name="enable_auto_save_database_title">Automatycznie zapisuj bazę danych</string>
     <string name="enable_auto_save_database_summary">Zapisz bazę danych po każdym ważnym działaniu (w trybie „Modyfikowalnym”)</string>

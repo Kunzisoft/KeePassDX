@@ -84,7 +84,7 @@ class FieldReferencesEngine {
                 break
             }
 
-            val fullRef = text.substring(start, end - start + 1)
+            val fullRef = text.substring(start, end + 1)
             val result = findRefTarget(fullRef, contextV4)
 
             if (result != null) {
@@ -127,7 +127,7 @@ class FieldReferencesEngine {
             return null
         }
 
-        val ref = fullRef.substring(STR_REF_START.length, fullRef.length - STR_REF_START.length - STR_REF_END.length)
+        val ref = fullRef.substring(STR_REF_START.length, fullRef.length - STR_REF_END.length)
         if (ref.length <= 4) {
             return null
         }

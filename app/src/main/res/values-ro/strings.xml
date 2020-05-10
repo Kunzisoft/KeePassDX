@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_description">Implementarea Android a managerului de parole KeePass</string>
     <string name="accept">Accept</string>
     <string name="add_entry">Introduce intrarea</string>
@@ -183,9 +182,9 @@
     <string name="minus">Minus</string>
     <string name="never">Niciodata</string>
     <string name="no_results">Nu există Rezultate</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;sursa deschisa&lt;strong&gt; and &lt;strong&gt;fara publicitate&lt;/strong&gt;. 
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;sursa deschisa&lt;/strong&gt; and &lt;strong&gt;fara publicitate&lt;/strong&gt;.
 \nEste prevăzut așa cum este, sub &lt;strong&gt;GPLv3&lt;/strong&gt; licenta, fara nici un fel de garantie.</string>
-    <string name="html_about_contribution">In oridine sa &lt;strong&gt;pastram libertatea noastra&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;adăugați funcții&lt;/strong&gt; si&lt;strong&gt;sa fie intotdeauna activ&lt;strong&gt;, ne bazam pe &lt;strong&gt;contributie&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">In oridine sa &lt;strong&gt;pastram libertatea noastra&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;adăugați funcții&lt;/strong&gt; si&lt;strong&gt;sa fie intotdeauna activ&lt;/strong&gt;, ne bazam pe &lt;strong&gt;contributie&lt;/strong&gt;.</string>
     <string name="hide_password_title">Ascundeți parolele</string>
     <string name="hide_password_summary">Mascați parolele (***) în mod implicit</string>
     <string name="about">Despre</string>

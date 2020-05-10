@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Σχόλια</string>
     <string name="homepage">Αρχική Σελίδα</string>
     <string name="about_description">Το KeePassDX είναι μία εφαρμογή Android του διαχειριστή κωδικών KeePass</string>
@@ -44,7 +43,8 @@
     <string name="decrypting_db">Αποκρυπτογράφηση περιεχομένου βάσης δεδομένων …</string>
     <string name="default_checkbox">Χρήση ως προεπιλεγμένης βάσης δεδομένων</string>
     <string name="digits">Ψηφία</string>
-    <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft έρχεται χωρίς απολύτως καμία εγγύηση. Αυτό είναι ελεύθερο λογισμικό και είστε ευπρόσδεκτοι να το διανείμετε εκ νέου υπό τις συνθήκες της έκδοσης GPL 3 ή νεότερης έκδοσης.</string>
+    <string name="html_about_licence">Το KeePassDX © %1$d Kunzisoft είναι &lt;strong&gt;ανοιχτού κώδικα&lt;/strong&gt;" και  "&lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;.
+\nΠαρέχεται ως έχει, με άδεια &lt;strong&gt;GPLv3&lt;/strong&gt;, χωρίς καμία εγγύηση.</string>
     <string name="select_database_file">Ανοίξτε την υπάρχουσα βάση δεδομένων</string>
     <string name="entry_accessed">Πρόσβαση</string>
     <string name="entry_cancel">Ακύρωση</string>
@@ -75,7 +75,7 @@
     <string name="error_wrong_length">Εισάγετε ένα θετικό ακέραιο αριθμό στο πεδίο \"Μήκος\".</string>
     <string name="field_name">Όνομα πεδίου</string>
     <string name="field_value">Τιμή πεδίου</string>
-    <string name="file_browser">Πρόγραμμα περιήγησης Αρχείων</string>
+    <string name="file_browser">Διαχειριστής αρχείων</string>
     <string name="generate_password">Δημιουργία κωδικού πρόσβασης</string>
     <string name="hint_conf_pass">Επιβεβαίωση κωδικού</string>
     <string name="hint_generated_password">Παραγόμενος κωδικός πρόσβασης</string>
@@ -181,8 +181,8 @@
     <string name="sort_last_access_time">Προσπέλαση</string>
     <string name="warning">Προειδοποίηση</string>
     <string name="warning_password_encoding">Αποφύγετε τους χαρακτήρες κωδικού πρόσβασης έξω από τη μορφή κωδικοποίησης κειμένου στο αρχείο βάσης δεδομένων (οι μη αναγνωρισμένοι χαρακτήρες μετατρέπονται στο ίδιο γράμμα).</string>
-    <string name="warning_empty_password">Θέλετε πραγματικά να μην έχετε κανέναν κωδικό προστασίας ξεκλειδώματος;</string>
-    <string name="warning_no_encryption_key">Είστε βέβαιοι ότι δεν θέλετε να χρησιμοποιήσετε κάποιο κλειδί κρυπτογράφησης;</string>
+    <string name="warning_empty_password">Συνέχεια χωρίς κωδικό προστασίας ξεκλειδώματος;</string>
+    <string name="warning_no_encryption_key">Συνέχεια χωρίς κλειδί κρυπτογράφησης;</string>
     <string name="encrypted_value_stored">Ο Κρυπτογραφημένος κωδικός έχει αποθηκευτεί</string>
     <string name="general">Γενικά</string>
     <string name="autofill">Αυτόματη συμπλήρωση</string>
@@ -221,9 +221,9 @@
     <string name="other">Άλλα</string>
     <string name="keyboard">Πληκτρολόγιο</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="reset_education_screens_title">Επαναφορά οθονών εκμάθησης</string>
-    <string name="reset_education_screens_summary">Δείτε όλα τα στοιχεία εκμάθησης ξανά</string>
-    <string name="reset_education_screens_text">Επαναφορά οθονών εκμάθησης</string>
+    <string name="reset_education_screens_title">Επαναφορά εκπαιδευτικών συμβουλών</string>
+    <string name="reset_education_screens_summary">Εμφάνιση όλων των εκπαιδευτικών πληροφοριών ξανά</string>
+    <string name="reset_education_screens_text">Επαναφορά εκπαιδευτικών συμβουλών</string>
     <string name="education_create_database_title">Δημιουργήστε το αρχείο της βάσης δεδομένων σας</string>
     <string name="education_create_database_summary">Δημιουργήστε το πρώτο αρχείο διαχείρισης κωδικού πρόσβασης.</string>
     <string name="education_select_database_title">Ανοίξτε μια υπάρχουσα βάση δεδομένων</string>
@@ -236,10 +236,10 @@
     <string name="education_search_summary">Εισαγάγετε τον τίτλο, το όνομα χρήστη ή το περιεχόμενο άλλων πεδίων για να ανακτήσετε τους κωδικούς πρόσβασής σας.</string>
     <string name="education_entry_edit_title">Επεξεργαστείτε την καταχώρηση</string>
     <string name="education_entry_edit_summary">Επεξεργαστείτε την καταχώρηση σας με προσαρμοσμένα πεδία. Τα Pool data μπορούν να αναφέρονται μεταξύ διαφορετικών πεδίων εισαγωγής.</string>
-    <string name="education_generate_password_title">Δημιουργήστε έναν ισχυρό κωδικό πρόσβασης για την καταχώρησή σας.</string>
+    <string name="education_generate_password_title">Δημιουργήστε έναν ισχυρό κωδικό πρόσβασης</string>
     <string name="education_generate_password_summary">Δημιουργήστε έναν ισχυρό κωδικό πρόσβασης για να συσχετιστεί με την καταχώρισή σας, ορίστε τον εύκολα σύμφωνα με τα κριτήρια της φόρμας και μην ξεχνάτε τον ασφαλή κωδικό πρόσβασης.</string>
     <string name="education_entry_new_field_title">Προσθέστε προσαρμοσμένα πεδία</string>
-    <string name="education_entry_new_field_summary">Καταχωρίστε ένα βασικό μη παρεχόμενο πεδίο συμπληρώνοντας ένα νέο που μπορείτε επίσης να προστατεύσετε.</string>
+    <string name="education_entry_new_field_summary">Καταχωρήστε ένα επιπλέον πεδίο, προσθέστε μια τιμή και προαιρετικά προστατεύστε το.</string>
     <string name="education_unlock_title">Ξεκλειδώστε τη βάση δεδομένων σας</string>
     <string name="education_field_copy_title">Αντιγράψτε ένα πεδίο</string>
     <string name="education_field_copy_summary">Τα πεδία αντιγραφής μπορούν να επικολληθούν οπουδήποτε.
@@ -251,9 +251,9 @@
     <string name="education_sort_summary">Επιλέξτε τον τρόπο ταξινόμησης καταχωρήσεων και ομάδων.</string>
     <string name="education_donation_title">Συμμετοχή</string>
     <string name="education_donation_summary">Βοηθήστε να αυξήσετε τη σταθερότητα, την ασφάλεια και την προσθήκη περισσότερων λειτουργιών.</string>
-    <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτό είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές του, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
+    <string name="html_text_ad_free">Σε αντίθεση με πολλές άλλες εφαρμογές διαχείρισης κωδικών πρόσβασης, αυτή είναι &lt;strong&gt;χωρίς διαφημίσεις&lt;/strong&gt;, &lt;strong&gt;copylefted libre λογισμικό&lt;/strong&gt; και δεν συλλέγει προσωπικά δεδομένα στους διακομιστές της, ανεξάρτητα από την έκδοση που χρησιμοποιείτε.</string>
     <string name="html_text_buy_pro">Με την αγορά της επαγγελματικής έκδοσης, θα έχετε πρόσβαση σε αυτό το &lt;strong&gt;οπτικό στοιχείο&lt;/strong&gt; και θα βοηθήσετε ιδιαίτερα την &lt;strong&gt;υλοποίηση ιδεών της κοινότητας.&lt;/strong&gt;</string>
-    <string name="html_text_feature_generosity">Αυτή η &lt;strong&gt;οπτική λειτουργία&lt;/strong&gt; είναι διαθέσιμη χάρη στη γενναιοδωρία σας.</string>
+    <string name="html_text_feature_generosity">Αυτό το &lt;strong&gt;οπτικό στυλ&lt;/strong&gt; είναι διαθέσιμο χάρη στη γενναιοδωρία σας.</string>
     <string name="html_text_donation">Για να διατηρήσουμε την ελεύθερη έκδοση και να είμαστε πάντα ενεργοί, υπολογίζουμε στην &lt;strong&gt;συνεισφορά σας.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Αυτή η λειτουργία είναι &lt;strong&gt;υπό ανάπτυξη&lt;/strong&gt; και απαιτεί την &lt;strong&gt;συνεισφοράς&lt;/strong&gt; σας για να είναι σύντομα διαθέσιμη.</string>
     <string name="html_text_dev_feature_buy_pro">Με την αγορά της έκδοσης &lt;strong&gt;pro&lt;/strong&gt;,</string>
@@ -280,8 +280,8 @@
     <string name="allow_copy_password_warning">Προειδοποίηση: Το πρόχειρο μοιράζεται από όλες τις εφαρμογές. Αν αντιγράφονται ευαίσθητα δεδομένα, άλλο λογισμικό μπορεί να το ανακτήσει.</string>
     <string name="allow_no_password_title">Να μην επιτρέπεται κανένα κύριο κλειδί</string>
     <string name="allow_no_password_summary">Ενεργοποίηση του κουμπιού \"Άνοιγμα\" αν δεν έχουν επιλεγεί τα διαπιστευτήρια</string>
-    <string name="enable_education_screens_title">Οθόνες Εκμάθησης</string>
-    <string name="enable_education_screens_summary">Επισήμανση των στοιχείων για να μάθετε πώς λειτουργεί η εφαρμογή</string>
+    <string name="enable_education_screens_title">Εκπαιδευτικές συμβουλές</string>
+    <string name="enable_education_screens_summary">Επισήμανση στοιχείων για να μάθετε πώς λειτουργεί η εφαρμογή</string>
     <string name="menu_file_selection_read_only">Προστασία εγγραφής</string>
     <string name="menu_open_file_read_and_write">Τροποποιήσιμο</string>
     <string name="enable_read_only_title">Προστασία Εγγραφής</string>
@@ -369,10 +369,10 @@
     <string name="biometric_unlock_enable_title">Βιομετρικό ξεκλείδωμα</string>
     <string name="biometric_unlock_enable_summary">Σας επιτρέπει να σαρώσετε το βιομετρικό σας για να ανοίξετε τη βάση δεδομένων</string>
     <string name="biometric_auto_open_prompt_title">Αυτόματο άνοιγμα βιομετρικής προτροπής</string>
-    <string name="biometric_auto_open_prompt_summary">Αυτόματο άνοιγμα βιομετρικής προτροπής όταν ορίζεται ένα βιομετρικό κλειδί για μια βάση δεδομένων</string>
+    <string name="biometric_auto_open_prompt_summary">Ζητήστε αυτόματα βιομετρία εάν η βάση δεδομένων έχει ρυθμιστεί για να τη χρησιμοποιήσει</string>
     <string name="biometric_delete_all_key_title">Διαγράψτε τα κλειδιά κρυπτογράφησης</string>
     <string name="biometric_delete_all_key_summary">Διαγράψτε όλα τα κλειδιά κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση</string>
-    <string name="biometric_delete_all_key_warning">Είστε βέβαιοι ότι θέλετε να διαγράψετε όλα τα κλειδιά που σχετίζονται με τη βιομετρική αναγνώριση;</string>
+    <string name="biometric_delete_all_key_warning">Διαγραφή όλων των κλειδιών κρυπτογράφησης που σχετίζονται με τη βιομετρική αναγνώριση;</string>
     <string name="enable">Ενεργοποίηση</string>
     <string name="disable">Απενεργοποίηση</string>
     <string name="master_key">Κύριο κλειδί</string>
@@ -398,7 +398,7 @@
     <string name="menu_security_settings">Ρυθμίσεις Ασφαλείας</string>
     <string name="menu_master_key_settings">Ρυθμίσεις κύριου κλειδιού</string>
     <string name="contains_duplicate_uuid">Η βάση δεδομένων περιέχει διπλά UUIDs.</string>
-    <string name="contains_duplicate_uuid_procedure">Με την επικύρωση αυτού του διαλόγου, το KeePassDX θα διορθώσει το πρόβλημα (δημιουργώντας νέα UUIDs για διπλότυπα) και θα συνεχίσει.</string>
+    <string name="contains_duplicate_uuid_procedure">Επίλυση προβλήματος δημιουργώντας νέα UUIDs για να συνεχιστούν τα διπλότυπα;</string>
     <string name="database_history">Ιστορικό</string>
     <string name="autofill_explanation_summary">Ενεργοποιήστε την αυτόματη συμπλήρωση για να συμπληρώσετε γρήγορα φόρμες σε άλλες εφαρμογές</string>
     <string name="database_opened">Η Βάση Δεδομένων άνοιξε</string>
@@ -422,29 +422,57 @@
     <string name="compression_none">Καμιά</string>
     <string name="compression_gzip">gzip</string>
     <string name="magic_keyboard_explanation_summary">Ενεργοποιώντας ένα προσαρμοσμένο πληκτρολόγιο συγκεντρώνει τους κωδικούς πρόσβασής σας και όλα τα πεδία ταυτότητας</string>
-    <string name="device_keyboard_setting_title">Ρυθμίσεις πληκτρολογίου Συσκευής</string>
+    <string name="device_keyboard_setting_title">Ρυθμίσεις πληκτρολογίου συσκευής</string>
     <string name="education_biometric_title">Ξεκλείδωμα Βάσης Δεδομένων με βιομετρικά στοιχεία</string>
     <string name="education_biometric_summary">Συνδέστε τον κωδικό πρόσβασής σας στο σαρωμένο βιομετρικό σας για να ξεκλειδώσετε γρήγορα τη βάση δεδομένων σας.</string>
     <string name="error_save_database">Δεν ήταν δυνατή η αποθήκευση της βάσης δεδομένων.</string>
     <string name="menu_save_database">Αποθήκευση βάσης δεδομένων</string>
     <string name="menu_empty_recycle_bin">Αδειάστε τον κάδο ανακύκλωσης</string>
     <string name="command_execution">Εκτέλεση της εντολής…</string>
-    <string name="warning_permanently_delete_nodes">Είστε βέβαιοι ότι θέλετε να διαγράψετε οριστικά τους επιλεγμένους κόμβους;</string>
+    <string name="warning_permanently_delete_nodes">Οριστική διαγραφή επιλεγμένων κόμβων;</string>
     <string name="keystore_not_accessible">Η κλειδοθήκη δεν έχει προετοιμαστεί σωστά.</string>
-    <string name="credential_before_click_biometric_button">Πληκτρολογήστε τον κωδικό πρόσβασης πριν κάνετε κλικ στο βιομετρικό κουμπί.</string>
+    <string name="credential_before_click_biometric_button">Πληκτρολογήστε τον κωδικό πρόσβασης και στη συνέχεια κάντε κλικ στο κουμπί \"Biometric\".</string>
     <string name="recycle_bin_group_title">Ομάδα Κάδου Ανακύκλωσης</string>
     <string name="enable_auto_save_database_title">Αυτόματη αποθήκευση βάσης δεδομένων</string>
-    <string name="enable_auto_save_database_summary">Αυτόματη αποθήκευση της βάσης δεδομένων μετά από μια σημαντική ενέργεια (μόνο σε λειτουργία \"Τροποποιήσιμο\")</string>
+    <string name="enable_auto_save_database_summary">Αποθήκευση της βάσης δεδομένων μετά από κάθε σημαντική ενέργεια (σε λειτουργία \"Τροποποιήσιμο\")</string>
     <string name="entry_attachments">Συνημμένα</string>
     <string name="menu_restore_entry_history">Επαναφορά ιστορικού</string>
     <string name="menu_delete_entry_history">Διαγραφή ιστορικού</string>
     <string name="keyboard_auto_go_action_title">Αυτόματη ενέργεια κουμπιού</string>
-    <string name="keyboard_auto_go_action_summary">Η ενέργεια του πλήκτρου Go γίνεται αυτόματα αφού πατήσετε ένα πλήκτρο πεδίου</string>
+    <string name="keyboard_auto_go_action_summary">Ενέργεια του πλήκτρου \"Go\" αφού πατήσετε ένα πλήκτρο \"Πεδίου\"</string>
     <string name="download_attachment">Λήψη %1$s</string>
     <string name="download_initialization">Αρχικοποίηση…</string>
     <string name="download_progression">Σε εξέλιξη: %1$d%%</string>
     <string name="download_finalization">Ολοκλήρωση…</string>
     <string name="download_complete">Ολοκληρώθηκε! Πατήστε για να ανοίξετε το αρχείο.</string>
     <string name="hide_expired_entries_title">Απόκρυψη καταχωρίσεων που έχουν λήξει</string>
-    <string name="hide_expired_entries_summary">Οι καταχωρίσεις που έχουν λήξει θα είναι κρυμμένες</string>
+    <string name="hide_expired_entries_summary">Οι καταχωρίσεις που έχουν λήξει είναι κρυμμένες</string>
+    <string name="show_recent_files_title">Εμφάνιση πρόσφατων αρχείων</string>
+    <string name="auto_focus_search_title">Γρήγορη αναζήτηση</string>
+    <string name="entry_add_attachment">Προσθήκη συνημμένου</string>
+    <string name="contribution">Συνεισφορά</string>
+    <string name="education_setup_OTP_summary">Ρύθμιση διαχείρισης Μίας-Χρήσης Κωδικού Πρόσβασης (HOTP / TOTP) για δημιουργία token που ζητήθηκε για έλεγχο ταυτότητας δύο παραγόντων (2FA).</string>
+    <string name="education_setup_OTP_title">Ρύθμιση OTP</string>
+    <string name="autofill_auto_search_summary">Προτείνετε αυτόματα αποτελέσματα αναζήτησης από τον web domain ή το αναγνωριστικό εφαρμογής</string>
+    <string name="autofill_auto_search_title">Αυτόματη αναζήτηση</string>
+    <string name="lock_database_show_button_summary">Εμφανίζει το κουμπί κλειδώματος στη διεπαφή χρήστη</string>
+    <string name="lock_database_show_button_title">Εμφάνιση κουμπιού κλειδώματος</string>
+    <string name="autofill_preference_title">Ρυθμίσεις Αυτόματης Συμπλήρωσης</string>
+    <string name="warning_database_link_revoked">Η πρόσβαση στο αρχείο ανακλήθηκε από τον διαχειριστή αρχείων</string>
+    <string name="warning_database_read_only">Εκχώρηση πρόσβασης εγγραφής αρχείου για αποθήκευση αλλαγών στη βάση δεδομένων</string>
+    <string name="hide_broken_locations_summary">Απόκρυψη σπασμένων συνδέσμων στη λίστα των πρόσφατων βάσεων δεδομένων</string>
+    <string name="hide_broken_locations_title">Απόκρυψη σπασμένων συνδέσμων βάσης δεδομένων</string>
+    <string name="show_recent_files_summary">Εμφάνιση τοποθεσιών πρόσφατων βάσεων δεδομένων</string>
+    <string name="remember_keyfile_locations_summary">Θυμηθείτε τη θέση των βάσεων δεδομένων βάσεων δεδομένων</string>
+    <string name="remember_keyfile_locations_title">Αποθηκεύστε την τοποθεσία των αρχείων κλειδιού</string>
+    <string name="remember_database_locations_title">Αποθηκεύστε τη θέση των βάσεων δεδομένων</string>
+    <string name="remember_database_locations_summary">Θυμηθείτε τη θέση των βάσεων δεδομένων</string>
+    <string name="auto_focus_search_summary">Ζητήστε αναζήτηση κατά το άνοιγμα μιας βάσης δεδομένων</string>
+    <string name="error_create_database">Δεν είναι δυνατή η δημιουργία αρχείου βάσης δεδομένων.</string>
+    <string name="error_label_exists">Αυτή η ετικέτα υπάρχει ήδη.</string>
+    <string name="html_about_contribution">Προκειμένου να &lt;strong&gt;διατηρήσουμε την ελευθερία μας&lt;/strong&gt;, &lt;strong&gt;να διορθώσουμε σφάλματα&lt;/strong&gt;, &lt;strong&gt;να προσθέσουμε λειτουργίες&lt;/strong&gt; και &lt;strong&gt;να είμαστε πάντα ενεργοί&lt;/strong&gt;, βασιζόμαστε στη &lt;strong&gt;συνεισφορά &lt;/strong&gt;.</string>
+    <string name="discard">Απόρριψη</string>
+    <string name="discard_changes">Απόρριψη αλλαγών;</string>
+    <string name="validate">Επικυρώστε</string>
+    <string name="contact">Επικοινωνία</string>
 </resources>

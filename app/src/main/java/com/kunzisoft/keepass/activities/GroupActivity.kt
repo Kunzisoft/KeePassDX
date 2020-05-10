@@ -453,7 +453,7 @@ class GroupActivity : LockingActivity(),
     private fun refreshNumberOfChildren() {
         numberChildrenView?.apply {
             if (PreferencesUtil.showNumberEntries(context)) {
-                text = mCurrentGroup?.getNumberOfChildEntries(*Group.ChildFilter.getDefaults(context))?.toString() ?: ""
+                text = mCurrentGroup?.getNumberOfChildEntries(Group.ChildFilter.getDefaults(context))?.toString() ?: ""
                 visibility = View.VISIBLE
             } else {
                 visibility = View.GONE
@@ -946,7 +946,7 @@ class GroupActivity : LockingActivity(),
                 }
             }
 
-            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment
+            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
             // to refresh fragment
             mListNodesFragment?.rebuildList()
             mCurrentGroup = mListNodesFragment?.mainGroup

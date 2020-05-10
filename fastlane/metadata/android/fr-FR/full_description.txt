@@ -1,22 +1,24 @@
-<b>Gestionnaire de mots de passe KeePass multiformats</b>, l'application permet d'enregistrer et d'utiliser de manière sécurisée les mots de passe, les clés et les identités numériques en intégrant les standards de conception Android.
+<b>Gestionnaire de mots de passe KeePass multiformats</b>, l'application permet d'enregistrer et d'utiliser des mots de passe, des clés et des identités numériques de manière sécurisée, en intégrant les normes de conception Android.
 
-<b>Fonctionnalités</b> :
- - Création de bases de données / entrées et groupes
- - Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2
- - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePassXC...)
- - Permet la copie rapide de champs et l'ouverture d'URI /URL
- - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / ...)
- - Gestion des mots de passe à usage unique (One-Time Password HOTP / TOTP) pour l'authentification à deux facteurs (2FA)
- - Material design avec thèmes
- - Remplissage automatique de champs
- - Clavier de remplissage de champs
- - Historique de chaque entrée
- - Gestion précise des paramètres
- - Code écrit en langage natif (Kotlin / Java / JNI / C)
+<b>Fonctionnalités</b>
+ - Création de bases de données / entrées et groupes.
+ - Support des fichiers .kdb et .kdbx (version 1 à 4) avec algorithme AES - Twofish - ChaCha20 - Argon2.
+ - Compatible avec la majorité des programmes alternatifs (KeePass, KeePassX, KeePassXC, …)
+ - Permet la copie rapide de champs et l'ouverture d'URI /URL.
+ - Reconnaissance biométrique pour un déblocage rapide (Empreintes digitales / Déverouillage par visage / …).
+ - Gestion des mots de passe à usage unique (One-Time Password HOTP / TOTP) pour l'authentification à deux facteurs (2FA).
+ - Material design avec thèmes.
+ - Remplissage automatique de champs.
+ - Clavier de remplissage de champs.
+ - Historique de chaque entrée.
+ - Gestion précise des paramètres.
+ - Code écrit en langages natifs (Kotlin / Java / JNI / C).
 
-KeePassDX est <b>opensource</b> et <b>sans publicité</b>.
+KeePassDX est <b>open source</b> et <b>sans publicité</b>.
 
 Vous pouvez faire un don ou acheter la <a href="https://play.google.com/store/apps/details?id=com.kunzisoft.keepass.pro">version pro</a>
-pour un meilleur service et un développement rapide de vos fonctionnalités.
+pour un meilleur service et un développement rapide des fonctionnalités que vous souhaitez.
+
+Le projet est en constante évolution. N'hésitez pas à vérifier l'état de développement des prochaines mises à jour : <a href="https://github.com/Kunzisoft/KeePassDX/projects">Tâches en cours</a>
 
 Vous avez un bug : <a href="https://github.com/Kunzisoft/KeePassDX/issues">https://github.com/Kunzisoft/KeePassDX/issues</a>

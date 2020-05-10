@@ -24,15 +24,15 @@ import android.content.Context
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.DialogFragment
-import androidx.core.widget.ImageViewCompat
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
+import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.ImageViewCompat
+import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
@@ -60,7 +60,7 @@ class IconPickerDialogFragment : DialogFragment() {
         activity?.let { activity ->
             val builder = AlertDialog.Builder(activity)
 
-            iconPack = IconPackChooser.getSelectedIconPack(context!!)
+            iconPack = IconPackChooser.getSelectedIconPack(requireContext())
 
             // Inflate and set the layout for the dialog
             // Pass null as the parent view because its going in the dialog layout

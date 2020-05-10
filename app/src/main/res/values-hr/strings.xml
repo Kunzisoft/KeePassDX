@@ -204,7 +204,6 @@
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
     <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s biometričkim prepoznavanjem</string>
     <string name="biometric_delete_all_key_warning">Jeste li sigurni da želite izbrisati sve ključeve povezane s biometričkim prepoznavanjem\?</string>
-    <string name="unavailable_feature_version"/>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Naziv datoteke</string>
     <string name="path">Putanja</string>

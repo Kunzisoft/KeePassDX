@@ -133,8 +133,7 @@ class NodeAdapter (private val context: Context)
      */
     fun rebuildList(group: Group) {
         assignPreferences()
-        nodeSortedList.replaceAll(group.getFilteredChildren(*entryFilters)
-        )
+        nodeSortedList.replaceAll(group.getFilteredChildren(entryFilters))
     }
 
     private inner class NodeSortedListCallback: SortedListAdapterCallback<Node>(this) {
@@ -331,7 +330,7 @@ class NodeAdapter (private val context: Context)
             if (showNumberEntries) {
                 holder.numberChildren?.apply {
                     text = (subNode as Group)
-                            .getNumberOfChildEntries(*entryFilters)
+                            .getNumberOfChildEntries(entryFilters)
                             .toString()
                     setTextSize(textSizeUnit, numberChildrenTextDefaultDimension, prefSizeMultiplier)
                     visibility = View.VISIBLE

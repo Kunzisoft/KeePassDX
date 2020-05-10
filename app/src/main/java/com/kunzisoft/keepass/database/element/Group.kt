@@ -260,9 +260,9 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return entriesInfo
     }
 
-    fun getFilteredChildEntries(vararg filter: ChildFilter): List<Entry> {
-        val withoutMetaStream = filter.contains(ChildFilter.META_STREAM)
-        val showExpiredEntries = !filter.contains(ChildFilter.EXPIRED)
+    fun getFilteredChildEntries(filters: Array<ChildFilter>): List<Entry> {
+        val withoutMetaStream = filters.contains(ChildFilter.META_STREAM)
+        val showExpiredEntries = !filters.contains(ChildFilter.EXPIRED)
 
         return groupKDB?.getChildEntries()?.filter {
             (!withoutMetaStream || (withoutMetaStream && !it.isMetaStream))
@@ -278,8 +278,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         ArrayList()
     }
 
-    fun getNumberOfChildEntries(vararg filter: ChildFilter): Int {
-        return getFilteredChildEntries(*filter).size
+    fun getNumberOfChildEntries(filters: Array<ChildFilter> = emptyArray()): Int {
+        return getFilteredChildEntries(filters).size
     }
 
     /**
@@ -290,8 +290,8 @@ class Group : Node, GroupVersionedInterface<Group, Entry> {
         return getChildGroups() + getChildEntries()
     }
 
-    fun getFilteredChildren(vararg filter: ChildFilter): List<Node> {
-        return getChildGroups() + getFilteredChildEntries(*filter)
+    fun getFilteredChildren(filters: Array<ChildFilter>): List<Node> {
+        return getChildGroups() + getFilteredChildEntries(filters)
     }
 
     override fun addChildGroup(group: Group) {

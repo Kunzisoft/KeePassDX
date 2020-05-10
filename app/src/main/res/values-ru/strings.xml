@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Отзыв</string>
     <string name="homepage">Сайт</string>
     <string name="about_description">Android-версия менеджера паролей KeePass</string>
@@ -259,11 +258,11 @@
     <string name="allow_no_password_summary">Включить кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
-    <string name="enable_education_screens_title">Экраны обучения</string>
+    <string name="enable_education_screens_title">Обучающие подсказки</string>
     <string name="enable_education_screens_summary">Выделять элементы, чтобы показать, как работает приложение</string>
-    <string name="reset_education_screens_title">Сбросить экраны обучения</string>
-    <string name="reset_education_screens_summary">Будет снова включено отображение всех обучающих элементов</string>
-    <string name="reset_education_screens_text">Экраны обучения сброшены</string>
+    <string name="reset_education_screens_title">Сбросить обучающие подсказки</string>
+    <string name="reset_education_screens_summary">Снова показывать все обучающие подсказки</string>
+    <string name="reset_education_screens_text">Обучающие подсказки сброшены</string>
     <string name="education_create_database_title">Создайте файл базы</string>
     <string name="education_create_database_summary">Создайте свой первый файл управления паролями.</string>
     <string name="education_select_database_title">Откройте существующую базу</string>
@@ -301,16 +300,16 @@
     <string name="html_text_ad_free">В отличие от многих приложений управления паролями, это &lt;strong&gt;без рекламы&lt;/strong&gt; и &lt;strong&gt;свободно от лицензирования&lt;/strong&gt;. Оно не собирает ваши личные данные на своих серверах независимо от того, какую версию вы используете.</string>
     <string name="html_text_buy_pro">При покупке Pro-версии вы будете иметь доступ к этим &lt;strong&gt;визуальным стилям&lt;/strong&gt; и особенно поможете &lt;strong&gt;реализации общественных проектов&lt;/strong&gt;.</string>
     <string name="html_text_feature_generosity">Эти &lt;strong&gt;визуальные стили&lt;/strong&gt; доступны благодаря вашей щедрости.</string>
-    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;/strong&gt;.</string>
+    <string name="html_text_donation">Для того, чтобы сохранить нашу независимость и быть всегда активными, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature">Эта функция находится &lt;strong&gt;в разработке&lt;/strong&gt; и требует вашего &lt;strong&gt;участия&lt;/strong&gt;, чтобы стать доступной в ближайшее время.</string>
     <string name="html_text_dev_feature_buy_pro">Покупая &lt;strong&gt;Pro&lt;/strong&gt;-версию,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Участвуя в проекте&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">вы поощряете разработчиков добавлять &lt;strong&gt;новые возможности&lt;/strong&gt; и &lt;strong&gt;исправлять ошибки&lt;/strong&gt; в соответствии с вашими замечаниями.</string>
-    <string name="html_text_dev_feature_thanks">Спасибо большое за ваш вклад.</string>
+    <string name="html_text_dev_feature_thanks">Спасибо большое за содействие.</string>
     <string name="html_text_dev_feature_work_hard">Мы прилагаем все усилия, чтобы быстро выпустить эту функцию.</string>
     <string name="html_text_dev_feature_upgrade">Не забывайте обновлять приложение.</string>
     <string name="download">Скачать</string>
-    <string name="contribute">Вклад</string>
+    <string name="contribute">Содействие</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
@@ -373,11 +372,11 @@
     <string name="menu_advanced_unlock_settings">Дополнительная разблокировка</string>
     <string name="biometric_prompt_store_credential_title">Сохранение биометрического ключа</string>
     <string name="biometric_prompt_store_credential_message">Внимание: вам по-прежнему нужно помнить главный пароль при использовании использование функции биометрического распознавания.</string>
-    <string name="biometric_prompt_extract_credential_title">Открывать базу биометрическим ключом</string>
+    <string name="biometric_prompt_extract_credential_title">Открыть базу биометрическим ключом</string>
     <string name="biometric_prompt_extract_credential_message">Извлекать главный пароль биометрическим ключом</string>
     <string name="biometric">Биометрический ключ</string>
     <string name="biometric_auto_open_prompt_title">Автозапрос биометрического ключа</string>
-    <string name="biometric_auto_open_prompt_summary">Автоматически открывать запрос биометрического ключа, если он установлен для базы</string>
+    <string name="biometric_auto_open_prompt_summary">Автоматически запрашивать биометрический ключ, если он установлен для базы</string>
     <string name="enable">Включить</string>
     <string name="disable">Отключить</string>
     <string name="selection_mode">Режим выбора</string>
@@ -432,7 +431,7 @@
     <string name="command_execution">Выполнение команды…</string>
     <string name="warning_permanently_delete_nodes">Безвозвратно удалить выбранные узлы\?</string>
     <string name="keystore_not_accessible">Хранилище ключей не инициализировано должным образом.</string>
-    <string name="credential_before_click_biometric_button">Введите пароль перед нажатием кнопки биометрии.</string>
+    <string name="credential_before_click_biometric_button">Введите пароль, затем нажмите кнопку биометрии.</string>
     <string name="recycle_bin_group_title">Группа \"корзины\"</string>
     <string name="enable_auto_save_database_title">Автосохранение базы</string>
     <string name="enable_auto_save_database_summary">Сохранять базу после каждого важного действия (в \"режиме записи\")</string>
@@ -450,7 +449,7 @@
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
     <string name="contact">Контактная информация</string>
     <string name="contribution">Помощь проекту</string>
-    <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваш &lt;strong&gt;вклад&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
     <string name="remember_database_locations_title">Хранить расположение баз</string>

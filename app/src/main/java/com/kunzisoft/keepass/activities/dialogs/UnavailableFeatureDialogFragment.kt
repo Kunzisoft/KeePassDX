@@ -24,7 +24,6 @@ import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import androidx.appcompat.app.AlertDialog
-import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.method.LinkMovementMethod
 import android.widget.TextView

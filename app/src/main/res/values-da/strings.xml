@@ -17,8 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Danish translation by Frederik Svarre (fsvarre@gmail.com)
--->
-<resources>
+--><resources>
     <string name="homepage">Hjemmeside</string>
     <string name="about_description">Android implementering af KeePass password manager</string>
     <string name="accept">Accepter</string>
@@ -256,11 +255,11 @@
     <string name="allow_no_password_summary">Aktiver knappen \"Åbn\", hvis der ikke er valgt nogen legitimationsoplysninger</string>
     <string name="enable_read_only_title">Skrivebeskyttet</string>
     <string name="enable_read_only_summary">Åbn database skrivebeskyttet som standard</string>
-    <string name="enable_education_screens_title">Hjælpeskærme</string>
-    <string name="enable_education_screens_summary">Fremhæver elementer for at lære, hvordan programmet fungerer</string>
-    <string name="reset_education_screens_title">Nulstil hjælpeskærme</string>
-    <string name="reset_education_screens_summary">Vis alle hjælpeelementer igen</string>
-    <string name="reset_education_screens_text">Hjælpeskærme nulstillet</string>
+    <string name="enable_education_screens_title">Pædagogiske tips</string>
+    <string name="enable_education_screens_summary">Fremhæv elementer for at lære, hvordan programmet fungerer</string>
+    <string name="reset_education_screens_title">Nulstil pædagogiske tip</string>
+    <string name="reset_education_screens_summary">Vis alle pædagogiske info igen</string>
+    <string name="reset_education_screens_text">Nulstilling af pædagogiske tips</string>
     <string name="education_create_database_title">Opret databasefilen</string>
     <string name="education_create_database_summary">Opret den første adgangskodeadministrationsfil.</string>
     <string name="education_select_database_title">Åbn en eksisterende database</string>
@@ -376,7 +375,7 @@
     <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
     <string name="biometric">Biometrisk</string>
     <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Åbn automatisk biometrisk prompt, når der er defineret en biometrisk nøgle for en database</string>
+    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometrisk, hvis databasen er konfigureret til at bruge den</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Deaktiver</string>
     <string name="master_key">Hovednøgle</string>
