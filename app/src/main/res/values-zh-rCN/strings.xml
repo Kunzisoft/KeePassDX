@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">反馈</string>
     <string name="homepage">主页</string>
     <string name="about_description">Android 平台上基于 KeePass 实现的密码管理器</string>
@@ -68,7 +67,7 @@
     <string name="error_pass_match">密码不匹配。</string>
     <string name="error_rounds_too_large">“变换次数”过多。已设置为2147483648。</string>
     <string name="error_wrong_length">请在“长度”字段输入正整数。</string>
-    <string name="file_browser">文件浏览器</string>
+    <string name="file_browser">文件管理器</string>
     <string name="generate_password">生成密码</string>
     <string name="hint_conf_pass">确认密码</string>
     <string name="hint_generated_password">生成的密码</string>
@@ -210,7 +209,7 @@
     <string name="path">路径</string>
     <string name="create_keepass_file">新建数据库</string>
     <string name="full_file_path_enable_title">文件路径</string>
-    <string name="full_file_path_enable_summary">显示完整的文件路径</string>
+    <string name="full_file_path_enable_summary">查看完整的文件路径</string>
     <string name="database_name_title">数据库名称</string>
     <string name="database_description_title">数据库描述</string>
     <string name="database_version_title">数据库版本</string>
@@ -290,10 +289,10 @@
     <string name="allow_no_password_title">允许主密钥为空</string>
     <string name="allow_no_password_summary">未选择验证方式也启用“打开”按钮</string>
     <string name="enable_education_screens_title">新手引导</string>
-    <string name="enable_education_screens_summary">突出界面元素来学习如何使用本程序</string>
+    <string name="enable_education_screens_summary">高亮界面元素来学习本应用工作方式</string>
     <string name="reset_education_screens_title">重置新手引导</string>
-    <string name="reset_education_screens_summary">再次显示新手引导</string>
-    <string name="reset_education_screens_text">已重置新手引导</string>
+    <string name="reset_education_screens_summary">再次显示全部新手引导信息</string>
+    <string name="reset_education_screens_text">新手引导重置</string>
     <string name="education_create_database_title">新建数据库</string>
     <string name="education_create_database_summary">新建第一个密码管理数据库。</string>
     <string name="education_select_database_title">打开已有数据库</string>
@@ -380,7 +379,7 @@
     <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
     <string name="biometric">生物识别</string>
     <string name="biometric_auto_open_prompt_title">自动打开生物识别提示</string>
-    <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
+    <string name="biometric_auto_open_prompt_summary">若数据库设置为使用生物特征则自动要求生物识别</string>
     <string name="enable">启用</string>
     <string name="disable">禁用</string>
     <string name="master_key">主密钥</string>
@@ -433,7 +432,7 @@
     <string name="menu_empty_recycle_bin">清空回收站</string>
     <string name="command_execution">正在执行命令……</string>
     <string name="warning_permanently_delete_nodes">是否永久删除选中的条目？</string>
-    <string name="credential_before_click_biometric_button">请先输入密码，再点击生物识别按钮。</string>
+    <string name="credential_before_click_biometric_button">请先输入密码，再点击“生物识别”按钮。</string>
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
     <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>

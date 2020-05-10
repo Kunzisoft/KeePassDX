@@ -17,8 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Czech translation by Jan Vaněk
--->
-<resources>
+--><resources>
     <string name="homepage">Domovská stránka</string>
     <string name="about_description">Androidová verze správce hesel KeePass</string>
     <string name="accept">Přijmout</string>
@@ -257,13 +256,13 @@
     <string name="allow_no_password_summary">Povolit tlačítko \"Otevřít\", i když není vybráno žádné heslo</string>
     <string name="enable_read_only_title">Chráněno před zápisem</string>
     <string name="enable_read_only_summary">Ve výchozím stavu otevřít databázi pouze pro čtení</string>
-    <string name="enable_education_screens_title">Výukové obrazovky</string>
+    <string name="enable_education_screens_title">Vzdělávací nápovědy</string>
     <string name="enable_education_screens_summary">Zvýraznit prvky k pochopení práce s aplikací</string>
-    <string name="reset_education_screens_title">Nastavit výukové obrazovky do výchozího stavu</string>
-    <string name="reset_education_screens_summary">Opět zobrazit všechny výukové položky</string>
-    <string name="reset_education_screens_text">Nastavit výukové obrazovky do výchozího stavu</string>
-    <string name="education_create_database_title">Vytvořte svůj databázový soubor</string>
-    <string name="education_create_database_summary">Vytvořte svůj první soubor pro správu hesel.</string>
+    <string name="reset_education_screens_title">Nastavit vzdělávací nápovědy do výchozího stavu</string>
+    <string name="reset_education_screens_summary">Opět zobrazit všechny vzdělávací informace</string>
+    <string name="reset_education_screens_text">Nastavit vzdělávací nápovědy do výchozího stavu</string>
+    <string name="education_create_database_title">Založte svůj databázový soubor</string>
+    <string name="education_create_database_summary">Založte svůj první soubor pro správu hesel.</string>
     <string name="education_select_database_title">Otevřít existující databázi</string>
     <string name="education_select_database_summary">Otevřete svou dříve používanou databázi ze správce souborů a pokračujte v jejím používání.</string>
     <string name="education_new_node_title">Přidejte položky do databáze</string>
@@ -377,7 +376,7 @@
     <string name="biometric_prompt_extract_credential_message">Vytáhnout heslo databáze biometrickými daty</string>
     <string name="biometric">Biometrika</string>
     <string name="biometric_auto_open_prompt_title">Automaticky otevřít biometrickou pobídku</string>
-    <string name="biometric_auto_open_prompt_summary">Automaticky otevřít biometrickou pobídku, je-li biometrický klíč pro databázi definován</string>
+    <string name="biometric_auto_open_prompt_summary">Automaticky žádat biometriku, je-li databáze nastavena k jejímu použití</string>
     <string name="enable">Zapnout</string>
     <string name="disable">Vypnout</string>
     <string name="master_key">Hlavní klíč</string>
@@ -431,7 +430,7 @@
     <string name="command_execution">Provádím příkaz…</string>
     <string name="warning_permanently_delete_nodes">Natrvalo smazat vybrané uzly\?</string>
     <string name="keystore_not_accessible">Úložiště klíčů není řádně inicializováno.</string>
-    <string name="credential_before_click_biometric_button">Zadejte heslo než kliknete na tlačítko biometriky.</string>
+    <string name="credential_before_click_biometric_button">Zadejte heslo a pak klikněte na tlačítko \"Biometrika\".</string>
     <string name="recycle_bin_group_title">Skupina Koš</string>
     <string name="enable_auto_save_database_title">Uložit databázi automaticky</string>
     <string name="enable_auto_save_database_summary">Uložit databázi po každé důležité akci (v režimu \"Zápis\")</string>

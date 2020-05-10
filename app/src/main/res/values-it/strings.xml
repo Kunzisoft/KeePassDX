@@ -18,8 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Italian translation by Diego Pierotto
     Italian translation by anthologist
--->
-<resources>
+--><resources>
     <string name="feedback">Commenti</string>
     <string name="homepage">Pagina web</string>
     <string name="about_description">Implementazione Android del gestore password KeePass</string>
@@ -239,7 +238,7 @@
     <string name="monospace_font_fields_enable_summary">Cambia il carattere usato nei campi per una migliore visibilità</string>
     <string name="allow_copy_password_title">Fiducia appunti</string>
     <string name="allow_copy_password_summary">Permetti la copia della password e dei campi protetti negli appunti</string>
-    <string name="allow_copy_password_warning">ATTENZIONE: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
+    <string name="allow_copy_password_warning">Attenzione: gli appunti sono condivisi da tutte le app. Se vengono copiati dati sensibili, altri software possono recuperarli.</string>
     <string name="database_name_title">Nome database</string>
     <string name="database_description_title">Descrizione database</string>
     <string name="database_version_title">Versione database</string>
@@ -444,7 +443,7 @@
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
     <string name="database_opened">Database aperto</string>
     <string name="biometric">Biometrico</string>
-    <string name="credential_before_click_biometric_button">Digitare la password prima di fare clic sul pulsante biometrico.</string>
+    <string name="credential_before_click_biometric_button">Digita la password e poi fai clic sul pulsante biometrico.</string>
     <string name="biometric_prompt_extract_credential_message">Estrai le credenziali del database con dati biometrici</string>
     <string name="settings_database_force_changing_master_key_title">Forza rinnovo</string>
     <string name="settings_database_recommend_changing_master_key_summary">Consigliato cambiare la chiave principale (giorni)</string>

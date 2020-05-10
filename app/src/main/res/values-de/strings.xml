@@ -393,7 +393,7 @@
     <string name="biometric_prompt_store_credential_message">Achtung: Wenn du die biometrische Erkennung verwendest, musst du dir das Master-Passwort trotzdem merken.</string>
     <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
-    <string name="biometric_auto_open_prompt_summary">Biometrische Eingabeaufforderung automatisch öffnen, wenn ein biometrischer Schlüssel für eine Datenbank definiert ist.</string>
+    <string name="biometric_auto_open_prompt_summary">Automatisch nach Biometrie fragen, wenn die Datenbank dafür eingerichtet ist</string>
     <string name="master_key">Hauptschlüssel</string>
     <string name="security">Sicherheit</string>
     <string name="entry_history">Verlauf</string>
@@ -445,7 +445,7 @@
     <string name="command_execution">Befehl ausführen…</string>
     <string name="warning_permanently_delete_nodes">Sind Sie sicher, dass Sie die ausgewählten Knoten dauerhaft löschen möchten\?</string>
     <string name="keystore_not_accessible">Der Schlüsselspeicher ist nicht richtig initialisiert.</string>
-    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein, bevor Sie auf den Biometrie-Button klicken.</string>
+    <string name="credential_before_click_biometric_button">Geben Sie das Passwort ein und klicken Sie auf die Biometrie-Schaltfläche.</string>
     <string name="recycle_bin_group_title">Papierkorb-Gruppe</string>
     <string name="enable_auto_save_database_title">Datenbank automatisch speichern</string>
     <string name="enable_auto_save_database_summary">Automatisches Speichern der Datenbank nach einer wichtigen Aktion (im Modus \"Bearbeiten\")</string>

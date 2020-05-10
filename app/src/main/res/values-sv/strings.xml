@@ -17,8 +17,7 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Swedish translation by Niclas Burgren (burgren@gmail.com)
--->
-<resources>
+--><resources>
     <string name="feedback">Feedback</string>
     <string name="homepage">Hemsida</string>
     <string name="about_description">Android-implementation av KeePass password manager</string>
@@ -77,12 +76,12 @@
     <string name="field_value">Fältvärde</string>
     <string name="file_browser">Filhanterare</string>
     <string name="generate_password">Generera lösenord</string>
-    <string name="hint_conf_pass">bekräfta lösenord</string>
-    <string name="hint_generated_password">genererat lösenord</string>
+    <string name="hint_conf_pass">Bekräfta lösenord</string>
+    <string name="hint_generated_password">Genererat lösenord</string>
     <string name="hint_group_name">Gruppnamn</string>
-    <string name="hint_keyfile">nyckelfil</string>
-    <string name="hint_length">längd</string>
-    <string name="hint_pass">lösenord</string>
+    <string name="hint_keyfile">Nyckelfil</string>
+    <string name="hint_length">Längd</string>
+    <string name="hint_pass">Lösenord</string>
     <string name="password">Lösenord</string>
     <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna. Om detta inträffar igen kan det bero på att databasfilen är skadad.</string>
     <string name="invalid_algorithm">Fel algoritm.</string>
@@ -352,7 +351,7 @@
     <string name="error_copy_entry_here">Du kan inte kopiera en post här.</string>
     <string name="list_groups_show_number_entries_title">Visa antal poster</string>
     <string name="list_groups_show_number_entries_summary">Visa antalet poster i en grupp</string>
-    <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfilen.</string>
+    <string name="error_create_database_file">Det går inte att skapa en databas med det här lösenordet och nyckelfil.</string>
     <string name="menu_advanced_unlock_settings">Avancerad upplåsning</string>
     <string name="menu_biometric_remove_key">Radera sparad biometrisk nyckel</string>
     <string name="configure_biometric">Biometrisk prompt stöds men är inte konfigurerad.</string>
@@ -399,7 +398,7 @@
     <string name="menu_security_settings">Säkerhetsinställningar</string>
     <string name="menu_master_key_settings">Inställningar för huvudnyckel</string>
     <string name="contains_duplicate_uuid">Databasen innehåller dubbla UUID:er.</string>
-    <string name="contains_duplicate_uuid_procedure">Genom att bekräfta den här dialogrutan kommer KeePass DX lösa problemet (genom att generera nya UUID:er för dubletter) och fortsätta.</string>
+    <string name="contains_duplicate_uuid_procedure">Lös problemet genom att generera nya UUID-er för dubbletter for att fortsätta.</string>
     <string name="database_history">Historik</string>
     <string name="autofill_explanation_summary">Aktivera autofyll för att snabbt kunna fylla i formulär i andra appar</string>
     <string name="database_opened">Databas öppnad</string>
@@ -428,7 +427,7 @@
     <string name="education_biometric_summary">Länka dina lösenord till din skannande biometrik för att snabbt låsa upp din databas.</string>
     <string name="error_save_database">Kunde inte spara databas.</string>
     <string name="menu_save_database">Spara databas</string>
-    <string name="menu_empty_recycle_bin">Töm papperskorg</string>
+    <string name="menu_empty_recycle_bin">Töm papperskorgen</string>
     <string name="command_execution">Utför kommandot …</string>
     <string name="warning_permanently_delete_nodes">Är du säker på att du vill radera de valda noderna permanent\?</string>
     <string name="keystore_not_accessible">Keystore har inte initierats korrekt.</string>
@@ -436,4 +435,15 @@
     <string name="recycle_bin_group_title">Papperskorgsgruppen</string>
     <string name="enable_auto_save_database_title">Autospara databas</string>
     <string name="enable_auto_save_database_summary">Spara databasen automatiskt efter en viktig händelse (endast i läget \"Modifierbar\")</string>
+    <string name="show_recent_files_title">Visa senaste filer</string>
+    <string name="remember_keyfile_locations_summary">Kom ihåg platsen för databasens nyckelfil</string>
+    <string name="remember_keyfile_locations_title">Spara plats för nyckelfiler</string>
+    <string name="remember_database_locations_summary">Kom ihåg platsen för databaser</string>
+    <string name="auto_focus_search_summary">Begär en sökning när du öppnar en databas</string>
+    <string name="auto_focus_search_title">Snabbsökning</string>
+    <string name="menu_delete_entry_history">Ta bort historik</string>
+    <string name="menu_restore_entry_history">Återställ historik</string>
+    <string name="error_create_database">Det gick inte att skapa databasfilen.</string>
+    <string name="discard">Förkasta</string>
+    <string name="contact">Kontakt</string>
 </resources>

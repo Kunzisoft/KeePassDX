@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Comentários</string>
     <string name="homepage">Página inicial</string>
     <string name="about_description">KeePassDX é uma implementação para Android do gerenciador de senhas KeePass</string>
@@ -26,11 +25,11 @@
     <string name="add_group">Adicionar grupo</string>
     <string name="encryption_algorithm">Algoritmo de Encriptação</string>
     <string name="app_timeout">Tempo limite para o aplicativo</string>
-    <string name="app_timeout_summary">Inatividade até que o aplicativo seja bloqueado</string>
+    <string name="app_timeout_summary">Inativo até que o aplicativo seja bloqueado</string>
     <string name="application">Aplicativo</string>
     <string name="menu_app_settings">Configurações do aplicativo</string>
     <string name="brackets">Parênteses</string>
-    <string name="file_manager_install_description">Procure arquivos instalando o OpenIntents File Manager</string>
+    <string name="file_manager_install_description">Um gerenciador de arquivos que aceite a criação e abertura é necessário para criar, abrir e copiar arquivos de base de dados</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
     <string name="clipboard_timeout">Tempo limite para o clipboard</string>
     <string name="clipboard_timeout_summary">Duração do armazenamento na área de transferência</string>
@@ -40,7 +39,7 @@
     <string name="decrypting_db">Descriptografando conteúdo do banco de dados…</string>
     <string name="default_checkbox">Usar como banco de dados padrão</string>
     <string name="digits">Digitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft vem com absolutamente nenhuma garantia. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft vem com absolutamente sem garantias. Este é um software livre, e você está convidado a redistribui-lo sob as condições da GPL versão 3 ou posterior.</string>
     <string name="select_database_file">Abrir banco de dados existente</string>
     <string name="entry_accessed">Acessado</string>
     <string name="entry_cancel">Cancelar</string>
@@ -69,13 +68,13 @@
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="file_browser">Localizador de arquivos</string>
     <string name="generate_password">Gerar senha</string>
-    <string name="hint_conf_pass">confirmar senha</string>
-    <string name="hint_generated_password">senha gerada</string>
+    <string name="hint_conf_pass">Confirmar senha</string>
+    <string name="hint_generated_password">Senha gerada</string>
     <string name="hint_group_name">Nome do Grupo</string>
-    <string name="hint_keyfile">arquivo-chave</string>
-    <string name="hint_length">tamanho</string>
+    <string name="hint_keyfile">Arquivo-chave</string>
+    <string name="hint_length">Tamanho</string>
     <string name="password">Senha</string>
-    <string name="hint_pass">senha</string>
+    <string name="hint_pass">Senha</string>
     <string name="invalid_credentials">Não foi possível ler credenciais. Se isso ocorrer novamente, seu arquivo de banco de dados pode estar corrompido.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>
@@ -143,7 +142,7 @@
     </string-array>
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
-    <string name="beta_dontask">Não mostre novamente</string>
+    <string name="beta_dontask">Não mostrar novamente</string>
     <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>
@@ -156,7 +155,7 @@
     <string name="error_move_folder_in_itself">Você não pode mover um grupo para dentro de si mesmo.</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu provedor de conteúdo.</string>
+    <string name="file_not_found_content">Arquivo não encontrado. Tente reabri-lo de seu buscador de arquivos.</string>
     <string name="invalid_algorithm">Algoritmo errado.</string>
     <string name="keyfile_is_empty">O arquivo-chave está vazio.</string>
     <string name="copy_field">Cópia de %1$s</string>
@@ -176,7 +175,7 @@
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="kdf_explanation">Para gerar uma chave para o algoritmo de encriptação, a chave mestre é transformada usando uma função de derivação de chave.</string>
     <string name="memory_usage">Uso de memória</string>
-    <string name="memory_usage_explanation">Quantidade de memória (in bytes binários) a ser usada pela função de derivação de chave.</string>
+    <string name="memory_usage_explanation">Quantidade de memória (in bytes) a ser usada pela função de derivação de chave.</string>
     <string name="parallelism">Paralelismo</string>
     <string name="parallelism_explanation">Grau de paralelismo (ou seja, número de threads) usado pela função de derivação de chave.</string>
     <string name="sort_menu">Ordenar</string>
@@ -191,8 +190,8 @@
     <string name="search_results">Resultados da pesquisa</string>
     <string name="warning">Aviso</string>
     <string name="warning_password_encoding">Evite caracteres fora do formato de codificação do arquivo do banco (todos os caracteres não reconhecidos são convertidos para a mesma letra).</string>
-    <string name="warning_empty_password">Você realmente não quer proteção por senha\?</string>
-    <string name="warning_no_encryption_key">Você tem certeza de que não quer usar uma chave de encriptação\?</string>
+    <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
+    <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="configure_biometric">Impressão digital é suportada, mas não está configurada.</string>
     <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
@@ -224,7 +223,7 @@
     <string name="biometric_unlock_enable_summary">Permite que você escaneie sua biometria para a abertura do banco de dados</string>
     <string name="biometric_delete_all_key_title">Apague chaves de encriptação</string>
     <string name="biometric_delete_all_key_summary">Apague todas as chaves de encriptação relacionadas ao reconhecimento de Impressões digitais</string>
-    <string name="biometric_delete_all_key_warning">Tem certeza que você quer apagar todas as chaves relacionadas ao reconhecimento de Impressões digitais\?</string>
+    <string name="biometric_delete_all_key_warning">Apagar todas as chaves de criptografia relacionadas ao reconhecimento biométrico\?</string>
     <string name="unavailable_feature_text">Não foi possível iniciar esse recurso.</string>
     <string name="unavailable_feature_version">Sua versão do Android %1$s não corresponde a versão mínima %2$s necessária.</string>
     <string name="unavailable_feature_hardware">Não foi possível encontrar o hardware correspondente.</string>
@@ -239,8 +238,8 @@
     <string name="monospace_font_fields_enable_title">Fonte do Campo</string>
     <string name="monospace_font_fields_enable_summary">Muda a fonte usada nos campos para melhor visibilidade dos caracteres</string>
     <string name="allow_copy_password_title">Confiança da área de transferência</string>
-    <string name="allow_copy_password_summary">Permite a cópia da senha e de campos protegidos para a área de transferência</string>
-    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
+    <string name="allow_copy_password_summary">Permitir a cópia da senha e de campos protegidos para a área de transferência</string>
+    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-los</string>
     <string name="database_name_title">Nome do banco de dados</string>
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
@@ -257,26 +256,26 @@
     <string name="enable_education_screens_title">Telas educacionais</string>
     <string name="enable_education_screens_summary">Destaque os elementos para aprender como o app funciona</string>
     <string name="reset_education_screens_title">Reiniciar telas educacionais</string>
-    <string name="reset_education_screens_summary">Exibir todos os itens educacionais denovo</string>
+    <string name="reset_education_screens_summary">Exibir todos os itens educacionais novamente</string>
     <string name="reset_education_screens_text">Telas educacionais redefinidas</string>
     <string name="education_create_database_title">Crie um arquivo de banco de dados</string>
     <string name="education_create_database_summary">Crie seu primeiro arquivo de gerenciamento de senhas.</string>
     <string name="education_select_database_title">Abra um banco de dados existente</string>
     <string name="education_select_database_summary">Abra seu banco de dados de mais cedo pelo seu navegador de arquivos.</string>
     <string name="education_new_node_title">Adicione itens ao seu banco</string>
-    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais.
-\n
-\nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
+    <string name="education_new_node_summary">Entradas ajudam a gerenciar suas identidades digitais. 
+\n 
+\nGrupos (~pastas) organizam suas entradas e sua base de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
     <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas senhas.</string>
     <string name="education_biometric_title">Destrave do banco de dados por Impressão digital</string>
     <string name="education_biometric_summary">Faça o link entre sua senha e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
     <string name="education_entry_edit_summary">Edite a sua entrada com campos personalizados. Os conjuntos de dados podem ser referenciados entre campos de entradas diferentes.</string>
-    <string name="education_generate_password_title">Crie uma senha forte para sua entrada.</string>
+    <string name="education_generate_password_title">Criar uma senha forte</string>
     <string name="education_generate_password_summary">Gere uma senha forte para associar a sua entrada, defina-a facilmente de acordo com os critérios do formulário e não se esqueça de torná-la segura.</string>
     <string name="education_entry_new_field_title">Adicione campos customizados</string>
-    <string name="education_entry_new_field_summary">Registre facilmente um campo básico não fornecido que você também pode proteger.</string>
+    <string name="education_entry_new_field_summary">Registrar um campo adicional, adicionar um valor e, opcionalmente, protegê-lo.</string>
     <string name="education_unlock_title">Desbloqueie seu banco de dados</string>
     <string name="education_read_only_title">Proteja seu banco de modificações</string>
     <string name="education_read_only_summary">Altere o modo de abertura para a sessão. 
@@ -294,8 +293,8 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;software livre&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;</string>
+    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de senhas, este aplicativo é <strong>livre de anúncios</strong>, <strong>livre de direitos autorais</strong> e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão Pro, você terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realização de projetos comunitários.</strong></string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
     <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
@@ -308,7 +307,7 @@
     <string name="download">Baixar</string>
     <string name="contribute">Contribuir</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Tema do aplicativo</string>
     <string name="style_choose_summary">Tema usado no aplicativo</string>
@@ -338,12 +337,12 @@
     <string name="keyboard_theme_title">Tema do teclado</string>
     <string name="keyboard_keys_category">Teclas</string>
     <string name="keyboard_key_vibrate_title">Vibrar ao clicar</string>
-    <string name="keyboard_key_sound_title">Som ao clicar</string>
+    <string name="keyboard_key_sound_title">Clicar audível</string>
     <string name="selection_mode">Modo de seleção</string>
     <string name="do_not_kill_app">Não feche o aplicativo…</string>
     <string name="lock_database_back_root_title">Pressione \'Voltar\' para trancar</string>
-    <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
-    <string name="clear_clipboard_notification_title">Limpar a área de transferência ao fechar</string>
+    <string name="lock_database_back_root_summary">Trancar a base de dados quando o usuário pressiona o botão \"Voltar\" na tela inicial</string>
+    <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
     <string name="recycle_bin">Lixeira</string>
     <string name="keyboard_selection_entry_title">Seleção de entrada</string>
@@ -362,7 +361,7 @@
     <string name="content_description_remove_field">Remover campo</string>
     <string name="entry_UUID">UUID</string>
     <string name="error_move_entry_here">Você não pode mover uma entrada para cá.</string>
-    <string name="error_copy_entry_here">Você não pode copiar uma entrada aqui.</string>
+    <string name="error_copy_entry_here">Você não pode copiar uma entrada daqui.</string>
     <string name="list_groups_show_number_entries_title">Mostrar número de entradas</string>
     <string name="list_groups_show_number_entries_summary">Mostrar o número de entradas dentro de um grupo</string>
     <string name="content_description_node_children">Nó filho</string>
@@ -375,15 +374,15 @@
     <string name="error_create_database_file">Impossibilitado de criar um banco de dados com essa senha e arquivo-chave.</string>
     <string name="menu_advanced_unlock_settings">Desbloqueio avançado</string>
     <string name="biometric_prompt_store_credential_title">Salvar reconhecimento biométrico</string>
-    <string name="biometric_prompt_store_credential_message">AVISO: O uso de reconhecimento biométrico não exime você de saber sua senha mestra.</string>
+    <string name="biometric_prompt_store_credential_message">AVISO: Apesar de usar o reconhecimento biométrico, você ainda precisará lembrar sua senha</string>
     <string name="biometric_prompt_extract_credential_title">Abrir banco de dados com biometria</string>
     <string name="biometric_prompt_extract_credential_message">Extrair credenciais do banco de dados com biometria</string>
     <string name="biometric">Biometria</string>
     <string name="biometric_auto_open_prompt_title">Abrir automaticamente o prompt de biometria</string>
-    <string name="biometric_auto_open_prompt_summary">Abrir automaticamente o prompt de biometria quando a chave biométrica for definida para o banco de dados</string>
+    <string name="biometric_auto_open_prompt_summary">Pedir automaticamente pelo prompt de biometria se a base de dados estiver configurada para usá-la</string>
     <string name="enable">Habilitado</string>
     <string name="disable">Desabilitado</string>
-    <string name="master_key">Chave mestre</string>
+    <string name="master_key">Chave Mestre</string>
     <string name="security">Segurança</string>
     <string name="entry_history">Histórico</string>
     <string name="entry_setup_otp">Configurar OTP</string>
@@ -404,24 +403,24 @@
     <string name="invalid_db_same_uuid">%1$s com o mesmo UUID %2$s já existe.</string>
     <string name="creating_database">Criando banco de dados…</string>
     <string name="menu_security_settings">Configurações de segurança</string>
-    <string name="menu_master_key_settings">Configurações da chave mestre</string>
+    <string name="menu_master_key_settings">Configurações da chave-mestre</string>
     <string name="contains_duplicate_uuid">O banco de dados contém UUIDs duplicados.</string>
-    <string name="contains_duplicate_uuid_procedure">Ao validar este diálogo, o KeePassDX irá consertar o problema (gerando um novo UUID para os duplicados) e continuar.</string>
+    <string name="contains_duplicate_uuid_procedure">Consertar o problema gerando nova UUIDs para duplicatas para continuar\?</string>
     <string name="database_opened">Banco de dados aberto</string>
     <string name="clipboard_explanation_summary">Copiar campos de entrada usando a área de transferência do seu aparelho</string>
     <string name="advanced_unlock_explanation_summary">Usar destravamento avançado para abrir o banco de dados mais facilmente</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
     <string name="database_data_compression_summary">Compressão dos dados reduz o tamanho do banco de dados.</string>
-    <string name="max_history_items_title">Máx. itens no histórico</string>
+    <string name="max_history_items_title">Número máximo</string>
     <string name="max_history_items_summary">Limitar o número de itens do histórico por entrada</string>
-    <string name="max_history_size_title">Máx. tamanho do histórico</string>
-    <string name="max_history_size_summary">Limite de tamanho do histórico por entrada (em bytes binários)</string>
-    <string name="settings_database_recommend_changing_master_key_title">Mudança recomendada</string>
+    <string name="max_history_size_title">Tamanho máximo</string>
+    <string name="max_history_size_summary">Limitar o tamanho do histórico (em bytes) por entrada</string>
+    <string name="settings_database_recommend_changing_master_key_title">Renovação recomendada</string>
     <string name="settings_database_recommend_changing_master_key_summary">Recomendar mudança da chave mestre (em dias)</string>
-    <string name="settings_database_force_changing_master_key_title">Forçar mudança</string>
-    <string name="settings_database_force_changing_master_key_summary">Forçar mudança da chave metre (em dias)</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">Forçar mudança na próxima vez</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">Forçar mudança da chave mestre na próxima vez (uma vez)</string>
+    <string name="settings_database_force_changing_master_key_title">Forçar renovação</string>
+    <string name="settings_database_force_changing_master_key_summary">Forçar mudança de chave-metre (em dias)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Forçar renovação na próxima vez</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Forçar mudança da chave-mestre na próxima vez (uma vez)</string>
     <string name="database_default_username_title">Usuário padrão</string>
     <string name="database_custom_color_title">Cor personalizada do banco de dados</string>
     <string name="compression">Compressão</string>
@@ -432,10 +431,48 @@
     <string name="menu_save_database">Salvar banco de dados</string>
     <string name="menu_empty_recycle_bin">Esvaziar lixeira</string>
     <string name="command_execution">Executando o comando…</string>
-    <string name="warning_permanently_delete_nodes">Você tem certeza que quer apagar permanentemente os nós selecionados\?</string>
+    <string name="warning_permanently_delete_nodes">Apagar permanentemente os nós selecionados\?</string>
     <string name="keystore_not_accessible">A chave não foi propriamente inicializada.</string>
-    <string name="credential_before_click_biometric_button">Digite sua senha antes de clicar no botão de biometria.</string>
+    <string name="credential_before_click_biometric_button">Digite sua senha e então clique no botão de \"Biometria\".</string>
     <string name="recycle_bin_group_title">Grupo de lixeira</string>
-    <string name="enable_auto_save_database_title">Salvar automaticamente o banco de dados</string>
-    <string name="enable_auto_save_database_summary">Salvar automaticamente o banco de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
+    <string name="enable_auto_save_database_title">Salvar automaticamente a base de dados</string>
+    <string name="enable_auto_save_database_summary">Salvar automaticamente a base de dados depois de uma ação importante (somente no modo \"Modificável\")</string>
+    <string name="discard">Descartar</string>
+    <string name="contact">Contato</string>
+    <string name="auto_focus_search_title">Pesquisa rápida</string>
+    <string name="menu_delete_entry_history">Apagar histórico</string>
+    <string name="menu_restore_entry_history">Restaurar histórico</string>
+    <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa de domínios da internet ou de aplicações automaticamente</string>
+    <string name="hide_expired_entries_summary">Entradas expeiradas foram escondidas</string>
+    <string name="hide_expired_entries_title">Esconder entradas expiradas</string>
+    <string name="download_complete">Completo! Toque para abrir o aquivo.</string>
+    <string name="download_finalization">Finalizando…</string>
+    <string name="download_progression">Em progresso: %1$d%%</string>
+    <string name="download_initialization">Inicializando…</string>
+    <string name="download_attachment">Baixar %1$s</string>
+    <string name="education_setup_OTP_summary">Configure o gerenciamento de senha descartável (HOTP / TOTP) para gerar um token solicitado para autenticação de dois fatores (2FA).</string>
+    <string name="education_setup_OTP_title">Instalar OTP</string>
+    <string name="autofill_auto_search_title">Pesquisa automática</string>
+    <string name="keyboard_auto_go_action_summary">Ação da tecla \"Go\" após pressionar a tecla \"Field\"</string>
+    <string name="keyboard_auto_go_action_title">Ação de chave automática</string>
+    <string name="lock_database_show_button_summary">Mostrar o botão de bloqueio na interface do usuário</string>
+    <string name="lock_database_show_button_title">Mostrar botão de bloqueio</string>
+    <string name="autofill_preference_title">Configurações de preenchimento automático</string>
+    <string name="warning_database_link_revoked">Acesso ao arquivo revogado pelo gerenciador de arquivos</string>
+    <string name="warning_database_read_only">Conceder acesso de gravação de arquivo para salvar alterações na base de dados</string>
+    <string name="hide_broken_locations_summary">Esconder links quebrados na lista de bases de dados recentes</string>
+    <string name="hide_broken_locations_title">Esconder links quebrados de bases de dados</string>
+    <string name="remember_keyfile_locations_summary">Lembrar o local dos arquivos-chave das bases de dados</string>
+    <string name="remember_keyfile_locations_title">Salvar o local dos arquivos-chave</string>
+    <string name="remember_database_locations_summary">Lembrar o local das bases de dados</string>
+    <string name="remember_database_locations_title">Salvar o local das bases de dados</string>
+    <string name="auto_focus_search_summary">Solicitar uma pesquisa quando abrir a base de dados</string>
+    <string name="error_create_database">Incapaz de criar arquivo de base de dados.</string>
+    <string name="error_label_exists">Esse rótulo já existe</string>
+    <string name="entry_attachments">Acessórios</string>
+    <string name="html_about_contribution">Para <strong>manter sua liberdade</strong>, <strong>solucionar bugs</strong>, <strong>adicionar funções</strong> e <strong>para ser sempre ativo</strong>, nós contamos com sua <strong>contribuição</strong>.</string>
+    <string name="entry_add_attachment">Adicionar anexo</string>
+    <string name="discard_changes">Descartar alterações\?</string>
+    <string name="validate">Validação</string>
+    <string name="contribution">Contribuição</string>
 </resources>
