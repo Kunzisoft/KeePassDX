@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">Алгоритм шифрування</string>
     <string name="app_timeout">Час очікування програми</string>
     <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
-    <string name="application">Програма</string>
+    <string name="application">…Програма</string>
     <string name="menu_app_settings">Налаштування програми</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
@@ -43,7 +43,7 @@
 \nПрограма постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
     <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_cancel">Скасувати</string>
+    <string name="entry_cancel">Скасовано</string>
     <string name="entry_notes">Примітки</string>
     <string name="entry_confpassword">Підтвердження пароля</string>
     <string name="entry_created">Створено</string>
@@ -147,7 +147,8 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="beta_dontask">Не показувати знову</string>
+    <string name="beta_dontask">"
+\nНе показувати знову"</string>
     <string name="clipboard_swipe_clean">Проведіть пальцем, щоб очистити буфер обміну зараз</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних під час закриття сповіщення</string>
     <string name="configure_biometric">Розблокування за допомогою біометричних даних підтримується, але не налаштоване.</string>
@@ -260,8 +261,8 @@
     <string name="entry_add_attachment">Додати вкладення</string>
     <string name="entry_add_field">Додати поле</string>
     <string name="entry_password_generator">Генератор паролів</string>
-    <string name="discard">Скасувати</string>
-    <string name="discard_changes">Скасувати зміни\?</string>
+    <string name="discard">Відхилити</string>
+    <string name="discard_changes">Відхилити зміни\?</string>
     <string name="validate">Перевірити</string>
     <string name="content_description_entry_icon">Піктограма запису</string>
     <string name="content_description_repeat_toggle_password_visibility">Повторне перемикання видимості пароля</string>
