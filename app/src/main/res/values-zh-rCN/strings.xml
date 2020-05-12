@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">加密算法</string>
     <string name="app_timeout">离开程序锁定延时</string>
     <string name="app_timeout_summary">在锁定数据库前处于非活动状态的时长</string>
-    <string name="application">程序</string>
+    <string name="application">…应用</string>
     <string name="menu_app_settings">程序设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">新建与保存数据库需要支持打开和新建文件的文件管理器。</string>
@@ -138,7 +138,8 @@
         <item>大</item>
     </string-array>
     <string name="encryption">加密</string>
-    <string name="beta_dontask">不再显示</string>
+    <string name="beta_dontask">"
+\n不再显示"</string>
     <string name="extended_ASCII">ASCII拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
