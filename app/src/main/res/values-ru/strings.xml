@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">Алгоритм шифрования</string>
     <string name="app_timeout">Задержка</string>
     <string name="app_timeout_summary">Время неактивности до блокировки базы</string>
-    <string name="application">Приложение</string>
+    <string name="application">…Приложение</string>
     <string name="menu_app_settings">Настройки приложения</string>
     <string name="beta_dontask">"
 \nНе показывать снова"</string>
