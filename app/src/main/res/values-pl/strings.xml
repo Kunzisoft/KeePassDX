@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">Algorytm szyfrowania</string>
     <string name="app_timeout">Limit czasu aplikacji</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
-    <string name="application">Aplikacja</string>
+    <string name="application">...Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych potrzebny jest menedżer plików, który akceptuje działanie Intent Action ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
@@ -141,7 +141,8 @@
     <string name="edit_entry">Edytuj wpis</string>
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
-    <string name="beta_dontask">Nie pokazuj ponownie</string>
+    <string name="beta_dontask">"
+\nNie pokazuj ponownie"</string>
     <string name="extended_ASCII">Rozszerzone ASCII</string>
     <string name="allow">Zezwalaj</string>
     <string name="clipboard_error_title">Błąd schowka</string>
