@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
     <string name="app_timeout">アプリ タイムアウト</string>
     <string name="app_timeout_summary">データベースをロックするまでの休止時間</string>
-    <string name="application">アプリケーション</string>
+    <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">カッコ</string>
     <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテントアクションを受け付けるファイルマネージャーがデータベースファイルの作成、オープン、保存に必要です。</string>
