@@ -102,7 +102,7 @@
     <string name="entry_otp">OTP</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Username</string>
-    <string name="error_arc4">The RC4 stream cipher is not supported.</string>
+    <string name="error_arc4">The ARC4 stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
     <string name="error_file_not_create">Could not create file:</string>
     <string name="error_invalid_db">Could not read the database.</string>
