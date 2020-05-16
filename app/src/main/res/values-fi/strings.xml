@@ -16,32 +16,32 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">Palaute:</string>
     <string name="homepage">Kotisivu:</string>
-    <string name="about_description">KeePassDX on KeePass-salasanahallintaohjelman Android-versio</string>
+    <string name="about_description">KeePass-salasanahallintaohjelman Android toteutus</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
     <string name="encryption_algorithm">Algoritmi</string>
-    <string name="app_timeout">Ohjelman aikakatkaisu</string>
-    <string name="app_timeout_summary">Aika, jonka jälkeen KeePass lukitaan jos se on ollut toimeton.</string>
-    <string name="application">Ohjelma</string>
+    <string name="app_timeout">Sovelluksen aikakatkaisu</string>
+    <string name="app_timeout_summary">Joutoaika ennen tietokannan lukkiutumista</string>
+    <string name="application">…Sovellus</string>
     <string name="menu_app_settings">Ohjelman asetukset</string>
-    <string name="beta_dontask">Älä näytä enää uudelleen</string>
+    <string name="beta_dontask">"
+\nÄlä näytä uudelleen"</string>
     <string name="brackets">Hakasulkeet</string>
-    <string name="file_manager_install_description">Tiedostojen selaus vaatii Open Intents File Manager -tiedostonhallintaohjelman, klikkaa alla olevaa linkkiä asentaaksesi sen. Joidenkin ominaisuuksien takia se ei ehkä toimi oikein ensimmäisellä käynnistyksellä.</string>
+    <string name="file_manager_install_description">Tietokantojen avaamista, luomista ja tallentamista varten tarvitaan tiedostonhallintaohjelma, joka tukee ACTION_CREATE_DOCUMENT ja ACTION_OPEN_DOCUMENT Intent-toimintoja.</string>
     <string name="clipboard_cleared">Leikepöytä tyhjennetty.</string>
     <string name="clipboard_error_title">Leikepöytävirhe</string>
-	<string name="clipboard_error">Joissakin Android-puhelimissa on virhe leikepöydän toteutuksessa, mikä aiheuttaa kopioinnin epäonnistumisen. Lisätietoa:</string>
-    <string name="clipboard_error_clear">Leikepöydän tyhjennys epäonnistui</string>
+    <string name="clipboard_error">Jotkin laitteet eivät anna sovellusten käyttää leikepöytää.</string>
+    <string name="clipboard_error_clear">Leikepöytää ei voitu tyhjentää</string>
     <string name="clipboard_timeout">Leikepöydän aikakatkaisu</string>
-    <string name="clipboard_timeout_summary">Aika, jonka jälkeen leikepöytä tyhjennetään käyttäjätunnuksen tai salasanan kopioinnin jälkeen</string>
+    <string name="clipboard_timeout_summary">Leikepöydälle tallennuksen kesto</string>
     <string name="select_to_copy">Valitse kopioidaksesi %1$s</string>
-    <string name="retrieving_db_key">Luodaan tietokanta-avainta&#8230;</string>
+    <string name="retrieving_db_key">Luodaan tietokanta-avainta…</string>
     <string name="database">Tietokanta</string>
-    <string name="decrypting_db">Puretaan tietokannan salausta&#8230;</string>
+    <string name="decrypting_db">Puretaan tietokannan salausta…</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft comes with absolutely no warranty. This is free software, and you are welcome to redistribute it under the conditions of the GPL version 3 or later.</string>
@@ -91,7 +91,7 @@
     <string name="length">Pituus</string>
     <string name="list_size_title">Ryhmälistan pituus</string>
     <string name="list_size_summary">Tekstin koko ryhmälistauksessa</string>
-    <string name="loading_database">Ladataan salasanatietokantaa&#8230;</string>
+    <string name="loading_database">Ladataan salasanatietokantaa…</string>
     <string name="lowercase">pienet kirjaimet</string>
     <string name="hide_password_title">Piilota salasaan</string>
     <string name="hide_password_summary">Piilota salasanat oletuksena</string>
@@ -114,15 +114,15 @@
     <string name="no_url_handler">Tälle URL:lle ei ole käsittelijää.</string>
     <string name="omit_backup_search_title">Älä etsi varmuuskopioista eikä roskakorista</string>
     <string name="omit_backup_search_summary">Poista \'Varmuuskopiot\' ja roskakori hakutuloksista</string>
-    <string name="progress_create">Luodaan uutta tietokantaa&#8230;</string>
-    <string name="progress_title">Työskennellään&#8230;</string>
+    <string name="progress_create">Luodaan uutta tietokantaa…</string>
+    <string name="progress_title">Työskennellään…</string>
     <string name="protection">Suojaus</string>
     <string name="content_description_remove_from_list">Poista</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Juuri</string>
     <string name="rounds">Salauskierroksia</string>
     <string name="rounds_explanation">Suurempi kierrosten määrä parantaa suojausta raa\'alla voimalla tehdyiltä murtoyrityksiltä, mutta voi todella hidastaa lataamista ja tallentamista.</string>
-    <string name="saving_database">Tallennetaan tietokantaa&#8230;</string>
+    <string name="saving_database">Tallennetaan tietokantaa…</string>
     <string name="space">Tila</string>
     <string name="search_label">Etsi</string>
     <string name="sort_db">Tietokannan lajittelujärjestys</string>
@@ -134,23 +134,28 @@
     <string name="unsupported_db_version">Ei-tuettu salasanatietokannan versio.</string>
     <string name="uppercase">Isot kirjaimet</string>
     <string name="version_label">Versio %1$s</string>
-
     <string name="education_unlock_summary">Syötä salasana ja/tai avaintiedosto avataksesi tietokantasi.</string>
-
     <string-array name="timeout_options">
-    	<item>5 sekuntia</item>
-    	<item>10 sekuntia</item>
-    	<item>20 sekuntia</item>
-    	<item>30 sekuntia</item>
-    	<item>1 minuutti</item>
-    	<item>5 minuttia</item>
-    	<item>15 minuttia</item>
-    	<item>30 minuttia</item>
-    	<item>Ei koskaan</item>
+        <item>5 sekuntia</item>
+        <item>10 sekuntia</item>
+        <item>20 sekuntia</item>
+        <item>30 sekuntia</item>
+        <item>1 minuutti</item>
+        <item>5 minuttia</item>
+        <item>15 minuttia</item>
+        <item>30 minuttia</item>
+        <item>Ei koskaan</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Pieni</item>
-    	<item>Keskikokoinen</item>
-    	<item>Suuri</item>
+        <item>Pieni</item>
+        <item>Keskikokoinen</item>
+        <item>Suuri</item>
     </string-array>
+    <string name="clipboard_swipe_clean">Pyyhkäise tyhjentääksesi leikepöydän</string>
+    <string name="allow">Salli</string>
+    <string name="extended_ASCII">Laajennettu ASCII</string>
+    <string name="key_derivation_function">Avaimen derivointifunktio</string>
+    <string name="master_key">Pääavain</string>
+    <string name="contribution">Avustus</string>
+    <string name="contact">Ota yhteyttä</string>
 </resources>
