@@ -223,6 +223,8 @@ class GroupActivity : LockingActivity(),
                     newNodes = getListNodesFromBundle(database, newNodesBundle)
                 }
 
+                refreshSearchGroup()
+
                 when (actionTask) {
                     ACTION_DATABASE_UPDATE_GROUP_TASK -> {
                         if (result.isSuccess) {
@@ -344,6 +346,11 @@ class GroupActivity : LockingActivity(),
         }
         outState.putBoolean(REQUEST_STARTUP_SEARCH_KEY, mRequestStartupSearch)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun refreshSearchGroup() {
+        if (mCurrentGroupIsASearch)
+            openSearchGroup(retrieveCurrentGroup(intent, null))
     }
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
@@ -616,6 +623,7 @@ class GroupActivity : LockingActivity(),
         if (database != null
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
+
             mProgressDialogThread?.startDatabaseDeleteNodes(
                     nodes,
                     !mReadOnly && mAutoSaveEnable
