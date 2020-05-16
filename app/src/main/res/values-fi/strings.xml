@@ -23,7 +23,7 @@
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>
     <string name="add_group">Lisää ryhmä</string>
-    <string name="encryption_algorithm">Algoritmi</string>
+    <string name="encryption_algorithm">Salausalgoritmi</string>
     <string name="app_timeout">Sovelluksen aikakatkaisu</string>
     <string name="app_timeout_summary">Joutoaika ennen tietokannan lukkiutumista</string>
     <string name="application">…Sovellus</string>
@@ -158,4 +158,8 @@
     <string name="master_key">Pääavain</string>
     <string name="contribution">Avustus</string>
     <string name="contact">Ota yhteyttä</string>
+    <string name="content_description_open_file">Avaa tiedosto</string>
+    <string name="encryption">Salaus</string>
+    <string name="security">Turvallisuus</string>
+    <string name="edit_entry">Muokkaa merkintää</string>
 </resources>
