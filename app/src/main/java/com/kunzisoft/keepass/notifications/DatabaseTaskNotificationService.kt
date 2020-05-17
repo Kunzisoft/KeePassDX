@@ -39,7 +39,6 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
-import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
@@ -61,8 +60,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
-            // To prevent task dialog to be unbound before the display
-            actionRunnableAsyncTask?.allowFinishTask?.set(true)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
@@ -78,7 +75,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
     fun checkAction() {
         mActionTaskListeners.forEach { actionTaskListener ->
-            actionTaskListener.onUpdateAction(mTitleId, mMessageId, mWarningId)
+            actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
         }
     }
 
@@ -571,8 +568,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                           private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
         : AsyncTask<((ProgressTaskUpdater?) -> ActionRunnable), Void, ActionRunnable.Result>() {
 
-        var allowFinishTask = AtomicBoolean(false)
-
         override fun onPreExecute() {
             super.onPreExecute()
             onPreExecute.invoke()
@@ -585,10 +580,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     run()
                     resultTask = result
                 }
-            }
-            // Additional wait if the dialog take time to show
-            while(!allowFinishTask.get()) {
-                Thread.sleep(250)
             }
             return resultTask
         }
