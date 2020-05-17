@@ -432,7 +432,7 @@
     <string name="password_size_title">Довжина створюваного пароля</string>
     <string name="autofill_preference_title">Параметри автозаповнення</string>
     <string name="set_autofill_service_title">Встановити типовою службою автозаповнення</string>
-    <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидко заповнення форм в інших програмах</string>
+    <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидкого заповнення форм в інших програмах</string>
     <string name="autofill_sign_in_prompt">Увійти за допомогою KeePassDX</string>
     <string name="autofill_service_name">Автозаповнення форм KeePassDX</string>
     <string name="autofill">Автозаповнення</string>
@@ -461,7 +461,7 @@
     <string name="search_results">Результати пошуку</string>
     <string name="sort_last_access_time">Доступ</string>
     <string name="sort_last_modify_time">Востаннє змінено</string>
-    <string name="sort_creation_time">Дата ствопення</string>
+    <string name="sort_creation_time">Дата створення</string>
     <string name="sort_username">Ім\'я користувача</string>
     <string name="sort_title">Назва</string>
     <string name="sort_recycle_bin_bottom">Кошик внизу</string>
