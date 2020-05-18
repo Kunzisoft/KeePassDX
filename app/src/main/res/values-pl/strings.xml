@@ -199,7 +199,7 @@
     <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
-    <string name="open_biometric_prompt_unlock_database">Skanowanie odcisków palców</string>
+    <string name="open_biometric_prompt_unlock_database">"Otwórz żądanie biometryczne, aby odblokować bazę danych. "</string>
     <string name="biometric_invalid_key">Nie można odczytać klucza biometrycznego. Usuń go i powtórz procedurę rozpoznawania biometrycznego.</string>
     <string name="biometric_not_recognized">Nie można rozpoznać odcisku palca</string>
     <string name="biometric_scanning_error">Problem z odciskiem palca: %1$s</string>
