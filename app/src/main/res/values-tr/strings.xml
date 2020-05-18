@@ -179,7 +179,7 @@
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
     <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
-    <string name="open_biometric_prompt_unlock_database">Parmak izi tarama</string>
+    <string name="open_biometric_prompt_unlock_database">"Veri tabanının kilidini açmak için biyometrik taramayı aç. "</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
     <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
     <string name="biometric_not_recognized">Parmak izi tanınamadı</string>
@@ -361,7 +361,7 @@
     <string name="biometric_prompt_extract_credential_title">Biyometrik tanıma ile veritabanı aç</string>
     <string name="biometric_prompt_extract_credential_message">Biyometrik verilerle veritabanı kimlik bilgilerini çıkar</string>
     <string name="biometric">Biyometrik</string>
-    <string name="biometric_auto_open_prompt_title">Biyometrik istemi otomatik aç</string>
+    <string name="biometric_auto_open_prompt_title">Biyometrik taramayı otomatik aç</string>
     <string name="biometric_auto_open_prompt_summary">Vari tabanı, onu kullanacak biçimde ayarlandıysa biyometriği otomatik olarak sor</string>
     <string name="enable">Etkinleştir</string>
     <string name="disable">Devre dışı</string>
