@@ -141,7 +141,7 @@
     <string name="warning_password_encoding">Избегайте использования в пароле символов вне кодировки текста в файле базы, так как эти символы будут преобразованы в одинаковый символ.</string>
     <string name="version_label">Версия %1$s</string>
     <string name="configure_biometric">Биометрия поддерживается, но не настроена.</string>
-    <string name="open_biometric_prompt_unlock_database">Начать биометрическую разблокировку базы.</string>
+    <string name="open_biometric_prompt_unlock_database">"Начать биометрическую разблокировку базы. "</string>
     <string name="encrypted_value_stored">Зашифрованный пароль сохранён</string>
     <string name="biometric_invalid_key">Невозможно распознать биометрический ключ. Пожалуйста, удалите его и повторите процедуру настройки биометрического распознавания.</string>
     <string name="biometric_scanning_error">Проблема с биометрическим ключом: %1$s</string>
