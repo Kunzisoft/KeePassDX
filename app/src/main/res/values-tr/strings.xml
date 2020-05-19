@@ -93,7 +93,7 @@
     <string name="hint_length">Uzunluk</string>
     <string name="hint_pass">Parola</string>
     <string name="password">Parola</string>
-    <string name="invalid_credentials">Kimlik bilgileri okunamadı. Bu tekrar ederse, veritabanı dosyanız bozuk olabilir.</string>
+    <string name="invalid_credentials">Kimlik bilgileri okunamadı.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veritabanı biçimi tanımlanamadı.</string>
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>

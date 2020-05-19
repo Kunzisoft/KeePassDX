@@ -74,7 +74,7 @@
     <string name="hint_length">Długość</string>
     <string name="password">Hasło</string>
     <string name="hint_pass">Hasło</string>
-    <string name="invalid_credentials">Nie można odczytać uwierzytelnień. Jeśli to się powtórzy, plik bazy danych może być uszkodzony.</string>
+    <string name="invalid_credentials">Nie można odczytać uwierzytelnień.</string>
     <string name="invalid_db_sig">Nie można rozpoznać formatu bazy danych.</string>
     <string name="length">Długość</string>
     <string name="list_size_title">Wielkość listy grup</string>

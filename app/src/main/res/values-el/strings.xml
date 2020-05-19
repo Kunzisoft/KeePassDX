@@ -84,7 +84,7 @@
     <string name="hint_length">Μήκος</string>
     <string name="hint_pass">Κωδικός</string>
     <string name="password">Κωδικός Πρόσβασης</string>
-    <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων. Εάν αυτό επαναληφθεί, το αρχείο της βάσης δεδομένων ενδέχεται να είναι κατεστραμμένο.</string>
+    <string name="invalid_credentials">Δεν ήταν δυνατή η ανάγνωση διαπιστευτηρίων.</string>
     <string name="invalid_algorithm">Λάθος αλγόριθμος.</string>
     <string name="invalid_db_sig">Δεν ήταν δυνατή η αναγνώριση της μορφής της βάσης δεδομένων.</string>
     <string name="keyfile_is_empty">Το αρχείο-κλειδί είναι κενό.</string>

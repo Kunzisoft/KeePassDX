@@ -75,7 +75,7 @@
     <string name="hint_length">Tamanho</string>
     <string name="password">Senha</string>
     <string name="hint_pass">Senha</string>
-    <string name="invalid_credentials">Não foi possível ler credenciais. Se isso ocorrer novamente, seu arquivo de banco de dados pode estar corrompido.</string>
+    <string name="invalid_credentials">Não foi possível ler credenciais.</string>
     <string name="invalid_db_sig">Não pôde reconhecer formato do banco de dados.</string>
     <string name="length">Tamanho</string>
     <string name="list_size_title">Tamanho da lista de grupos</string>

@@ -85,7 +85,7 @@
     <string name="hint_length">Длина</string>
     <string name="hint_pass">Пароль</string>
     <string name="password">Пароль</string>
-    <string name="invalid_credentials">Неправильный главный пароль или файл ключа. Если это повторяется, файл базы, возможно, повреждён.</string>
+    <string name="invalid_credentials">Неправильный главный пароль или файл ключа.</string>
     <string name="invalid_algorithm">Неправильный алгоритм.</string>
     <string name="invalid_db_sig">Невозможно определить формат базы.</string>
     <string name="keyfile_is_empty">Файл ключа пуст.</string>

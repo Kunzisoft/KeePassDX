@@ -260,7 +260,7 @@
     <string name="error_save_database">Nije moguće spremiti bazu podataka.</string>
     <string name="error_otp_period">Razdoblje mora biti između %1$d i %2$d sekundi.</string>
     <string name="file_not_found_content">Nije moguće pronaći datoteku. Probajte je ponovno otvoriti iz vašeg upravitelja datotekama.</string>
-    <string name="invalid_credentials">Akreditacija se ne može pročitati. Ako se ovo ponavlja, vaša datoteka baze podataka je možda oštećena.</string>
+    <string name="invalid_credentials">Akreditacija se ne može pročitati.</string>
     <string name="list_size_title">Veličina članova liste</string>
     <string name="list_size_summary">Veličina teksta članova liste</string>
     <string name="lowercase">Mala slova</string>

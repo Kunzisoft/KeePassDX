@@ -91,7 +91,7 @@
     <string name="hint_length">Länge</string>
     <string name="hint_pass">Passwort</string>
     <string name="password">Passwort</string>
-    <string name="invalid_credentials">Die Anmeldeinformationen konnten nicht gelesen werden. Wenn dies erneut auftritt, kann Ihre Datenbankdatei beschädigt sein.</string>
+    <string name="invalid_credentials">Die Anmeldeinformationen konnten nicht gelesen werden.</string>
     <string name="invalid_algorithm">Falscher Algorithmus.</string>
     <string name="invalid_db_sig">Datenbankformat nicht erkannt.</string>
     <string name="keyfile_is_empty">Die Schlüsseldatei ist leer.</string>

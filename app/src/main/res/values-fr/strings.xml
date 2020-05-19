@@ -91,7 +91,7 @@
     <string name="hint_length">Longueur</string>
     <string name="hint_pass">Mot de passe</string>
     <string name="password">Mot de passe</string>
-    <string name="invalid_credentials">Impossible de lire les identifiants. Si cela se reproduit, votre fichier de base de données est peut-être corrompu.</string>
+    <string name="invalid_credentials">Impossible de lire les identifiants.</string>
     <string name="invalid_algorithm">Algorithme invalide.</string>
     <string name="invalid_db_sig">Impossible de reconnaître le format de la base de données.</string>
     <string name="keyfile_is_empty">Le fichier clé est vide.</string>

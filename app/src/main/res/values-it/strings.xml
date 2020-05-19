@@ -85,7 +85,7 @@
     <string name="hint_length">Lunghezza</string>
     <string name="password">Password</string>
     <string name="hint_pass">Password</string>
-    <string name="invalid_credentials">Non è possibile leggere le credenziali. Se questo dovesse riaccadere, il file del databese potrebbe essere corrotto.</string>
+    <string name="invalid_credentials">Non è possibile leggere le credenziali.</string>
     <string name="invalid_algorithm">Algoritmo errato.</string>
     <string name="invalid_db_sig">Formato database non riconosciuto.</string>
     <string name="keyfile_is_empty">Il file chiave è vuoto.</string>

@@ -83,7 +83,7 @@
     <string name="hint_length">Längd</string>
     <string name="hint_pass">Lösenord</string>
     <string name="password">Lösenord</string>
-    <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna. Om detta inträffar igen kan det bero på att databasfilen är skadad.</string>
+    <string name="invalid_credentials">Det gick inte att läsa autentiseringsuppgifterna.</string>
     <string name="invalid_algorithm">Fel algoritm.</string>
     <string name="invalid_db_sig">Det gick inte att känna igen databasformatet.</string>
     <string name="keyfile_is_empty">Nyckelfilen är tom.</string>

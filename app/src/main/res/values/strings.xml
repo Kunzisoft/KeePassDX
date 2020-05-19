@@ -144,7 +144,7 @@
     <string name="hint_length">Length</string>
     <string name="hint_pass">Password</string>
     <string name="password">Password</string>
-    <string name="invalid_credentials">Could not read credentials. If this reoccurs, your database file may be corrupted.</string>
+    <string name="invalid_credentials">Could not read credentials.</string>
     <string name="invalid_algorithm">Wrong algorithm.</string>
     <string name="invalid_db_same_uuid">%1$s with the same UUID %2$s already exists.</string>
     <string name="invalid_db_sig">Could not recognize the database format.</string>

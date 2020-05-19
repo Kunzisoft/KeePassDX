@@ -76,7 +76,7 @@
     <string name="hint_length">Довжина</string>
     <string name="password">Пароль</string>
     <string name="hint_pass">Пароль</string>
-    <string name="invalid_credentials">Не вдалося прочитати облікові дані. Якщо це повторюється, можливо, файл вашої бази даних пошкоджено.</string>
+    <string name="invalid_credentials">Не вдалося прочитати облікові дані.</string>
     <string name="invalid_db_sig">Не вдалося визначити формат бази даних.</string>
     <string name="length">Довжина</string>
     <string name="list_size_title">Розмір переліку груп</string>

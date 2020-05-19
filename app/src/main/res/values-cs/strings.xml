@@ -82,7 +82,7 @@
     <string name="hint_length">Délka</string>
     <string name="hint_pass">Heslo</string>
     <string name="password">Heslo</string>
-    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje. Pokud se chyba opakuje, databázový soubor může být poškozen.</string>
+    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nedaří se rozpoznat formát databáze.</string>
     <string name="keyfile_is_empty">Soubor s klíčem je prázdný.</string>

@@ -84,7 +84,7 @@
     <string name="hint_length">Hossz</string>
     <string name="hint_pass">Jelszó</string>
     <string name="password">Jelszó</string>
-    <string name="invalid_credentials">A hitelesítő adatok nem olvashatók. Ha ez újra megtörténik, akkor az adatbázisfájl sérült lehet.</string>
+    <string name="invalid_credentials">A hitelesítő adatok nem olvashatók.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>
