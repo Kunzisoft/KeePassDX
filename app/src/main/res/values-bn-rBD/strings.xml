@@ -1,2 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="homepage">মূলপাতা</string>
+    <string name="feedback">প্রতিক্রিয়া</string>
+    <string name="contribution">অবদান</string>
+    <string name="contact">যোগাযোগ</string>
+</resources>
