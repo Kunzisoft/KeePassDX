@@ -81,6 +81,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
 
         val downloadFileUri: Uri? = if (intent?.hasExtra(DOWNLOAD_FILE_URI_KEY) == true) {
             intent.getParcelableExtra(DOWNLOAD_FILE_URI_KEY)

@@ -24,9 +24,7 @@ abstract class NotificationService : Service() {
         return null
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         notificationManager = NotificationManagerCompat.from(this)
 
         // Create notification channel for Oreo+
@@ -48,6 +46,8 @@ abstract class NotificationService : Service() {
         val theme = theme
         theme.resolveAttribute(R.attr.colorPrimary, typedValue, true)
         colorNotificationAccent = typedValue.data
+
+        return super.onStartCommand(intent, flags, startId)
     }
 
     protected fun buildNewNotification(): NotificationCompat.Builder {

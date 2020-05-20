@@ -84,6 +84,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
 
         if (intent == null) return START_REDELIVER_INTENT
 

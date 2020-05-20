@@ -33,14 +33,14 @@ abstract class LockNotificationService : NotificationService() {
         stopSelf()
     }
 
-    override fun onCreate() {
-        super.onCreate()
-
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         // Register a lock receiver to stop notification service when lock on keyboard is performed
         mLockReceiver = LockReceiver {
-                actionOnLock()
+            actionOnLock()
         }
         registerLockReceiver(mLockReceiver)
+
+        return super.onStartCommand(intent, flags, startId)
     }
 
     protected fun stopTask(task: Thread?) {

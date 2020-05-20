@@ -49,6 +49,8 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
         //Get settings
         notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(getString(R.string.keyboard_entry_timeout_key),
