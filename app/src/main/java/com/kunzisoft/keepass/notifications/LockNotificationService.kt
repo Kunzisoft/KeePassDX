@@ -26,6 +26,7 @@ import com.kunzisoft.keepass.utils.unregisterLockReceiver
 
 abstract class LockNotificationService : NotificationService() {
 
+    private var onStart: Boolean = false
     private var mLockReceiver: LockReceiver? = null
 
     protected open fun actionOnLock() {
@@ -33,13 +34,19 @@ abstract class LockNotificationService : NotificationService() {
         stopSelf()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+    override fun onCreate() {
+        super.onCreate()
+
         // Register a lock receiver to stop notification service when lock on keyboard is performed
         mLockReceiver = LockReceiver {
-            actionOnLock()
+            if (onStart)
+                actionOnLock()
         }
         registerLockReceiver(mLockReceiver)
+    }
 
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        onStart = true
         return super.onStartCommand(intent, flags, startId)
     }
 
