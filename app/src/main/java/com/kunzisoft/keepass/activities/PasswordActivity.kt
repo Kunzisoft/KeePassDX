@@ -63,9 +63,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.FileDatabaseInfo
-import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -110,6 +108,8 @@ open class PasswordActivity : StylishActivity() {
     private var mProgressDialogThread: ProgressDialogThread? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
+    private var mAllowAutoOpenBiometricPrompt: Boolean = true
+    private var mLockReceiver: LockReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -165,6 +165,11 @@ open class PasswordActivity : StylishActivity() {
         if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
             mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
         }
+
+        mLockReceiver = LockReceiver {
+            mAllowAutoOpenBiometricPrompt = false
+        }
+        registerLockReceiver(mLockReceiver)
 
         mProgressDialogThread = ProgressDialogThread(this).apply {
             onActionFinish = { actionTask, result ->
@@ -438,6 +443,7 @@ open class PasswordActivity : StylishActivity() {
                                     }
                                 })
                     }
+                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable = mAllowAutoOpenBiometricPrompt
                     advancedUnlockedManager?.checkBiometricAvailability()
                     biometricInitialize = true
                 } else {
@@ -503,6 +509,8 @@ open class PasswordActivity : StylishActivity() {
             advancedUnlockedManager?.destroy()
             advancedUnlockedManager = null
         }
+
+        mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
     }
@@ -737,6 +745,11 @@ open class PasswordActivity : StylishActivity() {
                 }
             }
         }
+    }
+
+    override fun onDestroy() {
+        unregisterLockReceiver(mLockReceiver)
+        super.onDestroy()
     }
 
     companion object {
