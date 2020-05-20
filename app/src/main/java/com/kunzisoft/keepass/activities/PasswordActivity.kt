@@ -721,6 +721,8 @@ open class PasswordActivity : StylishActivity() {
             data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        mAllowAutoOpenBiometricPrompt = false
+
         // To get entry in result
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
