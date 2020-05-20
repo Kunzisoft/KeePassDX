@@ -35,16 +35,6 @@ import com.kunzisoft.keepass.utils.*
 
 abstract class LockingActivity : StylishActivity() {
 
-    companion object {
-
-        private const val TAG = "LockingActivity"
-
-        const val RESULT_EXIT_LOCK = 1450
-
-        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
-        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
-    }
-
     protected var mTimeoutEnable: Boolean = true
 
     private var mLockReceiver: LockReceiver? = null
@@ -75,6 +65,8 @@ abstract class LockingActivity : StylishActivity() {
         if (mTimeoutEnable) {
             mLockReceiver = LockReceiver {
                 closeDatabase()
+                if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
+                    LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
                 // Add onActivityForResult response
                 setResult(RESULT_EXIT_LOCK)
                 finish()
@@ -124,6 +116,8 @@ abstract class LockingActivity : StylishActivity() {
             if (!mExitLock)
                 TimeoutHelper.recordTime(this)
         }
+
+        LOCKING_ACTIVITY_UI_VISIBLE = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -133,6 +127,8 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onPause() {
+        LOCKING_ACTIVITY_UI_VISIBLE = false
+
         mProgressDialogThread?.unregisterProgressTask()
 
         super.onPause()
@@ -179,5 +175,18 @@ abstract class LockingActivity : StylishActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    companion object {
+
+        private const val TAG = "LockingActivity"
+
+        const val RESULT_EXIT_LOCK = 1450
+
+        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
+        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
+
+        private var LOCKING_ACTIVITY_UI_VISIBLE = false
+        var LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK: Boolean? = null
     }
 }

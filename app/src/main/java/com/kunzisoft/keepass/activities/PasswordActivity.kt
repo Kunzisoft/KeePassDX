@@ -109,7 +109,6 @@ open class PasswordActivity : StylishActivity() {
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
     private var mAllowAutoOpenBiometricPrompt: Boolean = true
-    private var mLockReceiver: LockReceiver? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -169,11 +168,6 @@ open class PasswordActivity : StylishActivity() {
         if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
             mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
         }
-
-        mLockReceiver = LockReceiver {
-            mAllowAutoOpenBiometricPrompt = false
-        }
-        registerLockReceiver(mLockReceiver)
 
         mProgressDialogThread = ProgressDialogThread(this).apply {
             onActionFinish = { actionTask, result ->
@@ -329,6 +323,12 @@ open class PasswordActivity : StylishActivity() {
         super.onResume()
 
         mProgressDialogThread?.registerProgressTask()
+
+        // Don't allow auto open prompt if lock become when UI visible
+        mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
+            false
+        else
+            mAllowAutoOpenBiometricPrompt
 
         initUriFromIntent()
 
@@ -505,6 +505,8 @@ open class PasswordActivity : StylishActivity() {
             advancedUnlockedManager = null
         }
 
+        // Reinit locking activity UI variable
+        LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
         mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
@@ -752,11 +754,6 @@ open class PasswordActivity : StylishActivity() {
                 }
             }
         }
-    }
-
-    override fun onDestroy() {
-        unregisterLockReceiver(mLockReceiver)
-        super.onDestroy()
     }
 
     companion object {
