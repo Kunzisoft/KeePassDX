@@ -198,7 +198,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                     DATABASE_START_TASK_ACTION -> {
                         // Bind to the service when is starting
                         bindService()
-                        startDialog()
                     }
                     DATABASE_STOP_TASK_ACTION -> {
                         // Remove the progress task
