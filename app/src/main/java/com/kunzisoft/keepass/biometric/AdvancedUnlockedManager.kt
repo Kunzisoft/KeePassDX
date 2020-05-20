@@ -272,6 +272,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     fun destroy() {
+        // Close the biometric prompt
+        biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
     }

@@ -499,14 +499,12 @@ open class PasswordActivity : StylishActivity() {
     override fun onPause() {
         mProgressDialogThread?.unregisterProgressTask()
 
-        super.onPause()
-    }
-
-    override fun onDestroy() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             advancedUnlockedManager?.destroy()
+            advancedUnlockedManager = null
         }
-        super.onDestroy()
+
+        super.onPause()
     }
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
