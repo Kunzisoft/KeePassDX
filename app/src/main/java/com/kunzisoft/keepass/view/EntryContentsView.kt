@@ -309,15 +309,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                       enableActionButton: Boolean,
                       onActionClickListener: OnClickListener?) {
 
-        val entryCustomField = EntryCustomField(context, attrs, defStyle)
-        entryCustomField.apply {
+        val entryCustomField: EntryCustomField? = EntryCustomField(context, attrs, defStyle)
+        entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
             enableActionButton(enableActionButton)
             assignActionButtonClickListener(onActionClickListener)
             applyFontVisibility(fontInVisibility)
         }
-        extrasView.addView(entryCustomField)
+        entryCustomField?.let {
+            extrasView.addView(it)
+        }
         extrasContainerView.visibility = View.VISIBLE
     }
 
