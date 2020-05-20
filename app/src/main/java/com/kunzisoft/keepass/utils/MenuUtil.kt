@@ -50,7 +50,6 @@ object MenuUtil {
     /*
      * @param checkLock Check the time lock before launch settings in LockingActivity
      */
-    @JvmOverloads
     fun onDefaultMenuOptionsItemSelected(activity: Activity,
                                          item: MenuItem,
                                          readOnly: Boolean = READ_ONLY_DEFAULT,

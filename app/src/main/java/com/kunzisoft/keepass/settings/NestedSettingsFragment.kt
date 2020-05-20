@@ -62,7 +62,6 @@ abstract class NestedSettingsFragment : PreferenceFragmentCompat() {
 
         private const val TAG_KEY = "NESTED_KEY"
 
-        @JvmOverloads
         fun newInstance(key: Screen, databaseReadOnly: Boolean = ReadOnlyHelper.READ_ONLY_DEFAULT)
                 : NestedSettingsFragment {
             val fragment: NestedSettingsFragment = when (key) {

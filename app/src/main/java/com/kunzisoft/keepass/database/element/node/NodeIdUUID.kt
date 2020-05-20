@@ -30,7 +30,6 @@ class NodeIdUUID : NodeId<UUID> {
 
     constructor(source: NodeIdUUID) : this(source.id)
 
-    @JvmOverloads
     constructor(uuid: UUID = UUID.randomUUID()) : super() {
         this.id = uuid
     }
