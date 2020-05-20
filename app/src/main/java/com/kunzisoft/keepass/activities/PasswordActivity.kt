@@ -166,6 +166,10 @@ open class PasswordActivity : StylishActivity() {
             mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
         }
 
+        if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
+            mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
+        }
+
         mLockReceiver = LockReceiver {
             mAllowAutoOpenBiometricPrompt = false
         }
@@ -329,15 +333,6 @@ open class PasswordActivity : StylishActivity() {
         initUriFromIntent()
 
         checkPermission()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
-        mDatabaseKeyFileUri?.let {
-            outState.putString(KEY_KEYFILE, it.toString())
-        }
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        super.onSaveInstanceState(outState)
     }
 
     private fun initUriFromIntent() {
@@ -513,6 +508,16 @@ open class PasswordActivity : StylishActivity() {
         mAllowAutoOpenBiometricPrompt = true
 
         super.onPause()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
+        mDatabaseKeyFileUri?.let {
+            outState.putString(KEY_KEYFILE, it.toString())
+        }
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT, false)
+        super.onSaveInstanceState(outState)
     }
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
@@ -766,6 +771,8 @@ open class PasswordActivity : StylishActivity() {
         private const val KEY_LAUNCH_IMMEDIATELY = "launchImmediately"
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
         private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
+
+        private const val ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT = "ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT"
 
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
