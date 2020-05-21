@@ -196,7 +196,7 @@
     <string name="warning_empty_password">Pokračovat bez ochrany odemknutím heslem\?</string>
     <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
     <string name="configure_biometric">Biometrická pobídka je zařízením podporována, ale není nastavena.</string>
-    <string name="open_biometric_prompt_unlock_database">Otevři biometrickou pobídku k otevření databáze</string>
+    <string name="open_biometric_prompt_unlock_database">"Otevřít biometrickou pobídku k otevření databáze. "</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
     <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Prosím, smažte jej a opakujte proceduru biometrického rozpoznání.</string>
     <string name="biometric_not_recognized">Biometrický prvek nerozpoznán</string>
