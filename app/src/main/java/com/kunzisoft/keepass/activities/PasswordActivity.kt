@@ -42,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -49,11 +50,11 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -264,15 +265,36 @@ open class PasswordActivity : StylishActivity() {
                             readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity,
-                            readOnly)
+                    val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+                    SearchHelper.checkAutoSearchInfo(this,
+                            Database.getInstance(),
+                            searchInfo,
+                            { items ->
+                                // Response is build
+                                if (items.size > 1) {
+                                    // Select the one we want
+                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
+                                } else {
+                                    populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
+                                            items[0],
+                                            intent)
+                                }
+                            },
+                            {
+                                // Here no search info found
+                                GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
+                                        null,
+                                        readOnly)
+                            },
+                            {}
+                    )
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-                        AutofillHelper.checkAutoSearchInfo(this,
+                        SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
                                 { items ->
@@ -806,9 +828,13 @@ open class PasswordActivity : StylishActivity() {
         fun launchForKeyboardResult(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+                EntrySelectionHelper.startActivityForEntrySelectionResult(
+                        activity,
+                        intent,
+                        searchInfo)
             }
         }
 

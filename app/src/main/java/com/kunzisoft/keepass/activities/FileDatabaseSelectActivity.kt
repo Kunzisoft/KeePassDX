@@ -41,12 +41,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -208,11 +208,12 @@ class FileDatabaseSelectActivity : StylishActivity(),
                 {
                     try {
                         PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
-                                databaseUri, keyFile)
-                        finish()
+                                databaseUri, keyFile,
+                                intent.getParcelableExtra(KEY_SEARCH_INFO))
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
+                    finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -224,7 +225,6 @@ class FileDatabaseSelectActivity : StylishActivity(),
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
-
                     }
                 })
     }
@@ -236,7 +236,8 @@ class FileDatabaseSelectActivity : StylishActivity(),
                             readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity,
+                    GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
+                            intent.getParcelableExtra(KEY_SEARCH_INFO),
                             readOnly)
                     // Do not keep history
                     finish()
@@ -426,8 +427,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
          * -------------------------
          */
 
-        fun launchForKeyboardSelection(activity: Activity) {
-            EntrySelectionHelper.startActivityForEntrySelection(activity, Intent(activity, FileDatabaseSelectActivity::class.java))
+        fun launchForEntrySelectionResult(activity: Activity,
+                                          searchInfo: SearchInfo?) {
+            EntrySelectionHelper.startActivityForEntrySelectionResult(activity,
+                    Intent(activity, FileDatabaseSelectActivity::class.java),
+                    searchInfo)
         }
 
         /*

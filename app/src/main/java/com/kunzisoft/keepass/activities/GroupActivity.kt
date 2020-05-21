@@ -489,12 +489,10 @@ class GroupActivity : LockingActivity(),
                         {
                             // Populate Magikeyboard with entry
                             mDatabase?.let { database ->
-                                MagikIME.addEntryAndLaunchNotificationIfAllowed(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(database))
+                                populateKeyboardAndMoveAppToBackground(this@GroupActivity,
+                                        entryVersioned.getEntryInfo(database),
+                                        intent)
                             }
-                            // Consume the selection mode
-                            EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                            moveTaskToBack(true)
                         },
                         {
                             // Build response with the entry selected
@@ -1028,11 +1026,11 @@ class GroupActivity : LockingActivity(),
          * 		Keyboard Launch
          * -------------------------
          */
-        // TODO implement pre search to directly open the direct group #280
-        fun launchForKeyboardSelection(context: Context,
-                                       readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(context, intent)
+        fun launchForEntrySelectionResult(context: Context,
+                                          searchInfo: SearchInfo? = null,
+                                          readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelectionResult(context, intent, searchInfo)
             }
         }
 
