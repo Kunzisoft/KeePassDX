@@ -267,6 +267,10 @@ open class PasswordActivity : StylishActivity() {
                     GroupActivity.launch(this@PasswordActivity,
                             searchInfo,
                             readOnly)
+                    // Remove the search info from intent
+                    if (searchInfo != null) {
+                        finish()
+                    }
                 },
                 {
                     SearchHelper.checkAutoSearchInfo(this,

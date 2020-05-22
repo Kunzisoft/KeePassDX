@@ -207,6 +207,10 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
+                    // Remove the search info from intent
+                    if (searchInfo != null) {
+                        finish()
+                    }
                 },
                 {
                     try {

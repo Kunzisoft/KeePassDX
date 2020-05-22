@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
@@ -144,6 +145,11 @@ class GroupActivity : LockingActivity(),
         toolbar?.title = ""
         setSupportActionBar(toolbar)
 
+        // Retrieve the textColor to tint the icon
+        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        mIconColor = taTextColor.getColor(0, Color.WHITE)
+        taTextColor.recycle()
+
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
 
@@ -170,14 +176,6 @@ class GroupActivity : LockingActivity(),
             return
         }
 
-        // Update last access time.
-        mCurrentGroup?.touch(modified = false, touchParents = false)
-
-        // Retrieve the textColor to tint the icon
-        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        mIconColor = taTextColor.getColor(0, Color.WHITE)
-        taTextColor.recycle()
-
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
         if (mCurrentGroupIsASearch)
             fragmentTag = SEARCH_FRAGMENT_TAG
@@ -193,6 +191,14 @@ class GroupActivity : LockingActivity(),
                 mListNodesFragment!!,
                 fragmentTag)
                 .commit()
+
+        // Update last access time.
+        mCurrentGroup?.touch(modified = false, touchParents = false)
+
+        // To relaunch the activity with ACTION_SEARCH
+        if (manageSearchInfoIntent(intent)) {
+            startActivity(intent)
+        }
 
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener(View.OnClickListener {
@@ -278,6 +284,8 @@ class GroupActivity : LockingActivity(),
         super.onNewIntent(intent)
 
         intent?.let { intentNotNull ->
+            // To transform KEY_SEARCH_INFO in ACTION_SEARCH
+            manageSearchInfoIntent(intent)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
@@ -290,14 +298,34 @@ class GroupActivity : LockingActivity(),
         }
     }
 
+    /**
+     * Transform the KEY_SEARCH_INFO in ACTION_SEARCH, return true if KEY_SEARCH_INFO was present
+     */
+    private fun manageSearchInfoIntent(intent: Intent): Boolean {
+        // To relaunch the activity as ACTION_SEARCH
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+        if (searchInfo != null) {
+            intent.action = Intent.ACTION_SEARCH
+            val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
+            intent.removeExtra(KEY_SEARCH_INFO)
+            intent.putExtra(SearchManager.QUERY, searchQuery)
+            return true
+        }
+        return false
+    }
+
     private fun openSearchGroup(group: Group?) {
         // Delete the previous search fragment
-        val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
-        if (searchFragment != null) {
-            if (supportFragmentManager
-                            .popBackStackImmediate(SEARCH_FRAGMENT_TAG,
-                                    FragmentManager.POP_BACK_STACK_INCLUSIVE))
-                supportFragmentManager.beginTransaction().remove(searchFragment).commit()
+        try {
+            val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
+            if (searchFragment != null) {
+                if (supportFragmentManager
+                                .popBackStackImmediate(SEARCH_FRAGMENT_TAG,
+                                        FragmentManager.POP_BACK_STACK_INCLUSIVE))
+                    supportFragmentManager.beginTransaction().remove(searchFragment).commit()
+            }
+        } catch (exception: Exception) {
+            Log.e(TAG, "unable to remove previous search fragment", exception)
         }
         openGroup(group, true)
     }
@@ -329,6 +357,9 @@ class GroupActivity : LockingActivity(),
                     fragmentTag)
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
+
+            // Update last access time.
+            group?.touch(modified = false, touchParents = false)
 
             mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
@@ -979,9 +1010,11 @@ class GroupActivity : LockingActivity(),
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.nodeId)
             }
+            // Directly get ACTION_SEARCH from search info (quick), only in selection mode
             if (searchInfo != null) {
                 intent.action = Intent.ACTION_SEARCH
                 val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
+                intent.removeExtra(KEY_SEARCH_INFO)
                 intent.putExtra(SearchManager.QUERY, searchQuery)
             }
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
@@ -1016,7 +1049,11 @@ class GroupActivity : LockingActivity(),
         fun launch(context: Context,
                    searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
+                // Directly pass Search info, decoded later in onCreate (to fix manual selection)
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 context.startActivity(intent)
             }
         }

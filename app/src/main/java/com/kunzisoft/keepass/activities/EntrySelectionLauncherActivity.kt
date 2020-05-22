@@ -23,7 +23,9 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -75,7 +77,8 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                             GroupActivity.launchForEntrySelectionResult(this, searchInfo)
                         } else {
                             // Automatically populate keyboard
-                            populateKeyboardAndMoveAppToBackground(this, items[0], intent)
+                            val entryPopulate = items[0]
+                            populateKeyboardAndMoveAppToBackground(this, entryPopulate, intent)
                         }
                     } else {
                         GroupActivity.launch(this, searchInfo)
@@ -111,4 +114,7 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity, entry: EntryInfo,
     // Consume the selection mode
     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
     activity.moveTaskToBack(true)
+    Toast.makeText(activity,
+            activity.getString(R.string.keyboard_notification_entry_content_title, entry.title),
+            Toast.LENGTH_LONG).show()
 }
