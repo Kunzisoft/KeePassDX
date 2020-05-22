@@ -61,7 +61,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
@@ -1015,8 +1014,9 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(context: Context,
+                   searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
                 context.startActivity(intent)
             }
         }

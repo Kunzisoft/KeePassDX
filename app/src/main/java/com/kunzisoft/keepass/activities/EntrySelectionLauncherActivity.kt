@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 /**
  * Activity to search or select entry in database,
@@ -60,8 +61,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
         }
 
         // Setting to integrate Magikeyboard
-        // TODO if magikeyboard setting selected auto populate magikeyboard
-        val shareTargetMagikeyboard = true
+        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
         // If database is open
         SearchHelper.checkAutoSearchInfo(this,
@@ -69,7 +69,7 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 searchInfo,
                 { items ->
                     // Items found
-                    if (shareTargetMagikeyboard) {
+                    if (searchShareForMagikeyboard) {
                         if (items.size > 1) {
                             // Select the one we want
                             GroupActivity.launchForEntrySelectionResult(this, searchInfo)
@@ -78,12 +78,12 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                             populateKeyboardAndMoveAppToBackground(this, items[0], intent)
                         }
                     } else {
-                        // TODO GroupActivity.launchToSearch(this, searchInfo)
+                        GroupActivity.launch(this, searchInfo)
                     }
                 },
                 {
                     // Show the database UI to select the entry
-                    if (shareTargetMagikeyboard) {
+                    if (searchShareForMagikeyboard) {
                         GroupActivity.launchForEntrySelectionResult(this)
                     } else {
                         GroupActivity.launch(this)
@@ -91,10 +91,10 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 },
                 {
                     // If database not open
-                    if (shareTargetMagikeyboard) {
+                    if (searchShareForMagikeyboard) {
                         FileDatabaseSelectActivity.launchForEntrySelectionResult(this, searchInfo)
                     } else {
-                        // TODO FileDatabaseSelectActivity.launchToSearch(this, searchInfo)
+                        FileDatabaseSelectActivity.launch(this, searchInfo)
                     }
                 }
         )

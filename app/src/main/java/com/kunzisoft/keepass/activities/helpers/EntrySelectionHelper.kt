@@ -30,6 +30,7 @@ object EntrySelectionHelper {
 
     private const val EXTRA_ENTRY_SELECTION_MODE = "com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE"
     private const val DEFAULT_ENTRY_SELECTION_MODE = false
+    // Key to retrieve search in intent
     const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
 
     fun startActivityForEntrySelectionResult(context: Context,

@@ -64,7 +64,9 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -259,13 +261,14 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun launchGroupActivity() {
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@PasswordActivity,
+                            searchInfo,
                             readOnly)
                 },
                 {
-                    val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
                     SearchHelper.checkAutoSearchInfo(this,
                             Database.getInstance(),
                             searchInfo,
@@ -286,14 +289,15 @@ open class PasswordActivity : StylishActivity() {
                                         null,
                                         readOnly)
                             },
-                            {}
+                            {
+                                // Simply close if database not opened, normally not happened
+                            }
                     )
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
                         SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
@@ -812,8 +816,12 @@ open class PasswordActivity : StylishActivity() {
         fun launch(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 activity.startActivity(intent)
             }
         }
@@ -861,7 +869,7 @@ open class PasswordActivity : StylishActivity() {
                             searchInfo)
                 }
             } else {
-                launch(activity, databaseFile, keyFile)
+                launch(activity, databaseFile, keyFile, searchInfo)
             }
         }
     }
