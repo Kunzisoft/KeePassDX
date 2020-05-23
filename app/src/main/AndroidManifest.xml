@@ -143,8 +143,7 @@
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
-            android:theme="@style/Theme.Transparent"
-            android:exported="true">
+            android:theme="@style/Theme.Transparent">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
