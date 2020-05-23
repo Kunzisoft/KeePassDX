@@ -17,7 +17,7 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.autofill
+package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.app.PendingIntent
@@ -28,9 +28,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
-import com.kunzisoft.keepass.activities.GroupActivity
+import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -46,7 +46,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
                 webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
             }
             // If database is open
-            AutofillHelper.checkAutoSearchInfo(this,
+            SearchHelper.checkAutoSearchInfo(this,
                     Database.getInstance(),
                     searchInfo,
                     { items ->

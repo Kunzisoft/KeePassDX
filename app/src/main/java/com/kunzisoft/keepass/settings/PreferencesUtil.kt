@@ -337,6 +337,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_notification_entry_default))
     }
 
+    fun isKeyboardSearchShareEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_search_share_key),
+                context.resources.getBoolean(R.bool.keyboard_search_share_default))
+    }
+
     fun isAutoGoActionEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.keyboard_auto_go_action_key),

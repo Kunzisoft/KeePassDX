@@ -42,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -49,11 +50,11 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -63,7 +64,9 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.*
+import com.kunzisoft.keepass.utils.FileDatabaseInfo
+import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -258,21 +261,48 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun launchGroupActivity() {
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@PasswordActivity,
+                            searchInfo,
                             readOnly)
+                    // Remove the search info from intent
+                    if (searchInfo != null) {
+                        finish()
+                    }
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity,
-                            readOnly)
+                    SearchHelper.checkAutoSearchInfo(this,
+                            Database.getInstance(),
+                            searchInfo,
+                            { items ->
+                                // Response is build
+                                if (items.size == 1) {
+                                    populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
+                                            items[0],
+                                            intent)
+                                } else {
+                                    // Select the one we want
+                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
+                                }
+                            },
+                            {
+                                // Here no search info found
+                                GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
+                                        null,
+                                        readOnly)
+                            },
+                            {
+                                // Simply close if database not opened, normally not happened
+                            }
+                    )
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-                        AutofillHelper.checkAutoSearchInfo(this,
+                        SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
                                 { items ->
@@ -790,8 +820,12 @@ open class PasswordActivity : StylishActivity() {
         fun launch(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 activity.startActivity(intent)
             }
         }
@@ -806,9 +840,13 @@ open class PasswordActivity : StylishActivity() {
         fun launchForKeyboardResult(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+                EntrySelectionHelper.startActivityForEntrySelectionResult(
+                        activity,
+                        intent,
+                        searchInfo)
             }
         }
 
@@ -835,7 +873,7 @@ open class PasswordActivity : StylishActivity() {
                             searchInfo)
                 }
             } else {
-                launch(activity, databaseFile, keyFile)
+                launch(activity, databaseFile, keyFile, searchInfo)
             }
         }
     }

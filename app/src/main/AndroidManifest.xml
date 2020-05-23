@@ -131,16 +131,30 @@
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
             android:launchMode="singleTask"
             android:label="@string/about" />
-        <activity android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
-        <activity android:name="com.kunzisoft.keepass.autofill.AutofillLauncherActivity"
+        <activity
+            android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
+        <activity
+            android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
+            android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden" />
-        <activity android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
-        <activity android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
-        <activity android:name="com.kunzisoft.keepass.magikeyboard.KeyboardLauncherActivity"
-            android:label="@string/keyboard_name"
-            android:exported="true">
+        <activity
+            android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
+        <activity
+            android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
+        <activity
+            android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
+            android:theme="@style/Theme.Transparent">
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
         </activity>
-        <activity android:name="com.kunzisoft.keepass.settings.MagikeyboardSettingsActivity"
+        <activity
+            android:name="com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity
+            android:name="com.kunzisoft.keepass.settings.MagikeyboardSettingsActivity"
             android:label="@string/keyboard_setting_label">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

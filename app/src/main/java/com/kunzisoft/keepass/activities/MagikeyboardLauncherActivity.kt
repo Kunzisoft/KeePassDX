@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *
  * This file is part of KeePassDX.
  *
@@ -17,24 +17,31 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.magikeyboard
+package com.kunzisoft.keepass.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.activities.FileDatabaseSelectActivity
-import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
-import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.database.search.SearchHelper
 
-class KeyboardLauncherActivity : AppCompatActivity() {
+/**
+ * Activity to select entry in database and populate it in Magikeyboard
+ */
+class MagikeyboardLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        if (Database.getInstance().loaded && TimeoutHelper.checkTime(this))
-            GroupActivity.launchForKeyboardSelection(this)
-        else {
-            // Pass extra to get entry
-            FileDatabaseSelectActivity.launchForKeyboardSelection(this)
-        }
+        SearchHelper.checkAutoSearchInfo(this,
+                Database.getInstance(),
+                null,
+                {},
+                {
+                    GroupActivity.launchForEntrySelectionResult(this)
+                },
+                {
+                    // Pass extra to get entry
+                    FileDatabaseSelectActivity.launchForEntrySelectionResult(this)
+                }
+        )
         finish()
         super.onCreate(savedInstanceState)
     }
