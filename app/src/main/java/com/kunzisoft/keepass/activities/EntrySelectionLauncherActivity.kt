@@ -114,7 +114,4 @@ fun populateKeyboardAndMoveAppToBackground(activity: Activity, entry: EntryInfo,
     // Consume the selection mode
     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
     activity.moveTaskToBack(true)
-    Toast.makeText(activity,
-            activity.getString(R.string.keyboard_notification_entry_content_title, entry.title),
-            Toast.LENGTH_LONG).show()
 }

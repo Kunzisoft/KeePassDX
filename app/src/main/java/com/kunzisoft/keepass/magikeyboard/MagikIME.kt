@@ -322,11 +322,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             context.sendBroadcast(Intent(REMOVE_ENTRY_MAGIKEYBOARD_ACTION))
         }
 
-        fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean = false) {
             // Add a new entry
             entryInfoKey = entry
             // Launch notification if allowed
-            KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry)
+            KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
         }
     }
 }
