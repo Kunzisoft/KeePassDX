@@ -431,7 +431,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
          */
 
         fun launch(context: Context,
-                   searchInfo: SearchInfo?) {
+                   searchInfo: SearchInfo? = null) {
             val intent = Intent(context, FileDatabaseSelectActivity::class.java)
             searchInfo?.let {
                 intent.putExtra(KEY_SEARCH_INFO, it)
@@ -446,7 +446,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
          */
 
         fun launchForEntrySelectionResult(activity: Activity,
-                                          searchInfo: SearchInfo?) {
+                                          searchInfo: SearchInfo? = null) {
             EntrySelectionHelper.startActivityForEntrySelectionResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     searchInfo)
@@ -461,7 +461,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     assistStructure: AssistStructure,
-                                    searchInfo: SearchInfo?) {
+                                    searchInfo: SearchInfo? = null) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     assistStructure,

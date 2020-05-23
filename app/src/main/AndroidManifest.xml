@@ -151,6 +151,9 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity"
+            android:theme="@style/Theme.Transparent" />
+        <activity
             android:name="com.kunzisoft.keepass.settings.MagikeyboardSettingsActivity"
             android:label="@string/keyboard_setting_label">
             <intent-filter>

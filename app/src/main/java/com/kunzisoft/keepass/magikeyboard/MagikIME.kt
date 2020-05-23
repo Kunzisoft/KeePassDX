@@ -36,7 +36,7 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity
+import com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.EntryInfo
@@ -212,7 +212,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 // Stop current service and reinit entry
                 stopService(Intent(this, KeyboardEntryNotificationService::class.java))
                 removeEntryInfo()
-                val intent = Intent(this, EntrySelectionLauncherActivity::class.java)
+                val intent = Intent(this, MagikeyboardLauncherActivity::class.java)
                 // New task needed because don't launch from an Activity context
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
