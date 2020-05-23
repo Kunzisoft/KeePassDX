@@ -362,7 +362,7 @@
     <string name="keyboard_selection_entry_summary">Show input fields in Magikeyboard when viewing an entry</string>
     <string name="keyboard_notification_entry_title">Notification info</string>
     <string name="keyboard_notification_entry_summary">Show a notification when an entry is available</string>
-    <string name="keyboard_search_share_title">Search share info</string>
+    <string name="keyboard_search_share_title">Search shared info</string>
     <string name="keyboard_search_share_summary">Automatically search for shared information to populate the keyboard</string>
     <string name="keyboard_notification_entry_clear_close_title">Clear at closing</string>
     <string name="keyboard_notification_entry_clear_close_summary">Close the database when closing the notification</string>
