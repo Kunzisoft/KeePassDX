@@ -290,7 +290,8 @@ class GroupActivity : LockingActivity(),
             setIntent(intentNotNull)
             mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 // only one instance of search in backstack
-                openSearchGroup(retrieveCurrentGroup(intentNotNull, null))
+                deletePreviousSearchGroup()
+                openGroup(retrieveCurrentGroup(intentNotNull, null), true)
                 true
             } else {
                 false
@@ -314,7 +315,7 @@ class GroupActivity : LockingActivity(),
         return false
     }
 
-    private fun openSearchGroup(group: Group?) {
+    private fun deletePreviousSearchGroup() {
         // Delete the previous search fragment
         try {
             val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
@@ -327,11 +328,6 @@ class GroupActivity : LockingActivity(),
         } catch (exception: Exception) {
             Log.e(TAG, "unable to remove previous search fragment", exception)
         }
-        openGroup(group, true)
-    }
-
-    private fun openChildGroup(group: Group) {
-        openGroup(group, false)
     }
 
     private fun openGroup(group: Group?, isASearch: Boolean) {
@@ -379,8 +375,9 @@ class GroupActivity : LockingActivity(),
     }
 
     private fun refreshSearchGroup() {
+        deletePreviousSearchGroup()
         if (mCurrentGroupIsASearch)
-            openSearchGroup(retrieveCurrentGroup(intent, null))
+            openGroup(retrieveCurrentGroup(intent, null), true)
     }
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
@@ -505,7 +502,8 @@ class GroupActivity : LockingActivity(),
     override fun onNodeClick(node: Node) {
         when (node.type) {
             Type.GROUP -> try {
-                openChildGroup(node as Group)
+                // Open child group
+                openGroup(node as Group, false)
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -978,6 +976,9 @@ class GroupActivity : LockingActivity(),
                     lockAndExit()
                     super.onBackPressed()
                 } else {
+                    deletePreviousSearchGroup()
+                    // To restore standard mode
+                    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
                     moveTaskToBack(true)
                 }
             }
@@ -1010,12 +1011,9 @@ class GroupActivity : LockingActivity(),
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.nodeId)
             }
-            // Directly get ACTION_SEARCH from search info (quick), only in selection mode
-            if (searchInfo != null) {
-                intent.action = Intent.ACTION_SEARCH
-                val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
-                intent.removeExtra(KEY_SEARCH_INFO)
-                intent.putExtra(SearchManager.QUERY, searchQuery)
+            // Directly pass Search info, decoded later in onCreate (to fix manual selection)
+            searchInfo?.let {
+                intent.putExtra(KEY_SEARCH_INFO, it)
             }
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intentBuildLauncher.invoke(intent)
@@ -1049,11 +1047,7 @@ class GroupActivity : LockingActivity(),
         fun launch(context: Context,
                    searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
-                // Directly pass Search info, decoded later in onCreate (to fix manual selection)
-                searchInfo?.let {
-                    intent.putExtra(KEY_SEARCH_INFO, it)
-                }
+            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
                 context.startActivity(intent)
             }
         }

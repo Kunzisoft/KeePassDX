@@ -278,13 +278,13 @@ open class PasswordActivity : StylishActivity() {
                             searchInfo,
                             { items ->
                                 // Response is build
-                                if (items.size > 1) {
-                                    // Select the one we want
-                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
-                                } else {
+                                if (items.size == 1) {
                                     populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
                                             items[0],
                                             intent)
+                                } else {
+                                    // Select the one we want
+                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
                                 }
                             },
                             {

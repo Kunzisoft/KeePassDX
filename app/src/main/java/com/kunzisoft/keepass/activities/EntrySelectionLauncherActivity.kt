@@ -72,13 +72,13 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 { items ->
                     // Items found
                     if (searchShareForMagikeyboard) {
-                        if (items.size > 1) {
-                            // Select the one we want
-                            GroupActivity.launchForEntrySelectionResult(this, searchInfo)
-                        } else {
+                        if (items.size == 1) {
                             // Automatically populate keyboard
                             val entryPopulate = items[0]
                             populateKeyboardAndMoveAppToBackground(this, entryPopulate, intent)
+                        } else {
+                            // Select the one we want
+                            GroupActivity.launchForEntrySelectionResult(this, searchInfo)
                         }
                     } else {
                         GroupActivity.launch(this, searchInfo)
