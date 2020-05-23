@@ -515,6 +515,7 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
                         {
+                            rebuildListNodes()
                             // Populate Magikeyboard with entry
                             mDatabase?.let { database ->
                                 populateKeyboardAndMoveAppToBackground(this@GroupActivity,
@@ -955,12 +956,19 @@ class GroupActivity : LockingActivity(),
         mListNodesFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun removeSearchInIntent(intent: Intent) {
+    private fun rebuildListNodes() {
+        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
+        // to refresh fragment
+        mListNodesFragment?.rebuildList()
+        mCurrentGroup = mListNodesFragment?.mainGroup
+        // Remove search in intent
+        deletePreviousSearchGroup()
+        mCurrentGroupIsASearch = false
         if (Intent.ACTION_SEARCH == intent.action) {
-            mCurrentGroupIsASearch = false
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
         }
+        assignGroupViewElements()
     }
 
     override fun onBackPressed() {
@@ -976,19 +984,13 @@ class GroupActivity : LockingActivity(),
                     lockAndExit()
                     super.onBackPressed()
                 } else {
-                    deletePreviousSearchGroup()
                     // To restore standard mode
                     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
                     moveTaskToBack(true)
                 }
             }
 
-            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
-            // to refresh fragment
-            mListNodesFragment?.rebuildList()
-            mCurrentGroup = mListNodesFragment?.mainGroup
-            removeSearchInIntent(intent)
-            assignGroupViewElements()
+            rebuildListNodes()
         }
     }
 
@@ -1004,16 +1006,11 @@ class GroupActivity : LockingActivity(),
 
         private fun buildIntent(context: Context,
                                 group: Group?,
-                                searchInfo: SearchInfo?,
                                 readOnly: Boolean,
                                 intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(context, GroupActivity::class.java)
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.nodeId)
-            }
-            // Directly pass Search info, decoded later in onCreate (to fix manual selection)
-            searchInfo?.let {
-                intent.putExtra(KEY_SEARCH_INFO, it)
             }
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intentBuildLauncher.invoke(intent)
@@ -1021,21 +1018,19 @@ class GroupActivity : LockingActivity(),
 
         private fun checkTimeAndBuildIntent(activity: Activity,
                                             group: Group?,
-                                            searchInfo: SearchInfo?,
                                             readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                buildIntent(activity, group, searchInfo, readOnly, intentBuildLauncher)
+                buildIntent(activity, group, readOnly, intentBuildLauncher)
             }
         }
 
         private fun checkTimeAndBuildIntent(context: Context,
                                             group: Group?,
-                                            searchInfo: SearchInfo?,
                                             readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTime(context)) {
-                buildIntent(context, group, searchInfo, readOnly, intentBuildLauncher)
+                buildIntent(context, group, readOnly, intentBuildLauncher)
             }
         }
 
@@ -1047,7 +1042,10 @@ class GroupActivity : LockingActivity(),
         fun launch(context: Context,
                    searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 context.startActivity(intent)
             }
         }
@@ -1060,7 +1058,7 @@ class GroupActivity : LockingActivity(),
         fun launchForEntrySelectionResult(context: Context,
                                           searchInfo: SearchInfo? = null,
                                           readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, searchInfo, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 EntrySelectionHelper.startActivityForEntrySelectionResult(context, intent, searchInfo)
             }
         }
@@ -1075,7 +1073,7 @@ class GroupActivity : LockingActivity(),
                                     assistStructure: AssistStructure,
                                     searchInfo: SearchInfo? = null,
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            checkTimeAndBuildIntent(activity, null, searchInfo, readOnly) { intent ->
+            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)
             }
         }

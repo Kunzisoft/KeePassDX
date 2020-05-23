@@ -41,10 +41,14 @@ abstract class LockingActivity : StylishActivity() {
     private var mExitLock: Boolean = false
 
     // Force readOnly if Entry Selection mode
-    protected var mReadOnly: Boolean = false
+    protected var mReadOnly: Boolean
         get() {
-            return field || mSelectionMode
+            return mReadOnlyToSave || mSelectionMode
         }
+        set(value) {
+            mReadOnlyToSave = value
+        }
+    private var mReadOnlyToSave: Boolean = false
     protected var mSelectionMode: Boolean = false
     protected var mAutoSaveEnable: Boolean = true
 
@@ -75,7 +79,7 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         mExitLock = false
-        mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
+        mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
 
         mProgressDialogThread = ProgressDialogThread(this)
     }
@@ -121,7 +125,7 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, mReadOnly)
+        ReadOnlyHelper.onSaveInstanceState(outState, mReadOnlyToSave)
         outState.putBoolean(TIMEOUT_ENABLE_KEY, mTimeoutEnable)
         super.onSaveInstanceState(outState)
     }
