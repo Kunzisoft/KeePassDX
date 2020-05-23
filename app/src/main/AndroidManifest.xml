@@ -135,6 +135,7 @@
             android:name="com.kunzisoft.keepass.settings.SettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.activities.AutofillLauncherActivity"
+            android:theme="@style/Theme.Transparent"
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.kunzisoft.keepass.settings.SettingsAdvancedUnlockActivity" />
@@ -142,6 +143,7 @@
             android:name="com.kunzisoft.keepass.settings.AutofillSettingsActivity" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntrySelectionLauncherActivity"
+            android:theme="@style/Theme.Transparent"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
