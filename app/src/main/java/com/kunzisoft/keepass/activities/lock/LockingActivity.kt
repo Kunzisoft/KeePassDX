@@ -79,7 +79,6 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         mExitLock = false
-        mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
 
         mProgressDialogThread = ProgressDialogThread(this)
     }
@@ -100,6 +99,7 @@ abstract class LockingActivity : StylishActivity() {
         mProgressDialogThread?.registerProgressTask()
 
         // To refresh when back to normal workflow from selection workflow
+        mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
         mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
@@ -125,7 +125,6 @@ abstract class LockingActivity : StylishActivity() {
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, mReadOnlyToSave)
         outState.putBoolean(TIMEOUT_ENABLE_KEY, mTimeoutEnable)
         super.onSaveInstanceState(outState)
     }
