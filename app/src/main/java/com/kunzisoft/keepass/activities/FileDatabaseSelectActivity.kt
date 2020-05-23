@@ -209,7 +209,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     }
                     // Remove the search info from intent
                     if (searchInfo != null) {
-                        intent.removeExtra(KEY_SEARCH_INFO)
+                        finish()
                     }
                 },
                 {

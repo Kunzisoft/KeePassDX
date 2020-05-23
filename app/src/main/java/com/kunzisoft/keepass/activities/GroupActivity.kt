@@ -986,11 +986,7 @@ class GroupActivity : LockingActivity(),
                 } else {
                     // To restore standard mode
                     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                    // Go to home
-                    startActivity(Intent(Intent.ACTION_MAIN).apply {
-                        addCategory(Intent.CATEGORY_HOME)
-                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                    })
+                    moveTaskToBack(true)
                 }
             }
 
