@@ -269,7 +269,7 @@ open class PasswordActivity : StylishActivity() {
                             readOnly)
                     // Remove the search info from intent
                     if (searchInfo != null) {
-                        finish()
+                        intent.removeExtra(KEY_SEARCH_INFO)
                     }
                 },
                 {
