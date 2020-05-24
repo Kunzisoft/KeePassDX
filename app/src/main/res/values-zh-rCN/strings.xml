@@ -236,7 +236,7 @@
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">支持生物识别，但未启用</string>
-    <string name="open_biometric_prompt_unlock_database">打开生物识别对话框以解锁数据库</string>
+    <string name="open_biometric_prompt_unlock_database">"打开生物识别提示以解锁数据库 "</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
     <string name="biometric_not_recognized">无法识别生物识别信息</string>
