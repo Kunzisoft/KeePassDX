@@ -4,4 +4,21 @@
     <string name="feedback">প্রতিক্রিয়া</string>
     <string name="contribution">অবদান</string>
     <string name="contact">যোগাযোগ</string>
+    <string name="extended_ASCII">বর্ধিত ASCII</string>
+    <string name="brackets">ব্র্যাকেট</string>
+    <string name="beta_dontask">" 
+\nআবার দেখাবে না"</string>
+    <string name="application">…অ্যাপ</string>
+    <string name="app_timeout_summary">ডাটাবেস লক করার আগে অব্যবহৃত সময়</string>
+    <string name="app_timeout">অ্যাপের সময় পার হয়ে গিয়েছিলো</string>
+    <string name="key_derivation_function">কি পাওয়ার ফাংশন</string>
+    <string name="encryption_algorithm">এনক্রিপশন অ্যালগরিদম</string>
+    <string name="encryption">এনক্রিপশন</string>
+    <string name="security">নিরাপত্তা</string>
+    <string name="master_key">প্রধান চাবি</string>
+    <string name="add_group">গ্রুপ যোগ করুন</string>
+    <string name="edit_entry">এন্টরি সম্পাদনা করুন</string>
+    <string name="add_entry">এন্টরি যোগ করুন</string>
+    <string name="accept">গ্রহণ</string>
+    <string name="about_description">কিপাস পাসওয়ার্ড ম্যানেজারের অ্যান্ড্রয়েড বাস্তবায়ন</string>
 </resources>
