@@ -391,7 +391,7 @@
     <string name="biometric">Biometrisch</string>
     <string name="enable">Aktivieren</string>
     <string name="disable">Deaktivieren</string>
-    <string name="biometric_prompt_store_credential_message">Achtung: Wenn du die biometrische Erkennung verwendest, musst du dir das Master-Passwort trotzdem merken.</string>
+    <string name="biometric_prompt_store_credential_message">Achtung: Wenn Sie die biometrische Erkennung verwenden, müssen Sie sich trotzdem Ihr Master-Passwort merken.</string>
     <string name="biometric_prompt_extract_credential_message">Datenbank-Anmeldeinformationen aus biometrischen Daten extrahieren</string>
     <string name="biometric_auto_open_prompt_title">Biometrische Abfrage automatisch öffnen</string>
     <string name="biometric_auto_open_prompt_summary">Automatisch nach Biometrie fragen, wenn die Datenbank dafür eingerichtet ist</string>
