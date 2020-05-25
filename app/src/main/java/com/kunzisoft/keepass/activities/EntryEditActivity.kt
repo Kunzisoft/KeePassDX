@@ -166,9 +166,11 @@ class EntryEditActivity : LockingActivity(),
                 mNewEntry = mDatabase?.createEntry()
             }
             mParent = mDatabase?.getGroupById(it)
-            // Add the default icon
-            mDatabase?.drawFactory?.let { iconFactory ->
-                entryEditContentsView?.setDefaultIcon(iconFactory)
+            // Add the default icon from parent
+            mParent?.icon?.let { parentIcon ->
+                temporarilySaveAndShowSelectedIcon(parentIcon)
+            } ?: mDatabase?.drawFactory?.let { iconFactory ->
+                    entryEditContentsView?.setDefaultIcon(iconFactory)
             }
         }
 

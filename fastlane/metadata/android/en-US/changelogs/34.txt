@@ -1,4 +1,5 @@
  * Share a web domain to automatically search for an entry
+ * Default group icon for a new entry
  * Better autofill recognition
  * Fix entry not visually deleted in search
  * Fix hanged loading dialog
