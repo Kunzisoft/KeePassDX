@@ -81,7 +81,7 @@
     <string name="invalid_credentials">Kan referenties niet lezen. Als dit zich opnieuw voordoet, is uw databasebestand mogelijk beschadigd.</string>
     <string name="invalid_db_sig">Databaseformaat kan niet worden herkend.</string>
     <string name="length">Lengte</string>
-    <string name="list_size_title">Grootte van itemlijst</string>
+    <string name="list_size_title">Lengte van itemlijst</string>
     <string name="list_size_summary">Tekstgrootte van itemlijst</string>
     <string name="loading_database">Database laden…</string>
     <string name="lowercase">Kleine letters</string>
@@ -217,8 +217,8 @@
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_autofill_service_title">Standaard aanvuldienst instellen</string>
     <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps snel in te vullen</string>
-    <string name="password_size_title">Gegenereerde wachtwoordgrootte</string>
-    <string name="password_size_summary">Standaardgrootte instellen van gegenereerd wachtwoord</string>
+    <string name="password_size_title">Gegenereerde wachtwoordlengte</string>
+    <string name="password_size_summary">Standaardlengte van gegenereerd wachtwoord instellen</string>
     <string name="list_password_generator_options_title">Wachtwoordtekens</string>
     <string name="list_password_generator_options_summary">Standaard wachtwoordtekens instellen</string>
     <string name="clipboard">Klembord</string>
@@ -418,8 +418,8 @@
     <string name="database_data_compression_summary">Gegevenscompressie verkleint de omvang van de database.</string>
     <string name="max_history_items_title">Maximum aantal</string>
     <string name="max_history_items_summary">Beperk het aantal geschiedenisitems per item</string>
-    <string name="max_history_size_title">Maximumgrootte</string>
-    <string name="max_history_size_summary">Geschiedenisgrootte (bytes) per item beperken</string>
+    <string name="max_history_size_title">Maximum</string>
+    <string name="max_history_size_summary">Geschiedenis (bytes) per item beperken</string>
     <string name="settings_database_recommend_changing_master_key_title">Vernieuwing aanbevelen</string>
     <string name="settings_database_recommend_changing_master_key_summary">Aanbeveling de hoofdsleutel te wijzigen (dagen)</string>
     <string name="settings_database_force_changing_master_key_title">Vernieuwing afdwingen</string>
