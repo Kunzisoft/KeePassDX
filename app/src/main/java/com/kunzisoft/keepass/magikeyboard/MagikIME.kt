@@ -249,7 +249,9 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
-            Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
+            Keyboard.KEYCODE_DELETE -> {
+                inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
+            }
             Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
         }
     }
