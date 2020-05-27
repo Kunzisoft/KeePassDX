@@ -35,11 +35,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="?android:attr/selectableItemBackground" >
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/group_arrow"
+            android:id="@+id/node_image_identifier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrow_right_white_24dp"
-            android:tint="?android:attr/textColorPrimary"
             android:layout_marginLeft="4dp"
             android:layout_marginStart="4dp"
             android:layout_centerVertical="true"
@@ -58,8 +57,8 @@
             android:src="@drawable/ic_blank_32dp"
             android:scaleType="fitXY"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/group_arrow"
-            android:layout_toEndOf="@+id/group_arrow" />
+            android:layout_toRightOf="@+id/node_image_identifier"
+            android:layout_toEndOf="@+id/node_image_identifier" />
         <TextView
             android:id="@+id/node_child_numbers"
             android:layout_width="wrap_content"
@@ -90,7 +89,7 @@
                 tools:text="Node Title"
                 android:lines="1"
                 android:singleLine="true"
-                style="@style/KeepassDXStyle.TextAppearance.Title" /> <!-- style override -->
+                style="@style/KeepassDXStyle.TextAppearance.Group.Title" />
             <TextView
                 android:id="@+id/node_subtext"
                 android:layout_width="wrap_content"
@@ -100,7 +99,7 @@
                 android:layout_marginTop="-4dp"
                 android:lines="1"
                 android:singleLine="true"
-                style="@style/KeepassDXStyle.TextAppearance.Secondary" /> <!-- style override -->
+                style="@style/KeepassDXStyle.TextAppearance.Group.SubTitle" />
         </LinearLayout>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
