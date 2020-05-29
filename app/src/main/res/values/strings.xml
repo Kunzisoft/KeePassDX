@@ -381,7 +381,7 @@
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
-    <string name="delete_entered_password_summary">Deletes the password entered after a failed connection attempt to a database</string>
+    <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt to a database</string>
     <string name="enable_read_only_title">Write-protected</string>
     <string name="enable_read_only_summary">Open the database read-only by default</string>
     <string name="enable_auto_save_database_title">Autosave database</string>
