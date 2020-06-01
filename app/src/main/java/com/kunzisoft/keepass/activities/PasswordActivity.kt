@@ -338,31 +338,32 @@ open class PasswordActivity : StylishActivity() {
 
     override fun onResume() {
 
-        if (Database.getInstance().loaded)
-            launchGroupActivity()
-
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
-
-        // If the database isn't accessible make sure to clear the password field, if it
-        // was saved in the instance state
         if (Database.getInstance().loaded) {
-            clearCredentialsViews()
+            launchGroupActivity()
+        } else {
+            mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
+
+            // If the database isn't accessible make sure to clear the password field, if it
+            // was saved in the instance state
+            if (Database.getInstance().loaded) {
+                clearCredentialsViews()
+            }
+
+            // For check shutdown
+            super.onResume()
+
+            mProgressDialogThread?.registerProgressTask()
+
+            // Don't allow auto open prompt if lock become when UI visible
+            mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
+                false
+            else
+                mAllowAutoOpenBiometricPrompt
+
+            initUriFromIntent()
+
+            checkPermission()
         }
-
-        // For check shutdown
-        super.onResume()
-
-        mProgressDialogThread?.registerProgressTask()
-
-        // Don't allow auto open prompt if lock become when UI visible
-        mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
-            false
-        else
-            mAllowAutoOpenBiometricPrompt
-
-        initUriFromIntent()
-
-        checkPermission()
     }
 
     private fun initUriFromIntent() {
