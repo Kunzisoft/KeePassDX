@@ -51,7 +51,6 @@ import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
-import org.apache.commons.io.FileUtils
 import java.io.*
 import java.util.*
 
@@ -492,7 +491,9 @@ class Database {
         mDatabaseKDBX?.clearCache()
         // In all cases, delete all the files in the temp dir
         try {
-            FileUtils.cleanDirectory(filesDirectory)
+            filesDirectory?.let { directory ->
+                cleanDirectory(directory)
+            }
         } catch (e: Exception) {
             Log.e(TAG, "Unable to clear the directory cache.", e)
         }
@@ -501,6 +502,17 @@ class Database {
         this.mDatabaseKDBX = null
         this.fileUri = null
         this.loaded = false
+    }
+
+    private fun cleanDirectory(directory: File) {
+        directory.listFiles()?.let { files ->
+            for (file in files) {
+                if (file.isDirectory) {
+                    cleanDirectory(file)
+                }
+                file.delete()
+            }
+        }
     }
 
     fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
