@@ -138,7 +138,7 @@
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>
-    <string name="open_biometric_prompt_unlock_database">Scansione impronte</string>
+    <string name="open_biometric_prompt_unlock_database">Usa la scansione impronte per sbloccare il database</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
     <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
