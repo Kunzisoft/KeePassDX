@@ -162,7 +162,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
                 if (toast) {
                     Toast.makeText(context,
                             context.getString(R.string.keyboard_notification_entry_content_title, entry.title),
-                            Toast.LENGTH_LONG).show()
+                            Toast.LENGTH_SHORT).show()
                 }
 
                 // Show the notification if allowed in Preferences
