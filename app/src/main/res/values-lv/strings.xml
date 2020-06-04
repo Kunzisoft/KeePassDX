@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright 2020 Jeremy Jamet / Kunzisoft.
 
@@ -16,10 +16,9 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="feedback">Atsauksmes:</string>
-    <string name="homepage">Mājaslapa:</string>
+--><resources>
+    <string name="feedback">Atsauksmes</string>
+    <string name="homepage">Mājaslapa</string>
     <string name="about_description">KeePassDX ir KeePass paroļu menedžera Android implementācija</string>
     <string name="accept">Pieņemt</string>
     <string name="add_entry">Jauns ieraksts</string>
@@ -132,9 +131,7 @@
     <string name="unsupported_db_version">Neatbalstīta datu bāzes versija.</string>
     <string name="uppercase">Lielie burti</string>
     <string name="version_label">Versija %1$s</string>
-
     <string name="education_unlock_summary">Ievadiet paroli/atslēgas failu, lai atbloķētu savu datu bāzi.</string>
-
     <string-array name="timeout_options">
         <item>5 sekundes</item>
         <item>10 sekundes</item>
@@ -151,9 +148,9 @@
         <item>Vidējs</item>
         <item>Liels</item>
     </string-array>
-<string name="edit_entry">Labot ierakstu</string>
+    <string name="edit_entry">Labot ierakstu</string>
     <string name="encryption">Šifrēšana</string>
     <string name="extended_ASCII">Paplašinātais ASCII</string>
     <string name="allow">Atļaut</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft nāk bez jebkādas garantijas. Šī ir bezmaksas programmatūra un jūs to varat izplatīt apstākļos, kas aprakstīti GPL 3 versijā vai jaunākā.</string>
-    </resources>
+</resources>
