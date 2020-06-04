@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='UTF-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!--
     Copyright 2020 Jeremy Jamet / Kunzisoft.
 
@@ -16,10 +16,9 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="feedback">అభిప్రాయం:</string>
-    <string name="homepage">హోమ్ పేజీ:</string>
+--><resources>
+    <string name="feedback">అభిప్రాయం</string>
+    <string name="homepage">హోమ్ పేజీ</string>
     <string name="about_description">KeePassDX అనేది KeePass పాస్వర్డ్ మేనేజర్ యొక్క యాండ్రాయిడ్ అమలు.</string>
     <string name="accept">ఆమోదించు</string>
     <string name="add_entry">"ఎంట్రీని జత చెయ్యండి "</string>
