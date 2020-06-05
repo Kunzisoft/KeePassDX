@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">加密算法</string>
     <string name="app_timeout">离开程序锁定延时</string>
     <string name="app_timeout_summary">在锁定数据库前处于非活动状态的时长</string>
-    <string name="application">程序</string>
+    <string name="application">…应用</string>
     <string name="menu_app_settings">程序设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">新建与保存数据库需要支持打开和新建文件的文件管理器。</string>
@@ -138,7 +138,8 @@
         <item>大</item>
     </string-array>
     <string name="encryption">加密</string>
-    <string name="beta_dontask">不再显示</string>
+    <string name="beta_dontask">"
+\n不再显示"</string>
     <string name="extended_ASCII">ASCII拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
@@ -193,7 +194,7 @@
     <string name="sort_last_access_time">访问时间</string>
     <string name="search_results">搜索结果</string>
     <string name="warning">警告</string>
-    <string name="version_label">版本%1$s</string>
+    <string name="version_label">版本 %1$s</string>
     <string name="open_biometric_prompt_store_credential">使用生物识别保存此密码</string>
     <string name="database_history">历史</string>
     <string name="menu_appearance_settings">外观</string>
@@ -233,9 +234,9 @@
     <string name="sort_recycle_bin_bottom">回收站在末尾</string>
     <string name="warning_empty_password">确定不使用密码保护？</string>
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
-    <string name="build_label">版本%1$s</string>
-    <string name="configure_biometric">支持生物识别设置，但并未启用生物识别。</string>
-    <string name="open_biometric_prompt_unlock_database">打开生物识别对话框以解锁数据库</string>
+    <string name="build_label">Build %1$s</string>
+    <string name="configure_biometric">此设备支持生物识别，但现未启用。</string>
+    <string name="open_biometric_prompt_unlock_database">"打开生物识别提示以解锁数据库 "</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
     <string name="biometric_not_recognized">无法识别生物识别信息</string>
@@ -374,12 +375,12 @@
     <string name="error_create_database_file">无法使用此密码和密钥文件新建数据库。</string>
     <string name="menu_advanced_unlock_settings">高级解锁</string>
     <string name="biometric_prompt_store_credential_title">保存生物识别信息</string>
-    <string name="biometric_prompt_store_credential_message">警告：即使您已经使用生物识别数据存储了凭据，你仍需牢记主密码。</string>
+    <string name="biometric_prompt_store_credential_message">警告：即使您已经使用生物识别数据存储了凭据，你仍需牢记主密码</string>
     <string name="biometric_prompt_extract_credential_title">使用生物识别功能打开数据库</string>
     <string name="biometric_prompt_extract_credential_message">使用生物识别数据提取数据库凭据</string>
     <string name="biometric">生物识别</string>
     <string name="biometric_auto_open_prompt_title">自动打开生物识别提示</string>
-    <string name="biometric_auto_open_prompt_summary">若数据库设置为使用生物特征则自动要求生物识别</string>
+    <string name="biometric_auto_open_prompt_summary">生物识别密钥已配置时自动打开提示</string>
     <string name="enable">启用</string>
     <string name="disable">禁用</string>
     <string name="master_key">主密钥</string>
@@ -405,7 +406,7 @@
     <string name="menu_security_settings">安全设置</string>
     <string name="menu_master_key_settings">主密钥设置</string>
     <string name="contains_duplicate_uuid">数据库包含重复UUID。</string>
-    <string name="contains_duplicate_uuid_procedure">通过为重复项生成新的UUID以继续解决问题？</string>
+    <string name="contains_duplicate_uuid_procedure">通过为重复项生成新的UUID以解决问题？</string>
     <string name="database_opened">数据库开启</string>
     <string name="clipboard_explanation_summary">使用设备的剪贴板来复制输入字段</string>
     <string name="advanced_unlock_explanation_summary">使用高级解锁轻松打开数据库</string>
@@ -436,7 +437,7 @@
     <string name="recycle_bin_group_title">回收站（组）</string>
     <string name="enable_auto_save_database_title">自动保存数据库</string>
     <string name="enable_auto_save_database_summary">在每次执行重要操作后保存数据库（仅在编辑模式下有效）</string>
-    <string name="keystore_not_accessible">密钥库未正确地初始化。</string>
+    <string name="keystore_not_accessible">密钥库未正确地初始化</string>
     <string name="entry_attachments">附件</string>
     <string name="menu_restore_entry_history">恢复历史记录</string>
     <string name="menu_delete_entry_history">删除历史记录</string>

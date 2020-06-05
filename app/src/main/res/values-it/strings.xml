@@ -28,7 +28,7 @@
     <string name="encryption_algorithm">Algoritmo di cifratura</string>
     <string name="app_timeout">Scadenza app</string>
     <string name="app_timeout_summary">Tempo di inattività prima del blocco dell\'app</string>
-    <string name="application">App</string>
+    <string name="application">…App</string>
     <string name="menu_app_settings">Impostazioni app</string>
     <string name="brackets">Parentesi</string>
     <string name="file_manager_install_description">È necessario un file manager che accetti gli Intent ACTION_CREATE_DOCUMENT e ACTION_OPEN_DOCUMENT per creare, aprire e salvare i file di database.</string>
@@ -138,7 +138,7 @@
     <string name="warning_password_encoding">Evita password con caratteri al di fuori del formato di codifica del testo nel file di database (i caratteri non riconosciuti vengono convertiti nella stessa lettera).</string>
     <string name="version_label">Versione %1$s</string>
     <string name="configure_biometric">La scansione di impronte è supportata ma non impostata.</string>
-    <string name="open_biometric_prompt_unlock_database">Scansione impronte</string>
+    <string name="open_biometric_prompt_unlock_database">"Usa la scansione impronte per sbloccare la banca dati. "</string>
     <string name="encrypted_value_stored">Password criptata salvata</string>
     <string name="biometric_invalid_key">Impossibile leggere la chiave biometrica. Eliminala e ripeti la procedura di riconoscimento.</string>
     <string name="biometric_scanning_error">Problema impronta: %1$s</string>
@@ -163,7 +163,8 @@
         <item>Medio</item>
         <item>Grande</item>
     </string-array>
-    <string name="beta_dontask">Non mostrare di nuovo</string>
+    <string name="beta_dontask">"
+\nNon mostrare di nuovo"</string>
     <string name="allow">Consenti</string>
     <string name="copy_field">Copia di %1$s</string>
     <string name="encryption">Cifratura</string>
@@ -252,7 +253,7 @@
     <string name="allow_no_password_summary">Abilita il pulsante «Apri» se le credenziali non sono selezionate</string>
     <string name="enable_read_only_title">Protetto da scrittura</string>
     <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
-    <string name="enable_education_screens_title">Schermate educative</string>
+    <string name="enable_education_screens_title">Suggerimenti educativi</string>
     <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
     <string name="reset_education_screens_title">Ripristina le schermate educative</string>
     <string name="reset_education_screens_summary">Mostra di nuovo tutti gli elementi educativi</string>

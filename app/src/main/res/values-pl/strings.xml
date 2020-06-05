@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">Algorytm szyfrowania</string>
     <string name="app_timeout">Limit czasu aplikacji</string>
     <string name="app_timeout_summary">Czas bezczynności przed zablokowaniem bazy danych</string>
-    <string name="application">Aplikacja</string>
+    <string name="application">...Aplikacja</string>
     <string name="menu_app_settings">Ustawienia aplikacji</string>
     <string name="brackets">Nawiasy</string>
     <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych potrzebny jest menedżer plików, który akceptuje działanie Intent Action ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
@@ -141,7 +141,8 @@
     <string name="edit_entry">Edytuj wpis</string>
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
-    <string name="beta_dontask">Nie pokazuj ponownie</string>
+    <string name="beta_dontask">"
+\nNie pokazuj ponownie"</string>
     <string name="extended_ASCII">Rozszerzone ASCII</string>
     <string name="allow">Zezwalaj</string>
     <string name="clipboard_error_title">Błąd schowka</string>
@@ -198,7 +199,7 @@
     <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
-    <string name="open_biometric_prompt_unlock_database">Skanowanie odcisków palców</string>
+    <string name="open_biometric_prompt_unlock_database">"Otwórz żądanie biometryczne, aby odblokować bazę danych. "</string>
     <string name="biometric_invalid_key">Nie można odczytać klucza biometrycznego. Usuń go i powtórz procedurę rozpoznawania biometrycznego.</string>
     <string name="biometric_not_recognized">Nie można rozpoznać odcisku palca</string>
     <string name="biometric_scanning_error">Problem z odciskiem palca: %1$s</string>
