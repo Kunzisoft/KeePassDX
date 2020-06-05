@@ -27,6 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SortedList
 import androidx.recyclerview.widget.SortedListAdapterCallback
@@ -73,7 +74,11 @@ class NodeAdapter (private val context: Context)
 
     private val mDatabase: Database
 
+    @ColorInt
+    private val contentSelectionColor: Int
+    @ColorInt
     private val iconGroupColor: Int
+    @ColorInt
     private val iconEntryColor: Int
 
     /**
@@ -97,6 +102,10 @@ class NodeAdapter (private val context: Context)
         // Database
         this.mDatabase = Database.getInstance()
 
+        // Color of content selection
+        val taContentSelectionColor = context.theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        this.contentSelectionColor = taContentSelectionColor.getColor(0, Color.WHITE)
+        taContentSelectionColor.recycle()
         // Retrieve the color to tint the icon
         val taTextColorPrimary = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
         this.iconGroupColor = taTextColorPrimary.getColor(0, Color.BLACK)
@@ -280,11 +289,18 @@ class NodeAdapter (private val context: Context)
 
     override fun onBindViewHolder(holder: NodeViewHolder, position: Int) {
         val subNode = nodeSortedList.get(position)
+
+        // Node selection
+        holder.container.isSelected = actionNodesList.contains(subNode)
+
         // Assign image
-        val iconColor = when (subNode.type) {
+        val iconColor = if (holder.container.isSelected)
+            contentSelectionColor
+        else when (subNode.type) {
             Type.GROUP -> iconGroupColor
             Type.ENTRY -> iconEntryColor
         }
+        holder.imageIdentifier?.setColorFilter(iconColor)
         holder.icon.apply {
             assignDatabaseIcon(mDatabase.drawFactory, subNode.icon, iconColor)
             // Relative size of the icon
@@ -347,8 +363,6 @@ class NodeAdapter (private val context: Context)
         holder.container.setOnLongClickListener {
             nodeClickCallback?.onNodeLongClick(subNode) ?: false
         }
-
-        holder.container.isSelected = actionNodesList.contains(subNode)
     }
     
     override fun getItemCount(): Int {
@@ -372,6 +386,7 @@ class NodeAdapter (private val context: Context)
 
     class NodeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var container: View = itemView.findViewById(R.id.node_container)
+        var imageIdentifier: ImageView? = itemView.findViewById(R.id.node_image_identifier)
         var icon: ImageView = itemView.findViewById(R.id.node_icon)
         var text: TextView = itemView.findViewById(R.id.node_text)
         var subText: TextView = itemView.findViewById(R.id.node_subtext)

@@ -30,7 +30,6 @@
     <string name="app_timeout">Uygulama zaman aşımı</string>
     <string name="app_timeout_summary">Veri tabanını kilitlemeden önceki boşta kalma süresi</string>
     <string name="application">Uygulama</string>
-    <string name="beta_dontask">Tekrar gösterme</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
     <string name="file_manager_install_description">Veritabanı dosyaları oluşturmak, açmak ve kaydetmek için Niyet eylemini ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT kabul eden bir dosya yöneticisi gerekir.</string>
@@ -84,7 +83,7 @@
     <string name="field_name">Alan adı</string>
     <string name="field_value">Alan değeri</string>
     <string name="file_not_found_content">Dosya bulunamadı. Dosya tarayıcınızda yeniden açmayı deneyin.</string>
-    <string name="file_browser">Dosya tarayıcı</string>
+    <string name="file_browser">Dosya yöneticisi</string>
     <string name="generate_password">Parola üret</string>
     <string name="hint_conf_pass">Parolayı onayla</string>
     <string name="hint_generated_password">Oluşturulan parola</string>
@@ -93,7 +92,7 @@
     <string name="hint_length">Uzunluk</string>
     <string name="hint_pass">Parola</string>
     <string name="password">Parola</string>
-    <string name="invalid_credentials">Kimlik bilgileri okunamadı. Bu tekrar ederse, veritabanı dosyanız bozuk olabilir.</string>
+    <string name="invalid_credentials">Kimlik bilgileri okunamadı.</string>
     <string name="invalid_algorithm">Yanlış algoritma.</string>
     <string name="invalid_db_sig">Veritabanı biçimi tanımlanamadı.</string>
     <string name="keyfile_is_empty">Anahtar dosya boş.</string>
@@ -178,7 +177,7 @@
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
     <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
-    <string name="open_biometric_prompt_unlock_database">Parmak izi tarama</string>
+    <string name="open_biometric_prompt_unlock_database">Veri tabanının kilidini açmak için biyometrik taramayı aç</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
     <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
     <string name="biometric_not_recognized">Parmak izi tanınamadı</string>
@@ -256,11 +255,11 @@
     <string name="allow_no_password_summary">Seçili kimlik bilgisi yoksa \"Aç\" düğmesini etkinleştirin</string>
     <string name="enable_read_only_title">Yazma korumalı</string>
     <string name="enable_read_only_summary">Veri tabanını öntanımlı olarak salt okunur aç</string>
-    <string name="enable_education_screens_title">Eğitim ekranları</string>
-    <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için öğeleri vurgulayın</string>
-    <string name="reset_education_screens_title">Eğitim ekranlarını sıfırla</string>
-    <string name="reset_education_screens_summary">Tüm eğitim öğelerini tekrar göster</string>
-    <string name="reset_education_screens_text">Eğitim ekranlarını sıfırla</string>
+    <string name="enable_education_screens_title">Eğitim ipuçları</string>
+    <string name="enable_education_screens_summary">Uygulamanın nasıl çalıştığını öğrenmek için ögeleri vurgulayın</string>
+    <string name="reset_education_screens_title">Eğitim ipuçlarını sıfırla</string>
+    <string name="reset_education_screens_summary">Tüm eğitim bilgilerini tekrar göster</string>
+    <string name="reset_education_screens_text">Eğitim ipuçlarını sıfırla</string>
     <string name="education_create_database_title">Veritabanı dosyanızı oluşturun</string>
     <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
     <string name="education_select_database_title">Mevcut bir veritabanını aç</string>
@@ -360,8 +359,8 @@
     <string name="biometric_prompt_extract_credential_title">Biyometrik tanıma ile veritabanı aç</string>
     <string name="biometric_prompt_extract_credential_message">Biyometrik verilerle veritabanı kimlik bilgilerini çıkar</string>
     <string name="biometric">Biyometrik</string>
-    <string name="biometric_auto_open_prompt_title">Biyometrik istemi otomatik aç</string>
-    <string name="biometric_auto_open_prompt_summary">Bir veritabanı için bir biyometrik anahtar tanımlandığında biyometrik komut istemini otomatik olarak aç</string>
+    <string name="biometric_auto_open_prompt_title">Biyometrik taramayı otomatik aç</string>
+    <string name="biometric_auto_open_prompt_summary">Vari tabanı, onu kullanacak biçimde ayarlandıysa biyometriği otomatik olarak sor</string>
     <string name="enable">Etkinleştir</string>
     <string name="disable">Devre dışı</string>
     <string name="master_key">Ana anahtar</string>
@@ -415,7 +414,7 @@
     <string name="command_execution">Komut çalıştırılıyor…</string>
     <string name="warning_permanently_delete_nodes">Seçilen düğümler kalıcı olarak silinsin mi\?</string>
     <string name="keystore_not_accessible">Anahtar deposu düzgün bir şekilde başlatılmadı.</string>
-    <string name="credential_before_click_biometric_button">Biyometrik düğmesine tıklamadan önce parolayı yazın.</string>
+    <string name="credential_before_click_biometric_button">Parolayı yazın, sonra \"Biyometrik\" düğmesine tıklayın.</string>
     <string name="recycle_bin_group_title">Geri dönüşüm kutusu grubu</string>
     <string name="enable_auto_save_database_title">Veritabanını otomatik kaydet</string>
     <string name="enable_auto_save_database_summary">Her önemli işlemden sonra veri tabanını kaydet (\"Değiştirilebilir\" modda)</string>

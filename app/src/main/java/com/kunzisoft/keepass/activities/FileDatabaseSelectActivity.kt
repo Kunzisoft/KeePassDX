@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.activities
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.assist.AssistStructure
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -41,12 +42,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
@@ -196,23 +197,30 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     private fun launchPasswordActivity(databaseUri: Uri, keyFile: Uri?) {
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     try {
                         PasswordActivity.launch(this@FileDatabaseSelectActivity,
-                                databaseUri, keyFile)
+                                databaseUri, keyFile,
+                                searchInfo)
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
+                    }
+                    // Remove the search info from intent
+                    if (searchInfo != null) {
+                        finish()
                     }
                 },
                 {
                     try {
                         PasswordActivity.launchForKeyboardResult(this@FileDatabaseSelectActivity,
-                                databaseUri, keyFile)
-                        finish()
+                                databaseUri, keyFile,
+                                searchInfo)
                     } catch (e: FileNotFoundException) {
                         fileNoFoundAction(e)
                     }
+                    finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -220,23 +228,25 @@ class FileDatabaseSelectActivity : StylishActivity(),
                             PasswordActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                     databaseUri, keyFile,
                                     assistStructure,
-                                    intent.getParcelableExtra(KEY_SEARCH_INFO))
+                                    searchInfo)
                         } catch (e: FileNotFoundException) {
                             fileNoFoundAction(e)
                         }
-
                     }
                 })
     }
 
     private fun launchGroupActivity(readOnly: Boolean) {
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            searchInfo,
                             readOnly)
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@FileDatabaseSelectActivity,
+                    GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
+                            searchInfo,
                             readOnly)
                     // Do not keep history
                     finish()
@@ -245,7 +255,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                 assistStructure,
-                                intent.getParcelableExtra(KEY_SEARCH_INFO),
+                                searchInfo,
                                 readOnly)
                     }
                 })
@@ -416,9 +426,18 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
         /*
          * -------------------------
-         * No Standard Launch, pass by PasswordActivity
+         * Launch only to standard search, else pass by PasswordActivity
          * -------------------------
          */
+
+        fun launch(context: Context,
+                   searchInfo: SearchInfo? = null) {
+            val intent = Intent(context, FileDatabaseSelectActivity::class.java)
+            searchInfo?.let {
+                intent.putExtra(KEY_SEARCH_INFO, it)
+            }
+            context.startActivity(intent)
+        }
 
         /*
          * -------------------------
@@ -426,8 +445,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
          * -------------------------
          */
 
-        fun launchForKeyboardSelection(activity: Activity) {
-            EntrySelectionHelper.startActivityForEntrySelection(activity, Intent(activity, FileDatabaseSelectActivity::class.java))
+        fun launchForEntrySelectionResult(activity: Activity,
+                                          searchInfo: SearchInfo? = null) {
+            EntrySelectionHelper.startActivityForEntrySelectionResult(activity,
+                    Intent(activity, FileDatabaseSelectActivity::class.java),
+                    searchInfo)
         }
 
         /*
@@ -439,7 +461,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     assistStructure: AssistStructure,
-                                    searchInfo: SearchInfo?) {
+                                    searchInfo: SearchInfo? = null) {
             AutofillHelper.startActivityForAutofillResult(activity,
                     Intent(activity, FileDatabaseSelectActivity::class.java),
                     assistStructure,

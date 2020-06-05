@@ -34,14 +34,12 @@ import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -50,7 +48,6 @@ object AutofillHelper {
     private const val AUTOFILL_RESPONSE_REQUEST_CODE = 8165
 
     private const val ASSIST_STRUCTURE = AutofillManager.EXTRA_ASSIST_STRUCTURE
-    const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
 
     fun retrieveAssistStructure(intent: Intent?): AssistStructure? {
         intent?.let {
@@ -146,36 +143,6 @@ object AutofillHelper {
                 Log.w(activity.javaClass.name, "Failed Autofill auth.")
                 activity.setResult(Activity.RESULT_CANCELED)
             }
-        }
-    }
-
-    /**
-     * Utility method to perform actions if item is found or not after an auto search in [database]
-     */
-    fun checkAutoSearchInfo(context: Context,
-                            database: Database,
-                            searchInfo: SearchInfo?,
-                            onItemsFound: (items: List<EntryInfo>) -> Unit,
-                            onItemNotFound: () -> Unit,
-                            onDatabaseClosed: () -> Unit) {
-        if (database.loaded && TimeoutHelper.checkTime(context)) {
-            var searchWithoutUI = false
-            if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                    && searchInfo != null) {
-                // If search provide results
-                database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
-                    if (searchGroup.getNumberOfChildEntries() > 0) {
-                        searchWithoutUI = true
-                        onItemsFound.invoke(
-                                searchGroup.getChildEntriesInfo(database))
-                    }
-                }
-            }
-            if (!searchWithoutUI) {
-                onItemNotFound.invoke()
-            }
-        } else {
-            onDatabaseClosed.invoke()
         }
     }
 

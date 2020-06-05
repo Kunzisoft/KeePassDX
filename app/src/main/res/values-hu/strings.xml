@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Tétlenség az adatbázis feloldása előtt</string>
     <string name="application">Alkalmazás</string>
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
-    <string name="beta_dontask">Ne mutassa újra</string>
     <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Egy fájlkezelő, amely fogadja az ACTION_CREATE_DOCUMENT és ACTION_OPEN_DOCUMENT Intenteket, melyek az adatbázisfájlok létrehozásához, megnyitásához és mentéséhez szükségesek.</string>
     <string name="clipboard_cleared">Vágólap törölve</string>
@@ -84,7 +83,7 @@
     <string name="hint_length">Hossz</string>
     <string name="hint_pass">Jelszó</string>
     <string name="password">Jelszó</string>
-    <string name="invalid_credentials">A hitelesítő adatok nem olvashatók. Ha ez újra megtörténik, akkor az adatbázisfájl sérült lehet.</string>
+    <string name="invalid_credentials">A hitelesítő adatok nem olvashatók.</string>
     <string name="invalid_algorithm">Hibás algoritmus.</string>
     <string name="invalid_db_sig">Az adatbázis formátuma nem ismerhető fel.</string>
     <string name="keyfile_is_empty">A kulcsfájl üres.</string>

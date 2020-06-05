@@ -93,11 +93,11 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             TimeoutHelper.temporarilyDisableTimeout()
             // Stop the opening notification
             DatabaseOpenNotificationService.stop(activity)
-            startOrUpdateDialog(titleId, messageId, warningId)
+            startDialog(titleId, messageId, warningId)
         }
 
         override fun onUpdateAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            startOrUpdateDialog(titleId, messageId, warningId)
+            updateDialog(titleId, messageId, warningId)
         }
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
@@ -120,7 +120,9 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         }
     }
 
-    private fun startOrUpdateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
+    private fun startDialog(titleId: Int? = null,
+                            messageId: Int? = null,
+                            warningId: Int? = null) {
         if (progressTaskDialogFragment == null) {
             progressTaskDialogFragment = activity.supportFragmentManager
                     .findFragmentByTag(PROGRESS_TASK_DIALOG_TAG) as ProgressTaskDialogFragment?
@@ -129,6 +131,10 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             progressTaskDialogFragment = ProgressTaskDialogFragment()
             progressTaskDialogFragment?.show(activity.supportFragmentManager, PROGRESS_TASK_DIALOG_TAG)
         }
+        updateDialog(titleId, messageId, warningId)
+    }
+
+    private fun updateDialog(titleId: Int?, messageId: Int?, warningId: Int?) {
         progressTaskDialogFragment?.apply {
             titleId?.let {
                 updateTitle(it)
@@ -194,6 +200,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
                         bindService()
                     }
                     DATABASE_STOP_TASK_ACTION -> {
+                        // Remove the progress task
+                        stopDialog()
                         unBindService()
                     }
                 }

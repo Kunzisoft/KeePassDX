@@ -24,15 +24,22 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.model.SearchInfo
 
 object EntrySelectionHelper {
 
     private const val EXTRA_ENTRY_SELECTION_MODE = "com.kunzisoft.keepass.extra.ENTRY_SELECTION_MODE"
     private const val DEFAULT_ENTRY_SELECTION_MODE = false
+    // Key to retrieve search in intent
+    const val KEY_SEARCH_INFO = "KEY_SEARCH_INFO"
 
-    fun startActivityForEntrySelection(context: Context, intent: Intent) {
+    fun startActivityForEntrySelectionResult(context: Context,
+                                             intent: Intent,
+                                             searchInfo: SearchInfo?) {
         addEntrySelectionModeExtraInIntent(intent)
-        // only to avoid visible flickering when redirecting
+        searchInfo?.let {
+            intent.putExtra(KEY_SEARCH_INFO, it)
+        }
         context.startActivity(intent)
     }
 

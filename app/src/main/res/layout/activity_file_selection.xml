@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/background_repeat"
-        android:backgroundTint="?attr/colorPrimary"
+        android:backgroundTint="?android:attr/textColor"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
 

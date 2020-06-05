@@ -271,6 +271,26 @@
         <item name="backgroundTint">?attr/colorAccent</item>
     </style>
 
+    <!-- Nodes Text Style -->
+    <style name="KeepassDXStyle.TextAppearance.Entry.Title" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textColor">@color/entry_title_color</item>
+        <item name="android:tint">@color/entry_title_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Entry.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="android:textColor">@color/entry_subtitle_color</item>
+        <item name="android:tint">@color/entry_subtitle_color</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Group.Title" parent="KeepassDXStyle.TextAppearance">
+        <item name="android:textColor">@color/group_title_color</item>
+        <item name="android:tint">@color/group_title_color</item>
+        <item name="android:textSize">16sp</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Group.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="android:textColor">@color/group_subtitle_color</item>
+        <item name="android:tint">@color/group_subtitle_color</item>
+    </style>
+
     <!-- Button Style -->
     <style name="KeepassDXStyle.v21.Button" parent="Base.TextAppearance.AppCompat.Button">
         <item name="android:gravity">center</item>
@@ -347,6 +367,17 @@
     <style name="KeepassDXStyle.ProgressBar.Circle" parent="Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/foreground_progress_circle</item>
         <item name="android:background">@drawable/background_progress_circle</item>
+    </style>
+
+    <!-- Transparent -->
+    <style name="Theme.Transparent" parent="Theme.MaterialComponents">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">false</item>
     </style>
 
 </resources>

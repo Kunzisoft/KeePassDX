@@ -26,7 +26,9 @@ import android.util.Log
 import android.widget.RemoteViews
 import androidx.annotation.RequiresApi
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
 
 @RequiresApi(api = Build.VERSION_CODES.O)
@@ -48,7 +50,7 @@ class KeeAutofillService : AutofillService() {
                 webDomain = parseResult.domain
             }
 
-            AutofillHelper.checkAutoSearchInfo(this,
+            SearchHelper.checkAutoSearchInfo(this,
                     Database.getInstance(),
                     searchInfo,
                     { items ->

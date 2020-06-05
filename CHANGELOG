@@ -1,3 +1,12 @@
+KeePassDX(2.6)
+ * Share a web domain to automatically search for an entry
+ * Default group icon for a new entry
+ * Better autofill recognition
+ * Fix entry not visually deleted in search
+ * Fix hanged loading dialog
+ * Fix auto open biometric prompt if comes from background
+ * Minor fixes
+
 KeePassDX(2.5)
  * First stable version of KeePassDX
  * Fork completely rewritten from the KeePassDroid project

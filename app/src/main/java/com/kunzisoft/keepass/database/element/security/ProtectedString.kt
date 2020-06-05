@@ -33,7 +33,6 @@ class ProtectedString : Parcelable {
         this.stringValue = toCopy.stringValue
     }
 
-    @JvmOverloads
     constructor(enableProtection: Boolean = false, string: String = "") {
         this.isProtected = enableProtection
         this.stringValue = string

@@ -11,8 +11,8 @@ android {
         applicationId "com.kunzisoft.keepass"
         minSdkVersion 14
         targetSdkVersion 29
-        versionCode = 33
-        versionName = "2.5"
+        versionCode = 34
+        versionName = "2.6"
         multiDexEnabled true
 
         testApplicationId = "com.kunzisoft.keepass.tests"
@@ -40,9 +40,6 @@ android {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    dexOptions {
     }
 
     flavorDimensions "version"
@@ -88,42 +85,44 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
         sourceCompatibility JavaVersion.VERSION_1_8
     }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 def room_version = "2.2.5"
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.preference:preference:1.1.1'
-    implementation 'androidx.legacy:legacy-preference-v14:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'androidx.documentfile:documentfile:1.0.1'
     implementation 'androidx.biometric:biometric:1.0.1'
-    implementation "androidx.core:core-ktx:1.2.0"
+    implementation 'androidx.core:core-ktx:1.2.0'
     // To upgrade with style
     implementation 'com.google.android.material:material:1.0.0'
     // Database
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     // Crypto
-    implementation 'org.bouncycastle:bcprov-jdk15on:1.65'
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.65.01'
     // Time
-    implementation 'joda-time:joda-time:2.9.9'
+    implementation 'joda-time:joda-time:2.10.6'
     // Color
     implementation 'com.github.Kunzisoft:AndroidClearChroma:2.3'
     // Education
     implementation 'com.getkeepsafe.taptargetview:taptargetview:1.13.0'
     // Apache Commons Collections
-    implementation 'commons-collections:commons-collections:3.2.1'
-    implementation 'org.apache.commons:commons-io:1.3.2'
+    implementation 'commons-collections:commons-collections:3.2.2'
     // Apache Commons Codec
-    implementation 'commons-codec:commons-codec:1.11'
+    implementation 'commons-codec:commons-codec:1.14'
     // Icon pack
     implementation project(path: ':icon-pack-classic')
     implementation project(path: ':icon-pack-material')
 
     // Tests
-    androidTestImplementation 'junit:junit:4.12'
+    androidTestImplementation 'junit:junit:4.13'
 }

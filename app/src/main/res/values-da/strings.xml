@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Inaktiv tid, før databasen låses</string>
     <string name="application">Program</string>
     <string name="menu_app_settings">Indstillinger</string>
-    <string name="beta_dontask">Vis ikke igen</string>
     <string name="brackets">Parenteser</string>
     <string name="file_manager_install_description">En filhåndtering, der accepterer intensionshandlingen ACTION_CREATE_DOCUMENT og ACTION_OPEN_DOCUMENT, er nødvendig for at oprette, åbne og gemme databasefiler.</string>
     <string name="clipboard_cleared">Udklipsholder ryddet</string>
@@ -81,7 +80,7 @@
     <string name="hint_length">Længde</string>
     <string name="hint_pass">Adgangskode</string>
     <string name="password">Adgangskode</string>
-    <string name="invalid_credentials">Legitimationsoplysningerne kunne ikke læses. Hvis det sker igen, kan databasefilen være beskadiget.</string>
+    <string name="invalid_credentials">Legitimationsoplysningerne kunne ikke læses.</string>
     <string name="invalid_algorithm">Forkert algoritme.</string>
     <string name="invalid_db_sig">Kunne ikke genkende databaseformat.</string>
     <string name="keyfile_is_empty">Nøglefilen er tom.</string>

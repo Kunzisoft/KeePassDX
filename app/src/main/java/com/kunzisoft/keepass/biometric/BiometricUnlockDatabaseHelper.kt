@@ -271,6 +271,10 @@ class BiometricUnlockDatabaseHelper(private val context: FragmentActivity) {
         }
     }
 
+    fun closeBiometricPrompt() {
+        biometricPrompt?.cancelAuthentication()
+    }
+
     interface BiometricUnlockErrorCallback {
         fun onInvalidKeyException(e: Exception)
         fun onBiometricException(e: Exception)

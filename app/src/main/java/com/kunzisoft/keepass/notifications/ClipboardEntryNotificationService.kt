@@ -55,6 +55,8 @@ class ClipboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
         // Get entry info from intent
         mEntryInfo = intent?.getParcelableExtra(EXTRA_ENTRY_INFO)
 

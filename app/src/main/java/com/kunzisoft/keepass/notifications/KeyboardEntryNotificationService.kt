@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.preference.PreferenceManager
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.magikeyboard.MagikIME
@@ -49,6 +50,8 @@ class KeyboardEntryNotificationService : LockNotificationService() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
         //Get settings
         notificationTimeoutMilliSecs = PreferenceManager.getDefaultSharedPreferences(this)
                 .getString(getString(R.string.keyboard_entry_timeout_key),
@@ -146,7 +149,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
         const val ACTION_CLEAN_KEYBOARD_ENTRY = "ACTION_CLEAN_KEYBOARD_ENTRY"
 
-        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        fun launchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean) {
 
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
@@ -155,14 +158,22 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             var startService = false
             val intent = Intent(context, KeyboardEntryNotificationService::class.java)
 
-            // Show the notification if allowed in Preferences
-            if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
-                if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+            if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+                if (toast) {
+                    Toast.makeText(context,
+                            context.getString(R.string.keyboard_notification_entry_content_title, entry.title),
+                            Toast.LENGTH_SHORT).show()
+                }
+
+                // Show the notification if allowed in Preferences
+                if (PreferencesUtil.isKeyboardNotificationEntryEnable(context)) {
                     startService = true
                     context.startService(intent.apply {
                         putExtra(ENTRY_INFO_KEY, entry)
                     })
                 }
+            } else {
+                MagikIME.removeEntry(context)
             }
 
             if (!startService)

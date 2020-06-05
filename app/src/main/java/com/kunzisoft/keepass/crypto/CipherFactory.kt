@@ -41,17 +41,6 @@ object CipherFactory {
         Security.addProvider(BouncyCastleProvider())
     }
 
-    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class)
-    @JvmOverloads
-    fun getInstance(transformation: String, androidOverride: Boolean = false): Cipher {
-        // Return the native AES if it is possible
-        return if (!deviceBlacklisted() && !androidOverride && hasNativeImplementation(transformation) && NativeLib.loaded()) {
-            Cipher.getInstance(transformation, AESProvider())
-        } else {
-            Cipher.getInstance(transformation)
-        }
-    }
-
     fun deviceBlacklisted(): Boolean {
         if (!blacklistInit) {
             blacklistInit = true
@@ -63,6 +52,16 @@ object CipherFactory {
 
     private fun hasNativeImplementation(transformation: String): Boolean {
         return transformation == "AES/CBC/PKCS5Padding"
+    }
+
+    @Throws(NoSuchAlgorithmException::class, NoSuchPaddingException::class)
+    fun getInstance(transformation: String, androidOverride: Boolean = false): Cipher {
+        // Return the native AES if it is possible
+        return if (!deviceBlacklisted() && !androidOverride && hasNativeImplementation(transformation) && NativeLib.loaded()) {
+            Cipher.getInstance(transformation, AESProvider())
+        } else {
+            Cipher.getInstance(transformation)
+        }
     }
 
     /**

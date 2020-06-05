@@ -77,7 +77,7 @@
     <string name="hint_length">Longitud</string>
     <string name="hint_pass">Contrasenya</string>
     <string name="password">Contrasenya</string>
-    <string name="invalid_credentials">No s\'han pogut llegir les credencials. Si torna a passar, el fitxer de la vostra base de dades podria estar malmès.</string>
+    <string name="invalid_credentials">No s\'han pogut llegir les credencials.</string>
     <string name="invalid_db_sig">No s\'ha pogut reconèixer el format de la base de dades.</string>
     <string name="length">Longitud</string>
     <string name="list_size_title">Mida de la llista de grups</string>
@@ -147,7 +147,6 @@
     <string name="edit_entry">Edita l\'entrada</string>
     <string name="contribution">Contribució</string>
     <string name="contact">Contacte</string>
-    <string name="beta_dontask">No tornis a mostrar</string>
     <string name="extended_ASCII">ASCII ampliat</string>
     <string name="sort_username">Nom d\'usuari</string>
     <string name="sort_title">Títol</string>

@@ -30,7 +30,6 @@
     <string name="key_derivation_function">Funkcija izvedbe ključa</string>
     <string name="app_timeout_summary">Vrijeme neaktivnosti prije zaključavanja baze podataka</string>
     <string name="application">Aplikacija</string>
-    <string name="beta_dontask">Ne prikazuj ponovno</string>
     <string name="brackets">Zagrade</string>
     <string name="extended_ASCII">Prošireni ASCII kod</string>
     <string name="file_manager_install_description">Za stvaranje, otvaranje i pohranu datoteka baze podataka potreban je upravitelj datoteka koji prihvaća zahtjeve ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
@@ -260,7 +259,7 @@
     <string name="error_save_database">Nije moguće spremiti bazu podataka.</string>
     <string name="error_otp_period">Razdoblje mora biti između %1$d i %2$d sekundi.</string>
     <string name="file_not_found_content">Nije moguće pronaći datoteku. Probajte je ponovno otvoriti iz vašeg upravitelja datotekama.</string>
-    <string name="invalid_credentials">Akreditacija se ne može pročitati. Ako se ovo ponavlja, vaša datoteka baze podataka je možda oštećena.</string>
+    <string name="invalid_credentials">Akreditacija se ne može pročitati.</string>
     <string name="list_size_title">Veličina članova liste</string>
     <string name="list_size_summary">Veličina teksta članova liste</string>
     <string name="lowercase">Mala slova</string>

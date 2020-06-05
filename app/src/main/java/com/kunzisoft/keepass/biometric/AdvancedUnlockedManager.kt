@@ -52,7 +52,11 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
     private var biometricMode: Mode = Mode.UNAVAILABLE
 
-    private var isBiometricPromptAutoOpenEnable = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
+    private var biometricPromptAutoOpenPreference = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
+    var isBiometricPromptAutoOpenEnable: Boolean = true
+        get() {
+            return field && biometricPromptAutoOpenPreference
+        }
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
@@ -272,6 +276,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     fun destroy() {
+        // Close the biometric prompt
+        biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)
     }

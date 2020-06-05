@@ -74,12 +74,10 @@ object CryptoUtil {
         return ret
     }
 
-    @JvmOverloads
     fun hashSha256(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
         return hashGen("SHA-256", data, offset, count)
     }
 
-    @JvmOverloads
     fun hashSha512(data: ByteArray, offset: Int = 0, count: Int = data.size): ByteArray {
         return hashGen("SHA-512", data, offset, count)
     }

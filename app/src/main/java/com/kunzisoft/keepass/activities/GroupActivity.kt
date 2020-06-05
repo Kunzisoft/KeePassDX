@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.activities.dialogs.GroupEditDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.IconPickerDialogFragment
 import com.kunzisoft.keepass.activities.dialogs.SortDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.adapters.SearchEntryCursorAdapter
@@ -61,7 +62,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
-import com.kunzisoft.keepass.magikeyboard.MagikIME
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
@@ -145,6 +145,11 @@ class GroupActivity : LockingActivity(),
         toolbar?.title = ""
         setSupportActionBar(toolbar)
 
+        // Retrieve the textColor to tint the icon
+        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
+        mIconColor = taTextColor.getColor(0, Color.WHITE)
+        taTextColor.recycle()
+
         // Focus view to reinitialize timeout
         resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
 
@@ -171,14 +176,6 @@ class GroupActivity : LockingActivity(),
             return
         }
 
-        // Update last access time.
-        mCurrentGroup?.touch(modified = false, touchParents = false)
-
-        // Retrieve the textColor to tint the icon
-        val taTextColor = theme.obtainStyledAttributes(intArrayOf(R.attr.textColorInverse))
-        mIconColor = taTextColor.getColor(0, Color.WHITE)
-        taTextColor.recycle()
-
         var fragmentTag = LIST_NODES_FRAGMENT_TAG
         if (mCurrentGroupIsASearch)
             fragmentTag = SEARCH_FRAGMENT_TAG
@@ -194,6 +191,14 @@ class GroupActivity : LockingActivity(),
                 mListNodesFragment!!,
                 fragmentTag)
                 .commit()
+
+        // Update last access time.
+        mCurrentGroup?.touch(modified = false, touchParents = false)
+
+        // To relaunch the activity with ACTION_SEARCH
+        if (manageSearchInfoIntent(intent)) {
+            startActivity(intent)
+        }
 
         // Add listeners to the add buttons
         addNodeButtonView?.setAddGroupClickListener(View.OnClickListener {
@@ -222,6 +227,8 @@ class GroupActivity : LockingActivity(),
                 result.data?.getBundle(NEW_NODES_KEY)?.let { newNodesBundle ->
                     newNodes = getListNodesFromBundle(database, newNodesBundle)
                 }
+
+                refreshSearchGroup()
 
                 when (actionTask) {
                     ACTION_DATABASE_UPDATE_GROUP_TASK -> {
@@ -277,11 +284,14 @@ class GroupActivity : LockingActivity(),
         super.onNewIntent(intent)
 
         intent?.let { intentNotNull ->
+            // To transform KEY_SEARCH_INFO in ACTION_SEARCH
+            manageSearchInfoIntent(intent)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
                 // only one instance of search in backstack
-                openSearchGroup(retrieveCurrentGroup(intentNotNull, null))
+                deletePreviousSearchGroup()
+                openGroup(retrieveCurrentGroup(intentNotNull, null), true)
                 true
             } else {
                 false
@@ -289,20 +299,35 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private fun openSearchGroup(group: Group?) {
-        // Delete the previous search fragment
-        val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
-        if (searchFragment != null) {
-            if (supportFragmentManager
-                            .popBackStackImmediate(SEARCH_FRAGMENT_TAG,
-                                    FragmentManager.POP_BACK_STACK_INCLUSIVE))
-                supportFragmentManager.beginTransaction().remove(searchFragment).commit()
+    /**
+     * Transform the KEY_SEARCH_INFO in ACTION_SEARCH, return true if KEY_SEARCH_INFO was present
+     */
+    private fun manageSearchInfoIntent(intent: Intent): Boolean {
+        // To relaunch the activity as ACTION_SEARCH
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+        if (searchInfo != null) {
+            intent.action = Intent.ACTION_SEARCH
+            val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
+            intent.removeExtra(KEY_SEARCH_INFO)
+            intent.putExtra(SearchManager.QUERY, searchQuery)
+            return true
         }
-        openGroup(group, true)
+        return false
     }
 
-    private fun openChildGroup(group: Group) {
-        openGroup(group, false)
+    private fun deletePreviousSearchGroup() {
+        // Delete the previous search fragment
+        try {
+            val searchFragment = supportFragmentManager.findFragmentByTag(SEARCH_FRAGMENT_TAG)
+            if (searchFragment != null) {
+                if (supportFragmentManager
+                                .popBackStackImmediate(SEARCH_FRAGMENT_TAG,
+                                        FragmentManager.POP_BACK_STACK_INCLUSIVE))
+                    supportFragmentManager.beginTransaction().remove(searchFragment).commit()
+            }
+        } catch (exception: Exception) {
+            Log.e(TAG, "unable to remove previous search fragment", exception)
+        }
     }
 
     private fun openGroup(group: Group?, isASearch: Boolean) {
@@ -329,6 +354,9 @@ class GroupActivity : LockingActivity(),
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
 
+            // Update last access time.
+            group?.touch(modified = false, touchParents = false)
+
             mListNodesFragment = newListNodeFragment
             mCurrentGroup = group
             assignGroupViewElements()
@@ -344,6 +372,12 @@ class GroupActivity : LockingActivity(),
         }
         outState.putBoolean(REQUEST_STARTUP_SEARCH_KEY, mRequestStartupSearch)
         super.onSaveInstanceState(outState)
+    }
+
+    private fun refreshSearchGroup() {
+        deletePreviousSearchGroup()
+        if (mCurrentGroupIsASearch)
+            openGroup(retrieveCurrentGroup(intent, null), true)
     }
 
     private fun retrieveCurrentGroup(intent: Intent, savedInstanceState: Bundle?): Group? {
@@ -468,7 +502,8 @@ class GroupActivity : LockingActivity(),
     override fun onNodeClick(node: Node) {
         when (node.type) {
             Type.GROUP -> try {
-                openChildGroup(node as Group)
+                // Open child group
+                openGroup(node as Group, false)
             } catch (e: ClassCastException) {
                 Log.e(TAG, "Node can't be cast in Group")
             }
@@ -480,14 +515,13 @@ class GroupActivity : LockingActivity(),
                             EntryActivity.launch(this@GroupActivity, entryVersioned, mReadOnly)
                         },
                         {
+                            rebuildListNodes()
                             // Populate Magikeyboard with entry
                             mDatabase?.let { database ->
-                                MagikIME.addEntryAndLaunchNotificationIfAllowed(this@GroupActivity,
-                                        entryVersioned.getEntryInfo(database))
+                                populateKeyboardAndMoveAppToBackground(this@GroupActivity,
+                                        entryVersioned.getEntryInfo(database),
+                                        intent)
                             }
-                            // Consume the selection mode
-                            EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                            moveTaskToBack(true)
                         },
                         {
                             // Build response with the entry selected
@@ -616,6 +650,7 @@ class GroupActivity : LockingActivity(),
         if (database != null
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
+
             mProgressDialogThread?.startDatabaseDeleteNodes(
                     nodes,
                     !mReadOnly && mAutoSaveEnable
@@ -921,12 +956,19 @@ class GroupActivity : LockingActivity(),
         mListNodesFragment?.onActivityResult(requestCode, resultCode, data)
     }
 
-    private fun removeSearchInIntent(intent: Intent) {
+    private fun rebuildListNodes() {
+        mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
+        // to refresh fragment
+        mListNodesFragment?.rebuildList()
+        mCurrentGroup = mListNodesFragment?.mainGroup
+        // Remove search in intent
+        deletePreviousSearchGroup()
+        mCurrentGroupIsASearch = false
         if (Intent.ACTION_SEARCH == intent.action) {
-            mCurrentGroupIsASearch = false
             intent.action = Intent.ACTION_DEFAULT
             intent.removeExtra(SearchManager.QUERY)
         }
+        assignGroupViewElements()
     }
 
     override fun onBackPressed() {
@@ -942,16 +984,13 @@ class GroupActivity : LockingActivity(),
                     lockAndExit()
                     super.onBackPressed()
                 } else {
+                    // To restore standard mode
+                    EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
                     moveTaskToBack(true)
                 }
             }
 
-            mListNodesFragment = supportFragmentManager.findFragmentByTag(LIST_NODES_FRAGMENT_TAG) as ListNodesFragment?
-            // to refresh fragment
-            mListNodesFragment?.rebuildList()
-            mCurrentGroup = mListNodesFragment?.mainGroup
-            removeSearchInIntent(intent)
-            assignGroupViewElements()
+            rebuildListNodes()
         }
     }
 
@@ -967,17 +1006,11 @@ class GroupActivity : LockingActivity(),
 
         private fun buildIntent(context: Context,
                                 group: Group?,
-                                searchInfo: SearchInfo?,
                                 readOnly: Boolean,
                                 intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(context, GroupActivity::class.java)
             if (group != null) {
                 intent.putExtra(GROUP_ID_KEY, group.nodeId)
-            }
-            if (searchInfo != null) {
-                intent.action = Intent.ACTION_SEARCH
-                val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
-                intent.putExtra(SearchManager.QUERY, searchQuery)
             }
             ReadOnlyHelper.putReadOnlyInIntent(intent, readOnly)
             intentBuildLauncher.invoke(intent)
@@ -985,21 +1018,19 @@ class GroupActivity : LockingActivity(),
 
         private fun checkTimeAndBuildIntent(activity: Activity,
                                             group: Group?,
-                                            searchInfo: SearchInfo?,
                                             readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTimeAndLockIfTimeout(activity)) {
-                buildIntent(activity, group, searchInfo, readOnly, intentBuildLauncher)
+                buildIntent(activity, group, readOnly, intentBuildLauncher)
             }
         }
 
         private fun checkTimeAndBuildIntent(context: Context,
                                             group: Group?,
-                                            searchInfo: SearchInfo?,
                                             readOnly: Boolean,
                                             intentBuildLauncher: (Intent) -> Unit) {
             if (TimeoutHelper.checkTime(context)) {
-                buildIntent(context, group, searchInfo, readOnly, intentBuildLauncher)
+                buildIntent(context, group, readOnly, intentBuildLauncher)
             }
         }
 
@@ -1009,8 +1040,12 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(context: Context,
+                   searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 context.startActivity(intent)
             }
         }
@@ -1020,11 +1055,11 @@ class GroupActivity : LockingActivity(),
          * 		Keyboard Launch
          * -------------------------
          */
-        // TODO implement pre search to directly open the direct group #280
-        fun launchForKeyboardSelection(context: Context,
-                                       readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
-            checkTimeAndBuildIntent(context, null, null, readOnly) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(context, intent)
+        fun launchForEntrySelectionResult(context: Context,
+                                          searchInfo: SearchInfo? = null,
+                                          readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
+            checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+                EntrySelectionHelper.startActivityForEntrySelectionResult(context, intent, searchInfo)
             }
         }
 
@@ -1038,7 +1073,7 @@ class GroupActivity : LockingActivity(),
                                     assistStructure: AssistStructure,
                                     searchInfo: SearchInfo? = null,
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
-            checkTimeAndBuildIntent(activity, null, searchInfo, readOnly) { intent ->
+            checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)
             }
         }

@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">フィードバック</string>
     <string name="homepage">ホームページ</string>
     <string name="about_description">KeePass パスワードマネージャーの Android 実装</string>
@@ -26,22 +25,23 @@
     <string name="add_group">グループを追加</string>
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
     <string name="app_timeout">アプリ タイムアウト</string>
-    <string name="app_timeout_summary">KeePassがこの時間非アクティブだった場合、データベースをロックします。</string>
-    <string name="application">アプリケーション</string>
-    <string name="menu_app_settings">アプリケーション設定</string>
+    <string name="app_timeout_summary">データベースをロックするまでの休止時間</string>
+    <string name="application">アプリ</string>
+    <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">カッコ</string>
-    <string name="file_manager_install_description">ファイルを検索するには OI File Manager が必要です。</string>
+    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテントアクションを受け付けるファイルマネージャーがデータベースファイルの作成、オープン、保存に必要です。</string>
     <string name="clipboard_cleared">クリップボードを消去しました。</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
-    <string name="clipboard_timeout_summary">コピーした情報をクリップボードから消去する時間</string>
+    <string name="clipboard_timeout_summary">クリップボードでの保存時間</string>
     <string name="select_to_copy">ここをタップすると%1$sをクリップボードにコピーします</string>
     <string name="retrieving_db_key">データベース認証中…</string>
     <string name="database">データベース</string>
-    <string name="decrypting_db">データベースを解析中…</string>
-    <string name="default_checkbox">このデータベースを次回以降も利用する</string>
+    <string name="decrypting_db">データベースを復号中…</string>
+    <string name="default_checkbox">デフォルトのデータベースとして使う</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft によって作られたフリーソフトウェアであり、無保証です。GPLバージョン3以上の条件下でこれを再頒布することができます。</string>
-    <string name="select_database_file">データベースファイル</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は &lt;strong&gt;オープンソース&lt;/strong&gt; であり &lt;strong&gt;広告はありません&lt;/strong&gt;。
+\n現状のまま、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスのもとで、何らの保証もなく提供されます。</string>
+    <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">最終アクセス日</string>
     <string name="entry_cancel">キャンセル</string>
     <string name="entry_notes">備考</string>
@@ -55,28 +55,28 @@
     <string name="entry_title">タイトル</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
-    <string name="error_arc4">Arcfour stream cipherには対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePassDXはこのuriを処理できません。</string>
+    <string name="error_arc4">Arcfourストリーム暗号には対応していません。</string>
+    <string name="error_can_not_handle_uri">KeePassDXはこのURIを処理できません。</string>
     <string name="error_file_not_create">ファイルを作成できません。</string>
-    <string name="error_invalid_db">無効なデータベースです。</string>
-    <string name="error_invalid_path">パスが無効です。</string>
-    <string name="error_no_name">タイトルは必須入力です。</string>
-    <string name="error_nokeyfile">パスワードかキーファイルが必要です。</string>
-    <string name="error_out_of_memory">データベース解析中にメモリ不足になりました。</string>
+    <string name="error_invalid_db">データベースを読み込めません。</string>
+    <string name="error_invalid_path">パスが正しいことを確認してください。</string>
+    <string name="error_no_name">名前を入力してください。</string>
+    <string name="error_nokeyfile">キーファイルを選択してください。</string>
+    <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
-    <string name="error_pass_match">パスワードが一致しません</string>
+    <string name="error_pass_match">パスワードが一致しません。</string>
     <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
-    <string name="file_browser">ファイルブラウザ</string>
+    <string name="file_browser">ファイルマネージャー</string>
     <string name="generate_password">パスワードを生成する</string>
     <string name="hint_conf_pass">パスワードをもう一度入力</string>
-    <string name="hint_generated_password">生成されたパスワードが表示されます</string>
+    <string name="hint_generated_password">生成されたパスワード</string>
     <string name="hint_group_name">グループ名</string>
     <string name="hint_keyfile">キーファイル</string>
     <string name="hint_length">長さ</string>
     <string name="password">パスワード</string>
     <string name="hint_pass">パスワード</string>
-    <string name="invalid_credentials">パスワード/キーファイルが違います。</string>
+    <string name="invalid_credentials">認証情報が読めません。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>
     <string name="list_size_title">グループ一覧サイズ</string>
@@ -142,11 +142,10 @@
     <string name="edit_entry">エントリーを編集</string>
     <string name="encryption">暗号化</string>
     <string name="key_derivation_function">鍵導出関数</string>
-    <string name="beta_dontask">今後、表示しない</string>
     <string name="extended_ASCII">拡張 ASCII</string>
     <string name="allow">許可</string>
     <string name="clipboard_error_title">クリップボードエラー</string>
-    <string name="clipboard_error">一部の Samsung Android 携帯電話はアプリからクリップボードが使用できません。</string>
+    <string name="clipboard_error">一部の端末ではアプリからクリップボードを使用できません。</string>
     <string name="clipboard_error_clear">クリップボードをクリアできません</string>
     <string name="clipboard_swipe_clean">スワイプすると今すぐクリップボードをクリアします</string>
     <string name="entry_not_found">エントリデータが見つかりませんでした。</string>
@@ -214,4 +213,28 @@
     <string name="menu_empty_recycle_bin">ゴミ箱を空にする</string>
     <string name="command_execution">コマンド実行中…</string>
     <string name="warning_permanently_delete_nodes">削除するとこのエントリーは復活できませんがよろしいですか？</string>
+    <string name="auto_focus_search_summary">データベースを開くとき検索を要求する</string>
+    <string name="auto_focus_search_title">クイックサーチ</string>
+    <string name="menu_delete_entry_history">履歴を削除する</string>
+    <string name="menu_restore_entry_history">履歴を復元する</string>
+    <string name="list_groups_show_number_entries_summary">グループ内のエントリーの数を表示</string>
+    <string name="list_groups_show_number_entries_title">エントリーの数を表示</string>
+    <string name="error_otp_digits">トークンは %1$d 桁 から %2$d 桁である必要があります。</string>
+    <string name="error_create_database_file">このパスワードとキーファイルでデータベースを作成できません。</string>
+    <string name="error_create_database">データベースファイルを作成できません。</string>
+    <string name="error_label_exists">このラベルはすでに存在します。</string>
+    <string name="error_disallow_no_credentials">少なくとも一つの認証情報がセットされる必要があります。</string>
+    <string name="error_invalid_OTP">無効な OTP 秘密鍵。</string>
+    <string name="otp_digits">桁</string>
+    <string name="entry_setup_otp">ワンタイムパスワードを設定する</string>
+    <string name="entry_attachments">添付</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;&lt;strong&gt;バグを修正し&lt;/strong&gt;と&lt;strong&gt;機能を追加し&lt;/strong&gt; and &lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ためには、あなたの&lt;strong&gt;貢献&lt;/strong&gt;が頼りです。</string>
+    <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
+    <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
+    <string name="content_description_add_node">ノードの追加</string>
+    <string name="content_description_node_children">ノードの子要素</string>
+    <string name="content_description_background">バックグラウンド</string>
+    <string name="security">セキュリティ</string>
+    <string name="contribution">貢献</string>
 </resources>

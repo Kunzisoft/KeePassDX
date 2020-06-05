@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Doba nečinnosti než se aplikace zamkne</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
-    <string name="beta_dontask">Znovu neukázat</string>
     <string name="brackets">Závorky</string>
     <string name="file_manager_install_description">K založení, otevření a uložení databázových souborů je potřebný správce souborů, který akceptuje akci intentu ACTION_CREATE_DOCUMENT a ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>
@@ -82,7 +81,7 @@
     <string name="hint_length">Délka</string>
     <string name="hint_pass">Heslo</string>
     <string name="password">Heslo</string>
-    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje. Pokud se chyba opakuje, databázový soubor může být poškozen.</string>
+    <string name="invalid_credentials">Nebylo možno načíst autentizační údaje.</string>
     <string name="invalid_algorithm">Nesprávný algoritmus.</string>
     <string name="invalid_db_sig">Nedaří se rozpoznat formát databáze.</string>
     <string name="keyfile_is_empty">Soubor s klíčem je prázdný.</string>
@@ -195,7 +194,7 @@
     <string name="warning_empty_password">Pokračovat bez ochrany odemknutím heslem\?</string>
     <string name="warning_no_encryption_key">Pokračovat bez šifrovacího klíče\?</string>
     <string name="configure_biometric">Biometrická pobídka je zařízením podporována, ale není nastavena.</string>
-    <string name="open_biometric_prompt_unlock_database">Otevři biometrickou pobídku k otevření databáze</string>
+    <string name="open_biometric_prompt_unlock_database">Otevřít biometrickou pobídku k otevření databáze</string>
     <string name="encrypted_value_stored">Šifrované heslo uloženo</string>
     <string name="biometric_invalid_key">Nelze načíst biometrický klíč. Prosím, smažte jej a opakujte proceduru biometrického rozpoznání.</string>
     <string name="biometric_not_recognized">Biometrický prvek nerozpoznán</string>

@@ -30,7 +30,6 @@
     <string name="app_timeout_summary">Denbora datubasea blokeatu baino lehenago aplikazioa erabili gabe dagoenean</string>
     <string name="application">Aplikazioa</string>
     <string name="menu_app_settings">Aplikazioaren ezarpenak</string>
-    <string name="beta_dontask">Ez erakutsi berriro</string>
     <string name="brackets">Brackets</string>
     <string name="file_manager_install_description">Fitxategietan nabigatzeak Open Intents Fitxategi Kudeatzailea behar du. Klik egin azpian instalatzeko. Fitxategien kudeatzailaren arazo batzuk direla eta, izan daiteke nabigazioak ondo ez funtzionatzea lehenengo aldian.</string>
     <string name="clipboard_cleared">Arbela ezabatuta.</string>

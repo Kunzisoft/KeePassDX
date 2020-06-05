@@ -35,26 +35,20 @@ import com.kunzisoft.keepass.utils.*
 
 abstract class LockingActivity : StylishActivity() {
 
-    companion object {
-
-        private const val TAG = "LockingActivity"
-
-        const val RESULT_EXIT_LOCK = 1450
-
-        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
-        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
-    }
-
     protected var mTimeoutEnable: Boolean = true
 
     private var mLockReceiver: LockReceiver? = null
     private var mExitLock: Boolean = false
 
     // Force readOnly if Entry Selection mode
-    protected var mReadOnly: Boolean = false
+    protected var mReadOnly: Boolean
         get() {
-            return field || mSelectionMode
+            return mReadOnlyToSave || mSelectionMode
         }
+        set(value) {
+            mReadOnlyToSave = value
+        }
+    private var mReadOnlyToSave: Boolean = false
     protected var mSelectionMode: Boolean = false
     protected var mAutoSaveEnable: Boolean = true
 
@@ -75,6 +69,8 @@ abstract class LockingActivity : StylishActivity() {
         if (mTimeoutEnable) {
             mLockReceiver = LockReceiver {
                 closeDatabase()
+                if (LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == null)
+                    LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
                 // Add onActivityForResult response
                 setResult(RESULT_EXIT_LOCK)
                 finish()
@@ -83,7 +79,6 @@ abstract class LockingActivity : StylishActivity() {
         }
 
         mExitLock = false
-        mReadOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrIntent(savedInstanceState, intent)
 
         mProgressDialogThread = ProgressDialogThread(this)
     }
@@ -104,6 +99,7 @@ abstract class LockingActivity : StylishActivity() {
         mProgressDialogThread?.registerProgressTask()
 
         // To refresh when back to normal workflow from selection workflow
+        mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
         mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
@@ -124,15 +120,18 @@ abstract class LockingActivity : StylishActivity() {
             if (!mExitLock)
                 TimeoutHelper.recordTime(this)
         }
+
+        LOCKING_ACTIVITY_UI_VISIBLE = true
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        ReadOnlyHelper.onSaveInstanceState(outState, mReadOnly)
         outState.putBoolean(TIMEOUT_ENABLE_KEY, mTimeoutEnable)
         super.onSaveInstanceState(outState)
     }
 
     override fun onPause() {
+        LOCKING_ACTIVITY_UI_VISIBLE = false
+
         mProgressDialogThread?.unregisterProgressTask()
 
         super.onPause()
@@ -179,5 +178,18 @@ abstract class LockingActivity : StylishActivity() {
         } else {
             super.onBackPressed()
         }
+    }
+
+    companion object {
+
+        private const val TAG = "LockingActivity"
+
+        const val RESULT_EXIT_LOCK = 1450
+
+        const val TIMEOUT_ENABLE_KEY = "TIMEOUT_ENABLE_KEY"
+        const val TIMEOUT_ENABLE_KEY_DEFAULT = true
+
+        private var LOCKING_ACTIVITY_UI_VISIBLE = false
+        var LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK: Boolean? = null
     }
 }

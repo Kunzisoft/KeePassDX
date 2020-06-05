@@ -31,7 +31,6 @@ class NodeIdInt : NodeId<Int> {
 
     constructor(source: NodeIdInt) : this(source.id)
 
-    @JvmOverloads
     constructor(groupId: Int = Random().nextInt()) : super() {
         this.id = groupId
     }

@@ -102,9 +102,12 @@ internal class StructureParser(private val structure: AssistStructure) {
             when {
                 it.equals(View.AUTOFILL_HINT_USERNAME, true)
                         || it.equals(View.AUTOFILL_HINT_EMAIL_ADDRESS, true)
-                        || it.equals(View.AUTOFILL_HINT_PHONE, true)
                         || it.equals("email", true)
-                        || it.equals("usernameOrEmail", true)-> {
+                        || it.equals(View.AUTOFILL_HINT_PHONE, true)
+                        || it.contains("OrUsername", true)
+                        || it.contains("OrEmailAddress", true)
+                        || it.contains("OrEmail", true)
+                        || it.contains("OrPhone", true)-> {
                     result?.usernameId = autofillId
                     Log.d(TAG, "Autofill username hint")
                 }
@@ -112,7 +115,7 @@ internal class StructureParser(private val structure: AssistStructure) {
                         || it.contains("password", true) -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password hint")
-                    // Username not needed in this specific case
+                    // Username not needed in this case
                     usernameNeeded = false
                     return true
                 }
@@ -180,6 +183,8 @@ internal class StructureParser(private val structure: AssistStructure) {
                         inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD != 0 -> {
                     result?.passwordId = autofillId
                     Log.d(TAG, "Autofill password android type: $inputType")
+                    // Username not needed in this case
+                    usernameNeeded = false
                     return true
                 }
                 inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT != 0 ||

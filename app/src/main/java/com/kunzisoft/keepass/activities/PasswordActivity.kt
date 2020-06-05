@@ -42,6 +42,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
+import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
@@ -49,11 +50,11 @@ import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.autofill.AutofillHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
+import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.education.PasswordActivityEducation
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
@@ -110,6 +111,7 @@ open class PasswordActivity : StylishActivity() {
     private var mProgressDialogThread: ProgressDialogThread? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
+    private var mAllowAutoOpenBiometricPrompt: Boolean = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -164,6 +166,10 @@ open class PasswordActivity : StylishActivity() {
         getUriFromIntent(intent)
         if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
             mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
+        }
+
+        if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
+            mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
         }
 
         mProgressDialogThread = ProgressDialogThread(this).apply {
@@ -255,21 +261,48 @@ open class PasswordActivity : StylishActivity() {
     }
 
     private fun launchGroupActivity() {
+        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@PasswordActivity,
+                            searchInfo,
                             readOnly)
+                    // Remove the search info from intent
+                    if (searchInfo != null) {
+                        finish()
+                    }
                 },
                 {
-                    GroupActivity.launchForKeyboardSelection(this@PasswordActivity,
-                            readOnly)
+                    SearchHelper.checkAutoSearchInfo(this,
+                            Database.getInstance(),
+                            searchInfo,
+                            { items ->
+                                // Response is build
+                                if (items.size == 1) {
+                                    populateKeyboardAndMoveAppToBackground(this@PasswordActivity,
+                                            items[0],
+                                            intent)
+                                } else {
+                                    // Select the one we want
+                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
+                                }
+                            },
+                            {
+                                // Here no search info found
+                                GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
+                                        null,
+                                        readOnly)
+                            },
+                            {
+                                // Simply close if database not opened, normally not happened
+                            }
+                    )
                     // Do not keep history
                     finish()
                 },
                 { assistStructure ->
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-                        AutofillHelper.checkAutoSearchInfo(this,
+                        SearchHelper.checkAutoSearchInfo(this,
                                 Database.getInstance(),
                                 searchInfo,
                                 { items ->
@@ -305,34 +338,32 @@ open class PasswordActivity : StylishActivity() {
 
     override fun onResume() {
 
-        if (Database.getInstance().loaded)
-            launchGroupActivity()
-
-        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
-
-        // If the database isn't accessible make sure to clear the password field, if it
-        // was saved in the instance state
         if (Database.getInstance().loaded) {
-            clearCredentialsViews()
+            launchGroupActivity()
+        } else {
+            mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
+
+            // If the database isn't accessible make sure to clear the password field, if it
+            // was saved in the instance state
+            if (Database.getInstance().loaded) {
+                clearCredentialsViews()
+            }
+
+            // For check shutdown
+            super.onResume()
+
+            mProgressDialogThread?.registerProgressTask()
+
+            // Don't allow auto open prompt if lock become when UI visible
+            mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)
+                false
+            else
+                mAllowAutoOpenBiometricPrompt
+
+            initUriFromIntent()
+
+            checkPermission()
         }
-
-        // For check shutdown
-        super.onResume()
-
-        mProgressDialogThread?.registerProgressTask()
-
-        initUriFromIntent()
-
-        checkPermission()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
-        mDatabaseKeyFileUri?.let {
-            outState.putString(KEY_KEYFILE, it.toString())
-        }
-        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
-        super.onSaveInstanceState(outState)
     }
 
     private fun initUriFromIntent() {
@@ -438,6 +469,7 @@ open class PasswordActivity : StylishActivity() {
                                     }
                                 })
                     }
+                    advancedUnlockedManager?.isBiometricPromptAutoOpenEnable = mAllowAutoOpenBiometricPrompt
                     advancedUnlockedManager?.checkBiometricAvailability()
                     biometricInitialize = true
                 } else {
@@ -499,14 +531,26 @@ open class PasswordActivity : StylishActivity() {
     override fun onPause() {
         mProgressDialogThread?.unregisterProgressTask()
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            advancedUnlockedManager?.destroy()
+            advancedUnlockedManager = null
+        }
+
+        // Reinit locking activity UI variable
+        LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = null
+        mAllowAutoOpenBiometricPrompt = true
+
         super.onPause()
     }
 
-    override fun onDestroy() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            advancedUnlockedManager?.destroy()
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean(KEY_PERMISSION_ASKED, mPermissionAsked)
+        mDatabaseKeyFileUri?.let {
+            outState.putString(KEY_KEYFILE, it.toString())
         }
-        super.onDestroy()
+        ReadOnlyHelper.onSaveInstanceState(outState, readOnly)
+        outState.putBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT, false)
+        super.onSaveInstanceState(outState)
     }
 
     private fun verifyCheckboxesAndLoadDatabase(cipherDatabaseEntity: CipherDatabaseEntity? = null) {
@@ -715,6 +759,8 @@ open class PasswordActivity : StylishActivity() {
             data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
+        mAllowAutoOpenBiometricPrompt = false
+
         // To get entry in result
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             AutofillHelper.onActivityResultSetResultAndFinish(this, requestCode, resultCode, data)
@@ -754,6 +800,8 @@ open class PasswordActivity : StylishActivity() {
         private const val KEY_PERMISSION_ASKED = "KEY_PERMISSION_ASKED"
         private const val WRITE_EXTERNAL_STORAGE_REQUEST = 647
 
+        private const val ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT = "ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT"
+
         private fun buildAndLaunchIntent(activity: Activity, databaseFile: Uri, keyFile: Uri?,
                                          intentBuildLauncher: (Intent) -> Unit) {
             val intent = Intent(activity, PasswordActivity::class.java)
@@ -773,8 +821,12 @@ open class PasswordActivity : StylishActivity() {
         fun launch(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
+                searchInfo?.let {
+                    intent.putExtra(KEY_SEARCH_INFO, it)
+                }
                 activity.startActivity(intent)
             }
         }
@@ -789,9 +841,13 @@ open class PasswordActivity : StylishActivity() {
         fun launchForKeyboardResult(
                 activity: Activity,
                 databaseFile: Uri,
-                keyFile: Uri?) {
+                keyFile: Uri?,
+                searchInfo: SearchInfo?) {
             buildAndLaunchIntent(activity, databaseFile, keyFile) { intent ->
-                EntrySelectionHelper.startActivityForEntrySelection(activity, intent)
+                EntrySelectionHelper.startActivityForEntrySelectionResult(
+                        activity,
+                        intent,
+                        searchInfo)
             }
         }
 
@@ -818,7 +874,7 @@ open class PasswordActivity : StylishActivity() {
                             searchInfo)
                 }
             } else {
-                launch(activity, databaseFile, keyFile)
+                launch(activity, databaseFile, keyFile, searchInfo)
             }
         }
     }

@@ -41,7 +41,6 @@ class DeletedObject {
 
     constructor()
 
-    @JvmOverloads
     constructor(uuid: UUID, deletionTime: Date = Date()) {
         this.uuid = uuid
         this.mDeletionTime = deletionTime

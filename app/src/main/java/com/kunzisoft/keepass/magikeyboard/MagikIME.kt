@@ -36,6 +36,7 @@ import android.widget.FrameLayout
 import android.widget.PopupWindow
 import android.widget.TextView
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.MagikeyboardLauncherActivity
 import com.kunzisoft.keepass.adapters.FieldsAdapter
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.model.EntryInfo
@@ -211,7 +212,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 // Stop current service and reinit entry
                 stopService(Intent(this, KeyboardEntryNotificationService::class.java))
                 removeEntryInfo()
-                val intent = Intent(this, KeyboardLauncherActivity::class.java)
+                val intent = Intent(this, MagikeyboardLauncherActivity::class.java)
                 // New task needed because don't launch from an Activity context
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
@@ -248,7 +249,9 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                 }
                 popupCustomKeys?.showAtLocation(keyboardView, Gravity.END or Gravity.TOP, 0, 0)
             }
-            Keyboard.KEYCODE_DELETE -> inputConnection.deleteSurroundingText(1, 0)
+            Keyboard.KEYCODE_DELETE -> {
+                inputConnection.sendKeyEvent(KeyEvent(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DEL))
+            }
             Keyboard.KEYCODE_DONE -> inputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
         }
     }
@@ -321,11 +324,11 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             context.sendBroadcast(Intent(REMOVE_ENTRY_MAGIKEYBOARD_ACTION))
         }
 
-        fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo) {
+        fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean = false) {
             // Add a new entry
             entryInfoKey = entry
             // Launch notification if allowed
-            KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry)
+            KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
         }
     }
 }
