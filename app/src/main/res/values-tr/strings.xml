@@ -29,9 +29,8 @@
     <string name="key_derivation_function">Anahtar üretme fonksiyonu</string>
     <string name="app_timeout">Uygulama zaman aşımı</string>
     <string name="app_timeout_summary">Veri tabanını kilitlemeden önceki boşta kalma süresi</string>
-    <string name="application">…Uygulama</string>
-    <string name="beta_dontask">"
-\nTekrar gösterme"</string>
+    <string name="application">Uygulama</string>
+    <string name="beta_dontask">Tekrar gösterme</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
     <string name="file_manager_install_description">Veritabanı dosyaları oluşturmak, açmak ve kaydetmek için Niyet eylemini ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT kabul eden bir dosya yöneticisi gerekir.</string>
@@ -179,7 +178,7 @@
     <string name="version_label">Sürüm %1$s</string>
     <string name="build_label">Yapı %1$s</string>
     <string name="configure_biometric">Parmak izi taraması desteklenir, ancak kurulmaz.</string>
-    <string name="open_biometric_prompt_unlock_database">"Veri tabanının kilidini açmak için biyometrik taramayı aç. "</string>
+    <string name="open_biometric_prompt_unlock_database">Veri tabanının kilidini açmak için biyometrik taramayı aç</string>
     <string name="encrypted_value_stored">Şifreli parola saklandı</string>
     <string name="biometric_invalid_key">Parmak izi anahtarı okunamadı. Şifreni geri yükle.</string>
     <string name="biometric_not_recognized">Parmak izi tanınamadı</string>

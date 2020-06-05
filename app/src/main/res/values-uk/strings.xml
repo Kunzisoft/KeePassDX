@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">Алгоритм шифрування</string>
     <string name="app_timeout">Час очікування застосунку</string>
     <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
-    <string name="application">…Застосунок</string>
+    <string name="application">Застосунок</string>
     <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
@@ -39,8 +39,8 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Встановити типовою базою даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з <strong>відкритим програмним кодом</strong> та <strong>не містить реклами</strong>. 
-\nЗастосунок постачається як є, на умовах ліцензії <strong>GPLv3</strong>, без будь-яких гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з &lt;strong&gt;відкритим програмним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
+\nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
     <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
     <string name="entry_cancel">Скасовано</string>
@@ -147,8 +147,7 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="beta_dontask">"
-\nНе показувати знову"</string>
+    <string name="beta_dontask">Не показувати знову</string>
     <string name="clipboard_swipe_clean">Проведіть пальцем, щоб очистити буфер обміну зараз</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних під час закриття сповіщення</string>
     <string name="configure_biometric">Розблокування за допомогою біометричних даних підтримується, але не налаштоване.</string>
@@ -447,7 +446,7 @@
     <string name="biometric_prompt_extract_credential_message">Витяг облікових даних бази даних за допомогою біометричного ключа</string>
     <string name="biometric_prompt_extract_credential_title">Відкрити базу даних біометричним ключем</string>
     <string name="biometric_prompt_store_credential_title">Зберегти біометричний ключ</string>
-    <string name="open_biometric_prompt_unlock_database">"Скористатися біометричним ключем для розблокування базу даних. "</string>
+    <string name="open_biometric_prompt_unlock_database">Скористатися біометричним ключем для розблокування базу даних</string>
     <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем, щоби зберегти дані</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>

@@ -27,7 +27,7 @@
     <string name="encryption_algorithm">Krypterings algoritm</string>
     <string name="app_timeout">Tidsgräns för app</string>
     <string name="app_timeout_summary">Inaktivitet innan appen låses</string>
-    <string name="application">... App</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">App-inställningar</string>
     <string name="beta_dontask">Visa inte igen</string>
     <string name="brackets">Parenteser</string>
@@ -182,7 +182,7 @@
     <string name="copy_field">Kopia av %1$s</string>
     <string name="menu_form_filling_settings">Formulär-ifyllning</string>
     <string name="read_only">Skrivskyddad</string>
-    <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePass DX har skrivbehörighet för att skriva till din enhet.</string>
+    <string name="read_only_warning">Beroende på din filhanterare så kanske inte KeePassDX har skrivbehörighet för att skriva till din enhet.</string>
     <string name="encryption_explanation">Krypteringsalgoritm som används för all data i databasen.</string>
     <string name="kdf_explanation">För att generera nyckeln till krypteringsalgoritmen kommer huvudnyckeln transformeras med en slumpmässigt saltad nyckelderivatsfunktion.</string>
     <string name="memory_usage">Minnesanvändning</string>
@@ -270,11 +270,11 @@
     <string name="education_sort_summary">Välj hur poster och grupper sorteras.</string>
     <string name="education_donation_title">Delta</string>
     <string name="education_donation_summary">Hjälp till att öka stabilitet, säkerhet och med att lägga till fler funktioner.</string>
-    <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här <strong>reklamfri</strong>, <strong>copyleftad fri mjukvara</strong> och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
+    <string name="html_text_ad_free">Till skillnad från många andra lösenordshanterare är den här &lt;strong&gt;reklamfri&lt;/strong&gt;, &lt;strong&gt;copyleftad fri mjukvara&lt;/strong&gt; och samlar inte in någon personlig data på servrar, oavsett vilken version du använder.</string>
     <string name="html_text_buy_pro">Genom att köpa proffsversionen får du tillgång till den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; och du hjälper särskilt till med &lt;strong&gt;genomförseln av community-projekt.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Den här &lt;strong&gt;visuella funktionen&lt;/strong&gt; är tillgänglig tack vare din generositet.</string>
     <string name="html_text_donation">För att behålla vår frihet och alltid vara aktiva räknar vi med ditt &lt;strong&gt;bidrag.&lt;/strong&gt;</string>
-    <string name="html_text_dev_feature">Den här funktionen är under <strong>utveckling</strong> och kräver ditt <strong>bidrag</strong> för att vara tillgänglig snart.</string>
+    <string name="html_text_dev_feature">Den här funktionen är under &lt;strong&gt;utveckling&lt;/strong&gt; och kräver ditt &lt;strong&gt;bidrag&lt;/strong&gt; för att vara tillgänglig snart.</string>
     <string name="html_text_dev_feature_buy_pro">Genom att köpa &lt;strong&gt;pro&lt;/strong&gt;-versionen,</string>
     <string name="html_text_dev_feature_contibute">Genom att &lt;strong&gt;bidra&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_encourage">så uppmuntrar du utvecklare att skapa &lt;strong&gt;nya funktioner&lt;/strong&gt; och att &lt;strong&gt;fixa buggar&lt;/strong&gt; efter dina anmärkningar.</string>
@@ -470,7 +470,7 @@
     <string name="remember_database_locations_title">Spara sökvägar till databaserna</string>
     <string name="error_label_exists">Denna etikett finns redan.</string>
     <string name="entry_attachments">Bifogat</string>
-    <string name="html_about_contribution">För att <strong>behålla vår frihet</strong>, <strong>fixa buggfixar</strong>, <strong>lägga till funktioner</strong> och <strong> alltid vara aktiv</strong>, så räknar vi med ditt <strong>bidrag</strong>.</string>
+    <string name="html_about_contribution">För att &lt;strong&gt;behålla vår frihet&lt;/strong&gt;, &lt;strong&gt;fixa buggfixar&lt;/strong&gt;, &lt;strong&gt;lägga till funktioner&lt;/strong&gt; och &lt;strong&gt; alltid vara aktiv&lt;/strong&gt;, så räknar vi med ditt &lt;strong&gt;bidrag&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bifoga fil</string>
     <string name="discard_changes">Ignorera ändringar\?</string>
     <string name="validate">Bekräfta</string>

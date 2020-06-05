@@ -28,7 +28,7 @@
     <string name="encryption_algorithm">Algoritme</string>
     <string name="app_timeout">App-time-out</string>
     <string name="app_timeout_summary">Tijd tot vergrendeling bij inactiviteit</string>
-    <string name="application">...App</string>
+    <string name="application">App</string>
     <string name="menu_app_settings">App-instellingen</string>
     <string name="brackets">Haakjes</string>
     <string name="file_manager_install_description">Een bestandsbeheerder die de Intent-actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is nodig om databasebestanden te maken, te openen en op te slaan.</string>
@@ -41,8 +41,8 @@
     <string name="decrypting_db">Database-inhoud decoderen …</string>
     <string name="default_checkbox">Gebruiken als standaarddatabase</string>
     <string name="digits">Getallen</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is <strong>open source</strong> en <strong>zonder reclame</strong>.
-\nHet wordt geleverd zoals het is, onder <strong>GPLv3</strong> -licentie, zonder enige garantie.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;open source&lt;/strong&gt; en &lt;strong&gt;zonder reclame&lt;/strong&gt;.
+\nHet wordt geleverd zoals het is, onder &lt;strong&gt;GPLv3&lt;/strong&gt; -licentie, zonder enige garantie.</string>
     <string name="select_database_file">Bestaande database openen</string>
     <string name="entry_accessed">Laatst geopend</string>
     <string name="entry_cancel">Annuleren</string>
@@ -124,7 +124,7 @@
     <string name="unsupported_db_version">Niet-ondersteunde databaseversie.</string>
     <string name="uppercase">Hoofdletters</string>
     <string name="version_label">Versie %1$s</string>
-    <string name="education_unlock_summary">Geef het wachtwoord en/of sleutelbestand op om je database te ontgrendelen. 
+    <string name="education_unlock_summary">Geef het wachtwoord en/of sleutelbestand op om je database te ontgrendelen.
 \n 
 \nMaak na elke aanpassing een kopie van je .kdbx-bestand op een veilige locatie.</string>
     <string-array name="timeout_options">
@@ -146,8 +146,7 @@
     <string name="edit_entry">Item bewerken</string>
     <string name="encryption">Versleuteling</string>
     <string name="key_derivation_function">Sleutelafleidingsfunctie</string>
-    <string name="beta_dontask">"
-\nNiet meer tonen"</string>
+    <string name="beta_dontask">Niet meer tonen</string>
     <string name="extended_ASCII">Uitgebreide ASCII</string>
     <string name="allow">Toestaan</string>
     <string name="clipboard_error_title">Klembordfout</string>
@@ -202,7 +201,7 @@
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
     <string name="configure_biometric">Vingerafdruk wordt ondersteund, maar is niet ingesteld.</string>
-    <string name="open_biometric_prompt_unlock_database">"Open de biometrische prompt om de database te ontgrendelen. "</string>
+    <string name="open_biometric_prompt_unlock_database">Open de biometrische prompt om de database te ontgrendelen</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
     <string name="biometric_invalid_key">Kan de biometrische sleutel niet lezen. Verwijder deze en herhaal de procedure voor biometrische herkenning.</string>
     <string name="biometric_not_recognized">Vingerafdruk niet herkend</string>
@@ -303,15 +302,15 @@
     <string name="education_sort_summary">Kies hoe items en groepen worden gesorteerd.</string>
     <string name="education_donation_title">Bijdragen</string>
     <string name="education_donation_summary">Draag bij om de stabiliteit en veiligheid te vergroten en door meer functies toe te voegen.</string>
-    <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze <strong> reclamevrij</strong>, <strong> vrije software </strong> en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht welke versie je gebruikt.</string>
-    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit <strong>visuele thema</strong> en draag je bij aan het <strong>realiseren van gemeenschapsprojecten.</strong></string>
-    <string name="html_text_feature_generosity">Dit <strong>visuele thema</strong> is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
+    <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht welke versie je gebruikt.</string>
+    <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
     <string name="html_text_donation">Om altijd vrij en actief te blijven, zijn we afhankelijk van jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om <strong>nieuwe functies</strong> te creëren en <strong>problemen op te lossen</strong>.</string>
+    <string name="html_text_dev_feature_encourage">motiveer je ontwikkelaars om &lt;strong&gt;nieuwe functies&lt;/strong&gt; te creëren en &lt;strong&gt;problemen op te lossen&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_thanks">Hartelijk bedankt voor je bijdrage.</string>
     <string name="html_text_dev_feature_work_hard">We zijn druk bezig om deze functie snel beschikbaar te stellen.</string>
     <string name="html_text_dev_feature_upgrade">Vergeet niet om je app up-to-date te houden door nieuwe versies te installeren.</string>
@@ -326,7 +325,7 @@
     <string name="icon_pack_choose_summary">Iconenverzameling gebruikt in de app</string>
     <string name="build_label">Bouw %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Instellingen Magikeyboard</string>
     <string name="keyboard_entry_category">Item</string>
     <string name="keyboard_entry_timeout_title">Time-out</string>
@@ -471,7 +470,7 @@
     <string name="error_create_database">Kan databasebestand niet aanmaken.</string>
     <string name="error_label_exists">Dit label bestaat al.</string>
     <string name="entry_attachments">Bijlagen</string>
-    <string name="html_about_contribution">Om <strong>onze vrijheid te behouden</strong>, <strong>bugs te verhelpen</strong>, <strong>functies toe te voegen</strong> en <strong>altijd actief te blijven</strong>, kunnen wij niet zonder uw <strong>bijdrage</strong>.</string>
+    <string name="html_about_contribution">Om &lt;strong&gt;onze vrijheid te behouden&lt;/strong&gt;, &lt;strong&gt;bugs te verhelpen&lt;/strong&gt;, &lt;strong&gt;functies toe te voegen&lt;/strong&gt; en &lt;strong&gt;altijd actief te blijven&lt;/strong&gt;, kunnen wij niet zonder uw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bijlage toevoegen</string>
     <string name="discard">Weggooien</string>
     <string name="discard_changes">Veranderingen ongedaan maken\?</string>

@@ -6,9 +6,8 @@
     <string name="contact">যোগাযোগ</string>
     <string name="extended_ASCII">বর্ধিত ASCII</string>
     <string name="brackets">ব্র্যাকেট</string>
-    <string name="beta_dontask">" 
-\nআবার দেখাবে না"</string>
-    <string name="application">…অ্যাপ</string>
+    <string name="beta_dontask">আবার দেখাবে না</string>
+    <string name="application">অ্যাপ</string>
     <string name="app_timeout_summary">ডাটাবেস লক করার আগে অব্যবহৃত সময়</string>
     <string name="app_timeout">অ্যাপের সময় পার হয়ে গিয়েছিলো</string>
     <string name="key_derivation_function">কি পাওয়ার ফাংশন</string>

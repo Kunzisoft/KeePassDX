@@ -26,7 +26,7 @@
     <string name="encryption_algorithm">加密算法</string>
     <string name="app_timeout">离开程序锁定延时</string>
     <string name="app_timeout_summary">在锁定数据库前处于非活动状态的时长</string>
-    <string name="application">…应用</string>
+    <string name="application">应用</string>
     <string name="menu_app_settings">程序设置</string>
     <string name="brackets">括号</string>
     <string name="file_manager_install_description">新建与保存数据库需要支持打开和新建文件的文件管理器。</string>
@@ -138,8 +138,7 @@
         <item>大</item>
     </string-array>
     <string name="encryption">加密</string>
-    <string name="beta_dontask">"
-\n不再显示"</string>
+    <string name="beta_dontask">不再显示</string>
     <string name="extended_ASCII">ASCII拓展区字符</string>
     <string name="allow">允许</string>
     <string name="clipboard_error_title">剪切板错误</string>
@@ -236,7 +235,7 @@
     <string name="warning_no_encryption_key">确认不使用加密密钥吗？</string>
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">此设备支持生物识别，但现未启用。</string>
-    <string name="open_biometric_prompt_unlock_database">"打开生物识别提示以解锁数据库 "</string>
+    <string name="open_biometric_prompt_unlock_database">打开生物识别提示以解锁数据库</string>
     <string name="encrypted_value_stored">加密密码已保存</string>
     <string name="biometric_invalid_key">不能读取生物识别密钥，请删除所有生物识别密钥，并重新录入。</string>
     <string name="biometric_not_recognized">无法识别生物识别信息</string>

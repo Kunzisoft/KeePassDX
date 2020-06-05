@@ -16,7 +16,8 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
---><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+-->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="contact">Contact</string>
     <string name="contribution">Contribution</string>
     <string name="feedback">Feedback</string>
@@ -33,9 +34,8 @@
     <string name="key_derivation_function">Key derivation function</string>
     <string name="app_timeout">App timeout</string>
     <string name="app_timeout_summary">Idle time before locking the database</string>
-    <string name="application">…App</string>
-    <string name="beta_dontask">"
-\nDo not show again"</string>
+    <string name="application">App</string>
+    <string name="beta_dontask">Do not show again</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
     <string name="file_manager_install_description">A file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT is needed to create, open and save database files.</string>
@@ -258,7 +258,7 @@
     <string name="build_label">Build %1$s</string>
     <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
-    <string name="open_biometric_prompt_unlock_database">"Open the biometric prompt to unlock the database. "</string>
+    <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
     <string name="biometric_prompt_store_credential_title">Save biometric recognition</string>
     <string name="biometric_prompt_store_credential_message">Warning: You still need to remember your master password if you use biometric recognition.</string>

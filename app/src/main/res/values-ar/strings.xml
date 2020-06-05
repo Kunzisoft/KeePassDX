@@ -22,9 +22,8 @@
     <string name="add_group">إضافة مجموعة</string>
     <string name="encryption">التعمية</string>
     <string name="encryption_algorithm">خوارزمية التعمية</string>
-    <string name="application">…التطبيق</string>
-    <string name="beta_dontask">"
-\nلا تظهر مرة أخرى"</string>
+    <string name="application">التطبيق</string>
+    <string name="beta_dontask">لا تظهر مرة أخرى</string>
     <string name="brackets">أقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
     <string name="allow">السماح</string>
