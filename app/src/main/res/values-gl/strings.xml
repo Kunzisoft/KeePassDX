@@ -30,7 +30,6 @@
     <string name="app_timeout">Tempo de espera da aplicación</string>
     <string name="app_timeout_summary">Tempo antes de bloquear a base de datos cando a aplicación está inactiva.</string>
     <string name="application">Aplicación</string>
-    <string name="beta_dontask">Non amosar de novo</string>
     <string name="brackets">Parénteses</string>
     <string name="extended_ASCII">ASCII extendido</string>
     <string name="allow">Permitir</string>

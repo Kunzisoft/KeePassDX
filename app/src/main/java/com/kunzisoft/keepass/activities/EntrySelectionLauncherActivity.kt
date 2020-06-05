@@ -108,9 +108,12 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
     }
 }
 
-fun populateKeyboardAndMoveAppToBackground(activity: Activity, entry: EntryInfo, intent: Intent) {
+fun populateKeyboardAndMoveAppToBackground(activity: Activity,
+                                           entry: EntryInfo,
+                                           intent: Intent,
+                                           toast: Boolean = true) {
     // Populate Magikeyboard with entry
-    MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry)
+    MagikIME.addEntryAndLaunchNotificationIfAllowed(activity, entry, toast)
     // Consume the selection mode
     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
     activity.moveTaskToBack(true)

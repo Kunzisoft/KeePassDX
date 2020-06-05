@@ -30,7 +30,6 @@
     <string name="app_timeout_summary">זמן לפני נעילת מסד הנתונים כאשר היישום לא פעיל.</string>
     <string name="application">יישום</string>
     <string name="menu_app_settings">הגדרות יישום</string>
-    <string name="beta_dontask">אל תציג שוב</string>
     <string name="brackets">סוגריים</string>
     <string name="file_manager_install_description">סייר הקבצים דורש את סייר הקבצים Open Intents, לחץ למטע כדי להתקין. בגלל מספר בעיות בסייר, ייתכן ויהיו בעיות בהפעלה הראשונה.</string>
     <string name="clipboard_cleared">לוח ההעתקה נוקה.</string>

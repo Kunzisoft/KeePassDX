@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Tétlenség az adatbázis feloldása előtt</string>
     <string name="application">Alkalmazás</string>
     <string name="menu_app_settings">Alkalmazásbeállítások</string>
-    <string name="beta_dontask">Ne mutassa újra</string>
     <string name="brackets">Zárójelek</string>
     <string name="file_manager_install_description">Egy fájlkezelő, amely fogadja az ACTION_CREATE_DOCUMENT és ACTION_OPEN_DOCUMENT Intenteket, melyek az adatbázisfájlok létrehozásához, megnyitásához és mentéséhez szükségesek.</string>
     <string name="clipboard_cleared">Vágólap törölve</string>

@@ -35,7 +35,6 @@
     <string name="app_timeout">App timeout</string>
     <string name="app_timeout_summary">Idle time before locking the database</string>
     <string name="application">App</string>
-    <string name="beta_dontask">Do not show again</string>
     <string name="brackets">Brackets</string>
     <string name="extended_ASCII">Extended ASCII</string>
     <string name="file_manager_install_description">A file manager that accepts the Intent action ACTION_CREATE_DOCUMENT and ACTION_OPEN_DOCUMENT is needed to create, open and save database files.</string>

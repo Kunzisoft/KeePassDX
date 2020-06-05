@@ -30,7 +30,6 @@
     <string name="app_timeout">Timpul aplicatiei a expirat</string>
     <string name="app_timeout_summary">Timpul de asteptare inaintea blocarii bancii de date</string>
     <string name="application">Aplicatie</string>
-    <string name="beta_dontask">Nu mai arata inca odata</string>
     <string name="brackets">Paranteze patrate</string>
     <string name="extended_ASCII">ASCII extins</string>
     <string name="file_manager_install_description">Un manager de fișiere care acceptă acțiunea de creeare ACTION_CREATE_DOCUMENT si ACTION_OPEN_DOCUMENT este necesara sa creeze ,deschida si salveze fisierele din banca de date</string>
@@ -197,7 +196,7 @@
     <string name="read_only">Protejat la scriere</string>
     <string name="read_only_warning">În funcție de managerul de fișiere, este posibil ca KeePassDX să nu poată scrie în stocare.</string>
     <string name="contains_duplicate_uuid">Baza de date conține UUID-uri duplicate.</string>
-    <string name="contains_duplicate_uuid_procedure">Prin validarea acestui dialog, KeePassDX va rezolva problema (prin generarea de noi UUID-uri pentru duplicate) și va continua.</string>
+    <string name="contains_duplicate_uuid_procedure">Prin validarea acestui dialog, KeePassDX va rezolva problema (prin generarea de noi UUID-uri pentru duplicate) și va continua\?</string>
     <string name="selection_mode">Mod de selectare</string>
     <string name="root">Rădăcină</string>
     <string name="encryption_explanation">Algoritmul bazei de date de criptare utilizat pentru toate datele.</string>
@@ -445,4 +444,11 @@
     <string name="hide_broken_locations_title">Ascundeți linkurile de bază de date stricate</string>
     <string name="hide_broken_locations_summary">Ascundeți legăturile rupte în lista bazelor de date recente</string>
     <string name="warning_database_read_only">Acordă acces la scriere fișier pentru a salva modificările bazei de date</string>
+    <string name="warning_database_link_revoked">Accesul catre fisier eliminat de catre managerul de fisiere</string>
+    <string name="error_create_database">Imposibil de creeat fisierul bazei de date.</string>
+    <string name="error_label_exists">Aceasta eticheta exista</string>
+    <string name="entry_add_attachment">Aduce atasament</string>
+    <string name="discard">Renunta</string>
+    <string name="discard_changes">Renunti la schimbari\?</string>
+    <string name="validate">Valideaza</string>
 </resources>

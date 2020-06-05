@@ -24,10 +24,10 @@
     <string name="add_entry">Додати запис</string>
     <string name="add_group">Додати групу</string>
     <string name="encryption_algorithm">Алгоритм шифрування</string>
-    <string name="app_timeout">Час очікування програми</string>
+    <string name="app_timeout">Час очікування застосунку</string>
     <string name="app_timeout_summary">Час очікування до блокування бази даних</string>
-    <string name="application">Програма</string>
-    <string name="menu_app_settings">Налаштування програми</string>
+    <string name="application">Застосунок</string>
+    <string name="menu_app_settings">Налаштування застосунку</string>
     <string name="brackets">Дужки</string>
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
@@ -39,11 +39,11 @@
     <string name="decrypting_db">Розшифрування вмісту бази даних…</string>
     <string name="default_checkbox">Встановити типовою базою даних</string>
     <string name="digits">Цифри</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є програмою з &lt;strong&gt;відкритим вихідним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
-\nПрограма постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft є застосунком з &lt;strong&gt;відкритим програмним кодом&lt;/strong&gt; та &lt;strong&gt;не містить реклами&lt;/strong&gt;.
+\nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
     <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_cancel">Скасувати</string>
+    <string name="entry_cancel">Скасовано</string>
     <string name="entry_notes">Примітки</string>
     <string name="entry_confpassword">Підтвердження пароля</string>
     <string name="entry_created">Створено</string>
@@ -147,7 +147,6 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="beta_dontask">Не показувати знову</string>
     <string name="clipboard_swipe_clean">Проведіть пальцем, щоб очистити буфер обміну зараз</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних під час закриття сповіщення</string>
     <string name="configure_biometric">Розблокування за допомогою біометричних даних підтримується, але не налаштоване.</string>
@@ -157,7 +156,7 @@
     <string name="compression_gzip">gzip</string>
     <string name="compression">Стиснення</string>
     <string name="other">Інше</string>
-    <string name="application_appearance">Програма</string>
+    <string name="application_appearance">Застосунок</string>
     <string name="text_appearance">Текст</string>
     <string name="database_version_title">Версія бази даних</string>
     <string name="database_custom_color_title">Власний колір бази даних</string>
@@ -172,7 +171,7 @@
     <string name="content_description_add_entry">Додати запис</string>
     <string name="content_description_background">Тло</string>
     <string name="clipboard_error_clear">Не вдалося очистити буфер обміну</string>
-    <string name="clipboard_error">Деякі пристрої не дозволяють програмам користуватися буфером обміну.</string>
+    <string name="clipboard_error">Деякі пристрої не дозволяють застосункам користуватися буфером обміну.</string>
     <string name="clipboard_error_title">Помилка буфера обміну</string>
     <string name="allow">Дозволити</string>
     <string name="key_derivation_function">Функція створення ключа</string>
@@ -260,8 +259,8 @@
     <string name="entry_add_attachment">Додати вкладення</string>
     <string name="entry_add_field">Додати поле</string>
     <string name="entry_password_generator">Генератор паролів</string>
-    <string name="discard">Скасувати</string>
-    <string name="discard_changes">Скасувати зміни\?</string>
+    <string name="discard">Відхилити</string>
+    <string name="discard_changes">Відхилити зміни\?</string>
     <string name="validate">Перевірити</string>
     <string name="content_description_entry_icon">Піктограма запису</string>
     <string name="content_description_repeat_toggle_password_visibility">Повторне перемикання видимості пароля</string>
@@ -274,10 +273,10 @@
     <string name="biometric_prompt_store_credential_message">Попередження: Якщо ви користуєтеся біометричним ключем, вам однаково необхідно пам\'ятати головний пароль.</string>
     <string name="hide_expired_entries_summary">Застарілі записи приховано</string>
     <string name="hide_expired_entries_title">Приховати застарілі записи</string>
-    <string name="icon_pack_choose_summary">Набір піктограм, застосованих в програмі</string>
+    <string name="icon_pack_choose_summary">Набір піктограм у застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
-    <string name="style_choose_summary">Тема, застосована в програмі</string>
-    <string name="style_choose_title">Тема програми</string>
+    <string name="style_choose_summary">Тема застосунку</string>
+    <string name="style_choose_title">Тема застосунку</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -288,7 +287,7 @@
     <string name="download_attachment">Завантаження %1$s</string>
     <string name="contribute">Допомогти</string>
     <string name="download">Завантажити</string>
-    <string name="html_text_dev_feature_upgrade">Не забудьте постійно оновлювати програму, встановлюючи нові версії.</string>
+    <string name="html_text_dev_feature_upgrade">Не забудьте постійно оновлювати застосунок, встановлюючи нові версії.</string>
     <string name="html_text_dev_feature_work_hard">Ми докладаємо всіх зусиль для якнайшвидшого випуску цієї функції.</string>
     <string name="html_text_dev_feature_thanks">Щиро вдячні за вашу допомогу.</string>
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
@@ -340,7 +339,7 @@
     <string name="reset_education_screens_text">Скинути навчальні підказки</string>
     <string name="reset_education_screens_summary">Показати всю навчальну інформацію знову</string>
     <string name="reset_education_screens_title">Скидання навчальних підказок</string>
-    <string name="enable_education_screens_summary">Виділяти елементи, щоб дізнатися, як працює програма</string>
+    <string name="enable_education_screens_summary">Виділяти елементи, щоби дізнатися, як працює застосунок</string>
     <string name="enable_education_screens_title">Навчальні підказки</string>
     <string name="enable_auto_save_database_title">Автозбереження бази даних</string>
     <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
@@ -349,7 +348,7 @@
     <string name="delete_entered_password_title">Видалити пароль</string>
     <string name="allow_no_password_summary">Увімкнути кнопку \"Відкрити\", якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
-    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ідентифікатора програми</string>
+    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ідентифікатора застосунку</string>
     <string name="autofill_auto_search_title">Автоматичний пошук</string>
     <string name="keyboard_key_sound_title">Звук під час натискання</string>
     <string name="keyboard_key_vibrate_title">Вібрація під час натискання</string>
@@ -377,7 +376,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="recycle_bin">Кошик</string>
     <string name="compression_none">Не стискати</string>
-    <string name="allow_copy_password_warning">Попередження: до буфера обміну мають доступ усі програми. Якщо скопіювати приватні дані, інші програми можуть отримати доступ до них.</string>
+    <string name="allow_copy_password_warning">Попередження: до буфера обміну мають доступ усі застосунки. Якщо скопіювати приватні дані, інші застосунки можуть отримати доступ до них.</string>
     <string name="allow_copy_password_title">Довіряти буферу обміну</string>
     <string name="monospace_font_fields_enable_summary">Змінити шрифт полів для кращої видимості символів</string>
     <string name="monospace_font_fields_enable_title">Шрифт поля</string>
@@ -431,7 +430,7 @@
     <string name="password_size_title">Довжина створюваного пароля</string>
     <string name="autofill_preference_title">Параметри автозаповнення</string>
     <string name="set_autofill_service_title">Встановити типовою службою автозаповнення</string>
-    <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидко заповнення форм в інших програмах</string>
+    <string name="autofill_explanation_summary">Увімкнути автозаповнення для швидкого заповнення форм в інших застосунках</string>
     <string name="autofill_sign_in_prompt">Увійти за допомогою KeePassDX</string>
     <string name="autofill_service_name">Автозаповнення форм KeePassDX</string>
     <string name="autofill">Автозаповнення</string>
@@ -446,7 +445,7 @@
     <string name="biometric_prompt_extract_credential_message">Витяг облікових даних бази даних за допомогою біометричного ключа</string>
     <string name="biometric_prompt_extract_credential_title">Відкрити базу даних біометричним ключем</string>
     <string name="biometric_prompt_store_credential_title">Зберегти біометричний ключ</string>
-    <string name="open_biometric_prompt_unlock_database">Скористатися біометричним ключем, щоби розблокувати базу даних</string>
+    <string name="open_biometric_prompt_unlock_database">Скористатися біометричним ключем для розблокування базу даних</string>
     <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем, щоби зберегти дані</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
@@ -460,7 +459,7 @@
     <string name="search_results">Результати пошуку</string>
     <string name="sort_last_access_time">Доступ</string>
     <string name="sort_last_modify_time">Востаннє змінено</string>
-    <string name="sort_creation_time">Дата ствопення</string>
+    <string name="sort_creation_time">Дата створення</string>
     <string name="sort_username">Ім\'я користувача</string>
     <string name="sort_title">Назва</string>
     <string name="sort_recycle_bin_bottom">Кошик внизу</string>
@@ -469,7 +468,7 @@
     <string name="sort_menu">Впорядкувати</string>
     <string name="memory_usage_explanation">Об\'єм пам\'яті (у байтах), необхідний для функції створення ключа.</string>
     <string name="kdf_explanation">Для створення ключа алгоритму шифрування, головний ключ перетворюється за допомогою функції створення випадково приготованого ключа.</string>
-    <string name="do_not_kill_app">Не закривайте програму…</string>
+    <string name="do_not_kill_app">Не закривайте застосунок…</string>
     <string name="command_execution">Виконання команди…</string>
     <string name="parallelism_explanation">Ступінь паралелізму (тобто кількість потоків), необхідних для функції створення ключа.</string>
     <string name="parallelism">Паралельність</string>

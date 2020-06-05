@@ -16,15 +16,13 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="homepage">الصفحة الرئيسية</string>
     <string name="accept">قبول</string>
     <string name="add_group">إضافة مجموعة</string>
     <string name="encryption">التعمية</string>
     <string name="encryption_algorithm">خوارزمية التعمية</string>
     <string name="application">التطبيق</string>
-    <string name="beta_dontask">لا تظهر مرة أخرى</string>
     <string name="brackets">أقواس</string>
     <string name="extended_ASCII">تمديد ASCII</string>
     <string name="allow">السماح</string>
@@ -117,7 +115,7 @@
     <string name="edit_entry">تحرير مدخلة</string>
     <string name="key_derivation_function">وظيفة اشتقاق المفتاح</string>
     <string name="app_timeout">مهلة التطبيق</string>
-    <string name="app_timeout_summary">مدة الانتظار قبل إقفال التطبيق</string>
+    <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
     <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
     <string name="clipboard_error">بعض هواتف سامسونغ لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
