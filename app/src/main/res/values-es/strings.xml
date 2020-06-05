@@ -143,7 +143,6 @@
     </string-array>
     <string name="encryption">Cifrado</string>
     <string name="key_derivation_function">Función de derivación de clave</string>
-    <string name="beta_dontask">No mostrar nuevamente</string>
     <string name="extended_ASCII">ASCII extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Error del portapapeles</string>

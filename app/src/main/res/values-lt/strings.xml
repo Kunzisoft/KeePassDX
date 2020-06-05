@@ -30,7 +30,6 @@
     <string name="app_timeout_summary">Laikas, per kurį yra užrakinama duomenų bazė po neveiklumo programėlėje.</string>
     <string name="application">Programėlė</string>
     <string name="menu_app_settings">Programėlės nustatymai</string>
-    <string name="beta_dontask">Daugiau neberodyti</string>
     <string name="brackets">Skliaustai</string>
     <string name="database">Duomenų bazė</string>
     <string name="digits">Skaitmenys</string>

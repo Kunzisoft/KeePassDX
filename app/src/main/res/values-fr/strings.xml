@@ -31,7 +31,6 @@
     <string name="application">Application</string>
     <string name="menu_app_settings">Paramètres de l’application</string>
     <string name="menu_form_filling_settings">Remplissage de formulaire</string>
-    <string name="beta_dontask">Ne plus afficher</string>
     <string name="brackets">Parenthèses (ou autres)</string>
     <string name="extended_ASCII">ASCII étendu</string>
     <string name="file_manager_install_description">Un gestionnaire de fichiers qui accepte l\'action d\'intention ACTION_CREATE_DOCUMENT et ACTION_OPEN_DOCUMENT est nécessaire pour créer, ouvrir et enregistrer des fichiers de base de données.</string>

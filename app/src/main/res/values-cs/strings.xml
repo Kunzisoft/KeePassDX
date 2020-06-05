@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Doba nečinnosti než se aplikace zamkne</string>
     <string name="application">Aplikace</string>
     <string name="menu_app_settings">Nastavení aplikace</string>
-    <string name="beta_dontask">Znovu neukázat</string>
     <string name="brackets">Závorky</string>
     <string name="file_manager_install_description">K založení, otevření a uložení databázových souborů je potřebný správce souborů, který akceptuje akci intentu ACTION_CREATE_DOCUMENT a ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Schránka vyčištěna</string>

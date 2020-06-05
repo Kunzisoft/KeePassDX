@@ -30,7 +30,6 @@
     <string name="app_timeout">Uygulama zaman aşımı</string>
     <string name="app_timeout_summary">Veri tabanını kilitlemeden önceki boşta kalma süresi</string>
     <string name="application">Uygulama</string>
-    <string name="beta_dontask">Tekrar gösterme</string>
     <string name="brackets">Parantez</string>
     <string name="extended_ASCII">Genişletilmiş ASCII</string>
     <string name="file_manager_install_description">Veritabanı dosyaları oluşturmak, açmak ve kaydetmek için Niyet eylemini ACTION_CREATE_DOCUMENT ve ACTION_OPEN_DOCUMENT kabul eden bir dosya yöneticisi gerekir.</string>

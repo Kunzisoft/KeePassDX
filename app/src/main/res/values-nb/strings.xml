@@ -30,7 +30,6 @@
     <string name="app_timeout">Programtidsavbrudd</string>
     <string name="app_timeout_summary">Inaktivitet før programmet låses</string>
     <string name="application">Program</string>
-    <string name="beta_dontask">Ikke vis igjen</string>
     <string name="brackets">Parenteser</string>
     <string name="extended_ASCII">Utvidet ASCII</string>
     <string name="file_manager_install_description">Utforsk filer ved å installere OpenIntents-filbehandleren</string>

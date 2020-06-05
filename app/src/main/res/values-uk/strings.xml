@@ -147,7 +147,6 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="beta_dontask">Не показувати знову</string>
     <string name="clipboard_swipe_clean">Проведіть пальцем, щоб очистити буфер обміну зараз</string>
     <string name="clear_clipboard_notification_summary">Блокувати базу даних під час закриття сповіщення</string>
     <string name="configure_biometric">Розблокування за допомогою біометричних даних підтримується, але не налаштоване.</string>

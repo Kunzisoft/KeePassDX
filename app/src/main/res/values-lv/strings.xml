@@ -29,7 +29,6 @@
     <string name="app_timeout_summary">Bloķēšanas taimauts, kad programma nav aktīva.</string>
     <string name="application">Programma</string>
     <string name="menu_app_settings">Programmas iestatījumi</string>
-    <string name="beta_dontask">Turpmāk nerādīt</string>
     <string name="brackets">Iekavas</string>
     <string name="file_manager_install_description">Failu pārlūkošanai nepieciešams pārlūks.</string>
     <string name="clipboard_cleared">Starpliktuve notīrīta</string>

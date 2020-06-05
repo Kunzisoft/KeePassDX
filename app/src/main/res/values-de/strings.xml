@@ -34,7 +34,6 @@
     <string name="app_timeout_summary">Inaktivität vor dem Sperren der Datenbank</string>
     <string name="application">App</string>
     <string name="menu_app_settings">App-Einstellungen</string>
-    <string name="beta_dontask">Nicht mehr anzeigen</string>
     <string name="brackets">Klammern</string>
     <string name="file_manager_install_description">Zum Erstellen, Öffnen und Speichern von Datenbankdateien wird ein Dateimanager benötigt, der die beabsichtigte Aktion ACTION_CREATE_DOCUMENT und ACTION_OPEN_DOCUMENT akzeptiert.</string>
     <string name="clipboard_cleared">Zwischenablage geleert</string>

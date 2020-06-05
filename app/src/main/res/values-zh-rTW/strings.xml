@@ -135,7 +135,6 @@
         <item>中</item>
         <item>大</item>
     </string-array>
-    <string name="beta_dontask">下次不要再顯示</string>
     <string name="extended_ASCII">增強的ASCII</string>
     <string name="allow">允許</string>
     <string name="clipboard_error_title">剪貼簿錯誤</string>

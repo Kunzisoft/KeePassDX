@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Χρόνος αδράνειας πριν από το κλείδωμα της βάσης δεδομένων</string>
     <string name="application">Εφαρμογή</string>
     <string name="menu_app_settings">Ρυθμίσεις εφαρμογής</string>
-    <string name="beta_dontask">Να μην εμφανιστεί ξανά</string>
     <string name="brackets">Αγκύλες</string>
     <string name="file_manager_install_description">Ένας διαχειριστής αρχείων που δέχεται τις ενέργειες δράσης ACTION_CREATE_DOCUMENT και ACTION_OPEN_DOCUMENT είναι απαραίτητος για τη δημιουργία, το άνοιγμα και την αποθήκευση αρχείων βάσης δεδομένων.</string>
     <string name="clipboard_cleared">Το πρόχειρο καθαρίστηκε</string>

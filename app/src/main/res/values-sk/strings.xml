@@ -142,7 +142,6 @@
     <string name="edit_entry">Upraviť záznam</string>
     <string name="encryption">Šifrovanie</string>
     <string name="key_derivation_function">Funkcia pre tvorbu kľúča</string>
-    <string name="beta_dontask">Nezobrazovať znovu</string>
     <string name="extended_ASCII">Rozšírené ASCII</string>
     <string name="allow">Povoliť</string>
     <string name="clipboard_error_title">Chyba schránky</string>

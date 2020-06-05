@@ -142,7 +142,6 @@
     <string name="edit_entry">エントリーを編集</string>
     <string name="encryption">暗号化</string>
     <string name="key_derivation_function">鍵導出関数</string>
-    <string name="beta_dontask">今後、表示しない</string>
     <string name="extended_ASCII">拡張 ASCII</string>
     <string name="allow">許可</string>
     <string name="clipboard_error_title">クリップボードエラー</string>

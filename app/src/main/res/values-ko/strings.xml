@@ -31,7 +31,6 @@
     <string name="app_timeout">앱 자동 종료 시간</string>
     <string name="app_timeout_summary">앱이 잠기기 전에 비활성화됨</string>
     <string name="application">앱</string>
-    <string name="beta_dontask">다시 보이지 않음</string>
     <string name="brackets">브라켓</string>
     <string name="extended_ASCII">확장 ASCII</string>
     <string name="file_manager_install_description">OpenIntents File Manager를 설치하여 파일 찾아보기</string>

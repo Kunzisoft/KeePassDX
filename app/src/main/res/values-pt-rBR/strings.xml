@@ -142,7 +142,6 @@
     </string-array>
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
-    <string name="beta_dontask">Não mostrar novamente</string>
     <string name="extended_ASCII">ASCII Extendido</string>
     <string name="allow">Permitir</string>
     <string name="clipboard_error_title">Erro na área de transferência</string>

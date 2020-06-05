@@ -141,7 +141,6 @@
     <string name="edit_entry">Edytuj wpis</string>
     <string name="encryption">Szyfrowanie</string>
     <string name="key_derivation_function">Funkcja generująca klucz</string>
-    <string name="beta_dontask">Nie pokazuj ponownie</string>
     <string name="extended_ASCII">Rozszerzone ASCII</string>
     <string name="allow">Zezwalaj</string>
     <string name="clipboard_error_title">Błąd schowka</string>

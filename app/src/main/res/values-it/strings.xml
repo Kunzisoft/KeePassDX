@@ -163,7 +163,6 @@
         <item>Medio</item>
         <item>Grande</item>
     </string-array>
-    <string name="beta_dontask">Non mostrare di nuovo</string>
     <string name="allow">Consenti</string>
     <string name="copy_field">Copia di %1$s</string>
     <string name="encryption">Cifratura</string>

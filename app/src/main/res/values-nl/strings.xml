@@ -146,7 +146,6 @@
     <string name="edit_entry">Item bewerken</string>
     <string name="encryption">Versleuteling</string>
     <string name="key_derivation_function">Sleutelafleidingsfunctie</string>
-    <string name="beta_dontask">Niet meer tonen</string>
     <string name="extended_ASCII">Uitgebreide ASCII</string>
     <string name="allow">Toestaan</string>
     <string name="clipboard_error_title">Klembordfout</string>

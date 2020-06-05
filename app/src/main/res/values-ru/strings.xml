@@ -28,7 +28,6 @@
     <string name="app_timeout_summary">Время неактивности до блокировки базы</string>
     <string name="application">Приложение</string>
     <string name="menu_app_settings">Настройки приложения</string>
-    <string name="beta_dontask">Не показывать снова</string>
     <string name="brackets">{[(Скобки)]}</string>
     <string name="file_manager_install_description">Создание, открытие и сохранение файла базы требует установки файлового менеджера, который принимает действия Intent ACTION_CREATE_DOCUMENT и ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обмена очищен</string>
