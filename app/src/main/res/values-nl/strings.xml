@@ -78,7 +78,7 @@
     <string name="hint_length">Lengte</string>
     <string name="password">Wachtwoord</string>
     <string name="hint_pass">Wachtwoord</string>
-    <string name="invalid_credentials">Kan referenties niet lezen. Als dit zich opnieuw voordoet, is uw databasebestand mogelijk beschadigd.</string>
+    <string name="invalid_credentials">Kan referenties niet lezen.</string>
     <string name="invalid_db_sig">Databaseformaat kan niet worden herkend.</string>
     <string name="length">Lengte</string>
     <string name="list_size_title">Lengte van itemlijst</string>

@@ -76,7 +76,7 @@
     <string name="hint_length">長さ</string>
     <string name="password">パスワード</string>
     <string name="hint_pass">パスワード</string>
-    <string name="invalid_credentials">認証情報が読めません。これが再び起きた場合、データベースファイルが破損している可能性があります。</string>
+    <string name="invalid_credentials">認証情報が読めません。</string>
     <string name="invalid_db_sig">データベースフォーマットが認識できません。</string>
     <string name="length">生成するパスワードの長さ</string>
     <string name="list_size_title">グループ一覧サイズ</string>
