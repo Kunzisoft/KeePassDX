@@ -204,8 +204,8 @@
     <string name="encrypted_value_stored">Krypterat lösenord sparat</string>
     <string name="general">Generellt</string>
     <string name="autofill">Autofyll</string>
-    <string name="autofill_service_name">KeePass DX autofyll formulär</string>
-    <string name="autofill_sign_in_prompt">Logga in med KeePass DX</string>
+    <string name="autofill_service_name">KeePassDX autofyll formulär</string>
+    <string name="autofill_sign_in_prompt">Logga in med KeePassDX</string>
     <string name="set_autofill_service_title">Välj standardtjänst för autofyll</string>
     <string name="password_size_title">Längd på genererat lösenord</string>
     <string name="password_size_summary">Anger standardlängden för de genererade lösenorden</string>
@@ -316,7 +316,7 @@
     <string name="clipboard">Urklipp</string>
     <string name="build_label">Build %1$s</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="keyboard_label">Magikeyboard (KeePass DX)</string>
+    <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_setting_label">Inställningar för Magikeyboard</string>
     <string name="keyboard_entry_category">Post</string>
     <string name="keyboard_entry_timeout_title">Timeout</string>
