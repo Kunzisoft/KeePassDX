@@ -16,13 +16,12 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_description">KeePassDX yra KeePass slaptažodžių tvarkyklės realizacija Android platformai</string>
     <string name="clipboard_cleared">Iškarpinė išvalyta.</string>
     <string name="invalid_credentials">Neteisingas slaptažodis arba rakto failas.</string>
-    <string name="feedback">Atsiliepimai:</string>
-    <string name="homepage">Pagrindinis puslapis:</string>
+    <string name="feedback">Atsiliepimai</string>
+    <string name="homepage">Pagrindinis puslapis</string>
     <string name="accept">Priimti</string>
     <string name="add_entry">Pridėti įrašą</string>
     <string name="add_group">Pridėti grupę</string>
@@ -107,7 +106,5 @@
     <string name="hide_password_summary">Slėpti slaptažodžius pagal nutylėjimą</string>
     <string name="invalid_algorithm">Neteisingas algoritmas.</string>
     <string name="error_invalid_path">Neteisingas kelias.</string>
-
     <string name="education_unlock_summary">Įveskite slaptažodį rba raktą, tam kad atidarytumėte duomenų bazę.</string>
-
 </resources>
