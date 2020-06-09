@@ -307,9 +307,8 @@ class GroupActivity : LockingActivity(),
         val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
         if (searchInfo != null) {
             intent.action = Intent.ACTION_SEARCH
-            val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
             intent.removeExtra(KEY_SEARCH_INFO)
-            intent.putExtra(SearchManager.QUERY, searchQuery)
+            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
             return true
         }
         return false

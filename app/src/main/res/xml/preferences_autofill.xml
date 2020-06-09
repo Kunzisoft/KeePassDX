@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2018 Jeremy Jamet / Kunzisoft.
+ Copyright 2020 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
 
@@ -25,5 +25,11 @@
             android:title="@string/autofill_auto_search_title"
             android:summary="@string/autofill_auto_search_summary"
             android:defaultValue="@bool/autofill_auto_search_default"/>
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="@string/filter">
+        <com.kunzisoft.keepass.settings.preference.InputListPreference
+            android:key="@string/autofill_blocklist_key"
+            android:title="@string/autofill_blocklist_title"/>
     </PreferenceCategory>
 </PreferenceScreen>

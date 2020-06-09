@@ -406,12 +406,9 @@ class Database {
 
     fun createVirtualGroupFromSearch(searchInfo: SearchInfo,
                                      max: Int = Integer.MAX_VALUE): Group? {
-        val query = (if (searchInfo.webDomain != null)
-            searchInfo.webDomain
-        else
-            searchInfo.applicationId)
-                ?: return null
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, query, SearchParameters().apply {
+         if (searchInfo.isNull())
+            return null
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchInfo.toString(), SearchParameters().apply {
             searchInTitles = false
             searchInUserNames = false
             searchInPasswords = false

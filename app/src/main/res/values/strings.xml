@@ -52,6 +52,7 @@
     <string name="content_description_add_node">Add node</string>
     <string name="content_description_add_entry">Add entry</string>
     <string name="content_description_add_group">Add group</string>
+    <string name="content_description_add_item">Add item</string>
     <string name="content_description_file_information">File information</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
@@ -230,6 +231,7 @@
     <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
+    <string name="filter">Filter</string>
     <string name="sort_menu">Sort</string>
     <string name="sort_ascending">Lowest first ↓</string>
     <string name="sort_groups_before">Groups before</string>
@@ -379,6 +381,7 @@
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application Id</string>
+    <string name="autofill_blocklist_title">Blacklist</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
