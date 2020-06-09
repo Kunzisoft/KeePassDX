@@ -54,6 +54,11 @@
 		android:id="@+id/add_item_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:layout_marginTop="8dp"
+		android:layout_marginStart="@dimen/default_margin"
+		android:layout_marginLeft="@dimen/default_margin"
+		android:layout_marginEnd="@dimen/default_margin"
+		android:layout_marginRight="@dimen/default_margin"
 		app:layout_constraintTop_toBottomOf="@id/switch_element"
 		android:orientation="horizontal">
 		<EditText
@@ -66,7 +71,7 @@
 			app:layout_constraintEnd_toStartOf="@+id/add_item_button"
 			app:layout_constraintBottom_toBottomOf="@id/add_item_button"
 			android:inputType="textUri"
-			android:hint="New item"/>
+			android:hint="@string/content_description_add_item"/>
 		<ImageButton
 			android:id="@+id/add_item_button"
 			android:layout_width="wrap_content"
@@ -82,7 +87,11 @@
 		android:id="@+id/pref_dialog_list"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="8dp"
+		android:paddingTop="@dimen/default_margin"
+		android:paddingStart="@dimen/default_margin"
+		android:paddingLeft="@dimen/default_margin"
+		android:paddingEnd="@dimen/default_margin"
+		android:paddingRight="@dimen/default_margin"
 		app:layout_constraintTop_toBottomOf="@id/add_item_container"
 		app:layout_constraintStart_toStartOf="parent"
 		app:layout_constraintEnd_toEndOf="parent" />
