@@ -25,20 +25,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
-import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlacklistAdapter
+import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlocklistAdapter
 
-class AutofillBlacklistPreferenceDialogFragmentCompat
+class AutofillBlocklistPreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(),
-        AutofillBlacklistAdapter.ItemDeletedCallback<SearchInfo> {
+        AutofillBlocklistAdapter.ItemDeletedCallback<SearchInfo> {
 
     private var persistedItems = HashSet<SearchInfo>()
 
-    private var filterAdapter: AutofillBlacklistAdapter<SearchInfo>? = null
+    private var filterAdapter: AutofillBlocklistAdapter<SearchInfo>? = null
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
-        // TODO persistedItems.add
+        preference.getPersistedStringSet(emptySet()).forEach { searchInfoString ->
+            persistedItems.add(SearchInfo().apply { genericInfo = searchInfoString })
+        }
 
         val addItemButton = view.findViewById<View>(R.id.add_item_button)
         addItemButton?.setOnClickListener {
@@ -52,7 +54,7 @@ class AutofillBlacklistPreferenceDialogFragmentCompat
         recyclerView.layoutManager = LinearLayoutManager(context)
 
         activity?.let { activity ->
-            filterAdapter = AutofillBlacklistAdapter(activity)
+            filterAdapter = AutofillBlocklistAdapter(activity)
             filterAdapter?.setItemDeletedCallback(this)
             recyclerView.adapter = filterAdapter
             filterAdapter?.replaceItems(persistedItems.toList())
@@ -82,8 +84,8 @@ class AutofillBlacklistPreferenceDialogFragmentCompat
 
     companion object {
 
-        fun newInstance(key: String): AutofillBlacklistPreferenceDialogFragmentCompat {
-            val fragment = AutofillBlacklistPreferenceDialogFragmentCompat()
+        fun newInstance(key: String): AutofillBlocklistPreferenceDialogFragmentCompat {
+            val fragment = AutofillBlocklistPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)
             bundle.putString(ARG_KEY, key)
             fragment.arguments = bundle

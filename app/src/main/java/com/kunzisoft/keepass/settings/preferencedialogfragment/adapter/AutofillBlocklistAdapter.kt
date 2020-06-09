@@ -32,8 +32,8 @@ import com.kunzisoft.keepass.utils.ObjectNameResource
 
 import java.util.ArrayList
 
-class AutofillBlacklistAdapter<T : ObjectNameResource>(private val context: Context)
-    : RecyclerView.Adapter<AutofillBlacklistAdapter.BlacklistItemViewHolder>() {
+class AutofillBlocklistAdapter<T : ObjectNameResource>(private val context: Context)
+    : RecyclerView.Adapter<AutofillBlocklistAdapter.BlocklistItemViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
@@ -41,12 +41,12 @@ class AutofillBlacklistAdapter<T : ObjectNameResource>(private val context: Cont
 
     private var itemDeletedCallback: ItemDeletedCallback<T>? = null
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BlacklistItemViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BlocklistItemViewHolder {
         val view = inflater.inflate(R.layout.pref_dialog_list_removable_item, parent, false)
-        return BlacklistItemViewHolder(view)
+        return BlocklistItemViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: BlacklistItemViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: BlocklistItemViewHolder, position: Int) {
         val item = this.items[position]
         holder.textItem.text = item.getName(context.resources)
         holder.deleteButton.setOnClickListener(OnItemDeleteClickListener(item))
@@ -78,7 +78,7 @@ class AutofillBlacklistAdapter<T : ObjectNameResource>(private val context: Cont
         fun onItemDeleted(item: T)
     }
 
-    class BlacklistItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BlocklistItemViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var textItem: TextView = itemView.findViewById(R.id.pref_dialog_list_text)
         var deleteButton: ImageView = itemView.findViewById(R.id.pref_dialog_list_delete_button)
     }

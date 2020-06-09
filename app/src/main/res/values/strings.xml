@@ -381,7 +381,7 @@
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application Id</string>
-    <string name="autofill_blocklist_title">Blacklist</string>
+    <string name="autofill_blocklist_title">Blocklist</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

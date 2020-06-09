@@ -24,7 +24,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlacklistPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistPreferenceDialogFragmentCompat
 
 class AutofillSettingsFragment : PreferenceFragmentCompat() {
 
@@ -40,7 +40,7 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
 
         when (preference?.key) {
             getString(R.string.autofill_blocklist_key) -> {
-                dialogFragment = AutofillBlacklistPreferenceDialogFragmentCompat.newInstance(preference.key)
+                dialogFragment = AutofillBlocklistPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
             else -> otherDialogFragment = true
         }
