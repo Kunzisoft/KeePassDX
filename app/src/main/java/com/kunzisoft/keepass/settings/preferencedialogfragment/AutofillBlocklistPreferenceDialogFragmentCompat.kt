@@ -20,6 +20,8 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -47,10 +49,20 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
             addSearchInfo(searchInfoString)
         }
 
+        setOnInputTextEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
+            when (actionId) {
+                EditorInfo.IME_ACTION_DONE -> {
+                    addItemFromInputText()
+                    hideKeyboard()
+                    false
+                }
+                else -> false
+            }
+        })
+
         val addItemButton = view.findViewById<View>(R.id.add_item_button)
         addItemButton?.setOnClickListener {
-            addSearchInfo(inputText)
-            filterAdapter?.replaceItems(persistedItems.toList())
+            addItemFromInputText()
         }
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.pref_dialog_list)
@@ -64,10 +76,23 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
         }
     }
 
-    private fun addSearchInfo(searchInfoString: String) {
+    private fun addSearchInfo(searchInfoString: String): Boolean {
         val itemToAdd = buildSearchInfoFromString(searchInfoString)
-        if (itemToAdd != null && !itemToAdd.containsOnlyNullValues())
+        return if (itemToAdd != null && !itemToAdd.containsOnlyNullValues()) {
             persistedItems.add(itemToAdd)
+            true
+        } else {
+            false
+        }
+    }
+
+    private fun addItemFromInputText() {
+        if (addSearchInfo(inputText)) {
+            inputText = ""
+        } else {
+            setInputTextError(getString(R.string.error_string_type))
+        }
+        filterAdapter?.replaceItems(persistedItems.toList())
     }
 
     override fun onItemDeleted(item: SearchInfo) {
