@@ -1,2 +1,4 @@
  * Add blocklists for autofill
+ * Add autofill compatibility mode (usefull for Browser not compatible)
+ * Upgrade autofill recognition algorithm
 
