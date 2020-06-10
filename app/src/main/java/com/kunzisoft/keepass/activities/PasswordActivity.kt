@@ -339,6 +339,7 @@ open class PasswordActivity : StylishActivity() {
     override fun onResume() {
 
         if (Database.getInstance().loaded) {
+            super.onResume()
             launchGroupActivity()
         } else {
             mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
