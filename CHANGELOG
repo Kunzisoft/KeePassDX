@@ -2,6 +2,7 @@ KeePassDX(2.7)
  * Add blocklists for autofill
  * Add autofill compatibility mode (usefull for Browser not compatible)
  * Upgrade autofill recognition algorithm
+ * Setting to search through web subdomains
 
 KeePassDX(2.6)
  * Share a web domain to automatically search for an entry
