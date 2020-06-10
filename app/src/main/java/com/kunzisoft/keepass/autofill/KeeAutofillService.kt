@@ -30,6 +30,7 @@ import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
@@ -45,32 +46,53 @@ class KeeAutofillService : AutofillService() {
         // Check user's settings for authenticating Responses and Datasets.
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
-            val searchInfo = SearchInfo().apply {
-                applicationId = parseResult.applicationId
-                webDomain = parseResult.domain
+            // Build search info only if applicationId or webDomain are not blocked
+            var searchAllowed = true
+            parseResult.applicationId?.let {
+                if (PreferencesUtil.applicationIdBlocklist(this).any { appIdBlocked ->
+                            it.contains(appIdBlocked)
+                        }
+                ) {
+                    searchAllowed = false
+                }
+            }
+            parseResult.domain?.let {
+                if (PreferencesUtil.webDomainBlocklist(this).any { webDomainBlocked ->
+                            it.contains(webDomainBlocked)
+                        }
+                ) {
+                    searchAllowed = false
+                }
             }
 
-            SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
-                    searchInfo,
-                    { items ->
-                        val responseBuilder = FillResponse.Builder()
-                        AutofillHelper.addHeader(responseBuilder, packageName,
-                                parseResult.domain, parseResult.applicationId)
-                        items.forEach {
-                            responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+            if (searchAllowed) {
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.domain
+                }
+
+                SearchHelper.checkAutoSearchInfo(this,
+                        Database.getInstance(),
+                        searchInfo,
+                        { items ->
+                            val responseBuilder = FillResponse.Builder()
+                            AutofillHelper.addHeader(responseBuilder, packageName,
+                                    parseResult.domain, parseResult.applicationId)
+                            items.forEach {
+                                responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                            }
+                            callback.onSuccess(responseBuilder.build())
+                        },
+                        {
+                            // Show UI if no search result
+                            showUIForEntrySelection(parseResult, searchInfo, callback)
+                        },
+                        {
+                            // Show UI if database not open
+                            showUIForEntrySelection(parseResult, searchInfo, callback)
                         }
-                        callback.onSuccess(responseBuilder.build())
-                    },
-                    {
-                        // Show UI if no search result
-                        showUIForEntrySelection(parseResult, searchInfo, callback)
-                    },
-                    {
-                        // Show UI if database not open
-                        showUIForEntrySelection(parseResult, searchInfo, callback)
-                    }
-            )
+                )
+            }
         }
     }
 

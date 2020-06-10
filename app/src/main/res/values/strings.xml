@@ -52,6 +52,7 @@
     <string name="content_description_add_node">Add node</string>
     <string name="content_description_add_entry">Add entry</string>
     <string name="content_description_add_group">Add group</string>
+    <string name="content_description_add_item">Add item</string>
     <string name="content_description_file_information">File information</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
@@ -131,6 +132,7 @@
     <string name="error_otp_counter">Counter must be between %1$d and %2$d.</string>
     <string name="error_otp_period">Period must be between %1$d and %2$d seconds.</string>
     <string name="error_otp_digits">Token must contain %1$d to %2$d digits.</string>
+    <string name="error_string_type">This text does not match the requested item.</string>
     <string name="field_name">Field name</string>
     <string name="field_value">Field value</string>
     <string name="file_not_found_content">Could not find file. Try reopening it from your file browser.</string>
@@ -230,6 +232,7 @@
     <string name="do_not_kill_app">Do not kill the app…</string>
     <string name="space">Space</string>
     <string name="search_label">Search</string>
+    <string name="filter">Filter</string>
     <string name="sort_menu">Sort</string>
     <string name="sort_ascending">Lowest first ↓</string>
     <string name="sort_groups_before">Groups before</string>
@@ -378,7 +381,11 @@
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
     <string name="autofill_auto_search_title">Auto search</string>
-    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application Id</string>
+    <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
+    <string name="autofill_application_id_blocklist_title">Application block list</string>
+    <string name="autofill_application_id_blocklist_summary">Block list that prevents auto filling of apps</string>
+    <string name="autofill_web_domain_blocklist_title">Web domain block list</string>
+    <string name="autofill_web_domain_blocklist_summary">Block list that prevents auto filling of web domains</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

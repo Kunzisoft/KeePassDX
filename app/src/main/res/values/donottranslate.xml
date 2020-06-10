@@ -132,6 +132,8 @@
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
     <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
     <bool name="autofill_auto_search_default" translatable="false">true</bool>
+    <string name="autofill_application_id_blocklist_key" translatable="false">autofill_application_id_blocklist_key</string>
+    <string name="autofill_web_domain_blocklist_key" translatable="false">autofill_web_domain_blocklist_key</string>
 
     <!-- Advanced Unlock Settings -->
     <string name="settings_advanced_unlock_key" translatable="false">settings_advanced_unlock_key</string>
