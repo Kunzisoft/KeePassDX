@@ -151,6 +151,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
 
         fun launchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean) {
 
+            val containsURLToCopy = entry.url.isNotEmpty()
             val containsUsernameToCopy = entry.username.isNotEmpty()
             val containsPasswordToCopy = entry.password.isNotEmpty()
             val containsExtraFieldToCopy = entry.customFields.isNotEmpty()
@@ -158,7 +159,7 @@ class KeyboardEntryNotificationService : LockNotificationService() {
             var startService = false
             val intent = Intent(context, KeyboardEntryNotificationService::class.java)
 
-            if (containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
+            if (containsURLToCopy || containsUsernameToCopy || containsPasswordToCopy || containsExtraFieldToCopy) {
                 if (toast) {
                     Toast.makeText(context,
                             context.getString(R.string.keyboard_notification_entry_content_title, entry.title),
