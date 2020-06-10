@@ -52,9 +52,14 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
         setOnInputTextEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             when (actionId) {
                 EditorInfo.IME_ACTION_DONE -> {
-                    addItemFromInputText()
-                    hideKeyboard()
-                    false
+                    if (inputText.isEmpty()) {
+                        onDialogClosed(true)
+                        dialog?.dismiss()
+                        true
+                    } else {
+                        addItemFromInputText()
+                        false
+                    }
                 }
                 else -> false
             }
