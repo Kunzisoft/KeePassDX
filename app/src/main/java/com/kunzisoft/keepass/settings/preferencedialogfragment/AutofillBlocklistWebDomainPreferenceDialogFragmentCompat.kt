@@ -27,18 +27,15 @@ class AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
     : AutofillBlocklistPreferenceDialogFragmentCompat() {
 
     override fun buildSearchInfoFromString(searchInfoString: String): SearchInfo? {
-        // remove prefix https://
-        val newSearchInfo = searchInfoString.replace(Regex("^.*?://"), "")
-        return if (Regex(WEB_DOMAIN_REGEX).matches(newSearchInfo)) {
-            SearchInfo().apply { webDomain = newSearchInfo }
-        } else {
-            null
-        }
+        val newSearchInfo = searchInfoString
+                // remove prefix https://
+                .replace(Regex("^.*://"), "")
+                // Remove suffix /login...
+                .replace(Regex("/.*$"), "")
+        return SearchInfo().apply { webDomain = newSearchInfo }
     }
 
     companion object {
-        private const val WEB_DOMAIN_REGEX = "^(?!://)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?\$"
-
         fun newInstance(key: String): AutofillBlocklistWebDomainPreferenceDialogFragmentCompat {
             val fragment = AutofillBlocklistWebDomainPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)

@@ -26,17 +26,13 @@ class AutofillBlocklistAppIdPreferenceDialogFragmentCompat
     : AutofillBlocklistPreferenceDialogFragmentCompat() {
 
     override fun buildSearchInfoFromString(searchInfoString: String): SearchInfo? {
-        return if (Regex(APPLICATION_ID_REGEX).matches(searchInfoString)) {
-            SearchInfo().apply { this.applicationId = searchInfoString }
-        } else {
-            null
-        }
+        val newSearchInfo = searchInfoString
+                // remove chars not allowed in application ID
+                .replace(Regex("[^a-zA-Z0-9_.]+"), "")
+        return SearchInfo().apply { this.applicationId = newSearchInfo }
     }
 
     companion object {
-        // https://gist.github.com/rishabhmhjn/8663966
-        private const val APPLICATION_ID_REGEX = "^(?:[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)(?:\\.[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)+\$"
-
         fun newInstance(key: String): AutofillBlocklistAppIdPreferenceDialogFragmentCompat {
             val fragment = AutofillBlocklistAppIdPreferenceDialogFragmentCompat()
             val bundle = Bundle(1)

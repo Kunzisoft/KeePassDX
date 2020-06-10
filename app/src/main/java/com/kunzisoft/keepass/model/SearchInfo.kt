@@ -8,7 +8,21 @@ import com.kunzisoft.keepass.utils.ObjectNameResource
 class SearchInfo : ObjectNameResource, Parcelable {
 
     var applicationId: String? = null
+        set(value) {
+            field = when {
+                value == null -> null
+                Regex(APPLICATION_ID_REGEX).matches(value) -> value
+                else -> null
+            }
+        }
     var webDomain: String? = null
+        set(value) {
+            field = when {
+                value == null -> null
+                Regex(WEB_DOMAIN_REGEX).matches(value) -> value
+                else -> null
+            }
+        }
 
     constructor()
 
@@ -59,6 +73,9 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     companion object {
+        // https://gist.github.com/rishabhmhjn/8663966
+        const val APPLICATION_ID_REGEX = "^(?:[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)(?:\\.[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)+\$"
+        const val WEB_DOMAIN_REGEX = "^(?!://)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?\$"
 
         @JvmField
         val CREATOR: Parcelable.Creator<SearchInfo> = object : Parcelable.Creator<SearchInfo> {

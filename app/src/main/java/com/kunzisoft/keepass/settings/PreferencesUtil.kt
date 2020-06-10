@@ -366,4 +366,16 @@ object PreferencesUtil {
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
     }
+
+    fun applicationIdBlocklist(context: Context): Set<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getStringSet(context.getString(R.string.autofill_application_id_blocklist_key), null)
+                ?: emptySet()
+    }
+
+    fun webDomainBlocklist(context: Context): Set<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), null)
+                ?: emptySet()
+    }
 }
