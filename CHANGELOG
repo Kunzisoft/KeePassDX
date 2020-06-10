@@ -1,5 +1,6 @@
 KeePassDX(2.7)
- *
+ * Add blocklists for autofill
+
 
 KeePassDX(2.6)
  * Share a web domain to automatically search for an entry

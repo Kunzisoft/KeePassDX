@@ -1,2 +1,2 @@
- *
+ * Ajout des listes de blocage pour le remplissage automatique
 
