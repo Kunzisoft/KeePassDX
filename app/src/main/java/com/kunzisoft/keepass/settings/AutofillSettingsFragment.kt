@@ -24,7 +24,8 @@ import androidx.fragment.app.DialogFragment
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistAppIdPreferenceDialogFragmentCompat
+import com.kunzisoft.keepass.settings.preferencedialogfragment.AutofillBlocklistWebDomainPreferenceDialogFragmentCompat
 
 class AutofillSettingsFragment : PreferenceFragmentCompat() {
 
@@ -39,8 +40,11 @@ class AutofillSettingsFragment : PreferenceFragmentCompat() {
         var dialogFragment: DialogFragment? = null
 
         when (preference?.key) {
-            getString(R.string.autofill_blocklist_key) -> {
-                dialogFragment = AutofillBlocklistPreferenceDialogFragmentCompat.newInstance(preference.key)
+            getString(R.string.autofill_application_id_blocklist_key) -> {
+                dialogFragment = AutofillBlocklistAppIdPreferenceDialogFragmentCompat.newInstance(preference.key)
+            }
+            getString(R.string.autofill_web_domain_blocklist_key) -> {
+                dialogFragment = AutofillBlocklistWebDomainPreferenceDialogFragmentCompat.newInstance(preference.key)
             }
             else -> otherDialogFragment = true
         }

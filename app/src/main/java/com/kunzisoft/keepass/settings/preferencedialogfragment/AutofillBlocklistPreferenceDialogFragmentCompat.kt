@@ -19,34 +19,37 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
-import android.os.Bundle
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.settings.preferencedialogfragment.adapter.AutofillBlocklistAdapter
+import java.util.*
+import kotlin.Comparator
+import kotlin.collections.HashSet
 
-class AutofillBlocklistPreferenceDialogFragmentCompat
+abstract class AutofillBlocklistPreferenceDialogFragmentCompat
     : InputPreferenceDialogFragmentCompat(),
         AutofillBlocklistAdapter.ItemDeletedCallback<SearchInfo> {
 
-    private var persistedItems = HashSet<SearchInfo>()
+    private var persistedItems = TreeSet<SearchInfo>(
+            Comparator { o1, o2 -> o1.toString().compareTo(o2.toString()) })
 
     private var filterAdapter: AutofillBlocklistAdapter<SearchInfo>? = null
+
+    abstract fun buildSearchInfoFromString(searchInfoString: String): SearchInfo?
 
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
 
         preference.getPersistedStringSet(emptySet()).forEach { searchInfoString ->
-            persistedItems.add(SearchInfo().apply { genericInfo = searchInfoString })
+            addSearchInfo(searchInfoString)
         }
 
         val addItemButton = view.findViewById<View>(R.id.add_item_button)
         addItemButton?.setOnClickListener {
-            persistedItems.add(SearchInfo().apply {
-                genericInfo = inputText
-            })
+            addSearchInfo(inputText)
             filterAdapter?.replaceItems(persistedItems.toList())
         }
 
@@ -59,6 +62,12 @@ class AutofillBlocklistPreferenceDialogFragmentCompat
             recyclerView.adapter = filterAdapter
             filterAdapter?.replaceItems(persistedItems.toList())
         }
+    }
+
+    private fun addSearchInfo(searchInfoString: String) {
+        val itemToAdd = buildSearchInfoFromString(searchInfoString)
+        if (itemToAdd != null && !itemToAdd.containsOnlyNullValues())
+            persistedItems.add(itemToAdd)
     }
 
     override fun onItemDeleted(item: SearchInfo) {
@@ -79,18 +88,6 @@ class AutofillBlocklistPreferenceDialogFragmentCompat
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             preference.persistStringSet(getStringItems())
-        }
-    }
-
-    companion object {
-
-        fun newInstance(key: String): AutofillBlocklistPreferenceDialogFragmentCompat {
-            val fragment = AutofillBlocklistPreferenceDialogFragmentCompat()
-            val bundle = Bundle(1)
-            bundle.putString(ARG_KEY, key)
-            fragment.arguments = bundle
-
-            return fragment
         }
     }
 }

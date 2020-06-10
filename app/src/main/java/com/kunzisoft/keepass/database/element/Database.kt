@@ -406,7 +406,7 @@ class Database {
 
     fun createVirtualGroupFromSearch(searchInfo: SearchInfo,
                                      max: Int = Integer.MAX_VALUE): Group? {
-         if (searchInfo.isNull())
+         if (searchInfo.containsOnlyNullValues())
             return null
         return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchInfo.toString(), SearchParameters().apply {
             searchInTitles = false

@@ -29,7 +29,12 @@
     <PreferenceCategory
         android:title="@string/filter">
         <com.kunzisoft.keepass.settings.preference.InputListPreference
-            android:key="@string/autofill_blocklist_key"
-            android:title="@string/autofill_blocklist_title"/>
+            android:key="@string/autofill_application_id_blocklist_key"
+            android:title="@string/autofill_application_id_blocklist_title"
+            android:summary="@string/autofill_application_id_blocklist_summary"/>
+        <com.kunzisoft.keepass.settings.preference.InputListPreference
+            android:key="@string/autofill_web_domain_blocklist_key"
+            android:title="@string/autofill_web_domain_blocklist_title"
+            android:summary="@string/autofill_web_domain_blocklist_summary"/>
     </PreferenceCategory>
 </PreferenceScreen>
