@@ -49,12 +49,20 @@ class KeeAutofillService : AutofillService() {
             // Build search info only if applicationId or webDomain are not blocked
             var searchAllowed = true
             parseResult.applicationId?.let {
-                if (PreferencesUtil.applicationIdBlocklist(this).contains(it))
+                if (PreferencesUtil.applicationIdBlocklist(this).any { appIdBlocked ->
+                            it.contains(appIdBlocked)
+                        }
+                ) {
                     searchAllowed = false
+                }
             }
             parseResult.domain?.let {
-                if (PreferencesUtil.webDomainBlocklist(this).contains(it))
+                if (PreferencesUtil.webDomainBlocklist(this).any { webDomainBlocked ->
+                            it.contains(webDomainBlocked)
+                        }
+                ) {
                     searchAllowed = false
+                }
             }
 
             if (searchAllowed) {
