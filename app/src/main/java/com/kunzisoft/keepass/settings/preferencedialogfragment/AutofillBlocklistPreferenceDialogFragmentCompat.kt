@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
+import android.os.Bundle
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.TextView
@@ -42,12 +43,26 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
 
     abstract fun buildSearchInfoFromString(searchInfoString: String): SearchInfo?
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        // To get items for saved instance state
+        savedInstanceState?.getParcelableArray(ITEMS_KEY)?.let {
+            it.forEach { itemSaved ->
+                (itemSaved as SearchInfo?)?.let { item ->
+                    persistedItems.add(item)
+                }
+            }
+        } ?: run {
+            // Or from preference
+            preference.getPersistedStringSet(emptySet()).forEach { searchInfoString ->
+                addSearchInfo(searchInfoString)
+            }
+        }
+    }
+
     override fun onBindDialogView(view: View) {
         super.onBindDialogView(view)
-
-        preference.getPersistedStringSet(emptySet()).forEach { searchInfoString ->
-            addSearchInfo(searchInfoString)
-        }
 
         setOnInputTextEditorActionListener(TextView.OnEditorActionListener { _, actionId, _ ->
             when (actionId) {
@@ -115,9 +130,18 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
         return setItems
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putParcelableArray(ITEMS_KEY, persistedItems.toTypedArray())
+    }
+
     override fun onDialogClosed(positiveResult: Boolean) {
         if (positiveResult) {
             preference.persistStringSet(getStringItems())
         }
+    }
+
+    companion object {
+        private const val ITEMS_KEY = "ITEMS_KEY"
     }
 }
