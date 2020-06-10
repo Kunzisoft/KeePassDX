@@ -97,6 +97,12 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.auto_focus_search_default))
     }
 
+    fun searchSubdomains(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
+                context.resources.getBoolean(R.bool.subdomain_search_default))
+    }
+
     fun showUsernamesListEntries(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.list_entries_show_username_key),

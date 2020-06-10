@@ -23,9 +23,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -49,9 +47,8 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 if ("text/plain" == intent.type) {
                     // Retrieve web domain
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                        sharedWebDomain = Uri.parse(it).authority
+                        sharedWebDomain = Uri.parse(it).host
                     }
-
                 }
             }
             else -> {}

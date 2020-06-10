@@ -202,6 +202,8 @@
     <string name="omit_backup_search_summary">Omits \"Backup\" and \"Recycle bin\" groups from search results</string>
     <string name="auto_focus_search_title">Quick search</string>
     <string name="auto_focus_search_summary">Request a search when opening a database</string>
+    <string name="subdomain_search_title">Subdomain search</string>
+    <string name="subdomain_search_summary">Search web domains with subdomains constraints</string>
     <string name="progress_create">Creating new database…</string>
     <string name="progress_title">Working…</string>
     <string name="protection">Protection</string>

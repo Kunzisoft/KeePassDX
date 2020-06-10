@@ -63,6 +63,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
@@ -308,7 +309,7 @@ class GroupActivity : LockingActivity(),
         if (searchInfo != null) {
             intent.action = Intent.ACTION_SEARCH
             intent.removeExtra(KEY_SEARCH_INFO)
-            intent.putExtra(SearchManager.QUERY, searchInfo.toString())
+            intent.putExtra(SearchManager.QUERY, searchInfo.getSearchString(this))
             return true
         }
         return false

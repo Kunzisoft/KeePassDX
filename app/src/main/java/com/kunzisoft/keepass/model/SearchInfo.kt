@@ -1,9 +1,12 @@
 package com.kunzisoft.keepass.model
 
+import android.content.Context
 import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.keepass.utils.UriUtil
 
 class SearchInfo : ObjectNameResource, Parcelable {
 
@@ -88,4 +91,15 @@ class SearchInfo : ObjectNameResource, Parcelable {
             }
         }
     }
+}
+
+fun SearchInfo.getSearchString(context: Context): String {
+    return run {
+                if (!PreferencesUtil.searchSubdomains(context))
+                    UriUtil.getWebDomainWithoutSubDomain(webDomain)
+                else
+                    webDomain
+            }
+            ?: applicationId
+            ?: ""
 }

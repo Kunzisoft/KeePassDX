@@ -67,6 +67,8 @@
     <bool name="omit_backup_search_default" translatable="false">true</bool>
     <string name="auto_focus_search_key" translatable="false">auto_focus_search_key</string>
     <bool name="auto_focus_search_default" translatable="false">false</bool>
+    <string name="subdomain_search_key" translatable="false">subdomain_search_key</string>
+    <bool name="subdomain_search_default" translatable="false">false</bool>
     <string name="app_timeout_key" translatable="false">app_timeout_key</string>
     <string name="lock_database_screen_off_key" translatable="false">lock_database_screen_off_key</string>
     <bool name="lock_database_screen_off_default" translatable="false">true</bool>

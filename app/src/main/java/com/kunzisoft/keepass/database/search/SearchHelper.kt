@@ -28,6 +28,7 @@ import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorK
 import com.kunzisoft.keepass.database.search.iterator.EntrySearchStringIteratorKDBX
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
@@ -48,9 +49,13 @@ class SearchHelper(private val isOmitBackup: Boolean) {
             if (database.loaded && TimeoutHelper.checkTime(context)) {
                 var searchWithoutUI = false
                 if (PreferencesUtil.isAutofillAutoSearchEnable(context)
-                        && searchInfo != null) {
+                        && searchInfo != null
+                        && !searchInfo.containsOnlyNullValues()) {
                     // If search provide results
-                    database.createVirtualGroupFromSearch(searchInfo, SearchHelper.MAX_SEARCH_ENTRY)?.let { searchGroup ->
+                    database.createVirtualGroupFromSearchInfo(
+                            searchInfo.getSearchString(context),
+                            MAX_SEARCH_ENTRY
+                    )?.let { searchGroup ->
                         if (searchGroup.getNumberOfChildEntries() > 0) {
                             searchWithoutUI = true
                             onItemsFound.invoke(

@@ -59,7 +59,11 @@
             android:title="@string/auto_focus_search_title"
             android:summary="@string/auto_focus_search_summary"
             android:defaultValue="@bool/auto_focus_search_default"/>
-
+        <SwitchPreference
+            android:key="@string/subdomain_search_key"
+            android:title="@string/subdomain_search_title"
+            android:summary="@string/subdomain_search_summary"
+            android:defaultValue="@bool/subdomain_search_default"/>
     </PreferenceCategory>
 
     <PreferenceCategory
