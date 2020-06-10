@@ -69,7 +69,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun toString(): String {
-        return applicationId ?: webDomain ?: ""
+        return webDomain ?: applicationId ?: ""
     }
 
     companion object {

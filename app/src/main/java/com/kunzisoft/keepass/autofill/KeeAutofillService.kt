@@ -35,6 +35,16 @@ import com.kunzisoft.keepass.settings.PreferencesUtil
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
 
+    var applicationIdBlocklist: Set<String>? = null
+    var webDomainBlocklist: Set<String>? = null
+
+    override fun onCreate() {
+        super.onCreate()
+
+        applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
+        webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
+    }
+
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal,
                                callback: FillCallback) {
@@ -49,17 +59,17 @@ class KeeAutofillService : AutofillService() {
             // Build search info only if applicationId or webDomain are not blocked
             var searchAllowed = true
             parseResult.applicationId?.let {
-                if (PreferencesUtil.applicationIdBlocklist(this).any { appIdBlocked ->
+                if (applicationIdBlocklist?.any { appIdBlocked ->
                             it.contains(appIdBlocked)
-                        }
+                        } == true
                 ) {
                     searchAllowed = false
                 }
             }
             parseResult.domain?.let {
-                if (PreferencesUtil.webDomainBlocklist(this).any { webDomainBlocked ->
+                if (webDomainBlocklist?.any { webDomainBlocked ->
                             it.contains(webDomainBlocked)
-                        }
+                        } == true
                 ) {
                     searchAllowed = false
                 }
