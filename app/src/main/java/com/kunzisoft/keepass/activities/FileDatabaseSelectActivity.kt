@@ -157,7 +157,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             UriUtil.parse(databasePath)?.let { databaseFileUri ->
                 launchPasswordActivityWithPath(databaseFileUri)
             } ?: run {
-                Log.i(TAG, "Unable to launch Password Activity")
+                Log.i(TAG, "No default database to prepare")
             }
         }
 
@@ -269,37 +269,37 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onResume() {
+        super.onResume()
+
         val database = Database.getInstance()
         if (database.loaded) {
             launchGroupActivity(database.isReadOnly)
-        }
-
-        super.onResume()
-
-        // Construct adapter with listeners
-        if (PreferencesUtil.showRecentFiles(this)) {
-            mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
-                databaseFileHistoryList?.let { historyList ->
-                    val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(this@FileDatabaseSelectActivity)
-                    mAdapterDatabaseHistory?.addDatabaseFileHistoryList(
-                            // Show only uri accessible
-                            historyList.filter {
-                                if (hideBrokenLocations) {
-                                    FileDatabaseInfo(this@FileDatabaseSelectActivity,
-                                            it.databaseUri).exists
-                                } else
-                                    true
-                            })
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
-                }
-            }
         } else {
-            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
-            mAdapterDatabaseHistory?.notifyDataSetChanged()
-        }
+            // Construct adapter with listeners
+            if (PreferencesUtil.showRecentFiles(this)) {
+                mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
+                    databaseFileHistoryList?.let { historyList ->
+                        val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(this@FileDatabaseSelectActivity)
+                        mAdapterDatabaseHistory?.addDatabaseFileHistoryList(
+                                // Show only uri accessible
+                                historyList.filter {
+                                    if (hideBrokenLocations) {
+                                        FileDatabaseInfo(this@FileDatabaseSelectActivity,
+                                                it.databaseUri).exists
+                                    } else
+                                        true
+                                })
+                        mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    }
+                }
+            } else {
+                mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
+                mAdapterDatabaseHistory?.notifyDataSetChanged()
+            }
 
-        // Register progress task
-        mProgressDialogThread?.registerProgressTask()
+            // Register progress task
+            mProgressDialogThread?.registerProgressTask()
+        }
     }
 
     override fun onPause() {

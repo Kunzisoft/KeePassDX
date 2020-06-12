@@ -780,9 +780,12 @@ open class PasswordActivity : StylishActivity() {
         if (!keyFileResult) {
             // this block if not a key file response
             when (resultCode) {
-                LockingActivity.RESULT_EXIT_LOCK, Activity.RESULT_CANCELED -> {
+                LockingActivity.RESULT_EXIT_LOCK -> {
                     clearCredentialsViews()
                     Database.getInstance().closeAndClear(applicationContext.filesDir)
+                }
+                Activity.RESULT_CANCELED -> {
+                    clearCredentialsViews()
                 }
             }
         }

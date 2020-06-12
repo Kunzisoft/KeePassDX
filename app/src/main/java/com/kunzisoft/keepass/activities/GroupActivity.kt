@@ -32,6 +32,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -97,7 +98,8 @@ class GroupActivity : LockingActivity(),
     private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
-    private var modeTitleView: TextView? = null
+    private var modeContainerView: View? = null
+    private var modeCancelButton: Button? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
@@ -106,6 +108,9 @@ class GroupActivity : LockingActivity(),
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
+
+    // To manage history in selection mode
+    private var mSelectionModeCountBackStack = 0
 
     // Nodes
     private var mRootGroup: Group? = null
@@ -136,7 +141,8 @@ class GroupActivity : LockingActivity(),
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
-        modeTitleView = findViewById(R.id.mode_title_view)
+        modeContainerView = findViewById(R.id.mode_container)
+        modeCancelButton = findViewById(R.id.mode_cancel_button)
         lockView = findViewById(R.id.lock_button)
 
         lockView?.setOnClickListener {
@@ -354,6 +360,9 @@ class GroupActivity : LockingActivity(),
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
 
+            if (mSelectionMode)
+                mSelectionModeCountBackStack++
+
             // Update last access time.
             group?.touch(modified = false, touchParents = false)
 
@@ -462,9 +471,24 @@ class GroupActivity : LockingActivity(),
 
         // Show selection mode message if needed
         if (mSelectionMode) {
-            modeTitleView?.visibility = View.VISIBLE
+            modeCancelButton?.setOnClickListener {
+                // To remove the navigation history and
+                EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+                val fragmentManager = supportFragmentManager
+                if (mSelectionModeCountBackStack > 0) {
+                    for (selectionMode in 0 .. mSelectionModeCountBackStack) {
+                        fragmentManager.popBackStack()
+                    }
+                }
+                // Reinit the counter for navigation history
+                mSelectionModeCountBackStack = 0
+                // Back to the app caller
+                super.onBackPressed()
+            }
+            modeContainerView?.visibility = View.VISIBLE
         } else {
-            modeTitleView?.visibility = View.GONE
+            modeCancelButton?.setOnClickListener(null)
+            modeContainerView?.visibility = View.GONE
         }
 
         // Show button if allowed
@@ -976,9 +1000,11 @@ class GroupActivity : LockingActivity(),
             finishNodeAction()
         } else {
             // Normal way when we are not in root
-            if (mRootGroup != null && mRootGroup != mCurrentGroup)
+            if (mRootGroup != null && mRootGroup != mCurrentGroup) {
                 super.onBackPressed()
-            // Else lock if needed
+                rebuildListNodes()
+            }
+            // Else in root, lock if needed
             else {
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
@@ -986,11 +1012,15 @@ class GroupActivity : LockingActivity(),
                 } else {
                     // To restore standard mode
                     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                    moveTaskToBack(true)
+                    if (mSelectionMode) {
+                        // To get the app caller
+                        super.onBackPressed()
+                    } else {
+                        // To move the app in background
+                        moveTaskToBack(true)
+                    }
                 }
             }
-
-            rebuildListNodes()
         }
     }
 

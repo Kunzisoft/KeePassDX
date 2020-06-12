@@ -124,15 +124,31 @@
             android:orientation="vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             android:layout_below="@+id/toolbar">
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/mode_title_view"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/mode_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp"
-                android:gravity="center_horizontal"
-                android:background="?attr/colorAccent"
-                android:textColor="?attr/textColorInverse"
-                android:text="@string/selection_mode"/>
+                android:background="?attr/colorAccent">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/mode_cancel_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:text="@string/entry_cancel"/>
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/mode_title_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:text="@string/selection_mode"
+                    android:textColor="?attr/textColorInverse"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
             <FrameLayout
                 android:id="@+id/nodes_list_fragment_container"
                 android:layout_width="match_parent"
