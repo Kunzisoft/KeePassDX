@@ -43,6 +43,7 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
+import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
@@ -166,11 +167,16 @@ class EntryEditActivity : LockingActivity(),
                 mNewEntry = mDatabase?.createEntry()
             }
             mParent = mDatabase?.getGroupById(it)
-            // Add the default icon from parent
-            mParent?.icon?.let { parentIcon ->
+            // Add the default icon from parent if not a folder
+            val parentIcon = mParent?.icon
+            if (parentIcon != null
+                    && parentIcon.iconId != IconImage.UNKNOWN_ID
+                    && parentIcon.iconId != IconImageStandard.FOLDER) {
                 temporarilySaveAndShowSelectedIcon(parentIcon)
-            } ?: mDatabase?.drawFactory?.let { iconFactory ->
+            } else {
+                mDatabase?.drawFactory?.let { iconFactory ->
                     entryEditContentsView?.setDefaultIcon(iconFactory)
+                }
             }
         }
 
