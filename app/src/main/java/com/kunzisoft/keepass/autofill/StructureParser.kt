@@ -171,6 +171,10 @@ internal class StructureParser(private val structure: AssistStructure) {
         return false
     }
 
+    private fun showHexInputType(inputType: Int): String {
+        return "0x${"%08x".format(inputType)}"
+    }
+
     private fun parseNodeByAndroidInput(node: AssistStructure.ViewNode): Boolean {
         val autofillId = node.autofillId
         val inputType = node.inputType
@@ -181,21 +185,21 @@ internal class StructureParser(private val structure: AssistStructure) {
                             InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
                             InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
                         result?.usernameId = autofillId
-                        Log.d(TAG, "Autofill username android text type: $inputType")
+                        Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_NORMAL,
                             InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
                             InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
                         usernameCandidate = autofillId
-                        Log.d(TAG, "Autofill username candidate android text type: $inputType")
+                        Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_TEXT_VARIATION_PASSWORD,
                             InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
                             InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD) -> {
                         result?.passwordId = autofillId
-                        Log.d(TAG, "Autofill password android text type: $inputType")
+                        Log.d(TAG, "Autofill password android text type: ${showHexInputType(inputType)}")
                         usernameNeeded = false
                         return true
                     }
@@ -210,7 +214,7 @@ internal class StructureParser(private val structure: AssistStructure) {
                         // Type not used
                     }
                     else -> {
-                        Log.d(TAG, "Autofill unknown android text type: $inputType")
+                        Log.d(TAG, "Autofill unknown android text type: ${showHexInputType(inputType)}")
                     }
                 }
             }
@@ -219,17 +223,17 @@ internal class StructureParser(private val structure: AssistStructure) {
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
                         usernameCandidate = autofillId
-                        Log.d(TAG, "Autofill usernale candidate android number type: $inputType")
+                        Log.d(TAG, "Autofill usernale candidate android number type: ${showHexInputType(inputType)}")
                     }
                     inputIsVariationType(inputType,
                             InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {
                         result?.passwordId = autofillId
-                        Log.d(TAG, "Autofill password android number type: $inputType")
+                        Log.d(TAG, "Autofill password android number type: ${showHexInputType(inputType)}")
                         usernameNeeded = false
                         return true
                     }
                     else -> {
-                        Log.d(TAG, "Autofill unknown android number type: $inputType")
+                        Log.d(TAG, "Autofill unknown android number type: ${showHexInputType(inputType)}")
                     }
                 }
             }
