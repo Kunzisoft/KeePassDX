@@ -46,7 +46,7 @@ import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -69,15 +69,16 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
+import com.kunzisoft.keepass.view.SpecialModeView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
-open class PasswordActivity : StylishActivity() {
+open class PasswordActivity : SpecialModeActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
-    private var containerView: View? = null
+    private var specialModeView: SpecialModeView? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileSelectionView: KeyFileSelectionView? = null
@@ -124,7 +125,7 @@ open class PasswordActivity : StylishActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        containerView = findViewById(R.id.container)
+        specialModeView = findViewById(R.id.special_mode_view)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -337,9 +338,17 @@ open class PasswordActivity : StylishActivity() {
     }
 
     override fun onResume() {
+        super.onResume()
+
+        // To show the selection mode
+        specialModeView?.apply {
+            visible = mSelectionMode
+            onCancelButtonClickListener = View.OnClickListener {
+                onBackPressed()
+            }
+        }
 
         if (Database.getInstance().loaded) {
-            super.onResume()
             launchGroupActivity()
         } else {
             mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
@@ -349,9 +358,6 @@ open class PasswordActivity : StylishActivity() {
             if (Database.getInstance().loaded) {
                 clearCredentialsViews()
             }
-
-            // For check shutdown
-            super.onResume()
 
             mProgressDialogThread?.registerProgressTask()
 
@@ -625,14 +631,15 @@ open class PasswordActivity : StylishActivity() {
         val inflater = menuInflater
         // Read menu
         inflater.inflate(R.menu.open_file, menu)
-
-        if (mForceReadOnly) {
+        if (mSelectionMode || mForceReadOnly) {
             menu.removeItem(R.id.menu_open_file_read_mode_key)
         } else {
             changeOpenFileReadIcon(menu.findItem(R.id.menu_open_file_read_mode_key))
         }
 
-        MenuUtil.defaultMenuInflater(inflater, menu)
+        if (!mSelectionMode) {
+            MenuUtil.defaultMenuInflater(inflater, menu)
+        }
 
         if ( Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             // biometric menu

@@ -32,7 +32,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -76,10 +75,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.*
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -98,8 +94,7 @@ class GroupActivity : LockingActivity(),
     private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
-    private var modeContainerView: View? = null
-    private var modeCancelButton: Button? = null
+    private var specialModeView: SpecialModeView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
@@ -141,8 +136,7 @@ class GroupActivity : LockingActivity(),
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
-        modeContainerView = findViewById(R.id.mode_container)
-        modeCancelButton = findViewById(R.id.mode_cancel_button)
+        specialModeView = findViewById(R.id.special_mode_view)
         lockView = findViewById(R.id.lock_button)
 
         lockView?.setOnClickListener {
@@ -470,8 +464,9 @@ class GroupActivity : LockingActivity(),
         refreshNumberOfChildren()
 
         // Show selection mode message if needed
-        if (mSelectionMode) {
-            modeCancelButton?.setOnClickListener {
+        specialModeView?.apply {
+            visible = mSelectionMode
+            onCancelButtonClickListener = View.OnClickListener {
                 // To remove the navigation history and
                 EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
                 val fragmentManager = supportFragmentManager
@@ -482,13 +477,8 @@ class GroupActivity : LockingActivity(),
                 }
                 // Reinit the counter for navigation history
                 mSelectionModeCountBackStack = 0
-                // Back to the app caller
-                super.onBackPressed()
+                backToTheAppCaller()
             }
-            modeContainerView?.visibility = View.VISIBLE
-        } else {
-            modeCancelButton?.setOnClickListener(null)
-            modeContainerView?.visibility = View.GONE
         }
 
         // Show button if allowed
@@ -726,8 +716,7 @@ class GroupActivity : LockingActivity(),
             menu.findItem(R.id.menu_save_database)?.isVisible = false
         }
         if (!mSelectionMode) {
-            inflater.inflate(R.menu.default_menu, menu)
-            MenuUtil.contributionMenuInflater(inflater, menu)
+            MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
         // Menu for recycle bin
@@ -936,19 +925,16 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun startActivity(intent: Intent) {
-
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
-            // manually launch the real search activity
-            val searchIntent = Intent(applicationContext, GroupActivity::class.java).apply {
-                // Add bundle of current intent
-                putExtras(this@GroupActivity.intent)
+            // manually launch the same search activity
+            val searchIntent = getIntent().apply {
                 // add query to the Intent Extras
                 action = Intent.ACTION_SEARCH
                 putExtra(SearchManager.QUERY, intent.getStringExtra(SearchManager.QUERY))
             }
-
-            super.startActivity(searchIntent)
+            setIntent(searchIntent)
+            onNewIntent(searchIntent)
         } else {
             super.startActivity(intent)
         }
@@ -995,6 +981,16 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
     }
 
+    private fun backToTheAppCaller() {
+        if (mAutofillSelection) {
+            // To get the app caller, only for autofill
+            super.onBackPressed()
+        } else {
+            // To move the app in background
+            moveTaskToBack(true)
+        }
+    }
+
     override fun onBackPressed() {
         if (mListNodesFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
@@ -1012,13 +1008,7 @@ class GroupActivity : LockingActivity(),
                 } else {
                     // To restore standard mode
                     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                    if (mSelectionMode) {
-                        // To get the app caller
-                        super.onBackPressed()
-                    } else {
-                        // To move the app in background
-                        moveTaskToBack(true)
-                    }
+                    backToTheAppCaller()
                 }
             }
         }
