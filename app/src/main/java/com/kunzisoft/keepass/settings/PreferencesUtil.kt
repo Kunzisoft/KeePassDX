@@ -375,13 +375,15 @@ object PreferencesUtil {
 
     fun applicationIdBlocklist(context: Context): Set<String> {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getStringSet(context.getString(R.string.autofill_application_id_blocklist_key), null)
+        return prefs.getStringSet(context.getString(R.string.autofill_application_id_blocklist_key),
+                context.resources.getStringArray(R.array.autofill_application_id_blocklist_default).toMutableSet())
                 ?: emptySet()
     }
 
     fun webDomainBlocklist(context: Context): Set<String> {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        return prefs.getStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), null)
+        return prefs.getStringSet(context.getString(R.string.autofill_web_domain_blocklist_key),
+                context.resources.getStringArray(R.array.autofill_web_domain_blocklist_default).toMutableSet())
                 ?: emptySet()
     }
 }

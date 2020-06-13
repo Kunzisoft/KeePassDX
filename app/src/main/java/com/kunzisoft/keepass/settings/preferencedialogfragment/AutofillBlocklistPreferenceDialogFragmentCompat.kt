@@ -43,6 +43,8 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
 
     abstract fun buildSearchInfoFromString(searchInfoString: String): SearchInfo?
 
+    abstract fun getDefaultValues(): Set<String>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,7 +57,7 @@ abstract class AutofillBlocklistPreferenceDialogFragmentCompat
             }
         } ?: run {
             // Or from preference
-            preference.getPersistedStringSet(emptySet()).forEach { searchInfoString ->
+            preference.getPersistedStringSet(getDefaultValues()).forEach { searchInfoString ->
                 addSearchInfo(searchInfoString)
             }
         }

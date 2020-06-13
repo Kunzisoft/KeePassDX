@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
 
 class AutofillBlocklistAppIdPreferenceDialogFragmentCompat
@@ -30,6 +31,13 @@ class AutofillBlocklistAppIdPreferenceDialogFragmentCompat
                 // remove chars not allowed in application ID
                 .replace(Regex("[^a-zA-Z0-9_.]+"), "")
         return SearchInfo().apply { this.applicationId = newSearchInfo }
+    }
+
+    override fun getDefaultValues(): Set<String> {
+        return context?.resources
+                ?.getStringArray(R.array.autofill_application_id_blocklist_default)
+                ?.toMutableSet()
+                ?: emptySet()
     }
 
     companion object {

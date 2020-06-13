@@ -23,8 +23,6 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.preference.DialogPreference
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.icons.IconPackChooser
-import java.util.ArrayList
 
 open class InputListPreference @JvmOverloads constructor(context: Context,
                                                          attrs: AttributeSet? = null,
