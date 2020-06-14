@@ -357,7 +357,7 @@
     <string name="keyboard_selection_entry_title">Eintragsauswahl</string>
     <string name="keyboard_selection_entry_summary">Eingabefelder beim Betrachten eines Eintrags im Magikeyboard anzeigen</string>
     <string name="delete_entered_password_title">Passwort löschen</string>
-    <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch</string>
+    <string name="delete_entered_password_summary">Löscht das eingegebene Passwort nach einem Verbindungsversuch zu einer Datenbank</string>
     <string name="content_description_open_file">Datei öffnen</string>
     <string name="content_description_add_entry">Eintrag hinzufügen</string>
     <string name="content_description_add_group">Gruppe hinzufügen</string>
@@ -486,4 +486,6 @@
     <string name="autofill_preference_title">Autofill-Einstellungen</string>
     <string name="warning_database_link_revoked">Zugriff auf die Datei durch den Dateimanager widerrufen</string>
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
+    <string name="keyboard_search_share_summary">Automatische Suche nach gemeinsam genutzten Informationen zur Belegung der Tastatur</string>
+    <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
 </resources>
