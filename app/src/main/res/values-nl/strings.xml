@@ -171,7 +171,7 @@
     <string name="menu_move">Verplaatsen</string>
     <string name="menu_paste">Plakken</string>
     <string name="menu_cancel">Annuleren</string>
-    <string name="menu_biometric_remove_key">Opgeslagen vingerafdruk verwijderen</string>
+    <string name="menu_biometric_remove_key">Opgeslagen biometrische gegevens verwijderen</string>
     <string name="menu_file_selection_read_only">Alleen-lezen</string>
     <string name="menu_open_file_read_and_write">Lezen en schrijven</string>
     <string name="protection">Beveiliging</string>
@@ -199,13 +199,13 @@
     <string name="warning_password_encoding">Vermijd wachtwoordtekens buiten het tekstcoderingsformaat in het databasebestand (niet-herkende tekens worden geconverteerd naar dezelfde letter).</string>
     <string name="warning_empty_password">Doorgaan zonder beveiliging voor wachtwoordontgrendeling\?</string>
     <string name="warning_no_encryption_key">Doorgaan zonder coderingssleutel\?</string>
-    <string name="configure_biometric">Vingerafdruk wordt ondersteund, maar is niet ingesteld.</string>
-    <string name="open_biometric_prompt_unlock_database">Vingerafdruk gebruiken om de database te ontgrendelen</string>
+    <string name="configure_biometric">Biometrische herkenning is ondersteund, maar niet ingesteld.</string>
+    <string name="open_biometric_prompt_unlock_database">Biometrische herkenning gebruiken om de database te ontgrendelen</string>
     <string name="encrypted_value_stored">Versleuteld wachtwoord is opgeslagen</string>
-    <string name="biometric_invalid_key">Kan de vingerafdruk-sleutel niet lezen. Verwijder deze en herhaal de procedure voor vingerafdrukherkenning.</string>
-    <string name="biometric_not_recognized">Vingerafdruk niet herkend</string>
-    <string name="biometric_scanning_error">Probleem met vingerafdruk: %1$s</string>
-    <string name="open_biometric_prompt_store_credential">Vingerafdruk gebruiken om wachtwoorden op te slaan</string>
+    <string name="biometric_invalid_key">Kan de biometrische gegevens niet lezen. Verwijder deze en herhaal de procedure voor biometrische herkenning.</string>
+    <string name="biometric_not_recognized">Biometrie niet herkend</string>
+    <string name="biometric_scanning_error">Probleem met biometrie: %1$s</string>
+    <string name="open_biometric_prompt_store_credential">Biometrische herkenning gebruiken om wachtwoorden op te slaan</string>
     <string name="no_credentials_stored">Deze databank heeft nog geen wachtwoord.</string>
     <string name="database_history">Geschiedenis</string>
     <string name="menu_appearance_settings">Uiterlijk</string>
@@ -227,11 +227,11 @@
     <string name="lock_database_screen_off_title">Schermvergrendeling</string>
     <string name="lock_database_screen_off_summary">Database vergrendelen wanneer het scherm is uitgeschakeld</string>
     <string name="advanced_unlock">Geavanceerd ontgrendelen</string>
-    <string name="biometric_unlock_enable_title">Ontgrendelen met vingerafdruk</string>
-    <string name="biometric_unlock_enable_summary">Gebruik vingerafdrukherkenning om de database te openen</string>
+    <string name="biometric_unlock_enable_title">Ontgrendelen met biometrie</string>
+    <string name="biometric_unlock_enable_summary">Gebruik biometrische herkenning om de database te openen</string>
     <string name="biometric_delete_all_key_title">Coderingssleutels verwijderen</string>
-    <string name="biometric_delete_all_key_summary">Alle vingerafdruk-gerelateerde sleutels verwijderen</string>
-    <string name="biometric_delete_all_key_warning">Alle coderingssleutels voor vingerafdrukherkenning verwijderen\?</string>
+    <string name="biometric_delete_all_key_summary">Alle sleutels voor biometrische herkenning verwijderen</string>
+    <string name="biometric_delete_all_key_warning">Alle coderingssleutels voor biometrische herkenning verwijderen\?</string>
     <string name="unavailable_feature_text">Kan deze functie niet starten.</string>
     <string name="unavailable_feature_version">Je Android-versie, %1$s, voldoet niet aan de minimumvereiste %2$s.</string>
     <string name="unavailable_feature_hardware">De bijbehorende hardware werd niet gevonden.</string>
@@ -276,8 +276,8 @@
 \nGroepen (~mappen) organiseren de items in je database.</string>
     <string name="education_search_title">Doorzoek al je items</string>
     <string name="education_search_summary">Doorzoek items op titel, gebruikersnaam of andere velden om wachtwoorden te vinden.</string>
-    <string name="education_biometric_title">Database-ontgrendeling met vingerafdruk</string>
-    <string name="education_biometric_summary">Koppel je wachtwoord aan je vingerafdruk om de database snel te ontgrendelen.</string>
+    <string name="education_biometric_title">Database-ontgrendeling met biometrie</string>
+    <string name="education_biometric_summary">Koppel je wachtwoord aan je biometrie om de database snel te ontgrendelen.</string>
     <string name="education_entry_edit_title">Item bewerken</string>
     <string name="education_entry_edit_summary">Bewerk het item met aangepaste velden. Referenties kunnen worden toegevoegd tussen velden van verschillende items.</string>
     <string name="education_generate_password_title">Genereer een sterk wachtwoord</string>
@@ -286,10 +286,9 @@
     <string name="education_entry_new_field_summary">Registreer een extra veld, voeg een waarde toe en bescherm dit desgewenst.</string>
     <string name="education_unlock_title">Ontgrendel je database</string>
     <string name="education_read_only_title">Database alleen-lezen</string>
-    <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie.
-\n
-\nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt.
-\n
+    <string name="education_read_only_summary">Wijzig de opstartmodus van de sessie. 
+\n 
+\nIn alleen-lezenmodus kunnen geen onbedoelde wijzigingen worden gemaakt. 
 \nIn schrijfmodus kun je elementen toevoegen, verwijderen of aanpassen.</string>
     <string name="education_field_copy_title">Veld kopiëren toestaan</string>
     <string name="education_field_copy_summary">Kopieer een veld en plak de inhoud waar je maar wilt.
@@ -375,13 +374,13 @@
     <string name="content_description_keyboard_close_fields">Velden sluiten</string>
     <string name="error_create_database_file">Kan geen database aanmaken met dit wachtwoord en sleutelbestand.</string>
     <string name="menu_advanced_unlock_settings">Geavanceerd ontgrendelen</string>
-    <string name="biometric_prompt_store_credential_title">Vingerafdruk opslaan</string>
-    <string name="biometric_prompt_store_credential_message">Waarschuwing: Je moet nog steeds je hoofdwachtwoord onthouden als je ontgrendeling met vingerafdruk gebruikt.</string>
-    <string name="biometric_prompt_extract_credential_title">Database openen met vingerdafdruk</string>
-    <string name="biometric_prompt_extract_credential_message">Database-referenties met vingerafdruk uitpakken</string>
-    <string name="biometric">Vingerafdruk</string>
-    <string name="biometric_auto_open_prompt_title">Automatisch om vingerafdruk vragen</string>
-    <string name="biometric_auto_open_prompt_summary">Automatisch om vingerafdruk vragen als een database hiervoor is ingesteld</string>
+    <string name="biometric_prompt_store_credential_title">Biometrische herkenning opslaan</string>
+    <string name="biometric_prompt_store_credential_message">Waarschuwing: Je moet nog steeds je hoofdwachtwoord onthouden als je biometrische herkenning gebruikt.</string>
+    <string name="biometric_prompt_extract_credential_title">Database openen met biometrische herkenning</string>
+    <string name="biometric_prompt_extract_credential_message">Database-referenties uitpakken met biometrische herkenning</string>
+    <string name="biometric">Biometrie</string>
+    <string name="biometric_auto_open_prompt_title">Automatisch om biometrie vragen</string>
+    <string name="biometric_auto_open_prompt_summary">Automatisch om biometrie vragen als een database hiervoor is ingesteld</string>
     <string name="enable">Inschakelen</string>
     <string name="disable">Uitschakelen</string>
     <string name="master_key">Hoofdsleutel</string>
@@ -448,7 +447,7 @@
     <string name="lock_database_show_button_summary">Geeft de vergrendelknop weer in de gebruikersinterface</string>
     <string name="lock_database_show_button_title">Vergrendelknop weergeven</string>
     <string name="autofill_preference_title">Instellingen voor automatisch aanvullen</string>
-    <string name="credential_before_click_biometric_button">Voer het wachtwoord in en klik vervolgens op de knop \"Vingerafdruk\".</string>
+    <string name="credential_before_click_biometric_button">Voer het wachtwoord in en klik vervolgens op de knop \"Biometrie\".</string>
     <string name="keystore_not_accessible">De sleutelopslag is niet correct geïnitialiseerd.</string>
     <string name="warning_permanently_delete_nodes">Geselecteerde knooppunten definitief verwijderen\?</string>
     <string name="warning_database_link_revoked">Toegang tot het bestand ingetrokken door bestandsbeheer</string>
