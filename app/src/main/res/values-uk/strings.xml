@@ -445,8 +445,8 @@
     <string name="biometric_prompt_extract_credential_message">Витяг облікових даних бази даних за допомогою біометричного ключа</string>
     <string name="biometric_prompt_extract_credential_title">Відкрити базу даних біометричним ключем</string>
     <string name="biometric_prompt_store_credential_title">Зберегти біометричний ключ</string>
-    <string name="open_biometric_prompt_unlock_database">Скористатися біометричним ключем для розблокування базу даних</string>
-    <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем, щоби зберегти дані</string>
+    <string name="open_biometric_prompt_unlock_database">Розблокувати базу даних біометричним ключем</string>
+    <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем щоби зберегти дані</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
     <string name="warning_permanently_delete_nodes">Видалити вибрані вузли остаточно\?</string>
