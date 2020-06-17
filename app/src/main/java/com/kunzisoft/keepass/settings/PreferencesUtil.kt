@@ -386,4 +386,22 @@ object PreferencesUtil {
                 context.resources.getStringArray(R.array.autofill_web_domain_blocklist_default).toMutableSet())
                 ?: emptySet()
     }
+
+    fun addApplicationIdToBlocklist(context: Context, applicationId: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val setItems: MutableSet<String> = applicationIdBlocklist(context).toMutableSet()
+        setItems.add(applicationId)
+        prefs.edit()
+                .putStringSet(context.getString(R.string.autofill_application_id_blocklist_key), setItems)
+                .apply()
+    }
+
+    fun addWebDomainToBlocklist(context: Context, webDomain: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val setItems: MutableSet<String> = webDomainBlocklist(context).toMutableSet()
+        setItems.add(webDomain)
+        prefs.edit()
+                .putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
+                .apply()
+    }
 }

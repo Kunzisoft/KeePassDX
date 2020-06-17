@@ -69,7 +69,6 @@ import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
-import com.kunzisoft.keepass.view.SpecialModeView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
@@ -78,7 +77,6 @@ open class PasswordActivity : SpecialModeActivity() {
 
     // Views
     private var toolbar: Toolbar? = null
-    private var specialModeView: SpecialModeView? = null
     private var filenameView: TextView? = null
     private var passwordView: EditText? = null
     private var keyFileSelectionView: KeyFileSelectionView? = null
@@ -125,7 +123,6 @@ open class PasswordActivity : SpecialModeActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
-        specialModeView = findViewById(R.id.special_mode_view)
         confirmButtonView = findViewById(R.id.activity_password_open_button)
         filenameView = findViewById(R.id.filename)
         passwordView = findViewById(R.id.password)
@@ -344,15 +341,6 @@ open class PasswordActivity : SpecialModeActivity() {
 
     override fun onResume() {
         super.onResume()
-
-        // To show the selection mode
-        specialModeView?.apply {
-            searchInfo = intent.getParcelableExtra(KEY_SEARCH_INFO)
-            visible = mSelectionMode
-            onCancelButtonClickListener = View.OnClickListener {
-                onBackPressed()
-            }
-        }
 
         if (Database.getInstance().loaded) {
             launchGroupActivity()

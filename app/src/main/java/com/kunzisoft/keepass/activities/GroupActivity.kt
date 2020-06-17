@@ -94,7 +94,6 @@ class GroupActivity : LockingActivity(),
     private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
-    private var specialModeView: SpecialModeView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
@@ -136,7 +135,6 @@ class GroupActivity : LockingActivity(),
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
-        specialModeView = findViewById(R.id.special_mode_view)
         lockView = findViewById(R.id.lock_button)
 
         lockView?.setOnClickListener {
@@ -463,25 +461,6 @@ class GroupActivity : LockingActivity(),
         // Assign number of children
         refreshNumberOfChildren()
 
-        // Show selection mode message if needed
-        specialModeView?.apply {
-            searchInfo = intent.getParcelableExtra(KEY_SEARCH_INFO)
-            visible = mSelectionMode
-            onCancelButtonClickListener = View.OnClickListener {
-                // To remove the navigation history and
-                EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                val fragmentManager = supportFragmentManager
-                if (mSelectionModeCountBackStack > 0) {
-                    for (selectionMode in 0 .. mSelectionModeCountBackStack) {
-                        fragmentManager.popBackStack()
-                    }
-                }
-                // Reinit the counter for navigation history
-                mSelectionModeCountBackStack = 0
-                backToTheAppCaller()
-            }
-        }
-
         // Show button if allowed
         addNodeButtonView?.apply {
 
@@ -497,6 +476,20 @@ class GroupActivity : LockingActivity(),
 
             showButton()
         }
+    }
+
+    override fun onCancelSpecialMode() {
+        // To remove the navigation history and
+        EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+        val fragmentManager = supportFragmentManager
+        if (mSelectionModeCountBackStack > 0) {
+            for (selectionMode in 0 .. mSelectionModeCountBackStack) {
+                fragmentManager.popBackStack()
+            }
+        }
+        // Reinit the counter for navigation history
+        mSelectionModeCountBackStack = 0
+        backToTheAppCaller()
     }
 
     private fun refreshNumberOfChildren() {

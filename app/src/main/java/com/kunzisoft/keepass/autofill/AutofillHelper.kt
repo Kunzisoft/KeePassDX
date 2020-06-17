@@ -119,29 +119,33 @@ object AutofillHelper {
      * Build the Autofill response for many entry
      */
     fun buildResponse(activity: Activity, entriesInfo: List<EntryInfo>) {
-        var setResultOk = false
-        activity.intent?.extras?.let { extras ->
-            if (extras.containsKey(ASSIST_STRUCTURE)) {
-                activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
-                    StructureParser(structure).parse()?.let { result ->
-                        // New Response
-                        val responseBuilder = FillResponse.Builder()
-                        entriesInfo.forEach {
-                            responseBuilder.addDataset(buildDataset(activity, it, result))
+        if (entriesInfo.isEmpty()) {
+            activity.setResult(Activity.RESULT_CANCELED)
+        } else {
+            var setResultOk = false
+            activity.intent?.extras?.let { extras ->
+                if (extras.containsKey(ASSIST_STRUCTURE)) {
+                    activity.intent?.getParcelableExtra<AssistStructure>(ASSIST_STRUCTURE)?.let { structure ->
+                        StructureParser(structure).parse()?.let { result ->
+                            // New Response
+                            val responseBuilder = FillResponse.Builder()
+                            entriesInfo.forEach {
+                                responseBuilder.addDataset(buildDataset(activity, it, result))
+                            }
+                            val mReplyIntent = Intent()
+                            Log.d(activity.javaClass.name, "Successed Autofill auth.")
+                            mReplyIntent.putExtra(
+                                    AutofillManager.EXTRA_AUTHENTICATION_RESULT,
+                                    responseBuilder.build())
+                            setResultOk = true
+                            activity.setResult(Activity.RESULT_OK, mReplyIntent)
                         }
-                        val mReplyIntent = Intent()
-                        Log.d(activity.javaClass.name, "Successed Autofill auth.")
-                        mReplyIntent.putExtra(
-                                AutofillManager.EXTRA_AUTHENTICATION_RESULT,
-                                responseBuilder.build())
-                        setResultOk = true
-                        activity.setResult(Activity.RESULT_OK, mReplyIntent)
                     }
                 }
-            }
-            if (!setResultOk) {
-                Log.w(activity.javaClass.name, "Failed Autofill auth.")
-                activity.setResult(Activity.RESULT_CANCELED)
+                if (!setResultOk) {
+                    Log.w(activity.javaClass.name, "Failed Autofill auth.")
+                    activity.setResult(Activity.RESULT_CANCELED)
+                }
             }
         }
     }

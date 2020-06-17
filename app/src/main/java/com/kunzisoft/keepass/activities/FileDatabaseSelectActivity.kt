@@ -55,7 +55,6 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
-import com.kunzisoft.keepass.view.SpecialModeView
 import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
 import java.io.FileNotFoundException
@@ -69,7 +68,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     private var databaseButtonsContainerView: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
-    private var specialModeView: SpecialModeView? = null
 
     // Adapter to manage database history list
     private var mAdapterDatabaseHistory: FileDatabaseHistoryAdapter? = null
@@ -114,9 +112,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 setOnLongClickListener(it)
             }
         }
-
-        // Special mode view
-        specialModeView = findViewById(R.id.special_mode_view)
 
         // History list
         val fileDatabaseHistoryRecyclerView = findViewById<RecyclerView>(R.id.file_list)
@@ -273,15 +268,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     override fun onResume() {
         super.onResume()
-
-        // To show the selection mode
-        specialModeView?.apply {
-            searchInfo = intent.getParcelableExtra(KEY_SEARCH_INFO)
-            visible = mSelectionMode
-            onCancelButtonClickListener = View.OnClickListener {
-                onBackPressed()
-            }
-        }
 
         // Show open and create button or special mode
         if  (mSelectionMode) {
