@@ -465,8 +465,7 @@ class GroupActivity : LockingActivity(),
 
         // Show selection mode message if needed
         specialModeView?.apply {
-            val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-            subtitle = searchInfo?.getName(resources)
+            searchInfo = intent.getParcelableExtra(KEY_SEARCH_INFO)
             visible = mSelectionMode
             onCancelButtonClickListener = View.OnClickListener {
                 // To remove the navigation history and

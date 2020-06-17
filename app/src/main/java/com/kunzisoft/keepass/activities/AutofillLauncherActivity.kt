@@ -28,6 +28,7 @@ import android.os.Build
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -42,6 +43,7 @@ class AutofillLauncherActivity : AppCompatActivity() {
         if (assistStructure != null) {
             // Build search param
             val searchInfo = SearchInfo().apply {
+                type = getString(R.string.autofill)
                 applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                 webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
             }

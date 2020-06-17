@@ -24,6 +24,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -54,13 +55,17 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
             else -> {}
         }
 
-        // Build search param
-        val searchInfo = SearchInfo().apply {
-            webDomain = sharedWebDomain
-        }
-
         // Setting to integrate Magikeyboard
         val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
+
+        // Build search param
+        val searchInfo = SearchInfo().apply {
+            type = if (searchShareForMagikeyboard)
+                getString(R.string.keyboard_name)
+            else
+                getString(R.string.search)
+            webDomain = sharedWebDomain
+        }
 
         // If database is open
         SearchHelper.checkAutoSearchInfo(this,

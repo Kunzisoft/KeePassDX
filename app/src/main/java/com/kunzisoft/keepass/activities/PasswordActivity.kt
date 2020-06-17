@@ -347,8 +347,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
         // To show the selection mode
         specialModeView?.apply {
-            val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-            subtitle = searchInfo?.getName(resources)
+            searchInfo = intent.getParcelableExtra(KEY_SEARCH_INFO)
             visible = mSelectionMode
             onCancelButtonClickListener = View.OnClickListener {
                 onBackPressed()
