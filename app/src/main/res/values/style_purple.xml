@@ -51,8 +51,6 @@
     <!-- Action Toolbar Purple -->
     <style name="KeepassDXStyle.Toolbar.Action.Purple" parent="KeepassDXStyle.Toolbar.Purple">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>
-        <item name="android:background">@color/red</item>
-        <item name="background">@color/red</item>
     </style>
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">

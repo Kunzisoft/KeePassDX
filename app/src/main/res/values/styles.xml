@@ -75,7 +75,7 @@
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
@@ -128,7 +128,7 @@
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
@@ -187,18 +187,6 @@
     <style name="KeepassDXStyle.Toolbar.Special.Night" parent="KeepassDXStyle.Toolbar.Night">
         <item name="android:background">@color/green_dark</item>
         <item name="background">@color/green_dark</item>
-    </style>
-
-    <!-- Action Toolbar Light Style -->
-    <style name="KeepassDXStyle.Toolbar.Action.Light" parent="KeepassDXStyle.Toolbar.Light">
-        <item name="android:background">@color/orange_dark</item>
-        <item name="background">@color/orange_dark</item>
-    </style>
-
-    <!-- Action Toolbar Night Style -->
-    <style name="KeepassDXStyle.Toolbar.Action.Night" parent="KeepassDXStyle.Toolbar.Night">
-        <item name="android:background">@color/orange_dark</item>
-        <item name="background">@color/orange_dark</item>
     </style>
 
     <!-- Contextual Action Bar -->

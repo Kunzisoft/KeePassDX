@@ -52,8 +52,6 @@
     <!-- Action Toolbar Blue -->
     <style name="KeepassDXStyle.Toolbar.Action.Blue" parent="KeepassDXStyle.Toolbar.Blue">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>
-        <item name="android:background">@color/blue_white</item>
-        <item name="background">@color/blue_white</item>
     </style>
     <!-- Contextual Action Bar Blue -->
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">

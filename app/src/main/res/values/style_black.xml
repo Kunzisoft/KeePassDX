@@ -31,7 +31,7 @@
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
-        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Black</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
@@ -49,11 +49,6 @@
     <style name="KeepassDXStyle.Toolbar.Special.Black" parent="KeepassDXStyle.Toolbar.Black">
         <item name="android:background">@color/black</item>
         <item name="background">@color/black</item>
-    </style>
-    <!-- Action Toolbar Black -->
-    <style name="KeepassDXStyle.Toolbar.Action.Black" parent="KeepassDXStyle.Toolbar.Black">
-        <item name="android:background">@color/orange_dark</item>
-        <item name="background">@color/orange_dark</item>
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Black" parent="@style/Widget.AppCompat.ActionMode">
