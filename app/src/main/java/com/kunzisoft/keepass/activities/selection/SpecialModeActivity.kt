@@ -76,14 +76,14 @@ abstract class SpecialModeActivity : StylishActivity() {
         val webDomain = searchInfo?.webDomain
         val applicationId = searchInfo?.applicationId
         if (webDomain != null) {
-            PreferencesUtil.addWebDomainToBlocklist(this@SpecialModeActivity,
+            PreferencesUtil.addWebDomainToBlocklist(this,
                     webDomain)
         } else if (applicationId != null) {
-            PreferencesUtil.addApplicationIdToBlocklist(this@SpecialModeActivity,
+            PreferencesUtil.addApplicationIdToBlocklist(this,
                     applicationId)
         }
         onCancelSpecialMode()
-        Toast.makeText(this@SpecialModeActivity,
+        Toast.makeText(this.applicationContext,
                 R.string.autofill_block_restart,
                 Toast.LENGTH_LONG).show()
     }
