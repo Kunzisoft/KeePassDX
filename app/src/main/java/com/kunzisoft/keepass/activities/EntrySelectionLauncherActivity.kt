@@ -60,10 +60,6 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
 
         // Build search param
         val searchInfo = SearchInfo().apply {
-            type = if (searchShareForMagikeyboard)
-                getString(R.string.keyboard_name)
-            else
-                getString(R.string.search)
             webDomain = sharedWebDomain
         }
 

@@ -79,7 +79,6 @@ class KeeAutofillService : AutofillService() {
 
             if (searchAllowed) {
                 val searchInfo = SearchInfo().apply {
-                    type = getString(R.string.keyboard_name)
                     applicationId = parseResult.applicationId
                     webDomain = parseResult.domain
                 }

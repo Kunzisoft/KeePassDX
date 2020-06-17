@@ -43,7 +43,6 @@ class AutofillLauncherActivity : AppCompatActivity() {
         if (assistStructure != null) {
             // Build search param
             val searchInfo = SearchInfo().apply {
-                type = getString(R.string.autofill)
                 applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
                 webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
             }

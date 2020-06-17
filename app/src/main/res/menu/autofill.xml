@@ -19,7 +19,7 @@
 -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/menu_autofill"
+    <item android:id="@+id/menu_block_autofill"
         android:icon="@drawable/ic_block_white_24dp"
         android:title="@string/autofill_block"
         android:orderInCategory="1"

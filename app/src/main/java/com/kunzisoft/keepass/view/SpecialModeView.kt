@@ -24,7 +24,6 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.model.SearchInfo
 
 class SpecialModeView @JvmOverloads constructor(context: Context,
                                                 attrs: AttributeSet? = null,
@@ -35,17 +34,6 @@ class SpecialModeView @JvmOverloads constructor(context: Context,
         setNavigationIcon(R.drawable.ic_close_white_24dp)
         title = resources.getString(R.string.selection_mode)
     }
-
-    var searchInfo: SearchInfo? = null
-        set(value) {
-            title = if (value == null) {
-                resources.getString(R.string.selection_mode)
-            } else {
-                "${resources.getString(R.string.selection_mode)} (${value.type})"
-            }
-            subtitle = value?.getName(resources)
-            field = value
-        }
 
     var onCancelButtonClickListener: OnClickListener? = null
         set(value) {

@@ -10,8 +10,6 @@ import com.kunzisoft.keepass.utils.UriUtil
 
 class SearchInfo : ObjectNameResource, Parcelable {
 
-    var type: String? = null
-
     var applicationId: String? = null
         set(value) {
             field = when {
@@ -32,8 +30,6 @@ class SearchInfo : ObjectNameResource, Parcelable {
     constructor()
 
     private constructor(parcel: Parcel) {
-        val searchType = parcel.readString()
-        type =  if (searchType.isNullOrEmpty()) null else searchType
         val readAppId = parcel.readString()
         applicationId =  if (readAppId.isNullOrEmpty()) null else readAppId
         val readDomain = parcel.readString()
@@ -45,7 +41,6 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(type ?: "")
         parcel.writeString(applicationId ?: "")
         parcel.writeString(webDomain ?: "")
     }
