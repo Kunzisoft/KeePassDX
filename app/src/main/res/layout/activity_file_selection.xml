@@ -30,6 +30,9 @@
         android:id="@+id/special_mode_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:theme="?attr/specialToolbarAppearance"
+        app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
+        app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

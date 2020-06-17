@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
- Copyright 2017 Jeremy Jamet / Kunzisoft.
+ Copyright 2020 Jeremy Jamet / Kunzisoft.
 
  This file is part of KeePassDX.
 
@@ -17,19 +17,11 @@
   You should have received a copy of the GNU General Public License
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
-<resources>
-    <attr name="toolbarAppearance" format="reference" />
-    <attr name="specialToolbarAppearance" format="reference" />
-    <attr name="actionToolbarAppearance" format="reference" />
-    <attr name="toolbarPopupAppearance" format="reference" />
-
-    <attr name="colorAccentLight" format="reference|color" />
-
-    <attr name="iconPreferenceColor" format="reference|color" />
-
-    <attr name="textColorInverse" format="reference|color" />
-
-    <declare-styleable name="explanationDialog">
-        <attr name="explanations" format="string" />
-    </declare-styleable>
-</resources>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_autofill"
+        android:icon="@drawable/ic_block_white_24dp"
+        android:title="@string/autofill_block"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom" />
+</menu>

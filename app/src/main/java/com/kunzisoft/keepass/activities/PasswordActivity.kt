@@ -266,9 +266,10 @@ open class PasswordActivity : SpecialModeActivity() {
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@PasswordActivity,
+                            true,
                             searchInfo,
                             readOnly)
-                    // Remove the search info from intent
+                    // Finish activity if no search info
                     if (searchInfo != null) {
                         finish()
                     }
@@ -285,13 +286,16 @@ open class PasswordActivity : SpecialModeActivity() {
                                             intent)
                                 } else {
                                     // Select the one we want
-                                    GroupActivity.launchForEntrySelectionResult(this, searchInfo)
+                                    GroupActivity.launchForEntrySelectionResult(this,
+                                            true,
+                                            searchInfo)
                                 }
                             },
                             {
-                                // Here no search info found
+                                // Here no search info found, disable auto search
                                 GroupActivity.launchForEntrySelectionResult(this@PasswordActivity,
-                                        null,
+                                        false,
+                                        searchInfo,
                                         readOnly)
                             },
                             {
@@ -312,10 +316,11 @@ open class PasswordActivity : SpecialModeActivity() {
                                     finish()
                                 },
                                 {
-                                    // Here no search info found
+                                    // Here no search info found, disable auto search
                                     GroupActivity.launchForAutofillResult(this@PasswordActivity,
                                             assistStructure,
-                                            null,
+                                            false,
+                                            searchInfo,
                                             readOnly)
                                 },
                                 {
@@ -342,6 +347,8 @@ open class PasswordActivity : SpecialModeActivity() {
 
         // To show the selection mode
         specialModeView?.apply {
+            val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+            subtitle = searchInfo?.getName(resources)
             visible = mSelectionMode
             onCancelButtonClickListener = View.OnClickListener {
                 onBackPressed()

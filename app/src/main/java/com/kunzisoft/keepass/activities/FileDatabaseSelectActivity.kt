@@ -241,11 +241,13 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            false,
                             searchInfo,
                             readOnly)
                 },
                 {
                     GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
+                            false,
                             searchInfo,
                             readOnly)
                     // Do not keep history
@@ -255,6 +257,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                 assistStructure,
+                                false,
                                 searchInfo,
                                 readOnly)
                     }
@@ -273,6 +276,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         // To show the selection mode
         specialModeView?.apply {
+            val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
+            subtitle = searchInfo?.getName(resources)
             visible = mSelectionMode
             onCancelButtonClickListener = View.OnClickListener {
                 onBackPressed()

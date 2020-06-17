@@ -74,7 +74,8 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Light</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Light.Toolbar.Popup</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Light</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Light</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
@@ -126,7 +127,8 @@
         <!-- Toolbar -->
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
         <item name="toolbarPopupAppearance">@style/KeepassDXStyle.Night.Toolbar.Popup</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Night</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Night</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Night</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode</item>
         <!-- CollapsingToolbarLayout -->
         <item name="expandedTitleTextAppearance">@style/KeepassDXStyle.Expanded.Title</item>
@@ -175,8 +177,33 @@
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
 
+    <!-- Special Toolbar Light Style -->
+    <style name="KeepassDXStyle.Toolbar.Special.Light" parent="KeepassDXStyle.Toolbar.Light">
+        <item name="android:background">@color/green_dark</item>
+        <item name="background">@color/green_dark</item>
+    </style>
+
+    <!-- Special Toolbar Night Style -->
+    <style name="KeepassDXStyle.Toolbar.Special.Night" parent="KeepassDXStyle.Toolbar.Night">
+        <item name="android:background">@color/green_dark</item>
+        <item name="background">@color/green_dark</item>
+    </style>
+
+    <!-- Action Toolbar Light Style -->
+    <style name="KeepassDXStyle.Toolbar.Action.Light" parent="KeepassDXStyle.Toolbar.Light">
+        <item name="android:background">@color/orange_dark</item>
+        <item name="background">@color/orange_dark</item>
+    </style>
+
+    <!-- Action Toolbar Night Style -->
+    <style name="KeepassDXStyle.Toolbar.Action.Night" parent="KeepassDXStyle.Toolbar.Night">
+        <item name="android:background">@color/orange_dark</item>
+        <item name="background">@color/orange_dark</item>
+    </style>
+
     <!-- Contextual Action Bar -->
     <style name="KeepassDXStyle.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/orange</item>
         <item name="background">@color/orange</item>
     </style>
 
@@ -257,7 +284,7 @@
         <item name="android:textColor">?android:attr/textColorPrimary</item>
         <item name="android:textSize">20sp</item>
     </style>
-    <style name="KeepassDXStyle.TextAppearance.TinyText" parent="KeepassDXStyle.TextAppearance">
+    <style name="KeepassDXStyle.TextAppearance.Tiny" parent="KeepassDXStyle.TextAppearance">
         <item name="android:textSize">12sp</item>
     </style>
 	<style name="KeepassDXStyle.TextAppearance.WarningTextStyle" parent="KeepassDXStyle.TextAppearance">
@@ -289,6 +316,14 @@
     <style name="KeepassDXStyle.TextAppearance.Group.SubTitle" parent="KeepassDXStyle.TextAppearance.Small">
         <item name="android:textColor">@color/group_subtitle_color</item>
         <item name="android:tint">@color/group_subtitle_color</item>
+    </style>
+
+    <!-- Special Toolbar text titlé -->
+    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.TextAppearance.Small">
+        <item name="android:textColor">?attr/colorAccent</item>
+    </style>
+    <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.TextAppearance.Tiny">
+        <item name="android:textColor">@color/colorTextInverse</item>
     </style>
 
     <!-- Button Style -->

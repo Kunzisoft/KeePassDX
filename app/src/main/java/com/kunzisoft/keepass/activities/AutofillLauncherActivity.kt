@@ -57,12 +57,15 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                assistStructure)
+                                assistStructure,
+                                false,
+                                searchInfo)
                     },
                     {
                         // If database not open
                         FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                assistStructure, searchInfo)
+                                assistStructure,
+                                searchInfo)
                     }
             )
         } else {

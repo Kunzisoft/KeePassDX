@@ -29,7 +29,8 @@
         <item name="android:textColorHintInverse">@color/blue_lighter</item>
         <item name="android:windowBackground">@color/background_light</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Blue</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Bottom.Blue</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Blue</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Blue</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Blue</item>
     </style>
     <!-- Toolbar Style Blue -->
@@ -42,8 +43,17 @@
         <item name="android:textColorHint">@color/blue_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
-    <style name="KeepassDXStyle.Toolbar.Bottom.Blue" parent="KeepassDXStyle.Toolbar.Blue">
+    <!-- Special Toolbar Blue -->
+    <style name="KeepassDXStyle.Toolbar.Special.Blue" parent="KeepassDXStyle.Toolbar.Blue">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>
+        <item name="android:background">@color/blue_dark</item>
+        <item name="background">@color/blue_dark</item>
+    </style>
+    <!-- Action Toolbar Blue -->
+    <style name="KeepassDXStyle.Toolbar.Action.Blue" parent="KeepassDXStyle.Toolbar.Blue">
+        <item name="actionMenuTextColor">@color/colorTextInverse</item>
+        <item name="android:background">@color/blue_white</item>
+        <item name="background">@color/blue_white</item>
     </style>
     <!-- Contextual Action Bar Blue -->
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">

@@ -22,14 +22,15 @@
     <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">@color/dark</item>
-        <item name="colorAccent">#2c7a96</item>
-        <item name="colorAccentLight">#33b5e5</item>
-        <item name="colorControlActivated">#33b5e5</item>
-        <item name="android:textColorPrimary">#33b5e5</item>
-        <item name="android:textColorHintInverse">#33b5e5</item>
+        <item name="colorAccent">@color/cyan</item>
+        <item name="colorAccentLight">@color/cyan_lighter</item>
+        <item name="colorControlActivated">@color/cyan_lighter</item>
+        <item name="android:textColorPrimary">@color/cyan_lighter</item>
+        <item name="android:textColorHintInverse">@color/cyan_lighter</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Dark</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Dark</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Dark</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Dark.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
@@ -41,6 +42,16 @@
         <item name="android:textColorSecondary">@color/colorTextSecondary</item>
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
+    <!-- Special Toolbar Dark -->
+    <style name="KeepassDXStyle.Toolbar.Special.Dark" parent="KeepassDXStyle.Toolbar.Dark">
+        <item name="android:background">@color/dark</item>
+        <item name="background">@color/dark</item>
+    </style>
+    <!-- Action Toolbar Dark -->
+    <style name="KeepassDXStyle.Toolbar.Action.Dark" parent="KeepassDXStyle.Toolbar.Dark">
+        <item name="android:background">@color/cyan</item>
+        <item name="background">@color/cyan</item>
+    </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Dark" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">@color/dark</item>
@@ -48,6 +59,6 @@
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">#fefefe</item>
-        <item name="android:textColorPrimary">#33b5e5</item>
+        <item name="android:textColorPrimary">@color/cyan_lighter</item>
     </style>
 </resources>

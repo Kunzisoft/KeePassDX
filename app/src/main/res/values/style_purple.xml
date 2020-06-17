@@ -29,7 +29,8 @@
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Bottom.Purple</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
     </style>
     <!-- Toolbar Style Purple -->
@@ -42,8 +43,16 @@
         <item name="android:textColorHint">@color/purple_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
     </style>
-    <style name="KeepassDXStyle.Toolbar.Bottom.Purple" parent="KeepassDXStyle.Toolbar.Purple">
+    <!-- Special Toolbar Purple -->
+    <style name="KeepassDXStyle.Toolbar.Special.Purple" parent="KeepassDXStyle.Toolbar.Purple">
+        <item name="android:background">@color/purple_dark</item>
+        <item name="background">@color/purple_dark</item>
+    </style>
+    <!-- Action Toolbar Purple -->
+    <style name="KeepassDXStyle.Toolbar.Action.Purple" parent="KeepassDXStyle.Toolbar.Purple">
         <item name="actionMenuTextColor">@color/colorTextInverse</item>
+        <item name="android:background">@color/red</item>
+        <item name="background">@color/red</item>
     </style>
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">
