@@ -20,8 +20,10 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import androidx.preference.PreferenceManager
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -373,10 +375,20 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
     }
 
+    /**
+     * Retrieve the default Blocklist for application ID, including the current app
+     */
+    fun getDefaultApplicationIdBlocklist(resources: Resources?): Set<String> {
+        return resources?.getStringArray(R.array.autofill_application_id_blocklist_default)
+                ?.toMutableSet()?.apply {
+                    add(BuildConfig.APPLICATION_ID)
+                } ?: emptySet()
+    }
+
     fun applicationIdBlocklist(context: Context): Set<String> {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getStringSet(context.getString(R.string.autofill_application_id_blocklist_key),
-                context.resources.getStringArray(R.array.autofill_application_id_blocklist_default).toMutableSet())
+                getDefaultApplicationIdBlocklist(context.resources))
                 ?: emptySet()
     }
 

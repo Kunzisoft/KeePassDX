@@ -20,8 +20,8 @@
 package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.os.Bundle
-import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 class AutofillBlocklistAppIdPreferenceDialogFragmentCompat
     : AutofillBlocklistPreferenceDialogFragmentCompat() {
@@ -34,10 +34,7 @@ class AutofillBlocklistAppIdPreferenceDialogFragmentCompat
     }
 
     override fun getDefaultValues(): Set<String> {
-        return context?.resources
-                ?.getStringArray(R.array.autofill_application_id_blocklist_default)
-                ?.toMutableSet()
-                ?: emptySet()
+        return PreferencesUtil.getDefaultApplicationIdBlocklist(this.resources)
     }
 
     companion object {
