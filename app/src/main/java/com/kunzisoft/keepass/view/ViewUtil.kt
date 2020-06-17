@@ -33,7 +33,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.tasks.ActionRunnable
-import java.util.*
 
 /**
  * Replace font by monospace, must be called after seText()
@@ -93,14 +92,17 @@ fun Toolbar.collapse(animate: Boolean = true) {
 }
 
 fun Toolbar.expand(animate: Boolean = true)  {
-    visibility = View.VISIBLE
     val actionBarHeight = layoutParams.height
+    layoutParams.height = 0
     val slideAnimator = ValueAnimator
             .ofInt(0, actionBarHeight)
     if (animate)
         slideAnimator.duration = 300L
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
+        if (layoutParams.height >= 1) {
+            visibility = View.VISIBLE
+        }
         requestLayout()
     }
     AnimatorSet().apply {
