@@ -40,11 +40,11 @@ abstract class SpecialModeActivity : StylishActivity() {
         specialModeView = findViewById(R.id.special_mode_view)
         specialModeView?.apply {
             // Populate title
-            title = if (mAutofillSelection) {
-                "${resources.getString(R.string.selection_mode)} (${getString(R.string.autofill)})"
-            } else {
-                getString(R.string.magic_keyboard_title)
-            }
+            val typeModeId = if (mAutofillSelection)
+                R.string.autofill
+            else
+                R.string.magic_keyboard_title
+            title = "${resources.getString(R.string.selection_mode)} (${getString(typeModeId)})"
             // Populate subtitle
             subtitle = searchInfo?.getName(resources)
 
