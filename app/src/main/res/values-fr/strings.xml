@@ -354,7 +354,7 @@
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
     <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>
     <string name="delete_entered_password_title">Supprimer le mot de passe</string>
-    <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion</string>
+    <string name="delete_entered_password_summary">Supprime le mot de passe saisi après une tentative de connexion à une base de données</string>
     <string name="content_description_open_file">Ouvrir le fichier</string>
     <string name="content_description_add_node">Ajouter un nœud</string>
     <string name="content_description_add_entry">Ajouter une entrée</string>
@@ -476,11 +476,24 @@
     <string name="discard">Abandonner</string>
     <string name="discard_changes">Abandonner les modifications \?</string>
     <string name="validate">Valider</string>
-    <string name="autofill_auto_search_summary">Suggérer automatiquement des résultats de recherche à partir du domaine Web ou de l\'identifiant de l\'appli</string>
+    <string name="autofill_auto_search_summary">Suggérer automatiquement des résultats de recherche à partir du domaine Web ou de l\'application ID</string>
     <string name="autofill_auto_search_title">Recherche automatique</string>
     <string name="lock_database_show_button_summary">Affiche le bouton de verrouillage dans l\'interface utilisateur</string>
     <string name="lock_database_show_button_title">Afficher le bouton de verrouillage</string>
     <string name="autofill_preference_title">Paramètres de remplissage automatique</string>
     <string name="warning_database_link_revoked">Accès au fichier révoqué par le gestionnaire de fichiers</string>
     <string name="error_label_exists">Ce label existe déjà.</string>
+    <string name="autofill_block_restart">Redémarrez l\'application contenant le formulaire pour activer le blocage.</string>
+    <string name="autofill_block">Blocker le remplissage automatique</string>
+    <string name="autofill_web_domain_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des domaines Web</string>
+    <string name="autofill_web_domain_blocklist_title">Liste de blocage de domaine Web</string>
+    <string name="autofill_application_id_blocklist_summary">Liste de blocage qui empêche le remplissage automatique des applications</string>
+    <string name="autofill_application_id_blocklist_title">Liste de blocage d\'application</string>
+    <string name="keyboard_search_share_summary">Rechercher automatiquement les informations partagées pour remplir le clavier</string>
+    <string name="keyboard_search_share_title">Rechercher les informations partagées</string>
+    <string name="filter">Filtre</string>
+    <string name="subdomain_search_summary">Rechercher des domaines Web avec des contraintes de sous-domaines</string>
+    <string name="subdomain_search_title">Recherche de sous-domaine</string>
+    <string name="error_string_type">Ce texte ne correspond pas à l\'élément demandé.</string>
+    <string name="content_description_add_item">Ajouter un élément</string>
 </resources>
