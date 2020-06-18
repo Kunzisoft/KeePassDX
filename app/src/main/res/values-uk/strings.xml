@@ -43,7 +43,7 @@
 \nЗастосунок постачається як є, на умовах ліцензії &lt;strong&gt;GPLv3&lt;/strong&gt;, без будь-яких гарантій.</string>
     <string name="select_database_file">Відкрити наявну базу даних</string>
     <string name="entry_accessed">Доступ</string>
-    <string name="entry_cancel">Скасовано</string>
+    <string name="entry_cancel">Скасувати</string>
     <string name="entry_notes">Примітки</string>
     <string name="entry_confpassword">Підтвердження пароля</string>
     <string name="entry_created">Створено</string>
@@ -83,7 +83,7 @@
     <string name="list_size_summary">Розмір тексту у переліку груп</string>
     <string name="loading_database">Завантаження бази даних…</string>
     <string name="lowercase">Малі літери</string>
-    <string name="hide_password_title">Приховати паролі</string>
+    <string name="hide_password_title">Приховувати паролі</string>
     <string name="hide_password_summary">Типово приховувати паролі за (***)</string>
     <string name="about">Про KeePassDX</string>
     <string name="menu_change_key_settings">Змінити головний ключ</string>
@@ -178,14 +178,14 @@
     <string name="encryption">Шифрування</string>
     <string name="security">Безпека</string>
     <string name="master_key">Головний ключ</string>
-    <string name="hide_broken_locations_summary">Приховати пошкоджені посилання до недавніх баз даних</string>
-    <string name="hide_broken_locations_title">Приховати пошкоджені посилання до баз даних</string>
-    <string name="show_recent_files_summary">Показати розташування недавніх баз даних</string>
-    <string name="show_recent_files_title">Показати недавні файли</string>
-    <string name="remember_keyfile_locations_summary">Запам\'ятати розташування файлів ключів баз даних</string>
-    <string name="remember_keyfile_locations_title">Зберегти розташування файлів ключів</string>
-    <string name="remember_database_locations_summary">Запам\'ятати розташування баз даних</string>
-    <string name="remember_database_locations_title">Зберегти розташування баз даних</string>
+    <string name="hide_broken_locations_summary">Приховувати пошкоджені посилання до недавніх баз даних</string>
+    <string name="hide_broken_locations_title">Приховувати пошкоджені посилання до баз даних</string>
+    <string name="show_recent_files_summary">Показувати розташування недавніх баз даних</string>
+    <string name="show_recent_files_title">Показувати недавні файли</string>
+    <string name="remember_keyfile_locations_summary">Пам\'ятати розташування файлів ключів баз даних</string>
+    <string name="remember_keyfile_locations_title">Зберігати розташування файлів ключів</string>
+    <string name="remember_database_locations_summary">Пам\'ятати розташування баз даних</string>
+    <string name="remember_database_locations_title">Зберігати розташування баз даних</string>
     <string name="selection_mode">Режим вибору</string>
     <string name="contains_duplicate_uuid">База даних містить дублікати UUID.</string>
     <string name="contains_duplicate_uuid_procedure">Розв\'язати проблему, створивши нові UUID для дублікатів щоби продовжити\?</string>
@@ -216,7 +216,7 @@
     <string name="list_groups_show_number_entries_summary">Показувати кількість записів у групі</string>
     <string name="list_groups_show_number_entries_title">Показувати кількість записів</string>
     <string name="list_entries_show_username_summary">Показувати імена користувачів у переліках записів</string>
-    <string name="list_entries_show_username_title">Показати імена користувачів</string>
+    <string name="list_entries_show_username_title">Показувати імена користувачів</string>
     <string name="keyfile_is_empty">Файл ключа порожній.</string>
     <string name="invalid_db_same_uuid">%1$s з таким самим UUID %2$s вже існує.</string>
     <string name="invalid_algorithm">Неправильний алгоритм.</string>
@@ -272,8 +272,8 @@
     <string name="biometric_invalid_key">Не вдалося розпізнати біометричний ключ. Видаліть його та повторіть процедуру створення ключа.</string>
     <string name="biometric_prompt_store_credential_message">Попередження: Якщо ви користуєтеся біометричним ключем, вам однаково необхідно пам\'ятати головний пароль.</string>
     <string name="hide_expired_entries_summary">Застарілі записи приховано</string>
-    <string name="hide_expired_entries_title">Приховати застарілі записи</string>
-    <string name="icon_pack_choose_summary">Набір піктограм у застосунку</string>
+    <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
+    <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
     <string name="style_choose_summary">Тема застосунку</string>
     <string name="style_choose_title">Тема застосунку</string>
@@ -331,7 +331,7 @@
 \n
 \nСтворюйте групи (~теки) для впорядкування записів у вашій базі даних.</string>
     <string name="device_keyboard_setting_title">Налаштування клавіатури пристрою</string>
-    <string name="education_new_node_title">Додайте елементи до вашої бази даних</string>
+    <string name="education_new_node_title">Додавайте елементи до вашої бази даних</string>
     <string name="education_select_database_title">Відкрийте наявну базу даних</string>
     <string name="education_select_database_summary">Відкрийте файл раніше створеної бази даних з файлового менеджера, щоб продовжити користуватися ним.</string>
     <string name="education_create_database_summary">Створіть ваш перший файл керування паролями.</string>
@@ -345,10 +345,10 @@
     <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
     <string name="enable_read_only_title">Захист від запису</string>
     <string name="delete_entered_password_summary">Видаляти пароль, введений після спроби з\'єднання з базою даних</string>
-    <string name="delete_entered_password_title">Видалити пароль</string>
+    <string name="delete_entered_password_title">Видаляти пароль</string>
     <string name="allow_no_password_summary">Увімкнути кнопку \"Відкрити\", якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
-    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ідентифікатора застосунку</string>
+    <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ID застосунку</string>
     <string name="autofill_auto_search_title">Автоматичний пошук</string>
     <string name="keyboard_key_sound_title">Звук під час натискання</string>
     <string name="keyboard_key_vibrate_title">Вібрація під час натискання</string>
@@ -366,13 +366,13 @@
     <string name="keyboard_notification_entry_clear_close_title">Очищати під час закриття</string>
     <string name="keyboard_notification_entry_summary">Показувати сповіщення, коли запис доступний</string>
     <string name="keyboard_notification_entry_title">Інформаційне сповіщення</string>
-    <string name="keyboard_selection_entry_summary">Показати поля введення в Magikeyboard під час перегляду запису</string>
+    <string name="keyboard_selection_entry_summary">Показувати поля введення в Magikeyboard під час перегляду запису</string>
     <string name="keyboard_selection_entry_title">Вибір запису</string>
     <string name="keyboard_entry_category">Запис</string>
     <string name="keyboard_setting_label">Параметри Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
     <string name="keyboard_name">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">Активувати власну клавіатуру для заповнення ваших паролів та інших полів ідентифікації</string>
+    <string name="magic_keyboard_explanation_summary">Увімкнути власну клавіатуру для заповнення ваших паролів та інших полів ідентифікації</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="recycle_bin">Кошик</string>
     <string name="compression_none">Не стискати</string>
@@ -395,7 +395,7 @@
     <string name="recycle_bin_title">Використання кошика</string>
     <string name="database_data_compression_summary">Стиснення даних зменшує розмір бази даних.</string>
     <string name="database_data_compression_title">Стиснення даних</string>
-    <string name="full_file_path_enable_summary">Переглянути повний шлях до файлу</string>
+    <string name="full_file_path_enable_summary">Показувати повний шлях до файлу</string>
     <string name="full_file_path_enable_title">Шлях до файлу</string>
     <string name="assign_master_key">Призначити головний ключ</string>
     <string name="path">Шлях</string>
@@ -476,4 +476,15 @@
     <string name="encryption_explanation">Алгоритм шифрування бази даних, застосований для всіх даних.</string>
     <string name="keyboard_search_share_summary">Автоматичний пошук загальнодоступної інформації для заповнення клавіатури</string>
     <string name="keyboard_search_share_title">Пошук доступної інформації</string>
+    <string name="autofill_block_restart">Перезапустіть застосунок, який містить форму, для застосування блокування.</string>
+    <string name="autofill_block">Блокування автозаповнення</string>
+    <string name="autofill_web_domain_blocklist_summary">Вебдомени для яких вимкнено автозаповнення</string>
+    <string name="autofill_web_domain_blocklist_title">Перелік блокування вебдоменів</string>
+    <string name="autofill_application_id_blocklist_summary">Застосунки для яких вимкнено автозаповнення</string>
+    <string name="autofill_application_id_blocklist_title">Перелік заблокованих застосунків</string>
+    <string name="subdomain_search_summary">Пошук у вебдоменах обмежений піддоменами</string>
+    <string name="subdomain_search_title">Пошук у піддоменах</string>
+    <string name="error_string_type">Текст не відповідає запитуваному елементу.</string>
+    <string name="filter">Фільтр</string>
+    <string name="content_description_add_item">Додати елемент</string>
 </resources>
