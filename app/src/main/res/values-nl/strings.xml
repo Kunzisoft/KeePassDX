@@ -303,7 +303,7 @@
     <string name="html_text_ad_free">In tegenstelling tot veel apps voor wachtwoordbeheer, is deze &lt;strong&gt; reclamevrij&lt;/strong&gt;, &lt;strong&gt; vrije software &lt;/strong&gt; en verzamelt het geen persoonlijke gegevens op haar servers, ongeacht welke versie je gebruikt.</string>
     <string name="html_text_buy_pro">Door de pro-versie te kopen krijg je toegang tot dit &lt;strong&gt;visuele thema&lt;/strong&gt; en draag je bij aan het &lt;strong&gt;realiseren van gemeenschapsprojecten.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Dit &lt;strong&gt;visuele thema&lt;/strong&gt; is beschikbaar gemaakt dankzij jouw vrijgevigheid.</string>
-    <string name="html_text_donation">Om altijd vrij en actief te blijven, rekenen we op jouw <strong>bijdrage.</strong></string>
+    <string name="html_text_donation">Om altijd vrij en actief te blijven, rekenen we op jouw &lt;strong&gt;bijdrage.&lt;/strong&gt;</string>
     <string name="html_text_dev_feature">Deze functie &lt;strong&gt;wordt momenteel ontwikkeld&lt;/strong&gt; en kan alleen beschikbaar komen middels jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="html_text_dev_feature_buy_pro">Door de &lt;strong&gt;pro&lt;/strong&gt;-versie te kopen,</string>
     <string name="html_text_dev_feature_contibute">Door &lt;strong&gt;bij te dragen&lt;/strong&gt;,</string>
@@ -467,7 +467,7 @@
     <string name="error_create_database">Databasebestand is niet aangemaakt.</string>
     <string name="error_label_exists">Dit label bestaat al.</string>
     <string name="entry_attachments">Bijlagen</string>
-    <string name="html_about_contribution">Om <strong>onze vrijheid te behouden</strong>, <strong>bugs te verhelpen</strong>, <strong>functies toe te voegen</strong> en <strong>altijd actief te blijven</strong>, rekenen wij op jouw <strong>bijdrage</strong>.</string>
+    <string name="html_about_contribution">Om &lt;strong&gt;onze vrijheid te behouden&lt;/strong&gt;, &lt;strong&gt;bugs te verhelpen&lt;/strong&gt;, &lt;strong&gt;functies toe te voegen&lt;/strong&gt; en &lt;strong&gt;altijd actief te blijven&lt;/strong&gt;, rekenen wij op jouw &lt;strong&gt;bijdrage&lt;/strong&gt;.</string>
     <string name="entry_add_attachment">Bijlage toevoegen</string>
     <string name="discard">Weggooien</string>
     <string name="discard_changes">Veranderingen ongedaan maken\?</string>

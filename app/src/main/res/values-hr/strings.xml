@@ -344,8 +344,8 @@
     <string name="auto_focus_search_title">Brzo pretraživanje</string>
     <string name="error_create_database">Nije moguće kreirati datoteku baze podataka.</string>
     <string name="error_rounds_too_large">Prevelik broj \"transformacijskih rundi\". Postavljeno na 2147483648.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> te <strong>bez reklama</strong>. 
-\nDostupan kakav je, pod <strong>GPLv3</strong> licencom, bez ikakvog jamstva.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je &lt;strong&gt;open source&lt;/strong&gt; te &lt;strong&gt;bez reklama&lt;/strong&gt;.
+\nDostupan kakav je, pod &lt;strong&gt;GPLv3&lt;/strong&gt; licencom, bez ikakvog jamstva.</string>
     <string name="entry_add_attachment">Dodaj privitak</string>
     <string name="discard">Odbaci</string>
     <string name="discard_changes">Odbaci promjene\?</string>
