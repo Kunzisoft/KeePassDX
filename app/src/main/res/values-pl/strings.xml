@@ -115,7 +115,7 @@
     <string name="sort_db">Porządek naturalny</string>
     <string name="special">Znaki specjalne</string>
     <string name="search">Szukaj</string>
-    <string name="encryption_twofish">Dwie ryby</string>
+    <string name="encryption_twofish">Algorytm szyfrujący Twofish</string>
     <string name="underline">Podkreślenie</string>
     <string name="unsupported_db_version">Nieobsługiwana wersja bazy danych.</string>
     <string name="uppercase">Wielkie litery</string>
@@ -344,7 +344,7 @@
     <string name="keyboard_selection_entry_title">Wybór wpisu</string>
     <string name="keyboard_selection_entry_summary">Pokaż pola wprowadzania w Magikeyboard podczas przeglądania wpisu</string>
     <string name="delete_entered_password_title">Usuń hasło</string>
-    <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia</string>
+    <string name="delete_entered_password_summary">Usuwa hasło wprowadzone po próbie połączenia z bazą danych</string>
     <string name="content_description_open_file">Otwórz plik</string>
     <string name="content_description_add_entry">Dodaj wpis</string>
     <string name="content_description_add_group">Dodaj grupę</string>
@@ -474,4 +474,6 @@
     <string name="autofill_preference_title">Ustawienia autouzupełniania</string>
     <string name="warning_database_link_revoked">Dostęp do pliku anulowany przez menedżera plików</string>
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
+    <string name="keyboard_search_share_summary">Automatyczne wyszukiwanie udostępnionych informacji w celu zapełnienia klawiatury</string>
+    <string name="keyboard_search_share_title">Wyszukaj udostępnione informacje</string>
 </resources>

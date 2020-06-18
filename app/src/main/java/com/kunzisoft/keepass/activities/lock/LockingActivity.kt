@@ -24,16 +24,15 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.*
 
-abstract class LockingActivity : StylishActivity() {
+abstract class LockingActivity : SpecialModeActivity() {
 
     protected var mTimeoutEnable: Boolean = true
 
@@ -49,7 +48,6 @@ abstract class LockingActivity : StylishActivity() {
             mReadOnlyToSave = value
         }
     private var mReadOnlyToSave: Boolean = false
-    protected var mSelectionMode: Boolean = false
     protected var mAutoSaveEnable: Boolean = true
 
     var mProgressDialogThread: ProgressDialogThread? = null
@@ -100,7 +98,6 @@ abstract class LockingActivity : StylishActivity() {
 
         // To refresh when back to normal workflow from selection workflow
         mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
-        mSelectionMode = EntrySelectionHelper.retrieveEntrySelectionModeFromIntent(intent)
         mAutoSaveEnable = PreferencesUtil.isAutoSaveDatabaseEnabled(this)
 
         invalidateOptionsMenu()

@@ -1,0 +1,5 @@
+ * Ajout des listes de blocage pour le remplissage automatique
+ * Ajout du mode de compatibilité pour le remplissage automatique (utile pour les navigateurs non compatibles)
+ * Mise à jour de l'algorithme de reconnaissance du remplissage automatique
+ * Paramètre pour rechercher à travers les sous-domaines web
+ * Refactorisation du mode sélection

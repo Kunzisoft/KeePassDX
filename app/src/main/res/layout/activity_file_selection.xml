@@ -26,13 +26,22 @@
     android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
 
+    <com.kunzisoft.keepass.view.SpecialModeView
+        android:id="@+id/special_mode_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="?attr/specialToolbarAppearance"
+        app:titleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.Title"
+        app:subtitleTextAppearance="@style/KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/activity_file_selection_coordinator_layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/background_repeat"
         android:backgroundTint="?android:attr/textColor"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/special_mode_view"
         app:layout_constraintBottom_toTopOf="@+id/file_selection_buttons_container">
 
         <com.google.android.material.appbar.AppBarLayout
@@ -156,11 +165,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/database_buttons_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="top"
+                app:layout_constraintBottom_toTopOf="@+id/open_keyfile_button"
+                android:background="?attr/colorPrimaryDark"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/open_keyfile_button"
@@ -191,11 +207,6 @@
                 android:paddingEnd="24dp"
                 android:text="@string/create_keepass_file"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_gravity="top"
-            android:background="?attr/colorPrimaryDark"/>
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

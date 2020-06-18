@@ -58,7 +58,7 @@
             android:id="@+id/item_attachment_compression"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            style="@style/KeepassDXStyle.TextAppearance.TinyText"
+            style="@style/KeepassDXStyle.TextAppearance.Tiny"
             android:firstBaselineToTopHeight="0dp"
             android:includeFontPadding="false"
             android:paddingStart="8dp"

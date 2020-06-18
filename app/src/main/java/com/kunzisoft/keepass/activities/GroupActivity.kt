@@ -63,6 +63,7 @@ import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.education.GroupActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_GROUP_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_NODES_TASK
@@ -74,10 +75,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.*
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -96,7 +94,6 @@ class GroupActivity : LockingActivity(),
     private var toolbarAction: ToolbarAction? = null
     private var iconView: ImageView? = null
     private var numberChildrenView: TextView? = null
-    private var modeTitleView: TextView? = null
     private var addNodeButtonView: AddNodeButtonView? = null
     private var groupNameView: TextView? = null
 
@@ -105,6 +102,9 @@ class GroupActivity : LockingActivity(),
     private var mListNodesFragment: ListNodesFragment? = null
     private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
+
+    // To manage history in selection mode
+    private var mSelectionModeCountBackStack = 0
 
     // Nodes
     private var mRootGroup: Group? = null
@@ -135,7 +135,6 @@ class GroupActivity : LockingActivity(),
         searchTitleView = findViewById(R.id.search_title)
         groupNameView = findViewById(R.id.group_name)
         toolbarAction = findViewById(R.id.toolbar_action)
-        modeTitleView = findViewById(R.id.mode_title_view)
         lockView = findViewById(R.id.lock_button)
 
         lockView?.setOnClickListener {
@@ -285,7 +284,7 @@ class GroupActivity : LockingActivity(),
 
         intent?.let { intentNotNull ->
             // To transform KEY_SEARCH_INFO in ACTION_SEARCH
-            manageSearchInfoIntent(intent)
+            manageSearchInfoIntent(intentNotNull)
             Log.d(TAG, "setNewIntent: $intentNotNull")
             setIntent(intentNotNull)
             mCurrentGroupIsASearch = if (Intent.ACTION_SEARCH == intentNotNull.action) {
@@ -305,11 +304,10 @@ class GroupActivity : LockingActivity(),
     private fun manageSearchInfoIntent(intent: Intent): Boolean {
         // To relaunch the activity as ACTION_SEARCH
         val searchInfo: SearchInfo? = intent.getParcelableExtra(KEY_SEARCH_INFO)
-        if (searchInfo != null) {
+        val autoSearch = intent.getBooleanExtra(AUTO_SEARCH_KEY, false)
+        if (searchInfo != null && autoSearch) {
             intent.action = Intent.ACTION_SEARCH
-            val searchQuery = searchInfo.webDomain ?: searchInfo.applicationId
-            intent.removeExtra(KEY_SEARCH_INFO)
-            intent.putExtra(SearchManager.QUERY, searchQuery)
+            intent.putExtra(SearchManager.QUERY, searchInfo.getSearchString(this))
             return true
         }
         return false
@@ -353,6 +351,9 @@ class GroupActivity : LockingActivity(),
                     fragmentTag)
             fragmentTransaction.addToBackStack(fragmentTag)
             fragmentTransaction.commit()
+
+            if (mSelectionMode)
+                mSelectionModeCountBackStack++
 
             // Update last access time.
             group?.touch(modified = false, touchParents = false)
@@ -460,13 +461,6 @@ class GroupActivity : LockingActivity(),
         // Assign number of children
         refreshNumberOfChildren()
 
-        // Show selection mode message if needed
-        if (mSelectionMode) {
-            modeTitleView?.visibility = View.VISIBLE
-        } else {
-            modeTitleView?.visibility = View.GONE
-        }
-
         // Show button if allowed
         addNodeButtonView?.apply {
 
@@ -482,6 +476,20 @@ class GroupActivity : LockingActivity(),
 
             showButton()
         }
+    }
+
+    override fun onCancelSpecialMode() {
+        // To remove the navigation history and
+        EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
+        val fragmentManager = supportFragmentManager
+        if (mSelectionModeCountBackStack > 0) {
+            for (selectionMode in 0 .. mSelectionModeCountBackStack) {
+                fragmentManager.popBackStack()
+            }
+        }
+        // Reinit the counter for navigation history
+        mSelectionModeCountBackStack = 0
+        backToTheAppCaller()
     }
 
     private fun refreshNumberOfChildren() {
@@ -702,8 +710,7 @@ class GroupActivity : LockingActivity(),
             menu.findItem(R.id.menu_save_database)?.isVisible = false
         }
         if (!mSelectionMode) {
-            inflater.inflate(R.menu.default_menu, menu)
-            MenuUtil.contributionMenuInflater(inflater, menu)
+            MenuUtil.defaultMenuInflater(inflater, menu)
         }
 
         // Menu for recycle bin
@@ -912,19 +919,16 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun startActivity(intent: Intent) {
-
         // Get the intent, verify the action and get the query
         if (Intent.ACTION_SEARCH == intent.action) {
-            // manually launch the real search activity
-            val searchIntent = Intent(applicationContext, GroupActivity::class.java).apply {
-                // Add bundle of current intent
-                putExtras(this@GroupActivity.intent)
+            // manually launch the same search activity
+            val searchIntent = getIntent().apply {
                 // add query to the Intent Extras
                 action = Intent.ACTION_SEARCH
                 putExtra(SearchManager.QUERY, intent.getStringExtra(SearchManager.QUERY))
             }
-
-            super.startActivity(searchIntent)
+            setIntent(searchIntent)
+            onNewIntent(searchIntent)
         } else {
             super.startActivity(intent)
         }
@@ -971,26 +975,38 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
     }
 
+    private fun backToTheAppCaller() {
+        if (mAutofillSelection) {
+            // To get the app caller, only for autofill
+            super.onBackPressed()
+        } else {
+            // To move the app in background
+            moveTaskToBack(true)
+        }
+    }
+
     override fun onBackPressed() {
         if (mListNodesFragment?.nodeActionSelectionMode == true) {
             finishNodeAction()
         } else {
             // Normal way when we are not in root
-            if (mRootGroup != null && mRootGroup != mCurrentGroup)
+            if (mRootGroup != null && mRootGroup != mCurrentGroup) {
                 super.onBackPressed()
-            // Else lock if needed
+                rebuildListNodes()
+            }
+            // Else in root, lock if needed
             else {
+                intent.removeExtra(AUTO_SEARCH_KEY)
+                intent.removeExtra(KEY_SEARCH_INFO)
                 if (PreferencesUtil.isLockDatabaseWhenBackButtonOnRootClicked(this)) {
                     lockAndExit()
                     super.onBackPressed()
                 } else {
                     // To restore standard mode
                     EntrySelectionHelper.removeEntrySelectionModeFromIntent(intent)
-                    moveTaskToBack(true)
+                    backToTheAppCaller()
                 }
             }
-
-            rebuildListNodes()
         }
     }
 
@@ -1003,6 +1019,7 @@ class GroupActivity : LockingActivity(),
         private const val LIST_NODES_FRAGMENT_TAG = "LIST_NODES_FRAGMENT_TAG"
         private const val SEARCH_FRAGMENT_TAG = "SEARCH_FRAGMENT_TAG"
         private const val OLD_GROUP_TO_UPDATE_KEY = "OLD_GROUP_TO_UPDATE_KEY"
+        private const val AUTO_SEARCH_KEY = "AUTO_SEARCH_KEY"
 
         private fun buildIntent(context: Context,
                                 group: Group?,
@@ -1040,12 +1057,14 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launch(context: Context,
+                   autoSearch: Boolean = false,
                    searchInfo: SearchInfo? = null,
                    readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
                 searchInfo?.let {
                     intent.putExtra(KEY_SEARCH_INFO, it)
                 }
+                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 context.startActivity(intent)
             }
         }
@@ -1056,9 +1075,11 @@ class GroupActivity : LockingActivity(),
          * -------------------------
          */
         fun launchForEntrySelectionResult(context: Context,
+                                          autoSearch: Boolean = false,
                                           searchInfo: SearchInfo? = null,
                                           readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(context)) {
             checkTimeAndBuildIntent(context, null, readOnly) { intent ->
+                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 EntrySelectionHelper.startActivityForEntrySelectionResult(context, intent, searchInfo)
             }
         }
@@ -1071,9 +1092,11 @@ class GroupActivity : LockingActivity(),
         @RequiresApi(api = Build.VERSION_CODES.O)
         fun launchForAutofillResult(activity: Activity,
                                     assistStructure: AssistStructure,
+                                    autoSearch: Boolean = false,
                                     searchInfo: SearchInfo? = null,
                                     readOnly: Boolean = PreferencesUtil.enableReadOnlyDatabase(activity)) {
             checkTimeAndBuildIntent(activity, null, readOnly) { intent ->
+                intent.putExtra(AUTO_SEARCH_KEY, autoSearch)
                 AutofillHelper.startActivityForAutofillResult(activity, intent, assistStructure, searchInfo)
             }
         }

@@ -23,7 +23,6 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
@@ -49,21 +48,20 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                 if ("text/plain" == intent.type) {
                     // Retrieve web domain
                     intent.getStringExtra(Intent.EXTRA_TEXT)?.let {
-                        sharedWebDomain = Uri.parse(it).authority
+                        sharedWebDomain = Uri.parse(it).host
                     }
-
                 }
             }
             else -> {}
         }
 
+        // Setting to integrate Magikeyboard
+        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
+
         // Build search param
         val searchInfo = SearchInfo().apply {
             webDomain = sharedWebDomain
         }
-
-        // Setting to integrate Magikeyboard
-        val searchShareForMagikeyboard = PreferencesUtil.isKeyboardSearchShareEnable(this)
 
         // If database is open
         SearchHelper.checkAutoSearchInfo(this,
@@ -75,29 +73,41 @@ class EntrySelectionLauncherActivity : AppCompatActivity() {
                         if (items.size == 1) {
                             // Automatically populate keyboard
                             val entryPopulate = items[0]
-                            populateKeyboardAndMoveAppToBackground(this, entryPopulate, intent)
+                            populateKeyboardAndMoveAppToBackground(this,
+                                    entryPopulate,
+                                    intent)
                         } else {
                             // Select the one we want
-                            GroupActivity.launchForEntrySelectionResult(this, searchInfo)
+                            GroupActivity.launchForEntrySelectionResult(this,
+                                    true,
+                                    searchInfo)
                         }
                     } else {
-                        GroupActivity.launch(this, searchInfo)
+                        GroupActivity.launch(this,
+                                true,
+                                searchInfo)
                     }
                 },
                 {
                     // Show the database UI to select the entry
                     if (searchShareForMagikeyboard) {
-                        GroupActivity.launchForEntrySelectionResult(this)
+                        GroupActivity.launchForEntrySelectionResult(this,
+                                false,
+                                searchInfo)
                     } else {
-                        GroupActivity.launch(this)
+                        GroupActivity.launch(this,
+                                false,
+                                searchInfo)
                     }
                 },
                 {
                     // If database not open
                     if (searchShareForMagikeyboard) {
-                        FileDatabaseSelectActivity.launchForEntrySelectionResult(this, searchInfo)
+                        FileDatabaseSelectActivity.launchForEntrySelectionResult(this,
+                                searchInfo)
                     } else {
-                        FileDatabaseSelectActivity.launch(this, searchInfo)
+                        FileDatabaseSelectActivity.launch(this,
+                                searchInfo)
                     }
                 }
         )

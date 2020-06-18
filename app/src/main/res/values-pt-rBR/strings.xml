@@ -192,7 +192,7 @@
     <string name="warning_empty_password">Continuar sem proteção de desbloqueio de senha\?</string>
     <string name="warning_no_encryption_key">Continuar sem chave de criptografia\?</string>
     <string name="configure_biometric">Impressão digital é suportada, mas não está configurada.</string>
-    <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital</string>
+    <string name="open_biometric_prompt_unlock_database">Escaneamento de impressão digital para abrir o bando de dados</string>
     <string name="encrypted_value_stored">Senha encriptada armazenada</string>
     <string name="biometric_invalid_key">Não pôde ler chave de impressão digital. Por favor, apague-a e repita o procedimento de reconhecimento biométrico.</string>
     <string name="biometric_not_recognized">Não pôde reconhecer impressão digital</string>
@@ -347,7 +347,7 @@
     <string name="keyboard_selection_entry_title">Seleção de entrada</string>
     <string name="keyboard_selection_entry_summary">Mostrar campos de entrada no Magikeyboard quando estiver visualizando uma Entrada</string>
     <string name="delete_entered_password_title">Deletar senha</string>
-    <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão</string>
+    <string name="delete_entered_password_summary">Deleta a senha inserida após uma tentativa de conexão com o banco de dados</string>
     <string name="content_description_open_file">Abrir arquivo</string>
     <string name="content_description_add_node">Inserir nó</string>
     <string name="content_description_add_entry">Adicionar entrada</string>
@@ -474,4 +474,6 @@
     <string name="discard_changes">Descartar alterações\?</string>
     <string name="validate">Validação</string>
     <string name="contribution">Contribuição</string>
+    <string name="keyboard_search_share_summary">Procurar automaticamente por informação compartilhada para popular o teclado</string>
+    <string name="keyboard_search_share_title">Procurar informação compartilhada</string>
 </resources>

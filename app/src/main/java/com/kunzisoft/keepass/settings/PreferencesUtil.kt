@@ -20,8 +20,10 @@
 package com.kunzisoft.keepass.settings
 
 import android.content.Context
+import android.content.res.Resources
 import android.net.Uri
 import androidx.preference.PreferenceManager
+import com.kunzisoft.keepass.BuildConfig
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.SortNodeEnum
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -95,6 +97,12 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.auto_focus_search_key),
                 context.resources.getBoolean(R.bool.auto_focus_search_default))
+    }
+
+    fun searchSubdomains(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.subdomain_search_key),
+                context.resources.getBoolean(R.bool.subdomain_search_default))
     }
 
     fun showUsernamesListEntries(context: Context): Boolean {
@@ -365,5 +373,47 @@ object PreferencesUtil {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),
                 context.resources.getBoolean(R.bool.autofill_auto_search_default))
+    }
+
+    /**
+     * Retrieve the default Blocklist for application ID, including the current app
+     */
+    fun getDefaultApplicationIdBlocklist(resources: Resources?): Set<String> {
+        return resources?.getStringArray(R.array.autofill_application_id_blocklist_default)
+                ?.toMutableSet()?.apply {
+                    add(BuildConfig.APPLICATION_ID)
+                } ?: emptySet()
+    }
+
+    fun applicationIdBlocklist(context: Context): Set<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getStringSet(context.getString(R.string.autofill_application_id_blocklist_key),
+                getDefaultApplicationIdBlocklist(context.resources))
+                ?: emptySet()
+    }
+
+    fun webDomainBlocklist(context: Context): Set<String> {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getStringSet(context.getString(R.string.autofill_web_domain_blocklist_key),
+                context.resources.getStringArray(R.array.autofill_web_domain_blocklist_default).toMutableSet())
+                ?: emptySet()
+    }
+
+    fun addApplicationIdToBlocklist(context: Context, applicationId: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val setItems: MutableSet<String> = applicationIdBlocklist(context).toMutableSet()
+        setItems.add(applicationId)
+        prefs.edit()
+                .putStringSet(context.getString(R.string.autofill_application_id_blocklist_key), setItems)
+                .apply()
+    }
+
+    fun addWebDomainToBlocklist(context: Context, webDomain: String) {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        val setItems: MutableSet<String> = webDomainBlocklist(context).toMutableSet()
+        setItems.add(webDomain)
+        prefs.edit()
+                .putStringSet(context.getString(R.string.autofill_web_domain_blocklist_key), setItems)
+                .apply()
     }
 }

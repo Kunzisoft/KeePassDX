@@ -1,0 +1,6 @@
+ * Add blocklists for autofill
+ * Add autofill compatibility mode (usefull for Browser not compatible)
+ * Upgrade autofill recognition algorithm
+ * Setting to search through web subdomains
+ * Refactoring selection mode
+

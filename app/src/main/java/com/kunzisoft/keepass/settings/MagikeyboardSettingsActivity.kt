@@ -24,9 +24,9 @@ import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 
-class MagikeyboardSettingsActivity : StylishActivity() {
+class MagikeyboardSettingsActivity : SpecialModeActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

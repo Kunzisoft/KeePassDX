@@ -31,10 +31,10 @@ import android.widget.BaseAdapter
 import android.widget.GridView
 import android.widget.ImageView
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.ImageViewCompat
 import androidx.fragment.app.DialogFragment
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.icons.IconPack
 import com.kunzisoft.keepass.icons.IconPackChooser
@@ -132,7 +132,7 @@ class IconPickerDialogFragment : DialogFragment() {
             return bundle.getParcelable(KEY_ICON_STANDARD)
         }
 
-        fun launch(activity: StylishActivity) {
+        fun launch(activity: AppCompatActivity) {
             // Create an instance of the dialog fragment and show it
             val dialog = IconPickerDialogFragment()
             dialog.show(activity.supportFragmentManager, "IconPickerDialogFragment")

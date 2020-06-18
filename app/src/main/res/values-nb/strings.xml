@@ -222,7 +222,7 @@
     <string name="monospace_font_fields_enable_summary">Endre skriften brukt i felter for bedre tegngjengivelse</string>
     <string name="allow_copy_password_title">Kopi av passord</string>
     <string name="allow_copy_password_summary">Tillat kopiering av adgangspassordet og beskyttede felter til utklippstavlen</string>
-    <string name="allow_copy_password_warning">ADVARSEL: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
+    <string name="allow_copy_password_warning">Advarsel: Utklippstavlen deles av alle programmer. Hvis sensitiv data kopieres, kan annen programvare gjenopprette den.</string>
     <string name="database_name_title">Databasenavn</string>
     <string name="database_description_title">Databasebeskrivelse</string>
     <string name="database_version_title">Databaseversjon</string>
@@ -255,7 +255,7 @@
     <string name="education_biometric_summary">Lenk passordet og fingeravtrykket ditt for å låse opp databasen din enkelt.</string>
     <string name="education_entry_edit_title">Rediger oppføringen</string>
     <string name="education_entry_edit_summary">Rediger din oppføring med egendefinerte felter, referanser til pooldata kan legges til mellom felter av forskjellige oppføringer.</string>
-    <string name="education_generate_password_title">Opprett et sterkt passord.</string>
+    <string name="education_generate_password_title">Opprett et sterkt passord</string>
     <string name="education_generate_password_summary">Generer et sterkt passord å tilknytte oppføringen din, definer det i henhold til kriteriene i skjemaet, og ikke glem å gjøre passordet sikkert.</string>
     <string name="education_entry_new_field_title">Legg til egendefinerte felter</string>
     <string name="education_entry_new_field_summary">Du ønsker å registrere et grunnleggende felt som ikke allerede finnes, fyll inn et nytt et du også kan beskytte visuelt.</string>
@@ -281,7 +281,7 @@
     <string name="html_text_ad_free">Ulikt mange passordbehandlingsprogrammer, er dette &lt;strong&gt;reklamefri&lt;/strong&gt;, &lt;strong&gt;copyleftbasert fri programvare&lt;/strong&gt; og samler ikke inn personlig data på tjenerne sine, selv i sin gratisversjon.</string>
     <string name="html_text_buy_pro">Ved kjøp av pro-versjonen, vil du få tilgang til denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; og du vil spesielt hjelpe &lt;strong&gt; realiseringen av gemenskapsprosjekter.&lt;/strong&gt;
     </string>
-    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle funksjonen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
+    <string name="html_text_feature_generosity">Denne &lt;strong&gt;visuelle stilen&lt;/strong&gt; er tilgjengelig takket være din generøsitet.</string>
     <string name="html_text_donation">For å beholde vår frihet og alltid være aktive, stoler vi på dine &lt;strong&gt;bidrag.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Denne funksjonen er &lt;strong&gt;under utvikling&lt;/strong&gt; og krever &lt;strong&gt;bidrag&lt;/strong&gt; for å bli tilgjengelig snart.</string>
@@ -296,7 +296,7 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Velg en drakt</string>
     <string name="style_choose_summary">Tilpass programdrakten ved å endre fargene</string>
@@ -319,8 +319,8 @@
     <string name="keyboard_appearance_category">Utseende</string>
     <string name="keyboard_theme_title">Tastaturdrakt</string>
     <string name="keyboard_keys_category">Taster</string>
-    <string name="keyboard_key_vibrate_title">Vibrer ved tastetrykk</string>
-    <string name="keyboard_key_sound_title">Lyd ved tastetrykk</string>
+    <string name="keyboard_key_vibrate_title">Vibrasjonstastetrykk</string>
+    <string name="keyboard_key_sound_title">Hørbare tastetrykk</string>
     <string name="selection_mode">Valgmodus</string>
     <string name="do_not_kill_app">Ikke drep programmet…</string>
     <string name="lock_database_back_root_title">Tilbakelås</string>
@@ -331,7 +331,7 @@
     <string name="keyboard_selection_entry_title">Oppføringsvalg</string>
     <string name="keyboard_selection_entry_summary">Vis inndatafelter i Magikeyboard når en oppføring vises</string>
     <string name="delete_entered_password_title">Slett passord</string>
-    <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk</string>
+    <string name="delete_entered_password_summary">Sletter passord innskrevet etter et tilkoblingsforsøk til en database</string>
     <string name="content_description_open_file">Åpne fil</string>
     <string name="content_description_add_node">Legg til node</string>
     <string name="content_description_add_entry">Legg til oppføring</string>
@@ -428,4 +428,9 @@
     <string name="lock_database_show_button_title">Vis låseknapp</string>
     <string name="error_label_exists">Denne etiketten finnes allerede.</string>
     <string name="validate">Bekreft</string>
+    <string name="biometric_prompt_extract_credential_title">Åpne database med biometrisk gjenkjenning</string>
+    <string name="warning_database_link_revoked">Tilgang til filen nektes av filbehandleren</string>
+    <string name="warning_database_read_only">Innvilg skrivetilgang for å lagre databaseendringer</string>
+    <string name="hide_broken_locations_summary">Skjul ødelagte lenker i listen over nylige databaser</string>
+    <string name="hide_broken_locations_title">Skjul ødelagte databaselenker</string>
 </resources>

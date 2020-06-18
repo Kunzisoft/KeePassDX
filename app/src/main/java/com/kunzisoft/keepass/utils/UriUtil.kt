@@ -86,6 +86,19 @@ object UriUtil {
             null
     }
 
+    fun getWebDomainWithoutSubDomain(webDomain: String?): String? {
+        webDomain?.split(".")?.let { domainArray ->
+            if (domainArray.isEmpty()) {
+                return ""
+            }
+            if (domainArray.size == 1) {
+                return domainArray[0];
+            }
+            return domainArray[domainArray.size - 2] + "." + domainArray[domainArray.size - 1]
+        }
+        return null
+    }
+
     fun decode(uri: String?): String {
         return Uri.decode(uri) ?: ""
     }

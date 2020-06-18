@@ -347,7 +347,7 @@
     <string name="keyboard_selection_entry_title">条目选择</string>
     <string name="keyboard_selection_entry_summary">在查看条目时，在专用键盘中显示输入字段</string>
     <string name="delete_entered_password_title">删除密码</string>
-    <string name="delete_entered_password_summary">密码错误后删除已输入的密码</string>
+    <string name="delete_entered_password_summary">在连接数据库尝试后删除输入的密码</string>
     <string name="content_description_open_file">打开文件</string>
     <string name="content_description_node_children">子节点</string>
     <string name="content_description_add_node">增加节点</string>
@@ -474,4 +474,6 @@
     <string name="autofill_preference_title">自动填充设置</string>
     <string name="warning_database_link_revoked">访问文件管理器撤消访问权限的文件</string>
     <string name="error_label_exists">该标签已经存在。</string>
+    <string name="keyboard_search_share_summary">自动搜索共享信息以填充键盘</string>
+    <string name="keyboard_search_share_title">搜索分享的信息</string>
 </resources>

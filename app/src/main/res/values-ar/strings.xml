@@ -117,13 +117,14 @@
     <string name="app_timeout">مهلة التطبيق</string>
     <string name="app_timeout_summary">مدة الانتظار قبل إقفال قاعدة البيانات</string>
     <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
-    <string name="clipboard_error">بعض هواتف سامسونغ لا تسمح للتطبيقات باستعمال الحافظة.</string>
+    <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
     <string name="clipboard_timeout_summary">مدة التخزين في الحافظة</string>
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
-    <string name="html_about_licence">KeePassDX © %1$d د كونزيسوفت تأتي مع الضمان لا على الإطلاق؛ هذا هو البرمجيات الحرة، وكنت أهلا إعادة توزيعه تحت شروط إصدار الترخيص 3 أو في وقت لاحق.</string>
+    <string name="html_about_licence">KeePassDX © %1$d كونزيسوفت &lt;strong&gt;مفتوح المصدر&lt;/strong&gt; و &lt;strong&gt;بدون اعلانات&lt;/strong&gt;.
+\n يوزع كما هو، بدون ضمان, تحت ترخيص &lt;strong&gt;GPLv3&lt;/strong&gt;</string>
     <string name="entry_accessed">نُفذ إليه</string>
     <string name="entry_expires">تنتهي صلاحيته في</string>
     <string name="entry_keyfile">ملف المفتاح</string>
@@ -276,4 +277,12 @@
     <string name="content_description_keyboard_close_fields">أغلق الحقول</string>
     <string name="error_create_database_file">لا يمكن انشاء قاعدة بيانات بكلمة السر وملف المفتاح الحاليين.</string>
     <string name="menu_advanced_unlock_settings">إلغاء القفل المتقدم</string>
+    <string name="entry_attachments">مرفقات</string>
+    <string name="entry_history">السجل</string>
+    <string name="entry_add_attachment">أضف مرفقا</string>
+    <string name="discard">إلغاء</string>
+    <string name="discard_changes">تجاهل التغييرات؟</string>
+    <string name="validate">تأكيد</string>
+    <string name="security">الأمان</string>
+    <string name="master_key">المفتاح الرئيسي</string>
 </resources>

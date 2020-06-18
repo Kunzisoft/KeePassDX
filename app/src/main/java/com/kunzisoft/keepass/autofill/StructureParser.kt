@@ -163,44 +163,78 @@ internal class StructureParser(private val structure: AssistStructure) {
         return false
     }
 
+    private fun inputIsVariationType(inputType: Int, vararg type: Int): Boolean {
+        type.forEach {
+            if (inputType and InputType.TYPE_MASK_VARIATION == it)
+                return true
+        }
+        return false
+    }
+
+    private fun showHexInputType(inputType: Int): String {
+        return "0x${"%08x".format(inputType)}"
+    }
+
     private fun parseNodeByAndroidInput(node: AssistStructure.ViewNode): Boolean {
         val autofillId = node.autofillId
         val inputType = node.inputType
-        if (inputType and InputType.TYPE_CLASS_TEXT != 0) {
-            when {
-                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS != 0 -> {
-                    result?.usernameId = autofillId
-                    Log.d(TAG, "Autofill username android type: $inputType")
+        when (inputType and InputType.TYPE_MASK_CLASS) {
+            InputType.TYPE_CLASS_TEXT -> {
+                when {
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS,
+                            InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS) -> {
+                        result?.usernameId = autofillId
+                        Log.d(TAG, "Autofill username android text type: ${showHexInputType(inputType)}")
+                    }
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_TEXT_VARIATION_NORMAL,
+                            InputType.TYPE_TEXT_VARIATION_PERSON_NAME,
+                            InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT) -> {
+                        usernameCandidate = autofillId
+                        Log.d(TAG, "Autofill username candidate android text type: ${showHexInputType(inputType)}")
+                    }
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_TEXT_VARIATION_PASSWORD,
+                            InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD,
+                            InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD) -> {
+                        result?.passwordId = autofillId
+                        Log.d(TAG, "Autofill password android text type: ${showHexInputType(inputType)}")
+                        usernameNeeded = false
+                        return true
+                    }
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT,
+                            InputType.TYPE_TEXT_VARIATION_FILTER,
+                            InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE,
+                            InputType.TYPE_TEXT_VARIATION_PHONETIC,
+                            InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS,
+                            InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE,
+                            InputType.TYPE_TEXT_VARIATION_URI) -> {
+                        // Type not used
+                    }
+                    else -> {
+                        Log.d(TAG, "Autofill unknown android text type: ${showHexInputType(inputType)}")
+                    }
                 }
-                inputType and InputType.TYPE_TEXT_VARIATION_NORMAL != 0 ||
-                        inputType and InputType.TYPE_NUMBER_VARIATION_NORMAL != 0 ||
-                        inputType and InputType.TYPE_TEXT_VARIATION_PERSON_NAME != 0 -> {
-                    usernameCandidate = autofillId
-                    Log.d(TAG, "Autofill username candidate android type: $inputType")
-                }
-                inputType and InputType.TYPE_TEXT_VARIATION_PASSWORD != 0 ||
-                        inputType and InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD != 0 ||
-                        inputType and InputType.TYPE_NUMBER_VARIATION_PASSWORD != 0 -> {
-                    result?.passwordId = autofillId
-                    Log.d(TAG, "Autofill password android type: $inputType")
-                    // Username not needed in this case
-                    usernameNeeded = false
-                    return true
-                }
-                inputType and InputType.TYPE_TEXT_VARIATION_EMAIL_SUBJECT != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_FILTER != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_LONG_MESSAGE != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_PHONETIC != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_POSTAL_ADDRESS != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_URI != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EDIT_TEXT != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_WEB_EMAIL_ADDRESS != 0 ||
-                inputType and InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD != 0 -> {
-                    // Type not used
-                }
-                else -> {
-                    Log.d(TAG, "Autofill unknown android type: $inputType")
-                    usernameCandidate = autofillId
+            }
+            InputType.TYPE_CLASS_NUMBER -> {
+                when {
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_NUMBER_VARIATION_NORMAL) -> {
+                        usernameCandidate = autofillId
+                        Log.d(TAG, "Autofill usernale candidate android number type: ${showHexInputType(inputType)}")
+                    }
+                    inputIsVariationType(inputType,
+                            InputType.TYPE_NUMBER_VARIATION_PASSWORD) -> {
+                        result?.passwordId = autofillId
+                        Log.d(TAG, "Autofill password android number type: ${showHexInputType(inputType)}")
+                        usernameNeeded = false
+                        return true
+                    }
+                    else -> {
+                        Log.d(TAG, "Autofill unknown android number type: ${showHexInputType(inputType)}")
+                    }
                 }
             }
         }

@@ -30,9 +30,20 @@ import com.kunzisoft.keepass.activities.AutofillLauncherActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class KeeAutofillService : AutofillService() {
+
+    var applicationIdBlocklist: Set<String>? = null
+    var webDomainBlocklist: Set<String>? = null
+
+    override fun onCreate() {
+        super.onCreate()
+
+        applicationIdBlocklist = PreferencesUtil.applicationIdBlocklist(this)
+        webDomainBlocklist = PreferencesUtil.webDomainBlocklist(this)
+    }
 
     override fun onFillRequest(request: FillRequest,
                                cancellationSignal: CancellationSignal,
@@ -45,32 +56,36 @@ class KeeAutofillService : AutofillService() {
         // Check user's settings for authenticating Responses and Datasets.
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
-            val searchInfo = SearchInfo().apply {
-                applicationId = parseResult.applicationId
-                webDomain = parseResult.domain
-            }
+            // Build search info only if applicationId or webDomain are not blocked
+            if (searchAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && searchAllowedFor(parseResult.domain, webDomainBlocklist)) {
+                val searchInfo = SearchInfo().apply {
+                    applicationId = parseResult.applicationId
+                    webDomain = parseResult.domain
+                }
 
-            SearchHelper.checkAutoSearchInfo(this,
-                    Database.getInstance(),
-                    searchInfo,
-                    { items ->
-                        val responseBuilder = FillResponse.Builder()
-                        AutofillHelper.addHeader(responseBuilder, packageName,
-                                parseResult.domain, parseResult.applicationId)
-                        items.forEach {
-                            responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                SearchHelper.checkAutoSearchInfo(this,
+                        Database.getInstance(),
+                        searchInfo,
+                        { items ->
+                            val responseBuilder = FillResponse.Builder()
+                            AutofillHelper.addHeader(responseBuilder, packageName,
+                                    parseResult.domain, parseResult.applicationId)
+                            items.forEach {
+                                responseBuilder.addDataset(AutofillHelper.buildDataset(this, it, parseResult))
+                            }
+                            callback.onSuccess(responseBuilder.build())
+                        },
+                        {
+                            // Show UI if no search result
+                            showUIForEntrySelection(parseResult, searchInfo, callback)
+                        },
+                        {
+                            // Show UI if database not open
+                            showUIForEntrySelection(parseResult, searchInfo, callback)
                         }
-                        callback.onSuccess(responseBuilder.build())
-                    },
-                    {
-                        // Show UI if no search result
-                        showUIForEntrySelection(parseResult, searchInfo, callback)
-                    },
-                    {
-                        // Show UI if database not open
-                        showUIForEntrySelection(parseResult, searchInfo, callback)
-                    }
-            )
+                )
+            }
         }
     }
 
@@ -116,5 +131,18 @@ class KeeAutofillService : AutofillService() {
 
     companion object {
         private val TAG = KeeAutofillService::class.java.name
+
+        fun searchAllowedFor(element: String?, blockList: Set<String>?): Boolean {
+            element?.let { elementNotNull ->
+                if (blockList?.any { appIdBlocked ->
+                            elementNotNull.contains(appIdBlocked)
+                        } == true
+                ) {
+                    Log.d(TAG, "Autofill not allowed for $elementNotNull")
+                    return false
+                }
+            }
+            return true
+        }
     }
 }

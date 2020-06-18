@@ -44,7 +44,7 @@ import com.kunzisoft.keepass.activities.dialogs.AssignMasterKeyDialogFragment
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper
 import com.kunzisoft.keepass.activities.helpers.EntrySelectionHelper.KEY_SEARCH_INFO
 import com.kunzisoft.keepass.activities.helpers.OpenFileHelper
-import com.kunzisoft.keepass.activities.stylish.StylishActivity
+import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
@@ -59,13 +59,14 @@ import com.kunzisoft.keepass.view.asError
 import kotlinx.android.synthetic.main.activity_file_selection.*
 import java.io.FileNotFoundException
 
-class FileDatabaseSelectActivity : StylishActivity(),
+class FileDatabaseSelectActivity : SpecialModeActivity(),
         AssignMasterKeyDialogFragment.AssignPasswordDialogListener {
 
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
     private var fileManagerExplanationButton: View? = null
-    private var createButtonView: View? = null
+    private var databaseButtonsContainerView: View? = null
+    private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
     // Adapter to manage database history list
@@ -96,19 +97,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
             UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
         }
 
-        // Create button
-        createButtonView = findViewById(R.id.create_database_button)
-        if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
-            // There is an activity which can handle this intent.
-            createButtonView?.visibility = View.VISIBLE
-        }
-        else{
-            // No Activity found that can handle this intent.
-            createButtonView?.visibility = View.GONE
-        }
+        databaseButtonsContainerView = findViewById(R.id.database_buttons_container)
 
-        createButtonView?.setOnClickListener { createNewFile() }
+        // Create database button
+        createDatabaseButtonView = findViewById(R.id.create_database_button)
+        createDatabaseButtonView?.setOnClickListener { createNewFile() }
 
+        // Open database button
         mOpenFileHelper = OpenFileHelper(this)
         openDatabaseButtonView = findViewById(R.id.open_keyfile_button)
         openDatabaseButtonView?.apply {
@@ -157,7 +152,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
             UriUtil.parse(databasePath)?.let { databaseFileUri ->
                 launchPasswordActivityWithPath(databaseFileUri)
             } ?: run {
-                Log.i(TAG, "Unable to launch Password Activity")
+                Log.i(TAG, "No default database to prepare")
             }
         }
 
@@ -241,11 +236,13 @@ class FileDatabaseSelectActivity : StylishActivity(),
         EntrySelectionHelper.doEntrySelectionAction(intent,
                 {
                     GroupActivity.launch(this@FileDatabaseSelectActivity,
+                            false,
                             searchInfo,
                             readOnly)
                 },
                 {
                     GroupActivity.launchForEntrySelectionResult(this@FileDatabaseSelectActivity,
+                            false,
                             searchInfo,
                             readOnly)
                     // Do not keep history
@@ -255,6 +252,7 @@ class FileDatabaseSelectActivity : StylishActivity(),
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         GroupActivity.launchForAutofillResult(this@FileDatabaseSelectActivity,
                                 assistStructure,
+                                false,
                                 searchInfo,
                                 readOnly)
                     }
@@ -269,37 +267,52 @@ class FileDatabaseSelectActivity : StylishActivity(),
     }
 
     override fun onResume() {
+        super.onResume()
+
+        // Show open and create button or special mode
+        if  (mSelectionMode) {
+            // Disable buttons if in selection mode or request for autofill
+            databaseButtonsContainerView?.visibility = View.GONE
+        } else {
+            if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
+                // There is an activity which can handle this intent.
+                createDatabaseButtonView?.visibility = View.VISIBLE
+            } else{
+                // No Activity found that can handle this intent.
+                createDatabaseButtonView?.visibility = View.GONE
+            }
+            databaseButtonsContainerView?.visibility = View.VISIBLE
+        }
+
         val database = Database.getInstance()
         if (database.loaded) {
             launchGroupActivity(database.isReadOnly)
-        }
-
-        super.onResume()
-
-        // Construct adapter with listeners
-        if (PreferencesUtil.showRecentFiles(this)) {
-            mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
-                databaseFileHistoryList?.let { historyList ->
-                    val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(this@FileDatabaseSelectActivity)
-                    mAdapterDatabaseHistory?.addDatabaseFileHistoryList(
-                            // Show only uri accessible
-                            historyList.filter {
-                                if (hideBrokenLocations) {
-                                    FileDatabaseInfo(this@FileDatabaseSelectActivity,
-                                            it.databaseUri).exists
-                                } else
-                                    true
-                            })
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
-                }
-            }
         } else {
-            mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
-            mAdapterDatabaseHistory?.notifyDataSetChanged()
-        }
+            // Construct adapter with listeners
+            if (PreferencesUtil.showRecentFiles(this)) {
+                mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
+                    databaseFileHistoryList?.let { historyList ->
+                        val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(this@FileDatabaseSelectActivity)
+                        mAdapterDatabaseHistory?.addDatabaseFileHistoryList(
+                                // Show only uri accessible
+                                historyList.filter {
+                                    if (hideBrokenLocations) {
+                                        FileDatabaseInfo(this@FileDatabaseSelectActivity,
+                                                it.databaseUri).exists
+                                    } else
+                                        true
+                                })
+                        mAdapterDatabaseHistory?.notifyDataSetChanged()
+                    }
+                }
+            } else {
+                mAdapterDatabaseHistory?.clearDatabaseFileHistoryList()
+                mAdapterDatabaseHistory?.notifyDataSetChanged()
+            }
 
-        // Register progress task
-        mProgressDialogThread?.registerProgressTask()
+            // Register progress task
+            mProgressDialogThread?.registerProgressTask()
+        }
     }
 
     override fun onPause() {
@@ -378,7 +391,10 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
-        MenuUtil.defaultMenuInflater(menuInflater, menu)
+
+        if (!mSelectionMode) {
+            MenuUtil.defaultMenuInflater(menuInflater, menu)
+        }
 
         Handler().post { performedNextEducation(FileDatabaseSelectActivityEducation(this)) }
 
@@ -387,11 +403,11 @@ class FileDatabaseSelectActivity : StylishActivity(),
 
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
-        val createDatabaseEducationPerformed = createButtonView != null && createButtonView!!.visibility == View.VISIBLE
+        val createDatabaseEducationPerformed = createDatabaseButtonView != null && createDatabaseButtonView!!.visibility == View.VISIBLE
                 && mAdapterDatabaseHistory != null
                 && mAdapterDatabaseHistory!!.itemCount > 0
                 && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                createButtonView!!,
+                createDatabaseButtonView!!,
                 {
                     createNewFile()
                 },

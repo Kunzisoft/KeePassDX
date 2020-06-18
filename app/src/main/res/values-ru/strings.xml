@@ -344,7 +344,7 @@
     <string name="keyboard_selection_entry_title">Выбор записи</string>
     <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
     <string name="delete_entered_password_title">Удалять пароль</string>
-    <string name="delete_entered_password_summary">Забывать введённый пароль</string>
+    <string name="delete_entered_password_summary">Забывать введённый пароль после попытки входа в базу</string>
     <string name="content_description_open_file">Открыть файл</string>
     <string name="content_description_node_children">Дочерний узел</string>
     <string name="content_description_add_node">Добавить узел</string>
@@ -474,4 +474,6 @@
     <string name="warning_database_link_revoked">Доступ к файлу отменён файловым менеджером</string>
     <string name="autofill_auto_search_title">Автопоиск</string>
     <string name="autofill_preference_title">Настройки автозаполнения</string>
+    <string name="keyboard_search_share_summary">Выполнять автоматический поиск общедоступной информации для подстановки в клавиатуру</string>
+    <string name="keyboard_search_share_title">Поиск доступной информации</string>
 </resources>

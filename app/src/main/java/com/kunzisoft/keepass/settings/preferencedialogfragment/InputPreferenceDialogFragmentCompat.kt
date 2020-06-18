@@ -21,10 +21,12 @@ package com.kunzisoft.keepass.settings.preferencedialogfragment
 
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.preference.PreferenceDialogFragmentCompat
 import com.kunzisoft.keepass.R
 
@@ -34,6 +36,8 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
     private var textExplanationView: TextView? = null
     private var switchElementView: CompoundButton? = null
 
+    private var mOnInputTextEditorActionListener: TextView.OnEditorActionListener? = null
+
     var inputText: String
         get() = this.inputTextView?.text?.toString() ?: ""
         set(inputText) {
@@ -42,6 +46,14 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
                 this.inputTextView?.setSelection(this.inputTextView!!.text.length)
             }
         }
+
+    fun setInputTextError(error: CharSequence) {
+        this.inputTextView?.error = error
+    }
+
+    fun setOnInputTextEditorActionListener(onEditorActionListener: TextView.OnEditorActionListener) {
+        this.mOnInputTextEditorActionListener = onEditorActionListener
+    }
 
     var explanationText: String?
         get() = textExplanationView?.text?.toString() ?: ""
@@ -63,16 +75,21 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         inputTextView = view.findViewById(R.id.input_text)
         inputTextView?.apply {
             imeOptions = EditorInfo.IME_ACTION_DONE
-            setOnEditorActionListener { _, actionId, _ ->
-                when (actionId) {
-                    EditorInfo.IME_ACTION_DONE -> {
-                        onDialogClosed(true)
-                        dialog?.dismiss()
-                        true
+            setOnEditorActionListener { v, actionId, event ->
+                if (mOnInputTextEditorActionListener == null) {
+                    when (actionId) {
+                        EditorInfo.IME_ACTION_DONE -> {
+                            onDialogClosed(true)
+                            dialog?.dismiss()
+                            true
+                        }
+                        else -> {
+                            false
+                        }
                     }
-                    else -> {
-                        false
-                    }
+                } else {
+                    mOnInputTextEditorActionListener?.onEditorAction(v, actionId, event)
+                            ?: false
                 }
             }
         }
@@ -80,6 +97,20 @@ abstract class InputPreferenceDialogFragmentCompat : PreferenceDialogFragmentCom
         textExplanationView?.visibility = View.GONE
         switchElementView = view.findViewById(R.id.switch_element)
         switchElementView?.visibility = View.GONE
+    }
+
+    protected fun hideKeyboard(): Boolean {
+        context?.let {
+            ContextCompat.getSystemService(it, InputMethodManager::class.java)?.let { inputManager ->
+                activity?.currentFocus?.let { focus ->
+                    val windowToken = focus.windowToken
+                    if (windowToken != null) {
+                        return inputManager.hideSoftInputFromWindow(windowToken, 0)
+                    }
+                }
+            }
+        }
+        return false
     }
 
     fun setInoutText(@StringRes inputTextId: Int) {

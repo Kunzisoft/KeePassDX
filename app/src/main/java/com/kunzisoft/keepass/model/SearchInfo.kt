@@ -1,12 +1,31 @@
 package com.kunzisoft.keepass.model
 
+import android.content.Context
+import android.content.res.Resources
 import android.os.Parcel
 import android.os.Parcelable
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.ObjectNameResource
+import com.kunzisoft.keepass.utils.UriUtil
 
-class SearchInfo : Parcelable {
+class SearchInfo : ObjectNameResource, Parcelable {
 
     var applicationId: String? = null
+        set(value) {
+            field = when {
+                value == null -> null
+                Regex(APPLICATION_ID_REGEX).matches(value) -> value
+                else -> null
+            }
+        }
     var webDomain: String? = null
+        set(value) {
+            field = when {
+                value == null -> null
+                Regex(WEB_DOMAIN_REGEX).matches(value) -> value
+                else -> null
+            }
+        }
 
     constructor()
 
@@ -26,7 +45,40 @@ class SearchInfo : Parcelable {
         parcel.writeString(webDomain ?: "")
     }
 
+    override fun getName(resources: Resources): String {
+        return toString()
+    }
+
+    fun containsOnlyNullValues(): Boolean {
+        return applicationId == null && webDomain == null
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as SearchInfo
+
+        if (applicationId != other.applicationId) return false
+        if (webDomain != other.webDomain) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = applicationId?.hashCode() ?: 0
+        result = 31 * result + (webDomain?.hashCode() ?: 0)
+        return result
+    }
+
+    override fun toString(): String {
+        return webDomain ?: applicationId ?: ""
+    }
+
     companion object {
+        // https://gist.github.com/rishabhmhjn/8663966
+        const val APPLICATION_ID_REGEX = "^(?:[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)(?:\\.[a-zA-Z]+(?:\\d*[a-zA-Z_]*)*)+\$"
+        const val WEB_DOMAIN_REGEX = "^(?!://)([a-zA-Z0-9-_]+\\.)*[a-zA-Z0-9][a-zA-Z0-9-_]+\\.[a-zA-Z]{2,11}?\$"
 
         @JvmField
         val CREATOR: Parcelable.Creator<SearchInfo> = object : Parcelable.Creator<SearchInfo> {
@@ -39,4 +91,15 @@ class SearchInfo : Parcelable {
             }
         }
     }
+}
+
+fun SearchInfo.getSearchString(context: Context): String {
+    return run {
+                if (!PreferencesUtil.searchSubdomains(context))
+                    UriUtil.getWebDomainWithoutSubDomain(webDomain)
+                else
+                    webDomain
+            }
+            ?: applicationId
+            ?: ""
 }
