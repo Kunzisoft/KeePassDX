@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="about_description">Android implementacija KeePass upravitelja lozinki</string>
     <string name="accept">Prihvati</string>
     <string name="add_entry">Dodaj unos</string>
@@ -273,7 +272,7 @@
     <string name="progress_title">Obrada…</string>
     <string name="read_only">Zaštićeno od pisanja</string>
     <string name="read_only_warning">Zavisno o vašem upravitelju datotekama, KeePassDX možda neće moći zapisivati u vašu pohranu.</string>
-    <string name="contains_duplicate_uuid_procedure">Potvrdom ovog dialoga, KeePassDX će riješiti problem (generiranjem novih UUID-ova za duplikate) i nastaviti.</string>
+    <string name="contains_duplicate_uuid_procedure">Riješi problem generiranjem novih UUID-ova za duplikate\?</string>
     <string name="root">Korijen</string>
     <string name="memory_usage_explanation">Količina memorije (u bajtovima) koju će koristiti funkcija izvedbe ključa.</string>
     <string name="do_not_kill_app">Ne zatvarajte aplikaciju…</string>
@@ -341,4 +340,15 @@
     <string name="education_create_database_summary">Kreirajte svoju prvu datoteku za upravljanje lozinkama.</string>
     <string name="education_select_database_title">Otvaranje postojeće baze podataka</string>
     <string name="education_select_database_summary">Otvorite vašu prijašnju bazu podataka iz vašeg upravitelja datotekama kako bi je nastavili koristiti.</string>
+    <string name="remember_database_locations_title">Zapamti lokaciju baze podataka</string>
+    <string name="auto_focus_search_title">Brzo pretraživanje</string>
+    <string name="error_create_database">Nije moguće kreirati datoteku baze podataka.</string>
+    <string name="error_rounds_too_large">Prevelik broj \"transformacijskih rundi\". Postavljeno na 2147483648.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft je <strong>open source</strong> te <strong>bez reklama</strong>. 
+\nDostupan kakav je, pod <strong>GPLv3</strong> licencom, bez ikakvog jamstva.</string>
+    <string name="entry_add_attachment">Dodaj privitak</string>
+    <string name="discard">Odbaci</string>
+    <string name="discard_changes">Odbaci promjene\?</string>
+    <string name="contact">Kontakt</string>
+    <string name="homepage">Početna stranica</string>
 </resources>

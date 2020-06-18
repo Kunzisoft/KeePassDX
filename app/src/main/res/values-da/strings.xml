@@ -193,11 +193,11 @@
     <string name="warning_empty_password">Bekræft brug af ingen adgangskode til beskyttelse mod oplåsning\?</string>
     <string name="warning_no_encryption_key">Fortsæt uden krypteringsnøgle\?</string>
     <string name="configure_biometric">Biometrisk prompt understøttes, men er ikke konfigureret.</string>
-    <string name="open_biometric_prompt_unlock_database">Åbn den biometriske prompt for at låse databasen op</string>
+    <string name="open_biometric_prompt_unlock_database">Åbn biometriske forespørgsel for at låse databasen op</string>
     <string name="encrypted_value_stored">Krypteret adgangskode er gemt</string>
     <string name="biometric_invalid_key">Kan ikke læse den biometriske nøgle. Slet den og gentag den biometriske genkendelsesprocedure.</string>
-    <string name="biometric_not_recognized">Kunne ikke genkende fingeraftryk</string>
-    <string name="biometric_scanning_error">Problem med fingeraftryk: %1$s</string>
+    <string name="biometric_not_recognized">Kunne ikke genkende biometrisk</string>
+    <string name="biometric_scanning_error">Biometrisk fejl: %1$s</string>
     <string name="open_biometric_prompt_store_credential">Åbn den biometriske prompt for at gemme legitimationsoplysninger</string>
     <string name="no_credentials_stored">Databasen har endnu ikke en adgangskode.</string>
     <string name="database_history">Historik</string>
@@ -220,11 +220,11 @@
     <string name="lock_database_screen_off_title">Skærmlås</string>
     <string name="lock_database_screen_off_summary">Lås databasen, når skærmen er slukket</string>
     <string name="advanced_unlock">Fingeraftryk</string>
-    <string name="biometric_unlock_enable_title">Fingeraftryksscanning</string>
-    <string name="biometric_unlock_enable_summary">Lader dig scanne din biometrisk for at åbne databasen</string>
+    <string name="biometric_unlock_enable_title">Biometrisk oplåsning</string>
+    <string name="biometric_unlock_enable_summary">Giver mulighed for at scanne biometriske for at åbne databasen</string>
     <string name="biometric_delete_all_key_title">Slet krypteringsnøgler</string>
-    <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til fingeraftryk</string>
-    <string name="biometric_delete_all_key_warning">Slet alle nøgler, der er relateret til fingeraftryksgenkendelse\?</string>
+    <string name="biometric_delete_all_key_summary">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse</string>
+    <string name="biometric_delete_all_key_warning">Slet alle krypteringsnøgler, der er relateret til biometrisk genkendelse\?</string>
     <string name="unavailable_feature_text">Funktionen kunne ikke startes.</string>
     <string name="unavailable_feature_version">Android-version %1$s opfylder ikke minimum versionskrav %2$s.</string>
     <string name="unavailable_feature_hardware">Kunne ikke finde den tilsvarende hardware.</string>
@@ -269,8 +269,8 @@
 \nGrupper (~mapper) organiserer poster i databasen.</string>
     <string name="education_search_title">Søg i poster</string>
     <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
-    <string name="education_biometric_title">Database oplåsning med fingeraftryk</string>
-    <string name="education_biometric_summary">Link adgangskoden til det scannede fingeraftryk for hurtigt at låse databasen op.</string>
+    <string name="education_biometric_title">Oplåsning af database ved hjælp af biometrisk</string>
+    <string name="education_biometric_summary">Knyt adgangskoden til det scannede biometri for hurtigt at låse databasen op.</string>
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool data kan refereres mellem forskellige indtastningsfelter.</string>
     <string name="education_generate_password_title">Opret en stærk adgangskode</string>
@@ -343,7 +343,7 @@
     <string name="keyboard_selection_entry_title">Valg af indtastning</string>
     <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
     <string name="delete_entered_password_title">Slet adgangskode</string>
-    <string name="delete_entered_password_summary">Sletter adgangskoden som er indtastet efter et forbindelsesforsøg</string>
+    <string name="delete_entered_password_summary">Sletter adgangskoden der er angivet efter et forsøg på at oprette forbindelse til en database</string>
     <string name="content_description_open_file">Åbn fil</string>
     <string name="content_description_node_children">Undernode</string>
     <string name="content_description_add_node">Tilføj knude</string>
@@ -374,7 +374,7 @@
     <string name="biometric_prompt_extract_credential_message">Uddrag databasens legitimationsoplysninger med biometriske data</string>
     <string name="biometric">Biometrisk</string>
     <string name="biometric_auto_open_prompt_title">Åbn automatisk biometrisk prompt</string>
-    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometrisk, hvis databasen er konfigureret til at bruge den</string>
+    <string name="biometric_auto_open_prompt_summary">Spørg automatisk efter biometri, hvis databasen er konfigureret til at bruge den</string>
     <string name="enable">Aktiver</string>
     <string name="disable">Deaktiver</string>
     <string name="master_key">Hovednøgle</string>
@@ -428,7 +428,7 @@
     <string name="command_execution">Udfører kommandoen…</string>
     <string name="warning_permanently_delete_nodes">Slet markerede noder permanent\?</string>
     <string name="keystore_not_accessible">Nøglelageret er ikke korrekt initialiseret.</string>
-    <string name="credential_before_click_biometric_button">Skriv adgangskoden, før der klikkes på den biometriske knap.</string>
+    <string name="credential_before_click_biometric_button">Indtast adgangskoden, og klik derefter på knappen \"Biometrisk\".</string>
     <string name="recycle_bin_group_title">Papirkurvsgruppe</string>
     <string name="enable_auto_save_database_title">Gem automatisk database</string>
     <string name="enable_auto_save_database_summary">Gem databasen efter hver en vigtig handling (i tilstanden \"Modificerbar\")</string>
@@ -475,4 +475,6 @@
     <string name="autofill_preference_title">Indstillinger for automatisk udfyldning</string>
     <string name="warning_database_link_revoked">Adgang til filen tilbagekaldt af filadministratoren</string>
     <string name="error_label_exists">Etiketten findes allerede.</string>
+    <string name="keyboard_search_share_summary">Søg automatisk efter delte oplysninger for at udfylde tastaturet</string>
+    <string name="keyboard_search_share_title">Søg i delte oplysninger</string>
 </resources>

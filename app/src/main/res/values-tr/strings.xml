@@ -346,7 +346,7 @@
     <string name="keyboard_selection_entry_title">Giriş seçimi</string>
     <string name="keyboard_selection_entry_summary">Bir girişi görüntülerken Magikeyboard\'da giriş alanlarını göster</string>
     <string name="delete_entered_password_title">Parolayı sil</string>
-    <string name="delete_entered_password_summary">Bir bağlantı denemesinden sonra girilen parolayı siler</string>
+    <string name="delete_entered_password_summary">Veri tabanına bağlantı denemesinden sonra girilen parolayı siler</string>
     <string name="content_description_node_children">Alt düğüm</string>
     <string name="content_description_repeat_toggle_password_visibility">Parola görünürlüğünü değiştirmeyi tekrarla</string>
     <string name="content_description_background">Arka plan</string>
@@ -458,4 +458,6 @@
     <string name="autofill_preference_title">Otomatik doldurma ayarları</string>
     <string name="warning_database_link_revoked">Dosyaya erişim dosya yöneticisi tarafından iptal edildi</string>
     <string name="error_label_exists">Bu etiket zaten var.</string>
+    <string name="keyboard_search_share_summary">Klavyeyi doldurmak için paylaşılan bilgileri otomatik olarak ara</string>
+    <string name="keyboard_search_share_title">Paylaşılan bilgileri ara</string>
 </resources>

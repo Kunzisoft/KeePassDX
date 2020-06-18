@@ -17,8 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 --><resources>
-    <string name="feedback">Palaute:</string>
-    <string name="homepage">Kotisivu:</string>
+    <string name="feedback">Palaute</string>
+    <string name="homepage">Kotisivu</string>
     <string name="about_description">KeePass-salasanahallintaohjelman Android toteutus</string>
     <string name="accept">Hyväksy</string>
     <string name="add_entry">Lisää uusi salasanatietue</string>

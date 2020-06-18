@@ -344,7 +344,7 @@
     <string name="keyboard_selection_entry_title">Výběr položky</string>
     <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard pole položek</string>
     <string name="delete_entered_password_title">Smazat heslo</string>
-    <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení</string>
+    <string name="delete_entered_password_summary">Smaže heslo zadané po pokusu o připojení k databázi</string>
     <string name="content_description_open_file">Otevři soubor</string>
     <string name="content_description_node_children">Potomci uzlu</string>
     <string name="content_description_add_node">Přidej uzel</string>
@@ -476,4 +476,6 @@
     <string name="autofill_preference_title">Nastavení samovyplnění</string>
     <string name="warning_database_link_revoked">Přístup k souboru zrušenému správcem souborů</string>
     <string name="error_label_exists">Tento štítek již existuje.</string>
+    <string name="keyboard_search_share_summary">Automaticky vyhledat sdílené informace pro naplnění klávesnice</string>
+    <string name="keyboard_search_share_title">Prohledat sdílené info</string>
 </resources>

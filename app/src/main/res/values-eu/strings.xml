@@ -17,9 +17,8 @@
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
     Basque translation by David García-Abad
--->
-<resources>
-    <string name="feedback">Feedback:</string>
+--><resources>
+    <string name="feedback">Feedback</string>
     <string name="homepage">Hasiera orria</string>
     <string name="about_description">Keepass pasahitza kudeatzailearen Androiderako inplementazioa</string>
     <string name="accept">Onartu</string>
@@ -134,23 +133,21 @@
     <string name="unsupported_db_version">Euskarririk gabeko datubase bertsioa.</string>
     <string name="uppercase">Maiuskulak</string>
     <string name="version_label">Bertsioa %1$s</string>
-
     <string name="education_unlock_summary">Sartu pasahitz eta / edo gako fitxategi bat zure datubasea desblokeatzeko.</string>
-
     <string-array name="timeout_options">
-    	<item>5 segundu</item>
-    	<item>10 segundu</item>
-    	<item>20 segundu</item>
-    	<item>30 segundu</item>
-    	<item>minutu 1</item>
-    	<item>5 minutu</item>
-    	<item>15 minutu</item>
-    	<item>30 minutu</item>
-    	<item>Inoiz ez</item>
+        <item>5 segundu</item>
+        <item>10 segundu</item>
+        <item>20 segundu</item>
+        <item>30 segundu</item>
+        <item>minutu 1</item>
+        <item>5 minutu</item>
+        <item>15 minutu</item>
+        <item>30 minutu</item>
+        <item>Inoiz ez</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Txikia</item>
-    	<item>Ertaina</item>
-    	<item>Handia</item>
+        <item>Txikia</item>
+        <item>Ertaina</item>
+        <item>Handia</item>
     </string-array>
 </resources>

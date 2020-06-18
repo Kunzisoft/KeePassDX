@@ -16,12 +16,11 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
-    <string name="feedback">Tilbakemelding:</string>
-    <string name="homepage">Heimeside:</string>
+--><resources>
+    <string name="feedback">Tilbakemelding</string>
+    <string name="homepage">Heimeside</string>
     <string name="about_description">KeePassDX er ei android-utgåve av KeePass passordstyrar.</string>
-    <string name="accept">Godta</string>    
+    <string name="accept">Godta</string>
     <string name="add_entry">Legg til post</string>
     <string name="add_group">Legg til gruppe</string>
     <string name="encryption_algorithm">Algoritme</string>
@@ -122,23 +121,21 @@
     <string name="unsupported_db_version">Kan ikkje bruka databaseutgåva.</string>
     <string name="uppercase">Store bokstavar</string>
     <string name="version_label">Utgåve %1$s</string>
-
     <string name="education_unlock_summary">Skriv inn passordet og/eller nøkkelfil for å låsa opp databasen.</string>
-
     <string-array name="timeout_options">
-    	<item>5 sekund</item>
-    	<item>10 sekund</item>
-    	<item>20 sekund</item>
-    	<item>30 sekund</item>
-    	<item>1 minutt</item>
-    	<item>5 minutt</item>
-    	<item>15 minutt</item>
-    	<item>30 minutt</item>
-    	<item>Aldri</item>
+        <item>5 sekund</item>
+        <item>10 sekund</item>
+        <item>20 sekund</item>
+        <item>30 sekund</item>
+        <item>1 minutt</item>
+        <item>5 minutt</item>
+        <item>15 minutt</item>
+        <item>30 minutt</item>
+        <item>Aldri</item>
     </string-array>
     <string-array name="list_size_options">
-    	<item>Liten</item>
-    	<item>Middels</item>
-    	<item>Stor</item>
+        <item>Liten</item>
+        <item>Middels</item>
+        <item>Stor</item>
     </string-array>
 </resources>
