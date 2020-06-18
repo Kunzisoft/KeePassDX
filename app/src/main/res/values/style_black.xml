@@ -30,12 +30,13 @@
         <item name="android:textColorHintInverse">@color/green_light</item>
         <item name="android:windowBackground">@color/background_dark</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
-        <item name="toolbarBottomAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
+        <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Black</item>
+        <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
     </style>
-    <!-- Toolbar Style Black Green -->
+    <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
         <item name="colorControlNormal">@color/colorTextInverse</item>
         <item name="android:textColorPrimary">@color/colorTextInverse</item>
@@ -43,6 +44,11 @@
         <item name="android:editTextColor">@color/colorTextInverse</item>
         <item name="android:textColorHint">@color/green_lighter</item>
         <item name="android:tint">@color/colorTextInverse</item>
+    </style>
+    <!-- Special Toolbar Black -->
+    <style name="KeepassDXStyle.Toolbar.Special.Black" parent="KeepassDXStyle.Toolbar.Black">
+        <item name="android:background">@color/black</item>
+        <item name="background">@color/black</item>
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Black" parent="@style/Widget.AppCompat.ActionMode">

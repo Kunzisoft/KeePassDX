@@ -388,6 +388,8 @@
     <string name="autofill_application_id_blocklist_summary">Blocklist that prevents auto filling of apps</string>
     <string name="autofill_web_domain_blocklist_title">Web domain blocklist</string>
     <string name="autofill_web_domain_blocklist_summary">Blocklist that prevents auto filling of web domains</string>
+    <string name="autofill_block">Block autofill</string>
+    <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="allow_no_password_title">Allow no master key</string>
     <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>

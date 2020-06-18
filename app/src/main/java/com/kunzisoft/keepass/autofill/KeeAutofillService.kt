@@ -57,27 +57,8 @@ class KeeAutofillService : AutofillService() {
         StructureParser(latestStructure).parse()?.let { parseResult ->
 
             // Build search info only if applicationId or webDomain are not blocked
-            var searchAllowed = true
-            parseResult.applicationId?.let { appId ->
-                if (applicationIdBlocklist?.any { appIdBlocked ->
-                            appId.contains(appIdBlocked)
-                        } == true
-                ) {
-                    searchAllowed = false
-                    Log.d(TAG, "Autofill not allowed for $appId")
-                }
-            }
-            parseResult.domain?.let { domain ->
-                if (webDomainBlocklist?.any { webDomainBlocked ->
-                            domain.contains(webDomainBlocked)
-                        } == true
-                ) {
-                    searchAllowed = false
-                    Log.d(TAG, "Autofill not allowed for $domain")
-                }
-            }
-
-            if (searchAllowed) {
+            if (searchAllowedFor(parseResult.applicationId, applicationIdBlocklist)
+                    && searchAllowedFor(parseResult.domain, webDomainBlocklist)) {
                 val searchInfo = SearchInfo().apply {
                     applicationId = parseResult.applicationId
                     webDomain = parseResult.domain
@@ -150,5 +131,18 @@ class KeeAutofillService : AutofillService() {
 
     companion object {
         private val TAG = KeeAutofillService::class.java.name
+
+        fun searchAllowedFor(element: String?, blockList: Set<String>?): Boolean {
+            element?.let { elementNotNull ->
+                if (blockList?.any { appIdBlocked ->
+                            elementNotNull.contains(appIdBlocked)
+                        } == true
+                ) {
+                    Log.d(TAG, "Autofill not allowed for $elementNotNull")
+                    return false
+                }
+            }
+            return true
+        }
     }
 }

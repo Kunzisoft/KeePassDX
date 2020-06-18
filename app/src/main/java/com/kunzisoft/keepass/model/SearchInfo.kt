@@ -46,7 +46,7 @@ class SearchInfo : ObjectNameResource, Parcelable {
     }
 
     override fun getName(resources: Resources): String {
-        return applicationId ?: webDomain ?: ""
+        return toString()
     }
 
     fun containsOnlyNullValues(): Boolean {

@@ -26,25 +26,43 @@ import android.content.Intent
 import android.content.IntentSender
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.autofill.AutofillHelper
+import com.kunzisoft.keepass.autofill.KeeAutofillService
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.model.SearchInfo
+import com.kunzisoft.keepass.settings.PreferencesUtil
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 class AutofillLauncherActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        // Build search param
+        val searchInfo = SearchInfo().apply {
+            applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
+            webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
+        }
+
         // Pass extra for Autofill (EXTRA_ASSIST_STRUCTURE)
         val assistStructure = AutofillHelper.retrieveAssistStructure(intent)
-        if (assistStructure != null) {
-            // Build search param
-            val searchInfo = SearchInfo().apply {
-                applicationId = intent.getStringExtra(KEY_SEARCH_APPLICATION_ID)
-                webDomain = intent.getStringExtra(KEY_SEARCH_DOMAIN)
-            }
+
+        if (assistStructure == null) {
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        } else if (!KeeAutofillService.searchAllowedFor(searchInfo.applicationId,
+                        PreferencesUtil.applicationIdBlocklist(this))
+                || !KeeAutofillService.searchAllowedFor(searchInfo.webDomain,
+                        PreferencesUtil.webDomainBlocklist(this))) {
+            // If item not allowed, show a toast
+            Toast.makeText(this.applicationContext, R.string.autofill_block_restart, Toast.LENGTH_LONG).show()
+            setResult(Activity.RESULT_CANCELED)
+            finish()
+        } else {
             // If database is open
             SearchHelper.checkAutoSearchInfo(this,
                     Database.getInstance(),
@@ -57,17 +75,17 @@ class AutofillLauncherActivity : AppCompatActivity() {
                     {
                         // Show the database UI to select the entry
                         GroupActivity.launchForAutofillResult(this,
-                                assistStructure)
+                                assistStructure,
+                                false,
+                                searchInfo)
                     },
                     {
                         // If database not open
                         FileDatabaseSelectActivity.launchForAutofillResult(this,
-                                assistStructure, searchInfo)
+                                assistStructure,
+                                searchInfo)
                     }
             )
-        } else {
-            setResult(Activity.RESULT_CANCELED)
-            finish()
         }
 
         super.onCreate(savedInstanceState)

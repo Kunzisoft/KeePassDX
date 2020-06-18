@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 Jeremy Jamet / Kunzisoft.
+ * Copyright 2020 Jeremy Jamet / Kunzisoft.
  *     
  * This file is part of KeePassDX.
  *
@@ -21,39 +21,24 @@ package com.kunzisoft.keepass.view
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
+import androidx.appcompat.widget.Toolbar
 import com.kunzisoft.keepass.R
 
 class SpecialModeView @JvmOverloads constructor(context: Context,
                                                 attrs: AttributeSet? = null,
-                                                defStyle: Int = 0)
-    : ConstraintLayout(context, attrs, defStyle) {
-
-    private var cancelButton: View? = null
-    private var titleView: TextView? = null
+                                                defStyle: Int = androidx.appcompat.R.attr.toolbarStyle)
+    : Toolbar(context, attrs, defStyle) {
 
     init {
-        val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.selection_mode_view, this)
-
-        cancelButton = findViewById(R.id.special_mode_cancel_button)
-        titleView = findViewById(R.id.special_mode_title_view)
+        setNavigationIcon(R.drawable.ic_close_white_24dp)
+        title = resources.getString(R.string.selection_mode)
     }
-
-    var title: CharSequence?
-        get() {
-            return titleView?.text
-        }
-        set(value) {
-            titleView?.text = value
-        }
 
     var onCancelButtonClickListener: OnClickListener? = null
         set(value) {
-            cancelButton?.setOnClickListener(value)
+            if (value != null)
+                setNavigationOnClickListener(value)
         }
 
     var visible: Boolean = false
