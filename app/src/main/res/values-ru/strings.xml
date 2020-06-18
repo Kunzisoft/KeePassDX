@@ -476,4 +476,15 @@
     <string name="autofill_preference_title">Настройки автозаполнения</string>
     <string name="keyboard_search_share_summary">Выполнять автоматический поиск общедоступной информации для подстановки в клавиатуру</string>
     <string name="keyboard_search_share_title">Поиск доступной информации</string>
+    <string name="subdomain_search_title">Поиск на поддоменах</string>
+    <string name="subdomain_search_summary">Выполнять поиск на доменах с ограничениями поддоменов</string>
+    <string name="autofill_block_restart">Перезапустите приложение, содержащее форму, чтобы активировать отключение.</string>
+    <string name="autofill_block">Отключить автозаполнение</string>
+    <string name="error_string_type">Текст не соответствует запрошенному элементу.</string>
+    <string name="autofill_web_domain_blocklist_summary">Список доменов, для которых функция автозаполнения не применяется</string>
+    <string name="autofill_web_domain_blocklist_title">Чёрный список доменов</string>
+    <string name="autofill_application_id_blocklist_summary">Список приложений, для которых функция автозаполнения не применяется</string>
+    <string name="autofill_application_id_blocklist_title">Чёрный список приложений</string>
+    <string name="filter">Фильтр</string>
+    <string name="content_description_add_item">Добавить элемент</string>
 </resources>
