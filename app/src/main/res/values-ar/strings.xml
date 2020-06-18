@@ -134,21 +134,21 @@
     <string name="error_nokeyfile">اختر ملف مفتاح.</string>
     <string name="error_out_of_memory">لا ذاكرة لتحميل قاعدة البيانات كاملة.</string>
     <string name="error_load_database">تعذر تحميل قاعدة البيانات.</string>
-    <string name="error_load_database_KDF_memory">غير قادر على تحميل المفتاح، في محاولة لتقليل الذاكرة المستخدمة من قبل KDF.</string>
-    <string name="error_pass_gen_type">يجب تحديد كلمة مرور واحد على الأقل نوع الجيل</string>
+    <string name="error_load_database_KDF_memory">لا يمكن تحميل المفتاح، حاول تقليل \"الذاكرة المستخدمة\" من قبل KDF.</string>
+    <string name="error_pass_gen_type">يجب تحديد على الأقل نوعا واحدا لتوليد كلمة مرور.</string>
     <string name="error_rounds_too_large">\"جولات\" كبيرة جداً. الإعداد إلى 2147483648.</string>
     <string name="error_string_key">يجب أن يكون لكل سلسلة اسم حقل.</string>
     <string name="error_wrong_length">أدخل عددًا صحيحًا موجبًا في حقل «الطول».</string>
     <string name="error_autofill_enable_service">تعذر تمكين خدمة الملء التلقائي.</string>
     <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسها.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
-    <string name="file_browser">متصفح الملفات</string>
+    <string name="file_browser">مدير الملفات</string>
     <string name="invalid_credentials">تعذرت قراءة كلمة السر أو ملف المفتاح.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
     <string name="list_entries_show_username_summary">أظهر أسماء المستخدمين في قوائم المدخلات</string>
-    <string name="hint_generated_password">كلمةالسر المشفرة</string>
+    <string name="hint_generated_password">كلمةالسر الموَلدة</string>
     <string name="hint_keyfile">الملف المفتاحي</string>
     <string name="hide_password_title">اخفاء كلمات السر</string>
     <string name="copy_field">نُسخ %1$s</string>
@@ -285,4 +285,11 @@
     <string name="validate">تأكيد</string>
     <string name="security">الأمان</string>
     <string name="master_key">المفتاح الرئيسي</string>
+    <string name="error_otp_period">يجب ان تكون المدة بين %1$d و%2$d ثانية.</string>
+    <string name="error_otp_secret_key">المفتاح السري يجب ان يكون بصيغة Base32.</string>
+    <string name="error_save_database">لا يمكن حفظ قاعدة البيانات.</string>
+    <string name="error_create_database">غير قادر على إنشاء ملف قاعدة البيانات.</string>
+    <string name="error_copy_group_here">لا يمكنك نسخ مجموعة هنا.</string>
+    <string name="error_label_exists">هذه التسمية موجودة بالفعل.</string>
+    <string name="otp_period">المدة (ثواني)</string>
 </resources>
