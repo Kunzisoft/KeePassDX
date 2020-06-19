@@ -31,7 +31,7 @@
     <string name="application">Aplikacija</string>
     <string name="brackets">Zagrade</string>
     <string name="extended_ASCII">Prošireni ASCII kod</string>
-    <string name="file_manager_install_description">Za stvaranje, otvaranje i pohranu datoteka baze podataka potreban je upravitelj datoteka koji prihvaća zahtjeve ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
+    <string name="file_manager_install_description">Za stvaranje, otvaranje i spremanje datoteka baze podataka potreban je upravitelj datoteka koji prihvaća zahtjeve ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
     <string name="allow">Dozvoli</string>
     <string name="clipboard_cleared">Međuspremnik je ispražnjen</string>
     <string name="clipboard_error_title">Pogreška međuspremnika</string>
@@ -134,7 +134,7 @@
     <string name="menu_open">Otvori</string>
     <string name="menu_search">Pretraži</string>
     <string name="menu_showpass">Prikaži lozinku</string>
-    <string name="menu_biometric_remove_key">Izbriši spremljene biometričke ključeve</string>
+    <string name="menu_biometric_remove_key">Izbriši spremljene biometrijske ključeve</string>
     <string name="menu_url">Idi na URL</string>
     <string name="menu_open_file_read_and_write">Promijenjivo</string>
     <string name="menu_empty_recycle_bin">Isprazni koš za smeće</string>
@@ -172,15 +172,15 @@
     <string name="search_results">Rezultati pretraživanja</string>
     <string name="unsupported_db_version">Nepodržana verzija baze podataka.</string>
     <string name="warning">Upozorenje</string>
-    <string name="warning_empty_password">Jeste li sigurni da ne želite zaštititi otključavanje lozinkom\?</string>
-    <string name="warning_no_encryption_key">Jeste li sigurni da ne želite koristiti nijedan ključ šifriranja\?</string>
-    <string name="warning_permanently_delete_nodes">Jeste li sigurni da želite trajno izbrisati odabrane čvorove\?</string>
+    <string name="warning_empty_password">Nastaviti bez zaštitite otključavanja lozinkom\?</string>
+    <string name="warning_no_encryption_key">Nastaviti bez ključa šifriranja\?</string>
+    <string name="warning_permanently_delete_nodes">Trajno izbrisati odabrane čvorove\?</string>
     <string name="version_label">Verzija %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="biometric_prompt_store_credential_message">Upozorenje: Ako koristite biometričko prepoznavanje i dalje morate zapamtiti vašu glavnu lozinku.</string>
-    <string name="biometric_prompt_extract_credential_title">Otvori bazu podataka pomoću biometričkog prepoznavanja</string>
+    <string name="biometric_prompt_store_credential_message">Upozorenje: Ako koristite biometrijsko prepoznavanje i dalje morate zapamtiti vašu glavnu lozinku.</string>
+    <string name="biometric_prompt_extract_credential_title">Otvori bazu podataka pomoću biometrijskog prepoznavanja</string>
     <string name="encrypted_value_stored">Šifrirana lozinka pohranjena</string>
-    <string name="biometric_invalid_key">Nije moguće pročitati biometrički ključ. Molimo izbrišite ga i ponovite postupak prepoznavanje.</string>
+    <string name="biometric_invalid_key">Nije moguće pročitati biometrijski ključ. Izbrišite ga i ponovite postupak prepoznavanja.</string>
     <string name="database_history">Povijest</string>
     <string name="menu_appearance_settings">Izgled</string>
     <string name="general">Općenito</string>
@@ -197,11 +197,11 @@
     <string name="lock_database_back_root_title">Pritisni \'Natrag\' za zaključavanje</string>
     <string name="advanced_unlock">Napredno otključavanje</string>
     <string name="advanced_unlock_explanation_summary">Koristite napredno otključavanje za jednostavnije otvaranje baze podataka</string>
-    <string name="biometric_unlock_enable_title">Biometričko otključavanje</string>
+    <string name="biometric_unlock_enable_title">Biometrijsko otključavanje</string>
     <string name="biometric_unlock_enable_summary">Otvaranje baze podataka skeniranjem biometrike</string>
     <string name="biometric_delete_all_key_title">Izbriši ključeve šifriranja</string>
-    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s biometričkim prepoznavanjem</string>
-    <string name="biometric_delete_all_key_warning">Jeste li sigurni da želite izbrisati sve ključeve povezane s biometričkim prepoznavanjem\?</string>
+    <string name="biometric_delete_all_key_summary">Izbriši sve ključeve šifriranja povezane s biometrijskim prepoznavanjem</string>
+    <string name="biometric_delete_all_key_warning">Izbrisati sve ključeve povezane s biometrijskim prepoznavanjem\?</string>
     <string name="unavailable_feature_hardware">Nije moguće pronaći odgovarajući hardver.</string>
     <string name="file_name">Naziv datoteke</string>
     <string name="path">Putanja</string>
@@ -258,7 +258,7 @@
     <string name="error_save_database">Nije moguće spremiti bazu podataka.</string>
     <string name="error_otp_period">Razdoblje mora biti između %1$d i %2$d sekundi.</string>
     <string name="file_not_found_content">Nije moguće pronaći datoteku. Probajte je ponovno otvoriti iz vašeg upravitelja datotekama.</string>
-    <string name="invalid_credentials">Akreditacija se ne može pročitati.</string>
+    <string name="invalid_credentials">Akreditacije se ne mogu pročitati.</string>
     <string name="list_size_title">Veličina članova liste</string>
     <string name="list_size_summary">Veličina teksta članova liste</string>
     <string name="lowercase">Mala slova</string>
@@ -284,7 +284,7 @@
     <string name="biometric_prompt_extract_credential_message">Izvadi akreditaciju baze podataka s biometrijskim podatcima</string>
     <string name="biometric_not_recognized">Nije moguće prepoznati biometriju</string>
     <string name="no_credentials_stored">Ova baza podataka još nema spremljenu akreditaciju.</string>
-    <string name="credential_before_click_biometric_button">Upišite lozinku prije nego kliknete na biometriju.</string>
+    <string name="credential_before_click_biometric_button">Upišite lozinku, zatim kliknete gumb \"Biometrija\".</string>
     <string name="biometric">Biometrija</string>
     <string name="autofill_sign_in_prompt">Prijavite se s KeePassDX</string>
     <string name="autofill_explanation_summary">Omogući automatsko ispunjavanje za brzo ispunjavanje formi u drugim aplikacijama</string>
@@ -326,7 +326,7 @@
     <string name="allow_no_password_title">Dozvoli bez lozinke</string>
     <string name="allow_no_password_summary">Omogući dugme \"Otvori\" bez odabrane akreditacije</string>
     <string name="delete_entered_password_title">Izbriši lozinku</string>
-    <string name="delete_entered_password_summary">Izbriši unešenu lozinku nakon pokušaja prijave</string>
+    <string name="delete_entered_password_summary">Briše unešenu lozinku nakon pokušaja povezivanja s bazom podataka</string>
     <string name="enable_read_only_title">Zaštićeno od pisanja</string>
     <string name="enable_read_only_summary">Otvori bazu podataka samo za čitanje pod zadano</string>
     <string name="enable_auto_save_database_title">Automatsko spremanje baze podataka</string>
@@ -334,8 +334,8 @@
     <string name="enable_education_screens_title">Edukativne poruke</string>
     <string name="enable_education_screens_summary">Istakni elemente za prikaz rada aplikacije</string>
     <string name="reset_education_screens_title">Resetiranje edukativnih poruka</string>
-    <string name="reset_education_screens_summary">Ponovno prikaži sve edukativne poruke</string>
-    <string name="reset_education_screens_text">Resetiraj edukativne poruke</string>
+    <string name="reset_education_screens_summary">Ponovo prikaži sve edukativne poruke</string>
+    <string name="reset_education_screens_text">Resetiranje edukativnih poruka</string>
     <string name="education_create_database_title">Kreiranje vaše baze podataka</string>
     <string name="education_create_database_summary">Kreirajte svoju prvu datoteku za upravljanje lozinkama.</string>
     <string name="education_select_database_title">Otvaranje postojeće baze podataka</string>
@@ -351,4 +351,6 @@
     <string name="discard_changes">Odbaci promjene\?</string>
     <string name="contact">Kontakt</string>
     <string name="homepage">Početna stranica</string>
+    <string name="remember_keyfile_locations_title">Spremi lokaciju datoteka ključeva</string>
+    <string name="unavailable_feature_version">Vaša Android verzija %1$s ne odgovara minimalno potrebnoj verziji %2$s.</string>
 </resources>
