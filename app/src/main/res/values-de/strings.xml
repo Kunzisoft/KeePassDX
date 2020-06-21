@@ -479,7 +479,7 @@
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
     <string name="validate">Validieren</string>
-    <string name="autofill_auto_search_summary">Suchergebnissen aus der Web-Domain oder Anwendungs-ID automatisch vorschlagen</string>
+    <string name="autofill_auto_search_summary">Suchergebnisse aus der Web-Domain oder Anwendungs-ID automatisch vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
