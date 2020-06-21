@@ -476,4 +476,12 @@
     <string name="error_label_exists">Ta etykieta już istnieje.</string>
     <string name="keyboard_search_share_summary">Automatyczne wyszukiwanie udostępnionych informacji w celu zapełnienia klawiatury</string>
     <string name="keyboard_search_share_title">Wyszukaj udostępnione informacje</string>
+    <string name="autofill_block_restart">Zrestartuj aplikację zawierającą formularz, aby aktywować blokadę.</string>
+    <string name="autofill_block">Blokowanie autouzupełniania</string>
+    <string name="autofill_application_id_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
+    <string name="filter">Filtr</string>
+    <string name="subdomain_search_title">Wyszukiwanie subdomen</string>
+    <string name="subdomain_search_summary">Wyszukiwanie domen internetowych z ograniczeniami związanymi z subdomenami</string>
+    <string name="error_string_type">Ten tekst nie pasuje do żądanej pozycji.</string>
+    <string name="content_description_add_item">Dodaj pozycję</string>
 </resources>
