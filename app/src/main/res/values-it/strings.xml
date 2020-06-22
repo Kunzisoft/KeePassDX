@@ -253,9 +253,9 @@
     <string name="enable_read_only_summary">Apri il database in sola lettura in modo predefinito</string>
     <string name="enable_education_screens_title">Suggerimenti educativi</string>
     <string name="enable_education_screens_summary">Evidenzia gli elementi per imparare come funziona l\'app</string>
-    <string name="reset_education_screens_title">Ripristina le schermate educative</string>
-    <string name="reset_education_screens_summary">Mostra di nuovo tutti gli elementi educativi</string>
-    <string name="reset_education_screens_text">Schermate educative ripristinate</string>
+    <string name="reset_education_screens_title">Ripristina i suggerimenti educativi</string>
+    <string name="reset_education_screens_summary">Mostra di nuovo tutte le informazioni educative</string>
+    <string name="reset_education_screens_text">Suggerimenti educativi ripristinati</string>
     <string name="education_create_database_title">Crea il tuo file di database</string>
     <string name="education_create_database_summary">Crea il tuo primo file di gestione password.</string>
     <string name="education_select_database_title">Apri un database esistente</string>
@@ -270,10 +270,10 @@
     <string name="education_biometric_summary">Collega la password alla tua impronta digitale per sbloccare velocemente il database.</string>
     <string name="education_entry_edit_title">Modifica l\'elemento</string>
     <string name="education_entry_edit_summary">Modifica l\'elemento con campi personalizzati. I dati possono fare riferimento ad altri campi.</string>
-    <string name="education_generate_password_title">Crea una password robusta per l\'elemento.</string>
+    <string name="education_generate_password_title">Crea una password robusta</string>
     <string name="education_generate_password_summary">Genera una password robusta da associare all\'elemento, definiscila a seconda dei criteri del modulo e non dimenticare di tenerla al sicuro.</string>
     <string name="education_entry_new_field_title">Aggiungi campi personalizzati</string>
-    <string name="education_entry_new_field_summary">Registra un campo base non fornito, inserendone uno nuovo che puoi anche proteggere.</string>
+    <string name="education_entry_new_field_summary">Registra un campo aggiuntivo, inserisci delle informazioni e proteggilo se necessario.</string>
     <string name="education_unlock_title">Sblocca il tuo database</string>
     <string name="education_read_only_title">Proteggi da scrittura il tuo database</string>
     <string name="education_read_only_summary">Cambia la modalità di apertura per la sessione. 
@@ -291,9 +291,8 @@
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questa &lt;strong&gt;funzione visiva&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione di progetti della comunità.&lt;/strong&gt;
-    </string>
-    <string name="html_text_feature_generosity">Questa &lt;strong&gt;funzione visiva&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questo <strong>tema</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong></string>
+    <string name="html_text_feature_generosity">Questo<strong>tema</strong> è disponibile grazie alla tua generosità.</string>
     <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>
@@ -309,7 +308,7 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="kdf_AES">AES KDF</string>
+    <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="style_choose_title">Tema dell\'app</string>
     <string name="style_choose_summary">Tema usato nell\'app</string>
@@ -345,12 +344,12 @@
     <string name="lock_database_back_root_title">Premere \'\'Indietro\'\' per bloccare</string>
     <string name="lock_database_back_root_summary">Bloccare il database quando l\'utente preme il pulsante Indietro nella schermata principale</string>
     <string name="clear_clipboard_notification_title">Pulisci alla chiusura</string>
-    <string name="clear_clipboard_notification_summary">Chiudere il database alla chiusura della notifica</string>
+    <string name="clear_clipboard_notification_summary">Blocca il database alla chiusura della notifica</string>
     <string name="recycle_bin">Cestino</string>
     <string name="keyboard_selection_entry_title">Selezione elemento</string>
     <string name="keyboard_selection_entry_summary">Mostra i campi di input nella Magitastiera durante la visualizzazione di un elemento</string>
     <string name="delete_entered_password_title">Elimina password</string>
-    <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione</string>
+    <string name="delete_entered_password_summary">Elimina la password immessa dopo un tentativo di connessione al database</string>
     <string name="content_description_open_file">Apri il file</string>
     <string name="content_description_node_children">Figli del nodo</string>
     <string name="content_description_add_node">Aggiungi un nodo</string>
@@ -437,7 +436,7 @@
     <string name="recycle_bin_group_title">Gruppo cestino</string>
     <string name="database_data_compression_summary">La compressione dei dati riduce le dimensioni del database.</string>
     <string name="database_data_compression_title">Compressione dati</string>
-    <string name="biometric_auto_open_prompt_summary">Apri automaticamente il prompt biometrico quando viene definita una chiave biometrica per un database</string>
+    <string name="biometric_auto_open_prompt_summary">Proponi l\'autenticazione biometrica quando il database è configurato per usarla</string>
     <string name="advanced_unlock_explanation_summary">Utilizza lo sblocco avanzato per aprire il database più facilmente</string>
     <string name="clipboard_explanation_summary">Copia i campi di immissione utilizzando gli appunti del tuo dispositivo</string>
     <string name="database_opened">Database aperto</string>
@@ -479,4 +478,17 @@
     <string name="warning_database_link_revoked">Accesso al file revocato dal file manager</string>
     <string name="remember_keyfile_locations_summary">Ricorda la posizione dei keyfiles dei database</string>
     <string name="error_label_exists">Questa etichetta esiste già.</string>
+    <string name="autofill_block_restart">Riavvia l\'app contenente il campo per attivare il blocco.</string>
+    <string name="autofill_block">Blocca riempimento automatico</string>
+    <string name="autofill_web_domain_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nei domini web</string>
+    <string name="autofill_web_domain_blocklist_title">Lista di blocco per domini web</string>
+    <string name="autofill_application_id_blocklist_title">Lista di blocco per app</string>
+    <string name="autofill_application_id_blocklist_summary">La lista di blocco impedisce l\'auto riempimento nelle app</string>
+    <string name="keyboard_search_share_summary">Cerca automaticamente le informazioni condivise per compilare la tastiera</string>
+    <string name="keyboard_search_share_title">Cerca informazioni condivise</string>
+    <string name="filter">Filtro</string>
+    <string name="error_string_type">Questo testo non soddisfa l\'elemento richiesto.</string>
+    <string name="subdomain_search_summary">Cerca nei domini web includendo i sotto-domini</string>
+    <string name="subdomain_search_title">Ricerca per sotto-dominio</string>
+    <string name="content_description_add_item">Aggiungi elemento</string>
 </resources>
