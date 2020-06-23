@@ -97,11 +97,11 @@ class DatabaseHeaderKDB : DatabaseHeader() {
         const val BUF_SIZE = 124
 
         fun matchesHeader(sig1: UnsignedInt, sig2: UnsignedInt): Boolean {
-            return sig1.toInt() == PWM_DBSIG_1.toInt() && sig2.toInt() == DBSIG_2.toInt()
+            return sig1.toKotlinInt() == PWM_DBSIG_1.toKotlinInt() && sig2.toKotlinInt() == DBSIG_2.toKotlinInt()
         }
 
         fun compatibleHeaders(one: UnsignedInt, two: UnsignedInt): Boolean {
-            return one.toInt() and -0x100 == two.toInt() and -0x100
+            return one.toKotlinInt() and -0x100 == two.toKotlinInt() and -0x100
         }
     }
 

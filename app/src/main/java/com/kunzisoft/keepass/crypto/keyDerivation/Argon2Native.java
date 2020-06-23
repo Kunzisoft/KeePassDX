@@ -34,12 +34,12 @@ public class Argon2Native {
         return nTransformMasterKey(
                 password,
                 salt,
-                parallelism.toInt(),
-                memory.toInt(),
-                iterations.toInt(),
+                parallelism.toKotlinInt(),
+                memory.toKotlinInt(),
+                iterations.toKotlinInt(),
                 secretKey,
                 associatedData,
-                version.toInt());
+                version.toKotlinInt());
     }
 
     private static native byte[] nTransformMasterKey(byte[] password, byte[] salt, int parallelism,

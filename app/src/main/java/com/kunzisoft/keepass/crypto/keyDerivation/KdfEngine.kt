@@ -52,7 +52,7 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
         get() = 1
 
     open val maxKeyRounds: Long
-        get() = UnsignedInt.MAX_VALUE.toLong()
+        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
 
     /*
      * MEMORY
@@ -73,7 +73,7 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
         get() = 1
 
     open val maxMemoryUsage: Long
-        get() = UnsignedInt.MAX_VALUE.toLong()
+        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
 
     /*
      * PARALLELISM
@@ -94,7 +94,7 @@ abstract class KdfEngine : ObjectNameResource, Serializable {
         get() = 1L
 
     open val maxParallelism: Long
-        get() = UnsignedInt.MAX_VALUE.toLong()
+        get() = UnsignedInt.MAX_VALUE.toKotlinLong()
 
     companion object {
         const val UNKNOWN_VALUE: Long = -1L

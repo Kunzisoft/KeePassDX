@@ -118,10 +118,10 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
 
         when {
             mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.AESRijndael -> {
-                header.flags = UnsignedInt(header.flags.toInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toInt())
+                header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_RIJNDAEL.toKotlinInt())
             }
             mDatabaseKDB.encryptionAlgorithm === EncryptionAlgorithm.Twofish -> {
-                header.flags = UnsignedInt(header.flags.toInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toInt())
+                header.flags = UnsignedInt(header.flags.toKotlinInt() or DatabaseHeaderKDB.FLAG_TWOFISH.toKotlinInt())
             }
             else -> throw DatabaseOutputException("Unsupported algorithm.")
         }
@@ -129,7 +129,7 @@ class DatabaseOutputKDB(private val mDatabaseKDB: DatabaseKDB,
         header.version = DatabaseHeaderKDB.DBVER_DW
         header.numGroups = UnsignedInt(mDatabaseKDB.numberOfGroups())
         header.numEntries = UnsignedInt(mDatabaseKDB.numberOfEntries())
-        header.numKeyEncRounds = UnsignedInt.fromLong(mDatabaseKDB.numberKeyEncryptionRounds)
+        header.numKeyEncRounds = UnsignedInt.fromKotlinLong(mDatabaseKDB.numberKeyEncryptionRounds)
 
         setIVs(header)
 

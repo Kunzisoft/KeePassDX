@@ -132,7 +132,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             val isPlain: InputStream
-            if (mDatabase.kdbxVersion.toLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
+            if (mDatabase.kdbxVersion.toKotlinLong() < DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
 
                 val decrypted = attachCipherStream(databaseInputStream, cipher)
                 val dataDecrypted = LittleEndianDataInputStream(decrypted)
@@ -180,7 +180,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 else -> isPlain
             }
 
-            if (mDatabase.kdbxVersion.toLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
+            if (mDatabase.kdbxVersion.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
                 loadInnerHeader(inputStreamXml, header)
             }
 
@@ -228,7 +228,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                                 header: DatabaseHeaderKDBX): Boolean {
         val fieldId = dataInputStream.read().toByte()
 
-        val size = dataInputStream.readUInt().toInt()
+        val size = dataInputStream.readUInt().toKotlinInt()
         if (size < 0) throw IOException("Corrupted file")
 
         var data = ByteArray(0)
@@ -492,7 +492,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             } else if (name.equals(DatabaseKDBXXML.ElemNotes, ignoreCase = true)) {
                 ctxGroup?.notes = readString(xpp)
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toInt())
+                ctxGroup?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxGroup?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemTimes, ignoreCase = true)) {
@@ -546,7 +546,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             KdbContext.Entry -> if (name.equals(DatabaseKDBXXML.ElemUuid, ignoreCase = true)) {
                 ctxEntry?.nodeId = NodeIdUUID(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemIcon, ignoreCase = true)) {
-                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toInt())
+                ctxEntry?.icon = mDatabase.iconFactory.getIcon(readUInt(xpp, UnsignedInt(0)).toKotlinInt())
             } else if (name.equals(DatabaseKDBXXML.ElemCustomIconID, ignoreCase = true)) {
                 ctxEntry?.iconCustom = mDatabase.iconFactory.getIcon(readUuid(xpp))
             } else if (name.equals(DatabaseKDBXXML.ElemFgColor, ignoreCase = true)) {
@@ -819,7 +819,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
         val sDate = readString(xpp)
         var utcDate: Date? = null
 
-        if (mDatabase.kdbxVersion.toLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toLong()) {
+        if (mDatabase.kdbxVersion.toKotlinLong() >= DatabaseHeaderKDBX.FILE_VERSION_32_4.toKotlinLong()) {
             var buf = Base64.decode(sDate, BASE_64_FLAG)
             if (buf.size != 8) {
                 val buf8 = ByteArray(8)

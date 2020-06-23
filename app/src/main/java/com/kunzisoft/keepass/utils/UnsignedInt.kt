@@ -21,31 +21,31 @@ package com.kunzisoft.keepass.utils
 
 class UnsignedInt(private var unsignedValue: Int) {
 
-    constructor(unsignedValue: UnsignedInt) : this(unsignedValue.toInt())
+    constructor(unsignedValue: UnsignedInt) : this(unsignedValue.toKotlinInt())
 
     /**
      * Get the int value
      */
-    fun toInt(): Int {
+    fun toKotlinInt(): Int {
         return unsignedValue
     }
 
     /**
      * Convert an unsigned Integer to Long
      */
-    fun toLong(): Long {
+    fun toKotlinLong(): Long {
         return unsignedValue.toLong() and INT_TO_LONG_MASK
     }
 
     /**
      * Convert an unsigned Integer to Byte
      */
-    fun toByte(): Byte {
+    fun toKotlinByte(): Byte {
         return (unsignedValue and 0xFF).toByte()
     }
 
     override fun toString():String {
-        return toLong().toString()
+        return toKotlinLong().toString()
     }
 
     override fun equals(other: Any?): Boolean {
@@ -72,12 +72,12 @@ class UnsignedInt(private var unsignedValue: Int) {
         /**
          * Convert a byte to an unsigned byte
          */
-        fun fromByte(value: Byte): UnsignedInt {
+        fun fromKotlinByte(value: Byte): UnsignedInt {
             return UnsignedInt(value.toInt() and 0xFF)
         }
 
         @Throws(NumberFormatException::class)
-        fun fromLong(value: Long): UnsignedInt {
+        fun fromKotlinLong(value: Long): UnsignedInt {
             if (value > UINT_MAX_VALUE)
                 throw NumberFormatException("UInt value > $UINT_MAX_VALUE")
             return UnsignedInt(value.toInt())

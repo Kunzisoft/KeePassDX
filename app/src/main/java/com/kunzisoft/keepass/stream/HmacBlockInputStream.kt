@@ -44,7 +44,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
             if (!readSafeBlock()) return -1
         }
 
-        val output = UnsignedInt.fromByte(buffer[bufferPos]).toInt()
+        val output = UnsignedInt.fromKotlinByte(buffer[bufferPos]).toKotlinInt()
         bufferPos++
 
         return output
@@ -101,7 +101,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
         val blockSize = bytes4ToUInt(pbBlockSize)
         bufferPos = 0
 
-        buffer = baseStream.readBytes(blockSize.toInt())
+        buffer = baseStream.readBytes(blockSize.toKotlinInt())
 
         if (verify) {
             val cmpHmac: ByteArray
@@ -135,7 +135,7 @@ class HmacBlockInputStream(baseStream: InputStream, private val verify: Boolean,
 
         blockIndex++
 
-        if (blockSize.toLong() == 0L) {
+        if (blockSize.toKotlinLong() == 0L) {
             endOfStream = true
             return false
         }
