@@ -89,9 +89,9 @@ class SetOTPDialogFragment : DialogFragment() {
     }
 
     private var mSecretWellFormed = false
-    private var mCounterWellFormed = true
-    private var mPeriodWellFormed = true
-    private var mDigitsWellFormed = true
+    private var mCounterWellFormed = false
+    private var mPeriodWellFormed = false
+    private var mDigitsWellFormed = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -365,14 +365,26 @@ class SetOTPDialogFragment : DialogFragment() {
     private fun upgradeParameters() {
         otpAlgorithmSpinner?.setSelection(TokenCalculator.HashAlgorithm.values()
                 .indexOf(mOtpElement.algorithm))
+
+        val secret = mOtpElement.getBase32Secret()
         otpSecretTextView?.apply {
-            setText(mOtpElement.getBase32Secret())
+            setText(secret)
             // Cursor at end
             setSelection(this.text.length)
         }
-        otpCounterTextView?.setText(mOtpElement.counter.toString())
-        otpPeriodTextView?.setText(mOtpElement.period.toString())
-        otpDigitsTextView?.setText(mOtpElement.digits.toString())
+        mSecretWellFormed = OtpElement.isValidBase32(secret)
+
+        val counter = mOtpElement.counter
+        otpCounterTextView?.setText(counter.toString())
+        mCounterWellFormed = OtpElement.isValidCounter(counter)
+
+        val period = mOtpElement.period
+        otpPeriodTextView?.setText(period.toString())
+        mPeriodWellFormed = OtpElement.isValidPeriod(period)
+
+        val digits = mOtpElement.digits
+        otpDigitsTextView?.setText(digits.toString())
+        mDigitsWellFormed = OtpElement.isValidDigits(digits)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

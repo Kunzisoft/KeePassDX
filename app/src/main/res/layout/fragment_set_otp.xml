@@ -140,7 +140,7 @@
                             android:importantForAutofill="no"
                             android:hint="@string/otp_period"
                             tools:text="30"
-                            android:maxLength="2"
+                            android:maxLength="3"
                             android:digits="0123456789"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
