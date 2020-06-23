@@ -36,7 +36,6 @@ import com.kunzisoft.androidclearchroma.colormode.ColorMode
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment
 import com.kunzisoft.androidclearchroma.fragment.ChromaColorFragment.*
 import com.kunzisoft.keepass.R
-import java.lang.Exception
 
 class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialogFragmentCompat() {
 
