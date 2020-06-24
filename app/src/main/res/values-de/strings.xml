@@ -496,4 +496,7 @@
     <string name="autofill_application_id_blocklist_title">Anwendungs-Blockliste</string>
     <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
+    <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
+    <string name="content_description_add_item">Element hinzufügen</string>
+    <string name="filter">Filter</string>
 </resources>
