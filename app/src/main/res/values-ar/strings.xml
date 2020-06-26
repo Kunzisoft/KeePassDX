@@ -292,4 +292,13 @@
     <string name="error_copy_group_here">لا يمكنك نسخ مجموعة هنا.</string>
     <string name="error_label_exists">هذه التسمية موجودة بالفعل.</string>
     <string name="otp_period">المدة (ثواني)</string>
+    <string name="otp_algorithm">الخوارزمية</string>
+    <string name="otp_digits">أرقام</string>
+    <string name="otp_counter">العداد</string>
+    <string name="entry_setup_otp">عين كلمة المرور للمرة الواحدة</string>
+    <string name="entry_UUID">UUID</string>
+    <string name="html_about_contribution">من أجل <strong>حماية خصوصيتا</strong>٫<strong> إصلاح العلل</strong>٫ <strong>إضافة مميزات</strong> <strong>وجعلنا نشطاء دائما</strong>٫ نحن نعتمد على <strong>مساهمتك</strong>.</string>
+    <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
+    <string name="content_description_password_checkbox">خانة تأشير كلمة المرور</string>
+    <string name="content_description_add_item">أضف عنصر</string>
 </resources>
