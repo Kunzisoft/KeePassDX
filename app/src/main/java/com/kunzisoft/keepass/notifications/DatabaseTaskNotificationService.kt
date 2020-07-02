@@ -21,19 +21,23 @@ package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
 import android.net.Uri
-import android.os.*
+import android.os.AsyncTask
+import android.os.Binder
+import android.os.Bundle
+import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.history.RestoreEntryHistoryDatabaseRunnable
 import com.kunzisoft.keepass.database.action.node.*
-import com.kunzisoft.keepass.database.element.*
+import com.kunzisoft.keepass.database.element.Database
+import com.kunzisoft.keepass.database.element.Entry
+import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
-import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
@@ -256,7 +260,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     keyFileUri,
                     readOnly,
                     cipherEntity,
-                    PreferencesUtil.omitBackup(this),
                     intent.getBooleanExtra(FIX_DUPLICATE_UUID_KEY, false),
                     this
             ) { result ->

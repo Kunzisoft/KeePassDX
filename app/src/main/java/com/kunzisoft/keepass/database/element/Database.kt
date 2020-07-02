@@ -46,7 +46,6 @@ import com.kunzisoft.keepass.database.file.output.DatabaseOutputKDBX
 import com.kunzisoft.keepass.database.search.SearchHelper
 import com.kunzisoft.keepass.database.search.SearchParameters
 import com.kunzisoft.keepass.icons.IconDrawableFactory
-import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.stream.readBytes4ToUInt
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.SingletonHolder
@@ -316,7 +315,6 @@ class Database {
                  readOnly: Boolean,
                  contentResolver: ContentResolver,
                  cacheDirectory: File,
-                 omitBackup: Boolean,
                  fixDuplicateUUID: Boolean,
                  progressTaskUpdater: ProgressTaskUpdater?) {
 
@@ -378,7 +376,7 @@ class Database {
                 else -> throw SignatureDatabaseException()
             }
 
-            this.mSearchHelper = SearchHelper(omitBackup)
+            this.mSearchHelper = SearchHelper()
             loaded = true
 
         } catch (e: LoadDatabaseException) {
@@ -393,20 +391,24 @@ class Database {
         }
     }
 
-    fun isGroupSearchable(group: Group, isOmitBackup: Boolean): Boolean {
-        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, isOmitBackup) ?:
-        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, isOmitBackup) ?:
+    fun isGroupSearchable(group: Group, omitBackup: Boolean): Boolean {
+        return mDatabaseKDB?.isGroupSearchable(group.groupKDB, omitBackup) ?:
+        mDatabaseKDBX?.isGroupSearchable(group.groupKDBX, omitBackup) ?:
         false
     }
 
     fun createVirtualGroupFromSearch(searchQuery: String,
+                                     omitBackup: Boolean,
                                      max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchQuery, SearchParameters(), max)
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this,
+                searchQuery, SearchParameters(), omitBackup, max)
     }
 
     fun createVirtualGroupFromSearchInfo(searchInfoString: String,
+                                         omitBackup: Boolean,
                                          max: Int = Integer.MAX_VALUE): Group? {
-        return mSearchHelper?.createVirtualGroupWithSearchResult(this, searchInfoString, SearchParameters().apply {
+        return mSearchHelper?.createVirtualGroupWithSearchResult(this,
+                searchInfoString, SearchParameters().apply {
             searchInTitles = false
             searchInUserNames = false
             searchInPasswords = false
@@ -416,7 +418,7 @@ class Database {
             searchInUUIDs = false
             searchInTags = false
             ignoreCase = true
-        }, max)
+        }, omitBackup, max)
     }
 
     @Throws(DatabaseOutputException::class)

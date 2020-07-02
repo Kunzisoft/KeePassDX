@@ -1,2 +1,3 @@
  * Correction de la période pour le TOTP (> 60s)
+ * Correction de la recherche dans la corbeille
 

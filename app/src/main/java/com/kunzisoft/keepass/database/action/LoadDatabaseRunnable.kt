@@ -39,7 +39,6 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mKey: Uri?,
                            private val mReadonly: Boolean,
                            private val mCipherEntity: CipherDatabaseEntity?,
-                           private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            private val mDuplicateUuidAction: ((Result) -> Unit)?)
@@ -58,7 +57,6 @@ class LoadDatabaseRunnable(private val context: Context,
                     mReadonly,
                     context.contentResolver,
                     cacheDirectory,
-                    mOmitBackup,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }

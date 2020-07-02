@@ -75,7 +75,10 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.view.AddNodeButtonView
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionError
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -389,7 +392,8 @@ class GroupActivity : LockingActivity(),
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
             val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            return mDatabase?.createVirtualGroupFromSearch(searchString)
+            return mDatabase?.createVirtualGroupFromSearch(searchString,
+                    PreferencesUtil.omitBackup(this))
         }
         // else a real group
         else {

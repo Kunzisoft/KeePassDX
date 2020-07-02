@@ -1,2 +1,3 @@
  * Fix TOTP period (> 60s)
+ * Fix searching in recycle bin
 
