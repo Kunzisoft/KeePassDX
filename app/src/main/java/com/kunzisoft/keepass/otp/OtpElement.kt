@@ -88,30 +88,36 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         get() = otpModel.counter
         @Throws(NumberFormatException::class)
         set(value) {
-            otpModel.counter = if (value < MIN_HOTP_COUNTER || value > MAX_HOTP_COUNTER) {
+            otpModel.counter = if (isValidCounter(value)) {
+                value
+            } else {
                 TokenCalculator.HOTP_INITIAL_COUNTER
                 throw IllegalArgumentException()
-            } else value
+            }
         }
 
     var period
         get() = otpModel.period
         @Throws(NumberFormatException::class)
         set(value) {
-            otpModel.period = if (value < MIN_TOTP_PERIOD || value > MAX_TOTP_PERIOD) {
+            otpModel.period = if (isValidPeriod(value)) {
+                value
+            } else {
                 TokenCalculator.TOTP_DEFAULT_PERIOD
                 throw NumberFormatException()
-            } else value
+            }
         }
 
     var digits
         get() = otpModel.digits
         @Throws(NumberFormatException::class)
         set(value) {
-            otpModel.digits = if (value < MIN_OTP_DIGITS|| value > MAX_OTP_DIGITS) {
+            otpModel.digits = if (isValidDigits(value)) {
+                value
+            } else {
                 TokenCalculator.OTP_DEFAULT_DIGITS
                 throw NumberFormatException()
-            } else value
+            }
         }
 
     var algorithm
@@ -144,16 +150,15 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
 
     @Throws(IllegalArgumentException::class)
     fun setBase32Secret(secret: String) {
-        val secretChars = replaceBase32Chars(secret)
-        if (secretChars.isNotEmpty() && checkBase32Secret(secretChars))
-            otpModel.secret = Base32().decode(secretChars.toByteArray())
+        if (isValidBase32(secret))
+            otpModel.secret = Base32().decode(replaceBase32Chars(secret).toByteArray())
         else
             throw IllegalArgumentException()
     }
 
     @Throws(IllegalArgumentException::class)
     fun setBase64Secret(secret: String) {
-        if (secret.isNotEmpty() && checkBase64Secret(secret))
+        if (isValidBase64(secret))
             otpModel.secret = Base64().decode(secret.toByteArray())
         else
             throw IllegalArgumentException()
@@ -184,10 +189,32 @@ data class OtpElement(var otpModel: OtpModel = OtpModel()) {
         const val MAX_HOTP_COUNTER = Long.MAX_VALUE
 
         const val MIN_TOTP_PERIOD = 1
-        const val MAX_TOTP_PERIOD = 60
+        const val MAX_TOTP_PERIOD = 900
 
         const val MIN_OTP_DIGITS = 4
         const val MAX_OTP_DIGITS = 18
+
+        fun isValidCounter(counter: Long): Boolean {
+            return counter in MIN_HOTP_COUNTER..MAX_HOTP_COUNTER
+        }
+
+        fun isValidPeriod(period: Int): Boolean {
+            return period in MIN_TOTP_PERIOD..MAX_TOTP_PERIOD
+        }
+
+        fun isValidDigits(digits: Int): Boolean {
+            return digits in MIN_OTP_DIGITS..MAX_OTP_DIGITS
+        }
+
+        fun isValidBase32(secret: String): Boolean {
+            val secretChars = replaceBase32Chars(secret)
+            return secretChars.isNotEmpty() && checkBase32Secret(secretChars)
+        }
+
+        fun isValidBase64(secret: String): Boolean {
+            // TODO replace base 64 chars
+            return secret.isNotEmpty() && checkBase64Secret(secret)
+        }
 
         fun replaceSpaceChars(parameter: String): String {
             return parameter.replace("[\\r|\\n|\\t|\\s|\\u00A0]+".toRegex(), "")
