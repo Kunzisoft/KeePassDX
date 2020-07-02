@@ -31,7 +31,7 @@ class SpecialModeView @JvmOverloads constructor(context: Context,
     : Toolbar(context, attrs, defStyle) {
 
     init {
-        setNavigationIcon(R.drawable.ic_close_white_24dp)
+        setNavigationIcon(R.drawable.ic_arrow_back_white_24dp)
         title = resources.getString(R.string.selection_mode)
     }
 

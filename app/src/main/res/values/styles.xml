@@ -308,7 +308,7 @@
 
     <!-- Special Toolbar text titlé -->
     <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.Title" parent="KeepassDXStyle.TextAppearance.Small">
-        <item name="android:textColor">?attr/colorAccent</item>
+        <item name="android:textColor">?android:attr/textColorHintInverse</item>
     </style>
     <style name="KeepassDXStyle.TextAppearance.Toolbar.Special.SubTitle" parent="KeepassDXStyle.TextAppearance.Tiny">
         <item name="android:textColor">@color/colorTextInverse</item>
