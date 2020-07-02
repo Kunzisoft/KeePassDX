@@ -127,13 +127,13 @@ open class VariantDictionary {
                 if (bType == VdType.None) {
                     break
                 }
-                val nameLen = inputStream.readUInt().toInt()
+                val nameLen = inputStream.readUInt().toKotlinInt()
                 val nameBuf = inputStream.readBytes(nameLen)
                 if (nameLen != nameBuf.size) {
                     throw IOException("Invalid format")
                 }
                 val name = String(nameBuf, UTF8Charset)
-                val valueLen = inputStream.readUInt().toInt()
+                val valueLen = inputStream.readUInt().toKotlinInt()
                 val valueBuf = inputStream.readBytes(valueLen)
                 if (valueLen != valueBuf.size) {
                     throw IOException("Invalid format")
@@ -149,7 +149,7 @@ open class VariantDictionary {
                         dictionary.setBool(name, valueBuf[0] != 0.toByte())
                     }
                     VdType.Int32 -> if (valueLen == 4) {
-                        dictionary.setInt32(name, bytes4ToUInt(valueBuf).toInt())
+                        dictionary.setInt32(name, bytes4ToUInt(valueBuf).toKotlinInt())
                     }
                     VdType.Int64 -> if (valueLen == 8) {
                         dictionary.setInt64(name, bytes64ToLong(valueBuf))

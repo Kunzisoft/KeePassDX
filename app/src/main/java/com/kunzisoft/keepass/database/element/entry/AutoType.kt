@@ -58,7 +58,7 @@ class AutoType : Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) {
         dest.writeByte((if (enabled) 1 else 0).toByte())
-        dest.writeInt(obfuscationOptions.toInt())
+        dest.writeInt(obfuscationOptions.toKotlinInt())
         dest.writeString(defaultSequence)
         ParcelableUtil.writeStringParcelableMap(dest, windowSeqPairs)
     }

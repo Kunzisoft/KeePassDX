@@ -104,7 +104,7 @@ class EntryOutputKDB
         val binaryData = mEntry.binaryData
         val binaryDataLength = binaryData?.length() ?: 0L
         // Write data length
-        mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromLong(binaryDataLength)))
+        mOutputStream.write(uIntTo4Bytes(UnsignedInt.fromKotlinLong(binaryDataLength)))
         // Write data
         if (binaryDataLength > 0) {
             binaryData?.getInputDataStream().use { inputStream ->

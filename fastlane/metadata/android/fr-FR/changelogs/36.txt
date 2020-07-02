@@ -1,2 +1,2 @@
- *
+ * Correction de la période pour le TOTP (> 60s)
 

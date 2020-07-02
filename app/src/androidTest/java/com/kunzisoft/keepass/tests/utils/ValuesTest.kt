@@ -133,7 +133,7 @@ class ValuesTest : TestCase() {
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val dest: Byte = UnsignedInt(UnsignedInt.fromByte(value)).toByte()
+        val dest: Byte = UnsignedInt(UnsignedInt.fromKotlinByte(value)).toKotlinByte()
         assert(value == dest)
     }
 

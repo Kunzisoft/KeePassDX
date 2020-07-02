@@ -123,7 +123,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeParcelable(iconCustom, flags)
-        dest.writeLong(usageCount.toLong())
+        dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
         ParcelableUtil.writeStringParcelableMap(dest, customData)
         ParcelableUtil.writeStringParcelableMap(dest, flags, fields)
@@ -334,7 +334,7 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override fun touch(modified: Boolean, touchParents: Boolean) {
         super.touch(modified, touchParents)
         // TODO unsigned long
-        usageCount = UnsignedLong(usageCount.toLong() + 1)
+        usageCount = UnsignedLong(usageCount.toKotlinLong() + 1)
     }
 
     companion object {

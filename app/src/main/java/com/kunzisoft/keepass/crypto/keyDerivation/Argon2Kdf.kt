@@ -61,10 +61,10 @@ class Argon2Kdf internal constructor() : KdfEngine() {
             UnsignedInt(it)
         }
         val memory = kdfParameters.getUInt64(PARAM_MEMORY)?.div(MEMORY_BLOCK_SIZE)?.let {
-            UnsignedInt.fromLong(it)
+            UnsignedInt.fromKotlinLong(it)
         }
         val iterations = kdfParameters.getUInt64(PARAM_ITERATIONS)?.let {
-            UnsignedInt.fromLong(it)
+            UnsignedInt.fromKotlinLong(it)
         }
         val version = kdfParameters.getUInt32(PARAM_VERSION)?.let {
             UnsignedInt(it)
@@ -124,16 +124,16 @@ class Argon2Kdf internal constructor() : KdfEngine() {
 
     override fun getParallelism(kdfParameters: KdfParameters): Long {
         return kdfParameters.getUInt32(PARAM_PARALLELISM)?.let {
-            UnsignedInt(it).toLong()
+            UnsignedInt(it).toKotlinLong()
         } ?: defaultParallelism
     }
 
     override fun setParallelism(kdfParameters: KdfParameters, parallelism: Long) {
-        kdfParameters.setUInt32(PARAM_PARALLELISM, UnsignedInt.fromLong(parallelism))
+        kdfParameters.setUInt32(PARAM_PARALLELISM, UnsignedInt.fromKotlinLong(parallelism))
     }
 
     override val defaultParallelism: Long
-        get() = DEFAULT_PARALLELISM.toLong()
+        get() = DEFAULT_PARALLELISM.toKotlinLong()
 
     override val minParallelism: Long
         get() = MIN_PARALLELISM
@@ -173,13 +173,13 @@ class Argon2Kdf internal constructor() : KdfEngine() {
         private val MAX_VERSION = UnsignedInt(0x13)
 
         private const val MIN_SALT = 8
-        private val MAX_SALT = UnsignedInt.MAX_VALUE.toLong()
+        private val MAX_SALT = UnsignedInt.MAX_VALUE.toKotlinLong()
 
         private const val MIN_ITERATIONS: Long = 1L
         private const val MAX_ITERATIONS = 4294967295L
 
         private const val MIN_MEMORY = (1024 * 8).toLong()
-        private val MAX_MEMORY = UnsignedInt.MAX_VALUE.toLong()
+        private val MAX_MEMORY = UnsignedInt.MAX_VALUE.toKotlinLong()
         private const val MEMORY_BLOCK_SIZE: Long = 1024L
 
         private const val MIN_PARALLELISM: Long = 1L
