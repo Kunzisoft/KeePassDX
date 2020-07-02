@@ -89,13 +89,13 @@ class OpenFileHelper {
 
     @SuppressLint("InlinedApi")
     private fun openActivityWithActionOpenDocument() {
-        val intentOpenDocument = Intent(APP_ACTION_OPEN_DOCUMENT).apply {
+        val intentOpenDocument = Intent(Intent.ACTION_OPEN_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
-            flags = Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         }
         if (fragment != null)
             fragment?.startActivityForResult(intentOpenDocument, OPEN_DOC)
@@ -108,10 +108,10 @@ class OpenFileHelper {
         val intentGetContent = Intent(Intent.ACTION_GET_CONTENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "*/*"
-            flags = Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION or
-                    Intent.FLAG_GRANT_PREFIX_URI_PERMISSION or
-                    Intent.FLAG_GRANT_READ_URI_PERMISSION or
-                    Intent.FLAG_GRANT_WRITE_URI_PERMISSION
+            addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_PREFIX_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION)
         }
         if (fragment != null)
             fragment?.startActivityForResult(intentGetContent, GET_CONTENT)
@@ -225,12 +225,6 @@ class OpenFileHelper {
     companion object {
 
         private const val TAG = "OpenFileHelper"
-
-        private var APP_ACTION_OPEN_DOCUMENT: String = try {
-            Intent::class.java.getField("ACTION_OPEN_DOCUMENT").get(null) as String
-        } catch (e: Exception) {
-            "android.intent.action.OPEN_DOCUMENT"
-        }
 
         const val OPEN_INTENTS_FILE_BROWSE = "org.openintents.action.PICK_FILE"
 
