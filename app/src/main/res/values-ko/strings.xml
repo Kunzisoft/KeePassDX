@@ -41,7 +41,6 @@
     <string name="clipboard_error_clear">클립보드를 비울 수 없음</string>
     <string name="clipboard_timeout">클립보드 시간 초과</string>
     <string name="clipboard_timeout_summary">클립보드 저장이 유지될 시간</string>
-    <string name="clipboard_swipe_clean">클립보드를 지우기 위해 스와이프</string>
     <string name="select_to_copy">%1$s 을(를) 클립보드에 복사하려면 선택하십시오.</string>
     <string name="retrieving_db_key">데이터베이스 키를 검색하는 중…</string>
     <string name="database">데이터베이스</string>

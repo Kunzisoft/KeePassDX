@@ -198,7 +198,6 @@
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
     <string name="allow">Erlauben</string>
-    <string name="clipboard_swipe_clean">Wischen, um Zwischenablage jetzt zu leeren</string>
     <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>

@@ -312,7 +312,6 @@
     <string name="education_sort_title">Elemek rendezése</string>
     <string name="education_sort_summary">Válasszon, hogy az elemek és csoportok hogyan legyenek rendezve.</string>
     <string name="education_donation_title">Közreműködés</string>
-    <string name="clipboard_swipe_clean">Seprés a vágólap azonnali törléséhez</string>
     <string name="education_entry_edit_summary">Szerkessze a bejegyzése egyéni mezőit. Az adatok hivatkozhatóak a különböző mezők között.</string>
     <string name="education_donation_summary">Segítsen a stabilitás és a biztonság növelésében, és az új funkciók hozzáadásában.</string>
     <string name="html_text_ad_free">Számos más jelszókezelő alkalmazással ellentétben, ez egy &lt;strong&gt;reklámmentes&lt;/strong&gt;, &lt;strong&gt;copyleft licencelésű szabad szoftver&lt;/strong&gt;, amely nem gyűjt személyes adatokat a kiszolgálókon, bármelyik verziót is használja.</string>

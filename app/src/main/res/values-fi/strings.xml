@@ -149,7 +149,6 @@
         <item>Keskikokoinen</item>
         <item>Suuri</item>
     </string-array>
-    <string name="clipboard_swipe_clean">Pyyhkäise tyhjentääksesi leikepöydän</string>
     <string name="allow">Salli</string>
     <string name="extended_ASCII">Laajennettu ASCII</string>
     <string name="key_derivation_function">Avaimen derivointifunktio</string>

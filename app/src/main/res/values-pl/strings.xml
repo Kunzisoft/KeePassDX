@@ -146,7 +146,6 @@
     <string name="clipboard_error_title">Błąd schowka</string>
     <string name="clipboard_error">Niektóre urządzenia nie pozwalają aplikacjom korzystać ze schowka.</string>
     <string name="clipboard_error_clear">Nie można wyczyścić schowka</string>
-    <string name="clipboard_swipe_clean">Przesuń, by wyczyścić schowek</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft jest &lt;strong&gt;open source&lt;/strong&gt; i &lt;strong&gt;bez reklam&lt;/strong&gt;.
 \nJest on dostarczany w stanie, zgodnie z licencją &lt;strong&gt;GPLv3&lt;/strong&gt; bez żadnych gwarancji.</string>
     <string name="entry_not_found">Nie znaleziono danych wejściowych.</string>

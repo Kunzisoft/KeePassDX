@@ -149,7 +149,6 @@
     <string name="edit_entry">ערוך רשומה</string>
     <string name="encryption">הצפנה</string>
     <string name="allow">אפשר</string>
-    <string name="clipboard_swipe_clean">החלק לניקוי לוח העתקה עכשיו</string>
     <string name="entry_url">כתובת URL</string>
     <string name="error_load_database">לא ניתן לטעון את בסיס הנתונים</string>
 </resources>

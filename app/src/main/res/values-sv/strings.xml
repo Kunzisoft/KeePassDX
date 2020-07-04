@@ -156,7 +156,6 @@
     <string name="key_derivation_function">Nyckelhärledningsfunktion</string>
     <string name="extended_ASCII">Utökad ASCII</string>
     <string name="allow">Tillåt</string>
-    <string name="clipboard_swipe_clean">Svep för att rensa urklipp nu</string>
     <string name="content_description_open_file">Öppna fil</string>
     <string name="content_description_add_node">Lägg till nod</string>
     <string name="content_description_add_entry">Ny post</string>

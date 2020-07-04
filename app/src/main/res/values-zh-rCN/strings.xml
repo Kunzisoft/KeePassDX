@@ -143,7 +143,6 @@
     <string name="clipboard_error_title">剪切板错误</string>
     <string name="clipboard_error">一些设备不允许程序使用剪切板。</string>
     <string name="clipboard_error_clear">无法清空剪切板</string>
-    <string name="clipboard_swipe_clean">滑动以清空剪切板</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES</string>
     <string name="kdf_Argon2">Argon2</string>

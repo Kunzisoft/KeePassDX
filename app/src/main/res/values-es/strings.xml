@@ -148,7 +148,6 @@
     <string name="clipboard_error_title">Error del portapapeles</string>
     <string name="clipboard_error">Algunos dispositivos Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones.</string>
     <string name="clipboard_error_clear">Falló la limpieza del portapapeles</string>
-    <string name="clipboard_swipe_clean">Deslizar ahora para limpiar el portapapeles</string>
     <string name="error_string_key">Cada cadena debe tener un nombre de campo.</string>
     <string name="error_autofill_enable_service">No se pudo activar el servicio de compleción automática.</string>
     <string name="field_name">Nombre del campo</string>

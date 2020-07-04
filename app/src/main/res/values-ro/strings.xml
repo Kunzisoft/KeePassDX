@@ -40,7 +40,6 @@
     <string name="clipboard_error_clear">Nu s-a putut curata memoria carnetelului</string>
     <string name="clipboard_timeout">Timp expirat de citire a carnetelului</string>
     <string name="clipboard_timeout_summary">Durata de memorare din carnetel</string>
-    <string name="clipboard_swipe_clean">Schimba ca sa cureti carnetelul acum</string>
     <string name="content_description_background">In spate</string>
     <string name="content_description_open_file">Deschide fisier</string>
     <string name="content_description_node_children">Copil nod</string>

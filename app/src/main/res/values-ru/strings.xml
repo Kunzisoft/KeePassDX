@@ -184,7 +184,6 @@
     <string name="sort_last_access_time">Время последнего доступа</string>
     <string name="edit_entry">Изменить</string>
     <string name="allow">Разрешить</string>
-    <string name="clipboard_swipe_clean">Смахните для очистки буфера обмена</string>
     <string name="error_load_database">Невозможно загрузить базу.</string>
     <string name="error_load_database_KDF_memory">Невозможно загрузить ключ. Попробуйте уменьшить размер памяти, используемой функцией формирования ключа (KDF).</string>
     <string name="error_move_folder_in_itself">Нельзя переместить группу в саму себя.</string>
