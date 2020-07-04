@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Binder
 import android.os.Bundle
 import android.os.IBinder
@@ -42,17 +41,20 @@ import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import kotlinx.coroutines.*
 import java.util.*
+import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
 class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
 
     override val notificationId: Int = 575
 
-    private var actionRunnableAsyncTask: ActionRunnableAsyncTask? = null
+    private val mainScope = CoroutineScope(Dispatchers.Main)
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+    private var mAllowFinishAction = AtomicBoolean()
 
     private var mTitleId: Int? = null
     private var mMessageId: Int? = null
@@ -84,6 +86,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun onBind(intent: Intent): IBinder? {
+        mAllowFinishAction.set(true)
         return mActionTaskBinder
     }
 
@@ -159,32 +162,68 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             newNotification(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId))
 
             // Build and launch the action
-            actionRunnableAsyncTask = ActionRunnableAsyncTask(this,
-                {
-                    sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                        putExtra(DATABASE_TASK_TITLE_KEY, titleId)
-                        putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
-                        putExtra(DATABASE_TASK_WARNING_KEY, warningId)
-                    })
+            mainScope.launch {
+                executeAction(this@DatabaseTaskNotificationService,
+                        {
+                            sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
+                                putExtra(DATABASE_TASK_TITLE_KEY, titleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, warningId)
+                            })
 
-                    mActionTaskListeners.forEach { actionTaskListener ->
-                        actionTaskListener.onStartAction(titleId, messageId, warningId)
-                    }
+                            mActionTaskListeners.forEach { actionTaskListener ->
+                                actionTaskListener.onStartAction(titleId, messageId, warningId)
+                            }
 
-                }, { result ->
-                    mActionTaskListeners.forEach { actionTaskListener ->
-                        actionTaskListener.onStopAction(intentAction!!, result)
-                    }
+                        },
+                        {
+                            actionRunnableNotNull
+                        },
+                        { result ->
+                            mActionTaskListeners.forEach { actionTaskListener ->
+                                actionTaskListener.onStopAction(intentAction!!, result)
+                            }
 
-                    sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
+                            sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
 
-                    stopSelf()
-                }
-            )
-            actionRunnableAsyncTask?.execute({ actionRunnableNotNull })
+                            stopSelf()
+                        }
+                )
+            }
         }
 
         return START_REDELIVER_INTENT
+    }
+
+    /**
+     * Execute action with a coroutine
+      */
+    private suspend fun executeAction(progressTaskUpdater: ProgressTaskUpdater,
+                                     onPreExecute: () -> Unit,
+                                     onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
+                                     onPostExecute: (result: ActionRunnable.Result) -> Unit) {
+        mAllowFinishAction.set(false)
+        onPreExecute.invoke()
+        withContext(Dispatchers.IO) {
+            onExecute.invoke(progressTaskUpdater)?.apply {
+                val asyncResult: Deferred<ActionRunnable.Result> = async {
+                    val startTime = System.currentTimeMillis()
+                    var timeIsUp = false
+                    // Run the actionRunnable
+                    run()
+                    // Wait onBind or 4 seconds max
+                    while (!mAllowFinishAction.get() && !timeIsUp) {
+                        delay(100)
+                        if (startTime + 4000 < System.currentTimeMillis())
+                            timeIsUp = true
+                    }
+                    result
+                }
+                withContext(Dispatchers.Main) {
+                    onPostExecute.invoke(asyncResult.await())
+                }
+            }
+        }
     }
 
     private fun newNotification(title: Int) {
@@ -564,33 +603,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
         } else {
             null
-        }
-    }
-
-    private class ActionRunnableAsyncTask(private val progressTaskUpdater: ProgressTaskUpdater,
-                                          private val onPreExecute: () -> Unit,
-                                          private val onPostExecute: (result: ActionRunnable.Result) -> Unit)
-        : AsyncTask<((ProgressTaskUpdater?) -> ActionRunnable), Void, ActionRunnable.Result>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            onPreExecute.invoke()
-        }
-
-        override fun doInBackground(vararg actionRunnables: ((ProgressTaskUpdater?)-> ActionRunnable)?): ActionRunnable.Result {
-            var resultTask = ActionRunnable.Result(false)
-            actionRunnables.forEach {
-                it?.invoke(progressTaskUpdater)?.apply {
-                    run()
-                    resultTask = result
-                }
-            }
-            return resultTask
-        }
-
-        override fun onPostExecute(result: ActionRunnable.Result) {
-            super.onPostExecute(result)
-            onPostExecute.invoke(result)
         }
     }
 
