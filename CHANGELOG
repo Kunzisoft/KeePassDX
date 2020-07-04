@@ -1,6 +1,8 @@
 KeePassDX(2.8)
  * Fix TOTP period (> 60s)
  * Fix searching in recycle bin
+ * Improve action tasks
+ * Fix minor issues
 
 KeePassDX(2.7)
  * Add blocklists for autofill

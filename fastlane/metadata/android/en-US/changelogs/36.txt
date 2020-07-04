@@ -1,3 +1,5 @@
  * Fix TOTP period (> 60s)
  * Fix searching in recycle bin
+ * Improving action tasks
+ * Fix minor issues
 

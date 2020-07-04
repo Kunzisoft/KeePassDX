@@ -1,3 +1,4 @@
  * Correction de la période pour le TOTP (> 60s)
  * Correction de la recherche dans la corbeille
-
+ * Amélioration des tâches d'action
+ * Correction de problèmes mineurs
