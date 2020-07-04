@@ -243,4 +243,9 @@
     <string name="feedback">ਸੁਝਾਅ</string>
     <string name="contribution">ਯੋਗਦਾਨ</string>
     <string name="contact">ਸੰਪਰਕ</string>
+    <string name="keyfile_is_empty">ਕੁੰਜੀ ਫਾਇਲ ਖਾਲੀ ਹੈ।</string>
+    <string name="error_create_database">ਡਾਟਾਬੇਸ ਫਾਈਲ ਬਣਾਉਣ ਲਈ ਅਸਮਰੱਥ।</string>
+    <string name="error_copy_group_here">ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
+    <string name="error_copy_entry_here">ਤੁਸੀੰ ਇਸ ਐੰਟਰੀ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
+    <string name="error_move_folder_in_itself">ਤੁਸੀੰ ਗਰੁੱਪ ਨੂੰ ਖੁਦ ਵਿੱਚ ਨਹੀਂ ਭੇਜ ਸਕਦੇ ਹੋ।</string>
 </resources>
