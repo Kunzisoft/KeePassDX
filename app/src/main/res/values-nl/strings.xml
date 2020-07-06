@@ -487,4 +487,6 @@
     <string name="subdomain_search_title">Zoeken op subdomein</string>
     <string name="error_string_type">Deze tekst komt niet overeen met het gevraagde item.</string>
     <string name="content_description_add_item">Item toevoegen</string>
+    <string name="keyboard_auto_go_action_summary">\"Gaan\"-toetsactie na het indrukken van een \"Veld\"-toets</string>
+    <string name="keyboard_auto_go_action_title">Auto-type actie</string>
 </resources>
