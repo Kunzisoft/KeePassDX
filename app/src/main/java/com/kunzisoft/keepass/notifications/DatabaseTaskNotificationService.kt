@@ -39,6 +39,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import kotlinx.coroutines.*
@@ -66,10 +67,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
+            mAllowFinishAction.set(true)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.remove(actionTaskListener)
+            if (mActionTaskListeners.size == 0) {
+                mAllowFinishAction.set(false)
+            }
         }
     }
 
@@ -86,7 +91,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        mAllowFinishAction.set(true)
         return mActionTaskBinder
     }
 
@@ -203,6 +207,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                      onExecute: (ProgressTaskUpdater?) -> ActionRunnable?,
                                      onPostExecute: (result: ActionRunnable.Result) -> Unit) {
         mAllowFinishAction.set(false)
+
+        // Stop the opening notification
+        DatabaseOpenNotificationService.stop(this)
         onPreExecute.invoke()
         withContext(Dispatchers.IO) {
             onExecute.invoke(progressTaskUpdater)?.apply {
@@ -221,6 +228,10 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 }
                 withContext(Dispatchers.Main) {
                     onPostExecute.invoke(asyncResult.await())
+                    // Start the opening notification
+                    if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                        DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
+                    }
                 }
             }
         }
