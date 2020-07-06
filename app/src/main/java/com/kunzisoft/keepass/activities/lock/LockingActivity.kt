@@ -71,6 +71,7 @@ abstract class LockingActivity : SpecialModeActivity() {
                     LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK = LOCKING_ACTIVITY_UI_VISIBLE
                 // Add onActivityForResult response
                 setResult(RESULT_EXIT_LOCK)
+                closeOptionsMenu()
                 finish()
             }
             registerLockReceiver(mLockReceiver)
