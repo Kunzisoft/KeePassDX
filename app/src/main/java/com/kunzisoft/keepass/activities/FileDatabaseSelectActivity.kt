@@ -402,12 +402,18 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     }
 
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
+
+        val databaseButtonsVisible = databaseButtonsContainerView?.visibility == View.VISIBLE
+        val createButton = if (databaseButtonsVisible) createDatabaseButtonView else null
+        val openButton = if (databaseButtonsVisible) openDatabaseButtonView else null
+
         // If no recent files
-        val createDatabaseEducationPerformed = createDatabaseButtonView != null && createDatabaseButtonView!!.visibility == View.VISIBLE
+        val createDatabaseEducationPerformed =
+                createButton != null && createButton.visibility == View.VISIBLE
                 && mAdapterDatabaseHistory != null
                 && mAdapterDatabaseHistory!!.itemCount > 0
                 && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                createDatabaseButtonView!!,
+                        createButton,
                 {
                     createNewFile()
                 },
@@ -417,9 +423,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 })
         if (!createDatabaseEducationPerformed) {
             // selectDatabaseEducationPerformed
-            openDatabaseButtonView != null
+            openButton != null
                     && fileDatabaseSelectActivityEducation.checkAndPerformedSelectDatabaseEducation(
-                    openDatabaseButtonView!!,
+                    openButton,
                     {tapTargetView ->
                         tapTargetView?.let {
                             mOpenFileHelper?.openFileOnClickViewListener?.onClick(it)
