@@ -210,6 +210,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         // Stop the opening notification
         DatabaseOpenNotificationService.stop(this)
+        TimeoutHelper.temporarilyDisableTimeout()
         onPreExecute.invoke()
         withContext(Dispatchers.IO) {
             onExecute.invoke(progressTaskUpdater)?.apply {
@@ -228,6 +229,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 }
                 withContext(Dispatchers.Main) {
                     onPostExecute.invoke(asyncResult.await())
+                    TimeoutHelper.releaseTemporarilyDisableTimeout()
                     // Start the opening notification
                     if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
                         DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
