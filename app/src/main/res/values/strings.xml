@@ -381,6 +381,11 @@
     <string name="keyboard_auto_go_action_summary">\"Go\" key action after pressing a \"Field\" key</string>
     <string name="keyboard_key_vibrate_title">Vibratory keypresses</string>
     <string name="keyboard_key_sound_title">Audible keypresses</string>
+    <string name="keyboard_change">Keyboard change</string>
+    <string name="keyboard_previous_database_credentials_title">Previous keyboard during database credentials</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatically back to the previous keyboard if the database credentials screen is shown</string>
+    <string name="keyboard_previous_fill_in_title">Previous keyboard after form filling</string>
+    <string name="keyboard_previous_fill_in_summary">Automatically back to the previous keyboard if the form is filling and "Go" key action is auto activated</string>
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="autofill_application_id_blocklist_title">Application blocklist</string>

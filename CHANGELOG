@@ -1,6 +1,7 @@
 KeePassDX(2.8)
  * Fix TOTP period (> 60s)
  * Fix searching in recycle bin
+ * Settings to back to the previous keyboard during database credentials and after form filling
  * Improve action tasks
  * Fix minor issues
 

@@ -1,4 +1,5 @@
  * Correction de la période pour le TOTP (> 60s)
  * Correction de la recherche dans la corbeille
+ * Paramètres pour revenir automatiquement au clavier précédent durant l'identification de la base et après le remplissage de formulaire
  * Amélioration des tâches d'action
  * Correction de problèmes mineurs
