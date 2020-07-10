@@ -2,4 +2,5 @@
  * Correction de la recherche dans la corbeille
  * Paramètres pour revenir automatiquement au clavier précédent durant l'identification de la base et après le remplissage de formulaire
  * Amélioration des tâches d'action
+ * Amélioration de la reconnaissance pour le temps écoulé
  * Correction de problèmes mineurs

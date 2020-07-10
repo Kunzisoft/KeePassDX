@@ -3,6 +3,7 @@ KeePassDX(2.8)
  * Fix searching in recycle bin
  * Settings to back to the previous keyboard during database credentials and after form filling
  * Improve action tasks
+ * Improve recognition to reset app timeout
  * Fix minor issues
 
 KeePassDX(2.7)

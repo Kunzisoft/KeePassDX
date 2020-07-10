@@ -32,6 +32,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -90,6 +91,7 @@ class GroupActivity : LockingActivity(),
         SortDialogFragment.SortSelectionListener {
 
     // Views
+    private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
@@ -130,6 +132,7 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         iconView = findViewById(R.id.group_icon)
         numberChildrenView = findViewById(R.id.group_numbers)
@@ -153,7 +156,7 @@ class GroupActivity : LockingActivity(),
         taTextColor.recycle()
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
+        resetAppTimeoutWhenViewFocusedOrChanged(rootContainerView)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {

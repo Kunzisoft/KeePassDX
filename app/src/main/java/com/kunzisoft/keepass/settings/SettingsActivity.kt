@@ -92,6 +92,9 @@ open class SettingsActivity
             lockAndExit()
         }
 
+        // Focus view to reinitialize timeout
+        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                     .add(R.id.fragment_container, retrieveMainFragment())

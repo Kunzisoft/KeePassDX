@@ -130,6 +130,9 @@ class EntryActivity : LockingActivity() {
             lockAndExit()
         }
 
+        // Focus view to reinitialize timeout
+        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
         firstLaunchOfActivity = true

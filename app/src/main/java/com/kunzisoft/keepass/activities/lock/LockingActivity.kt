@@ -19,9 +19,10 @@
  */
 package com.kunzisoft.keepass.activities.lock
 
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
@@ -152,11 +153,21 @@ abstract class LockingActivity : SpecialModeActivity() {
     /**
      * To reset the app timeout when a view is focused or changed
      */
+    @SuppressLint("ClickableViewAccessibility")
     protected fun resetAppTimeoutWhenViewFocusedOrChanged(vararg views: View?) {
         views.forEach {
+            it?.setOnTouchListener { _, event ->
+                when (event.action) {
+                    MotionEvent.ACTION_DOWN -> {
+                        // Log.d(TAG, "View touched, try to reset app timeout")
+                        TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
+                    }
+                }
+                false
+            }
             it?.setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    Log.d(TAG, "View focused, reset app timeout")
+                    // Log.d(TAG, "View focused, try to reset app timeout")
                     TimeoutHelper.checkTimeAndLockIfTimeoutOrResetTimeout(this)
                 }
             }

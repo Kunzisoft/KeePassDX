@@ -121,7 +121,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
+        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
