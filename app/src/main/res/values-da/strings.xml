@@ -155,7 +155,6 @@
     <string name="key_derivation_function">Nøgleafledningsfunktion</string>
     <string name="extended_ASCII">Udvidet ASCII</string>
     <string name="allow">Tillad</string>
-    <string name="clipboard_swipe_clean">Stryg for at at rydde udklipsholder nu</string>
     <string name="error_load_database">Databasen kunne ikke indlæses.</string>
     <string name="error_load_database_KDF_memory">Kunne ikke indlæse nøglen. Prøv at reducere KDF \"hukommelsesforbrug\".</string>
     <string name="error_autofill_enable_service">Kunne ikke aktivere autofyld tjenesten.</string>

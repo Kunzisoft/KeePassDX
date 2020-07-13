@@ -42,10 +42,12 @@ const val DATABASE_STOP_TASK_ACTION = "com.kunzisoft.keepass.DATABASE_STOP_TASK_
 
 const val LOCK_ACTION = "com.kunzisoft.keepass.LOCK"
 const val REMOVE_ENTRY_MAGIKEYBOARD_ACTION = "com.kunzisoft.keepass.REMOVE_ENTRY_MAGIKEYBOARD"
+const val BACK_PREVIOUS_KEYBOARD_ACTION = "com.kunzisoft.keepass.BACK_PREVIOUS_KEYBOARD"
 
 class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 
     var mLockPendingIntent: PendingIntent? = null
+    var backToPreviousKeyboardAction: (() -> Unit)? = null
 
     override fun onReceive(context: Context, intent: Intent) {
         // If allowed, lock and exit
@@ -76,7 +78,12 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
                         }
                     }
                     LOCK_ACTION,
-                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> lockAction.invoke()
+                    REMOVE_ENTRY_MAGIKEYBOARD_ACTION -> {
+                        lockAction.invoke()
+                    }
+                    BACK_PREVIOUS_KEYBOARD_ACTION -> {
+                        backToPreviousKeyboardAction?.invoke()
+                    }
                     else -> {}
                 }
             }
@@ -93,14 +100,16 @@ class LockReceiver(var lockAction: () -> Unit) : BroadcastReceiver() {
 }
 
 fun Context.registerLockReceiver(lockReceiver: LockReceiver?,
-                                 registerRemoveEntryMagikeyboard: Boolean = false) {
+                                 registerKeyboardAction: Boolean = false) {
     lockReceiver?.let {
         registerReceiver(it, IntentFilter().apply {
             addAction(Intent.ACTION_SCREEN_OFF)
             addAction(Intent.ACTION_SCREEN_ON)
             addAction(LOCK_ACTION)
-            if (registerRemoveEntryMagikeyboard)
+            if (registerKeyboardAction) {
                 addAction(REMOVE_ENTRY_MAGIKEYBOARD_ACTION)
+                addAction(BACK_PREVIOUS_KEYBOARD_ACTION)
+            }
         })
     }
 }

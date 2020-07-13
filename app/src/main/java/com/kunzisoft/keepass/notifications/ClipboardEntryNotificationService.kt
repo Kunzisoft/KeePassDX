@@ -153,9 +153,6 @@ class ClipboardEntryNotificationService : LockNotificationService() {
                 val nextField = nextFields[0]
                 builder.setContentText(getString(R.string.select_to_copy, nextField.label))
                 builder.setContentIntent(getCopyPendingIntent(nextField, nextFields))
-                // Else tell to swipe for a clean
-            } else {
-                builder.setContentText(getString(R.string.clipboard_swipe_clean))
             }
 
             val cleanIntent = Intent(this, ClipboardEntryNotificationService::class.java)

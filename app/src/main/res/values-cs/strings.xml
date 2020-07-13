@@ -156,7 +156,6 @@
     <string name="key_derivation_function">Funkce pro tvorbu klíče</string>
     <string name="extended_ASCII">Rozšířené ASCII</string>
     <string name="allow">Umožnit</string>
-    <string name="clipboard_swipe_clean">Schránku vymažete přejetím</string>
     <string name="error_load_database">Databázi se nedaří načíst.</string>
     <string name="error_load_database_KDF_memory">Klíč se nedaří načíst, zkuste snížit množství paměti, využívané funkcí pro tvorbu klíče.</string>
     <string name="error_autofill_enable_service">Službu automatického vyplňování se nedaří zapnout.</string>

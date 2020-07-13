@@ -40,8 +40,7 @@
     <string name="clipboard_error">Certains appareils ne permettent pas aux applications d’utiliser le presse-papier.</string>
     <string name="clipboard_error_clear">Impossible de vider le presse-papier</string>
     <string name="clipboard_timeout">Expiration du presse-papier</string>
-    <string name="clipboard_timeout_summary">Durée de stockage dans le presse-papier</string>
-    <string name="clipboard_swipe_clean">Glisser pour vider le presse-papier maintenant</string>
+    <string name="clipboard_timeout_summary">Durée de stockage dans le presse-papier (si supporté par votre appareil)</string>
     <string name="select_to_copy">Copier %1$s dans le presse-papier</string>
     <string name="retrieving_db_key">Récupération de la clé de la base de données…</string>
     <string name="database">Base de données</string>
@@ -210,7 +209,7 @@
     <string name="monospace_font_fields_enable_summary">Change la fonte utilisée dans les champs pour une meilleure visibilité des caractères</string>
     <string name="allow_copy_password_title">Faire confiance au presse-papier</string>
     <string name="allow_copy_password_summary">Autorise la copie du mot de passe de l’entrée et des champs protégés dans le presse-papier</string>
-    <string name="allow_copy_password_warning">Attention : Le presse-papiers est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
+    <string name="allow_copy_password_warning">Attention : Le presse-papier est partagé par toutes les applications. Si des données sensibles sont copiées, d’autres logiciels peuvent les récupérer.</string>
     <string name="database_name_title">Nom de la base de données</string>
     <string name="database_description_title">Description de la base de données</string>
     <string name="database_version_title">Version de la base de données</string>
@@ -219,7 +218,7 @@
     <string name="other">Autres</string>
     <string name="keyboard">Clavier</string>
     <string name="magic_keyboard_title">Magiclavier</string>
-    <string name="magic_keyboard_explanation_summary">Active un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
+    <string name="magic_keyboard_explanation_summary">Activer un clavier personnalisé pour remplir vos mots de passe et tous les champs d’identité</string>
     <string name="enable_education_screens_title">Conseils pédagogiques</string>
     <string name="enable_education_screens_summary">Met en surbrillance les éléments pour apprendre le fonctionnement de l’application</string>
     <string name="reset_education_screens_title">Réinitialiser les conseils pédagogiques</string>
@@ -349,7 +348,7 @@
     <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
     <string name="lock_database_back_root_summary">Verrouille la base de données lorsque l’utilisateur clique sur le bouton retour de l’écran racine</string>
     <string name="clear_clipboard_notification_title">Suppression à la fermeture</string>
-    <string name="clear_clipboard_notification_summary">Verrouille la base de données lors de la fermeture de la notification</string>
+    <string name="clear_clipboard_notification_summary">Verrouille la base de données lorsque la durée du presse-papier expire ou que la notification est fermée après avoir commencé à l’utiliser</string>
     <string name="recycle_bin">Corbeille</string>
     <string name="keyboard_selection_entry_title">Sélection de l’entrée</string>
     <string name="keyboard_selection_entry_summary">Affiche les champs de saisie dans le Magiclavier lors de l’affichage d’une entrée</string>
@@ -413,7 +412,7 @@
     <string name="contains_duplicate_uuid">La base de données contient des doublons d’UUID.</string>
     <string name="contains_duplicate_uuid_procedure">Résoudre le problème en générant de nouveaux UUID pour les doublons et continuer \?</string>
     <string name="database_opened">Base de données ouverte</string>
-    <string name="clipboard_explanation_summary">Copie les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
+    <string name="clipboard_explanation_summary">Copier les champs d’une entrée à l’aide du presse-papier de votre appareil</string>
     <string name="advanced_unlock_explanation_summary">Utilise le déverrouillage avancé pour ouvrir plus facilement une base de données</string>
     <string name="database_data_compression_title">Compression de données</string>
     <string name="database_data_compression_summary">La compression des données réduit la taille de la base de données.</string>

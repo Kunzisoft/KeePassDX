@@ -81,7 +81,7 @@ class EntryEditActivity : LockingActivity(),
     private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
     private var entryEditAddToolBar: ActionMenuView? = null
-    private var saveView: View? = null
+    private var validateButton: View? = null
     private var lockView: View? = null
 
     // Education
@@ -121,7 +121,7 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(entryEditContentsView)
+        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
 
         stopService(Intent(this, ClipboardEntryNotificationService::class.java))
         stopService(Intent(this, KeyboardEntryNotificationService::class.java))
@@ -237,8 +237,8 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Save button
-        saveView = findViewById(R.id.entry_edit_validate)
-        saveView?.setOnClickListener { saveEntry() }
+        validateButton = findViewById(R.id.entry_edit_validate)
+        validateButton?.setOnClickListener { saveEntry() }
 
         // Verify the education views
         entryEditActivityEducation = EntryEditActivityEducation(this)

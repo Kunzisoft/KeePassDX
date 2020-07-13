@@ -29,7 +29,6 @@
     <string name="clipboard_cleared">مُسِحت الحافظة</string>
     <string name="clipboard_error_title">خطأ في الحافظة</string>
     <string name="clipboard_error_clear">تعذَّر مسح الحافظة</string>
-    <string name="clipboard_swipe_clean">اسحب لمسح الحافظة فورًا</string>
     <string name="database">قاعدة البيانات</string>
     <string name="decrypting_db">يفك تعمية محتوى قاعدة البيانات…</string>
     <string name="digits">أرقام</string>

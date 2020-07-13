@@ -168,7 +168,6 @@
     <string name="encryption">Cifratura</string>
     <string name="key_derivation_function">Funzione di derivazione chiave</string>
     <string name="extended_ASCII">ASCII esteso</string>
-    <string name="clipboard_swipe_clean">Scorri per pulire gli appunti ora</string>
     <string name="error_nokeyfile">Seleziona un file chiave.</string>
     <string name="error_autofill_enable_service">Attivazione del servizio di auto-completamento fallita.</string>
     <string name="error_move_folder_in_itself">Non puoi spostare un gruppo in se stesso.</string>

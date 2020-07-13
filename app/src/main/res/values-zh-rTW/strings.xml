@@ -140,7 +140,6 @@
     <string name="clipboard_error_title">剪貼簿錯誤</string>
     <string name="clipboard_error">部份設備不容許其他程式使用剪貼簿。</string>
     <string name="clipboard_error_clear">無法清除剪貼簿</string>
-    <string name="clipboard_swipe_clean">滑动即可清除剪贴板</string>
     <string name="error_autofill_enable_service">無法啟用自動填入服務。</string>
     <string name="error_move_folder_in_itself">無法移動一個群組至自己本身。</string>
     <string name="invalid_algorithm">無效的演算法。</string>

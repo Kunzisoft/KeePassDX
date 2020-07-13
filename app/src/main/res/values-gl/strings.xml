@@ -37,7 +37,6 @@
     <string name="clipboard_error_clear">Fallou a limpeza do portapapeis</string>
     <string name="clipboard_timeout">Tempo límite para o portapapeis</string>
     <string name="clipboard_timeout_summary">Tempo antes de limpar o portapapeis após copiar usuario ou contrasinal</string>
-    <string name="clipboard_swipe_clean">Deslice para limpar agora o portapapeis</string>
     <string name="edit_entry">Editar entrada</string>
     <string name="select_to_copy">Seleccione para copiar %1$s para o portapapeis</string>
     <string name="retrieving_db_key">A criar a chave da base de dados…</string>

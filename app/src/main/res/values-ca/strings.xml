@@ -295,7 +295,6 @@
     <string name="content_description_add_node">Afegeix node</string>
     <string name="content_description_open_file">Obre fitxer</string>
     <string name="content_description_background">Fons</string>
-    <string name="clipboard_swipe_clean">Llisqueu per a netejear el porta-retalls ara</string>
     <string name="clipboard_error_clear">No ha estat possible netejar el porta-retalls</string>
     <string name="clipboard_error">Alguns dispositius no permeten que les aplicacions facin servir el porta-retalls.</string>
     <string name="clipboard_error_title">Error del porta-retalls</string>

@@ -64,9 +64,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.FileDatabaseInfo
-import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.utils.UriUtil
+import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
@@ -354,6 +352,11 @@ open class PasswordActivity : SpecialModeActivity() {
             }
 
             mProgressDialogThread?.registerProgressTask()
+
+            // Back to previous keyboard is setting activated
+            if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this)) {
+                sendBroadcast(Intent(BACK_PREVIOUS_KEYBOARD_ACTION))
+            }
 
             // Don't allow auto open prompt if lock become when UI visible
             mAllowAutoOpenBiometricPrompt = if (LockingActivity.LOCKING_ACTIVITY_UI_VISIBLE_DURING_LOCK == true)

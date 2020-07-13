@@ -57,7 +57,6 @@
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
     <string name="error_no_name">Bir isim girin.</string>
-    <string name="clipboard_swipe_clean">Şimdi panoyu temizlemek için kaydırın</string>
     <string name="select_to_copy">%1$s dosyasını panoya kopyalamak için seçin</string>
     <string name="retrieving_db_key">Veritabanı anahtarı alınıyor…</string>
     <string name="decrypting_db">Veritabanı içeriği deşifre ediliyor…</string>

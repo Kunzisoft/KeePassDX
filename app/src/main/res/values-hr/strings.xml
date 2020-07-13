@@ -38,7 +38,6 @@
     <string name="clipboard_error">Neki uređaji neće dopustiti aplikacijama korištenje međuspremnika.</string>
     <string name="clipboard_error_clear">Nije moguće isprazniti međuspremnik</string>
     <string name="clipboard_timeout_summary">Trajanje pohrane u međuspremniku</string>
-    <string name="clipboard_swipe_clean">Prijeđite prstom da biste odmah ispraznili međuspremnik</string>
     <string name="content_description_background">Pozadina</string>
     <string name="content_description_open_file">Otvori datoteku</string>
     <string name="content_description_add_node">Dodaj čvor</string>

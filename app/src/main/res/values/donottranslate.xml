@@ -132,6 +132,10 @@
     <bool name="keyboard_key_vibrate_default" translatable="false">true</bool>
     <string name="keyboard_key_sound_key" translatable="false">keyboard_key_sound_key</string>
     <bool name="keyboard_key_sound_default" translatable="false">false</bool>
+    <string name="keyboard_previous_database_credentials_key" translatable="false">keyboard_previous_database_credentials_key</string>
+    <bool name="keyboard_previous_database_credentials_default" translatable="false">false</bool>
+    <string name="keyboard_previous_fill_in_key" translatable="false">keyboard_previous_fill_in_key</string>
+    <bool name="keyboard_previous_fill_in_default" translatable="false">false</bool>
     <string name="autofill_auto_search_key" translatable="false">autofill_auto_search_key</string>
     <bool name="autofill_auto_search_default" translatable="false">true</bool>
     <string name="autofill_application_id_blocklist_key" translatable="false">autofill_application_id_blocklist_key</string>
