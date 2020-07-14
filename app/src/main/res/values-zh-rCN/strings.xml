@@ -475,4 +475,15 @@
     <string name="error_label_exists">该标签已经存在。</string>
     <string name="keyboard_search_share_summary">自动搜索共享信息以填充键盘</string>
     <string name="keyboard_search_share_title">搜索分享的信息</string>
+    <string name="autofill_block_restart">重新启动包含该表单的应用程序以激活拦截。</string>
+    <string name="autofill_block">阻止自动填充</string>
+    <string name="autofill_web_domain_blocklist_summary">禁止在下列域名中自动填充凭证</string>
+    <string name="autofill_web_domain_blocklist_title">Web域名黑名单</string>
+    <string name="autofill_application_id_blocklist_summary">禁止应用程序自动填充的黑名单</string>
+    <string name="autofill_application_id_blocklist_title">应用拦截列表</string>
+    <string name="filter">过滤器</string>
+    <string name="subdomain_search_summary">搜索带有子域约束的web域</string>
+    <string name="subdomain_search_title">子域搜索</string>
+    <string name="error_string_type">文本和请求的条目不匹配.</string>
+    <string name="content_description_add_item">添加条目</string>
 </resources>

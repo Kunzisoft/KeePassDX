@@ -475,4 +475,17 @@
     <string name="contact">Contact</string>
     <string name="keyboard_search_share_summary">Zoek automatisch naar gedeelde informatie om het toetsenbord te vullen</string>
     <string name="keyboard_search_share_title">Gedeelde informatie zoeken</string>
+    <string name="autofill_block_restart">Start de app met het formulier opnieuw op om de blokkering te activeren.</string>
+    <string name="autofill_block">Blokkering van automatisch invullen</string>
+    <string name="autofill_web_domain_blocklist_summary">Lijst die het automatisch invullen bij webdomeinen voorkomt</string>
+    <string name="autofill_web_domain_blocklist_title">Webdomein blokkeringslijst</string>
+    <string name="autofill_application_id_blocklist_summary">Lijst die het automatisch invullen bij apps voorkomt</string>
+    <string name="autofill_application_id_blocklist_title">Applicatieblokkering</string>
+    <string name="filter">Filteren</string>
+    <string name="subdomain_search_summary">Zoeken op webdomein met beperkingen voor subdomein</string>
+    <string name="subdomain_search_title">Zoeken op subdomein</string>
+    <string name="error_string_type">Deze tekst komt niet overeen met het gevraagde item.</string>
+    <string name="content_description_add_item">Item toevoegen</string>
+    <string name="keyboard_auto_go_action_summary">\"Gaan\"-toetsactie na het indrukken van een \"Veld\"-toets</string>
+    <string name="keyboard_auto_go_action_title">Auto-type actie</string>
 </resources>
