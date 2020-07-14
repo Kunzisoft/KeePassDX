@@ -52,11 +52,18 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     private var biometricUnlockDatabaseHelper: BiometricUnlockDatabaseHelper? = null
     private var biometricMode: Mode = Mode.UNAVAILABLE
 
+    /**
+     * Manage setting to auto open biometric prompt
+     */
     private var biometricPromptAutoOpenPreference = PreferencesUtil.isBiometricPromptAutoOpenEnable(context)
     var isBiometricPromptAutoOpenEnable: Boolean = true
         get() {
             return field && biometricPromptAutoOpenPreference
         }
+
+    // Variable to check if the prompt can be open (if the right activity is currently shown)
+    // checkBiometricAvailability() allows open biometric prompt and onDestroy() removes the authorization
+    private var allowOpenBiometricPrompt = false
 
     private var cipherDatabaseAction = CipherDatabaseAction.getInstance(context.applicationContext)
 
@@ -77,6 +84,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
         // biometric not supported (by API level or hardware) so keep option hidden
         // or manually disable
         val biometricCanAuthenticate = BiometricManager.from(context).canAuthenticate()
+        allowOpenBiometricPrompt = true
 
         if (!PreferencesUtil.isBiometricUnlockEnable(context)
                 || biometricCanAuthenticate == BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE
@@ -210,7 +218,8 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
                                     cryptoObject: BiometricPrompt.CryptoObject,
                                     promptInfo: BiometricPrompt.PromptInfo) {
         context.runOnUiThread {
-            biometricPrompt?.authenticate(promptInfo, cryptoObject)
+            if (allowOpenBiometricPrompt)
+                biometricPrompt?.authenticate(promptInfo, cryptoObject)
         }
     }
 
@@ -277,6 +286,7 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
 
     fun destroy() {
         // Close the biometric prompt
+        allowOpenBiometricPrompt = false
         biometricUnlockDatabaseHelper?.closeBiometricPrompt()
         // Restore the checked listener
         checkboxPasswordView?.setOnCheckedChangeListener(onCheckedPasswordChangeListener)

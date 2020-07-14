@@ -40,7 +40,6 @@
     <string name="clipboard_error_clear">क्लिपबोर्ड को साफ़ नहीं किया जा सका</string>
     <string name="clipboard_timeout">क्लिपबोर्ड टाइमआउट</string>
     <string name="clipboard_timeout_summary">क्लिपबोर्ड में भंडारण की अवधि</string>
-    <string name="clipboard_swipe_clean">अब क्लिपबोर्ड को साफ करने के लिए स्वाइप करें</string>
     <string name="select_to_copy">क्लिपबोर्ड पर %1$s को कॉपी करने के लिए चयन करें</string>
     <string name="retrieving_db_key">डेटाबेस कुंजी पुनर्प्राप्त कर रहा है…</string>
     <string name="database">डेटाबेस</string>

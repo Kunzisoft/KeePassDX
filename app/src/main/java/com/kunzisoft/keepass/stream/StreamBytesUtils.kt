@@ -171,11 +171,11 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
     System.arraycopy(buf, 0, cDate, 0, dateSize)
 
     val readOffset = 0
-    val dw1 = UnsignedInt.fromByte(cDate[readOffset]).toInt()
-    val dw2 = UnsignedInt.fromByte(cDate[readOffset + 1]).toInt()
-    val dw3 = UnsignedInt.fromByte(cDate[readOffset + 2]).toInt()
-    val dw4 = UnsignedInt.fromByte(cDate[readOffset + 3]).toInt()
-    val dw5 = UnsignedInt.fromByte(cDate[readOffset + 4]).toInt()
+    val dw1 = UnsignedInt.fromKotlinByte(cDate[readOffset]).toKotlinInt()
+    val dw2 = UnsignedInt.fromKotlinByte(cDate[readOffset + 1]).toKotlinInt()
+    val dw3 = UnsignedInt.fromKotlinByte(cDate[readOffset + 2]).toKotlinInt()
+    val dw4 = UnsignedInt.fromKotlinByte(cDate[readOffset + 3]).toKotlinInt()
+    val dw5 = UnsignedInt.fromKotlinByte(cDate[readOffset + 4]).toKotlinInt()
 
     // Unpack 5 byte structure to date and time
     val year = dw1 shl 6 or (dw2 shr 2)
@@ -199,7 +199,7 @@ fun bytes5ToDate(buf: ByteArray, calendar: Calendar = Calendar.getInstance()): D
 fun uIntTo4Bytes(value: UnsignedInt): ByteArray {
     val buf = ByteArray(4)
     for (i in 0 until 4) {
-        buf[i] = (value.toInt().ushr(8 * i) and 0xFF).toByte()
+        buf[i] = (value.toKotlinInt().ushr(8 * i) and 0xFF).toByte()
     }
     return buf
 }
@@ -246,8 +246,8 @@ fun dateTo5Bytes(date: Date, calendar: Calendar = Calendar.getInstance()): ByteA
     val minute = calendar.get(Calendar.MINUTE)
     val second = calendar.get(Calendar.SECOND)
 
-    buf[0] = UnsignedInt(year shr 6 and 0x0000003F).toByte()
-    buf[1] = UnsignedInt(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toByte()
+    buf[0] = UnsignedInt(year shr 6 and 0x0000003F).toKotlinByte()
+    buf[1] = UnsignedInt(year and 0x0000003F shl 2 or (month shr 2 and 0x00000003)).toKotlinByte()
     buf[2] = (month and 0x00000003 shl 6
             or (day and 0x0000001F shl 1) or (hour shr 4 and 0x00000001)).toByte()
     buf[3] = (hour and 0x0000000F shl 4 or (minute shr 2 and 0x0000000F)).toByte()

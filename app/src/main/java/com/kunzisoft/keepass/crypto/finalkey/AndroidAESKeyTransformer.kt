@@ -20,12 +20,10 @@
 package com.kunzisoft.keepass.crypto.finalkey
 
 import java.io.IOException
-import java.lang.Exception
 import java.security.InvalidKeyException
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import javax.crypto.Cipher
-import javax.crypto.NoSuchPaddingException
 import javax.crypto.ShortBufferException
 import javax.crypto.spec.SecretKeySpec
 

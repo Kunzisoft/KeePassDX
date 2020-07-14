@@ -89,7 +89,7 @@ class EntryActivity : LockingActivity() {
     private var mAttachmentsToDownload: HashMap<Int, EntryAttachment> = HashMap()
 
     private var clipboardHelper: ClipboardHelper? = null
-    private var firstLaunchOfActivity: Boolean = false
+    private var mFirstLaunchOfActivity: Boolean = false
 
     private var iconColor: Int = 0
 
@@ -130,9 +130,12 @@ class EntryActivity : LockingActivity() {
             lockAndExit()
         }
 
+        // Focus view to reinitialize timeout
+        resetAppTimeoutWhenViewFocusedOrChanged(coordinatorLayout)
+
         // Init the clipboard helper
         clipboardHelper = ClipboardHelper(this)
-        firstLaunchOfActivity = true
+        mFirstLaunchOfActivity = savedInstanceState?.getBoolean(KEY_FIRST_LAUNCH_ACTIVITY) ?: true
 
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
@@ -196,7 +199,7 @@ class EntryActivity : LockingActivity() {
             val entryInfo = entry.getEntryInfo(Database.getInstance())
 
             // Manage entry copy to start notification if allowed
-            if (firstLaunchOfActivity) {
+            if (mFirstLaunchOfActivity) {
                 // Manage entry to launch copying notification if allowed
                 ClipboardEntryNotificationService.launchNotificationIfAllowed(this, entryInfo)
                 // Manage entry to populate Magikeyboard and launch keyboard notification if allowed
@@ -215,7 +218,7 @@ class EntryActivity : LockingActivity() {
             }
         }
 
-        firstLaunchOfActivity = false
+        mFirstLaunchOfActivity = false
     }
 
     override fun onPause() {
@@ -542,6 +545,11 @@ class EntryActivity : LockingActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+
+        outState.putBoolean(KEY_FIRST_LAUNCH_ACTIVITY, mFirstLaunchOfActivity)
+    }
 
     override fun finish() {
         // Transit data in previous Activity after an update
@@ -554,6 +562,8 @@ class EntryActivity : LockingActivity() {
 
     companion object {
         private val TAG = EntryActivity::class.java.name
+
+        private const val KEY_FIRST_LAUNCH_ACTIVITY = "KEY_FIRST_LAUNCH_ACTIVITY"
 
         const val KEY_ENTRY = "KEY_ENTRY"
         const val KEY_ENTRY_HISTORY_POSITION = "KEY_ENTRY_HISTORY_POSITION"

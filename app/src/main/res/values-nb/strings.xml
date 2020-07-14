@@ -40,7 +40,6 @@
     <string name="clipboard_error_clear">Kunne ikke tømme utklippstavle</string>
     <string name="clipboard_timeout">Tidsavbrudd for utklippstavle</string>
     <string name="clipboard_timeout_summary">Tid før utklippstavlen tømmes etter kopiering av brukernavn og passord</string>
-    <string name="clipboard_swipe_clean">Dra for å tømme utklippstavlen nå</string>
     <string name="select_to_copy">Velg for å kopier %1$s til utklippstavlen</string>
     <string name="retrieving_db_key">Oppretter databasenøkkel…</string>
     <string name="database">Database</string>

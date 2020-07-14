@@ -32,7 +32,7 @@ import com.kunzisoft.keepass.model.getSearchString
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 
-class SearchHelper(private val isOmitBackup: Boolean) {
+class SearchHelper {
 
     companion object {
         const val MAX_SEARCH_ENTRY = 6
@@ -54,6 +54,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
                     // If search provide results
                     database.createVirtualGroupFromSearchInfo(
                             searchInfo.getSearchString(context),
+                            PreferencesUtil.omitBackup(context),
                             MAX_SEARCH_ENTRY
                     )?.let { searchGroup ->
                         if (searchGroup.getNumberOfChildEntries() > 0) {
@@ -77,6 +78,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
     fun createVirtualGroupWithSearchResult(database: Database,
                                            searchQuery: String,
                                            searchParameters: SearchParameters,
+                                           omitBackup: Boolean,
                                            max: Int): Group? {
 
         val searchGroup = database.createGroup()
@@ -101,7 +103,7 @@ class SearchHelper(private val isOmitBackup: Boolean) {
                     override fun operate(node: Group): Boolean {
                         return when {
                             incrementEntry >= max -> false
-                            database.isGroupSearchable(node, isOmitBackup) -> true
+                            database.isGroupSearchable(node, omitBackup) -> true
                             else -> false
                         }
                     }

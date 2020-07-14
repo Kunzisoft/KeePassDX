@@ -35,11 +35,11 @@ class ValuesTest : TestCase() {
     }
 
     fun testReadWriteLongMax() {
-        testReadWriteLong(java.lang.Byte.MAX_VALUE)
+        testReadWriteLong(Byte.MAX_VALUE)
     }
 
     fun testReadWriteLongMin() {
-        testReadWriteLong(java.lang.Byte.MIN_VALUE)
+        testReadWriteLong(Byte.MIN_VALUE)
     }
 
     fun testReadWriteLongRnd() {
@@ -62,11 +62,11 @@ class ValuesTest : TestCase() {
     }
 
     fun testReadWriteIntMin() {
-        testReadWriteInt(java.lang.Byte.MIN_VALUE)
+        testReadWriteInt(Byte.MIN_VALUE)
     }
 
     fun testReadWriteIntMax() {
-        testReadWriteInt(java.lang.Byte.MAX_VALUE)
+        testReadWriteInt(Byte.MAX_VALUE)
     }
 
     private fun testReadWriteInt(value: Byte) {
@@ -103,11 +103,11 @@ class ValuesTest : TestCase() {
     }
 
     fun testReadWriteShortMin() {
-        testReadWriteShort(java.lang.Byte.MIN_VALUE)
+        testReadWriteShort(Byte.MIN_VALUE)
     }
 
     fun testReadWriteShortMax() {
-        testReadWriteShort(java.lang.Byte.MAX_VALUE)
+        testReadWriteShort(Byte.MAX_VALUE)
     }
 
     private fun testReadWriteShort(value: Byte) {
@@ -125,15 +125,15 @@ class ValuesTest : TestCase() {
     }
 
     fun testReadWriteByteMin() {
-        testReadWriteByte(java.lang.Byte.MIN_VALUE)
+        testReadWriteByte(Byte.MIN_VALUE)
     }
 
     fun testReadWriteByteMax() {
-        testReadWriteShort(java.lang.Byte.MAX_VALUE)
+        testReadWriteShort(Byte.MAX_VALUE)
     }
 
     private fun testReadWriteByte(value: Byte) {
-        val dest: Byte = UnsignedInt(UnsignedInt.fromByte(value)).toByte()
+        val dest: Byte = UnsignedInt(UnsignedInt.fromKotlinByte(value)).toKotlinByte()
         assert(value == dest)
     }
 

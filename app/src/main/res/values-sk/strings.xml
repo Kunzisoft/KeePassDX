@@ -147,7 +147,6 @@
     <string name="clipboard_error_title">Chyba schránky</string>
     <string name="clipboard_error">Niektoré zariadenia nedovolia aplikáciám používať schránku.</string>
     <string name="clipboard_error_clear">Nepodarilo sa vymazať schránku</string>
-    <string name="clipboard_swipe_clean">Schránku vymažete potiahnutím prsta cez políčko</string>
     <string name="entry_not_found">Nenašli sa údaje záznamu</string>
     <string name="contact">Kontakt</string>
     <string name="content_description_open_file">Otvoriť súbor</string>

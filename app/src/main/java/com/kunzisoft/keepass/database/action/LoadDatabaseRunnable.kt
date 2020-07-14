@@ -27,7 +27,6 @@ import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.exception.LoadDatabaseException
-import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
@@ -39,7 +38,6 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mKey: Uri?,
                            private val mReadonly: Boolean,
                            private val mCipherEntity: CipherDatabaseEntity?,
-                           private val mOmitBackup: Boolean,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
                            private val mDuplicateUuidAction: ((Result) -> Unit)?)
@@ -58,7 +56,6 @@ class LoadDatabaseRunnable(private val context: Context,
                     mReadonly,
                     context.contentResolver,
                     cacheDirectory,
-                    mOmitBackup,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
@@ -88,9 +85,6 @@ class LoadDatabaseRunnable(private val context: Context,
 
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
-
-            // Start the opening notification
-            DatabaseOpenNotificationService.start(context)
         } else {
             mDatabase.closeAndClear(cacheDirectory)
         }

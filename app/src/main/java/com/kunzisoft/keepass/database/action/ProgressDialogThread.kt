@@ -27,7 +27,6 @@ import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.database.element.Entry
@@ -37,7 +36,6 @@ import com.kunzisoft.keepass.database.element.node.Node
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
-import com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_ASSIGN_PASSWORD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_COPY_NODES_TASK
@@ -68,7 +66,6 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.tasks.ActionRunnable
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment
 import com.kunzisoft.keepass.tasks.ProgressTaskDialogFragment.Companion.PROGRESS_TASK_DIALOG_TAG
-import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
@@ -90,9 +87,6 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
 
     private val actionTaskListener = object: DatabaseTaskNotificationService.ActionTaskListener {
         override fun onStartAction(titleId: Int?, messageId: Int?, warningId: Int?) {
-            TimeoutHelper.temporarilyDisableTimeout()
-            // Stop the opening notification
-            DatabaseOpenNotificationService.stop(activity)
             startDialog(titleId, messageId, warningId)
         }
 
@@ -102,21 +96,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
 
         override fun onStopAction(actionTask: String, result: ActionRunnable.Result) {
             onActionFinish?.invoke(actionTask, result)
-
             // Remove the progress task
             stopDialog()
-            TimeoutHelper.releaseTemporarilyDisableTimeout()
-
-            val inTime = if (activity is LockingActivity) {
-                TimeoutHelper.checkTimeAndLockIfTimeout(activity)
-            } else {
-                TimeoutHelper.checkTime(activity)
-            }
-            // Start the opening notification if in time
-            // (databaseOpenService is open manually in Action Open Task)
-            if (actionTask != ACTION_DATABASE_LOAD_TASK && inTime) {
-                DatabaseOpenNotificationService.start(activity)
-            }
         }
     }
 

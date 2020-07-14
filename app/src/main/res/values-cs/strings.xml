@@ -156,7 +156,6 @@
     <string name="key_derivation_function">Funkce pro tvorbu klíče</string>
     <string name="extended_ASCII">Rozšířené ASCII</string>
     <string name="allow">Umožnit</string>
-    <string name="clipboard_swipe_clean">Schránku vymažete přejetím</string>
     <string name="error_load_database">Databázi se nedaří načíst.</string>
     <string name="error_load_database_KDF_memory">Klíč se nedaří načíst, zkuste snížit množství paměti, využívané funkcí pro tvorbu klíče.</string>
     <string name="error_autofill_enable_service">Službu automatického vyplňování se nedaří zapnout.</string>
@@ -280,11 +279,10 @@
     <string name="education_entry_new_field_summary">Registrovat další kolonku, zadat hodnotu a volitelně ji ochránit.</string>
     <string name="education_unlock_title">Odemknout databázi</string>
     <string name="education_read_only_title">Ochraňte svou databázi před zápisem</string>
-    <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení.
-\n
-\nV režimu pouze pro čtení zabráníte nechtěným změnám do databáze.
-\n
-\nV režimu zápisu je možné přidávat, mazat nebo měnit všechny prvky dle libosti.</string>
+    <string name="education_read_only_summary">Změnit režim otevírání pro dané sezení. 
+\n 
+\nV režimu pouze pro čtení zabráníte nechtěným změnám do databáze. 
+\n V režimu zápisu je možné přidávat, mazat nebo měnit všechny prvky dle libosti.</string>
     <string name="education_field_copy_title">Zkopírujte kolonku</string>
     <string name="education_field_copy_summary">Zkopírované kolonky lze vkládat kam chcete 
 \n 
@@ -469,7 +467,7 @@
     <string name="validate">Ověřit</string>
     <string name="education_setup_OTP_summary">Nastavit správu One-Time hesla (HOTP / TOTP) pro založení tokenu požadovaného pro dvoufázové ověření (2FA).</string>
     <string name="education_setup_OTP_title">Nastavit OTP</string>
-    <string name="autofill_auto_search_summary">Automaticky navrhne výsledky hledání z webové domény nebo Id aplikace</string>
+    <string name="autofill_auto_search_summary">Automaticky navrhnout výsledky hledání z webové domény nebo ID aplikace</string>
     <string name="autofill_auto_search_title">Samočinné hledání</string>
     <string name="lock_database_show_button_summary">Ukáže tlačítko zámku v uživatelském rozhraní</string>
     <string name="lock_database_show_button_title">Ukázat tlačítko zámku</string>
@@ -478,4 +476,15 @@
     <string name="error_label_exists">Tento štítek již existuje.</string>
     <string name="keyboard_search_share_summary">Automaticky vyhledat sdílené informace pro naplnění klávesnice</string>
     <string name="keyboard_search_share_title">Prohledat sdílené info</string>
+    <string name="autofill_block_restart">Aktivovat zamezení restartováním aplikace obsahující formulář.</string>
+    <string name="autofill_block">Zamezit samovyplnění</string>
+    <string name="autofill_web_domain_blocklist_summary">Seznam domén, pro něž se zamezí samovyplnění</string>
+    <string name="autofill_web_domain_blocklist_title">Seznam blokovaných webových domén</string>
+    <string name="autofill_application_id_blocklist_summary">Seznam aplikací, v nichž se zamezí samovyplnění</string>
+    <string name="autofill_application_id_blocklist_title">Seznam blokovaných aplikací</string>
+    <string name="filter">Vytřídit</string>
+    <string name="subdomain_search_summary">Hledat ve webových doménách s omezením subdomén</string>
+    <string name="subdomain_search_title">Hledat v subdoméně</string>
+    <string name="error_string_type">Tento text se s požadovanou položkou neshoduje.</string>
+    <string name="content_description_add_item">Přidat položku</string>
 </resources>

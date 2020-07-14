@@ -99,7 +99,7 @@ class HashedBlockOutputStream : OutputStream {
 
     @Throws(IOException::class)
     private fun writeHashedBlock() {
-        baseStream.writeUInt(UnsignedInt.fromLong(bufferIndex))
+        baseStream.writeUInt(UnsignedInt.fromKotlinLong(bufferIndex))
         bufferIndex++
 
         if (bufferPos > 0) {

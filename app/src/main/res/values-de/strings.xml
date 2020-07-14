@@ -186,7 +186,7 @@
     <string name="list_password_generator_options_summary">Erlaubte Zeichen für Passwortgenerator festlegen</string>
     <string name="list_password_generator_options_title">Passwortzeichen</string>
     <string name="configure_biometric">Die biometrische Abfrage wird unterstützt, ist aber nicht eingerichtet.</string>
-    <string name="open_biometric_prompt_unlock_database">Biometrie-Abfrage öffnen, um die Datenbank zu entsperrenœ</string>
+    <string name="open_biometric_prompt_unlock_database">Biometrie-Abfrage öffnen, um die Datenbank zu entsperren</string>
     <string name="encrypted_value_stored">Verschlüsseltes Passwort wurde gespeichert</string>
     <string name="biometric_invalid_key">Der biometrische Schlüssel kann nicht gelesen werden. Bitte löschen Sie ihn und wiederholen Sie den biometrischen Erkennungsprozess.</string>
     <string name="biometric_scanning_error">Biometrischer Fehler: %1$s</string>
@@ -198,7 +198,6 @@
     <string name="key_derivation_function">Schlüsselableitungsfunktion</string>
     <string name="extended_ASCII">Erweiterte ASCII</string>
     <string name="allow">Erlauben</string>
-    <string name="clipboard_swipe_clean">Wischen, um Zwischenablage jetzt zu leeren</string>
     <string name="error_autofill_enable_service">Autofill-Dienst kann nicht aktiviert werden.</string>
     <string name="copy_field">Kopie von %1$s</string>
     <string name="menu_form_filling_settings">Formularausfüllung</string>
@@ -479,7 +478,7 @@
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
     <string name="validate">Validieren</string>
-    <string name="autofill_auto_search_summary">Suchergebnissen aus der Web-Domain oder Anwendung-ID automatisch vorschlagen</string>
+    <string name="autofill_auto_search_summary">Suchergebnisse aus der Web-Domain oder Anwendungs-ID automatisch vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
@@ -488,4 +487,15 @@
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
     <string name="keyboard_search_share_summary">Automatische Suche nach gemeinsam genutzten Informationen zur Belegung der Tastatur</string>
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
+    <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
+    <string name="autofill_block">Automatisches Füllen blockieren</string>
+    <string name="autofill_web_domain_blocklist_summary">Blockliste, die das automatische Füllen von Web-Domains verhindert</string>
+    <string name="autofill_web_domain_blocklist_title">Web-Domain-Blockliste</string>
+    <string name="autofill_application_id_blocklist_summary">Blockliste, die das automatische Füllen von Apps verhindert</string>
+    <string name="autofill_application_id_blocklist_title">Anwendungs-Blockliste</string>
+    <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
+    <string name="subdomain_search_title">Subdomain-Suche</string>
+    <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
+    <string name="content_description_add_item">Element hinzufügen</string>
+    <string name="filter">Filter</string>
 </resources>

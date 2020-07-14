@@ -208,7 +208,6 @@
     <string name="edit_entry">Editar entrada</string>
     <string name="encryption">Encriptação</string>
     <string name="key_derivation_function">Função de derivação de chave</string>
-    <string name="clipboard_swipe_clean">Deslize para o lado para limpar agora a área de transferência</string>
     <string name="error_autofill_enable_service">Não pôde ser habilitado o serviço de preenchimento automático.</string>
     <string name="encryption_explanation">Algoritmo de encriptação usado para todos os dados.</string>
     <string name="password_size_summary">Define o tamanho padrão para palavras-passe geradas</string>

@@ -369,6 +369,18 @@ object PreferencesUtil {
                 context.resources.getBoolean(R.bool.keyboard_key_sound_default))
     }
 
+    fun isKeyboardPreviousDatabaseCredentialsEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_previous_database_credentials_key),
+                context.resources.getBoolean(R.bool.keyboard_previous_database_credentials_default))
+    }
+
+    fun isKeyboardPreviousFillInEnable(context: Context): Boolean {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(context)
+        return prefs.getBoolean(context.getString(R.string.keyboard_previous_fill_in_key),
+                context.resources.getBoolean(R.bool.keyboard_previous_fill_in_default))
+    }
+
     fun isAutofillAutoSearchEnable(context: Context): Boolean {
         val prefs = PreferenceManager.getDefaultSharedPreferences(context)
         return prefs.getBoolean(context.getString(R.string.autofill_auto_search_key),

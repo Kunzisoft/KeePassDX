@@ -176,10 +176,10 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
     private fun readHeaderField(dis: LittleEndianDataInputStream): Boolean {
         val fieldID = dis.read().toByte()
 
-        val fieldSize: Int = if (version.toLong() < FILE_VERSION_32_4.toLong()) {
+        val fieldSize: Int = if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong()) {
             dis.readUShort()
         } else {
-            dis.readUInt().toInt()
+            dis.readUInt().toKotlinInt()
         }
 
         var fieldData: ByteArray? = null
@@ -202,20 +202,20 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
 
             PwDbHeaderV4Fields.MasterSeed -> masterSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformSeed -> if (version.toLong() < FILE_VERSION_32_4.toLong())
+            PwDbHeaderV4Fields.TransformSeed -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 transformSeed = fieldData
 
-            PwDbHeaderV4Fields.TransformRounds -> if (version.toLong() < FILE_VERSION_32_4.toLong())
+            PwDbHeaderV4Fields.TransformRounds -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 setTransformRound(fieldData)
 
             PwDbHeaderV4Fields.EncryptionIV -> encryptionIV = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toLong() < FILE_VERSION_32_4.toLong())
+            PwDbHeaderV4Fields.InnerRandomstreamKey -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 innerRandomStreamKey = fieldData
 
             PwDbHeaderV4Fields.StreamStartBytes -> streamStartBytes = fieldData
 
-            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toLong() < FILE_VERSION_32_4.toLong())
+            PwDbHeaderV4Fields.InnerRandomStreamID -> if (version.toKotlinLong() < FILE_VERSION_32_4.toKotlinLong())
                 setRandomStreamID(fieldData)
 
             PwDbHeaderV4Fields.KdfParameters -> databaseV4.kdfParameters = KdfParameters.deserialize(fieldData)
@@ -261,7 +261,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         }
 
         val flag = bytes4ToUInt(pbFlags)
-        if (flag.toLong() < 0 || flag.toLong() >= CompressionAlgorithm.values().size) {
+        if (flag.toKotlinLong() < 0 || flag.toKotlinLong() >= CompressionAlgorithm.values().size) {
             throw IOException("Unrecognized compression flag.")
         }
 
@@ -277,7 +277,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         }
 
         val id = bytes4ToUInt(streamID)
-        if (id.toInt() < 0 || id.toInt() >= CrsAlgorithm.values().size) {
+        if (id.toKotlinInt() < 0 || id.toKotlinInt() >= CrsAlgorithm.values().size) {
             throw IOException("Invalid stream id.")
         }
 
@@ -292,8 +292,8 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
      * @return true if it's a supported version
      */
     private fun validVersion(version: UnsignedInt): Boolean {
-        return version.toInt() and FILE_VERSION_CRITICAL_MASK.toInt() <=
-                FILE_VERSION_32_4.toInt() and FILE_VERSION_CRITICAL_MASK.toInt()
+        return version.toKotlinInt() and FILE_VERSION_CRITICAL_MASK.toKotlinInt() <=
+                FILE_VERSION_32_4.toKotlinInt() and FILE_VERSION_CRITICAL_MASK.toKotlinInt()
     }
 
     companion object {
@@ -306,7 +306,7 @@ class DatabaseHeaderKDBX(private val databaseV4: DatabaseKDBX) : DatabaseHeader(
         val FILE_VERSION_32_4 = UnsignedInt(0x00040000)
 
         fun getCompressionFromFlag(flag: UnsignedInt): CompressionAlgorithm? {
-            return when (flag.toInt()) {
+            return when (flag.toKotlinInt()) {
                 0 -> CompressionAlgorithm.None
                 1 -> CompressionAlgorithm.GZip
                 else -> null

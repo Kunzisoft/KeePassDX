@@ -147,7 +147,6 @@
     <string name="clipboard_error_title">クリップボードエラー</string>
     <string name="clipboard_error">一部の端末ではアプリからクリップボードを使用できません。</string>
     <string name="clipboard_error_clear">クリップボードをクリアできません</string>
-    <string name="clipboard_swipe_clean">スワイプすると今すぐクリップボードをクリアします</string>
     <string name="entry_not_found">エントリデータが見つかりませんでした。</string>
     <string name="error_load_database">データベースを読み込みできませんでした。</string>
     <string name="error_load_database_KDF_memory">鍵を読み込みできませんでした。KDF の \"メモリ使用量\" を下げてみてください。</string>

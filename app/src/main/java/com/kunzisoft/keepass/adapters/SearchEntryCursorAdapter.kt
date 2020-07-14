@@ -46,7 +46,8 @@ class SearchEntryCursorAdapter(private val context: Context,
 
     private val cursorInflater: LayoutInflater? = context.getSystemService(
             Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-    private var displayUsername: Boolean = false
+    private var mDisplayUsername: Boolean = false
+    private var mOmitBackup: Boolean = true
     private val iconColor: Int
 
     init {
@@ -59,7 +60,8 @@ class SearchEntryCursorAdapter(private val context: Context,
     }
 
     fun reInit(context: Context) {
-        this.displayUsername = PreferencesUtil.showUsernamesListEntries(context)
+        this.mDisplayUsername = PreferencesUtil.showUsernamesListEntries(context)
+        this.mOmitBackup = PreferencesUtil.omitBackup(context)
     }
 
     override fun newView(context: Context, cursor: Cursor, parent: ViewGroup): View {
@@ -93,7 +95,7 @@ class SearchEntryCursorAdapter(private val context: Context,
             // Assign subtitle
             viewHolder.textViewSubTitle?.apply {
                 val entryUsername = currentEntry.username
-                text = if (displayUsername && entryUsername.isNotEmpty()) {
+                text = if (mDisplayUsername && entryUsername.isNotEmpty()) {
                     String.format("(%s)", entryUsername)
                 } else {
                     ""
@@ -129,7 +131,9 @@ class SearchEntryCursorAdapter(private val context: Context,
         if (database.type == DatabaseKDBX.TYPE)
             cursorKDBX = EntryCursorKDBX()
 
-        val searchGroup = database.createVirtualGroupFromSearch(query, SearchHelper.MAX_SEARCH_ENTRY)
+        val searchGroup = database.createVirtualGroupFromSearch(query,
+                mOmitBackup,
+                SearchHelper.MAX_SEARCH_ENTRY)
         if (searchGroup != null) {
             // Search in hide entries but not meta-stream
             for (entry in searchGroup.getFilteredChildEntries(Group.ChildFilter.getDefaults(context))) {

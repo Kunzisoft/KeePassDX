@@ -65,7 +65,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
     // Views
     private var coordinatorLayout: CoordinatorLayout? = null
     private var fileManagerExplanationButton: View? = null
-    private var databaseButtonsContainerView: View? = null
     private var createDatabaseButtonView: View? = null
     private var openDatabaseButtonView: View? = null
 
@@ -96,8 +95,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         fileManagerExplanationButton?.setOnClickListener {
             UriUtil.gotoUrl(this, R.string.file_manager_explanation_url)
         }
-
-        databaseButtonsContainerView = findViewById(R.id.database_buttons_container)
 
         // Create database button
         createDatabaseButtonView = findViewById(R.id.create_database_button)
@@ -271,8 +268,8 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         // Show open and create button or special mode
         if  (mSelectionMode) {
-            // Disable buttons if in selection mode or request for autofill
-            databaseButtonsContainerView?.visibility = View.GONE
+            // Disable create button if in selection mode or request for autofill
+            createDatabaseButtonView?.visibility = View.GONE
         } else {
             if (allowCreateDocumentByStorageAccessFramework(packageManager)) {
                 // There is an activity which can handle this intent.
@@ -281,7 +278,6 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 // No Activity found that can handle this intent.
                 createDatabaseButtonView?.visibility = View.GONE
             }
-            databaseButtonsContainerView?.visibility = View.VISIBLE
         }
 
         val database = Database.getInstance()
@@ -403,11 +399,12 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private fun performedNextEducation(fileDatabaseSelectActivityEducation: FileDatabaseSelectActivityEducation) {
         // If no recent files
-        val createDatabaseEducationPerformed = createDatabaseButtonView != null && createDatabaseButtonView!!.visibility == View.VISIBLE
+        val createDatabaseEducationPerformed =
+                createDatabaseButtonView != null && createDatabaseButtonView!!.visibility == View.VISIBLE
                 && mAdapterDatabaseHistory != null
                 && mAdapterDatabaseHistory!!.itemCount > 0
                 && fileDatabaseSelectActivityEducation.checkAndPerformedCreateDatabaseEducation(
-                createDatabaseButtonView!!,
+                        createDatabaseButtonView!!,
                 {
                     createNewFile()
                 },

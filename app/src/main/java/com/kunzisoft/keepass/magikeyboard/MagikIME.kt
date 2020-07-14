@@ -65,6 +65,9 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
                         removeEntryInfo()
                         assignKeyboardView()
         }
+        lockReceiver?.backToPreviousKeyboardAction = {
+            switchToPreviousKeyboard()
+        }
 
         registerLockReceiver(lockReceiver, true)
     }
@@ -262,8 +265,12 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
     }
 
     private fun actionGoAutomatically() {
-        if (PreferencesUtil.isAutoGoActionEnable(this))
+        if (PreferencesUtil.isAutoGoActionEnable(this)) {
             currentInputConnection.performEditorAction(EditorInfo.IME_ACTION_GO)
+            if (PreferencesUtil.isKeyboardPreviousFillInEnable(this)) {
+                switchToPreviousKeyboard()
+            }
+        }
     }
 
     override fun onPress(primaryCode: Int) {

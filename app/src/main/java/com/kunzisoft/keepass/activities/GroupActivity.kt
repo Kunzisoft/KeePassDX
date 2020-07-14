@@ -32,6 +32,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -75,7 +76,10 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.*
+import com.kunzisoft.keepass.view.AddNodeButtonView
+import com.kunzisoft.keepass.view.ToolbarAction
+import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.view.showActionError
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -87,6 +91,7 @@ class GroupActivity : LockingActivity(),
         SortDialogFragment.SortSelectionListener {
 
     // Views
+    private var rootContainerView: ViewGroup? = null
     private var coordinatorLayout: CoordinatorLayout? = null
     private var lockView: View? = null
     private var toolbar: Toolbar? = null
@@ -127,6 +132,7 @@ class GroupActivity : LockingActivity(),
         setContentView(layoutInflater.inflate(R.layout.activity_group, null))
 
         // Initialize views
+        rootContainerView = findViewById(R.id.activity_group_container_view)
         coordinatorLayout = findViewById(R.id.group_coordinator)
         iconView = findViewById(R.id.group_icon)
         numberChildrenView = findViewById(R.id.group_numbers)
@@ -150,7 +156,7 @@ class GroupActivity : LockingActivity(),
         taTextColor.recycle()
 
         // Focus view to reinitialize timeout
-        resetAppTimeoutWhenViewFocusedOrChanged(addNodeButtonView)
+        resetAppTimeoutWhenViewFocusedOrChanged(rootContainerView)
 
         // Retrieve elements after an orientation change
         if (savedInstanceState != null) {
@@ -389,7 +395,8 @@ class GroupActivity : LockingActivity(),
         // If it's a search
         if (Intent.ACTION_SEARCH == intent.action) {
             val searchString = intent.getStringExtra(SearchManager.QUERY)?.trim { it <= ' ' } ?: ""
-            return mDatabase?.createVirtualGroupFromSearch(searchString)
+            return mDatabase?.createVirtualGroupFromSearch(searchString,
+                    PreferencesUtil.omitBackup(this))
         }
         // else a real group
         else {

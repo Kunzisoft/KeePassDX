@@ -26,8 +26,6 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement.Companion.replaceSpaceChars
 import com.kunzisoft.keepass.otp.TokenCalculator.*
-import java.lang.Exception
-import java.lang.StringBuilder
 import java.net.URLEncoder
 import java.util.*
 import java.util.regex.Pattern

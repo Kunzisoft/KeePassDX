@@ -24,7 +24,7 @@ class UnsignedLong(private var unsignedValue: Long) {
     /**
      * Convert an unsigned Integer to Long
      */
-    fun toLong(): Long {
+    fun toKotlinLong(): Long {
         return unsignedValue
     }
 

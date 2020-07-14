@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.tasks
 
 import android.os.Bundle
 import com.kunzisoft.keepass.database.exception.DatabaseException
-import java.lang.Exception
 
 /**
  * Callback after a task is completed.

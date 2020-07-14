@@ -38,6 +38,7 @@ object TimeoutHelper {
 
     private const val TAG = "TimeoutHelper"
 
+    private var lastAppTimeoutRecord: Long? = null
     var temporarilyDisableTimeout = false
         private set
 
@@ -84,9 +85,15 @@ object TimeoutHelper {
      * Record the current time, to check it later with checkTime and start a new lock timer
      */
     fun recordTime(context: Context) {
-        // Record timeout time in case timeout service is killed
-        PreferencesUtil.saveCurrentTime(context)
-        startLockTimer(context)
+        // To prevent spam registration, record after at least 2 seconds
+        if (lastAppTimeoutRecord == null
+                || lastAppTimeoutRecord!! + 2000 <= System.currentTimeMillis()) {
+            Log.d(TAG, "Record app timeout")
+            // Record timeout time in case timeout service is killed
+            PreferencesUtil.saveCurrentTime(context)
+            startLockTimer(context)
+            lastAppTimeoutRecord = System.currentTimeMillis()
+        }
     }
 
     /**

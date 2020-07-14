@@ -102,7 +102,7 @@ class GroupKDBX : GroupVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
     override fun writeToParcel(dest: Parcel, flags: Int) {
         super.writeToParcel(dest, flags)
         dest.writeParcelable(iconCustom, flags)
-        dest.writeLong(usageCount.toLong())
+        dest.writeLong(usageCount.toKotlinLong())
         dest.writeParcelable(locationChanged, flags)
         // TODO ParcelableUtil.writeStringParcelableMap(dest, customData);
         dest.writeString(notes)
