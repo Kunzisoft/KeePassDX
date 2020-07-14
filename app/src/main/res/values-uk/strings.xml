@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
-    <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну</string>
+    <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
     <string name="retrieving_db_key">Створення ключа бази даних…</string>
     <string name="database">База даних</string>
@@ -486,4 +486,5 @@
     <string name="error_string_type">Текст не відповідає запитуваному елементу.</string>
     <string name="filter">Фільтр</string>
     <string name="content_description_add_item">Додати елемент</string>
+    <string name="keyboard_change">Зміна клавіатури</string>
 </resources>
