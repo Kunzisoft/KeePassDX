@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources>
+--><resources>
     <string name="feedback">回饋</string>
     <string name="homepage">首頁</string>
     <string name="about_description">KeePass密碼管理軟體的Android版本。</string>
@@ -66,7 +65,7 @@
     <string name="error_pass_gen_type">必須至少選擇一個密碼生成類型。</string>
     <string name="error_pass_match">密碼不正確。</string>
     <string name="error_rounds_too_large">次數太多。最大設置到2147483648。</string>
-    <string name="error_wrong_length">長度欄位輸入一個正整數</string>
+    <string name="error_wrong_length">請在長度欄位輸入一個正整數。</string>
     <string name="file_browser">檔案管理器</string>
     <string name="generate_password">生成密碼</string>
     <string name="hint_conf_pass">確認密碼</string>
@@ -256,4 +255,30 @@
     <string name="clipboard_explanation_summary">使用設備的剪貼板複製輸入密碼</string>
     <string name="contact">聯繫方式</string>
     <string name="contribution">貢獻</string>
+    <string name="command_execution">指令執行中……</string>
+    <string name="show_recent_files_summary">顯示最近使用的儲存庫位置</string>
+    <string name="show_recent_files_title">最近開啟的文件</string>
+    <string name="remember_keyfile_locations_summary">記住密鑰位置</string>
+    <string name="remember_keyfile_locations_title">密鑰儲存位置</string>
+    <string name="remember_database_locations_summary">記住數據庫位置</string>
+    <string name="remember_database_locations_title">數據庫儲存位置</string>
+    <string name="subdomain_search_summary">搜尋帶有子網域限制的網域</string>
+    <string name="subdomain_search_title">子網域搜尋</string>
+    <string name="auto_focus_search_summary">打開數據庫時就開始搜尋</string>
+    <string name="auto_focus_search_title">快速搜尋</string>
+    <string name="menu_delete_entry_history">刪除編輯歷史</string>
+    <string name="menu_restore_entry_history">恢復舊紀錄</string>
+    <string name="menu_empty_recycle_bin">清理回收桶</string>
+    <string name="menu_save_database">儲存數據庫</string>
+    <string name="copy_field">複製%1$s</string>
+    <string name="invalid_db_same_uuid">與%1$s的UUID相同的%2$s已經存在。</string>
+    <string name="error_save_database">無法儲存數據庫。</string>
+    <string name="error_create_database">無法建立數據庫。</string>
+    <string name="error_label_exists">此標籤已存在。</string>
+    <string name="entry_attachments">附件</string>
+    <string name="entry_add_attachment">添加附件</string>
+    <string name="discard">丟棄</string>
+    <string name="discard_changes">放棄變更？</string>
+    <string name="validate">驗證</string>
+    <string name="content_description_add_item">添加項目</string>
 </resources>
