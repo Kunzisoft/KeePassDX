@@ -290,8 +290,8 @@
     <string name="education_donation_title">Partecipa</string>
     <string name="education_donation_summary">Aiuta a migliorare la stabilità, la sicurezza e ad aggiungere nuove funzioni.</string>
     <string name="html_text_ad_free">Diversamente da molte app di gestione password, questa è &lt;strong&gt;senza pubblicità&lt;/strong&gt;, &lt;strong&gt;software libero (copyleft)&lt;/strong&gt; e non raccoglie dati personali nei suoi server, non importa quale versione usi.</string>
-    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questo <strong>tema</strong> e soprattutto aiuterai nella <strong>realizzazione di progetti della comunità.</strong></string>
-    <string name="html_text_feature_generosity">Questo<strong>tema</strong> è disponibile grazie alla tua generosità.</string>
+    <string name="html_text_buy_pro">Acquistando la versione pro, avrai accesso a questo &lt;strong&gt;tema&lt;/strong&gt; e soprattutto aiuterai nella &lt;strong&gt;realizzazione di progetti della comunità.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Questo&lt;strong&gt;tema&lt;/strong&gt; è disponibile grazie alla tua generosità.</string>
     <string name="html_text_donation">Per mantenere la nostra libertà ed essere sempre attivi, contiamo sul tuo &lt;strong&gt;contributo.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Questa funzione è &lt;strong&gt;in sviluppo&lt;/strong&gt; e richiede il tuo &lt;strong&gt;contributo&lt;/strong&gt; per essere disponibile a breve.</string>

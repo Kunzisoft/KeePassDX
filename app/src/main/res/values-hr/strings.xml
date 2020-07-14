@@ -343,8 +343,8 @@
     <string name="auto_focus_search_title">Brza pretraga</string>
     <string name="error_create_database">Nije moguće stvoriti datoteku baze podataka.</string>
     <string name="error_rounds_too_large">Previše „transformacijskih prolaza”. Postavlja se na 2147483648.</string>
-    <string name="html_about_licence">KeePassDX © %1$d. Kunzisoft je softver <strong>otvorenog koda</strong> i <strong>ne sadrži oglase</strong>. 
-\nNudi se kakav je, pod <strong>GPLv3</strong> licencom, bez jamstva.</string>
+    <string name="html_about_licence">KeePassDX © %1$d. Kunzisoft je softver &lt;strong&gt;otvorenog koda&lt;/strong&gt; i &lt;strong&gt;ne sadrži oglase&lt;/strong&gt;.
+\nNudi se kakav je, pod &lt;strong&gt;GPLv3&lt;/strong&gt; licencom, bez jamstva.</string>
     <string name="entry_add_attachment">Dodaj privitak</string>
     <string name="discard">Odbaci</string>
     <string name="discard_changes">Odbaciti promjene\?</string>
@@ -354,7 +354,7 @@
     <string name="unavailable_feature_version">Tvoja Android verzija %1$s ne odgovara minimalno potrebnoj verziji %2$s.</string>
     <string name="autofill_auto_search_summary">Automatski predloži rezultate pretrage od web domene ili ID-a aplikacije</string>
     <string name="hide_broken_locations_summary">Sakrij pokvarene poveznice u popisu nedavnih baza podataka</string>
-    <string name="html_text_dev_feature">Ova se funkcija nalazi <strong>u razvoju</strong> i treba tvoj <strong>doprinos</strong> kako bi uskoro bila dostupna.</string>
+    <string name="html_text_dev_feature">Ova se funkcija nalazi &lt;strong&gt;u razvoju&lt;/strong&gt; i treba tvoj &lt;strong&gt;doprinos&lt;/strong&gt; kako bi uskoro bila dostupna.</string>
     <string name="education_generate_password_title">Stvori sigurnu lozinku</string>
     <string name="education_entry_new_field_summary">Registriraj dodatno polje, dodaj vrijednost i po želji ga zaštiti.</string>
     <string name="lock_database_show_button_title">Prikaži gumb za zaključavanje</string>
@@ -364,10 +364,10 @@
     <string name="education_entry_edit_title">Uredi unos</string>
     <string name="autofill_auto_search_title">Automatska pretraga</string>
     <string name="html_text_dev_feature_work_hard">Trudimo se brzo izdati ovu funkciju.</string>
-    <string name="html_text_dev_feature_encourage">potičeš programere da stvore <strong>nove funkcije</strong> i <strong>isprave greške</strong> na osnovi tvojih napomena.</string>
+    <string name="html_text_dev_feature_encourage">potičeš programere da stvore &lt;strong&gt;nove funkcije&lt;/strong&gt; i &lt;strong&gt;isprave greške&lt;/strong&gt; na osnovi tvojih napomena.</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="keyboard_auto_go_action_summary">Radnja tipke „Idi” nakon pritiskanja tipke „Polje”</string>
-    <string name="html_about_contribution">Kako bismo <strong>zadržali našu slobodu</strong>, <strong>ispravljali greške</strong>, <strong>dodavali funkcije</strong> i <strong>uvijek bili aktivni</strong>, računamo na tvoj <strong>doprinos</strong>.</string>
+    <string name="html_about_contribution">Kako bismo &lt;strong&gt;zadržali našu slobodu&lt;/strong&gt;, &lt;strong&gt;ispravljali greške&lt;/strong&gt;, &lt;strong&gt;dodavali funkcije&lt;/strong&gt; i &lt;strong&gt;uvijek bili aktivni&lt;/strong&gt;, računamo na tvoj &lt;strong&gt;doprinos&lt;/strong&gt;.</string>
     <string name="autofill_web_domain_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje web domena</string>
     <string name="feedback">Povratne informacije</string>
     <string name="autofill_preference_title">Postavke automatskog ispunjavanja</string>
@@ -404,14 +404,14 @@
     <string name="filter">Filtar</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="show_recent_files_title">Prikaži nedavne datoteke</string>
-    <string name="html_text_dev_feature_contibute"><strong>Doprinosom</strong>,</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;Doprinosom&lt;/strong&gt;,</string>
     <string name="education_entry_new_field_title">Dodaj prilagođena polja</string>
     <string name="education_lock_summary">Zaključaj bazu podataka brzo, aplikaciju možeš postaviti tako da bazu nakon nekog vremena zaključa i kad se ekran isključi.</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="show_recent_files_summary">Prikaži mjesto nedavnih baza podataka</string>
     <string name="education_biometric_summary">Za brzo otključavanje baze podataka, poveži lozinku sa skeniranom biometrijom.</string>
-    <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj<strong>doprinos.</strong></string>
+    <string name="html_text_donation">Kako bismo zadržali našu slobodu i uvijek bili aktivni, računamo na tvoj&lt;strong&gt;doprinos.&lt;/strong&gt;</string>
     <string name="kdf_explanation">Za stvaranje ključa za algoritam šifriranja, glavni ključ se transformira pomoću funkcije za generiranje ključeva koja sadrži slučajnu komponentu.</string>
     <string name="lock_database_back_root_summary">Zaključaj bazu podataka kad korisnik pritisne gumb za natrag na ekranu</string>
     <string name="hide_broken_locations_title">Sakrij pokvarene poveznice baze podataka</string>
@@ -433,13 +433,13 @@
     <string name="html_text_dev_feature_thanks">Zahvaljujemo na doprinosu.</string>
     <string name="education_setup_OTP_title">Postavi OTP</string>
     <string name="content_description_add_item">Dodaj element</string>
-    <string name="html_text_dev_feature_buy_pro">Kupnjom <strong>pro</strong> verzije,</string>
+    <string name="html_text_dev_feature_buy_pro">Kupnjom &lt;strong&gt;pro&lt;/strong&gt; verzije,</string>
     <string name="keyboard_selection_entry_summary">Prikaži polja unosa u Magikeyboardu prilikom prikaza unosa</string>
     <string name="education_new_node_title">Dodaj elemente u bazu podataka</string>
     <string name="keyboard_search_share_summary">Automatski traži dijeljene informacije radi punjenja tipkovnice</string>
     <string name="education_donation_summary">Pomogni povećati stabilnost i sigurnost dodavanjem dodatnih funkcija.</string>
     <string name="error_string_type">Ovaj se tekst ne poklapa sa zatraženim elementom.</string>
-    <string name="html_text_buy_pro">Kupnjom pro verzije imat ćaš pristup ovom <strong>vizualnom stilu</strong> i k tome ćeš pomoći <strong>u realizaciji projekata zajednice.</strong></string>
+    <string name="html_text_buy_pro">Kupnjom pro verzije imat ćaš pristup ovom &lt;strong&gt;vizualnom stilu&lt;/strong&gt; i k tome ćeš pomoći &lt;strong&gt;u realizaciji projekata zajednice.&lt;/strong&gt;</string>
     <string name="keyboard_auto_go_action_title">Automatska radnja tipke</string>
     <string name="education_sort_title">Razvrstavanje elemenata</string>
     <string name="autofill_application_id_blocklist_summary">Popis blokiranja koja sprečavaju automatsko ispunjavanje aplikacija</string>
@@ -448,7 +448,7 @@
 \n„Zaštićeno od pisanja” sprečava nenamjerne promjene u bazi podataka.
 \n„Promjenjivo” omogućuje dodavanje, brisanje ili mijenjanje svih elemenata.</string>
     <string name="education_search_summary">Upiši naslov, korisničko ime ili sadržaj drugih polja za pronalaženje lozinki.</string>
-    <string name="html_text_feature_generosity">Ovaj <strong>visualni stil</strong> dostupan je zahvaljujući tvojoj darežljivosti.</string>
+    <string name="html_text_feature_generosity">Ovaj &lt;strong&gt;visualni stil&lt;/strong&gt; dostupan je zahvaljujući tvojoj darežljivosti.</string>
     <string name="education_unlock_summary">Upiši lozinku i/ili datoteku ključa za otključavanje baze podataka.
 \n
 \nSpremi sigurnosnu kopiju datoteke baze podataka na sigurno mjesto nakon svake promjene.</string>
@@ -460,7 +460,7 @@
     <string name="download">Preuzimanje</string>
     <string name="lock_database_show_button_summary">Prikazuje gumb za zaključavanje u korisničkom sučelju</string>
     <string name="remember_keyfile_locations_summary">Zapamti mjesto datoteka ključeva baze podataka</string>
-    <string name="html_text_ad_free">Za razliku od mnogih aplikacija za upravljanje lozinkama, ova je <strong>bez oglasa</strong>, <strong>copylefted slobodan softver</strong> i ne prikuplja osobne podatke na svojim poslužiteljima, bez obzira na korištenu verziju.</string>
+    <string name="html_text_ad_free">Za razliku od mnogih aplikacija za upravljanje lozinkama, ova je &lt;strong&gt;bez oglasa&lt;/strong&gt;, &lt;strong&gt;copylefted slobodan softver&lt;/strong&gt; i ne prikuplja osobne podatke na svojim poslužiteljima, bez obzira na korištenu verziju.</string>
     <string name="rounds">Transformacijski prolazi</string>
     <string name="download_initialization">Inicijaliziranje …</string>
     <string name="biometric_scanning_error">Biometrijska greška: %1$s</string>

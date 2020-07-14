@@ -296,7 +296,7 @@
     <string name="otp_counter">العداد</string>
     <string name="entry_setup_otp">عين كلمة المرور للمرة الواحدة</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">من أجل <strong>حماية خصوصيتا</strong>٫<strong> إصلاح العلل</strong>٫ <strong>إضافة مميزات</strong> <strong>وجعلنا نشطاء دائما</strong>٫ نحن نعتمد على <strong>مساهمتك</strong>.</string>
+    <string name="html_about_contribution">من أجل &lt;strong&gt;حماية خصوصيتا&lt;/strong&gt;٫&lt;strong&gt; إصلاح العلل&lt;/strong&gt;٫ &lt;strong&gt;إضافة مميزات&lt;/strong&gt; &lt;strong&gt;وجعلنا نشطاء دائما&lt;/strong&gt;٫ نحن نعتمد على &lt;strong&gt;مساهمتك&lt;/strong&gt;.</string>
     <string name="content_description_keyfile_checkbox">خانة تأشير الملف المفتاحي</string>
     <string name="content_description_password_checkbox">خانة تأشير كلمة المرور</string>
     <string name="content_description_add_item">أضف عنصر</string>

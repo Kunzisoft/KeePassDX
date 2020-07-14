@@ -42,8 +42,8 @@
     <string name="decrypting_db">Puretaan tietokannan sisältöä…</string>
     <string name="default_checkbox">Käytä tätä oletustietokantana</string>
     <string name="digits">Numerot</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on <strong>avointa lähdekoodia</strong> ja <strong>mainokseton</strong>.
-\nSe tarjotaan sellaisenaan <strong>GPLv3</strong> lisenssillä ja ilman takuuta.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft on &lt;strong&gt;avointa lähdekoodia&lt;/strong&gt; ja &lt;strong&gt;mainokseton&lt;/strong&gt;.
+\nSe tarjotaan sellaisenaan &lt;strong&gt;GPLv3&lt;/strong&gt; lisenssillä ja ilman takuuta.</string>
     <string name="select_database_file">Anna tietokannan tiedostonimi</string>
     <string name="entry_accessed">Käytetty</string>
     <string name="entry_cancel">Peruuta</string>
@@ -175,7 +175,7 @@
     <string name="entry_attachments">Liitetiedostot</string>
     <string name="entry_history">Historia</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Pitääksemme <strong>vapaudemme</strong>, <strong>korjataksemme bugeja</strong>, <strong>lisätäksemme ominaisuuksia</strong> ja <strong>ollaksemme aina ajantasalla</strong>, luotamme teidän <strong>apuun</strong>.</string>
+    <string name="html_about_contribution">Pitääksemme &lt;strong&gt;vapaudemme&lt;/strong&gt;, &lt;strong&gt;korjataksemme bugeja&lt;/strong&gt;, &lt;strong&gt;lisätäksemme ominaisuuksia&lt;/strong&gt; ja &lt;strong&gt;ollaksemme aina ajantasalla&lt;/strong&gt;, luotamme teidän &lt;strong&gt;apuun&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Sulje kenttä</string>
     <string name="content_description_update_from_list">Päivitä</string>
     <string name="entry_add_field">Lisää kenttä</string>
