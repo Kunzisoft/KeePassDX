@@ -391,9 +391,9 @@
     <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>
-    <string name="max_history_items_title">Maksimum sayı</string>
+    <string name="max_history_items_title">Azami sayı</string>
     <string name="max_history_items_summary">Girdi başına geçmiş ögelerinin sayısını sınırla</string>
-    <string name="max_history_size_title">Maksimum boyut</string>
+    <string name="max_history_size_title">Azami boyut</string>
     <string name="max_history_size_summary">Giriş başına geçmiş boyutunu (bayt olarak) sınırlama</string>
     <string name="settings_database_recommend_changing_master_key_title">Yenilemeyi öner</string>
     <string name="settings_database_recommend_changing_master_key_summary">Ana anahtarın değiştirilmesini öner (gün)</string>
