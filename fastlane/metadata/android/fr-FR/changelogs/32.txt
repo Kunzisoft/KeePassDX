@@ -5,5 +5,3 @@
  * Correction du nom d'utilisateur par défaut
  * Correction des thèmes
  * Corrections de petits problèmes
-
-

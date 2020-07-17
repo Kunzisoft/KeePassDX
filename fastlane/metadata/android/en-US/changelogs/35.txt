@@ -3,4 +3,3 @@
  * Upgrade autofill recognition algorithm
  * Setting to search through web subdomains
  * Refactoring selection mode
-
