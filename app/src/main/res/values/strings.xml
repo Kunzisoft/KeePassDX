@@ -460,7 +460,7 @@
         <item>Medium</item>
         <item>Large</item>
     </string-array>
-    <string name="style_choose_title">Theme</string>
+    <string name="style_choose_title">App theme</string>
     <string name="style_choose_summary">Theme used in the app</string>
     <string-array name="list_style_names">
         <item>Light</item>
