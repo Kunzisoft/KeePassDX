@@ -47,7 +47,7 @@ import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
-class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
+open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
     override val notificationId: Int = 575
 
@@ -90,7 +90,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
-    private fun buildNotification(intent: Intent?) {
+    open fun buildNotification(intent: Intent?) {
         var saveAction = true
         if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
             saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)

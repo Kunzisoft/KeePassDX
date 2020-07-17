@@ -23,7 +23,6 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -31,14 +30,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LOCK_ACTION
 import com.kunzisoft.keepass.utils.closeDatabase
 
-class DatabaseOpenNotificationService: LockNotificationService() {
-
-    override val notificationId: Int = 340
-
-    private fun stopNotificationAndSendLock() {
-        // Send lock action
-        sendBroadcast(Intent(LOCK_ACTION))
-    }
+class DatabaseOpenNotificationService: DatabaseTaskNotificationService() {
 
     override fun actionOnLock() {
         closeDatabase()
@@ -48,7 +40,7 @@ class DatabaseOpenNotificationService: LockNotificationService() {
         super.actionOnLock()
     }
 
-    private fun checkIntent(intent: Intent?) {
+    override fun buildNotification(intent: Intent?) {
         val notificationBuilder = buildNewNotification().apply {
             setSmallIcon(R.drawable.notification_ic_database_open)
             setContentTitle(getString(R.string.database_opened))
@@ -58,7 +50,8 @@ class DatabaseOpenNotificationService: LockNotificationService() {
         when(intent?.action) {
             ACTION_CLOSE_DATABASE -> {
                 startForeground(notificationId, notificationBuilder.build())
-                stopNotificationAndSendLock()
+                // Send lock action
+                sendBroadcast(Intent(LOCK_ACTION))
             }
             else -> {
                 val databaseIntent = Intent(this, GroupActivity::class.java)
@@ -88,17 +81,6 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                 }
             }
         }
-    }
-
-    override fun onBind(intent: Intent): IBinder? {
-        checkIntent(intent)
-        return super.onBind(intent)
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
-        checkIntent(intent)
-        return START_STICKY
     }
 
     companion object {

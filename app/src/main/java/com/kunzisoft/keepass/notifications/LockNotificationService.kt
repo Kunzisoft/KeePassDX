@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.notifications
 
 import android.content.Intent
+import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.LockReceiver
 import com.kunzisoft.keepass.utils.registerLockReceiver
 import com.kunzisoft.keepass.utils.unregisterLockReceiver
@@ -31,7 +32,8 @@ abstract class LockNotificationService : NotificationService() {
 
     protected open fun actionOnLock() {
         // Stop the service in all cases
-        stopSelf()
+        if (!TimeoutHelper.temporarilyDisableTimeout)
+            stopSelf()
     }
 
     override fun onCreate() {
