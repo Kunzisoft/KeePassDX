@@ -343,6 +343,11 @@
     <string name="keyboard_keys_category">Touches</string>
     <string name="keyboard_key_vibrate_title">Touches vibrantes</string>
     <string name="keyboard_key_sound_title">Appui clavier audible</string>
+    <string name="keyboard_change">Changement de clavier</string>
+    <string name="keyboard_previous_database_credentials_title">Écran des identifications de la base de données</string>
+    <string name="keyboard_previous_database_credentials_summary">Revenir automatiquement au clavier précédent sur l\'écran des identifications de la base de données</string>
+    <string name="keyboard_previous_fill_in_title">Action de touche automatique</string>
+    <string name="keyboard_previous_fill_in_summary">Revenir automatiquement au clavier précédent après avoir exécuté "Action de touche automatique"</string>
     <string name="selection_mode">Mode sélection</string>
     <string name="do_not_kill_app">Veuillez ne pas tuer l’application…</string>
     <string name="lock_database_back_root_title">Appuyer sur « Retour » pour verrouiller</string>
