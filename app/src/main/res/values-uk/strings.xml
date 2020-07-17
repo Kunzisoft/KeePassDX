@@ -486,9 +486,9 @@
     <string name="error_string_type">Текст не відповідає запитуваному елементу.</string>
     <string name="filter">Фільтр</string>
     <string name="content_description_add_item">Додати елемент</string>
-    <string name="keyboard_change">Зміна клавіатури</string>
-    <string name="keyboard_previous_fill_in_summary">Автоматично повертатися до попередньої клавіатури, якщо форму заповнено і виконано вхід</string>
-    <string name="keyboard_previous_fill_in_title">Попередня клавіатура після заповнення форми</string>
-    <string name="keyboard_previous_database_credentials_summary">Автоматичне повернення попередньої клавіатури, якщо з\'являється екран входу до бази даних</string>
-    <string name="keyboard_previous_database_credentials_title">Попередня клавіатура під час входу до бази даних</string>
+    <string name="keyboard_change">Перемикання клавіатури</string>
+    <string name="keyboard_previous_fill_in_summary">Автоматично перемикатися до попередньої клавіатури після виконання дії Самочинного введення</string>
+    <string name="keyboard_previous_fill_in_title">Самочинне введення</string>
+    <string name="keyboard_previous_database_credentials_summary">Автоматичне перемикання до попередньої клавіатури, на екрані входу до бази даних</string>
+    <string name="keyboard_previous_database_credentials_title">Екран входу до бази даних</string>
 </resources>
