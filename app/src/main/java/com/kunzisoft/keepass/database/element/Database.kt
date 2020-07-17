@@ -380,10 +380,8 @@ class Database {
             loaded = true
 
         } catch (e: LoadDatabaseException) {
-            Log.e("KPD", "Database::loadData", e)
             throw e
         } catch (e: Exception) {
-            Log.e("KPD", "Database::loadData", e)
             throw FileNotFoundDatabaseException()
         } finally {
             keyFileInputStream?.close()

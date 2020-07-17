@@ -1,3 +1,6 @@
+KeePassDX(2.8.1)
+ * Capture exceptions in coroutines
+
 KeePassDX(2.8)
  * Fix TOTP period (> 60s)
  * Fix searching in recycle bin

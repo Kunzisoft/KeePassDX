@@ -90,22 +90,13 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
-    override fun onBind(intent: Intent): IBinder? {
-        return mActionTaskBinder
-    }
-
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
-
-        if (intent == null) return START_REDELIVER_INTENT
-
-        val intentAction = intent.action
-
+    private fun buildNotification(intent: Intent?) {
         var saveAction = true
-        if (intent.hasExtra(SAVE_DATABASE_KEY)) {
+        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
             saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
         }
 
+        val intentAction = intent?.action
         val titleId: Int = when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
             ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
@@ -127,6 +118,31 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 else
                     R.string.do_not_kill_app
 
+        // Assign elements for updates
+        mTitleId = titleId
+        mMessageId = messageId
+        mWarningId = warningId
+        // Create the notification
+        startForeground(notificationId, buildNewNotification()
+                .setSmallIcon(R.drawable.notification_ic_database_load)
+                .setContentTitle(getString(intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId) ?: titleId))
+                .setAutoCancel(false)
+                .setContentIntent(null).build())
+    }
+
+    override fun onBind(intent: Intent): IBinder? {
+        buildNotification(intent)
+        return mActionTaskBinder
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+
+        buildNotification(intent)
+
+        if (intent == null) return START_REDELIVER_INTENT
+
+        val intentAction = intent.action
         val actionRunnable: ActionRunnable? = when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
@@ -157,26 +173,19 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
 
         actionRunnable?.let { actionRunnableNotNull ->
-            // Assign elements for updates
-            mTitleId = titleId
-            mMessageId = messageId
-            mWarningId = warningId
-
-            // Create the notification
-            newNotification(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId))
 
             // Build and launch the action
             mainScope.launch {
                 executeAction(this@DatabaseTaskNotificationService,
                         {
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
-                                putExtra(DATABASE_TASK_TITLE_KEY, titleId)
-                                putExtra(DATABASE_TASK_MESSAGE_KEY, messageId)
-                                putExtra(DATABASE_TASK_WARNING_KEY, warningId)
+                                putExtra(DATABASE_TASK_TITLE_KEY, mTitleId)
+                                putExtra(DATABASE_TASK_MESSAGE_KEY, mMessageId)
+                                putExtra(DATABASE_TASK_WARNING_KEY, mWarningId)
                             })
 
                             mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStartAction(titleId, messageId, warningId)
+                                actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
                             }
 
                         },
@@ -208,8 +217,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                                      onPostExecute: (result: ActionRunnable.Result) -> Unit) {
         mAllowFinishAction.set(false)
 
-        // Stop the opening notification
-        DatabaseOpenNotificationService.stop(this)
         TimeoutHelper.temporarilyDisableTimeout()
         onPreExecute.invoke()
         withContext(Dispatchers.IO) {
@@ -228,25 +235,18 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     result
                 }
                 withContext(Dispatchers.Main) {
-                    onPostExecute.invoke(asyncResult.await())
-                    TimeoutHelper.releaseTemporarilyDisableTimeout()
-                    // Start the opening notification
-                    if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                        DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
+                    try {
+                        onPostExecute.invoke(asyncResult.await())
+                    } finally {
+                        TimeoutHelper.releaseTemporarilyDisableTimeout()
+                        // Start the opening notification
+                        if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                            DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
+                        }
                     }
                 }
             }
         }
-    }
-
-    private fun newNotification(title: Int) {
-
-        val builder = buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_database_load)
-                .setContentTitle(getString(title))
-                .setAutoCancel(false)
-                .setContentIntent(null)
-        startForeground(notificationId, builder.build())
     }
 
     override fun updateMessage(resId: Int) {
