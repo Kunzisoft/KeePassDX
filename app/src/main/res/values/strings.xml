@@ -379,7 +379,7 @@
     <string name="autofill_auto_search_title">Auto search</string>
     <string name="autofill_auto_search_summary">Automatically suggest search results from the web domain or application ID</string>
     <string name="allow_no_password_title">Allow no master key</string>
-    <string name="allow_no_password_summary">Shows \"Open\" button if no credentials are selected</string>
+    <string name="allow_no_password_summary">Allows tapping \"Open\" if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt</string>
     <string name="enable_read_only_title">Write-protected</string>
