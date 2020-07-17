@@ -227,7 +227,7 @@ open class PasswordActivity : SpecialModeActivity() {
                             if (resultMessage != null && resultMessage.isNotEmpty()) {
                                 resultError = "$resultError $resultMessage"
                             }
-                            Log.e(TAG, resultError, resultException)
+                            Log.e(TAG, resultError)
                             Snackbar.make(activity_password_coordinator_layout,
                                     resultError,
                                     Snackbar.LENGTH_LONG).asError().show()

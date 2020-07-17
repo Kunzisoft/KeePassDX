@@ -23,6 +23,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.IBinder
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.database.element.Database
@@ -47,11 +48,16 @@ class DatabaseOpenNotificationService: LockNotificationService() {
         super.actionOnLock()
     }
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        super.onStartCommand(intent, flags, startId)
+    private fun checkIntent(intent: Intent?) {
+        val notificationBuilder = buildNewNotification().apply {
+            setSmallIcon(R.drawable.notification_ic_database_open)
+            setContentTitle(getString(R.string.database_opened))
+            setAutoCancel(false)
+        }
 
         when(intent?.action) {
             ACTION_CLOSE_DATABASE -> {
+                startForeground(notificationId, notificationBuilder.build())
                 stopNotificationAndSendLock()
             }
             else -> {
@@ -68,11 +74,8 @@ class DatabaseOpenNotificationService: LockNotificationService() {
 
                 val database = Database.getInstance()
                 if (database.loaded) {
-                    startForeground(notificationId, buildNewNotification().apply {
-                        setSmallIcon(R.drawable.notification_ic_database_open)
-                        setContentTitle(getString(R.string.database_opened))
+                    startForeground(notificationId, notificationBuilder.apply {
                         setContentText(database.name + " (" + database.version + ")")
-                        setAutoCancel(false)
                         setContentIntent(pendingDatabaseIntent)
                         // Unfortunately swipe is disabled in lollipop+
                         setDeleteIntent(pendingDeleteIntent)
@@ -80,11 +83,21 @@ class DatabaseOpenNotificationService: LockNotificationService() {
                                 pendingDeleteIntent)
                     }.build())
                 } else {
+                    startForeground(notificationId, notificationBuilder.build())
                     stopSelf()
                 }
             }
         }
+    }
 
+    override fun onBind(intent: Intent): IBinder? {
+        checkIntent(intent)
+        return super.onBind(intent)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        super.onStartCommand(intent, flags, startId)
+        checkIntent(intent)
         return START_STICKY
     }
 
