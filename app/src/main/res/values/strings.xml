@@ -307,7 +307,7 @@
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
-    <string name="unavailable_feature_version">You have Android %1$s, and need at least version %2$s.</string>
+    <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
