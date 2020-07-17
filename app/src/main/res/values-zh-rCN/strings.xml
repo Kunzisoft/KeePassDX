@@ -486,9 +486,9 @@
     <string name="subdomain_search_title">子域搜索</string>
     <string name="error_string_type">文本和请求的条目不匹配.</string>
     <string name="content_description_add_item">添加条目</string>
-    <string name="keyboard_previous_database_credentials_title">数据库凭据期间回到前一个键盘</string>
-    <string name="keyboard_previous_fill_in_summary">如果正在填写表单且Go键活动自动激活，则自动回到前一个键盘</string>
-    <string name="keyboard_previous_fill_in_title">填写表格后返回前一个键盘</string>
+    <string name="keyboard_previous_database_credentials_title">数据库凭据屏幕</string>
+    <string name="keyboard_previous_fill_in_summary">执行自动键动作后，自动切换回前一个键盘</string>
+    <string name="keyboard_previous_fill_in_title">自动键动作</string>
     <string name="keyboard_previous_database_credentials_summary">如果显示数据库凭据屏幕，则自动返回到上一个键盘</string>
-    <string name="keyboard_change">键盘更改</string>
+    <string name="keyboard_change">切换键盘</string>
 </resources>
