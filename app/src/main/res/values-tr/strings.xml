@@ -470,9 +470,9 @@
     <string name="subdomain_search_title">Alt etki alanı arama</string>
     <string name="error_string_type">Bu metin istenen ögeyle eşleşmiyor.</string>
     <string name="content_description_add_item">Öge ekle</string>
-    <string name="keyboard_previous_fill_in_summary">Form dolduruluyorsa ve Git tuşu eylemi otomatik olarak etkinleştirilirse otomatik olarak önceki klavyeye dön</string>
-    <string name="keyboard_previous_fill_in_title">Form doldurulduktan sonra önceki klavye</string>
-    <string name="keyboard_previous_database_credentials_summary">Veri tabanı kimlik bilgileri ekranı gösteriliyorsa otomatik olarak önceki klavyeye dön</string>
-    <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri sırasında önceki klavye</string>
-    <string name="keyboard_change">Klavye değişikliği</string>
+    <string name="keyboard_previous_fill_in_summary">Otomatik tuş eylemini gerçekleştirdikten sonra otomatik olarak önceki klavyeye dön</string>
+    <string name="keyboard_previous_fill_in_title">Otomatik tuş eylemi</string>
+    <string name="keyboard_previous_database_credentials_summary">Veri tabanı kimlik bilgileri ekranında otomatik olarak önceki klavyeye dön</string>
+    <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri ekranı</string>
+    <string name="keyboard_change">Klavye değiştir</string>
 </resources>
