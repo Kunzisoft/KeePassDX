@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">Для створення, відкриття та збереження файлів баз даних потрібен файловий менеджер, який приймає дії Intent ACTION_CREATE_DOCUMENT та ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Буфер обміну очищено</string>
     <string name="clipboard_timeout">Час до очищення буфера обміну</string>
-    <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну</string>
+    <string name="clipboard_timeout_summary">Тривалість зберігання в буфері обміну (якщо підтримується пристроєм)</string>
     <string name="select_to_copy">Копіювати %1$s до буфера обміну</string>
     <string name="retrieving_db_key">Створення ключа бази даних…</string>
     <string name="database">База даних</string>
@@ -147,7 +147,7 @@
     <string name="content_description_open_file">Відкрити файл</string>
     <string name="extended_ASCII">Розширений ASCII</string>
     <string name="edit_entry">Змінити запис</string>
-    <string name="clear_clipboard_notification_summary">Блокувати базу даних під час закриття сповіщення</string>
+    <string name="clear_clipboard_notification_summary">Блокувати базу даних після закінчення терміну дії буфера обміну, або закрито сповіщення після початку користування ним</string>
     <string name="configure_biometric">Розблокування біометричними даними підтримується, але не налаштоване.</string>
     <string name="content_description_add_group">Додати групу</string>
     <string name="content_description_update_from_list">Оновити</string>
@@ -486,4 +486,9 @@
     <string name="error_string_type">Текст не відповідає запитуваному елементу.</string>
     <string name="filter">Фільтр</string>
     <string name="content_description_add_item">Додати елемент</string>
+    <string name="keyboard_change">Зміна клавіатури</string>
+    <string name="keyboard_previous_fill_in_summary">Автоматично повертатися до попередньої клавіатури, якщо форму заповнено і виконано вхід</string>
+    <string name="keyboard_previous_fill_in_title">Попередня клавіатура після заповнення форми</string>
+    <string name="keyboard_previous_database_credentials_summary">Автоматичне повернення попередньої клавіатури, якщо з\'являється екран входу до бази даних</string>
+    <string name="keyboard_previous_database_credentials_title">Попередня клавіатура під час входу до бази даних</string>
 </resources>

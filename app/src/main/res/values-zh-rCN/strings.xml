@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">新建与保存数据库需要支持打开和新建文件的文件管理器。</string>
     <string name="clipboard_cleared">剪贴板已清空</string>
     <string name="clipboard_timeout">剪贴板清空延时</string>
-    <string name="clipboard_timeout_summary">剪贴板保存时间</string>
+    <string name="clipboard_timeout_summary">剪贴板保存时间 （若您的设备支持该功能）</string>
     <string name="select_to_copy">选择%1$s以复制到剪贴板</string>
     <string name="retrieving_db_key">获取数据库密钥中……</string>
     <string name="database">数据库</string>
@@ -341,7 +341,7 @@
     <string name="lock_database_back_root_title">按返回键以锁定</string>
     <string name="lock_database_back_root_summary">点击屏幕底部的返回键时锁定数据库</string>
     <string name="clear_clipboard_notification_title">关闭程序时清空剪贴板</string>
-    <string name="clear_clipboard_notification_summary">清除通知时锁定数据库</string>
+    <string name="clear_clipboard_notification_summary">剪贴板持续时间过期或通知在您开始使用后关闭时，锁定数据库</string>
     <string name="recycle_bin">回收站</string>
     <string name="keyboard_selection_entry_title">条目选择</string>
     <string name="keyboard_selection_entry_summary">在查看条目时，在专用键盘中显示输入字段</string>
@@ -486,4 +486,9 @@
     <string name="subdomain_search_title">子域搜索</string>
     <string name="error_string_type">文本和请求的条目不匹配.</string>
     <string name="content_description_add_item">添加条目</string>
+    <string name="keyboard_previous_database_credentials_title">数据库凭据期间回到前一个键盘</string>
+    <string name="keyboard_previous_fill_in_summary">如果正在填写表单且Go键活动自动激活，则自动回到前一个键盘</string>
+    <string name="keyboard_previous_fill_in_title">填写表格后返回前一个键盘</string>
+    <string name="keyboard_previous_database_credentials_summary">如果显示数据库凭据屏幕，则自动返回到上一个键盘</string>
+    <string name="keyboard_change">键盘更改</string>
 </resources>

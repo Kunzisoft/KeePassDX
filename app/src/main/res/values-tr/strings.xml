@@ -36,10 +36,10 @@
     <string name="allow">İzin ver</string>
     <string name="clipboard_cleared">Pano temizlendi</string>
     <string name="clipboard_error_title">Pano hatası</string>
-    <string name="clipboard_error">Bazı Samsung Android telefonları, uygulamaların panoya kullanılmasına izin vermez.</string>
+    <string name="clipboard_error">Bazı cihazlar, uygulamaların panoyu kullanmasına izin vermez.</string>
     <string name="clipboard_error_clear">Pano temizlenemedi</string>
     <string name="clipboard_timeout">Pano zaman aşımı</string>
-    <string name="clipboard_timeout_summary">Panodaki depolama süresi</string>
+    <string name="clipboard_timeout_summary">Panodaki depolama süresi (cihazınız tarafından destekleniyorsa)</string>
     <string name="database">Veritabanı</string>
     <string name="entry_accessed">Erişildi</string>
     <string name="entry_cancel">İptal</string>
@@ -124,7 +124,7 @@
     <string name="menu_search">Ara</string>
     <string name="menu_showpass">Parolayı göster</string>
     <string name="menu_biometric_remove_key">Kaydedilen parmak izini silin</string>
-    <string name="menu_url">URL\'a git</string>
+    <string name="menu_url">URL\'ye git</string>
     <string name="menu_file_selection_read_only">Yazma korumalı</string>
     <string name="menu_open_file_read_and_write">Değiştirilebilir</string>
     <string name="never">Asla</string>
@@ -322,7 +322,7 @@
     <string name="do_not_kill_app">Uygulamayı öldürmeyin…</string>
     <string name="lock_database_back_root_summary">Kullanıcı kök ekranda geri düğmesine tıkladığında veritabanını kilitle</string>
     <string name="clear_clipboard_notification_title">Kapanışta temizle</string>
-    <string name="clear_clipboard_notification_summary">Bildirimi kapatırken veri tabanını kilitle</string>
+    <string name="clear_clipboard_notification_summary">Panonun süresi dolduğunda veya kullanmaya başladıktan sonra bildirim kapatıldığında veri tabanını kilitle</string>
     <string name="content_description_open_file">Dosya aç</string>
     <string name="content_description_add_node">Düğüm ekle</string>
     <string name="content_description_add_entry">Girdi Ekle</string>
@@ -391,9 +391,9 @@
     <string name="advanced_unlock_explanation_summary">Veritabanını daha kolay açmak için gelişmiş kilit açma özelliğini kullan</string>
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>
-    <string name="max_history_items_title">Maksimum sayı</string>
+    <string name="max_history_items_title">Azami sayı</string>
     <string name="max_history_items_summary">Girdi başına geçmiş ögelerinin sayısını sınırla</string>
-    <string name="max_history_size_title">Maksimum boyut</string>
+    <string name="max_history_size_title">Azami boyut</string>
     <string name="max_history_size_summary">Giriş başına geçmiş boyutunu (bayt olarak) sınırlama</string>
     <string name="settings_database_recommend_changing_master_key_title">Yenilemeyi öner</string>
     <string name="settings_database_recommend_changing_master_key_summary">Ana anahtarın değiştirilmesini öner (gün)</string>
@@ -470,4 +470,9 @@
     <string name="subdomain_search_title">Alt etki alanı arama</string>
     <string name="error_string_type">Bu metin istenen ögeyle eşleşmiyor.</string>
     <string name="content_description_add_item">Öge ekle</string>
+    <string name="keyboard_previous_fill_in_summary">Form dolduruluyorsa ve Git tuşu eylemi otomatik olarak etkinleştirilirse otomatik olarak önceki klavyeye dön</string>
+    <string name="keyboard_previous_fill_in_title">Form doldurulduktan sonra önceki klavye</string>
+    <string name="keyboard_previous_database_credentials_summary">Veri tabanı kimlik bilgileri ekranı gösteriliyorsa otomatik olarak önceki klavyeye dön</string>
+    <string name="keyboard_previous_database_credentials_title">Veri tabanı kimlik bilgileri sırasında önceki klavye</string>
+    <string name="keyboard_change">Klavye değişikliği</string>
 </resources>
