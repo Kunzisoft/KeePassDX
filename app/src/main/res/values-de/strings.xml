@@ -41,7 +41,7 @@
     <string name="clipboard_error">Einige Geräte lassen keine Nutzung der Zwischenablage durch Apps zu.</string>
     <string name="clipboard_error_clear">Leeren der Zwischenablage fehlgeschlagen</string>
     <string name="clipboard_timeout">Zwischenablage-Timeout</string>
-    <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage</string>
+    <string name="clipboard_timeout_summary">Dauer der Speicherung in der Zwischenablage (falls vom Gerät unterstützt)</string>
     <string name="select_to_copy">%1$s in die Zwischenablage kopieren</string>
     <string name="retrieving_db_key">Datenbank-Schlüsseldatei erzeugen…</string>
     <string name="database">Datenbank</string>
@@ -498,4 +498,5 @@
     <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
     <string name="content_description_add_item">Element hinzufügen</string>
     <string name="filter">Filter</string>
+    <string name="keyboard_change">Tastatur wechseln</string>
 </resources>
