@@ -486,9 +486,9 @@
     <string name="autofill_application_id_blocklist_title">Чёрный список приложений</string>
     <string name="filter">Фильтр</string>
     <string name="content_description_add_item">Добавить элемент</string>
-    <string name="keyboard_previous_database_credentials_title">Возврат клавиатуры после ввода главного пароля</string>
-    <string name="keyboard_previous_fill_in_summary">Автоматический возврат к предыдущей клавиатуре после заполнения формы и выполнения действия \"Перейти\"</string>
-    <string name="keyboard_previous_fill_in_title">Возврат клавиатуры после заполнения формы</string>
-    <string name="keyboard_previous_database_credentials_summary">Автоматический возврат к предыдущей клавиатуре после входа в базу</string>
-    <string name="keyboard_change">Смена клавиатуры</string>
+    <string name="keyboard_previous_database_credentials_title">Экран ввода главного пароля</string>
+    <string name="keyboard_previous_fill_in_summary">Автоматически переключаться на предыдущую клавиатуру после заполнения формы и выполнения автоматического действия кнопки</string>
+    <string name="keyboard_previous_fill_in_title">Автоматическое действие кнопки</string>
+    <string name="keyboard_previous_database_credentials_summary">Автоматически переключаться на предыдущую клавиатуру на экране входа в базу</string>
+    <string name="keyboard_change">Переключение клавиатуры</string>
 </resources>
