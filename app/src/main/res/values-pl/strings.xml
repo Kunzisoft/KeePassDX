@@ -490,5 +490,5 @@
     <string name="keyboard_previous_fill_in_title">Poprzednia klawiatura po wypełnieniu formularza</string>
     <string name="keyboard_previous_database_credentials_summary">Automatycznie powróć do poprzedniej klawiatury, jeśli wyświetlony zostanie ekran poświadczeń bazy danych</string>
     <string name="keyboard_previous_database_credentials_title">Poprzednia klawiatura podczas poświadczeń bazy danych</string>
-    <string name="keyboard_change">Zmiana klawiatury</string>
+    <string name="keyboard_change">Przełącz klawiaturę</string>
 </resources>
