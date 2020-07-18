@@ -16,8 +16,7 @@
 
     You should have received a copy of the GNU General Public License
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
--->
-<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+--><resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
     <string name="feedback">Comentários</string>
     <string name="homepage">Página inicial</string>
     <string name="about_description">Uma implementação do gestor de palavras-chave KeePass para Android</string>
@@ -74,7 +73,7 @@
     <string name="error_wrong_length">Digite um número inteiro positivo no campo \"Tamanho\".</string>
     <string name="field_name">Nome do campo</string>
     <string name="field_value">Valor do campo</string>
-    <string name="file_not_found_content">Arquivo não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
+    <string name="file_not_found_content">Ficheiro não encontrado. Tente reabrí-lo de seu provedor de conteúdo.</string>
     <string name="file_browser">Localizador de ficheiros</string>
     <string name="generate_password">Gerar palavra-chave</string>
     <string name="hint_conf_pass">confirmar palavra-chave</string>
