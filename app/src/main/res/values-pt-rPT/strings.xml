@@ -27,7 +27,7 @@
     <string name="app_timeout">Tempo de espera da app</string>
     <string name="app_timeout_summary">Inatividade antes da app ser bloqueada</string>
     <string name="application">App</string>
-    <string name="menu_app_settings">Configurações do aplicativo</string>
+    <string name="menu_app_settings">Configurações do app</string>
     <string name="brackets">Parênteses</string>
     <string name="file_manager_install_description">Explore ficheiros instalando o gestor de ficheiros OpenIntents</string>
     <string name="clipboard_cleared">Área de transferência limpa</string>
@@ -139,7 +139,7 @@
     <string name="version_label">Versão %1$s</string>
     <string name="education_unlock_summary">Entre com a palavra-passe e/ou com o caminho para o ficheiro-chave do banco de dados. 
 \n 
-\nGuarde uma cópia do seu ficheiro do banco em um lugar mais seguro depois de cada alteração.</string>
+\nGuarde uma cópia do seu ficheiro do banco num lugar mais seguro depois de cada alteração.</string>
     <string-array name="timeout_options">
         <item>5 segundos</item>
         <item>10 segundos</item>
@@ -213,7 +213,7 @@
     <string name="list_password_generator_options_title">Caracteres da palavra-passe</string>
     <string name="list_password_generator_options_summary">Definir os caracteres padrão do gerador de palavra-passe</string>
     <string name="clipboard_notifications_title">Notificações da área de transferência</string>
-    <string name="clipboard_notifications_summary">Habilite notificações da área de transferência para campos copiáveis quando estiver visualizando uma entrada</string>
+    <string name="clipboard_notifications_summary">Ative notificações da área de transferência para campos copiáveis quando estiver a visualizar uma entrada</string>
     <string name="lock">Bloquear</string>
     <string name="lock_database_screen_off_title">Bloqueio de tela</string>
     <string name="lock_database_screen_off_summary">Bloqueie o banco de dados quando a tela estiver desligada</string>
@@ -235,7 +235,7 @@
     <string name="database_description_title">Descrição do banco de dados</string>
     <string name="database_version_title">Versão do banco de dados</string>
     <string name="text_appearance">Texto</string>
-    <string name="application_appearance">Aplicativo</string>
+    <string name="application_appearance">App</string>
     <string name="other">Outros</string>
     <string name="keyboard">Teclado</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
@@ -252,7 +252,7 @@
 \n 
 \nGrupos (~ pastas) organizam suas entradas e seu banco de dados.</string>
     <string name="education_search_title">Pesquise suas entradas</string>
-    <string name="education_search_summary">Entre com título, nome de usuário ou outros campos para recuperar facilmente suas palavras-passe.</string>
+    <string name="education_search_summary">Entre com título, nome de utilizador ou outros campos para recuperar facilmente as suas palavras-passe.</string>
     <string name="education_biometric_title">Destrave do banco de dados por Impressão digital</string>
     <string name="education_biometric_summary">Faça o link entre sua palavra-passe e sua impressão digital para rapidamente desbloquear seu banco de dados.</string>
     <string name="education_entry_edit_title">Modifique a entrada</string>
@@ -267,12 +267,12 @@
 \n 
 \nUse a forma de preenchimento de formulário que preferir.</string>
     <string name="education_lock_title">Bloqueie o banco de dados</string>
-    <string name="education_lock_summary">Bloqueie seu banco de dados rapidamente, você pode parametrizar o aplicativo para bloqueá-lo depois de um tempo, e quando a tela se apaga.</string>
+    <string name="education_lock_summary">Bloqueie o seu banco de dados rapidamente, pode parametrizar a app para bloqueá-lo depois de um tempo, e quando o ecrã se apaga.</string>
     <string name="education_sort_title">Ordenação de itens</string>
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitos aplicativos de gerenciamento de palavras-passe, este aplicativo é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, &lt;strong&gt;software livre&lt;/strong&gt; e não recupera dados pessoais em seus servidores, mesmo em sua versão gratuita.</string>
+    <string name="html_text_ad_free">Ao contrário de muitas apps de gestão de palavras-passe, esta app é <strong>livre de anúncios</strong>, <strong>software livre</strong> e não recupera dados pessoais nos seus servidores, mesmo na sua versão gratuita.</string>
     <string name="html_text_buy_pro">Ao comprar a versão pro, você terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realização de projetos comunitários.&lt;/strong&gt;
     </string>
     <string name="html_text_feature_generosity">Este &lt;strong&gt;recurso visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
@@ -285,18 +285,18 @@
     <string name="html_text_dev_feature_encourage">Você está incentivando os desenvolvedores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
-    <string name="html_text_dev_feature_upgrade">Lembre-se de manter seu aplicativo atualizado.</string>
+    <string name="html_text_dev_feature_upgrade">Lembre-se de manter o sua app atualizada, instalando novas versões.</string>
     <string name="download">Baixar</string>
     <string name="contribute">Contribuir</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_AES">AES KDF</string>
     <string name="kdf_Argon2">Argon2</string>
-    <string name="style_choose_title">Tema do aplicativo</string>
-    <string name="style_choose_summary">Tema usado no aplicativo</string>
+    <string name="style_choose_title">Tema da app</string>
+    <string name="style_choose_summary">Tema usado na app</string>
     <string name="icon_pack_choose_title">Pacote de ícones</string>
-    <string name="icon_pack_choose_summary">Pacote de ícones usado no aplicativo</string>
+    <string name="icon_pack_choose_summary">Pacote de ícones usado na app</string>
     <string name="clipboard_warning">Se a limpeza da área de transferência falhar, limpe seu histórico manualmente.</string>
-    <string name="allow_copy_password_warning">AVISO: A área de transferência é compartilhada por todos os aplicativos. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
+    <string name="allow_copy_password_warning">Aviso: A área de transferência é compartilhada por todas as apps. Se dados sensíveis forem copiados, outros programas podem recuperá-lo.</string>
     <string name="allow_no_password_title">Não permitir chave mestra</string>
     <string name="allow_no_password_summary">Ativar o botão \"Abrir\" se nenhuma credencial for selecionada</string>
     <string name="enable_education_screens_title">Telas educacionais</string>
@@ -309,7 +309,7 @@
 \n\"Somente leitura\" evita que você faça alterações não intencionais no banco de dados. 
 \n 
 \n\"Gravação\" permite você a adicionar, excluir ou modificar todos os elementos.</string>
-    <string name="list_entries_show_username_summary">Mostrar nomes de usuário em listas de entrada</string>
+    <string name="list_entries_show_username_summary">Mostrar nomes de utilizador em listas de entrada</string>
     <string name="clipboard">Área de transferência</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -330,9 +330,9 @@
     <string name="keyboard_key_vibrate_title">Vibrar ao clicar</string>
     <string name="keyboard_key_sound_title">Som ao clicar</string>
     <string name="selection_mode">Modo de seleção</string>
-    <string name="do_not_kill_app">Não feche o aplicativo…</string>
+    <string name="do_not_kill_app">Não feche a app…</string>
     <string name="lock_database_back_root_title">Pressione Voltar na raiz para trancar</string>
-    <string name="lock_database_back_root_summary">Tranca a base de dados quando o usuário pressiona o botão Voltar na tela inicial</string>
+    <string name="lock_database_back_root_summary">Tranca a base de dados quando o utilizador pressiona o botão voltar no ecrã inicial</string>
     <string name="clear_clipboard_notification_title">Limpar ao fechar</string>
     <string name="clear_clipboard_notification_summary">Fecha a base de dados ao dispensar a notificação</string>
     <string name="recycle_bin">Lixeira</string>
