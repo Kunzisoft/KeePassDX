@@ -30,9 +30,9 @@
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">カッコ</string>
     <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテントアクションを受け付けるファイルマネージャーがデータベースファイルの作成、オープン、保存に必要です。</string>
-    <string name="clipboard_cleared">クリップボードを消去しました。</string>
+    <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボード タイムアウト</string>
-    <string name="clipboard_timeout_summary">クリップボードでの保存時間</string>
+    <string name="clipboard_timeout_summary">クリップボードへの保存期間（デバイスでサポートされている場合）</string>
     <string name="select_to_copy">ここをタップすると%1$sをクリップボードにコピーします</string>
     <string name="retrieving_db_key">データベース認証中…</string>
     <string name="database">データベース</string>
@@ -65,11 +65,11 @@
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_pass_gen_type">少なくとも1つ以上のパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">値が大きすぎます。 2147483648にセットしました。</string>
+    <string name="error_rounds_too_large">変換回数が多過ぎます。2147483648 に設定します。</string>
     <string name="error_wrong_length">\"長さ\"欄には正の整数を入力してください。</string>
     <string name="file_browser">ファイルマネージャー</string>
     <string name="generate_password">パスワードを生成する</string>
-    <string name="hint_conf_pass">パスワードをもう一度入力</string>
+    <string name="hint_conf_pass">パスワードを確認</string>
     <string name="hint_generated_password">生成されたパスワード</string>
     <string name="hint_group_name">グループ名</string>
     <string name="hint_keyfile">キーファイル</string>
@@ -85,7 +85,7 @@
     <string name="lowercase">英数小文字</string>
     <string name="hide_password_title">パスワードを隠す</string>
     <string name="hide_password_summary">パスワード欄をアスタリスクで表示します</string>
-    <string name="about">About</string>
+    <string name="about">アプリについて</string>
     <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
     <string name="menu_database_settings">データベース設定</string>
@@ -100,7 +100,7 @@
     <string name="menu_url">WEBサイトへ</string>
     <string name="minus">マイナス (-)</string>
     <string name="never">期限なし</string>
-    <string name="no_results">検索結果に該当するものはありません。</string>
+    <string name="no_results">検索結果なし</string>
     <string name="no_url_handler">このURLを処理できません。</string>
     <string name="omit_backup_search_title">検索対象から除外</string>
     <string name="omit_backup_search_summary">\"バックアップ\"と\"ごみ箱\"を検索対象から除外します</string>
@@ -109,12 +109,12 @@
     <string name="content_description_remove_from_list">消去</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">Root</string>
-    <string name="rounds">暗号化レベル</string>
-    <string name="rounds_explanation">暗号化レベルを高く設定するとブルートフォース(総当り)攻撃に強くなりますが、保存や読込に時間が掛かります。</string>
+    <string name="rounds">変換回数</string>
+    <string name="rounds_explanation">変換回数を増やすことで、ブルートフォース攻撃に対する保護が強化されますが、読み込みと保存が遅くなる可能性があります。</string>
     <string name="saving_database">データベースを保存中…</string>
     <string name="space">半角スペース</string>
     <string name="search_label">検索</string>
-    <string name="sort_db">並べ替え</string>
+    <string name="sort_db">自然順</string>
     <string name="special">記号</string>
     <string name="search">キーワードを入力</string>
     <string name="encryption_twofish">Twofish</string>
@@ -122,7 +122,9 @@
     <string name="unsupported_db_version">このバージョンのデータベースはサポートされていません。</string>
     <string name="uppercase">英数大文字</string>
     <string name="version_label">バージョン %1$s</string>
-    <string name="education_unlock_summary">データベースに設定したパスワードを入力するかキーファイルを選択してください。</string>
+    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、あるいはその両方を入力してください。
+\n
+\nデータベースファイルは変更するたびに安全な場所にバックアップしてください。</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -211,7 +213,7 @@
     <string name="menu_save_database">データベースの保存</string>
     <string name="menu_empty_recycle_bin">ゴミ箱を空にする</string>
     <string name="command_execution">コマンド実行中…</string>
-    <string name="warning_permanently_delete_nodes">削除するとこのエントリーは復活できませんがよろしいですか？</string>
+    <string name="warning_permanently_delete_nodes">選択したノードを完全に削除しますか\?</string>
     <string name="auto_focus_search_summary">データベースを開くとき検索を要求する</string>
     <string name="auto_focus_search_title">クイックサーチ</string>
     <string name="menu_delete_entry_history">履歴を削除する</string>
@@ -236,4 +238,48 @@
     <string name="content_description_background">バックグラウンド</string>
     <string name="security">セキュリティ</string>
     <string name="contribution">貢献</string>
+    <string name="biometric_prompt_extract_credential_title">生体認証を用いてデータベースを開く</string>
+    <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合もマスターパスワードは覚えておく必要があります。</string>
+    <string name="biometric_prompt_store_credential_title">生体認証を保存する</string>
+    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開いて認証情報を保存する</string>
+    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開いてデータベースのロックを解除する</string>
+    <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
+    <string name="warning_no_encryption_key">暗号化キーなしで続行しますか\?</string>
+    <string name="warning_empty_password">パスワードによるロック解除の保護なしで続行しますか\?</string>
+    <string name="warning_database_read_only">データベースの変更を保存するためにファイル書き込みアクセスを許可する</string>
+    <string name="search_results">検索結果</string>
+    <string name="filter">フィルター</string>
+    <string name="do_not_kill_app">アプリを終了しないでください…</string>
+    <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル (スレッド数)。</string>
+    <string name="show_recent_files_title">最近使ったファイルを表示する</string>
+    <string name="parallelism">並列処理</string>
+    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）。</string>
+    <string name="memory_usage">メモリ使用量</string>
+    <string name="kdf_explanation">暗号化アルゴリズム用のキーを生成するために、マスターキーはランダムにソルト化された鍵導出関数を使用して変換されます。</string>
+    <string name="hide_broken_locations_summary">最近使ったデータベースの一覧において壊れたリンクを非表示にする</string>
+    <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
+    <string name="show_recent_files_summary">最近使ったデータベースの場所を表示する</string>
+    <string name="remember_keyfile_locations_summary">データベースの場所を記憶する</string>
+    <string name="remember_keyfile_locations_title">キーファイルの場所を保存する</string>
+    <string name="remember_database_locations_summary">データベースの場所を記憶する</string>
+    <string name="remember_database_locations_title">データベースの保存場所</string>
+    <string name="selection_mode">選択モード</string>
+    <string name="contains_duplicate_uuid_procedure">重複物に対する新しいUUIDを生成して問題を解決し続行しますか？</string>
+    <string name="contains_duplicate_uuid">データベースには重複するUUIDが含まれています。</string>
+    <string name="subdomain_search_title">サブドメイン検索</string>
+    <string name="menu_advanced_unlock_settings">高度なロック解除</string>
+    <string name="invalid_db_same_uuid">同じ UUID %2$s を持つ %1$s が既に存在します。</string>
+    <string name="error_string_type">このテキストは要求されたアイテムと一致しません。</string>
+    <string name="error_otp_counter">カウンターは%1$d から %2$d の間である必要があります。</string>
+    <string name="otp_counter">カウンター</string>
+    <string name="otp_secret">秘密鍵</string>
+    <string name="content_description_keyboard_close_fields">フィールドを閉じる</string>
+    <string name="content_description_update_from_list">更新</string>
+    <string name="entry_add_attachment">添付ファイルを追加する</string>
+    <string name="discard">破棄</string>
+    <string name="discard_changes">変更を破棄しますか？</string>
+    <string name="validate">検証する</string>
+    <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を切り替える</string>
+    <string name="content_description_add_item">アイテムを追加する</string>
+    <string name="contact">連絡先</string>
 </resources>
