@@ -18,8 +18,7 @@
     along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 
     Spanish translation by José I. Paños. Updated by David García-Abad (23-09-2013)
--->
-<resources>
+--><resources>
     <string name="feedback">Commentario</string>
     <string name="homepage">Página de inicio</string>
     <string name="about_description">Implementación para Android del gestor de contraseñas KeePass</string>
@@ -149,7 +148,7 @@
     <string name="clipboard_error">Algunos dispositivos Android tienen un error en la implementación del portapapeles que provoca fallos al copiar desde las aplicaciones.</string>
     <string name="clipboard_error_clear">Falló la limpieza del portapapeles</string>
     <string name="error_string_key">Cada cadena debe tener un nombre de campo.</string>
-    <string name="error_autofill_enable_service">No se pudo activar el servicio de compleción automática.</string>
+    <string name="error_autofill_enable_service">No se pudo activar el servicio de autocompletado.</string>
     <string name="field_name">Nombre del campo</string>
     <string name="field_value">Valor del campo</string>
     <string name="file_not_found_content">No se pudo encontrar el archivo. Intente volver a abrirlo en el explorador de archivos.</string>
@@ -185,7 +184,7 @@
     <string name="configure_biometric">Se admite la petición de datos biométricos pero no se han configurado.</string>
     <string name="open_biometric_prompt_unlock_database">Abra la petición de datos biométricos para desbloquear la base de datos</string>
     <string name="encrypted_value_stored">Contraseña cifrada almacenada</string>
-    <string name="biometric_invalid_key">Problema clave de huella digital no válida. Restaure su contraseña.</string>
+    <string name="biometric_invalid_key">No se puede leer información huella dactilar. Por favor elimínela y repita el proceso de reconocimiento dactilar.</string>
     <string name="biometric_not_recognized">Huella digital no reconocida</string>
     <string name="biometric_scanning_error">Problema de huella digital: %1$s</string>
     <string name="database_history">Historial</string>
@@ -194,10 +193,10 @@
     <string name="no_credentials_stored">Esta base de datos aún no tiene credenciales almacenadas.</string>
     <string name="menu_appearance_settings">Apariencia</string>
     <string name="general">General</string>
-    <string name="autofill">Compleción automática</string>
-    <string name="autofill_service_name">Compleción automática de formularios de KeePassDX</string>
+    <string name="autofill">Autocompletado</string>
+    <string name="autofill_service_name">Autocompletado de formularios de KeePassDX</string>
     <string name="autofill_sign_in_prompt">Acceder con KeePassDX</string>
-    <string name="set_autofill_service_title">Establecer servicio de compleción automática predeterminado</string>
+    <string name="set_autofill_service_title">Establecer servicio de autocompletado por defecto</string>
     <string name="password_size_title">Tamaño de la contraseña generada</string>
     <string name="password_size_summary">Establece el tamaño predeterminado de las contraseñas generadas</string>
     <string name="list_password_generator_options_title">Caracteres de contraseña</string>
@@ -303,7 +302,7 @@
     <string name="menu_file_selection_read_only">Protegido contra escritura</string>
     <string name="menu_open_file_read_and_write">Modificable</string>
     <string name="build_label">Compilación %1$s</string>
-    <string name="clipboard_warning">Si la supresión automática del portapapeles falla, borran el historial manualmente.</string>
+    <string name="clipboard_warning">Si la eliminación del cortapapeles falla, elimine su historial manualmente.</string>
     <string name="allow_copy_password_warning">ATENCIÓN: todas las aplicaciones comparten el portapapeles. Si copia datos confidenciales, otros programas podrían recuperarlos.</string>
     <string name="allow_no_password_title">No permitir claves maestras</string>
     <string name="allow_no_password_summary">Activar el botón «Abrir» si no se selecciona ninguna credencial</string>
@@ -334,7 +333,7 @@
     <string name="do_not_kill_app">No cierre la aplicación…</string>
     <string name="lock_database_back_root_summary">Bloquear la base de datos cuando se pulsa el botón Atrás en la pantalla inicial</string>
     <string name="clear_clipboard_notification_title">Vaciar al cerrar</string>
-    <string name="clear_clipboard_notification_summary">Cerrar la base de datos al cerrar la notificación</string>
+    <string name="clear_clipboard_notification_summary">Bloquear la base de datos cuando la duración del portapapeles expire o la notificación sea cerrada</string>
     <string name="recycle_bin">Papelera de reciclaje</string>
     <string name="keyboard_selection_entry_title">Selección de entrada</string>
     <string name="keyboard_selection_entry_summary">Mostrar campos de entrada en el Teclado mágico al ver una entrada</string>
@@ -378,7 +377,7 @@
 \n\"Modificable\" le permite agregar, eliminar o modificar todos los elementos.</string>
     <string name="lock_database_back_root_title">Presione hacia atrás en la raíz para bloquear</string>
     <string name="content_description_repeat_toggle_password_visibility">Repetir la visibilidad de la contraseña</string>
-    <string name="master_key">Llave Maestra</string>
+    <string name="master_key">Llave maestra</string>
     <string name="security">Seguridad</string>
     <string name="entry_history">Historial</string>
     <string name="entry_setup_otp">Configuración de contraseña de un solo uso</string>
@@ -394,4 +393,50 @@
     <string name="error_otp_secret_key">Clave secreta debe estar en formato Base32.</string>
     <string name="error_otp_counter">Contador debe estar entre %1$d y %2$d.</string>
     <string name="error_save_database">No se puede guardar la base de datos.</string>
+    <string name="error_string_type">Este texto no encaja con la información requerida.</string>
+    <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
+    <string name="html_about_contribution">Parar lograr <strong>mantener nuestra libertad</strong>, <strong>corregir errores</strong>, <strong>agregar características</strong> y <strong>siempre estar activos</strong>, contamos con tu <strong>contribución</strong>.</string>
+    <string name="content_description_add_item">Añadir elemento</string>
+    <string name="download_complete">Descarga completa! Toca para abrir el archivo.</string>
+    <string name="download_finalization">Finalizando…</string>
+    <string name="download_progression">En progreso: %1$d%%</string>
+    <string name="download_initialization">Inicializando…</string>
+    <string name="download_attachment">Descargar %1$s</string>
+    <string name="enable_auto_save_database_summary">Guardar la base de datos tras acciones importantes (en modo \"Modificable\")</string>
+    <string name="enable_auto_save_database_title">Guardar base de datos automáticamente</string>
+    <string name="autofill_block">Bloquear autocompletado</string>
+    <string name="keyboard_change">Cambiar teclado</string>
+    <string name="keyboard_auto_go_action_summary">Acción de la tecla \"Ir\" al presionar una tecla \"Campo\"</string>
+    <string name="compression_gzip">gzip</string>
+    <string name="compression_none">Ninguna</string>
+    <string name="compression">Compresión</string>
+    <string name="database_default_username_title">Nombre de usuario predeterminado</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">Requerir cambiar la contraseña maestra la próxima vez (una sóla vez)</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">Forzar renovación la próxima vez</string>
+    <string name="settings_database_force_changing_master_key_summary">Requerir un cambio de contraseña maestra (días)</string>
+    <string name="settings_database_force_changing_master_key_title">Forzar renovación</string>
+    <string name="max_history_size_title">Tamaño máximo</string>
+    <string name="advanced_unlock_explanation_summary">Usar desbloqueo avanzado para abrir una base de datos de manera más fácil</string>
+    <string name="lock_database_show_button_summary">Muestra el botón de bloqueo en la interfaz</string>
+    <string name="lock_database_show_button_title">Mostrar botón de bloqueo</string>
+    <string name="autofill_preference_title">Configuración de autocompletado</string>
+    <string name="menu_master_key_settings">Configuración de contraseña maestra</string>
+    <string name="menu_security_settings">Configuración de seguridad</string>
+    <string name="warning_database_read_only">Otorga acceso de escritura para guardar cambios en la base de datos</string>
+    <string name="show_recent_files_summary">Mostrar ubicaciones de bases de datos recientes</string>
+    <string name="show_recent_files_title">Mostrar archivos recientes</string>
+    <string name="remember_database_locations_summary">Recordar la ubicación de las bases de datos</string>
+    <string name="remember_database_locations_title">Guardar ubicaciones de bases de datos</string>
+    <string name="contains_duplicate_uuid">La base de datos contiene UUIDs duplicados.</string>
+    <string name="menu_restore_entry_history">Restaurar historial</string>
+    <string name="menu_empty_recycle_bin">Vaciar papelera de reciclaje</string>
+    <string name="menu_save_database">Guardar base de datos</string>
+    <string name="creating_database">Creando base de datos…</string>
+    <string name="invalid_db_same_uuid">%1$s con la misma UUID %2$s ya existe.</string>
+    <string name="error_label_exists">Esta etiqueta ya existe.</string>
+    <string name="discard">Descartar</string>
+    <string name="discard_changes">¿Descartar cambios\?</string>
+    <string name="validate">Validar</string>
+    <string name="contribution">Contribución</string>
+    <string name="contact">Contactar</string>
 </resources>
