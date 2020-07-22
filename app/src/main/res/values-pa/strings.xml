@@ -216,7 +216,7 @@
     <string name="content_description_node_children">ਨੋਡ ਚਾਈਲਡ</string>
     <string name="content_description_open_file">ਫ਼ਾਇਲ ਖੋਲ੍ਹੋ</string>
     <string name="content_description_background">ਬੈਕਗਰਾਊਂਡ</string>
-    <string name="clipboard_timeout_summary">ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਸਟੋਰ ਕਰਕੇ ਰੱਖਣ ਦੀ ਮਿਆਦ</string>
+    <string name="clipboard_timeout_summary">ਕਲਿੱਪਬੋਰਡ ਵਿੱਚ ਸਟੋਰ ਕਰਕੇ ਰੱਖਣ ਦੀ ਮਿਆਦ (ਜੇ ਤੁਹਾਡੇ ਡਿਵਾਈਸ ਵਲੋਂ ਸਹਾਇਕ ਹੈ)</string>
     <string name="clipboard_timeout">ਕਲਿੱਪਬੋਰਡ ਲਈ ਸਮਾਂ-ਮਿਆਦ</string>
     <string name="clipboard_error_clear">ਕਲਿੱਪਬੋਰਡ ਸਾਫ਼ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ</string>
     <string name="clipboard_error">ਕੁਝ ਡਿਵਾਈਸ ਐਪਾਂ ਨੂੰ ਕਲਿੱਪਬੋਰਡ ਵਰਤਣ ਨਹੀਂ ਦੇਣਗੇ।</string>
@@ -247,4 +247,17 @@
     <string name="error_copy_group_here">ਤੁਸੀਂ ਗਰੁੱਪ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <string name="error_copy_entry_here">ਤੁਸੀੰ ਇਸ ਐੰਟਰੀ ਨੂੰ ਇੱਥੇ ਕਾਪੀ ਨਹੀਂ ਕਰ ਸਕਦੇ ਹੋ।</string>
     <string name="error_move_folder_in_itself">ਤੁਸੀੰ ਗਰੁੱਪ ਨੂੰ ਖੁਦ ਵਿੱਚ ਨਹੀਂ ਭੇਜ ਸਕਦੇ ਹੋ।</string>
+    <string name="list_password_generator_options_title">ਪਾਸਵਰਡ ਅੱਖਰ</string>
+    <string name="password_size_summary">ਤਿਆਰ ਕੀਤੇ ਪਾਸਵਰਡਾਂ ਲਈ ਮੂਲ ਆਕਾਰ ਸੈੱਟ ਕਰਦਾ ਹੈ</string>
+    <string name="password_size_title">ਤਿਆਰ ਕੀਤੇ ਪਾਸਵਰਡ ਦਾ ਆਕਾਰ</string>
+    <string name="autofill_preference_title">ਆਪੇ-ਭਰਨ ਲਈ ਸੈਟਿੰਗਾਂ</string>
+    <string name="encrypted_value_stored">ਇੰਕ੍ਰਿਪਟ ਕੀਤੇ ਪਾਸਵਰਡ ਸੰਭਾਲਿਆ</string>
+    <string name="build_label">ਬਿਲਡ %1$s</string>
+    <string name="version_label">ਵਰਜ਼ਨ %1$s</string>
+    <string name="warning_permanently_delete_nodes">ਚੁਣੀਆਂ ਨੋਡਾਂ ਨੂੰ ਪੱਕੇ ਤੌਰ ਉੱਤੇ ਹਟਾਉਣਾ ਹੈ\?</string>
+    <string name="warning_no_encryption_key">ਇੰਕ੍ਰਿਪਸ਼ਨ ਕੁੰਜੀ ਬਿਨਾਂ ਜਾਰੀ ਰੱਖਣਾ ਹੈ\?</string>
+    <string name="warning_database_read_only">ਡਾਟਾਬੇਸ ਤਬਦੀਲੀਆਂ ਸੰਭਾਲਣ ਲਈ ਫਾਈਲ ਲਿਖਣ ਲਈ ਪਹੁੰਚ ਦੀ ਇਜਾਜ਼ਤ ਦਿਓ</string>
+    <string name="sort_title">ਨਾਂ</string>
+    <string name="remember_keyfile_locations_summary">ਡਾਟਾਬੇਸ ਕੁੰਜੀ-ਫ਼ਾਈਲਾਂ ਦਾ ਟਿਕਾਣਾ ਯਾਦ ਰੱਖੋ</string>
+    <string name="invalid_db_sig">ਡਾਟਾਬੇਸ ਫਾਰਮੈਟ ਦੀ ਪਛਾਣ ਨਹੀਂ ਕੀਤੀ ਜਾ ਸਕੀ।</string>
 </resources>
