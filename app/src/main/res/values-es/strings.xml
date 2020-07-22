@@ -439,4 +439,6 @@
     <string name="validate">Validar</string>
     <string name="contribution">Contribución</string>
     <string name="contact">Contactar</string>
+    <string name="error_otp_period">Período debe estar entre %1$d y %2$d segundos.</string>
+    <string name="error_copy_group_here">No se puede copiar un grupo aquí.</string>
 </resources>
