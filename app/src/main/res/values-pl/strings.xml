@@ -486,9 +486,9 @@
     <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
     <string name="autofill_web_domain_blocklist_title">Lista zablokowanych domen internetowych</string>
     <string name="autofill_application_id_blocklist_title">Lista zablokowanych aplikacji</string>
-    <string name="keyboard_previous_fill_in_summary">Automatycznie wróć do poprzedniej klawiatury, jeśli formularz jest wypełniany, a akcja klawisza Go jest automatycznie aktywowana</string>
-    <string name="keyboard_previous_fill_in_title">Poprzednia klawiatura po wypełnieniu formularza</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatycznie powróć do poprzedniej klawiatury, jeśli wyświetlony zostanie ekran poświadczeń bazy danych</string>
-    <string name="keyboard_previous_database_credentials_title">Poprzednia klawiatura podczas poświadczeń bazy danych</string>
+    <string name="keyboard_previous_fill_in_summary">Automatycznie przełącz się z powrotem na poprzednią klawiaturę po wykonaniu automatycznej akcji klawiszy</string>
+    <string name="keyboard_previous_fill_in_title">Automatyczne działanie klucza</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury na ekranie poświadczeń bazy danych</string>
+    <string name="keyboard_previous_database_credentials_title">Ekran poświadczeń bazy danych</string>
     <string name="keyboard_change">Przełącz klawiaturę</string>
 </resources>
