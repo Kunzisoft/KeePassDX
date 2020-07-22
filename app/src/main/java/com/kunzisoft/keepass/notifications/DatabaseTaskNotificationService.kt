@@ -19,12 +19,15 @@
  */
 package com.kunzisoft.keepass.notifications
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
@@ -42,6 +45,8 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.closeDatabase
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -56,8 +61,10 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mAllowFinishAction = AtomicBoolean()
+    private var mActionRunning = false
 
-    private var mTitleId: Int? = null
+    private var mIconId: Int = R.drawable.notification_ic_database_load
+    private var mTitleId: Int = R.string.database_opened
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
 
@@ -66,8 +73,8 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
-            mActionTaskListeners.add(actionTaskListener)
             mAllowFinishAction.set(true)
+            mActionTaskListeners.add(actionTaskListener)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
@@ -84,66 +91,39 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
     }
 
+    /**
+     * Force to call [ActionTaskListener.onStartAction] if the action is still running
+     */
     fun checkAction() {
-        mActionTaskListeners.forEach { actionTaskListener ->
-            actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
-        }
-    }
-
-    open fun buildNotification(intent: Intent?) {
-        var saveAction = true
-        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
-            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
-        }
-
-        val intentAction = intent?.action
-        val titleId: Int = when (intentAction) {
-            ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-            ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
-            else -> {
-                if (saveAction)
-                    R.string.saving_database
-                else
-                    R.string.command_execution
+        if (mActionRunning) {
+            mActionTaskListeners.forEach { actionTaskListener ->
+                actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
             }
         }
-        val messageId: Int? = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK -> null
-            else -> null
-        }
-        val warningId: Int? =
-                if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK)
-                    null
-                else
-                    R.string.do_not_kill_app
-
-        // Assign elements for updates
-        mTitleId = titleId
-        mMessageId = messageId
-        mWarningId = warningId
-        // Create the notification
-        startForeground(notificationId, buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_database_load)
-                .setContentTitle(getString(intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId) ?: titleId))
-                .setAutoCancel(false)
-                .setContentIntent(null).build())
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        buildNotification(intent)
+        super.onBind(intent)
         return mActionTaskBinder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        buildNotification(intent)
+        // Create the notification
+        buildMessage(intent)
 
-        if (intent == null) return START_REDELIVER_INTENT
+        val intentAction = intent?.action
 
-        val intentAction = intent.action
-        val actionRunnable: ActionRunnable? = when (intentAction) {
+        if (intentAction == null && !Database.getInstance().loaded) {
+            stopSelf()
+        }
+        if (intentAction == ACTION_DATABASE_CLOSE) {
+            // Send lock action
+            sendBroadcast(Intent(LOCK_ACTION))
+        }
+
+        val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
@@ -172,12 +152,13 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
             else -> null
         }
 
-        actionRunnable?.let { actionRunnableNotNull ->
-
-            // Build and launch the action
+        // Build and launch the action
+        if (actionRunnable != null) {
             mainScope.launch {
                 executeAction(this@DatabaseTaskNotificationService,
                         {
+                            mActionRunning = true
+
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
                                 putExtra(DATABASE_TASK_TITLE_KEY, mTitleId)
                                 putExtra(DATABASE_TASK_MESSAGE_KEY, mMessageId)
@@ -190,22 +171,144 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
                         },
                         {
-                            actionRunnableNotNull
+                            actionRunnable
                         },
                         { result ->
                             mActionTaskListeners.forEach { actionTaskListener ->
                                 actionTaskListener.onStopAction(intentAction!!, result)
                             }
 
+                            removeIntentData(intent)
+                            buildMessage(intent)
+
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
 
-                            stopSelf()
+                            mActionRunning = false
                         }
                 )
             }
+            // Relaunch action if failed
+            return START_REDELIVER_INTENT
         }
 
-        return START_REDELIVER_INTENT
+        return START_STICKY
+    }
+
+    private fun buildMessage(intent: Intent?) {
+        // Assign elements for updates
+        val intentAction = intent?.action
+
+        var saveAction = false
+        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
+            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
+        }
+
+        mIconId = if (intentAction == null)
+            R.drawable.notification_ic_database_open
+        else
+            R.drawable.notification_ic_database_load
+
+        mTitleId = when {
+            saveAction -> {
+                R.string.saving_database
+            }
+            intentAction == null -> {
+                R.string.database_opened
+            }
+            else -> {
+                when (intentAction) {
+                    ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
+                    ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
+                    ACTION_DATABASE_SAVE -> R.string.saving_database
+                    else -> {
+                        R.string.command_execution
+                    }
+                }
+            }
+        }
+
+        mMessageId = when (intentAction) {
+            ACTION_DATABASE_LOAD_TASK -> null
+            else -> null
+        }
+
+        mWarningId =
+                if (!saveAction
+                        || intentAction == ACTION_DATABASE_LOAD_TASK)
+                    null
+                else
+                    R.string.do_not_kill_app
+
+        val notificationBuilder =  buildNewNotification().apply {
+            setSmallIcon(mIconId)
+            intent?.let {
+                setContentTitle(getString(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mTitleId)))
+            }
+            setAutoCancel(false)
+            setContentIntent(null)
+        }
+
+        if (intentAction == null) {
+            // Database is normally open
+            val database = Database.getInstance()
+            if (database.loaded) {
+                // Build Intents for notification action
+                var pendingDatabaseFlag = 0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    pendingDatabaseFlag = PendingIntent.FLAG_IMMUTABLE
+                }
+                val pendingDatabaseIntent = PendingIntent.getActivity(this,
+                        0,
+                        Intent(this, GroupActivity::class.java),
+                        pendingDatabaseFlag)
+                val deleteIntent = Intent(this, DatabaseTaskNotificationService::class.java).apply {
+                    action = ACTION_DATABASE_CLOSE
+                }
+                val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                // Add actions in notifications
+                notificationBuilder.apply {
+                    setContentText(database.name + " (" + database.version + ")")
+                    setContentIntent(pendingDatabaseIntent)
+                    // Unfortunately swipe is disabled in lollipop+
+                    setDeleteIntent(pendingDeleteIntent)
+                    addAction(R.drawable.ic_lock_white_24dp, getString(R.string.lock),
+                            pendingDeleteIntent)
+                }
+            }
+        }
+
+        // Create the notification
+        startForeground(notificationId, notificationBuilder.build())
+    }
+
+    private fun removeIntentData(intent: Intent?) {
+        intent?.action = null
+
+        intent?.removeExtra(DATABASE_TASK_TITLE_KEY)
+        intent?.removeExtra(DATABASE_TASK_MESSAGE_KEY)
+        intent?.removeExtra(DATABASE_TASK_WARNING_KEY)
+
+        intent?.removeExtra(DATABASE_URI_KEY)
+        intent?.removeExtra(MASTER_PASSWORD_CHECKED_KEY)
+        intent?.removeExtra(MASTER_PASSWORD_KEY)
+        intent?.removeExtra(KEY_FILE_CHECKED_KEY)
+        intent?.removeExtra(KEY_FILE_KEY)
+        intent?.removeExtra(READ_ONLY_KEY)
+        intent?.removeExtra(CIPHER_ENTITY_KEY)
+        intent?.removeExtra(FIX_DUPLICATE_UUID_KEY)
+        intent?.removeExtra(GROUP_KEY)
+        intent?.removeExtra(ENTRY_KEY)
+        intent?.removeExtra(GROUP_ID_KEY)
+        intent?.removeExtra(ENTRY_ID_KEY)
+        intent?.removeExtra(GROUPS_ID_KEY)
+        intent?.removeExtra(ENTRIES_ID_KEY)
+        intent?.removeExtra(PARENT_ID_KEY)
+        intent?.removeExtra(ENTRY_HISTORY_POSITION_KEY)
+        intent?.removeExtra(SAVE_DATABASE_KEY)
+        intent?.removeExtra(OLD_NODES_KEY)
+        intent?.removeExtra(NEW_NODES_KEY)
+        intent?.removeExtra(OLD_ELEMENT_KEY)
+        intent?.removeExtra(NEW_ELEMENT_KEY)
     }
 
     /**
@@ -241,7 +344,9 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         TimeoutHelper.releaseTemporarilyDisableTimeout()
                         // Start the opening notification
                         if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                            DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
+                            if (!Database.getInstance().loaded) {
+                                stopSelf()
+                            }
                         }
                     }
                 }
@@ -253,6 +358,16 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         mMessageId = resId
         mActionTaskListeners.forEach { actionTaskListener ->
             actionTaskListener.onUpdateAction(mTitleId, mMessageId, mWarningId)
+        }
+    }
+
+    override fun actionOnLock() {
+        if (!TimeoutHelper.temporarilyDisableTimeout) {
+            closeDatabase()
+            // Remove the lock timer (no more needed if it exists)
+            TimeoutHelper.cancelLockTimer(this)
+            // Service is stopped after receive the broadcast
+            super.actionOnLock()
         }
     }
 
@@ -623,10 +738,6 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
 
-        const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
-        const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
-        const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
-
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
         const val ACTION_DATABASE_ASSIGN_PASSWORD_TASK = "ACTION_DATABASE_ASSIGN_PASSWORD_TASK"
@@ -652,6 +763,11 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
+        const val ACTION_DATABASE_CLOSE = "ACTION_DATABASE_CLOSE"
+
+        const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
+        const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
+        const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"

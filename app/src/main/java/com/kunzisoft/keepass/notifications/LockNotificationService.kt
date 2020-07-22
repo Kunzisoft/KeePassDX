@@ -32,8 +32,7 @@ abstract class LockNotificationService : NotificationService() {
 
     protected open fun actionOnLock() {
         // Stop the service in all cases
-        if (!TimeoutHelper.temporarilyDisableTimeout)
-            stopSelf()
+        stopSelf()
     }
 
     override fun onCreate() {
