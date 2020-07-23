@@ -215,10 +215,9 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
     }
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
-        activity.stopService(intentDatabaseTask)
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
-            intentDatabaseTask.action = actionTask
+        intentDatabaseTask.action = actionTask
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             activity.startForegroundService(intentDatabaseTask)
         } else {
