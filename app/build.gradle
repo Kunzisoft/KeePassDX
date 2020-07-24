@@ -69,7 +69,7 @@ android {
             buildConfigField "String", "BUILD_VERSION", "\"free\""
             buildConfigField "boolean", "FULL_VERSION", "false"
             buildConfigField "boolean", "CLOSED_STORE", "true"
-            buildConfigField "String[]", "STYLES_DISABLED", "{}"
+            buildConfigField "String[]", "STYLES_DISABLED", "{\"KeepassDXStyle_Dark\",\"KeepassDXStyle_Blue\",\"KeepassDXStyle_Red\",\"KeepassDXStyle_Purple\"}"
             buildConfigField "String[]", "ICON_PACKS_DISABLED", "{}"
             manifestPlaceholders = [ googleAndroidBackupAPIKey:"AEdPqrEAAAAIbRfbV8fHLItXo8OcHwrO0sSNblqhPwkc0DPTqg" ]
         }
