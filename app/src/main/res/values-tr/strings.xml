@@ -98,7 +98,7 @@
     <string name="length">Uzunluk</string>
     <string name="list_entries_show_username_title">Kullanıcı adlarını göster</string>
     <string name="list_entries_show_username_summary">Giriş listelerinde kullanıcı adlarını göster</string>
-    <string name="list_size_title">Liste öğelerinin boyutu</string>
+    <string name="list_size_title">Liste ögelerinin boyutu</string>
     <string name="list_size_summary">Öğe listesindeki metin boyutu</string>
     <string name="loading_database">Veritabanı yükleniyor…</string>
     <string name="lowercase">Küçük harf</string>
@@ -263,7 +263,7 @@
     <string name="education_create_database_summary">İlk parola yönetim dosyanızı oluşturun.</string>
     <string name="education_select_database_title">Mevcut bir veritabanını aç</string>
     <string name="education_select_database_summary">Kullanmaya devam etmek için önceki veritabanı dosyanızı dosya tarayıcınızdan açın.</string>
-    <string name="education_new_node_title">Veritabanınıza öğe ekleyin</string>
+    <string name="education_new_node_title">Veri tabanınıza öge ekleyin</string>
     <string name="education_new_node_summary">Girdiler dijital kimliğinizi yönetmenize yardımcı olur. 
 \n 
 \nGruplar (~klasörler) veritabanınızdaki girdileri düzenler.</string>
@@ -292,7 +292,7 @@
 \nTercih ettiğiniz form doldurma yöntemini kullanın.</string>
     <string name="education_lock_title">Veritabanını kilitle</string>
     <string name="education_lock_summary">Veritabanınızı hızlıca kilitleyin, uygulamayı bir süre sonra kilitlemek için ve ekran kapandığında ayarlayabilirsiniz.</string>
-    <string name="education_sort_title">Öğe sıralama</string>
+    <string name="education_sort_title">Öge sıralama</string>
     <string name="education_sort_summary">Girdilerin ve grupların nasıl sıralandığını seçin.</string>
     <string name="education_donation_title">Katıl</string>
     <string name="education_donation_summary">Daha fazla özellik ekleyerek istikrarı, güvenliği artırmaya yardımcı olun.</string>
@@ -392,7 +392,7 @@
     <string name="database_data_compression_title">Veri sıkıştırma</string>
     <string name="database_data_compression_summary">Veri sıkıştırma veritabanı boyutunu azaltır.</string>
     <string name="max_history_items_title">Maksimum sayı</string>
-    <string name="max_history_items_summary">Giriş başına geçmiş öğelerinin sayısını sınırla</string>
+    <string name="max_history_items_summary">Girdi başına geçmiş ögelerinin sayısını sınırla</string>
     <string name="max_history_size_title">Maksimum boyut</string>
     <string name="max_history_size_summary">Giriş başına geçmiş boyutunu (bayt olarak) sınırlama</string>
     <string name="settings_database_recommend_changing_master_key_title">Yenilemeyi öner</string>
@@ -459,4 +459,15 @@
     <string name="error_label_exists">Bu etiket zaten var.</string>
     <string name="keyboard_search_share_summary">Klavyeyi doldurmak için paylaşılan bilgileri otomatik olarak ara</string>
     <string name="keyboard_search_share_title">Paylaşılan bilgileri ara</string>
+    <string name="filter">Filtre</string>
+    <string name="autofill_block_restart">Engellemeyi etkinleştirmek için formu içeren uygulamayı yeniden başlatın.</string>
+    <string name="autofill_block">Otomatik doldurmayı engelle</string>
+    <string name="autofill_web_domain_blocklist_summary">Web etki alanlarının otomatik olarak doldurulmasını engelleme listesi</string>
+    <string name="autofill_web_domain_blocklist_title">Web etki alanı engelleme listesi</string>
+    <string name="autofill_application_id_blocklist_summary">Uygulamaların otomatik olarak doldurulmasını engelleme listesi</string>
+    <string name="autofill_application_id_blocklist_title">Uygulama engelleme listesi</string>
+    <string name="subdomain_search_summary">Web etki alanlarını alt alan kısıtlamaları ile arayın</string>
+    <string name="subdomain_search_title">Alt etki alanı arama</string>
+    <string name="error_string_type">Bu metin istenen ögeyle eşleşmiyor.</string>
+    <string name="content_description_add_item">Öge ekle</string>
 </resources>

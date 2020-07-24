@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.tasks
 
 import android.os.Bundle
+import android.util.Log
 import com.kunzisoft.keepass.database.exception.DatabaseException
 
 /**
@@ -48,18 +49,26 @@ abstract class ActionRunnable: Runnable {
         result.isSuccess = false
         result.exception = null
         result.message = message
+        showLog()
     }
 
     protected fun setError(exception: Exception) {
         result.isSuccess = false
         result.exception = null
         result.message = exception.message
+        showLog()
     }
 
     protected fun setError(exception: DatabaseException) {
         result.isSuccess = false
         result.exception = exception
         result.message = exception.message
+        showLog()
+    }
+
+    private fun showLog() {
+        val message = if (result.message != null) ", message=${result.message}" else ""
+        Log.e(TAG, "success=${result.isSuccess}$message", result.exception)
     }
 
     /**
@@ -69,4 +78,8 @@ abstract class ActionRunnable: Runnable {
                       var message: String? = null,
                       var exception: DatabaseException? = null,
                       var data: Bundle? = null)
+
+    companion object {
+        private const val TAG = "ActionRunnable"
+    }
 }

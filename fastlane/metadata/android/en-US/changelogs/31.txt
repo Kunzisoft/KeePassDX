@@ -7,4 +7,3 @@
  * Setting to hide lock button in user interface
  * Clickable links in notes
  * Fix autofill for key-value pairs
-

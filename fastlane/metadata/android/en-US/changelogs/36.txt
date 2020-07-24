@@ -4,4 +4,3 @@
  * Improving action tasks
  * Improve recognition to reset app timeout
  * Fix minor issues
-

@@ -466,7 +466,7 @@
     <string name="error_create_database">Невозможно создать файл базы.</string>
     <string name="education_setup_OTP_title">Настройте OTP</string>
     <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
-    <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска из веб-домена или идентификатора приложения</string>
+    <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска для домена или идентификатора приложения</string>
     <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>
     <string name="lock_database_show_button_title">Показывать кнопку блокировки</string>
     <string name="error_label_exists">Такая метка уже существует.</string>
@@ -475,4 +475,15 @@
     <string name="autofill_preference_title">Настройки автозаполнения</string>
     <string name="keyboard_search_share_summary">Выполнять автоматический поиск общедоступной информации для подстановки в клавиатуру</string>
     <string name="keyboard_search_share_title">Поиск доступной информации</string>
+    <string name="subdomain_search_title">Поиск поддоменов</string>
+    <string name="subdomain_search_summary">Выполнять поиск доменов с некоторыми поддоменами</string>
+    <string name="autofill_block_restart">Перезапустите приложение, содержащее форму, чтобы активировать отключение.</string>
+    <string name="autofill_block">Отключить автозаполнение</string>
+    <string name="error_string_type">Текст не соответствует запрошенному элементу.</string>
+    <string name="autofill_web_domain_blocklist_summary">Список доменов, для которых функция автозаполнения не применяется</string>
+    <string name="autofill_web_domain_blocklist_title">Чёрный список доменов</string>
+    <string name="autofill_application_id_blocklist_summary">Список приложений, для которых функция автозаполнения не применяется</string>
+    <string name="autofill_application_id_blocklist_title">Чёрный список приложений</string>
+    <string name="filter">Фильтр</string>
+    <string name="content_description_add_item">Добавить элемент</string>
 </resources>

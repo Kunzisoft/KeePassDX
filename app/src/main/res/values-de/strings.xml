@@ -478,7 +478,7 @@
     <string name="discard">Verwerfen</string>
     <string name="discard_changes">Änderungen verwerfen\?</string>
     <string name="validate">Validieren</string>
-    <string name="autofill_auto_search_summary">Suchergebnissen aus der Web-Domain oder Anwendung-ID automatisch vorschlagen</string>
+    <string name="autofill_auto_search_summary">Suchergebnisse aus der Web-Domain oder Anwendungs-ID automatisch vorschlagen</string>
     <string name="autofill_auto_search_title">Automatische Suche</string>
     <string name="lock_database_show_button_summary">Zeigt die Sperrtaste in der Benutzeroberfläche an</string>
     <string name="lock_database_show_button_title">Sperrtaste anzeigen</string>
@@ -487,4 +487,15 @@
     <string name="error_label_exists">Diese Bezeichnung existiert bereits.</string>
     <string name="keyboard_search_share_summary">Automatische Suche nach gemeinsam genutzten Informationen zur Belegung der Tastatur</string>
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
+    <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
+    <string name="autofill_block">Automatisches Füllen blockieren</string>
+    <string name="autofill_web_domain_blocklist_summary">Blockliste, die das automatische Füllen von Web-Domains verhindert</string>
+    <string name="autofill_web_domain_blocklist_title">Web-Domain-Blockliste</string>
+    <string name="autofill_application_id_blocklist_summary">Blockliste, die das automatische Füllen von Apps verhindert</string>
+    <string name="autofill_application_id_blocklist_title">Anwendungs-Blockliste</string>
+    <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
+    <string name="subdomain_search_title">Subdomain-Suche</string>
+    <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
+    <string name="content_description_add_item">Element hinzufügen</string>
+    <string name="filter">Filter</string>
 </resources>
