@@ -470,9 +470,9 @@
 \nGrupe (~mape) organiziraju unose u bazi podataka.</string>
     <string name="download_progression">U tijeku: %1$d%%</string>
     <string name="download_complete">Gotovo! Dodirni, za otvaranje datoteke.</string>
-    <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu, ako se obrazac ispunjava i ako se automatski aktivira radnja tipke „Idi”</string>
-    <string name="keyboard_previous_fill_in_title">Prethodna tipkovnica nakon ispunjavanje obrasca</string>
-    <string name="keyboard_previous_database_credentials_summary">Automatski se vrati na prethodnu tipkovnicu, ako se prikaže ekran baze podataka za unos podataka za prijavu</string>
-    <string name="keyboard_previous_database_credentials_title">Prethodna tipkovnica tijekom unosa podataka za prijavu u bazu podataka</string>
-    <string name="keyboard_change">Promjena tipkovnice</string>
+    <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja automatske radnje tipke</string>
+    <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>
+    <string name="keyboard_previous_database_credentials_title">Ekran za unos podataka za prijavu u bazu podataka</string>
+    <string name="keyboard_change">Promijeni tipkovnicu</string>
 </resources>
