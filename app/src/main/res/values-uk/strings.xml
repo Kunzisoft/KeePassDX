@@ -101,7 +101,7 @@
     <string name="minus">Мінус</string>
     <string name="never">Ніколи</string>
     <string name="no_results">Нічого не знайдено</string>
-    <string name="no_url_handler">Щоби відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
+    <string name="no_url_handler">Щоб відкрити цю URL-адресу, встановіть переглядач Інтернету.</string>
     <string name="omit_backup_search_title">Не шукати у записах резервних копій</string>
     <string name="omit_backup_search_summary">Виключити групи \"Резервна копія\" та \"Кошик\" з результатів пошуку</string>
     <string name="progress_create">Створення нової бази даних…</string>
@@ -122,8 +122,8 @@
     <string name="unsupported_db_version">Непідтримувана версія бази даних.</string>
     <string name="uppercase">Великі літери</string>
     <string name="version_label">Версія %1$s</string>
-    <string name="education_unlock_summary">Введіть пароль та/або файл ключа, щоби відкрити базу даних.
-\n
+    <string name="education_unlock_summary">Введіть пароль та/або файл ключа, щоб відкрити базу даних. 
+\n 
 \nСтворюйте резервну копію файлу бази даних після кожної внесеної зміни та зберігайте її у безпечному місці.</string>
     <string-array name="timeout_options">
         <item>5 секунд</item>
@@ -187,8 +187,8 @@
     <string name="remember_database_locations_title">Зберігати розташування баз даних</string>
     <string name="selection_mode">Режим вибору</string>
     <string name="contains_duplicate_uuid">База даних містить дублікати UUID.</string>
-    <string name="contains_duplicate_uuid_procedure">Розв\'язати проблему, створивши нові UUID для дублікатів щоби продовжити\?</string>
-    <string name="read_only_warning">Щоби вносити зміни, KeePassDX потребує дозволу на запис до вашого сховища.</string>
+    <string name="contains_duplicate_uuid_procedure">Розв\'язати проблему, створивши нові UUID для дублікатів щоб продовжити\?</string>
+    <string name="read_only_warning">Щоб вносити зміни, KeePassDX потребує дозволу на запис до вашого сховища.</string>
     <string name="read_only">Захищено від запису</string>
     <string name="protection">Захист</string>
     <string name="auto_focus_search_summary">Відкривати пошук під час відкриття бази даних</string>
@@ -252,7 +252,7 @@
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Щоби &lt;strong&gt;зберігати нашу вільність&lt;/strong&gt;, &lt;strong&gt;зневаджувати&lt;/strong&gt;, &lt;strong&gt;додавати функції&lt;/strong&gt; та &lt;strong&gt;бути завжди активним проєктом&lt;/strong&gt;, ми розраховуємо на вашу &lt;strong&gt;допомогу&lt;/strong&gt;.</string>
+    <string name="html_about_contribution">Щоб <strong>зберігати нашу вільність</strong>, <strong>зневаджувати</strong>, <strong>додавати функції</strong> та <strong>бути завжди активним проєктом</strong>, ми розраховуємо на вашу <strong>допомогу</strong>.</string>
     <string name="content_description_keyboard_close_fields">Закрити поля</string>
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
@@ -279,7 +279,7 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="download_complete">Готово! Торкніться, щоби відкрити файл.</string>
+    <string name="download_complete">Готово! Торкніться, щоб відкрити файл.</string>
     <string name="download_finalization">Завершення…</string>
     <string name="download_progression">Виконується: %1$d%%</string>
     <string name="download_initialization">Ініціалізація…</string>
@@ -292,8 +292,8 @@
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоби бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоби залишатися вільними та бути завжди активними, ми розраховуємо на вашу &lt;strong&gt;допомогу.&lt;/strong&gt;</string>
+    <string name="html_text_dev_feature">Ця функція ще <strong>розробляється</strong> та потребує вашої <strong>участі</strong>, щоб бути доступною якнайшвидше.</string>
+    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу <strong>допомогу.</strong></string>
     <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>
@@ -338,7 +338,7 @@
     <string name="reset_education_screens_text">Скинути навчальні підказки</string>
     <string name="reset_education_screens_summary">Показати всю навчальну інформацію знову</string>
     <string name="reset_education_screens_title">Скидання навчальних підказок</string>
-    <string name="enable_education_screens_summary">Виділяти елементи, щоби дізнатися, як працює застосунок</string>
+    <string name="enable_education_screens_summary">Виділяти елементи, щоб дізнатися, як працює застосунок</string>
     <string name="enable_education_screens_title">Навчальні підказки</string>
     <string name="enable_auto_save_database_title">Автозбереження бази даних</string>
     <string name="enable_read_only_summary">Типово відкривати базу даних лише для читання</string>
@@ -406,14 +406,14 @@
     <string name="biometric_delete_all_key_title">Видалити ключі шифрування</string>
     <string name="biometric_auto_open_prompt_summary">Автоматично запитувати біометричний ключ, якщо базу даних налаштовано для роботи з ним</string>
     <string name="biometric_auto_open_prompt_title">Автоматично запитувати біометричний ключ</string>
-    <string name="biometric_unlock_enable_summary">Дозволяє сканувати біометричні дані, щоби відкрити базу даних</string>
+    <string name="biometric_unlock_enable_summary">Дозволяє сканувати біометричні дані, щоб відкрити базу даних</string>
     <string name="biometric_unlock_enable_title">Розблокування біометричним ключем</string>
     <string name="advanced_unlock_explanation_summary">Увімкніть розширені параметри розблокування та спростіть відкриття бази даних</string>
     <string name="advanced_unlock">Розширені параметри розблокування</string>
     <string name="lock_database_show_button_summary">Показувати кнопку блокування в інтерфейсі користувача</string>
     <string name="lock_database_show_button_title">Показувати кнопку блокування</string>
     <string name="lock_database_back_root_summary">Блокувати базу даних, коли користувач натискає кнопку назад на головному екрані</string>
-    <string name="lock_database_back_root_title">Натисніть \'Назад\', щоби заблокувати</string>
+    <string name="lock_database_back_root_title">Натисніть \'Назад\', щоб заблокувати</string>
     <string name="lock_database_screen_off_summary">Блокувати базу даних, якщо екран вимкнено</string>
     <string name="lock_database_screen_off_title">Блокування екрана</string>
     <string name="lock">Блокування</string>
@@ -445,7 +445,7 @@
     <string name="biometric_prompt_extract_credential_title">Відкрити базу даних біометричним ключем</string>
     <string name="biometric_prompt_store_credential_title">Зберегти біометричний ключ</string>
     <string name="open_biometric_prompt_unlock_database">Розблокувати базу даних біометричним ключем</string>
-    <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем щоби зберегти дані</string>
+    <string name="open_biometric_prompt_store_credential">Скористатися біометричним ключем щоб зберегти дані</string>
     <string name="keystore_not_accessible">Сховище ключів не ініціалізовано належним чином.</string>
     <string name="build_label">Збірка %1$s</string>
     <string name="warning_permanently_delete_nodes">Видалити вибрані вузли остаточно\?</string>
