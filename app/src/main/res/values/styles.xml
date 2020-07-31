@@ -20,11 +20,12 @@
 <resources>
 
     <!-- SplashScreen theme -->
-    <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="KeepassDXStyle.SplashScreen.v21" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/background_night</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
+    <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21"/>
 
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
