@@ -1,5 +1,6 @@
 KeePassDX(2.8.2)
  * Fix themes
+ * Fix multiples notifications
 
 KeePassDX(2.8.1)
  * Capture exceptions in coroutines
