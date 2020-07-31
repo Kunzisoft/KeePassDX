@@ -1,5 +1,5 @@
 KeePassDX(2.8.2)
- *
+ * Fix themes
 
 KeePassDX(2.8.1)
  * Capture exceptions in coroutines

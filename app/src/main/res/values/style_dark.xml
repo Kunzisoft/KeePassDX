@@ -19,7 +19,7 @@
 -->
 <resources>
     <!-- Dark Style -->
-    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night.v21" >
+    <style name="KeepassDXStyle.Dark" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">#212121</item>
         <item name="colorPrimaryDark">@color/dark</item>
         <item name="colorAccent">@color/cyan</item>
