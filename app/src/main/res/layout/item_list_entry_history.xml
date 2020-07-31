@@ -24,9 +24,7 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:layout_marginTop="4dp"
-    android:layout_marginBottom="4dp">
+    android:background="?android:attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/entry_history_last_modified"
@@ -35,6 +33,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_history_title"
+        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -46,6 +45,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_history_username"
+        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -57,6 +57,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_history_url"
+        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content" />
@@ -68,6 +69,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        style="@style/KeepassDXStyle.TextAppearance.TextEntryItem"
         android:gravity="center"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

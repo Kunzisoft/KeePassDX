@@ -29,8 +29,7 @@
 		android:id="@+id/entry_edit_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/card_view_padding"
-		android:layout_marginBottom="@dimen/card_view_padding"
+		android:layout_marginTop="@dimen/card_view_margin"
 		android:layout_marginStart="0dp"
 		android:layout_marginEnd="0dp"
 		android:layout_marginLeft="0dp"
@@ -212,8 +211,7 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="vertical"
-		android:paddingTop="@dimen/default_margin"
-		android:paddingBottom="@dimen/default_margin"
+		android:paddingTop="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container">
 	</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
