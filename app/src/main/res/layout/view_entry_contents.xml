@@ -27,8 +27,8 @@
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/default_margin"
-		android:layout_marginBottom="@dimen/default_margin"
+		android:layout_marginTop="@dimen/card_view_padding"
+		android:layout_marginBottom="@dimen/card_view_padding"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
@@ -36,7 +36,7 @@
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
 			<!-- Username -->
@@ -191,12 +191,12 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/card_view_padding">
 		<LinearLayout
 			android:id="@+id/extra_strings"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
@@ -209,11 +209,11 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/card_view_padding">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
 			<!-- Binary files -->
@@ -239,11 +239,11 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/card_view_padding">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
 			<!-- Created -->
@@ -322,11 +322,11 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/card_view_padding">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
 			<!-- History -->
@@ -410,11 +410,11 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		android:layout_marginBottom="@dimen/default_margin">
+		android:layout_marginBottom="@dimen/card_view_padding">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 
 			<!-- UUID -->
