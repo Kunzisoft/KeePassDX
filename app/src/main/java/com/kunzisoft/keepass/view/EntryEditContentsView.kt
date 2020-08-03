@@ -216,24 +216,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
 
     /**
-     * Add a new view to fill in the information of the customized field and focus it
-     */
-    fun addEmptyCustomField() {
-        // Fix current custom field before adding a new one
-        if (isValid()) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
-                setFontVisibility(fontInVisibility)
-                requestFocus()
-            }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
-        }
-    }
-
-    /**
      * Update a custom field or create a new one if doesn't exists
      */
     fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString()) {
+                       value: ProtectedString = ProtectedString(),
+                       requestFocus: Boolean = false) {
         var updateField = false
         for (i in 0..entryExtraFieldsContainer.childCount) {
             try {
@@ -252,6 +239,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 setData(name, value, fontInVisibility)
             }
             entryExtraFieldsContainer.addView(entryEditCustomField)
+            if (requestFocus)
+                entryEditCustomField.requestFocus()
         }
     }
 

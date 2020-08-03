@@ -45,6 +45,7 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -62,6 +63,7 @@ import java.util.*
 
 class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
+        EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
@@ -201,7 +203,7 @@ class EntryEditActivity : LockingActivity(),
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
         // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_menu_bar)
         entryEditAddToolBar?.apply {
             menuInflater.inflate(R.menu.entry_edit, menu)
 
@@ -335,11 +337,17 @@ class EntryEditActivity : LockingActivity(),
     }
 
     /**
-     * Add a new customized field view and scroll to bottom
+     * Add a new customized field
      */
     private fun addNewCustomField() {
-        entryEditContentsView?.addEmptyCustomField()
+        EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
+
+    override fun onNewCustomFieldApproved(label: String, name: ProtectedString) {
+        entryEditContentsView?.putCustomField(label, name, true)
+    }
+
+    override fun onNewCustomFieldCanceled(label: String, name: ProtectedString) {}
 
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
