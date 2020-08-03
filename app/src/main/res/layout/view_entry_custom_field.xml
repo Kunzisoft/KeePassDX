@@ -48,7 +48,7 @@
             android:tint="?attr/colorAccent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/value_container"
+            android:id="@+id/new_field_value_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
@@ -61,7 +61,7 @@
             android:paddingEnd="@dimen/default_margin">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/entry_new_field_value"
+                android:id="@+id/new_field_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"

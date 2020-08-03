@@ -59,8 +59,8 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
         val deleteView = findViewById<View>(R.id.entry_new_field_delete)
         deleteView.setOnClickListener { deleteViewFromParent() }
 
-        valueLayoutView = findViewById(R.id.value_container)
-        valueView = findViewById(R.id.entry_new_field_value)
+        valueLayoutView = findViewById(R.id.new_field_value_container)
+        valueView = findViewById(R.id.new_field_value)
         protectionCheckView = findViewById(R.id.protection)
     }
 

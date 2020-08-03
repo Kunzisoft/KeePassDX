@@ -28,6 +28,7 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
@@ -35,6 +36,7 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
 
     private var entryCustomFieldListener: EntryCustomFieldListener? = null
 
+    private var newFieldLabelContainer: TextInputLayout? = null
     private var newFieldLabel: TextView? = null
     private var newFieldValue: TextView? = null
     private var newFieldProtection: CompoundButton? = null
@@ -53,9 +55,10 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_entry_new_field, null)
-            newFieldLabel = root?.findViewById(R.id.entry_new_field_label)
-            newFieldValue = root?.findViewById(R.id.entry_new_field_value)
-            newFieldProtection = root?.findViewById(R.id.entry_new_field_protection)
+            newFieldLabelContainer = root?.findViewById(R.id.new_field_label_container)
+            newFieldLabel = root?.findViewById(R.id.new_field_label)
+            newFieldValue = root?.findViewById(R.id.new_field_value)
+            newFieldProtection = root?.findViewById(R.id.new_field_protection)
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
@@ -108,7 +111,7 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     }
 
     fun setError(@StringRes errorId: Int?) {
-        newFieldLabel?.error = if (errorId == null) null else {
+        newFieldLabelContainer?.error = if (errorId == null) null else {
             requireContext().getString(errorId)
         }
     }
