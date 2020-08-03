@@ -18,18 +18,6 @@
         android:layout_gravity="bottom|start"
         android:contentDescription="@string/menu_lock" />
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/lock_button_stroke"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="-2dp"
-        android:layout_marginLeft="-2dp"
-        android:layout_marginBottom="-2dp"
-        tools:targetApi="lollipop"
-        android:elevation="4dp"
-        style="@style/KeepassDXStyle.Special.Button.Stroke"
-        android:layout_gravity="bottom|start"
-        android:contentDescription="@string/menu_lock" />
-    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lock_button_icon"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -42,7 +30,7 @@
         tools:targetApi="lollipop"
         android:elevation="4dp"
         android:src="@drawable/ic_lock_white_24dp"
-        android:tint="?android:attr/textColorPrimary"
+        android:tint="?android:attr/textColor"
         android:layout_gravity="bottom|start"
         android:contentDescription="@string/menu_lock" />
 </FrameLayout>

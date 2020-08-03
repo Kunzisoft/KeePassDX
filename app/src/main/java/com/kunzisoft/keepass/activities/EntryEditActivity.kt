@@ -84,7 +84,6 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditContentsView: EntryEditContentsView? = null
     private var entryEditAddToolBar: ActionMenuView? = null
     private var validateButton: View? = null
-    private var lockView: View? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -115,11 +114,6 @@ class EntryEditActivity : LockingActivity(),
                 DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
                         .show(supportFragmentManager, "DatePickerFragment")
             }
-        }
-
-        lockView = findViewById(R.id.lock_button)
-        lockView?.setOnClickListener {
-            lockAndExit()
         }
 
         // Focus view to reinitialize timeout
@@ -208,6 +202,12 @@ class EntryEditActivity : LockingActivity(),
             menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
+                val allowLock = PreferencesUtil.showLockDatabaseButton(context)
+                isEnabled = allowLock
+                isVisible = allowLock
+            }
+
+            menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true
                 isEnabled = allowCustomField
                 isVisible = allowCustomField
@@ -221,6 +221,10 @@ class EntryEditActivity : LockingActivity(),
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
+                    R.id.menu_lock -> {
+                        lockAndExit()
+                        true
+                    }
                     R.id.menu_generate_password -> {
                         openPasswordGenerator()
                         true
@@ -255,16 +259,6 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionError(result)
-        }
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
-            View.VISIBLE
-        } else {
-            View.GONE
         }
     }
 
@@ -344,7 +338,11 @@ class EntryEditActivity : LockingActivity(),
     }
 
     override fun onNewCustomFieldApproved(label: String, name: ProtectedString) {
-        entryEditContentsView?.putCustomField(label, name, true)
+        entryEditContentsView?.putCustomField(label, name)
+        scrollView?.postDelayed({
+            scrollView?.fullScroll(View.FOCUS_DOWN)
+            entryEditContentsView?.focusLastChild()
+        }, 500)
     }
 
     override fun onNewCustomFieldCanceled(label: String, name: ProtectedString) {}

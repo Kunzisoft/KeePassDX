@@ -219,8 +219,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * Update a custom field or create a new one if doesn't exists
      */
     fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString(),
-                       requestFocus: Boolean = false) {
+                       value: ProtectedString = ProtectedString()) {
         var updateField = false
         for (i in 0..entryExtraFieldsContainer.childCount) {
             try {
@@ -239,9 +238,12 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 setData(name, value, fontInVisibility)
             }
             entryExtraFieldsContainer.addView(entryEditCustomField)
-            if (requestFocus)
-                entryEditCustomField.requestFocus()
         }
+    }
+
+    fun focusLastChild() {
+        val lastChildNumber = entryExtraFieldsContainer.childCount - 1
+        entryExtraFieldsContainer.getChildAt(lastChildNumber).requestFocus()
     }
 
     /**

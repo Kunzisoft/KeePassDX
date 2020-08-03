@@ -125,7 +125,7 @@
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
             android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
