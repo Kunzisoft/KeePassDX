@@ -34,7 +34,7 @@
     <string name="file_manager_install_description">Bestandsbeheer dat de Intent-actie ACTION_CREATE_DOCUMENT en ACTION_OPEN_DOCUMENT accepteert, is nodig om databasebestanden aan te maken, te openen en op te slaan.</string>
     <string name="clipboard_cleared">Klembord gewist</string>
     <string name="clipboard_timeout">Klembordtime-out</string>
-    <string name="clipboard_timeout_summary">Tijd van opslag op het klembord</string>
+    <string name="clipboard_timeout_summary">Tijd van opslag op het klembord (indien ondersteund op jouw apparaat)</string>
     <string name="select_to_copy">Selecteer om %1$s naar klembord te kopiëren</string>
     <string name="retrieving_db_key">Databasesleutel ophalen…</string>
     <string name="database">Database</string>
@@ -213,7 +213,7 @@
     <string name="autofill_service_name">KeePassDX auto-aanvullendienst</string>
     <string name="autofill_sign_in_prompt">Inloggen met KeePassDX</string>
     <string name="set_autofill_service_title">Dienst voor automatisch aanvullen</string>
-    <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps snel in te vullen</string>
+    <string name="autofill_explanation_summary">Schakel de dienst in om formulieren in andere apps in te vullen</string>
     <string name="password_size_title">Gegenereerde wachtwoordlengte</string>
     <string name="password_size_summary">Standaardlengte van gegenereerd wachtwoord instellen</string>
     <string name="list_password_generator_options_title">Wachtwoordtekens</string>
@@ -343,7 +343,7 @@
     <string name="lock_database_back_root_title">Druk \'Terug\' om te vergrendelen</string>
     <string name="lock_database_back_root_summary">Vergrendel de database wanneer de gebruiker op de knop Terug in het hoofdscherm klikt</string>
     <string name="clear_clipboard_notification_title">Wissen bij afsluiten</string>
-    <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer u de melding sluit</string>
+    <string name="clear_clipboard_notification_summary">Vergrendel de database wanneer de duur van het klembord verloopt of de melding wordt gesloten nadat u deze bent gaan gebruiken</string>
     <string name="recycle_bin">Prullenmand</string>
     <string name="keyboard_selection_entry_title">Itemselectie</string>
     <string name="keyboard_selection_entry_summary">Invoervelden in Magikeyboard tonen bij het bekijken van een item</string>
@@ -487,5 +487,10 @@
     <string name="error_string_type">Deze tekst komt niet overeen met het gevraagde item.</string>
     <string name="content_description_add_item">Item toevoegen</string>
     <string name="keyboard_auto_go_action_summary">\"Gaan\"-toetsactie na het indrukken van een \"Veld\"-toets</string>
-    <string name="keyboard_auto_go_action_title">Auto-type actie</string>
+    <string name="keyboard_auto_go_action_title">Automatische toetsactie</string>
+    <string name="keyboard_previous_fill_in_summary">Schakel automatisch terug naar het vorige toetsenbord na het uitvoeren van de Automatische toetsactie</string>
+    <string name="keyboard_previous_fill_in_title">Automatische toetsactie</string>
+    <string name="keyboard_previous_database_credentials_summary">Schakel automatisch terug naar het vorige toetsenbord op het databasereferentiescherm</string>
+    <string name="keyboard_previous_database_credentials_title">Scherm Databasereferenties</string>
+    <string name="keyboard_change">Van toetsenbord wisselen</string>
 </resources>
