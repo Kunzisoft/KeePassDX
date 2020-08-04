@@ -108,6 +108,8 @@ class GroupActivity : LockingActivity(),
     private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
 
+    private var actionNodeMode: ActionMode? = null
+
     // To manage history in selection mode
     private var mSelectionModeCountBackStack = 0
 
@@ -511,7 +513,8 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onScrolled(dy: Int) {
-        addNodeButtonView?.hideButtonOnScrollListener(dy)
+        if (actionNodeMode == null)
+            addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
     }
 
     override fun onNodeClick(node: Node) {
@@ -554,18 +557,28 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private var actionNodeMode: ActionMode? = null
-
     private fun finishNodeAction() {
         actionNodeMode?.finish()
-        actionNodeMode = null
-        addNodeButtonView?.showButton()
     }
 
     override fun onNodeSelected(nodes: List<Node>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
-                mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
+                mListNodesFragment?.actionNodesCallback(nodes, this, object: ActionMode.Callback {
+                    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                        return true
+                    }
+                    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                        return true
+                    }
+                    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                        return false
+                    }
+                    override fun onDestroyActionMode(mode: ActionMode?) {
+                        actionNodeMode = null
+                        addNodeButtonView?.showButton()
+                    }
+                })?.let {
                     actionNodeMode = toolbarAction?.startSupportActionMode(it)
                 }
             } else {

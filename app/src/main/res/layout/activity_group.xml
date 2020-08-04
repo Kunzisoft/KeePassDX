@@ -142,13 +142,6 @@
                 android:background="?android:attr/windowBackground" />
         </LinearLayout>
 
-        <include
-            layout="@layout/view_button_lock"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            app:layout_anchor="@+id/node_list_container"
-            app:layout_anchorGravity="start|bottom" />
-
         <com.kunzisoft.keepass.view.AddNodeButtonView
             android:id="@+id/add_node_button"
             android:layout_width="wrap_content"
@@ -161,10 +154,20 @@
         android:id="@+id/toolbar_action"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:elevation="4dp"
+        android:paddingStart="48dp"
+        android:paddingLeft="48dp"
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp"
         android:theme="?attr/actionToolbarAppearance"
-        android:background="?attr/colorAccent"
-        tools:targetApi="lollipop" />
+        android:background="?attr/colorAccent" />
+
+    <include
+        layout="@layout/view_button_lock"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

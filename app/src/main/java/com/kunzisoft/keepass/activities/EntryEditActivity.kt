@@ -84,6 +84,7 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditContentsView: EntryEditContentsView? = null
     private var entryEditAddToolBar: ActionMenuView? = null
     private var validateButton: View? = null
+    private var lockView: View? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -114,6 +115,11 @@ class EntryEditActivity : LockingActivity(),
                 DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
                         .show(supportFragmentManager, "DatePickerFragment")
             }
+        }
+
+        lockView = findViewById(R.id.lock_button)
+        lockView?.setOnClickListener {
+            lockAndExit()
         }
 
         // Focus view to reinitialize timeout
@@ -221,10 +227,6 @@ class EntryEditActivity : LockingActivity(),
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_lock -> {
-                        lockAndExit()
-                        true
-                    }
                     R.id.menu_generate_password -> {
                         openPasswordGenerator()
                         true
@@ -259,6 +261,16 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
             coordinatorLayout?.showActionError(result)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        lockView?.visibility = if (PreferencesUtil.showLockDatabaseButton(this)) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
     }
 
