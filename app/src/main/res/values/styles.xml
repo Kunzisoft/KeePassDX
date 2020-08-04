@@ -351,6 +351,11 @@
         <item name="android:background">@drawable/btn_special_start_bottom_background</item>
         <item name="backgroundTint">@color/background_special_button_color</item>
     </style>
+    <style name="KeepassDXStyle.Special.Button.Stroke" parent="KeepassDXStyle.v21.Button">
+        <item name="android:background">@drawable/btn_special_start_bottom_stroke</item>
+        <item name="backgroundTint">?android:attr/textColorPrimary</item>
+        <item name="backgroundTintMode">src_atop</item>
+    </style>
 
     <!-- FAB -->
     <style name="KeepassDXStyle.v21.Fab" parent="KeepassDXStyle.Light.v21" />
