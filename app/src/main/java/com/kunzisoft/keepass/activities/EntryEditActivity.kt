@@ -118,6 +118,9 @@ class EntryEditActivity : LockingActivity(),
                         .show(supportFragmentManager, "DatePickerFragment")
             }
         }
+        entryEditContentsView?.entryPasswordGeneratorView?.setOnClickListener {
+            openPasswordGenerator()
+        }
 
         lockView = findViewById(R.id.lock_button)
         lockView?.setOnClickListener {
@@ -229,10 +232,6 @@ class EntryEditActivity : LockingActivity(),
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_generate_password -> {
-                        openPasswordGenerator()
-                        true
-                    }
                     R.id.menu_add_field -> {
                         addNewCustomField()
                         true
@@ -437,7 +436,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordGeneratorView: View? = entryEditAddToolBar?.findViewById(R.id.menu_generate_password)
+        val passwordGeneratorView: View? = entryEditContentsView?.entryPasswordGeneratorView
         val generatePasswordEducationPerformed = passwordGeneratorView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
                 passwordGeneratorView,

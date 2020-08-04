@@ -23,6 +23,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.google.android.material.textfield.TextInputLayout
@@ -51,7 +52,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryUrlView: EditText
     private val entryPasswordLayoutView: TextInputLayout
     private val entryPasswordView: EditText
-    private val entryConfirmationPasswordView: EditText
+    val entryPasswordGeneratorView: View
     private val entryExpiresCheckBox: CompoundButton
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
@@ -80,7 +81,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryUrlView = findViewById(R.id.entry_edit_url)
         entryPasswordLayoutView = findViewById(R.id.entry_edit_container_password)
         entryPasswordView = findViewById(R.id.entry_edit_password)
-        entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
+        entryPasswordGeneratorView = findViewById(R.id.entry_edit_password_generator_button)
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
@@ -148,10 +149,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             entryPasswordView.setText(value)
-            entryConfirmationPasswordView.setText(value)
             if (fontInVisibility) {
                 entryPasswordView.applyFontVisibility()
-                entryConfirmationPasswordView.applyFontVisibility()
             }
         }
 
@@ -253,14 +252,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * @return ErrorValidation An error with a message or a validation without message
      */
     fun isValid(): Boolean {
-        // Validate password
-        if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {
-            entryPasswordLayoutView.error = context.getString(R.string.error_pass_match)
-            return false
-        } else {
-            entryPasswordLayoutView.error = null
-        }
-
         // Validate extra fields
         entryExtraFieldsContainer.let {
             try {
