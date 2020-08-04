@@ -59,6 +59,7 @@
 	<color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
     <color name="background_purple">#e3cfff</color>
+    <color name="background_purple_lighter">#F4ECFF</color>
 
     <color name="icon_background">#555555</color>
     <color name="icon_text">#000000</color>

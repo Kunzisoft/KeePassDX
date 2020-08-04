@@ -36,6 +36,13 @@
         <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
         <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Night.DateTime.Dialog</item>
     </style>
+    <style name="KeepassDXStyle.Purple" parent="KeepassDXStyle.Purple.v21" >
+        <item name="preferenceTheme">@style/KeepassDXStyle.Preference.v21</item>
+        <item name="android:statusBarColor">?attr/colorPrimaryDark</item>
+        <item name="android:navigationBarColor">?attr/colorAccent</item>
+        <item name="android:timePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
+        <item name="android:datePickerDialogTheme">@style/KeepassDXStyle.Light.DateTime.Dialog</item>
+    </style>
 
     <!-- Preference Theme -->
     <style name="KeepassDXStyle.Preference.v21" parent="@style/PreferenceThemeOverlay.v14.Material">

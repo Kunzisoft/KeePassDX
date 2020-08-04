@@ -46,12 +46,19 @@ abstract class StylishFragment : Fragment() {
         // To fix status bar color
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window = requireActivity().window
-
-            val attrColorPrimaryDark = intArrayOf(android.R.attr.colorPrimaryDark)
-            val taColorPrimaryDark = contextThemed?.theme?.obtainStyledAttributes(attrColorPrimaryDark)
             val defaultColor = Color.BLACK
-            window.statusBarColor = taColorPrimaryDark?.getColor(0, defaultColor) ?: defaultColor
-            taColorPrimaryDark?.recycle()
+
+            try {
+                val taStatusBarColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.statusBarColor))
+                window.statusBarColor = taStatusBarColor?.getColor(0, defaultColor) ?: defaultColor
+                taStatusBarColor?.recycle()
+            } catch (e: Exception) {}
+
+            try {
+                val taNavigationBarColor = contextThemed?.theme?.obtainStyledAttributes(intArrayOf(android.R.attr.navigationBarColor))
+                window.navigationBarColor = taNavigationBarColor?.getColor(0, defaultColor) ?: defaultColor
+                taNavigationBarColor?.recycle()
+            } catch (e: Exception) {}
         }
 
         return super.onCreateView(inflater, container, savedInstanceState)
