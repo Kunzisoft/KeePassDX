@@ -101,10 +101,11 @@
 						android:id="@+id/entry_edit_password"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
-						android:inputType="textPassword"
+						android:inputType="textPassword|textMultiLine"
 						android:importantForAccessibility="no"
 						android:importantForAutofill="no"
-						android:maxLines="10"
+						android:ems="10"
+						android:maxLines="5"
 						android:hint="@string/entry_password"/>
 				</com.google.android.material.textfield.TextInputLayout>
 
@@ -113,6 +114,8 @@
 					android:layout_width="48dp"
 					android:layout_height="48dp"
 					android:padding="12dp"
+					android:layout_marginTop="8dp"
+					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					android:src="@drawable/ic_generate_password_white_24dp"
