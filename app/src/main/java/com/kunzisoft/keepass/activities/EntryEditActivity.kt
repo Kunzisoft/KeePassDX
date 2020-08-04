@@ -354,16 +354,21 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    override fun onNewCustomFieldApproved(label: String) {
-        val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
-        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+    private fun scrollToView(view: View?, showKeyboard: Boolean = false) {
+        if (showKeyboard)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
         scrollView?.post {
             //scrollView?.smoothScrollTo(0, customFieldView.bottom)
             scrollView?.fullScroll(View.FOCUS_DOWN)
-            customFieldView?.post {
-                customFieldView.requestFocus()
+            view?.post {
+                view.requestFocus()
             }
         }
+    }
+
+    override fun onNewCustomFieldApproved(label: String) {
+        val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
+        scrollToView(customFieldView, true)
     }
 
     override fun onNewCustomFieldCanceled(label: String) {}
@@ -490,7 +495,8 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        val otpCustomView = entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        scrollToView(otpCustomView, false)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 
