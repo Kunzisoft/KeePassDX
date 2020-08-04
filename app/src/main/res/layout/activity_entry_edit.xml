@@ -68,7 +68,7 @@
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorAccent"
         app:fabAlignmentMode="end"
-        app:hideOnScroll="false"
+        app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
         android:layout_gravity="bottom" >
         <androidx.appcompat.widget.ActionMenuView

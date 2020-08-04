@@ -353,7 +353,7 @@
     </style>
     <style name="KeepassDXStyle.Special.Button.Stroke" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/btn_special_start_bottom_stroke</item>
-        <item name="backgroundTint">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/textColorInverse</item>
         <item name="backgroundTintMode">src_atop</item>
     </style>
 
