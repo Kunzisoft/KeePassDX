@@ -162,10 +162,6 @@
         </activity>
 
         <service
-            android:name="com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService"
-            android:enabled="true"
-            android:exported="false" />
-        <service
             android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
             android:enabled="true"
             android:exported="false" />
