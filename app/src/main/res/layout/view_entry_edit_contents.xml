@@ -105,7 +105,7 @@
 						android:importantForAccessibility="no"
 						android:importantForAutofill="no"
 						android:ems="10"
-						android:maxLines="5"
+						android:maxLines="10"
 						android:hint="@string/entry_password"/>
 				</com.google.android.material.textfield.TextInputLayout>
 
