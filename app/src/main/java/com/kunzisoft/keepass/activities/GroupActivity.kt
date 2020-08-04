@@ -76,10 +76,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.*
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -713,6 +710,8 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
+        // Padding if lock button visible
+        toolbarAction?.updateLockPaddingLeft()
     }
 
     override fun onPause() {

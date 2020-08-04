@@ -7,8 +7,8 @@
     android:layout_height="wrap_content">
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lock_button_background"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
         android:layout_marginStart="-2dp"
         android:layout_marginLeft="-2dp"
         android:layout_marginBottom="-2dp"
@@ -19,8 +19,8 @@
         android:contentDescription="@string/menu_lock" />
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lock_button_stroke"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
         android:layout_marginStart="-2dp"
         android:layout_marginLeft="-2dp"
         android:layout_marginBottom="-2dp"
@@ -31,8 +31,8 @@
         android:contentDescription="@string/menu_lock" />
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/lock_button_icon"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
         android:paddingBottom="6dp"
         android:paddingTop="16dp"
         android:paddingStart="4dp"

@@ -58,6 +58,7 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
 
@@ -272,6 +273,9 @@ class EntryEditActivity : LockingActivity(),
         } else {
             View.GONE
         }
+
+        // Padding if lock button visible
+        entryEditAddToolBar?.updateLockPaddingLeft()
     }
 
     private fun populateViewsWithEntry(newEntry: Entry) {

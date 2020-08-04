@@ -73,10 +73,6 @@
         android:layout_gravity="bottom" >
         <androidx.appcompat.widget.ActionMenuView
             android:id="@+id/entry_edit_bottom_menu_bar"
-            android:paddingStart="48dp"
-            android:paddingLeft="48dp"
-            android:paddingEnd="0dp"
-            android:paddingRight="0dp"
             android:layout_width="wrap_content"
             android:layout_height="?attr/actionBarSize"/>
     </com.google.android.material.bottomappbar.BottomAppBar>
@@ -94,8 +90,8 @@
 
     <include
         layout="@layout/view_button_lock"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
         android:layout_gravity="start|bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

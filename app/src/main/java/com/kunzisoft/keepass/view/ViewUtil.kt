@@ -30,8 +30,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.tasks.ActionRunnable
 
 /**
@@ -109,6 +111,16 @@ fun Toolbar.expand(animate: Boolean = true)  {
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
     }.start()
+}
+
+fun View.updateLockPaddingLeft() {
+    updatePadding(resources.getDimensionPixelSize(
+            if (PreferencesUtil.showLockDatabaseButton(context)) {
+                R.dimen.lock_button_size
+            } else {
+                R.dimen.hidden_lock_button_size
+            }
+    ))
 }
 
 fun CoordinatorLayout.showActionError(result: ActionRunnable.Result) {
