@@ -215,35 +215,36 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             return customFieldsArray
         }
 
-    /**
-     * Update a custom field or create a new one if doesn't exists
-     */
-    fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString()) {
-        var updateField = false
+    private fun getCustomFieldByLabel(label: String): EntryEditCustomField? {
         for (i in 0..entryExtraFieldsContainer.childCount) {
             try {
                 val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
-                if (extraFieldView?.label == name) {
-                    extraFieldView.setData(name, value, fontInVisibility)
-                    updateField = true
-                    break
+                if (extraFieldView?.label == label) {
+                    return extraFieldView
                 }
             } catch(e: Exception) {
                 // Simply ignore when child view is not a custom field
             }
         }
-        if (!updateField) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
-                setData(name, value, fontInVisibility)
-            }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
-        }
+        return null
     }
 
-    fun focusLastChild() {
-        val lastChildNumber = entryExtraFieldsContainer.childCount - 1
-        entryExtraFieldsContainer.getChildAt(lastChildNumber).requestFocus()
+    /**
+     * Update a custom field or create a new one if doesn't exists
+     */
+    fun putCustomField(name: String,
+                       value: ProtectedString = ProtectedString())
+            : EntryEditCustomField {
+        var extraFieldView = getCustomFieldByLabel(name)
+        extraFieldView?.setData(name, value, fontInVisibility)
+        // Create new view if not exists
+        if (extraFieldView == null) {
+            extraFieldView = EntryEditCustomField(context).apply {
+                setData(name, value, fontInVisibility)
+            }
+            entryExtraFieldsContainer.addView(extraFieldView)
+        }
+        return extraFieldView
     }
 
     /**

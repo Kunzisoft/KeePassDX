@@ -28,6 +28,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
@@ -353,15 +354,19 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    override fun onNewCustomFieldApproved(label: String, name: ProtectedString) {
-        entryEditContentsView?.putCustomField(label, name)
-        scrollView?.postDelayed({
+    override fun onNewCustomFieldApproved(label: String) {
+        val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
+        window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        scrollView?.post {
+            //scrollView?.smoothScrollTo(0, customFieldView.bottom)
             scrollView?.fullScroll(View.FOCUS_DOWN)
-            entryEditContentsView?.focusLastChild()
-        }, 500)
+            customFieldView?.post {
+                customFieldView.requestFocus()
+            }
+        }
     }
 
-    override fun onNewCustomFieldCanceled(label: String, name: ProtectedString) {}
+    override fun onNewCustomFieldCanceled(label: String) {}
 
     private fun setupOTP() {
         // Retrieve the current otpElement if exists

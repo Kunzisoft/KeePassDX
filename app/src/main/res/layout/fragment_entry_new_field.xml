@@ -18,63 +18,27 @@
   along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<RelativeLayout
+<com.google.android.material.textfield.TextInputLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/new_field_label_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:importantForAutofill="noExcludeDescendants"
-    tools:targetApi="o">
+    android:paddingTop="@dimen/default_margin"
+    android:paddingLeft="@dimen/default_margin"
+    android:paddingStart="@dimen/default_margin"
+    android:paddingRight="@dimen/default_margin"
+    android:paddingEnd="@dimen/default_margin"
+    tools:ignore="UnusedAttribute">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/new_field_label_container"
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/new_field_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
-        android:paddingLeft="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingRight="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/new_field_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/field_name"
-            android:importantForAccessibility="no"
-            android:importantForAutofill="no"
-            android:inputType="text"
-            android:maxLines="1" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/new_field_value_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="@dimen/default_margin"
-        android:paddingStart="@dimen/default_margin"
-        android:paddingRight="@dimen/default_margin"
-        android:paddingEnd="@dimen/default_margin"
-        android:layout_below="@+id/new_field_label_container">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/new_field_value"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="textMultiLine"
-            android:importantForAccessibility="no"
-            android:importantForAutofill="no"
-            android:hint="@string/field_value" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <androidx.appcompat.widget.SwitchCompat
-        android:id="@+id/new_field_protection"
-        style="@style/KeepassDXStyle.TextAppearance.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:minHeight="48dp"
-        android:layout_below="@+id/new_field_value_container"
-        android:layout_centerHorizontal="true"
-        android:text="@string/protection" />
-
-</RelativeLayout>
+        android:hint="@string/field_name"
+        android:importantForAccessibility="no"
+        android:importantForAutofill="no"
+        android:inputType="text"
+        android:maxLines="1" />
+</com.google.android.material.textfield.TextInputLayout>
