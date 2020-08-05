@@ -446,7 +446,6 @@ open class PasswordActivity : SpecialModeActivity() {
             var biometricInitialize = false
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (PreferencesUtil.isBiometricUnlockEnable(this)) {
-
                     if (advancedUnlockedManager == null && databaseFileUri != null) {
                         advancedUnlockedManager = AdvancedUnlockedManager(this,
                                 databaseFileUri,
@@ -478,6 +477,7 @@ open class PasswordActivity : SpecialModeActivity() {
                     biometricInitialize = true
                 } else {
                     advancedUnlockedManager?.destroy()
+                    advancedUnlockInfoView?.visibility = View.GONE
                 }
             }
             if (!biometricInitialize) {

@@ -26,6 +26,7 @@ import android.provider.Settings
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.View
 import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -334,7 +335,9 @@ class AdvancedUnlockedManager(var context: FragmentActivity,
     }
 
     private fun showFingerPrintViews(show: Boolean) {
-        context.runOnUiThread { advancedUnlockInfoView?.hide = !show }
+        context.runOnUiThread {
+            advancedUnlockInfoView?.visibility = if (show) View.VISIBLE else View.GONE
+        }
     }
 
     private fun setAdvancedUnlockedTitleView(textId: Int) {
