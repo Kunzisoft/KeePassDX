@@ -23,6 +23,7 @@ import android.content.res.Resources
 import android.util.SparseIntArray
 import com.kunzisoft.keepass.R
 import java.text.DecimalFormat
+import java.util.*
 
 /**
  * Class who construct dynamically database icons contains in a separate library
@@ -35,17 +36,13 @@ import java.text.DecimalFormat
  *
  * See *icon-pack-classic* module as sample
  *
- *
- */
-class IconPack
-/**
  * Construct dynamically the icon pack provide by the string resource id
  *
  * @param packageName Context of the app to retrieve the resources
  * @param packageName Context of the app to retrieve the resources
  * @param resourceId String Id of the pack (ex : com.kunzisoft.keepass.icon.classic.R.string.resource_id)
  */
-internal constructor(packageName: String, resources: Resources, resourceId: Int) {
+class IconPack(packageName: String, resources: Resources, resourceId: Int) {
 
     private val icons: SparseIntArray = SparseIntArray()
     /**
@@ -84,7 +81,7 @@ internal constructor(packageName: String, resources: Resources, resourceId: Int)
         while (num <= NB_ICONS) {
             // To construct the id with name_ic_XX_32dp (ex : classic_ic_08_32dp )
             val resId = resources.getIdentifier(
-                    id + "_" + DecimalFormat("00").format(num.toLong()) + "_32dp",
+                    id + "_" + String.format(Locale.ENGLISH, "%02d", num) + "_32dp",
                     "drawable",
                     packageName)
             icons.put(num, resId)
