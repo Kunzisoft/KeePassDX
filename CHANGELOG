@@ -2,6 +2,7 @@ KeePassDX(2.8.2)
  * Fix themes
  * Fix multiples notifications
  * Fix entry in Magikeyboard memory
+ * Fix biometric view visibility
  * New UI
 
 KeePassDX(2.8.1)

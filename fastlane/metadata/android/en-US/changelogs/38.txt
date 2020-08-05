@@ -1,2 +1,6 @@
- *
+ * Fix themes
+ * Fix multiples notifications
+ * Fix entry in Magikeyboard memory
+ * Fix biometric view visibility
+ * New UI
 
