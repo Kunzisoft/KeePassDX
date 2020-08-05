@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.graphics.Rect
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -99,6 +100,11 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     fun setFontVisibility(applyFontVisibility: Boolean) {
         if (applyFontVisibility)
             valueView.applyFontVisibility()
+    }
+
+    override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
+        valueView.requestFocus(direction, previouslyFocusedRect)
+        return true
     }
 
     private fun deleteViewFromParent() {

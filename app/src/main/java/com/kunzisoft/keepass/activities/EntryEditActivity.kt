@@ -353,21 +353,18 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    private fun scrollToView(view: View?, showKeyboard: Boolean = false) {
-        if (showKeyboard)
-            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
-        scrollView?.post {
-            //scrollView?.smoothScrollTo(0, customFieldView.bottom)
-            scrollView?.fullScroll(View.FOCUS_DOWN)
-            view?.post {
-                view.requestFocus()
+    private fun scrollToView(view: View?) {
+        view?.post {
+            view.requestFocus()
+            scrollView?.post {
+                scrollView?.smoothScrollTo(0, view.bottom)
             }
         }
     }
 
     override fun onNewCustomFieldApproved(label: String) {
         val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
-        scrollToView(customFieldView, true)
+        scrollToView(customFieldView)
     }
 
     override fun onNewCustomFieldCanceled(label: String) {}
@@ -495,7 +492,7 @@ class EntryEditActivity : LockingActivity(),
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
         val otpCustomView = entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
-        scrollToView(otpCustomView, false)
+        scrollToView(otpCustomView)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 

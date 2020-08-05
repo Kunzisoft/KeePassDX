@@ -142,6 +142,7 @@
                             tools:text="30"
                             android:maxLength="3"
                             android:digits="0123456789"
+                            android:imeOptions="actionNext"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
@@ -161,6 +162,7 @@
                             android:importantForAutofill="no"
                             android:hint="@string/otp_counter"
                             tools:text="1"
+                            android:imeOptions="actionNext"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
 
@@ -190,6 +192,7 @@
                             tools:text="6"
                             android:maxLength="2"
                             android:digits="0123456789"
+                            android:imeOptions="actionNext"
                             tools:targetApi="jelly_bean" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </androidx.constraintlayout.widget.ConstraintLayout>
