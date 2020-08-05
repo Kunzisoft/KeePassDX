@@ -70,6 +70,13 @@ class Database {
     val drawFactory = IconDrawableFactory()
 
     var loaded = false
+        set(value) {
+            field = value
+            loadTimestamp = if (field) System.currentTimeMillis() else null
+        }
+
+    var loadTimestamp: Long? = null
+        private set
 
     val iconFactory: IconImageFactory
         get() {

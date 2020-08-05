@@ -108,8 +108,17 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
             val closeView = popupFieldsView.findViewById<View>(R.id.keyboard_popup_close)
             closeView.setOnClickListener { popupCustomKeys?.dismiss() }
 
-            if (!Database.getInstance().loaded)
+            // Remove entry info if the database is not loaded
+            // or if entry info timestamp is before database loaded timestamp
+            val database = Database.getInstance()
+            val databaseTime = database.loadTimestamp
+            val entryTime = entryInfoTimestamp
+            if (!database.loaded
+                    || databaseTime == null
+                    || entryTime == null
+                    || entryTime < databaseTime) {
                 removeEntryInfo()
+            }
             assignKeyboardView()
             keyboardView?.setOnKeyboardActionListener(this)
             keyboardView?.isPreviewEnabled = false
@@ -321,10 +330,13 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         private const val KEY_URL = 520
         private const val KEY_FIELDS = 530
 
+        // TODO Retrieve entry info from id and service when database is open
         private var entryInfoKey: EntryInfo? = null
+        private var entryInfoTimestamp: Long? = null
 
         private fun removeEntryInfo() {
             entryInfoKey = null
+            entryInfoTimestamp = null
         }
 
         fun removeEntry(context: Context) {
@@ -334,6 +346,7 @@ class MagikIME : InputMethodService(), KeyboardView.OnKeyboardActionListener {
         fun addEntryAndLaunchNotificationIfAllowed(context: Context, entry: EntryInfo, toast: Boolean = false) {
             // Add a new entry
             entryInfoKey = entry
+            entryInfoTimestamp = System.currentTimeMillis()
             // Launch notification if allowed
             KeyboardEntryNotificationService.launchNotificationIfAllowed(context, entry, toast)
         }
