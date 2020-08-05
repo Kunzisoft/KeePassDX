@@ -1,6 +1,8 @@
 KeePassDX(2.8.2)
  * Fix themes
  * Fix multiples notifications
+ * Fix entry in Magikeyboard memory
+ * New UI
 
 KeePassDX(2.8.1)
  * Capture exceptions in coroutines
