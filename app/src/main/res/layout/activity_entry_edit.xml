@@ -67,6 +67,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="?attr/colorAccent"
+        app:backgroundTint="?attr/colorAccent"
         app:fabAlignmentMode="end"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
