@@ -53,8 +53,10 @@
 					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/entry_user_name"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_alignParentStart="true"
+					android:layout_alignParentLeft="true"
 					android:layout_below="@+id/entry_user_name_label"
 					android:layout_toLeftOf="@+id/entry_user_name_action_image"
 					android:layout_toStartOf="@+id/entry_user_name_action_image"
@@ -85,8 +87,10 @@
 					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
 				<androidx.appcompat.widget.AppCompatTextView
 					android:id="@+id/entry_password"
-					android:layout_width="match_parent"
+					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:layout_alignParentStart="true"
+					android:layout_alignParentLeft="true"
 					android:layout_below="@+id/entry_password_label"
 					android:layout_toLeftOf="@+id/entry_password_action_image"
 					android:layout_toStartOf="@+id/entry_password_action_image"

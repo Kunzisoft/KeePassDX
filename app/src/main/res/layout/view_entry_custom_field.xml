@@ -37,7 +37,7 @@
         tools:targetApi="o">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/entry_new_field_delete"
+            android:id="@+id/entry_custom_field_delete"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:padding="12dp"
@@ -48,20 +48,20 @@
             android:tint="?attr/colorAccent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/new_field_value_container"
+            android:id="@+id/entry_custom_field_value_container"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/default_margin"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/entry_custom_field_delete"
             android:paddingLeft="@dimen/default_margin"
             android:paddingStart="@dimen/default_margin"
-            android:paddingRight="@dimen/default_margin"
-            android:paddingEnd="@dimen/default_margin">
+            android:paddingRight="0dp"
+            android:paddingEnd="0dp">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/new_field_value"
+                android:id="@+id/entry_custom_field_value"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textMultiLine"
@@ -71,7 +71,7 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/protection"
+            android:id="@+id/entry_custom_field_protection"
             style="@style/KeepassDXStyle.TextAppearance.Small"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,7 +81,7 @@
             android:layout_marginEnd="@dimen/default_margin"
             android:layout_marginRight="@dimen/default_margin"
             android:paddingBottom="@dimen/default_margin"
-            app:layout_constraintTop_toBottomOf="@+id/new_field_value_container"
+            app:layout_constraintTop_toBottomOf="@+id/entry_custom_field_value_container"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/protection" />
