@@ -34,7 +34,8 @@
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Black</item>
         <item name="android:alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
         <item name="alertDialogTheme">@style/KeepassDXStyle.Black.Dialog</item>
-        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Dark</item>
+        <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Black</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Black</item>
     </style>
     <!-- Toolbar Style Black -->
     <style name="KeepassDXStyle.Toolbar.Black" parent="KeepassDXStyle.Black">
@@ -59,5 +60,9 @@
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
         <item name="android:background">@color/black</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Black" parent="CardView">
+        <item name="cardBackgroundColor">@color/dark</item>
     </style>
 </resources>

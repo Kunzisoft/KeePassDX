@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import com.google.android.material.textfield.TextInputLayout
 import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
@@ -29,8 +28,8 @@ import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.RelativeLayout
-import android.widget.TextView
 import androidx.annotation.StringRes
+import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 
@@ -39,13 +38,12 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
                                                      defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle) {
 
-    private val labelLayoutView: TextInputLayout
-    private val labelView: TextView
+    private val valueLayoutView: TextInputLayout
     private val valueView: EditText
     private val protectionCheckView: CompoundButton
 
     val label: String
-        get() = labelView.text.toString()
+        get() = valueLayoutView.hint.toString()
 
     val value: String
         get() = valueView.text.toString()
@@ -56,20 +54,19 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_entry_new_field, this)
+        inflater?.inflate(R.layout.view_entry_custom_field, this)
 
         val deleteView = findViewById<View>(R.id.entry_new_field_delete)
         deleteView.setOnClickListener { deleteViewFromParent() }
 
-        labelLayoutView = findViewById(R.id.title_container)
-        labelView = findViewById(R.id.entry_new_field_label)
-        valueView = findViewById(R.id.entry_new_field_value)
+        valueLayoutView = findViewById(R.id.new_field_value_container)
+        valueView = findViewById(R.id.new_field_value)
         protectionCheckView = findViewById(R.id.protection)
     }
 
     fun setData(label: String?, value: ProtectedString?, fontInVisibility: Boolean) {
         if (label != null)
-            labelView.text = label
+            valueLayoutView.hint = label
         if (value != null) {
             valueView.setText(value.toString())
             protectionCheckView.isChecked = value.isProtected
@@ -94,7 +91,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     }
 
     fun setError(@StringRes errorId: Int?) {
-        labelLayoutView.error = if (errorId == null) null else {
+        valueLayoutView.error = if (errorId == null) null else {
             context.getString(errorId)
         }
     }

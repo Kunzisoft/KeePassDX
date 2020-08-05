@@ -25,9 +25,7 @@
     tools:targetApi="o"
     android:id="@+id/entry_edit_coordinator_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    app:layout_constraintTop_toBottomOf="@+id/toolbar"
-    app:layout_constraintBottom_toBottomOf="parent">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appbar"
@@ -35,47 +33,15 @@
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true">
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:titleEnabled="false"
-            app:toolbarId="@+id/toolbar"
-            app:layout_scrollFlags="enterAlways|enterAlwaysCollapsed|scroll|exitUntilCollapsed|snap">
-
-            <FrameLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="?attr/actionBarSize">
-                <androidx.appcompat.widget.Toolbar
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/colorPrimaryDark"
-                    android:theme="?attr/toolbarAppearance"
-                    android:popupTheme="?attr/toolbarPopupAppearance">
-                    <androidx.appcompat.widget.ActionMenuView
-                        android:id="@+id/entry_edit_bottom_bar"
-                        android:layout_width="wrap_content"
-                        android:layout_height="?attr/actionBarSize"/>
-                </androidx.appcompat.widget.Toolbar>
-                <View
-                    android:id="@+id/biometric_delimiter"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?attr/colorAccent"/>
-            </FrameLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="?attr/colorPrimary"
-                android:theme="?attr/toolbarAppearance"
-                android:popupTheme="?attr/toolbarPopupAppearance"
-                app:layout_collapseMode="pin"
-                tools:targetApi="lollipop" />
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            android:theme="?attr/toolbarAppearance"
+            android:popupTheme="?attr/toolbarPopupAppearance"
+            app:layout_scrollFlags="enterAlways|scroll|snap"
+            tools:targetApi="lollipop" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.core.widget.NestedScrollView
@@ -85,38 +51,47 @@
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <com.kunzisoft.keepass.view.EntryEditContentsView
+            android:id="@+id/entry_edit_contents"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.kunzisoft.keepass.view.EntryEditContentsView
-                android:id="@+id/entry_edit_contents"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintWidth_percent="@dimen/content_percent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="?attr/actionBarSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintWidth_percent="@dimen/content_percent" />
     </androidx.core.widget.NestedScrollView>
 
-    <include
-        layout="@layout/view_button_lock"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="start|bottom" />
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:id="@+id/entry_edit_bottom_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorAccent"
+        app:fabAlignmentMode="end"
+        app:hideOnScroll="true"
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:layout_gravity="bottom" >
+        <androidx.appcompat.widget.ActionMenuView
+            android:id="@+id/entry_edit_bottom_menu_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="?attr/actionBarSize"/>
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_anchorGravity="bottom|end"
-        app:layout_anchor="@+id/entry_edit_scroll"
+        app:layout_anchor="@+id/entry_edit_bottom_bar"
         android:src="@drawable/ic_check_white_24dp"
         android:contentDescription="@string/validate"
         app:useCompatPadding="true"
         style="@style/KeepassDXStyle.Fab"/>
+
+    <include
+        layout="@layout/view_button_lock"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
+        android:layout_gravity="start|bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

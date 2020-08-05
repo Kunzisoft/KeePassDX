@@ -27,6 +27,8 @@
     <dimen name="card_view_margin_bottom">10dp</dimen>
 
     <dimen name="icon_size">32dp</dimen>
+    <dimen name="lock_button_size">48dp</dimen>
+    <dimen name="hidden_lock_button_size">0dp</dimen>
 
     <dimen name="content_percent">1</dimen>
 

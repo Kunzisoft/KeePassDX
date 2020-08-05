@@ -19,7 +19,8 @@
 -->
 <resources>
     <!-- Purple Style -->
-    <style name="KeepassDXStyle.Purple" parent="KeepassDXStyle.Light" >
+    <style name="KeepassDXStyle.Purple" parent="KeepassDXStyle.Purple.v21" />
+    <style name="KeepassDXStyle.Purple.v21" parent="KeepassDXStyle.Light.v21" >
         <item name="colorPrimary">@color/purple</item>
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>
@@ -32,6 +33,7 @@
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
+        <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple</item>
     </style>
     <!-- Toolbar Style Purple -->
     <style name="KeepassDXStyle.Toolbar.Purple" parent="KeepassDXStyle.Purple">
@@ -55,5 +57,9 @@
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">
         <item name="background">@color/red</item>
+    </style>
+    <!-- CardView -->
+    <style name="KeepassDXStyle.Cardview.Purple" parent="CardView">
+        <item name="cardBackgroundColor">@color/background_purple_lighter</item>
     </style>
 </resources>

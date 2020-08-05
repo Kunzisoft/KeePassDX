@@ -28,6 +28,7 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
@@ -45,6 +46,7 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -57,11 +59,13 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
 
 class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
+        EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
@@ -113,6 +117,9 @@ class EntryEditActivity : LockingActivity(),
                 DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
                         .show(supportFragmentManager, "DatePickerFragment")
             }
+        }
+        entryEditContentsView?.entryPasswordGeneratorView?.setOnClickListener {
+            openPasswordGenerator()
         }
 
         lockView = findViewById(R.id.lock_button)
@@ -201,9 +208,15 @@ class EntryEditActivity : LockingActivity(),
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
         // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_menu_bar)
         entryEditAddToolBar?.apply {
             menuInflater.inflate(R.menu.entry_edit, menu)
+
+            menu.findItem(R.id.menu_add_field).apply {
+                val allowLock = PreferencesUtil.showLockDatabaseButton(context)
+                isEnabled = allowLock
+                isVisible = allowLock
+            }
 
             menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true
@@ -219,10 +232,6 @@ class EntryEditActivity : LockingActivity(),
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_generate_password -> {
-                        openPasswordGenerator()
-                        true
-                    }
                     R.id.menu_add_field -> {
                         addNewCustomField()
                         true
@@ -264,6 +273,9 @@ class EntryEditActivity : LockingActivity(),
         } else {
             View.GONE
         }
+
+        // Padding if lock button visible
+        entryEditAddToolBar?.updateLockPaddingLeft()
     }
 
     private fun populateViewsWithEntry(newEntry: Entry) {
@@ -335,11 +347,30 @@ class EntryEditActivity : LockingActivity(),
     }
 
     /**
-     * Add a new customized field view and scroll to bottom
+     * Add a new customized field
      */
     private fun addNewCustomField() {
-        entryEditContentsView?.addEmptyCustomField()
+        EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
+
+    private fun scrollToView(view: View?, showKeyboard: Boolean = false) {
+        if (showKeyboard)
+            window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE)
+        scrollView?.post {
+            //scrollView?.smoothScrollTo(0, customFieldView.bottom)
+            scrollView?.fullScroll(View.FOCUS_DOWN)
+            view?.post {
+                view.requestFocus()
+            }
+        }
+    }
+
+    override fun onNewCustomFieldApproved(label: String) {
+        val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
+        scrollToView(customFieldView, true)
+    }
+
+    override fun onNewCustomFieldCanceled(label: String) {}
 
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
@@ -405,7 +436,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordGeneratorView: View? = entryEditAddToolBar?.findViewById(R.id.menu_generate_password)
+        val passwordGeneratorView: View? = entryEditContentsView?.entryPasswordGeneratorView
         val generatePasswordEducationPerformed = passwordGeneratorView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
                 passwordGeneratorView,
@@ -463,7 +494,8 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        val otpCustomView = entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        scrollToView(otpCustomView, false)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 

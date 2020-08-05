@@ -13,7 +13,7 @@
                 android:right="12dp"
                 android:top="18dp"
                 android:bottom="8dp"/>
-            <solid android:color="@color/grey_dark"/>
+            <solid android:color="@color/orange_light"/>
         </shape>
     </item>
     <item>
@@ -28,7 +28,7 @@
                 android:right="12dp"
                 android:top="18dp"
                 android:bottom="8dp"/>
-            <solid android:color="@color/grey"/>
+            <solid android:color="@color/orange"/>
         </shape>
     </item>
 </selector>

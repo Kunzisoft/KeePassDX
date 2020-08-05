@@ -23,6 +23,7 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import com.google.android.material.textfield.TextInputLayout
@@ -51,7 +52,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryUrlView: EditText
     private val entryPasswordLayoutView: TextInputLayout
     private val entryPasswordView: EditText
-    private val entryConfirmationPasswordView: EditText
+    val entryPasswordGeneratorView: View
     private val entryExpiresCheckBox: CompoundButton
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
@@ -80,7 +81,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryUrlView = findViewById(R.id.entry_edit_url)
         entryPasswordLayoutView = findViewById(R.id.entry_edit_container_password)
         entryPasswordView = findViewById(R.id.entry_edit_password)
-        entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
+        entryPasswordGeneratorView = findViewById(R.id.entry_edit_password_generator_button)
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
@@ -148,10 +149,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             entryPasswordView.setText(value)
-            entryConfirmationPasswordView.setText(value)
             if (fontInVisibility) {
                 entryPasswordView.applyFontVisibility()
-                entryConfirmationPasswordView.applyFontVisibility()
             }
         }
 
@@ -215,44 +214,36 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             return customFieldsArray
         }
 
-    /**
-     * Add a new view to fill in the information of the customized field and focus it
-     */
-    fun addEmptyCustomField() {
-        // Fix current custom field before adding a new one
-        if (isValid()) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
-                setFontVisibility(fontInVisibility)
-                requestFocus()
+    private fun getCustomFieldByLabel(label: String): EntryEditCustomField? {
+        for (i in 0..entryExtraFieldsContainer.childCount) {
+            try {
+                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
+                if (extraFieldView?.label == label) {
+                    return extraFieldView
+                }
+            } catch(e: Exception) {
+                // Simply ignore when child view is not a custom field
             }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
         }
+        return null
     }
 
     /**
      * Update a custom field or create a new one if doesn't exists
      */
     fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString()) {
-        var updateField = false
-        for (i in 0..entryExtraFieldsContainer.childCount) {
-            try {
-                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
-                if (extraFieldView?.label == name) {
-                    extraFieldView.setData(name, value, fontInVisibility)
-                    updateField = true
-                    break
-                }
-            } catch(e: Exception) {
-                // Simply ignore when child view is not a custom field
-            }
-        }
-        if (!updateField) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
+                       value: ProtectedString = ProtectedString())
+            : EntryEditCustomField {
+        var extraFieldView = getCustomFieldByLabel(name)
+        extraFieldView?.setData(name, value, fontInVisibility)
+        // Create new view if not exists
+        if (extraFieldView == null) {
+            extraFieldView = EntryEditCustomField(context).apply {
                 setData(name, value, fontInVisibility)
             }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
+            entryExtraFieldsContainer.addView(extraFieldView)
         }
+        return extraFieldView
     }
 
     /**
@@ -261,14 +252,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * @return ErrorValidation An error with a message or a validation without message
      */
     fun isValid(): Boolean {
-        // Validate password
-        if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {
-            entryPasswordLayoutView.error = context.getString(R.string.error_pass_match)
-            return false
-        } else {
-            entryPasswordLayoutView.error = null
-        }
-
         // Validate extra fields
         entryExtraFieldsContainer.let {
             try {
