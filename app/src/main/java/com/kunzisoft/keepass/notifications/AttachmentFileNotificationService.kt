@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.notifications
 
 import android.app.PendingIntent
+import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
@@ -29,7 +30,8 @@ import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
-import com.kunzisoft.keepass.tasks.AttachmentFileAsyncTask
+import com.kunzisoft.keepass.timeout.TimeoutHelper
+import kotlinx.coroutines.*
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -40,6 +42,8 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
+
+    private val mainScope = CoroutineScope(Dispatchers.Main)
 
     inner class ActionTaskBinder: Binder() {
 
@@ -99,16 +103,19 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         intent.getParcelableExtra<EntryAttachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
                             val attachmentNotification = AttachmentNotification(nextNotificationId, entryAttachment)
                             downloadFileUris[downloadFileUri] = attachmentNotification
-                            AttachmentFileAsyncTask(downloadFileUri,
-                                    attachmentNotification,
-                                    contentResolver).apply {
-                                onUpdate = { uri, attachment, notificationIdAttach ->
-                                    newNotification(uri, attachment, notificationIdAttach)
-                                    mActionTaskListeners.forEach { actionListener ->
-                                        actionListener.onAttachmentProgress(downloadFileUri, attachment)
+
+                            mainScope.launch {
+                                AttachmentFileActionClass(downloadFileUri,
+                                        attachmentNotification,
+                                        contentResolver).apply {
+                                    onUpdate = { uri, attachment, notificationIdAttach ->
+                                        newNotification(uri, attachment, notificationIdAttach)
+                                        mActionTaskListeners.forEach { actionListener ->
+                                            actionListener.onAttachmentProgress(downloadFileUri, attachment)
+                                        }
                                     }
-                                }
-                            }.execute()
+                                }.executeAction()
+                            }
                         }
                     } catch (e: Exception) {
                         Log.e(TAG, "Unable to download $downloadFileUri", e)
@@ -202,9 +209,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
         super.onDestroy()
     }
 
-    data class AttachmentNotification(var notificationId: Int,
+    private data class AttachmentNotification(var notificationId: Int,
                                       var entryAttachment: EntryAttachment,
-                                      var attachmentTask: AttachmentFileAsyncTask? = null) {
+                                      var attachmentTask: AttachmentFileActionClass? = null) {
         override fun equals(other: Any?): Boolean {
             if (this === other) return true
             if (javaClass != other?.javaClass) return false
@@ -218,6 +225,78 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         override fun hashCode(): Int {
             return notificationId
+        }
+    }
+
+    private class AttachmentFileActionClass(
+            private val fileUri: Uri,
+            private val attachmentNotification: AttachmentNotification,
+            private val contentResolver: ContentResolver) {
+
+        private val updateMinFrequency = 1000
+        private var previousSaveTime = System.currentTimeMillis()
+        var onUpdate: ((Uri, EntryAttachment, Int)->Unit)? = null
+
+        suspend fun executeAction() {
+            TimeoutHelper.temporarilyDisableTimeout()
+
+            // on pre execute
+            attachmentNotification.attachmentTask = this
+            attachmentNotification.entryAttachment.apply {
+                downloadState = AttachmentState.START
+                downloadProgression = 0
+            }
+            onUpdate?.invoke(fileUri,
+                    attachmentNotification.entryAttachment,
+                    attachmentNotification.notificationId)
+
+            withContext(Dispatchers.IO) {
+                // on Progress with thread
+                val asyncResult: Deferred<Boolean> = async {
+                    var progressResult = true
+                    try {
+                        attachmentNotification.entryAttachment.apply {
+                            downloadState = AttachmentState.IN_PROGRESS
+                            binaryAttachment.download(fileUri, contentResolver, 1024) { percent ->
+                                // Publish progress
+                                val currentTime = System.currentTimeMillis()
+                                if (previousSaveTime + updateMinFrequency < currentTime) {
+                                    attachmentNotification.entryAttachment.apply {
+                                        downloadState = AttachmentState.IN_PROGRESS
+                                        downloadProgression = percent
+                                    }
+                                    onUpdate?.invoke(fileUri,
+                                            attachmentNotification.entryAttachment,
+                                            attachmentNotification.notificationId)
+                                    Log.d(TAG, "Download file $fileUri : $percent%")
+                                    previousSaveTime = currentTime
+                                }
+                            }
+                        }
+                    } catch (e: Exception) {
+                        progressResult = false
+                    }
+                    progressResult
+                }
+
+                // on post execute
+                withContext(Dispatchers.Main) {
+                    val result = asyncResult.await()
+                    attachmentNotification.attachmentTask = null
+                    attachmentNotification.entryAttachment.apply {
+                        downloadState = if (result) AttachmentState.COMPLETE else AttachmentState.ERROR
+                        downloadProgression = 100
+                    }
+                    onUpdate?.invoke(fileUri,
+                            attachmentNotification.entryAttachment,
+                            attachmentNotification.notificationId)
+                }
+
+            }
+        }
+
+        companion object {
+            private val TAG = AttachmentFileActionClass::class.java.name
         }
     }
 
