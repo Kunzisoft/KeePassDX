@@ -33,7 +33,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
 
     fun getFileDatabaseHistory(databaseUri: Uri,
                                fileHistoryResultListener: (fileDatabaseHistoryResult: FileDatabaseHistoryEntity?) -> Unit) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                 },
@@ -45,7 +45,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
 
     fun getKeyFileUriByDatabaseUri(databaseUri: Uri,
                                    keyFileUriResultListener: (Uri?) -> Unit) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
                 },
@@ -60,7 +60,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun getAllFileDatabaseHistories(fileHistoryResultListener: (fileDatabaseHistoryResult: List<FileDatabaseHistoryEntity>?) -> Unit) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.getAll()
                 },
@@ -80,7 +80,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun addOrUpdateFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity, unmodifiedAlias: Boolean = false) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(fileDatabaseHistory.databaseUri)
 
@@ -99,7 +99,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
 
     fun deleteFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity,
                                   fileHistoryDeletedResult: (FileDatabaseHistoryEntity?) -> Unit) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.delete(fileDatabaseHistory)
                 },
@@ -113,7 +113,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun deleteKeyFileByDatabaseUri(databaseUri: Uri) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.deleteKeyFileByDatabaseUri(databaseUri.toString())
                 }
@@ -121,7 +121,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun deleteAllKeyFiles() {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.deleteAllKeyFiles()
                 }
@@ -129,7 +129,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun deleteAll() {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     databaseFileHistoryDao.deleteAll()
                 }
