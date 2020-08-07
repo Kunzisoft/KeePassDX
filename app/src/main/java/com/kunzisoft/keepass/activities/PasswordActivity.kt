@@ -88,7 +88,7 @@ open class PasswordActivity : SpecialModeActivity() {
     private var infoContainerView: ViewGroup? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
 
-    private val databaseFilesViewModel: DatabaseFileViewModel by viewModels()
+    private val databaseFileViewModel: DatabaseFileViewModel by viewModels()
 
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
@@ -173,7 +173,7 @@ open class PasswordActivity : SpecialModeActivity() {
         }
 
         // Observe database file change
-        databaseFilesViewModel.databaseFileLoaded.observe(this, Observer { databaseFile ->
+        databaseFileViewModel.databaseFileLoaded.observe(this, Observer { databaseFile ->
             // Force read only if the file does not exists
             mForceReadOnly = databaseFile?.let {
                 !it.databaseFileExists
@@ -392,7 +392,7 @@ open class PasswordActivity : SpecialModeActivity() {
                 mAllowAutoOpenBiometricPrompt
 
             mDatabaseFileUri?.let { databaseFileUri ->
-                databaseFilesViewModel.loadDatabaseFile(databaseFileUri)
+                databaseFileViewModel.loadDatabaseFile(databaseFileUri)
             }
 
             checkPermission()
