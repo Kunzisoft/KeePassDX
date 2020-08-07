@@ -57,6 +57,7 @@ class CreateDatabaseRunnable(context: Context,
         super.onFinishRun()
 
         if (result.isSuccess) {
+            // TODO in Thread
             // Add database to recent files
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)

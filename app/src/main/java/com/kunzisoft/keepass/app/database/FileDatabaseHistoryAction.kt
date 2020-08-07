@@ -71,6 +71,7 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
     }
 
     fun addOrUpdateDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null) {
+        // TODO in Thread
         addOrUpdateFileDatabaseHistory(FileDatabaseHistoryEntity(
                 databaseUri.toString(),
                 "",
@@ -79,7 +80,9 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
         ), true)
     }
 
-    fun addOrUpdateFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity, unmodifiedAlias: Boolean = false) {
+    fun addOrUpdateFileDatabaseHistory(fileDatabaseHistory: FileDatabaseHistoryEntity,
+                                       unmodifiedAlias: Boolean = false,
+                                       fileHistoryUpdatedResult: ((FileDatabaseHistoryEntity?) -> Unit)? = null) {
         IOActionTask(
                 {
                     val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(fileDatabaseHistory.databaseUri)
@@ -93,6 +96,10 @@ class FileDatabaseHistoryAction(applicationContext: Context) {
                     } else {
                         databaseFileHistoryDao.update(fileDatabaseHistory)
                     }
+                    fileDatabaseHistoryRetrieve
+                },
+                {
+                    fileHistoryUpdatedResult?.invoke(it)
                 }
         ).execute()
     }

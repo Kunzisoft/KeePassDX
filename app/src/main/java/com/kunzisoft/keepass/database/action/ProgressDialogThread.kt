@@ -241,7 +241,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_CREATE_TASK)
     }
@@ -255,7 +255,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
             putBoolean(DatabaseTaskNotificationService.READ_ONLY_KEY, readOnly)
             putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
@@ -274,7 +274,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_ASSIGN_PASSWORD_TASK)
     }

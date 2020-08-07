@@ -34,10 +34,12 @@ import android.util.Log
 import android.view.*
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.*
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.Toolbar
 import androidx.biometric.BiometricManager
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.DuplicateUuidDialog
@@ -48,7 +50,6 @@ import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
 import com.kunzisoft.keepass.database.action.ProgressDialogThread
@@ -60,7 +61,7 @@ import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_LOAD_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.CIPHER_ENTITY_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
-import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.MASTER_PASSWORD_KEY
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.READ_ONLY_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
@@ -68,6 +69,7 @@ import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.AdvancedUnlockInfoView
 import com.kunzisoft.keepass.view.KeyFileSelectionView
 import com.kunzisoft.keepass.view.asError
+import com.kunzisoft.keepass.viewmodels.DatabaseFileViewModel
 import kotlinx.android.synthetic.main.activity_password.*
 import java.io.FileNotFoundException
 
@@ -85,6 +87,8 @@ open class PasswordActivity : SpecialModeActivity() {
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var infoContainerView: ViewGroup? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
+
+    private val databaseFilesViewModel: DatabaseFileViewModel by viewModels()
 
     private var mDatabaseFileUri: Uri? = null
     private var mDatabaseKeyFileUri: Uri? = null
@@ -133,6 +137,7 @@ open class PasswordActivity : SpecialModeActivity() {
 
         mPermissionAsked = savedInstanceState?.getBoolean(KEY_PERMISSION_ASKED) ?: mPermissionAsked
         readOnly = ReadOnlyHelper.retrieveReadOnlyFromInstanceStateOrPreference(this, savedInstanceState)
+        mRememberKeyFile = PreferencesUtil.rememberKeyFileLocations(this)
 
         mOpenFileHelper = OpenFileHelper(this@PasswordActivity)
         keyFileSelectionView?.apply {
@@ -163,10 +168,32 @@ open class PasswordActivity : SpecialModeActivity() {
         if (savedInstanceState?.containsKey(KEY_KEYFILE) == true) {
             mDatabaseKeyFileUri = UriUtil.parse(savedInstanceState.getString(KEY_KEYFILE))
         }
-
         if (savedInstanceState?.containsKey(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT) == true) {
             mAllowAutoOpenBiometricPrompt = savedInstanceState.getBoolean(ALLOW_AUTO_OPEN_BIOMETRIC_PROMPT)
         }
+
+        // Observe database file change
+        databaseFilesViewModel.databaseFileLoaded.observe(this, Observer { databaseFile ->
+            // Force read only if the file does not exists
+            mForceReadOnly = databaseFile?.let {
+                !it.databaseFileExists
+            } ?: true
+            invalidateOptionsMenu()
+
+            // Post init uri with KeyFile only if needed
+            val keyFileUri =
+                    if (mRememberKeyFile
+                            && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
+                        databaseFile?.keyFileUri
+                    } else {
+                        mDatabaseKeyFileUri
+                    }
+
+            // Define title
+            filenameView?.text = databaseFile?.databaseAlias ?: ""
+
+            onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri)
+        })
 
         mProgressDialogThread = ProgressDialogThread(this).apply {
             onActionFinish = { actionTask, result ->
@@ -205,7 +232,7 @@ open class PasswordActivity : SpecialModeActivity() {
                                         result.data?.let { resultData ->
                                             databaseUri = resultData.getParcelable(DATABASE_URI_KEY)
                                             masterPassword = resultData.getString(MASTER_PASSWORD_KEY)
-                                            keyFileUri = resultData.getParcelable(KEY_FILE_KEY)
+                                            keyFileUri = resultData.getParcelable(KEY_FILE_URI_KEY)
                                             readOnly = resultData.getBoolean(READ_ONLY_KEY)
                                             cipherEntity = resultData.getParcelable(CIPHER_ENTITY_KEY)
                                         }
@@ -364,45 +391,15 @@ open class PasswordActivity : SpecialModeActivity() {
             else
                 mAllowAutoOpenBiometricPrompt
 
-            initUriFromIntent()
+            mDatabaseFileUri?.let { databaseFileUri ->
+                databaseFilesViewModel.loadDatabaseFile(databaseFileUri)
+            }
 
             checkPermission()
         }
     }
 
-    private fun initUriFromIntent() {
-        /*
-        // "canXrite" doesn't work with Google Drive, don't really know why?
-        mForceReadOnly = mDatabaseFileUri?.let {
-            !FileDatabaseInfo(this, it).canWrite
-        } ?: false
-        */
-        mForceReadOnly = mDatabaseFileUri?.let {
-            !FileDatabaseInfo(this, it).exists
-        } ?: true
-
-        // Post init uri with KeyFile if needed
-        if (mRememberKeyFile && (mDatabaseKeyFileUri == null || mDatabaseKeyFileUri.toString().isEmpty())) {
-            // Retrieve KeyFile in a thread
-            mDatabaseFileUri?.let { databaseUri ->
-                FileDatabaseHistoryAction.getInstance(applicationContext)
-                        .getKeyFileUriByDatabaseUri(databaseUri)  {
-                            onPostInitUri(databaseUri, it)
-                        }
-            }
-        } else {
-            onPostInitUri(mDatabaseFileUri, mDatabaseKeyFileUri)
-        }
-    }
-
-    private fun onPostInitUri(databaseFileUri: Uri?, keyFileUri: Uri?) {
-        // Define title
-        databaseFileUri?.let {
-            FileDatabaseInfo(this, it).retrieveDatabaseTitle { title ->
-                filenameView?.text = title
-            }
-        }
-
+    private fun onDatabaseFileLoaded(databaseFileUri: Uri?, keyFileUri: Uri?) {
         // Define Key File text
         if (mRememberKeyFile) {
             populateKeyFileTextView(keyFileUri)
