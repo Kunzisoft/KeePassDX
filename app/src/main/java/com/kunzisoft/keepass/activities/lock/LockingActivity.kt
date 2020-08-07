@@ -27,7 +27,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.kunzisoft.keepass.activities.helpers.ReadOnlyHelper
 import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
@@ -51,7 +51,7 @@ abstract class LockingActivity : SpecialModeActivity() {
     private var mReadOnlyToSave: Boolean = false
     protected var mAutoSaveEnable: Boolean = true
 
-    var mProgressDialogThread: ProgressDialogThread? = null
+    var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
         private set
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -80,7 +80,7 @@ abstract class LockingActivity : SpecialModeActivity() {
 
         mExitLock = false
 
-        mProgressDialogThread = ProgressDialogThread(this)
+        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -96,7 +96,7 @@ abstract class LockingActivity : SpecialModeActivity() {
     override fun onResume() {
         super.onResume()
 
-        mProgressDialogThread?.registerProgressTask()
+        mProgressDatabaseTaskProvider?.registerProgressTask()
 
         // To refresh when back to normal workflow from selection workflow
         mReadOnlyToSave = ReadOnlyHelper.retrieveReadOnlyFromIntent(intent)
@@ -131,7 +131,7 @@ abstract class LockingActivity : SpecialModeActivity() {
     override fun onPause() {
         LOCKING_ACTIVITY_UI_VISIBLE = false
 
-        mProgressDialogThread?.unregisterProgressTask()
+        mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         super.onPause()
 

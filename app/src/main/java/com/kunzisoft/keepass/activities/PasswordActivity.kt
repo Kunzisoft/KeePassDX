@@ -52,7 +52,7 @@ import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.autofill.AutofillHelper
 import com.kunzisoft.keepass.biometric.AdvancedUnlockedManager
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.exception.DuplicateUuidDatabaseException
 import com.kunzisoft.keepass.database.search.SearchHelper
@@ -109,7 +109,7 @@ open class PasswordActivity : SpecialModeActivity() {
             field = value
         }
 
-    private var mProgressDialogThread: ProgressDialogThread? = null
+    private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
     private var advancedUnlockedManager: AdvancedUnlockedManager? = null
     private var mAllowAutoOpenBiometricPrompt: Boolean = true
@@ -195,7 +195,7 @@ open class PasswordActivity : SpecialModeActivity() {
             onDatabaseFileLoaded(databaseFile?.databaseUri, keyFileUri)
         })
 
-        mProgressDialogThread = ProgressDialogThread(this).apply {
+        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
             onActionFinish = { actionTask, result ->
                 when (actionTask) {
                     ACTION_DATABASE_LOAD_TASK -> {
@@ -378,7 +378,7 @@ open class PasswordActivity : SpecialModeActivity() {
                 clearCredentialsViews()
             }
 
-            mProgressDialogThread?.registerProgressTask()
+            mProgressDatabaseTaskProvider?.registerProgressTask()
 
             // Back to previous keyboard is setting activated
             if (PreferencesUtil.isKeyboardPreviousDatabaseCredentialsEnable(this)) {
@@ -530,7 +530,7 @@ open class PasswordActivity : SpecialModeActivity() {
     }
 
     override fun onPause() {
-        mProgressDialogThread?.unregisterProgressTask()
+        mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             advancedUnlockedManager?.destroy()
@@ -605,7 +605,7 @@ open class PasswordActivity : SpecialModeActivity() {
                                                   readOnly: Boolean,
                                                   cipherDatabaseEntity: CipherDatabaseEntity?,
                                                   fixDuplicateUUID: Boolean) {
-        mProgressDialogThread?.startDatabaseLoad(
+        mProgressDatabaseTaskProvider?.startDatabaseLoad(
                 databaseUri,
                 password,
                 keyFile,

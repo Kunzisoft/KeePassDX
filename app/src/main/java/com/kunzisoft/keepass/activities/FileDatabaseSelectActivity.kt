@@ -50,7 +50,7 @@ import com.kunzisoft.keepass.activities.selection.SpecialModeActivity
 import com.kunzisoft.keepass.adapters.FileDatabaseHistoryAdapter
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.autofill.AutofillHelper
-import com.kunzisoft.keepass.database.action.ProgressDialogThread
+import com.kunzisoft.keepass.database.action.ProgressDatabaseTaskProvider
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.model.SearchInfo
@@ -82,7 +82,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
     private var mOpenFileHelper: OpenFileHelper? = null
 
-    private var mProgressDialogThread: ProgressDialogThread? = null
+    private var mProgressDatabaseTaskProvider: ProgressDatabaseTaskProvider? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -188,7 +188,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         })
 
         // Attach the dialog thread to this activity
-        mProgressDialogThread = ProgressDialogThread(this).apply {
+        mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
             onActionFinish = { actionTask, _ ->
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
@@ -326,13 +326,13 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             }
 
             // Register progress task
-            mProgressDialogThread?.registerProgressTask()
+            mProgressDatabaseTaskProvider?.registerProgressTask()
         }
     }
 
     override fun onPause() {
         // Unregister progress task
-        mProgressDialogThread?.unregisterProgressTask()
+        mProgressDatabaseTaskProvider?.unregisterProgressTask()
 
         super.onPause()
     }
@@ -353,7 +353,7 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             mDatabaseFileUri?.let { databaseUri ->
 
                 // Create the new database
-                mProgressDialogThread?.startDatabaseCreate(
+                mProgressDatabaseTaskProvider?.startDatabaseCreate(
                         databaseUri,
                         masterPasswordChecked,
                         masterPassword,

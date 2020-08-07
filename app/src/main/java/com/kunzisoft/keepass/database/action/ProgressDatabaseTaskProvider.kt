@@ -71,7 +71,7 @@ import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProgressDialogThread(private val activity: FragmentActivity) {
+class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
 
     var onActionFinish: ((actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null

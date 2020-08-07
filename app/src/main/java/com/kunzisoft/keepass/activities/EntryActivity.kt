@@ -140,7 +140,7 @@ class EntryActivity : LockingActivity() {
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
-        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
                 ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
@@ -523,7 +523,7 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_restore_entry_history -> {
                 mEntryLastVersion?.let { mainEntry ->
-                    mProgressDialogThread?.startDatabaseRestoreEntryHistory(
+                    mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
@@ -531,14 +531,14 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_delete_entry_history -> {
                 mEntryLastVersion?.let { mainEntry ->
-                    mProgressDialogThread?.startDatabaseDeleteEntryHistory(
+                    mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
             }
             android.R.id.home -> finish() // close this activity and return to preview activity (if there is any)
         }

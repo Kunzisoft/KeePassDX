@@ -105,7 +105,7 @@ open class SettingsActivity
 
         backupManager = BackupManager(this)
 
-        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             // Call result in fragment
             (supportFragmentManager
                     .findFragmentByTag(TAG_NESTED) as NestedSettingsFragment?)
@@ -136,7 +136,7 @@ open class SettingsActivity
             database.fileUri?.let { databaseUri ->
                 // Show the progress dialog now or after dialog confirmation
                 if (database.validatePasswordEncoding(masterPassword, keyFileChecked)) {
-                    mProgressDialogThread?.startDatabaseAssignPassword(
+                    mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                             databaseUri,
                             masterPasswordChecked,
                             masterPassword,
@@ -146,7 +146,7 @@ open class SettingsActivity
                 } else {
                     PasswordEncodingDialogFragment().apply {
                         positiveButtonClickListener = DialogInterface.OnClickListener { _, _ ->
-                            mProgressDialogThread?.startDatabaseAssignPassword(
+                            mProgressDatabaseTaskProvider?.startDatabaseAssignPassword(
                                     databaseUri,
                                     masterPasswordChecked,
                                     masterPassword,

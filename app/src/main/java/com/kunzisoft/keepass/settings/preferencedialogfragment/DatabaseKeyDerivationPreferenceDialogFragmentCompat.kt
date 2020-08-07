@@ -66,7 +66,7 @@ class DatabaseKeyDerivationPreferenceDialogFragmentCompat
                     val oldKdfEngine = database.kdfEngine
                     if (newKdfEngine != null && oldKdfEngine != null) {
                         database.kdfEngine = newKdfEngine
-                        mProgressDialogThread?.startDatabaseSaveKeyDerivation(oldKdfEngine, newKdfEngine, mDatabaseAutoSaveEnable)
+                        mProgressDatabaseTaskProvider?.startDatabaseSaveKeyDerivation(oldKdfEngine, newKdfEngine, mDatabaseAutoSaveEnable)
                     }
                 }
             }

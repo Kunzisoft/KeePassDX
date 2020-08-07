@@ -56,7 +56,7 @@ class MaxHistorySizePreferenceDialogFragmentCompat : DatabaseSavePreferenceDialo
                 val oldMaxHistorySize = database.historyMaxSize
                 database.historyMaxSize = maxHistorySize
 
-                mProgressDialogThread?.startDatabaseSaveMaxHistorySize(oldMaxHistorySize, maxHistorySize, mDatabaseAutoSaveEnable)
+                mProgressDatabaseTaskProvider?.startDatabaseSaveMaxHistorySize(oldMaxHistorySize, maxHistorySize, mDatabaseAutoSaveEnable)
             }
         }
     }
