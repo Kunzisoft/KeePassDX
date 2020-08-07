@@ -397,7 +397,12 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
                     keyFileUri
-            )
+            ) { result ->
+                result.data = Bundle().apply {
+                    putParcelable(DATABASE_URI_KEY, databaseUri)
+                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                }
+            }
         } else {
             return null
         }
@@ -766,7 +771,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
         const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
         const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
         const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
-        const val KEY_FILE_URI_KEY = "KEY_FILE_KEY"
+        const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"

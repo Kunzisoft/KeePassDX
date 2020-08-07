@@ -40,7 +40,7 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mCipherEntity: CipherDatabaseEntity?,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
-                           private val mDuplicateUuidAction: ((Result) -> Unit)?)
+                           private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
     private val cacheDirectory = context.applicationContext.filesDir
@@ -60,7 +60,6 @@ class LoadDatabaseRunnable(private val context: Context,
                     progressTaskUpdater)
         }
         catch (e: DuplicateUuidDatabaseException) {
-            mDuplicateUuidAction?.invoke(result)
             setError(e)
         }
         catch (e: LoadDatabaseException) {
@@ -89,6 +88,6 @@ class LoadDatabaseRunnable(private val context: Context,
     }
 
     override fun onFinishRun() {
-
+        mLoadDatabaseResult?.invoke(result)
     }
 }

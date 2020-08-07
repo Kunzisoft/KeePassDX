@@ -1,6 +1,7 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
+import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
@@ -36,38 +37,33 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         }
     }
 
-    fun addDatabaseFile(databaseFileToAdd: DatabaseFile) {
-        addOrUpdateDatabaseFile(databaseFileToAdd, DatabaseFileAction.ADD)
+    fun addDatabaseFile(databaseUri: Uri, keyFileUri: Uri?) {
+        mFileDatabaseHistoryAction?.addOrUpdateDatabaseUri(databaseUri, keyFileUri) { databaseFileAdded ->
+            databaseFileAdded?.let { _ ->
+                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                    this.databaseFileAction = DatabaseFileAction.ADD
+                    this.databaseFileList.add(databaseFileAdded)
+                    this.databaseFileToActivate = databaseFileAdded
+                }
+            }
+        }
     }
 
     fun updateDatabaseFile(databaseFileToUpdate: DatabaseFile) {
-        addOrUpdateDatabaseFile(databaseFileToUpdate, DatabaseFileAction.UPDATE)
-    }
-
-    private fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
-                                        databaseFileAction: DatabaseFileAction) {
-        mFileDatabaseHistoryAction?.addOrUpdateDatabaseFile(databaseFileToAddOrUpdate) { databaseFileAddedOrUpdated ->
-            databaseFileAddedOrUpdated?.let { _ ->
+        mFileDatabaseHistoryAction?.addOrUpdateDatabaseFile(databaseFileToUpdate) { databaseFileUpdated ->
+            databaseFileUpdated?.let { _ ->
                 databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
-                    this.databaseFileAction = databaseFileAction
-                    when (databaseFileAction) {
-                        DatabaseFileAction.ADD -> {
-                            databaseFileList.add(databaseFileAddedOrUpdated)
-                        }
-                        DatabaseFileAction.UPDATE -> {
-                            databaseFileList
-                                    .find { it.databaseUri == databaseFileAddedOrUpdated.databaseUri }
-                                    ?.apply {
-                                        keyFileUri = databaseFileAddedOrUpdated.keyFileUri
-                                        databaseAlias = databaseFileAddedOrUpdated.databaseAlias
-                                        databaseFileExists = databaseFileAddedOrUpdated.databaseFileExists
-                                        databaseLastModified = databaseFileAddedOrUpdated.databaseLastModified
-                                        databaseSize = databaseFileAddedOrUpdated.databaseSize
-                                    }
-                        }
-                        else -> {}
-                    }
-                    this.databaseFileToActivate = databaseFileAddedOrUpdated
+                    this.databaseFileAction = DatabaseFileAction.UPDATE
+                    this.databaseFileList
+                            .find { it.databaseUri == databaseFileUpdated.databaseUri }
+                            ?.apply {
+                                keyFileUri = databaseFileUpdated.keyFileUri
+                                databaseAlias = databaseFileUpdated.databaseAlias
+                                databaseFileExists = databaseFileUpdated.databaseFileExists
+                                databaseLastModified = databaseFileUpdated.databaseLastModified
+                                databaseSize = databaseFileUpdated.databaseSize
+                            }
+                    this.databaseFileToActivate = databaseFileUpdated
                 }
             }
         }

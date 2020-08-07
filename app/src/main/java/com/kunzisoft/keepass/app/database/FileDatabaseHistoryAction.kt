@@ -106,30 +106,16 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
         ).execute()
     }
 
-    fun addOrUpdateDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null) {
-        IOActionTask(
-                {
-                    val fileDatabaseHistoryRetrieve = databaseFileHistoryDao.getByDatabaseUri(databaseUri.toString())
-
-                    val fileDatabaseHistory = FileDatabaseHistoryEntity(
-                            databaseUri.toString(),
-                            fileDatabaseHistoryRetrieve?.databaseAlias ?: "",
-                            keyFileUri?.toString(),
-                            System.currentTimeMillis()
-                    )
-
-                    // Update values if history element not yet in the database
-                    if (fileDatabaseHistoryRetrieve == null) {
-                        databaseFileHistoryDao.add(fileDatabaseHistory)
-                    } else {
-                        databaseFileHistoryDao.update(fileDatabaseHistory)
-                    }
-                }
-        ).execute()
+    fun addOrUpdateDatabaseUri(databaseUri: Uri, keyFileUri: Uri? = null,
+                               databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+        addOrUpdateDatabaseFile(DatabaseFile(
+                databaseUri,
+                keyFileUri
+        ), databaseFileAddedOrUpdatedResult)
     }
 
     fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
-                                databaseFileToAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
+                                databaseFileAddedOrUpdatedResult: ((DatabaseFile?) -> Unit)? = null) {
         IOActionTask(
                 {
                     databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
@@ -163,7 +149,7 @@ class FileDatabaseHistoryAction(private val applicationContext: Context) {
                     }
                 },
                 {
-                    databaseFileToAddedOrUpdatedResult?.invoke(it)
+                    databaseFileAddedOrUpdatedResult?.invoke(it)
                 }
         ).execute()
     }

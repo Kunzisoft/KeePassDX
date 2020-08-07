@@ -34,7 +34,8 @@ class CreateDatabaseRunnable(context: Context,
                              withMasterPassword: Boolean,
                              masterPassword: String?,
                              withKeyFile: Boolean,
-                             keyFile: Uri?)
+                             keyFile: Uri?,
+                             private val createDatabaseResult: ((Result) -> Unit)?)
     : AssignPasswordInDatabaseRunnable(context, mDatabase, databaseUri, withMasterPassword, masterPassword, withKeyFile, keyFile) {
 
     override fun onStartRun() {
@@ -61,10 +62,16 @@ class CreateDatabaseRunnable(context: Context,
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)
                         .addOrUpdateDatabaseUri(mDatabaseUri,
-                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKeyFile else null)
+                                if (PreferencesUtil.rememberKeyFileLocations(context)) mKeyFileUri else null)
             }
         } else {
             Log.e("CreateDatabaseRunnable", "Unable to create the database")
         }
+    }
+
+    override fun onFinishRun() {
+        super.onFinishRun()
+
+        createDatabaseResult?.invoke(result)
     }
 }

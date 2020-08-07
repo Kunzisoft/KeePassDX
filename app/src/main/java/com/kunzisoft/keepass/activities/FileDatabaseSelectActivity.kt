@@ -55,6 +55,8 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.education.FileDatabaseSelectActivityEducation
 import com.kunzisoft.keepass.model.SearchInfo
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_TASK
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.DATABASE_URI_KEY
+import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.KEY_FILE_URI_KEY
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.utils.*
 import com.kunzisoft.keepass.view.asError
@@ -169,11 +171,14 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
+                        // TODO notify unique element
                         mAdapterDatabaseHistory?.notifyDataSetChanged()
                     }
+                    GroupActivity.launch(this@FileDatabaseSelectActivity)
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
+                        // TODO notify unique element
                         mAdapterDatabaseHistory?.notifyDataSetChanged()
                     }
                 }
@@ -189,14 +194,12 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
 
         // Attach the dialog thread to this activity
         mProgressDatabaseTaskProvider = ProgressDatabaseTaskProvider(this).apply {
-            onActionFinish = { actionTask, _ ->
+            onActionFinish = { actionTask, result ->
                 when (actionTask) {
                     ACTION_DATABASE_CREATE_TASK -> {
-                        // TODO add Database file
-                        // databaseFilesViewModel.addDatabaseFile()
-                        databaseFilesViewModel.loadListOfDatabases()
-                        runOnUiThread {
-                            GroupActivity.launch(this@FileDatabaseSelectActivity)
+                        result.data?.getParcelable<Uri?>(DATABASE_URI_KEY)?.let { databaseUri ->
+                            val keyFileUri = result.data?.getParcelable<Uri?>(KEY_FILE_URI_KEY)
+                            databaseFilesViewModel.addDatabaseFile(databaseUri, keyFileUri)
                         }
                     }
                 }
