@@ -287,7 +287,7 @@
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して文字を見やすくします</string>
     <string name="monospace_font_fields_enable_title">フィールド用のフォント</string>
-    <string name="full_file_path_enable_summary">フルファイルパスを表示する</string>
+    <string name="full_file_path_enable_summary">ファイルのフルパスを表示する</string>
     <string name="full_file_path_enable_title">ファイルパス</string>
     <string name="path">パス</string>
     <string name="education_generate_password_title">強力なパスワードを作成する</string>
@@ -366,7 +366,7 @@
     <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を抽出する</string>
-    <string name="html_text_feature_generosity">この<strong>ビジュアルスタイル</strong>はユーザーの厚意により利用可能となりました。</string>
+    <string name="html_text_feature_generosity">この<strong>ビジュアルスタイル</strong>はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約付きでWebドメインを検索する</string>
     <string name="lock_database_back_root_summary">ユーザーが root 画面上で戻るボタンをクリックしたときにデータベースをロックします</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去する</string>
@@ -382,12 +382,12 @@
     <string name="enable_education_screens_title">教育的なヒント</string>
     <string name="keyboard_previous_database_credentials_summary">データベースの認証画面で切り替え前のキーボードへ自動的に戻します</string>
     <string name="autofill_auto_search_summary">WebドメインまたはアプリケーションIDから検索結果を自動的に提案します</string>
-    <string name="keyboard_previous_fill_in_summary">オートキーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
-    <string name="keyboard_previous_fill_in_title">オートキーアクション</string>
+    <string name="keyboard_previous_fill_in_summary">自動キーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
+    <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
     <string name="keyboard_key_sound_title">キー押下時の音</string>
     <string name="keyboard_key_vibrate_title">キー押下時のバイブレーション</string>
-    <string name="keyboard_auto_go_action_summary">\"Field\" キーを押した後に\"Go\" キーアクションをします</string>
-    <string name="keyboard_auto_go_action_title">オートキーアクション</string>
+    <string name="keyboard_auto_go_action_summary">「フィールド」 キーを押した後に「移動」キーアクションを行います</string>
+    <string name="keyboard_auto_go_action_title">自動キーアクション</string>
     <string name="keyboard_notification_entry_content_title">%1$sは Magikeyboard で利用可能です</string>
     <string name="keyboard_entry_timeout_summary">キーボードのエントリーを消去するまでの時間</string>
     <string name="keyboard_search_share_title">共有から送られた情報の検索</string>
