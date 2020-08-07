@@ -4,11 +4,8 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.model.DatabaseFile
-import com.kunzisoft.keepass.utils.UriUtil
 
 class DatabaseFileViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -23,27 +20,8 @@ class DatabaseFileViewModel(application: Application) : AndroidViewModel(applica
     }
 
     fun loadDatabaseFile(databaseUri: Uri) {
-        mFileDatabaseHistoryAction?.getFileDatabaseHistory(databaseUri) { fileDatabaseHistoryEntity ->
-            IOActionTask (
-                    {
-                        val fileDatabaseInfo = FileDatabaseInfo(
-                                getApplication<App>().applicationContext,
-                                databaseUri
-                        )
-                        DatabaseFile(
-                                databaseUri,
-                                UriUtil.parse(fileDatabaseHistoryEntity?.keyFileUri),
-                                UriUtil.decode(fileDatabaseHistoryEntity?.databaseUri),
-                                fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias ?: ""),
-                                fileDatabaseInfo.exists,
-                                fileDatabaseInfo.getModificationString(),
-                                fileDatabaseInfo.getSizeString()
-                        )
-                    },
-                    {
-                        databaseFileLoaded.value = it ?: DatabaseFile(databaseUri)
-                    }
-            ).execute()
+        mFileDatabaseHistoryAction?.getDatabaseFile(databaseUri) { databaseFileRetrieved ->
+            databaseFileLoaded.value = databaseFileRetrieved
         }
     }
 }

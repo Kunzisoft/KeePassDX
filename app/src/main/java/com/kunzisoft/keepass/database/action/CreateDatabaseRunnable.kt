@@ -53,11 +53,10 @@ class CreateDatabaseRunnable(context: Context,
         super.onStartRun()
     }
 
-    override fun onFinishRun() {
-        super.onFinishRun()
+    override fun onActionRun() {
+        super.onActionRun()
 
         if (result.isSuccess) {
-            // TODO in Thread
             // Add database to recent files
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
                 FileDatabaseHistoryAction.getInstance(context.applicationContext)

@@ -66,9 +66,7 @@ class LoadDatabaseRunnable(private val context: Context,
         catch (e: LoadDatabaseException) {
             setError(e)
         }
-    }
 
-    override fun onFinishRun() {
         if (result.isSuccess) {
             // Save keyFile in app database
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
@@ -88,5 +86,9 @@ class LoadDatabaseRunnable(private val context: Context,
         } else {
             mDatabase.closeAndClear(cacheDirectory)
         }
+    }
+
+    override fun onFinishRun() {
+
     }
 }

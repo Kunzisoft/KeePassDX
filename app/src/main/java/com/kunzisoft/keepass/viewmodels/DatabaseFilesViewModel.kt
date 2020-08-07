@@ -1,13 +1,10 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
-import androidx.lifecycle.*
-import com.kunzisoft.keepass.app.App
+import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.MutableLiveData
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
-import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.model.DatabaseFile
-import com.kunzisoft.keepass.settings.PreferencesUtil
-import com.kunzisoft.keepass.utils.UriUtil
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,47 +19,20 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
     }
 
     fun loadListOfDatabases() {
-        val databaseFileListLoaded = ArrayList<DatabaseFile>()
-
-        mFileDatabaseHistoryAction?.getAllFileDatabaseHistories { databaseFileHistoryList ->
-            databaseFileHistoryList?.let { historyList ->
-                IOActionTask({
-                    val context = getApplication<App>().applicationContext
-                    val hideBrokenLocations = PreferencesUtil.hideBrokenLocations(context)
-                    // Show only uri accessible
-                    historyList.forEach { fileDatabaseHistoryEntity ->
-                        val fileDatabaseInfo = FileDatabaseInfo(context, fileDatabaseHistoryEntity.databaseUri)
-                        if (hideBrokenLocations && fileDatabaseInfo.exists
-                                || !hideBrokenLocations) {
-                            databaseFileListLoaded.add(
-                                    DatabaseFile(
-                                            UriUtil.parse(fileDatabaseHistoryEntity.databaseUri),
-                                            UriUtil.parse(fileDatabaseHistoryEntity.keyFileUri),
-                                            UriUtil.decode(fileDatabaseHistoryEntity.databaseUri),
-                                            fileDatabaseInfo.retrieveDatabaseAlias(fileDatabaseHistoryEntity.databaseAlias),
-                                            fileDatabaseInfo.exists,
-                                            fileDatabaseInfo.getModificationString(),
-                                            fileDatabaseInfo.getSizeString()
-                                    )
-                            )
-                        }
-                    }
-                }, {
-                    var newValue = databaseFilesLoaded.value
-                    if (newValue == null) {
-                        newValue = DatabaseFileData()
-                    }
-                    newValue.apply {
-                        databaseFileAction = DatabaseFileAction.NONE
-                        databaseFileToActivate = null
-                        databaseFileList.apply {
-                            clear()
-                            addAll(databaseFileListLoaded)
-                        }
-                    }
-                    databaseFilesLoaded.value = newValue
-                }).execute()
+        mFileDatabaseHistoryAction?.getDatabaseFileList { databaseFileListRetrieved ->
+            var newValue = databaseFilesLoaded.value
+            if (newValue == null) {
+                newValue = DatabaseFileData()
             }
+            newValue.apply {
+                databaseFileAction = DatabaseFileAction.NONE
+                databaseFileToActivate = null
+                databaseFileList.apply {
+                    clear()
+                    addAll(databaseFileListRetrieved)
+                }
+            }
+            databaseFilesLoaded.value = newValue
         }
     }
 
@@ -76,92 +46,40 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
 
     private fun addOrUpdateDatabaseFile(databaseFileToAddOrUpdate: DatabaseFile,
                                         databaseFileAction: DatabaseFileAction) {
-
-        databaseFileToAddOrUpdate.databaseUri?.let { databaseUri ->
-            mFileDatabaseHistoryAction?.getFileDatabaseHistory(databaseUri) { fileDatabaseHistoryToAddOrUpdate ->
-                fileDatabaseHistoryToAddOrUpdate?.let {
-                    mFileDatabaseHistoryAction?.addOrUpdateFileDatabaseHistory(fileDatabaseHistoryToAddOrUpdate) { fileHistoryAddedOrUpdated ->
-                        fileHistoryAddedOrUpdated?.let {
-                            IOActionTask (
-                                    {
-                                        val newValue = databaseFilesLoaded.value
-                                        newValue?.apply {
-                                            val fileDatabaseInfo = FileDatabaseInfo(getApplication<App>().applicationContext,
-                                                    fileHistoryAddedOrUpdated.databaseUri)
-                                            this.databaseFileAction = databaseFileAction
-                                            val databaseFileToActivate =
-                                                    DatabaseFile(
-                                                            UriUtil.parse(fileHistoryAddedOrUpdated.databaseUri),
-                                                            UriUtil.parse(fileHistoryAddedOrUpdated.keyFileUri),
-                                                            UriUtil.decode(fileHistoryAddedOrUpdated.databaseUri),
-                                                            fileDatabaseInfo.retrieveDatabaseAlias(fileHistoryAddedOrUpdated.databaseAlias),
-                                                            fileDatabaseInfo.exists,
-                                                            fileDatabaseInfo.getModificationString(),
-                                                            fileDatabaseInfo.getSizeString()
-                                                    )
-                                            when (databaseFileAction) {
-                                                DatabaseFileAction.ADD -> {
-                                                    databaseFileList.add(databaseFileToActivate)
-                                                }
-                                                DatabaseFileAction.UPDATE -> {
-                                                    databaseFileList
-                                                            .find { it.databaseUri == databaseFileToActivate.databaseUri }
-                                                            ?.apply {
-                                                                keyFileUri = databaseFileToActivate.keyFileUri
-                                                                databaseAlias = databaseFileToActivate.databaseAlias
-                                                                databaseFileExists = databaseFileToActivate.databaseFileExists
-                                                                databaseLastModified = databaseFileToActivate.databaseLastModified
-                                                                databaseSize = databaseFileToActivate.databaseSize
-                                                            }
-                                                }
-                                                else -> {}
-                                            }
-                                            this.databaseFileToActivate = databaseFileToActivate
-                                        }
-                                    },
-                                    { databaseFileAddedOrUpdated ->
-                                        databaseFileAddedOrUpdated?.let {
-                                            databaseFilesLoaded.value = it
-                                        }
-                                    }
-                            ).execute()
+        mFileDatabaseHistoryAction?.addOrUpdateDatabaseFile(databaseFileToAddOrUpdate) { databaseFileAddedOrUpdated ->
+            databaseFileAddedOrUpdated?.let { _ ->
+                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                    this.databaseFileAction = databaseFileAction
+                    when (databaseFileAction) {
+                        DatabaseFileAction.ADD -> {
+                            databaseFileList.add(databaseFileAddedOrUpdated)
                         }
+                        DatabaseFileAction.UPDATE -> {
+                            databaseFileList
+                                    .find { it.databaseUri == databaseFileAddedOrUpdated.databaseUri }
+                                    ?.apply {
+                                        keyFileUri = databaseFileAddedOrUpdated.keyFileUri
+                                        databaseAlias = databaseFileAddedOrUpdated.databaseAlias
+                                        databaseFileExists = databaseFileAddedOrUpdated.databaseFileExists
+                                        databaseLastModified = databaseFileAddedOrUpdated.databaseLastModified
+                                        databaseSize = databaseFileAddedOrUpdated.databaseSize
+                                    }
+                        }
+                        else -> {}
                     }
+                    this.databaseFileToActivate = databaseFileAddedOrUpdated
                 }
             }
         }
     }
 
     fun deleteDatabaseFile(databaseFileToDelete: DatabaseFile) {
-
-        databaseFileToDelete.databaseUri?.let { databaseUri ->
-            mFileDatabaseHistoryAction?.getFileDatabaseHistory(databaseUri) { fileDatabaseHistoryToDelete ->
-                fileDatabaseHistoryToDelete?.let {
-                    mFileDatabaseHistoryAction?.deleteFileDatabaseHistory(fileDatabaseHistoryToDelete) { fileHistoryDeleted ->
-                        fileHistoryDeleted?.let { _ ->
-                            IOActionTask (
-                                    {
-                                        val newValue = databaseFilesLoaded.value
-                                        newValue?.apply {
-                                            databaseFileAction = DatabaseFileAction.DELETE
-                                            databaseFileToActivate =
-                                                    DatabaseFile(
-                                                            UriUtil.parse(fileHistoryDeleted.databaseUri),
-                                                            UriUtil.parse(fileHistoryDeleted.keyFileUri),
-                                                            UriUtil.decode(fileHistoryDeleted.databaseUri),
-                                                            databaseFileToDelete.databaseAlias
-                                                    )
-                                            databaseFileList.remove(databaseFileToDelete)
-                                        }
-                                    },
-                                    { databaseFileDeleted ->
-                                        databaseFileDeleted?.let {
-                                            databaseFilesLoaded.value = it
-                                        }
-                                    }
-                            ).execute()
-                        }
-                    }
+        mFileDatabaseHistoryAction?.deleteDatabaseFile(databaseFileToDelete) { databaseFileDeleted ->
+            databaseFileDeleted?.let { _ ->
+                databaseFilesLoaded.value = databaseFilesLoaded.value?.apply {
+                    databaseFileAction = DatabaseFileAction.DELETE
+                    databaseFileToActivate = databaseFileDeleted
+                    databaseFileList.remove(databaseFileDeleted)
                 }
             }
         }
