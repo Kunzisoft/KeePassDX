@@ -285,4 +285,14 @@
     <string name="enable_auto_save_database_title">ഓട്ടോസേവ് ഡാറ്റാബേസ്</string>
     <string name="other">മറ്റുള്ളവ</string>
     <string name="keyboard_entry_category">എൻട്രി</string>
+    <string name="read_only">റൈറ്റ്-പരിരക്ഷിത</string>
+    <string name="auto_focus_search_title">ദ്രുത തിരയൽ</string>
+    <string name="never">ഒരിക്കലും</string>
+    <string name="list_entries_show_username_summary">എൻട്രി ലിസ്റ്റുകളിൽ ഉപയോക്തൃനാമങ്ങൾ കാണിക്കുക</string>
+    <string name="invalid_credentials">ക്രെഡൻഷ്യലുകൾ വായിക്കാൻ കഴിഞ്ഞില്ല.</string>
+    <string name="list_groups_show_number_entries_summary">ഒരു ഗ്രൂപ്പിലെ എൻ‌ട്രികളുടെ എണ്ണം കാണിക്കുക</string>
+    <string name="list_size_title">ലിസ്റ്റ് ഇനങ്ങളുടെ വലുപ്പം</string>
+    <string name="invalid_db_sig">ഡാറ്റാബേസ് ഫോർമാറ്റ് തിരിച്ചറിയാൻ കഴിഞ്ഞില്ല.</string>
+    <string name="error_string_type">ഈ വാചകം അഭ്യർത്ഥിച്ച ഇനവുമായി പൊരുത്തപ്പെടുന്നില്ല.</string>
+    <string name="error_otp_counter">%1$dന്റെയും %2$dന്റെയും ഇടയിൽ ആയിരിക്കണം കൌണ്ടർ.</string>
 </resources>
