@@ -215,6 +215,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     }
 
     private fun start(bundle: Bundle? = null, actionTask: String) {
+        activity.stopService(intentDatabaseTask)
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
         intentDatabaseTask.action = actionTask
