@@ -371,7 +371,7 @@
     <string name="list_groups_show_number_entries_summary">Anzahl der Einträge in einer Gruppe anzeigen</string>
     <string name="content_description_add_node">Knoten hinzufügen</string>
     <string name="lock_database_back_root_title">\"Zurück\" drücken, um zu sperren</string>
-    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Benachrichtigung geschlossen wird</string>
+    <string name="clear_clipboard_notification_summary">Die Datenbank sperren, wenn die Dauer der Zwischenablage abläuft oder die Benachrichtigung geschlossen wird, nachdem Sie sie zu benutzen begonnen haben</string>
     <string name="content_description_node_children">Untergeordneter Knotenpunkt</string>
     <string name="content_description_keyfile_checkbox">Schlüsseldatei-Kontrollkästchen</string>
     <string name="error_move_entry_here">Hierher kann kein Eintrag verschoben werden.</string>
@@ -499,4 +499,5 @@
     <string name="content_description_add_item">Element hinzufügen</string>
     <string name="filter">Filter</string>
     <string name="keyboard_change">Tastatur wechseln</string>
+    <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
 </resources>
