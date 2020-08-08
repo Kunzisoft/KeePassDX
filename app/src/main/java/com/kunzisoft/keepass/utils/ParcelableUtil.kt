@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.utils
 import android.os.Parcel
 import android.os.Parcelable
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 object ParcelableUtil {
 
@@ -51,7 +52,7 @@ object ParcelableUtil {
 
     // For writing map with string key to a Parcel
     fun <V : Parcelable> writeStringParcelableMap(
-            parcel: Parcel, flags: Int, map: Map<String, V>) {
+            parcel: Parcel, flags: Int, map: LinkedHashMap<String, V>) {
         parcel.writeInt(map.size)
         for ((key, value) in map) {
             parcel.writeString(key)
@@ -61,9 +62,9 @@ object ParcelableUtil {
 
     // For reading map with string key from a Parcel
     fun <V : Parcelable> readStringParcelableMap(
-            parcel: Parcel, vClass: Class<V>): HashMap<String, V> {
+            parcel: Parcel, vClass: Class<V>): LinkedHashMap<String, V> {
         val size = parcel.readInt()
-        val map = HashMap<String, V>(size)
+        val map = LinkedHashMap<String, V>(size)
         for (i in 0 until size) {
             val key: String? = parcel.readString()
             val value: V? = vClass.cast(parcel.readParcelable(vClass.classLoader))
@@ -75,7 +76,7 @@ object ParcelableUtil {
 
 
     // For writing map with string key and string value to a Parcel
-    fun writeStringParcelableMap(dest: Parcel, map: Map<String, String>) {
+    fun writeStringParcelableMap(dest: Parcel, map: LinkedHashMap<String, String>) {
         dest.writeInt(map.size)
         for ((key, value) in map) {
             dest.writeString(key)
@@ -84,9 +85,9 @@ object ParcelableUtil {
     }
 
     // For reading map with string key and string value from a Parcel
-    fun readStringParcelableMap(parcel: Parcel): HashMap<String, String> {
+    fun readStringParcelableMap(parcel: Parcel): LinkedHashMap<String, String> {
         val size = parcel.readInt()
-        val map = HashMap<String, String>(size)
+        val map = LinkedHashMap<String, String>(size)
         for (i in 0 until size) {
             val key: String? = parcel.readString()
             val value: String? = parcel.readString()

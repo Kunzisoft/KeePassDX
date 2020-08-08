@@ -25,14 +25,12 @@ import android.os.Parcelable
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedInt
 
-import java.util.HashMap
-
 class AutoType : Parcelable {
 
     var enabled = true
     var obfuscationOptions = OBF_OPT_NONE
     var defaultSequence = ""
-    private var windowSeqPairs = HashMap<String, String>()
+    private var windowSeqPairs = LinkedHashMap<String, String>()
 
     constructor()
 

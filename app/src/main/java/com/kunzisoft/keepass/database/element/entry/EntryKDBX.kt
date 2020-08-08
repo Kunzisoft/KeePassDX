@@ -36,6 +36,7 @@ import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
+import kotlin.collections.LinkedHashMap
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
 
@@ -58,9 +59,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
             super.icon = value
         }
     var iconCustom = IconImageCustom.UNKNOWN_ICON
-    private var customData = HashMap<String, String>()
-    var fields = HashMap<String, ProtectedString>()
-    var binaries = HashMap<String, BinaryAttachment>()
+    private var customData = LinkedHashMap<String, String>()
+    var fields = LinkedHashMap<String, ProtectedString>()
+    var binaries = LinkedHashMap<String, BinaryAttachment>()
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -260,13 +261,11 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
                 || key == STR_NOTES)
     }
 
-    var customFields = HashMap<String, ProtectedString>()
+    var customFields = LinkedHashMap<String, ProtectedString>()
         get() {
             field.clear()
-            for (entry in fields.entries) {
-                val key = entry.key
-                val value = entry.value
-                if (!isStandardField(entry.key)) {
+            for ((key, value) in fields) {
+                if (!isStandardField(key)) {
                     field[key] = ProtectedString(value.isProtected, decodeRefKey(mDecodeRef, key))
                 }
             }
