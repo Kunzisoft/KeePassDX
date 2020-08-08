@@ -28,7 +28,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
@@ -253,7 +252,7 @@ class EntryEditActivity : LockingActivity(),
         entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Create progress dialog
-        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK,
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -397,7 +396,7 @@ class EntryEditActivity : LockingActivity(),
                 // Open a progress dialog and save entry
                 if (mIsNew) {
                     mParent?.let { parent ->
-                        mProgressDialogThread?.startDatabaseCreateEntry(
+                        mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
                                 newEntry,
                                 parent,
                                 !mReadOnly && mAutoSaveEnable
@@ -405,7 +404,7 @@ class EntryEditActivity : LockingActivity(),
                     }
                 } else {
                     mEntry?.let { oldEntry ->
-                        mProgressDialogThread?.startDatabaseUpdateEntry(
+                        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
                                 oldEntry,
                                 newEntry,
                                 !mReadOnly && mAutoSaveEnable
@@ -473,7 +472,7 @@ class EntryEditActivity : LockingActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
             }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
