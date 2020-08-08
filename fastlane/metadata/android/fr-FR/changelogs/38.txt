@@ -3,3 +3,4 @@
  * Correction de l'entrée dans la mémoire du Magiclavier
  * Correction de la visibilité de la vue biométrique
  * Nouvelle interface utilisateur
+ * Mise à jour du code avec ViewModel et LiveData
