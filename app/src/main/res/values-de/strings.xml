@@ -500,4 +500,5 @@
     <string name="filter">Filter</string>
     <string name="keyboard_change">Tastatur wechseln</string>
     <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
+    <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
 </resources>
