@@ -31,7 +31,6 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
@@ -83,7 +82,7 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
-    private var entryEditAddToolBar: ActionMenuView? = null
+    private var entryEditAddToolBar: Toolbar? = null
     private var validateButton: View? = null
     private var lockView: View? = null
 
@@ -207,7 +206,7 @@ class EntryEditActivity : LockingActivity(),
         entryEditContentsView?.setOnIconViewClickListener { IconPickerDialogFragment.launch(this@EntryEditActivity) }
 
         // Bottom Bar
-        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_menu_bar)
+        entryEditAddToolBar = findViewById(R.id.entry_edit_bottom_bar)
         entryEditAddToolBar?.apply {
             menuInflater.inflate(R.menu.entry_edit, menu)
 

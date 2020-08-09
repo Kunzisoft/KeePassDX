@@ -40,7 +40,6 @@
             android:background="?attr/colorPrimary"
             android:theme="?attr/toolbarAppearance"
             android:popupTheme="?attr/toolbarPopupAppearance"
-            app:layout_scrollFlags="enterAlways|scroll|snap"
             tools:targetApi="lollipop" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -65,18 +64,14 @@
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/Widget.MaterialComponents.BottomAppBar"
         android:backgroundTint="?attr/colorAccent"
         app:backgroundTint="?attr/colorAccent"
-        app:fabAlignmentMode="end"
+        app:fabAlignmentMode="center"
         app:hideOnScroll="true"
         app:layout_scrollFlags="scroll|enterAlways"
-        android:layout_gravity="bottom" >
-        <androidx.appcompat.widget.ActionMenuView
-            android:id="@+id/entry_edit_bottom_menu_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"/>
-    </com.google.android.material.bottomappbar.BottomAppBar>
+        android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"
