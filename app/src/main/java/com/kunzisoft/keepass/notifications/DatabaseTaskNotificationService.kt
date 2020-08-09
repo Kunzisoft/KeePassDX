@@ -178,12 +178,23 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                             actionRunnable
                         },
                         { result ->
-                            mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStopAction(intentAction!!, result)
+                            try {
+                                mActionTaskListeners.forEach { actionTaskListener ->
+                                    actionTaskListener.onStopAction(intentAction!!, result)
+                                }
+                            } finally {
+                                removeIntentData(intent)
+                                TimeoutHelper.releaseTemporarilyDisableTimeout()
+                                if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                    if (!mDatabase.loaded) {
+                                        stopSelf()
+                                    } else {
+                                        // Restart the service to open lock notification
+                                        startService(Intent(applicationContext,
+                                                DatabaseTaskNotificationService::class.java))
+                                    }
+                                }
                             }
-
-                            removeIntentData(intent)
-                            buildMessage(intent)
 
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
 
@@ -191,11 +202,17 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                         }
                 )
             }
-            // Relaunch action if failed
-            return START_REDELIVER_INTENT
         }
 
-        return START_STICKY
+        return when (intentAction) {
+            ACTION_DATABASE_LOAD_TASK, null -> {
+                START_STICKY
+            }
+            else -> {
+                // Relaunch action if failed
+                START_REDELIVER_INTENT
+            }
+        }
     }
 
     private fun buildMessage(intent: Intent?) {
@@ -341,17 +358,7 @@ open class DatabaseTaskNotificationService : LockNotificationService(), Progress
                     result
                 }
                 withContext(Dispatchers.Main) {
-                    try {
-                        onPostExecute.invoke(asyncResult.await())
-                    } finally {
-                        TimeoutHelper.releaseTemporarilyDisableTimeout()
-                        // Start the opening notification
-                        if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                            if (!mDatabase.loaded) {
-                                stopSelf()
-                            }
-                        }
-                    }
+                    onPostExecute.invoke(asyncResult.await())
                 }
             }
         }

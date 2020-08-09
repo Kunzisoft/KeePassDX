@@ -76,7 +76,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
     var onActionFinish: ((actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask = Intent(activity, DatabaseTaskNotificationService::class.java)
+    private var intentDatabaseTask = Intent(activity.applicationContext, DatabaseTaskNotificationService::class.java)
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -219,11 +219,7 @@ class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
         intentDatabaseTask.action = actionTask
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            activity.startForegroundService(intentDatabaseTask)
-        } else {
-            activity.startService(intentDatabaseTask)
-        }
+        activity.startService(intentDatabaseTask)
     }
 
     /*
