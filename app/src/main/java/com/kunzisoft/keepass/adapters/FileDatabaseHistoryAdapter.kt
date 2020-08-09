@@ -22,16 +22,20 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import androidx.annotation.ColorInt
-import androidx.recyclerview.widget.RecyclerView
 import android.util.TypedValue
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewSwitcher
+import androidx.annotation.ColorInt
+import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.DatabaseFile
+import com.kunzisoft.keepass.view.collapse
+import com.kunzisoft.keepass.view.expand
 
 class FileDatabaseHistoryAdapter(context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
@@ -106,8 +110,17 @@ class FileDatabaseHistoryAdapter(context: Context)
 
         // Click on information
         val isExpanded = databaseFile == mExpandedDatabaseFile
-        //This line hides or shows the layout in question
-        holder.fileExpandContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE
+        // Hides or shows info
+        holder.fileExpandContainer.apply {
+            if (isExpanded) {
+                if (visibility != View.VISIBLE) {
+                    visibility = View.VISIBLE
+                    expand(true, resources.getDimensionPixelSize(R.dimen.item_file_info_height))
+                }
+            } else {
+                collapse(true)
+            }
+        }
 
         // Save alias modification
         holder.fileAliasCloseButton.setOnClickListener {

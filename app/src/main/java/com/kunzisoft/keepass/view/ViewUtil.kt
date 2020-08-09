@@ -28,7 +28,6 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
@@ -74,8 +73,8 @@ fun Snackbar.asError(): Snackbar {
     return this
 }
 
-fun Toolbar.collapse(animate: Boolean = true) {
-    val recordBarHeight = layoutParams.height
+fun View.collapse(animate: Boolean = true) {
+    val recordViewHeight = layoutParams.height
     val slideAnimator = ValueAnimator.ofInt(height, 0)
     if (animate)
         slideAnimator.duration = 300L
@@ -83,7 +82,7 @@ fun Toolbar.collapse(animate: Boolean = true) {
         layoutParams.height = animation.animatedValue as Int
         if (layoutParams.height <= 1) {
             visibility = View.GONE
-            layoutParams.height = recordBarHeight
+            layoutParams.height = recordViewHeight
         }
         requestLayout()
     }
@@ -93,17 +92,19 @@ fun Toolbar.collapse(animate: Boolean = true) {
     }.start()
 }
 
-fun Toolbar.expand(animate: Boolean = true)  {
-    val actionBarHeight = layoutParams.height
+fun View.expand(animate: Boolean = true, defaultHeight: Int? = null)  {
+    val viewHeight = defaultHeight ?: layoutParams.height
     layoutParams.height = 0
     val slideAnimator = ValueAnimator
-            .ofInt(0, actionBarHeight)
+            .ofInt(0, viewHeight)
     if (animate)
         slideAnimator.duration = 300L
+    var alreadyVisible = false
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
-        if (layoutParams.height >= 1) {
+        if (!alreadyVisible && layoutParams.height >= 1) {
             visibility = View.VISIBLE
+            alreadyVisible = true
         }
         requestLayout()
     }

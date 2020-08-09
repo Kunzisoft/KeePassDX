@@ -125,7 +125,7 @@
         android:id="@+id/file_expand_container"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/item_file_info_height"
         android:background="?attr/colorPrimaryDark"
         app:layout_constraintTop_toBottomOf="@+id/file_main_switcher">
 
@@ -146,7 +146,7 @@
             android:textIsSelectable="true"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:minHeight="48dp"
+            android:minHeight="68dp"
             android:padding="12dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toEndOf="@+id/file_modify_button"
@@ -160,6 +160,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@+id/file_path"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/file_modify_button"
             app:layout_constraintEnd_toEndOf="parent">
 
