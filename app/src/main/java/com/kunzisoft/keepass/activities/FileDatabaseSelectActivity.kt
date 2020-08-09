@@ -167,25 +167,21 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
             when (databaseFiles.databaseFileAction) {
                 DatabaseFilesViewModel.DatabaseFileAction.NONE -> {
                     mAdapterDatabaseHistory?.replaceAllDatabaseFileHistoryList(databaseFiles.databaseFileList)
-                    mAdapterDatabaseHistory?.notifyDataSetChanged()
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.ADD -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToAdd ->
-                        // TODO notify unique element
-                        mAdapterDatabaseHistory?.notifyDataSetChanged()
+                        mAdapterDatabaseHistory?.addDatabaseFileHistory(databaseFileToAdd)
                     }
                     GroupActivity.launch(this@FileDatabaseSelectActivity)
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.UPDATE -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToUpdate ->
-                        // TODO notify unique element
-                        mAdapterDatabaseHistory?.notifyDataSetChanged()
+                        mAdapterDatabaseHistory?.updateDatabaseFileHistory(databaseFileToUpdate)
                     }
                 }
                 DatabaseFilesViewModel.DatabaseFileAction.DELETE -> {
                     databaseFiles.databaseFileToActivate?.let { databaseFileToDelete ->
                         mAdapterDatabaseHistory?.deleteDatabaseFileHistory(databaseFileToDelete)
-                        mAdapterDatabaseHistory?.notifyDataSetChanged()
                     }
                 }
             }

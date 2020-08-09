@@ -43,8 +43,8 @@ class FileDatabaseHistoryAdapter(context: Context)
 
     private val listDatabaseFiles = ArrayList<DatabaseFile>()
 
-    private var mExpandedPosition = -1
-    private var mPreviousExpandedPosition = -1
+    private var mExpandedDatabaseFile: DatabaseFile? = null
+    private var mPreviousExpandedDatabaseFile: DatabaseFile? = null
 
     @ColorInt
     private val defaultColor: Int
@@ -70,10 +70,11 @@ class FileDatabaseHistoryAdapter(context: Context)
         val databaseFile = listDatabaseFiles[position]
 
         // Click item to open file
-        if (fileItemOpenListener != null)
+        if (fileItemOpenListener != null) {
             holder.fileContainer.setOnClickListener {
                 fileItemOpenListener?.invoke(databaseFile)
             }
+        }
 
         // File alias
         holder.fileAlias.text = databaseFile.databaseAlias
@@ -104,7 +105,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         }
 
         // Click on information
-        val isExpanded = position == mExpandedPosition
+        val isExpanded = databaseFile == mExpandedDatabaseFile
         //This line hides or shows the layout in question
         holder.fileExpandContainer.visibility = if (isExpanded) View.VISIBLE else View.GONE
 
@@ -131,16 +132,16 @@ class FileDatabaseHistoryAdapter(context: Context)
         }
 
         if (isExpanded) {
-            mPreviousExpandedPosition = position
+            mPreviousExpandedDatabaseFile = databaseFile
         }
 
         holder.fileInformation.setOnClickListener {
-            mExpandedPosition = if (isExpanded) -1 else position
-
+            mExpandedDatabaseFile = if (isExpanded) null else databaseFile
             // Notify change
-            if (mPreviousExpandedPosition < itemCount)
-                notifyItemChanged(mPreviousExpandedPosition)
-            notifyItemChanged(position)
+            val previousExpandedPosition = listDatabaseFiles.indexOf(mPreviousExpandedDatabaseFile)
+            notifyItemChanged(previousExpandedPosition)
+            val expandedPosition = listDatabaseFiles.indexOf(mExpandedDatabaseFile)
+            notifyItemChanged(expandedPosition)
         }
 
         // Refresh View / Close alias modification if not contains fileAlias
@@ -157,13 +158,30 @@ class FileDatabaseHistoryAdapter(context: Context)
         listDatabaseFiles.clear()
     }
 
-    fun replaceAllDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<DatabaseFile>) {
-        listDatabaseFiles.clear()
-        listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
+    fun addDatabaseFileHistory(fileDatabaseHistoryToAdd: DatabaseFile) {
+        listDatabaseFiles.add(0, fileDatabaseHistoryToAdd)
+        notifyItemInserted(0)
+    }
+
+    fun updateDatabaseFileHistory(fileDatabaseHistoryToUpdate: DatabaseFile) {
+        val index = listDatabaseFiles.indexOf(fileDatabaseHistoryToUpdate)
+        if (listDatabaseFiles.remove(fileDatabaseHistoryToUpdate)) {
+            listDatabaseFiles.add(index, fileDatabaseHistoryToUpdate)
+            notifyItemChanged(index)
+        }
     }
 
     fun deleteDatabaseFileHistory(fileDatabaseHistoryToDelete: DatabaseFile) {
-        listDatabaseFiles.remove(fileDatabaseHistoryToDelete)
+        val index = listDatabaseFiles.indexOf(fileDatabaseHistoryToDelete)
+        if (listDatabaseFiles.remove(fileDatabaseHistoryToDelete)) {
+            notifyItemRemoved(index)
+        }
+    }
+
+    fun replaceAllDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<DatabaseFile>) {
+        listDatabaseFiles.clear()
+        listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
+        notifyDataSetChanged()
     }
 
     fun setOnFileDatabaseHistoryOpenListener(listener : ((DatabaseFile)->Unit)?) {

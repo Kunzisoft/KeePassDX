@@ -14,7 +14,7 @@ data class DatabaseFile(var databaseUri: Uri? = null,
         if (this === other) return true
         if (other !is DatabaseFile) return false
 
-        if (databaseUri == null) return false
+        if (databaseUri == null || other.databaseUri == null) return false
         if (databaseUri != other.databaseUri) return false
 
         return true
