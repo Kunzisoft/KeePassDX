@@ -87,9 +87,9 @@ class FileDatabaseHistoryAdapter(context: Context)
         holder.filePath.text = databaseFile.databaseDecodedPath
 
         if (databaseFile.databaseFileExists) {
-            holder.fileInformation.clearColorFilter()
+            holder.fileInformationButton.clearColorFilter()
         } else {
-            holder.fileInformation.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
+            holder.fileInformationButton.setColorFilter(Color.RED, PorterDuff.Mode.MULTIPLY)
         }
 
         // Modification
@@ -147,14 +147,16 @@ class FileDatabaseHistoryAdapter(context: Context)
         if (isExpanded) {
             mPreviousExpandedDatabaseFile = databaseFile
         }
-
-        holder.fileInformation.setOnClickListener {
-            mExpandedDatabaseFile = if (isExpanded) null else databaseFile
-            // Notify change
-            val previousExpandedPosition = listDatabaseFiles.indexOf(mPreviousExpandedDatabaseFile)
-            notifyItemChanged(previousExpandedPosition)
-            val expandedPosition = listDatabaseFiles.indexOf(mExpandedDatabaseFile)
-            notifyItemChanged(expandedPosition)
+        holder.fileInformationButton.apply {
+            animate().rotation(if (isExpanded) 0F else 180F).start()
+            setOnClickListener {
+                mExpandedDatabaseFile = if (isExpanded) null else databaseFile
+                // Notify change
+                val previousExpandedPosition = listDatabaseFiles.indexOf(mPreviousExpandedDatabaseFile)
+                notifyItemChanged(previousExpandedPosition)
+                val expandedPosition = listDatabaseFiles.indexOf(mExpandedDatabaseFile)
+                notifyItemChanged(expandedPosition)
+            }
         }
 
         // Refresh View / Close alias modification if not contains fileAlias
@@ -214,7 +216,7 @@ class FileDatabaseHistoryAdapter(context: Context)
         var fileContainer: ViewGroup = itemView.findViewById(R.id.file_container_basic_info)
 
         var fileAlias: TextView = itemView.findViewById(R.id.file_alias)
-        var fileInformation: ImageView = itemView.findViewById(R.id.file_information)
+        var fileInformationButton: ImageView = itemView.findViewById(R.id.file_information_button)
 
         var fileMainSwitcher: ViewSwitcher = itemView.findViewById(R.id.file_main_switcher)
         var fileAliasEdit: EditText = itemView.findViewById(R.id.file_alias_edit)
