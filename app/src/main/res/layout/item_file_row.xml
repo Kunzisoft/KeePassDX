@@ -45,17 +45,6 @@
             android:background="?android:attr/selectableItemBackground"
             app:layout_constraintTop_toTopOf="parent"
             android:elevation="8dp">
-            <androidx.appcompat.widget.AppCompatCheckBox
-                android:id="@+id/default_file_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:layout_marginBottom="4dp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                android:button="@drawable/checkbox_star"
-                android:buttonTint="?android:attr/textColorHintInverse"
-                android:contentDescription="@string/default_checkbox" />
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/file_alias"
                 android:layout_width="0dp"
@@ -63,13 +52,28 @@
                 android:minHeight="48dp"
                 android:layout_centerVertical="true"
                 android:gravity="center_vertical"
+                android:layout_marginStart="@dimen/default_margin"
+                app:layout_goneMarginLeft="@dimen/default_margin"
+                android:layout_marginEnd="@dimen/default_margin"
+                android:layout_marginRight="@dimen/default_margin"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/default_file_button"
-                app:layout_constraintEnd_toStartOf="@+id/file_information_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/default_file_button"
                 android:textColor="?attr/textColorInverse"
                 tools:text="DatabaseAlias" />
+            <androidx.appcompat.widget.AppCompatCheckBox
+                android:id="@+id/default_file_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/file_information_button"
+                android:button="@drawable/checkbox_star"
+                android:buttonTint="?android:attr/textColorHintInverse"
+                android:contentDescription="@string/default_checkbox" />
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/file_information_button"
                 android:layout_width="48dp"
@@ -79,7 +83,6 @@
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/file_alias"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_arrow_up_white_24dp"
                 android:tint="?android:attr/textColorHintInverse"
