@@ -194,9 +194,16 @@ class FileDatabaseHistoryAdapter(context: Context)
     }
 
     fun replaceAllDatabaseFileHistoryList(listFileDatabaseHistoryToAdd: List<DatabaseFile>) {
-        listDatabaseFiles.clear()
-        listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
-        notifyDataSetChanged()
+        if (listDatabaseFiles.isEmpty()) {
+            listFileDatabaseHistoryToAdd.forEach {
+                listDatabaseFiles.add(it)
+                notifyItemInserted(listDatabaseFiles.size)
+            }
+        } else {
+            listDatabaseFiles.clear()
+            listDatabaseFiles.addAll(listFileDatabaseHistoryToAdd)
+            notifyDataSetChanged()
+        }
     }
 
     fun setOnFileDatabaseHistoryOpenListener(listener : ((DatabaseFile)->Unit)?) {
