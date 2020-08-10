@@ -295,4 +295,5 @@
     <string name="invalid_db_sig">ഡാറ്റാബേസ് ഫോർമാറ്റ് തിരിച്ചറിയാൻ കഴിഞ്ഞില്ല.</string>
     <string name="error_string_type">ഈ വാചകം അഭ്യർത്ഥിച്ച ഇനവുമായി പൊരുത്തപ്പെടുന്നില്ല.</string>
     <string name="error_otp_counter">%1$dന്റെയും %2$dന്റെയും ഇടയിൽ ആയിരിക്കണം കൌണ്ടർ.</string>
+    <string name="file_manager_install_description">ഉദ്ദേശിക്കുന്ന പ്രവര്‍ത്തനം സ്വീകരിക്കുന്ന ഒരു ഫയല്‍ മാനേജര്‍. ഡാറ്റാബേസ് ഫയലുകള്‍ നിര്‍മ്മിക്കാനും തുറക്കാനും സൂക്ഷിക്കാനും ACTION_CREATE_DOCUMENT നോടൊപ്പം ACTION_OPEN_DOCUMENT കൂടെ ആവശ്യമുണ്ട്.</string>
 </resources>
