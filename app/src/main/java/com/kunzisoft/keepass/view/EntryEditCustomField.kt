@@ -22,10 +22,8 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.graphics.Rect
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -42,6 +40,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     private val valueLayoutView: TextInputLayout
     private val valueView: EditText
     private val protectionCheckView: CompoundButton
+    private val deleteButton: View
 
     val label: String
         get() = valueLayoutView.hint.toString()
@@ -53,16 +52,17 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
         get() = protectionCheckView.isChecked
 
     init {
-
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_entry_custom_field, this)
-
-        val deleteView = findViewById<View>(R.id.entry_custom_field_delete)
-        deleteView.setOnClickListener { deleteViewFromParent() }
 
         valueLayoutView = findViewById(R.id.entry_custom_field_value_container)
         valueView = findViewById(R.id.entry_custom_field_value)
         protectionCheckView = findViewById(R.id.entry_custom_field_protection)
+        deleteButton = findViewById<View>(R.id.entry_custom_field_delete)
+    }
+
+    fun setDeleteButtonClickListener(listener: OnClickListener?) {
+        deleteButton.setOnClickListener(listener)
     }
 
     fun setData(label: String?, value: ProtectedString?, fontInVisibility: Boolean) {
@@ -105,15 +105,5 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {
         valueView.requestFocus(direction, previouslyFocusedRect)
         return true
-    }
-
-    private fun deleteViewFromParent() {
-        try {
-            val parent = parent as ViewGroup
-            parent.removeView(this)
-            parent.invalidate()
-        } catch (e: ClassCastException) {
-            Log.e(javaClass.name, "Unable to delete view", e)
-        }
     }
 }

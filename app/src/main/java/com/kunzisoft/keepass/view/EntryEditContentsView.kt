@@ -22,6 +22,7 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -240,7 +241,20 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         if (extraFieldView == null) {
             extraFieldView = EntryEditCustomField(context).apply {
                 setData(name, value, fontInVisibility)
+                setDeleteButtonClickListener(OnClickListener {
+                    try {
+                        collapse(true) {
+                            val parent = this@EntryEditContentsView
+                            parent.removeView(this)
+                            parent.invalidate()
+                            setDeleteButtonClickListener(null)
+                        }
+                    } catch (e: ClassCastException) {
+                        Log.e(javaClass.name, "Unable to delete view", e)
+                    }
+                })
             }
+            // No need animation because of scroll
             entryExtraFieldsContainer.addView(extraFieldView)
         }
         return extraFieldView
