@@ -50,12 +50,15 @@
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Dark" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/dark</item>
         <item name="background">@color/dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Dark.Dialog" parent="KeepassDXStyle.Night.Dialog">
         <item name="colorAccent">#fefefe</item>
         <item name="android:textColorPrimary">@color/cyan_lighter</item>
+        <item name="android:background">@color/darker</item>
+        <item name="background">@color/darker</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Dark" parent="CardView">

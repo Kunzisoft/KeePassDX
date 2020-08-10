@@ -53,13 +53,15 @@
     </style>
     <!-- Contextual Action Bar Dark -->
     <style name="KeepassDXStyle.ActionMode.Black" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/dark</item>
         <item name="background">@color/dark</item>
     </style>
     <!-- Dialog -->
     <style name="KeepassDXStyle.Black.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange_dark</item>
         <item name="android:textColorPrimary">@color/green_dark</item>
-        <item name="android:background">@color/black</item>
+        <item name="android:background">@color/darker</item>
+        <item name="background">@color/darker</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Black" parent="CardView">

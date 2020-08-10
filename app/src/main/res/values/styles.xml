@@ -210,11 +210,13 @@
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_light</item>
+        <item name="background">@color/background_light</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_night</item>
+        <item name="background">@color/background_night</item>
     </style>
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
@@ -338,6 +340,7 @@
     <!-- Item Style -->
     <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
         <item name="android:background">@drawable/background_item_selection</item>
+        <item name="background">@drawable/background_item_selection</item>
     </style>
 
     <!-- Icon Style -->
