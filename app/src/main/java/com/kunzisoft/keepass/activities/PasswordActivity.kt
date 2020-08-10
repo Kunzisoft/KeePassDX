@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.activities
 
 import android.app.Activity
 import android.app.assist.AssistStructure
-import android.app.backup.BackupManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -83,7 +82,6 @@ open class PasswordActivity : SpecialModeActivity() {
     private var confirmButtonView: Button? = null
     private var checkboxPasswordView: CompoundButton? = null
     private var checkboxKeyFileView: CompoundButton? = null
-    private var checkboxDefaultDatabaseView: CompoundButton? = null
     private var advancedUnlockInfoView: AdvancedUnlockInfoView? = null
     private var infoContainerView: ViewGroup? = null
     private var enableButtonOnCheckedChangeListener: CompoundButton.OnCheckedChangeListener? = null
@@ -131,7 +129,6 @@ open class PasswordActivity : SpecialModeActivity() {
         keyFileSelectionView = findViewById(R.id.keyfile_selection)
         checkboxPasswordView = findViewById(R.id.password_checkbox)
         checkboxKeyFileView = findViewById(R.id.keyfile_checkox)
-        checkboxDefaultDatabaseView = findViewById(R.id.default_database)
         advancedUnlockInfoView = findViewById(R.id.biometric_info)
         infoContainerView = findViewById(R.id.activity_password_info_container)
 
@@ -405,27 +402,8 @@ open class PasswordActivity : SpecialModeActivity() {
             populateKeyFileTextView(keyFileUri)
         }
 
-        // Define listeners for default database checkbox and validate button
-        checkboxDefaultDatabaseView?.setOnCheckedChangeListener { _, isChecked ->
-            var newDefaultFileUri: Uri? = null
-            if (isChecked) {
-                newDefaultFileUri = databaseFileUri ?: newDefaultFileUri
-            }
-
-            PreferencesUtil.saveDefaultDatabasePath(this, newDefaultFileUri)
-
-            val backupManager = BackupManager(this@PasswordActivity)
-            backupManager.dataChanged()
-        }
+        // Define listener for validate button
         confirmButtonView?.setOnClickListener { verifyCheckboxesAndLoadDatabase() }
-
-        // Retrieve settings for default database
-        val defaultFilename = PreferencesUtil.getDefaultDatabasePath(this)
-        if (databaseFileUri != null
-                && databaseFileUri.path != null && databaseFileUri.path!!.isNotEmpty()
-                && databaseFileUri == UriUtil.parse(defaultFilename)) {
-            checkboxDefaultDatabaseView?.isChecked = true
-        }
 
         // If Activity is launch with a password and want to open directly
         val intent = intent

@@ -124,6 +124,9 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
         (fileDatabaseHistoryRecyclerView.itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         // Construct adapter with listeners
         mAdapterDatabaseHistory = FileDatabaseHistoryAdapter(this)
+        mAdapterDatabaseHistory?.setOnDefaultDatabaseListener { databaseFile ->
+            databaseFilesViewModel.setDefaultDatabase(databaseFile)
+        }
         mAdapterDatabaseHistory?.setOnFileDatabaseHistoryOpenListener { fileDatabaseHistoryEntityToOpen ->
             fileDatabaseHistoryEntityToOpen.databaseUri?.let { databaseFileUri ->
                 launchPasswordActivity(
@@ -188,6 +191,12 @@ class FileDatabaseSelectActivity : SpecialModeActivity(),
                 }
             }
             databaseFilesViewModel.consumeAction()
+        })
+
+        // Observe default database
+        databaseFilesViewModel.defaultDatabase.observe(this, Observer {
+            // Retrieve settings for default database
+            mAdapterDatabaseHistory?.setDefaultDatabase(it)
         })
 
         // Attach the dialog thread to this activity

@@ -1,11 +1,16 @@
 package com.kunzisoft.keepass.viewmodels
 
 import android.app.Application
+import android.app.backup.BackupManager
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.kunzisoft.keepass.app.App
 import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
+import com.kunzisoft.keepass.app.database.IOActionTask
 import com.kunzisoft.keepass.model.DatabaseFile
+import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 
 class DatabaseFilesViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -19,7 +24,38 @@ class DatabaseFilesViewModel(application: Application) : AndroidViewModel(applic
         MutableLiveData<DatabaseFileData>()
     }
 
+    val defaultDatabase: MutableLiveData<Uri?> by lazy {
+        MutableLiveData<Uri?>()
+    }
+
+    fun checkDefaultDatabase() {
+        IOActionTask(
+                {
+                    UriUtil.parse(PreferencesUtil.getDefaultDatabasePath(getApplication<App>().applicationContext))
+                },
+                {
+                    defaultDatabase.value = it
+                }
+        ).execute()
+    }
+
+    fun setDefaultDatabase(databaseFile: DatabaseFile?) {
+        IOActionTask(
+                {
+                    val context = getApplication<App>().applicationContext
+                    UriUtil.parse(PreferencesUtil.getDefaultDatabasePath(context))
+                    PreferencesUtil.saveDefaultDatabasePath(context, databaseFile?.databaseUri)
+                    val backupManager = BackupManager(context)
+                    backupManager.dataChanged()
+                },
+                {
+                    checkDefaultDatabase()
+                }
+        ).execute()
+    }
+
     fun loadListOfDatabases() {
+        checkDefaultDatabase()
         mFileDatabaseHistoryAction?.getDatabaseFileList { databaseFileListRetrieved ->
             var newValue = databaseFilesLoaded.value
             if (newValue == null) {

@@ -22,14 +22,12 @@ package com.kunzisoft.keepass.adapters
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.net.Uri
 import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.ViewSwitcher
+import android.widget.*
 import androidx.annotation.ColorInt
 import androidx.recyclerview.widget.RecyclerView
 import com.kunzisoft.keepass.R
@@ -41,12 +39,14 @@ class FileDatabaseHistoryAdapter(context: Context)
     : RecyclerView.Adapter<FileDatabaseHistoryAdapter.FileDatabaseHistoryViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
+    private var defaultDatabaseListener: ((DatabaseFile?) -> Unit)? = null
     private var fileItemOpenListener: ((DatabaseFile)->Unit)? = null
     private var fileSelectClearListener: ((DatabaseFile)->Boolean)? = null
     private var saveAliasListener: ((DatabaseFile)->Unit)? = null
 
     private val listDatabaseFiles = ArrayList<DatabaseFile>()
 
+    private var mDefaultDatabaseFile: DatabaseFile? = null
     private var mExpandedDatabaseFile: DatabaseFile? = null
     private var mPreviousExpandedDatabaseFile: DatabaseFile? = null
 
@@ -74,9 +74,15 @@ class FileDatabaseHistoryAdapter(context: Context)
         val databaseFile = listDatabaseFiles[position]
 
         // Click item to open file
-        if (fileItemOpenListener != null) {
-            holder.fileContainer.setOnClickListener {
-                fileItemOpenListener?.invoke(databaseFile)
+        holder.fileContainer.setOnClickListener {
+            fileItemOpenListener?.invoke(databaseFile)
+        }
+
+        // Default database
+        holder.defaultFileButton.apply {
+            this.isChecked = mDefaultDatabaseFile == databaseFile
+            setOnClickListener {
+                defaultDatabaseListener?.invoke(if (isChecked) databaseFile else null)
             }
         }
 
@@ -206,6 +212,16 @@ class FileDatabaseHistoryAdapter(context: Context)
         }
     }
 
+    fun setDefaultDatabase(databaseUri: Uri?) {
+        val defaultDatabaseFile = listDatabaseFiles.firstOrNull { it.databaseUri == databaseUri }
+        mDefaultDatabaseFile = defaultDatabaseFile
+        notifyDataSetChanged()
+    }
+
+    fun setOnDefaultDatabaseListener(listener: ((DatabaseFile?) -> Unit)?) {
+        this.defaultDatabaseListener = listener
+    }
+
     fun setOnFileDatabaseHistoryOpenListener(listener : ((DatabaseFile)->Unit)?) {
         this.fileItemOpenListener = listener
     }
@@ -222,6 +238,7 @@ class FileDatabaseHistoryAdapter(context: Context)
 
         var fileContainer: ViewGroup = itemView.findViewById(R.id.file_container_basic_info)
 
+        var defaultFileButton: CompoundButton = itemView.findViewById(R.id.default_file_button)
         var fileAlias: TextView = itemView.findViewById(R.id.file_alias)
         var fileInformationButton: ImageView = itemView.findViewById(R.id.file_information_button)
 
