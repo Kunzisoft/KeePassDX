@@ -25,7 +25,7 @@
     <string name="add_group">グループを追加する</string>
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
     <string name="app_timeout">アプリのタイムアウト</string>
-    <string name="app_timeout_summary">アプリがアイドル状態のときデータベースをロックするまでの時間</string>
+    <string name="app_timeout_summary">アプリがアイドル状態になってからデータベースをロックするまでの時間</string>
     <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">括弧</string>
@@ -39,8 +39,8 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使う</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は &lt;strong&gt;オープンソース&lt;/strong&gt; であり &lt;strong&gt;広告はありません&lt;/strong&gt;。
-\n現状のまま、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスのもとで、何らの保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>であり<strong>広告はありません</strong>。
+\nそのままの状態で、<strong>GPLv3</strong>ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
     <string name="entry_cancel">キャンセル</string>
@@ -56,7 +56,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">Arcfour ストリーム暗号には対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePassDX内ではこのURIを処理できませんでした。</string>
+    <string name="error_can_not_handle_uri">KeePassDX 内ではこのURIを処理できませんでした。</string>
     <string name="error_file_not_create">ファイルを作成できませんでした：</string>
     <string name="error_invalid_db">データベースを読み取れませんでした。</string>
     <string name="error_invalid_path">パスが正しいことを確認してください。</string>
@@ -65,7 +65,7 @@
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
     <string name="error_pass_gen_type">少なくとも一つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
-    <string name="error_rounds_too_large">変換回数が多過ぎます。2147483648 に設定します。</string>
+    <string name="error_rounds_too_large">「変換回数」が多過ぎます。2147483648 に設定します。</string>
     <string name="error_wrong_length">「長さ」フィールド内には正の整数を入力してください。</string>
     <string name="file_browser">ファイルマネージャー</string>
     <string name="generate_password">パスワードを生成する</string>
@@ -144,19 +144,19 @@
     <string name="edit_entry">エントリーを編集する</string>
     <string name="encryption">暗号化</string>
     <string name="key_derivation_function">鍵導出関数</string>
-    <string name="extended_ASCII">拡張 ASCII</string>
+    <string name="extended_ASCII">拡張ASCII</string>
     <string name="allow">許可</string>
-    <string name="clipboard_error_title">クリップボードエラー</string>
+    <string name="clipboard_error_title">クリップボードのエラー</string>
     <string name="clipboard_error">一部のデバイスではアプリからクリップボードを使用できません。</string>
-    <string name="clipboard_error_clear">クリップボードを消去できません</string>
+    <string name="clipboard_error_clear">クリップボードを消去できませんでした</string>
     <string name="entry_not_found">エントリーのデータが見つかりませんでした。</string>
     <string name="error_load_database">データベースを読み込めませんでした。</string>
     <string name="error_load_database_KDF_memory">鍵を読み込めませんでした。鍵導出関数の「メモリ使用量」を下げてみてください。</string>
     <string name="error_string_key">各文字列にはフィールド名が必要です。</string>
     <string name="error_autofill_enable_service">自動入力サービスを有効にできませんでした。</string>
-    <string name="error_move_folder_in_itself">グループを自分自身の中に移動させることはできません。</string>
+    <string name="error_move_folder_in_itself">グループを自分自身の中に移動することはできません。</string>
     <string name="field_name">フィールド名</string>
-    <string name="field_value">フィールド値</string>
+    <string name="field_value">フィールドの値</string>
     <string name="file_not_found_content">ファイルが見つかりませんでした。ファイルブラウザから再度開いてみてください。</string>
     <string name="invalid_algorithm">間違ったアルゴリズムです。</string>
     <string name="keyfile_is_empty">キーファイルが空です。</string>
@@ -195,7 +195,7 @@
     <string name="entry_add_field">フィールドを追加する</string>
     <string name="content_description_remove_field">フィールドを削除する</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
-    <string name="error_copy_entry_here">ここではエントリーをコピーできません。</string>
+    <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
     <string name="configure_biometric">生体認証プロンプトはサポートされていますが設定されていません。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
@@ -225,12 +225,12 @@
     <string name="error_create_database">データベースファイルを作成できません。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_disallow_no_credentials">少なくとも一つの認証情報を設定する必要があります。</string>
-    <string name="error_invalid_OTP">無効なOTP秘密鍵。</string>
+    <string name="error_invalid_OTP">OTP秘密鍵が無効です。</string>
     <string name="otp_digits">桁</string>
     <string name="entry_setup_otp">ワンタイムパスワードを設定する</string>
     <string name="entry_attachments">添付ファイル</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、 そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
+    <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
     <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
     <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
     <string name="content_description_add_node">ノードを追加する</string>
@@ -278,7 +278,7 @@
     <string name="entry_add_attachment">添付ファイルを追加する</string>
     <string name="discard">破棄</string>
     <string name="discard_changes">変更を破棄しますか？</string>
-    <string name="validate">検証する</string>
+    <string name="validate">検証</string>
     <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を切り替える</string>
     <string name="content_description_add_item">項目を追加する</string>
     <string name="contact">連絡先</string>
