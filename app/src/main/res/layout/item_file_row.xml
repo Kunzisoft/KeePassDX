@@ -84,7 +84,7 @@
                 android:layout_marginBottom="4dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:src="@drawable/ic_arrow_up_white_24dp"
+                android:src="@drawable/ic_arrow_down_white_24dp"
                 android:tint="?android:attr/textColorHintInverse"
                 android:contentDescription="@string/content_description_file_information"/>
         </androidx.constraintlayout.widget.ConstraintLayout>

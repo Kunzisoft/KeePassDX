@@ -154,7 +154,7 @@ class FileDatabaseHistoryAdapter(context: Context)
             mPreviousExpandedDatabaseFile = databaseFile
         }
         holder.fileInformationButton.apply {
-            animate().rotation(if (isExpanded) 0F else 180F).start()
+            animate().rotation(if (isExpanded) 180F else 0F).start()
             setOnClickListener {
                 mExpandedDatabaseFile = if (isExpanded) null else databaseFile
                 // Notify change
