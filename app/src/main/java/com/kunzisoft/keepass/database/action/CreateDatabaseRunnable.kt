@@ -43,11 +43,9 @@ class CreateDatabaseRunnable(context: Context,
             // Create new database record
             mDatabase.apply {
                 createData(mDatabaseUri, databaseName, rootName)
-                // Set Database state
-                loaded = true
             }
         } catch (e: Exception) {
-            mDatabase.closeAndClear()
+            mDatabase.closeAndClear(context.applicationContext.filesDir)
             setError(e)
         }
 
@@ -64,6 +62,9 @@ class CreateDatabaseRunnable(context: Context,
                         .addOrUpdateDatabaseUri(mDatabaseUri,
                                 if (PreferencesUtil.rememberKeyFileLocations(context)) mKeyFileUri else null)
             }
+
+            // Register the current time to init the lock timer
+            PreferencesUtil.saveCurrentTime(context)
         } else {
             Log.e("CreateDatabaseRunnable", "Unable to create the database")
         }

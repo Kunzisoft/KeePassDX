@@ -43,11 +43,9 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
 
-    private val cacheDirectory = context.applicationContext.filesDir
-
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.closeAndClear(cacheDirectory)
+        mDatabase.closeAndClear(context.applicationContext.filesDir)
     }
 
     override fun onActionRun() {
@@ -55,7 +53,7 @@ class LoadDatabaseRunnable(private val context: Context,
             mDatabase.loadData(mUri, mPass, mKey,
                     mReadonly,
                     context.contentResolver,
-                    cacheDirectory,
+                    context.applicationContext.filesDir,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
@@ -83,7 +81,7 @@ class LoadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.closeAndClear(cacheDirectory)
+            mDatabase.closeAndClear(context.applicationContext.filesDir)
         }
     }
 

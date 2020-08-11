@@ -122,9 +122,6 @@ class GroupActivity : LockingActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (isFinishing) {
-            return
-        }
         mDatabase = Database.getInstance()
 
         // Construct main view
