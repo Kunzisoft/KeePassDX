@@ -31,5 +31,5 @@
     <dimen name="hidden_lock_button_size">0dp</dimen>
     <dimen name="content_percent">1</dimen>
     <dimen name="toolbar_parallax_height">160dp</dimen>
-    <integer name="animation_duration">320</integer>
+    <integer name="animation_duration">250</integer>
 </resources>
