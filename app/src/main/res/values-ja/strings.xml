@@ -481,7 +481,7 @@
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>
     <string name="unavailable_feature_version">Android のバージョン %1$s が必要な最小バージョン %2$s を満たしていません。</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
-    <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができます</string>
+    <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="advanced_unlock">高度なロック解除</string>
     <string name="lock_database_show_button_summary">ユーザーインターフェースにロックボタンを表示します</string>
