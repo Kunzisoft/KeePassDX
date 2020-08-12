@@ -360,12 +360,12 @@
     <string name="menu_appearance_settings">外観</string>
     <string name="database_history">履歴</string>
     <string name="credential_before_click_biometric_button">パスワードを入力し、「生体認証」ボタンをクリックします。</string>
-    <string name="no_credentials_stored">このデータベースにはまだ保存された認証情報がありません。</string>
+    <string name="no_credentials_stored">このデータベースの認証情報はまだ保存されていません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
     <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
-    <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を抽出する</string>
+    <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
     <string name="html_text_feature_generosity">この<strong>ビジュアルスタイル</strong>はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約つきでウェブドメインを検索します</string>
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをクリックしたときにデータベースをロックします</string>
@@ -439,7 +439,7 @@
     <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加するのに協力します。</string>
     <string name="education_donation_title">参加する</string>
     <string name="education_field_copy_title">フィールドをコピーする</string>
-    <string name="education_read_only_title">データベースの書き込みを禁止する</string>
+    <string name="education_read_only_title">データベースへの書き込みを禁止する</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_entry_new_field_title">カスタムフィールドを追加する</string>
     <string name="education_entry_edit_summary">カスタムフィールドを用いてエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
