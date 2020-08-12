@@ -122,7 +122,7 @@
     <string name="unsupported_db_version">対応していないバージョンのデータベースです。</string>
     <string name="uppercase">大文字</string>
     <string name="version_label">バージョン %1$s</string>
-    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、あるいはその両方を入力してください。
+    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、あるいはその両方を入力します。
 \n
 \nデータベースファイルは変更するたびに安全な場所にバックアップしてください。</string>
     <string-array name="timeout_options">
@@ -300,7 +300,7 @@
     <string name="education_lock_summary">データベースをすばやくロックします。アプリは時間が経ったり画面がオフになったときにロックするよう設定できます。</string>
     <string name="education_lock_title">データベースをロックする</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
-    <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力してください。</string>
+    <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
     <string name="education_new_node_summary">エントリーはデジタルアイデンティティの管理に役立ちます。
 \n
 \nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
@@ -309,7 +309,7 @@
     <string name="education_sort_title">項目の並び替え</string>
     <string name="education_new_node_title">データベースに項目を追加する</string>
     <string name="assign_master_key">マスターキーを設定</string>
-    <string name="education_select_database_summary">ファイルブラウザからこれまで使ってきたデータベースファイルを開いて引き続き使用することができます。</string>
+    <string name="education_select_database_summary">ファイルブラウザからこれまで使ってきたデータベースファイルを開いて引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
     <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
@@ -402,7 +402,7 @@
     <string name="download_initialization">初期化しています…</string>
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。
 \n
-\n好みのフォーム入力法を使用してください。</string>
+\nお好みのフォーム入力方法を使用してください。</string>
     <string name="warning_database_link_revoked">ファイルマネージャーによって取り消されたファイルにアクセスします</string>
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用してエントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
