@@ -40,7 +40,7 @@
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
     <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>であり<strong>広告はありません</strong>。
-\nそのままの状態で、<strong>GPLv3</strong>ライセンスの下、いかなる保証もなく提供されます。</string>
+\nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
     <string name="entry_cancel">キャンセル</string>
@@ -230,7 +230,7 @@
     <string name="entry_setup_otp">ワンタイムパスワードを設定</string>
     <string name="entry_attachments">添付ファイル</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、 そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
+    <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
     <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
     <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
     <string name="content_description_add_node">ノードを追加</string>
@@ -381,7 +381,7 @@
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
     <string name="keyboard_previous_database_credentials_summary">データベースの認証画面で切り替え前のキーボードへ自動的に戻します</string>
-    <string name="autofill_auto_search_summary">ウェブドメインまたはアプリケーション ID から検索結果を自動的に提示します</string>
+    <string name="autofill_auto_search_summary">ウェブドメインまたはアプリケーション ID から検索結果を自動的に提案します</string>
     <string name="keyboard_previous_fill_in_summary">自動キーアクションの実行後、切り替え前のキーボードへ自動的に戻します</string>
     <string name="keyboard_previous_fill_in_title">自動キーアクション</string>
     <string name="keyboard_key_sound_title">キー押下時の音</string>
@@ -418,7 +418,7 @@
     <string name="html_text_dev_feature_contibute"><strong>貢献</strong>による、</string>
     <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは<strong>広告なし</strong>で、<strong>コピーレフトの自由ソフトウェア</strong>であり、使用するバージョンに関係なく、サーバー上で個人情報を収集することはありません。</string>
-    <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（「変更可能」モードの場合）</string>
+    <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（「変更可能」モードのとき）</string>
     <string name="allow_no_password_title">空のマスターキーを許可</string>
     <string name="autofill_auto_search_title">自動検索</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -451,7 +451,7 @@
     <string name="education_read_only_summary">セッションのロック解除モードを変更します。
 \n
 \n「書き込み禁止」では、データベースに対する意図しない変更を防ぐことができます。
-\n「変更可能」では、すべての要素を追加、削除、または変更できます。</string>
+\n「変更可能」では、すべての要素を追加、削除、変更できます。</string>
     <string name="allow_copy_password_title">クリップボードの信頼</string>
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
