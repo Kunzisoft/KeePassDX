@@ -328,8 +328,8 @@
     <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリのリスト</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
     <string name="style_choose_summary">アプリで使用するテーマ</string>
-    <string name="hide_expired_entries_summary">失効したエントリーは非表示になります</string>
-    <string name="hide_expired_entries_title">失効したエントリーを非表示にする</string>
+    <string name="hide_expired_entries_summary">有効期限が切れたエントリーは非表示になります</string>
+    <string name="hide_expired_entries_title">有効期限が切れたエントリーを非表示にする</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="settings_database_force_changing_master_key_next_time_title">次回強制更新する</string>
