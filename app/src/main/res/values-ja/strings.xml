@@ -293,7 +293,7 @@
     <string name="education_generate_password_title">強力なパスワードを作成する</string>
     <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に要求します</string>
     <string name="biometric_delete_all_key_title">暗号化キーを削除</string>
-    <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動的に開く</string>
+    <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号化キーを削除しますか？</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号化キーを削除します</string>
     <string name="advanced_unlock_explanation_summary">高度なロック解除を使用するとデータベースがより簡単に開きます</string>
@@ -372,7 +372,7 @@
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="clear_clipboard_notification_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるときにデータベースも閉じます</string>
-    <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終わったとき、またはこの機能の使用中に通知が閉じられたときにデータベースをロックします</string>
+    <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、またはこの機能の使用中に通知が閉じられたときにデータベースをロックします</string>
     <string name="html_text_dev_feature_encourage">あなたの意見によって開発者は <strong>新機能</strong>の開発や <strong>バグの修正</strong> を速く進めることができます。</string>
     <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
     <string name="html_text_dev_feature">この機能は<strong>開発中</strong>であり早期に提供するにはあなたの<strong>貢献</strong>が必要です。</string>
