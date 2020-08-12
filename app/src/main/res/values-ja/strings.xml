@@ -287,7 +287,7 @@
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して文字を見やすくします</string>
     <string name="monospace_font_fields_enable_title">フィールド用のフォント</string>
-    <string name="full_file_path_enable_summary">ファイルのフルパスを表示</string>
+    <string name="full_file_path_enable_summary">ファイルのフルパスを表示します</string>
     <string name="full_file_path_enable_title">ファイルパス</string>
     <string name="path">パス</string>
     <string name="education_generate_password_title">強力なパスワードを作成する</string>
@@ -327,10 +327,10 @@
     <string name="autofill_web_domain_blocklist_summary">自動入力を行わないウェブドメインのリスト</string>
     <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリのリスト</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
-    <string name="style_choose_summary">アプリ内で使用するテーマ</string>
+    <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string name="hide_expired_entries_summary">期限切れのエントリーは非表示になります</string>
     <string name="hide_expired_entries_title">期限切れのエントリーを非表示にする</string>
-    <string name="icon_pack_choose_summary">アプリ内で使用するアイコンパック</string>
+    <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="settings_database_force_changing_master_key_next_time_title">次回強制更新する</string>
     <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必要とする（日数）</string>
@@ -344,7 +344,7 @@
     <string name="lock">ロック</string>
     <string name="clipboard_warning">クリップボードの自動削除に失敗した場合は、手動でその履歴を削除してください。</string>
     <string name="clipboard_notifications_summary">エントリーを表示しているとき、フィールドをコピーするクリップボード通知を有効にします</string>
-    <string name="clipboard_notifications_title">クリップボードの通知</string>
+    <string name="clipboard_notifications_title">クリップボード通知</string>
     <string name="clipboard">クリップボード</string>
     <string name="database_opened">データベースが開かれています</string>
     <string name="password_size_title">生成されるパスワードの長さ</string>
@@ -484,7 +484,7 @@
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができます</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="advanced_unlock">高度なロック解除</string>
-    <string name="lock_database_show_button_summary">ユーザーインターフェース内にロックボタンを表示します</string>
+    <string name="lock_database_show_button_summary">ユーザーインターフェースにロックボタンを表示します</string>
     <string name="database_default_username_title">デフォルトのユーザー名</string>
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="reset_education_screens_title">教育的なヒントをリセット</string>
