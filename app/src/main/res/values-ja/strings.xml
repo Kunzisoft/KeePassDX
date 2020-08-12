@@ -63,7 +63,7 @@
     <string name="error_no_name">名前を入力してください。</string>
     <string name="error_nokeyfile">キーファイルを選択してください。</string>
     <string name="error_out_of_memory">データベース全体を読み込むメモリがありません。</string>
-    <string name="error_pass_gen_type">少なくとも１つのパスワード生成タイプを選択する必要があります。</string>
+    <string name="error_pass_gen_type">少なくとも 1 つのパスワード生成タイプを選択する必要があります。</string>
     <string name="error_pass_match">パスワードが一致しません。</string>
     <string name="error_rounds_too_large">「変換ラウンド」が多過ぎます。2147483648 に設定します。</string>
     <string name="error_wrong_length">「長さ」フィールドには正の整数を入力してください。</string>
@@ -224,7 +224,7 @@
     <string name="error_create_database_file">このパスワードとキーファイルではデータベースを作成できません。</string>
     <string name="error_create_database">データベースファイルを作成できません。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
-    <string name="error_disallow_no_credentials">少なくとも１つの認証情報を設定する必要があります。</string>
+    <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
     <string name="error_invalid_OTP">OTP 秘密鍵が無効です。</string>
     <string name="otp_digits">桁</string>
     <string name="entry_setup_otp">ワンタイムパスワードを設定</string>
@@ -282,7 +282,7 @@
     <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を切り替える</string>
     <string name="content_description_add_item">項目を追加</string>
     <string name="contact">連絡先</string>
-    <string name="education_setup_OTP_summary">ワンタイムパスワード管理（HOTP / TOTP）を設定して二要素認証（2FA）に必要なトークンを生成します。</string>
+    <string name="education_setup_OTP_summary">ワンタイムパスワードの管理（HOTP / TOTP）を設定して 2 要素認証（2FA）に必要なトークンを生成します。</string>
     <string name="education_setup_OTP_title">OTP を設定する</string>
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して文字を見やすくします</string>
@@ -297,7 +297,7 @@
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号化キーを削除しますか？</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号化キーを削除します</string>
     <string name="advanced_unlock_explanation_summary">高度なロック解除を使用するとデータベースがより簡単に開きます</string>
-    <string name="education_lock_summary">データベースをすばやくロックします。アプリは時間が経ったり画面がオフになったときにロックするよう設定できます。</string>
+    <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときにロックするようアプリを設定することもできます。</string>
     <string name="education_lock_title">データベースをロックする</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
@@ -432,11 +432,11 @@
     <string name="database_custom_color_title">データベースのカスタムカラー</string>
     <string name="database_description_title">データベースの説明</string>
     <string name="database_name_title">データベース名</string>
-    <string name="disable">無効</string>
-    <string name="enable">有効</string>
+    <string name="disable">無効にする</string>
+    <string name="enable">有効にする</string>
     <string name="allow_copy_password_warning">警告：クリップボードはすべてのアプリで共有されます。機密データがコピーされた場合、他のソフトウェアがデータを復元する可能性があります。</string>
     <string name="allow_copy_password_summary">エントリーのパスワードと保護されたフィールドをクリップボードにコピーすることを許可します</string>
-    <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加するのに協力します。</string>
+    <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することに協力します。</string>
     <string name="education_donation_title">参加する</string>
     <string name="education_field_copy_title">フィールドをコピーする</string>
     <string name="education_read_only_title">データベースへの書き込みを禁止する</string>
