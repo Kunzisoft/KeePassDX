@@ -332,11 +332,11 @@
     <string name="hide_expired_entries_title">有効期限切れのエントリーを非表示にする</string>
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
-    <string name="settings_database_force_changing_master_key_next_time_title">次回強制更新する</string>
+    <string name="settings_database_force_changing_master_key_next_time_title">次回更新を強制</string>
     <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必要とする（日数）</string>
-    <string name="settings_database_force_changing_master_key_title">更新を強制する</string>
+    <string name="settings_database_force_changing_master_key_title">更新を強制</string>
     <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨する（日数）</string>
-    <string name="settings_database_recommend_changing_master_key_title">更新を推奨する</string>
+    <string name="settings_database_recommend_changing_master_key_title">更新を推奨</string>
     <string name="max_history_size_summary">エントリーあたりの履歴のサイズ（バイト単位）を制限します</string>
     <string name="lock_database_back_root_title">「戻る」を押してロック</string>
     <string name="lock_database_screen_off_summary">画面がオフのときデータベースをロックします</string>
