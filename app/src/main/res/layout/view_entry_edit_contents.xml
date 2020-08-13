@@ -211,6 +211,8 @@
 			android:id="@+id/entry_edit_advanced_container"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
+			android:layout_marginTop="@dimen/default_margin"
+			android:layout_marginBottom="@dimen/default_margin"
 			android:orientation="vertical">
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

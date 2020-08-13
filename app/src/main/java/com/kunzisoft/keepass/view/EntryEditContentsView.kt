@@ -233,23 +233,26 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         var extraFieldView = getCustomFieldByLabel(customField.name)
         // Create new view if not exists
         if (extraFieldView == null) {
-            extraFieldView = EntryEditExtraField(context).apply {
-                setFontVisibility(fontInVisibility)
-                setDeleteButtonClickListener(OnClickListener {
-                    try {
-                        collapse(true) {
-                            val parent = this@EntryEditContentsView
-                            parent.removeView(this)
-                            parent.invalidate()
-                            setDeleteButtonClickListener(null)
+            extraFieldView = EntryEditExtraField(context)
+            extraFieldView.setFontVisibility(fontInVisibility)
+            extraFieldView.setDeleteButtonClickListener(OnClickListener {
+                try {
+                    extraFieldView.collapse(true) {
+                        entryExtraFieldsContainer.apply {
+                            removeView(this)
+                            invalidate()
                         }
-                    } catch (e: ClassCastException) {
-                        Log.e(javaClass.name, "Unable to delete view", e)
+                        extraFieldView.setDeleteButtonClickListener(null)
                     }
-                })
-            }
+                } catch (e: ClassCastException) {
+                    Log.e(javaClass.name, "Unable to delete view", e)
+                }
+            })
             // No need animation because of scroll
-            entryExtraFieldsContainer.addView(extraFieldView)
+            entryExtraFieldsContainer.apply {
+                addView(extraFieldView)
+                invalidate()
+            }
         }
         extraFieldView.customField = customField
         return extraFieldView
