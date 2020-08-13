@@ -85,11 +85,22 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
-        entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
+        entryExtraFieldsContainer = findViewById(R.id.entry_edit_extra_fields_container)
 
         entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
             assignExpiresDateText()
         }
+
+        entryExtraFieldsContainer.setOnHierarchyChangeListener(object: OnHierarchyChangeListener {
+            override fun onChildViewRemoved(parent: View?, child: View?) {}
+
+            override fun onChildViewAdded(parent: View?, child: View?) {
+                parent?.let {
+                    if ((parent as ViewGroup).childCount == 1)
+                        parent.expand()
+                }
+            }
+        })
 
         // Retrieve the textColor to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
@@ -235,23 +246,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         if (extraFieldView == null) {
             extraFieldView = EntryEditExtraField(context)
             extraFieldView.setFontVisibility(fontInVisibility)
-            extraFieldView.setDeleteButtonClickListener(OnClickListener {
-                try {
-                    extraFieldView.collapse(true) {
-                        entryExtraFieldsContainer.apply {
-                            removeView(this)
-                            invalidate()
-                        }
-                        extraFieldView.setDeleteButtonClickListener(null)
-                    }
-                } catch (e: ClassCastException) {
-                    Log.e(javaClass.name, "Unable to delete view", e)
-                }
-            })
             // No need animation because of scroll
             entryExtraFieldsContainer.apply {
                 addView(extraFieldView)
-                invalidate()
             }
         }
         extraFieldView.customField = customField

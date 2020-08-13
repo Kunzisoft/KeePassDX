@@ -24,6 +24,7 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.RelativeLayout
@@ -72,10 +73,13 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
         deleteButton = findViewById(R.id.entry_extra_field_delete)
 
         mValueViewInputType = valueView.inputType
-    }
-
-    fun setDeleteButtonClickListener(listener: OnClickListener?) {
-        deleteButton.setOnClickListener(listener)
+        deleteButton.setOnClickListener {
+            collapse(true) {
+                (parent as ViewGroup?)?.apply {
+                    removeView(this@EntryEditExtraField)
+                }
+            }
+        }
     }
 
     /**
