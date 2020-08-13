@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテントアクションを受け付けるファイルマネージャーがデータベースファイルの作成、オープン、保存に必要です。</string>
     <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
-    <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスでサポートされている場合）</string>
+    <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
     <string name="select_to_copy">%1$s を選択してクリップボードにコピー</string>
     <string name="retrieving_db_key">データベースの鍵を取得しています…</string>
     <string name="database">データベース</string>
@@ -196,7 +196,7 @@
     <string name="content_description_remove_field">フィールドを削除</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
-    <string name="configure_biometric">生体認証プロンプトはサポートされていますが設定されていません。</string>
+    <string name="configure_biometric">生体認証プロンプトは対応していますが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
     <string name="otp_type">OTP の型式</string>
@@ -250,10 +250,10 @@
     <string name="search_results">検索結果</string>
     <string name="filter">フィルター</string>
     <string name="do_not_kill_app">アプリを終了しないでください…</string>
-    <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル（スレッド数）。</string>
+    <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル（スレッド数）です。</string>
     <string name="show_recent_files_title">最近使ったファイルを表示</string>
     <string name="parallelism">並列処理</string>
-    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）。</string>
+    <string name="memory_usage_explanation">鍵導出関数が使用するメモリの量（バイト単位）です。</string>
     <string name="memory_usage">メモリ使用量</string>
     <string name="kdf_explanation">暗号化アルゴリズム用の鍵を生成するために、マスターキーはランダムにソルト化された鍵導出関数を使用して変換されます。</string>
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で壊れたリンクを非表示にします</string>
