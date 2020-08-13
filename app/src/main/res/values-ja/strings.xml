@@ -241,8 +241,8 @@
     <string name="biometric_prompt_extract_credential_title">生体認証でデータベースを開く</string>
     <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合もマスターパスワードは覚えておく必要があります。</string>
     <string name="biometric_prompt_store_credential_title">生体認証の保存</string>
-    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開いて認証情報を保存します</string>
-    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開いてロックを解除します</string>
+    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開き認証情報を保存します</string>
+    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開きロックを解除します</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="warning_no_encryption_key">暗号化キーなしで続行しますか？</string>
     <string name="warning_empty_password">パスワードによるロック解除の保護なしで続行しますか？</string>
@@ -360,11 +360,11 @@
     <string name="menu_appearance_settings">外観</string>
     <string name="database_history">履歴</string>
     <string name="credential_before_click_biometric_button">パスワードを入力し、「生体認証」ボタンをクリックします。</string>
-    <string name="no_credentials_stored">このデータベースの保存済み認証情報はありません。</string>
+    <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
     <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証を繰り返してください。</string>
-    <string name="encrypted_value_stored">暗号化された保存済みパスワード</string>
+    <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
     <string name="html_text_feature_generosity">この<strong>ビジュアルスタイル</strong>はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約つきでウェブドメインを検索します</string>
