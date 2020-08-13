@@ -122,7 +122,7 @@
     <string name="unsupported_db_version">対応していないバージョンのデータベースです。</string>
     <string name="uppercase">大文字</string>
     <string name="version_label">バージョン %1$s</string>
-    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、あるいはその両方を入力します。
+    <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。
 \n
 \nデータベースファイルは変更するたびに安全な場所にバックアップしてください。</string>
     <string-array name="timeout_options">
