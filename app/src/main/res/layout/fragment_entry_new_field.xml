@@ -54,15 +54,11 @@
         style="@style/KeepassDXStyle.TextAppearance.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:minHeight="24dp"
-        android:layout_marginStart="@dimen/default_margin"
-        android:layout_marginLeft="@dimen/default_margin"
-        android:layout_marginEnd="@dimen/default_margin"
-        android:layout_marginRight="@dimen/default_margin"
-        android:paddingBottom="@dimen/default_margin"
+        android:minHeight="48dp"
         app:layout_constraintTop_toBottomOf="@+id/entry_custom_field_label_container"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         android:text="@string/protection" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

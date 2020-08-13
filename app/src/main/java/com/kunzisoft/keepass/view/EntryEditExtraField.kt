@@ -40,7 +40,6 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
 
     private val valueLayoutView: TextInputLayout
     private val valueView: EditText
-    private val editButton: View
     private val deleteButton: View
 
     private var mApplyFontVisibility = false
@@ -70,7 +69,6 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
 
         valueLayoutView = findViewById(R.id.entry_extra_field_value_container)
         valueView = findViewById(R.id.entry_extra_field_value)
-        editButton = findViewById(R.id.entry_extra_field_edit)
         deleteButton = findViewById(R.id.entry_extra_field_delete)
 
         mValueViewInputType = valueView.inputType

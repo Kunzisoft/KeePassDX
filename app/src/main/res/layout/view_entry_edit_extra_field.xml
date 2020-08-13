@@ -30,7 +30,7 @@
         android:id="@+id/entry_extra_field_value_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/default_margin"
+        android:layout_marginTop="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_extra_field_delete"
@@ -59,18 +59,5 @@
         android:src="@drawable/ic_close_white_24dp"
         android:contentDescription="@string/content_description_remove_field"
         android:tint="?attr/colorAccent" />
-
-    <!-- TODO edit extra field -->
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/entry_extra_field_edit"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:padding="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/entry_extra_field_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="invisible"
-        android:src="@drawable/ic_read_write_white_24dp"
-        android:contentDescription="@string/content_description_remove_field"
-        android:tint="?android:attr/textColor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
