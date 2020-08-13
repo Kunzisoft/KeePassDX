@@ -238,11 +238,11 @@
     <string name="content_description_background">バックグラウンド</string>
     <string name="security">セキュリティ</string>
     <string name="contribution">貢献</string>
-    <string name="biometric_prompt_extract_credential_title">生体認証を用いてデータベースを開く</string>
+    <string name="biometric_prompt_extract_credential_title">生体認証でデータベースを開く</string>
     <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合もマスターパスワードは覚えておく必要があります。</string>
     <string name="biometric_prompt_store_credential_title">生体認証の保存</string>
-    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開いて認証情報を保存する</string>
-    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開いてデータベースのロックを解除する</string>
+    <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開いて認証情報を保存します</string>
+    <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開いてロックを解除します</string>
     <string name="keystore_not_accessible">キーストアが正しく初期化されていません。</string>
     <string name="warning_no_encryption_key">暗号化キーなしで続行しますか？</string>
     <string name="warning_empty_password">パスワードによるロック解除の保護なしで続行しますか？</string>
