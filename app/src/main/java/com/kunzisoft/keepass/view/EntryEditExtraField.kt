@@ -24,55 +24,60 @@ import android.graphics.Rect
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.CompoundButton
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.RelativeLayout
 import androidx.annotation.StringRes
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.model.Field
 
-class EntryEditCustomField @JvmOverloads constructor(context: Context,
-                                                     attrs: AttributeSet? = null,
-                                                     defStyle: Int = 0)
+class EntryEditExtraField @JvmOverloads constructor(context: Context,
+                                                    attrs: AttributeSet? = null,
+                                                    defStyle: Int = 0)
     : RelativeLayout(context, attrs, defStyle) {
 
     private val valueLayoutView: TextInputLayout
     private val valueView: EditText
-    private val protectionCheckView: CompoundButton
+    private val editButton: View
     private val deleteButton: View
 
-    val label: String
-        get() = valueLayoutView.hint.toString()
+    private var mApplyFontVisibility = false
+    private var isProtected = false
+    private var mValueViewInputType: Int = 0
 
-    val value: String
-        get() = valueView.text.toString()
-
-    val isProtected: Boolean
-        get() = protectionCheckView.isChecked
+    var customField: Field
+        get() {
+            return Field(valueLayoutView.hint.toString(), ProtectedString(isProtected, valueView.text.toString()))
+        }
+        set(value) {
+            valueLayoutView.hint = value.name
+            isProtected = value.protectedValue.isProtected
+            if (isProtected) {
+                valueLayoutView.isPasswordVisibilityToggleEnabled = true
+                valueView.inputType = EditorInfo.TYPE_TEXT_VARIATION_PASSWORD or mValueViewInputType
+            } else {
+                valueLayoutView.isPasswordVisibilityToggleEnabled = false
+                valueView.inputType = mValueViewInputType
+            }
+            valueView.setText(value.protectedValue.toString())
+        }
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_entry_custom_field, this)
+        inflater?.inflate(R.layout.view_entry_edit_extra_field, this)
 
-        valueLayoutView = findViewById(R.id.entry_custom_field_value_container)
-        valueView = findViewById(R.id.entry_custom_field_value)
-        protectionCheckView = findViewById(R.id.entry_custom_field_protection)
-        deleteButton = findViewById<View>(R.id.entry_custom_field_delete)
+        valueLayoutView = findViewById(R.id.entry_extra_field_value_container)
+        valueView = findViewById(R.id.entry_extra_field_value)
+        editButton = findViewById(R.id.entry_extra_field_edit)
+        deleteButton = findViewById(R.id.entry_extra_field_delete)
+
+        mValueViewInputType = valueView.inputType
     }
 
     fun setDeleteButtonClickListener(listener: OnClickListener?) {
         deleteButton.setOnClickListener(listener)
-    }
-
-    fun setData(label: String?, value: ProtectedString?, fontInVisibility: Boolean) {
-        if (label != null)
-            valueLayoutView.hint = label
-        if (value != null) {
-            valueView.setText(value.toString())
-            protectionCheckView.isChecked = value.isProtected
-        }
-        setFontVisibility(fontInVisibility)
     }
 
     /**
@@ -82,7 +87,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
      */
     fun isValid(): Boolean {
         // Validate extra field
-        if (label.isEmpty()) {
+        if (valueLayoutView.hint.toString().isEmpty()) {
             setError(R.string.error_string_key)
             return false
         } else {
@@ -98,6 +103,7 @@ class EntryEditCustomField @JvmOverloads constructor(context: Context,
     }
 
     fun setFontVisibility(applyFontVisibility: Boolean) {
+        mApplyFontVisibility = applyFontVisibility
         if (applyFontVisibility)
             valueView.applyFontVisibility()
     }

@@ -25,6 +25,7 @@ import android.os.Bundle
 import android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.widget.Button
+import android.widget.CompoundButton
 import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -37,8 +38,9 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
 
     private var entryCustomFieldListener: EntryCustomFieldListener? = null
 
-    private var newFieldLabelContainer: TextInputLayout? = null
-    private var newFieldLabel: TextView? = null
+    private var customFieldLabelContainer: TextInputLayout? = null
+    private var customFieldLabel: TextView? = null
+    private var customFieldProtectionButton: CompoundButton? = null
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -54,22 +56,24 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         activity?.let { activity ->
             val root = activity.layoutInflater.inflate(R.layout.fragment_entry_new_field, null)
-            newFieldLabelContainer = root?.findViewById(R.id.new_field_label_container)
-            newFieldLabel = root?.findViewById(R.id.new_field_label)
+            customFieldLabelContainer = root?.findViewById(R.id.entry_custom_field_label_container)
+            customFieldLabel = root?.findViewById(R.id.entry_custom_field_label)
+            customFieldProtectionButton = root?.findViewById(R.id.entry_custom_field_protection)
 
             val builder = AlertDialog.Builder(activity)
             builder.setView(root)
                     .setPositiveButton(android.R.string.ok, null)
                     .setNegativeButton(android.R.string.cancel) { _, _ ->
                         entryCustomFieldListener?.onNewCustomFieldCanceled(
-                                newFieldLabel?.text.toString()
+                                customFieldLabel?.text.toString(),
+                                customFieldProtectionButton?.isChecked == true
                         )
                     }
             val dialogCreated = builder.create()
 
-            newFieldLabel?.requestFocus()
-            newFieldLabel?.imeOptions = EditorInfo.IME_ACTION_DONE
-            newFieldLabel?.setOnEditorActionListener { _, actionId, _ ->
+            customFieldLabel?.requestFocus()
+            customFieldLabel?.imeOptions = EditorInfo.IME_ACTION_DONE
+            customFieldLabel?.setOnEditorActionListener { _, actionId, _ ->
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     approveIfValid()
                 }
@@ -99,14 +103,15 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     private fun approveIfValid() {
         if (isValid()) {
             entryCustomFieldListener?.onNewCustomFieldApproved(
-                    newFieldLabel?.text.toString()
+                    customFieldLabel?.text.toString(),
+                    customFieldProtectionButton?.isChecked == true
             )
             (dialog as AlertDialog?)?.dismiss()
         }
     }
 
     private fun isValid(): Boolean {
-        return if (newFieldLabel?.text?.toString()?.isNotEmpty() != true) {
+        return if (customFieldLabel?.text?.toString()?.isNotEmpty() != true) {
             setError(R.string.error_string_key)
             false
         } else {
@@ -116,14 +121,14 @@ class EntryCustomFieldDialogFragment: DialogFragment() {
     }
 
     fun setError(@StringRes errorId: Int?) {
-        newFieldLabelContainer?.error = if (errorId == null) null else {
+        customFieldLabelContainer?.error = if (errorId == null) null else {
             requireContext().getString(errorId)
         }
     }
 
     interface EntryCustomFieldListener {
-        fun onNewCustomFieldApproved(label: String)
-        fun onNewCustomFieldCanceled(label: String)
+        fun onNewCustomFieldApproved(label: String, protection: Boolean)
+        fun onNewCustomFieldCanceled(label: String, protection: Boolean)
     }
 
     companion object {

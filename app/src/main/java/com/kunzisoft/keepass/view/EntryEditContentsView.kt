@@ -31,7 +31,6 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
@@ -202,11 +201,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             entryExtraFieldsContainer.let {
                 try {
                     for (i in 0 until it.childCount) {
-                        val view = it.getChildAt(i) as EntryEditCustomField
-                        val key = view.label
-                        val value = view.value
-                        val protect = view.isProtected
-                        customFieldsArray.add(Field(key, ProtectedString(protect, value)))
+                        val view = it.getChildAt(i) as EntryEditExtraField
+                        customFieldsArray.add(view.customField)
                     }
                 } catch (exception: Exception) {
                     // Extra field container contains another type of view
@@ -215,11 +211,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             return customFieldsArray
         }
 
-    private fun getCustomFieldByLabel(label: String): EntryEditCustomField? {
+    private fun getCustomFieldByLabel(label: String): EntryEditExtraField? {
         for (i in 0..entryExtraFieldsContainer.childCount) {
             try {
-                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
-                if (extraFieldView?.label == label) {
+                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditExtraField?
+                if (extraFieldView?.customField?.name == label) {
                     return extraFieldView
                 }
             } catch(e: Exception) {
@@ -232,15 +228,13 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Update a custom field or create a new one if doesn't exists
      */
-    fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString())
-            : EntryEditCustomField {
-        var extraFieldView = getCustomFieldByLabel(name)
-        extraFieldView?.setData(name, value, fontInVisibility)
+    fun putCustomField(customField: Field)
+            : EntryEditExtraField {
+        var extraFieldView = getCustomFieldByLabel(customField.name)
         // Create new view if not exists
         if (extraFieldView == null) {
-            extraFieldView = EntryEditCustomField(context).apply {
-                setData(name, value, fontInVisibility)
+            extraFieldView = EntryEditExtraField(context).apply {
+                setFontVisibility(fontInVisibility)
                 setDeleteButtonClickListener(OnClickListener {
                     try {
                         collapse(true) {
@@ -257,6 +251,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             // No need animation because of scroll
             entryExtraFieldsContainer.addView(extraFieldView)
         }
+        extraFieldView.customField = customField
         return extraFieldView
     }
 
@@ -271,12 +266,12 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             try {
                 val customFieldLabelSet = HashSet<String>()
                 for (i in 0 until it.childCount) {
-                    val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
-                    if (customFieldLabelSet.contains(entryEditCustomField.label)) {
+                    val entryEditCustomField = it.getChildAt(i) as EntryEditExtraField
+                    if (customFieldLabelSet.contains(entryEditCustomField.customField.name)) {
                         entryEditCustomField.setError(R.string.error_label_exists)
                         return false
                     }
-                    customFieldLabelSet.add(entryEditCustomField.label)
+                    customFieldLabelSet.add(entryEditCustomField.customField.name)
                     if (!entryEditCustomField.isValid()) {
                         return false
                     }

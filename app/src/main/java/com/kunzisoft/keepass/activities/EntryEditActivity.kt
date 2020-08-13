@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -296,9 +297,9 @@ class EntryEditActivity : LockingActivity(),
             if (expires)
                 expiresDate = newEntry.expiryTime
             notes = newEntry.notes
-            for (entry in newEntry.customFields.entries) {
+            for ((key, value) in newEntry.customFields) {
                 post {
-                    putCustomField(entry.key, entry.value)
+                    putCustomField(Field(key, value))
                 }
             }
         }
@@ -360,12 +361,14 @@ class EntryEditActivity : LockingActivity(),
         }
     }
 
-    override fun onNewCustomFieldApproved(label: String) {
-        val customFieldView = entryEditContentsView?.putCustomField(label, ProtectedString())
+    override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
+        val customFieldView = entryEditContentsView?.putCustomField(
+                Field(label, ProtectedString(protection))
+        )
         scrollToView(customFieldView)
     }
 
-    override fun onNewCustomFieldCanceled(label: String) {}
+    override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
 
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
@@ -489,7 +492,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        val otpCustomView = entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        val otpCustomView = entryEditContentsView?.putCustomField(otpField)
         scrollToView(otpCustomView)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
