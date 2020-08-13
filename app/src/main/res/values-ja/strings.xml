@@ -33,7 +33,7 @@
     <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
     <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
-    <string name="select_to_copy">%1$s を選択してクリップボードにコピー</string>
+    <string name="select_to_copy">%1$s を選択してコピー</string>
     <string name="retrieving_db_key">データベースの鍵を取得しています…</string>
     <string name="database">データベース</string>
     <string name="decrypting_db">データベースの内容を復号しています…</string>
@@ -353,7 +353,7 @@
     <string name="set_autofill_service_title">デフォルトの自動入力サービスに設定</string>
     <string name="autofill_explanation_summary">自動入力を有効にして他のアプリ内のフォームにすばやく入力します</string>
     <string name="autofill_sign_in_prompt">KeePassDX でサインイン</string>
-    <string name="autofill_service_name">KeePassDX フォームの自動入力</string>
+    <string name="autofill_service_name">KeePassDX フォーム自動入力</string>
     <string name="autofill">自動入力</string>
     <string name="general">全般</string>
     <string name="biometric">生体認証</string>
@@ -388,7 +388,7 @@
     <string name="keyboard_key_vibrate_title">キー押下時のバイブレーション</string>
     <string name="keyboard_auto_go_action_summary">「フィールド」 キーを押した後に「移動」キーアクションを行います</string>
     <string name="keyboard_auto_go_action_title">自動キーアクション</string>
-    <string name="keyboard_notification_entry_content_title">%1$s は Magikeyboard で利用可能です</string>
+    <string name="keyboard_notification_entry_content_title">%1$s が Magikeyboard で利用可能</string>
     <string name="keyboard_entry_timeout_summary">キーボードのエントリーを消去するまでの時間</string>
     <string name="keyboard_search_share_title">共有から送られた情報の検索</string>
     <string name="keyboard_search_share_summary">共有から送られた情報を自動的に検索して結果をキーボードに格納します</string>
@@ -429,7 +429,7 @@
     <string name="application_appearance">アプリ</string>
     <string name="text_appearance">テキスト</string>
     <string name="database_version_title">データベースのバージョン</string>
-    <string name="database_custom_color_title">データベースのカスタムカラー</string>
+    <string name="database_custom_color_title">カスタムカラー</string>
     <string name="database_description_title">データベースの説明</string>
     <string name="database_name_title">データベース名</string>
     <string name="disable">無効にする</string>
@@ -439,12 +439,12 @@
     <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することに協力します。</string>
     <string name="education_donation_title">参加</string>
     <string name="education_field_copy_title">フィールドをコピー</string>
-    <string name="education_read_only_title">データベースへの書き込みを禁止</string>
+    <string name="education_read_only_title">データベースの書き込みを禁止</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
     <string name="education_entry_new_field_title">カスタムフィールドを追加</string>
     <string name="education_entry_edit_summary">カスタムフィールドを用いてエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
-    <string name="education_biometric_title">生体認証によるデータベースのロック解除</string>
+    <string name="education_biometric_title">生体認証によるロック解除</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
     <string name="education_create_database_title">データベースファイルを作成</string>
     <string name="enable_education_screens_summary">要素をハイライトしてアプリの動作を学びます</string>
