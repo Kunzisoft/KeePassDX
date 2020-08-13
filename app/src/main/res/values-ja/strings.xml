@@ -360,7 +360,7 @@
     <string name="menu_appearance_settings">外観</string>
     <string name="database_history">履歴</string>
     <string name="credential_before_click_biometric_button">パスワードを入力し、「生体認証」ボタンをクリックします。</string>
-    <string name="no_credentials_stored">このデータベースの認証情報はまだ保存されていません。</string>
+    <string name="no_credentials_stored">このデータベースの認証情報はまだ保存していません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
     <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証を繰り返してください。</string>
