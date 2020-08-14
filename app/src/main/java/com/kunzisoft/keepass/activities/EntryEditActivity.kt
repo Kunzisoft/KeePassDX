@@ -298,9 +298,7 @@ class EntryEditActivity : LockingActivity(),
                 expiresDate = newEntry.expiryTime
             notes = newEntry.notes
             for ((key, value) in newEntry.customFields) {
-                post {
-                    putCustomField(Field(key, value))
-                }
+                putCustomField(Field(key, value))
             }
         }
     }
