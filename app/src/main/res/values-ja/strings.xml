@@ -19,8 +19,8 @@
 --><resources>
     <string name="feedback">フィードバック</string>
     <string name="homepage">ホームページ</string>
-    <string name="about_description">KeePass パスワードマネージャーの Android 実装</string>
-    <string name="accept">決定</string>
+    <string name="about_description">KeePass パスワード マネージャーの Android 実装</string>
+    <string name="accept">承認</string>
     <string name="add_entry">エントリーを追加</string>
     <string name="add_group">グループを追加</string>
     <string name="encryption_algorithm">暗号化アルゴリズム</string>
@@ -29,7 +29,7 @@
     <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">かっこ</string>
-    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテントアクションを受け付けるファイルマネージャーがデータベースファイルの作成、オープン、保存に必要です。</string>
+    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け付けるファイル マネージャーがデータベース ファイルの作成、オープン、保存に必要です。</string>
     <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
     <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
@@ -56,7 +56,7 @@
     <string name="entry_url">URL</string>
     <string name="entry_user_name">ユーザー名</string>
     <string name="error_arc4">Arcfour ストリーム暗号には対応していません。</string>
-    <string name="error_can_not_handle_uri">KeePassDX ではこのURIを処理できませんでした。</string>
+    <string name="error_can_not_handle_uri">KeePassDX ではこの URI を処理できませんでした。</string>
     <string name="error_file_not_create">ファイルを作成できませんでした：</string>
     <string name="error_invalid_db">データベースを読み取れませんでした。</string>
     <string name="error_invalid_path">パスが正しいことを確認してください。</string>
@@ -67,7 +67,7 @@
     <string name="error_pass_match">パスワードが一致しません。</string>
     <string name="error_rounds_too_large">「変換ラウンド」が多過ぎます。2147483648 に設定します。</string>
     <string name="error_wrong_length">「長さ」フィールドには正の整数を入力してください。</string>
-    <string name="file_browser">ファイルマネージャー</string>
+    <string name="file_browser">ファイル マネージャー</string>
     <string name="generate_password">パスワードを生成</string>
     <string name="hint_conf_pass">パスワードを確認</string>
     <string name="hint_generated_password">生成されたパスワード</string>
@@ -110,7 +110,7 @@
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="root">ルート</string>
     <string name="rounds">変換ラウンド</string>
-    <string name="rounds_explanation">変換ラウンドを増やすことでブルートフォース攻撃に対する保護が強化されますが、読み込みと保存が本当に遅くなる可能性があります。</string>
+    <string name="rounds_explanation">変換ラウンドを増やすことでブルート フォース攻撃に対する保護が強化されますが、読み込みと保存が本当に遅くなる可能性があります。</string>
     <string name="saving_database">データベースを保存しています…</string>
     <string name="space">スペース</string>
     <string name="search_label">検索</string>
@@ -124,7 +124,7 @@
     <string name="version_label">バージョン %1$s</string>
     <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。
 \n
-\nデータベースファイルは変更するたびに安全な場所にバックアップしてください。</string>
+\nデータベース ファイルは変更するたびに安全な場所にバックアップしてください。</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -157,7 +157,7 @@
     <string name="error_move_folder_in_itself">グループを自分自身の中に移動することはできません。</string>
     <string name="field_name">フィールド名</string>
     <string name="field_value">フィールドの値</string>
-    <string name="file_not_found_content">ファイルが見つかりませんでした。ファイルブラウザから再度開いてみてください。</string>
+    <string name="file_not_found_content">ファイルが見つかりませんでした。ファイル ブラウザから再度開いてみてください。</string>
     <string name="invalid_algorithm">間違ったアルゴリズムです。</string>
     <string name="keyfile_is_empty">キーファイルが空です。</string>
     <string name="list_entries_show_username_title">ユーザー名を表示</string>
@@ -174,7 +174,7 @@
     <string name="create_keepass_file">新しいデータベースを作成</string>
     <string name="protection">保護</string>
     <string name="read_only">書き込み禁止</string>
-    <string name="read_only_warning">ファイルマネージャーによっては、KeePassDX によるストレージへの書き込みを許可していない場合があります。</string>
+    <string name="read_only_warning">ファイル マネージャーによっては、KeePassDX によるストレージへの書き込みを許可していない場合があります。</string>
     <string name="encryption_explanation">すべてのデータで使用するデータベース暗号化アルゴリズムです。</string>
     <string name="sort_menu">並び替え</string>
     <string name="sort_ascending">低い順 ↓</string>
@@ -190,13 +190,13 @@
     <string name="content_description_add_group">グループを追加</string>
     <string name="content_description_file_information">ファイル情報</string>
     <string name="content_description_entry_icon">エントリーのアイコン</string>
-    <string name="entry_password_generator">パスワードジェネレータ</string>
+    <string name="entry_password_generator">パスワード ジェネレータ</string>
     <string name="content_description_password_length">パスワードの長さ</string>
     <string name="entry_add_field">フィールドを追加</string>
     <string name="content_description_remove_field">フィールドを削除</string>
     <string name="error_move_entry_here">ここではエントリーを移動することはできません。</string>
     <string name="error_copy_entry_here">ここではエントリーをコピーすることはできません。</string>
-    <string name="configure_biometric">生体認証プロンプトは対応していますが未設定です。</string>
+    <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
     <string name="otp_type">OTP の型式</string>
@@ -222,12 +222,12 @@
     <string name="list_groups_show_number_entries_title">エントリーの数を表示</string>
     <string name="error_otp_digits">トークンは %1$d 桁から %2$d 桁でなければなりません。</string>
     <string name="error_create_database_file">このパスワードとキーファイルではデータベースを作成できません。</string>
-    <string name="error_create_database">データベースファイルを作成できません。</string>
+    <string name="error_create_database">データベース ファイルを作成できません。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
     <string name="error_invalid_OTP">OTP 秘密鍵が無効です。</string>
     <string name="otp_digits">桁</string>
-    <string name="entry_setup_otp">ワンタイムパスワードを設定</string>
+    <string name="entry_setup_otp">ワンタイム パスワードを設定</string>
     <string name="entry_attachments">添付ファイル</string>
     <string name="entry_UUID">UUID</string>
     <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
@@ -239,7 +239,7 @@
     <string name="security">セキュリティ</string>
     <string name="contribution">貢献</string>
     <string name="biometric_prompt_extract_credential_title">生体認証でデータベースを開く</string>
-    <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合もマスターパスワードは覚えておく必要があります。</string>
+    <string name="biometric_prompt_store_credential_message">警告：生体認証を使用する場合もマスター パスワードは覚えておく必要があります。</string>
     <string name="biometric_prompt_store_credential_title">生体認証の保存</string>
     <string name="open_biometric_prompt_store_credential">生体認証プロンプトを開き認証情報を保存します</string>
     <string name="open_biometric_prompt_unlock_database">生体認証プロンプトを開きロックを解除します</string>
@@ -248,7 +248,7 @@
     <string name="warning_empty_password">パスワードによるロック解除の保護なしで続行しますか？</string>
     <string name="warning_database_read_only">データベースの変更を保存するためにファイル書き込みアクセスを許可します</string>
     <string name="search_results">検索結果</string>
-    <string name="filter">フィルター</string>
+    <string name="filter">フィルタ</string>
     <string name="do_not_kill_app">アプリを終了しないでください…</string>
     <string name="parallelism_explanation">鍵導出関数が使用する並列処理のレベル（スレッド数）です。</string>
     <string name="show_recent_files_title">最近使ったファイルを表示</string>
@@ -282,7 +282,7 @@
     <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を切り替える</string>
     <string name="content_description_add_item">項目を追加</string>
     <string name="contact">連絡先</string>
-    <string name="education_setup_OTP_summary">ワンタイムパスワードの管理（HOTP / TOTP）を設定して 2 要素認証（2FA）に必要なトークンを生成します。</string>
+    <string name="education_setup_OTP_summary">ワンタイム パスワードの管理（HOTP / TOTP）を設定して 2 要素認証（2FA）に必要なトークンを生成します。</string>
     <string name="education_setup_OTP_title">OTP を設定</string>
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して文字を見やすくします</string>
@@ -301,7 +301,7 @@
     <string name="education_lock_title">データベースをロック</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
-    <string name="education_new_node_summary">エントリーはデジタルアイデンティティの管理に役立ちます。
+    <string name="education_new_node_summary">エントリーはデジタル アイデンティティの管理に役立ちます。
 \n
 \nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
@@ -309,11 +309,11 @@
     <string name="education_sort_title">項目の並び替え</string>
     <string name="education_new_node_title">データベースに項目を追加</string>
     <string name="assign_master_key">マスターキーを設定</string>
-    <string name="education_select_database_summary">ファイルブラウザからこれまで使ってきたデータベースファイルを開いて引き続き使用します。</string>
+    <string name="education_select_database_summary">ファイル ブラウザからこれまで使ってきたデータベース ファイルを開いて引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
     <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
-    <string name="warning_password_encoding">データベースファイル内のテキストエンコード形式以外の文字をパスワードに用いることは避けてください（認識されない文字は同じ文字に変換されます）。</string>
+    <string name="warning_password_encoding">データベース ファイル内のテキスト エンコーディング形式以外の文字をパスワードに用いることは避けてください（認識されない文字は同じ文字に変換されます）。</string>
     <string name="sort_groups_before">グループを先に並べる</string>
     <string name="enable_auto_save_database_title">データベースを自動保存</string>
     <string name="enable_read_only_summary">デフォルトではデータベースを読み取り専用で開きます</string>
@@ -324,8 +324,8 @@
     <string name="autofill_block_restart">ブロッキングを有効にするにはそのフォームを含むアプリを再起動します。</string>
     <string name="autofill_block">自動入力をブロック</string>
     <string name="autofill_web_domain_blocklist_title">ウェブドメインのブロックリスト</string>
-    <string name="autofill_web_domain_blocklist_summary">自動入力を行わないウェブドメインのリスト</string>
-    <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリのリスト</string>
+    <string name="autofill_web_domain_blocklist_summary">自動入力を行わないウェブドメインの一覧</string>
+    <string name="autofill_application_id_blocklist_summary">自動入力を行わないアプリの一覧</string>
     <string name="autofill_application_id_blocklist_title">アプリケーションのブロックリスト</string>
     <string name="style_choose_summary">アプリで使用するテーマ</string>
     <string name="hide_expired_entries_summary">有効期限切れのエントリーは非表示になります</string>
@@ -363,10 +363,10 @@
     <string name="no_credentials_stored">データベースの保存済み認証情報はありません。</string>
     <string name="biometric_scanning_error">生体認証エラー：%1$s</string>
     <string name="biometric_not_recognized">生体情報を認識できませんでした</string>
-    <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証を繰り返してください。</string>
+    <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証の手順を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
-    <string name="html_text_feature_generosity">この<strong>ビジュアルスタイル</strong>はあなたの厚意により利用可能となります。</string>
+    <string name="html_text_feature_generosity">この<strong>ビジュアル スタイル</strong>はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約つきでウェブドメインを検索します</string>
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをクリックしたときにデータベースをロックします</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
@@ -376,7 +376,7 @@
     <string name="html_text_dev_feature_encourage">あなたの意見によって開発者は<strong>新機能</strong>の開発や<strong>バグの修正</strong>を速く進めることができます。</string>
     <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
     <string name="html_text_dev_feature">この機能は<strong>開発中</strong>であり早期に提供するにはあなたの<strong>貢献</strong>が必要です。</string>
-    <string name="html_text_buy_pro">pro バージョンを購入すると、この<strong>ビジュアルスタイル</strong>にアクセスできるようになり、また<strong>コミュニティプロジェクトの実現</strong>を特に支援できます。</string>
+    <string name="html_text_buy_pro">pro バージョンを購入すると、この<strong>ビジュアル スタイル</strong>にアクセスできるようになり、また<strong>コミュニティ プロジェクトの実現</strong>を特に支援できます。</string>
     <string name="education_biometric_summary">スキャンした生体情報にパスワードをリンクしてデータベースのロックをすばやく解除します。</string>
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
@@ -393,8 +393,8 @@
     <string name="keyboard_search_share_title">共有から送られた情報の検索</string>
     <string name="keyboard_search_share_summary">共有から送られた情報を自動的に検索して結果をキーボードに格納します</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なときに通知を表示します</string>
-    <string name="device_keyboard_setting_title">デバイスキーボードの設定</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必要とします（一度のみ）</string>
+    <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を要求します（1 回のみ）</string>
     <string name="recycle_bin_summary">グループとエントリーを削除する前に「ごみ箱」グループに移動します</string>
     <string name="keyboard_selection_entry_summary">エントリーを表示しているとき、Magikeyboard に入力フィールドを表示します</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
@@ -403,18 +403,18 @@
     <string name="education_field_copy_summary">コピーしたフィールドはどこにでも貼り付けることができます。
 \n
 \nお好みのフォーム入力方法を使用してください。</string>
-    <string name="warning_database_link_revoked">ファイルマネージャーによって取り消されたファイルにアクセスします</string>
+    <string name="warning_database_link_revoked">ファイル マネージャーによって取り消されたファイルにアクセスします</string>
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用してエントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
-    <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタムキーボードを有効にします</string>
-    <string name="download_complete">完了しました！　タップするとファイルが開きます。</string>
+    <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
+    <string name="download_complete">完了しました！タップするとファイルが開きます。</string>
     <string name="download_progression">進行中：%1$d%%</string>
     <string name="download_attachment">%1$s をダウンロード</string>
     <string name="contribute">貢献</string>
     <string name="download">ダウンロード</string>
     <string name="html_text_dev_feature_upgrade">新しいバージョンをインストールしてアプリを最新の状態に保つことを忘れないでください。</string>
     <string name="html_text_dev_feature_thanks">あなたの貢献に感謝します。</string>
-    <string name="html_text_dev_feature_buy_pro"><strong>pro</strong>バージョンを購入することによる、</string>
+    <string name="html_text_dev_feature_buy_pro"><strong>pro</strong> バージョンを購入することによる、</string>
     <string name="html_text_dev_feature_contibute"><strong>貢献</strong>による、</string>
     <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
     <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは<strong>広告なし</strong>で、<strong>コピーレフトの自由ソフトウェア</strong>であり、使用するバージョンに関係なく、サーバー上で個人情報を収集することはありません。</string>
@@ -441,12 +441,12 @@
     <string name="education_field_copy_title">フィールドをコピー</string>
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
     <string name="education_entry_new_field_summary">追加フィールドを登録し、値を追加し、必要に応じて保護します。</string>
-    <string name="education_entry_new_field_title">カスタムフィールドを追加</string>
-    <string name="education_entry_edit_summary">カスタムフィールドを用いてエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
+    <string name="education_entry_new_field_title">カスタム フィールドを追加</string>
+    <string name="education_entry_edit_summary">カスタム フィールドを用いてエントリーを編集します。共有データは異なるエントリーのフィールド間で参照することができます。</string>
     <string name="education_entry_edit_title">エントリーを編集</string>
     <string name="education_biometric_title">生体認証によるロック解除</string>
     <string name="education_create_database_summary">最初のパスワード管理ファイルを作成します。</string>
-    <string name="education_create_database_title">データベースファイルを作成</string>
+    <string name="education_create_database_title">データベース ファイルを作成</string>
     <string name="enable_education_screens_summary">要素をハイライトしてアプリの動作を学びます</string>
     <string name="education_read_only_summary">セッションのロック解除モードを変更します。
 \n
@@ -456,7 +456,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
-    <string name="list_password_generator_options_summary">パスワードジェネレータが用いる文字種を設定します</string>
+    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字種を設定します</string>
     <string name="keyboard_previous_database_credentials_title">データベースの認証画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
@@ -484,7 +484,7 @@
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
     <string name="advanced_unlock">高度なロック解除</string>
-    <string name="lock_database_show_button_summary">ユーザーインターフェースにロックボタンを表示します</string>
+    <string name="lock_database_show_button_summary">ユーザー インターフェースにロックボタンを表示します</string>
     <string name="database_default_username_title">デフォルトのユーザー名</string>
     <string name="style_choose_title">アプリのテーマ</string>
     <string name="reset_education_screens_title">教育的なヒントをリセット</string>
