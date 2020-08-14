@@ -119,7 +119,7 @@
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					android:src="@drawable/ic_generate_password_white_24dp"
-					app:tint="?android:attr/textColor"
+					app:tint="@color/background_button_color_accent"
 					android:contentDescription="@string/generate_password"/>
 			</androidx.constraintlayout.widget.ConstraintLayout>
 
