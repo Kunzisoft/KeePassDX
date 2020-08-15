@@ -29,17 +29,18 @@
 		android:id="@+id/entry_edit_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/card_view_margin"
-		android:layout_marginStart="0dp"
-		android:layout_marginEnd="0dp"
-		android:layout_marginLeft="0dp"
-		android:layout_marginRight="0dp"
+		android:layout_marginTop="@dimen/card_view_margin_bottom"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
+		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toTopOf="parent">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/default_margin">
+			android:layout_margin="@dimen/card_view_padding">
 
 			<androidx.appcompat.widget.AppCompatImageButton
 				android:id="@+id/entry_edit_icon_button"
@@ -199,39 +200,56 @@
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
-		android:id="@+id/entry_edit_extra_fields_container_parent"
+		android:id="@+id/extra_fields_container_parent"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
+		android:visibility="gone"
 		android:layout_marginTop="@dimen/card_view_margin_bottom"
-		android:layout_marginStart="0dp"
-		android:layout_marginEnd="0dp"
-		android:layout_marginLeft="0dp"
-		android:layout_marginRight="0dp"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
+		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container">
 		<LinearLayout
-			android:id="@+id/entry_edit_extra_fields_container"
+			android:id="@+id/extra_fields_container"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/default_margin"
+			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
-		android:id="@+id/entry_edit_attachments_container_parent"
+		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginTop="@dimen/card_view_margin_bottom"
-		android:layout_marginStart="0dp"
-		android:layout_marginEnd="0dp"
-		android:layout_marginLeft="0dp"
-		android:layout_marginRight="0dp"
-		app:layout_constraintTop_toBottomOf="@+id/entry_edit_extra_fields_container_parent">
-		<androidx.recyclerview.widget.RecyclerView
-			android:id="@+id/entry_attachments_list"
-			android:layout_width="match_parent"
+		android:layout_marginStart="@dimen/card_view_margin"
+		android:layout_marginEnd="@dimen/card_view_margin"
+		android:layout_marginLeft="@dimen/card_view_margin"
+		android:layout_marginRight="@dimen/card_view_margin"
+		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container_parent">
+		<LinearLayout
 			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/default_margin" />
+			android:layout_width="match_parent"
+			android:layout_margin="@dimen/card_view_padding"
+			android:orientation="vertical">
+
+			<!-- Binary files -->
+			<androidx.appcompat.widget.AppCompatTextView
+				android:id="@+id/entry_attachments_label"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:text="@string/entry_attachments"
+				style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
+
+			<androidx.recyclerview.widget.RecyclerView
+				android:id="@+id/entry_attachments_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content" />
+
+		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

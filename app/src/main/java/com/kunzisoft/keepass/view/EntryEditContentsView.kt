@@ -60,7 +60,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryExpiresCheckBox: CompoundButton
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
+    private val entryExtraFieldsContainerParent: ViewGroup
     private val entryExtraFieldsContainer: ViewGroup
+    private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
 
     private val attachmentsAdapter = EntryAttachmentsAdapter(context, true)
@@ -92,7 +94,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
-        entryExtraFieldsContainer = findViewById(R.id.entry_edit_extra_fields_container)
+        entryExtraFieldsContainerParent = findViewById(R.id.extra_fields_container_parent)
+        entryExtraFieldsContainer = findViewById(R.id.extra_fields_container)
+        attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
         attachmentsListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
@@ -218,6 +222,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 entryNotesView.applyFontVisibility()
         }
 
+    /* -------------
+     * Extra Fields
+     * -------------
+     */
+
     val customFields: MutableList<Field>
         get() {
             val customFieldsArray = ArrayList<Field>()
@@ -226,7 +235,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 try {
                     for (i in 0 until it.childCount) {
                         val view = it.getChildAt(i) as EntryEditExtraField
-                        customFieldsArray.add(view.customField)
+                        customFieldsArray.add(view.extraField)
                     }
                 } catch (exception: Exception) {
                     // Extra field container contains another type of view
@@ -235,11 +244,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             return customFieldsArray
         }
 
-    private fun getCustomFieldByLabel(label: String): EntryEditExtraField? {
+    private fun getExtraFieldByLabel(label: String): EntryEditExtraField? {
         for (i in 0..entryExtraFieldsContainer.childCount) {
             try {
                 val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditExtraField?
-                if (extraFieldView?.customField?.name == label) {
+                if (extraFieldView?.extraField?.name == label) {
                     return extraFieldView
                 }
             } catch(e: Exception) {
@@ -249,15 +258,34 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         return null
     }
 
+    private fun showOrHideExtraFieldsContainer(hide: Boolean, animate: Boolean = false) {
+        entryExtraFieldsContainerParent.apply {
+            if (!animate)
+                visibility = if (hide) View.GONE else View.VISIBLE
+            else
+                if (hide) collapse(true) else expand(true)
+        }
+    }
+
+    private fun buildNewEntryEditExtraField(): EntryEditExtraField {
+        return EntryEditExtraField(context).apply {
+            applyFontVisibility(fontInVisibility)
+            onViewDeletedListener = {
+                // remove callback
+                showOrHideExtraFieldsContainer(entryExtraFieldsContainer.childCount <= 1, true)
+            }
+        }
+    }
+
     /**
      * Remove all children and add new views for each field
      */
     fun assignExtraFields(fields: List<Field>) {
+        showOrHideExtraFieldsContainer(fields.isEmpty())
         entryExtraFieldsContainer.removeAllViews()
         fields.forEach { extraField ->
-            entryExtraFieldsContainer.addView(EntryEditExtraField(context).apply {
-                setFontVisibility(fontInVisibility)
-                customField = extraField
+            entryExtraFieldsContainer.addView(buildNewEntryEditExtraField().apply {
+                this.extraField = extraField
             })
         }
     }
@@ -265,27 +293,46 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     /**
      * Update an extra field or create a new one if doesn't exists
      */
-    fun putExtraField(customField: Field)
+    fun putExtraField(extraField: Field)
             : EntryEditExtraField {
-        var extraFieldView = getCustomFieldByLabel(customField.name)
+        showOrHideExtraFieldsContainer(false)
+        var extraFieldView = getExtraFieldByLabel(extraField.name)
         // Create new view if not exists
         if (extraFieldView == null) {
-            extraFieldView = EntryEditExtraField(context)
-            extraFieldView.setFontVisibility(fontInVisibility)
+            extraFieldView = buildNewEntryEditExtraField()
             // No need animation because of scroll
             entryExtraFieldsContainer.addView(extraFieldView)
         }
-        extraFieldView.customField = customField
+        extraFieldView.extraField = extraField
         return extraFieldView
     }
 
-    fun assignAttachments(attachments: java.util.ArrayList<EntryAttachment>) {
-        attachmentsAdapter.assignAttachments(attachments)
+    /* -------------
+     * Attachments
+     * -------------
+     */
+
+    private fun showOrHideAttachmentsContainer(hide: Boolean, animate: Boolean = false) {
+        attachmentsContainerView.apply {
+            if (!animate)
+                visibility = if (hide) View.GONE else View.VISIBLE
+            else
+                if (hide) collapse(true) else expand(true)
+        }
     }
 
-    fun onAttachmentDeleted(action: (attachment: EntryAttachment, position: Int)->Unit) {
-        attachmentsAdapter.onDeleteListener = { item, position ->
-            action.invoke(item, position)
+    fun assignAttachments(attachments: java.util.ArrayList<EntryAttachment>,
+                          onAttachmentClicked: (attachment: EntryAttachment)->Unit,
+                          onAttachmentDeleted: ((attachment: EntryAttachment)->Unit)? = null) {
+        showOrHideAttachmentsContainer(attachments.isEmpty())
+        attachmentsAdapter.assignAttachments(attachments)
+        attachmentsAdapter.onItemClickListener = { item ->
+            onAttachmentClicked.invoke(item)
+        }
+        attachmentsAdapter.onDeleteListener = { item, lastOne ->
+            onAttachmentDeleted?.invoke(item)
+            if (lastOne)
+                showOrHideAttachmentsContainer(hide = true, animate = true)
         }
     }
 
@@ -301,11 +348,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 val customFieldLabelSet = HashSet<String>()
                 for (i in 0 until it.childCount) {
                     val entryEditCustomField = it.getChildAt(i) as EntryEditExtraField
-                    if (customFieldLabelSet.contains(entryEditCustomField.customField.name)) {
+                    if (customFieldLabelSet.contains(entryEditCustomField.extraField.name)) {
                         entryEditCustomField.setError(R.string.error_label_exists)
                         return false
                     }
-                    customFieldLabelSet.add(entryEditCustomField.customField.name)
+                    customFieldLabelSet.add(entryEditCustomField.extraField.name)
                     if (!entryEditCustomField.isValid()) {
                         return false
                     }

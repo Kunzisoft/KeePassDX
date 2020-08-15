@@ -47,7 +47,9 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
     private var isProtected = false
     private var mValueViewInputType: Int = 0
 
-    var customField: Field
+    var onViewDeletedListener: ((Field) -> Unit)? = null
+
+    var extraField: Field
         get() {
             return Field(valueLayoutView.hint.toString(), ProtectedString(isProtected, valueView.text.toString()))
         }
@@ -75,11 +77,19 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
         mValueViewInputType = valueView.inputType
         deleteButton.setOnClickListener {
             collapse(true) {
+                onViewDeletedListener?.invoke(extraField)
+                onViewDeletedListener = null
                 (parent as ViewGroup?)?.apply {
                     removeView(this@EntryEditExtraField)
                 }
             }
         }
+    }
+
+    fun applyFontVisibility(applyFontVisibility: Boolean) {
+        mApplyFontVisibility = applyFontVisibility
+        if (applyFontVisibility)
+            valueView.applyFontVisibility()
     }
 
     /**
@@ -102,12 +112,6 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
         valueLayoutView.error = if (errorId == null) null else {
             context.getString(errorId)
         }
-    }
-
-    fun setFontVisibility(applyFontVisibility: Boolean) {
-        mApplyFontVisibility = applyFontVisibility
-        if (applyFontVisibility)
-            valueView.applyFontVisibility()
     }
 
     override fun requestFocus(direction: Int, previouslyFocusedRect: Rect?): Boolean {

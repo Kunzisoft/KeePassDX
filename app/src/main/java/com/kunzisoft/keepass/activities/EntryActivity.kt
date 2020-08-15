@@ -332,21 +332,15 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
         // Manage attachments
-        val attachments = entry.getAttachments()
-        val showAttachmentsView = attachments.isNotEmpty()
-        entryContentsView?.showAttachments(showAttachmentsView)
-        if (showAttachmentsView) {
-            entryContentsView?.assignAttachments(attachments)
-            entryContentsView?.onAttachmentClick { attachmentItem, _ ->
-                when (attachmentItem.downloadState) {
-                    AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
-                        createDocument(this, attachmentItem.name)?.let { requestCode ->
-                            mAttachmentsToDownload[requestCode] = attachmentItem
-                        }
+        entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
+            when (attachmentItem.downloadState) {
+                AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
+                    createDocument(this, attachmentItem.name)?.let { requestCode ->
+                        mAttachmentsToDownload[requestCode] = attachmentItem
                     }
-                    else -> {
-                        // TODO Stop download
-                    }
+                }
+                else -> {
+                    // TODO Stop download
                 }
             }
         }

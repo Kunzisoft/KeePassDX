@@ -32,14 +32,17 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.view.collapse
 
 class EntryAttachmentsAdapter(val context: Context, private val editable: Boolean)
     : RecyclerView.Adapter<EntryAttachmentsAdapter.EntryBinariesViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
-    var onItemClickListener: ((item: EntryAttachment, position: Int)->Unit)? = null
-    var onDeleteListener: ((item: EntryAttachment, position: Int)->Unit)? = null
+    var onItemClickListener: ((item: EntryAttachment)->Unit)? = null
+    var onDeleteListener: ((item: EntryAttachment, lastOne: Boolean)->Unit)? = null
+
+    private var mAttachmentToRemove: EntryAttachment? = null
 
     private val mDatabase = Database.getInstance()
 
@@ -67,9 +70,16 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
             holder.binaryFileProgressContainer.visibility = View.GONE
             holder.binaryFileDeleteButton.apply {
                 visibility = View.VISIBLE
-                setOnClickListener {
-                    onDeleteListener?.invoke(entryAttachment, position)
-                    deleteAttachment(entryAttachment)
+                if (mAttachmentToRemove == entryAttachment) {
+                    holder.itemView.collapse(true) {
+                        deleteAttachment(entryAttachment)
+                    }
+                    setOnClickListener(null)
+                } else {
+                    setOnClickListener {
+                        mAttachmentToRemove = entryAttachment
+                        notifyItemChanged(position)
+                    }
                 }
             }
         } else {
@@ -83,7 +93,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
                 progress = entryAttachment.downloadProgression
             }
             holder.itemView.setOnClickListener {
-                onItemClickListener?.invoke(entryAttachment, position)
+                onItemClickListener?.invoke(entryAttachment)
             }
         }
     }
@@ -100,13 +110,17 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
         notifyDataSetChanged()
     }
 
-    fun deleteAttachment(attachment: EntryAttachment) {
+    private fun deleteAttachment(attachment: EntryAttachment) {
         val position = entryAttachmentsList.indexOf(attachment)
         if (position >= 0) {
             entryAttachmentsList.removeAt(position)
             notifyItemRemoved(position)
+            onDeleteListener?.invoke(attachment, entryAttachmentsList.isEmpty())
+            mAttachmentToRemove = null
+            for (i in 0 until entryAttachmentsList.size) {
+                notifyItemChanged(i)
+            }
         }
-        // TODO Animation
     }
 
     fun updateProgress(entryAttachment: EntryAttachment) {

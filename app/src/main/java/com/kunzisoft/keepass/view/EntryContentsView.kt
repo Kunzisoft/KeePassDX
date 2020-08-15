@@ -75,8 +75,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val notesContainerView: View
     private val notesView: TextView
 
-    private val extrasContainerView: View
-    private val extrasView: ViewGroup
+    private val entryExtraFieldsContainerParent: View
+    private val entryExtraFieldsContainer: ViewGroup
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
@@ -124,8 +124,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         notesContainerView = findViewById(R.id.entry_notes_container)
         notesView = findViewById(R.id.entry_notes)
 
-        extrasContainerView = findViewById(R.id.extra_strings_container)
-        extrasView = findViewById(R.id.extra_strings)
+        entryExtraFieldsContainerParent = findViewById(R.id.extra_fields_container_parent)
+        entryExtraFieldsContainer = findViewById(R.id.extra_fields_container)
 
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
@@ -206,10 +206,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun atLeastOneFieldProtectedPresent(): Boolean {
-        extrasView.let {
+        entryExtraFieldsContainer.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryCustomField)
+                if (childCustomView is EntryExtraField)
                     if (childCustomView.isProtected)
                         return true
             }
@@ -220,10 +220,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
         passwordView.applyHiddenStyle(hiddenStyle)
         // Hidden style for custom fields
-        extrasView.let {
+        entryExtraFieldsContainer.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryCustomField)
+                if (childCustomView is EntryExtraField)
                     childCustomView.setHiddenPasswordStyle(hiddenStyle)
             }
         }
@@ -304,30 +304,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         }
     }
 
-    fun addExtraField(title: String,
-                      value: ProtectedString,
-                      enableActionButton: Boolean,
-                      onActionClickListener: OnClickListener?) {
-
-        val entryCustomField: EntryCustomField? = EntryCustomField(context, attrs, defStyle)
-        entryCustomField?.apply {
-            setLabel(title)
-            setValue(value.toString(), value.isProtected)
-            enableActionButton(enableActionButton)
-            assignActionButtonClickListener(onActionClickListener)
-            applyFontVisibility(fontInVisibility)
-        }
-        entryCustomField?.let {
-            extrasView.addView(it)
-        }
-        extrasContainerView.visibility = View.VISIBLE
-    }
-
-    fun clearExtraFields() {
-        extrasView.removeAllViews()
-        extrasContainerView.visibility = View.GONE
-    }
-
     fun assignCreationDate(date: DateInstant) {
         creationDateView.text = date.getDateTimeString(resources)
     }
@@ -358,26 +334,58 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     /* -------------
+     * Extra Fields
+     * -------------
+     */
+
+    private fun showOrHideExtraFieldsContainer(hide: Boolean) {
+        entryExtraFieldsContainerParent.visibility = if (hide) View.GONE else View.VISIBLE
+    }
+
+    fun addExtraField(title: String,
+                      value: ProtectedString,
+                      enableActionButton: Boolean,
+                      onActionClickListener: OnClickListener?) {
+
+        val entryCustomField: EntryExtraField? = EntryExtraField(context, attrs, defStyle)
+        entryCustomField?.apply {
+            setLabel(title)
+            setValue(value.toString(), value.isProtected)
+            enableActionButton(enableActionButton)
+            assignActionButtonClickListener(onActionClickListener)
+            applyFontVisibility(fontInVisibility)
+        }
+        entryCustomField?.let {
+            entryExtraFieldsContainer.addView(it)
+        }
+        showOrHideExtraFieldsContainer(false)
+    }
+
+    fun clearExtraFields() {
+        entryExtraFieldsContainer.removeAllViews()
+        showOrHideExtraFieldsContainer(true)
+    }
+
+    /* -------------
      * Attachments
      * -------------
      */
 
-    fun showAttachments(show: Boolean) {
+    private fun showAttachments(show: Boolean) {
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun assignAttachments(attachments: ArrayList<EntryAttachment>) {
+    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
+                          onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
+        showAttachments(attachments.isNotEmpty())
         attachmentsAdapter.assignAttachments(attachments)
+        attachmentsAdapter.onItemClickListener = { item ->
+            onAttachmentClicked.invoke(item)
+        }
     }
 
     fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {
         attachmentsAdapter.updateProgress(attachmentToDownload)
-    }
-
-    fun onAttachmentClick(action: (attachment: EntryAttachment, position: Int)->Unit) {
-        attachmentsAdapter.onItemClickListener = { item, position ->
-            action.invoke(item, position)
-        }
     }
 
     /* -------------

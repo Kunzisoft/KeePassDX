@@ -50,15 +50,20 @@
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <com.kunzisoft.keepass.view.EntryEditContentsView
-            android:id="@+id/entry_edit_contents"
+
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="@dimen/content_percent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="?attr/actionBarSize">
+            <com.kunzisoft.keepass.view.EntryEditContentsView
+                android:id="@+id/entry_edit_contents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="@dimen/content_percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomappbar.BottomAppBar

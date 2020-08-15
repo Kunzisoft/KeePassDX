@@ -79,7 +79,7 @@
             android:padding="6dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:src="@drawable/ic_close_white_24dp"
+            android:src="@drawable/ic_content_delete_white_24dp"
             app:tint="?attr/colorAccent"
             android:contentDescription="@string/content_description_remove_field">
         </ImageView>

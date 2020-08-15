@@ -20,8 +20,8 @@
 <LinearLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:id="@+id/entry_table"
-	android:layout_height="wrap_content"
 	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
 	android:orientation="vertical">
 
 	<androidx.cardview.widget.CardView
@@ -185,9 +185,8 @@
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 
-    <!-- Extras -->
 	<androidx.cardview.widget.CardView
-		android:id="@+id/extra_strings_container"
+		android:id="@+id/extra_fields_container_parent"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:visibility="gone"
@@ -197,7 +196,7 @@
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom">
 		<LinearLayout
-			android:id="@+id/extra_strings"
+			android:id="@+id/extra_fields_container"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/card_view_padding"

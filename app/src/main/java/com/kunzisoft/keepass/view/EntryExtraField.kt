@@ -29,9 +29,9 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 
-class EntryCustomField @JvmOverloads constructor(context: Context,
-                                                 attrs: AttributeSet? = null,
-                                                 defStyle: Int = 0)
+class EntryExtraField @JvmOverloads constructor(context: Context,
+                                                attrs: AttributeSet? = null,
+                                                defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private val labelView: TextView
