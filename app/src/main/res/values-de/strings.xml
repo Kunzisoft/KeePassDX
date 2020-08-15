@@ -489,10 +489,10 @@
     <string name="keyboard_search_share_title">Gemeinsame Infos durchsuchen</string>
     <string name="autofill_block_restart">Starten Sie die Anwendung, die das Formular enthält, neu, um die Sperrung zu aktivieren.</string>
     <string name="autofill_block">Automatisches Füllen blockieren</string>
-    <string name="autofill_web_domain_blocklist_summary">Blockliste, die das automatische Füllen von Web-Domains verhindert</string>
-    <string name="autofill_web_domain_blocklist_title">Web-Domain-Blockliste</string>
-    <string name="autofill_application_id_blocklist_summary">Blockliste, die das automatische Füllen von Apps verhindert</string>
-    <string name="autofill_application_id_blocklist_title">Anwendungs-Blockliste</string>
+    <string name="autofill_web_domain_blocklist_summary">Sperrliste, die das automatische Einsetzen von Web-Domains verhindert</string>
+    <string name="autofill_web_domain_blocklist_title">Web-Domain-Sperrliste</string>
+    <string name="autofill_application_id_blocklist_summary">Sperrliste, die das automatische Füllen von Apps verhindert</string>
+    <string name="autofill_application_id_blocklist_title">Anwendungs-Sperrliste</string>
     <string name="subdomain_search_summary">Suche Web-Domains mit Subdomain-Beschränkungen</string>
     <string name="subdomain_search_title">Subdomain-Suche</string>
     <string name="error_string_type">Dieser Text stimmt nicht mit dem angeforderten Element überein.</string>
@@ -501,4 +501,6 @@
     <string name="keyboard_change">Tastatur wechseln</string>
     <string name="keyboard_previous_fill_in_title">Auto-Key-Aktion</string>
     <string name="keyboard_previous_database_credentials_title">Datenbank-Anmeldebildschirm</string>
+    <string name="keyboard_previous_fill_in_summary">Automatisches Zurückschalten auf die vorherige Tastatur nach Ausführung der automatischen Tastenaktion</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatisches Zurückschalten zur vorherigen Tastatur auf dem Datenbank-Anmeldebildschirm</string>
 </resources>
