@@ -228,7 +228,9 @@
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
-		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container_parent">
+		android:layout_marginBottom="@dimen/card_view_margin_bottom"
+		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container_parent"
+		app:layout_constraintBottom_toBottomOf="parent">
 		<LinearLayout
 			android:layout_height="wrap_content"
 			android:layout_width="match_parent"

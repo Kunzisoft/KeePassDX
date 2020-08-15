@@ -65,7 +65,7 @@ class FileDatabaseHistoryAdapter(context: Context)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileDatabaseHistoryViewHolder {
-        val view = inflater.inflate(R.layout.item_file_row, parent, false)
+        val view = inflater.inflate(R.layout.item_file_info, parent, false)
         return FileDatabaseHistoryViewHolder(view)
     }
 

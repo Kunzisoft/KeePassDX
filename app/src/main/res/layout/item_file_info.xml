@@ -74,19 +74,18 @@
                 android:button="@drawable/checkbox_star"
                 android:buttonTint="?android:attr/textColorHintInverse"
                 android:contentDescription="@string/default_checkbox" />
-            <androidx.appcompat.widget.AppCompatImageView
+            <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/file_information_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginTop="4dp"
                 android:layout_marginBottom="4dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:src="@drawable/ic_arrow_down_white_24dp"
-                android:tint="?android:attr/textColorHintInverse"
-                android:contentDescription="@string/content_description_file_information"/>
+                android:contentDescription="@string/content_description_file_information"
+                style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/file_container_alias_register"
@@ -139,17 +138,18 @@
         android:background="?attr/colorPrimaryDark"
         app:layout_constraintTop_toBottomOf="@+id/file_main_switcher">
 
-        <androidx.appcompat.widget.AppCompatImageView
+        <androidx.appcompat.widget.AppCompatImageButton
             android:id="@+id/file_modify_button"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:padding="12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/ic_mode_edit_white_24dp"
             android:scaleX="-1"
+            android:scaleY="-1"
             android:contentDescription="@string/content_description_update_from_list"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            android:tint="?android:attr/textColorHintInverse"/>
+            android:tint="?android:attr/textColorHintInverse"
+            style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/file_path"
@@ -220,14 +220,14 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/file_delete_button"
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:padding="12dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:contentDescription="@string/content_description_remove_from_list"
                 android:src="@drawable/ic_content_delete_white_24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                android:tint="?android:attr/textColorHintInverse"/>
+                android:tint="?android:attr/textColorHintInverse"
+                style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

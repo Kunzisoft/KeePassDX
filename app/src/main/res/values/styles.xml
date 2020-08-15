@@ -345,6 +345,10 @@
         <item name="android:layout_width">48dp</item>
         <item name="android:layout_height">48dp</item>
     </style>
+    <style name="KeepassDXStyle.ImageButton.Simple.Secondary" parent="KeepassDXStyle.ImageButton.Simple">
+        <item name="android:colorForeground">@color/background_button_color_secondary</item>
+        <item name="tint">@color/background_button_color_secondary</item>
+    </style>
 
     <!-- Item Style -->
     <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
