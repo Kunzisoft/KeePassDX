@@ -22,18 +22,22 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.Field
 import org.joda.time.Duration
 import org.joda.time.Instant
@@ -57,6 +61,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
     private val entryExtraFieldsContainer: ViewGroup
+    private val attachmentsListView: RecyclerView
+
+    private val attachmentsAdapter = EntryAttachmentsAdapter(context, true)
 
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
@@ -86,6 +93,12 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
         entryExtraFieldsContainer = findViewById(R.id.entry_edit_extra_fields_container)
+        attachmentsListView = findViewById(R.id.entry_attachments_list)
+        attachmentsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
             assignExpiresDateText()
@@ -253,6 +266,16 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
         extraFieldView.customField = customField
         return extraFieldView
+    }
+
+    fun assignAttachments(attachments: java.util.ArrayList<EntryAttachment>) {
+        attachmentsAdapter.assignAttachments(attachments)
+    }
+
+    fun onAttachmentDeleted(action: (attachment: EntryAttachment, position: Int)->Unit) {
+        attachmentsAdapter.onDeleteListener = { item, position ->
+            action.invoke(item, position)
+        }
     }
 
     /**

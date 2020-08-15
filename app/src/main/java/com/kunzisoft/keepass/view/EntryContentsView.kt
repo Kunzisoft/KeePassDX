@@ -86,7 +86,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
-    private val attachmentsAdapter = EntryAttachmentsAdapter(context)
+    private val attachmentsAdapter = EntryAttachmentsAdapter(context, false)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
@@ -366,13 +366,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         attachmentsContainerView.visibility = if (show) View.VISIBLE else View.GONE
     }
 
-    fun refreshAttachments() {
-        attachmentsAdapter.notifyDataSetChanged()
-    }
-
     fun assignAttachments(attachments: ArrayList<EntryAttachment>) {
-        attachmentsAdapter.clear()
-        attachmentsAdapter.entryAttachmentsList.addAll(attachments)
+        attachmentsAdapter.assignAttachments(attachments)
     }
 
     fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {

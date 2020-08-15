@@ -66,7 +66,7 @@ class EntryEditExtraField @JvmOverloads constructor(context: Context,
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.view_entry_edit_extra_field, this)
+        inflater?.inflate(R.layout.item_entry_edit_extra_field, this)
 
         valueLayoutView = findViewById(R.id.entry_extra_field_value_container)
         valueView = findViewById(R.id.entry_extra_field_value)

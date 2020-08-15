@@ -329,20 +329,29 @@ class Entry : Node, EntryVersionedInterface<Group> {
     fun getAttachments(): ArrayList<EntryAttachment> {
         val attachments = ArrayList<EntryAttachment>()
 
-        val binaryDescriptionKDB = entryKDB?.binaryDescription ?: ""
-        val binaryKDB = entryKDB?.binaryData
-        if (binaryKDB != null) {
-            attachments.add(EntryAttachment(binaryDescriptionKDB, binaryKDB))
+        entryKDB?.binaryData?.let { binaryKDB ->
+            attachments.add(EntryAttachment(entryKDB?.binaryDescription ?: "", binaryKDB))
         }
 
-        val actionEach = object : (Map.Entry<String, BinaryAttachment>)->Unit {
-            override fun invoke(mapEntry: Map.Entry<String, BinaryAttachment>) {
-                attachments.add(EntryAttachment(mapEntry.key, mapEntry.value))
+        entryKDBX?.binaries?.let { binariesKDBX ->
+            for ((key, value) in binariesKDBX) {
+                attachments.add(EntryAttachment(key, value))
             }
         }
-        entryKDBX?.binaries?.forEach(actionEach)
 
         return attachments
+    }
+
+    fun removeAttachment(attachment: EntryAttachment) {
+        entryKDB?.apply {
+            if (binaryDescription == attachment.name
+                    && binaryData == attachment.binaryAttachment) {
+                binaryDescription = ""
+                binaryData = null
+            }
+        }
+
+        entryKDBX?.removeProtectedBinary(attachment.name)
     }
 
     fun getHistory(): ArrayList<Entry> {

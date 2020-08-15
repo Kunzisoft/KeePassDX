@@ -300,6 +300,10 @@ class EntryEditActivity : LockingActivity(),
             for ((key, value) in newEntry.customFields) {
                 putCustomField(Field(key, value))
             }
+            assignAttachments(newEntry.getAttachments())
+            onAttachmentDeleted { attachment, _ ->
+                newEntry.removeAttachment(attachment)
+            }
         }
     }
 

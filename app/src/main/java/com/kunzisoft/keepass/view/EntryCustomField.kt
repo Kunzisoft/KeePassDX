@@ -44,7 +44,7 @@ class EntryCustomField @JvmOverloads constructor(context: Context,
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.item_entry_new_field, this)
+        inflater?.inflate(R.layout.item_entry_extra_field, this)
 
         labelView = findViewById(R.id.title)
         valueView = findViewById(R.id.value)

@@ -33,11 +33,13 @@ import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
 
-class EntryAttachmentsAdapter(val context: Context) : RecyclerView.Adapter<EntryAttachmentsAdapter.EntryBinariesViewHolder>() {
+class EntryAttachmentsAdapter(val context: Context, private val editable: Boolean)
+    : RecyclerView.Adapter<EntryAttachmentsAdapter.EntryBinariesViewHolder>() {
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
     var onItemClickListener: ((item: EntryAttachment, position: Int)->Unit)? = null
+    var onDeleteListener: ((item: EntryAttachment, position: Int)->Unit)? = null
 
     private val mDatabase = Database.getInstance()
 
@@ -61,21 +63,50 @@ class EntryAttachmentsAdapter(val context: Context) : RecyclerView.Adapter<Entry
                 visibility = View.GONE
             }
         }
-        holder.binaryFileProgress.apply {
-            visibility = when (entryAttachment.downloadState) {
-                AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
-                AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+        if (editable) {
+            holder.binaryFileProgressContainer.visibility = View.GONE
+            holder.binaryFileDeleteButton.apply {
+                visibility = View.VISIBLE
+                setOnClickListener {
+                    onDeleteListener?.invoke(entryAttachment, position)
+                    deleteAttachment(entryAttachment)
+                }
             }
-            progress = entryAttachment.downloadProgression
-        }
-
-        holder.itemView.setOnClickListener {
-            onItemClickListener?.invoke(entryAttachment, position)
+        } else {
+            holder.binaryFileProgressContainer.visibility = View.VISIBLE
+            holder.binaryFileDeleteButton.visibility = View.GONE
+            holder.binaryFileProgress.apply {
+                visibility = when (entryAttachment.downloadState) {
+                    AttachmentState.NULL, AttachmentState.COMPLETE, AttachmentState.ERROR -> View.GONE
+                    AttachmentState.START, AttachmentState.IN_PROGRESS -> View.VISIBLE
+                }
+                progress = entryAttachment.downloadProgression
+            }
+            holder.itemView.setOnClickListener {
+                onItemClickListener?.invoke(entryAttachment, position)
+            }
         }
     }
 
     override fun getItemCount(): Int {
         return entryAttachmentsList.size
+    }
+
+    fun assignAttachments(attachments: List<EntryAttachment>) {
+        entryAttachmentsList.apply {
+            clear()
+            addAll(attachments)
+        }
+        notifyDataSetChanged()
+    }
+
+    fun deleteAttachment(attachment: EntryAttachment) {
+        val position = entryAttachmentsList.indexOf(attachment)
+        if (position >= 0) {
+            entryAttachmentsList.removeAt(position)
+            notifyItemRemoved(position)
+        }
+        // TODO Animation
     }
 
     fun updateProgress(entryAttachment: EntryAttachment) {
@@ -95,6 +126,8 @@ class EntryAttachmentsAdapter(val context: Context) : RecyclerView.Adapter<Entry
         var binaryFileTitle: TextView = itemView.findViewById(R.id.item_attachment_title)
         var binaryFileSize: TextView = itemView.findViewById(R.id.item_attachment_size)
         var binaryFileCompression: TextView = itemView.findViewById(R.id.item_attachment_compression)
+        var binaryFileProgressContainer: View = itemView.findViewById(R.id.item_attachment_progress_container)
         var binaryFileProgress: ProgressBar = itemView.findViewById(R.id.item_attachment_progress)
+        var binaryFileDeleteButton: View = itemView.findViewById(R.id.item_attachment_delete_button)
     }
 }

@@ -288,6 +288,10 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         binaries[key] = value
     }
 
+    fun removeProtectedBinary(name: String) {
+        binaries.remove(name)
+    }
+
     fun sizeOfHistory(): Int {
         return history.size
     }

@@ -350,7 +350,6 @@ class EntryActivity : LockingActivity() {
                 }
             }
         }
-        entryContentsView?.refreshAttachments()
 
         // Assign dates
         entryContentsView?.assignCreationDate(entry.creationTime)
