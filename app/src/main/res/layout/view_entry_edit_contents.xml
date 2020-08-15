@@ -35,7 +35,8 @@
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		app:layout_constraintTop_toTopOf="parent">
+		app:layout_constraintTop_toTopOf="parent"
+		app:layout_constraintBottom_toTopOf="@+id/extra_fields_container_parent">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
@@ -202,14 +203,13 @@
 		android:id="@+id/extra_fields_container_parent"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:visibility="gone"
-		android:layout_marginTop="@dimen/card_view_margin_bottom"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container">
+		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
+		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container">
 		<LinearLayout
 			android:id="@+id/extra_fields_container"
 			android:layout_width="match_parent"
@@ -223,7 +223,6 @@
 		android:id="@+id/entry_attachments_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:layout_marginTop="@dimen/card_view_margin_bottom"
 		android:layout_marginStart="@dimen/card_view_margin"
 		android:layout_marginEnd="@dimen/card_view_margin"
 		android:layout_marginLeft="@dimen/card_view_margin"
