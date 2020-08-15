@@ -250,9 +250,22 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     }
 
     /**
-     * Update a custom field or create a new one if doesn't exists
+     * Remove all children and add new views for each field
      */
-    fun putCustomField(customField: Field)
+    fun assignExtraFields(fields: List<Field>) {
+        entryExtraFieldsContainer.removeAllViews()
+        fields.forEach { extraField ->
+            entryExtraFieldsContainer.addView(EntryEditExtraField(context).apply {
+                setFontVisibility(fontInVisibility)
+                customField = extraField
+            })
+        }
+    }
+
+    /**
+     * Update an extra field or create a new one if doesn't exists
+     */
+    fun putExtraField(customField: Field)
             : EntryEditExtraField {
         var extraFieldView = getCustomFieldByLabel(customField.name)
         // Create new view if not exists
@@ -260,9 +273,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             extraFieldView = EntryEditExtraField(context)
             extraFieldView.setFontVisibility(fontInVisibility)
             // No need animation because of scroll
-            entryExtraFieldsContainer.apply {
-                addView(extraFieldView)
-            }
+            entryExtraFieldsContainer.addView(extraFieldView)
         }
         extraFieldView.customField = customField
         return extraFieldView

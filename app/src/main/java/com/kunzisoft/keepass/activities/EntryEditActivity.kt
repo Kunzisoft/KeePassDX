@@ -297,9 +297,10 @@ class EntryEditActivity : LockingActivity(),
             if (expires)
                 expiresDate = newEntry.expiryTime
             notes = newEntry.notes
-            for ((key, value) in newEntry.customFields) {
-                putCustomField(Field(key, value))
-            }
+
+            assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
+                Field(it.key, it.value)
+            })
             assignAttachments(newEntry.getAttachments())
             onAttachmentDeleted { attachment, _ ->
                 newEntry.removeAttachment(attachment)
@@ -355,16 +356,16 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun scrollToView(view: View?) {
-        view?.post {
+        view?.postDelayed({
             view.requestFocus()
             scrollView?.post {
                 scrollView?.smoothScrollTo(0, view.bottom)
             }
-        }
+        }, 500)
     }
 
     override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
-        val customFieldView = entryEditContentsView?.putCustomField(
+        val customFieldView = entryEditContentsView?.putExtraField(
                 Field(label, ProtectedString(protection))
         )
         scrollToView(customFieldView)
@@ -494,7 +495,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        val otpCustomView = entryEditContentsView?.putCustomField(otpField)
+        val otpCustomView = entryEditContentsView?.putExtraField(otpField)
         scrollToView(otpCustomView)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
