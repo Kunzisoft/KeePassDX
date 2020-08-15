@@ -301,9 +301,9 @@ class EntryEditActivity : LockingActivity(),
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
             })
-            assignAttachments(newEntry.getAttachments(), { attachment ->
+            assignAttachments(newEntry.getAttachments()) { attachment ->
                 newEntry.removeAttachment(attachment)
-            })
+            }
         }
     }
 

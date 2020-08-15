@@ -40,7 +40,8 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
     private val inflater: LayoutInflater = LayoutInflater.from(context)
     var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
     var onItemClickListener: ((item: EntryAttachment)->Unit)? = null
-    var onDeleteListener: ((item: EntryAttachment, lastOne: Boolean)->Unit)? = null
+    var onDeleteButtonClickListener: ((item: EntryAttachment)->Unit)? = null
+    var onItemDeletedListener: ((item: EntryAttachment, lastOne: Boolean)->Unit)? = null
 
     private var mAttachmentToRemove: EntryAttachment? = null
 
@@ -77,6 +78,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
                     setOnClickListener(null)
                 } else {
                     setOnClickListener {
+                        onDeleteButtonClickListener?.invoke(entryAttachment)
                         mAttachmentToRemove = entryAttachment
                         notifyItemChanged(position)
                     }
@@ -115,7 +117,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
         if (position >= 0) {
             entryAttachmentsList.removeAt(position)
             notifyItemRemoved(position)
-            onDeleteListener?.invoke(attachment, entryAttachmentsList.isEmpty())
+            onItemDeletedListener?.invoke(attachment, entryAttachmentsList.isEmpty())
             mAttachmentToRemove = null
             for (i in 0 until entryAttachmentsList.size) {
                 notifyItemChanged(i)

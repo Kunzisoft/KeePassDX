@@ -322,15 +322,13 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun assignAttachments(attachments: java.util.ArrayList<EntryAttachment>,
-                          onAttachmentClicked: (attachment: EntryAttachment)->Unit,
-                          onAttachmentDeleted: ((attachment: EntryAttachment)->Unit)? = null) {
+                          onDeleteItem: (attachment: EntryAttachment)->Unit) {
         showOrHideAttachmentsContainer(attachments.isEmpty())
         attachmentsAdapter.assignAttachments(attachments)
-        attachmentsAdapter.onItemClickListener = { item ->
-            onAttachmentClicked.invoke(item)
+        attachmentsAdapter.onDeleteButtonClickListener = { item ->
+            onDeleteItem.invoke(item)
         }
-        attachmentsAdapter.onDeleteListener = { item, lastOne ->
-            onAttachmentDeleted?.invoke(item)
+        attachmentsAdapter.onItemDeletedListener = { _, lastOne ->
             if (lastOne)
                 showOrHideAttachmentsContainer(hide = true, animate = true)
         }
