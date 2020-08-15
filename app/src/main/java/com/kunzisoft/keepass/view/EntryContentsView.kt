@@ -52,7 +52,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     : LinearLayout(context, attrs, defStyle) {
 
     private var fontInVisibility: Boolean = false
-    private val colorAccent: Int
 
     private val userNameContainerView: View
     private val userNameView: TextView
@@ -150,11 +149,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
         uuidView = findViewById(R.id.entry_UUID)
         uuidReferenceView = findViewById(R.id.entry_UUID_reference)
-
-        val attrColorAccent = intArrayOf(R.attr.colorAccent)
-        val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
-        colorAccent = taColorAccent.getColor(0, Color.BLACK)
-        taColorAccent.recycle()
     }
 
     fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
@@ -186,11 +180,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                 if (fontInVisibility)
                     applyFontVisibility()
             }
-            if (allowCopyPassword) {
-                passwordActionView.setColorFilter(colorAccent)
-            } else {
-                passwordActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-            }
+            passwordActionView.isActivated = !allowCopyPassword
         } else {
             passwordContainerView.visibility = View.GONE
         }
@@ -344,14 +334,14 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun addExtraField(title: String,
                       value: ProtectedString,
-                      enableActionButton: Boolean,
+                      allowCopy: Boolean,
                       onActionClickListener: OnClickListener?) {
 
         val entryCustomField: EntryExtraField? = EntryExtraField(context, attrs, defStyle)
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
-            enableActionButton(enableActionButton)
+            activateActionButton(allowCopy)
             assignActionButtonClickListener(onActionClickListener)
             applyFontVisibility(fontInVisibility)
         }

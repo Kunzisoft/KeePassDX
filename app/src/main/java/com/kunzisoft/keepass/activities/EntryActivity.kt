@@ -309,7 +309,6 @@ class EntryActivity : LockingActivity() {
         // Assign custom fields
         if (entry.allowCustomFields()) {
             entryContentsView?.clearExtraFields()
-
             for ((label, value) in entry.customFields) {
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {

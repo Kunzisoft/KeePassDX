@@ -112,16 +112,15 @@
 
 				<androidx.appcompat.widget.AppCompatImageView
 					android:id="@+id/entry_edit_password_generator_button"
-					android:layout_width="48dp"
-					android:layout_height="48dp"
-					android:padding="12dp"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:layout_marginTop="8dp"
 					app:layout_constraintTop_toTopOf="parent"
 					app:layout_constraintBottom_toBottomOf="parent"
 					app:layout_constraintEnd_toEndOf="parent"
 					android:src="@drawable/ic_generate_password_white_24dp"
-					app:tint="@color/background_button_color_accent"
-					android:contentDescription="@string/generate_password"/>
+					android:contentDescription="@string/generate_password"
+					style="@style/KeepassDXStyle.ImageButton.Simple" />
 			</androidx.constraintlayout.widget.ConstraintLayout>
 
 			<!--  URL -->

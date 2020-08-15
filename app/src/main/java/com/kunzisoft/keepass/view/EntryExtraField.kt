@@ -20,13 +20,11 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import com.kunzisoft.keepass.R
 
 class EntryExtraField @JvmOverloads constructor(context: Context,
@@ -39,8 +37,6 @@ class EntryExtraField @JvmOverloads constructor(context: Context,
     private val actionImageView: ImageView
     var isProtected = false
 
-    private val colorAccent: Int
-
     init {
 
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -49,11 +45,6 @@ class EntryExtraField @JvmOverloads constructor(context: Context,
         labelView = findViewById(R.id.title)
         valueView = findViewById(R.id.value)
         actionImageView = findViewById(R.id.action_image)
-
-        val attrColorAccent = intArrayOf(R.attr.colorAccent)
-        val taColorAccent = context.theme.obtainStyledAttributes(attrColorAccent)
-        colorAccent = taColorAccent.getColor(0, Color.BLACK)
-        taColorAccent.recycle()
     }
 
     fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -74,12 +65,9 @@ class EntryExtraField @JvmOverloads constructor(context: Context,
         valueView.applyHiddenStyle(isProtected && hiddenStyle)
     }
 
-    fun enableActionButton(enable: Boolean) {
-        if (enable) {
-            actionImageView.setColorFilter(colorAccent)
-        } else {
-            actionImageView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-        }
+    fun activateActionButton(enable: Boolean) {
+        // Reverse because isActivated show custom color and allow click
+        actionImageView.isActivated = !enable
     }
 
     fun assignActionButtonClickListener(onClickActionListener: OnClickListener?) {
