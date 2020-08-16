@@ -286,9 +286,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         showOrHideExtraFieldsContainer(fields.isEmpty())
         entryExtraFieldsContainer.removeAllViews()
         fields.forEach { extraField ->
-            entryExtraFieldsContainer.addView(buildNewEntryEditExtraField().apply {
-                this.extraField = extraField
-            })
+            entryExtraFieldsContainer.post {
+                entryExtraFieldsContainer.addView(buildNewEntryEditExtraField().apply {
+                    this.extraField = extraField
+                })
+            }
         }
     }
 
@@ -303,7 +305,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         if (extraFieldView == null) {
             extraFieldView = buildNewEntryEditExtraField()
             // No need animation because of scroll
-            entryExtraFieldsContainer.addView(extraFieldView)
+            entryExtraFieldsContainer.post {
+                entryExtraFieldsContainer.addView(extraFieldView)
+            }
         }
         extraFieldView.extraField = extraField
         return extraFieldView

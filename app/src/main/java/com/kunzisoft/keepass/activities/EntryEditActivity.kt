@@ -297,7 +297,6 @@ class EntryEditActivity : LockingActivity(),
             if (expires)
                 expiresDate = newEntry.expiryTime
             notes = newEntry.notes
-
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
             })
