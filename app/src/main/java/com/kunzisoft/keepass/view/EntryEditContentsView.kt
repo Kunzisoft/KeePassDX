@@ -272,7 +272,9 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             applyFontVisibility(fontInVisibility)
             onViewDeletedListener = {
                 // remove callback
-                showOrHideExtraFieldsContainer(entryExtraFieldsContainer.childCount <= 1, true)
+                if (entryExtraFieldsContainer.childCount <= 1) {
+                    showOrHideExtraFieldsContainer(hide = true, animate = true)
+                }
             }
         }
     }
