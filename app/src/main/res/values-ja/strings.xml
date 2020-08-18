@@ -29,7 +29,7 @@
     <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">かっこ</string>
-    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け付けるファイル マネージャーがデータベース ファイルの作成、オープン、保存に必要です。</string>
+    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け入れるファイル マネージャーがデータベース ファイルの作成、オープン、保存に必要です。</string>
     <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
     <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
@@ -102,7 +102,7 @@
     <string name="never">なし</string>
     <string name="no_results">検索結果なし</string>
     <string name="no_url_handler">この URL を開くにはウェブブラウザをインストールしてください。</string>
-    <string name="omit_backup_search_title">バックアップ用のエントリーを検索しない</string>
+    <string name="omit_backup_search_title">バックアップ エントリーを検索しない</string>
     <string name="omit_backup_search_summary">検索結果から「バックアップ」と「ごみ箱」のグループを省きます</string>
     <string name="progress_create">新しいデータベースを作成しています…</string>
     <string name="progress_title">実行しています…</string>
@@ -199,7 +199,7 @@
     <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
-    <string name="otp_type">OTP の型式</string>
+    <string name="otp_type">OTP タイプ</string>
     <string name="otp_period">周期（秒）</string>
     <string name="otp_algorithm">アルゴリズム</string>
     <string name="entry_otp">OTP</string>
@@ -234,7 +234,7 @@
     <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
     <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
     <string name="content_description_add_node">ノードを追加</string>
-    <string name="content_description_node_children">ノードの子要素</string>
+    <string name="content_description_node_children">ノードの子</string>
     <string name="content_description_background">バックグラウンド</string>
     <string name="security">セキュリティ</string>
     <string name="contribution">貢献</string>
@@ -278,15 +278,15 @@
     <string name="entry_add_attachment">添付ファイルを追加</string>
     <string name="discard">破棄</string>
     <string name="discard_changes">変更を破棄しますか？</string>
-    <string name="validate">検証</string>
-    <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を切り替える</string>
+    <string name="validate">有効化</string>
+    <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を再び切り替える</string>
     <string name="content_description_add_item">項目を追加</string>
     <string name="contact">連絡先</string>
     <string name="education_setup_OTP_summary">ワンタイム パスワードの管理（HOTP / TOTP）を設定して、2 要素認証（2FA）に必要なトークンを生成します。</string>
     <string name="education_setup_OTP_title">OTP を設定</string>
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して、文字を見やすくします</string>
-    <string name="monospace_font_fields_enable_title">フィールド用のフォント</string>
+    <string name="monospace_font_fields_enable_title">フィールド フォント</string>
     <string name="full_file_path_enable_summary">ファイルのフルパスを表示します</string>
     <string name="full_file_path_enable_title">ファイルパス</string>
     <string name="path">パス</string>
@@ -311,7 +311,7 @@
     <string name="assign_master_key">マスターキーを設定</string>
     <string name="education_select_database_summary">ファイル ブラウザからこれまで使ってきたデータベース ファイルを開いて、引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
-    <string name="list_password_generator_options_title">パスワードの文字種</string>
+    <string name="list_password_generator_options_title">パスワードの文字</string>
     <string name="build_label">Build %1$s</string>
     <string name="warning_password_encoding">データベース ファイル内のテキスト エンコーディング形式以外の文字を、パスワードに用いることは避けてください（認識されない文字は同じ文字に変換されます）。</string>
     <string name="sort_groups_before">グループを先に並べる</string>
@@ -456,7 +456,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
-    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字種を設定します</string>
+    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字を設定します</string>
     <string name="keyboard_previous_database_credentials_title">データベースの認証画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
