@@ -80,5 +80,6 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
 
     fun clear() {
         itemsList.clear()
+        notifyDataSetChanged()
     }
 }
