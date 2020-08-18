@@ -89,14 +89,6 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         }
     }
 
-    /* TODO Error
-    fun setError(@StringRes errorId: Int?) {
-        valueLayoutView.error = if (errorId == null) null else {
-            context.getString(errorId)
-        }
-    }
-    */
-
     private fun focusField(field: Field, force: Boolean = false) {
         mLastFocused = field
         mLastFocusedTimestamp = if (force) 0L else System.currentTimeMillis()
