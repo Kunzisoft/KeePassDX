@@ -199,7 +199,7 @@
     <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
-    <string name="otp_type">OTP タイプ</string>
+    <string name="otp_type">OTP の型式</string>
     <string name="otp_period">周期（秒）</string>
     <string name="otp_algorithm">アルゴリズム</string>
     <string name="entry_otp">OTP</string>
@@ -234,7 +234,7 @@
     <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
     <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
     <string name="content_description_add_node">ノードを追加</string>
-    <string name="content_description_node_children">ノードの子</string>
+    <string name="content_description_node_children">ノードの子要素</string>
     <string name="content_description_background">バックグラウンド</string>
     <string name="security">セキュリティ</string>
     <string name="contribution">貢献</string>
