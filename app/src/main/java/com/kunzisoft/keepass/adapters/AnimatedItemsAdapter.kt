@@ -32,6 +32,20 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
+    open fun putItem(item: Item) {
+        val previousSize = itemsList.size
+        if (itemsList.contains(item)) {
+            val index = itemsList.indexOf(item)
+            itemsList.removeAt(index)
+            itemsList.add(index, item)
+            notifyItemChanged(index)
+        } else {
+            itemsList.add(item)
+            notifyItemInserted(itemsList.indexOf(item))
+        }
+        onListSizeChangedListener?.invoke(previousSize, itemsList.size)
+    }
+
     fun onBindDeleteButton(holder: T, deleteButton: View, item: Item, position: Int) {
         deleteButton.apply {
             visibility = View.VISIBLE

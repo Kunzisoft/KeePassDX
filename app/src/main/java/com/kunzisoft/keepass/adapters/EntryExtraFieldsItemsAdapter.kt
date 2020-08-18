@@ -42,7 +42,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         }
     private var mValueViewInputType: Int = 0
     private var mLastFocused: Field? = null
-    private var mLastFocusedTimestamp: Long = 0
+    private var mLastFocusedTimestamp: Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryExtraFieldViewHolder {
         val view = EntryExtraFieldViewHolder(
@@ -97,33 +97,22 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     }
     */
 
-    private fun focusField(field: Field) {
+    private fun focusField(field: Field, force: Boolean = false) {
         mLastFocused = field
-        mLastFocusedTimestamp = System.currentTimeMillis()
+        mLastFocusedTimestamp = if (force) 0L else System.currentTimeMillis()
+    }
+
+    override fun putItem(item: Field) {
+        focusField(item, true)
+        super.putItem(item)
     }
 
     private fun requestFocusOnLastTextFocused(textView: TextView, field: Field) {
         if (field == mLastFocused) {
-            if ((mLastFocusedTimestamp + 350L) > System.currentTimeMillis())
+            if (mLastFocusedTimestamp == 0L || (mLastFocusedTimestamp + 350L) > System.currentTimeMillis())
                 textView.post { textView.requestFocus() }
             mLastFocused = null
         }
-    }
-
-    fun putExtraField(field: Field) {
-        val previousSize = itemsList.size
-        if (itemsList.contains(field)) {
-            val index = itemsList.indexOf(field)
-            itemsList.removeAt(index)
-            itemsList.add(index, field)
-            focusField(field)
-            notifyItemChanged(index)
-        } else {
-            itemsList.add(field)
-            focusField(field)
-            notifyItemInserted(itemsList.indexOf(field))
-        }
-        onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
     inner class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

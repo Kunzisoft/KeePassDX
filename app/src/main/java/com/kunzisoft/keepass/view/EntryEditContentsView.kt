@@ -259,7 +259,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     fun putExtraField(extraField: Field) {
         extraFieldsContainerView.visibility = View.VISIBLE
         // TODO setError(R.string.error_label_exists)
-        extraFieldsAdapter.putExtraField(extraField)
+        extraFieldsAdapter.putItem(extraField)
     }
 
     /* -------------
