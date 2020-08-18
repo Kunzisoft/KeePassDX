@@ -21,7 +21,6 @@ package com.kunzisoft.keepass.adapters
 
 import android.content.Context
 import android.text.format.Formatter
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
@@ -32,18 +31,11 @@ import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.database.CompressionAlgorithm
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
-import com.kunzisoft.keepass.view.collapse
 
-class EntryAttachmentsAdapter(val context: Context, private val editable: Boolean)
-    : RecyclerView.Adapter<EntryAttachmentsAdapter.EntryBinariesViewHolder>() {
+class EntryAttachmentsItemsAdapter(context: Context, private val editable: Boolean)
+    : AnimatedItemsAdapter<EntryAttachment, EntryAttachmentsItemsAdapter.EntryBinariesViewHolder>(context) {
 
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
     var onItemClickListener: ((item: EntryAttachment)->Unit)? = null
-    var onDeleteButtonClickListener: ((item: EntryAttachment)->Unit)? = null
-    var onListSizeChangedListener: ((previousSize: Int, newSize: Int)->Unit)? = null
-
-    private var mAttachmentToRemove: EntryAttachment? = null
 
     private val mDatabase = Database.getInstance()
 
@@ -52,7 +44,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
     }
 
     override fun onBindViewHolder(holder: EntryBinariesViewHolder, position: Int) {
-        val entryAttachment = entryAttachmentsList[position]
+        val entryAttachment = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
         holder.binaryFileTitle.text = entryAttachment.name
@@ -72,18 +64,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
             holder.binaryFileProgressContainer.visibility = View.GONE
             holder.binaryFileDeleteButton.apply {
                 visibility = View.VISIBLE
-                if (mAttachmentToRemove == entryAttachment) {
-                    holder.itemView.collapse(true) {
-                        deleteAttachment(entryAttachment)
-                    }
-                    setOnClickListener(null)
-                } else {
-                    setOnClickListener {
-                        onDeleteButtonClickListener?.invoke(entryAttachment)
-                        mAttachmentToRemove = entryAttachment
-                        notifyItemChanged(position)
-                    }
-                }
+                onBindDeleteButton(holder, this, entryAttachment, position)
             }
         } else {
             holder.binaryFileProgressContainer.visibility = View.VISIBLE
@@ -101,44 +82,12 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
         }
     }
 
-    override fun getItemCount(): Int {
-        return entryAttachmentsList.size
-    }
-
-    fun assignAttachments(attachments: List<EntryAttachment>) {
-        val previousSize = entryAttachmentsList.size
-        entryAttachmentsList.apply {
-            clear()
-            addAll(attachments)
-        }
-        notifyDataSetChanged()
-        onListSizeChangedListener?.invoke(previousSize, entryAttachmentsList.size)
-    }
-
-    private fun deleteAttachment(attachment: EntryAttachment) {
-        val previousSize = entryAttachmentsList.size
-        val position = entryAttachmentsList.indexOf(attachment)
-        if (position >= 0) {
-            entryAttachmentsList.removeAt(position)
-            notifyItemRemoved(position)
-            mAttachmentToRemove = null
-            for (i in 0 until entryAttachmentsList.size) {
-                notifyItemChanged(i)
-            }
-        }
-        onListSizeChangedListener?.invoke(previousSize, entryAttachmentsList.size)
-    }
-
     fun updateProgress(entryAttachment: EntryAttachment) {
-        val indexEntryAttachment = entryAttachmentsList.indexOfLast { current -> current.name == entryAttachment.name }
+        val indexEntryAttachment = itemsList.indexOfLast { current -> current.name == entryAttachment.name }
         if (indexEntryAttachment != -1) {
-            entryAttachmentsList[indexEntryAttachment] = entryAttachment
+            itemsList[indexEntryAttachment] = entryAttachment
             notifyItemChanged(indexEntryAttachment)
         }
-    }
-
-    fun clear() {
-        entryAttachmentsList.clear()
     }
 
     inner class EntryBinariesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

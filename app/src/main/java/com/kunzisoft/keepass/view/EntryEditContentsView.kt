@@ -31,8 +31,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
-import com.kunzisoft.keepass.adapters.EntryExtraFieldsAdapter
+import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.adapters.EntryExtraFieldsItemsAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
@@ -66,8 +66,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
 
-    private val extraFieldsAdapter = EntryExtraFieldsAdapter(context)
-    private val attachmentsAdapter = EntryAttachmentsAdapter(context, true)
+    private val extraFieldsAdapter = EntryExtraFieldsItemsAdapter(context)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, true)
 
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
@@ -242,7 +242,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      */
 
     fun getExtraField(): MutableList<Field> {
-        return extraFieldsAdapter.extraFieldsList
+        return extraFieldsAdapter.itemsList
     }
 
     /**
@@ -250,7 +250,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      */
     fun assignExtraFields(fields: List<Field>) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
-        extraFieldsAdapter.assignExtraFields(fields)
+        extraFieldsAdapter.assignItems(fields)
     }
 
     /**
@@ -270,7 +270,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onDeleteItem: (attachment: EntryAttachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignAttachments(attachments)
+        attachmentsAdapter.assignItems(attachments)
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
             onDeleteItem.invoke(item)
         }

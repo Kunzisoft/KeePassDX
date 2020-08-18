@@ -20,7 +20,6 @@
 package com.kunzisoft.keepass.adapters
 
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
@@ -32,16 +31,9 @@ import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.view.applyFontVisibility
-import com.kunzisoft.keepass.view.collapse
 
-class EntryExtraFieldsAdapter(val context: Context)
-    : RecyclerView.Adapter<EntryExtraFieldsAdapter.EntryExtraFieldViewHolder>() {
-
-    private val inflater: LayoutInflater = LayoutInflater.from(context)
-    var extraFieldsList: MutableList<Field> = ArrayList()
-        private set
-    var onDeleteButtonClickListener: ((item: Field)->Unit)? = null
-    var onListSizeChangedListener: ((previousSize: Int, newSize: Int)->Unit)? = null
+class EntryExtraFieldsItemsAdapter(context: Context)
+    : AnimatedItemsAdapter<Field, EntryExtraFieldsItemsAdapter.EntryExtraFieldViewHolder>(context) {
 
     var applyFontVisibility = false
         set(value) {
@@ -49,7 +41,6 @@ class EntryExtraFieldsAdapter(val context: Context)
             notifyDataSetChanged()
         }
     private var mValueViewInputType: Int = 0
-    private var mItemToRemove: Field? = null
     private var mLastFocused: Field? = null
     private var mLastFocusedTimestamp: Long = 0
 
@@ -62,7 +53,7 @@ class EntryExtraFieldsAdapter(val context: Context)
     }
 
     override fun onBindViewHolder(holder: EntryExtraFieldViewHolder, position: Int) {
-        val extraField = extraFieldsList[position]
+        val extraField = itemsList[position]
 
         holder.itemView.visibility = View.VISIBLE
         if (extraField.protectedValue.isProtected) {
@@ -94,18 +85,7 @@ class EntryExtraFieldsAdapter(val context: Context)
                 applyFontVisibility()
         }
         holder.extraFieldDeleteButton.apply {
-            if (mItemToRemove == extraField) {
-                holder.itemView.collapse(true) {
-                    deleteExtraField(extraField)
-                }
-                setOnClickListener(null)
-            } else {
-                setOnClickListener {
-                    onDeleteButtonClickListener?.invoke(extraField)
-                    mItemToRemove = extraField
-                    notifyItemChanged(position)
-                }
-            }
+            onBindDeleteButton(holder, this, extraField, position)
         }
     }
 
@@ -130,52 +110,20 @@ class EntryExtraFieldsAdapter(val context: Context)
         }
     }
 
-    override fun getItemCount(): Int {
-        return extraFieldsList.size
-    }
-
-    fun assignExtraFields(fields: List<Field>) {
-        val previousSize = extraFieldsList.size
-        extraFieldsList.apply {
-            clear()
-            addAll(fields)
-        }
-        notifyDataSetChanged()
-        onListSizeChangedListener?.invoke(previousSize, extraFieldsList.size)
-    }
-
     fun putExtraField(field: Field) {
-        val previousSize = extraFieldsList.size
-        if (extraFieldsList.contains(field)) {
-            val index = extraFieldsList.indexOf(field)
-            extraFieldsList.removeAt(index)
-            extraFieldsList.add(index, field)
+        val previousSize = itemsList.size
+        if (itemsList.contains(field)) {
+            val index = itemsList.indexOf(field)
+            itemsList.removeAt(index)
+            itemsList.add(index, field)
             focusField(field)
             notifyItemChanged(index)
         } else {
-            extraFieldsList.add(field)
+            itemsList.add(field)
             focusField(field)
-            notifyItemInserted(extraFieldsList.indexOf(field))
+            notifyItemInserted(itemsList.indexOf(field))
         }
-        onListSizeChangedListener?.invoke(previousSize, extraFieldsList.size)
-    }
-
-    private fun deleteExtraField(field: Field) {
-        val previousSize = extraFieldsList.size
-        val position = extraFieldsList.indexOf(field)
-        if (position >= 0) {
-            extraFieldsList.removeAt(position)
-            notifyItemRemoved(position)
-            mItemToRemove = null
-            for (i in 0 until extraFieldsList.size) {
-                notifyItemChanged(i)
-            }
-        }
-        onListSizeChangedListener?.invoke(previousSize, extraFieldsList.size)
-    }
-
-    fun clear() {
-        extraFieldsList.clear()
+        onListSizeChangedListener?.invoke(previousSize, itemsList.size)
     }
 
     inner class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

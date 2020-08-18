@@ -33,7 +33,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
 import com.kunzisoft.keepass.R
-import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
+import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
 import com.kunzisoft.keepass.adapters.EntryHistoryAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
@@ -84,7 +84,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
-    private val attachmentsAdapter = EntryAttachmentsAdapter(context, false)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, false)
 
     private val historyContainerView: View
     private val historyListView: RecyclerView
@@ -367,7 +367,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter.assignAttachments(attachments)
+        attachmentsAdapter.assignItems(attachments)
         attachmentsAdapter.onItemClickListener = { item ->
             onAttachmentClicked.invoke(item)
         }
