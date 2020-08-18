@@ -41,7 +41,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
     var entryAttachmentsList: MutableList<EntryAttachment> = ArrayList()
     var onItemClickListener: ((item: EntryAttachment)->Unit)? = null
     var onDeleteButtonClickListener: ((item: EntryAttachment)->Unit)? = null
-    var onItemDeletedListener: ((item: EntryAttachment, lastOne: Boolean)->Unit)? = null
+    var onListSizeChangedListener: ((previousSize: Int, newSize: Int)->Unit)? = null
 
     private var mAttachmentToRemove: EntryAttachment? = null
 
@@ -54,6 +54,7 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
     override fun onBindViewHolder(holder: EntryBinariesViewHolder, position: Int) {
         val entryAttachment = entryAttachmentsList[position]
 
+        holder.itemView.visibility = View.VISIBLE
         holder.binaryFileTitle.text = entryAttachment.name
         holder.binaryFileSize.text = Formatter.formatFileSize(context,
                 entryAttachment.binaryAttachment.length())
@@ -105,24 +106,27 @@ class EntryAttachmentsAdapter(val context: Context, private val editable: Boolea
     }
 
     fun assignAttachments(attachments: List<EntryAttachment>) {
+        val previousSize = entryAttachmentsList.size
         entryAttachmentsList.apply {
             clear()
             addAll(attachments)
         }
         notifyDataSetChanged()
+        onListSizeChangedListener?.invoke(previousSize, entryAttachmentsList.size)
     }
 
     private fun deleteAttachment(attachment: EntryAttachment) {
+        val previousSize = entryAttachmentsList.size
         val position = entryAttachmentsList.indexOf(attachment)
         if (position >= 0) {
             entryAttachmentsList.removeAt(position)
             notifyItemRemoved(position)
-            onItemDeletedListener?.invoke(attachment, entryAttachmentsList.isEmpty())
             mAttachmentToRemove = null
             for (i in 0 until entryAttachmentsList.size) {
                 notifyItemChanged(i)
             }
         }
+        onListSizeChangedListener?.invoke(previousSize, entryAttachmentsList.size)
     }
 
     fun updateProgress(entryAttachment: EntryAttachment) {

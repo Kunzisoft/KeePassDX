@@ -19,7 +19,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.graphics.Color
 import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
@@ -74,8 +73,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val notesContainerView: View
     private val notesView: TextView
 
-    private val entryExtraFieldsContainerParent: View
-    private val entryExtraFieldsContainer: ViewGroup
+    private val extraFieldsContainerView: View
+    private val extraFieldsListView: ViewGroup
 
     private val creationDateView: TextView
     private val modificationDateView: TextView
@@ -123,8 +122,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         notesContainerView = findViewById(R.id.entry_notes_container)
         notesView = findViewById(R.id.entry_notes)
 
-        entryExtraFieldsContainerParent = findViewById(R.id.extra_fields_container_parent)
-        entryExtraFieldsContainer = findViewById(R.id.extra_fields_container)
+        extraFieldsContainerView = findViewById(R.id.extra_fields_container)
+        extraFieldsListView = findViewById(R.id.extra_fields_list)
 
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
@@ -196,7 +195,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun atLeastOneFieldProtectedPresent(): Boolean {
-        entryExtraFieldsContainer.let {
+        extraFieldsListView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
                 if (childCustomView is EntryExtraField)
@@ -210,7 +209,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
         passwordView.applyHiddenStyle(hiddenStyle)
         // Hidden style for custom fields
-        entryExtraFieldsContainer.let {
+        extraFieldsListView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
                 if (childCustomView is EntryExtraField)
@@ -329,7 +328,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
      */
 
     private fun showOrHideExtraFieldsContainer(hide: Boolean) {
-        entryExtraFieldsContainerParent.visibility = if (hide) View.GONE else View.VISIBLE
+        extraFieldsContainerView.visibility = if (hide) View.GONE else View.VISIBLE
     }
 
     fun addExtraField(title: String,
@@ -346,13 +345,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
             applyFontVisibility(fontInVisibility)
         }
         entryCustomField?.let {
-            entryExtraFieldsContainer.addView(it)
+            extraFieldsListView.addView(it)
         }
         showOrHideExtraFieldsContainer(false)
     }
 
     fun clearExtraFields() {
-        entryExtraFieldsContainer.removeAllViews()
+        extraFieldsListView.removeAllViews()
         showOrHideExtraFieldsContainer(true)
     }
 

@@ -32,6 +32,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.adapters.EntryAttachmentsAdapter
+import com.kunzisoft.keepass.adapters.EntryExtraFieldsAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
@@ -60,11 +61,12 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryExpiresCheckBox: CompoundButton
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
-    private val entryExtraFieldsContainerParent: ViewGroup
-    private val entryExtraFieldsContainer: ViewGroup
+    private val extraFieldsContainerView: ViewGroup
+    private val extraFieldsListView: RecyclerView
     private val attachmentsContainerView: View
     private val attachmentsListView: RecyclerView
 
+    private val extraFieldsAdapter = EntryExtraFieldsAdapter(context)
     private val attachmentsAdapter = EntryAttachmentsAdapter(context, true)
 
     private var iconColor: Int = 0
@@ -94,10 +96,32 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
-        entryExtraFieldsContainerParent = findViewById(R.id.extra_fields_container_parent)
-        entryExtraFieldsContainer = findViewById(R.id.extra_fields_container)
+
+        extraFieldsContainerView = findViewById(R.id.extra_fields_container)
+        extraFieldsListView = findViewById(R.id.extra_fields_list)
+        // To hide or not the container
+        extraFieldsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                extraFieldsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                extraFieldsContainerView.expand(true)
+            }
+        }
+        extraFieldsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = extraFieldsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
         attachmentsContainerView = findViewById(R.id.entry_attachments_container)
         attachmentsListView = findViewById(R.id.entry_attachments_list)
+        attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                attachmentsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                attachmentsContainerView.expand(true)
+            }
+        }
         attachmentsListView?.apply {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
             adapter = attachmentsAdapter
@@ -108,17 +132,6 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             assignExpiresDateText()
         }
 
-        entryExtraFieldsContainer.setOnHierarchyChangeListener(object: OnHierarchyChangeListener {
-            override fun onChildViewRemoved(parent: View?, child: View?) {}
-
-            override fun onChildViewAdded(parent: View?, child: View?) {
-                parent?.let {
-                    if ((parent as ViewGroup).childCount == 1)
-                        parent.expand()
-                }
-            }
-        })
-
         // Retrieve the textColor to tint the icon
         val taIconColor = context.theme.obtainStyledAttributes(intArrayOf(android.R.attr.textColor))
         iconColor = taIconColor.getColor(0, Color.WHITE)
@@ -127,6 +140,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
 
     fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
         this.fontInVisibility = fontInVisibility
+        this.extraFieldsAdapter.applyFontVisibility = fontInVisibility
     }
 
     var title: String
@@ -227,90 +241,25 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    val customFields: MutableList<Field>
-        get() {
-            val customFieldsArray = ArrayList<Field>()
-            // Add extra fields from views
-            entryExtraFieldsContainer.let {
-                try {
-                    for (i in 0 until it.childCount) {
-                        val view = it.getChildAt(i) as EntryEditExtraField
-                        customFieldsArray.add(view.extraField)
-                    }
-                } catch (exception: Exception) {
-                    // Extra field container contains another type of view
-                }
-            }
-            return customFieldsArray
-        }
-
-    private fun getExtraFieldByLabel(label: String): EntryEditExtraField? {
-        for (i in 0..entryExtraFieldsContainer.childCount) {
-            try {
-                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditExtraField?
-                if (extraFieldView?.extraField?.name == label) {
-                    return extraFieldView
-                }
-            } catch(e: Exception) {
-                // Simply ignore when child view is not a custom field
-            }
-        }
-        return null
-    }
-
-    private fun showOrHideExtraFieldsContainer(hide: Boolean, animate: Boolean = false) {
-        entryExtraFieldsContainerParent.apply {
-            if (!animate)
-                visibility = if (hide) View.GONE else View.VISIBLE
-            else
-                if (hide) collapse(true) else expand(true)
-        }
-    }
-
-    private fun buildNewEntryEditExtraField(): EntryEditExtraField {
-        return EntryEditExtraField(context).apply {
-            applyFontVisibility(fontInVisibility)
-            onViewDeletedListener = {
-                // remove callback
-                if (entryExtraFieldsContainer.childCount <= 1) {
-                    showOrHideExtraFieldsContainer(hide = true, animate = true)
-                }
-            }
-        }
+    fun getExtraField(): MutableList<Field> {
+        return extraFieldsAdapter.extraFieldsList
     }
 
     /**
      * Remove all children and add new views for each field
      */
     fun assignExtraFields(fields: List<Field>) {
-        showOrHideExtraFieldsContainer(fields.isEmpty())
-        entryExtraFieldsContainer.removeAllViews()
-        fields.forEach { extraField ->
-            entryExtraFieldsContainer.post {
-                entryExtraFieldsContainer.addView(buildNewEntryEditExtraField().apply {
-                    this.extraField = extraField
-                })
-            }
-        }
+        extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
+        extraFieldsAdapter.assignExtraFields(fields)
     }
 
     /**
      * Update an extra field or create a new one if doesn't exists
      */
-    fun putExtraField(extraField: Field)
-            : EntryEditExtraField {
-        showOrHideExtraFieldsContainer(false)
-        var extraFieldView = getExtraFieldByLabel(extraField.name)
-        // Create new view if not exists
-        if (extraFieldView == null) {
-            extraFieldView = buildNewEntryEditExtraField()
-            // No need animation because of scroll
-            entryExtraFieldsContainer.post {
-                entryExtraFieldsContainer.addView(extraFieldView)
-            }
-        }
-        extraFieldView.extraField = extraField
-        return extraFieldView
+    fun putExtraField(extraField: Field) {
+        extraFieldsContainerView.visibility = View.VISIBLE
+        // TODO setError(R.string.error_label_exists)
+        extraFieldsAdapter.putExtraField(extraField)
     }
 
     /* -------------
@@ -318,25 +267,12 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    private fun showOrHideAttachmentsContainer(hide: Boolean, animate: Boolean = false) {
-        attachmentsContainerView.apply {
-            if (!animate)
-                visibility = if (hide) View.GONE else View.VISIBLE
-            else
-                if (hide) collapse(true) else expand(true)
-        }
-    }
-
-    fun assignAttachments(attachments: java.util.ArrayList<EntryAttachment>,
+    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onDeleteItem: (attachment: EntryAttachment)->Unit) {
-        showOrHideAttachmentsContainer(attachments.isEmpty())
+        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
         attachmentsAdapter.assignAttachments(attachments)
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
             onDeleteItem.invoke(item)
-        }
-        attachmentsAdapter.onItemDeletedListener = { _, lastOne ->
-            if (lastOne)
-                showOrHideAttachmentsContainer(hide = true, animate = true)
         }
     }
 
@@ -346,25 +282,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * @return ErrorValidation An error with a message or a validation without message
      */
     fun isValid(): Boolean {
-        // Validate extra fields
-        entryExtraFieldsContainer.let {
-            try {
-                val customFieldLabelSet = HashSet<String>()
-                for (i in 0 until it.childCount) {
-                    val entryEditCustomField = it.getChildAt(i) as EntryEditExtraField
-                    if (customFieldLabelSet.contains(entryEditCustomField.extraField.name)) {
-                        entryEditCustomField.setError(R.string.error_label_exists)
-                        return false
-                    }
-                    customFieldLabelSet.add(entryEditCustomField.extraField.name)
-                    if (!entryEditCustomField.isValid()) {
-                        return false
-                    }
-                }
-            } catch (exception: Exception) {
-                return false
-            }
-        }
+        // TODO
         return true
     }
 

@@ -23,7 +23,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:importantForAutofill="noExcludeDescendants"
     tools:targetApi="o">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -40,9 +39,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="textMultiLine"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:importantForAccessibility="no"
-            android:importantForAutofill="no"
-            android:hint="@string/field_value" />
+            android:importantForAutofill="no" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <androidx.appcompat.widget.AppCompatImageButton

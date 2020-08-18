@@ -36,7 +36,7 @@
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toTopOf="parent"
-		app:layout_constraintBottom_toTopOf="@+id/extra_fields_container_parent">
+		app:layout_constraintBottom_toTopOf="@+id/extra_fields_container">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="match_parent"
@@ -200,7 +200,7 @@
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
-		android:id="@+id/extra_fields_container_parent"
+		android:id="@+id/extra_fields_container"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:layout_marginStart="@dimen/card_view_margin"
@@ -210,13 +210,13 @@
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
 		app:layout_constraintTop_toBottomOf="@+id/entry_edit_container"
 		app:layout_constraintBottom_toTopOf="@+id/entry_attachments_container">
-		<LinearLayout
-			android:id="@+id/extra_fields_container"
+		<androidx.recyclerview.widget.RecyclerView
+			android:id="@+id/extra_fields_list"
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			android:layout_margin="@dimen/card_view_padding"
 			android:orientation="vertical">
-		</LinearLayout>
+		</androidx.recyclerview.widget.RecyclerView>
 	</androidx.cardview.widget.CardView>
 
 	<androidx.cardview.widget.CardView
@@ -228,7 +228,7 @@
 		android:layout_marginLeft="@dimen/card_view_margin"
 		android:layout_marginRight="@dimen/card_view_margin"
 		android:layout_marginBottom="@dimen/card_view_margin_bottom"
-		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container_parent"
+		app:layout_constraintTop_toBottomOf="@+id/extra_fields_container"
 		app:layout_constraintBottom_toBottomOf="parent">
 		<LinearLayout
 			android:layout_height="wrap_content"

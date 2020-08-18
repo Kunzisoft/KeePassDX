@@ -323,7 +323,7 @@ class EntryEditActivity : LockingActivity(),
                     expiryTime = entryView.expiresDate
                 }
                 notes = entryView. notes
-                entryView.customFields.forEach { customField ->
+                entryView.getExtraField().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
                 }
             }
@@ -353,20 +353,8 @@ class EntryEditActivity : LockingActivity(),
         EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
 
-    private fun scrollToView(view: View?) {
-        view?.postDelayed({
-            view.requestFocus()
-            scrollView?.post {
-                scrollView?.smoothScrollTo(0, view.bottom)
-            }
-        }, 500)
-    }
-
     override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
-        val customFieldView = entryEditContentsView?.putExtraField(
-                Field(label, ProtectedString(protection))
-        )
-        scrollToView(customFieldView)
+        entryEditContentsView?.putExtraField(Field(label, ProtectedString(protection)))
     }
 
     override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
@@ -382,7 +370,6 @@ class EntryEditActivity : LockingActivity(),
      * Saves the new entry or update an existing entry in the database
      */
     private fun saveEntry() {
-
         // Launch a validation and show the error if present
         if (entryEditContentsView?.isValid() == true) {
             // Clone the entry
@@ -493,8 +480,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        val otpCustomView = entryEditContentsView?.putExtraField(otpField)
-        scrollToView(otpCustomView)
+        entryEditContentsView?.putExtraField(otpField)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 
