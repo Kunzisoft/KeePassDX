@@ -259,6 +259,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     fun putExtraField(extraField: Field) {
         extraFieldsContainerView.visibility = View.VISIBLE
         // TODO setError(R.string.error_label_exists)
+        val oldField = extraFieldsAdapter.itemsList.firstOrNull { it.name == extraField.name }
+        oldField?.let {
+            if (extraField.protectedValue.stringValue.isEmpty())
+                extraField.protectedValue.stringValue = it.protectedValue.stringValue
+        }
         extraFieldsAdapter.putItem(extraField)
     }
 
