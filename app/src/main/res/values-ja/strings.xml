@@ -39,7 +39,7 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で、<strong>広告はありません</strong>。
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で<strong>広告はありません</strong>。
 \nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
@@ -84,7 +84,7 @@
     <string name="loading_database">データベースを読み込んでいます…</string>
     <string name="lowercase">小文字</string>
     <string name="hide_password_title">パスワードを非表示にする</string>
-    <string name="hide_password_summary">デフォルトでパスワードを隠します（***と表示されます）</string>
+    <string name="hide_password_summary">デフォルトでパスワードを隠します（***と表示）</string>
     <string name="about">概要</string>
     <string name="menu_change_key_settings">マスターキーを変更</string>
     <string name="settings">設定</string>
@@ -311,7 +311,7 @@
     <string name="assign_master_key">マスターキーを設定</string>
     <string name="education_select_database_summary">ファイル ブラウザからこれまで使ってきたデータベース ファイルを開いて、引き続き使用します。</string>
     <string name="education_select_database_title">既存のデータペースを開く</string>
-    <string name="list_password_generator_options_title">パスワードの文字</string>
+    <string name="list_password_generator_options_title">パスワードの文字種</string>
     <string name="build_label">Build %1$s</string>
     <string name="warning_password_encoding">データベース ファイル内のテキスト エンコーディング形式以外の文字を、パスワードに用いることは避けてください（認識されない文字は同じ文字に変換されます）。</string>
     <string name="sort_groups_before">グループを先に並べる</string>
@@ -373,7 +373,7 @@
     <string name="clear_clipboard_notification_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
     <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、またはこの機能の使用中に通知が閉じられたとき、データベースをロックします</string>
-    <string name="html_text_dev_feature_encourage">あなたの意見によって、開発者は<strong>新機能</strong>の開発や<strong>バグの修正</strong>を速く進めることができます。</string>
+    <string name="html_text_dev_feature_encourage">あなたの意見によって、デベロッパーは<strong>新機能</strong>の開発や<strong>バグの修正</strong>を速く進めることができます。</string>
     <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
     <string name="html_text_dev_feature">この機能は<strong>開発中</strong>であり、早期に提供するにはあなたの<strong>貢献</strong>が必要です。</string>
     <string name="html_text_buy_pro">pro バージョンを購入すると、この<strong>ビジュアル スタイル</strong>にアクセスできるようになり、また<strong>コミュニティ プロジェクトの実現</strong>を特に支援できます。</string>
@@ -456,7 +456,7 @@
     <string name="encryption_chacha20">ChaCha20</string>
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
-    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字を設定します</string>
+    <string name="list_password_generator_options_summary">パスワード ジェネレータが用いる文字種を設定します</string>
     <string name="keyboard_previous_database_credentials_title">データベースの認証画面</string>
     <string name="keyboard_change">キーボードの切り替え</string>
     <string name="keyboard_keys_category">キー</string>
