@@ -278,11 +278,11 @@
     <string name="entry_add_attachment">添付ファイルを追加</string>
     <string name="discard">破棄</string>
     <string name="discard_changes">変更を破棄しますか？</string>
-    <string name="validate">有効化</string>
+    <string name="validate">承認</string>
     <string name="content_description_repeat_toggle_password_visibility">パスワードの可視性を再び切り替える</string>
     <string name="content_description_add_item">項目を追加</string>
     <string name="contact">連絡先</string>
-    <string name="education_setup_OTP_summary">ワンタイム パスワードの管理（HOTP / TOTP）を設定して、2 要素認証（2FA）に必要なトークンを生成します。</string>
+    <string name="education_setup_OTP_summary">ワンタイム パスワードの管理（HOTP / TOTP）を設定して、2 要素認証（2FA）で要求されるトークンを生成します。</string>
     <string name="education_setup_OTP_title">OTP を設定</string>
     <string name="education_generate_password_summary">エントリーに関連付ける強力なパスワードを生成します。フォームの基準に従って定義することは簡単で、安全なパスワードを忘れることはありません。</string>
     <string name="monospace_font_fields_enable_summary">フィールド内で使用するフォントを変更して、文字を見やすくします</string>
@@ -291,7 +291,7 @@
     <string name="full_file_path_enable_title">ファイルパス</string>
     <string name="path">パス</string>
     <string name="education_generate_password_title">強力なパスワードを作成</string>
-    <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に要求します</string>
+    <string name="biometric_auto_open_prompt_summary">データベースが生体認証を使用するように設定されている場合、生体情報の取得を自動的に求めます</string>
     <string name="biometric_delete_all_key_title">暗号化キーを削除</string>
     <string name="biometric_auto_open_prompt_title">生体認証プロンプトを自動で開く</string>
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号化キーを削除しますか？</string>
@@ -333,9 +333,9 @@
     <string name="icon_pack_choose_summary">アプリで使用するアイコンパック</string>
     <string name="icon_pack_choose_title">アイコンパック</string>
     <string name="settings_database_force_changing_master_key_next_time_title">次回更新を強制</string>
-    <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必要とする（日数）</string>
+    <string name="settings_database_force_changing_master_key_summary">マスターキーの変更を必須にします（日数）</string>
     <string name="settings_database_force_changing_master_key_title">更新を強制</string>
-    <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨する（日数）</string>
+    <string name="settings_database_recommend_changing_master_key_summary">マスターキーの変更を推奨します（日数）</string>
     <string name="settings_database_recommend_changing_master_key_title">更新を推奨</string>
     <string name="max_history_size_summary">エントリーあたりの履歴のサイズ（バイト単位）を制限します</string>
     <string name="lock_database_back_root_title">「戻る」を押してロック</string>
@@ -394,7 +394,7 @@
     <string name="keyboard_search_share_summary">共有から送られた情報を自動的に検索して、結果をキーボードに格納します</string>
     <string name="keyboard_notification_entry_summary">エントリーが利用可能なとき、通知を表示します</string>
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
-    <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を要求します（1 回のみ）</string>
+    <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
     <string name="recycle_bin_summary">グループとエントリーを削除する前に「ごみ箱」グループに移動します</string>
     <string name="keyboard_selection_entry_summary">エントリーを表示しているとき、Magikeyboard に入力フィールドを表示します</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
