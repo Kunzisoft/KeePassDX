@@ -395,7 +395,7 @@
     <string name="error_save_database">No se puede guardar la base de datos.</string>
     <string name="error_string_type">Este texto no encaja con la información requerida.</string>
     <string name="error_create_database">No fue posible crear el archivo de base de datos.</string>
-    <string name="html_about_contribution">Parar lograr <strong>mantener nuestra libertad</strong>, <strong>corregir errores</strong>, <strong>agregar características</strong> y <strong>siempre estar activos</strong>, contamos con tu <strong>contribución</strong>.</string>
+    <string name="html_about_contribution">Parar lograr &lt;strong&gt;mantener nuestra libertad&lt;/strong&gt;, &lt;strong&gt;corregir errores&lt;/strong&gt;, &lt;strong&gt;agregar características&lt;/strong&gt; y &lt;strong&gt;siempre estar activos&lt;/strong&gt;, contamos con tu &lt;strong&gt;contribución&lt;/strong&gt;.</string>
     <string name="content_description_add_item">Añadir elemento</string>
     <string name="download_complete">Descarga completa! Toca para abrir el archivo.</string>
     <string name="download_finalization">Finalizando…</string>

@@ -252,7 +252,7 @@
     <string name="entry_attachments">Вкладення</string>
     <string name="entry_history">Історія</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution">Щоб <strong>зберігати нашу вільність</strong>, <strong>зневаджувати</strong>, <strong>додавати функції</strong> та <strong>бути завжди активним проєктом</strong>, ми розраховуємо на вашу <strong>допомогу</strong>.</string>
+    <string name="html_about_contribution">Щоб &lt;strong&gt;зберігати нашу вільність&lt;/strong&gt;, &lt;strong&gt;зневаджувати&lt;/strong&gt;, &lt;strong&gt;додавати функції&lt;/strong&gt; та &lt;strong&gt;бути завжди активним проєктом&lt;/strong&gt;, ми розраховуємо на вашу &lt;strong&gt;допомогу&lt;/strong&gt;.</string>
     <string name="content_description_keyboard_close_fields">Закрити поля</string>
     <string name="content_description_remove_field">Вилучити поле</string>
     <string name="entry_add_attachment">Додати вкладення</string>
@@ -292,8 +292,8 @@
     <string name="html_text_dev_feature_encourage">ви заохочуєте розробників створювати &lt;strong&gt;нові функції&lt;/strong&gt; та &lt;strong&gt;виправляти помилки&lt;/strong&gt; відповідно до ваших зауважень.</string>
     <string name="html_text_dev_feature_buy_pro">Купуючи версію &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">&lt;strong&gt;Допомагаючи&lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature">Ця функція ще <strong>розробляється</strong> та потребує вашої <strong>участі</strong>, щоб бути доступною якнайшвидше.</string>
-    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу <strong>допомогу.</strong></string>
+    <string name="html_text_dev_feature">Ця функція ще &lt;strong&gt;розробляється&lt;/strong&gt; та потребує вашої &lt;strong&gt;участі&lt;/strong&gt;, щоб бути доступною якнайшвидше.</string>
+    <string name="html_text_donation">Щоб залишатися вільними та бути завжди активними, ми розраховуємо на вашу &lt;strong&gt;допомогу.&lt;/strong&gt;</string>
     <string name="html_text_feature_generosity">Це &lt;strong&gt;оформлення стилю&lt;/strong&gt; доступне завдяки вашій великодушності.</string>
     <string name="html_text_buy_pro">Купуючи версію Pro, ви отримуєте доступ до цих &lt;strong&gt;стилів оформлення&lt;/strong&gt; та дуже допомагаєте &lt;strong&gt;розробці вільних проєктів.&lt;/strong&gt;</string>
     <string name="html_text_ad_free">На відміну від багатьох менеджерів паролів, цей є &lt;strong&gt;вільним від реклами&lt;/strong&gt;, &lt;strong&gt;вільним програмним забезпеченням з copyleft&lt;/strong&gt; та не збирає персональні дані на своїх серверах, незалежно від версії, якою ви користуєтесь.</string>

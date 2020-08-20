@@ -124,7 +124,7 @@
     <string name="error_wrong_length">\"ദൈർഘ്യം\" ഫീൽഡിൽ ഒരു പോസിറ്റീവ് നമ്പർ നൽകുക.</string>
     <string name="error_pass_gen_type">ഒരു പാസ്‌വേഡ് ജനറേഷൻ തരമെങ്കിലും തിരഞ്ഞെടുക്കണം.</string>
     <string name="otp_counter">കൌണ്ടർ</string>
-    <string name="html_about_contribution">In order to <strong>keep our freedom</strong>, <strong>fix bugs</strong>, <strong>add features</strong> and <strong>to be always active</strong>, we count on your <strong>contribution</strong>.</string>
+    <string name="html_about_contribution">In order to &lt;strong&gt;keep our freedom&lt;/strong&gt;, &lt;strong&gt;fix bugs&lt;/strong&gt;, &lt;strong&gt;add features&lt;/strong&gt; and &lt;strong&gt;to be always active&lt;/strong&gt;, we count on your &lt;strong&gt;contribution&lt;/strong&gt;.</string>
     <string name="error_create_database_file">ഈ പാസ്‌വേഡും കീഫയലും ഉപയോഗിച്ച് ഡാറ്റാബേസ് സൃഷ്ടിക്കാൻ കഴിയില്ല.</string>
     <string name="error_copy_group_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു ഗ്രൂപ്പ് പകർത്താൻ കഴിയില്ല.</string>
     <string name="error_copy_entry_here">നിങ്ങൾക്ക് ഇവിടെ ഒരു എൻ‌ട്രി പകർ‌ത്താൻ‌ കഴിയില്ല.</string>
@@ -178,8 +178,8 @@
     <string name="content_description_background">ബാക്ക്ഗ്രൗണ്ട്</string>
     <string name="brackets">ബ്രാക്കറ്റുകൾ</string>
     <string name="biometric_prompt_store_credential_message">മുന്നറിയിപ്പ്: ബയോമെട്രിക് തിരിച്ചറിയൽ ഉപയോഗിക്കുകയാണെങ്കിലും നിങ്ങൾ മാസ്റ്റർ പാസ്സ്‌വേഡ്‌ ഓർത്തിരിക്കണം.</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is <strong>ഓപ്പൺ സോഴ്‌സും</strong> and <strong>പരസ്യം ഇല്ലാത്ത</strong>.
-\nIt is provided as is, under <strong>GPLv3</strong> license, without any warranty.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft is &lt;strong&gt;ഓപ്പൺ സോഴ്‌സും&lt;/strong&gt; and &lt;strong&gt;പരസ്യം ഇല്ലാത്ത&lt;/strong&gt;.
+\nIt is provided as is, under &lt;strong&gt;GPLv3&lt;/strong&gt; license, without any warranty.</string>
     <string name="warning_empty_password">പാസ്‌വേഡ് അൺലോക്കുചെയ്യൽ പരിരക്ഷയില്ലാതെ തുടരുക</string>
     <string name="icon_pack_choose_title">"ഐക്കൺ സമാഹാരം "</string>
     <string name="magic_keyboard_title">Magikeyboard</string>

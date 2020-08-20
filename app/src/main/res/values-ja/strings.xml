@@ -39,8 +39,8 @@
     <string name="decrypting_db">データベースの内容を復号しています…</string>
     <string name="default_checkbox">デフォルトのデータベースとして使用</string>
     <string name="digits">数字</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は<strong>オープンソース</strong>で<strong>広告はありません</strong>。
-\nそのままの状態で、<strong>GPLv3</strong> ライセンスの下、いかなる保証もなく提供されます。</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft は&lt;strong&gt;オープンソース&lt;/strong&gt;で&lt;strong&gt;広告はありません&lt;/strong&gt;。
+\nそのままの状態で、&lt;strong&gt;GPLv3&lt;/strong&gt; ライセンスの下、いかなる保証もなく提供されます。</string>
     <string name="select_database_file">既存のデータベースを開く</string>
     <string name="entry_accessed">アクセス日時</string>
     <string name="entry_cancel">キャンセル</string>
@@ -230,7 +230,7 @@
     <string name="entry_setup_otp">ワンタイム パスワードを設定</string>
     <string name="entry_attachments">添付ファイル</string>
     <string name="entry_UUID">UUID</string>
-    <string name="html_about_contribution"><strong>自由を維持し</strong>、<strong>バグを修正し</strong>、<strong>機能を追加し</strong>、そして<strong>活発に開発し続ける</strong>ために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
+    <string name="html_about_contribution">&lt;strong&gt;自由を維持し&lt;/strong&gt;、&lt;strong&gt;バグを修正し&lt;/strong&gt;、&lt;strong&gt;機能を追加し&lt;/strong&gt;、そして&lt;strong&gt;活発に開発し続ける&lt;/strong&gt;ために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
     <string name="content_description_keyfile_checkbox">キーファイルのチェックボックス</string>
     <string name="content_description_password_checkbox">パスワードのチェックボックス</string>
     <string name="content_description_add_node">ノードを追加</string>
@@ -366,17 +366,17 @@
     <string name="biometric_invalid_key">生体認証キーが読み取れません。削除して生体認証の手順を繰り返してください。</string>
     <string name="encrypted_value_stored">保存された暗号化済みパスワード</string>
     <string name="biometric_prompt_extract_credential_message">生体情報を用いてデータベースの認証情報を取り出します</string>
-    <string name="html_text_feature_generosity">この<strong>ビジュアル スタイル</strong>はあなたの厚意により利用可能となります。</string>
+    <string name="html_text_feature_generosity">この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;はあなたの厚意により利用可能となります。</string>
     <string name="subdomain_search_summary">サブドメインの制約つきでウェブドメインを検索します</string>
     <string name="lock_database_back_root_summary">ユーザーがルート画面上で戻るボタンをタップしたとき、データベースをロックします</string>
     <string name="keyboard_notification_entry_clear_close_title">データベースを閉じて消去</string>
     <string name="clear_clipboard_notification_title">データベースを閉じて消去</string>
     <string name="keyboard_notification_entry_clear_close_summary">通知を閉じるとき、データベースも閉じます</string>
     <string name="clear_clipboard_notification_summary">クリップボードでの保存期間が終了したとき、またはこの機能の使用中に通知が閉じられたとき、データベースをロックします</string>
-    <string name="html_text_dev_feature_encourage">あなたの意見によって、デベロッパーは<strong>新機能</strong>の開発や<strong>バグの修正</strong>を速く進めることができます。</string>
+    <string name="html_text_dev_feature_encourage">あなたの意見によって、デベロッパーは&lt;strong&gt;新機能&lt;/strong&gt;の開発や&lt;strong&gt;バグの修正&lt;/strong&gt;を速く進めることができます。</string>
     <string name="reset_education_screens_summary">すべての教育的な情報をもう一度表示します</string>
-    <string name="html_text_dev_feature">この機能は<strong>開発中</strong>であり、早期に提供するにはあなたの<strong>貢献</strong>が必要です。</string>
-    <string name="html_text_buy_pro">pro バージョンを購入すると、この<strong>ビジュアル スタイル</strong>にアクセスできるようになり、また<strong>コミュニティ プロジェクトの実現</strong>を特に支援できます。</string>
+    <string name="html_text_dev_feature">この機能は&lt;strong&gt;開発中&lt;/strong&gt;であり、早期に提供するにはあなたの&lt;strong&gt;貢献&lt;/strong&gt;が必要です。</string>
+    <string name="html_text_buy_pro">pro バージョンを購入すると、この&lt;strong&gt;ビジュアル スタイル&lt;/strong&gt;にアクセスできるようになり、また&lt;strong&gt;コミュニティ プロジェクトの実現&lt;/strong&gt;を特に支援できます。</string>
     <string name="education_biometric_summary">スキャンした生体情報にパスワードをリンクして、データベースのロックをすばやく解除します。</string>
     <string name="reset_education_screens_text">教育的なヒントをリセットしました</string>
     <string name="enable_education_screens_title">教育的なヒント</string>
@@ -414,10 +414,10 @@
     <string name="download">ダウンロード</string>
     <string name="html_text_dev_feature_upgrade">新しいバージョンをインストールして、アプリを最新の状態に保つことを忘れないでください。</string>
     <string name="html_text_dev_feature_thanks">あなたの貢献に感謝します。</string>
-    <string name="html_text_dev_feature_buy_pro"><strong>pro</strong> バージョンを購入することによる、</string>
-    <string name="html_text_dev_feature_contibute"><strong>貢献</strong>による、</string>
-    <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの<strong>貢献</strong>に期待しています。</string>
-    <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは<strong>広告なし</strong>かつ<strong>コピーレフトの自由ソフトウェア</strong>です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
+    <string name="html_text_dev_feature_buy_pro">&lt;strong&gt;pro&lt;/strong&gt; バージョンを購入することによる、</string>
+    <string name="html_text_dev_feature_contibute">&lt;strong&gt;貢献&lt;/strong&gt;による、</string>
+    <string name="html_text_donation">自由を維持し活発に開発し続けるために、私たちはあなたの&lt;strong&gt;貢献&lt;/strong&gt;に期待しています。</string>
+    <string name="html_text_ad_free">多くのパスワード管理アプリとは異なり、このアプリは&lt;strong&gt;広告なし&lt;/strong&gt;かつ&lt;strong&gt;コピーレフトの自由ソフトウェア&lt;/strong&gt;です。どのバージョンを使っても、サーバー上で個人情報が収集されることはありません。</string>
     <string name="enable_auto_save_database_summary">重要なアクションを起こすたびにデータベースを保存します（「変更可能」モードのとき）</string>
     <string name="allow_no_password_title">空のマスターキーを許可</string>
     <string name="autofill_auto_search_title">自動検索</string>

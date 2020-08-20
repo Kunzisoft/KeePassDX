@@ -42,8 +42,8 @@
     <string name="decrypting_db">A desencriptar o conteúdo da base de dados…</string>
     <string name="default_checkbox">Utilizar como base de dados predefinida</string>
     <string name="digits">Dígitos</string>
-    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de <strong>código aberto</strong> e <strong>sem publicidade</strong>.
-\nÉ fornecido como está, sob <strong>licença GPLv3</strong>, sem qualquer garantia.</string>
+    <string name="html_about_licence">KeePassDX © %1$d Kunzisoft é de &lt;strong&gt;código aberto&lt;/strong&gt; e &lt;strong&gt;sem publicidade&lt;/strong&gt;.
+\nÉ fornecido como está, sob &lt;strong&gt;licença GPLv3&lt;/strong&gt;, sem qualquer garantia.</string>
     <string name="select_database_file">Abrir uma base de dados existente</string>
     <string name="entry_accessed">Acedido</string>
     <string name="entry_cancel">Cancelar</string>
@@ -273,16 +273,16 @@
     <string name="education_sort_summary">Escolha como entradas e grupos são ordenadas.</string>
     <string name="education_donation_title">Participar</string>
     <string name="education_donation_summary">Ajude a aumentar a estabilidade, segurança e na adição de mais recursos.</string>
-    <string name="html_text_ad_free">Ao contrário de muitas apps de gestão de palavras-passe, esta app é <strong>livre de anúncios</strong>, é <strong>software livre copyleft</strong> e não coleta dados pessoais nos servidores dela, mesmo na sua versão gratuita.</string>
-    <string name="html_text_buy_pro">Ao comprar a versão pro, terá acesso a este <strong>recurso visual</strong> e ajudará especialmente a <strong>realizar projetos comunitários.</strong></string>
-    <string name="html_text_feature_generosity">Este <strong>estilo visual</strong> está disponível graças à sua generosidade.</string>
+    <string name="html_text_ad_free">Ao contrário de muitas apps de gestão de palavras-passe, esta app é &lt;strong&gt;livre de anúncios&lt;/strong&gt;, é &lt;strong&gt;software livre copyleft&lt;/strong&gt; e não coleta dados pessoais nos servidores dela, mesmo na sua versão gratuita.</string>
+    <string name="html_text_buy_pro">Ao comprar a versão pro, terá acesso a este &lt;strong&gt;recurso visual&lt;/strong&gt; e ajudará especialmente a &lt;strong&gt;realizar projetos comunitários.&lt;/strong&gt;</string>
+    <string name="html_text_feature_generosity">Este &lt;strong&gt;estilo visual&lt;/strong&gt; está disponível graças à sua generosidade.</string>
     <string name="html_text_donation">Para manter a nossa liberdade e estarmos sempre ativos, nós contamos com a sua &lt;strong&gt;contribuição.&lt;/strong&gt;
     </string>
     <string name="html_text_dev_feature">Esse recurso está &lt;strong&gt;em desenvolvimento&lt;/strong&gt; e exige que sua &lt;strong&gt;contribuição&lt;/strong&gt; para que esteja disponível em breve.</string>
     <string name="html_text_dev_feature_buy_pro">Ao comprar a versão &lt;strong&gt;pro&lt;/strong&gt;,</string>
     <string name="html_text_dev_feature_contibute">
         &lt;strong&gt;Contribuindo &lt;/strong&gt;,</string>
-    <string name="html_text_dev_feature_encourage">está a incentivar os programadores a criar <strong>novos recursos</strong> e a <strong>corrigir erros </strong> de acordo com as suas observações.</string>
+    <string name="html_text_dev_feature_encourage">está a incentivar os programadores a criar &lt;strong&gt;novos recursos&lt;/strong&gt; e a &lt;strong&gt;corrigir erros &lt;/strong&gt; de acordo com as suas observações.</string>
     <string name="html_text_dev_feature_thanks">Obrigado por sua contribuição.</string>
     <string name="html_text_dev_feature_work_hard">Estamos trabalhando duro para lançar esse recurso o mais rápido possível.</string>
     <string name="html_text_dev_feature_upgrade">Lembre-se de manter o sua app atualizada, instalando novas versões.</string>
@@ -417,7 +417,7 @@
     <string name="error_otp_secret_key">A chave secreta deve estar em formato Base32.</string>
     <string name="enable">Ativar</string>
     <string name="database_data_compression_title">Compressão dos dados</string>
-    <string name="html_about_contribution">Para <strong>manter a liberdade</strong>, <strong>solucionar bugs</strong>, <strong>adicionar funções</strong> e <strong>para sermos sempre ativoa</strong>, contamos com sua <strong>contribuição</strong>.</string>
+    <string name="html_about_contribution">Para &lt;strong&gt;manter a liberdade&lt;/strong&gt;, &lt;strong&gt;solucionar bugs&lt;/strong&gt;, &lt;strong&gt;adicionar funções&lt;/strong&gt; e &lt;strong&gt;para sermos sempre ativoa&lt;/strong&gt;, contamos com sua &lt;strong&gt;contribuição&lt;/strong&gt;.</string>
     <string name="biometric_unlock_enable_title">Desbloqueio por biométrico</string>
     <string name="entry_attachments">Anexos</string>
     <string name="compression_gzip">gzip</string>
