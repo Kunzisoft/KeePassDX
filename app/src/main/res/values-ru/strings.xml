@@ -35,7 +35,7 @@
     <string name="clipboard_error">Некоторые устройства не дают приложению использовать буфер обмена.</string>
     <string name="clipboard_error_clear">Не удалось очистить буфер обмена</string>
     <string name="clipboard_timeout">Задержка очистки буфера обмена</string>
-    <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена</string>
+    <string name="clipboard_timeout_summary">Продолжительность хранения в буфере обмена (если поддерживается устройством)</string>
     <string name="select_to_copy">Выберите %1$s для копирования в буфер обмена</string>
     <string name="retrieving_db_key">Получение ключа базы…</string>
     <string name="database">База</string>
@@ -338,7 +338,7 @@
     <string name="lock_database_back_root_title">Блокировка нажатием \"Назад\"</string>
     <string name="lock_database_back_root_summary">Блокировка базы при нажатии кнопки \"Назад\" на начальном экране</string>
     <string name="clear_clipboard_notification_title">Очищать при закрытии</string>
-    <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления</string>
+    <string name="clear_clipboard_notification_summary">Блокировать базу при закрытии уведомления после использования или истечения времени ожидания</string>
     <string name="recycle_bin">Корзина</string>
     <string name="keyboard_selection_entry_title">Выбор записи</string>
     <string name="keyboard_selection_entry_summary">Показывать поля ввода в Magikeyboard при просмотре записи</string>
@@ -486,4 +486,9 @@
     <string name="autofill_application_id_blocklist_title">Чёрный список приложений</string>
     <string name="filter">Фильтр</string>
     <string name="content_description_add_item">Добавить элемент</string>
+    <string name="keyboard_previous_database_credentials_title">Экран ввода главного пароля</string>
+    <string name="keyboard_previous_fill_in_summary">Автоматически переключаться на предыдущую клавиатуру после заполнения формы и выполнения автоматического действия кнопки</string>
+    <string name="keyboard_previous_fill_in_title">Автоматическое действие кнопки</string>
+    <string name="keyboard_previous_database_credentials_summary">Автоматически переключаться на предыдущую клавиатуру на экране входа в базу</string>
+    <string name="keyboard_change">Переключение клавиатуры</string>
 </resources>

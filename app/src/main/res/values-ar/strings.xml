@@ -118,7 +118,7 @@
     <string name="file_manager_install_description">تصفَّح الملفات بتثبيت مدير الملفات OpenIntents</string>
     <string name="clipboard_error">بعض الأجهزة لا تسمح للتطبيقات باستعمال الحافظة.</string>
     <string name="clipboard_timeout">مهلة الحافظة</string>
-    <string name="clipboard_timeout_summary">مدة التخزين في الحافظة</string>
+    <string name="clipboard_timeout_summary">مدة التخزين في الحافظة(إذا كان جهازك يدعمها)</string>
     <string name="select_to_copy">اختر لنسخ %1$s إلى الحافظة</string>
     <string name="retrieving_db_key">يجلب مفتاح قاعدة البيانات…</string>
     <string name="default_checkbox">استخدامها كقاعدة بيانات افتراضية</string>
@@ -142,7 +142,7 @@
     <string name="error_move_folder_in_itself">غير قادر على نقل مجموعة إلى نفسها.</string>
     <string name="file_not_found_content">تعذر إيجاد الملف. جرِّب فتحه من متصفح ملفات.</string>
     <string name="file_browser">مدير الملفات</string>
-    <string name="invalid_credentials">تعذرت قراءة كلمة السر أو ملف المفتاح.</string>
+    <string name="invalid_credentials">تعذر قراءة الإعتمادات.</string>
     <string name="invalid_db_sig">تعذر تمييز نسق قاعدة البيانات.</string>
     <string name="keyfile_is_empty">ملف المفتاح فارغ.</string>
     <string name="list_entries_show_username_title">أظهر أسماء المستخدمين</string>
@@ -325,4 +325,7 @@
     <string name="error_otp_counter">على العداد أن يكون ما بين %1$d و %2$d.</string>
     <string name="entry_otp">كلمة مرور لمرة واحدة</string>
     <string name="otp_type">نوع كلمة المرور لمرة واحدة</string>
+    <string name="error_disallow_no_credentials">عين اعتماد واحد على الأقل.</string>
+    <string name="contribution">مساهمة</string>
+    <string name="contact">"‮تواصل معنا "</string>
 </resources>
