@@ -167,7 +167,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
     }
 
     private fun focusedTimestampNotExpired(): Boolean {
-        return mLastFocusedTimestamp == 0L || (mLastFocusedTimestamp + 350L) > System.currentTimeMillis()
+        return mLastFocusedTimestamp == 0L || (mLastFocusedTimestamp + FOCUS_TIMESTAMP) > System.currentTimeMillis()
     }
 
     fun getFocusedField(): FocusedEditField {
@@ -178,5 +178,10 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
         var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
         var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
+    }
+
+    companion object {
+        // time to focus element when a keyboard appears
+        private const val FOCUS_TIMESTAMP = 400L
     }
 }
