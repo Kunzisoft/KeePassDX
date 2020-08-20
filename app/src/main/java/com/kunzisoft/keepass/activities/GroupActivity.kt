@@ -477,7 +477,8 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            showButton()
+            if (actionNodeMode == null)
+                showButton()
         }
     }
 
