@@ -199,7 +199,7 @@
     <string name="configure_biometric">生体認証プロンプト対応端末ですが未設定です。</string>
     <string name="master_key">マスターキー</string>
     <string name="entry_history">履歴</string>
-    <string name="otp_type">OTP の型式</string>
+    <string name="otp_type">OTP タイプ</string>
     <string name="otp_period">周期（秒）</string>
     <string name="otp_algorithm">アルゴリズム</string>
     <string name="entry_otp">OTP</string>
@@ -343,7 +343,7 @@
     <string name="lock_database_screen_off_title">画面ロック</string>
     <string name="lock">ロック</string>
     <string name="clipboard_warning">クリップボードの自動削除に失敗した場合は、手動でその履歴を削除してください。</string>
-    <string name="clipboard_notifications_summary">エントリーを表示しているとき、フィールドをコピーするクリップボード通知を有効にします</string>
+    <string name="clipboard_notifications_summary">エントリーを開いているとき、フィールドをコピーするクリップボード通知を有効にします</string>
     <string name="clipboard_notifications_title">クリップボード通知</string>
     <string name="clipboard">クリップボード</string>
     <string name="database_opened">データベースが開かれています</string>
@@ -396,7 +396,7 @@
     <string name="device_keyboard_setting_title">デバイス キーボードの設定</string>
     <string name="settings_database_force_changing_master_key_next_time_summary">次回マスターキーの変更を必須にします（1 回のみ）</string>
     <string name="recycle_bin_summary">グループとエントリーを削除する前に「ごみ箱」グループに移動します</string>
-    <string name="keyboard_selection_entry_summary">エントリーを表示しているとき、Magikeyboard に入力フィールドを表示します</string>
+    <string name="keyboard_selection_entry_summary">エントリーを開いているとき、Magikeyboard に入力フィールドを表示します</string>
     <string name="lock_database_show_button_title">ロックボタンを表示</string>
     <string name="download_finalization">終了しています…</string>
     <string name="download_initialization">初期化しています…</string>
