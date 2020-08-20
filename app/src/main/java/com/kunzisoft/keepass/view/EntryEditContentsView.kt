@@ -40,6 +40,7 @@ import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
 import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.FocusedEditField
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -245,12 +246,18 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         return extraFieldsAdapter.itemsList
     }
 
+    fun getExtraFieldFocused(): FocusedEditField {
+        // To keep focused after an orientation change
+        return extraFieldsAdapter.getFocusedField()
+    }
+
     /**
      * Remove all children and add new views for each field
      */
-    fun assignExtraFields(fields: List<Field>) {
+    fun assignExtraFields(fields: List<Field>, focusedExtraField: FocusedEditField? = null) {
         extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
-        extraFieldsAdapter.assignItems(fields)
+        // Reinit focused field
+        extraFieldsAdapter.assignItems(fields, focusedExtraField)
     }
 
     /**

@@ -47,6 +47,7 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.FocusedEditField
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -86,6 +87,8 @@ class EntryEditActivity : LockingActivity(),
     private var entryEditAddToolBar: Toolbar? = null
     private var validateButton: View? = null
     private var lockView: View? = null
+
+    private var mFocusedEditExtraField: FocusedEditField? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -152,8 +155,7 @@ class EntryEditActivity : LockingActivity(),
             }
 
             // Create the new entry from the current one
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = Entry(entry).also { newEntry ->
@@ -168,8 +170,7 @@ class EntryEditActivity : LockingActivity(),
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
             // Create an empty new entry
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
                 mNewEntry = mDatabase?.createEntry()
             }
             mParent = mDatabase?.getGroupById(it)
@@ -187,9 +188,12 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Retrieve the new entry after an orientation change
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+        if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) == true) {
             mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
+        }
+
+        if (savedInstanceState?.containsKey(EXTRA_FIELD_FOCUSED_ENTRY) == true) {
+            mFocusedEditExtraField = savedInstanceState.getParcelable(EXTRA_FIELD_FOCUSED_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -299,7 +303,7 @@ class EntryEditActivity : LockingActivity(),
             notes = newEntry.notes
             assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
                 Field(it.key, it.value)
-            })
+            }, mFocusedEditExtraField)
             assignAttachments(newEntry.getAttachments()) { attachment ->
                 newEntry.removeAttachment(attachment)
             }
@@ -322,10 +326,11 @@ class EntryEditActivity : LockingActivity(),
                 if (entryView.expires) {
                     expiryTime = entryView.expiresDate
                 }
-                notes = entryView. notes
+                notes = entryView.notes
                 entryView.getExtraField().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
                 }
+                mFocusedEditExtraField = entryView.getExtraFieldFocused()
             }
         }
 
@@ -529,6 +534,10 @@ class EntryEditActivity : LockingActivity(),
             outState.putParcelable(KEY_NEW_ENTRY, it)
         }
 
+        mFocusedEditExtraField?.let {
+            outState.putParcelable(EXTRA_FIELD_FOCUSED_ENTRY, it)
+        }
+
         super.onSaveInstanceState(outState)
     }
 
@@ -586,6 +595,7 @@ class EntryEditActivity : LockingActivity(),
 
         // SaveInstanceState
         const val KEY_NEW_ENTRY = "new_entry"
+        const val EXTRA_FIELD_FOCUSED_ENTRY = "EXTRA_FIELD_FOCUSED_ENTRY"
 
         // Keys for callback
         const val ADD_ENTRY_RESULT_CODE = 31

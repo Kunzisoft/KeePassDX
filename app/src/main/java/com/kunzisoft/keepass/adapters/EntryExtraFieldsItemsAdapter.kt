@@ -24,12 +24,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.view.EditTextSelectable
 import com.kunzisoft.keepass.view.applyFontVisibility
 
 class EntryExtraFieldsItemsAdapter(context: Context)
@@ -41,7 +42,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             notifyDataSetChanged()
         }
     private var mValueViewInputType: Int = 0
-    private var mLastFocused: Field? = null
+    private var mLastFocusedEditField = FocusedEditField()
     private var mLastFocusedTimestamp: Long = 0L
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EntryExtraFieldViewHolder {
@@ -69,15 +70,26 @@ class EntryExtraFieldsItemsAdapter(context: Context)
             // To Fix focus in RecyclerView
             setOnFocusChangeListener { _, hasFocus ->
                 if (hasFocus) {
-                    focusField(extraField)
+                    setFocusField(extraField, selectionStart, selectionEnd)
                 } else {
-                    requestFocusOnLastTextFocused(this, extraField)
+                    // request focus on last text focused
+                    if (focusedTimestampNotExpired()) {
+                        requestFocusField(this, extraField, false)
+                    } else {
+                        requestUnfocusField(extraField)
+                    }
                 }
             }
-            if (extraField == mLastFocused) {
-                post { requestFocus() }
-                mLastFocused = null
-            }
+            addOnSelectionChangedListener(object: EditTextSelectable.OnSelectionChangedListener {
+                override fun onSelectionChanged(start: Int, end: Int) {
+                    mLastFocusedEditField.apply {
+                        cursorSelectionStart = start
+                        cursorSelectionEnd = end
+                    }
+                }
+            })
+            requestFocusField(this, extraField, true)
+            setEditTextSelection(this)
             doOnTextChanged { text, _, _, _ ->
                 extraField.protectedValue.stringValue = text.toString()
             }
@@ -89,27 +101,82 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         }
     }
 
-    private fun focusField(field: Field, force: Boolean = false) {
-        mLastFocused = field
+    private fun setFocusField(field: Field,
+                              selectionStart: Int,
+                              selectionEnd: Int,
+                              force: Boolean = false) {
+        mLastFocusedEditField.apply {
+            this.field = field
+            this.cursorSelectionStart = selectionStart
+            this.cursorSelectionEnd = selectionEnd
+        }
+        setFocusField(mLastFocusedEditField, force)
+    }
+
+    private fun setFocusField(field: FocusedEditField, force: Boolean = false) {
+        mLastFocusedEditField = field
         mLastFocusedTimestamp = if (force) 0L else System.currentTimeMillis()
     }
 
+    fun assignItems(items: List<Field>, focusedEditField: FocusedEditField?) {
+        focusedEditField?.let {
+            setFocusField(it, true)
+        }
+        super.assignItems(items)
+    }
+
     override fun putItem(item: Field) {
-        focusField(item, true)
+        setFocusField(mLastFocusedEditField.apply {
+            field = item
+            cursorSelectionStart = -1
+            cursorSelectionEnd = -1
+        }, true)
         super.putItem(item)
     }
 
-    private fun requestFocusOnLastTextFocused(textView: TextView, field: Field) {
-        if (field == mLastFocused) {
-            if (mLastFocusedTimestamp == 0L || (mLastFocusedTimestamp + 350L) > System.currentTimeMillis())
-                textView.post { textView.requestFocus() }
-            mLastFocused = null
+    private fun requestFocusField(editText: EditText, field: Field, setSelection: Boolean) {
+        if (field == mLastFocusedEditField.field) {
+            editText.apply {
+                post {
+                    requestFocus()
+                    if (setSelection) {
+                        setEditTextSelection(editText)
+                    }
+                }
+            }
         }
+    }
+
+    private fun requestUnfocusField(field: Field) {
+        if (mLastFocusedEditField.field == field) {
+            mLastFocusedEditField.destroy()
+        }
+    }
+
+    private fun setEditTextSelection(editText: EditText) {
+        try {
+            var newCursorPositionStart = mLastFocusedEditField.cursorSelectionStart
+            var newCursorPositionEnd = mLastFocusedEditField.cursorSelectionEnd
+            // Cursor at end if 0 or less
+            if (newCursorPositionStart < 0 || newCursorPositionEnd < 0) {
+                newCursorPositionStart = (editText.text?:"").length
+                newCursorPositionEnd = newCursorPositionStart
+            }
+            editText.setSelection(newCursorPositionStart, newCursorPositionEnd)
+        } catch (ignoredException: Exception) {}
+    }
+
+    private fun focusedTimestampNotExpired(): Boolean {
+        return mLastFocusedTimestamp == 0L || (mLastFocusedTimestamp + 350L) > System.currentTimeMillis()
+    }
+
+    fun getFocusedField(): FocusedEditField {
+        return mLastFocusedEditField
     }
 
     inner class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
-        var extraFieldValue: EditText = itemView.findViewById(R.id.entry_extra_field_value)
+        var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
         var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
     }
 }

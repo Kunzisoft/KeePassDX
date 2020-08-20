@@ -22,7 +22,7 @@ abstract class AnimatedItemsAdapter<Item, T: RecyclerView.ViewHolder>(val contex
         return itemsList.size
     }
 
-    fun assignItems(items: List<Item>) {
+    open fun assignItems(items: List<Item>) {
         val previousSize = itemsList.size
         itemsList.apply {
             clear()

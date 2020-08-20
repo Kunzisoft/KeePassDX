@@ -34,7 +34,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_extra_field_delete">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <com.kunzisoft.keepass.view.EditTextSelectable
             android:id="@+id/entry_extra_field_value"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
