@@ -56,9 +56,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val userNameView: TextView
     private val userNameActionView: ImageView
 
-    private val passwordContainerView: View
-    private val passwordView: TextView
-    private val passwordActionView: ImageView
+    private val passwordFieldView: EntryField
 
     private val otpContainerView: View
     private val otpLabelView: TextView
@@ -97,7 +95,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         get() = userNameContainerView.visibility == View.VISIBLE
 
     val isPasswordPresent: Boolean
-        get() = passwordContainerView.visibility == View.VISIBLE
+        get() = passwordFieldView.visibility == View.VISIBLE
 
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
@@ -107,9 +105,8 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         userNameView = findViewById(R.id.entry_user_name)
         userNameActionView = findViewById(R.id.entry_user_name_action_image)
 
-        passwordContainerView = findViewById(R.id.entry_password_container)
-        passwordView = findViewById(R.id.entry_password)
-        passwordActionView = findViewById(R.id.entry_password_action_image)
+        passwordFieldView = findViewById(R.id.entry_password_field)
+        passwordFieldView.setLabel(R.string.password)
 
         otpContainerView = findViewById(R.id.entry_otp_container)
         otpLabelView = findViewById(R.id.entry_otp_label)
@@ -173,32 +170,26 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignPassword(password: String?, allowCopyPassword: Boolean) {
         if (password != null && password.isNotEmpty()) {
-            passwordContainerView.visibility = View.VISIBLE
-            passwordView.apply {
-                text = password
-                if (fontInVisibility)
-                    applyFontVisibility()
+            passwordFieldView.apply {
+                visibility = View.VISIBLE
+                setValue(password, true)
+                applyFontVisibility(fontInVisibility)
+                activateCopyButton(allowCopyPassword)
             }
-            passwordActionView.isActivated = !allowCopyPassword
         } else {
-            passwordContainerView.visibility = View.GONE
+            passwordFieldView.visibility = View.GONE
         }
     }
 
     fun assignPasswordCopyListener(onClickListener: OnClickListener?) {
-        passwordActionView.apply {
-            setOnClickListener(onClickListener)
-            if (onClickListener == null) {
-                visibility = View.GONE
-            }
-        }
+        passwordFieldView.assignCopyButtonClickListener(onClickListener)
     }
 
     fun atLeastOneFieldProtectedPresent(): Boolean {
         extraFieldsListView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryExtraField)
+                if (childCustomView is EntryField)
                     if (childCustomView.isProtected)
                         return true
             }
@@ -206,14 +197,14 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         return false
     }
 
-    fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        passwordView.applyHiddenStyle(hiddenStyle)
+    fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
+        passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
         // Hidden style for custom fields
         extraFieldsListView.let {
             for (i in 0 until it.childCount) {
                 val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryExtraField)
-                    childCustomView.setHiddenPasswordStyle(hiddenStyle)
+                if (childCustomView is EntryField)
+                    childCustomView.hiddenProtectedValue = hiddenProtectedValue
             }
         }
     }
@@ -334,14 +325,14 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun addExtraField(title: String,
                       value: ProtectedString,
                       allowCopy: Boolean,
-                      onActionClickListener: OnClickListener?) {
+                      onCopyButtonClickListener: OnClickListener?) {
 
-        val entryCustomField: EntryExtraField? = EntryExtraField(context, attrs, defStyle)
+        val entryCustomField: EntryField? = EntryField(context, attrs, defStyle)
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
-            activateActionButton(allowCopy)
-            assignActionButtonClickListener(onActionClickListener)
+            activateCopyButton(allowCopy)
+            assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)
         }
         entryCustomField?.let {

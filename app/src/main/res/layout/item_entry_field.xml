@@ -24,26 +24,36 @@
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/entry_field_label"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/action_image"
+        app:layout_constraintEnd_toStartOf="@+id/entry_field_show"
         tools:text="title"
         style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle"	/>
     <TextView
-        android:id="@+id/value"
+        android:id="@+id/entry_field_value"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintTop_toBottomOf="@+id/entry_field_label"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/action_image"
+        app:layout_constraintEnd_toStartOf="@+id/entry_field_show"
         android:textIsSelectable="true"
         tools:text="value"
+        android:focusable="false"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
     <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/action_image"
+        android:id="@+id/entry_field_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/entry_field_copy"
+        android:src="@drawable/ic_visibility_state"
+        android:contentDescription="@string/menu_showpass"
+        style="@style/KeepassDXStyle.ImageButton.Simple"/>
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/entry_field_copy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"

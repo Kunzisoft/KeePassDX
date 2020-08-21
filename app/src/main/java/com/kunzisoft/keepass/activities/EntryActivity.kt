@@ -312,12 +312,12 @@ class EntryActivity : LockingActivity() {
             for ((label, value) in entry.customFields) {
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {
-                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField, View.OnClickListener {
+                    entryContentsView?.addExtraField(label, value, allowCopyProtectedField) {
                         clipboardHelper?.timeoutCopyToClipboard(
                                 value.toString(),
                                 getString(R.string.copy_field, label)
                         )
-                    })
+                    }
                 } else {
                     // If dialog not already shown
                     if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
@@ -328,7 +328,7 @@ class EntryActivity : LockingActivity() {
                 }
             }
         }
-        entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
+        entryContentsView?.setHiddenProtectedValue(!mShowPassword)
 
         // Manage attachments
         entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
@@ -393,16 +393,6 @@ class EntryActivity : LockingActivity() {
         }
     }
 
-    private fun changeShowPasswordIcon(togglePassword: MenuItem?) {
-        if (mShowPassword) {
-            togglePassword?.setTitle(R.string.menu_hide_password)
-            togglePassword?.setIcon(R.drawable.ic_visibility_off_white_24dp)
-        } else {
-            togglePassword?.setTitle(R.string.menu_showpass)
-            togglePassword?.setIcon(R.drawable.ic_visibility_white_24dp)
-        }
-    }
-
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         super.onCreateOptionsMenu(menu)
 
@@ -416,15 +406,6 @@ class EntryActivity : LockingActivity() {
         if (mIsHistory || mReadOnly) {
             menu.findItem(R.id.menu_save_database)?.isVisible = false
             menu.findItem(R.id.menu_edit)?.isVisible = false
-        }
-
-        val togglePassword = menu.findItem(R.id.menu_toggle_pass)
-        entryContentsView?.let {
-            if (it.isPasswordPresent || it.atLeastOneFieldProtectedPresent()) {
-                changeShowPasswordIcon(togglePassword)
-            } else {
-                togglePassword?.isVisible = false
-            }
         }
 
         val gotoUrl = menu.findItem(R.id.menu_goto_url)
@@ -478,12 +459,6 @@ class EntryActivity : LockingActivity() {
         when (item.itemId) {
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
-                return true
-            }
-            R.id.menu_toggle_pass -> {
-                mShowPassword = !mShowPassword
-                changeShowPasswordIcon(item)
-                entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
                 return true
             }
             R.id.menu_edit -> {

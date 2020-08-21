@@ -75,39 +75,11 @@
 			</androidx.constraintlayout.widget.ConstraintLayout>
 
 			<!-- Password -->
-			<androidx.constraintlayout.widget.ConstraintLayout
-				android:id="@+id/entry_password_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_password_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_password_label"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_password_action_image"
-					android:text="@string/entry_password"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_password"
-					android:layout_width="0dp"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toBottomOf="@+id/entry_password_label"
-					app:layout_constraintStart_toStartOf="parent"
-					app:layout_constraintEnd_toStartOf="@+id/entry_password_action_image"
-					android:focusable="false"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-				<androidx.appcompat.widget.AppCompatImageView
-					android:id="@+id/entry_password_action_image"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					app:layout_constraintTop_toTopOf="parent"
-					app:layout_constraintEnd_toEndOf="parent"
-					android:src="@drawable/ic_content_copy_white_24dp"
-					android:contentDescription="@string/menu_copy"
-					style="@style/KeepassDXStyle.ImageButton.Simple" />
-			</androidx.constraintlayout.widget.ConstraintLayout>
+				android:visibility="gone" />
 
 			<!-- OTP -->
 			<androidx.constraintlayout.widget.ConstraintLayout

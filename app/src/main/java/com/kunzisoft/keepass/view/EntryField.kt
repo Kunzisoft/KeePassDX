@@ -22,29 +22,41 @@ package com.kunzisoft.keepass.view
 import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.annotation.StringRes
 import com.kunzisoft.keepass.R
 
-class EntryExtraField @JvmOverloads constructor(context: Context,
-                                                attrs: AttributeSet? = null,
-                                                defStyle: Int = 0)
+class EntryField @JvmOverloads constructor(context: Context,
+                                           attrs: AttributeSet? = null,
+                                           defStyle: Int = 0)
     : LinearLayout(context, attrs, defStyle) {
 
     private val labelView: TextView
     private val valueView: TextView
-    private val actionImageView: ImageView
+    private val showButtonView: ImageView
+    private val copyButtonView: ImageView
     var isProtected = false
 
+    var hiddenProtectedValue: Boolean
+        get() {
+            return showButtonView.isSelected
+        }
+        set(value) {
+            showButtonView.isSelected = !value
+            valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
+        }
+
     init {
-
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
-        inflater?.inflate(R.layout.item_entry_extra_field, this)
+        inflater?.inflate(R.layout.item_entry_field, this)
 
-        labelView = findViewById(R.id.title)
-        valueView = findViewById(R.id.value)
-        actionImageView = findViewById(R.id.action_image)
+        labelView = findViewById(R.id.entry_field_label)
+        valueView = findViewById(R.id.entry_field_value)
+        showButtonView = findViewById(R.id.entry_field_show)
+        copyButtonView = findViewById(R.id.entry_field_copy)
     }
 
     fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -56,22 +68,28 @@ class EntryExtraField @JvmOverloads constructor(context: Context,
         labelView.text = label ?: ""
     }
 
+    fun setLabel(@StringRes labelId: Int) {
+        labelView.setText(labelId)
+    }
+
     fun setValue(value: String?, isProtected: Boolean = false) {
         valueView.text = value ?: ""
         this.isProtected = isProtected
+        showButtonView.visibility = if (isProtected) View.VISIBLE else View.GONE
+        showButtonView.setOnClickListener {
+            showButtonView.isSelected = !showButtonView.isSelected
+            valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
+        }
+        valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
     }
 
-    fun setHiddenPasswordStyle(hiddenStyle: Boolean) {
-        valueView.applyHiddenStyle(isProtected && hiddenStyle)
-    }
-
-    fun activateActionButton(enable: Boolean) {
+    fun activateCopyButton(enable: Boolean) {
         // Reverse because isActivated show custom color and allow click
-        actionImageView.isActivated = !enable
+        copyButtonView.isActivated = !enable
     }
 
-    fun assignActionButtonClickListener(onClickActionListener: OnClickListener?) {
-        actionImageView.setOnClickListener(onClickActionListener)
-        actionImageView.visibility = if (onClickActionListener == null) GONE else VISIBLE
+    fun assignCopyButtonClickListener(onClickActionListener: OnClickListener?) {
+        copyButtonView.setOnClickListener(onClickActionListener)
+        copyButtonView.visibility = if (onClickActionListener == null) GONE else VISIBLE
     }
 }
