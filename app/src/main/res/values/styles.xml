@@ -341,9 +341,9 @@
         <item name="tint">@color/background_button_color_accent</item>
         <item name="android:background">@null</item>
         <item name="backgroundTint">@null</item>
-        <item name="android:padding">12dp</item>
-        <item name="android:layout_width">48dp</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:padding">6dp</item>
+        <item name="android:layout_width">36dp</item>
+        <item name="android:layout_height">36dp</item>
     </style>
     <style name="KeepassDXStyle.ImageButton.Simple.Secondary" parent="KeepassDXStyle.ImageButton.Simple">
         <item name="android:colorForeground">@color/background_button_color_secondary</item>
