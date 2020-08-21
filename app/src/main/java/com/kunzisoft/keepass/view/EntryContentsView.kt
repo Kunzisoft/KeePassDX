@@ -28,7 +28,6 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -52,16 +51,9 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     private var fontInVisibility: Boolean = false
 
-    private val userNameContainerView: View
-    private val userNameView: TextView
-    private val userNameActionView: ImageView
-
+    private val userNameFieldView: EntryField
     private val passwordFieldView: EntryField
-
-    private val otpContainerView: View
-    private val otpLabelView: TextView
-    private val otpView: TextView
-    private val otpActionView: ImageView
+    private val otpFieldView: EntryField
 
     private var otpRunnable: Runnable? = null
 
@@ -91,27 +83,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val uuidView: TextView
     private val uuidReferenceView: TextView
 
-    val isUserNamePresent: Boolean
-        get() = userNameContainerView.visibility == View.VISIBLE
-
-    val isPasswordPresent: Boolean
-        get() = passwordFieldView.visibility == View.VISIBLE
-
     init {
         val inflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater?
         inflater?.inflate(R.layout.view_entry_contents, this)
 
-        userNameContainerView = findViewById(R.id.entry_user_name_container)
-        userNameView = findViewById(R.id.entry_user_name)
-        userNameActionView = findViewById(R.id.entry_user_name_action_image)
+        userNameFieldView = findViewById(R.id.entry_user_name_field)
+        userNameFieldView.setLabel(R.string.entry_user_name)
 
         passwordFieldView = findViewById(R.id.entry_password_field)
         passwordFieldView.setLabel(R.string.password)
 
-        otpContainerView = findViewById(R.id.entry_otp_container)
-        otpLabelView = findViewById(R.id.entry_otp_label)
-        otpView = findViewById(R.id.entry_otp)
-        otpActionView = findViewById(R.id.entry_otp_action_image)
+        otpFieldView = findViewById(R.id.entry_otp_field)
+        otpFieldView.setLabel(R.string.entry_otp)
 
         urlContainerView = findViewById(R.id.entry_url_container)
         urlView = findViewById(R.id.entry_url)
@@ -153,19 +136,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
 
     fun assignUserName(userName: String?) {
         if (userName != null && userName.isNotEmpty()) {
-            userNameContainerView.visibility = View.VISIBLE
-            userNameView.apply {
-                text = userName
-                if (fontInVisibility)
-                    applyFontVisibility()
+            userNameFieldView.apply {
+                visibility = View.VISIBLE
+                setValue(userName)
+                applyFontVisibility(fontInVisibility)
             }
         } else {
-            userNameContainerView.visibility = View.GONE
+            userNameFieldView.visibility = View.GONE
         }
     }
 
     fun assignUserNameCopyListener(onClickListener: OnClickListener) {
-        userNameActionView.setOnClickListener(onClickListener)
+        userNameFieldView.assignCopyButtonClickListener(onClickListener)
     }
 
     fun assignPassword(password: String?, allowCopyPassword: Boolean) {
@@ -185,18 +167,6 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         passwordFieldView.assignCopyButtonClickListener(onClickListener)
     }
 
-    fun atLeastOneFieldProtectedPresent(): Boolean {
-        extraFieldsListView.let {
-            for (i in 0 until it.childCount) {
-                val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryField)
-                    if (childCustomView.isProtected)
-                        return true
-            }
-        }
-        return false
-    }
-
     fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
         passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
         // Hidden style for custom fields
@@ -212,19 +182,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun assignOtp(otpElement: OtpElement?,
                   otpProgressView: ProgressBar?,
                   onClickListener: OnClickListener) {
-        otpContainerView.removeCallbacks(otpRunnable)
+        otpFieldView.removeCallbacks(otpRunnable)
 
         if (otpElement != null) {
-            otpContainerView.visibility = View.VISIBLE
+            otpFieldView.visibility = View.VISIBLE
 
             if (otpElement.token.isEmpty()) {
-                otpView.text = context.getString(R.string.error_invalid_OTP)
-                otpActionView.setColorFilter(ContextCompat.getColor(context, R.color.grey_dark))
-                assignOtpCopyListener(null)
+                otpFieldView.setValue(R.string.error_invalid_OTP)
+                otpFieldView.activateCopyButton(false)
+                otpFieldView.assignCopyButtonClickListener(null)
             } else {
-                assignOtpCopyListener(onClickListener)
-                otpView.text = otpElement.token
-                otpLabelView.text = otpElement.type.name
+                otpFieldView.setLabel(otpElement.type.name)
+                otpFieldView.setValue(otpElement.token)
+                otpFieldView.assignCopyButtonClickListener(onClickListener)
 
                 when (otpElement.type) {
                     // Only add token if HOTP
@@ -240,23 +210,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
                         }
                         otpRunnable = Runnable {
                             if (otpElement.shouldRefreshToken()) {
-                                otpView.text = otpElement.token
+                                otpFieldView.setValue(otpElement.token)
                             }
                             otpProgressView?.progress = otpElement.secondsRemaining
-                            otpContainerView.postDelayed(otpRunnable, 1000)
+                            otpFieldView.postDelayed(otpRunnable, 1000)
                         }
-                        otpContainerView.post(otpRunnable)
+                        otpFieldView.post(otpRunnable)
                     }
                 }
             }
         } else {
-            otpContainerView.visibility = View.GONE
+            otpFieldView.visibility = View.GONE
             otpProgressView?.visibility = View.GONE
         }
-    }
-
-    fun assignOtpCopyListener(onClickListener: OnClickListener?) {
-        otpActionView.setOnClickListener(onClickListener)
     }
 
     fun assignURL(url: String?) {

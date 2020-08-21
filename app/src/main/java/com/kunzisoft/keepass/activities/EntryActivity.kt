@@ -430,28 +430,31 @@ class EntryActivity : LockingActivity() {
 
     private fun performedNextEducation(entryActivityEducation: EntryActivityEducation,
                                        menu: Menu) {
-        val entryCopyEducationPerformed = entryContentsView?.isUserNamePresent == true
+        val entryFieldCopyView = findViewById<View>(R.id.entry_field_copy)
+        val entryCopyEducationPerformed = entryFieldCopyView != null
                 && entryActivityEducation.checkAndPerformedEntryCopyEducation(
-                        findViewById(R.id.entry_user_name_action_image),
+                        entryFieldCopyView,
                         {
-                            clipboardHelper?.timeoutCopyToClipboard(mEntry!!.username,
-                                    getString(R.string.copy_field,
-                                            getString(R.string.entry_user_name)))
+                            val appNameString = getString(R.string.app_name)
+                            clipboardHelper?.timeoutCopyToClipboard(appNameString,
+                                    getString(R.string.copy_field, appNameString))
                         },
                         {
                             performedNextEducation(entryActivityEducation, menu)
                         })
 
         if (!entryCopyEducationPerformed) {
+            val menuEditView = toolbar?.findViewById<View>(R.id.menu_edit)
             // entryEditEducationPerformed
-            toolbar?.findViewById<View>(R.id.menu_edit) != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
-                            toolbar!!.findViewById(R.id.menu_edit),
-                            {
-                                onOptionsItemSelected(menu.findItem(R.id.menu_edit))
-                            },
-                            {
-                                performedNextEducation(entryActivityEducation, menu)
-                            })
+            menuEditView != null && entryActivityEducation.checkAndPerformedEntryEditEducation(
+                    menuEditView,
+                    {
+                        onOptionsItemSelected(menu.findItem(R.id.menu_edit))
+                    },
+                    {
+                        performedNextEducation(entryActivityEducation, menu)
+                    }
+            )
         }
     }
 

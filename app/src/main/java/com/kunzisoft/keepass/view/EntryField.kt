@@ -83,6 +83,10 @@ class EntryField @JvmOverloads constructor(context: Context,
         valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
     }
 
+    fun setValue(@StringRes valueId: Int, isProtected: Boolean = false) {
+        setValue(resources.getString(valueId), isProtected)
+    }
+
     fun activateCopyButton(enable: Boolean) {
         // Reverse because isActivated show custom color and allow click
         copyButtonView.isActivated = !enable
