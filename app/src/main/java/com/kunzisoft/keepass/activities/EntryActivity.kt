@@ -362,16 +362,9 @@ class EntryActivity : LockingActivity() {
             collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
             taColorAccent.recycle()
         }
-        val entryHistory = entry.getHistory()
-        val showHistoryView = entryHistory.isNotEmpty()
-        entryContentsView?.showHistory(showHistoryView)
-        if (showHistoryView) {
-            entryContentsView?.assignHistory(entryHistory)
-            entryContentsView?.onHistoryClick { historyItem, position ->
-                launch(this, historyItem, mReadOnly, position)
-            }
+        entryContentsView?.assignHistory(entry.getHistory()) { historyItem, position ->
+            launch(this, historyItem, mReadOnly, position)
         }
-        entryContentsView?.refreshHistory()
 
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)

@@ -382,23 +382,17 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun showHistory(show: Boolean) {
-        historyContainerView.visibility = if (show) View.VISIBLE else View.GONE
-    }
-
-    fun refreshHistory() {
-        historyAdapter.notifyDataSetChanged()
-    }
-
-    fun assignHistory(history: ArrayList<Entry>) {
+    fun assignHistory(history: ArrayList<Entry>, action: (historyItem: Entry, position: Int)->Unit) {
         historyAdapter.clear()
         historyAdapter.entryHistoryList.addAll(history)
-    }
-
-    fun onHistoryClick(action: (historyItem: Entry, position: Int)->Unit) {
         historyAdapter.onItemClickListener = { item, position ->
-                action.invoke(item, position)
-            }
+            action.invoke(item, position)
+        }
+        historyContainerView.visibility = if (historyAdapter.entryHistoryList.isEmpty())
+            View.GONE
+        else
+            View.VISIBLE
+        historyAdapter.notifyDataSetChanged()
     }
 
     override fun generateDefaultLayoutParams(): LayoutParams {
