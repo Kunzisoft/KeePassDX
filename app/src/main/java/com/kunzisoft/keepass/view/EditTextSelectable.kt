@@ -9,6 +9,9 @@ class EditTextSelectable @JvmOverloads constructor(context: Context,
                                                    defStyle: Int = 0)
     : TextInputEditText(context, attrs) {
 
+    // TODO constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0)
+    // after material design upgrade
+
     private val mOnSelectionChangedListeners: MutableList<OnSelectionChangedListener>?
 
     init {

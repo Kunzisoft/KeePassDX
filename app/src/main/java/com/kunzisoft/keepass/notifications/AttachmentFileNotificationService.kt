@@ -96,7 +96,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 if (downloadFileUri != null
                         && intent.hasExtra(ATTACHMENT_KEY)) {
 
-                    val nextNotificationId = (downloadFileUris.values.maxBy { it.notificationId }
+                    val nextNotificationId = (downloadFileUris.values.maxByOrNull { it.notificationId }
                             ?.notificationId ?: notificationId) + 1
 
                     try {
