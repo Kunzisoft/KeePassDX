@@ -19,7 +19,6 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
-import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -54,14 +53,10 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     private val userNameFieldView: EntryField
     private val passwordFieldView: EntryField
     private val otpFieldView: EntryField
+    private val urlFieldView: EntryField
+    private val notesFieldView: EntryField
 
     private var otpRunnable: Runnable? = null
-
-    private val urlContainerView: View
-    private val urlView: TextView
-
-    private val notesContainerView: View
-    private val notesView: TextView
 
     private val extraFieldsContainerView: View
     private val extraFieldsListView: ViewGroup
@@ -91,16 +86,18 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         userNameFieldView.setLabel(R.string.entry_user_name)
 
         passwordFieldView = findViewById(R.id.entry_password_field)
-        passwordFieldView.setLabel(R.string.password)
+        passwordFieldView.setLabel(R.string.entry_password)
 
         otpFieldView = findViewById(R.id.entry_otp_field)
         otpFieldView.setLabel(R.string.entry_otp)
 
-        urlContainerView = findViewById(R.id.entry_url_container)
-        urlView = findViewById(R.id.entry_url)
+        urlFieldView = findViewById(R.id.entry_url_field)
+        urlFieldView.setLabel(R.string.entry_url)
+        urlFieldView.setValueAutoLink(true)
 
-        notesContainerView = findViewById(R.id.entry_notes_container)
-        notesView = findViewById(R.id.entry_notes)
+        notesFieldView = findViewById(R.id.entry_notes_field)
+        notesFieldView.setLabel(R.string.entry_notes)
+        notesFieldView.setValueAutoLink(true)
 
         extraFieldsContainerView = findViewById(R.id.extra_fields_container)
         extraFieldsListView = findViewById(R.id.extra_fields_list)
@@ -134,48 +131,33 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         this.fontInVisibility = fontInVisibility
     }
 
-    fun assignUserName(userName: String?) {
-        if (userName != null && userName.isNotEmpty()) {
-            userNameFieldView.apply {
+    fun assignUserName(userName: String?,
+                       onClickListener: OnClickListener?) {
+        userNameFieldView.apply {
+            if (userName != null && userName.isNotEmpty()) {
                 visibility = View.VISIBLE
                 setValue(userName)
                 applyFontVisibility(fontInVisibility)
+            } else {
+                visibility = View.GONE
             }
-        } else {
-            userNameFieldView.visibility = View.GONE
+            assignCopyButtonClickListener(onClickListener)
         }
     }
 
-    fun assignUserNameCopyListener(onClickListener: OnClickListener) {
-        userNameFieldView.assignCopyButtonClickListener(onClickListener)
-    }
-
-    fun assignPassword(password: String?, allowCopyPassword: Boolean) {
-        if (password != null && password.isNotEmpty()) {
-            passwordFieldView.apply {
+    fun assignPassword(password: String?,
+                       allowCopyPassword: Boolean,
+                       onClickListener: OnClickListener?) {
+        passwordFieldView.apply {
+            if (password != null && password.isNotEmpty()) {
                 visibility = View.VISIBLE
                 setValue(password, true)
                 applyFontVisibility(fontInVisibility)
                 activateCopyButton(allowCopyPassword)
+            }else {
+                visibility = View.GONE
             }
-        } else {
-            passwordFieldView.visibility = View.GONE
-        }
-    }
-
-    fun assignPasswordCopyListener(onClickListener: OnClickListener?) {
-        passwordFieldView.assignCopyButtonClickListener(onClickListener)
-    }
-
-    fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
-        passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
-        // Hidden style for custom fields
-        extraFieldsListView.let {
-            for (i in 0 until it.childCount) {
-                val childCustomView = it.getChildAt(i)
-                if (childCustomView is EntryField)
-                    childCustomView.hiddenProtectedValue = hiddenProtectedValue
-            }
+            assignCopyButtonClickListener(onClickListener)
         }
     }
 
@@ -226,27 +208,25 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     }
 
     fun assignURL(url: String?) {
-        if (url != null && url.isNotEmpty()) {
-            urlContainerView.visibility = View.VISIBLE
-            urlView.text = url
-        } else {
-            urlContainerView.visibility = View.GONE
+        urlFieldView.apply {
+            if (url != null && url.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(url)
+            } else {
+                visibility = View.GONE
+            }
         }
     }
 
-    fun assignComment(comment: String?) {
-        if (comment != null && comment.isNotEmpty()) {
-            notesContainerView.visibility = View.VISIBLE
-            notesView.apply {
-                text = comment
-                if (fontInVisibility)
-                    applyFontVisibility()
+    fun assignNotes(notes: String?) {
+        notesFieldView.apply {
+            if (notes != null && notes.isNotEmpty()) {
+                visibility = View.VISIBLE
+                setValue(notes)
+                applyFontVisibility(fontInVisibility)
+            } else {
+                visibility = View.GONE
             }
-            try {
-                Linkify.addLinks(notesView, Linkify.ALL)
-            } catch (e: Exception) {}
-        } else {
-            notesContainerView.visibility = View.GONE
         }
     }
 
@@ -279,6 +259,19 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         uuidReferenceView.text = UuidUtil.toHexString(uuid)
     }
 
+
+    fun setHiddenProtectedValue(hiddenProtectedValue: Boolean) {
+        passwordFieldView.hiddenProtectedValue = hiddenProtectedValue
+        // Hidden style for custom fields
+        extraFieldsListView.let {
+            for (i in 0 until it.childCount) {
+                val childCustomView = it.getChildAt(i)
+                if (childCustomView is EntryField)
+                    childCustomView.hiddenProtectedValue = hiddenProtectedValue
+            }
+        }
+    }
+
     /* -------------
      * Extra Fields
      * -------------
@@ -297,6 +290,7 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
         entryCustomField?.apply {
             setLabel(title)
             setValue(value.toString(), value.isProtected)
+            setValueAutoLink(true)
             activateCopyButton(allowCopy)
             assignCopyButtonClickListener(onCopyButtonClickListener)
             applyFontVisibility(fontInVisibility)

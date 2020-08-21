@@ -61,48 +61,20 @@
 				android:visibility="gone" />
 
 			<!--  URL -->
-			<LinearLayout
-				android:id="@+id/entry_url_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_url_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_url_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_url"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_url"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:autoLink="all"
-					android:textIsSelectable="true"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</LinearLayout>
+				android:visibility="gone" />
 
 			<!-- Comment -->
-			<LinearLayout
-				android:id="@+id/entry_notes_container"
+			<com.kunzisoft.keepass.view.EntryField
+				android:id="@+id/entry_notes_field"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="vertical"
-				android:visibility="gone">
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_notes_label"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:text="@string/entry_notes"
-					style="@style/KeepassDXStyle.TextAppearance.LabelTextStyle" />
-				<androidx.appcompat.widget.AppCompatTextView
-					android:id="@+id/entry_notes"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:textIsSelectable="true"
-					android:autoLink="all"
-					style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
-			</LinearLayout>
+				android:visibility="gone" />
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>
 

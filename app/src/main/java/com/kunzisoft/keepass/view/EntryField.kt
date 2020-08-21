@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.view
 
 import android.content.Context
+import android.text.util.Linkify
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.annotation.StringRes
+import androidx.core.text.util.LinkifyCompat
 import com.kunzisoft.keepass.R
 
 class EntryField @JvmOverloads constructor(context: Context,
@@ -38,7 +40,7 @@ class EntryField @JvmOverloads constructor(context: Context,
     private val valueView: TextView
     private val showButtonView: ImageView
     private val copyButtonView: ImageView
-    var isProtected = false
+    private var isProtected = false
 
     var hiddenProtectedValue: Boolean
         get() {
@@ -46,7 +48,7 @@ class EntryField @JvmOverloads constructor(context: Context,
         }
         set(value) {
             showButtonView.isSelected = !value
-            valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
+            changeProtectedValueParameters()
         }
 
     init {
@@ -57,6 +59,7 @@ class EntryField @JvmOverloads constructor(context: Context,
         valueView = findViewById(R.id.entry_field_value)
         showButtonView = findViewById(R.id.entry_field_show)
         copyButtonView = findViewById(R.id.entry_field_copy)
+        copyButtonView.visibility = View.GONE
     }
 
     fun applyFontVisibility(fontInVisibility: Boolean) {
@@ -72,19 +75,42 @@ class EntryField @JvmOverloads constructor(context: Context,
         labelView.setText(labelId)
     }
 
-    fun setValue(value: String?, isProtected: Boolean = false) {
+    fun setValue(value: String?,
+                 isProtected: Boolean = false) {
         valueView.text = value ?: ""
         this.isProtected = isProtected
         showButtonView.visibility = if (isProtected) View.VISIBLE else View.GONE
         showButtonView.setOnClickListener {
             showButtonView.isSelected = !showButtonView.isSelected
-            valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
+            changeProtectedValueParameters()
         }
-        valueView.applyHiddenStyle(isProtected && !showButtonView.isSelected)
+        changeProtectedValueParameters()
     }
 
-    fun setValue(@StringRes valueId: Int, isProtected: Boolean = false) {
+    fun setValue(@StringRes valueId: Int,
+                 isProtected: Boolean = false) {
         setValue(resources.getString(valueId), isProtected)
+    }
+
+    private fun changeProtectedValueParameters() {
+        valueView.apply {
+            if (isProtected) {
+                isFocusable = false
+            } else {
+                valueView.setTextIsSelectable(true)
+            }
+            applyHiddenStyle(isProtected && !showButtonView.isSelected)
+            if (valueView.autoLinkMask == Linkify.ALL) {
+                try {
+                    LinkifyCompat.addLinks(this, Linkify.ALL)
+                } catch (e: Exception) {}
+            }
+        }
+    }
+
+    fun setValueAutoLink(autoLink: Boolean) {
+        valueView.autoLinkMask = if (autoLink && !isProtected) Linkify.ALL else 0
+        changeProtectedValueParameters()
     }
 
     fun activateCopyButton(enable: Boolean) {

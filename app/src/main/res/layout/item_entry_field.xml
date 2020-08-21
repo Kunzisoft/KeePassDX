@@ -39,9 +39,7 @@
         app:layout_constraintTop_toBottomOf="@+id/entry_field_label"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/entry_field_show"
-        android:textIsSelectable="true"
         tools:text="value"
-        android:focusable="false"
         style="@style/KeepassDXStyle.TextAppearance.TextEntryItem" />
     <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/entry_field_show"

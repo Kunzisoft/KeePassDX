@@ -240,14 +240,13 @@ class EntryActivity : LockingActivity() {
         toolbar?.title = entryTitle
 
         // Assign basic fields
-        entryContentsView?.assignUserName(entry.username)
-        entryContentsView?.assignUserNameCopyListener(View.OnClickListener {
+        entryContentsView?.assignUserName(entry.username) {
             database.startManageEntry(entry)
             clipboardHelper?.timeoutCopyToClipboard(entry.username,
-                            getString(R.string.copy_field,
+                    getString(R.string.copy_field,
                             getString(R.string.entry_user_name)))
             database.stopManageEntry(entry)
-        })
+        }
 
         val isFirstTimeAskAllowCopyPasswordAndProtectedFields =
                 PreferencesUtil.isFirstTimeAskAllowCopyPasswordAndProtectedFields(this)
@@ -274,23 +273,25 @@ class EntryActivity : LockingActivity() {
                     }
         }
 
-        entryContentsView?.assignPassword(entry.password, allowCopyPasswordAndProtectedFields)
-        if (allowCopyPasswordAndProtectedFields) {
-            entryContentsView?.assignPasswordCopyListener(View.OnClickListener {
+        val onPasswordCopyClickListener: View.OnClickListener? = if (allowCopyPasswordAndProtectedFields) {
+            View.OnClickListener {
                 database.startManageEntry(entry)
                 clipboardHelper?.timeoutCopyToClipboard(entry.password,
-                                getString(R.string.copy_field,
+                        getString(R.string.copy_field,
                                 getString(R.string.entry_password)))
                 database.stopManageEntry(entry)
-            })
+            }
         } else {
             // If dialog not already shown
             if (isFirstTimeAskAllowCopyPasswordAndProtectedFields) {
-                entryContentsView?.assignPasswordCopyListener(showWarningClipboardDialogOnClickListener)
+                showWarningClipboardDialogOnClickListener
             } else {
-                entryContentsView?.assignPasswordCopyListener(null)
+                null
             }
         }
+        entryContentsView?.assignPassword(entry.password,
+                allowCopyPasswordAndProtectedFields,
+                onPasswordCopyClickListener)
 
         //Assign OTP field
         entryContentsView?.assignOtp(entry.getOtpElement(), entryProgress,
@@ -304,7 +305,7 @@ class EntryActivity : LockingActivity() {
         })
 
         entryContentsView?.assignURL(entry.url)
-        entryContentsView?.assignComment(entry.notes)
+        entryContentsView?.assignNotes(entry.notes)
 
         // Assign custom fields
         if (entry.allowCustomFields()) {
