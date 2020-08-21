@@ -76,7 +76,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                     if (focusedTimestampNotExpired()) {
                         requestFocusField(this, extraField, false)
                     } else {
-                        requestUnfocusField(extraField)
+                        removeFocusField(extraField)
                     }
                 }
             }
@@ -100,6 +100,22 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         }
     }
 
+    fun assignItems(items: List<Field>, focusedEditField: FocusedEditField?) {
+        focusedEditField?.let {
+            setFocusField(it, true)
+        }
+        super.assignItems(items)
+    }
+
+    override fun putItem(item: Field) {
+        setFocusField(mLastFocusedEditField.apply {
+            field = item
+            cursorSelectionStart = -1
+            cursorSelectionEnd = -1
+        }, true)
+        super.putItem(item)
+    }
+
     private fun setFocusField(field: Field,
                               selectionStart: Int,
                               selectionEnd: Int,
@@ -117,20 +133,10 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         mLastFocusedTimestamp = if (force) 0L else System.currentTimeMillis()
     }
 
-    fun assignItems(items: List<Field>, focusedEditField: FocusedEditField?) {
-        focusedEditField?.let {
-            setFocusField(it, true)
+    private fun removeFocusField(field: Field? = null) {
+        if (field == null || mLastFocusedEditField.field == field) {
+            mLastFocusedEditField.destroy()
         }
-        super.assignItems(items)
-    }
-
-    override fun putItem(item: Field) {
-        setFocusField(mLastFocusedEditField.apply {
-            field = item
-            cursorSelectionStart = -1
-            cursorSelectionEnd = -1
-        }, true)
-        super.putItem(item)
     }
 
     private fun requestFocusField(editText: EditText, field: Field, setSelection: Boolean) {
@@ -143,12 +149,6 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                     requestFocus()
                 }
             }
-        }
-    }
-
-    private fun requestUnfocusField(field: Field) {
-        if (mLastFocusedEditField.field == field) {
-            mLastFocusedEditField.destroy()
         }
     }
 
