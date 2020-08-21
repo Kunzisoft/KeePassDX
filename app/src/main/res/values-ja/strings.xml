@@ -259,10 +259,10 @@
     <string name="hide_broken_locations_summary">最近使ったデータベースの一覧で、壊れたリンクを非表示にします</string>
     <string name="hide_broken_locations_title">データベースへの壊れたリンクを非表示にする</string>
     <string name="show_recent_files_summary">最近使ったデータベースの場所を表示します</string>
-    <string name="remember_keyfile_locations_summary">データベースのキーファイルの場所を記憶します</string>
-    <string name="remember_keyfile_locations_title">キーファイルの場所を保存</string>
-    <string name="remember_database_locations_summary">データベースの場所を記憶します</string>
-    <string name="remember_database_locations_title">データベースの場所を保存</string>
+    <string name="remember_keyfile_locations_summary">キーファイルの保存先を追跡します</string>
+    <string name="remember_keyfile_locations_title">キーファイルの場所を記憶</string>
+    <string name="remember_database_locations_summary">データベースの保存先を追跡します</string>
+    <string name="remember_database_locations_title">データベースの場所を記憶</string>
     <string name="selection_mode">選択モード</string>
     <string name="contains_duplicate_uuid_procedure">重複したエントリーに対する新しい UUID を生成して、問題を解決し続行しますか？</string>
     <string name="contains_duplicate_uuid">データベースには重複する UUID が含まれています。</string>
@@ -320,7 +320,7 @@
     <string name="enable_read_only_title">書き込み禁止</string>
     <string name="delete_entered_password_summary">入力されたパスワードをデータベースへの接続試行後に削除します</string>
     <string name="delete_entered_password_title">パスワードを削除</string>
-    <string name="allow_no_password_summary">認証情報が選択されていない場合でも「開く」ボタンを有効にします</string>
+    <string name="allow_no_password_summary">認証情報が選択されていない場合でも、「開く」ボタンのタップを許可します</string>
     <string name="autofill_block_restart">ブロッキングを有効にするには、そのフォームを含むアプリを再起動します。</string>
     <string name="autofill_block">自動入力をブロック</string>
     <string name="autofill_web_domain_blocklist_title">ウェブドメインのブロックリスト</string>
@@ -343,7 +343,7 @@
     <string name="lock_database_screen_off_title">画面ロック</string>
     <string name="lock">ロック</string>
     <string name="clipboard_warning">クリップボードの自動削除に失敗した場合は、手動でその履歴を削除してください。</string>
-    <string name="clipboard_notifications_summary">エントリーを開いているとき、フィールドをコピーするクリップボード通知を有効にします</string>
+    <string name="clipboard_notifications_summary">エントリーを開いているとき、フィールドをコピーするクリップボード通知を表示します</string>
     <string name="clipboard_notifications_title">クリップボード通知</string>
     <string name="clipboard">クリップボード</string>
     <string name="database_opened">データベースが開かれています</string>
@@ -407,7 +407,7 @@
     <string name="clipboard_explanation_summary">デバイスのクリップボードを使用して、エントリーのフィールドをコピーします</string>
     <string name="html_text_dev_feature_work_hard">この機能をすばやくリリースするために開発に勤しんでいます。</string>
     <string name="magic_keyboard_explanation_summary">パスワードとすべての ID フィールドを格納するカスタム キーボードを有効にします</string>
-    <string name="download_complete">完了しました！タップするとファイルが開きます。</string>
+    <string name="download_complete">タップするとファイルが開きます。</string>
     <string name="download_progression">進行中：%1$d%%</string>
     <string name="download_attachment">%1$s をダウンロード</string>
     <string name="contribute">貢献</string>
@@ -479,7 +479,7 @@
     <string name="database_data_compression_title">データ圧縮</string>
     <string name="file_name">ファイル名</string>
     <string name="unavailable_feature_hardware">対応するハードウェアが見つかりませんでした。</string>
-    <string name="unavailable_feature_version">Android のバージョン %1$s が、必要な最小バージョン %2$s を満たしていません。</string>
+    <string name="unavailable_feature_version">デバイスは Android %1$s を実行していますが、%2$s 以降が必要です。</string>
     <string name="unavailable_feature_text">この機能を起動できませんでした。</string>
     <string name="biometric_unlock_enable_summary">生体情報をスキャンしてデータベースを開くことができるようにします</string>
     <string name="biometric_unlock_enable_title">生体認証によるロック解除</string>
