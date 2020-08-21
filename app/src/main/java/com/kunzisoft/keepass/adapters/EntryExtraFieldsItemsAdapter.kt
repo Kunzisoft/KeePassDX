@@ -89,7 +89,6 @@ class EntryExtraFieldsItemsAdapter(context: Context)
                 }
             })
             requestFocusField(this, extraField, true)
-            setEditTextSelection(this)
             doOnTextChanged { text, _, _, _ ->
                 extraField.protectedValue.stringValue = text.toString()
             }
@@ -138,10 +137,10 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         if (field == mLastFocusedEditField.field) {
             editText.apply {
                 post {
-                    requestFocus()
                     if (setSelection) {
                         setEditTextSelection(editText)
                     }
+                    requestFocus()
                 }
             }
         }
@@ -174,7 +173,7 @@ class EntryExtraFieldsItemsAdapter(context: Context)
         return mLastFocusedEditField
     }
 
-    inner class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class EntryExtraFieldViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var extraFieldValueContainer: TextInputLayout = itemView.findViewById(R.id.entry_extra_field_value_container)
         var extraFieldValue: EditTextSelectable = itemView.findViewById(R.id.entry_extra_field_value)
         var extraFieldDeleteButton: View = itemView.findViewById(R.id.entry_extra_field_delete)
