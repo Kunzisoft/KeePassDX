@@ -31,7 +31,6 @@ import android.view.View
 import android.widget.DatePicker
 import android.widget.TimePicker
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.ActionMenuView
 import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
@@ -45,7 +44,10 @@ import com.kunzisoft.keepass.database.element.Group
 import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
+import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.FocusedEditField
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -57,11 +59,13 @@ import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.updateLockPaddingLeft
 import org.joda.time.DateTime
 import java.util.*
 
 class EntryEditActivity : LockingActivity(),
         IconPickerDialogFragment.IconPickerListener,
+        EntryCustomFieldDialogFragment.EntryCustomFieldListener,
         GeneratePasswordDialogFragment.GeneratePasswordListener,
         SetOTPDialogFragment.CreateOtpListener,
         DatePickerDialog.OnDateSetListener,
@@ -80,9 +84,11 @@ class EntryEditActivity : LockingActivity(),
     private var coordinatorLayout: CoordinatorLayout? = null
     private var scrollView: NestedScrollView? = null
     private var entryEditContentsView: EntryEditContentsView? = null
-    private var entryEditAddToolBar: ActionMenuView? = null
+    private var entryEditAddToolBar: Toolbar? = null
     private var validateButton: View? = null
     private var lockView: View? = null
+
+    private var mFocusedEditExtraField: FocusedEditField? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -113,6 +119,9 @@ class EntryEditActivity : LockingActivity(),
                 DatePickerFragment.getInstance(defaultYear, defaultMonth, defaultDay)
                         .show(supportFragmentManager, "DatePickerFragment")
             }
+        }
+        entryEditContentsView?.entryPasswordGeneratorView?.setOnClickListener {
+            openPasswordGenerator()
         }
 
         lockView = findViewById(R.id.lock_button)
@@ -146,8 +155,7 @@ class EntryEditActivity : LockingActivity(),
             }
 
             // Create the new entry from the current one
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
                 mEntry?.let { entry ->
                     // Create a copy to modify
                     mNewEntry = Entry(entry).also { newEntry ->
@@ -162,8 +170,7 @@ class EntryEditActivity : LockingActivity(),
         intent.getParcelableExtra<NodeId<*>>(KEY_PARENT)?.let {
             mIsNew = true
             // Create an empty new entry
-            if (savedInstanceState == null
-                    || !savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+            if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) != true) {
                 mNewEntry = mDatabase?.createEntry()
             }
             mParent = mDatabase?.getGroupById(it)
@@ -181,9 +188,12 @@ class EntryEditActivity : LockingActivity(),
         }
 
         // Retrieve the new entry after an orientation change
-        if (savedInstanceState != null
-                && savedInstanceState.containsKey(KEY_NEW_ENTRY)) {
+        if (savedInstanceState?.containsKey(KEY_NEW_ENTRY) == true) {
             mNewEntry = savedInstanceState.getParcelable(KEY_NEW_ENTRY)
+        }
+
+        if (savedInstanceState?.containsKey(EXTRA_FIELD_FOCUSED_ENTRY) == true) {
+            mFocusedEditExtraField = savedInstanceState.getParcelable(EXTRA_FIELD_FOCUSED_ENTRY)
         }
 
         // Close the activity if entry or parent can't be retrieve
@@ -206,6 +216,12 @@ class EntryEditActivity : LockingActivity(),
             menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
+                val allowLock = PreferencesUtil.showLockDatabaseButton(context)
+                isEnabled = allowLock
+                isVisible = allowLock
+            }
+
+            menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true
                 isEnabled = allowCustomField
                 isVisible = allowCustomField
@@ -219,10 +235,6 @@ class EntryEditActivity : LockingActivity(),
 
             setOnMenuItemClickListener { item ->
                 when (item.itemId) {
-                    R.id.menu_generate_password -> {
-                        openPasswordGenerator()
-                        true
-                    }
                     R.id.menu_add_field -> {
                         addNewCustomField()
                         true
@@ -244,7 +256,7 @@ class EntryEditActivity : LockingActivity(),
         entryEditActivityEducation = EntryEditActivityEducation(this)
 
         // Create progress dialog
-        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_CREATE_ENTRY_TASK,
                 ACTION_DATABASE_UPDATE_ENTRY_TASK -> {
@@ -264,6 +276,9 @@ class EntryEditActivity : LockingActivity(),
         } else {
             View.GONE
         }
+
+        // Padding if lock button visible
+        entryEditAddToolBar?.updateLockPaddingLeft()
     }
 
     private fun populateViewsWithEntry(newEntry: Entry) {
@@ -286,10 +301,11 @@ class EntryEditActivity : LockingActivity(),
             if (expires)
                 expiresDate = newEntry.expiryTime
             notes = newEntry.notes
-            for (entry in newEntry.customFields.entries) {
-                post {
-                    putCustomField(entry.key, entry.value)
-                }
+            assignExtraFields(newEntry.customFields.mapTo(ArrayList()) {
+                Field(it.key, it.value)
+            }, mFocusedEditExtraField)
+            assignAttachments(newEntry.getAttachments()) { attachment ->
+                newEntry.removeAttachment(attachment)
             }
         }
     }
@@ -310,10 +326,11 @@ class EntryEditActivity : LockingActivity(),
                 if (entryView.expires) {
                     expiryTime = entryView.expiresDate
                 }
-                notes = entryView. notes
-                entryView.customFields.forEach { customField ->
+                notes = entryView.notes
+                entryView.getExtraField().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
                 }
+                mFocusedEditExtraField = entryView.getExtraFieldFocused()
             }
         }
 
@@ -335,11 +352,17 @@ class EntryEditActivity : LockingActivity(),
     }
 
     /**
-     * Add a new customized field view and scroll to bottom
+     * Add a new customized field
      */
     private fun addNewCustomField() {
-        entryEditContentsView?.addEmptyCustomField()
+        EntryCustomFieldDialogFragment.getInstance().show(supportFragmentManager, "customFieldDialog")
     }
+
+    override fun onNewCustomFieldApproved(label: String, protection: Boolean) {
+        entryEditContentsView?.putExtraField(Field(label, ProtectedString(protection)))
+    }
+
+    override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
 
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
@@ -352,7 +375,6 @@ class EntryEditActivity : LockingActivity(),
      * Saves the new entry or update an existing entry in the database
      */
     private fun saveEntry() {
-
         // Launch a validation and show the error if present
         if (entryEditContentsView?.isValid() == true) {
             // Clone the entry
@@ -369,7 +391,7 @@ class EntryEditActivity : LockingActivity(),
                 // Open a progress dialog and save entry
                 if (mIsNew) {
                     mParent?.let { parent ->
-                        mProgressDialogThread?.startDatabaseCreateEntry(
+                        mProgressDatabaseTaskProvider?.startDatabaseCreateEntry(
                                 newEntry,
                                 parent,
                                 !mReadOnly && mAutoSaveEnable
@@ -377,7 +399,7 @@ class EntryEditActivity : LockingActivity(),
                     }
                 } else {
                     mEntry?.let { oldEntry ->
-                        mProgressDialogThread?.startDatabaseUpdateEntry(
+                        mProgressDatabaseTaskProvider?.startDatabaseUpdateEntry(
                                 oldEntry,
                                 newEntry,
                                 !mReadOnly && mAutoSaveEnable
@@ -405,7 +427,7 @@ class EntryEditActivity : LockingActivity(),
     }
 
     private fun performedNextEducation(entryEditActivityEducation: EntryEditActivityEducation) {
-        val passwordGeneratorView: View? = entryEditAddToolBar?.findViewById(R.id.menu_generate_password)
+        val passwordGeneratorView: View? = entryEditContentsView?.entryPasswordGeneratorView
         val generatePasswordEducationPerformed = passwordGeneratorView != null
                 && entryEditActivityEducation.checkAndPerformedGeneratePasswordEducation(
                 passwordGeneratorView,
@@ -445,7 +467,7 @@ class EntryEditActivity : LockingActivity(),
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
             }
             R.id.menu_contribute -> {
                 MenuUtil.onContributionItemSelected(this)
@@ -463,7 +485,7 @@ class EntryEditActivity : LockingActivity(),
         // Update the otp field with otpauth:// url
         val otpField = OtpEntryFields.buildOtpField(otpElement,
                 mEntry?.title, mEntry?.username)
-        entryEditContentsView?.putCustomField(otpField.name, otpField.protectedValue)
+        entryEditContentsView?.putExtraField(otpField)
         mEntry?.putExtraField(otpField.name, otpField.protectedValue)
     }
 
@@ -510,6 +532,10 @@ class EntryEditActivity : LockingActivity(),
         mNewEntry?.let {
             populateEntryWithViews(it)
             outState.putParcelable(KEY_NEW_ENTRY, it)
+        }
+
+        mFocusedEditExtraField?.let {
+            outState.putParcelable(EXTRA_FIELD_FOCUSED_ENTRY, it)
         }
 
         super.onSaveInstanceState(outState)
@@ -569,6 +595,7 @@ class EntryEditActivity : LockingActivity(),
 
         // SaveInstanceState
         const val KEY_NEW_ENTRY = "new_entry"
+        const val EXTRA_FIELD_FOCUSED_ENTRY = "EXTRA_FIELD_FOCUSED_ENTRY"
 
         // Keys for callback
         const val ADD_ENTRY_RESULT_CODE = 31

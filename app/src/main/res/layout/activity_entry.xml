@@ -116,8 +116,8 @@
 
             <com.kunzisoft.keepass.view.EntryContentsView
                 android:id="@+id/entry_contents"
-                android:layout_height="wrap_content"
                 android:layout_width="0dp"
+                android:layout_height="wrap_content"
                 app:layout_constraintWidth_percent="@dimen/content_percent"
                 app:layout_constraintTop_toBottomOf="@+id/history_container"
                 app:layout_constraintStart_toStartOf="parent"
@@ -128,8 +128,8 @@
 
     <include
         layout="@layout/view_button_lock"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/lock_button_size"
+        android:layout_height="@dimen/lock_button_size"
         android:layout_gravity="start|bottom" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

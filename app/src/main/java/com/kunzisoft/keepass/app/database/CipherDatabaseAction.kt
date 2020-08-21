@@ -32,7 +32,7 @@ class CipherDatabaseAction(applicationContext: Context) {
 
     fun getCipherDatabase(databaseUri: Uri,
                           cipherDatabaseResultListener: (CipherDatabaseEntity?) -> Unit) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     cipherDatabaseDao.getByDatabaseUri(databaseUri.toString())
                 },
@@ -51,7 +51,7 @@ class CipherDatabaseAction(applicationContext: Context) {
 
     fun addOrUpdateCipherDatabase(cipherDatabaseEntity: CipherDatabaseEntity,
                                   cipherDatabaseResultListener: (() -> Unit)? = null) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     val cipherDatabaseRetrieve = cipherDatabaseDao.getByDatabaseUri(cipherDatabaseEntity.databaseUri)
 
@@ -70,7 +70,7 @@ class CipherDatabaseAction(applicationContext: Context) {
 
     fun deleteByDatabaseUri(databaseUri: Uri,
                             cipherDatabaseResultListener: (() -> Unit)? = null) {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     cipherDatabaseDao.deleteByDatabaseUri(databaseUri.toString())
                 },
@@ -81,7 +81,7 @@ class CipherDatabaseAction(applicationContext: Context) {
     }
 
     fun deleteAll() {
-        ActionDatabaseAsyncTask(
+        IOActionTask(
                 {
                     cipherDatabaseDao.deleteAll()
                 }

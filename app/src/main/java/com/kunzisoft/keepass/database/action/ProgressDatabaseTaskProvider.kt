@@ -71,12 +71,12 @@ import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ProgressDialogThread(private val activity: FragmentActivity) {
+class ProgressDatabaseTaskProvider(private val activity: FragmentActivity) {
 
     var onActionFinish: ((actionTask: String,
                           result: ActionRunnable.Result) -> Unit)? = null
 
-    private var intentDatabaseTask = Intent(activity, DatabaseTaskNotificationService::class.java)
+    private var intentDatabaseTask = Intent(activity.applicationContext, DatabaseTaskNotificationService::class.java)
 
     private var databaseTaskBroadcastReceiver: BroadcastReceiver? = null
     private var mBinder: DatabaseTaskNotificationService.ActionTaskBinder? = null
@@ -218,12 +218,8 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         activity.stopService(intentDatabaseTask)
         if (bundle != null)
             intentDatabaseTask.putExtras(bundle)
-            intentDatabaseTask.action = actionTask
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            activity.startForegroundService(intentDatabaseTask)
-        } else {
-            activity.startService(intentDatabaseTask)
-        }
+        intentDatabaseTask.action = actionTask
+        activity.startService(intentDatabaseTask)
     }
 
     /*
@@ -242,7 +238,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_CREATE_TASK)
     }
@@ -256,7 +252,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
         start(Bundle().apply {
             putParcelable(DatabaseTaskNotificationService.DATABASE_URI_KEY, databaseUri)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
             putBoolean(DatabaseTaskNotificationService.READ_ONLY_KEY, readOnly)
             putParcelable(DatabaseTaskNotificationService.CIPHER_ENTITY_KEY, cipherEntity)
             putBoolean(DatabaseTaskNotificationService.FIX_DUPLICATE_UUID_KEY, fixDuplicateUuid)
@@ -275,7 +271,7 @@ class ProgressDialogThread(private val activity: FragmentActivity) {
             putBoolean(DatabaseTaskNotificationService.MASTER_PASSWORD_CHECKED_KEY, masterPasswordChecked)
             putString(DatabaseTaskNotificationService.MASTER_PASSWORD_KEY, masterPassword)
             putBoolean(DatabaseTaskNotificationService.KEY_FILE_CHECKED_KEY, keyFileChecked)
-            putParcelable(DatabaseTaskNotificationService.KEY_FILE_KEY, keyFile)
+            putParcelable(DatabaseTaskNotificationService.KEY_FILE_URI_KEY, keyFile)
         }
                 , ACTION_DATABASE_ASSIGN_PASSWORD_TASK)
     }

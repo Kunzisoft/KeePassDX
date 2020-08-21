@@ -20,11 +20,12 @@
 <resources>
 
     <!-- SplashScreen theme -->
-    <style name="KeepassDXStyle.SplashScreen" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="KeepassDXStyle.SplashScreen.v21" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/green</item>
         <item name="colorPrimaryDark">@color/background_night</item>
         <item name="android:windowBackground">@drawable/background_splash</item>
     </style>
+    <style name="KeepassDXStyle.SplashScreen" parent="KeepassDXStyle.SplashScreen.v21"/>
 
     <!-- Base application theme. -->
     <!-- For setting encapsulation -->
@@ -209,11 +210,13 @@
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_light</item>
+        <item name="background">@color/background_light</item>
     </style>
     <style name="KeepassDXStyle.Night.Dialog" parent="Theme.AppCompat.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
         <item name="android:textColorPrimary">@color/green</item>
         <item name="android:background">@color/background_night</item>
+        <item name="background">@color/background_night</item>
     </style>
     <style name="KeepassDXStyle.Light.DateTime.Dialog" parent="Theme.AppCompat.Light.Dialog.Alert">
         <item name="colorAccent">@color/orange</item>
@@ -333,10 +336,24 @@
         <item name="android:background">@drawable/background_image_button</item>
         <item name="backgroundTint">@color/background_button_color_accent</item>
     </style>
+    <style name="KeepassDXStyle.ImageButton.Simple" parent="KeepassDXStyle.v21.Button">
+        <item name="android:colorForeground">@color/background_button_color_accent</item>
+        <item name="tint">@color/background_button_color_accent</item>
+        <item name="android:background">@null</item>
+        <item name="backgroundTint">@null</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:layout_width">48dp</item>
+        <item name="android:layout_height">48dp</item>
+    </style>
+    <style name="KeepassDXStyle.ImageButton.Simple.Secondary" parent="KeepassDXStyle.ImageButton.Simple">
+        <item name="android:colorForeground">@color/background_button_color_secondary</item>
+        <item name="tint">@color/background_button_color_secondary</item>
+    </style>
 
     <!-- Item Style -->
     <style name="KeepassDXStyle.Selectable.Item" parent="KeepassDXStyle.Light">
         <item name="android:background">@drawable/background_item_selection</item>
+        <item name="background">@drawable/background_item_selection</item>
     </style>
 
     <!-- Icon Style -->
@@ -352,7 +369,7 @@
     </style>
     <style name="KeepassDXStyle.Special.Button.Stroke" parent="KeepassDXStyle.v21.Button">
         <item name="android:background">@drawable/btn_special_start_bottom_stroke</item>
-        <item name="backgroundTint">?android:attr/textColorPrimary</item>
+        <item name="backgroundTint">?attr/textColorInverse</item>
         <item name="backgroundTintMode">src_atop</item>
     </style>
 

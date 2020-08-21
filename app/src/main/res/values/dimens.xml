@@ -23,12 +23,13 @@
     <dimen name="image_list_margin">12dp</dimen>
     <dimen name="button_margin">6dp</dimen>
     <dimen name="card_view_margin">12dp</dimen>
-
+    <dimen name="card_view_padding">14dp</dimen>
+    <dimen name="card_view_margin_bottom">10dp</dimen>
+    <dimen name="item_file_info_height">160dp</dimen>
     <dimen name="icon_size">32dp</dimen>
-
+    <dimen name="lock_button_size">48dp</dimen>
+    <dimen name="hidden_lock_button_size">0dp</dimen>
     <dimen name="content_percent">1</dimen>
-
     <dimen name="toolbar_parallax_height">160dp</dimen>
-
     <integer name="animation_duration">320</integer>
 </resources>

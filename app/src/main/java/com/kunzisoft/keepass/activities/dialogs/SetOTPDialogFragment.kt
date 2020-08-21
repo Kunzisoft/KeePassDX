@@ -28,6 +28,7 @@ import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.EditText
@@ -152,6 +153,28 @@ class SetOTPDialogFragment : DialogFragment() {
             otpCounterTextView?.setOnTouchListener(mOnTouchListener)
             otpDigitsTextView?.setOnTouchListener(mOnTouchListener)
 
+            // To manage focus
+            otpPeriodTextView?.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    otpDigitsTextView?.requestFocus()
+                    true
+                } else
+                    false
+            }
+            otpCounterTextView?.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    otpDigitsTextView?.requestFocus()
+                    true
+                } else
+                    false
+            }
+            otpCounterTextView?.setOnEditorActionListener { _, actionId, _ ->
+                if (actionId == EditorInfo.IME_ACTION_NEXT) {
+                    root?.requestFocus(View.FOCUS_DOWN)
+                    true
+                } else
+                    false
+            }
 
             // HOTP / TOTP Type selection
             val otpTypeArray = OtpType.values()

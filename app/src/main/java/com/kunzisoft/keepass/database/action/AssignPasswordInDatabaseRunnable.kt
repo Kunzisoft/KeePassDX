@@ -37,7 +37,7 @@ open class AssignPasswordInDatabaseRunnable (
     : SaveDatabaseRunnable(context, database, true) {
 
     private var mMasterPassword: String? = null
-    protected var mKeyFile: Uri? = null
+    protected var mKeyFileUri: Uri? = null
 
     private var mBackupKey: ByteArray? = null
 
@@ -45,7 +45,7 @@ open class AssignPasswordInDatabaseRunnable (
         if (withMasterPassword)
             this.mMasterPassword = masterPassword
         if (withKeyFile)
-            this.mKeyFile = keyFile
+            this.mKeyFileUri = keyFile
     }
 
     override fun onStartRun() {
@@ -55,7 +55,7 @@ open class AssignPasswordInDatabaseRunnable (
             mBackupKey = ByteArray(database.masterKey.size)
             System.arraycopy(database.masterKey, 0, mBackupKey!!, 0, mBackupKey!!.size)
 
-            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mKeyFile)
+            val uriInputStream = UriUtil.getUriInputStream(context.contentResolver, mKeyFileUri)
             database.retrieveMasterKey(mMasterPassword, uriInputStream)
         } catch (e: Exception) {
             erase(mBackupKey)

@@ -38,9 +38,4 @@
         android:title="@string/entry_setup_otp"
         android:orderInCategory="94"
         app:showAsAction="always" />
-    <item android:id="@+id/menu_generate_password"
-        android:icon="@drawable/ic_generate_password_white_24dp"
-        android:title="@string/entry_password_generator"
-        android:orderInCategory="95"
-        app:showAsAction="always" />
 </menu>

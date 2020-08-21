@@ -37,7 +37,7 @@
     <string name="clipboard_error_title">Greška međuspremnika</string>
     <string name="clipboard_error">Neki uređaji neće dopustiti aplikacijama korištenje međuspremnika.</string>
     <string name="clipboard_error_clear">Nije moguće isprazniti međuspremnik</string>
-    <string name="clipboard_timeout_summary">Trajanje pohrane u međuspremniku</string>
+    <string name="clipboard_timeout_summary">Trajanje pohrane u međuspremniku (ako uređaj to podržava)</string>
     <string name="content_description_background">Pozadina</string>
     <string name="content_description_open_file">Otvori datoteku</string>
     <string name="content_description_add_node">Dodaj čvor</string>
@@ -219,10 +219,10 @@
     <string name="settings_database_force_changing_master_key_next_time_summary">Zahtijevaj promjenu glavnog ključa sljedeći put (jednom)</string>
     <string name="monospace_font_fields_enable_title">Font polja</string>
     <string name="monospace_font_fields_enable_summary">Promjeni font u poljima za bolju vidljivost znakova</string>
-    <string name="enable">Anktiviraj</string>
+    <string name="enable">Aktiviraj</string>
     <string name="disable">Deaktiviraj</string>
     <string name="clear_clipboard_notification_title">Isprazni pri zatvaranju</string>
-    <string name="clear_clipboard_notification_summary">Zaključaj bazu podataka pri zatvaranju obavijesti</string>
+    <string name="clear_clipboard_notification_summary">Zaključaj bazu podataka kad istekne trajanje međuspremnika ili kad se obavijest zatvori nakon što je počneš koristiti</string>
     <string name="database_name_title">Ime baze podataka</string>
     <string name="database_description_title">Opis baze podataka</string>
     <string name="database_default_username_title">Standardno korisničko ime</string>
@@ -303,7 +303,7 @@
     <string name="allow_copy_password_warning">Upozorenje: Međuspremnik dijele sve aplikacije. Ako se kopiraju osjetljivi podaci, druga aplikacija ih može vidjeti.</string>
     <string name="keyboard">Tipkovnica</string>
     <string name="magic_keyboard_title">Magikeyboard</string>
-    <string name="magic_keyboard_explanation_summary">Aktivirajte prilagođenu tipkovnicu za popunjavanje lozinki i identifikacijskih polja</string>
+    <string name="magic_keyboard_explanation_summary">Aktiviraj prilagođenu tipkovnicu za popunjavanje lozinki i identifikacijskih polja</string>
     <string name="device_keyboard_setting_title">Postavke tipkovnice uređaja</string>
     <string name="keyboard_name">Magikeyboard</string>
     <string name="keyboard_label">Magikeyboard (KeePassDX)</string>
@@ -470,4 +470,9 @@
 \nGrupe (~mape) organiziraju unose u bazi podataka.</string>
     <string name="download_progression">U tijeku: %1$d%%</string>
     <string name="download_complete">Gotovo! Dodirni, za otvaranje datoteke.</string>
+    <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja automatske radnje tipke</string>
+    <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>
+    <string name="keyboard_previous_database_credentials_title">Ekran za unos podataka za prijavu u bazu podataka</string>
+    <string name="keyboard_change">Promijeni tipkovnicu</string>
 </resources>

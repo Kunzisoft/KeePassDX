@@ -31,45 +31,49 @@
         android:background="?attr/colorPrimaryDark"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="18dp"
-        android:orientation="vertical"
-        android:gravity="center_vertical"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintTop_toTopOf="@+id/biometric_delimiter"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/biometric_image" >
-        <TextView
-            android:id="@+id/biometric_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="@string/biometric_prompt_store_credential_title"
-            style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
-            android:gravity="center_vertical|end" />
-        <TextView
-            android:id="@+id/biometric_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            tools:text="Sample error"
-            style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
-            android:gravity="center_vertical|end" />
-    </LinearLayout>
-
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/biometric_image"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:layout_margin="@dimen/default_margin"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/biometric_delimiter"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
         android:elevation="8dp"
         android:src="@drawable/fingerprint"
         android:background="@drawable/background_image"
         android:backgroundTint="?attr/colorAccent" />
+
+    <TextView
+        android:id="@+id/biometric_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/biometric_image"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/biometric_message"
+        tools:text="@string/biometric_prompt_store_credential_title"
+        style="@style/KeepassDXStyle.TextAppearance.Default.TextOnPrimary"
+        android:textSize="14sp"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/biometric_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp"
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintTop_toBottomOf="@+id/biometric_title"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:text="Sample error"
+        style="@style/KeepassDXStyle.TextAppearance.Secondary.TextOnPrimary"
+        android:textSize="12sp"
+        android:gravity="center" />
 </androidx.constraintlayout.widget.ConstraintLayout>

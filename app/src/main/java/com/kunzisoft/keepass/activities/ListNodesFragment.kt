@@ -266,14 +266,15 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
     }
 
     fun actionNodesCallback(nodes: List<Node>,
-                            menuListener: NodesActionMenuListener?) : ActionMode.Callback {
+                            menuListener: NodesActionMenuListener?,
+                            actionModeCallback: ActionMode.Callback) : ActionMode.Callback {
 
         return object : ActionMode.Callback {
 
             override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                 nodeActionSelectionMode = false
                 nodeActionPasteMode = PasteMode.UNDEFINED
-                return true
+                return actionModeCallback.onCreateActionMode(mode, menu)
             }
 
             override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
@@ -318,7 +319,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 // Add the number of items selected in title
                 mode?.title = nodes.size.toString()
 
-                return true
+                return actionModeCallback.onPrepareActionMode(mode, menu)
             }
 
             override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
@@ -348,7 +349,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                         nodeActionSelectionMode = false
                         returnValue
                     }
-                    else -> false
+                    else -> actionModeCallback.onActionItemClicked(mode, item)
                 }
             }
 
@@ -358,6 +359,7 @@ class ListNodesFragment : StylishFragment(), SortDialogFragment.SortSelectionLis
                 mAdapter?.unselectActionNodes()
                 nodeActionPasteMode = PasteMode.UNDEFINED
                 nodeActionSelectionMode = false
+                actionModeCallback.onDestroyActionMode(mode)
             }
         }
     }

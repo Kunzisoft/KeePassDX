@@ -76,10 +76,7 @@ import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Compa
 import com.kunzisoft.keepass.settings.PreferencesUtil
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
-import com.kunzisoft.keepass.view.AddNodeButtonView
-import com.kunzisoft.keepass.view.ToolbarAction
-import com.kunzisoft.keepass.view.asError
-import com.kunzisoft.keepass.view.showActionError
+import com.kunzisoft.keepass.view.*
 
 class GroupActivity : LockingActivity(),
         GroupEditDialogFragment.EditGroupListener,
@@ -108,6 +105,8 @@ class GroupActivity : LockingActivity(),
     private var mCurrentGroupIsASearch: Boolean = false
     private var mRequestStartupSearch = true
 
+    private var actionNodeMode: ActionMode? = null
+
     // To manage history in selection mode
     private var mSelectionModeCountBackStack = 0
 
@@ -123,9 +122,6 @@ class GroupActivity : LockingActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (isFinishing) {
-            return
-        }
         mDatabase = Database.getInstance()
 
         // Construct main view
@@ -222,7 +218,7 @@ class GroupActivity : LockingActivity(),
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
 
             // Init dialog thread
-            mProgressDialogThread?.onActionFinish = { actionTask, result ->
+            mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
 
                 var oldNodes: List<Node> = ArrayList()
                 result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
@@ -481,7 +477,8 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            showButton()
+            if (actionNodeMode == null)
+                showButton()
         }
     }
 
@@ -511,7 +508,8 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun onScrolled(dy: Int) {
-        addNodeButtonView?.hideButtonOnScrollListener(dy)
+        if (actionNodeMode == null)
+            addNodeButtonView?.hideOrShowButtonOnScrollListener(dy)
     }
 
     override fun onNodeClick(node: Node) {
@@ -554,18 +552,28 @@ class GroupActivity : LockingActivity(),
         }
     }
 
-    private var actionNodeMode: ActionMode? = null
-
     private fun finishNodeAction() {
         actionNodeMode?.finish()
-        actionNodeMode = null
-        addNodeButtonView?.showButton()
     }
 
     override fun onNodeSelected(nodes: List<Node>): Boolean {
         if (nodes.isNotEmpty()) {
             if (actionNodeMode == null || toolbarAction?.getSupportActionModeCallback() == null) {
-                mListNodesFragment?.actionNodesCallback(nodes, this)?.let {
+                mListNodesFragment?.actionNodesCallback(nodes, this, object: ActionMode.Callback {
+                    override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                        return true
+                    }
+                    override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+                        return true
+                    }
+                    override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+                        return false
+                    }
+                    override fun onDestroyActionMode(mode: ActionMode?) {
+                        actionNodeMode = null
+                        addNodeButtonView?.showButton()
+                    }
+                })?.let {
                     actionNodeMode = toolbarAction?.startSupportActionMode(it)
                 }
             } else {
@@ -622,7 +630,7 @@ class GroupActivity : LockingActivity(),
                 ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
                     // Copy
                     mCurrentGroup?.let { newParent ->
-                        mProgressDialogThread?.startDatabaseCopyNodes(
+                        mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
                                 nodes,
                                 newParent,
                                 !mReadOnly && mAutoSaveEnable
@@ -632,7 +640,7 @@ class GroupActivity : LockingActivity(),
                 ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
                     // Move
                     mCurrentGroup?.let { newParent ->
-                        mProgressDialogThread?.startDatabaseMoveNodes(
+                        mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
                                 nodes,
                                 newParent,
                                 !mReadOnly && mAutoSaveEnable
@@ -666,7 +674,7 @@ class GroupActivity : LockingActivity(),
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
 
-            mProgressDialogThread?.startDatabaseDeleteNodes(
+            mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
                     nodes,
                     !mReadOnly && mAutoSaveEnable
             )
@@ -681,7 +689,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun permanentlyDeleteNodes(nodes: List<Node>) {
-        mProgressDialogThread?.startDatabaseDeleteNodes(
+        mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
                 nodes,
                 !mReadOnly && mAutoSaveEnable
         )
@@ -700,6 +708,8 @@ class GroupActivity : LockingActivity(),
         assignGroupViewElements()
         // Refresh suggestions to change preferences
         mSearchSuggestionAdapter?.reInit(this)
+        // Padding if lock button visible
+        toolbarAction?.updateLockPaddingLeft()
     }
 
     override fun onPause() {
@@ -840,7 +850,7 @@ class GroupActivity : LockingActivity(),
                 //onSearchRequested();
                 return true
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
@@ -874,7 +884,7 @@ class GroupActivity : LockingActivity(),
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
-                            mProgressDialogThread?.startDatabaseCreateGroup(
+                            mProgressDatabaseTaskProvider?.startDatabaseCreateGroup(
                                     newGroup,
                                     currentGroup,
                                     !mReadOnly && mAutoSaveEnable
@@ -896,7 +906,7 @@ class GroupActivity : LockingActivity(),
                             }
                         }
                         // If group updated save it in the database
-                        mProgressDialogThread?.startDatabaseUpdateGroup(
+                        mProgressDatabaseTaskProvider?.startDatabaseUpdateGroup(
                                 oldGroupToUpdate,
                                 updateGroup,
                                 !mReadOnly && mAutoSaveEnable

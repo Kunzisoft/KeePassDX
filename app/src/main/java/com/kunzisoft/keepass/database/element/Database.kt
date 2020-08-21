@@ -70,6 +70,13 @@ class Database {
     val drawFactory = IconDrawableFactory()
 
     var loaded = false
+        set(value) {
+            field = value
+            loadTimestamp = if (field) System.currentTimeMillis() else null
+        }
+
+    var loadTimestamp: Long? = null
+        private set
 
     val iconFactory: IconImageFactory
         get() {
@@ -308,6 +315,8 @@ class Database {
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
         this.fileUri = databaseUri
+        // Set Database state
+        this.loaded = true
     }
 
     @Throws(LoadDatabaseException::class)

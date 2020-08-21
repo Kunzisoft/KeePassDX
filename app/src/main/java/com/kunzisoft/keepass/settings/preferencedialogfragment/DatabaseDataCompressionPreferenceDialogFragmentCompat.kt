@@ -64,7 +64,7 @@ class DatabaseDataCompressionPreferenceDialogFragmentCompat
                     database.compressionAlgorithm = newCompression
 
                     if (oldCompression != null && newCompression != null)
-                        mProgressDialogThread?.startDatabaseSaveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
+                        mProgressDatabaseTaskProvider?.startDatabaseSaveCompression(oldCompression, newCompression, mDatabaseAutoSaveEnable)
                 }
             }
         }

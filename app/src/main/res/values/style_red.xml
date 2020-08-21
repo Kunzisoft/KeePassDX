@@ -19,7 +19,7 @@
 -->
 <resources>
     <!-- Red Style -->
-    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Night.v21" >
+    <style name="KeepassDXStyle.Red" parent="KeepassDXStyle.Night" >
         <item name="colorPrimary">@color/red</item>
         <item name="colorPrimaryDark">@color/red_dark</item>
         <item name="colorAccent">@color/orange</item>
@@ -50,6 +50,7 @@
     </style>
     <!-- Contextual Action Bar Red -->
     <style name="KeepassDXStyle.ActionMode.Red" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/orange</item>
         <item name="background">@color/orange</item>
     </style>
 </resources>

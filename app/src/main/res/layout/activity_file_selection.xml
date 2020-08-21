@@ -130,20 +130,19 @@
                     app:layout_collapseMode="pin"
                     android:popupTheme="?attr/toolbarPopupAppearance" />
                 <FrameLayout
-                    android:layout_width="48dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="?attr/actionBarSize"
-                    android:padding="12dp"
                     android:elevation="4dp"
                     android:layout_gravity="top|start"
                     app:layout_collapseMode="pin">
-                    <androidx.appcompat.widget.AppCompatImageView
+                    <androidx.appcompat.widget.AppCompatImageButton
                         android:id="@+id/file_manager_explanation_button"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:src="@drawable/ic_folder_open_white_24dp"
-                        app:tint="?android:attr/textColorHintInverse"
-                        android:contentDescription="@string/about"/>
+                        android:src="@drawable/ic_info_white_24dp"
+                        android:contentDescription="@string/about"
+                        style="@style/KeepassDXStyle.ImageButton.Simple.Secondary"/>
                 </FrameLayout>
 
             </com.google.android.material.appbar.CollapsingToolbarLayout>

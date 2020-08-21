@@ -124,8 +124,7 @@
             android:configChanges="keyboardHidden" />
         <activity
             android:name="com.kunzisoft.keepass.activities.EntryEditActivity"
-            android:configChanges="keyboardHidden"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
         <!-- About and Settings -->
         <activity
             android:name="com.kunzisoft.keepass.activities.AboutActivity"
@@ -161,10 +160,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name="com.kunzisoft.keepass.notifications.DatabaseOpenNotificationService"
-            android:enabled="true"
-            android:exported="false" />
         <service
             android:name="com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService"
             android:enabled="true"

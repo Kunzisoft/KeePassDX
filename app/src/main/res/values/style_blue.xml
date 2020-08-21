@@ -19,7 +19,7 @@
 -->
 <resources>
     <!-- Blue Style -->
-    <style name="KeepassDXStyle.Blue" parent="KeepassDXStyle.Light.v21" >
+    <style name="KeepassDXStyle.Blue" parent="KeepassDXStyle.Light" >
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue_dark</item>
         <item name="colorAccent">@color/blue_white</item>
@@ -55,6 +55,7 @@
     </style>
     <!-- Contextual Action Bar Blue -->
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/blue_dark</item>
         <item name="background">@color/blue_dark</item>
     </style>
 </resources>

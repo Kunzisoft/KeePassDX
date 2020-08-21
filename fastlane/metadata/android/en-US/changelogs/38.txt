@@ -1,0 +1,7 @@
+ * Fix themes / new UI
+ * Fix multiples notifications
+ * Fix entry in Magikeyboard memory
+ * Fix biometric view visibility
+ * Fix fields order
+ * Upgrade code with ViewModel and LiveData
+

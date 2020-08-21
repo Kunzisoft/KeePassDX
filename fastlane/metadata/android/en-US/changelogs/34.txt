@@ -5,4 +5,3 @@
  * Fix hanged loading dialog
  * Fix auto open biometric prompt if comes from background
  * Minor fixes
-

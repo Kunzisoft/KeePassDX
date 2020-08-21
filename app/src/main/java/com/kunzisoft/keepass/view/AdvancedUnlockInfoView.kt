@@ -113,12 +113,4 @@ class AdvancedUnlockInfoView @JvmOverloads constructor(context: Context,
         message = context.getString(textId)
     }
 
-    var hide: Boolean
-        get() {
-            return visibility != VISIBLE
-        }
-        set(value) {
-            visibility = if (value) View.GONE else View.VISIBLE
-        }
-
 }

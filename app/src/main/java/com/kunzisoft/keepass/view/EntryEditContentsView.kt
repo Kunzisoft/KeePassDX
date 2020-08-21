@@ -23,17 +23,24 @@ import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import com.google.android.material.textfield.TextInputLayout
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.adapters.EntryAttachmentsItemsAdapter
+import com.kunzisoft.keepass.adapters.EntryExtraFieldsItemsAdapter
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.icon.IconImage
-import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.Field
+import com.kunzisoft.keepass.model.FocusedEditField
 import org.joda.time.Duration
 import org.joda.time.Instant
 
@@ -51,11 +58,17 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
     private val entryUrlView: EditText
     private val entryPasswordLayoutView: TextInputLayout
     private val entryPasswordView: EditText
-    private val entryConfirmationPasswordView: EditText
+    val entryPasswordGeneratorView: View
     private val entryExpiresCheckBox: CompoundButton
     private val entryExpiresTextView: TextView
     private val entryNotesView: EditText
-    private val entryExtraFieldsContainer: ViewGroup
+    private val extraFieldsContainerView: ViewGroup
+    private val extraFieldsListView: RecyclerView
+    private val attachmentsContainerView: View
+    private val attachmentsListView: RecyclerView
+
+    private val extraFieldsAdapter = EntryExtraFieldsItemsAdapter(context)
+    private val attachmentsAdapter = EntryAttachmentsItemsAdapter(context, true)
 
     private var iconColor: Int = 0
     private var expiresInstant: DateInstant = DateInstant(Instant.now().plus(Duration.standardDays(30)).toDate())
@@ -80,11 +93,41 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         entryUrlView = findViewById(R.id.entry_edit_url)
         entryPasswordLayoutView = findViewById(R.id.entry_edit_container_password)
         entryPasswordView = findViewById(R.id.entry_edit_password)
-        entryConfirmationPasswordView = findViewById(R.id.entry_edit_confirmation_password)
+        entryPasswordGeneratorView = findViewById(R.id.entry_edit_password_generator_button)
         entryExpiresCheckBox = findViewById(R.id.entry_edit_expires_checkbox)
         entryExpiresTextView = findViewById(R.id.entry_edit_expires_text)
         entryNotesView = findViewById(R.id.entry_edit_notes)
-        entryExtraFieldsContainer = findViewById(R.id.entry_edit_advanced_container)
+
+        extraFieldsContainerView = findViewById(R.id.extra_fields_container)
+        extraFieldsListView = findViewById(R.id.extra_fields_list)
+        // To hide or not the container
+        extraFieldsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                extraFieldsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                extraFieldsContainerView.expand(true)
+            }
+        }
+        extraFieldsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter = extraFieldsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
+
+        attachmentsContainerView = findViewById(R.id.entry_attachments_container)
+        attachmentsListView = findViewById(R.id.entry_attachments_list)
+        attachmentsAdapter.onListSizeChangedListener = { previousSize, newSize ->
+            if (previousSize > 0 && newSize == 0) {
+                attachmentsContainerView.collapse(true)
+            } else if (previousSize == 0 && newSize == 1) {
+                attachmentsContainerView.expand(true)
+            }
+        }
+        attachmentsListView?.apply {
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            adapter = attachmentsAdapter
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
+        }
 
         entryExpiresCheckBox.setOnCheckedChangeListener { _, _ ->
             assignExpiresDateText()
@@ -98,6 +141,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
 
     fun applyFontVisibilityToFields(fontInVisibility: Boolean) {
         this.fontInVisibility = fontInVisibility
+        this.extraFieldsAdapter.applyFontVisibility = fontInVisibility
     }
 
     var title: String
@@ -148,10 +192,8 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         }
         set(value) {
             entryPasswordView.setText(value)
-            entryConfirmationPasswordView.setText(value)
             if (fontInVisibility) {
                 entryPasswordView.applyFontVisibility()
-                entryConfirmationPasswordView.applyFontVisibility()
             }
         }
 
@@ -195,63 +237,53 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
                 entryNotesView.applyFontVisibility()
         }
 
-    val customFields: MutableList<Field>
-        get() {
-            val customFieldsArray = ArrayList<Field>()
-            // Add extra fields from views
-            entryExtraFieldsContainer.let {
-                try {
-                    for (i in 0 until it.childCount) {
-                        val view = it.getChildAt(i) as EntryEditCustomField
-                        val key = view.label
-                        val value = view.value
-                        val protect = view.isProtected
-                        customFieldsArray.add(Field(key, ProtectedString(protect, value)))
-                    }
-                } catch (exception: Exception) {
-                    // Extra field container contains another type of view
-                }
-            }
-            return customFieldsArray
-        }
-
-    /**
-     * Add a new view to fill in the information of the customized field and focus it
+    /* -------------
+     * Extra Fields
+     * -------------
      */
-    fun addEmptyCustomField() {
-        // Fix current custom field before adding a new one
-        if (isValid()) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
-                setFontVisibility(fontInVisibility)
-                requestFocus()
-            }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
-        }
+
+    fun getExtraField(): MutableList<Field> {
+        return extraFieldsAdapter.itemsList
+    }
+
+    fun getExtraFieldFocused(): FocusedEditField {
+        // To keep focused after an orientation change
+        return extraFieldsAdapter.getFocusedField()
     }
 
     /**
-     * Update a custom field or create a new one if doesn't exists
+     * Remove all children and add new views for each field
      */
-    fun putCustomField(name: String,
-                       value: ProtectedString = ProtectedString()) {
-        var updateField = false
-        for (i in 0..entryExtraFieldsContainer.childCount) {
-            try {
-                val extraFieldView = entryExtraFieldsContainer.getChildAt(i) as EntryEditCustomField?
-                if (extraFieldView?.label == name) {
-                    extraFieldView.setData(name, value, fontInVisibility)
-                    updateField = true
-                    break
-                }
-            } catch(e: Exception) {
-                // Simply ignore when child view is not a custom field
-            }
+    fun assignExtraFields(fields: List<Field>, focusedExtraField: FocusedEditField? = null) {
+        extraFieldsContainerView.visibility = if (fields.isEmpty()) View.GONE else View.VISIBLE
+        // Reinit focused field
+        extraFieldsAdapter.assignItems(fields, focusedExtraField)
+    }
+
+    /**
+     * Update an extra field or create a new one if doesn't exists
+     */
+    fun putExtraField(extraField: Field) {
+        extraFieldsContainerView.visibility = View.VISIBLE
+        val oldField = extraFieldsAdapter.itemsList.firstOrNull { it.name == extraField.name }
+        oldField?.let {
+            if (extraField.protectedValue.stringValue.isEmpty())
+                extraField.protectedValue.stringValue = it.protectedValue.stringValue
         }
-        if (!updateField) {
-            val entryEditCustomField = EntryEditCustomField(context).apply {
-                setData(name, value, fontInVisibility)
-            }
-            entryExtraFieldsContainer.addView(entryEditCustomField)
+        extraFieldsAdapter.putItem(extraField)
+    }
+
+    /* -------------
+     * Attachments
+     * -------------
+     */
+
+    fun assignAttachments(attachments: ArrayList<EntryAttachment>,
+                          onDeleteItem: (attachment: EntryAttachment)->Unit) {
+        attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
+        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.onDeleteButtonClickListener = { item ->
+            onDeleteItem.invoke(item)
         }
     }
 
@@ -261,33 +293,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * @return ErrorValidation An error with a message or a validation without message
      */
     fun isValid(): Boolean {
-        // Validate password
-        if (entryPasswordView.text.toString() != entryConfirmationPasswordView.text.toString()) {
-            entryPasswordLayoutView.error = context.getString(R.string.error_pass_match)
-            return false
-        } else {
-            entryPasswordLayoutView.error = null
-        }
-
-        // Validate extra fields
-        entryExtraFieldsContainer.let {
-            try {
-                val customFieldLabelSet = HashSet<String>()
-                for (i in 0 until it.childCount) {
-                    val entryEditCustomField = it.getChildAt(i) as EntryEditCustomField
-                    if (customFieldLabelSet.contains(entryEditCustomField.label)) {
-                        entryEditCustomField.setError(R.string.error_label_exists)
-                        return false
-                    }
-                    customFieldLabelSet.add(entryEditCustomField.label)
-                    if (!entryEditCustomField.isValid()) {
-                        return false
-                    }
-                }
-            } catch (exception: Exception) {
-                return false
-            }
-        }
+        // TODO
         return true
     }
 

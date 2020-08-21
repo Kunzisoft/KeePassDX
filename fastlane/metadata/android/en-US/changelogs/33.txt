@@ -1,4 +1,3 @@
  * First stable version of KeePassDX
  * Fork completely rewritten from the KeePassDroid project
  * Fix small issues from the last Release Candidate
-

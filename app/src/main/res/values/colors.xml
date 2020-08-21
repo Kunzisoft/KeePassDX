@@ -21,6 +21,7 @@
 	<color name="transparent">#00ffffff</color>
 	<color name="white">#ffffff</color>
 	<color name="black">#000000</color>
+    <color name="darker">#0A0A0A</color>
     <color name="dark">#0e0e0e</color>
     <color name="grey">#bdbdbd</color>
     <color name="grey_dark">#9e9e9e</color>
@@ -58,7 +59,7 @@
     <color name="background_light">#FAFAFA</color>
 	<color name="background_night">#303030</color>
     <color name="background_dark">#000000</color>
-    <color name="background_purple">#e3cfff</color>
+    <color name="background_purple">#F2EDFA</color>
 
     <color name="icon_background">#555555</color>
     <color name="icon_text">#000000</color>

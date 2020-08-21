@@ -34,16 +34,15 @@
             android:maxLines="1"/>
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatImageView
+    <androidx.appcompat.widget.AppCompatImageButton
         android:id="@+id/keyfile_open_button"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:padding="12dp"
         android:contentDescription="@string/content_description_open_file"
         android:focusable="true"
         android:background="@drawable/background_item_selection"
         android:src="@drawable/ic_folder_white_24dp"
-        android:tint="?attr/colorAccent"/>
+        style="@style/KeepassDXStyle.ImageButton.Simple" />
 </androidx.constraintlayout.widget.ConstraintLayout>

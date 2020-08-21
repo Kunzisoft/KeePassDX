@@ -337,7 +337,7 @@
     <string name="lock_database_back_root_title">K uzamknutí stiskněte Zpět</string>
     <string name="lock_database_back_root_summary">Zamknout obrazovku, pokud uživatel stiskne tlačítko Zpět v hlavním panelu</string>
     <string name="clear_clipboard_notification_title">Vymazat při ukončení</string>
-    <string name="clear_clipboard_notification_summary">Uzamknout databázi při uzavření oznámení</string>
+    <string name="clear_clipboard_notification_summary">Uzamknout databázi, jakmile trvání schránky vyprší nebo po uzavření oznámení</string>
     <string name="recycle_bin">Koš</string>
     <string name="keyboard_selection_entry_title">Výběr položky</string>
     <string name="keyboard_selection_entry_summary">Při prohlížení záznamu ukázat na Magikeyboard pole položek</string>
@@ -434,8 +434,8 @@
     <string name="entry_attachments">Připojené soubory</string>
     <string name="menu_restore_entry_history">Obnovit historii</string>
     <string name="menu_delete_entry_history">Smazat historii</string>
-    <string name="keyboard_auto_go_action_title">Akce auto-klíče</string>
-    <string name="keyboard_auto_go_action_summary">Akce klíče \"Jít\" po stisknutí klíče \"Položka\"</string>
+    <string name="keyboard_auto_go_action_title">Akce auto-klávesy</string>
+    <string name="keyboard_auto_go_action_summary">Akce klávesy \"Jít\" po stisknutí klávesy \"Položka\"</string>
     <string name="download_attachment">Stáhnout %1$s</string>
     <string name="download_initialization">Zahajuji…</string>
     <string name="download_progression">Probíhá: %1$d%%</string>
@@ -487,4 +487,9 @@
     <string name="subdomain_search_title">Hledat v subdoméně</string>
     <string name="error_string_type">Tento text se s požadovanou položkou neshoduje.</string>
     <string name="content_description_add_item">Přidat položku</string>
+    <string name="keyboard_previous_fill_in_summary">Automaticky přepnout na předchozí klávesnici po provedení Akce auto-klávesy</string>
+    <string name="keyboard_previous_fill_in_title">Akce auto-klávesy</string>
+    <string name="keyboard_previous_database_credentials_summary">Automaticky přepnout zpět na předchozí klávesnici na obrazovce ověřovacích údajů databáze</string>
+    <string name="keyboard_previous_database_credentials_title">Obrazovka ověřovacích údajů databáze</string>
+    <string name="keyboard_change">Přepnout klávesnici</string>
 </resources>

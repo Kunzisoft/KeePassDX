@@ -47,6 +47,22 @@ data class EntryAttachment(var name: String,
         return 0
     }
 
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other !is EntryAttachment) return false
+
+        if (name != other.name) return false
+        if (binaryAttachment != other.binaryAttachment) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + binaryAttachment.hashCode()
+        return result
+    }
+
     companion object CREATOR : Parcelable.Creator<EntryAttachment> {
         override fun createFromParcel(parcel: Parcel): EntryAttachment {
             return EntryAttachment(parcel)

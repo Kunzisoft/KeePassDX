@@ -121,7 +121,7 @@ class AddNodeButtonView @JvmOverloads constructor(context: Context,
         return super.onTouchEvent(event)
     }
 
-    fun hideButtonOnScrollListener(dy: Int) {
+    fun hideOrShowButtonOnScrollListener(dy: Int) {
         if (state == State.CLOSE) {
             if (dy > 0 && addButtonView?.visibility == View.VISIBLE) {
                 hideButton()

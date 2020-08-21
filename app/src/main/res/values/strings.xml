@@ -52,7 +52,7 @@
     <string name="content_description_add_entry">Add entry</string>
     <string name="content_description_add_group">Add group</string>
     <string name="content_description_add_item">Add item</string>
-    <string name="content_description_file_information">File information</string>
+    <string name="content_description_file_information">File info</string>
     <string name="content_description_password_checkbox">Password checkbox</string>
     <string name="content_description_keyfile_checkbox">Keyfile checkbox</string>
     <string name="content_description_repeat_toggle_password_visibility">Repeat toggle password visibility</string>
@@ -104,7 +104,7 @@
     <string name="error_arc4">The Arcfour stream cipher is not supported.</string>
     <string name="error_can_not_handle_uri">Could not handle this URI in KeePassDX.</string>
     <string name="error_file_not_create">Could not create file:</string>
-    <string name="error_invalid_db">Could not read database.</string>
+    <string name="error_invalid_db">Could not read the database.</string>
     <string name="error_invalid_path">Make sure the path is correct.</string>
     <string name="error_invalid_OTP">Invalid OTP secret.</string>
     <string name="error_no_name">Enter a name.</string>
@@ -167,7 +167,7 @@
     <string name="settings">Settings</string>
     <string name="menu_app_settings">App settings</string>
     <string name="menu_form_filling_settings">Form filling</string>
-    <string name="menu_advanced_unlock_settings">Advanced unlock</string>
+    <string name="menu_advanced_unlock_settings">Advanced unlocking</string>
     <string name="menu_database_settings">Database settings</string>
     <string name="menu_security_settings">Security settings</string>
     <string name="menu_master_key_settings">Master key settings</string>
@@ -211,10 +211,10 @@
     <string name="contains_duplicate_uuid">The database contains duplicate UUIDs.</string>
     <string name="contains_duplicate_uuid_procedure">Solve problem by generating new UUIDs for duplicates to continue?</string>
     <string name="selection_mode">Selection mode</string>
-    <string name="remember_database_locations_title">Save location of databases</string>
-    <string name="remember_database_locations_summary">Remember the location of databases</string>
-    <string name="remember_keyfile_locations_title">Save location of keyfiles</string>
-    <string name="remember_keyfile_locations_summary">Remember the location of databases keyfiles</string>
+    <string name="remember_database_locations_title">Remember databases locations</string>
+    <string name="remember_database_locations_summary">Keeps track of where databases are stored</string>
+    <string name="remember_keyfile_locations_title">Remember keyfile locations</string>
+    <string name="remember_keyfile_locations_summary">Keeps track of where keyfiles are stored</string>
     <string name="show_recent_files_title">Show recent files</string>
     <string name="show_recent_files_summary">Show locations of recent databases</string>
     <string name="hide_broken_locations_title">Hide broken database links</string>
@@ -259,7 +259,7 @@
     <string name="warning_permanently_delete_nodes">Permanently delete selected nodes?</string>
     <string name="version_label">Version %1$s</string>
     <string name="build_label">Build %1$s</string>
-    <string name="configure_biometric">Biometric prompt is supported but not set up.</string>
+    <string name="configure_biometric">Biometric prompt is supported, but not set up.</string>
     <string name="keystore_not_accessible">The keystore is not properly initialized.</string>
     <string name="open_biometric_prompt_unlock_database">Open the biometric prompt to unlock the database</string>
     <string name="open_biometric_prompt_store_credential">Open the biometric prompt to store credentials</string>
@@ -291,7 +291,7 @@
     <string name="clipboard">Clipboard</string>
     <string name="clipboard_explanation_summary">Copy entry fields using the clipboard of your device</string>
     <string name="clipboard_notifications_title">Clipboard notifications</string>
-    <string name="clipboard_notifications_summary">Enable clipboard notifications to copy fields when viewing an entry</string>
+    <string name="clipboard_notifications_summary">Show clipboard notifications to copy fields when viewing an entry</string>
     <string name="clipboard_warning">If automatic deletion of clipboard fails, delete its history manually.</string>
     <string name="lock">Lock</string>
     <string name="lock_database_screen_off_title">Screen lock</string>
@@ -310,7 +310,7 @@
     <string name="biometric_delete_all_key_summary">Delete all encryption keys related to biometric recognition</string>
     <string name="biometric_delete_all_key_warning">Delete all encryption keys related to biometric recognition?</string>
     <string name="unavailable_feature_text">Could not start this feature.</string>
-    <string name="unavailable_feature_version">Your Android version %1$s does not meet the minimum version %2$s required.</string>
+    <string name="unavailable_feature_version">The device is running Android %1$s, but needs %2$s or later.</string>
     <string name="unavailable_feature_hardware">Could not find the corresponding hardware.</string>
     <string name="file_name">Filename</string>
     <string name="path">Path</string>
@@ -395,7 +395,7 @@
     <string name="autofill_block">Block autofill</string>
     <string name="autofill_block_restart">Restart the app containing the form to activate the blocking.</string>
     <string name="allow_no_password_title">Allow no master key</string>
-    <string name="allow_no_password_summary">Enable the \"Open\" button if no credentials are selected</string>
+    <string name="allow_no_password_summary">Allows tapping the \"Open\" button if no credentials are selected</string>
     <string name="delete_entered_password_title">Delete password</string>
     <string name="delete_entered_password_summary">Deletes the password entered after a connection attempt to a database</string>
     <string name="enable_read_only_title">Write-protected</string>
@@ -415,7 +415,7 @@
     <string name="education_new_node_summary">Entries help manage your digital identities.\n\nGroups (~folders) organize entries in your database.</string>
     <string name="education_search_title">Search through entries</string>
     <string name="education_search_summary">Enter title, username or content of other fields to retrieve your passwords.</string>
-    <string name="education_biometric_title">Database unlocking by biometric</string>
+    <string name="education_biometric_title">Biometric database unlocking</string>
     <string name="education_biometric_summary">Link your password to your scanned biometric to quickly unlock your database.</string>
     <string name="education_entry_edit_title">Edit the entry</string>
     <string name="education_entry_edit_summary">Edit your entry with custom fields. Pool data can be referenced between different entry fields.</string>
@@ -423,8 +423,8 @@
     <string name="education_generate_password_summary">Generate a strong password to associate with your entry, easily define it according to the criteria of the form and don\'t forget secure password.</string>
     <string name="education_entry_new_field_title">Add custom fields</string>
     <string name="education_entry_new_field_summary">Register an additional field, add a value and optionally protect it.</string>
-    <string name="education_setup_OTP_title">Setup OTP</string>
-    <string name="education_setup_OTP_summary">Setup One-Time Password management (HOTP / TOTP) to generate a token requested for Two-factor authentication (2FA).</string>
+    <string name="education_setup_OTP_title">Set up OTP</string>
+    <string name="education_setup_OTP_summary">Set up one-time password management (HOTP / TOTP) to generate a token requested for two-factor authentication (2FA).</string>
     <string name="education_unlock_title">Unlock your database</string>
     <string name="education_unlock_summary">Enter the password and/or keyfile to unlock your database.\n\nBackup your database file in a safe place after each change.</string>
     <string name="education_read_only_title">Write protect your database</string>
@@ -454,7 +454,7 @@
     <string name="download_initialization">Initializing…</string>
     <string name="download_progression">In progress: %1$d%%</string>
     <string name="download_finalization">Finalizing…</string>
-    <string name="download_complete">Complete! Tap to open the file.</string>
+    <string name="download_complete">Tap to open the file.</string>
     <string name="encryption_rijndael">Rijndael (AES)</string>
     <string name="encryption_twofish">Twofish</string>
     <string name="encryption_chacha20">ChaCha20</string>
@@ -490,5 +490,5 @@
     <string name="icon_pack_choose_title">Icon pack</string>
     <string name="icon_pack_choose_summary">Icon pack used in the app</string>
     <string name="hide_expired_entries_title">Hide expired entries</string>
-    <string name="hide_expired_entries_summary">Expired entries are hidden</string>
+    <string name="hide_expired_entries_summary">Expired entries are not shown</string>
 </resources>

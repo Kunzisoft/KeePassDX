@@ -1,3 +1,11 @@
+KeePassDX(2.8.2)
+ * Fix themes / new UI
+ * Fix multiples notifications
+ * Fix entry in Magikeyboard memory
+ * Fix biometric view visibility
+ * Fix fields order
+ * Upgrade code with ViewModel and LiveData
+
 KeePassDX(2.8.1)
  * Capture exceptions in coroutines
 

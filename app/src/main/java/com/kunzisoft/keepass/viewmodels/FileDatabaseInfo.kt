@@ -17,14 +17,14 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.utils
+package com.kunzisoft.keepass.viewmodels
 
 import android.content.Context
 import android.net.Uri
 import android.text.format.Formatter
 import androidx.documentfile.provider.DocumentFile
-import com.kunzisoft.keepass.app.database.FileDatabaseHistoryAction
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import java.io.Serializable
 import java.text.DateFormat
 import java.util.*
@@ -58,18 +58,6 @@ class FileDatabaseInfo : Serializable {
         }
         private set
 
-    var canRead: Boolean = false
-        get() {
-            return documentFile?.canRead() ?: field
-        }
-        private set
-
-    var canWrite: Boolean = false
-        get() {
-            return documentFile?.canWrite() ?: field
-        }
-        private set
-
     fun getModificationString(): String? {
         return documentFile?.lastModified()?.let {
             DateFormat.getDateTimeInstance()
@@ -83,21 +71,11 @@ class FileDatabaseInfo : Serializable {
         }
     }
 
-    fun retrieveDatabaseAlias(alias: String): String {
+    fun retrieveDatabaseAlias(alias: String): String? {
         return when {
             alias.isNotEmpty() -> alias
-            PreferencesUtil.isFullFilePathEnable(context) -> fileUri?.path ?: ""
-            else -> if (exists) documentFile?.name ?: "" else  fileUri?.path ?: ""
-        }
-    }
-
-    fun retrieveDatabaseTitle(titleCallback: (String)->Unit) {
-        fileUri?.let { fileUri ->
-            FileDatabaseHistoryAction.getInstance(context.applicationContext)
-                    .getFileDatabaseHistory(fileUri) { fileDatabaseHistoryEntity ->
-                titleCallback.invoke(retrieveDatabaseAlias(fileDatabaseHistoryEntity?.databaseAlias
-                        ?: ""))
-            }
+            PreferencesUtil.isFullFilePathEnable(context) -> fileUri?.path
+            else -> if (exists) documentFile?.name else fileUri?.path
         }
     }
 }

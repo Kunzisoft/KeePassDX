@@ -140,7 +140,7 @@ class EntryActivity : LockingActivity() {
         // Init attachment service binder manager
         mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
-        mProgressDialogThread?.onActionFinish = { actionTask, result ->
+        mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
             when (actionTask) {
                 ACTION_DATABASE_RESTORE_ENTRY_HISTORY,
                 ACTION_DATABASE_DELETE_ENTRY_HISTORY -> {
@@ -309,11 +309,7 @@ class EntryActivity : LockingActivity() {
         // Assign custom fields
         if (entry.allowCustomFields()) {
             entryContentsView?.clearExtraFields()
-
-            for (element in entry.customFields.entries) {
-                val label = element.key
-                val value = element.value
-
+            for ((label, value) in entry.customFields) {
                 val allowCopyProtectedField = !value.isProtected || allowCopyPasswordAndProtectedFields
                 if (allowCopyProtectedField) {
                     entryContentsView?.addExtraField(label, value, allowCopyProtectedField, View.OnClickListener {
@@ -335,25 +331,18 @@ class EntryActivity : LockingActivity() {
         entryContentsView?.setHiddenPasswordStyle(!mShowPassword)
 
         // Manage attachments
-        val attachments = entry.getAttachments()
-        val showAttachmentsView = attachments.isNotEmpty()
-        entryContentsView?.showAttachments(showAttachmentsView)
-        if (showAttachmentsView) {
-            entryContentsView?.assignAttachments(attachments)
-            entryContentsView?.onAttachmentClick { attachmentItem, _ ->
-                when (attachmentItem.downloadState) {
-                    AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
-                        createDocument(this, attachmentItem.name)?.let { requestCode ->
-                            mAttachmentsToDownload[requestCode] = attachmentItem
-                        }
+        entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
+            when (attachmentItem.downloadState) {
+                AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
+                    createDocument(this, attachmentItem.name)?.let { requestCode ->
+                        mAttachmentsToDownload[requestCode] = attachmentItem
                     }
-                    else -> {
-                        // TODO Stop download
-                    }
+                }
+                else -> {
+                    // TODO Stop download
                 }
             }
         }
-        entryContentsView?.refreshAttachments()
 
         // Assign dates
         entryContentsView?.assignCreationDate(entry.creationTime)
@@ -373,16 +362,9 @@ class EntryActivity : LockingActivity() {
             collapsingToolbarLayout?.contentScrim = ColorDrawable(taColorAccent.getColor(0, Color.BLACK))
             taColorAccent.recycle()
         }
-        val entryHistory = entry.getHistory()
-        val showHistoryView = entryHistory.isNotEmpty()
-        entryContentsView?.showHistory(showHistoryView)
-        if (showHistoryView) {
-            entryContentsView?.assignHistory(entryHistory)
-            entryContentsView?.onHistoryClick { historyItem, position ->
-                launch(this, historyItem, mReadOnly, position)
-            }
+        entryContentsView?.assignHistory(entry.getHistory()) { historyItem, position ->
+            launch(this, historyItem, mReadOnly, position)
         }
-        entryContentsView?.refreshHistory()
 
         // Assign special data
         entryContentsView?.assignUUID(entry.nodeId.id)
@@ -523,7 +505,7 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_restore_entry_history -> {
                 mEntryLastVersion?.let { mainEntry ->
-                    mProgressDialogThread?.startDatabaseRestoreEntryHistory(
+                    mProgressDatabaseTaskProvider?.startDatabaseRestoreEntryHistory(
                             mainEntry,
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
@@ -531,14 +513,14 @@ class EntryActivity : LockingActivity() {
             }
             R.id.menu_delete_entry_history -> {
                 mEntryLastVersion?.let { mainEntry ->
-                    mProgressDialogThread?.startDatabaseDeleteEntryHistory(
+                    mProgressDatabaseTaskProvider?.startDatabaseDeleteEntryHistory(
                             mainEntry,
                             mEntryHistoryPosition,
                             !mReadOnly && mAutoSaveEnable)
                 }
             }
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
             }
             android.R.id.home -> finish() // close this activity and return to preview activity (if there is any)
         }

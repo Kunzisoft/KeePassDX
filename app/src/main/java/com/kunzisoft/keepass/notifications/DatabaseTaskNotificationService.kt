@@ -19,12 +19,15 @@
  */
 package com.kunzisoft.keepass.notifications
 
+import android.app.PendingIntent
 import android.content.Intent
 import android.net.Uri
 import android.os.Binder
+import android.os.Build
 import android.os.Bundle
 import android.os.IBinder
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.activities.GroupActivity
 import com.kunzisoft.keepass.app.database.CipherDatabaseEntity
 import com.kunzisoft.keepass.database.action.*
 import com.kunzisoft.keepass.database.action.history.DeleteEntryHistoryDatabaseRunnable
@@ -42,22 +45,28 @@ import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.DATABASE_START_TASK_ACTION
 import com.kunzisoft.keepass.utils.DATABASE_STOP_TASK_ACTION
+import com.kunzisoft.keepass.utils.LOCK_ACTION
+import com.kunzisoft.keepass.utils.closeDatabase
 import kotlinx.coroutines.*
 import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.collections.ArrayList
 
-class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdater {
+open class DatabaseTaskNotificationService : LockNotificationService(), ProgressTaskUpdater {
 
     override val notificationId: Int = 575
+
+    private lateinit var mDatabase: Database
 
     private val mainScope = CoroutineScope(Dispatchers.Main)
 
     private var mActionTaskBinder = ActionTaskBinder()
     private var mActionTaskListeners = LinkedList<ActionTaskListener>()
     private var mAllowFinishAction = AtomicBoolean()
+    private var mActionRunning = false
 
-    private var mTitleId: Int? = null
+    private var mIconId: Int = R.drawable.notification_ic_database_load
+    private var mTitleId: Int = R.string.database_opened
     private var mMessageId: Int? = null
     private var mWarningId: Int? = null
 
@@ -66,8 +75,8 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         fun getService(): DatabaseTaskNotificationService = this@DatabaseTaskNotificationService
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
-            mActionTaskListeners.add(actionTaskListener)
             mAllowFinishAction.set(true)
+            mActionTaskListeners.add(actionTaskListener)
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
@@ -84,66 +93,41 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         fun onStopAction(actionTask: String, result: ActionRunnable.Result)
     }
 
+    /**
+     * Force to call [ActionTaskListener.onStartAction] if the action is still running
+     */
     fun checkAction() {
-        mActionTaskListeners.forEach { actionTaskListener ->
-            actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
-        }
-    }
-
-    private fun buildNotification(intent: Intent?) {
-        var saveAction = true
-        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
-            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
-        }
-
-        val intentAction = intent?.action
-        val titleId: Int = when (intentAction) {
-            ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
-            ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
-            else -> {
-                if (saveAction)
-                    R.string.saving_database
-                else
-                    R.string.command_execution
+        if (mActionRunning) {
+            mActionTaskListeners.forEach { actionTaskListener ->
+                actionTaskListener.onStartAction(mTitleId, mMessageId, mWarningId)
             }
         }
-        val messageId: Int? = when (intentAction) {
-            ACTION_DATABASE_LOAD_TASK -> null
-            else -> null
-        }
-        val warningId: Int? =
-                if (!saveAction
-                        || intentAction == ACTION_DATABASE_LOAD_TASK)
-                    null
-                else
-                    R.string.do_not_kill_app
-
-        // Assign elements for updates
-        mTitleId = titleId
-        mMessageId = messageId
-        mWarningId = warningId
-        // Create the notification
-        startForeground(notificationId, buildNewNotification()
-                .setSmallIcon(R.drawable.notification_ic_database_load)
-                .setContentTitle(getString(intent?.getIntExtra(DATABASE_TASK_TITLE_KEY, titleId) ?: titleId))
-                .setAutoCancel(false)
-                .setContentIntent(null).build())
     }
 
     override fun onBind(intent: Intent): IBinder? {
-        buildNotification(intent)
+        super.onBind(intent)
         return mActionTaskBinder
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        buildNotification(intent)
+        mDatabase = Database.getInstance()
 
-        if (intent == null) return START_REDELIVER_INTENT
+        // Create the notification
+        buildMessage(intent)
 
-        val intentAction = intent.action
-        val actionRunnable: ActionRunnable? = when (intentAction) {
+        val intentAction = intent?.action
+
+        if (intentAction == null && !mDatabase.loaded) {
+            stopSelf()
+        }
+        if (intentAction == ACTION_DATABASE_CLOSE) {
+            // Send lock action
+            sendBroadcast(Intent(LOCK_ACTION))
+        }
+
+        val actionRunnable: ActionRunnable? =  when (intentAction) {
             ACTION_DATABASE_CREATE_TASK -> buildDatabaseCreateActionTask(intent)
             ACTION_DATABASE_LOAD_TASK -> buildDatabaseLoadActionTask(intent)
             ACTION_DATABASE_ASSIGN_PASSWORD_TASK -> buildDatabaseAssignPasswordActionTask(intent)
@@ -172,12 +156,13 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
             else -> null
         }
 
-        actionRunnable?.let { actionRunnableNotNull ->
-
-            // Build and launch the action
+        // Build and launch the action
+        if (actionRunnable != null) {
             mainScope.launch {
                 executeAction(this@DatabaseTaskNotificationService,
                         {
+                            mActionRunning = true
+
                             sendBroadcast(Intent(DATABASE_START_TASK_ACTION).apply {
                                 putExtra(DATABASE_TASK_TITLE_KEY, mTitleId)
                                 putExtra(DATABASE_TASK_MESSAGE_KEY, mMessageId)
@@ -190,22 +175,160 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
                         },
                         {
-                            actionRunnableNotNull
+                            actionRunnable
                         },
                         { result ->
-                            mActionTaskListeners.forEach { actionTaskListener ->
-                                actionTaskListener.onStopAction(intentAction!!, result)
+                            try {
+                                mActionTaskListeners.forEach { actionTaskListener ->
+                                    actionTaskListener.onStopAction(intentAction!!, result)
+                                }
+                            } finally {
+                                removeIntentData(intent)
+                                TimeoutHelper.releaseTemporarilyDisableTimeout()
+                                if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
+                                    if (!mDatabase.loaded) {
+                                        stopSelf()
+                                    } else {
+                                        // Restart the service to open lock notification
+                                        startService(Intent(applicationContext,
+                                                DatabaseTaskNotificationService::class.java))
+                                    }
+                                }
                             }
 
                             sendBroadcast(Intent(DATABASE_STOP_TASK_ACTION))
 
-                            stopSelf()
+                            mActionRunning = false
                         }
                 )
             }
         }
 
-        return START_REDELIVER_INTENT
+        return when (intentAction) {
+            ACTION_DATABASE_LOAD_TASK, null -> {
+                START_STICKY
+            }
+            else -> {
+                // Relaunch action if failed
+                START_REDELIVER_INTENT
+            }
+        }
+    }
+
+    private fun buildMessage(intent: Intent?) {
+        // Assign elements for updates
+        val intentAction = intent?.action
+
+        var saveAction = false
+        if (intent != null && intent.hasExtra(SAVE_DATABASE_KEY)) {
+            saveAction = intent.getBooleanExtra(SAVE_DATABASE_KEY, saveAction)
+        }
+
+        mIconId = if (intentAction == null)
+            R.drawable.notification_ic_database_open
+        else
+            R.drawable.notification_ic_database_load
+
+        mTitleId = when {
+            saveAction -> {
+                R.string.saving_database
+            }
+            intentAction == null -> {
+                R.string.database_opened
+            }
+            else -> {
+                when (intentAction) {
+                    ACTION_DATABASE_CREATE_TASK -> R.string.creating_database
+                    ACTION_DATABASE_LOAD_TASK -> R.string.loading_database
+                    ACTION_DATABASE_SAVE -> R.string.saving_database
+                    else -> {
+                        R.string.command_execution
+                    }
+                }
+            }
+        }
+
+        mMessageId = when (intentAction) {
+            ACTION_DATABASE_LOAD_TASK -> null
+            else -> null
+        }
+
+        mWarningId =
+                if (!saveAction
+                        || intentAction == ACTION_DATABASE_LOAD_TASK)
+                    null
+                else
+                    R.string.do_not_kill_app
+
+        val notificationBuilder =  buildNewNotification().apply {
+            setSmallIcon(mIconId)
+            intent?.let {
+                setContentTitle(getString(intent.getIntExtra(DATABASE_TASK_TITLE_KEY, mTitleId)))
+            }
+            setAutoCancel(false)
+            setContentIntent(null)
+        }
+
+        if (intentAction == null) {
+            // Database is normally open
+            if (mDatabase.loaded) {
+                // Build Intents for notification action
+                var pendingDatabaseFlag = 0
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    pendingDatabaseFlag = PendingIntent.FLAG_IMMUTABLE
+                }
+                val pendingDatabaseIntent = PendingIntent.getActivity(this,
+                        0,
+                        Intent(this, GroupActivity::class.java),
+                        pendingDatabaseFlag)
+                val deleteIntent = Intent(this, DatabaseTaskNotificationService::class.java).apply {
+                    action = ACTION_DATABASE_CLOSE
+                }
+                val pendingDeleteIntent = PendingIntent.getService(this, 0, deleteIntent, PendingIntent.FLAG_UPDATE_CURRENT)
+                // Add actions in notifications
+                notificationBuilder.apply {
+                    setContentText(mDatabase.name + " (" + mDatabase.version + ")")
+                    setContentIntent(pendingDatabaseIntent)
+                    // Unfortunately swipe is disabled in lollipop+
+                    setDeleteIntent(pendingDeleteIntent)
+                    addAction(R.drawable.ic_lock_white_24dp, getString(R.string.lock),
+                            pendingDeleteIntent)
+                }
+            }
+        }
+
+        // Create the notification
+        startForeground(notificationId, notificationBuilder.build())
+    }
+
+    private fun removeIntentData(intent: Intent?) {
+        intent?.action = null
+
+        intent?.removeExtra(DATABASE_TASK_TITLE_KEY)
+        intent?.removeExtra(DATABASE_TASK_MESSAGE_KEY)
+        intent?.removeExtra(DATABASE_TASK_WARNING_KEY)
+
+        intent?.removeExtra(DATABASE_URI_KEY)
+        intent?.removeExtra(MASTER_PASSWORD_CHECKED_KEY)
+        intent?.removeExtra(MASTER_PASSWORD_KEY)
+        intent?.removeExtra(KEY_FILE_CHECKED_KEY)
+        intent?.removeExtra(KEY_FILE_URI_KEY)
+        intent?.removeExtra(READ_ONLY_KEY)
+        intent?.removeExtra(CIPHER_ENTITY_KEY)
+        intent?.removeExtra(FIX_DUPLICATE_UUID_KEY)
+        intent?.removeExtra(GROUP_KEY)
+        intent?.removeExtra(ENTRY_KEY)
+        intent?.removeExtra(GROUP_ID_KEY)
+        intent?.removeExtra(ENTRY_ID_KEY)
+        intent?.removeExtra(GROUPS_ID_KEY)
+        intent?.removeExtra(ENTRIES_ID_KEY)
+        intent?.removeExtra(PARENT_ID_KEY)
+        intent?.removeExtra(ENTRY_HISTORY_POSITION_KEY)
+        intent?.removeExtra(SAVE_DATABASE_KEY)
+        intent?.removeExtra(OLD_NODES_KEY)
+        intent?.removeExtra(NEW_NODES_KEY)
+        intent?.removeExtra(OLD_ELEMENT_KEY)
+        intent?.removeExtra(NEW_ELEMENT_KEY)
     }
 
     /**
@@ -235,15 +358,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     result
                 }
                 withContext(Dispatchers.Main) {
-                    try {
-                        onPostExecute.invoke(asyncResult.await())
-                    } finally {
-                        TimeoutHelper.releaseTemporarilyDisableTimeout()
-                        // Start the opening notification
-                        if (TimeoutHelper.checkTimeAndLockIfTimeout(this@DatabaseTaskNotificationService)) {
-                            DatabaseOpenNotificationService.start(this@DatabaseTaskNotificationService)
-                        }
-                    }
+                    onPostExecute.invoke(asyncResult.await())
                 }
             }
         }
@@ -256,22 +371,32 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         }
     }
 
+    override fun actionOnLock() {
+        if (!TimeoutHelper.temporarilyDisableTimeout) {
+            closeDatabase()
+            // Remove the lock timer (no more needed if it exists)
+            TimeoutHelper.cancelLockTimer(this)
+            // Service is stopped after receive the broadcast
+            super.actionOnLock()
+        }
+    }
+
     private fun buildDatabaseCreateActionTask(intent: Intent): ActionRunnable? {
 
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_CHECKED_KEY)
-                && intent.hasExtra(KEY_FILE_KEY)
+                && intent.hasExtra(KEY_FILE_URI_KEY)
         ) {
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
+            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
 
             if (databaseUri == null)
                 return null
 
             return CreateDatabaseRunnable(this,
-                    Database.getInstance(),
+                    mDatabase,
                     databaseUri,
                     getString(R.string.database_default_name),
                     getString(R.string.database),
@@ -279,7 +404,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
                     keyFileUri
-            )
+            ) { result ->
+                result.data = Bundle().apply {
+                    putParcelable(DATABASE_URI_KEY, databaseUri)
+                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
+                }
+            }
         } else {
             return null
         }
@@ -289,15 +419,14 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
         if (intent.hasExtra(DATABASE_URI_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
-                && intent.hasExtra(KEY_FILE_KEY)
+                && intent.hasExtra(KEY_FILE_URI_KEY)
                 && intent.hasExtra(READ_ONLY_KEY)
                 && intent.hasExtra(CIPHER_ENTITY_KEY)
                 && intent.hasExtra(FIX_DUPLICATE_UUID_KEY)
         ) {
-            val database = Database.getInstance()
             val databaseUri: Uri? = intent.getParcelableExtra(DATABASE_URI_KEY)
             val masterPassword: String? = intent.getStringExtra(MASTER_PASSWORD_KEY)
-            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_KEY)
+            val keyFileUri: Uri? = intent.getParcelableExtra(KEY_FILE_URI_KEY)
             val readOnly: Boolean = intent.getBooleanExtra(READ_ONLY_KEY, true)
             val cipherEntity: CipherDatabaseEntity? = intent.getParcelableExtra(CIPHER_ENTITY_KEY)
 
@@ -306,7 +435,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
 
             return LoadDatabaseRunnable(
                     this,
-                    database,
+                    mDatabase,
                     databaseUri,
                     masterPassword,
                     keyFileUri,
@@ -319,7 +448,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 result.data = Bundle().apply {
                     putParcelable(DATABASE_URI_KEY, databaseUri)
                     putString(MASTER_PASSWORD_KEY, masterPassword)
-                    putParcelable(KEY_FILE_KEY, keyFileUri)
+                    putParcelable(KEY_FILE_URI_KEY, keyFileUri)
                     putBoolean(READ_ONLY_KEY, readOnly)
                     putParcelable(CIPHER_ENTITY_KEY, cipherEntity)
                 }
@@ -334,16 +463,16 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(MASTER_PASSWORD_CHECKED_KEY)
                 && intent.hasExtra(MASTER_PASSWORD_KEY)
                 && intent.hasExtra(KEY_FILE_CHECKED_KEY)
-                && intent.hasExtra(KEY_FILE_KEY)
+                && intent.hasExtra(KEY_FILE_URI_KEY)
         ) {
             val databaseUri: Uri = intent.getParcelableExtra(DATABASE_URI_KEY) ?: return null
             AssignPasswordInDatabaseRunnable(this,
-                    Database.getInstance(),
+                    mDatabase,
                     databaseUri,
                     intent.getBooleanExtra(MASTER_PASSWORD_CHECKED_KEY, false),
                     intent.getStringExtra(MASTER_PASSWORD_KEY),
                     intent.getBooleanExtra(KEY_FILE_CHECKED_KEY, false),
-                    intent.getParcelableExtra(KEY_FILE_KEY)
+                    intent.getParcelableExtra(KEY_FILE_URI_KEY)
             )
         } else {
             null
@@ -365,7 +494,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
 
@@ -373,9 +501,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     || newGroup == null)
                 return null
 
-            database.getGroupById(parentId)?.let { parent ->
+            mDatabase.getGroupById(parentId)?.let { parent ->
                 AddGroupRunnable(this,
-                        database,
+                        mDatabase,
                         newGroup,
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
@@ -391,7 +519,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(GROUP_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val groupId: NodeId<*>? = intent.getParcelableExtra(GROUP_ID_KEY)
             val newGroup: Group? = intent.getParcelableExtra(GROUP_KEY)
 
@@ -399,9 +526,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     || newGroup == null)
                 return null
 
-            database.getGroupById(groupId)?.let { oldGroup ->
+            mDatabase.getGroupById(groupId)?.let { oldGroup ->
                 UpdateGroupRunnable(this,
-                        database,
+                        mDatabase,
                         oldGroup,
                         newGroup,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
@@ -417,7 +544,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val parentId: NodeId<*>? = intent.getParcelableExtra(PARENT_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
 
@@ -425,9 +551,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     || newEntry == null)
                 return null
 
-            database.getGroupById(parentId)?.let { parent ->
+            mDatabase.getGroupById(parentId)?.let { parent ->
                 AddEntryRunnable(this,
-                        database,
+                        mDatabase,
                         newEntry,
                         parent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
@@ -443,7 +569,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(ENTRY_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val entryId: NodeId<UUID>? = intent.getParcelableExtra(ENTRY_ID_KEY)
             val newEntry: Entry? = intent.getParcelableExtra(ENTRY_KEY)
 
@@ -451,9 +576,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                     || newEntry == null)
                 return null
 
-            database.getEntryById(entryId)?.let { oldEntry ->
+            mDatabase.getEntryById(entryId)?.let { oldEntry ->
                 UpdateEntryRunnable(this,
-                        database,
+                        mDatabase,
                         oldEntry,
                         newEntry,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
@@ -470,13 +595,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
 
-            database.getGroupById(parentId)?.let { newParent ->
+            mDatabase.getGroupById(parentId)?.let { newParent ->
                 CopyNodesRunnable(this,
-                        database,
-                        getListNodesFromBundle(database, intent.extras!!),
+                        mDatabase,
+                        getListNodesFromBundle(mDatabase, intent.extras!!),
                         newParent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
@@ -492,13 +616,12 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(PARENT_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val parentId: NodeId<*> = intent.getParcelableExtra(PARENT_ID_KEY) ?: return null
 
-            database.getGroupById(parentId)?.let { newParent ->
+            mDatabase.getGroupById(parentId)?.let { newParent ->
                 MoveNodesRunnable(this,
-                        database,
-                        getListNodesFromBundle(database, intent.extras!!),
+                        mDatabase,
+                        getListNodesFromBundle(mDatabase, intent.extras!!),
                         newParent,
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
@@ -513,10 +636,9 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(ENTRIES_ID_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
                 DeleteNodesRunnable(this,
-                        database,
-                        getListNodesFromBundle(database, intent.extras!!),
+                        mDatabase,
+                        getListNodesFromBundle(mDatabase, intent.extras!!),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false),
                         AfterActionNodesRunnable())
         } else {
@@ -529,12 +651,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
 
-            database.getEntryById(entryId)?.let { mainEntry ->
+            mDatabase.getEntryById(entryId)?.let { mainEntry ->
                 RestoreEntryHistoryDatabaseRunnable(this,
-                        database,
+                        mDatabase,
                         mainEntry,
                         intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
@@ -549,12 +670,11 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 && intent.hasExtra(ENTRY_HISTORY_POSITION_KEY)
                 && intent.hasExtra(SAVE_DATABASE_KEY)
         ) {
-            val database = Database.getInstance()
             val entryId: NodeId<UUID> = intent.getParcelableExtra(ENTRY_ID_KEY) ?: return null
 
-            database.getEntryById(entryId)?.let { mainEntry ->
+            mDatabase.getEntryById(entryId)?.let { mainEntry ->
                 DeleteEntryHistoryDatabaseRunnable(this,
-                        database,
+                        mDatabase,
                         mainEntry,
                         intent.getIntExtra(ENTRY_HISTORY_POSITION_KEY, -1),
                         intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
@@ -577,7 +697,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
                 return null
 
             return UpdateCompressionBinariesDatabaseRunnable(this,
-                    Database.getInstance(),
+                    mDatabase,
                     oldElement,
                     newElement,
                     intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
@@ -594,7 +714,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     private fun buildDatabaseUpdateElementActionTask(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             return SaveDatabaseRunnable(this,
-                    Database.getInstance(),
+                    mDatabase,
                     intent.getBooleanExtra(SAVE_DATABASE_KEY, false)
             ).apply {
                 mAfterSaveDatabase = { result ->
@@ -612,7 +732,7 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     private fun buildDatabaseSave(intent: Intent): ActionRunnable? {
         return if (intent.hasExtra(SAVE_DATABASE_KEY)) {
             SaveDatabaseRunnable(this,
-                    Database.getInstance(),
+                    mDatabase,
                     intent.getBooleanExtra(SAVE_DATABASE_KEY, false))
         } else {
             null
@@ -622,10 +742,6 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
     companion object {
 
         private val TAG = DatabaseTaskNotificationService::class.java.name
-
-        const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
-        const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
-        const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val ACTION_DATABASE_CREATE_TASK = "ACTION_DATABASE_CREATE_TASK"
         const val ACTION_DATABASE_LOAD_TASK = "ACTION_DATABASE_LOAD_TASK"
@@ -652,12 +768,17 @@ class DatabaseTaskNotificationService : NotificationService(), ProgressTaskUpdat
         const val ACTION_DATABASE_UPDATE_PARALLELISM_TASK = "ACTION_DATABASE_UPDATE_PARALLELISM_TASK"
         const val ACTION_DATABASE_UPDATE_ITERATIONS_TASK = "ACTION_DATABASE_UPDATE_ITERATIONS_TASK"
         const val ACTION_DATABASE_SAVE = "ACTION_DATABASE_SAVE"
+        const val ACTION_DATABASE_CLOSE = "ACTION_DATABASE_CLOSE"
+
+        const val DATABASE_TASK_TITLE_KEY = "DATABASE_TASK_TITLE_KEY"
+        const val DATABASE_TASK_MESSAGE_KEY = "DATABASE_TASK_MESSAGE_KEY"
+        const val DATABASE_TASK_WARNING_KEY = "DATABASE_TASK_WARNING_KEY"
 
         const val DATABASE_URI_KEY = "DATABASE_URI_KEY"
         const val MASTER_PASSWORD_CHECKED_KEY = "MASTER_PASSWORD_CHECKED_KEY"
         const val MASTER_PASSWORD_KEY = "MASTER_PASSWORD_KEY"
         const val KEY_FILE_CHECKED_KEY = "KEY_FILE_CHECKED_KEY"
-        const val KEY_FILE_KEY = "KEY_FILE_KEY"
+        const val KEY_FILE_URI_KEY = "KEY_FILE_URI_KEY"
         const val READ_ONLY_KEY = "READ_ONLY_KEY"
         const val CIPHER_ENTITY_KEY = "CIPHER_ENTITY_KEY"
         const val FIX_DUPLICATE_UUID_KEY = "FIX_DUPLICATE_UUID_KEY"

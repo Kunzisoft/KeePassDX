@@ -19,21 +19,27 @@
  */
 package com.kunzisoft.keepass.app.database
 
-import android.os.AsyncTask
+import kotlinx.coroutines.*
 
 /**
- * Private class to invoke each method in a separate thread
+ * Class to invoke action in a separate IO thread
  */
-class ActionDatabaseAsyncTask<T>(
+class IOActionTask<T>(
         private val action: () -> T ,
-        private val afterActionDatabaseListener: ((T?) -> Unit)? = null
-) : AsyncTask<Void, Void, T>() {
+        private val afterActionDatabaseListener: ((T?) -> Unit)? = null) {
 
-    override fun doInBackground(vararg args: Void?): T? {
-        return action.invoke()
-    }
+    private val mainScope = CoroutineScope(Dispatchers.Main)
 
-    override fun onPostExecute(result: T?) {
-        afterActionDatabaseListener?.invoke(result)
+    fun execute() {
+        mainScope.launch {
+            withContext(Dispatchers.IO) {
+                val asyncResult: Deferred<T?> = async {
+                    action.invoke()
+                }
+                withContext(Dispatchers.Main) {
+                    afterActionDatabaseListener?.invoke(asyncResult.await())
+                }
+            }
+        }
     }
 }
