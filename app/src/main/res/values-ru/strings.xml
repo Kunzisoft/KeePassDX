@@ -442,9 +442,9 @@
     <string name="download_initialization">Инициализация…</string>
     <string name="download_progression">Выполнение: %1$d%%</string>
     <string name="download_finalization">Завершение…</string>
-    <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
+    <string name="download_complete">Нажмите, чтобы открыть файл.</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
-    <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
+    <string name="hide_expired_entries_summary">Не показывать записи с истёкшим сроком</string>
     <string name="contact">Контактная информация</string>
     <string name="contribution">Помощь проекту</string>
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
