@@ -216,7 +216,7 @@
     <string name="list_password_generator_options_summary">Настройка набора разрешённых символов для создания пароля</string>
     <string name="clipboard">Буфер обмена</string>
     <string name="clipboard_notifications_title">Уведомления буфера обмена</string>
-    <string name="clipboard_notifications_summary">Включить уведомления буфера обмена для копирования полей при просмотре записи</string>
+    <string name="clipboard_notifications_summary">Показывать уведомления буфера обмена для копирования полей при просмотре записи</string>
     <string name="clipboard_warning">Если автоматическая очистка буфера обмена недоступна, очистите историю буфера обмена вручную.</string>
     <string name="lock">Блокировка</string>
     <string name="lock_database_screen_off_title">Блокировка экрана</string>
@@ -228,7 +228,7 @@
     <string name="biometric_delete_all_key_summary">Удалить все ключи шифрования, связанные с распознаванием биометрического ключа</string>
     <string name="biometric_delete_all_key_warning">Удалить все ключи шифрования, связанные с биометрическим распознаванием\?</string>
     <string name="unavailable_feature_text">Невозможно запустить эту функцию.</string>
-    <string name="unavailable_feature_version">Ваша версия Android %1$s ниже минимально необходимой %2$s.</string>
+    <string name="unavailable_feature_version">Ваша версия Android %1$s, но требуется %2$s.</string>
     <string name="unavailable_feature_hardware">Соответствующее оборудование не найдено.</string>
     <string name="file_name">Имя файла</string>
     <string name="path">Путь</string>
@@ -450,9 +450,9 @@
     <string name="html_about_contribution">Для &lt;strong&gt;сохранения нашей независимости&lt;/strong&gt;, &lt;strong&gt;исправления ошибок&lt;/strong&gt;, &lt;strong&gt;добавления новых функций&lt;/strong&gt; и &lt;strong&gt;поддержания разработки в активном состоянии&lt;/strong&gt;, мы рассчитываем на ваше &lt;strong&gt;содействие&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Быстрый поиск</string>
     <string name="auto_focus_search_summary">Открывать поисковый запрос при открытии базы</string>
-    <string name="remember_database_locations_title">Хранить расположение баз</string>
-    <string name="remember_database_locations_summary">Запоминать расположение баз</string>
-    <string name="remember_keyfile_locations_title">Хранить расположение файлов ключей</string>
+    <string name="remember_database_locations_title">Помнить расположение баз</string>
+    <string name="remember_database_locations_summary">Отслеживать расположение баз</string>
+    <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
     <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей баз</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
