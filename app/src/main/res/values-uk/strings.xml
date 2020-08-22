@@ -181,10 +181,10 @@
     <string name="hide_broken_locations_title">Приховувати пошкоджені посилання до баз даних</string>
     <string name="show_recent_files_summary">Показувати розташування недавніх баз даних</string>
     <string name="show_recent_files_title">Показувати недавні файли</string>
-    <string name="remember_keyfile_locations_summary">Пам\'ятати розташування файлів ключів баз даних</string>
-    <string name="remember_keyfile_locations_title">Зберігати розташування файлів ключів</string>
-    <string name="remember_database_locations_summary">Пам\'ятати розташування баз даних</string>
-    <string name="remember_database_locations_title">Зберігати розташування баз даних</string>
+    <string name="remember_keyfile_locations_summary">Відстеження місця зберігання файлів ключів</string>
+    <string name="remember_keyfile_locations_title">Пам\'ятати розташування файлів ключів</string>
+    <string name="remember_database_locations_summary">Відстеження місця зберігання баз даних</string>
+    <string name="remember_database_locations_title">Пам\'ятати розташування баз даних</string>
     <string name="selection_mode">Режим вибору</string>
     <string name="contains_duplicate_uuid">База даних містить дублікати UUID.</string>
     <string name="contains_duplicate_uuid_procedure">Розв\'язати проблему, створивши нові UUID для дублікатів щоб продовжити\?</string>
@@ -270,7 +270,7 @@
     <string name="biometric_not_recognized">Не вдалося розпізнати біометричний ключ</string>
     <string name="biometric_invalid_key">Не вдалося розпізнати біометричний ключ. Видаліть його та повторіть процедуру створення ключа.</string>
     <string name="biometric_prompt_store_credential_message">Попередження: Якщо ви користуєтеся біометричним ключем, вам однаково необхідно пам\'ятати головний пароль.</string>
-    <string name="hide_expired_entries_summary">Застарілі записи приховано</string>
+    <string name="hide_expired_entries_summary">Застарілі записи не показано</string>
     <string name="hide_expired_entries_title">Приховувати застарілі записи</string>
     <string name="icon_pack_choose_summary">Набір піктограм застосунку</string>
     <string name="icon_pack_choose_title">Набір піктограм</string>
@@ -279,7 +279,7 @@
     <string name="kdf_Argon2">Argon2</string>
     <string name="kdf_AES">AES</string>
     <string name="encryption_chacha20">ChaCha20</string>
-    <string name="download_complete">Готово! Торкніться, щоб відкрити файл.</string>
+    <string name="download_complete">Торкніться, щоб відкрити файл.</string>
     <string name="download_finalization">Завершення…</string>
     <string name="download_progression">Виконується: %1$d%%</string>
     <string name="download_initialization">Ініціалізація…</string>
@@ -323,7 +323,7 @@
     <string name="education_entry_edit_summary">Додавайте власні поля до записів. Дані полів різних записів можна повʼязувати між собою.</string>
     <string name="education_entry_edit_title">Змінюйте записи</string>
     <string name="education_biometric_summary">Зв\'яжіть пароль та скановані біометричні дані для швидкого розблокування бази даних.</string>
-    <string name="education_biometric_title">Розблокування бази даних біометричним ключем</string>
+    <string name="education_biometric_title">Біометричне розблокування бази даних</string>
     <string name="education_search_summary">Введіть назву, ім\'я користувача або вміст інших полів для пошуку паролів.</string>
     <string name="education_search_title">Шукайте поміж записів</string>
     <string name="education_new_node_summary">Створюйте записи для керування вашими обліковими записами.
@@ -345,7 +345,7 @@
     <string name="enable_read_only_title">Захист від запису</string>
     <string name="delete_entered_password_summary">Видаляти пароль, введений після спроби з\'єднання з базою даних</string>
     <string name="delete_entered_password_title">Видаляти пароль</string>
-    <string name="allow_no_password_summary">Увімкнути кнопку \"Відкрити\", якщо не вибрано головний пароль</string>
+    <string name="allow_no_password_summary">Дозволяє натискання \"Відкрити\", якщо не вибрано головний пароль</string>
     <string name="allow_no_password_title">Дозволити без головного ключа</string>
     <string name="autofill_auto_search_summary">Автоматично пропонувати результати пошуку з вебдомену або ID застосунку</string>
     <string name="autofill_auto_search_title">Автоматичний пошук</string>
@@ -399,7 +399,7 @@
     <string name="assign_master_key">Призначити головний ключ</string>
     <string name="path">Шлях</string>
     <string name="file_name">Назва файлу</string>
-    <string name="unavailable_feature_version">Ваша версія Android %1$s не відповідає мінімальній необхідній версії %2$s.</string>
+    <string name="unavailable_feature_version">Пристрій працює під керуванням Android %1$s, але необхідний %2$s чи пізніші.</string>
     <string name="unavailable_feature_text">Не вдалось запустити цю функцію.</string>
     <string name="biometric_delete_all_key_warning">Видалити всі ключі шифрування, пов\'язані з розпізнаванням біометричного ключа\?</string>
     <string name="biometric_delete_all_key_summary">Видалити всі ключі шифрування, пов\'язані з розпізнаванням біометричного ключа</string>
@@ -418,7 +418,7 @@
     <string name="lock_database_screen_off_title">Блокування екрана</string>
     <string name="lock">Блокування</string>
     <string name="clipboard_warning">Якщо не вдалось очистити буфер обміну автоматично, видаліть його історію вручну.</string>
-    <string name="clipboard_notifications_summary">Увімкнути сповіщення буфера обміну для копіювання полів під час перегляду запису</string>
+    <string name="clipboard_notifications_summary">Показувати сповіщення буфера обміну для копіювання полів під час перегляду запису</string>
     <string name="clipboard_notifications_title">Сповіщення буфера обміну</string>
     <string name="clipboard_explanation_summary">Копіювати облікові дані за допомогою буфера обміну пристрою</string>
     <string name="clipboard">Буфер обміну</string>
