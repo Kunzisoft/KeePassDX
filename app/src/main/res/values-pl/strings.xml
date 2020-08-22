@@ -193,7 +193,7 @@
     <string name="warning_empty_password">Kontynuować bez ochrony odblokowującej hasło\?</string>
     <string name="warning_no_encryption_key">Kontynuować bez klucza szyfrowania\?</string>
     <string name="version_label">Wersja %1$s</string>
-    <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie skonfigurowane.</string>
+    <string name="configure_biometric">Skanowanie odcisków palców jest obsługiwane, ale nie jest skonfigurowane.</string>
     <string name="encrypted_value_stored">Zapisano zaszyfrowane hasło</string>
     <string name="sort_groups_before">Grupy poprzednie</string>
     <string name="open_biometric_prompt_unlock_database">Otwórz żądanie biometryczne, aby odblokować bazę danych</string>
@@ -216,7 +216,7 @@
     <string name="list_password_generator_options_summary">Ustaw dozwolone znaki generatora haseł</string>
     <string name="clipboard">Schowek</string>
     <string name="clipboard_notifications_title">Powiadomienia ze schowka</string>
-    <string name="clipboard_notifications_summary">Włącz powiadomienia schowka, aby skopiować pola podczas wyświetlania wpisu</string>
+    <string name="clipboard_notifications_summary">Pokaż powiadomienia schowka, aby skopiować pola podczas przeglądania wpisu</string>
     <string name="clipboard_warning">Jeśli automatyczne usuwanie schowka nie powiedzie się, ręcznie usuń jego historię.</string>
     <string name="lock">Blokada</string>
     <string name="lock_database_screen_off_title">Blokada ekranu</string>
@@ -228,7 +228,7 @@
     <string name="biometric_delete_all_key_summary">Usuń wszystkie klucze szyfrowania związane z rozpoznawaniem linii papilarnych</string>
     <string name="biometric_delete_all_key_warning">Czy usunąć wszystkie klucze szyfrowania związane z rozpoznawaniem biometrycznym\?</string>
     <string name="unavailable_feature_text">Nie można uruchomić tej funkcji.</string>
-    <string name="unavailable_feature_version">Twoja wersja Androida %1$s nie spełnia wymaganej minimalnej wersji %2$s.</string>
+    <string name="unavailable_feature_version">Urządzenie pracuje na systemie Android %1$s, ale wymaga wersji %2$s lub nowszej.</string>
     <string name="unavailable_feature_hardware">Nie można znaleźć odpowiedniego sprzętu.</string>
     <string name="file_name">Nazwa pliku</string>
     <string name="path">Ścieżka</string>
@@ -253,7 +253,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktywuj niestandardową klawiaturę wypełniającą hasła i wszystkie pola tożsamości</string>
     <string name="allow_no_password_title">Zezwalaj na brak klucza głównego</string>
-    <string name="allow_no_password_summary">Włącz przycisk \"Otwórz\", jeśli nie wybrano uwierzytelnień</string>
+    <string name="allow_no_password_summary">Umożliwia naciśnięcie przycisku \"Otwórz\", jeśli nie wybrano żadnych poświadczeń</string>
     <string name="enable_read_only_title">Ochrona przed zapisem</string>
     <string name="enable_read_only_summary">Domyślnie otwarte bazy danych są tylko do odczytu</string>
     <string name="enable_education_screens_title">Wskazówki edukacyjne</string>
@@ -271,7 +271,7 @@
 \nGrupy (~ foldery) organizują wpisy w bazie danych.</string>
     <string name="education_search_title">Przeszukuj wpisy</string>
     <string name="education_search_summary">Wprowadź tytuł, nazwę użytkownika lub zawartość innych pól, aby odzyskać swoje hasła.</string>
-    <string name="education_biometric_title">Odblokuj bazę danych za pomocą odcisku palca</string>
+    <string name="education_biometric_title">Biometryczne odblokowanie bazy danych</string>
     <string name="education_biometric_summary">Połącz swoje hasło z zeskanowanym odciskiem palca, aby szybko odblokować bazę danych.</string>
     <string name="education_entry_edit_title">Edytuj wpis</string>
     <string name="education_entry_edit_summary">Edytuj swój wpis za pomocą pól niestandardowych. Dane puli mogą być przywoływane między różnymi polami wprowadzania.</string>
@@ -442,17 +442,17 @@
     <string name="download_initialization">Inicjowanie…</string>
     <string name="download_progression">W trakcie realizacji: %1$d%%</string>
     <string name="download_finalization">Kończę…</string>
-    <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
+    <string name="download_complete">Stuknij, aby otworzyć plik.</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
-    <string name="hide_expired_entries_summary">Wygasłe wpisy są ukryte</string>
+    <string name="hide_expired_entries_summary">Wygasłe wpisy nie są wyświetlane</string>
     <string name="contact">Kontakt</string>
     <string name="html_about_contribution">Aby &lt;strong&gt;zachować naszą wolność&lt;/strong&gt;, &lt;strong&gt;sprawdzać błędy&lt;/strong&gt;, &lt;strong&gt;dodać funkcje&lt;/strong&gt; i &lt;strong&gt;by być zawsze aktywnym&lt;/strong&gt;, liczymy na twój &lt;strong&gt;wkład&lt;/strong&gt;.</string>
     <string name="auto_focus_search_title">Szybkie wyszukiwanie</string>
     <string name="auto_focus_search_summary">Wyszukiwanie po otwarciu bazy danych</string>
-    <string name="remember_database_locations_title">Zapisz lokalizację baz danych</string>
-    <string name="remember_database_locations_summary">Zapamiętaj lokalizację baz danych</string>
-    <string name="remember_keyfile_locations_title">Zapisz lokalizację plików kluczy</string>
-    <string name="remember_keyfile_locations_summary">Zapamiętaj lokalizację plików kluczy baz danych</string>
+    <string name="remember_database_locations_title">Zapamiętaj lokalizacje baz danych</string>
+    <string name="remember_database_locations_summary">Śledzi, gdzie przechowywane są bazy danych</string>
+    <string name="remember_keyfile_locations_title">Zapamiętaj lokalizacje plików kluczy</string>
+    <string name="remember_keyfile_locations_summary">Śledzi, gdzie przechowywane są pliki z kluczami</string>
     <string name="show_recent_files_title">Pokaż najnowsze pliki</string>
     <string name="show_recent_files_summary">Pokaż lokalizacje najnowszych baz danych</string>
     <string name="hide_broken_locations_title">Ukryj uszkodzone łącza do bazy danych</string>
