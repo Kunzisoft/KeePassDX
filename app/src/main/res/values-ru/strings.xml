@@ -253,7 +253,7 @@
     <string name="magic_keyboard_title">Настройки Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Активируйте пользовательскую клавиатуру для простого заполнения паролей и любых идентификаторов</string>
     <string name="allow_no_password_title">Разрешить без главного пароля</string>
-    <string name="allow_no_password_summary">Включить кнопку \"Открыть\", если главный пароль не указан</string>
+    <string name="allow_no_password_summary">Разрешить нажимать кнопку \"Открыть\", если главный пароль не указан</string>
     <string name="enable_read_only_title">Только чтение</string>
     <string name="enable_read_only_summary">По умолчанию открывать базу только для чтения</string>
     <string name="enable_education_screens_title">Обучающие подсказки</string>
@@ -270,7 +270,7 @@
 \n
 \nДобавляйте группы (аналог папок) для организации записей и баз.</string>
     <string name="education_search_title">Легко находите ваши записи</string>
-    <string name="education_biometric_title">Разблокируйте базу с помощью биометрического ключа</string>
+    <string name="education_biometric_title">Биометрическая разблокировка базы</string>
     <string name="education_biometric_summary">Установите взаимосвязь между паролем и биометрическим ключом для быстрой разблокировки базы.</string>
     <string name="education_search_summary">Ищите записи по названию, имени или другим полям для быстрого доступа к своим паролям.</string>
     <string name="education_entry_edit_title">Редактируйте записи</string>
@@ -453,7 +453,7 @@
     <string name="remember_database_locations_title">Помнить расположение баз</string>
     <string name="remember_database_locations_summary">Отслеживать расположение баз</string>
     <string name="remember_keyfile_locations_title">Помнить расположение файлов ключей</string>
-    <string name="remember_keyfile_locations_summary">Запоминать расположение файлов ключей баз</string>
+    <string name="remember_keyfile_locations_summary">Помнить расположение файлов ключей баз</string>
     <string name="show_recent_files_title">Показывать последние базы</string>
     <string name="show_recent_files_summary">Показывать расположение последних открытых баз</string>
     <string name="hide_broken_locations_title">Скрывать отсутствующие</string>
@@ -464,7 +464,7 @@
     <string name="discard">Забыть</string>
     <string name="entry_add_attachment">Добавить вложение</string>
     <string name="error_create_database">Невозможно создать файл базы.</string>
-    <string name="education_setup_OTP_title">Настройте OTP</string>
+    <string name="education_setup_OTP_title">Настройка OTP</string>
     <string name="education_setup_OTP_summary">Настройте управление одноразовыми паролями (HOTP / TOTP) для создания токена, запрашиваемого при двухфакторной аутентификации (2FA).</string>
     <string name="autofill_auto_search_summary">Автоматически предлагать результаты поиска для домена или идентификатора приложения</string>
     <string name="lock_database_show_button_summary">Использовать кнопку блокировки в интерфейсе</string>
