@@ -216,12 +216,6 @@ class EntryEditActivity : LockingActivity(),
             menuInflater.inflate(R.menu.entry_edit, menu)
 
             menu.findItem(R.id.menu_add_field).apply {
-                val allowLock = PreferencesUtil.showLockDatabaseButton(context)
-                isEnabled = allowLock
-                isVisible = allowLock
-            }
-
-            menu.findItem(R.id.menu_add_field).apply {
                 val allowCustomField = mNewEntry?.allowCustomFields() == true
                 isEnabled = allowCustomField
                 isVisible = allowCustomField
