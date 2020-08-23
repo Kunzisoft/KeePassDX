@@ -60,7 +60,7 @@
     <string name="error_arc4">Arcfour proudová šifra není podporována.</string>
     <string name="error_can_not_handle_uri">KeePassDX nemůže zpracovat toto URI.</string>
     <string name="error_file_not_create">Soubor se nedaří vytvořit:</string>
-    <string name="error_invalid_db">Nelze přečíst databázi.</string>
+    <string name="error_invalid_db">Databázi nelze číst.</string>
     <string name="error_invalid_path">Neplatná cesta.</string>
     <string name="error_no_name">Vložte jméno.</string>
     <string name="error_nokeyfile">Vyberte soubor s klíčem.</string>
@@ -169,7 +169,7 @@
     <string name="menu_move">Přesunout</string>
     <string name="menu_paste">Vložit</string>
     <string name="menu_cancel">Storno</string>
-    <string name="menu_biometric_remove_key">Smaž uložený otisk prstu</string>
+    <string name="menu_biometric_remove_key">Smazat uložený biometrický klíč</string>
     <string name="menu_file_selection_read_only">Chráněno před zápisem</string>
     <string name="menu_open_file_read_and_write">Čtení a zápis</string>
     <string name="read_only">Chráněno před zápisem</string>
@@ -214,7 +214,7 @@
     <string name="list_password_generator_options_summary">Nastavit povolené znaky pro generátor hesel</string>
     <string name="clipboard">Schránka</string>
     <string name="clipboard_notifications_title">Oznamování schránky</string>
-    <string name="clipboard_notifications_summary">Zapnout oznamování schránky o kopírování pole při prohlížení záznamu</string>
+    <string name="clipboard_notifications_summary">Ukázat oznamení schránky o kopírování pole při prohlížení záznamu</string>
     <string name="clipboard_warning">Vymazat historii schránky manuálně, pokud automatické vymazání schránky selže.</string>
     <string name="lock">Zamknout</string>
     <string name="lock_database_screen_off_title">Zámek obrazovky</string>
@@ -226,7 +226,7 @@
     <string name="biometric_delete_all_key_summary">Smazat všechny šifrovací klíče související s biometrickým rozlišením</string>
     <string name="biometric_delete_all_key_warning">Smazat všechny šifrovací klíče související s biometrickým rozlišením\?</string>
     <string name="unavailable_feature_text">Tuto funkci se nedaří spustit.</string>
-    <string name="unavailable_feature_version">Verze %1$s vámi používaného systému Android nevyhovuje minimální verzi %2$s.</string>
+    <string name="unavailable_feature_version">V zařízení je instalován Android %1$s, ale potřebná je verze %2$s a novější.</string>
     <string name="unavailable_feature_hardware">Hardware nebyl rozpoznán.</string>
     <string name="file_name">Název souboru</string>
     <string name="path">Cesta</string>
@@ -251,7 +251,7 @@
     <string name="magic_keyboard_title">Magikeyboard</string>
     <string name="magic_keyboard_explanation_summary">Aktivovat vlastní klávesnici, která snadno vyplní hesla a další položky identity</string>
     <string name="allow_no_password_title">Umožnit bez hlavního klíče</string>
-    <string name="allow_no_password_summary">Povolit tlačítko \"Otevřít\", i když není vybráno žádné heslo</string>
+    <string name="allow_no_password_summary">Povolit klepnutí na \"Otevřít\", i když není vybráno žádné heslo</string>
     <string name="enable_read_only_title">Chráněno před zápisem</string>
     <string name="enable_read_only_summary">Ve výchozím stavu otevřít databázi pouze pro čtení</string>
     <string name="enable_education_screens_title">Vzdělávací nápovědy</string>
@@ -269,8 +269,8 @@
 \nSkupiny (ekvivalent složek) organizují záznamy v databázi.</string>
     <string name="education_search_title">Hledejte v položkách</string>
     <string name="education_search_summary">Zadejte název, uživatelské jméno nebo jiné položky k nalezení svých hesel.</string>
-    <string name="education_biometric_title">Odemykání databáze otiskem prstu</string>
-    <string name="education_biometric_summary">Propojte své heslo a otisk prstu pro rychlé odemykání databáze.</string>
+    <string name="education_biometric_title">Odemknutí databáze biometricky</string>
+    <string name="education_biometric_summary">Propojte své heslo s načtenou biometrikou pro rychlé odemknutí databáze.</string>
     <string name="education_entry_edit_title">Upravit položku</string>
     <string name="education_entry_edit_summary">Přidejte ke své položce vlastní kolonky. Společná data mohou být sdílena mezi více různými kolonkami.</string>
     <string name="education_generate_password_title">Vytvořit silné heslo</string>
@@ -440,18 +440,18 @@
     <string name="download_initialization">Zahajuji…</string>
     <string name="download_progression">Probíhá: %1$d%%</string>
     <string name="download_finalization">Dokončuji…</string>
-    <string name="download_complete">Ukončeno! Klepnout pro otevření souboru.</string>
+    <string name="download_complete">Pro otevření souboru klepnout.</string>
     <string name="hide_expired_entries_title">Skrýt propadlé záznamy</string>
-    <string name="hide_expired_entries_summary">Propadlé záznamy jsou skryty</string>
+    <string name="hide_expired_entries_summary">Propadlé záznamy nejsou ukázány</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Příspěvky</string>
     <string name="feedback">Feedback</string>
     <string name="auto_focus_search_title">Snadné hledání</string>
     <string name="auto_focus_search_summary">Při otevření databáze žádat hledání</string>
-    <string name="remember_database_locations_title">Uložit umístění databází</string>
-    <string name="remember_database_locations_summary">Pamatovat si umístění databází</string>
-    <string name="remember_keyfile_locations_title">Uložit umístění souborů s klíči</string>
-    <string name="remember_keyfile_locations_summary">Pamatovat si umístění souborů s klíči</string>
+    <string name="remember_database_locations_title">Pamatovat si umístění databází</string>
+    <string name="remember_database_locations_summary">Uchová informaci o tom, kde jsou databáze uloženy</string>
+    <string name="remember_keyfile_locations_title">Pamatovat si umístění souborů s klíči</string>
+    <string name="remember_keyfile_locations_summary">Uchová informaci o tom, kde jsou uloženy soubory s klíči</string>
     <string name="show_recent_files_title">Ukázat nedávné soubory</string>
     <string name="show_recent_files_summary">Ukázat umístění nedávných databází</string>
     <string name="hide_broken_locations_title">Skrýt špatné odkazy na databáze</string>
