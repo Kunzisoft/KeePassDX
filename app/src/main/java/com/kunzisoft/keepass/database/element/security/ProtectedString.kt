@@ -26,7 +26,7 @@ class ProtectedString : Parcelable {
 
     var isProtected: Boolean = false
         private set
-    private var stringValue: String = ""
+    var stringValue: String = ""
 
     constructor(toCopy: ProtectedString) {
         this.isProtected = toCopy.isProtected

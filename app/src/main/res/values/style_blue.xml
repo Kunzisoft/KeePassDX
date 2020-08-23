@@ -55,6 +55,7 @@
     </style>
     <!-- Contextual Action Bar Blue -->
     <style name="KeepassDXStyle.ActionMode.Blue" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/blue_dark</item>
         <item name="background">@color/blue_dark</item>
     </style>
 </resources>

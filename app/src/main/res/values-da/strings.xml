@@ -337,7 +337,7 @@
     <string name="lock_database_back_root_title">Tryk på \'Tilbage\' for at låse</string>
     <string name="lock_database_back_root_summary">Lås databasen, når der klikkes på tilbage-knappen fra startskærmen</string>
     <string name="clear_clipboard_notification_title">Ryd ved lukning</string>
-    <string name="clear_clipboard_notification_summary">Luk databasen ved lukning af underretning</string>
+    <string name="clear_clipboard_notification_summary">Lås databasen, når udklipsholderens varighed udløber, eller meddelelsen lukkes, når du begynder at bruge den</string>
     <string name="recycle_bin">Papirkurven</string>
     <string name="keyboard_selection_entry_title">Valg af indtastning</string>
     <string name="keyboard_selection_entry_summary">Vis indtastningsfelter i Magikeyboard, når der vises en post</string>
@@ -476,4 +476,20 @@
     <string name="error_label_exists">Etiketten findes allerede.</string>
     <string name="keyboard_search_share_summary">Søg automatisk efter delte oplysninger for at udfylde tastaturet</string>
     <string name="keyboard_search_share_title">Søg i delte oplysninger</string>
+    <string name="autofill_block_restart">Genstart programmet, der indeholder formularen for at aktivere blokeringen.</string>
+    <string name="autofill_block">Bloker autofyld</string>
+    <string name="autofill_web_domain_blocklist_summary">Blokeringsliste, der forhindrer automatisk udfyldning af webdomæner</string>
+    <string name="autofill_web_domain_blocklist_title">Blokeringsliste for webdomæne</string>
+    <string name="autofill_application_id_blocklist_summary">Blokeringsliste der forhindrer automatisk udfyldning af programmer</string>
+    <string name="autofill_application_id_blocklist_title">Blokeringsliste for program</string>
+    <string name="keyboard_previous_fill_in_summary">Skift automatisk tilbage til det forrige tastatur efter udførelse af automatisk tastehandling</string>
+    <string name="keyboard_previous_fill_in_title">Auto nøglehandling</string>
+    <string name="keyboard_previous_database_credentials_summary">Skift automatisk tilbage til det forrige tastatur på databasens legitimationsskærm</string>
+    <string name="keyboard_previous_database_credentials_title">Database legitimationsoplysninger skærm</string>
+    <string name="keyboard_change">Skifte tastatur</string>
+    <string name="filter">Filter</string>
+    <string name="subdomain_search_summary">Søg på webdomæner med begrænsninger på underdomæner</string>
+    <string name="subdomain_search_title">Underdomæne søgning</string>
+    <string name="error_string_type">Teksten stemmer ikke overens med det ønskede element.</string>
+    <string name="content_description_add_item">Tilføj element</string>
 </resources>

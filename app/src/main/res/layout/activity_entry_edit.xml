@@ -40,7 +40,6 @@
             android:background="?attr/colorPrimary"
             android:theme="?attr/toolbarAppearance"
             android:popupTheme="?attr/toolbarPopupAppearance"
-            app:layout_scrollFlags="enterAlways|scroll|snap"
             tools:targetApi="lollipop" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -50,33 +49,33 @@
         android:layout_height="match_parent"
         android:scrollbarStyle="insideOverlay"
         android:scrollbars="none"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <com.kunzisoft.keepass.view.EntryEditContentsView
-            android:id="@+id/entry_edit_contents"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginBottom="?attr/actionBarSize">
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="?attr/actionBarSize"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintWidth_percent="@dimen/content_percent" />
+            android:layout_height="match_parent">
+            <com.kunzisoft.keepass.view.EntryEditContentsView
+                android:id="@+id/entry_edit_contents"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintWidth_percent="@dimen/content_percent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/entry_edit_bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
+        android:theme="@style/Widget.MaterialComponents.BottomAppBar"
         android:backgroundTint="?attr/colorAccent"
         app:backgroundTint="?attr/colorAccent"
-        app:fabAlignmentMode="end"
-        app:hideOnScroll="true"
+        app:fabAlignmentMode="center"
+        app:hideOnScroll="false"
         app:layout_scrollFlags="scroll|enterAlways"
-        android:layout_gravity="bottom" >
-        <androidx.appcompat.widget.ActionMenuView
-            android:id="@+id/entry_edit_bottom_menu_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="?attr/actionBarSize"/>
-    </com.google.android.material.bottomappbar.BottomAppBar>
+        android:layout_gravity="bottom" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/entry_edit_validate"

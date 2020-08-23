@@ -50,6 +50,7 @@
     </style>
     <!-- Contextual Action Bar Red -->
     <style name="KeepassDXStyle.ActionMode.Red" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/orange</item>
         <item name="background">@color/orange</item>
     </style>
 </resources>

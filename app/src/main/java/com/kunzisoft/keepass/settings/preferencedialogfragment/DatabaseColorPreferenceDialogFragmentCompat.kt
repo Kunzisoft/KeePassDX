@@ -86,7 +86,7 @@ class DatabaseColorPreferenceDialogFragmentCompat : DatabaseSavePreferenceDialog
                 }
                 val oldColor = database.customColor
                 database.customColor = newColor
-                mProgressDialogThread?.startDatabaseSaveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
+                mProgressDatabaseTaskProvider?.startDatabaseSaveColor(oldColor, newColor, mDatabaseAutoSaveEnable)
             }
 
             onDialogClosed(true)

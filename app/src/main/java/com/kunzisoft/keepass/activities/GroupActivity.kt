@@ -122,9 +122,6 @@ class GroupActivity : LockingActivity(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (isFinishing) {
-            return
-        }
         mDatabase = Database.getInstance()
 
         // Construct main view
@@ -221,7 +218,7 @@ class GroupActivity : LockingActivity(),
             mSearchSuggestionAdapter = SearchEntryCursorAdapter(this, database)
 
             // Init dialog thread
-            mProgressDialogThread?.onActionFinish = { actionTask, result ->
+            mProgressDatabaseTaskProvider?.onActionFinish = { actionTask, result ->
 
                 var oldNodes: List<Node> = ArrayList()
                 result.data?.getBundle(OLD_NODES_KEY)?.let { oldNodesBundle ->
@@ -480,7 +477,8 @@ class GroupActivity : LockingActivity(),
             enableAddGroup(addGroupEnabled)
             enableAddEntry(addEntryEnabled)
 
-            showButton()
+            if (actionNodeMode == null)
+                showButton()
         }
     }
 
@@ -632,7 +630,7 @@ class GroupActivity : LockingActivity(),
                 ListNodesFragment.PasteMode.PASTE_FROM_COPY -> {
                     // Copy
                     mCurrentGroup?.let { newParent ->
-                        mProgressDialogThread?.startDatabaseCopyNodes(
+                        mProgressDatabaseTaskProvider?.startDatabaseCopyNodes(
                                 nodes,
                                 newParent,
                                 !mReadOnly && mAutoSaveEnable
@@ -642,7 +640,7 @@ class GroupActivity : LockingActivity(),
                 ListNodesFragment.PasteMode.PASTE_FROM_MOVE -> {
                     // Move
                     mCurrentGroup?.let { newParent ->
-                        mProgressDialogThread?.startDatabaseMoveNodes(
+                        mProgressDatabaseTaskProvider?.startDatabaseMoveNodes(
                                 nodes,
                                 newParent,
                                 !mReadOnly && mAutoSaveEnable
@@ -676,7 +674,7 @@ class GroupActivity : LockingActivity(),
                 && database.isRecycleBinEnabled
                 && database.recycleBin != mCurrentGroup) {
 
-            mProgressDialogThread?.startDatabaseDeleteNodes(
+            mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
                     nodes,
                     !mReadOnly && mAutoSaveEnable
             )
@@ -691,7 +689,7 @@ class GroupActivity : LockingActivity(),
     }
 
     override fun permanentlyDeleteNodes(nodes: List<Node>) {
-        mProgressDialogThread?.startDatabaseDeleteNodes(
+        mProgressDatabaseTaskProvider?.startDatabaseDeleteNodes(
                 nodes,
                 !mReadOnly && mAutoSaveEnable
         )
@@ -852,7 +850,7 @@ class GroupActivity : LockingActivity(),
                 //onSearchRequested();
                 return true
             R.id.menu_save_database -> {
-                mProgressDialogThread?.startDatabaseSave(!mReadOnly)
+                mProgressDatabaseTaskProvider?.startDatabaseSave(!mReadOnly)
                 return true
             }
             R.id.menu_empty_recycle_bin -> {
@@ -886,7 +884,7 @@ class GroupActivity : LockingActivity(),
                             // Not really needed here because added in runnable but safe
                             newGroup.parent = currentGroup
 
-                            mProgressDialogThread?.startDatabaseCreateGroup(
+                            mProgressDatabaseTaskProvider?.startDatabaseCreateGroup(
                                     newGroup,
                                     currentGroup,
                                     !mReadOnly && mAutoSaveEnable
@@ -908,7 +906,7 @@ class GroupActivity : LockingActivity(),
                             }
                         }
                         // If group updated save it in the database
-                        mProgressDialogThread?.startDatabaseUpdateGroup(
+                        mProgressDatabaseTaskProvider?.startDatabaseUpdateGroup(
                                 oldGroupToUpdate,
                                 updateGroup,
                                 !mReadOnly && mAutoSaveEnable

@@ -44,7 +44,7 @@
         android:gravity="end"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/item_attachment_icon" >
+        app:layout_constraintEnd_toStartOf="@+id/item_attachment_action_container" >
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/item_attachment_size"
             android:layout_width="wrap_content"
@@ -65,24 +65,49 @@
             android:paddingEnd="8dp"
             tools:text="GZip" />
     </LinearLayout>
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/item_attachment_icon"
+    <FrameLayout
+        android:id="@+id/item_attachment_action_container"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:padding="6dp"
-        android:src="@drawable/ic_file_download_white_24dp"
-        android:tint="?attr/colorAccent" />
-    <ProgressBar
-        android:id="@+id/item_attachment_progress"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        style="@style/KeepassDXStyle.ProgressBar.Circle"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:max="100"
-        android:progress="60" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/item_attachment_delete_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_gravity="center"
+            android:contentDescription="@string/content_description_remove_field"
+            android:src="@drawable/ic_content_delete_white_24dp"
+            style="@style/KeepassDXStyle.ImageButton.Simple" />
+        <FrameLayout
+            android:id="@+id/item_attachment_progress_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/item_attachment_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_file_download_white_24dp"
+                android:contentDescription="@string/download"
+                style="@style/KeepassDXStyle.ImageButton.Simple" />
+            <ProgressBar
+                android:id="@+id/item_attachment_progress"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                style="@style/KeepassDXStyle.ProgressBar.Circle"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:max="100"
+                android:progress="60" />
+        </FrameLayout>
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

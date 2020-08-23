@@ -47,5 +47,7 @@
         android:scrollbars="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/windowBackground" />
+        android:background="?android:attr/windowBackground"
+        android:paddingBottom="?attr/actionBarSize"
+        android:clipToPadding="false" />
 </FrameLayout>

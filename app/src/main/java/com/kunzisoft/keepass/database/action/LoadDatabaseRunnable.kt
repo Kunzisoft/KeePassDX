@@ -40,14 +40,12 @@ class LoadDatabaseRunnable(private val context: Context,
                            private val mCipherEntity: CipherDatabaseEntity?,
                            private val mFixDuplicateUUID: Boolean,
                            private val progressTaskUpdater: ProgressTaskUpdater?,
-                           private val mDuplicateUuidAction: ((Result) -> Unit)?)
+                           private val mLoadDatabaseResult: ((Result) -> Unit)?)
     : ActionRunnable() {
-
-    private val cacheDirectory = context.applicationContext.filesDir
 
     override fun onStartRun() {
         // Clear before we load
-        mDatabase.closeAndClear(cacheDirectory)
+        mDatabase.closeAndClear(context.applicationContext.filesDir)
     }
 
     override fun onActionRun() {
@@ -55,20 +53,17 @@ class LoadDatabaseRunnable(private val context: Context,
             mDatabase.loadData(mUri, mPass, mKey,
                     mReadonly,
                     context.contentResolver,
-                    cacheDirectory,
+                    context.applicationContext.filesDir,
                     mFixDuplicateUUID,
                     progressTaskUpdater)
         }
         catch (e: DuplicateUuidDatabaseException) {
-            mDuplicateUuidAction?.invoke(result)
             setError(e)
         }
         catch (e: LoadDatabaseException) {
             setError(e)
         }
-    }
 
-    override fun onFinishRun() {
         if (result.isSuccess) {
             // Save keyFile in app database
             if (PreferencesUtil.rememberDatabaseLocations(context)) {
@@ -86,7 +81,11 @@ class LoadDatabaseRunnable(private val context: Context,
             // Register the current time to init the lock timer
             PreferencesUtil.saveCurrentTime(context)
         } else {
-            mDatabase.closeAndClear(cacheDirectory)
+            mDatabase.closeAndClear(context.applicationContext.filesDir)
         }
+    }
+
+    override fun onFinishRun() {
+        mLoadDatabaseResult?.invoke(result)
     }
 }

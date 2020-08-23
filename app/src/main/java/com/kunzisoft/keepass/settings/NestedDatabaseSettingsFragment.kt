@@ -166,7 +166,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
                             refreshRecycleBinGroup()
                             // Save the database if not in readonly mode
                             (context as SettingsActivity?)?.
-                                    mProgressDialogThread?.startDatabaseSave(mDatabaseAutoSaveEnabled)
+                                    mProgressDatabaseTaskProvider?.startDatabaseSave(mDatabaseAutoSaveEnabled)
                             true
                         }
                         true
@@ -546,7 +546,7 @@ class NestedDatabaseSettingsFragment : NestedSettingsFragment() {
 
         return when (item.itemId) {
             R.id.menu_save_database -> {
-                settingActivity?.mProgressDialogThread?.startDatabaseSave(!mDatabaseReadOnly)
+                settingActivity?.mProgressDatabaseTaskProvider?.startDatabaseSave(!mDatabaseReadOnly)
                 true
             }
 

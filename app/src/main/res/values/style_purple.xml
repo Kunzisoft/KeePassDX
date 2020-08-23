@@ -25,13 +25,15 @@
         <item name="colorPrimaryDark">@color/purple_dark</item>
         <item name="colorAccent">@color/red</item>
         <item name="colorAccentLight">@color/red_light</item>
-        <item name="colorControlActivated">@color/green</item>
+        <item name="colorControlActivated">@color/purple_dark</item>
         <item name="android:textColorPrimary">@color/purple_light</item>
         <item name="android:textColorHintInverse">@color/purple_lighter</item>
         <item name="android:windowBackground">@color/background_purple</item>
         <item name="toolbarAppearance">@style/KeepassDXStyle.Toolbar.Purple</item>
         <item name="specialToolbarAppearance">@style/KeepassDXStyle.Toolbar.Special.Purple</item>
         <item name="actionToolbarAppearance">@style/KeepassDXStyle.Toolbar.Action.Purple</item>
+        <item name="android:alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
+        <item name="alertDialogTheme">@style/KeepassDXStyle.Purple.Dialog</item>
         <item name="actionModeStyle">@style/KeepassDXStyle.ActionMode.Purple</item>
         <item name="cardViewStyle">@style/KeepassDXStyle.Cardview.Purple</item>
     </style>
@@ -56,10 +58,18 @@
     </style>
     <!-- Contextual Action Bar Purple -->
     <style name="KeepassDXStyle.ActionMode.Purple" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="android:background">@color/red</item>
         <item name="background">@color/red</item>
+    </style>
+    <!-- Dialog -->
+    <style name="KeepassDXStyle.Purple.Dialog" parent="KeepassDXStyle.Light.Dialog">
+        <item name="colorAccent">@color/red</item>
+        <item name="android:textColorPrimary">@color/purple_light</item>
+        <item name="android:background">@color/background_purple</item>
+        <item name="background">@color/background_purple</item>
     </style>
     <!-- CardView -->
     <style name="KeepassDXStyle.Cardview.Purple" parent="CardView">
-        <item name="cardBackgroundColor">@color/background_purple_lighter</item>
+        <item name="cardBackgroundColor">@color/white</item>
     </style>
 </resources>

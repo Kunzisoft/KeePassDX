@@ -19,6 +19,7 @@
  */
 package com.kunzisoft.keepass.view
 
+import android.animation.Animator
 import android.animation.AnimatorSet
 import android.animation.ValueAnimator
 import android.graphics.Color
@@ -28,7 +29,6 @@ import android.text.method.PasswordTransformationMethod
 import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.TextView
-import androidx.appcompat.widget.Toolbar
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.updatePadding
 import com.google.android.material.snackbar.Snackbar
@@ -74,42 +74,62 @@ fun Snackbar.asError(): Snackbar {
     return this
 }
 
-fun Toolbar.collapse(animate: Boolean = true) {
-    val recordBarHeight = layoutParams.height
+fun View.collapse(animate: Boolean = true,
+                  onCollapseFinished: (() -> Unit)? = null) {
+    val recordViewHeight = layoutParams.height
     val slideAnimator = ValueAnimator.ofInt(height, 0)
     if (animate)
         slideAnimator.duration = 300L
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
-        if (layoutParams.height <= 1) {
-            visibility = View.GONE
-            layoutParams.height = recordBarHeight
-        }
         requestLayout()
     }
     AnimatorSet().apply {
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
+        addListener(object: Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {
+            }
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                visibility = View.GONE
+                layoutParams.height = recordViewHeight
+                onCollapseFinished?.invoke()
+            }
+            override fun onAnimationCancel(animation: Animator?) {}
+        })
     }.start()
 }
 
-fun Toolbar.expand(animate: Boolean = true)  {
-    val actionBarHeight = layoutParams.height
+fun View.expand(animate: Boolean = true,
+                defaultHeight: Int? = null,
+                onExpandFinished: (() -> Unit)? = null)  {
+    val viewHeight = defaultHeight ?: layoutParams.height
     layoutParams.height = 0
     val slideAnimator = ValueAnimator
-            .ofInt(0, actionBarHeight)
+            .ofInt(0, viewHeight)
     if (animate)
         slideAnimator.duration = 300L
+    var alreadyVisible = false
     slideAnimator.addUpdateListener { animation ->
         layoutParams.height = animation.animatedValue as Int
-        if (layoutParams.height >= 1) {
+        if (!alreadyVisible && layoutParams.height > 0) {
             visibility = View.VISIBLE
+            alreadyVisible = true
         }
         requestLayout()
     }
     AnimatorSet().apply {
         play(slideAnimator)
         interpolator = AccelerateDecelerateInterpolator()
+        addListener(object: Animator.AnimatorListener {
+            override fun onAnimationStart(animation: Animator?) {}
+            override fun onAnimationRepeat(animation: Animator?) {}
+            override fun onAnimationEnd(animation: Animator?) {
+                onExpandFinished?.invoke()
+            }
+            override fun onAnimationCancel(animation: Animator?) {}
+        })
     }.start()
 }
 

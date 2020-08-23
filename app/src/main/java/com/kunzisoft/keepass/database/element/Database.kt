@@ -315,6 +315,8 @@ class Database {
     fun createData(databaseUri: Uri, databaseName: String, rootName: String) {
         setDatabaseKDBX(DatabaseKDBX(databaseName, rootName))
         this.fileUri = databaseUri
+        // Set Database state
+        this.loaded = true
     }
 
     @Throws(LoadDatabaseException::class)

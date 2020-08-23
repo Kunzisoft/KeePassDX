@@ -32,7 +32,7 @@
     <string name="file_manager_install_description">Do tworzenia, otwierania i zapisywania plików bazy danych potrzebny jest menedżer plików, który akceptuje działanie Intent Action ACTION_CREATE_DOCUMENT i ACTION_OPEN_DOCUMENT.</string>
     <string name="clipboard_cleared">Schowek został wyczyszczony</string>
     <string name="clipboard_timeout">Czas wygaśnięcia schowka</string>
-    <string name="clipboard_timeout_summary">Czas przechowywania w schowku</string>
+    <string name="clipboard_timeout_summary">Czas przechowywania w schowku (jeśli jest obsługiwany przez urządzenie)</string>
     <string name="select_to_copy">Kopiuj %1$s do schowka</string>
     <string name="retrieving_db_key">Tworzenie klucza bazy danych…</string>
     <string name="database">Baza danych</string>
@@ -338,7 +338,7 @@
     <string name="lock_database_back_root_title">Wciśnij \'Powrót\', aby zablokować</string>
     <string name="lock_database_back_root_summary">Zablokuj bazę danych, gdy użytkownik kliknie przycisk \"Wstecz\" na ekranie głównym</string>
     <string name="clear_clipboard_notification_title">Wyczyść po zamknięciu</string>
-    <string name="clear_clipboard_notification_summary">Zablokuj bazę danych podczas zamykania powiadomienia</string>
+    <string name="clear_clipboard_notification_summary">Blokowanie bazy danych po wygaśnięciu czasu trwania schowka lub zamknięciu powiadomienia po rozpoczęciu korzystania z niej</string>
     <string name="recycle_bin">Kosz</string>
     <string name="keyboard_selection_entry_title">Wybór wpisu</string>
     <string name="keyboard_selection_entry_summary">Pokaż pola wprowadzania w Magikeyboard podczas przeglądania wpisu</string>
@@ -486,4 +486,9 @@
     <string name="autofill_web_domain_blocklist_summary">Lista zablokowanych, która uniemożliwia automatyczne wypełnianie aplikacji</string>
     <string name="autofill_web_domain_blocklist_title">Lista zablokowanych domen internetowych</string>
     <string name="autofill_application_id_blocklist_title">Lista zablokowanych aplikacji</string>
+    <string name="keyboard_previous_fill_in_summary">Automatycznie przełącz się z powrotem na poprzednią klawiaturę po wykonaniu automatycznej akcji klawiszy</string>
+    <string name="keyboard_previous_fill_in_title">Automatyczne działanie klucza</string>
+    <string name="keyboard_previous_database_credentials_summary">Automatycznie przełącz się z powrotem do poprzedniej klawiatury na ekranie poświadczeń bazy danych</string>
+    <string name="keyboard_previous_database_credentials_title">Ekran poświadczeń bazy danych</string>
+    <string name="keyboard_change">Przełącz klawiaturę</string>
 </resources>
