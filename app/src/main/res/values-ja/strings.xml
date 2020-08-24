@@ -29,7 +29,7 @@
     <string name="application">アプリ</string>
     <string name="menu_app_settings">アプリの設定</string>
     <string name="brackets">かっこ</string>
-    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け入れるファイル マネージャーがデータベース ファイルの作成、オープン、保存に必要です。</string>
+    <string name="file_manager_install_description">ACTION_CREATE_DOCUMENT と ACTION_OPEN_DOCUMENT のインテント アクションを受け入れるファイル マネージャーが、データベース ファイルの作成、オープン、保存に必要です。</string>
     <string name="clipboard_cleared">クリップボードを消去しました</string>
     <string name="clipboard_timeout">クリップボードのタイムアウト</string>
     <string name="clipboard_timeout_summary">クリップボード内での保存期間（デバイスが対応している場合）</string>
@@ -118,13 +118,13 @@
     <string name="special">特殊文字</string>
     <string name="search">検索</string>
     <string name="encryption_twofish">Twofish</string>
-    <string name="underline">下線</string>
+    <string name="underline">アンダースコア</string>
     <string name="unsupported_db_version">対応していないバージョンのデータベースです。</string>
     <string name="uppercase">大文字</string>
     <string name="version_label">バージョン %1$s</string>
     <string name="education_unlock_summary">データベースのロックを解除するには、パスワードまたはキーファイル、またはその両方を入力します。
 \n
-\nデータベース ファイルは変更するたびに、安全な場所にバックアップしてください。</string>
+\nデータベース ファイルは変更するたびに安全な場所へバックアップしてください。</string>
     <string-array name="timeout_options">
         <item>5秒</item>
         <item>10秒</item>
@@ -204,7 +204,7 @@
     <string name="otp_algorithm">アルゴリズム</string>
     <string name="entry_otp">OTP</string>
     <string name="error_copy_group_here">ここではグループをコピーすることはできません。</string>
-    <string name="error_otp_secret_key">秘密鍵は Base32 形式内でなければなりません。</string>
+    <string name="error_otp_secret_key">シークレット キーは Base32 形式内でなければなりません。</string>
     <string name="error_otp_period">周期は %1$d 秒から %2$d 秒の間でなければなりません。</string>
     <string name="creating_database">データベースを作成しています…</string>
     <string name="menu_security_settings">セキュリティの設定</string>
@@ -225,7 +225,7 @@
     <string name="error_create_database">データベース ファイルを作成できません。</string>
     <string name="error_label_exists">このラベルはすでに存在します。</string>
     <string name="error_disallow_no_credentials">少なくとも 1 つの認証情報を設定する必要があります。</string>
-    <string name="error_invalid_OTP">OTP 秘密鍵が無効です。</string>
+    <string name="error_invalid_OTP">無効な OTP シークレットです。</string>
     <string name="otp_digits">桁</string>
     <string name="entry_setup_otp">ワンタイム パスワードを設定</string>
     <string name="entry_attachments">添付ファイル</string>
@@ -272,7 +272,7 @@
     <string name="error_string_type">このテキストは指定された項目と整合しません。</string>
     <string name="error_otp_counter">カウンターは %1$d から %2$d の間でなければなりません。</string>
     <string name="otp_counter">カウンター</string>
-    <string name="otp_secret">秘密鍵</string>
+    <string name="otp_secret">シークレット</string>
     <string name="content_description_keyboard_close_fields">フィールドを閉じる</string>
     <string name="content_description_update_from_list">更新</string>
     <string name="entry_add_attachment">添付ファイルを追加</string>
@@ -297,11 +297,11 @@
     <string name="biometric_delete_all_key_warning">生体認証に関するすべての暗号化キーを削除しますか？</string>
     <string name="biometric_delete_all_key_summary">生体認証に関するすべての暗号化キーを削除します</string>
     <string name="advanced_unlock_explanation_summary">高度なロック解除を使用すると、データベースがより簡単に開きます</string>
-    <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったとき、ロックするようアプリを設定することもできます。</string>
+    <string name="education_lock_summary">データベースをすばやくロックします。時間が経ったり画面がオフになったときロックするよう、アプリを設定することもできます。</string>
     <string name="education_lock_title">データベースをロック</string>
     <string name="education_sort_summary">エントリーとグループの並べ替え方法を選択します。</string>
     <string name="education_search_summary">パスワードを取得するには、タイトル、ユーザー名、または他のフィールドの内容を入力します。</string>
-    <string name="education_new_node_summary">エントリーはデジタル アイデンティティの管理に役立ちます。
+    <string name="education_new_node_summary">エントリーはデジタル ID の管理に役立ちます。
 \n
 \nグループ（≒フォルダ）はデータベース内のエントリーを整理します。</string>
     <string name="education_search_title">エントリーを検索</string>
@@ -436,7 +436,7 @@
     <string name="enable">有効にする</string>
     <string name="allow_copy_password_warning">警告：クリップボードはすべてのアプリで共有されます。機密データがコピーされた場合、他のソフトウェアがデータを復元する可能性があります。</string>
     <string name="allow_copy_password_summary">エントリーのパスワードと保護されたフィールドを、クリップボードにコピーすることを許可します</string>
-    <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することに協力します。</string>
+    <string name="education_donation_summary">安定性やセキュリティを向上させ、機能を追加することを支援します。</string>
     <string name="education_donation_title">参加</string>
     <string name="education_field_copy_title">フィールドをコピー</string>
     <string name="education_read_only_title">データベースの書き込みを禁止</string>
