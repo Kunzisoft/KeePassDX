@@ -53,7 +53,7 @@
     <string name="entry_title">Başlık</string>
     <string name="entry_url">URL</string>
     <string name="entry_user_name">Kullanıcı adı</string>
-    <string name="error_file_not_create">Dosya oluşturulamadı:</string>
+    <string name="error_file_not_create">Dosya oluşturulamadı</string>
     <string name="error_invalid_db">Veritabanı okunamadı.</string>
     <string name="error_invalid_path">Yolun doğru olduğundan emin olun.</string>
     <string name="error_no_name">Bir isim girin.</string>
@@ -426,7 +426,7 @@
     <string name="download_initialization">Başlatılıyor…</string>
     <string name="download_progression">Devam ediyor: %1$d%%</string>
     <string name="download_finalization">Sonlandırılıyor…</string>
-    <string name="download_complete">Tamamlandı! Dosyayı açmak için dokunun.</string>
+    <string name="download_complete">Tamamlandı!</string>
     <string name="hide_expired_entries_title">Süresi dolmuş girdileri gizle</string>
     <string name="hide_expired_entries_summary">Süresi dolmuş girdiler gizlenecek</string>
     <string name="warning_database_read_only">Veri tabanı değişikliklerini kaydetmek için dosya yazma erişimi ver</string>

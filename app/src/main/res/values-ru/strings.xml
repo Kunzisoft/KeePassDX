@@ -61,7 +61,7 @@
     <string name="entry_user_name">Имя пользователя</string>
     <string name="error_arc4">Потоковый шифр Arcfour не поддерживается.</string>
     <string name="error_can_not_handle_uri">Невозможно обработать указанный URI в KeePassDX.</string>
-    <string name="error_file_not_create">Невозможно создать файл:</string>
+    <string name="error_file_not_create">Невозможно создать файл</string>
     <string name="error_invalid_db">Невозможно прочитать базу.</string>
     <string name="error_invalid_path">Убедитесь, что путь указан правильно.</string>
     <string name="error_no_name">Введите название.</string>
@@ -442,7 +442,7 @@
     <string name="download_initialization">Инициализация…</string>
     <string name="download_progression">Выполнение: %1$d%%</string>
     <string name="download_finalization">Завершение…</string>
-    <string name="download_complete">Готово! Нажмите, чтобы открыть файл.</string>
+    <string name="download_complete">Готово!</string>
     <string name="hide_expired_entries_title">Скрывать устаревшие записи</string>
     <string name="hide_expired_entries_summary">Записи с истёкшим сроком окончания будут скрыты</string>
     <string name="contact">Контактная информация</string>

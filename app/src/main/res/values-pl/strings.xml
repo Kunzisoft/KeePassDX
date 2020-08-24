@@ -55,7 +55,7 @@
     <string name="entry_user_name">Nazwa użytkownika</string>
     <string name="error_arc4">Strumieniowe szyfrowanie Arcfour nie jest wspierane.</string>
     <string name="error_can_not_handle_uri">Nie można obsłużyć tego identyfikatora URI w KeePassDX.</string>
-    <string name="error_file_not_create">Nie można utworzyć pliku:</string>
+    <string name="error_file_not_create">Nie można utworzyć pliku</string>
     <string name="error_invalid_db">Nie można odczytać bazy danych.</string>
     <string name="error_invalid_path">Upewnij się, że ścieżka jest prawidłowa.</string>
     <string name="error_no_name">Wpisz nazwę.</string>
@@ -442,7 +442,7 @@
     <string name="download_initialization">Inicjowanie…</string>
     <string name="download_progression">W trakcie realizacji: %1$d%%</string>
     <string name="download_finalization">Kończę…</string>
-    <string name="download_complete">Kompletny! Stuknij, aby otworzyć plik.</string>
+    <string name="download_complete">Kompletny!</string>
     <string name="hide_expired_entries_title">Ukryj wygasłe wpisy</string>
     <string name="hide_expired_entries_summary">Wygasłe wpisy są ukryte</string>
     <string name="contact">Kontakt</string>

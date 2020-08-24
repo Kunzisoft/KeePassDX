@@ -43,7 +43,7 @@
     <string name="entry_title">العنوان</string>
     <string name="entry_url">رابط</string>
     <string name="entry_user_name">اسم المستخدم</string>
-    <string name="error_file_not_create">تعذر إنشاء الملف :</string>
+    <string name="error_file_not_create">تعذر إنشاء الملف</string>
     <string name="error_invalid_path">تأكد أن المسار صحيح.</string>
     <string name="error_no_name">ادخل اسمًا.</string>
     <string name="error_pass_match">كلمتا السر غير متطابقتين.</string>

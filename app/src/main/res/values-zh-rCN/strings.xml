@@ -57,7 +57,7 @@
     <string name="entry_user_name">用户名</string>
     <string name="error_arc4">不支持Arcfour流式加密。</string>
     <string name="error_can_not_handle_uri">无法在KeePassDX中处理此URI。</string>
-    <string name="error_file_not_create">无法新建文件：</string>
+    <string name="error_file_not_create">无法新建文件</string>
     <string name="error_invalid_db">无法读取数据库。</string>
     <string name="error_invalid_path">请确保路径正确。</string>
     <string name="error_no_name">输入名称。</string>
@@ -444,7 +444,7 @@
     <string name="download_initialization">正在初始化…</string>
     <string name="download_progression">进行中：%1$d%%</string>
     <string name="download_finalization">正在完成…</string>
-    <string name="download_complete">完成！点击打开文件。</string>
+    <string name="download_complete">完成！</string>
     <string name="hide_expired_entries_title">隐藏过期条目</string>
     <string name="hide_expired_entries_summary">过期条目将被隐藏</string>
     <string name="contact">联系我们</string>

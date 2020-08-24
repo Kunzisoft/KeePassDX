@@ -58,7 +58,7 @@
     <string name="entry_user_name">Brugernavn</string>
     <string name="error_arc4">Arcfour stream cipher er ikke understøttet.</string>
     <string name="error_can_not_handle_uri">Kunne ikke håndtere URI i KeePassDX.</string>
-    <string name="error_file_not_create">Kunne ikke oprette fil:</string>
+    <string name="error_file_not_create">Kunne ikke oprette fil</string>
     <string name="error_invalid_db">Kunne ikke læse databasen.</string>
     <string name="error_invalid_path">Sørg for, at stien er korrekt.</string>
     <string name="error_no_name">Indtast et navn.</string>
@@ -440,7 +440,7 @@
     <string name="download_initialization">Initialiserer…</string>
     <string name="download_progression">I gang: %1$d%%</string>
     <string name="download_finalization">Færdiggørelse…</string>
-    <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
+    <string name="download_complete">Komplet!</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
     <string name="hide_expired_entries_summary">Udløbne poster er skjult</string>
     <string name="contact">Kontakt</string>

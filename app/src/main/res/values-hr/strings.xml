@@ -238,7 +238,7 @@
     <string name="content_description_node_children">Pod-čvor</string>
     <string name="entry_accessed">Pristupljeno</string>
     <string name="error_arc4">Arcfour šifriranje nije podržano.</string>
-    <string name="error_file_not_create">Nije moguće stvoriti datoteku:</string>
+    <string name="error_file_not_create">Nije moguće stvoriti datoteku</string>
     <string name="error_invalid_db">Nije moguće čitati bazu podataka.</string>
     <string name="error_invalid_path">Provjeri putanju do datoteke.</string>
     <string name="error_invalid_OTP">Neispravan OTP tajni ključ.</string>
@@ -469,7 +469,7 @@
 \n
 \nGrupe (~mape) organiziraju unose u bazi podataka.</string>
     <string name="download_progression">U tijeku: %1$d%%</string>
-    <string name="download_complete">Gotovo! Dodirni, za otvaranje datoteke.</string>
+    <string name="download_complete">Gotovo!</string>
     <string name="keyboard_previous_fill_in_summary">Automatski se vrati na prethodnu tipkovnicu nakon izvršavanja automatske radnje tipke</string>
     <string name="keyboard_previous_fill_in_title">Automatska radnja tipke</string>
     <string name="keyboard_previous_database_credentials_summary">Automatski se prebaci na prethodnu tipkovnicu pri ekranu za unos podataka za prijavu u bazu podataka</string>

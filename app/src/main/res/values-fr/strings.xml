@@ -65,7 +65,7 @@
     <string name="entry_user_name">Nom d’utilisateur</string>
     <string name="error_arc4">Le chiffrement de flux Arcfour n’est pas pris en charge.</string>
     <string name="error_can_not_handle_uri">Impossible de gérer cette URI dans KeePassDX.</string>
-    <string name="error_file_not_create">Impossible de créer le fichier :</string>
+    <string name="error_file_not_create">Impossible de créer le fichier</string>
     <string name="error_invalid_db">Impossible de lire la base de données.</string>
     <string name="error_invalid_path">Vérifier la validité du chemin d’accès.</string>
     <string name="error_no_name">Saisir un nom.</string>
@@ -456,7 +456,7 @@
     <string name="download_initialization">Initialisation…</string>
     <string name="download_progression">En cours : %1$d%%</string>
     <string name="download_finalization">Finalisation…</string>
-    <string name="download_complete">Terminé ! Appuyer pour ouvrir le fichier.</string>
+    <string name="download_complete">Terminé !</string>
     <string name="hide_expired_entries_title">Masquer les entrées expirées</string>
     <string name="hide_expired_entries_summary">Les entrées expirées sont cachées</string>
     <string name="contact">Contact</string>

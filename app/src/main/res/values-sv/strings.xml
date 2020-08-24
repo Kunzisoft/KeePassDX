@@ -60,7 +60,7 @@
     <string name="entry_user_name">Användarnamn</string>
     <string name="error_arc4">Strömchiffret Arcfour stöds inte.</string>
     <string name="error_can_not_handle_uri">KeePassDX kunde inte hantera denna URI.</string>
-    <string name="error_file_not_create">Kunde inte skapa filen:</string>
+    <string name="error_file_not_create">Kunde inte skapa filen</string>
     <string name="error_invalid_db">Kunde inte läsa databas.</string>
     <string name="error_invalid_path">Se till att sökvägen är korrekt.</string>
     <string name="error_no_name">Ange ett namn.</string>
@@ -446,7 +446,7 @@
     <string name="contact">Kontakt</string>
     <string name="hide_expired_entries_summary">Utgångna poster är dolda</string>
     <string name="hide_expired_entries_title">Dölj utgångna poster</string>
-    <string name="download_complete">Färdigt! Klicka för att öppna filen.</string>
+    <string name="download_complete">Färdigt!</string>
     <string name="download_finalization">Färdigställande…</string>
     <string name="download_progression">Händelse %1$d%%</string>
     <string name="download_initialization">Initiering…</string>

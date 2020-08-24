@@ -59,7 +59,7 @@
     <string name="entry_user_name">Gebruikersnaam</string>
     <string name="error_arc4">De Arcfour stream-versleuteling wordt niet ondersteund.</string>
     <string name="error_can_not_handle_uri">KeePassDX kan deze URI niet verwerken.</string>
-    <string name="error_file_not_create">Bestand is niet aangemaakt:</string>
+    <string name="error_file_not_create">Bestand is niet aangemaakt</string>
     <string name="error_invalid_db">Kan database niet uitlezen.</string>
     <string name="error_invalid_path">Zorg ervoor dat het pad juist is.</string>
     <string name="error_no_name">Voer een naam in.</string>
@@ -433,7 +433,7 @@
     <string name="remember_database_locations_title">Databaselocatie opslaan</string>
     <string name="hide_expired_entries_summary">Verlopen items worden verborgen</string>
     <string name="hide_expired_entries_title">Verberg verlopen items</string>
-    <string name="download_complete">Klaar! Tik om het bestand te openen.</string>
+    <string name="download_complete">Tik om het bestand te openen</string>
     <string name="download_finalization">Voltooien…</string>
     <string name="download_progression">Voortgang: %1$d%%</string>
     <string name="download_initialization">Initialiseren…</string>

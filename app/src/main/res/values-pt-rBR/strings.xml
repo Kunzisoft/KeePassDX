@@ -56,7 +56,7 @@
     <string name="entry_user_name">Nome de usuário</string>
     <string name="error_arc4">A cifra de fluxo Arcfour não é suportada.</string>
     <string name="error_can_not_handle_uri">Não pôde tratar esta URI no KeePassDX.</string>
-    <string name="error_file_not_create">Não foi possível criar o arquivo:</string>
+    <string name="error_file_not_create">Não foi possível criar o arquivo</string>
     <string name="error_invalid_db">Falha ao ler o banco.</string>
     <string name="error_invalid_path">Certifique-se de que o caminho está correto.</string>
     <string name="error_no_name">Digite um nome.</string>
@@ -443,7 +443,7 @@
     <string name="autofill_auto_search_summary">Sugerir resultados de pesquisa de domínios da internet ou de aplicações automaticamente</string>
     <string name="hide_expired_entries_summary">Entradas expeiradas foram escondidas</string>
     <string name="hide_expired_entries_title">Esconder entradas expiradas</string>
-    <string name="download_complete">Completo! Toque para abrir o aquivo.</string>
+    <string name="download_complete">Completo!</string>
     <string name="download_finalization">Finalizando…</string>
     <string name="download_progression">Em progresso: %1$d%%</string>
     <string name="download_initialization">Inicializando…</string>
