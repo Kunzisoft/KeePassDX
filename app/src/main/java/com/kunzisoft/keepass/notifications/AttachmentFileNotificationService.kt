@@ -124,6 +124,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         return START_REDELIVER_INTENT
     }
 
+    @Synchronized
     fun checkCurrentAttachmentProgress() {
         attachmentNotificationList.forEach { attachmentNotification ->
             mActionTaskListeners.forEach { actionListener ->
@@ -135,6 +136,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
     }
 
+    @Synchronized
     fun removeAttachmentAction(entryAttachment: EntryAttachmentState) {
         attachmentNotificationList.firstOrNull {
             it.entryAttachmentState == entryAttachment
@@ -164,12 +166,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
         val fileName = DocumentFile.fromSingleUri(this, attachmentNotification.uri)?.name ?: ""
 
         val builder = buildNewNotification().apply {
-            setSmallIcon(R.drawable.ic_file_download_white_24dp)
             when (attachmentNotification.streamDirection) {
                 AttachmentFileAction.StreamDirection.UPLOAD -> {
+                    setSmallIcon(R.drawable.ic_file_upload_white_24dp)
                     setContentTitle(getString(R.string.upload_attachment, fileName))
                 }
                 AttachmentFileAction.StreamDirection.DOWNLOAD -> {
+                    setSmallIcon(R.drawable.ic_file_download_white_24dp)
                     setContentTitle(getString(R.string.download_attachment, fileName))
                 }
             }
