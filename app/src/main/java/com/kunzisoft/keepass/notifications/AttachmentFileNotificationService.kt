@@ -345,6 +345,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                         downloadProgression = 100
                     }
                     listener?.onUpdate(attachmentNotification)
+                    TimeoutHelper.releaseTemporarilyDisableTimeout()
                 }
 
             }
