@@ -31,6 +31,7 @@ import androidx.fragment.app.FragmentActivity
 import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
 
 class AttachmentFileBinderManager(private val activity: FragmentActivity) {
 
@@ -43,8 +44,8 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     private var mServiceConnection: ServiceConnection? = null
 
     private val mActionTaskListener = object: AttachmentFileNotificationService.ActionTaskListener {
-        override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
-            onActionTaskListener?.onAttachmentProgress(fileUri, attachment)
+        override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
+            onActionTaskListener?.onAttachmentAction(fileUri, attachment)
         }
     }
 
@@ -96,10 +97,18 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
         }
     }
 
+    fun startUploadAttachment(uploadFileUri: Uri,
+                              entryAttachment: EntryAttachment) {
+        start(Bundle().apply {
+            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, uploadFileUri)
+            putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
+        }, ACTION_ATTACHMENT_FILE_START_UPLOAD)
+    }
+
     fun startDownloadAttachment(downloadFileUri: Uri,
                                 entryAttachment: EntryAttachment) {
         start(Bundle().apply {
-            putParcelable(AttachmentFileNotificationService.DOWNLOAD_FILE_URI_KEY, downloadFileUri)
+            putParcelable(AttachmentFileNotificationService.FILE_URI_KEY, downloadFileUri)
             putParcelable(AttachmentFileNotificationService.ATTACHMENT_KEY, entryAttachment)
         }, ACTION_ATTACHMENT_FILE_START_DOWNLOAD)
     }

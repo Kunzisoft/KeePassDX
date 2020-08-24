@@ -32,6 +32,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -426,6 +427,28 @@ class Database {
             searchInTags = false
             ignoreCase = true
         }, omitBackup, max)
+    }
+
+    fun buildNewAttachment(cacheDirectory: File): BinaryAttachment? {
+
+        val unusedCacheFileName = mDatabaseKDB?.getUnusedCacheFileName()
+                ?: mDatabaseKDBX?.getUnusedCacheFileName()
+
+        unusedCacheFileName?.let { cacheFileName ->
+            val fileInCache = File(cacheDirectory, cacheFileName)
+            // TODO protection?
+            val compression = mDatabaseKDBX?.compressionAlgorithm == CompressionAlgorithm.GZip
+            val binaryAttachment = BinaryAttachment(fileInCache, false, compression)
+            // add attachment to pool
+            mDatabaseKDBX?.binaryPool?.add(binaryAttachment)
+            return binaryAttachment
+        }
+        return null
+    }
+
+    fun destroyAttachment(attachment: BinaryAttachment) {
+        // Remove attachment from pool
+        mDatabaseKDBX?.binaryPool?.remove(attachment)
     }
 
     @Throws(DatabaseOutputException::class)

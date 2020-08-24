@@ -212,7 +212,7 @@ class EntryActivity : LockingActivity() {
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
-                override fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment) {
+                override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
                     entryContentsView?.updateAttachmentDownloadProgress(attachment)
                 }
             }

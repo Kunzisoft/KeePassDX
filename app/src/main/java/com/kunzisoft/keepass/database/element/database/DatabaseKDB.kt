@@ -249,6 +249,11 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
         addEntryTo(entry, origParent)
     }
 
+    fun getUnusedCacheFileName(): String {
+        // Generate an unique new file with timestamp
+        return System.currentTimeMillis().toString()
+    }
+
     companion object {
         val TYPE = DatabaseKDB::class.java
 

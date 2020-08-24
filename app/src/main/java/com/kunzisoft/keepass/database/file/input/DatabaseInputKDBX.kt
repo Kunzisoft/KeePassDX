@@ -68,9 +68,6 @@ class DatabaseInputKDBX(cacheDirectory: File,
 
     private var hashOfHeader: ByteArray? = null
 
-    private val unusedCacheFileName: String
-        get() = mDatabase.binaryPool.findUnusedKey().toString()
-
     private var readNextNode = true
     private val ctxGroups = Stack<GroupKDBX>()
     private var ctxGroup: GroupKDBX? = null
@@ -249,17 +246,16 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 header.innerRandomStreamKey = data
             }
             DatabaseHeaderKDBX.PwDbInnerHeaderV4Fields.Binary -> {
-                val flag = dataInputStream.readBytes(1)[0].toInt() != 0
-                val protectedFlag = flag && DatabaseHeaderKDBX.KdbxBinaryFlags.Protected.toInt() != DatabaseHeaderKDBX.KdbxBinaryFlags.None.toInt()
+                val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
                 val byteLength = size - 1
                 // Read in a file
-                val file = File(cacheDirectory, unusedCacheFileName)
-                FileOutputStream(file).use { outputStream ->
+                val fileInCache = File(cacheDirectory, mDatabase.getUnusedCacheFileName())
+                FileOutputStream(fileInCache).use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
                     }
                 }
-                val protectedBinary = BinaryAttachment(file, protectedFlag)
+                val protectedBinary = BinaryAttachment(fileInCache, protectedFlag)
                 mDatabase.binaryPool.add(protectedBinary)
             }
         }
@@ -976,7 +972,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 return BinaryAttachment()
             val data = Base64.decode(base64, BASE_64_FLAG)
 
-            val file = File(cacheDirectory, unusedCacheFileName)
+            val file = File(cacheDirectory, mDatabase.getUnusedCacheFileName())
             return FileOutputStream(file).use { outputStream ->
                 // Force compression in this specific case
                 if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip

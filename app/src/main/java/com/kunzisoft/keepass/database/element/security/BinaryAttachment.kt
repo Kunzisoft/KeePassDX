@@ -19,8 +19,6 @@
  */
 package com.kunzisoft.keepass.database.element.security
 
-import android.content.ContentResolver
-import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.stream.readBytes
@@ -71,6 +69,14 @@ class BinaryAttachment : Parcelable {
         return when {
             dataFile != null -> FileInputStream(dataFile!!)
             else -> ByteArrayInputStream(ByteArray(0))
+        }
+    }
+
+    @Throws(IOException::class)
+    fun getOutputDataStream(): OutputStream {
+        return when {
+            dataFile != null -> FileOutputStream(dataFile!!)
+            else -> throw IOException("Unable to write in an unknown file")
         }
     }
 
@@ -127,32 +133,6 @@ class BinaryAttachment : Parcelable {
                             // Harmonize with database compression
                             isCompressed = false
                         }
-                    }
-                }
-            }
-        }
-    }
-
-    fun download(createdFileUri: Uri,
-                 contentResolver: ContentResolver,
-                 bufferSize: Int = DEFAULT_BUFFER_SIZE,
-                 update: ((percent: Int)->Unit)? = null) {
-
-        var dataDownloaded = 0
-        contentResolver.openOutputStream(createdFileUri).use { outputStream ->
-            outputStream?.let { fileOutputStream ->
-                if (isCompressed == true) {
-                    GZIPInputStream(getInputDataStream())
-                } else {
-                    getInputDataStream()
-                }.use { inputStream ->
-                    inputStream.readBytes(bufferSize) { buffer ->
-                        fileOutputStream.write(buffer)
-                        dataDownloaded += buffer.size
-                        try {
-                            val percentDownload = (100 * dataDownloaded / length()).toInt()
-                            update?.invoke(percentDownload)
-                        } catch (e: Exception) {}
                     }
                 }
             }

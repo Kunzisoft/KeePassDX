@@ -22,6 +22,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -36,6 +37,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.NestedScrollView
 import com.kunzisoft.keepass.R
 import com.kunzisoft.keepass.activities.dialogs.*
+import com.kunzisoft.keepass.activities.helpers.SelectFileHelper
 import com.kunzisoft.keepass.activities.lock.LockingActivity
 import com.kunzisoft.keepass.database.element.Database
 import com.kunzisoft.keepass.database.element.DateInstant
@@ -46,8 +48,11 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
+import com.kunzisoft.keepass.model.AttachmentState
+import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_UPDATE_ENTRY_TASK
@@ -55,8 +60,10 @@ import com.kunzisoft.keepass.notifications.KeyboardEntryNotificationService
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpEntryFields
 import com.kunzisoft.keepass.settings.PreferencesUtil
+import com.kunzisoft.keepass.tasks.AttachmentFileBinderManager
 import com.kunzisoft.keepass.timeout.TimeoutHelper
 import com.kunzisoft.keepass.utils.MenuUtil
+import com.kunzisoft.keepass.utils.UriUtil
 import com.kunzisoft.keepass.view.EntryEditContentsView
 import com.kunzisoft.keepass.view.showActionError
 import com.kunzisoft.keepass.view.updateLockPaddingLeft
@@ -89,6 +96,10 @@ class EntryEditActivity : LockingActivity(),
     private var lockView: View? = null
 
     private var mFocusedEditExtraField: FocusedEditField? = null
+
+    // To manage attachments
+    private var mSelectFileHelper: SelectFileHelper? = null
+    private var mAttachmentFileBinderManager: AttachmentFileBinderManager? = null
 
     // Education
     private var entryEditActivityEducation: EntryEditActivityEducation? = null
@@ -233,6 +244,10 @@ class EntryEditActivity : LockingActivity(),
                         addNewCustomField()
                         true
                     }
+                    R.id.menu_add_attachment -> {
+                        addNewAttachment(item)
+                        true
+                    }
                     R.id.menu_add_otp -> {
                         setupOTP()
                         true
@@ -241,6 +256,10 @@ class EntryEditActivity : LockingActivity(),
                 }
             }
         }
+
+        // To retrieve attachment
+        mSelectFileHelper = SelectFileHelper(this)
+        mAttachmentFileBinderManager = AttachmentFileBinderManager(this)
 
         // Save button
         validateButton = findViewById(R.id.entry_edit_validate)
@@ -273,6 +292,32 @@ class EntryEditActivity : LockingActivity(),
 
         // Padding if lock button visible
         entryEditAddToolBar?.updateLockPaddingLeft()
+
+        mAttachmentFileBinderManager?.apply {
+            registerProgressTask()
+            onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
+                override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
+                    when (attachment.downloadState) {
+                        AttachmentState.COMPLETE -> {
+                            entryEditContentsView?.putAttachment(attachment)
+                        }
+                        AttachmentState.ERROR -> {
+                            // TODO error
+                            mDatabase?.destroyAttachment(attachment.binaryAttachment)
+                        }
+                        else -> {
+                            // TODO progress
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onPause() {
+        mAttachmentFileBinderManager?.unregisterProgressTask()
+
+        super.onPause()
     }
 
     private fun populateViewsWithEntry(newEntry: Entry) {
@@ -321,8 +366,11 @@ class EntryEditActivity : LockingActivity(),
                     expiryTime = entryView.expiresDate
                 }
                 notes = entryView.notes
-                entryView.getExtraField().forEach { customField ->
+                entryView.getExtraFields().forEach { customField ->
                     putExtraField(customField.name, customField.protectedValue)
+                }
+                entryView.getAttachments().forEach {
+                    putAttachment(it)
                 }
                 mFocusedEditExtraField = entryView.getExtraFieldFocused()
             }
@@ -358,6 +406,32 @@ class EntryEditActivity : LockingActivity(),
 
     override fun onNewCustomFieldCanceled(label: String, protection: Boolean) {}
 
+    /**
+     * Add a new attachment
+     */
+    private fun addNewAttachment(item: MenuItem) {
+        mSelectFileHelper?.selectFileOnClickViewListener?.onMenuItemClick(item)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        mSelectFileHelper?.onActivityResultCallback(requestCode, resultCode, data) { uri ->
+            uri?.let { attachmentToUploadUri ->
+                // TODO Async to get the name
+                UriUtil.getFileData(this, attachmentToUploadUri)?.name?.let { fileName ->
+                    mDatabase?.buildNewAttachment(applicationContext.filesDir)?.let { binaryAttachment ->
+                        val entryAttachment = EntryAttachment(fileName, binaryAttachment)
+                        mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
+                    }
+                }
+            }
+        }
+    }
+
+    /**
+     * Set up OTP (HOTP or TOTP) and add it as extra field
+     */
     private fun setupOTP() {
         // Retrieve the current otpElement if exists
         // and open the dialog to set up the OTP

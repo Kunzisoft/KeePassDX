@@ -536,6 +536,10 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
+    fun getUnusedCacheFileName(): String {
+        return binaryPool.findUnusedKey().toString()
+    }
+
     override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {
         if (password == null)
             return true

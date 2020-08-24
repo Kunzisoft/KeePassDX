@@ -34,7 +34,6 @@ import com.kunzisoft.keepass.database.file.DatabaseHeader
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDB
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
-import org.joda.time.Instant
 import java.io.*
 import java.security.*
 import java.util.*
@@ -282,9 +281,8 @@ class DatabaseInputKDB(cacheDirectory: File,
                     0x000E -> {
                         newEntry?.let { entry ->
                             if (fieldSize > 0) {
-                                // Generate an unique new file with timestamp
                                 val binaryFile = File(cacheDirectory,
-                                        Instant.now().millis.toString())
+                                        mDatabaseToOpen.getUnusedCacheFileName())
                                 entry.binaryData = BinaryAttachment(binaryFile)
                                 BufferedOutputStream(FileOutputStream(binaryFile)).use { outputStream ->
                                     cipherInputStream.readBytes(fieldSize,

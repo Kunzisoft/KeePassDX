@@ -124,7 +124,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
             }
         }
         attachmentsListView?.apply {
-            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, true)
+            layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             adapter = attachmentsAdapter
             (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
         }
@@ -242,7 +242,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getExtraField(): MutableList<Field> {
+    fun getExtraFields(): MutableList<Field> {
         return extraFieldsAdapter.itemsList
     }
 
@@ -278,6 +278,10 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
+    fun getAttachments(): MutableList<EntryAttachment> {
+        return attachmentsAdapter.itemsList
+    }
+
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onDeleteItem: (attachment: EntryAttachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
@@ -285,6 +289,11 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
             onDeleteItem.invoke(item)
         }
+    }
+
+    fun putAttachment(attachment: EntryAttachment) {
+        attachmentsContainerView.visibility = View.VISIBLE
+        attachmentsAdapter.putItem(attachment)
     }
 
     /**

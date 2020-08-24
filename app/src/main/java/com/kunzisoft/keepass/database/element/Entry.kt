@@ -341,6 +341,15 @@ class Entry : Node, EntryVersionedInterface<Group> {
         return attachments
     }
 
+    fun putAttachment(attachment: EntryAttachment) {
+        entryKDB?.apply {
+            binaryDescription = attachment.name
+            binaryData = attachment.binaryAttachment
+        }
+
+        entryKDBX?.putProtectedBinary(attachment.name, attachment.binaryAttachment)
+    }
+
     fun removeAttachment(attachment: EntryAttachment) {
         entryKDB?.apply {
             if (binaryDescription == attachment.name

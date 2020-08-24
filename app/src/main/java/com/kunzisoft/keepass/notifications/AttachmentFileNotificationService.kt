@@ -28,11 +28,17 @@ import android.os.IBinder
 import android.util.Log
 import androidx.documentfile.provider.DocumentFile
 import com.kunzisoft.keepass.R
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.model.AttachmentState
 import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.stream.readBytes
 import com.kunzisoft.keepass.timeout.TimeoutHelper
+import com.kunzisoft.keepass.utils.UriUtil
 import kotlinx.coroutines.*
+import java.io.BufferedInputStream
 import java.util.*
+import java.util.zip.GZIPInputStream
+import java.util.zip.GZIPOutputStream
 import kotlin.collections.ArrayList
 
 
@@ -51,13 +57,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
 
         fun addActionTaskListener(actionTaskListener: ActionTaskListener) {
             mActionTaskListeners.add(actionTaskListener)
-            downloadFileUris.forEach {
+            attachmentNotificationList.forEach {
                 it.attachmentFileAction?.listener = attachmentFileActionListener
             }
         }
 
         fun removeActionTaskListener(actionTaskListener: ActionTaskListener) {
-            downloadFileUris.forEach {
+            attachmentNotificationList.forEach {
                 it.attachmentFileAction?.listener = null
             }
             mActionTaskListeners.remove(actionTaskListener)
@@ -68,13 +74,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
         override fun onUpdate(uri: Uri, entryAttachment: EntryAttachment, notificationId: Int) {
             newNotification(uri, entryAttachment, notificationId)
             mActionTaskListeners.forEach { actionListener ->
-                actionListener.onAttachmentProgress(uri, entryAttachment)
+                actionListener.onAttachmentAction(uri, entryAttachment)
             }
         }
     }
 
     interface ActionTaskListener {
-        fun onAttachmentProgress(fileUri: Uri, attachment: EntryAttachment)
+        fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment)
     }
 
     override fun onBind(intent: Intent): IBinder? {
@@ -84,42 +90,29 @@ class AttachmentFileNotificationService: LockNotificationService() {
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
         super.onStartCommand(intent, flags, startId)
 
-        val downloadFileUri: Uri? = if (intent?.hasExtra(DOWNLOAD_FILE_URI_KEY) == true) {
-            intent.getParcelableExtra(DOWNLOAD_FILE_URI_KEY)
+        val downloadFileUri: Uri? = if (intent?.hasExtra(FILE_URI_KEY) == true) {
+            intent.getParcelableExtra(FILE_URI_KEY)
         } else null
 
         when(intent?.action) {
+            ACTION_ATTACHMENT_FILE_START_UPLOAD -> {
+                actionUploadOrDownload(downloadFileUri,
+                        intent,
+                        AttachmentFileAction.StreamDirection.UPLOAD)
+            }
             ACTION_ATTACHMENT_FILE_START_DOWNLOAD -> {
-                if (downloadFileUri != null
-                        && intent.hasExtra(ATTACHMENT_KEY)) {
-
-                    val nextNotificationId = (downloadFileUris.maxByOrNull { it.notificationId }
-                            ?.notificationId ?: notificationId) + 1
-
-                    try {
-                        intent.getParcelableExtra<EntryAttachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
-                            val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, entryAttachment)
-
-                            mainScope.launch {
-                                AttachmentFileAction(attachmentNotification,
-                                        contentResolver).apply {
-                                    listener = attachmentFileActionListener
-                                }.executeAction()
-                            }
-                        }
-                    } catch (e: Exception) {
-                        Log.e(TAG, "Unable to download $downloadFileUri", e)
-                    }
-                }
+                actionUploadOrDownload(downloadFileUri,
+                        intent,
+                        AttachmentFileAction.StreamDirection.DOWNLOAD)
             }
             else -> {
                 if (downloadFileUri != null) {
-                    downloadFileUris.firstOrNull { it.uri == downloadFileUri }?.let { elementToRemove ->
+                    attachmentNotificationList.firstOrNull { it.uri == downloadFileUri }?.let { elementToRemove ->
                         notificationManager?.cancel(elementToRemove.notificationId)
-                        downloadFileUris.remove(elementToRemove)
+                        attachmentNotificationList.remove(elementToRemove)
                     }
                 }
-                if (downloadFileUris.isEmpty()) {
+                if (attachmentNotificationList.isEmpty()) {
                     stopSelf()
                 }
             }
@@ -129,9 +122,9 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     fun checkCurrentAttachmentProgress() {
-        downloadFileUris.forEach { attachmentNotification ->
+        attachmentNotificationList.forEach { attachmentNotification ->
             mActionTaskListeners.forEach { actionListener ->
-                actionListener.onAttachmentProgress(
+                actionListener.onAttachmentAction(
                         attachmentNotification.uri,
                         attachmentNotification.entryAttachment
                 )
@@ -155,7 +148,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
                 0,
                 Intent(this, AttachmentFileNotificationService::class.java).apply {
                     // No action to delete the service
-                    putExtra(DOWNLOAD_FILE_URI_KEY, downloadFileUri)
+                    putExtra(FILE_URI_KEY, downloadFileUri)
                 }, PendingIntent.FLAG_CANCEL_CURRENT)
 
         val fileName = DocumentFile.fromSingleUri(this, downloadFileUri)?.name ?: ""
@@ -190,7 +183,7 @@ class AttachmentFileNotificationService: LockNotificationService() {
     }
 
     override fun onDestroy() {
-        downloadFileUris.forEach { attachmentNotification ->
+        attachmentNotificationList.forEach { attachmentNotification ->
             attachmentNotification.attachmentFileAction?.listener = null
             notificationManager?.cancel(attachmentNotification.notificationId)
         }
@@ -218,13 +211,45 @@ class AttachmentFileNotificationService: LockNotificationService() {
         }
     }
 
+    private fun actionUploadOrDownload(downloadFileUri: Uri?,
+                                       intent: Intent,
+                                       streamDirection: AttachmentFileAction.StreamDirection) {
+        if (downloadFileUri != null
+                && intent.hasExtra(ATTACHMENT_KEY)) {
+            try {
+                intent.getParcelableExtra<EntryAttachment>(ATTACHMENT_KEY)?.let { entryAttachment ->
+
+                    val nextNotificationId = (attachmentNotificationList.maxByOrNull { it.notificationId }
+                            ?.notificationId ?: notificationId) + 1
+                    val attachmentNotification = AttachmentNotification(downloadFileUri, nextNotificationId, entryAttachment)
+                    attachmentNotificationList.add(attachmentNotification)
+
+                    mainScope.launch {
+                        AttachmentFileAction(attachmentNotification,
+                                contentResolver,
+                                streamDirection).apply {
+                            listener = attachmentFileActionListener
+                        }.executeAction()
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Unable to upload/download $downloadFileUri", e)
+            }
+        }
+    }
+
     private class AttachmentFileAction(
             private val attachmentNotification: AttachmentNotification,
-            private val contentResolver: ContentResolver) {
+            private val contentResolver: ContentResolver,
+            private val streamDirection: StreamDirection) {
 
         private val updateMinFrequency = 1000
         private var previousSaveTime = System.currentTimeMillis()
         var listener: AttachmentFileActionListener? = null
+
+        enum class StreamDirection {
+            UPLOAD, DOWNLOAD
+        }
 
         interface AttachmentFileActionListener {
             fun onUpdate(uri: Uri, entryAttachment: EntryAttachment, notificationId: Int)
@@ -251,20 +276,23 @@ class AttachmentFileNotificationService: LockNotificationService() {
                     try {
                         attachmentNotification.entryAttachment.apply {
                             downloadState = AttachmentState.IN_PROGRESS
-                            binaryAttachment.download(attachmentNotification.uri, contentResolver, 1024) { percent ->
-                                // Publish progress
-                                val currentTime = System.currentTimeMillis()
-                                if (previousSaveTime + updateMinFrequency < currentTime) {
-                                    attachmentNotification.entryAttachment.apply {
-                                        downloadState = AttachmentState.IN_PROGRESS
-                                        downloadProgression = percent
-                                    }
-                                    listener?.onUpdate(
+
+                            when (streamDirection) {
+                                StreamDirection.UPLOAD -> {
+                                    uploadToDatabase(
                                             attachmentNotification.uri,
-                                            attachmentNotification.entryAttachment,
-                                            attachmentNotification.notificationId)
-                                    Log.d(TAG, "Download file ${attachmentNotification.uri} : $percent%")
-                                    previousSaveTime = currentTime
+                                            this.binaryAttachment,
+                                            contentResolver, 1024) { percent ->
+                                        publishProgress(percent)
+                                    }
+                                }
+                                StreamDirection.DOWNLOAD -> {
+                                    downloadFromDatabase(
+                                            attachmentNotification.uri,
+                                            this.binaryAttachment,
+                                            contentResolver, 1024) { percent ->
+                                        publishProgress(percent)
+                                    }
                                 }
                             }
                         }
@@ -291,6 +319,83 @@ class AttachmentFileNotificationService: LockNotificationService() {
             }
         }
 
+        fun downloadFromDatabase(attachmentToUploadUri: Uri,
+                                 binaryAttachment: BinaryAttachment,
+                                 contentResolver: ContentResolver,
+                                 bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                                 update: ((percent: Int)->Unit)? = null) {
+
+            var dataDownloaded = 0
+
+            val attachmentOutputStream = UriUtil.getUriOutputStream(contentResolver, attachmentToUploadUri)
+            attachmentOutputStream.use { outputStream ->
+                outputStream?.let { fileOutputStream ->
+                    if (binaryAttachment.isCompressed == true) {
+                        GZIPInputStream(binaryAttachment.getInputDataStream())
+                    } else {
+                        binaryAttachment.getInputDataStream()
+                    }.use { inputStream ->
+                        inputStream.readBytes(bufferSize) { buffer ->
+                            fileOutputStream.write(buffer)
+                            dataDownloaded += buffer.size
+                            try {
+                                val percentDownload = (100 * dataDownloaded / binaryAttachment.length()).toInt()
+                                update?.invoke(percentDownload)
+                            } catch (e: Exception) {}
+                        }
+                    }
+                }
+            }
+        }
+
+        fun uploadToDatabase(attachmentFromDownloadUri: Uri,
+                             binaryAttachment: BinaryAttachment,
+                             contentResolver: ContentResolver,
+                             bufferSize: Int = DEFAULT_BUFFER_SIZE,
+                             update: ((percent: Int)->Unit)? = null) {
+
+            var dataUploaded = 0
+            val attachmentInputStream = UriUtil.getUriInputStream(contentResolver, attachmentFromDownloadUri)
+            attachmentInputStream.use { inputStream ->
+                inputStream?.let { fileInputStream ->
+                    if (binaryAttachment.isCompressed == true) {
+                        GZIPOutputStream(binaryAttachment.getOutputDataStream())
+                    } else {
+                        binaryAttachment.getOutputDataStream()
+                    }.use { outputStream ->
+                        val attachmentBufferedInputStream = BufferedInputStream(fileInputStream)
+                        attachmentBufferedInputStream.readBytes(bufferSize) { buffer ->
+                            outputStream.write(buffer)
+                            dataUploaded += buffer.size
+                            try {
+                                val percentDownload = (100 * dataUploaded / binaryAttachment.length()).toInt()
+                                update?.invoke(percentDownload)
+                            } catch (e: Exception) {}
+                        }
+                    }
+                }
+            }
+        }
+
+        private fun publishProgress(percent: Int) {
+            // Publish progress
+            val currentTime = System.currentTimeMillis()
+            if (previousSaveTime + updateMinFrequency < currentTime) {
+                attachmentNotification.entryAttachment.apply {
+                    downloadState = AttachmentState.IN_PROGRESS
+                    downloadProgression = percent
+                }
+                CoroutineScope(Dispatchers.Main).launch {
+                    listener?.onUpdate(
+                            attachmentNotification.uri,
+                            attachmentNotification.entryAttachment,
+                            attachmentNotification.notificationId)
+                    Log.d(TAG, "Download file ${attachmentNotification.uri} : $percent%")
+                }
+                previousSaveTime = currentTime
+            }
+        }
+
         companion object {
             private val TAG = AttachmentFileAction::class.java.name
         }
@@ -299,12 +404,13 @@ class AttachmentFileNotificationService: LockNotificationService() {
     companion object {
         private val TAG = AttachmentFileNotificationService::javaClass.name
 
+        const val ACTION_ATTACHMENT_FILE_START_UPLOAD = "ACTION_ATTACHMENT_FILE_START_UPLOAD"
         const val ACTION_ATTACHMENT_FILE_START_DOWNLOAD = "ACTION_ATTACHMENT_FILE_START_DOWNLOAD"
 
-        const val DOWNLOAD_FILE_URI_KEY = "DOWNLOAD_FILE_URI_KEY"
+        const val FILE_URI_KEY = "FILE_URI_KEY"
         const val ATTACHMENT_KEY = "ATTACHMENT_KEY"
 
-        private val downloadFileUris = ArrayList<AttachmentNotification>()
+        private val attachmentNotificationList = ArrayList<AttachmentNotification>()
     }
 
 }

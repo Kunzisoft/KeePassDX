@@ -34,6 +34,35 @@ class BinaryPool {
         pool.put(key, value)
     }
 
+    fun add(fileBinary: BinaryAttachment) {
+        if (findKey(fileBinary) == null) {
+            pool.put(findUnusedKey(), fileBinary)
+        }
+    }
+
+    fun remove(fileBinary: BinaryAttachment) {
+        findKey(fileBinary)?.let {
+            pool.remove(it)
+        }
+    }
+
+    fun findUnusedKey(): Int {
+        var unusedKey = pool.size()
+        while (pool[unusedKey] != null)
+            unusedKey++
+        return unusedKey
+    }
+
+    /**
+     * Return position of [binaryAttachmentToRetrieve] or null if not found
+     */
+    fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
+        for (i in 0 until pool.size()) {
+            if (pool.get(pool.keyAt(i)) == binaryAttachmentToRetrieve) return i
+        }
+        return null
+    }
+
     fun doForEachBinary(action: (key: Int, binary: BinaryAttachment) -> Unit) {
         for (i in 0 until pool.size()) {
             action.invoke(i, pool.get(pool.keyAt(i)))
@@ -46,25 +75,5 @@ class BinaryPool {
             binary.clear()
         }
         pool.clear()
-    }
-
-    fun add(fileBinary: BinaryAttachment) {
-        if (findKey(fileBinary) == null) {
-            pool.put(findUnusedKey(), fileBinary)
-        }
-    }
-
-    fun findUnusedKey(): Int {
-        var unusedKey = pool.size()
-        while (get(unusedKey) != null)
-            unusedKey++
-        return unusedKey
-    }
-
-    fun findKey(pb: BinaryAttachment): Int? {
-        for (i in 0 until pool.size()) {
-            if (pool.get(pool.keyAt(i)) == pb) return i
-        }
-        return null
     }
 }
