@@ -32,7 +32,6 @@ import com.kunzisoft.keepass.database.element.icon.IconImageFactory
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
-import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.exception.DatabaseOutputException
 import com.kunzisoft.keepass.database.exception.FileNotFoundDatabaseException
@@ -53,6 +52,7 @@ import com.kunzisoft.keepass.utils.SingletonHolder
 import com.kunzisoft.keepass.utils.UriUtil
 import java.io.*
 import java.util.*
+import kotlin.collections.ArrayList
 
 
 class Database {
@@ -429,26 +429,19 @@ class Database {
         }, omitBackup, max)
     }
 
-    fun buildNewAttachment(cacheDirectory: File): BinaryAttachment? {
-
-        val unusedCacheFileName = mDatabaseKDB?.getUnusedCacheFileName()
-                ?: mDatabaseKDBX?.getUnusedCacheFileName()
-
-        unusedCacheFileName?.let { cacheFileName ->
-            val fileInCache = File(cacheDirectory, cacheFileName)
-            // TODO protection?
-            val compression = mDatabaseKDBX?.compressionAlgorithm == CompressionAlgorithm.GZip
-            val binaryAttachment = BinaryAttachment(fileInCache, false, compression)
-            // add attachment to pool
-            mDatabaseKDBX?.binaryPool?.add(binaryAttachment)
-            return binaryAttachment
-        }
-        return null
+    fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment? {
+        return mDatabaseKDB?.buildNewAttachment(cacheDirectory, fileName)
+                ?: mDatabaseKDBX?.buildNewAttachment(cacheDirectory, fileName)
     }
 
-    fun destroyAttachment(attachment: BinaryAttachment) {
-        // Remove attachment from pool
-        mDatabaseKDBX?.binaryPool?.remove(attachment)
+    fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {
+        // No need in KDB database because unique attachment by entry
+        mDatabaseKDBX?.removeAttachmentIfNotUsed(attachment)
+    }
+
+    fun removeUnlinkedAttachment() {
+        // No check in database KDB because unique attachment by entry
+        mDatabaseKDBX?.removeUnlinkedAttachment()
     }
 
     @Throws(DatabaseOutputException::class)

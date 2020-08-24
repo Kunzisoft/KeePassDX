@@ -29,6 +29,7 @@ import com.kunzisoft.keepass.crypto.engine.CipherEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfEngine
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfFactory
 import com.kunzisoft.keepass.crypto.keyDerivation.KdfParameters
+import com.kunzisoft.keepass.database.action.node.NodeHandler
 import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.DeletedObject
 import com.kunzisoft.keepass.database.element.database.DatabaseKDB.Companion.BACKUP_FOLDER_TITLE
@@ -37,15 +38,18 @@ import com.kunzisoft.keepass.database.element.group.GroupKDBX
 import com.kunzisoft.keepass.database.element.icon.IconImageCustom
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeVersioned
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
 import com.kunzisoft.keepass.database.element.security.MemoryProtectionConfig
 import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_3
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX.Companion.FILE_VERSION_32_4
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.utils.UnsignedInt
 import com.kunzisoft.keepass.utils.VariantDictionary
 import org.w3c.dom.Node
 import org.w3c.dom.Text
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.MessageDigest
@@ -536,8 +540,54 @@ class DatabaseKDBX : DatabaseVersioned<UUID, UUID, GroupKDBX, EntryKDBX> {
         return publicCustomData.size() > 0
     }
 
+    // TODO encapsulate
     fun getUnusedCacheFileName(): String {
         return binaryPool.findUnusedKey().toString()
+    }
+
+    fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment {
+        val cacheId = getUnusedCacheFileName()
+        val fileInCache = File(cacheDirectory, cacheId)
+        // TODO protection?
+        val compression = compressionAlgorithm == CompressionAlgorithm.GZip
+        val binaryAttachment = BinaryAttachment(fileInCache, false, compression)
+        // add attachment to pool
+        binaryPool.put(cacheId.toInt(), binaryAttachment)
+        return EntryAttachment(fileName, binaryAttachment)
+    }
+
+    fun removeAttachmentIfNotUsed(attachment: EntryAttachment) {
+        // Remove attachment from pool
+        removeUnlinkedAttachment(attachment.binaryAttachment)
+    }
+
+    fun removeUnlinkedAttachment(vararg binaries: BinaryAttachment) {
+        // Build binaries to remove with all binaries known
+        val binariesToRemove = ArrayList<BinaryAttachment>()
+        if (binaries.isEmpty()) {
+            binaryPool.doForEachBinary { _, binary ->
+                binariesToRemove.add(binary)
+            }
+        } else {
+            binariesToRemove.addAll(binaries)
+        }
+        // Remove binaries from the list
+        rootGroup?.doForEachChild(object : NodeHandler<EntryKDBX>() {
+            override fun operate(node: EntryKDBX): Boolean {
+                node.getAttachments().forEach {
+                    binariesToRemove.remove(it.binaryAttachment)
+                }
+                return binariesToRemove.isNotEmpty()
+            }
+        }, null)
+        // Effective removing
+        binariesToRemove.forEach {
+            try {
+                binaryPool.remove(it)
+            } catch (e: java.lang.Exception) {
+                Log.w(TAG, "Unable to clean binaries", e)
+            }
+        }
     }
 
     override fun validatePasswordEncoding(password: String?, containsKeyFile: Boolean): Boolean {

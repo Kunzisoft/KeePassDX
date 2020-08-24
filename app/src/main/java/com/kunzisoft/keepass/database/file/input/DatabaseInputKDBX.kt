@@ -41,6 +41,7 @@ import com.kunzisoft.keepass.database.exception.*
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.stream.*
 import com.kunzisoft.keepass.tasks.ProgressTaskUpdater
 import com.kunzisoft.keepass.utils.UnsignedInt
@@ -249,14 +250,15 @@ class DatabaseInputKDBX(cacheDirectory: File,
                 val protectedFlag = dataInputStream.readBytes(1)[0].toInt() != 0
                 val byteLength = size - 1
                 // Read in a file
-                val fileInCache = File(cacheDirectory, mDatabase.getUnusedCacheFileName())
+                val cacheId = mDatabase.getUnusedCacheFileName()
+                val fileInCache = File(cacheDirectory, cacheId)
                 FileOutputStream(fileInCache).use { outputStream ->
                     dataInputStream.readBytes(byteLength, DatabaseKDBX.BUFFER_SIZE_BYTES) { buffer ->
                         outputStream.write(buffer)
                     }
                 }
                 val protectedBinary = BinaryAttachment(fileInCache, protectedFlag)
-                mDatabase.binaryPool.add(protectedBinary)
+                mDatabase.binaryPool.put(cacheId.toInt(), protectedBinary)
             }
         }
 
@@ -439,14 +441,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             }
 
             KdbContext.Binaries -> if (name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
-                val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
-                if (key != null) {
-                    val pbData = readBinary(xpp)
-                    val id = Integer.parseInt(key)
-                    mDatabase.binaryPool.put(id, pbData!!)
-                } else {
-                    readUnknown(xpp)
-                }
+                readBinary(xpp)
             } else {
                 readUnknown(xpp)
             }
@@ -763,7 +758,7 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return KdbContext.Entry
         } else if (ctx == KdbContext.EntryBinary && name.equals(DatabaseKDBXXML.ElemBinary, ignoreCase = true)) {
             if (ctxBinaryName != null && ctxBinaryValue != null)
-                ctxEntry?.putProtectedBinary(ctxBinaryName!!, ctxBinaryValue!!)
+                ctxEntry?.putAttachment(EntryAttachment(ctxBinaryName!!, ctxBinaryValue!!))
             ctxBinaryName = null
             ctxBinaryValue = null
 
@@ -950,39 +945,59 @@ class DatabaseInputKDBX(cacheDirectory: File,
             return mDatabase.binaryPool[id]
         }
 
+        val key = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrId)
+        if (key != null) {
+            val binaryId = Integer.parseInt(key)
+            createBinary(binaryId.toString(), xpp)?.let {
+                mDatabase.binaryPool.put(binaryId, it)
+                return it
+            }
+        }
+
         // New binary to retrieve
         else {
-            var compressed = false
-            var protected = false
+            val binaryId = mDatabase.getUnusedCacheFileName()
+            createBinary(binaryId, xpp)?.let {
+                mDatabase.binaryPool.put(binaryId.toInt(), it)
+                return it
+            }
+        }
 
-            if (xpp.attributeCount > 0) {
-                val compress = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrCompressed)
-                if (compress != null) {
-                    compressed = compress.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
-                }
+        return null
+    }
 
-                val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
-                if (protect != null) {
-                    protected = protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
-                }
+    @Throws(IOException::class, XmlPullParserException::class)
+    private fun createBinary(binaryId: String, xpp: XmlPullParser): BinaryAttachment? {
+        var compressed = false
+        var protected = false
+
+        if (xpp.attributeCount > 0) {
+            val compress = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrCompressed)
+            if (compress != null) {
+                compressed = compress.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
             }
 
-            val base64 = readString(xpp)
-            if (base64.isEmpty())
-                return BinaryAttachment()
-            val data = Base64.decode(base64, BASE_64_FLAG)
+            val protect = xpp.getAttributeValue(null, DatabaseKDBXXML.AttrProtected)
+            if (protect != null) {
+                protected = protect.equals(DatabaseKDBXXML.ValTrue, ignoreCase = true)
+            }
+        }
 
-            val file = File(cacheDirectory, mDatabase.getUnusedCacheFileName())
-            return FileOutputStream(file).use { outputStream ->
-                // Force compression in this specific case
-                if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
-                        && !compressed) {
-                    GZIPOutputStream(outputStream).write(data)
-                    BinaryAttachment(file, protected, true)
-                } else {
-                    outputStream.write(data)
-                    BinaryAttachment(file, protected, compressed)
-                }
+        val base64 = readString(xpp)
+        if (base64.isEmpty())
+            return null
+        val data = Base64.decode(base64, BASE_64_FLAG)
+
+        val file = File(cacheDirectory, binaryId)
+        return FileOutputStream(file).use { outputStream ->
+            // Force compression in this specific case
+            if (mDatabase.compressionAlgorithm == CompressionAlgorithm.GZip
+                    && !compressed) {
+                GZIPOutputStream(outputStream).write(data)
+                BinaryAttachment(file, protected, true)
+            } else {
+                outputStream.write(data)
+                BinaryAttachment(file, protected, compressed)
             }
         }
     }

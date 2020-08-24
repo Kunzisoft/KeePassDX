@@ -33,9 +33,11 @@ import com.kunzisoft.keepass.database.element.node.NodeKDBXInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.ProtectedString
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.utils.ParcelableUtil
 import com.kunzisoft.keepass.utils.UnsignedLong
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.collections.LinkedHashMap
 
 class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInterface {
@@ -60,8 +62,9 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         }
     var iconCustom = IconImageCustom.UNKNOWN_ICON
     private var customData = LinkedHashMap<String, String>()
+    // TODO Private
     var fields = LinkedHashMap<String, ProtectedString>()
-    var binaries = LinkedHashMap<String, BinaryAttachment>()
+    private var binaries = LinkedHashMap<String, BinaryAttachment>()
     var foregroundColor = ""
     var backgroundColor = ""
     var overrideURL = ""
@@ -284,14 +287,31 @@ class EntryKDBX : EntryVersioned<UUID, UUID, GroupKDBX, EntryKDBX>, NodeKDBXInte
         fields[label] = value
     }
 
-    fun putProtectedBinary(key: String, value: BinaryAttachment) {
-        binaries[key] = value
+    override fun getAttachments(): ArrayList<EntryAttachment> {
+        val entryAttachmentList = ArrayList<EntryAttachment>()
+        for ((key, value) in binaries) {
+            entryAttachmentList.add(EntryAttachment(key, value))
+        }
+        return entryAttachmentList
     }
 
-    fun removeProtectedBinary(name: String) {
-        binaries.remove(name)
+    override fun containsAttachment(attachment: EntryAttachment): Boolean {
+        for ((_, binary) in binaries) {
+            if (binary == attachment.binaryAttachment)
+                return true
+        }
+        return false
     }
 
+    override fun putAttachment(attachment: EntryAttachment) {
+        binaries[attachment.name] = attachment.binaryAttachment
+    }
+
+    override fun removeAttachment(attachment: EntryAttachment) {
+        binaries.remove(attachment.name)
+    }
+
+    // TODO Remove ?
     fun sizeOfHistory(): Int {
         return history.size
     }

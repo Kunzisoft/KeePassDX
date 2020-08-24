@@ -171,6 +171,10 @@ class BinaryAttachment : Parcelable {
         return result
     }
 
+    override fun toString(): String {
+        return dataFile.toString()
+    }
+
     override fun describeContents(): Int {
         return 0
     }

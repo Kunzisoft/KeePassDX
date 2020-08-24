@@ -45,8 +45,8 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.education.EntryActivityEducation
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.magikeyboard.MagikIME
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_DELETE_ENTRY_HISTORY
@@ -212,8 +212,8 @@ class EntryActivity : LockingActivity() {
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
-                override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
-                    entryContentsView?.updateAttachmentDownloadProgress(attachment)
+                override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+                    entryContentsView?.updateAttachmentDownloadProgress(entryAttachmentState)
                 }
             }
         }
@@ -333,15 +333,8 @@ class EntryActivity : LockingActivity() {
 
         // Manage attachments
         entryContentsView?.assignAttachments(entry.getAttachments()) { attachmentItem ->
-            when (attachmentItem.downloadState) {
-                AttachmentState.NULL, AttachmentState.ERROR, AttachmentState.COMPLETE -> {
-                    createDocument(this, attachmentItem.name)?.let { requestCode ->
-                        mAttachmentsToDownload[requestCode] = attachmentItem
-                    }
-                }
-                else -> {
-                    // TODO Stop download
-                }
+            createDocument(this, attachmentItem.name)?.let { requestCode ->
+                mAttachmentsToDownload[requestCode] = attachmentItem
             }
         }
 

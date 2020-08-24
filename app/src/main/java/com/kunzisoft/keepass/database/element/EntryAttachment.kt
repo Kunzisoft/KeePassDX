@@ -17,30 +17,23 @@
  *  along with KeePassDX.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
-package com.kunzisoft.keepass.model
+package com.kunzisoft.keepass.database.element
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
-import com.kunzisoft.keepass.utils.readEnum
-import com.kunzisoft.keepass.utils.writeEnum
 
 data class EntryAttachment(var name: String,
-                           var binaryAttachment: BinaryAttachment,
-                           var downloadState: AttachmentState = AttachmentState.NULL,
-                           var downloadProgression: Int = 0) : Parcelable {
+                           var binaryAttachment: BinaryAttachment) : Parcelable {
 
     constructor(parcel: Parcel) : this(
             parcel.readString() ?: "",
-            parcel.readParcelable(BinaryAttachment::class.java.classLoader) ?: BinaryAttachment(),
-            parcel.readEnum<AttachmentState>() ?: AttachmentState.NULL,
-            parcel.readInt())
+            parcel.readParcelable(BinaryAttachment::class.java.classLoader) ?: BinaryAttachment()
+    )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(name)
         parcel.writeParcelable(binaryAttachment, flags)
-        parcel.writeEnum(downloadState)
-        parcel.writeInt(downloadProgression)
     }
 
     override fun describeContents(): Int {
@@ -63,6 +56,10 @@ data class EntryAttachment(var name: String,
         return result
     }
 
+    override fun toString(): String {
+        return "$name at $binaryAttachment"
+    }
+
     companion object CREATOR : Parcelable.Creator<EntryAttachment> {
         override fun createFromParcel(parcel: Parcel): EntryAttachment {
             return EntryAttachment(parcel)
@@ -72,8 +69,4 @@ data class EntryAttachment(var name: String,
             return arrayOfNulls(size)
         }
     }
-}
-
-enum class AttachmentState {
-    NULL, START, IN_PROGRESS, COMPLETE, ERROR
 }

@@ -27,7 +27,9 @@ import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.NodeKDBInterface
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import java.util.*
+import kotlin.collections.ArrayList
 
 /**
  * Structure containing information about one entry.
@@ -134,6 +136,30 @@ class EntryKDB : EntryVersioned<Int, UUID, GroupKDB, EntryKDB>, NodeKDBInterface
 
     override val type: Type
         get() = Type.ENTRY
+
+    override fun getAttachments(): ArrayList<EntryAttachment> {
+        return ArrayList<EntryAttachment>().apply {
+            val binary = binaryData
+            if (binary != null)
+                add(EntryAttachment(binaryDescription, binary))
+        }
+    }
+
+    override fun containsAttachment(attachment: EntryAttachment): Boolean {
+        return binaryData != null
+    }
+
+    override fun putAttachment(attachment: EntryAttachment) {
+        this.binaryDescription = attachment.name
+        this.binaryData = attachment.binaryAttachment
+    }
+
+    override fun removeAttachment(attachment: EntryAttachment) {
+        if (this.binaryDescription == attachment.name) {
+            this.binaryDescription = ""
+            this.binaryData = null
+        }
+    }
 
     companion object {
 

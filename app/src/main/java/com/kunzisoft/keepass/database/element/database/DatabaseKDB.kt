@@ -26,8 +26,11 @@ import com.kunzisoft.keepass.database.element.entry.EntryKDB
 import com.kunzisoft.keepass.database.element.group.GroupKDB
 import com.kunzisoft.keepass.database.element.node.NodeIdInt
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
+import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import com.kunzisoft.keepass.database.element.security.EncryptionAlgorithm
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.stream.NullOutputStream
+import java.io.File
 import java.io.IOException
 import java.io.InputStream
 import java.security.DigestOutputStream
@@ -252,6 +255,12 @@ class DatabaseKDB : DatabaseVersioned<Int, UUID, GroupKDB, EntryKDB>() {
     fun getUnusedCacheFileName(): String {
         // Generate an unique new file with timestamp
         return System.currentTimeMillis().toString()
+    }
+
+    fun buildNewAttachment(cacheDirectory: File, fileName: String): EntryAttachment? {
+        val fileInCache = File(cacheDirectory, getUnusedCacheFileName())
+        val binaryAttachment = BinaryAttachment(fileInCache)
+        return EntryAttachment(fileName, binaryAttachment)
     }
 
     companion object {

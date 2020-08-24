@@ -28,7 +28,8 @@ import android.net.Uri
 import android.os.Bundle
 import android.os.IBinder
 import androidx.fragment.app.FragmentActivity
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_DOWNLOAD
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService.Companion.ACTION_ATTACHMENT_FILE_START_UPLOAD
@@ -44,8 +45,8 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     private var mServiceConnection: ServiceConnection? = null
 
     private val mActionTaskListener = object: AttachmentFileNotificationService.ActionTaskListener {
-        override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
-            onActionTaskListener?.onAttachmentAction(fileUri, attachment)
+        override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+            onActionTaskListener?.onAttachmentAction(fileUri, entryAttachmentState)
         }
     }
 
@@ -87,14 +88,16 @@ class AttachmentFileBinderManager(private val activity: FragmentActivity) {
     }
 
     @Synchronized
+    fun removeAttachmentAction(attachment: EntryAttachmentState) {
+        mBinder?.getService()?.removeAttachmentAction(attachment)
+    }
+
+    @Synchronized
     private fun start(bundle: Bundle? = null, actionTask: String) {
-        activity.stopService(mIntentTask)
         if (bundle != null)
             mIntentTask.putExtras(bundle)
-        activity.runOnUiThread {
-            mIntentTask.action = actionTask
-            activity.startService(mIntentTask)
-        }
+        mIntentTask.action = actionTask
+        activity.startService(mIntentTask)
     }
 
     fun startUploadAttachment(uploadFileUri: Uri,

@@ -46,6 +46,7 @@ import com.kunzisoft.keepass.database.exception.UnknownKDF
 import com.kunzisoft.keepass.database.file.DatabaseHeaderKDBX
 import com.kunzisoft.keepass.database.file.DatabaseKDBXXML
 import com.kunzisoft.keepass.database.file.DateKDBXUtil
+import com.kunzisoft.keepass.database.element.EntryAttachment
 import com.kunzisoft.keepass.stream.*
 import org.bouncycastle.crypto.StreamCipher
 import org.joda.time.DateTime
@@ -359,7 +360,7 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
         writeTimes(entry)
 
         writeFields(entry.fields)
-        writeEntryBinaries(entry.binaries)
+        writeEntryBinaries(entry.getAttachments())
         writeAutoType(entry.autoType)
 
         if (!isHistory) {
@@ -559,19 +560,19 @@ class DatabaseOutputKDBX(private val mDatabaseKDBX: DatabaseKDBX,
     }
 
     @Throws(IllegalArgumentException::class, IllegalStateException::class, IOException::class)
-    private fun writeEntryBinaries(binaries: Map<String, BinaryAttachment>) {
-        for ((key, binary) in binaries) {
+    private fun writeEntryBinaries(entryAttachments: List<EntryAttachment>) {
+        entryAttachments.forEach {
             xml.startTag(null, DatabaseKDBXXML.ElemBinary)
             xml.startTag(null, DatabaseKDBXXML.ElemKey)
-            xml.text(safeXmlString(key))
+            xml.text(safeXmlString(it.name))
             xml.endTag(null, DatabaseKDBXXML.ElemKey)
 
             xml.startTag(null, DatabaseKDBXXML.ElemValue)
-            val ref = mDatabaseKDBX.binaryPool.findKey(binary)
+            val ref = mDatabaseKDBX.binaryPool.findKey(it.binaryAttachment)
             if (ref != null) {
                 xml.attribute(null, DatabaseKDBXXML.AttrRef, ref.toString())
             } else {
-                writeBinary(binary)
+                writeBinary(it.binaryAttachment)
             }
             xml.endTag(null, DatabaseKDBXXML.ElemValue)
 

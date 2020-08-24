@@ -48,10 +48,7 @@ import com.kunzisoft.keepass.database.element.icon.IconImageStandard
 import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.education.EntryEditActivityEducation
-import com.kunzisoft.keepass.model.AttachmentState
-import com.kunzisoft.keepass.model.EntryAttachment
-import com.kunzisoft.keepass.model.Field
-import com.kunzisoft.keepass.model.FocusedEditField
+import com.kunzisoft.keepass.model.*
 import com.kunzisoft.keepass.notifications.AttachmentFileNotificationService
 import com.kunzisoft.keepass.notifications.ClipboardEntryNotificationService
 import com.kunzisoft.keepass.notifications.DatabaseTaskNotificationService.Companion.ACTION_DATABASE_CREATE_ENTRY_TASK
@@ -296,14 +293,16 @@ class EntryEditActivity : LockingActivity(),
         mAttachmentFileBinderManager?.apply {
             registerProgressTask()
             onActionTaskListener = object : AttachmentFileNotificationService.ActionTaskListener {
-                override fun onAttachmentAction(fileUri: Uri, attachment: EntryAttachment) {
-                    when (attachment.downloadState) {
+                override fun onAttachmentAction(fileUri: Uri, entryAttachmentState: EntryAttachmentState) {
+                    when (entryAttachmentState.downloadState) {
                         AttachmentState.COMPLETE -> {
-                            entryEditContentsView?.putAttachment(attachment)
+                            entryEditContentsView?.putAttachment(entryAttachmentState)
+                            mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                         }
                         AttachmentState.ERROR -> {
                             // TODO error
-                            mDatabase?.destroyAttachment(attachment.binaryAttachment)
+                            mDatabase?.removeAttachmentIfNotUsed(entryAttachmentState.entryAttachment)
+                            mAttachmentFileBinderManager?.removeAttachmentAction(entryAttachmentState)
                         }
                         else -> {
                             // TODO progress
@@ -420,8 +419,7 @@ class EntryEditActivity : LockingActivity(),
             uri?.let { attachmentToUploadUri ->
                 // TODO Async to get the name
                 UriUtil.getFileData(this, attachmentToUploadUri)?.name?.let { fileName ->
-                    mDatabase?.buildNewAttachment(applicationContext.filesDir)?.let { binaryAttachment ->
-                        val entryAttachment = EntryAttachment(fileName, binaryAttachment)
+                    mDatabase?.buildNewAttachment(applicationContext.filesDir, fileName)?.let { entryAttachment ->
                         mAttachmentFileBinderManager?.startUploadAttachment(attachmentToUploadUri, entryAttachment)
                     }
                 }

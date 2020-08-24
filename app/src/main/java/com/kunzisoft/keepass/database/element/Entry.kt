@@ -33,7 +33,6 @@ import com.kunzisoft.keepass.database.element.node.NodeId
 import com.kunzisoft.keepass.database.element.node.NodeIdUUID
 import com.kunzisoft.keepass.database.element.node.Type
 import com.kunzisoft.keepass.database.element.security.ProtectedString
-import com.kunzisoft.keepass.model.EntryAttachment
 import com.kunzisoft.keepass.model.EntryInfo
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.otp.OtpElement
@@ -325,41 +324,30 @@ class Entry : Node, EntryVersionedInterface<Group> {
         entryKDBX?.stopToManageFieldReferences()
     }
 
-    fun getAttachments(): ArrayList<EntryAttachment> {
+    override fun getAttachments(): ArrayList<EntryAttachment> {
         val attachments = ArrayList<EntryAttachment>()
-
-        entryKDB?.binaryData?.let { binaryKDB ->
-            attachments.add(EntryAttachment(entryKDB?.binaryDescription ?: "", binaryKDB))
+        entryKDB?.getAttachments()?.let {
+            attachments.addAll(it)
         }
-
-        entryKDBX?.binaries?.let { binariesKDBX ->
-            for ((key, value) in binariesKDBX) {
-                attachments.add(EntryAttachment(key, value))
-            }
+        entryKDBX?.getAttachments()?.let {
+            attachments.addAll(it)
         }
-
         return attachments
     }
 
-    fun putAttachment(attachment: EntryAttachment) {
-        entryKDB?.apply {
-            binaryDescription = attachment.name
-            binaryData = attachment.binaryAttachment
-        }
-
-        entryKDBX?.putProtectedBinary(attachment.name, attachment.binaryAttachment)
+    override fun containsAttachment(attachment: EntryAttachment): Boolean {
+        return entryKDB?.containsAttachment(attachment) == true
+                || entryKDBX?.containsAttachment(attachment) == true
     }
 
-    fun removeAttachment(attachment: EntryAttachment) {
-        entryKDB?.apply {
-            if (binaryDescription == attachment.name
-                    && binaryData == attachment.binaryAttachment) {
-                binaryDescription = ""
-                binaryData = null
-            }
-        }
+    override fun putAttachment(attachment: EntryAttachment) {
+        entryKDB?.putAttachment(attachment)
+        entryKDBX?.putAttachment(attachment)
+    }
 
-        entryKDBX?.removeProtectedBinary(attachment.name)
+    override fun removeAttachment(attachment: EntryAttachment) {
+        entryKDB?.removeAttachment(attachment)
+        entryKDBX?.removeAttachment(attachment)
     }
 
     fun getHistory(): ArrayList<Entry> {

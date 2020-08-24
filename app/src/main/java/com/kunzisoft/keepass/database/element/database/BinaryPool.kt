@@ -20,6 +20,7 @@
 package com.kunzisoft.keepass.database.element.database
 
 import android.util.SparseArray
+import androidx.core.util.forEach
 import com.kunzisoft.keepass.database.element.security.BinaryAttachment
 import java.io.IOException
 
@@ -34,20 +35,22 @@ class BinaryPool {
         pool.put(key, value)
     }
 
-    fun add(fileBinary: BinaryAttachment) {
-        if (findKey(fileBinary) == null) {
-            pool.put(findUnusedKey(), fileBinary)
+    fun add(binaryAttachment: BinaryAttachment) {
+        if (findKey(binaryAttachment) == null) {
+            pool.put(findUnusedKey(), binaryAttachment)
         }
     }
 
-    fun remove(fileBinary: BinaryAttachment) {
-        findKey(fileBinary)?.let {
+    @Throws(IOException::class)
+    fun remove(binaryAttachment: BinaryAttachment) {
+        findKey(binaryAttachment)?.let {
             pool.remove(it)
         }
+        binaryAttachment.clear()
     }
 
     fun findUnusedKey(): Int {
-        var unusedKey = pool.size()
+        var unusedKey = 0
         while (pool[unusedKey] != null)
             unusedKey++
         return unusedKey
@@ -57,21 +60,22 @@ class BinaryPool {
      * Return position of [binaryAttachmentToRetrieve] or null if not found
      */
     fun findKey(binaryAttachmentToRetrieve: BinaryAttachment): Int? {
-        for (i in 0 until pool.size()) {
-            if (pool.get(pool.keyAt(i)) == binaryAttachmentToRetrieve) return i
-        }
-        return null
+        val index = pool.indexOfValue(binaryAttachmentToRetrieve)
+        return if (index < 0)
+            null
+        else
+            pool.keyAt(index)
     }
 
     fun doForEachBinary(action: (key: Int, binary: BinaryAttachment) -> Unit) {
-        for (i in 0 until pool.size()) {
-            action.invoke(i, pool.get(pool.keyAt(i)))
+        pool.forEach { key, binaryAttachment ->
+            action.invoke(key, binaryAttachment)
         }
     }
 
     @Throws(IOException::class)
     fun clear() {
-        doForEachBinary { _, binary ->
+        pool.forEach { _, binary ->
             binary.clear()
         }
         pool.clear()

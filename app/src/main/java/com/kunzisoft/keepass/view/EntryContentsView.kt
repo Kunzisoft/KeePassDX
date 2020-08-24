@@ -37,7 +37,8 @@ import com.kunzisoft.keepass.database.element.DateInstant
 import com.kunzisoft.keepass.database.element.Entry
 import com.kunzisoft.keepass.database.element.security.ProtectedString
 import com.kunzisoft.keepass.database.search.UuidUtil
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.otp.OtpElement
 import com.kunzisoft.keepass.otp.OtpType
 import java.util.*
@@ -318,13 +319,13 @@ class EntryContentsView @JvmOverloads constructor(context: Context,
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onAttachmentClicked: (attachment: EntryAttachment)->Unit) {
         showAttachments(attachments.isNotEmpty())
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it) })
         attachmentsAdapter.onItemClickListener = { item ->
-            onAttachmentClicked.invoke(item)
+            onAttachmentClicked.invoke(item.entryAttachment)
         }
     }
 
-    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachment) {
+    fun updateAttachmentDownloadProgress(attachmentToDownload: EntryAttachmentState) {
         attachmentsAdapter.updateProgress(attachmentToDownload)
     }
 

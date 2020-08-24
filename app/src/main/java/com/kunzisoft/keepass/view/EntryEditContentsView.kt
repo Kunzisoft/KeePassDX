@@ -38,7 +38,8 @@ import com.kunzisoft.keepass.database.element.icon.IconImage
 import com.kunzisoft.keepass.icons.IconDrawableFactory
 import com.kunzisoft.keepass.icons.assignDatabaseIcon
 import com.kunzisoft.keepass.icons.assignDefaultDatabaseIcon
-import com.kunzisoft.keepass.model.EntryAttachment
+import com.kunzisoft.keepass.database.element.EntryAttachment
+import com.kunzisoft.keepass.model.EntryAttachmentState
 import com.kunzisoft.keepass.model.Field
 import com.kunzisoft.keepass.model.FocusedEditField
 import org.joda.time.Duration
@@ -242,7 +243,7 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getExtraFields(): MutableList<Field> {
+    fun getExtraFields(): List<Field> {
         return extraFieldsAdapter.itemsList
     }
 
@@ -278,20 +279,20 @@ class EntryEditContentsView @JvmOverloads constructor(context: Context,
      * -------------
      */
 
-    fun getAttachments(): MutableList<EntryAttachment> {
-        return attachmentsAdapter.itemsList
+    fun getAttachments(): List<EntryAttachment> {
+        return attachmentsAdapter.itemsList.map { it.entryAttachment }
     }
 
     fun assignAttachments(attachments: ArrayList<EntryAttachment>,
                           onDeleteItem: (attachment: EntryAttachment)->Unit) {
         attachmentsContainerView.visibility = if (attachments.isEmpty()) View.GONE else View.VISIBLE
-        attachmentsAdapter.assignItems(attachments)
+        attachmentsAdapter.assignItems(attachments.map { EntryAttachmentState(it) })
         attachmentsAdapter.onDeleteButtonClickListener = { item ->
-            onDeleteItem.invoke(item)
+            onDeleteItem.invoke(item.entryAttachment)
         }
     }
 
-    fun putAttachment(attachment: EntryAttachment) {
+    fun putAttachment(attachment: EntryAttachmentState) {
         attachmentsContainerView.visibility = View.VISIBLE
         attachmentsAdapter.putItem(attachment)
     }
