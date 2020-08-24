@@ -268,7 +268,7 @@
 \nGrupper (~mapper) organiserer poster i databasen.</string>
     <string name="education_search_title">Søg i poster</string>
     <string name="education_search_summary">Indtast titel, brugernavn eller indhold af andre felter for at hente adgangskoder.</string>
-    <string name="education_biometric_title">Oplåsning af database ved hjælp af biometrisk</string>
+    <string name="education_biometric_title">Biometrisk oplåsning af databasen</string>
     <string name="education_biometric_summary">Knyt adgangskoden til det scannede biometri for hurtigt at låse databasen op.</string>
     <string name="education_entry_edit_title">Rediger posten</string>
     <string name="education_entry_edit_summary">Rediger post med brugerdefinerede felter. Pool data kan refereres mellem forskellige indtastningsfelter.</string>
@@ -440,9 +440,9 @@
     <string name="download_initialization">Initialiserer…</string>
     <string name="download_progression">I gang: %1$d%%</string>
     <string name="download_finalization">Færdiggørelse…</string>
-    <string name="download_complete">Komplet! Tryk for at åbne filen.</string>
+    <string name="download_complete">Tryk for at åbne filen.</string>
     <string name="hide_expired_entries_title">Skjul udløbne poster</string>
-    <string name="hide_expired_entries_summary">Udløbne poster er skjult</string>
+    <string name="hide_expired_entries_summary">Udløbne poster vises ikke</string>
     <string name="contact">Kontakt</string>
     <string name="contribution">Bidrag</string>
     <string name="feedback">Tilbagemelding</string>
